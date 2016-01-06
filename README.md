@@ -3,6 +3,9 @@ GCModeller Virtual Cell System
 
 GCModeller is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits.
 
+->![Motif analysis based on the meme suite](http://gcmodeller.org/library/assets/TomQuery-example.png)<-
+-> *Example of the motif analysis based on the meme suite tools.* <-
+
 Feature tools:
 1. NCBI localblast utility
 2. MEME tools combine with Regprecise database
