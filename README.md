@@ -1,6 +1,10 @@
 # GCModeller
 GCModeller Virtual Cell System
 
+GCModeller is original writen in VisualBasic.NET, a feature bioinformatics analysis environment that .NET language hybrids programming with R language was included, which its SDK is available at repository:
+https://github.com/SMRUCC/R.Bioinformatics
+Currently the R language hybrids programming environment just provides some bioconductor API for the analysis in GCModeller.
+
 GCModeller is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits.
 
 ->![Motif analysis based on the meme suite](http://gcmodeller.org/library/assets/TomQuery-example.png)<-
