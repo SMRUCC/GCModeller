@@ -1,7 +1,9 @@
 # GCModeller
 GCModeller Virtual Cell System
 
-GCModeller is original writen in VisualBasic.NET, a feature bioinformatics analysis environment that .NET language hybrids programming with R language was included, which its SDK is available at repository:
+GCModeller is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for GCModeller on the large amount biological data analysis. 
+
+The GCModeller platform is original writen in VisualBasic.NET, a feature bioinformatics analysis environment that .NET language hybrids programming with R language was included, which its SDK is available at repository:
 https://github.com/SMRUCC/R.Bioinformatics
 Currently the R language hybrids programming environment just provides some bioconductor API for the analysis in GCModeller.
 
