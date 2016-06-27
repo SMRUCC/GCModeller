@@ -1,0 +1,6 @@
+>sample1
+AAAAAAAAAA
+>sample2
+AAAAAAAAAC
+>sample3
+AAAAAAAACC

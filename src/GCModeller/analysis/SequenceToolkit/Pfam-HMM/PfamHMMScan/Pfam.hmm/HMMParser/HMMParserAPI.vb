@@ -1,0 +1,150 @@
+﻿Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Linq
+
+Public Module HMMParserAPI
+
+    ''' <summary>
+    ''' 加载Pfam-A.hmm里面的隐马科夫模型数据
+    ''' </summary>
+    ''' <param name="path">Pfam-A.hmm</param>
+    ''' <returns></returns>
+    Public Iterator Function LoadDoc(path As String) As IEnumerable(Of HMMParser)
+        Dim reader As BufferedStream = New BufferedStream(path, maxBufferSize:=1024 * 1024 * 128)
+        Dim last As List(Of String) = New List(Of String)
+
+        VBDebugger.Mute = True
+
+        Do While Not reader.EndRead
+            Dim lines As String() = reader.BufferProvider
+            Dim blocks As String()() = lines.Split("//").ToArray
+
+            blocks(Scan0) = last + blocks(Scan0)
+            last = blocks.Last.ToList
+
+            For Each block As String() In blocks.Take(blocks.Length - 1)
+                Yield StreamParser(block)
+            Next
+        Loop
+
+        VBDebugger.Mute = False
+    End Function
+
+    Public Function StreamParser(stream As String()) As HMMParser
+        Dim fields As New Dictionary(Of String, String)
+        Dim i As Integer
+        Dim pos As Integer
+        Dim s As String
+        Dim key As String
+
+        For i = 1 To stream.Length - 1
+            s = stream(i)
+            pos = InStr(s, " ")
+            key = s.Substring(0, pos - 1)
+
+            If String.Equals(key, "STATS") Then
+                Exit For
+            End If
+
+            s = s.Substring(pos).Trim
+            fields += New HashValue With {
+                .Identifier = key,
+                .value = s
+            }
+        Next
+
+        Dim stats As STATS = STATSParser(stream(i), stream(i + 1), stream(i + 2))
+        i += 3
+        i += 2
+
+        Dim blocks As String()() = stream.Skip(i).Split(3)
+
+        Return New HMMParser With {
+            .STATS = stats,
+            .HMM = New HMM With {
+                .COMPO = NodeParser(blocks(Scan0)),
+                .nodes = blocks.Skip(1).ToArray(Function(block) NodeParser(block))
+            },
+            .ACC = fields.TryGetValue(NameOf(HMMParser.ACC)),
+            .ALPH = fields.TryGetValue(NameOf(HMMParser.ALPH)),
+            .BM = fields.TryGetValue(NameOf(HMMParser.BM)),
+            .CKSUM = CLng(fields.TryGetValue(NameOf(HMMParser.CKSUM))),
+            .COM = fields.TryGetValue(NameOf(HMMParser.COM)),
+            .CONS = fields.TryGetValue(NameOf(HMMParser.CONS)),
+            .CS = fields.TryGetValue(NameOf(HMMParser.CS)),
+            .DATE = fields.TryGetValue(NameOf(HMMParser.DATE)),
+            .DESC = fields.TryGetValue(NameOf(HMMParser.DESC)),
+            .EFFN = Val(fields.TryGetValue(NameOf(HMMParser.EFFN))),
+            .GA = fields.TryGetValue(NameOf(HMMParser.GA)).Split.TrimNull.ToArray(Function(sg) Val(sg)),
+            .LENG = CInt(fields.TryGetValue(NameOf(HMMParser.LENG))),
+            .MAP = fields.TryGetValue(NameOf(HMMParser.MAP)),
+            .MAXL = CInt(fields.TryGetValue(NameOf(HMMParser.MAXL))),
+            .MM = fields.TryGetValue(NameOf(HMMParser.MM)),
+            .NAME = fields.TryGetValue(NameOf(HMMParser.NAME)),
+            .NC = fields.TryGetValue(NameOf(HMMParser.NC)).Split.TrimNull.ToArray(Function(sg) Val(sg)),
+            .NSEQ = CInt(fields.TryGetValue(NameOf(HMMParser.NSEQ))),
+            .RF = fields.TryGetValue(NameOf(HMMParser.RF)),
+            .SM = fields.TryGetValue(NameOf(HMMParser.SM)),
+            .TC = fields.TryGetValue(NameOf(HMMParser.TC)).Split.TrimNull.ToArray(Function(sg) Val(sg))
+        }
+    End Function
+
+    ''' <summary>
+    ''' All probability parameters are all stored As negative natural log probabilities With five digits Of precision To
+    ''' the right Of the Decimal point, rounded. For example, a probability Of 0:25 Is stored as 􀀀log 0:25 = 1:38629.
+    ''' The special Case Of a zero probability Is stored As '*’.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    Private Function __probability(x As String) As Double
+        If x = "*" Then  ' The special Case Of a zero probability Is stored As '*’.
+            Return 0R
+        Else
+            Return Math.E ^ (-Val(x)) ' stored As negative natural log probabilities
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 一个氨基酸残基
+    ''' </summary>
+    ''' <param name="block"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 因为ln1=0，有些时候是0概率的，ln0会计算不出来，这个时候使用*代替
+    ''' </remarks>
+    Public Function NodeParser(block As String()) As Node
+        Dim m As String() = block(0).Split.TrimNull
+        Dim i As String() = block(1).Split.TrimNull
+        Dim s As String() = block(2).Split.TrimNull
+
+        If String.Equals(m(Scan0), "COMPO") Then
+            ' 后面没有东西的
+            Return New Node With {
+                .Address = 0,
+                .Match = m.Skip(1).ToArray(AddressOf __probability),
+                .Insert = i.ToArray(AddressOf __probability),
+                .StateTransitions = s.ToArray(AddressOf __probability)
+            }
+        Else
+            Dim addr As Long = Scripting.CTypeDynamic(Of Long)(m(Scan0))
+            Return New Node With {
+                .Address = addr,
+                .Match = m.Skip(1).Take(20).ToArray(AddressOf __probability),
+                .Insert = i.ToArray(AddressOf __probability),
+                .StateTransitions = s.ToArray(AddressOf __probability)
+            }
+        End If
+    End Function
+
+    Public Function STATSParser(msv As String, viterbi As String, forwards As String) As STATS
+        msv = msv.Substring(16).Trim
+        viterbi = viterbi.Substring(21).Trim
+        forwards = forwards.Substring(21).Trim
+
+        Return New STATS With {
+            .MSV = msv.Split.ToArray(Function(s) Val(s)),
+            .VITERBI = viterbi.Split.ToArray(Function(s) Val(s)),
+            .FORWARD = forwards.Split.ToArray(Function(s) Val(s))
+        }
+    End Function
+End Module
