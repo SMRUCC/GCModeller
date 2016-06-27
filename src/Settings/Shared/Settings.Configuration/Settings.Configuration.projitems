@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>e8cabde9-5471-4eb6-8abc-54c95d3b1512</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Settings.Configuration</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\File.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\C2.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\GCC.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\GCHOST.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\IDE.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\MPAlignment.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\SMART.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\STAMP.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Session.vb" />
+  </ItemGroup>
+</Project>

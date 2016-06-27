@@ -1,0 +1,88 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.Configuration", "Shared\Settings.Configuration\Settings.Configuration.shproj", "{E8CABDE9-5471-4EB6-8ABC-54C95D3B1512}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.FileSystem", "Shared\Settings.FileSystem\Settings.FileSystem.shproj", "{36EE8DC2-3D23-45B7-8CE4-1942916A02AA}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RepositoryCommon", "Shared\RepositoryCommon\RepositoryCommon.shproj", "{9B5EF311-A718-4067-A409-417DE0F9D2AF}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Settings", "Settings.vbproj", "{FEB3212D-0B72-41E4-9C2D-56C212CF5062}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7D6476CE-22A4-4C79-8738-543F8ADA99B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{7B15BCA1-34FB-4C18-B000-0BDF5B305A7E}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+Microsoft.VisualBasic.Architecture.Framework", "..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LibMySQL", "..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj", "{2C34A044-1BDE-44E8-A86E-E9971C87DA21}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Settings.Configuration\Settings.Configuration.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
+		Shared\Settings.FileSystem\Settings.FileSystem.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
+		Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
+		Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
+		Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
+		Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
+		..\..\..\VisualBasic_AppFramework\SharedProject.VB_FrameworkExtensions\SharedProject.VB_FrameworkExtensions.projitems*{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x64.ActiveCfg = Debug|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x64.Build.0 = Debug|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x86.Build.0 = Debug|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x64.ActiveCfg = Release|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x64.Build.0 = Release|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x86.ActiveCfg = Release|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x86.Build.0 = Release|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Debug|x64.ActiveCfg = Debug|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Debug|x64.Build.0 = Debug|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Debug|x86.ActiveCfg = Debug|x86
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Debug|x86.Build.0 = Debug|x86
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release|x64.ActiveCfg = Release|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release|x64.Build.0 = Release|x64
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release|x86.ActiveCfg = Release|x86
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release|x86.Build.0 = Release|x86
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Debug|x64.ActiveCfg = Debug|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Debug|x64.Build.0 = Debug|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Debug|x86.Build.0 = Debug|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Release|x64.ActiveCfg = Release|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Release|x64.Build.0 = Release|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Release|x86.ActiveCfg = Release|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E8CABDE9-5471-4EB6-8ABC-54C95D3B1512} = {7D6476CE-22A4-4C79-8738-543F8ADA99B4}
+		{36EE8DC2-3D23-45B7-8CE4-1942916A02AA} = {7D6476CE-22A4-4C79-8738-543F8ADA99B4}
+		{9B5EF311-A718-4067-A409-417DE0F9D2AF} = {7D6476CE-22A4-4C79-8738-543F8ADA99B4}
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99} = {7B15BCA1-34FB-4C18-B000-0BDF5B305A7E}
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21} = {7B15BCA1-34FB-4C18-B000-0BDF5B305A7E}
+	EndGlobalSection
+EndGlobal
