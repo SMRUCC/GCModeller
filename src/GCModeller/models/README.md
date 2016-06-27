@@ -1,0 +1,1 @@
+Common data models represents the biological objects, by using ``SBML`` or ``biopax`` standard model, that GCModeller can exchanges data with other systems biology software.
