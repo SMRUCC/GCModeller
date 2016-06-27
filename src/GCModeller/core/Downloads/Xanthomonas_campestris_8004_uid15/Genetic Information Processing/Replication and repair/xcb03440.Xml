@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03440" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Homologous recombination (HR) is essential for the accurate repair of DNA double-strand breaks (DSBs), potentially lethal lesions. HR takes place in the late S-G2 phase of the cell cycle and involves the generation of a single-stranded region of DNA, followed by strand invasion, formation of a Holliday junction, DNA synthesis using the intact strand as a template, branch migration and resolution. It is investigated that RecA/Rad51 family proteins play a central role. The breast cancer susceptibility protein Brca2 and the RecQ helicase BLM (Bloom syndrome mutated) are tumor suppressors that maintain genome integrity, at least in part, through HR.&lt;br&gt;</Description>
+  <Name>Homologous recombination - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00260" Value="DNA polymerase III complex, bacteria [PATH:xcb03440]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb03440" Value="Homologous recombination&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0002" Value="DNA polymerase III subunit beta (EC:2.7.7.7); K02338 DNA polymerase III subunit beta [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_0003" Value="recF; recombination protein F; K03629 DNA replication and repair protein RecF" />
+    <hashEntry Key="xcb:XC_0947" Value="ATP-dependent DNA helicase RecG; K03655 ATP-dependent DNA helicase RecG [EC:3.6.4.12]" />
+    <hashEntry Key="xcb:XC_1132" Value="ruvC; Holliday junction resolvase (EC:3.1.22.4); K01159 crossover junction endodeoxyribonuclease Ruv" />
+    <hashEntry Key="xcb:XC_1133" Value="ruvA; Holliday junction DNA helicase RuvA; K03550 holliday junction DNA helicase RuvA [EC:3.6.4.12]" />
+    <hashEntry Key="xcb:XC_1136" Value="ruvB; Holliday junction DNA helicase RuvB (EC:3.1.22.4); K03551 holliday junction DNA helicase RuvB" />
+    <hashEntry Key="xcb:XC_1378" Value="single-stranded DNA-binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="xcb:XC_1499" Value="holA; DNA polymerase III subunit delta; K02340 DNA polymerase III subunit delta [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_2065" Value="single-stranded DNA-binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="xcb:XC_2343" Value="single stranded DNA exonuclease; K07462 single-stranded-DNA-specific exonuclease [EC:3.1.-.-]" />
+    <hashEntry Key="xcb:XC_2509" Value="recA; recombinase A; K03553 recombination protein RecA" />
+    <hashEntry Key="xcb:XC_2880" Value="dnaE; DNA polymerase III subunit alpha (EC:2.7.7.7); K02337 DNA polymerase III subunit alpha [EC:2.7" />
+    <hashEntry Key="xcb:XC_2966" Value="recO; DNA repair protein RecO; K03584 DNA repair protein RecO (recombination protein O)" />
+    <hashEntry Key="xcb:XC_3222" Value="DNA polymerase III subunit delta&amp;#39; (EC:2.7.7.7); K02341 DNA polymerase III subunit delta&amp;#39; [EC:2.7.7.7" />
+    <hashEntry Key="xcb:XC_3242" Value="recR; recombination protein RecR; K06187 recombination protein RecR" />
+    <hashEntry Key="xcb:XC_3244" Value="DNA polymerase III subunits gamma and tau (EC:2.7.7.7); K02343 DNA polymerase III subunit gamma/tau" />
+    <hashEntry Key="xcb:XC_3255" Value="DNA polymerase III subunit epsilon; K02342 DNA polymerase III subunit epsilon [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_3586" Value="DNA polymerase III subunit chi; K02339 DNA polymerase III subunit chi [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_3836" Value="primosome assembly protein PriA; K04066 primosomal protein N&amp;#39; (replication factor Y) (superfamily II" />
+    <hashEntry Key="xcb:XC_4109" Value="DNA polymerase I; K02335 DNA polymerase I [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_4287" Value="exodeoxyribonuclease V subunit alpha; K03581 exodeoxyribonuclease V alpha subunit [EC:3.1.11.5]" />
+    <hashEntry Key="xcb:XC_4288" Value="exodeoxyribonuclease V subunit beta; K03582 exodeoxyribonuclease V beta subunit [EC:3.1.11.5]" />
+    <hashEntry Key="xcb:XC_4289" Value="exodeoxyribonuclease V subunit gamma; K03583 exodeoxyribonuclease V gamma subunit [EC:3.1.11.5]" />
+  </Genes>
+</KEGG.PathwayBrief>

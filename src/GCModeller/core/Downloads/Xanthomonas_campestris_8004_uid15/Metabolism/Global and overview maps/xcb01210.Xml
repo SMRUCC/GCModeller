@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01210" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>2-Oxocarboxylic acids, also called 2-oxo acids and alpha-keto acids, are the most elementary set of metabolites that includes pyruvate (2-oxopropanoate), 2-oxobutanoate, oxaloacetate (2-oxosuccinate) and 2-oxoglutarate. This diagram illustrates the architecture of chain extension and modification reaction modules for 2-oxocarboxylic acids. The chain extension module RM001 is a tricarboxylic pathway where acetyl-CoA derived carbon is used to extend the chain length by one. The chain modification modules RM002 (including RM032) and RM033, together with a reductive amination step (RC00006 or RC00036), generate basic and branched-chain amino acids, respectively. The modification module RM030 is used in the biosynthesis of glucosinolates, a class of plant secondary metabolites, for conversion to oxime followed by addition of thio-glucose moiety. Furthermore, the chain extension from 2-oxoadipate to 2-oxosuberate is followed by coenzyme B biosynthesis in methonogenic archaea.&lt;br&gt;</Description>
+  <Name>2-Oxocarboxylic acid metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00010" Value="Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate [PATH:xcb01210]" />
+    <hashEntry Key="xcb_M00019" Value="Valine/isoleucine biosynthesis, pyruvate =&gt; valine / 2-oxobutanoate =&gt; isoleucine [PATH:xcb01210]" />
+    <hashEntry Key="xcb_M00432" Value="Leucine biosynthesis, 2-oxoisovalerate =&gt; 2-oxoisocaproate [PATH:xcb01210]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb01210" Value="2-Oxocarboxylic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0356" Value="dihydroxy-acid dehydratase (EC:4.2.1.9); K01687 dihydroxy-acid dehydratase [EC:4.2.1.9]" />
+    <hashEntry Key="xcb:XC_0800" Value="aminotransferase (EC:2.6.1.2); K14260 alanine-synthesizing transaminase [EC:2.6.1.66 2.6.1.2]" />
+    <hashEntry Key="xcb:XC_0833" Value="isopropylmalate isomerase large subunit (EC:4.2.1.33); K01703 3-isopropylmalate/(R)-2-methylmalate d" />
+    <hashEntry Key="xcb:XC_0834" Value="leuD; isopropylmalate isomerase small subunit (EC:4.2.1.33); K01704 3-isopropylmalate/(R)-2-methylma" />
+    <hashEntry Key="xcb:XC_0836" Value="3-isopropylmalate dehydrogenase (EC:1.1.1.85); K00052 3-isopropylmalate dehydrogenase [EC:1.1.1.85]" />
+    <hashEntry Key="xcb:XC_0837" Value="2-isopropylmalate synthase (EC:2.3.3.13); K01649 2-isopropylmalate synthase [EC:2.3.3.13]" />
+    <hashEntry Key="xcb:XC_0839" Value="acetolactate synthase isozyme II small subunit; K11258 acetolactate synthase II small subunit [EC:2." />
+    <hashEntry Key="xcb:XC_0840" Value="acetolactate synthase 2 catalytic subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III large" />
+    <hashEntry Key="xcb:XC_0841" Value="ketol-acid reductoisomerase (EC:1.1.1.86); K00053 ketol-acid reductoisomerase [EC:1.1.1.86]" />
+    <hashEntry Key="xcb:XC_0882" Value="argD; acetylornithine transaminase protein (EC:2.6.1.11 2.6.1.17); K00821 acetylornithine/N-succinyl" />
+    <hashEntry Key="xcb:XC_0944" Value="gltA; type II citrate synthase (EC:2.3.3.1); K01647 citrate synthase [EC:2.3.3.1]" />
+    <hashEntry Key="xcb:XC_1569" Value="aspartate-semialdehyde dehydrogenase (EC:1.2.1.11); K00133 aspartate-semialdehyde dehydrogenase [EC:" />
+    <hashEntry Key="xcb:XC_1872" Value="acetylornithine deacetylase (EC:3.5.1.16); K01438 acetylornithine deacetylase [EC:3.5.1.16]" />
+    <hashEntry Key="xcb:XC_1873" Value="acetylglutamate kinase (EC:2.7.2.8); K00930 acetylglutamate kinase [EC:2.7.2.8]" />
+    <hashEntry Key="xcb:XC_1875" Value="argC; N-acetyl-gamma-glutamyl-phosphate reductase (EC:1.2.1.38); K00145 N-acetyl-gamma-glutamyl-phos" />
+    <hashEntry Key="xcb:XC_2326" Value="bifunctional aconitate hydratase 2/2-methylisocitrate dehydratase (EC:4.2.1.3); K01682 aconitate hyd" />
+    <hashEntry Key="xcb:XC_2329" Value="aconitate hydratase (EC:4.2.1.3); K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="xcb:XC_2351" Value="valine-pyruvate aminotransferase; K05825 2-aminoadipate transaminase [EC:2.6.1.-]" />
+    <hashEntry Key="xcb:XC_3213" Value="acnA; aconitate hydratase (EC:4.2.1.3); K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="xcb:XC_3268" Value="isocitrate dehydrogenase (EC:1.1.1.41); K00030 isocitrate dehydrogenase (NAD+) [EC:1.1.1.41]" />
+    <hashEntry Key="xcb:XC_3380" Value="branched-chain amino acid aminotransferase (EC:2.6.1.42); K00826 branched-chain amino acid aminotran" />
+    <hashEntry Key="xcb:XC_3854" Value="isocitrate dehydrogenase; K00031 isocitrate dehydrogenase [EC:1.1.1.42]" />
+  </Genes>
+</KEGG.PathwayBrief>

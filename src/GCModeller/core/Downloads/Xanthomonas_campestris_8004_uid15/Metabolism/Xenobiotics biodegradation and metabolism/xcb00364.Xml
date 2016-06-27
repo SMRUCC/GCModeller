@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00364" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Fluorobenzoate degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00090" Value="Catechol" />
+    <hashEntry Key="C02222" Value="2-Maleylacetate" />
+    <hashEntry Key="C02357" Value="2-Chlorobenzoate" />
+    <hashEntry Key="C02359" Value="2-Fluorobenzoate" />
+    <hashEntry Key="C02364" Value="3-Fluorobenzoate" />
+    <hashEntry Key="C02370" Value="4-Chlorobenzoate" />
+    <hashEntry Key="C02371" Value="4-Fluorobenzoate" />
+    <hashEntry Key="C02802" Value="4-Fluorobenzoyl-CoA" />
+    <hashEntry Key="C02949" Value="4-Hydroxybenzoyl-CoA" />
+    <hashEntry Key="C03925" Value="3,5-Dibromo-4-hydroxybenzoate" />
+    <hashEntry Key="C04178" Value="Bromoxynil" />
+    <hashEntry Key="C06387" Value="4-Chlorobenzoyl-CoA" />
+    <hashEntry Key="C06670" Value="2,4-Dichlorobenzoate" />
+    <hashEntry Key="C06671" Value="2,4-Dichlorobenzoyl-CoA" />
+    <hashEntry Key="C11272" Value="Fluorobenzene" />
+    <hashEntry Key="C16246" Value="3,5-Dibromo-4-hydroxybenzamide" />
+    <hashEntry Key="C16247" Value="2,6-Dibromophenol" />
+    <hashEntry Key="C16248" Value="2,6-Dibromohydroquinone" />
+    <hashEntry Key="C16249" Value="2-Bromomaleylacetate" />
+    <hashEntry Key="C16472" Value="3-Fluorocatechol" />
+    <hashEntry Key="C16473" Value="4-Fluorocatechol" />
+    <hashEntry Key="C16474" Value="3-Fluoro-cis,cis-muconate" />
+    <hashEntry Key="C16475" Value="2-Fluoro-cis,cis-muconate" />
+    <hashEntry Key="C16476" Value="4-Fluoromuconolactone" />
+    <hashEntry Key="C16477" Value="5-Fluoromuconolactone" />
+    <hashEntry Key="C16478" Value="3-Fluorocyclohexadiene-cis,cis-1,2-diol-1-carboxylate" />
+    <hashEntry Key="C16479" Value="5-Fluorocyclohexadiene-cis,cis-1,2-diol-1-carboxylate" />
+    <hashEntry Key="C16480" Value="4-Fluorocyclohexadiene-cis,cis-1,2-diol-1-carboxylate" />
+    <hashEntry Key="C16481" Value="6-Fluorocyclohexadiene-cis,cis-1,2-diol-1-carboxylate" />
+    <hashEntry Key="C16482" Value="2-Fluorocyclohexadiene-cis,cis-1,2-diol-1-carboxylate" />
+    <hashEntry Key="C16483" Value="4-Fluorocyclohexadiene-cis,cis-1,2-diol" />
+    <hashEntry Key="C16484" Value="1-Fluorocyclohexadiene-cis,cis-1,2-diol" />
+  </Compound>
+  <PathwayMap Key="xcb00364" Value="Fluorobenzoate degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0539" Value="hypothetical protein; K01061 carboxymethylenebutenolidase [EC:3.1.1.45]" />
+    <hashEntry Key="xcb:XC_0540" Value="hypothetical protein; K01061 carboxymethylenebutenolidase [EC:3.1.1.45]" />
+    <hashEntry Key="xcb:XC_1552" Value="carboxymethylenebutenolidase; K01061 carboxymethylenebutenolidase [EC:3.1.1.45]" />
+  </Genes>
+</KEGG.PathwayBrief>

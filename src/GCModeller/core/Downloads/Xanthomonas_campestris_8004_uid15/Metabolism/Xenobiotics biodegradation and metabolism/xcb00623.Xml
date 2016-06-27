@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00623" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Toluene degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00156" Value="4-Hydroxybenzoate" />
+    <hashEntry Key="C00180" Value="Benzoate" />
+    <hashEntry Key="C00230" Value="3,4-Dihydroxybenzoate" />
+    <hashEntry Key="C00261" Value="Benzaldehyde" />
+    <hashEntry Key="C00512" Value="S-Benzoate coenzyme A" />
+    <hashEntry Key="C00556" Value="Benzyl alcohol" />
+    <hashEntry Key="C00587" Value="3-Hydroxybenzoate" />
+    <hashEntry Key="C00633" Value="4-Hydroxybenzaldehyde" />
+    <hashEntry Key="C01455" Value="Toluene" />
+    <hashEntry Key="C01467" Value="3-Cresol" />
+    <hashEntry Key="C01468" Value="4-Cresol" />
+    <hashEntry Key="C01542" Value="o-Cresol" />
+    <hashEntry Key="C02236" Value="4-Sulfobenzoate" />
+    <hashEntry Key="C02923" Value="2,3-Dihydroxytoluene" />
+    <hashEntry Key="C03067" Value="3-Hydroxybenzaldehyde" />
+    <hashEntry Key="C03351" Value="3-Hydroxybenzyl alcohol" />
+    <hashEntry Key="C04112" Value="3-Methyl-cis,cis-hexadienedioate" />
+    <hashEntry Key="C04558" Value="3-Methylmuconolactone" />
+    <hashEntry Key="C04559" Value="4-Methylmuconolactone" />
+    <hashEntry Key="C04592" Value="Toluene-cis-dihydrodiol" />
+    <hashEntry Key="C06677" Value="Toluene-4-sulfonate" />
+    <hashEntry Key="C06678" Value="4-Sulfobenzyl alcohol" />
+    <hashEntry Key="C06679" Value="4-Sulfobenzaldehyde" />
+    <hashEntry Key="C06730" Value="4-Methylcatechol" />
+    <hashEntry Key="C09816" Value="Benzylsuccinate" />
+    <hashEntry Key="C09817" Value="Benzylsuccinyl-CoA" />
+    <hashEntry Key="C09818" Value="E-Phenylitaconyl-CoA" />
+    <hashEntry Key="C09819" Value="(Hydroxymethylphenyl)succinyl-CoA" />
+    <hashEntry Key="C09820" Value="Benzoylsuccinyl-CoA" />
+    <hashEntry Key="C18300" Value="2,4-Dichlorotoluene" />
+    <hashEntry Key="C18301" Value="4,6-Dichloro-3-methyl-cis-1,2-dihydroxycyclohexa-3,5-diene" />
+    <hashEntry Key="C18302" Value="4,6-Dichloro-3-methylcatechol" />
+    <hashEntry Key="C18303" Value="3,5-Dichloro-2-methylmuconate" />
+    <hashEntry Key="C18304" Value="2-Chloro-5-methyl-cis-dienelactone" />
+    <hashEntry Key="C18305" Value="2-Chloro-5-methylmaleylacetate" />
+    <hashEntry Key="C18306" Value="5-Methylmaleylacetate" />
+    <hashEntry Key="C18307" Value="2-Methyl-3-oxoadipate" />
+    <hashEntry Key="C18308" Value="3,5-Dichloro-2-methylmuconolactone" />
+    <hashEntry Key="C18309" Value="3-Chloro-2-methyldienelactone" />
+    <hashEntry Key="C18310" Value="3-Chloro-2-methylmaleylacetate" />
+    <hashEntry Key="C18311" Value="4-Methyl-3-oxoadipate-enol-lactone" />
+    <hashEntry Key="C18312" Value="4-Methyl-3-oxoadipate" />
+  </Compound>
+  <PathwayMap Key="xcb00623" Value="Toluene degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0366" Value="benzaldehyde dehydrogenase II; K00141 benzaldehyde dehydrogenase (NAD) [EC:1.2.1.28]" />
+    <hashEntry Key="xcb:XC_0539" Value="hypothetical protein; K01061 carboxymethylenebutenolidase [EC:3.1.1.45]" />
+    <hashEntry Key="xcb:XC_0540" Value="hypothetical protein; K01061 carboxymethylenebutenolidase [EC:3.1.1.45]" />
+    <hashEntry Key="xcb:XC_1552" Value="carboxymethylenebutenolidase; K01061 carboxymethylenebutenolidase [EC:3.1.1.45]" />
+  </Genes>
+</KEGG.PathwayBrief>

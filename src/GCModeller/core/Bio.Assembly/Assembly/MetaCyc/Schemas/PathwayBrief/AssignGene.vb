@@ -1,0 +1,130 @@
+﻿Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
+Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports Microsoft.VisualBasic
+
+Namespace Assembly.MetaCyc.Schema.PathwayBrief
+
+    ''' <summary>
+    ''' 将基因与相应的反应过程映射起来
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Class AssignGene : Implements System.IDisposable
+
+        Dim Proteins As Proteins
+        Dim MetaCyc As DatabaseLoadder
+
+        Sub New(MetaCyc As DatabaseLoadder)
+            Proteins = MetaCyc.GetProteins
+            Me.MetaCyc = MetaCyc
+        End Sub
+
+        ''' <summary>
+        ''' String() => {Reaction, Associated-Genes}
+        ''' </summary>
+        ''' <returns>{Reaction, Associated-Genes}</returns>
+        ''' <remarks></remarks>
+        Public Function Performance() As Dictionary(Of String, String())
+            Dim EnzAssignedGenes = (From enz As Slots.Enzrxn In MetaCyc.GetEnzrxns Select AssignGenes(enz)).ToArray   '首先先获取所有的酶促反应过程对象所涉及到的基因列表
+            Dim LinkList = (From rxn As Slots.Reaction
+                            In MetaCyc.GetReactions
+                            Where Not rxn.EnzymaticReaction.IsNullOrEmpty
+                            Select key = rxn.Identifier,
+                                value = Query(rxn.EnzymaticReaction, EnzAssignedGenes)) _
+                                  .ToDictionary(Function(x) x.key,
+                                                Function(x) x.value)      '获取所有酶促反应对象的基因
+            Return LinkList
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="MetaCycData">从<see cref="Performance"></see>函数所得到的结果参数列表</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function ConvertId(MetaCycData As Dictionary(Of String, String())) As Dictionary(Of String, String())
+            Dim NCBICollection As Dictionary(Of String, String()) = New Dictionary(Of String, String())
+            Dim MetaCycGene = MetaCyc.GetGenes
+
+            For Each item In MetaCycData
+                Call NCBICollection.Add(item.Key, (From strid As String In item.Value Select MetaCycGene.Item(strid).Accession1).ToArray)
+            Next
+
+            Return NCBICollection
+        End Function
+
+        Private Shared Function Query(EnzUniqueIdCollection As List(Of String), EnzAssignedGenes As KeyValuePair(Of String, String())()) As String()
+            Dim LQuery = (From link In EnzAssignedGenes
+                          Where EnzUniqueIdCollection.IndexOf(link.Key) > -1
+                          Select link.Value).MatrixToVector
+            Return LQuery
+        End Function
+
+        ''' <summary>
+        ''' 获取某一个酶促反应中所涉及到的所有基因
+        ''' </summary>
+        ''' <param name="Enzrxn"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function AssignGenes(Enzrxn As Slots.Enzrxn) As KeyValuePair(Of String, String())
+            Dim EnzymeProtein As Slots.Protein = Proteins.Item(Enzrxn.Enzyme) '获取酶分子，蛋白质或者蛋白质复合物
+            Dim List = New KeyValuePair(Of String, String())(key:=Enzrxn.Identifier, value:=GetGenes(EnzymeProtein, Proteins))
+            Return List
+        End Function
+
+        ''' <summary>
+        ''' 递归的查找某一个蛋白质复合物的基因
+        ''' </summary>
+        ''' <param name="Protein"></param>
+        ''' <param name="ProteinList"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Shared Function GetGenes(Protein As Slots.Protein, ProteinList As Proteins) As String()
+            Dim GeneList As List(Of String) = New List(Of String)
+
+            If Protein.Components.IsNullOrEmpty() Then '蛋白质单体，直接获取基因并返回数据
+                Return New String() {Protein.Gene}
+            Else '蛋白质复合物，则做递归搜索，查询出所有的蛋白质蛋白组件，然后获取基因对象
+                For Each ComponentId As String In Protein.Components
+                    Dim Index As Integer = ProteinList.IndexOf(ComponentId)
+                    If Index > -1 Then
+                        Call GeneList.AddRange(GetGenes(ProteinList(Index), ProteinList))
+                    End If
+                Next
+            End If
+
+            Return GeneList.ToArray
+        End Function
+
+#Region "IDisposable Support"
+        Private disposedValue As Boolean ' To detect redundant calls
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not Me.disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects).
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+                ' TODO: set large fields to null.
+            End If
+            Me.disposedValue = True
+        End Sub
+
+        ' TODO: override Finalize() only if Dispose( disposing As Boolean) above has code to free unmanaged resources.
+        'Protected Overrides Sub Finalize()
+        '    ' Do not change this code.  Put cleanup code in Dispose( disposing As Boolean) above.
+        '    Dispose(False)
+        '    MyBase.Finalize()
+        'End Sub
+
+        ' This code added by Visual Basic to correctly implement the disposable pattern.
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+            Dispose(True)
+            GC.SuppressFinalize(Me)
+        End Sub
+#End Region
+
+    End Class
+End Namespace

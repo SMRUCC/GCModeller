@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00362" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Benzoate degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00090" Value="Catechol" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00146" Value="Phenol" />
+    <hashEntry Key="C00156" Value="4-Hydroxybenzoate" />
+    <hashEntry Key="C00180" Value="Benzoate" />
+    <hashEntry Key="C00196" Value="2,3-Dihydroxybenzoate" />
+    <hashEntry Key="C00230" Value="3,4-Dihydroxybenzoate" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00512" Value="S-Benzoate coenzyme A" />
+    <hashEntry Key="C00527" Value="Glutaryl-CoA" />
+    <hashEntry Key="C00530" Value="Hydroquinone" />
+    <hashEntry Key="C00587" Value="3-Hydroxybenzoate" />
+    <hashEntry Key="C00596" Value="2-Hydroxy-2,4-pentadienoate" />
+    <hashEntry Key="C00628" Value="2,5-Dihydroxybenzoate" />
+    <hashEntry Key="C00682" Value="2-Hydroxymuconate semialdehyde" />
+    <hashEntry Key="C00846" Value="3-Oxoadipate" />
+    <hashEntry Key="C00877" Value="Crotonoyl-CoA" />
+    <hashEntry Key="C01063" Value="6-Carboxyhexanoyl-CoA" />
+    <hashEntry Key="C01144" Value="(S)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C01163" Value="3-Carboxy-cis,cis-muconate" />
+    <hashEntry Key="C01278" Value="2-Carboxy-2,5-dihydro-5-oxofuran-2-acetate" />
+    <hashEntry Key="C01407" Value="Benzene" />
+    <hashEntry Key="C02222" Value="2-Maleylacetate" />
+    <hashEntry Key="C02232" Value="3-Oxoadipyl-CoA" />
+    <hashEntry Key="C02411" Value="Glutaconyl-1-CoA" />
+    <hashEntry Key="C02480" Value="cis,cis-Muconate" />
+    <hashEntry Key="C02501" Value="2-Hydroxymuconate" />
+    <hashEntry Key="C02519" Value="4-Methoxybenzoate" />
+    <hashEntry Key="C02814" Value="Benzene-1,2,4-triol" />
+    <hashEntry Key="C02949" Value="4-Hydroxybenzoyl-CoA" />
+    <hashEntry Key="C03453" Value="gamma-Oxalocrotonate" />
+    <hashEntry Key="C03586" Value="2-Oxo-2,3-dihydrofuran-5-acetate" />
+    <hashEntry Key="C03589" Value="4-Hydroxy-2-oxopentanoate" />
+    <hashEntry Key="C03671" Value="2-Pyrone-4,6-dicarboxylate" />
+    <hashEntry Key="C03676" Value="3-Hydroxy-cis,cis-muconate" />
+    <hashEntry Key="C04091" Value="cis-1,2-Dihydrobenzene-1,2-diol" />
+    <hashEntry Key="C04115" Value="4-Carboxy-4-hydroxy-2-oxoadipate" />
+    <hashEntry Key="C04324" Value="(1E,3E)-4-Hydroxybuta-1,3-diene-1,2,4-tricarboxylate" />
+    <hashEntry Key="C04434" Value="(1E)-4-Oxobut-1-ene-1,2,4-tricarboxylate" />
+    <hashEntry Key="C04480" Value="3-Carboxy-2-hydroxymuconate semialdehyde" />
+    <hashEntry Key="C04484" Value="4-Carboxy-2-hydroxymuconate semialdehyde" />
+    <hashEntry Key="C04553" Value="3-Carboxy-2,5-dihydro-5-oxofuran-2-acetate" />
+    <hashEntry Key="C05375" Value="2-Hydroxy-2-hydropyrone-4,6-dicarboxylate" />
+    <hashEntry Key="C06033" Value="Parapyruvate" />
+    <hashEntry Key="C06035" Value="4-Methylene-2-oxoglutarate" />
+    <hashEntry Key="C06321" Value="(1R,6S)-1,6-Dihydroxycyclohexa-2,4-diene-1-carboxylate" />
+    <hashEntry Key="C06322" Value="Cyclohexa-1,5-diene-1-carbonyl-CoA" />
+    <hashEntry Key="C06333" Value="2-Aminobenzenesulfonate" />
+    <hashEntry Key="C06336" Value="3-Sulfocatechol" />
+    <hashEntry Key="C06714" Value="3-Hydroxypimeloyl-CoA" />
+    <hashEntry Key="C06715" Value="3-Oxopimeloyl-CoA" />
+    <hashEntry Key="C06723" Value="6-Carboxyhex-2-enoyl-CoA" />
+    <hashEntry Key="C06749" Value="6-Hydroxycyclohex-1-ene-1-carbonyl-CoA" />
+    <hashEntry Key="C09809" Value="Cyclohex-2,5-diene-1-carboxyl-CoA" />
+    <hashEntry Key="C09810" Value="Cyclohex-1,4-diene-1-carboxyl-CoA" />
+    <hashEntry Key="C09811" Value="Cyclohex-1-ene-1-carboxyl-CoA" />
+    <hashEntry Key="C09812" Value="2-Hydroxycyclohexane-1-carboxyl-CoA" />
+    <hashEntry Key="C09813" Value="2-Ketocyclohexane-1-carboxyl-CoA" />
+    <hashEntry Key="C09821" Value="6-Oxocyclohex-1-ene-1-carbonyl-CoA" />
+    <hashEntry Key="C09822" Value="Cyclohexane-1-carboxylate" />
+    <hashEntry Key="C09823" Value="Cyclohexane-1-carboxyl-CoA" />
+    <hashEntry Key="C14610" Value="(S)-5-Oxo-2,5-dihydrofuran-2-acetate" />
+  </Compound>
+  <PathwayMap Key="xcb00362" Value="Benzoate degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0154" Value="2-keto-4-pentenoate hydratase; K02554 2-keto-4-pentenoate hydratase [EC:4.2.1.80]" />
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0368" Value="4-hydroxybenzoate 3-monooxygenase (EC:1.14.13.2); K00481 p-hydroxybenzoate 3-monooxygenase [EC:1.14." />
+    <hashEntry Key="xcb:XC_0378" Value="beta-ketoadipyl CoA thiolase; K07823 3-oxoadipyl-CoA thiolase [EC:2.3.1.174]" />
+    <hashEntry Key="xcb:XC_0379" Value="protocatechuate 3,4-dioxygenase subunit beta; K00449 protocatechuate 3,4-dioxygenase, beta subunit [" />
+    <hashEntry Key="xcb:XC_0380" Value="protocatechuate 3,4-dioxygenase alpha chain; K00448 protocatechuate 3,4-dioxygenase, alpha subunit [" />
+    <hashEntry Key="xcb:XC_0381" Value="3-carboxy-cis,cis-muconate cycloisomerase (EC:5.5.1.2); K01857 3-carboxy-cis,cis-muconate cycloisome" />
+    <hashEntry Key="xcb:XC_0382" Value="b-ketoadipate enol-lactone hydrolase; K01055 3-oxoadipate enol-lactonase [EC:3.1.1.24]" />
+    <hashEntry Key="xcb:XC_0383" Value="4-carboxymuconolactone decarboxylase; K01607 4-carboxymuconolactone decarboxylase [EC:4.1.1.44]" />
+    <hashEntry Key="xcb:XC_2205" Value="3-hydroxyacyl-CoA dehydrogenase; K07516 3-hydroxyacyl-CoA dehydrogenase [EC:1.1.1.35]" />
+    <hashEntry Key="xcb:XC_2206" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00632 acetyl-CoA acyltransferase [EC:2.3.1.16]" />
+    <hashEntry Key="xcb:XC_2809" Value="glutaryl-CoA dehydrogenase; K00252 glutaryl-CoA dehydrogenase [EC:1.3.8.6]" />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_2975" Value="3-hydroxyacyl-CoA dehydrogenase; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase / 3-hy" />
+    <hashEntry Key="xcb:XC_3426" Value="protocatechuate 4,5-dioxygenase subunit alpha; K04100 protocatechuate 4,5-dioxygenase, alpha chain [" />
+    <hashEntry Key="xcb:XC_3427" Value="protocatechuate 4,5-dioxygenase subunit beta; K04101 protocatechuate 4,5-dioxygenase, beta chain [EC" />
+    <hashEntry Key="xcb:XC_4119" Value="hypothetical protein; K10218 4-hydroxy-4-methyl-2-oxoglutarate aldolase [EC:4.1.3.17]" />
+    <hashEntry Key="xcb:XC_4120" Value="FldA protein; K16514 4-oxalomesaconate tautomerase [EC:5.3.2.8]" />
+    <hashEntry Key="xcb:XC_4121" Value="4-oxalomesaconate hydratase; K10220 4-oxalmesaconate hydratase [EC:4.2.1.83]" />
+  </Genes>
+</KEGG.PathwayBrief>

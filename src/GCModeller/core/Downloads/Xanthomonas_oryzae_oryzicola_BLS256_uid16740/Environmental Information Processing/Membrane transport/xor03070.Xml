@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03070" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Gram-negative bacteria secrete a wide range of proteins whose functions include biogenesis of organelles, such as pilli and flagella, nutrient acquisition, virulence, and efflux of drugs and other toxins. Six distinct secretion systems have been shown to mediate protein export through the inner and outer membranes of Gram-negative bacteria. These pathways are highly conserved throughout the Gram-negative bacterial species. In Gram-positive bacteria, secreted proteins are commonly translocated across the single membrane by the Sec pathway or the two-arginine (Tat) pathway.&lt;br&gt;</Description>
+  <Name>Bacterial secretion system - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00332" Value="Type III secretion system [PATH:xor03070]" />
+    <hashEntry Key="xor_M00334" Value="Type VI secretion system [PATH:xor03070]" />
+    <hashEntry Key="xor_M00335" Value="Sec (secretion) system [PATH:xor03070]" />
+    <hashEntry Key="xor_M00336" Value="Twin-arginine translocation (Tat) system [PATH:xor03070]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00002" Value="ATP" />
+  </Compound>
+  <PathwayMap Key="xor03070" Value="Bacterial secretion system&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0317" Value="secB; protein-export chaperone SecB; K03071 preprotein translocase subunit SecB" />
+    <hashEntry Key="xor:XOC_0852" Value="secA; preprotein translocase, SecA subunit; K03070 preprotein translocase subunit SecA" />
+    <hashEntry Key="xor:XOC_1014" Value="secE; translocase SecE; K03073 preprotein translocase subunit SecE" />
+    <hashEntry Key="xor:XOC_1051" Value="secY; preprotein translocase, SecY subunit; K03076 preprotein translocase subunit SecY" />
+    <hashEntry Key="xor:XOC_1309" Value="ImcF-related family; K11891 type VI secretion system protein ImpL" />
+    <hashEntry Key="xor:XOC_1328" Value="hypothetical protein; K11892 type VI secretion system protein ImpK" />
+    <hashEntry Key="xor:XOC_1338" Value="hypothetical protein; K11892 type VI secretion system protein ImpK" />
+    <hashEntry Key="xor:XOC_1349" Value="hypothetical protein; K11892 type VI secretion system protein ImpK" />
+    <hashEntry Key="xor:XOC_1351" Value="lipoprotein, putative; K11906 type VI secretion system protein VasD" />
+    <hashEntry Key="xor:XOC_1355" Value="hypothetical protein; K11903 type VI secretion system secreted protein Hcp" />
+    <hashEntry Key="xor:XOC_1360" Value="protease associated ATPase ClpB; K11907 type VI secretion system protein VasG" />
+    <hashEntry Key="xor:XOC_1903" Value="cell division protein; K03110 fused signal recognition particle receptor" />
+    <hashEntry Key="xor:XOC_1958" Value="yajC; preprotein translocase, YajC subunit; K03210 preprotein translocase subunit YajC" />
+    <hashEntry Key="xor:XOC_1961" Value="secD; protein-export membrane protein SecD; K03072 preprotein translocase subunit SecD" />
+    <hashEntry Key="xor:XOC_1962" Value="secF; protein-export membrane protein SecF; K03074 preprotein translocase subunit SecF" />
+    <hashEntry Key="xor:XOC_2004" Value="Rhs element Vgr protein; K11904 type VI secretion system secreted protein VgrG" />
+    <hashEntry Key="xor:XOC_2478" Value="putative vgr-related protein; K11904 type VI secretion system secreted protein VgrG" />
+    <hashEntry Key="xor:XOC_2528" Value="ImcF-related family; K11891 type VI secretion system protein ImpL" />
+    <hashEntry Key="xor:XOC_2529" Value="OmpA family membrane protein; K11892 type VI secretion system protein ImpK" />
+    <hashEntry Key="xor:XOC_2533" Value="Rhs-family protein; K11904 type VI secretion system secreted protein VgrG" />
+    <hashEntry Key="xor:XOC_2537" Value="ClpB; K11907 type VI secretion system protein VasG" />
+    <hashEntry Key="xor:XOC_2542" Value="hypothetical protein; K11903 type VI secretion system secreted protein Hcp" />
+    <hashEntry Key="xor:XOC_2939" Value="secG; preprotein translocase subunit SecG; K03075 preprotein translocase subunit SecG" />
+    <hashEntry Key="xor:XOC_3290" Value="Rhs element Vgr protein; K11904 type VI secretion system secreted protein VgrG" />
+    <hashEntry Key="xor:XOC_3422" Value="ffh; signal recognition particle protein; K03106 signal recognition particle subunit SRP54 [EC:3.6.5" />
+    <hashEntry Key="xor:XOC_3538" Value="Rhs element Vgr protein; K11904 type VI secretion system secreted protein VgrG" />
+    <hashEntry Key="xor:XOC_3726" Value="raxC; outer membrane protein RaxC; K12340 outer membrane protein" />
+    <hashEntry Key="xor:XOC_3794" Value="xpsD; general secretion pathway protein D; K02453 general secretion pathway protein D" />
+    <hashEntry Key="xor:XOC_3796" Value="xpsM; general secretion pathway protein M; K02462 general secretion pathway protein M" />
+    <hashEntry Key="xor:XOC_3797" Value="xpsL; general secretion pathway protein L; K02461 general secretion pathway protein L" />
+    <hashEntry Key="xor:XOC_3798" Value="xpsK; general secretion pathway protein K; K02460 general secretion pathway protein K" />
+    <hashEntry Key="xor:XOC_3799" Value="xpsJ; general secretion pathway protein J; K02459 general secretion pathway protein J" />
+    <hashEntry Key="xor:XOC_3800" Value="xpsI; general secretion pathway protein I; K02458 general secretion pathway protein I" />
+    <hashEntry Key="xor:XOC_3801" Value="xpsH; general secretion pathway protein H; K02457 general secretion pathway protein H" />
+    <hashEntry Key="xor:XOC_3802" Value="xpsG; general secretion pathway protein G; K02456 general secretion pathway protein G" />
+    <hashEntry Key="xor:XOC_3803" Value="xpsF; general secretion pathway protein F; K02455 general secretion pathway protein F" />
+    <hashEntry Key="xor:XOC_3805" Value="xpsE; general secretion pathway protein E; K02454 general secretion pathway protein E" />
+    <hashEntry Key="xor:XOC_4382" Value="putative vgr-related protein; K11904 type VI secretion system secreted protein VgrG" />
+    <hashEntry Key="xor:XOC_4434" Value="hrcC; type III secretion outer membrane pore HrcC; K03219 type III secretion protein C" />
+    <hashEntry Key="xor:XOC_4435" Value="hrcT; type III secretion protein HrcT; K03228 type III secretion protein T" />
+    <hashEntry Key="xor:XOC_4437" Value="hrcN; type III secretion ATPase HrcN; K03224 ATP synthase in type III secretion protein N [EC:3.6.3." />
+    <hashEntry Key="xor:XOC_4438" Value="hrcL; type III secretion protein HrcL; K03223 type III secretion protein L" />
+    <hashEntry Key="xor:XOC_4440" Value="hrcJ; type III secretion protein HrcJ; K03222 type III secretion protein J" />
+    <hashEntry Key="xor:XOC_4443" Value="hrcU; type III secretion protein HrcU; K03229 type III secretion protein U" />
+    <hashEntry Key="xor:XOC_4444" Value="hrcV; type III secretion protein HrcV; K03230 type III secretion protein V" />
+    <hashEntry Key="xor:XOC_4447" Value="hrcQ; type III secretion protein HrcQ; K03225 type III secretion protein Q" />
+    <hashEntry Key="xor:XOC_4448" Value="hrcR; type III secretion protein HrcR; K03226 type III secretion protein R" />
+    <hashEntry Key="xor:XOC_4449" Value="hrcS; type III secretion protein HrcS; K03227 type III secretion protein S" />
+    <hashEntry Key="xor:XOC_4483" Value="hypothetical protein; K03116 sec-independent protein translocase protein TatA" />
+    <hashEntry Key="xor:XOC_4484" Value="sec-independent protein translocase; K03117 sec-independent protein translocase protein TatB" />
+    <hashEntry Key="xor:XOC_4485" Value="tatC; twin arginine-targeting protein translocase TatC; K03118 sec-independent protein translocase p" />
+    <hashEntry Key="xor:XOC_4491" Value="type II secretory pathway ATPase; K02454 general secretion pathway protein E" />
+    <hashEntry Key="xor:XOC_4687" Value="60 kDa inner-membrane protein; K03217 YidC/Oxa1 family membrane protein insertase" />
+  </Genes>
+</KEGG.PathwayBrief>

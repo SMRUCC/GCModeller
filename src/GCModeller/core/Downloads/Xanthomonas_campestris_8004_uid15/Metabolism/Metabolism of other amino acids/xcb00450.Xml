@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00450" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Selenocompound metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00017" Value="Protein" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C01528" Value="Hydrogen selenide" />
+    <hashEntry Key="C02535" Value="Dimethyl selenide" />
+    <hashEntry Key="C05172" Value="Selenophosphoric acid" />
+    <hashEntry Key="C05335" Value="L-Selenomethionine" />
+    <hashEntry Key="C05336" Value="Selenomethionyl-tRNA(Met)" />
+    <hashEntry Key="C05684" Value="Selenite" />
+    <hashEntry Key="C05686" Value="Adenylylselenate" />
+    <hashEntry Key="C05688" Value="L-Selenocysteine" />
+    <hashEntry Key="C05689" Value="Se-Methyl-L-selenocysteine" />
+    <hashEntry Key="C05690" Value="Se-Methylselenomethionine" />
+    <hashEntry Key="C05695" Value="gamma-Glutamyl-Se-methylselenocysteine" />
+    <hashEntry Key="C05697" Value="Selenate" />
+    <hashEntry Key="C05698" Value="Selenohomocysteine" />
+    <hashEntry Key="C05699" Value="L-Selenocystathionine" />
+    <hashEntry Key="C05703" Value="Methaneselenol" />
+    <hashEntry Key="C06481" Value="L-Seryl-tRNA(Sec)" />
+    <hashEntry Key="C06482" Value="L-Selenocysteinyl-tRNA(Sec)" />
+    <hashEntry Key="C16638" Value="O-Phosphoseryl-tRNA(Sec)" />
+    <hashEntry Key="C18870" Value="Selenodiglutathione" />
+    <hashEntry Key="C18871" Value="Glutathioselenol" />
+    <hashEntry Key="C18872" Value="Trimethylselenonium" />
+    <hashEntry Key="C18893" Value="1-Methylseleno-N-acetyl-D-galactosamine" />
+    <hashEntry Key="C18902" Value="Methylselenic acid" />
+    <hashEntry Key="C18904" Value="Methylselenopyruvate" />
+    <hashEntry Key="C18905" Value="Methylselenocysteine Se-oxide" />
+  </Compound>
+  <PathwayMap Key="xcb00450" Value="Selenocompound metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0330" Value="5-methyltetrahydropteroyltriglutamate--homocysteine S-methyltransferase (EC:2.1.1.14); K00549 5-meth" />
+    <hashEntry Key="xcb:XC_0993" Value="sulfate adenylyltransferase subunit 2 (EC:2.7.7.4); K00957 sulfate adenylyltransferase subunit 2 [EC" />
+    <hashEntry Key="xcb:XC_0994" Value="bifunctional sulfate adenylyltransferase subunit 1/adenylylsulfate kinase (EC:2.7.1.25 2.7.7.4); K00" />
+    <hashEntry Key="xcb:XC_1252" Value="cystathionine gamma-synthase (EC:2.5.1.48); K01739 cystathionine gamma-synthase [EC:2.5.1.48]" />
+    <hashEntry Key="xcb:XC_1344" Value="cysteine desulfurase; K11717 cysteine desulfurase / selenocysteine lyase [EC:2.8.1.7 4.4.1.16]" />
+    <hashEntry Key="xcb:XC_2214" Value="thioredoxin reductase; K00384 thioredoxin reductase (NADPH) [EC:1.8.1.9]" />
+    <hashEntry Key="xcb:XC_2724" Value="5-methyltetrahydrofolate--homocysteine methyltransferase; K00548 5-methyltetrahydrofolate--homocyste" />
+    <hashEntry Key="xcb:XC_2725" Value="5-methyltetrahydrofolate--homocysteine methyltransferase; K00548 5-methyltetrahydrofolate--homocyste" />
+    <hashEntry Key="xcb:XC_2900" Value="metG; methionyl-tRNA synthetase (EC:6.1.1.10); K01874 methionyl-tRNA synthetase [EC:6.1.1.10]" />
+    <hashEntry Key="xcb:XC_3165" Value="thioredoxin reductase; K00384 thioredoxin reductase (NADPH) [EC:1.8.1.9]" />
+    <hashEntry Key="xcb:XC_3635" Value="cystathionine gamma-synthase; K01758 cystathionine gamma-lyase [EC:4.4.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

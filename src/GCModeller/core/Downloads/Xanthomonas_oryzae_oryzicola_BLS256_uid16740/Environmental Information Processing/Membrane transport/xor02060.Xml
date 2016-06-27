@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor02060" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The phosphoenolpyruvate (PEP)-dependent phosphotransferase system (PTS) is a major mechanism used by bacteria for uptake of carbohydrates, particularly hexoses, hexitols, and disaccharides, where the source of energy is from PEP. The PTS consists of two general components, enzyme I (EI) and histidine phosphocarrier protein (HPr), and of membrane-bound sugar specific permeases (enzymes II). Each enzyme II (EII) complex consists of one or two hydrophobic integral membrane domains (domains C and D) and two hydrophilic domains (domains A and B). EII complexes may exist as distinct proteins or as a single multidomain protein. The PTS catalyzes the uptake of carbohydrates and their conversion into their respective phosphoesters during transport. There are four successive phosphoryl transfers in the PTS. Initial autophosphorylation of EI, using PEP as a substrate, is followed by transfer of the phosphoryl group from EI to HPr. EIIA catalyzes the self-phosphoryl transfer from HPr after which the phosphoryl group is transferred to histidine or cysteine residues of EIIB. The sugar is transported through the membrane-bound EIIC and is phosphorylated by the appropriate sugar-specific EIIB.&lt;br&gt;</Description>
+  <Name>Phosphotransferase system (PTS) - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00273" Value="PTS system, fructose-specific II component [PATH:xor02060]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00072" Value="Ascorbate" />
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00089" Value="Sucrose" />
+    <hashEntry Key="C00092" Value="D-Glucose 6-phosphate" />
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00124" Value="D-Galactose" />
+    <hashEntry Key="C00140" Value="N-Acetyl-D-glucosamine" />
+    <hashEntry Key="C00159" Value="D-Mannose" />
+    <hashEntry Key="C00185" Value="Cellobiose" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00243" Value="Lactose" />
+    <hashEntry Key="C00275" Value="D-Mannose 6-phosphate" />
+    <hashEntry Key="C00329" Value="D-Glucosamine" />
+    <hashEntry Key="C00352" Value="D-Glucosamine 6-phosphate" />
+    <hashEntry Key="C00357" Value="N-Acetyl-D-glucosamine 6-phosphate" />
+    <hashEntry Key="C00392" Value="Mannitol" />
+    <hashEntry Key="C00644" Value="D-Mannitol 1-phosphate" />
+    <hashEntry Key="C00689" Value="alpha,alpha'-Trehalose 6-phosphate" />
+    <hashEntry Key="C00697" Value="Nitrogen" />
+    <hashEntry Key="C00794" Value="D-Sorbitol" />
+    <hashEntry Key="C01083" Value="alpha,alpha-Trehalose" />
+    <hashEntry Key="C01094" Value="D-Fructose 1-phosphate" />
+    <hashEntry Key="C01096" Value="Sorbitol 6-phosphate" />
+    <hashEntry Key="C01113" Value="D-Galactose 6-phosphate" />
+    <hashEntry Key="C01132" Value="N-Acetyl-D-galactosamine" />
+    <hashEntry Key="C01451" Value="Salicin" />
+    <hashEntry Key="C01452" Value="Sorbose" />
+    <hashEntry Key="C01674" Value="Chitobiose" />
+    <hashEntry Key="C01697" Value="Galactitol" />
+    <hashEntry Key="C01798" Value="D-Glucoside" />
+    <hashEntry Key="C02262" Value="D-Galactosamine" />
+    <hashEntry Key="C02713" Value="N-Acetylmuramate" />
+    <hashEntry Key="C02888" Value="Sorbose 1-phosphate" />
+    <hashEntry Key="C02995" Value="Maltose 6'-phosphate" />
+    <hashEntry Key="C03752" Value="2-Amino-2-deoxy-D-gluconate" />
+    <hashEntry Key="C04534" Value="6-Phospho-beta-D-glucosyl-(1,4)-D-glucose" />
+    <hashEntry Key="C05396" Value="Lactose 6'-phosphate" />
+    <hashEntry Key="C06186" Value="Arbutin" />
+    <hashEntry Key="C06187" Value="Arbutin 6-phosphate" />
+    <hashEntry Key="C06188" Value="Salicin 6-phosphate" />
+    <hashEntry Key="C06311" Value="Galactitol 1-phosphate" />
+    <hashEntry Key="C06376" Value="N-Acetyl-D-galactosamine 6-phosphate" />
+    <hashEntry Key="C06377" Value="D-Galactosamine 6-phosphate" />
+    <hashEntry Key="C11544" Value="2(alpha-D-Mannosyl)-D-glycerate" />
+    <hashEntry Key="C16186" Value="L-Ascorbate 6-phosphate" />
+    <hashEntry Key="C16488" Value="Fructoselysine" />
+    <hashEntry Key="C16489" Value="Fructoselysine 6-phosphate" />
+    <hashEntry Key="C16688" Value="Sucrose 6-phosphate" />
+    <hashEntry Key="C16698" Value="N-Acetylmuramic acid 6-phosphate" />
+    <hashEntry Key="C16699" Value="2-O-(6-Phospho-alpha-mannosyl)-D-glycerate" />
+    <hashEntry Key="C20589" Value="6-Phospho-D-glucosaminate" />
+    <hashEntry Key="C20978" Value="Glucoselysine" />
+    <hashEntry Key="C20979" Value="Glucoselysine-6-phosphate" />
+    <hashEntry Key="C21152" Value="N,N'-Diacetylchitobiose 6'-phosphate" />
+  </Compound>
+  <PathwayMap Key="xor02060" Value="Phosphotransferase system (PTS)&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_1431" Value="ptsI; phosphoenolpyruvate-protein phosphotransferase; K08483 phosphotransferase system, enzyme I, Pt" />
+    <hashEntry Key="xor:XOC_1433" Value="sugar transport protein; K02821 PTS system, ascorbate-specific IIA component [EC:2.7.1.194]" />
+    <hashEntry Key="xor:XOC_1437" Value="nitrogen regulatory IIA protein; K02806 PTS system, nitrogen regulatory IIA component [EC:2.7.1.-]" />
+    <hashEntry Key="xor:XOC_1973" Value="pts system fructose-specific eiibc component (eiibc-fru); K02769 PTS system, fructose-specific IIB c" />
+    <hashEntry Key="xor:XOC_1975" Value="mtp; multiphosphoryl transfer protein; K02768 PTS system, fructose-specific IIA component [EC:2.7.1." />
+  </Genes>
+</KEGG.PathwayBrief>

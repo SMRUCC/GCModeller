@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00650" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Butanoate metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00136" Value="Butanoyl-CoA" />
+    <hashEntry Key="C00164" Value="Acetoacetate" />
+    <hashEntry Key="C00232" Value="Succinate semialdehyde" />
+    <hashEntry Key="C00246" Value="Butanoic acid" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00334" Value="4-Aminobutanoate" />
+    <hashEntry Key="C00356" Value="(S)-3-Hydroxy-3-methylglutaryl-CoA" />
+    <hashEntry Key="C00497" Value="(R)-Malate" />
+    <hashEntry Key="C00741" Value="Diacetyl" />
+    <hashEntry Key="C00810" Value="(R)-Acetoin" />
+    <hashEntry Key="C00877" Value="Crotonoyl-CoA" />
+    <hashEntry Key="C00989" Value="4-Hydroxybutanoic acid" />
+    <hashEntry Key="C01089" Value="(R)-3-Hydroxybutanoate" />
+    <hashEntry Key="C01144" Value="(S)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C01384" Value="Maleic acid" />
+    <hashEntry Key="C01412" Value="Butanal" />
+    <hashEntry Key="C01769" Value="(S)-Acetoin" />
+    <hashEntry Key="C02331" Value="Vinylacetyl-CoA" />
+    <hashEntry Key="C02411" Value="Glutaconyl-1-CoA" />
+    <hashEntry Key="C02527" Value="Butanoylphosphate" />
+    <hashEntry Key="C02630" Value="2-Hydroxyglutarate" />
+    <hashEntry Key="C03044" Value="(R,R)-Butane-2,3-diol" />
+    <hashEntry Key="C03046" Value="(S,S)-Butane-2,3-diol" />
+    <hashEntry Key="C03058" Value="2-Hydroxyglutaryl-CoA" />
+    <hashEntry Key="C03561" Value="(R)-3-Hydroxybutanoyl-CoA" />
+    <hashEntry Key="C04546" Value="(R)-3-((R)-3-Hydroxybutanoyloxy)butanoate" />
+    <hashEntry Key="C06010" Value="(S)-2-Acetolactate" />
+    <hashEntry Key="C06142" Value="1-Butanol" />
+    <hashEntry Key="C06143" Value="Poly-beta-hydroxybutyrate" />
+    <hashEntry Key="C06144" Value="3-Butynoate" />
+    <hashEntry Key="C06145" Value="3-Butyn-1-al" />
+    <hashEntry Key="C06146" Value="3-Butyn-1-ol" />
+    <hashEntry Key="C11062" Value="4-Hydroxybutyryl-CoA" />
+    <hashEntry Key="C20657" Value="meso-2,3-Butanediol" />
+  </Compound>
+  <PathwayMap Key="xcb00650" Value="Butanoate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0119" Value="trans-2-enoyl-CoA reductase; K00209 enoyl-[acyl-carrier protein] reductase / trans-2-enoyl-CoA reduc" />
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0376" Value="glutaconate CoA transferase subunit A; K01039 glutaconate CoA-transferase, subunit A [EC:2.8.3.12]" />
+    <hashEntry Key="xcb:XC_0377" Value="glutaconate CoA transferase subunit B; K01040 glutaconate CoA-transferase, subunit B [EC:2.8.3.12]" />
+    <hashEntry Key="xcb:XC_0550" Value="CoA transferase; K18118 succinyl-CoA:acetate CoA-transferase [EC:2.8.3.18]" />
+    <hashEntry Key="xcb:XC_0809" Value="fabG; 3-ketoacyl-ACP reductase (EC:1.1.1.100); K00023 acetoacetyl-CoA reductase [EC:1.1.1.36]" />
+    <hashEntry Key="xcb:XC_0839" Value="acetolactate synthase isozyme II small subunit; K11258 acetolactate synthase II small subunit [EC:2." />
+    <hashEntry Key="xcb:XC_0840" Value="acetolactate synthase 2 catalytic subunit (EC:2.2.1.6); K01652 acetolactate synthase I/II/III large" />
+    <hashEntry Key="xcb:XC_1780" Value="succinate-semialdehyde dehydrogenase; K00135 succinate-semialdehyde dehydrogenase / glutarate-semial" />
+    <hashEntry Key="xcb:XC_1821" Value="acetoacetyl-CoA reductase; K00023 acetoacetyl-CoA reductase [EC:1.1.1.36]" />
+    <hashEntry Key="xcb:XC_1956" Value="D-beta-hydroxybutyrate dehydrogenase; K00019 3-hydroxybutyrate dehydrogenase [EC:1.1.1.30]" />
+    <hashEntry Key="xcb:XC_1959" Value="poly (3-hydroxybutyric acid) synthase; K03821 polyhydroxyalkanoate synthase [EC:2.3.1.-]" />
+    <hashEntry Key="xcb:XC_1981" Value="succinate dehydrogenase membrane anchor subunit; K00241 succinate dehydrogenase / fumarate reductase" />
+    <hashEntry Key="xcb:XC_1982" Value="succinate dehydrogenase membrane anchor subunit; K00242 succinate dehydrogenase / fumarate reductase" />
+    <hashEntry Key="xcb:XC_1983" Value="sdhA; succinate dehydrogenase flavoprotein subunit (EC:1.3.5.1); K00239 succinate dehydrogenase / fu" />
+    <hashEntry Key="xcb:XC_1985" Value="sdhB; succinate dehydrogenase iron-sulfur subunit (EC:1.3.99.1); K00240 succinate dehydrogenase / fu" />
+    <hashEntry Key="xcb:XC_2205" Value="3-hydroxyacyl-CoA dehydrogenase; K07516 3-hydroxyacyl-CoA dehydrogenase [EC:1.1.1.35]" />
+    <hashEntry Key="xcb:XC_2357" Value="hydroxymethylglutaryl-CoA lyase; K01640 hydroxymethylglutaryl-CoA lyase [EC:4.1.3.4]" />
+    <hashEntry Key="xcb:XC_2700" Value="3-hydroxybutyryl-CoA dehydratase; K01715 enoyl-CoA hydratase [EC:4.2.1.17]" />
+    <hashEntry Key="xcb:XC_2885" Value="PHB depolymerase; K05973 poly(3-hydroxybutyrate) depolymerase [EC:3.1.1.75]" />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_2975" Value="3-hydroxyacyl-CoA dehydrogenase; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase / 3-hy" />
+    <hashEntry Key="xcb:XC_3606" Value="IpsJ protein; K01029 3-oxoacid CoA-transferase subunit B [EC:2.8.3.5]" />
+    <hashEntry Key="xcb:XC_3607" Value="3-oxoadipate CoA-succinyl transferase subunit alpha; K01028 3-oxoacid CoA-transferase subunit A [EC:" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00620" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Pyruvate metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00307" Value="Pyruvate oxidation, pyruvate =&gt; acetyl-CoA [PATH:xcb00620]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00058" Value="Formate" />
+    <hashEntry Key="C00068" Value="Thiamin diphosphate" />
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00083" Value="Malonyl-CoA" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00149" Value="(S)-Malate" />
+    <hashEntry Key="C00186" Value="(S)-Lactate" />
+    <hashEntry Key="C00227" Value="Acetyl phosphate" />
+    <hashEntry Key="C00256" Value="(R)-Lactate" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00424" Value="(S)-Lactaldehyde" />
+    <hashEntry Key="C00546" Value="Methylglyoxal" />
+    <hashEntry Key="C00937" Value="(R)-Lactaldehyde" />
+    <hashEntry Key="C01251" Value="(R)-2-Hydroxybutane-1,2,4-tricarboxylate" />
+    <hashEntry Key="C02488" Value="(R)-2-Ethylmalate" />
+    <hashEntry Key="C02504" Value="alpha-Isopropylmalate" />
+    <hashEntry Key="C03248" Value="Acetylenedicarboxylate" />
+    <hashEntry Key="C03451" Value="(R)-S-Lactoylglutathione" />
+    <hashEntry Key="C03981" Value="2-Hydroxyethylenedicarboxylate" />
+    <hashEntry Key="C05125" Value="2-(alpha-Hydroxyethyl)thiamine diphosphate" />
+    <hashEntry Key="C05993" Value="Acetyl adenylate" />
+    <hashEntry Key="C05994" Value="2-Propylmalate" />
+    <hashEntry Key="C15972" Value="Enzyme N6-(lipoyl)lysine" />
+    <hashEntry Key="C15973" Value="Enzyme N6-(dihydrolipoyl)lysine" />
+    <hashEntry Key="C16255" Value="[Dihydrolipoyllysine-residue acetyltransferase] S-acetyldihydrolipoyllysine" />
+  </Compound>
+  <PathwayMap Key="xcb00620" Value="Pyruvate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0104" Value="chloroacetaldehyde dehydrogenase; K00138 aldehyde dehydrogenase [EC:1.2.1.-]" />
+    <hashEntry Key="xcb:XC_0110" Value="lldD; L-lactate dehydrogenase (EC:1.1.2.3); K00101 L-lactate dehydrogenase (cytochrome) [EC:1.1.2.3]" />
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0216" Value="pyruvate dehydrogenase (EC:1.2.2.2); K00156 pyruvate dehydrogenase (quinone) [EC:1.2.5.1]" />
+    <hashEntry Key="xcb:XC_0247" Value="malate synthase (EC:2.3.3.9); K01638 malate synthase [EC:2.3.3.9]" />
+    <hashEntry Key="xcb:XC_0441" Value="branched-chain alpha-keto acid dehydrogenase subunit E2; K00627 pyruvate dehydrogenase E2 component" />
+    <hashEntry Key="xcb:XC_0443" Value="pyruvate dehydrogenase E1 beta subunit; K00162 pyruvate dehydrogenase E1 component beta subunit [EC:" />
+    <hashEntry Key="xcb:XC_0444" Value="pyruvate dehydrogenase E1 alpha subunit; K00161 pyruvate dehydrogenase E1 component alpha subunit [E" />
+    <hashEntry Key="xcb:XC_0527" Value="acetyl-CoA carboxylase biotin carboxylase subunit (EC:6.4.1.2); K01961 acetyl-CoA carboxylase, bioti" />
+    <hashEntry Key="xcb:XC_0529" Value="acetyl-CoA carboxylase biotin carboxyl carrier protein subunit (EC:6.4.1.2); K02160 acetyl-CoA carbo" />
+    <hashEntry Key="xcb:XC_0550" Value="CoA transferase; K18118 succinyl-CoA:acetate CoA-transferase [EC:2.8.3.18]" />
+    <hashEntry Key="xcb:XC_0588" Value="aceE; pyruvate dehydrogenase subunit E1; K00163 pyruvate dehydrogenase E1 component [EC:1.2.4.1]" />
+    <hashEntry Key="xcb:XC_0821" Value="malic enzyme (EC:1.1.1.40); K00029 malate dehydrogenase (oxaloacetate-decarboxylating)(NADP+) [EC:1." />
+    <hashEntry Key="xcb:XC_0837" Value="2-isopropylmalate synthase (EC:2.3.3.13); K01649 2-isopropylmalate synthase [EC:2.3.3.13]" />
+    <hashEntry Key="xcb:XC_0978" Value="pyruvate kinase (EC:2.7.1.40); K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="xcb:XC_1578" Value="acetyl-CoA carboxylase subunit beta (EC:6.4.1.2); K01963 acetyl-CoA carboxylase carboxyl transferase" />
+    <hashEntry Key="xcb:XC_1952" Value="phosphoenolpyruvate synthase (EC:2.7.9.2); K01007 pyruvate, water dikinase [EC:2.7.9.2]" />
+    <hashEntry Key="xcb:XC_2445" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_2742" Value="fumC; fumarate hydratase (EC:4.2.1.2); K01679 fumarate hydratase, class II [EC:4.2.1.2]" />
+    <hashEntry Key="xcb:XC_2751" Value="dihydrolipoamide dehydrogenase (EC:1.8.1.4); K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xcb:XC_2822" Value="fumarate hydratase; K01676 fumarate hydratase, class I [EC:4.2.1.2]" />
+    <hashEntry Key="xcb:XC_2881" Value="acetyl-CoA carboxylase carboxyltransferase subunit alpha (EC:6.4.1.2); K01962 acetyl-CoA carboxylase" />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_3258" Value="hydroxyacylglutathione hydrolase; K01069 hydroxyacylglutathione hydrolase [EC:3.1.2.6]" />
+    <hashEntry Key="xcb:XC_3307" Value="malate dehydrogenase (EC:1.1.1.37); K00024 malate dehydrogenase [EC:1.1.1.37]" />
+    <hashEntry Key="xcb:XC_3368" Value="acylphosphatase; K01512 acylphosphatase [EC:3.6.1.7]" />
+    <hashEntry Key="xcb:XC_3421" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_3479" Value="phosphoenolpyruvate carboxylase (EC:4.1.1.31); K01595 phosphoenolpyruvate carboxylase [EC:4.1.1.31]" />
+    <hashEntry Key="xcb:XC_3526" Value="D-lactate dehydrogenase; K03777 D-lactate dehydrogenase [EC:1.1.1.28]" />
+    <hashEntry Key="xcb:XC_3658" Value="lactoylglutathione lyase; K01759 lactoylglutathione lyase [EC:4.4.1.5]" />
+    <hashEntry Key="xcb:XC_3689" Value="dihydrolipoamide dehydrogenase; K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xcb:XC_3691" Value="dihydrolipoamide acetyltransferase; K00627 pyruvate dehydrogenase E2 component (dihydrolipoamide ace" />
+    <hashEntry Key="xcb:XC_4149" Value="acetyl-CoA synthetase (EC:6.2.1.1); K01895 acetyl-CoA synthetase [EC:6.2.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

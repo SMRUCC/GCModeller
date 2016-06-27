@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03018" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The correct processing, quality control and turnover of cellular RNA molecules are critical to many aspects in the expression of genetic information. In eukaryotes, two major pathways of mRNA decay exist and both pathways are initiated by poly(A) shortening of the mRNA. In the 5' to 3' pathway, this is followed by decapping which then permits the 5' to 3' exonucleolytic degradation of transcripts. In the 3' to 5' pathway, the exosome, a large multisubunit complex, plays a key role. The exosome exists in archaeal cells, too. In bacteria, endoribonuclease E, a key enzyme involved in RNA decay and processing, organizes a protein complex called degradosome. RNase E or R interacts with the phosphate-dependent exoribonuclease polynucleotide phosphorylase, DEAD-box helicases, and additional factors in the RNA-degrading complex.&lt;br&gt;</Description>
+  <Name>RNA degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00394" Value="RNA degradosome [PATH:xcb03018]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb03018" Value="RNA degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0492" Value="dinucleoside polyphosphate hydrolase; K08311 putative (di)nucleoside polyphosphate hydrolase [EC:3.6" />
+    <hashEntry Key="xcb:XC_0535" Value="groEL; molecular chaperone GroEL; K04077 chaperonin GroEL" />
+    <hashEntry Key="xcb:XC_0872" Value="6-phosphofructokinase (EC:2.7.1.11); K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="xcb:XC_1162" Value="DNA helicase; K03654 ATP-dependent DNA helicase RecQ [EC:3.6.4.12]" />
+    <hashEntry Key="xcb:XC_1475" Value="ATP-dependent RNA helicase; K05592 ATP-dependent RNA helicase DeaD [EC:3.6.4.13]" />
+    <hashEntry Key="xcb:XC_1609" Value="polynucleotide phosphorylase; K00962 polyribonucleotide nucleotidyltransferase [EC:2.7.7.8]" />
+    <hashEntry Key="xcb:XC_2098" Value="ribonuclease E; K08300 ribonuclease E [EC:3.1.26.12]" />
+    <hashEntry Key="xcb:XC_2470" Value="polynucleotide adenylyltransferase; K00970 poly(A) polymerase [EC:2.7.7.19]" />
+    <hashEntry Key="xcb:XC_2515" Value="hfq; RNA-binding protein Hfq; K03666 host factor-I protein" />
+    <hashEntry Key="xcb:XC_2531" Value="eno; phosphopyruvate hydratase (EC:4.2.1.11); K01689 enolase [EC:4.2.1.11]" />
+    <hashEntry Key="xcb:XC_2718" Value="RNase R; K12573 ribonuclease R [EC:3.1.-.-]" />
+    <hashEntry Key="xcb:XC_2763" Value="dnaK; molecular chaperone DnaK; K04043 molecular chaperone DnaK" />
+    <hashEntry Key="xcb:XC_3274" Value="polyphosphate kinase (EC:2.7.4.1); K00937 polyphosphate kinase [EC:2.7.4.1]" />
+    <hashEntry Key="xcb:XC_3643" Value="ATP-dependent RNA helicase; K11927 ATP-dependent RNA helicase RhlE [EC:3.6.4.13]" />
+    <hashEntry Key="xcb:XC_3848" Value="ATP-dependent RNA helicase RhlB; K03732 ATP-dependent RNA helicase RhlB [EC:3.6.4.13]" />
+    <hashEntry Key="xcb:XC_3850" Value="rho; transcription termination factor Rho; K03628 transcription termination factor Rho" />
+  </Genes>
+</KEGG.PathwayBrief>

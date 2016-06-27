@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01053" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Biosynthesis of siderophore group nonribosomal peptides - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00196" Value="2,3-Dihydroxybenzoate" />
+    <hashEntry Key="C00251" Value="Chorismate" />
+    <hashEntry Key="C00805" Value="Salicylate" />
+    <hashEntry Key="C00885" Value="Isochorismate" />
+    <hashEntry Key="C04171" Value="(2S,3S)-2,3-Dihydro-2,3-dihydroxybenzoate" />
+    <hashEntry Key="C05821" Value="Enterochelin" />
+    <hashEntry Key="C06769" Value="Vibriobactin" />
+    <hashEntry Key="C12037" Value="Pyochelin" />
+    <hashEntry Key="C12038" Value="Yersiniabactin" />
+    <hashEntry Key="C12216" Value="Mycobactin S" />
+    <hashEntry Key="C12219" Value="Corynebactin" />
+    <hashEntry Key="C12220" Value="Myxochelin A" />
+    <hashEntry Key="C12221" Value="Myxochelin B" />
+  </Compound>
+  <PathwayMap Key="xcb01053" Value="Biosynthesis of siderophore group nonribosomal peptides&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_2637" Value="hydroxylase; K04793 mycobactin lysine-N-oxygenase" />
+    <hashEntry Key="xcb:XC_3952" Value="ATP-dependent serine activating enzyme; K02364 enterobactin synthetase component F [EC:6.3.2.14]" />
+  </Genes>
+</KEGG.PathwayBrief>

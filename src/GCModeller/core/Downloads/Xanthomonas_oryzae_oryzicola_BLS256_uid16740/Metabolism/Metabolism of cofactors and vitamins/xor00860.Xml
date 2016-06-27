@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00860" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Porphyrin and chlorophyll metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00032" Value="Heme" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00194" Value="Cobamide coenzyme" />
+    <hashEntry Key="C00430" Value="5-Aminolevulinate" />
+    <hashEntry Key="C00486" Value="Bilirubin" />
+    <hashEntry Key="C00500" Value="Biliverdin" />
+    <hashEntry Key="C00524" Value="Cytochrome c" />
+    <hashEntry Key="C00541" Value="Cob(II)alamin" />
+    <hashEntry Key="C00748" Value="Siroheme" />
+    <hashEntry Key="C00853" Value="Cob(I)alamin" />
+    <hashEntry Key="C00931" Value="Porphobilinogen" />
+    <hashEntry Key="C00992" Value="Aquacob(III)alamin" />
+    <hashEntry Key="C01024" Value="Hydroxymethylbilane" />
+    <hashEntry Key="C01051" Value="Uroporphyrinogen III" />
+    <hashEntry Key="C01079" Value="Protoporphyrinogen IX" />
+    <hashEntry Key="C01708" Value="Hemoglobin" />
+    <hashEntry Key="C02139" Value="Chlorophyllide" />
+    <hashEntry Key="C02191" Value="Protoporphyrin" />
+    <hashEntry Key="C02463" Value="Precorrin 2" />
+    <hashEntry Key="C02469" Value="Uroporphyrin III" />
+    <hashEntry Key="C02800" Value="4,5-Dioxopentanoate" />
+    <hashEntry Key="C02823" Value="Cyanocobalamin" />
+    <hashEntry Key="C02880" Value="Protochlorophyllide" />
+    <hashEntry Key="C02987" Value="L-Glutamyl-tRNA(Glu)" />
+    <hashEntry Key="C03029" Value="Transferrin[Fe(II)]2" />
+    <hashEntry Key="C03114" Value="Dimethylbenzimidazole" />
+    <hashEntry Key="C03179" Value="Transferrin[Fe(III)]2" />
+    <hashEntry Key="C03194" Value="(R)-1-Aminopropan-2-ol" />
+    <hashEntry Key="C03263" Value="Coproporphyrinogen III" />
+    <hashEntry Key="C03516" Value="Magnesium protoporphyrin" />
+    <hashEntry Key="C03741" Value="(S)-4-Amino-5-oxopentanoate" />
+    <hashEntry Key="C04122" Value="D-1-Aminopropan-2-ol O-phosphate" />
+    <hashEntry Key="C04536" Value="Magnesium protoporphyrin monomethyl ester" />
+    <hashEntry Key="C04778" Value="N1-(5-Phospho-alpha-D-ribosyl)-5,6-dimethylbenzimidazole" />
+    <hashEntry Key="C05306" Value="Chlorophyll a" />
+    <hashEntry Key="C05307" Value="Chlorophyll b" />
+    <hashEntry Key="C05766" Value="Uroporphyrinogen I" />
+    <hashEntry Key="C05767" Value="Uroporphyrin I" />
+    <hashEntry Key="C05768" Value="Coproporphyrinogen I" />
+    <hashEntry Key="C05769" Value="Coproporphyrin I" />
+    <hashEntry Key="C05770" Value="Coproporphyrin III" />
+    <hashEntry Key="C05772" Value="Precorrin 3A" />
+    <hashEntry Key="C05773" Value="Cobyrinate" />
+    <hashEntry Key="C05774" Value="Cobinamide" />
+    <hashEntry Key="C05775" Value="alpha-Ribazole" />
+    <hashEntry Key="C05777" Value="Coenzyme F430" />
+    <hashEntry Key="C05778" Value="Sirohydrochlorin" />
+    <hashEntry Key="C05779" Value="Apoferritin" />
+    <hashEntry Key="C05780" Value="Apotransferrin" />
+    <hashEntry Key="C05781" Value="Oxyhemoglobin" />
+    <hashEntry Key="C05782" Value="Myoglobin" />
+    <hashEntry Key="C05783" Value="Cytochrome a" />
+    <hashEntry Key="C05784" Value="Catalase" />
+    <hashEntry Key="C05785" Value="Peroxidase" />
+    <hashEntry Key="C05786" Value="(3Z)-Phycocyanobilin" />
+    <hashEntry Key="C05787" Value="Bilirubin beta-diglucuronide" />
+    <hashEntry Key="C05789" Value="L-Urobilinogen" />
+    <hashEntry Key="C05790" Value="I-Urobilinogen" />
+    <hashEntry Key="C05791" Value="D-Urobilinogen" />
+    <hashEntry Key="C05793" Value="L-Urobilin" />
+    <hashEntry Key="C05794" Value="Urobilin" />
+    <hashEntry Key="C05795" Value="D-Urobilin" />
+    <hashEntry Key="C05797" Value="Pheophytin a" />
+    <hashEntry Key="C05798" Value="Bacteriopheophytin" />
+    <hashEntry Key="C05912" Value="(3Z)-Phycoerythrobilin" />
+    <hashEntry Key="C05913" Value="(3Z)-Phytochromobilin" />
+    <hashEntry Key="C06319" Value="Precorrin 6Y" />
+    <hashEntry Key="C06320" Value="Precorrin 6X" />
+    <hashEntry Key="C06399" Value="Hydrogenobyrinate" />
+    <hashEntry Key="C06406" Value="Precorrin 3B" />
+    <hashEntry Key="C06407" Value="Precorrin 4" />
+    <hashEntry Key="C06408" Value="Precorrin 8X" />
+    <hashEntry Key="C06416" Value="Precorrin 5" />
+    <hashEntry Key="C06503" Value="Hydrogenobyrinate a,c diamide" />
+    <hashEntry Key="C06504" Value="Cob(II)yrinate a,c diamide" />
+    <hashEntry Key="C06505" Value="Cob(I)yrinate a,c diamide" />
+    <hashEntry Key="C06506" Value="Adenosyl cobyrinate a,c diamide" />
+    <hashEntry Key="C06507" Value="Adenosyl cobyrinate hexaamide" />
+    <hashEntry Key="C06508" Value="Adenosyl cobinamide" />
+    <hashEntry Key="C06509" Value="Adenosyl cobinamide phosphate" />
+    <hashEntry Key="C06510" Value="Adenosine-GDP-cobinamide" />
+    <hashEntry Key="C11242" Value="Bacteriochlorophyll a" />
+    <hashEntry Key="C11243" Value="Bacteriochlorophyll b" />
+    <hashEntry Key="C11538" Value="Cobalt-sirohydrochlorin" />
+    <hashEntry Key="C11539" Value="Cobalt-precorrin 3" />
+    <hashEntry Key="C11540" Value="Cobalt-precorrin 4" />
+    <hashEntry Key="C11542" Value="Cobalt-precorrin 6" />
+    <hashEntry Key="C11543" Value="Cobalt-dihydro-precorrin 6" />
+    <hashEntry Key="C11545" Value="Cobalt-precorrin 8" />
+    <hashEntry Key="C11630" Value="15,16-Dihydrobiliverdin" />
+    <hashEntry Key="C11829" Value="13(1)-Hydroxy-magnesium-protoporphyrin IX 13-monomethyl ester" />
+    <hashEntry Key="C11830" Value="13(1)-Oxo-magnesium-protoporphyrin IX 13-monomethyl ester" />
+    <hashEntry Key="C11831" Value="Divinylprotochlorophyllide" />
+    <hashEntry Key="C11832" Value="Divinyl chlorophyllide a" />
+    <hashEntry Key="C11850" Value="Divinylchlorophyll a" />
+    <hashEntry Key="C11851" Value="Zn-Bacteriochlorophyll a" />
+    <hashEntry Key="C12147" Value="L-Threonine O-3-phosphate" />
+    <hashEntry Key="C14818" Value="Fe2+" />
+    <hashEntry Key="C14819" Value="Fe3+" />
+    <hashEntry Key="C15670" Value="Heme A" />
+    <hashEntry Key="C15672" Value="Heme O" />
+    <hashEntry Key="C16242" Value="Cobalt-precorrin 5A" />
+    <hashEntry Key="C16243" Value="Cobalt-precorrin 5B" />
+    <hashEntry Key="C16244" Value="Cobalt-precorrin 7" />
+    <hashEntry Key="C16540" Value="7(1)-Hydroxychlorophyllide a" />
+    <hashEntry Key="C16541" Value="Chlorophyllide b" />
+    <hashEntry Key="C17401" Value="Cobalt-factor III" />
+    <hashEntry Key="C18021" Value="Pheophorbide a" />
+    <hashEntry Key="C18022" Value="Red chlorophyll catabolite" />
+    <hashEntry Key="C18064" Value="Pyropheophorbide a" />
+    <hashEntry Key="C18098" Value="Primary fluorescent chlorophyll catabolite" />
+    <hashEntry Key="C18151" Value="7(1)-Hydroxychlorophyll a" />
+    <hashEntry Key="C18152" Value="3-Vinylbacteriochlorophyllide a" />
+    <hashEntry Key="C18153" Value="3-Hydroxyethylbacteriochlorophyllide a" />
+    <hashEntry Key="C18154" Value="3-Hydroxyethylchlorophyllide a" />
+    <hashEntry Key="C18155" Value="Bacteriochlorophyllide a" />
+    <hashEntry Key="C18156" Value="Bacteriochlorophyllide b" />
+    <hashEntry Key="C18157" Value="3-Vinylbacteriochlorophyllide d" />
+    <hashEntry Key="C18160" Value="Bacteriochlorophyllide d" />
+    <hashEntry Key="C18161" Value="Bacteriochlorophyllide c" />
+    <hashEntry Key="C18162" Value="Bacteriochlorophyll d" />
+    <hashEntry Key="C18163" Value="Bacteriochlorophyll c" />
+  </Compound>
+  <PathwayMap Key="xor00860" Value="Porphyrin and chlorophyll metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0311" Value="hypothetical protein; K02496 uroporphyrin-III C-methyltransferase [EC:2.1.1.107]" />
+    <hashEntry Key="xor:XOC_0312" Value="hemD; uroporphyrinogen-III synthase; K01719 uroporphyrinogen-III synthase [EC:4.2.1.75]" />
+    <hashEntry Key="xor:XOC_0432" Value="hemF; coproporphyrinogen III oxidase, aerobic; K00228 coproporphyrinogen III oxidase [EC:1.3.3.3]" />
+    <hashEntry Key="xor:XOC_0541" Value="cytochrome oxidase assembly protein; K02259 cytochrome c oxidase assembly protein subunit 15" />
+    <hashEntry Key="xor:XOC_0542" Value="cyoE; protoheme IX farnesyltransferase; K02301 protoheme IX farnesyltransferase [EC:2.5.1.-]" />
+    <hashEntry Key="xor:XOC_0682" Value="hemC; porphobilinogen deaminase; K01749 hydroxymethylbilane synthase [EC:2.5.1.61]" />
+    <hashEntry Key="xor:XOC_0920" Value="ATP:cob(I)alamin adenosyltransferase, putative; K00798 cob(I)alamin adenosyltransferase [EC:2.5.1.17" />
+    <hashEntry Key="xor:XOC_0998" Value="hemA; glutamyl-tRNA reductase; K02492 glutamyl-tRNA reductase [EC:1.2.1.70]" />
+    <hashEntry Key="xor:XOC_1203" Value="bfr; bacterioferritin; K03594 bacterioferritin [EC:1.16.3.1]" />
+    <hashEntry Key="xor:XOC_1387" Value="hemE; uroporphyrinogen decarboxylase; K01599 uroporphyrinogen decarboxylase [EC:4.1.1.37]" />
+    <hashEntry Key="xor:XOC_1606" Value="gltX; glutamyl-tRNA synthetase; K01885 glutamyl-tRNA synthetase [EC:6.1.1.17]" />
+    <hashEntry Key="xor:XOC_2454" Value="siroheme synthase; K02304 precorrin-2 dehydrogenase / sirohydrochlorin ferrochelatase [EC:1.3.1.76 4" />
+    <hashEntry Key="xor:XOC_2814" Value="Mg-protoporphyrin IX monomethyl ester oxidative cyclase; K04034 anaerobic magnesium-protoporphyrin I" />
+    <hashEntry Key="xor:XOC_3049" Value="bfr; bacterioferritin; K03594 bacterioferritin [EC:1.16.3.1]" />
+    <hashEntry Key="xor:XOC_3392" Value="cobS; cobalamin 5&amp;#39;-phosphate synthase; K02233 adenosylcobinamide-GDP ribazoletransferase [EC:2.7.8.2" />
+    <hashEntry Key="xor:XOC_3393" Value="phosphoglycerate-bisphosphoglycerate mutase; K02226 alpha-ribazole phosphatase [EC:3.1.3.73]" />
+    <hashEntry Key="xor:XOC_3394" Value="nicotinate-nucleotide--dimethylbenzimidazole phosphoribosyltransferase (NN:DBI PRT); K00768 nicotina" />
+    <hashEntry Key="xor:XOC_3395" Value="bifunctional adenosylcobalamin biosynthesis protein CobP; K02231 adenosylcobinamide kinase / adenosy" />
+    <hashEntry Key="xor:XOC_3396" Value="adenosyl cobinamide kinase, adenosyl cobinamide phosphate guanylyltransferase; K02225 cobalamin bios" />
+    <hashEntry Key="xor:XOC_3397" Value="cobO; cob(I)alamin adenosyltransferase; K19221 cob(I)alamin adenosyltransferase [EC:2.5.1.17]" />
+    <hashEntry Key="xor:XOC_3580" Value="siroheme synthase; K02302 uroporphyrin-III C-methyltransferase / precorrin-2 dehydrogenase / sirohyd" />
+    <hashEntry Key="xor:XOC_3657" Value="putative oxygen-independent coproporphyrinogen III oxidase; K02495 oxygen-independent coproporphyrin" />
+    <hashEntry Key="xor:XOC_3674" Value="hemL; glutamate-1-semialdehyde-2,1-aminomutase; K01845 glutamate-1-semialdehyde 2,1-aminomutase [EC:" />
+    <hashEntry Key="xor:XOC_4192" Value="bfr; bacterioferritin; K03594 bacterioferritin [EC:1.16.3.1]" />
+    <hashEntry Key="xor:XOC_4340" Value="hemB; delta-aminolevulinic acid dehydratase; K01698 porphobilinogen synthase [EC:4.2.1.24]" />
+    <hashEntry Key="xor:XOC_4481" Value="hemH; ferrochelatase; K01772 ferrochelatase [EC:4.99.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

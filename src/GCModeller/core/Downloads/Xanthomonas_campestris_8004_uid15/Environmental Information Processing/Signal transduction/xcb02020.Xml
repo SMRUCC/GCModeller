@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb02020" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Two-component signal transduction systems enable bacteria to sense, respond, and adapt to changes in their environment or in their intracellular state. Each two-component system consists of a sensor protein-histidine kinase (HK) and a response regulator (RR). In the prototypical two-component pathway, the sensor HK phosphorylates its own conserved His residue in response to a signal(s) in the environment. Subsequently, the phosphoryl group of HK is transferred onto a specific Asp residue on the RR. The activated RR can then effect changes in cellular physiology, often by regulating gene expression. Two-component pathways thus often enable cells to sense and respond to stimuli by inducing changes in transcription.&lt;br&gt;</Description>
+  <Name>Two-component system - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00434" Value="PhoR-PhoB (phosphate starvation response) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00444" Value="PhoQ-PhoP (magnesium transport) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00449" Value="CreC-CreB (phosphate regulation) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00454" Value="KdpD-KdpE (potassium transport) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00457" Value="TctE-TctD (tricarboxylic acid transport) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00479" Value="DesK-DesR (membrane lipid fluidity regulation) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00493" Value="AlgZ-AlgR (alginate production) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00497" Value="GlnL-GlnG (nitrogen regulation) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00501" Value="PilS-PilR (type 4 fimbriae synthesis) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00506" Value="CheA-CheYBV (chemotaxis) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00507" Value="ChpA-ChpB/PilGH (chemosensory) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00517" Value="RpfC-RpfG (cell-to-cell signaling) two-component regulatory system [PATH:xcb02020]" />
+    <hashEntry Key="xcb_M00523" Value="RegB-RegA (redox response) two-component regulatory system [PATH:xcb02020]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00007" Value="Oxygen" />
+    <hashEntry Key="C00009" Value="Orthophosphate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00034" Value="Manganese" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00038" Value="Zinc cation" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00070" Value="Copper" />
+    <hashEntry Key="C00088" Value="Nitrite" />
+    <hashEntry Key="C00092" Value="D-Glucose 6-phosphate" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00149" Value="(S)-Malate" />
+    <hashEntry Key="C00158" Value="Citrate" />
+    <hashEntry Key="C00164" Value="Acetoacetate" />
+    <hashEntry Key="C00238" Value="Potassium cation" />
+    <hashEntry Key="C00244" Value="Nitrate" />
+    <hashEntry Key="C00282" Value="Hydrogen" />
+    <hashEntry Key="C00291" Value="Nickel" />
+    <hashEntry Key="C00305" Value="Magnesium cation" />
+    <hashEntry Key="C00399" Value="Ubiquinone" />
+    <hashEntry Key="C00547" Value="L-Noradrenaline" />
+    <hashEntry Key="C00697" Value="Nitrogen" />
+    <hashEntry Key="C00788" Value="L-Adrenaline" />
+    <hashEntry Key="C00828" Value="Menaquinone" />
+    <hashEntry Key="C01104" Value="Trimethylamine N-oxide" />
+    <hashEntry Key="C01667" Value="Bacitracin" />
+    <hashEntry Key="C02084" Value="Tetrathionate" />
+    <hashEntry Key="C05757" Value="(R)-3-Hydroxydodecanoyl-[acp]" />
+    <hashEntry Key="C05818" Value="2-Demethylmenaquinone" />
+    <hashEntry Key="C06230" Value="Fe-enterobactin" />
+    <hashEntry Key="C06689" Value="Vancomycin" />
+    <hashEntry Key="C06696" Value="Lead" />
+    <hashEntry Key="C11612" Value="Polymyxin B" />
+    <hashEntry Key="C11842" Value="N-(3-(S)-Hydroxybutyryl)homoserine lactone" />
+    <hashEntry Key="C11849" Value="3-Hydroxy-palmitic acid methyl ester" />
+    <hashEntry Key="C12008" Value="Ramoplanin A2" />
+    <hashEntry Key="C13768" Value="Colistin sulfate" />
+    <hashEntry Key="C14819" Value="Fe3+" />
+    <hashEntry Key="C16421" Value="AI-2" />
+    <hashEntry Key="C16463" Value="3',5'-Cyclic diGMP" />
+    <hashEntry Key="C16640" Value="CAI-1" />
+    <hashEntry Key="C16665" Value="12-Methyltetradecanoic acid" />
+    <hashEntry Key="C18206" Value="cis-11-Methyl-2-dodecenoic acidD07746 Colistin (INN)D08401 Polymyxin B (INN)" />
+  </Compound>
+  <PathwayMap Key="xcb02020" Value="Two-component system&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0001" Value="dnaA; chromosome replication initiator DnaA; K02313 chromosomal replication initiator protein" />
+    <hashEntry Key="xcb:XC_0194" Value="glutamine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xcb:XC_0195" Value="nitrogen regulatory protein P-II; K04751 nitrogen regulatory protein P-II 1" />
+    <hashEntry Key="xcb:XC_0197" Value="two-component system sensor protein; K07708 two-component system, NtrC family, nitrogen regulation s" />
+    <hashEntry Key="xcb:XC_0198" Value="two-component system regulatory protein; K07712 two-component system, NtrC family, nitrogen regulati" />
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0286" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_0336" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_0486" Value="cAMP-regulatory protein; K10914 CRP/FNR family transcriptional regulator, cyclic AMP receptor protei" />
+    <hashEntry Key="xcb:XC_0626" Value="1,4-beta-cellobiosidase; K19668 cellulose 1,4-beta-cellobiosidase [EC:3.2.1.91]" />
+    <hashEntry Key="xcb:XC_0638" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_0647" Value="two-component system sensor protein; K08082 two-component system, LytT family, sensor histidine kina" />
+    <hashEntry Key="xcb:XC_0648" Value="two-component system regulatory protein; K08083 two-component system, LytT family, response regulato" />
+    <hashEntry Key="xcb:XC_0812" Value="two-component system regulatory protein; K07774 two-component system, OmpR family, response regulato" />
+    <hashEntry Key="xcb:XC_0813" Value="two-component system sensor protein; K07649 two-component system, OmpR family, sensor histidine kina" />
+    <hashEntry Key="xcb:XC_0820" Value="C4-dicarboxylate transporter DctA; K11103 aerobic C4-dicarboxylate transport protein" />
+    <hashEntry Key="xcb:XC_0828" Value="TolC protein; K12340 outer membrane protein" />
+    <hashEntry Key="xcb:XC_0843" Value="chemotaxis protein; K05875 methyl-accepting chemotaxis protein II, aspartate sensor receptor" />
+    <hashEntry Key="xcb:XC_1005" Value="1,4-beta-cellobiosidase; K19668 cellulose 1,4-beta-cellobiosidase [EC:3.2.1.91]" />
+    <hashEntry Key="xcb:XC_1058" Value="pilin; K02650 type IV pilus assembly protein PilA" />
+    <hashEntry Key="xcb:XC_1059" Value="pilin; K02650 type IV pilus assembly protein PilA" />
+    <hashEntry Key="xcb:XC_1061" Value="two-component system regulatory protein; K02667 two-component system, NtrC family, response regulato" />
+    <hashEntry Key="xcb:XC_1062" Value="two-component system sensor protein; K02668 two-component system, NtrC family, sensor histidine kina" />
+    <hashEntry Key="xcb:XC_1074" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_1183" Value="pilus protein; K02657 twitching motility two-component system response regulator PilG" />
+    <hashEntry Key="xcb:XC_1184" Value="PilH protein; K02658 twitching motility two-component system response regulator PilH" />
+    <hashEntry Key="xcb:XC_1185" Value="pilus biogenesis protein; K02659 twitching motility protein PilI" />
+    <hashEntry Key="xcb:XC_1186" Value="pilus biogenesis protein; K02660 twitching motility protein PilJ" />
+    <hashEntry Key="xcb:XC_1187" Value="PilL protein; K02487 type IV pili sensor histidine kinase and response regulator K06596 chemosensory" />
+    <hashEntry Key="xcb:XC_1188" Value="hypothetical protein; K06597 chemosensory pili system protein ChpB (putative protein-glutamate methy" />
+    <hashEntry Key="xcb:XC_1190" Value="hypothetical protein; K06598 chemosensory pili system protein ChpC" />
+    <hashEntry Key="xcb:XC_1235" Value="beta-lactamase; K01467 beta-lactamase class C [EC:3.5.2.6]" />
+    <hashEntry Key="xcb:XC_1290" Value="protein-glutamate methylesterase (CheB); K03412 two-component system, chemotaxis family, response re" />
+    <hashEntry Key="xcb:XC_1295" Value="AhyR/AsaR family transcriptional regulator; K07782 LuxR family transcriptional regulator, quorum-sen" />
+    <hashEntry Key="xcb:XC_1300" Value="quinol oxidase subunit I; K00425 cytochrome d ubiquinol oxidase subunit I [EC:1.10.3.14]" />
+    <hashEntry Key="xcb:XC_1301" Value="quinol oxidase subunit II; K00426 cytochrome d ubiquinol oxidase subunit II [EC:1.10.3.14]" />
+    <hashEntry Key="xcb:XC_1311" Value="RNA polymerase factor sigma-54 (EC:2.7.7.6); K03092 RNA polymerase sigma-54 factor" />
+    <hashEntry Key="xcb:XC_1409" Value="chemotaxis-specific methylesterase (EC:3.1.1.61); K03412 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xcb:XC_1410" Value="response regulator for chemotaxis; K00575 chemotaxis protein methyltransferase CheR [EC:2.1.1.80]" />
+    <hashEntry Key="xcb:XC_1412" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_1413" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_1414" Value="chemotaxis histidine protein kinase; K03407 two-component system, chemotaxis family, sensor kinase C" />
+    <hashEntry Key="xcb:XC_1419" Value="DNA-binding response regulator CreB; K07663 two-component system, OmpR family, catabolic regulation" />
+    <hashEntry Key="xcb:XC_1421" Value="sensory histidine kinase CreC; K07641 two-component system, OmpR family, sensor histidine kinase Cre" />
+    <hashEntry Key="xcb:XC_1454" Value="cytochrome D oxidase subunit A; K00425 cytochrome d ubiquinol oxidase subunit I [EC:1.10.3.14]" />
+    <hashEntry Key="xcb:XC_1455" Value="cytochrome D oxidase subunit B; K00426 cytochrome d ubiquinol oxidase subunit II [EC:1.10.3.14]" />
+    <hashEntry Key="xcb:XC_1519" Value="alkaline phosphatase; K01077 alkaline phosphatase [EC:3.1.3.1]" />
+    <hashEntry Key="xcb:XC_1768" Value="glutamine synthase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xcb:XC_1770" Value="glutamine synthetase; K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="xcb:XC_1792" Value="ubiquinol cytochrome C oxidoreductase, iron-sulfur subunit; K00411 ubiquinol-cytochrome c reductase" />
+    <hashEntry Key="xcb:XC_1793" Value="ubiquinol cytochrome C oxidoreductase, cytochrome B subunit; K00412 ubiquinol-cytochrome c reductase" />
+    <hashEntry Key="xcb:XC_1794" Value="ubiquinol cytochrome C oxidoreductase, cytochrome C1 subunit; K00413 ubiquinol-cytochrome c reductas" />
+    <hashEntry Key="xcb:XC_1801" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_1802" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_1884" Value="cytochrome D ubiquinol oxidase subunit II; K00426 cytochrome d ubiquinol oxidase subunit II [EC:1.10" />
+    <hashEntry Key="xcb:XC_1885" Value="cytochrome D ubiquinol oxidase subunit I; K00425 cytochrome d ubiquinol oxidase subunit I [EC:1.10.3" />
+    <hashEntry Key="xcb:XC_1937" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_2045" Value="hypothetical protein; K02487 type IV pili sensor histidine kinase and response regulator" />
+    <hashEntry Key="xcb:XC_2130" Value="response regulator; K03413 two-component system, chemotaxis family, response regulator CheY" />
+    <hashEntry Key="xcb:XC_2136" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2163" Value="protein-glutamate methylesterase; K03412 two-component system, chemotaxis family, response regulator" />
+    <hashEntry Key="xcb:XC_2223" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_2233" Value="chemotaxis protein; K03415 two-component system, chemotaxis family, response regulator CheV" />
+    <hashEntry Key="xcb:XC_2245" Value="flagellin; K02406 flagellin" />
+    <hashEntry Key="xcb:XC_2251" Value="RNA polymerase sigma-54 factor; K03092 RNA polymerase sigma-54 factor" />
+    <hashEntry Key="xcb:XC_2253" Value="transcriptional regulator; K10941 sigma-54 specific transcriptional regulator, flagellar regulatory" />
+    <hashEntry Key="xcb:XC_2281" Value="RNA polymerase sigma factor; K02405 RNA polymerase sigma factor for flagellar operon FliA" />
+    <hashEntry Key="xcb:XC_2282" Value="chemotaxis protein; K03413 two-component system, chemotaxis family, response regulator CheY" />
+    <hashEntry Key="xcb:XC_2284" Value="chemotaxis related protein; K03407 two-component system, chemotaxis family, sensor kinase CheA [EC:2" />
+    <hashEntry Key="xcb:XC_2297" Value="motC; flagellar motor protein; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xcb:XC_2300" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_2302" Value="chemotaxis response regulator; K03413 two-component system, chemotaxis family, response regulator Ch" />
+    <hashEntry Key="xcb:XC_2303" Value="chemotaxis protein; K03407 two-component system, chemotaxis family, sensor kinase CheA [EC:2.7.13.3]" />
+    <hashEntry Key="xcb:XC_2304" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2307" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2308" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2309" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2311" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2313" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2314" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2315" Value="methyl-accepting chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_2316" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2318" Value="chemotaxis protein; K03408 purine-binding chemotaxis protein CheW" />
+    <hashEntry Key="xcb:XC_2320" Value="chemotaxis protein; K05874 methyl-accepting chemotaxis protein I, serine sensor receptor" />
+    <hashEntry Key="xcb:XC_2321" Value="chemotaxis protein methyltransferase; K00575 chemotaxis protein methyltransferase CheR [EC:2.1.1.80]" />
+    <hashEntry Key="xcb:XC_2323" Value="chemotaxis-specific methylesterase (EC:3.1.1.61); K03412 two-component system, chemotaxis family, re" />
+    <hashEntry Key="xcb:XC_2332" Value="enoyl-CoA hydratase (EC:4.2.1.17); K13816 DSF synthase" />
+    <hashEntry Key="xcb:XC_2333" Value="RpfC protein; K10715 two-component system, sensor histidine kinase RpfC [EC:2.7.13.3]" />
+    <hashEntry Key="xcb:XC_2335" Value="response regulator rpfG; K13815 two-component system, response regulator RpfG" />
+    <hashEntry Key="xcb:XC_2456" Value="two-component system sensor protein; K15011 two-component system, sensor histidine kinase RegB [EC:2" />
+    <hashEntry Key="xcb:XC_2457" Value="two-component system regulatory protein; K15012 two-component system, response regulator RegA" />
+    <hashEntry Key="xcb:XC_2504" Value="chemotaxis protein; K03406 methyl-accepting chemotaxis protein" />
+    <hashEntry Key="xcb:XC_2506" Value="carbon storage regulator; K03563 carbon storage regulator" />
+    <hashEntry Key="xcb:XC_2564" Value="cytochrome C2; K08738 cytochrome c" />
+    <hashEntry Key="xcb:XC_2707" Value="phosphate binding protein; K02040 phosphate transport system substrate-binding protein" />
+    <hashEntry Key="xcb:XC_2708" Value="phosphate ABC transporter substrate-binding protein; K02040 phosphate transport system substrate-bin" />
+    <hashEntry Key="xcb:XC_2855" Value="PII uridylyl-transferase (EC:2.7.7.59); K00990 [protein-PII] uridylyltransferase [EC:2.7.7.59]" />
+    <hashEntry Key="xcb:XC_2916" Value="hypothetical protein; K14205 phosphatidylglycerol lysyltransferase [EC:2.3.2.3]" />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_2972" Value="periplasmic protease; K04771 serine protease Do [EC:3.4.21.107]" />
+    <hashEntry Key="xcb:XC_3058" Value="chemotaxis protein; K00575 chemotaxis protein methyltransferase CheR [EC:2.1.1.80]" />
+    <hashEntry Key="xcb:XC_3059" Value="protein-glutamate methylesterase; K03412 two-component system, chemotaxis family, response regulator" />
+    <hashEntry Key="xcb:XC_3111" Value="hypothetical protein; K07260 D-alanyl-D-alanine carboxypeptidase [EC:3.4.16.4]" />
+    <hashEntry Key="xcb:XC_3197" Value="PilH family regulatory protein; K02658 twitching motility two-component system response regulator Pi" />
+    <hashEntry Key="xcb:XC_3272" Value="two-component system regulatory protein; K07657 two-component system, OmpR family, phosphate regulon" />
+    <hashEntry Key="xcb:XC_3273" Value="two-component system sensor protein; K07636 two-component system, OmpR family, phosphate regulon sen" />
+    <hashEntry Key="xcb:XC_3528" Value="two-component system regulatory protein; K07667 two-component system, OmpR family, KDP operon respon" />
+    <hashEntry Key="xcb:XC_3529" Value="two-component system sensor protein; K07646 two-component system, OmpR family, sensor histidine kina" />
+    <hashEntry Key="xcb:XC_3530" Value="potassium-transporting ATPase subunit C (EC:3.6.3.12); K01548 K+-transporting ATPase ATPase C chain" />
+    <hashEntry Key="xcb:XC_3531" Value="potassium-transporting ATPase subunit B (EC:3.6.3.12); K01547 K+-transporting ATPase ATPase B chain" />
+    <hashEntry Key="xcb:XC_3532" Value="potassium-transporting ATPase subunit A (EC:3.6.3.12); K01546 K+-transporting ATPase ATPase A chain" />
+    <hashEntry Key="xcb:XC_3724" Value="flagellar motor protein MotA; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xcb:XC_3757" Value="methyltransferase; K13924 two-component system, chemotaxis family, CheB/CheR fusion protein [EC:2.1." />
+    <hashEntry Key="xcb:XC_3762" Value="cyanide insensitive terminal oxidase; K00425 cytochrome d ubiquinol oxidase subunit I [EC:1.10.3.14]" />
+    <hashEntry Key="xcb:XC_3763" Value="cyanide insensitive terminal oxidase; K00426 cytochrome d ubiquinol oxidase subunit II [EC:1.10.3.14" />
+    <hashEntry Key="xcb:XC_3823" Value="fimbrial protein; K02650 type IV pilus assembly protein PilA" />
+    <hashEntry Key="xcb:XC_3859" Value="membrane fusion protein; K07799 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_3860" Value="acriflavin resistance protein; K07788 multidrug efflux pump" />
+    <hashEntry Key="xcb:XC_3861" Value="acriflavin resistance protein; K07789 multidrug efflux pump" />
+    <hashEntry Key="xcb:XC_3873" Value="D-alanyl-D-alanine dipeptidase; K08641 D-alanyl-D-alanine dipeptidase [EC:3.4.13.22]" />
+    <hashEntry Key="xcb:XC_3897" Value="hypothetical protein; K02259 cytochrome c oxidase assembly protein subunit 15" />
+    <hashEntry Key="xcb:XC_3957" Value="nitrogen regulatory protein P-II; K04751 nitrogen regulatory protein P-II 1" />
+    <hashEntry Key="xcb:XC_3997" Value="two-component system regulatory protein; K07693 two-component system, NarL family, response regulato" />
+    <hashEntry Key="xcb:XC_3998" Value="two-component system sensor protein; K07778 two-component system, NarL family, sensor histidine kina" />
+    <hashEntry Key="xcb:XC_4030" Value="two-component system sensor protein; K07637 two-component system, OmpR family, sensor histidine kina" />
+    <hashEntry Key="xcb:XC_4031" Value="two-component system regulatory protein; K07660 two-component system, OmpR family, response regulato" />
+    <hashEntry Key="xcb:XC_4058" Value="ABC transporter sodium permease; K09696 sodium transport system permease protein" />
+    <hashEntry Key="xcb:XC_4059" Value="sodium ABC transporter ATP-binding protein; K09697 sodium transport system ATP-binding protein [EC:3" />
+    <hashEntry Key="xcb:XC_4131" Value="hypothetical protein; K01113 alkaline phosphatase D [EC:3.1.3.1]" />
+    <hashEntry Key="xcb:XC_4326" Value="phosphatase; K09474 acid phosphatase (class A) [EC:3.1.3.2]" />
+  </Genes>
+</KEGG.PathwayBrief>

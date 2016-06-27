@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03420" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Nucleotide excision repair (NER) is a mechanism to recognize and repair bulky DNA damage caused by compounds, environmental carcinogens, and exposure to UV-light. In humans hereditary defects in the NER pathway are linked to at least three diseases: xeroderma pigmentosum (XP), Cockayne syndrome (CS), and trichothiodystrophy (TTD). The repair of damaged DNA involves at least 30 polypeptides within two different sub-pathways of NER known as transcription-coupled repair (TCR-NER) and global genome repair (GGR-NER). TCR refers to the expedited repair of lesions located in the actively transcribed strand of genes by RNA polymerase II (RNAP II). In GGR-NER the first step of damage recognition involves XPC-hHR23B complex together with XPE complex (in prokaryotes, uvrAB complex). The following steps of GGR-NER and TCR-NER are similar.&lt;br&gt;</Description>
+  <Name>Nucleotide excision repair - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xor03420" Value="Nucleotide excision repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0391" Value="uvrD; DNA helicase II; K03657 DNA helicase II / ATP-dependent DNA helicase PcrA [EC:3.6.4.12]" />
+    <hashEntry Key="xor:XOC_0405" Value="polA; DNA polymerase I; K02335 DNA polymerase I [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1597" Value="mfd; transcription-repair coupling factor; K03723 transcription-repair coupling factor (superfamily" />
+    <hashEntry Key="xor:XOC_1849" Value="DNA ligase; K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="xor:XOC_2584" Value="uvrC; excinuclease ABC, C subunit; K03703 excinuclease ABC subunit C" />
+    <hashEntry Key="xor:XOC_2896" Value="uvrB; excinuclease ABC, B subunit; K03702 excinuclease ABC subunit B" />
+    <hashEntry Key="xor:XOC_3163" Value="DNA ligase; K10747 DNA ligase 1 [EC:6.5.1.1 6.5.1.6 6.5.1.7]" />
+    <hashEntry Key="xor:XOC_3469" Value="uvrA; excinuclease ABC, A subunit; K03701 excinuclease ABC subunit A" />
+  </Genes>
+</KEGG.PathwayBrief>

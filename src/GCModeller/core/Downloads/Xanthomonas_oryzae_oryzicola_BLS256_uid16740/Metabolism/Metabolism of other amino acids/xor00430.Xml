@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00430" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Taurine and hypotaurine metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00094" Value="Sulfite" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00227" Value="Acetyl phosphate" />
+    <hashEntry Key="C00245" Value="Taurine" />
+    <hashEntry Key="C00506" Value="L-Cysteate" />
+    <hashEntry Key="C00519" Value="Hypotaurine" />
+    <hashEntry Key="C00593" Value="Sulfoacetaldehyde" />
+    <hashEntry Key="C00606" Value="3-Sulfino-L-alanine" />
+    <hashEntry Key="C01678" Value="Cysteamine" />
+    <hashEntry Key="C01959" Value="Taurocyamine" />
+    <hashEntry Key="C03149" Value="N-Phosphotaurocyamine" />
+    <hashEntry Key="C05122" Value="Taurocholate" />
+    <hashEntry Key="C05123" Value="2-Hydroxyethanesulfonate" />
+    <hashEntry Key="C05844" Value="5-L-Glutamyl-taurine" />
+    <hashEntry Key="C06735" Value="Aminoacetaldehyde" />
+    <hashEntry Key="C14179" Value="Sulfoacetate" />
+  </Compound>
+  <PathwayMap Key="xor00430" Value="Taurine and hypotaurine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0897" Value="taurine dioxygenase; K03119 taurine dioxygenase [EC:1.14.11.17]" />
+    <hashEntry Key="xor:XOC_1944" Value="ggt; gamma-glutamyltransferase; K00681 gamma-glutamyltranspeptidase / glutathione hydrolase [EC:2.3." />
+    <hashEntry Key="xor:XOC_1981" Value="NAD-glutamate dehydrogenase; K15371 glutamate dehydrogenase [EC:1.4.1.2]" />
+  </Genes>
+</KEGG.PathwayBrief>

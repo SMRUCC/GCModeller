@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00230" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Purine metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00005" Value="PRPP biosynthesis, ribose 5P =&gt; PRPP [PATH:xor00230]" />
+    <hashEntry Key="xor_M00048" Value="Inosine monophosphate biosynthesis, PRPP + glutamine =&gt; IMP [PATH:xor00230]" />
+    <hashEntry Key="xor_M00049" Value="Adenine ribonucleotide biosynthesis, IMP =&gt; ADP,ATP [PATH:xor00230]" />
+    <hashEntry Key="xor_M00050" Value="Guanine ribonucleotide biosynthesis IMP =&gt; GDP,GTP [PATH:xor00230]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00002" Value="ATP" />
+    <hashEntry Key="C00008" Value="ADP" />
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00020" Value="AMP" />
+    <hashEntry Key="C00035" Value="GDP" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00039" Value="DNA" />
+    <hashEntry Key="C00044" Value="GTP" />
+    <hashEntry Key="C00046" Value="RNA" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00053" Value="3'-Phosphoadenylyl sulfate" />
+    <hashEntry Key="C00054" Value="Adenosine 3',5'-bisphosphate" />
+    <hashEntry Key="C00059" Value="Sulfate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00081" Value="ITP" />
+    <hashEntry Key="C00086" Value="Urea" />
+    <hashEntry Key="C00104" Value="IDP" />
+    <hashEntry Key="C00117" Value="D-Ribose 5-phosphate" />
+    <hashEntry Key="C00119" Value="5-Phospho-alpha-D-ribose 1-diphosphate" />
+    <hashEntry Key="C00130" Value="IMP" />
+    <hashEntry Key="C00131" Value="dATP" />
+    <hashEntry Key="C00144" Value="GMP" />
+    <hashEntry Key="C00147" Value="Adenine" />
+    <hashEntry Key="C00169" Value="Carbamoyl phosphate" />
+    <hashEntry Key="C00206" Value="dADP" />
+    <hashEntry Key="C00212" Value="Adenosine" />
+    <hashEntry Key="C00224" Value="Adenylyl sulfate" />
+    <hashEntry Key="C00242" Value="Guanine" />
+    <hashEntry Key="C00262" Value="Hypoxanthine" />
+    <hashEntry Key="C00286" Value="dGTP" />
+    <hashEntry Key="C00294" Value="Inosine" />
+    <hashEntry Key="C00301" Value="ADP-ribose" />
+    <hashEntry Key="C00330" Value="Deoxyguanosine" />
+    <hashEntry Key="C00360" Value="dAMP" />
+    <hashEntry Key="C00361" Value="dGDP" />
+    <hashEntry Key="C00362" Value="dGMP" />
+    <hashEntry Key="C00366" Value="Urate" />
+    <hashEntry Key="C00385" Value="Xanthine" />
+    <hashEntry Key="C00387" Value="Guanosine" />
+    <hashEntry Key="C00499" Value="Allantoate" />
+    <hashEntry Key="C00559" Value="Deoxyadenosine" />
+    <hashEntry Key="C00575" Value="3',5'-Cyclic AMP" />
+    <hashEntry Key="C00603" Value="(-)-Ureidoglycolate" />
+    <hashEntry Key="C00620" Value="alpha-D-Ribose 1-phosphate" />
+    <hashEntry Key="C00655" Value="Xanthosine 5'-phosphate" />
+    <hashEntry Key="C00700" Value="XTP" />
+    <hashEntry Key="C00802" Value="Oxalureate" />
+    <hashEntry Key="C00942" Value="3',5'-Cyclic GMP" />
+    <hashEntry Key="C01228" Value="Guanosine 3',5'-bis(diphosphate)" />
+    <hashEntry Key="C01260" Value="P1,P4-Bis(5'-adenosyl)tetraphosphate" />
+    <hashEntry Key="C01261" Value="P1,P4-Bis(5'-guanosyl) tetraphosphate" />
+    <hashEntry Key="C01344" Value="dIDP" />
+    <hashEntry Key="C01345" Value="dITP" />
+    <hashEntry Key="C01367" Value="3'-AMP" />
+    <hashEntry Key="C01762" Value="Xanthosine" />
+    <hashEntry Key="C02091" Value="(S)-Ureidoglycine" />
+    <hashEntry Key="C02348" Value="(R)(-)-Allantoin" />
+    <hashEntry Key="C02350" Value="(S)-Allantoin" />
+    <hashEntry Key="C02353" Value="2',3'-Cyclic AMP" />
+    <hashEntry Key="C02718" Value="N-Formiminoglycine" />
+    <hashEntry Key="C03090" Value="5-Phosphoribosylamine" />
+    <hashEntry Key="C03373" Value="Aminoimidazole ribotide" />
+    <hashEntry Key="C03483" Value="Adenosine tetraphosphate" />
+    <hashEntry Key="C03614" Value="Inosine 5'-tetraphosphate" />
+    <hashEntry Key="C03794" Value="N6-(1,2-Dicarboxyethyl)-AMP" />
+    <hashEntry Key="C03838" Value="5'-Phosphoribosylglycinamide" />
+    <hashEntry Key="C04051" Value="5-Amino-4-imidazolecarboxyamide" />
+    <hashEntry Key="C04376" Value="5'-Phosphoribosyl-N-formylglycinamide" />
+    <hashEntry Key="C04392" Value="P1,P4-Bis(5'-xanthosyl) tetraphosphate" />
+    <hashEntry Key="C04494" Value="Guanosine 3'-diphosphate 5'-triphosphate" />
+    <hashEntry Key="C04640" Value="2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine" />
+    <hashEntry Key="C04677" Value="1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide" />
+    <hashEntry Key="C04734" Value="1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide" />
+    <hashEntry Key="C04751" Value="1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate" />
+    <hashEntry Key="C04823" Value="1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole" />
+    <hashEntry Key="C05239" Value="5-Aminoimidazole" />
+    <hashEntry Key="C05512" Value="Deoxyinosine" />
+    <hashEntry Key="C05513" Value="Urate-3-ribonucleoside" />
+    <hashEntry Key="C05515" Value="5-Ureido-4-imidazole carboxylate" />
+    <hashEntry Key="C05516" Value="5-Amino-4-imidazole carboxylate" />
+    <hashEntry Key="C05993" Value="Acetyl adenylate" />
+    <hashEntry Key="C06193" Value="Guanosine 3'-phosphate" />
+    <hashEntry Key="C06194" Value="2',3'-Cyclic GMP" />
+    <hashEntry Key="C06195" Value="Imidazolone" />
+    <hashEntry Key="C06196" Value="2'-Deoxyinosine 5'-phosphate" />
+    <hashEntry Key="C06197" Value="P1,P3-Bis(5'-adenosyl) triphosphate" />
+    <hashEntry Key="C06433" Value="5'-Benzoylphosphoadenosine" />
+    <hashEntry Key="C06435" Value="5'-Butyrylphosphoinosine" />
+    <hashEntry Key="C11821" Value="5-Hydroxyisourate" />
+    <hashEntry Key="C12248" Value="5-Hydroxy-2-oxo-4-ureido-2,5-dihydro-1H-imidazole-5-carboxylate" />
+    <hashEntry Key="C15667" Value="5-Carboxyamino-1-(5-phospho-D-ribosyl)imidazole" />
+  </Compound>
+  <PathwayMap Key="xor00230" Value="Purine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0003" Value="dnaN; DNA polymerase III, beta subunit; K02338 DNA polymerase III subunit beta [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_0405" Value="polA; DNA polymerase I; K02335 DNA polymerase I [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_0425" Value="5&amp;#39;-nucleotidase; K01081 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="xor:XOC_0454" Value="ribonucleoside-diphosphate reductase, alpha subunit; K00525 ribonucleoside-diphosphate reductase alp" />
+    <hashEntry Key="xor:XOC_0455" Value="ribonucleoside-diphosphate reductase, beta subunit; K00526 ribonucleoside-diphosphate reductase beta" />
+    <hashEntry Key="xor:XOC_0710" Value="sugar kinase; K00856 adenosine kinase [EC:2.7.1.20]" />
+    <hashEntry Key="xor:XOC_0912" Value="bis(5&amp;#39;-nucleosyl)-tetraphosphatase; K01525 bis(5&amp;#39;-nucleosyl)-tetraphosphatase (symmetrical) [EC:3.6." />
+    <hashEntry Key="xor:XOC_0965" Value="nudix hydrolase family protein; K01515 ADP-ribose pyrophosphatase [EC:3.6.1.13]" />
+    <hashEntry Key="xor:XOC_1005" Value="prsA; ribose-phosphate pyrophosphokinase; K00948 ribose-phosphate pyrophosphokinase [EC:2.7.6.1]" />
+    <hashEntry Key="xor:XOC_1021" Value="rpoB; DNA-directed RNA polymerase, beta subunit; K03043 DNA-directed RNA polymerase subunit beta [EC" />
+    <hashEntry Key="xor:XOC_1022" Value="rpoC; DNA-directed RNA polymerase, beta&amp;#39; subunit; K03046 DNA-directed RNA polymerase subunit beta&amp;#39; [" />
+    <hashEntry Key="xor:XOC_1055" Value="rpoA; DNA-directed RNA polymerase, alpha subunit; K03040 DNA-directed RNA polymerase subunit alpha [" />
+    <hashEntry Key="xor:XOC_1105" Value="purF; amidophosphoribosyltransferase; K00764 amidophosphoribosyltransferase [EC:2.4.2.14]" />
+    <hashEntry Key="xor:XOC_1113" Value="exopolyphosphatase; K01524 exopolyphosphatase / guanosine-5&amp;#39;-triphosphate,3&amp;#39;-diphosphate pyrophospha" />
+    <hashEntry Key="xor:XOC_1145" Value="dnaQ; DNA polymerase III, epsilon subunit; K02342 DNA polymerase III subunit epsilon [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1159" Value="DNA polymerase III subunit gamma-tau; K02343 DNA polymerase III subunit gamma/tau [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1180" Value="DNA polymerase III delta&amp;#39; subunit; K02341 DNA polymerase III subunit delta&amp;#39; [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1213" Value="purA; adenylosuccinate synthetase; K01939 adenylosuccinate synthase [EC:6.3.4.4]" />
+    <hashEntry Key="xor:XOC_1303" Value="purT; phosphoribosylglycinamide formyltransferase 2; K08289 phosphoribosylglycinamide formyltransfer" />
+    <hashEntry Key="xor:XOC_1451" Value="purN; phosphoribosylglycinamide formyltransferase; K11175 phosphoribosylglycinamide formyltransferas" />
+    <hashEntry Key="xor:XOC_1454" Value="purM; phosphoribosylformylglycinamidine cyclo-ligase; K01933 phosphoribosylformylglycinamidine cyclo" />
+    <hashEntry Key="xor:XOC_1518" Value="oxidoreductase; K13483 xanthine dehydrogenase YagT iron-sulfur-binding subunit" />
+    <hashEntry Key="xor:XOC_1519" Value="molybdopterin dehydrogenase, FAD-binding protein; K11178 xanthine dehydrogenase YagS FAD-binding sub" />
+    <hashEntry Key="xor:XOC_1520" Value="aldehyde oxidase and xanthine dehydrogenase family protein; K11177 xanthine dehydrogenase YagR molyb" />
+    <hashEntry Key="xor:XOC_1668" Value="holA; DNA polymerase III, delta subunit; K02340 DNA polymerase III subunit delta [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1758" Value="purB; adenylosuccinate lyase; K01756 adenylosuccinate lyase [EC:4.3.2.2]" />
+    <hashEntry Key="xor:XOC_1825" Value="cytosolic 5&amp;#39;-nucleotidase 1A; K01081 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="xor:XOC_2110" Value="adenine phosphoribosyltransferase; K00759 adenine phosphoribosyltransferase [EC:2.4.2.7]" />
+    <hashEntry Key="xor:XOC_2427" Value="ndk; nucleoside diphosphate kinase; K00940 nucleoside-diphosphate kinase [EC:2.7.4.6]" />
+    <hashEntry Key="xor:XOC_2679" Value="guaA; GMP synthase; K01951 GMP synthase (glutamine-hydrolysing) [EC:6.3.5.2]" />
+    <hashEntry Key="xor:XOC_2680" Value="guaB; inosine-5&amp;#39;-monophosphate dehydrogenase; K00088 IMP dehydrogenase [EC:1.1.1.205]" />
+    <hashEntry Key="xor:XOC_2788" Value="surE; 5&amp;#39;-3&amp;#39;-nucleotidase SurE; K03787 5&amp;#39;-nucleotidase [EC:3.1.3.5]" />
+    <hashEntry Key="xor:XOC_2910" Value="purK; phosphoribosylaminoimidazole carboxylase, ATPase subunit; K01589 5-(carboxyamino)imidazole rib" />
+    <hashEntry Key="xor:XOC_2911" Value="purE; phosphoribosylaminoimidazole carboxylase, catalytic subunit; K01588 5-(carboxyamino)imidazole" />
+    <hashEntry Key="xor:XOC_2915" Value="pnp; polyribonucleotide nucleotidyltransferase; K00962 polyribonucleotide nucleotidyltransferase [EC" />
+    <hashEntry Key="xor:XOC_3085" Value="DNA polymerase III alpha subunit; K02337 DNA polymerase III subunit alpha [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_3171" Value="hypoxanthine-guanine phosphoribosyltransferase; K00760 hypoxanthine phosphoribosyltransferase [EC:2." />
+    <hashEntry Key="xor:XOC_3176" Value="adenylate cyclase; K01768 adenylate cyclase [EC:4.6.1.1]" />
+    <hashEntry Key="xor:XOC_3250" Value="MazG family protein; K04765 ATP diphosphatase [EC:3.6.1.8]" />
+    <hashEntry Key="xor:XOC_3252" Value="ADP compounds hydrolase NudE; K08312 ADP-ribose diphosphatase [EC:3.6.1.-]" />
+    <hashEntry Key="xor:XOC_3317" Value="GTP pyrophosphokinase (ATP:GTP 3&amp;#39;-pyrophosphotransferase)(ppGpp synthetase I); K00951 GTP pyrophosph" />
+    <hashEntry Key="xor:XOC_3568" Value="raxQ; CysN-CysC bifunctional enzyme RaxQ; K00955 bifunctional enzyme CysN/CysC [EC:2.7.7.4 2.7.1.25]" />
+    <hashEntry Key="xor:XOC_3569" Value="raxP; sulfate adenylyltransferase subunit 2 RaxP; K00957 sulfate adenylyltransferase subunit 2 [EC:2" />
+    <hashEntry Key="xor:XOC_3587" Value="pyk; pyruvate kinase; K00873 pyruvate kinase [EC:2.7.1.40]" />
+    <hashEntry Key="xor:XOC_3647" Value="inosine-uridine preferring nucleoside hydrolase; K01239 purine nucleosidase [EC:3.2.2.1]" />
+    <hashEntry Key="xor:XOC_3650" Value="guanosine-3&amp;#39;,5&amp;#39;-bis(diphosphate) 3&amp;#39;-pyrophosphohydrolase; K01139 guanosine-3&amp;#39;,5&amp;#39;-bis(diphosphate) 3&amp;#39;" />
+    <hashEntry Key="xor:XOC_3651" Value="DNA-directed RNA polymerase omega chain; K03060 DNA-directed RNA polymerase subunit omega [EC:2.7.7." />
+    <hashEntry Key="xor:XOC_3652" Value="gmk; guanylate kinase; K00942 guanylate kinase [EC:2.7.4.8]" />
+    <hashEntry Key="xor:XOC_3656" Value="rdgB; non-canonical purine NTP pyrophosphatase, RdgB-HAM1 family; K02428 XTP/dITP diphosphohydrolase" />
+    <hashEntry Key="xor:XOC_3699" Value="adk; adenylate kinase; K00939 adenylate kinase [EC:2.7.4.3]" />
+    <hashEntry Key="xor:XOC_3809" Value="purL; phosphoribosylformylglycinamidine synthase; K01952 phosphoribosylformylglycinamidine synthase" />
+    <hashEntry Key="xor:XOC_3819" Value="DNA polymerase III holoenzyme chi subunit; K02339 DNA polymerase III subunit chi [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_3841" Value="xanA; phosphohexose mutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+    <hashEntry Key="xor:XOC_4172" Value="purH; bifunctional purine biosynthesis protein PurH; K00602 phosphoribosylaminoimidazolecarboxamide" />
+    <hashEntry Key="xor:XOC_4173" Value="purD; phosphoribosylamine--glycine ligase; K01945 phosphoribosylamine--glycine ligase [EC:6.3.4.13]" />
+    <hashEntry Key="xor:XOC_4216" Value="purC; phosphoribosylaminoimidazole-succinocarboxamide synthase; K01923 phosphoribosylaminoimidazole-" />
+    <hashEntry Key="xor:XOC_4230" Value="phosphomannomutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+    <hashEntry Key="xor:XOC_4487" Value="guaA; GMP synthase; K01951 GMP synthase (glutamine-hydrolysing) [EC:6.3.5.2]" />
+    <hashEntry Key="xor:XOC_4626" Value="chitooligosaccharide deacetylase; K13485 2-oxo-4-hydroxy-4-carboxy-5-ureidoimidazoline decarboxylase" />
+    <hashEntry Key="xor:XOC_4629" Value="purine catabolism protein PucG; K00839 (S)-ureidoglycine-glyoxylate aminotransferase [EC:2.6.1.-]" />
+    <hashEntry Key="xor:XOC_4630" Value="N-carbamoyl-L-amino acid hydrolase; K02083 allantoate deiminase [EC:3.5.3.9]" />
+  </Genes>
+</KEGG.PathwayBrief>

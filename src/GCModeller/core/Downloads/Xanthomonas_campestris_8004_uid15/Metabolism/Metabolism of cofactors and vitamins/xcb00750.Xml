@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00750" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Vitamin B6 metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00018" Value="Pyridoxal phosphate" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00199" Value="D-Ribulose 5-phosphate" />
+    <hashEntry Key="C00232" Value="Succinate semialdehyde" />
+    <hashEntry Key="C00250" Value="Pyridoxal" />
+    <hashEntry Key="C00266" Value="Glycolaldehyde" />
+    <hashEntry Key="C00279" Value="D-Erythrose 4-phosphate" />
+    <hashEntry Key="C00314" Value="Pyridoxine" />
+    <hashEntry Key="C00534" Value="Pyridoxamine" />
+    <hashEntry Key="C00627" Value="Pyridoxine phosphate" />
+    <hashEntry Key="C00647" Value="Pyridoxamine phosphate" />
+    <hashEntry Key="C00847" Value="4-Pyridoxate" />
+    <hashEntry Key="C00971" Value="4-Pyridoxolactone" />
+    <hashEntry Key="C01215" Value="2-(Acetamidomethylene)succinate" />
+    <hashEntry Key="C01270" Value="3-Hydroxy-2-methylpyridine-5-carboxylate" />
+    <hashEntry Key="C03393" Value="4-Phospho-D-erythronate" />
+    <hashEntry Key="C04106" Value="2-(Hydroxymethyl)-4-oxobutanoate" />
+    <hashEntry Key="C04604" Value="3-Hydroxy-2-methylpyridine-4,5-dicarboxylate" />
+    <hashEntry Key="C04690" Value="2-(Hydroxymethyl)-3-(acetamidomethylene)succinate" />
+    <hashEntry Key="C04773" Value="3-Hydroxy-4-hydroxymethyl-2-methylpyridine-5-carboxylate" />
+    <hashEntry Key="C06050" Value="2-Methyl-3-hydroxy-5-formylpyridine-4-carboxylate" />
+    <hashEntry Key="C06051" Value="Isopyridoxal" />
+    <hashEntry Key="C06052" Value="5-Pyridoxolactone" />
+    <hashEntry Key="C06054" Value="2-Oxo-3-hydroxy-4-phosphobutanoate" />
+    <hashEntry Key="C06055" Value="O-Phospho-4-hydroxy-L-threonine" />
+    <hashEntry Key="C06056" Value="4-Hydroxy-L-threonine" />
+    <hashEntry Key="C07335" Value="2-Amino-3-oxo-4-phosphonooxybutyrate" />
+    <hashEntry Key="C11638" Value="3-Amino-2-oxopropyl phosphate" />
+  </Compound>
+  <PathwayMap Key="xcb00750" Value="Vitamin B6 metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0012" Value="pyridoxine 5&amp;#39;-phosphate synthase; K03474 pyridoxine 5-phosphate synthase [EC:2.6.99.2]" />
+    <hashEntry Key="xcb:XC_1267" Value="pyridoxamine 5&amp;#39;-phosphate oxidase; K00275 pyridoxamine 5&amp;#39;-phosphate oxidase [EC:1.4.3.5]" />
+    <hashEntry Key="xcb:XC_1270" Value="pyridoxamine 5&amp;#39;-phosphate oxidase (EC:1.4.3.5); K00275 pyridoxamine 5&amp;#39;-phosphate oxidase [EC:1.4.3.5" />
+    <hashEntry Key="xcb:XC_2386" Value="threonine synthase (EC:4.2.3.1); K01733 threonine synthase [EC:4.2.3.1]" />
+    <hashEntry Key="xcb:XC_2645" Value="phosphoserine aminotransferase (EC:2.6.1.52); K00831 phosphoserine aminotransferase [EC:2.6.1.52]" />
+    <hashEntry Key="xcb:XC_2761" Value="pyridoxine kinase; K00868 pyridoxine kinase [EC:2.7.1.35]" />
+    <hashEntry Key="xcb:XC_3439" Value="pdxA; 4-hydroxythreonine-4-phosphate dehydrogenase (EC:1.1.1.262); K00097 4-hydroxythreonine-4-phosp" />
+  </Genes>
+</KEGG.PathwayBrief>

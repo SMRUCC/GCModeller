@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00920" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Sulfur is an essential element for life and the metabolism of organic sulfur compounds plays an important role in the global sulfur cycle. Sulfur occurs in various oxidation states ranging from +6 in sulfate to -2 in sulfide (H2S). Sulfate reduction can occur in both an energy consuming assimilatory pathway and an energy producing dissimilatory pathway. The assimilatory pathway, which is found in a wide range of organisms, produces reduced sulfur compounds for the biosynthesis of S-containing amino acids and does not lead to direct excretion of sulfide. In the dissimilatory pathway, which is restricted to obligatory anaerobic bacterial and archaeal lineages, sulfate (or sulfur) is the terminal electron acceptor of the respiratory chain producing large quantities of inorganic sulfide. Both pathways start from the activation of sulfate by reaction with ATP to form adenylyl sulfate (APS). In the assimilatory pathway [MD:M00176] APS is converted to 3'-phosphoadenylyl sulfate (PAPS) and then reduced to sulfite, and sulfite is further reduced to sulfide by the assimilatory sulfite reductase. In the dissimilatory pathway [MD:M00596] APS is directly reduced to sulfite, and sulfite is further reduced to sulfide by the dissimilatory sulfite reductase. The capacity for oxidation of sulfur is quite widespread among bacteria and archaea, comprising phototrophs and chemolithoautotrophs. The SOX (sulfur-oxidation) system [MD:M00595] is a well-known sulfur oxidation pathway and is found in both photosynthetic and non-photosynthetic sulfur-oxidizing bacteria. Green sulfur bacteria and purple sulfur bacteria carry out anoxygenic photosynthesis with reduced sulfur compounds such as sulfide and elemental sulfur, as well as thiosulfate (in some species with the SOX system), as the electron donor for photoautotrophic growth. In some chemolithoautotrophic sulfur oxidizers (such as Thiobacillus denitrificans), it has been suggested that dissimilatory sulfur reduction enzymes operate in the reverse direction, forming a sulfur oxidation pathway from sulfite to APS and then to sulfate.&lt;br&gt;</Description>
+  <Name>Sulfur metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00176" Value="Assimilatory sulfate reduction, sulfate =&gt; H2S [PATH:xcb00920]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00033" Value="Acetate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00053" Value="3'-Phosphoadenylyl sulfate" />
+    <hashEntry Key="C00054" Value="Adenosine 3',5'-bisphosphate" />
+    <hashEntry Key="C00059" Value="Sulfate" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00087" Value="Sulfur" />
+    <hashEntry Key="C00094" Value="Sulfite" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00155" Value="L-Homocysteine" />
+    <hashEntry Key="C00224" Value="Adenylyl sulfate" />
+    <hashEntry Key="C00245" Value="Taurine" />
+    <hashEntry Key="C00263" Value="L-Homoserine" />
+    <hashEntry Key="C00283" Value="Hydrogen sulfide" />
+    <hashEntry Key="C00320" Value="Thiosulfate" />
+    <hashEntry Key="C00409" Value="Methanethiol" />
+    <hashEntry Key="C00580" Value="Dimethyl sulfide" />
+    <hashEntry Key="C00979" Value="O-Acetyl-L-serine" />
+    <hashEntry Key="C01118" Value="O-Succinyl-L-homoserine" />
+    <hashEntry Key="C01861" Value="Trithionate" />
+    <hashEntry Key="C02084" Value="Tetrathionate" />
+    <hashEntry Key="C03920" Value="2-(Methylthio)ethanesulfonate" />
+    <hashEntry Key="C04022" Value="S,S-Dimethyl-beta-propiothetin" />
+    <hashEntry Key="C08276" Value="3-(Methylthio)propanoate" />
+    <hashEntry Key="C11142" Value="Dimethyl sulfone" />
+    <hashEntry Key="C11143" Value="Dimethyl sulfoxide" />
+    <hashEntry Key="C11145" Value="Methanesulfonic acid" />
+    <hashEntry Key="C15521" Value="Alkanesulfonate" />
+    <hashEntry Key="C19692" Value="Polysulfide" />
+    <hashEntry Key="C20870" Value="3-(Methylthio)propanoyl-CoA" />
+    <hashEntry Key="C20955" Value="3-(Methylthio)acryloyl-CoA" />
+  </Compound>
+  <PathwayMap Key="xcb00920" Value="Sulfur metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0328" Value="NADH-dependent FMN reductase; K00299 FMN reductase [EC:1.5.1.38]" />
+    <hashEntry Key="xcb:XC_0982" Value="cysteine synthase; K01738 cysteine synthase A [EC:2.5.1.47]" />
+    <hashEntry Key="xcb:XC_0990" Value="phosphoadenosine phosphosulfate reductase (EC:1.8.4.8); K00390 phosphoadenosine phosphosulfate reduc" />
+    <hashEntry Key="xcb:XC_0991" Value="sulfite reductase subunit beta; K00381 sulfite reductase (NADPH) hemoprotein beta-component [EC:1.8." />
+    <hashEntry Key="xcb:XC_0992" Value="NADPH-sulfite reductase flavoprotein subunit; K00380 sulfite reductase (NADPH) flavoprotein alpha-co" />
+    <hashEntry Key="xcb:XC_0993" Value="sulfate adenylyltransferase subunit 2 (EC:2.7.7.4); K00957 sulfate adenylyltransferase subunit 2 [EC" />
+    <hashEntry Key="xcb:XC_0994" Value="bifunctional sulfate adenylyltransferase subunit 1/adenylylsulfate kinase (EC:2.7.1.25 2.7.7.4); K00" />
+    <hashEntry Key="xcb:XC_1227" Value="sulfite synthesis pathway protein; K01082 3&amp;#39;(2&amp;#39;), 5&amp;#39;-bisphosphate nucleotidase [EC:3.1.3.7]" />
+    <hashEntry Key="xcb:XC_1252" Value="cystathionine gamma-synthase (EC:2.5.1.48); K01739 cystathionine gamma-synthase [EC:2.5.1.48]" />
+    <hashEntry Key="xcb:XC_1334" Value="sulfite reductase; K00380 sulfite reductase (NADPH) flavoprotein alpha-component [EC:1.8.1.2]" />
+    <hashEntry Key="xcb:XC_2564" Value="cytochrome C2; K08738 cytochrome c" />
+    <hashEntry Key="xcb:XC_2697" Value="thiosulfate sulfurtransferase; K01011 thiosulfate/3-mercaptopyruvate sulfurtransferase [EC:2.8.1.1 2" />
+    <hashEntry Key="xcb:XC_3292" Value="sulfate ABC transporter ATP-binding protein; K02045 sulfate transport system ATP-binding protein [EC" />
+    <hashEntry Key="xcb:XC_3293" Value="sulfate ABC transporter permease; K02047 sulfate transport system permease protein" />
+    <hashEntry Key="xcb:XC_3294" Value="sulfate ABC transporter permease; K02046 sulfate transport system permease protein" />
+    <hashEntry Key="xcb:XC_3295" Value="sulfate ABC transporter substrate-binding protein; K02048 sulfate transport system substrate-binding" />
+    <hashEntry Key="xcb:XC_3456" Value="taurine dioxygenase; K03119 taurine dioxygenase [EC:1.14.11.17]" />
+    <hashEntry Key="xcb:XC_3655" Value="cysteine synthase; K01738 cysteine synthase A [EC:2.5.1.47]" />
+    <hashEntry Key="xcb:XC_4044" Value="iron-uptake factor; K00380 sulfite reductase (NADPH) flavoprotein alpha-component [EC:1.8.1.2]" />
+  </Genes>
+</KEGG.PathwayBrief>

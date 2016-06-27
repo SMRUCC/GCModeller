@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00592" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>alpha-Linolenic acid metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00157" Value="Phosphatidylcholine" />
+    <hashEntry Key="C01226" Value="12-OPDA" />
+    <hashEntry Key="C04672" Value="(9Z,15Z)-(13S)-12,13-Epoxyoctadeca-9,11,15-trienoic acid" />
+    <hashEntry Key="C04780" Value="8-[(1R,2R)-3-Oxo-2-{(Z)-pent-2-enyl}cyclopentyl]octanoate" />
+    <hashEntry Key="C04785" Value="13(S)-HPOT" />
+    <hashEntry Key="C06427" Value="(9Z,12Z,15Z)-Octadecatrienoic acid" />
+    <hashEntry Key="C08491" Value="(-)-Jasmonic acid" />
+    <hashEntry Key="C08492" Value="3-Hexenol" />
+    <hashEntry Key="C11512" Value="Methyl jasmonate" />
+    <hashEntry Key="C16300" Value="Stearidonic acid" />
+    <hashEntry Key="C16308" Value="Traumatic acid" />
+    <hashEntry Key="C16309" Value="Traumatin" />
+    <hashEntry Key="C16310" Value="3-Hexenal" />
+    <hashEntry Key="C16311" Value="12-Oxo-9(Z)-dodecenoic acid" />
+    <hashEntry Key="C16316" Value="13(S)-HOT" />
+    <hashEntry Key="C16317" Value="(+)-7-Isojasmonic acid" />
+    <hashEntry Key="C16318" Value="(+)-7-Isomethyljasmonate" />
+    <hashEntry Key="C16319" Value="Etherolenic acid" />
+    <hashEntry Key="C16320" Value="Colnelenic acid" />
+    <hashEntry Key="C16321" Value="9(S)-HPOT" />
+    <hashEntry Key="C16322" Value="9-Oxononanoic acid" />
+    <hashEntry Key="C16323" Value="3,6-Nonadienal" />
+    <hashEntry Key="C16324" Value="9,10-EOT" />
+    <hashEntry Key="C16325" Value="10-OPDA" />
+    <hashEntry Key="C16326" Value="9(S)-HOT" />
+    <hashEntry Key="C16327" Value="OPC8-CoA" />
+    <hashEntry Key="C16328" Value="trans-2-Enoyl-OPC8-CoA" />
+    <hashEntry Key="C16330" Value="3-Oxo-OPC8-CoA" />
+    <hashEntry Key="C16331" Value="OPC6-CoA" />
+    <hashEntry Key="C16332" Value="trans-2-Enoyl-OPC6-CoA" />
+    <hashEntry Key="C16334" Value="3-Oxo-OPC6-CoA" />
+    <hashEntry Key="C16335" Value="OPC4-CoA" />
+    <hashEntry Key="C16336" Value="trans-2-Enoyl-OPC4-CoA" />
+    <hashEntry Key="C16338" Value="3-Oxo-OPC4-CoA" />
+    <hashEntry Key="C16339" Value="(+)-7-Isojasmonic acid CoA" />
+    <hashEntry Key="C16341" Value="2(R)-HPOT" />
+    <hashEntry Key="C16342" Value="2(R)-HOT" />
+    <hashEntry Key="C16343" Value="Heptadecatrienal" />
+    <hashEntry Key="C16344" Value="Heptadecatrienoic acid" />
+    <hashEntry Key="C16345" Value="Volicitin" />
+    <hashEntry Key="C16346" Value="17-Hydroxylinolenic acid" />
+    <hashEntry Key="C19757" Value="(Z)-3-Hexen-1-ol acetate" />
+  </Compound>
+  <PathwayMap Key="xcb00592" Value="alpha-Linolenic acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_2206" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00632 acetyl-CoA acyltransferase [EC:2.3.1.16]" />
+    <hashEntry Key="xcb:XC_2818" Value="phospholipase; K01058 phospholipase A1 [EC:3.1.1.32 3.1.1.4]" />
+  </Genes>
+</KEGG.PathwayBrief>

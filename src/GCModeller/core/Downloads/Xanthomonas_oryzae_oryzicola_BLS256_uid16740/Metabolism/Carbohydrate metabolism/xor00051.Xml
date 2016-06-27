@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00051" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Fructose and mannose metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00273" Value="PTS system, fructose-specific II component [PATH:xor00051]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00096" Value="GDP-mannose" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00118" Value="D-Glyceraldehyde 3-phosphate" />
+    <hashEntry Key="C00159" Value="D-Mannose" />
+    <hashEntry Key="C00186" Value="(S)-Lactate" />
+    <hashEntry Key="C00247" Value="L-Sorbose" />
+    <hashEntry Key="C00267" Value="alpha-D-Glucose" />
+    <hashEntry Key="C00275" Value="D-Mannose 6-phosphate" />
+    <hashEntry Key="C00325" Value="GDP-L-fucose" />
+    <hashEntry Key="C00392" Value="Mannitol" />
+    <hashEntry Key="C00424" Value="(S)-Lactaldehyde" />
+    <hashEntry Key="C00464" Value="Mannan" />
+    <hashEntry Key="C00507" Value="L-Rhamnose" />
+    <hashEntry Key="C00577" Value="D-Glyceraldehyde" />
+    <hashEntry Key="C00636" Value="D-Mannose 1-phosphate" />
+    <hashEntry Key="C00644" Value="D-Mannitol 1-phosphate" />
+    <hashEntry Key="C00665" Value="beta-D-Fructose 2,6-bisphosphate" />
+    <hashEntry Key="C00794" Value="D-Sorbitol" />
+    <hashEntry Key="C00861" Value="L-Rhamnulose" />
+    <hashEntry Key="C00976" Value="GDP-D-mannuronate" />
+    <hashEntry Key="C01019" Value="6-Deoxy-L-galactose" />
+    <hashEntry Key="C01094" Value="D-Fructose 1-phosphate" />
+    <hashEntry Key="C01096" Value="Sorbitol 6-phosphate" />
+    <hashEntry Key="C01099" Value="L-Fuculose 1-phosphate" />
+    <hashEntry Key="C01131" Value="L-Rhamnulose 1-phosphate" />
+    <hashEntry Key="C01222" Value="GDP-4-dehydro-6-deoxy-D-mannose" />
+    <hashEntry Key="C01355" Value="Fructan" />
+    <hashEntry Key="C01487" Value="D-Allose" />
+    <hashEntry Key="C01720" Value="L-Fuconate" />
+    <hashEntry Key="C01721" Value="L-Fuculose" />
+    <hashEntry Key="C01768" Value="(Alginate)n" />
+    <hashEntry Key="C01934" Value="L-Rhamnonate" />
+    <hashEntry Key="C02431" Value="L-Rhamnofuranose" />
+    <hashEntry Key="C02492" Value="1,4-beta-D-Mannan" />
+    <hashEntry Key="C02888" Value="Sorbose 1-phosphate" />
+    <hashEntry Key="C02962" Value="D-Allose 6-phosphate" />
+    <hashEntry Key="C02977" Value="GDP-6-deoxy-D-talose" />
+    <hashEntry Key="C02985" Value="L-Fucose 1-phosphate" />
+    <hashEntry Key="C02991" Value="L-Rhamnono-1,4-lactone" />
+    <hashEntry Key="C03117" Value="GDP-6-deoxy-D-mannose" />
+    <hashEntry Key="C03267" Value="beta-D-Fructose 2-phosphate" />
+    <hashEntry Key="C03827" Value="2-Dehydro-3-deoxy-L-fuconate" />
+    <hashEntry Key="C03979" Value="2-Dehydro-3-deoxy-L-rhamnonate" />
+    <hashEntry Key="C05345" Value="beta-D-Fructose 6-phosphate" />
+    <hashEntry Key="C05378" Value="beta-D-Fructose 1,6-bisphosphate" />
+    <hashEntry Key="C05392" Value="Oligouronide with 4-deoxy-alpha-L-erythro-hex-4-enopyranuronosyl group" />
+    <hashEntry Key="C06192" Value="ADP-mannose" />
+    <hashEntry Key="C11516" Value="2-(alpha-D-Mannosyl)-3-phosphoglycerate" />
+    <hashEntry Key="C11544" Value="2(alpha-D-Mannosyl)-D-glycerate" />
+    <hashEntry Key="C18028" Value="L-Fucono-1,5-lactone" />
+    <hashEntry Key="C18096" Value="D-Allulose 6-phosphate" />
+    <hashEntry Key="C20781" Value="2,4-Diketo-3-deoxy-L-fuconate" />
+  </Compound>
+  <PathwayMap Key="xor00051" Value="Fructose and mannose metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0154" Value="fbp; fructose-1,6-bisphosphatase; K03841 fructose-1,6-bisphosphatase I [EC:3.1.3.11]" />
+    <hashEntry Key="xor:XOC_1780" Value="fructokinase; K00847 fructokinase [EC:2.7.1.4]" />
+    <hashEntry Key="xor:XOC_1973" Value="pts system fructose-specific eiibc component (eiibc-fru); K02769 PTS system, fructose-specific IIB c" />
+    <hashEntry Key="xor:XOC_1974" Value="1-phosphofructokinase; K00882 1-phosphofructokinase [EC:2.7.1.56]" />
+    <hashEntry Key="xor:XOC_1975" Value="mtp; multiphosphoryl transfer protein; K02768 PTS system, fructose-specific IIA component [EC:2.7.1." />
+    <hashEntry Key="xor:XOC_2161" Value="xylA; xylose isomerase; K01805 xylose isomerase [EC:5.3.1.5]" />
+    <hashEntry Key="xor:XOC_2180" Value="mannan endo-1,4-beta-mannosidase; K01218 mannan endo-1,4-beta-mannosidase [EC:3.2.1.78]" />
+    <hashEntry Key="xor:XOC_2940" Value="tpiA; triosephosphate isomerase; K01803 triosephosphate isomerase (TIM) [EC:5.3.1.1]" />
+    <hashEntry Key="xor:XOC_3585" Value="fructose-bisphosphate aldolase class-I; K01623 fructose-bisphosphate aldolase, class I [EC:4.1.2.13]" />
+    <hashEntry Key="xor:XOC_3700" Value="6-phosphofructokinase; K00850 6-phosphofructokinase 1 [EC:2.7.1.11]" />
+    <hashEntry Key="xor:XOC_3841" Value="xanA; phosphohexose mutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+    <hashEntry Key="xor:XOC_3842" Value="xanB; mannose-1-phosphate guanylyltransferase-mannose-6-phosphate isomerase; K16011 mannose-1-phosph" />
+    <hashEntry Key="xor:XOC_4230" Value="phosphomannomutase; K15778 phosphomannomutase / phosphoglucomutase [EC:5.4.2.8 5.4.2.2]" />
+    <hashEntry Key="xor:XOC_4474" Value="xylA; xylose isomerase; K01805 xylose isomerase [EC:5.3.1.5]" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00770" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Pantothenate and CoA biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00119" Value="Pantothenate biosynthesis, valine/L-aspartate =&gt; pantothenate [PATH:xor00770]" />
+    <hashEntry Key="xor_M00120" Value="Coenzyme A biosynthesis, pantothenate =&gt; CoA [PATH:xor00770]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00010" Value="CoA" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00054" Value="Adenosine 3',5'-bisphosphate" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00099" Value="beta-Alanine" />
+    <hashEntry Key="C00106" Value="Uracil" />
+    <hashEntry Key="C00141" Value="3-Methyl-2-oxobutanoic acid" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00229" Value="Acyl-carrier protein" />
+    <hashEntry Key="C00429" Value="5,6-Dihydrouracil" />
+    <hashEntry Key="C00522" Value="(R)-Pantoate" />
+    <hashEntry Key="C00831" Value="Pantetheine" />
+    <hashEntry Key="C00864" Value="Pantothenate" />
+    <hashEntry Key="C00882" Value="Dephospho-CoA" />
+    <hashEntry Key="C00900" Value="2-Acetolactate" />
+    <hashEntry Key="C00966" Value="2-Dehydropantoate" />
+    <hashEntry Key="C01053" Value="(R)-4-Dehydropantoate" />
+    <hashEntry Key="C01088" Value="(R)-3,3-Dimethylmalate" />
+    <hashEntry Key="C01134" Value="Pantetheine 4'-phosphate" />
+    <hashEntry Key="C02642" Value="3-Ureidopropionate" />
+    <hashEntry Key="C03492" Value="D-4'-Phosphopantothenate" />
+    <hashEntry Key="C03688" Value="Apo-[acyl-carrier-protein]" />
+    <hashEntry Key="C04039" Value="2,3-Dihydroxy-3-methylbutanoate" />
+    <hashEntry Key="C04079" Value="N-((R)-Pantothenoyl)-L-cysteine" />
+    <hashEntry Key="C04352" Value="(R)-4'-Phosphopantothenoyl-L-cysteine" />
+    <hashEntry Key="C05944" Value="Pantothenol" />
+    <hashEntry Key="C18911" Value="(R)-4-Phosphopantoate" />
+  </Compound>
+  <PathwayMap Key="xor00770" Value="Pantothenate and CoA biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0374" Value="HetI; K06133 4&amp;#39;-phosphopantetheinyl transferase [EC:2.7.8.-]" />
+    <hashEntry Key="xor:XOC_0982" Value="ilvE; branched-chain amino acid aminotransferase; K00826 branched-chain amino acid aminotransferase" />
+    <hashEntry Key="xor:XOC_1941" Value="coaD; pantetheine-phosphate adenylyltransferase; K00954 pantetheine-phosphate adenylyltransferase [E" />
+    <hashEntry Key="xor:XOC_2169" Value="panB; 3-methyl-2-oxobutanoate hydroxymethyltransferase; K00606 3-methyl-2-oxobutanoate hydroxymethyl" />
+    <hashEntry Key="xor:XOC_2170" Value="panC; pantoate--beta-alanine ligase; K01918 pantoate--beta-alanine ligase [EC:6.3.2.1]" />
+    <hashEntry Key="xor:XOC_2171" Value="panD; aspartate 1-decarboxylase; K01579 aspartate 1-decarboxylase [EC:4.1.1.11]" />
+    <hashEntry Key="xor:XOC_3515" Value="coaE; dephospho-CoA kinase; K00859 dephospho-CoA kinase [EC:2.7.1.24]" />
+    <hashEntry Key="xor:XOC_3713" Value="ilvC; ketol-acid reductoisomerase; K00053 ketol-acid reductoisomerase [EC:1.1.1.86]" />
+    <hashEntry Key="xor:XOC_3714" Value="ilvB; acetolactate synthase, large subunit, biosynthetic type; K01652 acetolactate synthase I/II/III" />
+    <hashEntry Key="xor:XOC_3715" Value="acetolactate synthase isozyme II small subunit; K11258 acetolactate synthase II small subunit [EC:2." />
+    <hashEntry Key="xor:XOC_4094" Value="panE; 2-dehydropantoate 2-reductase; K00077 2-dehydropantoate 2-reductase [EC:1.1.1.169]" />
+    <hashEntry Key="xor:XOC_4232" Value="coaBC; phosphopantothenoylcysteine decarboxylase-phosphopantothenate--cysteine ligase; K13038 phosph" />
+    <hashEntry Key="xor:XOC_4312" Value="transcriptional regulator; K03525 type III pantothenate kinase [EC:2.7.1.33]" />
+    <hashEntry Key="xor:XOC_4569" Value="ilvD; dihydroxy-acid dehydratase; K01687 dihydroxy-acid dehydratase [EC:4.2.1.9]" />
+  </Genes>
+</KEGG.PathwayBrief>

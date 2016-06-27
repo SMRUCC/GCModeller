@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00410" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>beta-Alanine metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00083" Value="Malonyl-CoA" />
+    <hashEntry Key="C00099" Value="beta-Alanine" />
+    <hashEntry Key="C00100" Value="Propanoyl-CoA" />
+    <hashEntry Key="C00106" Value="Uracil" />
+    <hashEntry Key="C00135" Value="L-Histidine" />
+    <hashEntry Key="C00222" Value="3-Oxopropanoate" />
+    <hashEntry Key="C00315" Value="Spermidine" />
+    <hashEntry Key="C00334" Value="4-Aminobutanoate" />
+    <hashEntry Key="C00383" Value="Malonate" />
+    <hashEntry Key="C00386" Value="Carnosine" />
+    <hashEntry Key="C00429" Value="5,6-Dihydrouracil" />
+    <hashEntry Key="C00555" Value="4-Aminobutyraldehyde" />
+    <hashEntry Key="C00750" Value="Spermine" />
+    <hashEntry Key="C00804" Value="Propynoate" />
+    <hashEntry Key="C00864" Value="Pantothenate" />
+    <hashEntry Key="C00894" Value="Propenoyl-CoA" />
+    <hashEntry Key="C00986" Value="1,3-Diaminopropane" />
+    <hashEntry Key="C01013" Value="3-Hydroxypropanoate" />
+    <hashEntry Key="C01073" Value="N-Acetyl-beta-alanine" />
+    <hashEntry Key="C01262" Value="beta-Alanyl-N(pi)-methyl-L-histidine" />
+    <hashEntry Key="C02335" Value="beta-Alanyl-CoA" />
+    <hashEntry Key="C02642" Value="3-Ureidopropionate" />
+    <hashEntry Key="C03492" Value="D-4'-Phosphopantothenate" />
+    <hashEntry Key="C03722" Value="Quinolinate" />
+    <hashEntry Key="C05340" Value="beta-Alanyl-L-arginine" />
+    <hashEntry Key="C05341" Value="beta-Alanyl-L-lysine" />
+    <hashEntry Key="C05665" Value="3-Aminopropanal" />
+    <hashEntry Key="C05668" Value="3-Hydroxypropionyl-CoA" />
+    <hashEntry Key="C05669" Value="beta-Nitropropanoate" />
+    <hashEntry Key="C05670" Value="3-Aminopropiononitrile" />
+  </Compound>
+  <PathwayMap Key="xcb00410" Value="beta-Alanine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_1759" Value="beta alanine--pyruvate transaminase (EC:2.6.1.18); K00822 beta-alanine--pyruvate transaminase [EC:2." />
+    <hashEntry Key="xcb:XC_2445" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_2466" Value="aspartate alpha-decarboxylase (EC:4.1.1.11); K01579 aspartate 1-decarboxylase [EC:4.1.1.11]" />
+    <hashEntry Key="xcb:XC_2467" Value="panC; pantoate--beta-alanine ligase (EC:6.3.2.1); K01918 pantoate--beta-alanine ligase [EC:6.3.2.1]" />
+    <hashEntry Key="xcb:XC_2975" Value="3-hydroxyacyl-CoA dehydrogenase; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase / 3-hy" />
+    <hashEntry Key="xcb:XC_2981" Value="methylmalonate-semialdehyde dehydrogenase; K00140 malonate-semialdehyde dehydrogenase (acetylating)" />
+    <hashEntry Key="xcb:XC_3421" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_3954" Value="spermidine synthase (EC:2.5.1.16); K00797 spermidine synthase [EC:2.5.1.16]" />
+  </Genes>
+</KEGG.PathwayBrief>

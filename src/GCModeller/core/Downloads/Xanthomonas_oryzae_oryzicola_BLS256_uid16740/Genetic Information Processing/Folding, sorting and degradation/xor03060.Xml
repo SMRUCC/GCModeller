@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03060" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The protein export is the active transport of proteins from the cytoplasm to the exterior of the cell, or to the periplasmic compartment in Gram-negative bacteria. The sec dependent pathway is the general protein export system that transports newly synthesized proteins into or across the cell membrane. The translocation channel is formed from a conserved trimeric membrane protein complex, called the Sec61/SecY complex. The twin-arginine translocation (Tat) pathway is another protein transport system that transports folded proteins in bacteria, archaea, and chloroplasts. Many Tat systems comprise three functionally different membrane proteins, TatA, TatB, and TatC, but TatA and TatE seem to have overlapping functions, with TatA having by far the more important role.&lt;br&gt;</Description>
+  <Name>Protein export - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xor03060" Value="Protein export&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0317" Value="secB; protein-export chaperone SecB; K03071 preprotein translocase subunit SecB" />
+    <hashEntry Key="xor:XOC_0852" Value="secA; preprotein translocase, SecA subunit; K03070 preprotein translocase subunit SecA" />
+    <hashEntry Key="xor:XOC_1014" Value="secE; translocase SecE; K03073 preprotein translocase subunit SecE" />
+    <hashEntry Key="xor:XOC_1051" Value="secY; preprotein translocase, SecY subunit; K03076 preprotein translocase subunit SecY" />
+    <hashEntry Key="xor:XOC_1903" Value="cell division protein; K03110 fused signal recognition particle receptor" />
+    <hashEntry Key="xor:XOC_1958" Value="yajC; preprotein translocase, YajC subunit; K03210 preprotein translocase subunit YajC" />
+    <hashEntry Key="xor:XOC_1961" Value="secD; protein-export membrane protein SecD; K03072 preprotein translocase subunit SecD" />
+    <hashEntry Key="xor:XOC_1962" Value="secF; protein-export membrane protein SecF; K03074 preprotein translocase subunit SecF" />
+    <hashEntry Key="xor:XOC_2939" Value="secG; preprotein translocase subunit SecG; K03075 preprotein translocase subunit SecG" />
+    <hashEntry Key="xor:XOC_3184" Value="lepB; signal peptidase I; K03100 signal peptidase I [EC:3.4.21.89]" />
+    <hashEntry Key="xor:XOC_3422" Value="ffh; signal recognition particle protein; K03106 signal recognition particle subunit SRP54 [EC:3.6.5" />
+    <hashEntry Key="xor:XOC_3461" Value="lspA; signal peptidase II; K03101 signal peptidase II [EC:3.4.23.36]" />
+    <hashEntry Key="xor:XOC_4483" Value="hypothetical protein; K03116 sec-independent protein translocase protein TatA" />
+    <hashEntry Key="xor:XOC_4484" Value="sec-independent protein translocase; K03117 sec-independent protein translocase protein TatB" />
+    <hashEntry Key="xor:XOC_4485" Value="tatC; twin arginine-targeting protein translocase TatC; K03118 sec-independent protein translocase p" />
+    <hashEntry Key="xor:XOC_4687" Value="60 kDa inner-membrane protein; K03217 YidC/Oxa1 family membrane protein insertase" />
+  </Genes>
+</KEGG.PathwayBrief>

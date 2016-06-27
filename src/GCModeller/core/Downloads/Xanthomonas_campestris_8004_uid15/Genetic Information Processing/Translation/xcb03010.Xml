@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03010" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Ribosome - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00178" Value="Ribosome, bacteria [PATH:xcb03010]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb03010" Value="Ribosome&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0490" Value="rplM; 50S ribosomal protein L13; K02871 large subunit ribosomal protein L13" />
+    <hashEntry Key="xcb:XC_0491" Value="rpsI; 30S ribosomal protein S9; K02996 small subunit ribosomal protein S9" />
+    <hashEntry Key="xcb:XC_0945" Value="rpmE2; 50S ribosomal protein L31; K02909 large subunit ribosomal protein L31" />
+    <hashEntry Key="xcb:XC_1608" Value="rpsO; 30S ribosomal protein S15; K02956 small subunit ribosomal protein S15" />
+    <hashEntry Key="xcb:XC_1652" Value="rpmI; 50S ribosomal protein L35; K02916 large subunit ribosomal protein L35" />
+    <hashEntry Key="xcb:XC_1653" Value="rplT; 50S ribosomal protein L20; K02887 large subunit ribosomal protein L20" />
+    <hashEntry Key="xcb:XC_1922" Value="rpmJ; 50S ribosomal protein L36; K02919 large subunit ribosomal protein L36" />
+    <hashEntry Key="xcb:XC_1924" Value="rpsA; 30S ribosomal protein S1; K02945 small subunit ribosomal protein S1" />
+    <hashEntry Key="xcb:XC_2669" Value="rplI; 50S ribosomal protein L9; K02939 large subunit ribosomal protein L9" />
+    <hashEntry Key="xcb:XC_2670" Value="rpsR; 30S ribosomal protein S18; K02963 small subunit ribosomal protein S18" />
+    <hashEntry Key="xcb:XC_2671" Value="rpsF; 30S ribosomal protein S6; K02990 small subunit ribosomal protein S6" />
+    <hashEntry Key="xcb:XC_2863" Value="rpsB; 30S ribosomal protein S2; K02967 small subunit ribosomal protein S2" />
+    <hashEntry Key="xcb:XC_3040" Value="rplS; 50S ribosomal protein L19; K02884 large subunit ribosomal protein L19" />
+    <hashEntry Key="xcb:XC_3043" Value="rpsP; 30S ribosomal protein S16; K02959 small subunit ribosomal protein S16" />
+    <hashEntry Key="xcb:XC_3090" Value="rpsT; 30S ribosomal protein S20; K02968 small subunit ribosomal protein S20" />
+    <hashEntry Key="xcb:XC_3092" Value="rpmA; 50S ribosomal protein L27; K02899 large subunit ribosomal protein L27" />
+    <hashEntry Key="xcb:XC_3093" Value="rplU; 50S ribosomal protein L21; K02888 large subunit ribosomal protein L21" />
+    <hashEntry Key="xcb:XC_3230" Value="rpmF; 50S ribosomal protein L32; K02911 large subunit ribosomal protein L32" />
+    <hashEntry Key="xcb:XC_3315" Value="rplQ; 50S ribosomal protein L17; K02879 large subunit ribosomal protein L17" />
+    <hashEntry Key="xcb:XC_3317" Value="rpsD; 30S ribosomal protein S4; K02986 small subunit ribosomal protein S4" />
+    <hashEntry Key="xcb:XC_3318" Value="30S ribosomal protein S11; K02948 small subunit ribosomal protein S11" />
+    <hashEntry Key="xcb:XC_3319" Value="rpsM; 30S ribosomal protein S13; K02952 small subunit ribosomal protein S13" />
+    <hashEntry Key="xcb:XC_3321" Value="rplO; 50S ribosomal protein L15; K02876 large subunit ribosomal protein L15" />
+    <hashEntry Key="xcb:XC_3322" Value="rpmD; 50S ribosomal protein L30; K02907 large subunit ribosomal protein L30" />
+    <hashEntry Key="xcb:XC_3323" Value="rpsE; 30S ribosomal protein S5; K02988 small subunit ribosomal protein S5" />
+    <hashEntry Key="xcb:XC_3324" Value="rplR; 50S ribosomal protein L18; K02881 large subunit ribosomal protein L18" />
+    <hashEntry Key="xcb:XC_3325" Value="rplF; 50S ribosomal protein L6; K02933 large subunit ribosomal protein L6" />
+    <hashEntry Key="xcb:XC_3326" Value="rpsH; 30S ribosomal protein S8; K02994 small subunit ribosomal protein S8" />
+    <hashEntry Key="xcb:XC_3327" Value="rpsN; 30S ribosomal protein S14; K02954 small subunit ribosomal protein S14" />
+    <hashEntry Key="xcb:XC_3328" Value="rplE; 50S ribosomal protein L5; K02931 large subunit ribosomal protein L5" />
+    <hashEntry Key="xcb:XC_3329" Value="rplX; 50S ribosomal protein L24; K02895 large subunit ribosomal protein L24" />
+    <hashEntry Key="xcb:XC_3330" Value="rplN; 50S ribosomal protein L14; K02874 large subunit ribosomal protein L14" />
+    <hashEntry Key="xcb:XC_3331" Value="rpsQ; 30S ribosomal protein S17; K02961 small subunit ribosomal protein S17" />
+    <hashEntry Key="xcb:XC_3332" Value="rpmC; 50S ribosomal protein L29; K02904 large subunit ribosomal protein L29" />
+    <hashEntry Key="xcb:XC_3333" Value="rplP; 50S ribosomal protein L16; K02878 large subunit ribosomal protein L16" />
+    <hashEntry Key="xcb:XC_3334" Value="rpsC; 30S ribosomal protein S3; K02982 small subunit ribosomal protein S3" />
+    <hashEntry Key="xcb:XC_3335" Value="rplV; 50S ribosomal protein L22; K02890 large subunit ribosomal protein L22" />
+    <hashEntry Key="xcb:XC_3336" Value="rpsS; 30S ribosomal protein S19; K02965 small subunit ribosomal protein S19" />
+    <hashEntry Key="xcb:XC_3337" Value="rplB; 50S ribosomal protein L2; K02886 large subunit ribosomal protein L2" />
+    <hashEntry Key="xcb:XC_3338" Value="rplW; 50S ribosomal protein L23; K02892 large subunit ribosomal protein L23" />
+    <hashEntry Key="xcb:XC_3339" Value="rplD; 50S ribosomal protein L4; K02926 large subunit ribosomal protein L4" />
+    <hashEntry Key="xcb:XC_3340" Value="rplC; 50S ribosomal protein L3; K02906 large subunit ribosomal protein L3" />
+    <hashEntry Key="xcb:XC_3341" Value="rpsJ; 30S ribosomal protein S10; K02946 small subunit ribosomal protein S10" />
+    <hashEntry Key="xcb:XC_3344" Value="30S ribosomal protein S7; K02992 small subunit ribosomal protein S7" />
+    <hashEntry Key="xcb:XC_3345" Value="rpsL; 30S ribosomal protein S12; K02950 small subunit ribosomal protein S12" />
+    <hashEntry Key="xcb:XC_3348" Value="rplL; 50S ribosomal protein L7/L12; K02935 large subunit ribosomal protein L7/L12" />
+    <hashEntry Key="xcb:XC_3349" Value="rplJ; 50S ribosomal protein L10; K02864 large subunit ribosomal protein L10" />
+    <hashEntry Key="xcb:XC_3350" Value="rplA; 50S ribosomal protein L1; K02863 large subunit ribosomal protein L1" />
+    <hashEntry Key="xcb:XC_3351" Value="rplK; 50S ribosomal protein L11; K02867 large subunit ribosomal protein L11" />
+    <hashEntry Key="xcb:XC_3357" Value="50S ribosomal protein L25; K02897 large subunit ribosomal protein L25" />
+    <hashEntry Key="xcb:XC_3889" Value="rpsU; 30S ribosomal protein S21; K02970 small subunit ribosomal protein S21" />
+    <hashEntry Key="xcb:XC_4122" Value="rpmG; 50S ribosomal protein L33; K02913 large subunit ribosomal protein L33" />
+    <hashEntry Key="xcb:XC_4123" Value="rpmB; 50S ribosomal protein L28; K02902 large subunit ribosomal protein L28" />
+    <hashEntry Key="xcb:XC_4332" Value="rpmH; 50S ribosomal protein L34; K02914 large subunit ribosomal protein L34" />
+    <hashEntry Key="xcb:XC_4382" Value="5S ribosomal RNA; K01985 5S ribosomal RNA" />
+    <hashEntry Key="xcb:XC_4383" Value="23S ribosomal RNA; K01980 23S ribosomal RNA" />
+    <hashEntry Key="xcb:XC_4386" Value="16S ribosomal RNA; K01977 16S ribosomal RNA" />
+    <hashEntry Key="xcb:XC_4389" Value="5S ribosomal RNA; K01985 5S ribosomal RNA" />
+    <hashEntry Key="xcb:XC_4390" Value="23S ribosomal RNA; K01980 23S ribosomal RNA" />
+    <hashEntry Key="xcb:XC_4393" Value="16S ribosomal RNA; K01977 16S ribosomal RNA" />
+  </Genes>
+</KEGG.PathwayBrief>

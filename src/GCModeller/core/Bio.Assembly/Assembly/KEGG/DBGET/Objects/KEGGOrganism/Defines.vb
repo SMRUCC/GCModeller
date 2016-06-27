@@ -1,0 +1,161 @@
+﻿Imports System.Text.RegularExpressions
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Similarity
+
+Namespace Assembly.KEGG.DBGET.bGetObject.Organism
+
+    Public Class Organism : Implements sIdEnumerable
+
+        <XmlAttribute> Public Property Kingdom As String
+        <XmlAttribute> Public Property Phylum As String
+        <XmlAttribute> Public Property [Class] As String
+        ''' <summary>
+        ''' 物种全称
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Species As String
+
+        ''' <summary>
+        ''' KEGG里面的物种的简称代码
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property KEGGId As String Implements sIdEnumerable.Identifier
+        ''' <summary>
+        ''' FTP url on NCBI
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Property RefSeq As String
+
+        Public Const Field As String = "<td rowspan=\d+  align=[a-z]+>.+</td>"
+        Public Const ClassType As String = "<td rowspan=\d+  align=[a+z]+><a href='.+'>.+</a></td>"
+        Public Const CELL_ITEM As String = "<td align=[a-z]+><a href='.+'>[a-z0-9]+</a>"
+
+        Protected Friend Shared __setValues As Action(Of Organism, String)() =
+            New Action(Of Organism, String)() {
+ _
+                Sub(org, value) org.Kingdom = value,
+                Sub(org, value) org.Phylum = value,
+                Sub(org, value) org.Class = value,
+                Sub(org, value) org.KEGGId = value,
+                Sub(org, value) org.Species = value,
+                Sub(org, value) org.RefSeq = value
+        }
+
+        Friend Overridable Function Trim() As Organism
+            Phylum = GetValue(Phylum)
+            [Class] = GetValue([Class])
+            Species = GetValue(Species)
+            KEGGId = GetValue(KEGGId)
+            RefSeq = Regex.Match(RefSeq, """.+""").Value
+            RefSeq = Mid(RefSeq, 2, Len(RefSeq) - 2)
+
+            Return Me
+        End Function
+
+        Protected Friend Shared Function GetValue(str As String) As String
+            If String.IsNullOrEmpty(str) Then
+                Return ""
+            End If
+            str = Regex.Match(str, ">.+?<", RegexOptions.Singleline).Value
+            str = Mid(str, 2, Len(str) - 2)
+            Return str
+        End Function
+
+        Friend Shared Function __createObject(text As String) As Organism
+            Dim Tokens As String() = Regex.Matches(text, "<a href=.+?</a>", RegexICSng).ToArray
+            If Tokens.IsNullOrEmpty Then Return Nothing
+            Dim Organism As Organism = New Organism
+            Dim p As Integer = Organism.__setValues.Length - 1
+
+            For i As Integer = Tokens.Length - 1 To 0 Step -1
+                Call Organism.__setValues(p)(Organism, Tokens(i))
+                p -= 1
+            Next
+            Return Organism
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return String.Format("{0}: {1}", KEGGId, Species)
+        End Function
+    End Class
+
+    Public Class Prokaryote : Inherits Organism
+
+        <XmlAttribute> Public Property Year As String
+
+        Public Sub New()
+        End Sub
+
+        Sub New(org As Organism)
+            MyBase.Class = org.Class
+            MyBase.KEGGId = org.KEGGId
+            MyBase.Kingdom = org.Kingdom
+            MyBase.Phylum = org.Phylum
+            MyBase.RefSeq = org.RefSeq
+            MyBase.Species = org.Species
+        End Sub
+
+        Protected Friend Shared Shadows SetValues As Action(Of Prokaryote, String)() =
+            New Action(Of Prokaryote, String)() {
+ _
+                Sub(org, value) org.Kingdom = value,
+                Sub(org, value) org.Phylum = value,
+                Sub(org, value) org.Class = value,
+                Sub(org, value) org.KEGGId = value,
+                Sub(org, value) org.Species = value,
+                Sub(org, value) org.Year = value,
+                Sub(org, value) org.RefSeq = value
+        }
+
+        Protected Friend Sub New(text As String)
+            Dim Tokens As String() = Regex.Matches(text, "<td.+?</td>", RegexICSng).ToArray
+            If Tokens.IsNullOrEmpty Then
+            Else
+                Dim p As Integer = Prokaryote.SetValues.Length - 1
+
+                For i As Integer = Tokens.Length - 1 To 0 Step -1
+                    Call Prokaryote.SetValues(p)(Me, Tokens(i))
+                    p -= 1
+                Next
+            End If
+        End Sub
+
+        Friend Overrides Function Trim() As Organism
+            Phylum = GetValue(Phylum)
+            [Class] = GetValue([Class])
+            Species = GetValue(Species)
+            KEGGId = GetValue(KEGGId)
+            Year = GetValue(Year)
+
+            If Not String.IsNullOrEmpty(RefSeq) Then
+                RefSeq = Regex.Match(RefSeq, "<a href="".+?"">").Value
+            End If
+            If Not String.IsNullOrEmpty(RefSeq) Then
+                RefSeq = Mid(RefSeq, 10, Len(RefSeq) - 11)
+            End If
+
+            Kingdom = GetValue(Kingdom)
+
+            Return Me
+        End Function
+
+        Protected Friend Overloads Shared Function GetValue(str As String) As String
+            If String.IsNullOrEmpty(str) Then
+                Return ""
+            End If
+            Dim m = Regex.Match(str, "<a href="".+?"">.+?</a>")
+            If m.Success Then
+                str = Organism.GetValue(m.Value)
+            Else
+                str = Organism.GetValue(str)
+            End If
+
+            Return str
+        End Function
+    End Class
+End Namespace

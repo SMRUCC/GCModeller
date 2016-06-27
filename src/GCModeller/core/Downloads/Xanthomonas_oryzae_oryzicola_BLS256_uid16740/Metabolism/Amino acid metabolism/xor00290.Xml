@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00290" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Valine, leucine and isoleucine biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00019" Value="Valine/isoleucine biosynthesis, pyruvate =&gt; valine / 2-oxobutanoate =&gt; isoleucine [PATH:xor00290]" />
+    <hashEntry Key="xor_M00432" Value="Leucine biosynthesis, 2-oxoisovalerate =&gt; 2-oxoisocaproate [PATH:xor00290]" />
+    <hashEntry Key="xor_M00570" Value="Isoleucine biosynthesis, threonine =&gt; 2-oxobutanoate =&gt; isoleucine [PATH:xor00290]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00109" Value="2-Oxobutanoate" />
+    <hashEntry Key="C00123" Value="L-Leucine" />
+    <hashEntry Key="C00141" Value="3-Methyl-2-oxobutanoic acid" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00233" Value="4-Methyl-2-oxopentanoate" />
+    <hashEntry Key="C00407" Value="L-Isoleucine" />
+    <hashEntry Key="C00671" Value="(S)-3-Methyl-2-oxopentanoic acid" />
+    <hashEntry Key="C02226" Value="2-Methylmaleate" />
+    <hashEntry Key="C02504" Value="alpha-Isopropylmalate" />
+    <hashEntry Key="C02612" Value="(R)-2-Methylmalate" />
+    <hashEntry Key="C02631" Value="2-Isopropylmaleate" />
+    <hashEntry Key="C04181" Value="3-Hydroxy-3-methyl-2-oxobutanoic acid" />
+    <hashEntry Key="C04236" Value="(2S)-2-Isopropyl-3-oxosuccinate" />
+    <hashEntry Key="C04272" Value="(R)-2,3-Dihydroxy-3-methylbutanoate" />
+    <hashEntry Key="C04411" Value="(2R,3S)-3-Isopropylmalate" />
+    <hashEntry Key="C06006" Value="(S)-2-Aceto-2-hydroxybutanoate" />
+    <hashEntry Key="C06007" Value="(R)-2,3-Dihydroxy-3-methylpentanoate" />
+    <hashEntry Key="C06010" Value="(S)-2-Acetolactate" />
+    <hashEntry Key="C06032" Value="D-erythro-3-Methylmalate" />
+    <hashEntry Key="C14463" Value="(R)-3-Hydroxy-3-methyl-2-oxopentanoate" />
+  </Compound>
+  <PathwayMap Key="xor00290" Value="Valine, leucine and isoleucine biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0982" Value="ilvE; branched-chain amino acid aminotransferase; K00826 branched-chain amino acid aminotransferase" />
+    <hashEntry Key="xor:XOC_3153" Value="leucine dehydrogenase; K00263 leucine dehydrogenase [EC:1.4.1.9]" />
+    <hashEntry Key="xor:XOC_3713" Value="ilvC; ketol-acid reductoisomerase; K00053 ketol-acid reductoisomerase [EC:1.1.1.86]" />
+    <hashEntry Key="xor:XOC_3714" Value="ilvB; acetolactate synthase, large subunit, biosynthetic type; K01652 acetolactate synthase I/II/III" />
+    <hashEntry Key="xor:XOC_3715" Value="acetolactate synthase isozyme II small subunit; K11258 acetolactate synthase II small subunit [EC:2." />
+    <hashEntry Key="xor:XOC_3716" Value="threonine dehydratase; K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="xor:XOC_3717" Value="leuA; 2-isopropylmalate synthase; K01649 2-isopropylmalate synthase [EC:2.3.3.13]" />
+    <hashEntry Key="xor:XOC_3718" Value="leuB; 3-isopropylmalate dehydrogenase; K00052 3-isopropylmalate dehydrogenase [EC:1.1.1.85]" />
+    <hashEntry Key="xor:XOC_3720" Value="leuD; 3-isopropylmalate dehydratase, small subunit; K01704 3-isopropylmalate/(R)-2-methylmalate dehy" />
+    <hashEntry Key="xor:XOC_3721" Value="leuC; 3-isopropylmalate dehydratase, large subunit; K01703 3-isopropylmalate/(R)-2-methylmalate dehy" />
+    <hashEntry Key="xor:XOC_3762" Value="putative aspartate aminotransferase; K14260 alanine-synthesizing transaminase [EC:2.6.1.66 2.6.1.2]" />
+    <hashEntry Key="xor:XOC_4521" Value="threonine dehydratase; K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="xor:XOC_4569" Value="ilvD; dihydroxy-acid dehydratase; K01687 dihydroxy-acid dehydratase [EC:4.2.1.9]" />
+  </Genes>
+</KEGG.PathwayBrief>

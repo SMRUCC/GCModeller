@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03430" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>DNA mismatch repair (MMR) is a highly conserved biological pathway that plays a key role in maintaining genomic stability. MMR corrects DNA mismatches generated during DNA replication, thereby preventing mutations from becoming permanent in dividing cells. MMR also suppresses homologous recombination and was recently shown to play a role in DNA damage signaling. Defects in MMR are associated with genome-wide instability, predisposition to certain types of cancer including HNPCC, resistance to certain chemotherapeutic agents, and abnormalities in meiosis and sterility in mammalian systems.&lt;br&gt; The Escherichia coli MMR pathway has been extensively studied and is well characterized. In E. coli, the mismatch-activated MutS-MutL-ATP complex licenses MutH to incise the nearest unmethylated GATC sequence. UvrD and an exonuclease generate a gap. This gap is filled by pol III and DNA ligase. The GATC sites are then methylated by Dam. Several human MMR proteins have been identified based on their homology to E. coli MMR proteins. These include human homologs of MutS and MutL. Although E. coli MutS and MutL proteins are homodimers, human MutS and MutL homologs are heterodimers. The role of hemimethylated dGATC sites as a signal for strand discrimination is not conserved from E. coli to human. Human MMR is presumed to be nick-directed in vivo, and is thought to discriminate daughter and template strands using a strand-specific nick.&lt;br&gt;</Description>
+  <Name>Mismatch repair - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00260" Value="DNA polymerase III complex, bacteria [PATH:xcb03430]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb03430" Value="Mismatch repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0002" Value="DNA polymerase III subunit beta (EC:2.7.7.7); K02338 DNA polymerase III subunit beta [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_1378" Value="single-stranded DNA-binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="xcb:XC_1499" Value="holA; DNA polymerase III subunit delta; K02340 DNA polymerase III subunit delta [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_1517" Value="exodeoxyribonuclease VII small subunit (EC:3.1.11.6); K03602 exodeoxyribonuclease VII small subunit" />
+    <hashEntry Key="xcb:XC_1812" Value="xseA; exodeoxyribonuclease VII large subunit (EC:3.1.11.6); K03601 exodeoxyribonuclease VII large su" />
+    <hashEntry Key="xcb:XC_1817" Value="mutL; DNA mismatch repair protein; K03572 DNA mismatch repair protein MutL" />
+    <hashEntry Key="xcb:XC_2065" Value="single-stranded DNA-binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="xcb:XC_2343" Value="single stranded DNA exonuclease; K07462 single-stranded-DNA-specific exonuclease [EC:3.1.-.-]" />
+    <hashEntry Key="xcb:XC_2664" Value="ligA; NAD-dependent DNA ligase LigA (EC:6.5.1.2); K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="xcb:XC_2683" Value="sbcB; exonuclease I (EC:3.1.11.1); K01141 exodeoxyribonuclease I [EC:3.1.11.1]" />
+    <hashEntry Key="xcb:XC_2880" Value="dnaE; DNA polymerase III subunit alpha (EC:2.7.7.7); K02337 DNA polymerase III subunit alpha [EC:2.7" />
+    <hashEntry Key="xcb:XC_2951" Value="ATP-dependent DNA ligase (EC:6.5.1.1); K10747 DNA ligase 1 [EC:6.5.1.1 6.5.1.6 6.5.1.7]" />
+    <hashEntry Key="xcb:XC_3035" Value="DNA mismatch repair protein MutS; K03555 DNA mismatch repair protein MutS" />
+    <hashEntry Key="xcb:XC_3222" Value="DNA polymerase III subunit delta&amp;#39; (EC:2.7.7.7); K02341 DNA polymerase III subunit delta&amp;#39; [EC:2.7.7.7" />
+    <hashEntry Key="xcb:XC_3244" Value="DNA polymerase III subunits gamma and tau (EC:2.7.7.7); K02343 DNA polymerase III subunit gamma/tau" />
+    <hashEntry Key="xcb:XC_3255" Value="DNA polymerase III subunit epsilon; K02342 DNA polymerase III subunit epsilon [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_3586" Value="DNA polymerase III subunit chi; K02339 DNA polymerase III subunit chi [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_4115" Value="uvrD; DNA-dependent helicase II; K03657 DNA helicase II / ATP-dependent DNA helicase PcrA [EC:3.6.4." />
+  </Genes>
+</KEGG.PathwayBrief>

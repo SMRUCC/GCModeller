@@ -1,0 +1,246 @@
++C	Peptide
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Bioactive Peptides</h2>
+#<!---
+#ENTRY       br08005
+#NAME        Peptide
+#DEFINITION  Bioactive Peptides
+#--->
+!
+A<b>Neuropeptides</b>
+B  Tachykinin
+C    C16094  Substance P
+C    C16095  Neuropeptide K
+C    C16096  Neuropeptide gamma
+C    C16097  Neurokinin A
+C    C16098  Neurokinin B
+C    C16099  Endokinin A/B
+C    C16100  Endokinin C
+C    C16101  Endokinin D
+B  Neurotensin
+C    C01836  Neurotensin
+C    C15868  Neuromedin N
+B  Feeding-related peptide
+C    C16025  Ghrelin
+C    C15901  Galanin
+C    C16046  Galanin-like peptide
+C    C16102  Obestatin
+C    C16027  Cocaine- and amphetamine-regulated transcript (1-39)
+C    C16029  Cocaine- and amphetamine-regulated transcript (42-89)
+C    C16103  Agouti related protein (87-132)
+C    C16030  Melanin-concentrating hormone
+C    C16031  Neuropeptide GE
+C    C16104  Neuropeptide EI
+C    C16105  Orexin A
+C    C16106  Orexin B
+C    C16115  Gastrin-releasing peptide
+C    C15866  Neuromedin C
+C    C15869  Neuromedin U
+C    C16107  Neuromedin S
+C    C15949  Neuropeptide Y
+C    C16032  Neuropeptide W-30
+C    C16033  Neuropeptide W-23
+C    C16034  Neuropeptide B-29
+C    C16035  Neuropeptide B-23
+C    C15865  Neuromedin B
+C    C16036  Neuropeptide S
+B  Endogenous opioid peptide
+C    C16037  Leumorphin
+C    C01574  Dynorphin A
+C    C16135  Dynorphin B
+C    C16039  Neoendorphin alpha
+C    C16040  Neoendorphin beta
+C    C16041  Leu-enkephalin
+C    C11684  Met-enkephalin
+C    C16042  Met-enkephalin-Arg-Gly-Leu
+C    C16043  Met-enkephalin-Arg-Phe
+C    C16108  Adrenorphin
+C    C15890  Endomorphin-1
+C    C15891  Endomorphin-2
+C    C16044  Nociceptin
+C    C15871  Nocistatin
+B  Other neuropeptides
+C    C15863  Cerebellin
+C    C16109  RFamide-related peptide 1
+C    C16045  RFamide-related peptide 2
+C    C16110  RFamide-related peptide 3
+C    C16111  Neuropeptide AF
+C    C16112  Neuropeptide FF
+#
+A<b>Cardiovascular peptides</b>
+B  Angiotensin
+C    C00873  Angiotensin I
+C    C02135  Angiotensin II
+C    C15848  Angiotensin III
+C    C15849  Angiotensin IV
+C    C15851  Angiotensin (1-9)
+C    C15850  Angiotensin (1-7)
+C    C15852  Angiotensin (1-5)
+C    C20970  Angiotensin A
+C    C20971  Alamandine
+B  Bradykinin
+C    C16008  T-kinin
+C    C01505  Kallidin
+C    C00306  Bradykinin
+B  Fibrinopeptide
+C    C00952  Fibrinopeptide A
+C    C02404  Fibrinopeptide B
+B  Natriuretic peptide
+C    C16000  Urodilatin
+C    C16003  Atrial natriuretic peptide
+C    C16004  Brain natriuretic peptide
+C    C16005  C-Type natriuretic peptide
+B  Guanylin
+C    C16006  Uroguanylin
+C    C16007  Guanylin
+B  Endothelin
+C    C16009  Big endothelin
+C    C16010  Endothelin-1
+C    C16012  Endothelin-2
+C    C16013  Endothelin-3
+B  Urotensin
+C    C16076  Urotensin I
+C    C16016  Urotensin II
+B  Adrenomedullin
+C    C16127  Adrenomedullin
+C    C16128  Adrenomedullin-2
+C    C18198  Proadrenomedullin N-terminal 20 peptide
+#
+A<b>Calcium-regulating peptides</b>
+B  Thyroid peptide hormone
+C    C06865  Calcitonin
+C    C16125  Calcitonin gene-related peptide 1
+C    C16126  Calcitonin gene-related peptide 2
+B  parathyroid peptide hormone
+C    C16051  Parathyroid hormone
+B  Others
+C    C15876  Katacalcin
+C    C16129  Calcitonin receptor-stimulating peptide 1
+C    C16052  Parathyroid hormone-related peptide (1-36)
+C    C16053  Tuberoinfundibular peptide of 39 residues
+#
+A<b>Pituitary hormones</b>
+B  Anterior pituitary hormone
+C    C18181  Growth hormone
+C    C18182  Thyroid stimulating hormone
+C    C18183  Luteinizing hormone
+C    C18184  Follicle stimulating hormone
+C    C18201  Prolactin
+B  Posterior pituitary hormone
+C    C00746  Oxytocin
+C    C13662  Arg-vasopressin
+C    C07105  Lys-vasopressin
+C    C16077  Neurophysin I
+C    C16078  Neurophysin II
+B  Proopiomelanocortin-derived peptide
+C    C02017  Corticotropin
+C    C16134  Corticotropin-like intermediary peptide
+C    C16017  Endorphin alpha
+C    C02210  Endorphin beta
+C    C16018  Endorphin gamma
+C    C16019  Lipotropin beta
+C    C16020  Lipotropin gamma
+C    C02758  Melanotropin alpha
+C    C16136  Melanotropin beta
+C    C16137  Melanotropin gamma
+#
+A<b>Hypothalamic hormones</b>
+B  Corticotropin-releasing hormone
+C    C16079  Corticotropin releasing hormone
+C    C16080  Urocortin I
+C    C16081  Urocortin II
+C    C16082  Urocortin III
+B  Gonadotropin-releasing hormone
+C    C07607  Gonadotropin-releasing hormone I
+C    C16084  Gonadotropin-releasing hormone II
+B  Growth hormone-releasing hormone / Somatostatin
+C    C16085  Growth hormone-releasing hormone
+C    C16021  Somatostatin-28
+C    C16022  Somatostatin-14
+C    C16023  Cortistatin-29
+C    C16024  Cortistatin-17
+B  Thyrotropin-releasing hormone
+C    C03958  Thyrotropin-releasing hormone
+B  Prolactin-releasing peptide
+C    C16086  Prolactin-releasing peptide-31
+C    C16087  Prolactin-releasing peptide-20
+B  Pituitary adenylate cyclase-activating peptide
+C    C16088  Pituitary adenylate cyclase-activating peptide-38
+C    C16089  Pituitary adenylate cyclase-activating peptide-27
+B  Metastin
+C    C16090  Metastin
+C    C16091  Kisspeptin-14
+C    C16092  Kisspeptin-13
+C    C16093  Kisspeptin-10
+#
+A<b>Pancreatic peptides</b>
+B  Insulin / C-peptide
+C    C00723  Insulin
+C    C16120  C-peptide
+C    C16131  Insulin-like growth factor I
+C    C16132  Insulin-like growth factor II
+B  Relaxin
+C    C16121  Relaxin-1
+C    C16122  Relaxin-2
+C    C16123  Relaxin-3
+C    C16124  Relaxin-like factor
+C    C16178  Insulin-like peptide 5
+B  Glucagon
+C    C01501  Glucagon
+C    C16048  Glucagon-like peptide 1
+C    C16049  Glucagon-like peptide 2
+C    C16050  Glicentin
+C    C18197  Oxyntomodulin
+B  Amylin
+C    C16130  Amylin
+#
+A<b>Gonadal peptides</b>
+B  Placental peptide
+C    C18185  Chorionic gonadotropin
+C    C17813  Activin A
+C    C18208  Activin AB
+C    C18209  Activin B
+C    C18210  Placental lactogen
+#
+A<b>Non-endocrine glands secretion peptides</b>
+B  Gut peptide
+C    C18186  Gastrin-14
+C    C16113  Gastrin-17
+C    C18187  Gastrin-34
+C    C16133  Cholecystokinin-33
+C    C16114  Cholecystokinin-8
+C    C16047  Motilin
+C    C15906  Gastric inhibitory polypeptide
+C    C16117  Pancreatic polypeptide
+C    C16118  Peptide YY
+C    C16119  Vasoactive intestinal peptide
+C    C13523  Secretin
+C    C15856  Apelin-36
+C    C15855  Apelin-13
+B  Renal peptide
+C    C18200  Erythropoietin
+B  Adipocytes secretion peptide
+C    C18188  Leptin
+C    C18189  Adiponectin
+C    C18190  Resistin
+#
+A<b>Others</b>
+B  Microbicidal and cytotoxic peptide
+C    C16054  Defensin alpha-1
+C    C16055  Defensin alpha-2
+C    C16056  Defensin alpha-3
+C    C16057  Defensin alpha-4
+C    C16058  Defensin alpha-5
+C    C16059  Defensin beta-1
+C    C16060  Defensin beta-2
+C    C16061  Defensin beta-3
+C    C16062  Defensin beta-4
+C    C16063  Liver-expressed antimicrobial peptide 1
+C    C16064  Liver-expressed antimicrobial peptide 2
+C    C18199  Cathelicidin
+C    C18313  Cathelicidin LL-37
+C    C15922  Indolicidin
+C    C15921  Histatin 5
+!
+#<hr>
+#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: July 22, 2015

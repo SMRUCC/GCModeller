@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00740" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Riboflavin metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00125" Value="Riboflavin biosynthesis, GTP =&gt; riboflavin/FMN/FAD [PATH:xcb00740]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00001" Value="H2O" />
+    <hashEntry Key="C00007" Value="Oxygen" />
+    <hashEntry Key="C00016" Value="FAD" />
+    <hashEntry Key="C00044" Value="GTP" />
+    <hashEntry Key="C00061" Value="FMN" />
+    <hashEntry Key="C00199" Value="D-Ribulose 5-phosphate" />
+    <hashEntry Key="C00255" Value="Riboflavin" />
+    <hashEntry Key="C00472" Value="p-Benzoquinone" />
+    <hashEntry Key="C00474" Value="Ribitol" />
+    <hashEntry Key="C00530" Value="Hydroquinone" />
+    <hashEntry Key="C01007" Value="Reduced riboflavin" />
+    <hashEntry Key="C01268" Value="5-Amino-6-(5'-phosphoribosylamino)uracil" />
+    <hashEntry Key="C01304" Value="2,5-Diamino-6-(5-phospho-D-ribosylamino)pyrimidin-4(3H)-one" />
+    <hashEntry Key="C01352" Value="FADH2" />
+    <hashEntry Key="C01727" Value="Lumichrome" />
+    <hashEntry Key="C01847" Value="Reduced FMN" />
+    <hashEntry Key="C03114" Value="Dimethylbenzimidazole" />
+    <hashEntry Key="C04332" Value="6,7-Dimethyl-8-(D-ribityl)lumazine" />
+    <hashEntry Key="C04454" Value="5-Amino-6-(5'-phospho-D-ribitylamino)uracil" />
+    <hashEntry Key="C04732" Value="5-Amino-6-(1-D-ribitylamino)uracil" />
+    <hashEntry Key="C05995" Value="7-Hydroxy-6-methyl-8-ribityl lumazine" />
+    <hashEntry Key="C15556" Value="L-3,4-Dihydroxybutan-2-one 4-phosphate" />
+    <hashEntry Key="C15563" Value="2-Amino-5-formylamino-6-(5-phospho-D-ribosylamino)pyrimidin-4(3H)-one" />
+    <hashEntry Key="C18910" Value="2,5-Diamino-6-(5-phospho-D-ribitylamino)pyrimidin-4(3H)-one" />
+  </Compound>
+  <PathwayMap Key="xcb00740" Value="Riboflavin metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0328" Value="NADH-dependent FMN reductase; K00299 FMN reductase [EC:1.5.1.38]" />
+    <hashEntry Key="xcb:XC_3088" Value="ribC, ribF; bifunctional riboflavin kinase/FMN adenylyltransferase (EC:2.7.1.26 2.7.7.2); K11753 rib" />
+    <hashEntry Key="xcb:XC_3537" Value="ribH; 6,7-dimethyl-8-ribityllumazine synthase; K00794 6,7-dimethyl-8-ribityllumazine synthase [EC:2." />
+    <hashEntry Key="xcb:XC_3538" Value="GTP cyclohydrolase II; K14652 3,4-dihydroxy 2-butanone 4-phosphate synthase / GTP cyclohydrolase II" />
+    <hashEntry Key="xcb:XC_3539" Value="riboflavin synthase subunit alpha (EC:2.5.1.9); K00793 riboflavin synthase [EC:2.5.1.9]" />
+    <hashEntry Key="xcb:XC_3541" Value="bifunctional riboflavin-specific deaminase/5-amino-6-uracil reductase; K11752 diaminohydroxyphosphor" />
+    <hashEntry Key="xcb:XC_3810" Value="GTP cyclohydrolase (EC:3.5.4.25); K01497 GTP cyclohydrolase II [EC:3.5.4.25]" />
+  </Genes>
+</KEGG.PathwayBrief>

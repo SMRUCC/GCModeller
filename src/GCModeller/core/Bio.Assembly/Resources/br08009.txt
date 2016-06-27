@@ -1,0 +1,453 @@
++D
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Natural toxins</h2>
+#<!---
+#ENTRY       br08009
+#NAME        Natural toxins
+#DEFINITION  Natural toxins
+#--->
+!
+A<b>Fungal toxins</b>
+B  Mushroom toxins
+C    Alkaloids
+D      C07473  Muscarine
+D      C08311  Muscimol
+D      C19959  Orellanine
+D      C08312  Psilocin
+D      C07576  Psilocybin
+C    Cyclic peptides
+D      C08438  alpha-Amanitin
+D      C08439  Phalloidin
+C    Terpenoids
+D      C19957  Fasciculol E
+D      C19958  Fasciculol F
+D      C09687  Illudin M
+D      C09688  Illudin S
+D      C19956  Neoilludin A
+C    Others
+D      C19949  Acromelic acid A
+D      C19977  Clitidine
+D      C08271  Coprine
+D      C08305  Gyromitrin
+D      C10600  Ibotenic acid
+D      C19978  Sclerocitrin
+D      C06047  Stizolobate
+D      C06048  Stizolobinate
+D      C19979  Ustalic acid
+D      C19976  Valinopine
+B  Mycotoxins
+C    Aflatoxins
+D      C06800  Aflatoxin B1
+D      C16753  Aflatoxin B2
+D      C16754  Aflatoxin G2
+D      C16755  Aflatoxin G1
+D      C16756  Aflatoxin M1
+C    Trichothecenes
+D      C09662  Diacetoxyscirpenol
+D      C19952  HT-2 Toxin
+D      C09738  T-2 Toxin
+D      C19583  Fusarenone X
+D      C06080  Nivalenol
+D      C09747  Vomitoxin
+D      C20017  Satratoxin H
+C    Fumonisins
+D      C19241  Fumonisin B1
+D      C19242  Fumonisin B2
+C    Ergot alkaloids
+D      C09023  Agroclavine
+D      C09162  Ergocornine
+D      C09164  Ergocristine
+D      C07545  alpha-Ergocryptine
+D      C20590  beta-Ergocryptine
+D      C07543  Ergonovine
+D      C07544  Ergotamine
+C    Indole diterpene alkaloids
+D      C20555  Aflatrem
+D      C20527  Emindole SB
+D      C20600  Janthitrem B
+D      C20601  Janthitrem C
+D      C20551  Lolitrem B
+D      C20530  Paspaline
+D      C20553  Paspalicine
+D      C20554  Paspalinine
+D      C13782  Paxilline
+D      C20070  Penitrem A
+D      C20731  Penitrem B
+D      C20795  Penitrem C
+D      C20596  Penitrem D
+D      C20597  Penitrem E
+D      C20598  Penitrem F
+D      C20599  Pennigritrem
+D      C20546  Terpendole C
+C    Others
+D      C16765  Citrinin
+D      C09955  Ochratoxin A
+D      C16748  Patulin
+D      C09981  Zearalenone
+D      C16838  Alternariol
+D      C08511  Tenuazonic acid
+D      C08441  Tentoxin
+D      C11590  Beauvericin
+D      C15740  Enniatin B
+D      C15757  Enniatin D
+D      C20591  Fusaproliferin
+D      C20592  Moniliformin
+D      C16766  Citreoviridin
+D      C19379  Cyclochlorotine
+D      C03032  Cyclopiazonic acid
+D      C19953  Cytochalasin A
+D      C19954  Cytochalasin B
+D      C10595  Gliotoxin
+D      C16763  Luteoskyrin
+D      C20046  Mollicellin C
+D      C16804  Penicillic acid
+D      C19955  Phomopsin A
+D      C06079  PR-toxin
+D      C16767  Rubratoxin B
+D      C16764  Rugulosin
+D      C16768  Sporidesmin J
+D      C00961  Sterigmatocystin
+D      C20045  Verruculogen
+D      C14752  alpha-Zearalanol
+D      C14750  alpha-Zearalenol
+D      C14751  beta-Zearalenol
+#
+A<b>Phytotoxins</b>
+B  Alkaloids
+C    Indole alkaloids
+D      C09084  Brucine
+D      C09144  C-Curarine
+D      C09246  C-Toxiferine I
+D      C09154  Ellipticine
+D      C19982  Gelsedine
+D      C09203  Gelsemicine
+D      C09207  Gelsemine
+D      C09240  Sempervirine
+D      C06522  Strychnine
+D      C07201  Vinblastine
+D      C07204  Vincristine
+D      C01626  Vindoline
+C    Isoquinoline alkaloids
+D      C08469  Aristolochic acid
+D      C09364  Bicuculline
+D      C12242  Chelidonine
+D      C07592  Colchicine
+D      C17426  Dicentrine
+D      C19980  Domesticine
+D      C08526  Galanthamine
+D      C19981  Gloriosine
+D      C09549  Isocorydine
+D      C08532  Lycorine
+D      C05189  Protopine
+D      C06162  Sanguinarine
+D      C12179  Tazettine
+D      C07547  Tubocurarine
+C    Piperidine alkaloids
+D      C06523  Coniine
+D      C19983  Conhydrine
+D      C10138  gamma-Coniceine
+D      C10159  Methylconiine
+D      C10168  Pseudoconhydrine
+C    Pyrrolizidine alkaloids
+D      C10299  Echimidine
+D      C06177  Retronecine
+D      C10341  Lasiocarpine
+D      C06176  Senecionine
+D      C10396  Senkirkine
+C    Steroid alkaloids
+D      C10796  alpha-Chaconine
+D      C10798  Cyclopamine
+D      C10811  Jervine
+D      C10815  Protoveratrine A
+D      C10816  Protoveratrine B
+D      C10820  Solanine
+D      C10829  Veratramine
+D      C06544  Veratridine
+C    Tropan alkaloids
+D      C01479  Atropine
+D      C02046  L-Hyoscyamine
+D      C01851  Scopolamine
+C    Others
+D      C10573  Calycanthine
+D      C19984  Cerberin
+D      C12227  Chelerythrine
+D      C08677  Delphinine
+D      C10660  Dictamnine
+D      C10774  Matrine
+D      C19985  Nantenine
+D      C00745  Nicotine
+D      C08705  Ryanodine
+B  Glycosides
+C    Cardiac glycosides
+D      C08847  alpha-Antiarin
+D      C08858  Convallatoxin
+D      C19986  Convalloside
+D      C06955  Digitoxin
+D      C06956  Digoxin
+D      C19987  Oleandrin
+D      C01443  Ouabain
+D      C08877  Rhodexin A
+D      C19988  Strophanthidin
+C    Cyanogenic glycosides
+D      C08325  Amygdalin
+D      C01418  Cycasin
+D      C00844  Prunasin
+B  Terpenoids
+C    Diterpenoids
+D      C19990  Aconine
+D      C06091  Aconitine
+D      C09063  Asebotoxin II
+D      C11700  10-Deacetylbaccatin III
+D      C19991  Euphornin
+D      C09103  Grayanotoxin I
+D      C08698  Mesaconitine
+D      C07394  Paclitaxel
+D      C09155  Phorbol
+D      C19992  Rhodojaponin I
+D      C10619  Taxine A
+D      C19989  Taxine B
+C    Sesquiterpenoids
+D      C09294  Anisatin
+D      C09379  Coriamyrtin
+D      C09529  Picrotoxinin
+D      C09570  Tutin
+B  Others
+C    Polyynes
+D      C08402  Cicutoxin
+D      C20044  Enanthotoxin
+D      C19993  Virol A
+D      C19994  Virol B
+C    Proteins
+D      C20068  Abrin
+D      C01362  Ricin
+C    Others
+D      C08287  Hypoglycin
+D      C08280  Hypoglycin B
+D      C10737  Phrymarolin I
+D      C10874  Podophyllotoxin
+D      C07090  Protoanemonin
+D      C19515  Ptaquiloside
+D      C08512  Ranunculin
+D      C10839  Urushiol III
+#
+A<b>Cyanotoxins</b>
+B  Alkaloids
+C    Anatoxins
+D      C10841  Anatoxin a
+D      C19998  Anatoxin a(s)
+C    Aplysiatoxins
+D      C16769  Aplysiatoxin
+D      C16770  19-Bromoaplysiatoxin
+D      C05148  Debromoaplysiatoxin
+C    Others
+D      C19999  Cylindrospermopsin
+D      C15720  Lyngbyatoxin
+D      C13757  Saxitoxin
+B  Peptides
+C    Microcystins
+D      C05371  Microcystin LR
+D      C19995  Microcystin RR
+D      C19996  Microcystin RA
+D      C19997  Microcystin YR
+C    Others
+D      C15713  Nodularin
+#
+A<b>Marine biotoxins</b>
+B  Amnesic Shellfish Poisoning; ASP
+C    Kainoids
+D      C13732  Domoic acid
+D      C20027  Isodomoic acid A
+B  Ciguatera fish poisoning; CFP
+C    Cyclic polyethers
+D      C16762  Ciguatoxin I
+D      C20003  Caribbean ciguatoxin 1
+D      C20001  CTX 3C
+D      C20002  Ciguatoxin 4A
+D      C16885  Gambieric acid A
+D      C16886  Gambieric acid B
+D      C16887  Gambieric acid C
+D      C16888  Gambieric acid D
+D      C20004  Gambierol
+D      C16852  Gambiertoxin 4b
+D      C16854  Maitotoxin
+B  Diarrhetic shellfish poisoning; DSP
+C    Okadaic acid and derivatives
+D      C01945  Okadaic acid
+D      C20006  Acanthifolicin
+D      C16870  Dinophysistoxin 1
+D      C20005  Dinophysistoxin 4
+C    Cyclic polyethers
+D      C20011  Homoyessotoxin
+D      C16872  Yessotoxin
+C    Macrolides
+D      C20007  Caribenolide I
+D      C16899  Goniodomin A
+D      C20008  Hoffmanniolide
+D      C20009  Iriomoteolide 1a
+C    Others
+D      C16871  Pectenotoxin 1
+D      C20012  Pectenotoxin 2
+B  Neurotoxic Shellfish Poison; NSP
+C    Cyclic polyethers
+D      C16839  Brevetoxin A
+D      C16857  Brevetoxin B
+D      C20013  Brevetoxin B1
+D      C20014  Brevetoxin B2
+D      C20015  Brevetoxin C
+D      C20016  Hemibrevetoxin B
+B  Paralytic shellfish poisoning; PSP
+C    Carbamate derivatives
+D      C16855  Gonyautoxin 1
+D      C16856  Gonyautoxin 2
+D      C17208  Neosaxitoxin
+D      C13757  Saxitoxin
+C    Decarbamoyl derivatives
+D      C20021  Decarbamoylsaxitoxin
+D      C20022  Decarbamoylgonyautoxin 1
+C    N-Sulfo-carbamoyl derivatives
+D      C20018  Gonyautoxin 5
+D      C20019  Gonyautoxin 6
+D      C20020  Gonyautoxin 8
+B  Others
+C    Palytoxins
+D      C16851  Palytoxin
+D      C20028  Ostreocin D
+C    Tetrodotoxins
+D      C11692  Tetrodotoxin
+D      C20026  11-Deoxytetrodotoxin
+C    Others
+D      C16907  Azaspiracid
+D      C20025  Gymnodimine
+D      C16761  Neosurugatoxin
+D      C20023  Prorocentrolide
+D      C20024  Prorocentrolide B
+D      C18064  Pyropheophorbide a
+#
+A<b>Venoms</b>
+B  Bee venoms
+C    Peptides
+D      C20047  Adolapin
+D      C20048  Apamine
+D      C20080  Bombolitin I
+D      C20051  Mandaratoxin
+D      C20049  Mast cell degranulating peptide
+D      C15947  Mastoparan
+D      C11198  Melitten
+C    Neurotoxins
+D      C20078  alpha-Pompilidotoxin
+D      C20079  beta-Pompilidotoxin
+C    Wasp kinins
+D      C20050  Polisteskinin JT
+D      C20077  Megascoliakinin
+D      C20081  Vespakinin M
+C    Others
+D      C20052  Philanthotoxin
+D      C13806  Philanthotoxin 343
+D      C20053  Tertiapin
+B  Frog venoms
+C    Alkaloids
+D      C11690  Epibatidine
+D      C13750  Batrachotoxin
+D      C20032  Batrachotoxinin A
+D      C20034  Allopumiliotoxin 267A
+D      C20033  Pumiliotoxin A
+D      C20031  Pumiliotoxin 251D
+D      C13683  Histrionicotoxin
+C    Bufotoxins
+D      C20035  Arenobufagin
+D      C16922  Bufalin
+D      C16923  Bufotalin
+D      C16932  Cinobufotalin
+D      C20036  Marinobufagenin
+C    Others
+D      C08299  Bufotenine
+D      C20030  Dermorphin
+B  Mollusk venoms
+C    Peptides
+D      C19906  omega-Conotoxin
+D      C20084  Contulakin G
+D      C20029  Eledoisin
+C    Others
+D      C20000  Onchidal
+B  Scorpion venoms
+C    Peptides
+D      C20056  Agitoxin 1
+D      C20063  Bestoxin
+D      C20069  Charybdotoxin
+D      C20064  kappa-Hefutoxin 1
+D      C20055  Iberiotoxin
+D      C20058  Leiurotoxin I
+D      C20065  Maurotoxin
+D      C20057  Margatoxin
+D      C20066  Slotoxin
+B  Snake venoms
+C    Neurotoxins
+D      C20037  alpha-Bungarotoxin
+D      C20038  beta-Bungarotoxin
+D      C20041  Calciseptine
+D      C20042  Cardiotoxin III
+D      C20039  Dendrotoxin
+D      C20040  Fasciculin
+D      C20043  Taicatoxin
+C    Hemorrhagins
+D      C20085  Botrocetin
+D      C20086  Crotalase
+D      C20087  Crotalocytin
+D      C20088  Echistatin
+D      C20089  Gabonase
+B  Spider venoms
+C    Agatoxins
+D      C20090  Toxin omega-Aga-IA
+D      C20091  Toxin omega-Aga-IIIA
+D      C20092  Toxin omega-Aga-IVA
+C    Argiopinins
+D      C20093  Argiopinin I
+D      C20094  Argiopinin II
+D      C20095  Argiopinin III
+D      C13929  Argiotoxin 659
+D      C20096  Pseudoargiopinin I
+D      C20097  Pseudoargiopinin III
+C    Cupiennins
+D      C20098  Cupiennin 1a
+D      C20099  Cupiennin 1b
+C    Jingzhaotoxins
+D      C20100  Jingzhaotoxin I
+D      C20101  Jingzhaotoxin III
+D      C20102  Jingzhaotoxin V
+C    Latarcins
+D      C20103  Latarcin 1
+D      C20104  Latarcin 2a
+D      C20105  Latarcin 3a
+C    Lycocitins
+D      C20106  Lycocitin 1
+D      C20107  Lycocitin 2
+D      C20108  Lycocitin 3
+C    Lycotoxins
+D      C20109  Lycotoxin I
+D      C20110  Lycotoxin II
+C    Oxyopinins
+D      C20111  Oxyopinin 1
+D      C20112  Oxyopinin 2a
+C    Phrixotoxins
+D      C20113  Phrixotoxin 1
+D      C20114  Phrixotoxin 2
+C    Others
+D      C20115  Agelenin
+D      C20116  Hanatoxin 1
+D      C20117  Huwentoxin-XI
+D      C20054  alpha-Latrotoxin
+D      C20118  Robustoxin
+D      C20067  Stromatoxin 1
+B  Others
+C    Salamandra venoms
+D      C19950  Samandarine
+D      C19951  Samandarone
+D      C20059  Samandenone
+C    Others
+D      C20060  Cephalostatin 1
+D      C20061  Ritterazine A
+!
+#<hr>
+#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: August 1, 2014
+#<br>Food and Agriculture Organization: <a href="http://www.fao.org/docrep/007/y5486e/y5486e00.htm">Marine Biotoxins</a>
+#<br><br><a href="/kegg-bin/get_htext?jp08009.keg">&raquo; Japanese version</a>

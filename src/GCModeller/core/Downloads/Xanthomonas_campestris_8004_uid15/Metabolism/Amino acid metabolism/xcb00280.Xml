@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00280" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Valine, leucine and isoleucine degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00068" Value="Thiamin diphosphate" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00100" Value="Propanoyl-CoA" />
+    <hashEntry Key="C00123" Value="L-Leucine" />
+    <hashEntry Key="C00141" Value="3-Methyl-2-oxobutanoic acid" />
+    <hashEntry Key="C00164" Value="Acetoacetate" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00233" Value="4-Methyl-2-oxopentanoate" />
+    <hashEntry Key="C00332" Value="Acetoacetyl-CoA" />
+    <hashEntry Key="C00349" Value="2-Methyl-3-oxopropanoate" />
+    <hashEntry Key="C00356" Value="(S)-3-Hydroxy-3-methylglutaryl-CoA" />
+    <hashEntry Key="C00407" Value="L-Isoleucine" />
+    <hashEntry Key="C00630" Value="2-Methylpropanoyl-CoA" />
+    <hashEntry Key="C00671" Value="(S)-3-Methyl-2-oxopentanoic acid" />
+    <hashEntry Key="C00683" Value="(S)-Methylmalonyl-CoA" />
+    <hashEntry Key="C01205" Value="(R)-3-Amino-2-methylpropanoate" />
+    <hashEntry Key="C01213" Value="(R)-Methylmalonyl-CoA" />
+    <hashEntry Key="C02170" Value="Methylmalonate" />
+    <hashEntry Key="C02939" Value="3-Methylbutanoyl-CoA" />
+    <hashEntry Key="C03069" Value="3-Methylcrotonyl-CoA" />
+    <hashEntry Key="C03231" Value="3-Methylglutaconyl-CoA" />
+    <hashEntry Key="C03284" Value="L-3-Aminoisobutanoate" />
+    <hashEntry Key="C03344" Value="2-Methylacetoacetyl-CoA" />
+    <hashEntry Key="C03345" Value="2-Methylbut-2-enoyl-CoA" />
+    <hashEntry Key="C03460" Value="2-Methylprop-2-enoyl-CoA" />
+    <hashEntry Key="C04405" Value="(2S,3S)-3-Hydroxy-2-methylbutanoyl-CoA" />
+    <hashEntry Key="C05996" Value="Branched chain fatty acid" />
+    <hashEntry Key="C05998" Value="3-Hydroxyisovaleryl-CoA" />
+    <hashEntry Key="C06000" Value="(S)-3-Hydroxyisobutyryl-CoA" />
+    <hashEntry Key="C06001" Value="(S)-3-Hydroxyisobutyrate" />
+    <hashEntry Key="C06002" Value="(S)-Methylmalonate semialdehyde" />
+    <hashEntry Key="C15972" Value="Enzyme N6-(lipoyl)lysine" />
+    <hashEntry Key="C15973" Value="Enzyme N6-(dihydrolipoyl)lysine" />
+    <hashEntry Key="C15974" Value="3-Methyl-1-hydroxybutyl-ThPP" />
+    <hashEntry Key="C15975" Value="[Dihydrolipoyllysine-residue (2-methylpropanoyl)transferase] S-(3-methylbutanoyl)dihydrolipoyllysine" />
+    <hashEntry Key="C15976" Value="2-Methyl-1-hydroxypropyl-ThPP" />
+    <hashEntry Key="C15977" Value="[Dihydrolipoyllysine-residue (2-methylpropanoyl)transferase] S-(2-methylpropanoyl)dihydrolipoyllysine" />
+    <hashEntry Key="C15978" Value="2-Methyl-1-hydroxybutyl-ThPP" />
+    <hashEntry Key="C15979" Value="[Dihydrolipoyllysine-residue (2-methylpropanoyl)transferase] S-(2-methylbutanoyl)dihydrolipoyllysine" />
+    <hashEntry Key="C15980" Value="(S)-2-Methylbutanoyl-CoA" />
+    <hashEntry Key="C20827" Value="3-Hydroxyisovalerate" />
+  </Compound>
+  <PathwayMap Key="xcb00280" Value="Valine, leucine and isoleucine degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0254" Value="biotin carboxylase; K01968 3-methylcrotonyl-CoA carboxylase alpha subunit [EC:6.4.1.4]" />
+    <hashEntry Key="xcb:XC_0255" Value="acyl-CoA carboxyltransferase subunit beta; K01969 3-methylcrotonyl-CoA carboxylase beta subunit [EC:" />
+    <hashEntry Key="xcb:XC_0256" Value="acyl-CoA dehydrogenase; K00253 isovaleryl-CoA dehydrogenase [EC:1.3.8.4]" />
+    <hashEntry Key="xcb:XC_1759" Value="beta alanine--pyruvate transaminase (EC:2.6.1.18); K00822 beta-alanine--pyruvate transaminase [EC:2." />
+    <hashEntry Key="xcb:XC_2206" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00632 acetyl-CoA acyltransferase [EC:2.3.1.16]" />
+    <hashEntry Key="xcb:XC_2356" Value="enoyl-CoA hydratase; K13766 methylglutaconyl-CoA hydratase [EC:4.2.1.18]" />
+    <hashEntry Key="xcb:XC_2357" Value="hydroxymethylglutaryl-CoA lyase; K01640 hydroxymethylglutaryl-CoA lyase [EC:4.1.3.4]" />
+    <hashEntry Key="xcb:XC_2445" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_2751" Value="dihydrolipoamide dehydrogenase (EC:1.8.1.4); K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xcb:XC_2941" Value="leucine dehydrogenase; K00263 leucine dehydrogenase [EC:1.4.1.9]" />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_2975" Value="3-hydroxyacyl-CoA dehydrogenase; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase / 3-hy" />
+    <hashEntry Key="xcb:XC_2977" Value="3-hydroxyisobutyrate dehydrogenase; K00020 3-hydroxyisobutyrate dehydrogenase [EC:1.1.1.31]" />
+    <hashEntry Key="xcb:XC_2981" Value="methylmalonate-semialdehyde dehydrogenase; K00140 malonate-semialdehyde dehydrogenase (acetylating)" />
+    <hashEntry Key="xcb:XC_3380" Value="branched-chain amino acid aminotransferase (EC:2.6.1.42); K00826 branched-chain amino acid aminotran" />
+    <hashEntry Key="xcb:XC_3421" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xcb:XC_3606" Value="IpsJ protein; K01029 3-oxoacid CoA-transferase subunit B [EC:2.8.3.5]" />
+    <hashEntry Key="xcb:XC_3607" Value="3-oxoadipate CoA-succinyl transferase subunit alpha; K01028 3-oxoacid CoA-transferase subunit A [EC:" />
+    <hashEntry Key="xcb:XC_3689" Value="dihydrolipoamide dehydrogenase; K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+  </Genes>
+</KEGG.PathwayBrief>

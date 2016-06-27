@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00300" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Lysine biosynthesis - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00016" Value="Lysine biosynthesis, succinyl-DAP pathway, aspartate =&gt; lysine [PATH:xor00300]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00047" Value="L-Lysine" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00263" Value="L-Homoserine" />
+    <hashEntry Key="C00322" Value="2-Oxoadipate" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00449" Value="N6-(L-1,3-Dicarboxypropyl)-L-lysine" />
+    <hashEntry Key="C00666" Value="LL-2,6-Diaminoheptanedioate" />
+    <hashEntry Key="C00680" Value="meso-2,6-Diaminoheptanedioate" />
+    <hashEntry Key="C00956" Value="L-2-Aminoadipate" />
+    <hashEntry Key="C01251" Value="(R)-2-Hydroxybutane-1,2,4-tricarboxylate" />
+    <hashEntry Key="C03082" Value="4-Phospho-L-aspartate" />
+    <hashEntry Key="C03871" Value="L-2-Amino-6-oxoheptanedioate" />
+    <hashEntry Key="C03972" Value="2,3,4,5-Tetrahydrodipicolinate" />
+    <hashEntry Key="C04002" Value="(Z)-But-1-ene-1,2,4-tricarboxylate" />
+    <hashEntry Key="C04076" Value="L-2-Aminoadipate 6-semialdehyde" />
+    <hashEntry Key="C04390" Value="N6-Acetyl-LL-2,6-diaminoheptanedioate" />
+    <hashEntry Key="C04421" Value="N-Succinyl-LL-2,6-diaminoheptanedioate" />
+    <hashEntry Key="C04462" Value="N-Succinyl-2-L-amino-6-oxoheptanedioate" />
+    <hashEntry Key="C04877" Value="UDP-N-acetylmuramoyl-L-alanyl-gamma-D-glutamyl-meso-2,6-diaminopimelate" />
+    <hashEntry Key="C04882" Value="UDP-N-acetylmuramoyl-L-alanyl-D-glutamyl-6-carboxy-L-lysyl-D-alanyl-D-alanine" />
+    <hashEntry Key="C05535" Value="alpha-Aminoadipoyl-S-acyl enzyme" />
+    <hashEntry Key="C05539" Value="N-Acetyl-L-2-amino-6-oxopimelate" />
+    <hashEntry Key="C05560" Value="L-2-Aminoadipate adenylate" />
+    <hashEntry Key="C05662" Value="Homoisocitrate" />
+    <hashEntry Key="C16138" Value="L-Pyrrolysine" />
+    <hashEntry Key="C19886" Value="LysW-gamma-L-alpha-aminoadipate" />
+    <hashEntry Key="C19887" Value="LysW-gamma-L-alpha-aminoadipyl 6-phosphate" />
+    <hashEntry Key="C19888" Value="LysW-gamma-L-alpha-aminoadipate 6-semialdehyde" />
+    <hashEntry Key="C19889" Value="LysW-gamma-L-lysine" />
+    <hashEntry Key="C20258" Value="(2S,4S)-4-Hydroxy-2,3,4,5-tetrahydrodipicolinate" />
+    <hashEntry Key="C20277" Value="(2R,3R)-3-Methylornithine" />
+    <hashEntry Key="C20278" Value="(2R,3R)-3-Methylornithinyl-N6-lysine" />
+    <hashEntry Key="C20279" Value="(2R,3R)-3-Methylglutamyl-5-semialdehyde-N6-lysine" />
+  </Compound>
+  <PathwayMap Key="xor00300" Value="Lysine biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0694" Value="dapF; diaminopimelate epimerase; K01778 diaminopimelate epimerase [EC:5.1.1.7]" />
+    <hashEntry Key="xor:XOC_0839" Value="UDP-N-acetylmuramoylalanyl-D-glutamate--2,6-diaminopimelate ligase; K01928 UDP-N-acetylmuramoyl-L-al" />
+    <hashEntry Key="xor:XOC_0840" Value="UDP-N-acetylmuramoyl-tripeptide--D-alanyl-D-alanine ligase; K01929 UDP-N-acetylmuramoyl-tripeptide--" />
+    <hashEntry Key="xor:XOC_1504" Value="bifunctional diaminopimelate decarboxylase-asparta; K12526 bifunctional diaminopimelate decarboxylas" />
+    <hashEntry Key="xor:XOC_1909" Value="dihydrodipicolinate synthetase; K01714 4-hydroxy-tetrahydrodipicolinate synthase [EC:4.3.3.7]" />
+    <hashEntry Key="xor:XOC_2147" Value="dapA; dihydrodipicolinate synthase; K01714 4-hydroxy-tetrahydrodipicolinate synthase [EC:4.3.3.7]" />
+    <hashEntry Key="xor:XOC_2197" Value="bifunctional aspartokinase-homoserine dehydrogenase (ak-hd); K12524 bifunctional aspartokinase / hom" />
+    <hashEntry Key="xor:XOC_2247" Value="valine-pyruvate aminotransferase; K05825 2-aminoadipate transaminase [EC:2.6.1.-]" />
+    <hashEntry Key="xor:XOC_2249" Value="dapB; dihydrodipicolinate reductase; K00215 4-hydroxy-tetrahydrodipicolinate reductase [EC:1.17.1.8]" />
+    <hashEntry Key="xor:XOC_2959" Value="asd; aspartate-semialdehyde dehydrogenase; K00133 aspartate-semialdehyde dehydrogenase [EC:1.2.1.11]" />
+    <hashEntry Key="xor:XOC_3055" Value="dapE; succinyl-diaminopimelate desuccinylase; K01439 succinyl-diaminopimelate desuccinylase [EC:3.5." />
+    <hashEntry Key="xor:XOC_3059" Value="2,3,4,5-tetrahydropyridine-2-carboxylate N-succin; K00674 2,3,4,5-tetrahydropyridine-2-carboxylate N" />
+    <hashEntry Key="xor:XOC_3216" Value="homoserine dehydrogenase; K00003 homoserine dehydrogenase [EC:1.1.1.3]" />
+    <hashEntry Key="xor:XOC_3391" Value="diaminopimelate decarboxylase; K01586 diaminopimelate decarboxylase [EC:4.1.1.20]" />
+    <hashEntry Key="xor:XOC_3688" Value="argD; acetylornithine aminotransferase; K00821 acetylornithine/N-succinyldiaminopimelate aminotransf" />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -1,0 +1,867 @@
++D	Biochemical compound
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Compounds with Biological Roles</h2>
+#<!---
+#ENTRY       br08001
+#NAME        Metabolite
+#DEFINITION  Compounds with biological roles
+#--->
+!
+A<b>Organic acids</b>
+B  Carboxylic acids [Fig]
+C    Monocarboxylic acids
+D      C00058  Formate; Methanoate
+D      C00033  Acetate; Ethanoate
+D      C00163  Propionate; Propanoate
+D      C00246  Butyrate; Butanoate
+D      C00803  Valerate; Pentanoate
+D      C01585  Capronate; Hexanoate
+D      C17714  Enanthate; Heptanoate
+D      C06423  Caprylate; Octanoate
+C    Dicarboxylic acids
+D      C00209  Oxalate
+D      C00383  Malonate
+D      C00042  Succinate
+D      C00489  Glutarate
+D      C06104  Adipate
+D      C02656  Pimelate
+D      C08278  Suberate
+C    Tricarboxylic acids
+D      C00158  Citrate
+D      C00311  Isocitrate
+D      C00417  cis-Aconitate
+D      C02341  trans-Aconitate
+C    2-Oxocarboxylic acids
+D      C00048  Glyoxylate; Oxoacetate
+D      C00022  Pyruvate; 2-Oxopropanoate
+D      C00109  2-Oxobutanoate
+D      C06255  2-Oxovalerate
+D      C00902  2-Oxohexanoate
+D      C00036  Oxaloacetate; 2-Oxosuccinate
+D      C00026  2-Oxoglutarate
+D      C00322  2-Oxoadipate
+D      C16588  2-Oxopimelate
+D      C16589  2-Oxosuberate
+D      C00141  2-Oxoisovalerate
+D      C00233  2-Oxoisocaproate
+D      C00671  (S)-3-Methyl-2-oxopentanoic acid
+C    3-Oxocarboxylic acids
+D      C00222  3-Oxopropanoate
+D      C00164  Acetoacetate; 3-Oxobutanoate
+C    4-Oxocarboxylic acid
+D      C00232  Succinate semialdehyde; 4-Oxobutanoate
+C    Hydroxycarboxylic acids
+D      C00186  L-Lactate; (S)-2-Hydroxypropanoate
+D      C00149  Malate; (S)-2-Hydroxybutanediate
+D      C01013  3-Hydroxypropanoate
+D      C01089  (R)-3-Hydroxybutanoate
+D      C00989  4-Hydroxybutanoate
+#
+A<b>Lipids</b>
+B  Fatty acids [Fig]
+C    Saturated fatty acids
+D      C00246  Butyric acid (4:0)
+D      C01585  Caproic acid (6:0)
+D      C06423  Caprylic acid (8:0)
+D      C01571  Capric acid (10:0)
+D      C02679  Lauric acid (12:0)
+D      C06424  Myristic acid (14:0)
+D      C00249  Palmitic acid (16:0)
+D      C01530  Stearic acid (18:0)
+D      C06425  Arachidic acid (20:0)
+D      C08281  Behenic acid (22:0)
+D      C08320  Lignoceric acid (24:0)
+C    Unsaturated fatty acids
+D      C08362  Palmitoleic acid (16:1;9)
+D      C00712  Oleic acid (18:1;9)
+D      C01712  Elaidic acid (18:1;9)
+D      C16526  Icosenoic acid (20:1;11)
+D      C08316  Erucic acid (22:1;13)
+D      C08323  Nervonic acid (24:1;15)
+D      C01595  Linoleic acid (18:2;9,12)
+D      C16525  Icosadienoic acid (20:2;11,14)
+D      C16533  Docosadienoic acid (22:2;13,16)
+D      C06426  gamma-Linolenic acid (18:3;6,9,12)
+D      C06427  alpha-Linolenic acid (18:3;9,12,15)
+D      C00219  Arachidonic acid (20:4;5,8,11,14)
+D      C06428  Eicosapentaenoic acid (20:5;5,8,11,14.17)
+D      C06429  Docosahexaenoic acid (22:6;4,7,10,13,16,19)
+B  Fats [Fig]
+C    Acylglycerols
+D      C01885  1-Monoacylglycerol
+D      C02112  2-Monoacylglycerol
+D      C00641  1,2-Diacylglycerol
+D      C06437  1,3-Diacylglycerol
+D      C00422  Triacylglycerol
+B  Phospholipids [Fig]
+C    Glycerophospholipids
+D      C00416  Phosphatidic acid
+D      C00350  Phosphatidylethanolamine
+D      C00157  Phosphatidylcholine; Lecithin
+D      C02737  Phosphatidylserine
+D      C01194  Phosphatidylinositol
+D      C04230  2-Lysolecithin
+D      C04756  Plasmenylethanolamine
+D      C00958  Plasmenylcholine
+D      C00344  Phosphatidylglycerol
+D      C05980  Diphosphatidylglycerol; Cardiolipin
+C    Phosphosphingolipids
+D      C00550  Sphingomyelin
+B  Glycolipids [Fig]
+C    Glyceroglycolipids
+D      C03692  Monogalactosyldiacylglycerol
+D      C06037  Digalactosyldiacylglycerol
+D      C20825  Seminolipid
+C    Glycosphingolipids
+D      C01190  Glucosylceramide
+D      C02686  Galactosylceramide
+D      C01290  Lactosylceramide
+D      C04911  GM1
+D      C04884  GM2
+D      C04730  GM3
+D      C06125  Sulfatide
+B  Eicosanoids [Fig]
+C    Prostaglandins
+D      C04685  Prostaglandin A1
+D      C05953  Prostaglandin A2
+D      C00959  Prostaglandin B1
+D      C05954  Prostaglandin B2
+D      C04686  Prostaglandin C1
+D      C05955  Prostaglandin C2
+D      C06438  Prostaglandin D1
+D      C00696  Prostaglandin D2
+D      C04741  Prostaglandin E1
+D      C00584  Prostaglandin E2
+D      C06439  Prostaglandin E3
+D      C06475  Prostaglandin F1alpha
+D      C00639  Prostaglandin F2alpha
+D      C02314  Prostaglandin F2beta
+D      C06476  Prostaglandin F3alpha
+D      C05956  Prostaglandin G2
+D      C00427  Prostaglandin H2
+D      C01312  Prostaglandin I2
+D      C05957  Prostaglandin J2
+C    Leukotrienes
+D      C00909  Leukotriene A4
+D      C02165  Leukotriene B4
+D      C02166  Leukotriene C4
+D      C05951  Leukotriene D4
+D      C05952  Leukotriene E4
+D      C06462  Leukotriene F4
+D      C05356  5-HPETE
+C    Thromboxanes
+D      C02198  Thromboxane A2
+D      C05963  Thromboxane B2
+D      C05964  11-Dehydro-thromboxane B2
+#
+A<b>Carbohydrates</b>
+B  Monosaccharides
+C    Aldoses [Fig]
+D      C00577  D-Glyceraldehyde
+D      C02426  L-Glyceraldehyde
+D      C01796  D-Erythrose
+D      C06463  D-Threose
+D      C00216  D-Arabinose
+D      C00259  L-Arabinose
+D      C00181  D-Xylose
+D      C01510  L-Xylose
+D      C00476  D-Lyxose
+D      C01508  L-Lyxose
+D      C00121  D-Ribose
+D      C00031  D-Glucose
+D      C00124  D-Galactose
+D      C01825  L-Galactose
+D      C00159  D-Mannose
+D      C01487  D-Allose
+D      C06464  D-Altrose
+D      C06465  D-Gulose
+D      C15923  L-Gulose
+D      C06466  D-Idose
+D      C06467  D-Talose
+D      C06474  3,6-Anhydrogalactose
+D      C06478  3,6-Anhydroglucose
+C    Ketoses [Fig]
+D      C00184  Dihydroxyacetone
+D      C02022  D-Erythrulose
+D      C02045  L-Erythrulose
+D      C00309  D-Ribulose
+D      C00508  L-Ribulose
+D      C00310  D-Xylulose
+D      C00312  L-Xylulose
+D      C00095  D-Fructose; Fruit sugar
+D      C01719  L-Fructose
+D      C00764  D-Sorbose
+D      C00247  L-Sorbose
+D      C00795  D-Tagatose
+D      C06468  D-Psicose
+D      C02076  Sedoheptulose
+D      C19612  Coriose
+C    Deoxy sugars [Fig]
+D      C01801  Deoxyribose
+D      C01018  D-Fucose
+D      C01019  L-Fucose
+D      C01684  D-Rhamnose
+D      C00507  L-Rhamnose
+D      C00586  2-Deoxy-D-glucose
+D      C02522  D-Quinovose
+D      C02781  2-Deoxy-D-galactose
+D      C06471  Abequose
+C    Amino sugars [Fig]
+D      C00329  D-Glucosamine
+D      C02262  D-Galactosamine
+D      C03570  D-Mannosamine
+D      C15478  D-Fucosamine
+D      C15479  D-Quinovosamine
+D      C06469  Neuraminic acid
+D      C06470  Muramic acid
+D      C00140  N-Acetyl-D-glucosamine
+D      C01132  N-Acetyl-D-galactosamine
+D      C00645  N-Acetyl-D-mannosamine
+D      C15480  N-Acetyl-D-fucosamine
+D      C15481  N-Acetyl-D-quinovosamine
+D      C00270  N-Acetylneuraminic acid
+D      C02713  N-Acetylmuramic acid
+D      C03525  O-Acetylneuraminic acid
+D      C03410  N-Glycoloyl-neuraminate
+C    Sugar acids [Fig]
+D      C00905  D-Fructuronic acid
+D      C00558  D-Tagaturonic acid
+D      C00191  D-Glucuronic acid
+D      C00333  D-Galacturonic acid
+D      C02024  D-Mannuronic acid
+D      C06472  L-Iduronic acid
+D      C06477  L-Guluronic acid
+D      C00257  D-Gluconic acid
+D      C03752  D-Glucosaminic acid
+D      C06473  2-Keto-D-gluconic acid
+D      C01187  3-Deoxy-D-manno-octulosonic acid
+C    Sugar alcohols [Fig]
+D      C00116  Glycerol
+D      C00379  Xylitol
+D      C00794  Sorbitol
+D      C00392  Mannitol
+D      C00137  myo-Inositol
+B  Oligosaccharides [Fig]
+C    Disaccharides
+D      C00089  Sucrose; Cane sugar
+D      C00243  Lactose; Milk sugar
+D      C00208  Maltose; Malt sugar
+D      C01083  Trehalose
+D      C00185  Cellobiose
+D      C19632  Kojibiose
+D      C01518  Nigerose
+D      C00252  Isomaltose
+D      C08250  Sophorose
+D      C02048  Laminaribiose
+D      C08240  Gentiobiose
+D      C19636  Turanose
+D      C19633  Maltulose
+D      C01742  Palatinose
+D      C19635  Scillabiose
+D      C01728  Mannobiose
+D      C05402  Melibiose
+D      C06372  Lacto-N-biose
+D      C19634  Melibiulose
+D      C08247  Rutinose
+D      C01625  Vicianose
+D      C01630  Xylobiose
+C    Tetrasaccharides
+D      C06371  Lacto-N-tetraose
+B  Polysaccharides [Fig]
+C    Homopolysaccharides
+D      G10481  Cellulose
+D      G10495  Amylose
+D      G04981  Inulin
+D      G10483  Chitin
+D      G10536  Chitosan
+D      G11610  Amylopectin
+D      G11603  Glycogen
+D      G10591  Pectin
+C    Heteropolysaccharides
+D      G11598  Glucomannan
+D      G11599  Galactoglucomannan
+D      G11622  Xyloglucan
+D      G11623  4-O-Methylglucuronoxylan
+D      G11619  Arabinoxylan
+D      G11624  4-O-Methylglucuronoarabinoxylran
+D      G11334  Chondroitin
+D      G10505  Hyaluronic acid
+D      G10593  Alginic acid
+#
+A<b>Nucleic acids</b>
+B  Bases [Fig]
+C    Purines
+D      C00147  Adenine (Ade)
+D      C00242  Guanine (Gua)
+C    Pyrimidines
+D      C00106  Uracil (Ura)
+D      C00178  Thymine (Thy)
+D      C00380  Cytosine (Cyt)
+B  Nucleosides [Fig]
+C    Ribonucleosides
+D      C00212  Adenosine (A)
+D      C00387  Guanosine (G)
+D      C00299  Uridine (U)
+D      C00475  Cytidine (C)
+C    Deoxyribonucleosides
+D      C00559  Deoxyadenosine (dA)
+D      C00330  Deoxyguanosine (dG)
+D      C00526  Deoxyuridine (dU)
+D      C00214  Deoxythymidine (dT)
+D      C00881  Deoxycytidine (dC)
+B  Nucleotides [Fig]
+C    Ribonucleotides
+D      C00020  AMP
+D      C00008  ADP
+D      C00002  ATP
+D      C00144  GMP
+D      C00035  GDP
+D      C00044  GTP
+D      C00105  UMP
+D      C00015  UDP
+D      C00075  UTP
+D      C00055  CMP
+D      C00112  CDP
+D      C00063  CTP
+C    Deoxyribonucleotides
+D      C00360  dAMP
+D      C00206  dADP
+D      C00131  dATP
+D      C00362  dGMP
+D      C00361  dGDP
+D      C00286  dGTP
+D      C00365  dUMP
+D      C01346  dUDP
+D      C00460  dUTP
+D      C00364  dTMP
+D      C00363  dTDP
+D      C00459  dTTP
+D      C00239  dCMP
+D      C00705  dCDP
+D      C00458  dCTP
+B  Cyclic nucleotides [Fig]
+C    3',5'-Cyclic nuclcleotides
+D      C00575  3',5'-Cyclic AMP
+D      C00942  3',5'-Cyclic GMP
+D      C00943  3',5'-Cyclic IMP
+D      C00968  3',5'-Cyclic dAMP
+D      C02507  3',5'-Cyclic dGMP
+D      C00941  3',5'-Cyclic CMP
+C    2',3'-Cyclic nucleotides
+D      C02353  2',3'-Cyclic AMP
+D      C06194  2',3'-Cyclic GMP
+D      C02354  2',3'-Cyclic CMP
+D      C02355  2',3'-Cyclic UMP
+#
+A<b>Peptides</b>
+B  Peptides
+C    Dipeptides [Fig]
+D      C01262  Anserine
+D      C00386  Carnosine
+D      C00993  D-Alanyl-D-alanine
+B  Amino acids
+C    Common amino acids [Fig]
+D      C00037  Glycine (Gly)
+D      C00041  Alanine (Ala)
+D      C00183  Valine (Val)
+D      C00123  Leucine (Leu)
+D      C00407  Isoleucine (Ile)
+D      C00049  Aspartic acid (Asp)
+D      C00152  Asparagine (Asn)
+D      C00025  Glutamic acid (Glu)
+D      C00064  Glutamine (Gln)
+D      C00065  Serine (Ser)
+D      C00188  Threonine (Thr)
+D      C00073  Methionine (Met)
+D      C00097  Cysteine (Cys)
+D      C00047  Lysine (Lys)
+D      C00062  Arginine (Arg)
+D      C00135  Histidine (His)
+D      C00148  Proline (Pro)
+D      C00079  Phenylalanine (Phe)
+D      C00082  Tyrosine (Tyr)
+D      C00078  Tryptophan (Trp)
+C    Other amino acids [Fig]
+D      C05688  Selenocysteine (Sec)
+D      C16138  Pyrrolysine (Pyl)
+D      C00077  L-Ornithine
+D      C00155  L-Homocysteine
+D      C00263  L-Homoserine
+D      C00327  L-Citrulline
+D      C00606  3-Sulfino-L-alanine
+D      C03406  L-Argininosuccinate
+D      C00355  3,4-Dihydroxy-L-phenylalanine
+D      C02515  3-Iodo-L-tyrosine
+D      C01060  3,5-Diiodo-L-tyrosine
+D      C02465  Triiodothyronine
+D      C01829  L-Thyroxine
+D      C00099  beta-Alanine
+D      C00334  gamma-Aminobutyric acid
+D      C05145  3-Aminoisobutyric acid
+D      C00133  D-Alanine
+D      C06417  D-Valine
+D      C01570  D-Leucine
+D      C06418  D-Isoleucine
+D      C00402  D-Aspartic acid
+D      C01905  D-Asparagine
+D      C00217  D-Glutamic acid
+D      C00819  D-Glutamine
+D      C00740  D-Serine
+D      C00820  D-Threonine
+D      C00855  D-Methionine
+D      C00793  D-Cysteine
+D      C00739  D-Lysine
+D      C00792  D-Arginine
+D      C06419  D-Histidine
+D      C00763  D-Proline
+D      C02265  D-Phenylalanine
+D      C06420  D-Tyrosine
+D      C00525  D-Tryptophan
+D      C01879  Pidolic acid
+D      C01157  Hydroxyproline
+D      C01420  Cystine
+D      C03145  N-Formylmethionine
+B  Amines
+C    Biogenic amines [Fig]
+D      C00189  Ethanolamine
+D      C01678  Cysteamine
+D      C03194  Aminopropanol
+D      C00099  beta-Alanine
+D      C00334  gamma-Aminobutyric acid (GABA)
+D      C00134  Putrescine
+D      C00388  Histamine
+D      C03758  Dopamine
+D      C00780  Serotonin
+D      C00483  Tyramine
+D      C05332  Phenethylamine
+D      C01137  S-Adenosylmethioninamine
+#
+A<b>Vitamins and Cofactors</b>
+B  Vitamins
+C    Fat-soluble vitamins [Fig]
+D      C00473  Retinol (Vitamin A)
+D      C05441  Ergocalciferol (Vitamin D2)
+D      C05443  Cholecalciferol (Vitamin D3)
+D      C02477  alpha-Tocopherol (Vitamin E)
+D      C02059  Phylloquinone (Vitamin K1)
+D      C00828  Menaquinone (Vitamin K2)
+C    Water-soluble vitamins [Fig]
+D      C00378  Thiamine (Vitamin B1)
+D      C00255  Riboflavin (Vitamin B2)
+D      C00253  Nicotinic acid (Vitamin B3)
+D      C00153  Nicotinamide (Vitamin B3)
+D      C00864  Pantothenic acid (Vitamin B5)
+D      C00250  Pyridoxal (Vitamin B6)
+D      C00314  Pyridoxine (Vitamin B6)
+D      C00534  Pyridoxamine (Vitamin B6)
+D      C00504  Folic acid (Vitamin B9)
+D      C05776  Cobalamin(III) (Vitamin B12)
+D      C00072  Ascorbic acid (Vitamin C)
+B  Cofactors
+C    Coenzymes [Fig]
+D      C00068  TPP
+D      C00016  FAD
+D      C00061  FMN
+D      C00003  NAD
+D      C00006  NADP
+D      C00010  CoA
+D      C00018  PLP
+D      C00101  THF
+D      C00194  Cobamamide
+D      C00002  ATP
+D      C00063  CTP
+D      C00019  SAM
+D      C00029  UDP-glucose
+D      C04628  Coenzyme B
+D      C05777  Coenzyme F430
+D      C03576  Coenzyme M
+D      C11378  Coenzyme Q10
+D      C00051  Glutathione
+D      C00862  Methanofuran
+D      C00053  PAPS
+D      C00272  Tetrahydrobiopterin
+D      C01217  5,6,7,8-Tetrahydromethanopterin
+D      C15670  Heme A
+D      C00032  Heme B
+D      C15672  Heme O
+D      C00120  Biotin
+D      C00725  Lipoate
+D      C18237  Molybdenum cofactor
+D      C00113  PQQ
+#
+A<b>Steroids</b>
+B  18-Carbon atoms
+C    Estrane derivatives [Fig]
+D      C02537  Estradiol-17alpha
+D      C00951  Estradiol-17beta
+D      C05141  Estriol
+D      C00468  Estrone
+D      C14392  Equilin
+D      C14303  Equilenin
+D      C05301  2-Hydroxyestradiol
+D      C03935  6beta-Hydroxyestradiol-17beta
+D      C05302  2-Methoxyestradiol-17beta
+B  19-Carbon atoms
+C    Androstane derivatives [Fig]
+D      C05285  Adrenosterone
+D      C00523  Androsterone
+D      C03772  5beta-Androstane-3,17-dione
+D      C07632  Androstanediol
+D      C15638  3-Androstanol
+D      C04295  Androstenediol
+D      C00280  Androstenedione
+D      C14210  4-Androstenediol
+D      C01227  Dehydroepiandrosterone
+D      C03917  Dihydrotestosterone
+D      C04373  Etiocholanolone
+D      C00535  Testosterone
+B  21-Carbon atoms
+C    Pregnane derivatives [Fig]
+D      C01953  Pregnenolone
+D      C00410  Progesterone
+D      C01780  Aldosterone
+D      C03205  11-Deoxycorticosterone
+D      C02140  Corticosterone
+D      C00735  Cortisol
+D      C00762  Cortisone
+B  23-Carbon atoms
+C    Cardanolide derivatives [Fig]
+D      C08859  Cymarin
+D      C08866  Gitoxin
+D      C08876  Neriifolin
+D      C06955  Digitoxin
+D      C06956  Digoxin
+D      C01443  Ouabain
+B  24-Carbon atoms
+C    Cholane derivatives [Fig]
+D      C00695  Cholic acid
+D      C02528  Chenodeoxycholate
+D      C04483  Deoxycholic acid
+D      C03990  Lithocholic acid
+D      C07880  Ursodiol
+D      C01921  Glycocholate
+D      C05122  Taurocholate
+D      C15517  Hyodeoxycholate
+D      C15515  Murideoxycholate
+D      C03070  3-Oxo-5beta-cholanate
+C    Bufanolide derivatives [Fig]
+D      C08868  Hellebrin
+D      C17058  Resibufogenin
+D      C16922  Bufalin
+D      C16923  Bufotalin
+D      C16931  Cinobufagin
+D      C16932  Cinobufotalin
+D      C16962  Gamabufogenin
+D      C16969  Hellebrigenin
+D      C17072  Telocinobufagin
+D      C12816  Proscillaridin
+D      C19643  Scillarenin
+D      C08880  Scilliroside
+B  27-Carbon atoms
+C    Cholestane derivatives [Fig]
+D      C15337  Allocholesterol
+D      C00187  Cholesterol
+D      C01164  7-Dehydrocholesterol
+D      C01802  Desmosterol
+D      C00477  Ecdysone
+C    Spirostan derivatives [Fig]
+D      C08896  Digitogenin
+D      C08898  Diosgenin
+D      C08899  Gitogenin
+D      C03963  Sarsasapogenin
+D      C08913  Smilagenin
+D      C08914  Tigogenin
+C    Furostan derivatives [Fig]
+D      C04715  Nuatigenin
+D      C19648  Pseudotigogenin
+D      C19649  Pseudosarsasapogenin
+D      C19650  Pseudosmilagenin
+B  28-Carbon atoms
+C    Ergostane derivatives [Fig]
+D      C19651  Ergostanol
+D      C19652  alpha-Ergostenol
+D      C01694  Ergosterol
+D      C19653  Lumisterol
+C    Campestane derivatives [Fig]
+D      C08814  Brassinolide
+D      C15787  Campestanol
+D      C01789  Campesterol
+B  29-Carbon atoms
+C    Stigmastane derivatives [Fig]
+D      C08817  Fucosterol
+D      C19644  Stigmastanol
+D      C05442  Stigmasterol
+C    Poriferastane derivatives [Fig]
+D      C08836  Poriferasterol
+D      C19654  gamma-Sitosterol
+B  30-Carbon atoms
+C    Gorgostane derivatives [Fig]
+D      C19657  Acanthasterol
+D      C19655  Gorgosterol
+D      C19656  Sarcoaldesterol A
+#
+A<b>Hormones and transmitters</b>
+B  Peptide hormones
+C    Prolactin-releasing peptide [KO:K05269]
+D      C16086  Prolactin-releasing peptide-31
+D      C16087  Prolactin-releasing peptide-20
+C    Thyrotropin-releasing hormone [KO:K05253]
+D      C03958  Thyrotropin-releasing hormone
+C    Gonadotropin-releasing hormone [KO:K05252]
+D      C07607  Gonadotropin-releasing hormone I
+D      C16084  Gonadotropin-releasing hormone II
+C    Growth hormone-releasing hormone [KO:K05260]
+D      C16085  Growth hormone-releasing hormone (1-29)
+C    Somatostatin [KO:K05237]
+D      C16022  Somatostatin-14
+D      C16021  Somatostatin-28
+C    Corticotropin-releasing hormone [KO:K05256]
+D      C16079  Corticotropin releasing hormone
+C    Gastrin-releasing peptide [KO:K05224]
+D      C16115  Gastrin-releasing peptide
+C    Melanin-concentrating hormone [KO:K05229]
+D      C16030  Melanin-concentrating hormone
+C    Oxytocin [KO:K05243]
+D      C00746  Oxytocin
+C    Arginine vasopressin [KO:K05242]
+D      C13662  Arg-vasopressin
+C    Melanotropin [KO:K05228]
+D      C02758  alpha-Melanotropin
+D      C16136  beta-Melanotropin
+D      C16137  gamma-Melanotropin
+C    Corticotropin [KO:K05228]
+D      C02017  Corticotropin
+C    Growth hormone [KO:K05438]
+D      C18181  Growth hormone
+C    Prolactin [KO:K05439]
+D      C18201  Prolactin
+C    Thyroid stimulating hormone [KO:K05251 K08522]
+D      C18182  Thyroid stimulating hormone
+C    Luteinizing hormone [KO:K08521 K08522]
+D      C18183  Luteinizing hormone
+C    Follicle stimulating hormone [KO:K05250 K08522]
+D      C18184  Follicle stimulating hormone
+C    beta-Endorphin [KO:K05228]
+D      C02210  beta-Endorphin
+C    Enkephalin [KO:K18832]
+D      C11684  Met-enkephalin
+D      C16041  Leu-enkephalin
+C    Dynorphin [KO:K15840]
+D      C01574  Dynorphin A
+D      C16135  Dynorphin B
+C    Chorionic gonadotropin [KO:K10045 K08522]
+D      C18185  Chorionic gonadotropin
+C    Calcitonin [KO:K12332]
+D      C06865  Calcitonin
+C    Parathyroid hormone [KO:K05261]
+D      C16051  Parathyroid hormone
+C    Atrial natriuretic peptide [KO:K12334]
+D      C16003  Atrial natriuretic peptide
+C    Brain natriuretic peptide [KO:K12335]
+D      C16004  Brain natriuretic peptide
+C    C-Type natriuretic peptide [KO:K12336]
+D      C16005  C-Type natriuretic peptide
+C    Endothelin [KO:K05227]
+D      C16010  Endothelin-1
+D      C16012  Endothelin-2
+D      C16013  Endothelin-3
+C    Glucagon [KO:K05259]
+D      C01501  Glucagon
+C    Insulin [KO:K04526]
+D      C00723  Insulin
+C    Amylin [KO:K08039]
+D      C16130  Amylin
+C    Peptide YY [KO:K05233]
+D      C16118  Peptide YY
+C    Gastrin [KO:K13768]
+D      C18186  Gastrin-14
+D      C16113  Gastrin-17
+D      C18187  Gastrin-34
+C    Ghrelin [KO:K05254]
+D      C16025  Ghrelin
+C    Cholecystokinin [KO:K05226]
+D      C16114  Cholecystokinin-8
+D      C16133  Cholecystokinin-33
+C    Incretin [KO:K05258 K05259]
+D      C15906  Gastric inhibitory peptide
+D      C16048  Glucagon-like peptide 1
+C    Motilin [KO:K05265]
+D      C16047  Motilin
+C    Secretin [KO:K05263]
+D      C13523  Secretin
+C    Thymosin alpha [KO:K13784]
+D      C16065  Thymosin alpha-1
+C    Thymosin beta-4 [KO:K05764]
+D      C16066  Thymosin beta-4
+C    Thymosin beta-10 [KO:K13785]
+D      C16067  Thymosin beta-10
+C    Insulin-like growth factor 1 [KO:K05459]
+D      C16131  Insulin-like growth factor I
+C    Insulin-like growth factor 2 [KO:K13769]
+D      C16132  Insulin-like growth factor II
+C    Erythropoietin [KO:K05437]
+D      C18200  Erythropoietin
+C    Angiotensin [KO:K09821]
+D      C00873  Angiotensin I
+D      C02135  Angiotensin II
+D      C15848  Angiotensin III
+D      C15849  Angiotensin IV
+C    Bradykinin [KO:K03898]
+D      C00306  Bradykinin
+C    Leptin [KO:K05424]
+D      C18188  Leptin
+C    Adiponectin [KO:K07296]
+D      C18189  Adiponectin
+C    Resistin [KO:K13438]
+D      C18190  Resistin
+B  Steroid hormones
+C    Androgens
+D      C00280  Androstenedione
+D      C05291  7alpha-Hydroxytestosterone
+D      C00535  Testosterone
+D      C01227  Dehydroepiandrosterone
+D      C03917  Dihydrotestosterone
+D      C04555  Dehydroepiandrosterone sulfate
+D      C05294  19-Hydroxytestosterone
+C    Estrogens
+D      C00468  Estrone
+D      C00951  Estradiol-17beta
+D      C02538  Estrone 3-sulfate
+D      C05141  Estriol
+D      C05300  16alpha-Hydroxyestrone
+C    Progestagens
+D      C00410  Progesterone
+D      C01176  17alpha-Hydroxyprogesterone
+D      C01953  Pregnenolone
+D      C05138  17alpha-Hydroxypregnenolone
+C    Glucocorticoids
+D      C00735  Cortisol
+D      C00762  Cortisone
+D      C05488  11-Deoxycortisol
+D      C05470  Tetrahydrocortisone
+D      C05497  21-Deoxycortisol
+C    Mineralocorticoids
+D      C01124  18-Hydroxycorticosterone
+D      C01780  Aldosterone
+D      C02140  Corticosterone
+D      C03205  11-Deoxycorticosterone
+D      C05490  11-Dehydrocorticosterone
+C    Others
+D      C01673  Calcitriol (Vitamin D)
+D      C00477  Ecdysone
+B  Other hormones
+C    Melatonin
+D      C01598  Melatonin
+C    Thyroid hormones
+D      C01829  Thyroxine
+D      C02465  Triiodothyronine
+C    Adrenalines
+D      C00788  Adrenaline
+D      C00547  Noradrenaline
+C    Dopamine
+D      C03758  Dopamine
+C    Histamine
+D      C00388  Histamine
+B  Neurotransmitters [Fig]
+C    Acetylcholine
+D      C01996  Acetylcholine
+C    Amino acids
+D      C00037  Glycine
+D      C00049  Aspartate
+D      C00025  Glutamate
+D      C00334  GABA
+D      C00355  Dopa
+D      C01829  Thyroxine
+C    Biogenic amines
+D      C03758  Dopamine
+D      C00788  Epinephrine; Adrenaline
+D      C00547  Norepinephrine; Noradrenaline
+D      C00780  Serotonin
+D      C00388  Histamine
+#
+A<b>Antibiotics</b>
+B  beta-Lactams [Fig]
+C    Penams
+D      C05551  Penicillin G
+D      C06574  Ampicillin
+C    Cephems
+D      C00916  Cephalosporin C
+D      C06566  Cephamycin C
+D      C06880  Cefazolin
+D      C06683  Ceftriaxone
+C    Clavams
+D      C06662  Clavulanic acid
+C    Carbapenems
+D      C06664  Thienamycin
+D      C06665  Imipenem
+C    Monobactams
+D      C01941  Nocardicin A
+D      C06840  Aztreonam
+B  Aminoglycosides [Fig]
+C    Streptidines
+D      C00413  Streptomycin
+C    Actinamines
+D      C02078  Spectinomycin
+C    2-Deoxystreptamines
+D      C00304  Kanamycin
+D      C01918  Gentamicin C
+D      C01737  Neomycin B
+D      C17585  Butirosin A
+B  Polyketides and nonribosomal peptides [Fig]
+C    Macrolides
+D      C01912  Erythromycin
+D      C01946  Oleandomycin
+D      C01457  Tylosin
+D      C06690  Candicidin D
+C    Ansamycins
+D      C11222  Geldanamycin
+D      C12247  Rifamycin W
+D      C06688  Rifampicin
+C    Tetracyclines
+D      C06570  Tetracycline
+D      C06571  Chlortetracycline
+C    Other polyketides
+D      C01661  Adriamycin
+D      C06691  Actinorhodine
+D      C06764  Tetranactin
+D      C06693  Monensin
+D      C06686  Griseofulvin
+C    Non-ribosomal peptides
+D      C06689  Vancomycin
+D      C12046  Teicoplanin A2-2
+D      C01895  Bleomycin B2
+D      C15482  Bacitracin A
+D      C06684  Valinomycin
+D      C11612  Polymyxin B
+D      C06770  Actinomycin D
+B  Quinolones [Fig]
+C    4-Quinolones
+D      C05079  Nalidixic acid
+C    Fluoroquinolones
+D      C06687  Norfloxacin
+B  Others [Fig]
+C    Pure sugars
+D      C06763  Nojirimycin
+C    Glycolipids
+D      C06765  Flavomycin
+C    Amino acid derivatives
+D      C06682  Cycloserine
+C    Peptide nucleosides
+D      C06692  Polyoxin B
+C    Cycloalkane derivatives
+D      C06685  Cycloheximide
+C    Steroids
+D      C06694  Fusidic acid
+C    Aromatic compounds
+D      C00918  Chloramphenicol
+D      C05080  Novobiocin
+C    Aliphatic compounds
+D      C06454  Fosfomycin
+C    Quinones
+D      C06681  Mitomycin
+C    Cyclic lactones
+D      C06695  2-Oxazolidinone
+!
+#<hr>
+#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: May 22, 2015
+#<br><br><a href="/kegg-bin/get_htext?jp08001.keg">&raquo; Japanese version</a>

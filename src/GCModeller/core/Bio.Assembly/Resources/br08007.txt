@@ -1,0 +1,1067 @@
++D
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a> &nbsp; Pesticides</h2>
+#<!---
+#ENTRY       br08007
+#NAME        Pesticides
+#DEFINITION  Pesticides
+#--->
+!
+A<b>Pesticides</b>
+B  Fungicides
+C    Aliphatic nitrogen fungicides
+D      C18498  Cymoxanil
+D      C18723  Dodine
+D      C18568  Iminoctadine acetate
+C    Amide fungicides
+D      C18581  Amisulbrom
+D      C10929  Benalaxyl
+D      C18547  Boscalid
+D      C11255  Carboxin
+D      C10932  Carpropamid
+D      C18573  Cyazofamid
+D      C18516  Cyflufenamid
+D      C18820  Dichlofluanid
+D      C18518  Diclocymet
+D      C18833  Fenfuram
+D      C18593  Fenhexamid
+D      C18519  Fenoxanil
+D      C18464  Fluopicolide
+D      C18521  Flusulfamide
+D      C18502  Flutolanil
+D      C10941  Furalaxyl
+D      C18503  Furametpyr
+D      C18522  Mandipropamid
+D      C18548  Mepronil
+D      C18626  Metalaxyl-M
+D      C18800  Ofurace
+D      C18753  Oxadixyl
+D      C10956  Oxycarboxin
+D      C18480  Pefurazoate
+D      C18482  Penthiopyrad
+D      C11182  Prochloraz
+D      C18550  Tiadinil
+D      C18899  Tolylfluanid
+D      C10960  Triforine
+D      C18903  Zoxamide
+C    Antibiotic fungicides
+D      C02010  Blasticidin S
+D      C17968  Kasugamycin
+D      C08073  Natamycin
+D      C06624  Oxytetracycline
+D      C00413  Streptomycin
+D      C12112  Validamycin A
+C    Carbamate fungicides
+D      C10896  Benomyl
+D      C18415  Benthiavalicarb isopropyl
+D      C10897  Carbendazim
+D      C11077  Diethofencarb
+D      C18866  Iprovalicarb
+D      C18421  Propamocarb hydrochloride
+D      C18885  Propamocarb
+D      C14432  Thiophanate-methyl
+C    Conazole fungicides
+D      C18701  Azaconazole
+D      C18704  Bromuconazole
+D      C18459  Difenoconazole
+D      C18456  Cyproconazole
+D      C18720  Diniconazole
+D      C18739  Enilconazole
+D      C18461  Fenbuconazole
+D      C18733  Flusilazole
+D      C18734  Flutriafol
+D      C18466  Hexaconazole
+D      C18468  Imibenconazole
+D      C18471  Ipconazole
+D      C18476  Metconazole
+D      C18477  Myclobutanil
+D      C18572  Oxpoconazole fumarate
+D      C18801  Penconazole
+D      C11121  Propiconazole
+D      C18888  Prothioconazole
+D      C18544  Simeconazole
+D      C18489  Tebuconazole
+D      C18490  Tetraconazole
+D      C11156  Triadimefon
+D      C11127  Triadimenol
+D      C18493  Triflumizole
+D      C18815  Triticonazole
+D      C18494  Uniconazole P
+C    Copper fungicides
+D      C18712  Copper hydroxide
+D      C18713  Copper sulfate
+D      C18714  Cuprous oxide
+D      C18879  Oxine-copper
+C    Dicarboximide fungicides
+D      C18754  Captafol
+D      C14438  Captan
+D      C10979  Chlozolinate
+D      C18591  Famoxadone
+D      C18551  Fluoroimide
+D      C18860  Folpet
+D      C11208  Iprodione
+D      C10986  Procymidone
+D      C10981  Vinclozolin
+C    Dithiocarbamate fungicides
+D      C18449  Amobam
+D      C18457  Dazomet
+D      C11223  Ferbam
+D      C15231  Maneb
+D      C15225  Manzeb
+D      C18424  Metam-sodium
+D      C18144  Metiram
+D      C18748  Nabam
+D      C18450  Propineb
+D      C18628  Thiadiazin
+D      C11160  Thiram
+D      C15232  Zineb
+D      C15229  Ziram
+C    Inorganic fungicides
+D      C00087  Sulfur
+D      C13377  Mercuric chloride
+D      C18670  Mercuric oxide
+C    Morpholine fungicides
+D      C18583  Dimethomorph
+D      C18786  Dodemorph
+D      C18787  Fenpropimorph
+C    Organochlorine fungicides
+D      C18445  Chloropicrin
+D      C11037  Chlorothalonil
+D      C14292  Dichlorophen
+D      C11042  Hexachlorobenzene
+D      C18611  Phthalide
+D      C14338  Quintozene
+D      C18897  Tecnazene
+C    Organophosphorus fungicides
+D      C14436  Edifenphos
+D      C18401  Fosetyl
+D      C15230  Iprobenfos
+D      C18761  Pyrazophos
+D      C18407  Tolclofos-methyl
+C    Organotin fungicides
+D      C18728  Fentin acetate
+D      C18729  Fentin hydroxide
+C    Pyridine fungicides
+D      C18578  Fluazinam
+D      C18804  Pyrifenox
+C    Pyrimidine fungicides
+D      C10914  Cyprodinil
+D      C18776  Bupirimate
+D      C11226  Fenarimol
+D      C18579  Ferimzone
+D      C10919  Mepanipyrim
+D      C11185  Nuarimol
+D      C11180  Pyrimethanil
+C    Quinone fungicides
+D      C18574  Dithianon
+D      C11342  Oxolinic acid
+C    Strobilurin fungicides
+D      C18558  Azoxystrobin
+D      C11017  Kresoxim-methyl
+D      C18559  Metominostrobin
+D      C18560  Orysastrobin
+D      C18561  Pyraclostrobin
+D      C18562  Trifloxystrobin
+C    Thiazole fungicides
+D      C18752  Octhilinone
+D      C07131  Thiabendazole
+D      C18505  Thifluzamide
+C    Others
+D      C06588  Biphenyl
+D      C11258  Bitertanol
+D      C13034  Bronopol
+D      C18706  Butylamine
+D      C11000  Dichloran
+D      C18458  Diclomezine
+D      C18721  Dinobuton
+D      C18460  Echlomezole
+D      C14268  Fenpiclonil
+D      C18726  Fenpropidin
+D      C18462  Fludioxonil
+D      C18737  Fuberidazole
+D      C11111  Isoprothiolane
+D      C18746  Methasulfocarb
+D      C18447  Methyl bromide
+D      C18448  Methyl iodide
+D      C18751  Nitrapyrin
+D      C18873  Nitrothal-isopropyl
+D      C11012  Pencycuron
+D      C11151  Phenylmercury acetate
+D      C06701  Phosphonate
+D      C18483  Probenazole
+D      C18487  Pyroquilon
+D      C18575  Quinoxaline
+D      C18892  Quinoxyfen
+D      C11124  Spiroxamine
+D      C18492  Tricyclazole
+B  Herbicides
+C    Amide herbicides
+D      C18350  Asulam
+D      C14568  Bromobutide
+D      C18497  Cafenstrole
+D      C18499  Dimethenamid
+D      C18722  Diphenamid
+D      C18501  Fentrazamide
+D      C18851  Flucarbazone-sodium
+D      C18736  Fomesafen
+D      C18504  Isoxaben
+D      C14525  Mefenacet
+D      C18868  Napropamide
+D      C18869  Naptalam
+D      C18481  Penoxsulam
+D      C14333  Propyzamide
+C    Anilide herbicides
+D      C10928  Alachlor
+D      C10925  Acetochlor
+D      C10931  Butachlor
+D      C10907  Cloransulam-methyl
+D      C18821  Diclosulam
+D      C18718  Dimethachlor
+D      C18500  Etobenzanid
+D      C18850  Florasulam
+D      C18731  Flufenacet
+D      C18852  Flumetsulam
+D      C18743  Mefluidide
+D      C10953  Metolachlor
+D      C18867  Metosulam
+D      C18882  Pentanochlor
+D      C14517  Pretilachlor
+D      C18759  Propachlor
+D      C14229  Propanil
+D      C10959  Thenylchlor
+C    Arsenical herbicides
+D      C07308  Cacodylate
+D      C07294  Methylarsonate
+C    Benzoic acid herbicides
+D      C10915  Bispyribac
+D      C18453  Bispyribac-sodium
+D      C14744  Dacthal
+D      C18779  Clopyralid
+D      C18597  Dicamba
+D      C18890  Pyriminobac
+D      C18486  Pyriminobac-methyl
+D      C18805  Pyrithiobac-sodium
+D      C18806  Quinclorac
+D      C18891  Quinmerac
+D      C18767  2,3,6-TBA
+C    Bipyridinium herbicides
+D      C18577  Diquat
+D      C14701  Paraquat
+C    Carbanilate herbicides
+D      C11075  Carbetamide
+D      C14506  Chlorpropham
+D      C18417  Desmedipham
+D      C18420  Phenmedipham
+D      C18887  Propham
+C    Cyclohexene oxime herbicides
+D      C18772  Alloxydim
+D      C18705  Butroxydim
+D      C18609  Clethodim
+D      C10913  Cycloxydim
+D      C18539  Sethoxydim
+D      C18540  Tepraloxydim
+D      C18769  Tralkoxydim
+C    Dinitroaniline herbicides
+D      C18785  Dinitramine
+D      C18827  Ethalfluralin
+D      C18730  Fluchloralin
+D      C18877  Oryzalin
+D      C11019  Pendimethalin
+D      C18884  Prodiamine
+D      C14343  Trifluralin
+C    Diphenyl ether herbicide
+D      C11066  Bifenox
+D      C18732  Fluoroglycofen
+D      C18881  Oxyfluorfen
+C    Inorganic herbicides
+D      C18773  Ammonium sulfamate
+D      C18765  Sodium chlorate
+C    Imidazolinone herbicides
+D      C18598  Imazamox
+D      C05076  Imazaquin
+D      C18864  Imazapyr
+D      C18865  Imazethapyr
+C    Nitrile herbicides
+D      C04178  Bromoxynil
+D      C11040  Dichlobenil
+D      C18546  Ioxynil
+D      C18740  Ioxynil octanoate
+D      C18613  Pyraclonil
+C    Nitrophenol herbicides
+D      C18671  Dinoterb
+D      C18653  DNOC
+C    Organophosphorus herbicides
+D      C18394  Anilofos
+D      C18703  Bensulide
+D      C06457  Bialaphos
+D      C11022  Butamifos
+D      C18789  Fosamine
+D      C05042  Glufosinate
+D      C01705  Glyphosate
+D      C18565  Glyphosate-monoammonium
+D      C18564  Glyphosate-isopropylammonium
+D      C18758  Piperophos
+C    Phenoxy herbicides
+D      C18531  Clomeprop
+D      C18607  Cyhalofop-butyl
+D      C14404  2,4-DB
+D      C03664  2,4-Dichlorophenoxyacetate
+D      C18716  Diclofop
+D      C04871  Haloxyfop
+D      C18528  MCPA
+D      C18741  MCPA-thioethyl
+D      C18529  2-Methyl-4-chlorophenoxybutyric acid
+D      C18742  Mecoprop
+D      C18608  Mecoprop-P
+D      C18886  Propaquizafop
+D      C18763  Quizalofop
+D      C18530  Quizalofop-ethyl
+D      C18764  Quizalofop-P-tefuryl
+C    Phenylurea herbicides
+D      C18817  Chlorotoluron
+D      C18427  Daimuron
+D      C18783  Dimefuron
+D      C18428  Diuron
+D      C18853  Fluometuron
+D      C11005  Isoproturon
+D      C11007  Linuron
+D      C18792  Methyldymron
+D      C11011  Metoxuron
+D      C18794  Monolinuron
+D      C18435  Siduron
+D      C18812  Thidiazuron
+C    Pyrazole herbicides
+D      C18555  Benzofenap
+D      C18717  Difenzoquat
+D      C10948  Metazachlor
+D      C18554  Pyraflufen-ethyl
+D      C11123  Pyrazolate
+D      C18556  Pyrazoxyfen
+C    Pyridine herbicides
+D      C18549  Diflufenican
+D      C18826  Dithiopyr
+D      C18858  Fluroxypyr
+D      C14310  Picloram
+D      C11032  Trichlopyr
+C    Sulfonylurea herbicides
+D      C18438  Azimsulfuron
+D      C10937  Bensulfuron-methyl
+D      C18777  Chlorimuron
+D      C10943  Chlorimuron-ethyl
+D      C18818  Cinosulfuron
+D      C18439  Cyclosulfamuron
+D      C05071  Chlorsulfuron
+D      C18440  Ethoxysulfuron
+D      C18441  Flazasulfuron
+D      C18429  Flucetosulfuron
+D      C18855  Flupyrsulfuron-methyl sodium
+D      C18442  Halosulfuron-methyl
+D      C18443  Imazosulfuron
+D      C18431  Iodosulfuron-methyl-sodium
+D      C10946  Metsulfuron-methyl
+D      C10949  Nicosulfuron
+D      C18883  Primisulfuron
+D      C18889  Pyrazosulfuron
+D      C18444  Pyrazosulfuron-ethyl
+D      C10952  Rimsulfuron
+D      C18895  Sulfometuron
+D      C10957  Thifensulfuron-methyl
+D      C10961  Triasulfuron
+D      C18901  Triflusulfuron-methyl
+D      C18900  Tribenuron
+C    Thiocarbamate herbicides
+D      C18780  Cycloate
+D      C14571  Dimepiperate
+D      C11081  EPTC
+D      C14526  Esprocarb
+D      C11086  Molinate
+D      C18755  Pebulate
+D      C18760  Prosulfocarb
+D      C18422  Pyributicarb
+D      C14428  Thiobencarb
+D      C18898  Tiocarbazil
+D      C18813  Tri-allate
+C    Triazine herbicides
+D      C18700  Ametryn
+D      C06551  Atrazine
+D      C14299  Cyanazine
+D      C18537  Dimethametryn
+D      C14186  Prometon
+D      C18542  Prometryn
+D      C14312  Propazine
+D      C11172  Simazine
+D      C14457  Simetryn
+D      C18768  Terbumeton
+D      C18810  Terbuthylazine
+D      C18811  Terbutryn
+D      C18814  Trietazine
+C    Triazinone herbicides
+D      C10926  Hexazinone
+D      C10930  Metamitron
+D      C14332  Metribuzin
+C    Uracil herbicides
+D      C10911  Bromacil
+D      C11200  Lenacil
+D      C10963  Terbacil
+C    Urea herbicides
+D      C18425  Cumyluron
+D      C18432  Isouron
+D      C10909  Methabenzthiazuron
+D      C11188  Neburon
+D      C18436  Tebuthiuron
+C    Others
+D      C01471  Acrolein
+D      C02001  Allyl alcohol
+D      C11261  Amitrole
+D      C18775  Benazolin
+D      C18452  Benfuresate
+D      C10964  Benoxacor
+D      C18594  Bentazone-sodium
+D      C18536  Benzobicyclon
+D      C11094  Carfentrazone-ethyl
+D      C18570  Chloridazon
+D      C06755  Chloroacetic acid
+D      C10903  Cinmethylin
+D      C11095  Clomazone
+D      C18782  Dichlormid
+D      C18719  Dimethipin
+D      C18600  Dalapon
+D      C18724  Endothal-disodium
+D      C18829  Ethofumesate
+D      C18831  Fenchlorazole-ethyl
+D      C18832  Fenclorim
+D      C18788  Flamprop-M
+D      C18543  Flupoxam
+D      C18854  Flupropanate
+D      C18857  Fluridone
+D      C11100  Flurochloridone
+D      C18859  Fluthiacet
+D      C10908  Fluthiacet-methyl
+D      C18735  Fluxofenim
+D      C18470  Indanofan
+D      C18874  Norflurazon
+D      C18878  Oxabetrinil
+D      C18496  Oxadiazon
+D      C18571  Oxaziclomefone
+D      C18592  Pentoxazone
+D      C18803  Pyridate
+D      C18485  Pyriftalid
+D      C18584  Quinoclamin
+D      C11150  TCA
+D      C18808  TCA-sodium
+B  Insecticides
+C    Arsenical insecticides
+D      C18647  Calcium arsenate
+D      C18648  Lead arsenate
+C    Carbamate insecticides
+D      C18414  Alanycarb
+D      C11015  Aldicarb
+D      C14433  Bendiocarb
+D      C11073  Benfuracarb
+D      C18645  Butocarboxim
+D      C18646  Butoxycarboxim
+D      C07491  Carbaryl
+D      C14291  Carbofuran
+D      C18416  Carbosulfan
+D      C18649  Ethiofencarb
+D      C14425  Fenobucarb
+D      C11078  Fenoxycarb
+D      C18650  Furathiocarb
+D      C18418  Isoprocarb
+D      C18651  Methiocarb
+D      C11196  Methomyl
+D      C18747  Metolcarb
+D      C18419  Oxamyl
+D      C11079  Pirimicarb
+D      C14334  Propoxur
+D      C18423  Thiodicarb
+D      C18652  Thiofanox
+D      C18771  XMC
+D      C14579  Xylylcarb
+C    Neonicotinoid insecticides
+D      C18507  Acetamiprid
+D      C18508  Clothianidin
+D      C18509  Dinotefuran
+D      C11110  Imidacloprid
+D      C18511  Nitenpyram
+D      C18512  Thiacloprid
+D      C18513  Thiamethoxam
+C    Nereistoxin insecticides
+D      C18563  Bensultap
+D      C11080  Cartap
+D      C11473  Thiocyclam
+C    Organochlorine insecticides
+D      C18738  BHC
+D      C14176  Chlordane
+D      C04623  DDT
+D      C11090  Endosulfan
+D      C07075  Lindane
+D      C11043  Methoxychlor
+D      C02575  Pentachlorophenol
+C    Organophosphorus insecticides
+D      C18702  Azamethiphos
+D      C18644  Azinphos-ethyl
+D      C11018  Azinphos-methyl
+D      C18395  Cadusafos
+D      C18677  Chlorethoxyfos
+D      C18654  Chlorfenvinphos
+D      C18686  Chlormephos
+D      C14322  Chlorpyrifos
+D      C14520  Chlorpyrifos-methyl
+D      C18397  Cyanophos
+D      C18655  Demeton-S-methyl
+D      C14324  Diazinon
+D      C14430  Dichlorvos
+D      C18656  Dicrotophos
+D      C14326  Dimethoate
+D      C18400  Disulfoton
+D      C14434  EPN
+D      C18725  Ethion
+D      C18687  Ethoprophos
+D      C18658  Famphur
+D      C14442  Fenitrothion
+D      C14420  Fenthion
+D      C18660  Heptenophos
+D      C14580  Isoxathion
+D      C07497  Malathion
+D      C18661  Mecarbam
+D      C18745  Methacrifos
+D      C14431  Methidathion
+D      C07971  Metrifonate
+D      C18688  Mevinphos
+D      C18663  Monocrotophos
+D      C18749  Naled
+D      C18662  Omethoate
+D      C18664  Oxydemeton-methyl
+D      C06604  Parathion
+D      C14228  Parathion-methyl
+D      C14429  Phenthoate
+D      C18690  Phorate
+D      C11028  Phosalone
+D      C18756  Phosmet
+D      C18689  Phosphamidon
+D      C18757  Phoxim
+D      C18403  Pirimiphos-methyl
+D      C18404  Profenofos
+D      C18405  Prothiofos
+D      C18406  Pyraclofos
+D      C18762  Pyridafenthion
+D      C11030  Quinalphos
+D      C18691  Sulfotep
+D      C18692  Tebupirimfos
+D      C18809  Temefos
+D      C18693  Terbufos
+D      C14513  Tetrachlorvinphos
+D      C18665  Thiometon
+D      C18657  Triazophos
+D      C18666  Vamidothion
+C    Phosphoramido insecticides
+D      C14426  Acephate
+D      C18659  Fenamiphos
+D      C18667  Methamidophos
+D      C18669  Propetamphos
+C    Pyrazole insecticides
+D      C18454  Chlorantraniliprole
+D      C18552  Ethiprole
+D      C11099  Fipronil
+D      C11126  Tebufenpyrad
+D      C18491  Tolfenpyrad
+C    Pyrethroid insecticides
+D      C18408  Acrinathrin
+D      C10980  Bifenthrin
+D      C14337  Bioallethrin
+D      C16810  Bioresmethrin
+D      C18409  Cycloprothrin
+D      C10982  Cyfluthrin
+D      C10983  Cyhalothrin
+D      C10984  Cypermethrin
+D      C18715  alpha-Cypermethrin
+D      C12962  Cyphenothrin
+D      C10985  Deltamethrin
+D      C18524  Empenthrin
+D      C18147  Esfenvalerate
+D      C18410  Etofenprox
+D      C18411  Fenpropathrin
+D      C10988  Fenvalerate
+D      C14524  Flucythrinate
+D      C14388  Permethrin
+D      C14387  Phenothrin
+D      C18510  Prallethrin
+D      C10991  Resmethrin
+D      C18412  Silafluofen
+D      C18790  tau-Fluvalinate
+D      C10992  Tefluthrin
+D      C18373  Tetramethrin
+D      C18413  Tralomethrin
+D      C13410  Transfluthrin
+C    Acaricides
+D      C18535  Acequinocyl
+D      C10995  Amitraz
+D      C11092  Azocyclotin
+D      C18589  Bifenazate
+D      C14514  Chinomethionat
+D      C11025  Coumaphos
+D      C18545  Cyenopyrafen
+D      C18517  Cyflumetofen
+D      C11093  Cyhexatin
+D      C18781  Diafenthiuron
+D      C14301  Dicofol
+D      C18446  Dienochlor
+D      C18495  Etoxazole
+D      C18727  Fenazaquin
+D      C15435  Fenbutatin oxide
+D      C11084  Fenothiocarb
+D      C11098  Fenpyroximate
+D      C18595  Fluacrypyrim
+D      C18668  Formetanate
+D      C18467  Hexythiazox
+D      C18602  Propargite
+D      C18603  Pyrimidifen
+D      C18553  Spirodiclofen
+D      C18451  Tetradifon
+C    Nematicides
+D      C18627  1,3-Dichloropropene
+D      C18402  Fosthiazate
+D      C18469  Imicyafos
+D      C18587  Methyl isothiocyanate
+C    Others
+D      C18455  Chlorfenapyr
+D      C18816  Cryolite
+D      C18463  Flonicamid
+D      C18520  Flubendiamide
+D      C10994  Hydramethylnon
+D      C18862  Hydroprene
+D      C18569  Indoxacarb
+D      C18523  Metaflumizone
+D      C18557  Milbemectin
+D      C00745  Nicotine
+D      C18863  2-(Octylthio)ethanol
+D      C18614  Pyridaben
+D      C18484  Pyridalyl
+D      C07593  Rotenone
+D      C18894  Spinetoram
+D      C18488  Spiromesifen
+D      C18807  Spirotetramat
+D      C18766  Sulfluramid
+D      C18770  Triazamate
+B  Insect growth regulators
+C    Antifeedants
+D      C18590  Pymetrozine
+C    Chitin synthesis inhibitors
+D      C10912  Buprofezin
+D      C18426  Chlorfluazuron
+D      C14147  Cyromazine
+D      C14427  Diflubenzuron
+D      C18430  Flufenoxuron
+D      C18861  Hexaflumuron
+D      C18434  Lufenuron
+D      C18875  Novaluron
+D      C18876  Noviflumuron
+D      C18437  Teflubenzuron
+D      C18615  Triflumuron
+C    Juvenile hormone mimics
+D      C14308  Methoprene
+D      C18605  Pyriproxyfen
+C    Mite growth regulators
+D      C18576  Clofentezine
+C    Moulting hormone agonists
+D      C18515  Chromafenozide
+D      C18791  Halofenozide
+D      C18525  Methoxyfenozide
+D      C18526  Tebufenozide
+B  Plant growth regulators
+C    Auxins
+D      C18533  alpha-Naphthylacetamide
+D      C07088  4-Chlorophenoxyacetate
+D      C11020  2,4-DP
+D      C00954  Indole-3-acetate
+D      C13014  1-Naphthylacetic acid
+D      C18534  1-Naphthaleneacetic acid sodium salt
+D      C18750  2-Napthyloxyacetic acid
+C    Cytokinins
+D      C11263  6-Benzylaminopurine
+D      C04083  N6-(delta2-Isopentenyl)-adenine
+C    Growth inhibitors / retardants
+D      C18774  Ancymidol
+D      C18582  Butralin
+D      C18585  Chlormequat
+D      C18708  Chlorphonium chloride
+D      C10996  Daminozide
+D      C18849  Flumetralin
+D      C18856  Flurecol
+D      C18465  Flurprimidol
+D      C18825  Dikegulac
+D      C18475  Mepiquat chloride
+D      C18479  Paclobutrazol
+C    Growth stimulators
+D      C18604  Forchlorfenuron
+D      C11103  Hymexazol
+C    Others
+D      C18586  Calcium formate
+D      C00114  Choline
+D      C18819  Cloxyfonac-sodium
+D      C01566  Cyanamide
+D      C01633  1-Decanol
+D      C18399  Ethephon
+D      C18532  Ethychlozate
+D      C01699  Gibberellin A3
+D      C10942  Inabenfide
+D      C18474  Maleic hydrazide
+D      C18538  Prohydrojasmon
+D      C18541  Trinexapac-ethyl
+B  Rodenticides
+C    Coumarin rodenticides
+D      C18694  Brodifacoum
+D      C18596  Bromadiolone
+D      C16806  Coumatetralyl
+D      C16807  Difenacoum
+D      C18695  Difethialone
+D      C18696  Flocoumafen
+D      C01541  Warfarin
+C    Inorganic rodenticides
+D      C11906  Sodium arsenite
+D      C18567  Thallium sulfate
+D      C18674  Zinc phosphide
+C    Organofluorine rodenticides
+D      C18675  Fluoroacetamide
+D      C18588  Sodium fluoroacetate
+C    Others
+D      C18676  alpha-Chlorohydrin
+D      C18697  Bromethalin
+D      C18707  Chloralose
+D      C18514  Chlorophacinone
+D      C18698  Diphenadione
+D      C06522  Strychnine
+B  Others
+C    Bird repellent
+D      C16207  Anthraquinone
+C    Fumigant
+D      C07092  1,4-Dichlorobenzene
+C    Insect repellents
+D      C11233  Dimethyl phthalate
+D      C18830  Ethyl 3-(N-butylacetamido)propionate
+D      C02499  2-Hydroxybiphenyl
+D      C18795  MGK 264
+D      C10935  N,N-Diethyl-m-toluamide
+C    Molluscacide
+D      C18744  Metaldehyde
+C    Synergist
+D      C18880  Piperonyl butoxide
+#
+A<b>Obsolete pesticides</b>
+B  Fungicides
+C    Amide fungicides
+D      C18907  Benodanil
+D      C18908  Chloraniformethan
+D      C18909  Cyprofuram
+D      C18912  Furmecyclox
+D      C18913  Mebenil
+D      C18914  Pyracarbolid
+D      C18916  Trichlamide
+C    Antibiotic fungicides
+D      C06685  Cycloheximide
+D      C06686  Griseofulvin
+C    Carbamate fungicides
+D      C18917  Cypendazole
+D      C18918  Thiophanate
+C    Conazole fungicides
+D      C11235  Diclobutrazol
+D      C11293  Etaconazole
+D      C18919  Furconazole-cis
+C    Dicarboximide fungicides
+D      C18928  Dichlozoline
+D      C18921  Myclozolin
+C    Organophosphorus fungicides
+D      C18925  Ditalimfos
+D      C18926  Phosdiphen
+D      C18927  Triamiphos
+C    Pyridine fungicides
+D      C18930  Buthiobate
+D      C18931  Pyridinitril
+C    Pyrimidine fungicides
+D      C18784  Dimethirimol
+D      C18828  Ethirimol
+D      C18932  Triarimol
+C    Others
+D      C18935  Anilazine
+D      C18924  Benquinox
+D      C18923  Carbamorph
+D      C18933  Chloranil
+D      C11252  Chloroneb
+D      C18936  Chlorquinox
+D      C18922  Dinocton 6
+D      C18929  Drazoxolon
+D      C18937  Fenaminosulf
+D      C18938  Fenitropan
+D      C18920  Fluoromidine
+D      C18939  Fluotrimazole
+D      C18941  Halacrinate
+D      C18942  Mecarbinzid
+D      C18934  Metsulfovax
+D      C18943  Prothiocarb
+D      C18944  Quinacetol sulfate
+D      C18945  Thicyofen
+D      C18946  Thioquinox
+D      C18149  Tributyltin oxide
+B  Herbicides
+C    Amide herbicides
+D      C19043  Allidochlor
+D      C19044  Benzoylprop-ethyl
+D      C19045  Butenachlor
+D      C19046  Chloranocryl
+D      C14584  Chlorobenside
+D      C11041  Chlorthiamid
+D      C19047  Isocarbamid
+D      C19048  Quinonamid
+D      C18896  Tebutam
+C    Anilide herbicides
+D      C19049  Cypromid
+D      C19050  Delachlor
+D      C19051  Diethatyl-ethyl
+D      C19052  Flamprop
+D      C19053  Monalide
+D      C19054  Perfluidone
+C    Benzoic acid herbicides
+D      C19056  Chloramben
+D      C19057  Tricamba
+C    Carbanilate herbicides
+D      C19059  Barban
+D      C19060  Chlorbufam
+D      C19061  Phenisopham
+D      C19062  SWEP
+C    Dinitroaniline herbicides
+D      C19063  Isopropalin
+D      C19064  Nitralin
+D      C19065  Profluralin
+C    Diphenyl ether herbicides
+D      C19066  Chlomethoxyfen
+D      C11063  Chlornitrofen
+D      C11064  Fluorodifen
+D      C11065  Nitrofen
+C    Nitrophenol herbicides
+D      C14302  Dinoseb
+D      C19119  Dinoseb acetate
+D      C19068  Medinoterb acetate
+C    Phenoxy herbicides
+D      C19069  Bromofenoxim
+D      C19070  Clofop
+D      C19071  Disul
+D      C19072  Erbon
+D      C18527  Fluazifop
+D      C19073  Isoxapyrifop
+C    Phenylurea herbicides
+D      C19074  Buturon
+D      C11009  Chlorbromuron
+D      C19075  Chloroxuron
+D      C19076  Difenoxuron
+D      C19121  Fenthiaprop
+D      C11224  Fenuron
+D      C19077  Fenuron-TCA
+D      C19086  Methiuron
+D      C18793  Metobromuron
+D      C19087  Monuron
+D      C19088  Monuron-TCA
+D      C19089  Parafluron
+D      C19090  Phenobenzuron
+C    Thiocarbamate herbicides
+D      C19094  Diallat
+D      C19095  Ethiolate
+D      C19096  Sulfallate
+D      C19097  Vernolate
+C    Triazine herbicides
+D      C19098  Atraton
+D      C19099  Aziprotryne
+D      C19100  Desmetryn
+D      C19101  Dipropetryn
+D      C19102  Eglinazine
+D      C19103  Ipazine
+D      C19104  Methoprotryne
+D      C19105  Proglinazine
+D      C19106  Secbumeton
+C    Urea herbicides
+D      C19058  Benzthiazuron
+D      C19109  Cycluron
+D      C19092  Ethidimuron
+D      C19110  Isonoruron
+D      C19111  Noruron
+D      C19093  Thiazafluron
+C    Others
+D      C19112  Buthidazole
+D      C19113  Calcium carbimide
+D      C19114  Chlorfenac
+D      C19115  Chlorfenprop-methyl
+D      C19116  Credazine
+D      C19117  Cyometrinil
+D      C19118  Dimexano
+D      C19120  Dixanthogen
+D      C11024  Fenoxaprop-ethyl
+D      C19091  Haloxydine
+D      C19122  Hexachloroacetone
+D      C19055  Hexaflurate
+D      C19108  Isocil
+D      C19107  Isomethiozin
+D      C18433  Karbutilate
+D      C19123  Methazole
+D      C19124  Methoxyphenone
+D      C11194  Morfamquat
+D      C19125  Naphthalic anhydride
+D      C19126  Oxapyrazon
+D      C19067  Potassium cyanate
+D      C19127  Proxan
+D      C19128  Pydanon
+D      C19149  TCA-ethadyl
+D      C19129  Terbucarb
+D      C19130  Tridiphane
+B  Insecticides
+C    Carbamate insecticide
+D      C18906  Aldoxycarb
+D      C11071  Aminocarb
+D      C18948  Bufencarb
+D      C18949  Butacarb
+D      C18950  Carbanolate
+D      C18951  Cloethocarb
+D      C18953  Dioxacarb
+D      C18954  Nitrilacarb
+D      C18955  Promacyl
+D      C18956  Promecarb
+C    Organochlorine insecticides
+D      C07552  Aldrin
+D      C18958  Bromocyclen
+D      C18959  Chlorbicyclen
+D      C13718  Dieldrin
+D      C18124  Endrin
+D      C14185  Heptachlor
+D      C18960  Isobenzan
+D      C18961  Isodrin
+D      C18962  Kelevan
+D      C14184  Mirex
+D      C15470  Toxaphene
+C    Organophosphorus insecticides
+D      C18963  Amidithion
+D      C18964  Athidathion
+D      C18965  Bromofos
+D      C18966  Bromophos-ethyl
+D      C18968  Carbophenothion
+D      C18969  Chlorphoxim
+D      C18970  Chlorthiophos
+D      C18971  Crotoxyphos
+D      C18972  Crufomate
+D      C18973  Cyanofenphos
+D      C18974  Cyanthoate
+D      C18975  Demephion-O
+D      C18977  Demeton-O
+D      C18978  Demeton-S
+D      C18979  Demeton-S-methylsulphon
+D      C18398  Dichlofenthion
+D      C18980  Dimefox
+D      C17877  Dioxation
+D      C18982  Endothion
+D      C18983  Ethoate-methyl
+D      C18985  Etrimfos
+D      C18986  Fenchlorphos
+D      C14510  Fensulfothion
+D      C18987  Fonofos
+D      C18988  Formothion
+D      C18989  Fosmethilan
+D      C18999  Fosthietan
+D      C19002  Iodofenphos
+D      C19000  IPSP
+D      C19001  Isazofos
+D      C11002  Isofenphos
+D      C19003  Leptophos
+D      C19004  Lythidathion
+D      C19005  Mecarphon
+D      C19006  Menazon
+D      C19007  Mephosfolan
+D      C19008  Mipafox
+D      C18984  Oxydeprofos
+D      C19009  Oxydisulfoton
+D      C19010  Phenkapton
+D      C19011  Phosfolan
+D      C19012  Pirimiphos-ethyl
+D      C19013  Propaphos
+D      C19014  Prothoate
+D      C18981  Salithion
+D      C19015  Schradan
+D      C19148  S-Seven
+D      C19016  Sulprofos
+D      C19017  TEPP
+D      C19018  Trichloronat
+C    Acaricides
+D      C19019  Aramite
+D      C13619  Arsenous oxide
+D      C19020  Azothoate
+D      C19021  Benzoximate
+D      C19022  Binapacryl
+D      C19023  Chlorfenethol
+D      C19024  Chlorfenson
+D      C19025  Chlorfensulphide
+D      C19037  Chloromebuform
+D      C19026  Chloromethiuron
+D      C14574  Chlorobenzilate
+D      C19027  Chloropropylate
+D      C19028  Dialifor
+D      C19038  Dinex
+D      C19029  Fenazaflor
+D      C19030  Fenson
+D      C19031  Fluenetil
+D      C19032  Tetrasul
+C    Nematicides
+D      C19035  Diamidafos
+D      C19036  Thionazin
+C    Others
+D      C14746  Chlordimeform
+D      C10989  Fluvalinate
+D      C19039  Malonoben
+D      C08705  Ryanodine
+D      C08142  Sodium fluoride
+D      C19040  Sodium hexafluorosilicate
+B  Insect growth regulators
+C    Juvenile hormone mimics
+D      C19042  Kinoprene
+C    Mite growth regulators
+D      C19041  Flubenzimine
+B  Plant growth regulators
+C    Auxins
+D      C14532  Fenoprop
+D      C07100  2,4,5-Trichlorophenoxyacetic acid
+C    Growth inhibitors / retardants
+D      C19132  Glyphosine
+D      C19133  Piproctanyl
+C    Others
+D      C19131  Etacelasil
+D      C19134  Heptopargil
+D      C19135  Triapenthenol
+B  Rodenticides
+C    Coumarin rodenticides
+D      C16805  Coumachlor
+D      C18599  Coumafuryl
+C    Others
+D      C19136  ANTU
+D      C19137  Bisthiosemi
+D      C19138  Crimidine
+D      C19139  Norbormide
+D      C19140  Phosacetim
+D      C19141  Pindone
+D      C08880  Scilliroside
+B  Others
+C    Fumigants
+D      C01998  Acrylonitrile
+D      C19033  Carbon disulfide
+D      C19034  1,2-Dichloropropane
+D      C00829  Naphthalene
+C    Insect repellents
+D      C19142  Butopyronoxyl
+D      C14214  Dibutyl phthalate
+D      C19143  Dibutyl succinate
+D      C14271  Ethohexadiol
+C    Molluscacide
+D      C19144  Trifenmorph
+C    Synergists
+D      C19147  Piperonyl sulfoxide
+D      C19145  Propyl isome
+D      C19146  Sesamex
+!
+#<hr>
+#<b>[ <a href="/kegg/drug/">DRUG</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: April 6, 2011
+#<br><br><a href="/kegg-bin/get_htext?jp08007.keg">&raquo; Japanese version</a>

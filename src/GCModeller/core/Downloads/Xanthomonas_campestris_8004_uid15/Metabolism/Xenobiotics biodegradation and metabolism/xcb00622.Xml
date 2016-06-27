@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00622" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Xylene degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00100" Value="Propanoyl-CoA" />
+    <hashEntry Key="C00479" Value="Propanal" />
+    <hashEntry Key="C00596" Value="2-Hydroxy-2,4-pentadienoate" />
+    <hashEntry Key="C01454" Value="Toluate" />
+    <hashEntry Key="C02923" Value="2,3-Dihydroxytoluene" />
+    <hashEntry Key="C03589" Value="4-Hydroxy-2-oxopentanoate" />
+    <hashEntry Key="C06210" Value="2-Hydroxy-6-keto-2,4-heptadienoate" />
+    <hashEntry Key="C06575" Value="p-Cymene" />
+    <hashEntry Key="C06576" Value="p-Cumic alcohol" />
+    <hashEntry Key="C06577" Value="4-Isopropylbenzaldehyde" />
+    <hashEntry Key="C06578" Value="p-Cumate" />
+    <hashEntry Key="C06579" Value="cis-2,3-Dihydroxy-2,3-dihydro-p-cumate" />
+    <hashEntry Key="C06580" Value="2,3-Dihydroxy-p-cumate" />
+    <hashEntry Key="C06581" Value="2-Hydroxy-3-carboxy-6-oxo-7-methylocta-2,4-dienoate" />
+    <hashEntry Key="C06582" Value="2-Hydroxy-6-oxo-7-methylocta-2,4-dienoate" />
+    <hashEntry Key="C06720" Value="1,6-Dihydroxy-5-methylcyclohexa-2,4-dienecarboxylate" />
+    <hashEntry Key="C06729" Value="cis-1,2-Dihydroxy-4-methylcyclohexa-3,5-diene-1-carboxylate" />
+    <hashEntry Key="C06730" Value="4-Methylcatechol" />
+    <hashEntry Key="C06731" Value="1,2-Dihydroxy-6-methylcyclohexa-3,5-dienecarboxylate" />
+    <hashEntry Key="C06756" Value="p-Xylene" />
+    <hashEntry Key="C06757" Value="4-Methylbenzyl alcohol" />
+    <hashEntry Key="C06758" Value="p-Tolualdehyde" />
+    <hashEntry Key="C06760" Value="2-Hydroxy-5-methyl-cis,cis-muconic semialdehyde" />
+    <hashEntry Key="C06762" Value="4-Hydroxy-2-oxohexanoic acid" />
+    <hashEntry Key="C07208" Value="m-Xylene" />
+    <hashEntry Key="C07209" Value="3-Methylbenzaldehyde" />
+    <hashEntry Key="C07211" Value="m-Methylbenzoate" />
+    <hashEntry Key="C07212" Value="o-Xylene" />
+    <hashEntry Key="C07213" Value="2-Methylbenzyl alcohol" />
+    <hashEntry Key="C07214" Value="2-Methylbenzaldehyde" />
+    <hashEntry Key="C07215" Value="o-Toluate" />
+    <hashEntry Key="C07216" Value="3-Methylbenzyl alcohol" />
+    <hashEntry Key="C07478" Value="2-Hydroxy-5-methyl-cis,cis-muconate" />
+    <hashEntry Key="C07479" Value="2-Oxo-5-methyl-cis-muconate" />
+    <hashEntry Key="C11354" Value="2-Hydroxy-cis-hex-2,4-dienoate" />
+  </Compound>
+  <PathwayMap Key="xcb00622" Value="Xylene degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0154" Value="2-keto-4-pentenoate hydratase; K02554 2-keto-4-pentenoate hydratase [EC:4.2.1.80]" />
+    <hashEntry Key="xcb:XC_0366" Value="benzaldehyde dehydrogenase II; K00141 benzaldehyde dehydrogenase (NAD) [EC:1.2.1.28]" />
+  </Genes>
+</KEGG.PathwayBrief>

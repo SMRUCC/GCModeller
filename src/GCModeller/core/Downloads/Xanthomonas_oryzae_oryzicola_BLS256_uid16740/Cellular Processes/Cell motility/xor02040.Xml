@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor02040" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Flagellar assembly - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xor02040" Value="Flagellar assembly&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_2308" Value="flagellar motor protein MotB; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="xor:XOC_2309" Value="MotA protein; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xor:XOC_2333" Value="flhA; flagellar biosynthesis protein FlhA; K02400 flagellar biosynthesis protein FlhA" />
+    <hashEntry Key="xor:XOC_2334" Value="flhB; flagellar biosynthesis protein FlhB; K02401 flagellar biosynthetic protein FlhB" />
+    <hashEntry Key="xor:XOC_2340" Value="fliR; flagellar biosynthesis protein FliR; K02421 flagellar biosynthetic protein FliR" />
+    <hashEntry Key="xor:XOC_2341" Value="fliQ; flagellar biosynthesis protein FliQ; K02420 flagellar biosynthetic protein FliQ" />
+    <hashEntry Key="xor:XOC_2342" Value="flagellar biosynthesis protein; K02419 flagellar biosynthetic protein FliP" />
+    <hashEntry Key="xor:XOC_2343" Value="flagellar protein; K02418 flagellar protein FliO/FliZ" />
+    <hashEntry Key="xor:XOC_2344" Value="flagellar protein; K02417 flagellar motor switch protein FliN/FliY" />
+    <hashEntry Key="xor:XOC_2345" Value="fliM; flagellar motor switch protein FliM; K02416 flagellar motor switch protein FliM" />
+    <hashEntry Key="xor:XOC_2347" Value="flagellar protein; K02414 flagellar hook-length control protein FliK" />
+    <hashEntry Key="xor:XOC_2348" Value="fliJ; flagellar export protein FliJ; K02413 flagellar FliJ protein" />
+    <hashEntry Key="xor:XOC_2349" Value="flagellum-specific ATP synthase; K02412 flagellum-specific ATP synthase [EC:3.6.3.14]" />
+    <hashEntry Key="xor:XOC_2350" Value="fliH; flagellar assembly protein FliH; K02411 flagellar assembly protein FliH" />
+    <hashEntry Key="xor:XOC_2351" Value="fliG; flagellar motor switch protein FliG; K02410 flagellar motor switch protein FliG" />
+    <hashEntry Key="xor:XOC_2352" Value="fliF; flagellar M-ring protein FliF; K02409 flagellar M-ring protein FliF" />
+    <hashEntry Key="xor:XOC_2353" Value="fliE; flagellar hook-basal body complex protein (FliE); K02408 flagellar hook-basal body complex pro" />
+    <hashEntry Key="xor:XOC_2372" Value="fliS; flagellar protein FliS; K02422 flagellar protein FliS" />
+    <hashEntry Key="xor:XOC_2373" Value="flagellar protein; K02407 flagellar hook-associated protein 2" />
+    <hashEntry Key="xor:XOC_2374" Value="flagellar protein; K02406 flagellin" />
+    <hashEntry Key="xor:XOC_2375" Value="flgL; flagellar hook-associated protein 3; K02397 flagellar hook-associated protein 3 FlgL" />
+    <hashEntry Key="xor:XOC_2376" Value="flgK; flagellar hook-associated protein FlgK; K02396 flagellar hook-associated protein 1 FlgK" />
+    <hashEntry Key="xor:XOC_2378" Value="flgI; flagellar P-ring protein FlgI; K02394 flagellar P-ring protein precursor FlgI" />
+    <hashEntry Key="xor:XOC_2379" Value="flgH; flagellar L-ring protein FlgH; K02393 flagellar L-ring protein precursor FlgH" />
+    <hashEntry Key="xor:XOC_2380" Value="flgG; flagellar basal-body rod protein FlgG; K02392 flagellar basal-body rod protein FlgG" />
+    <hashEntry Key="xor:XOC_2381" Value="flgF; flagellar basal-body rod protein FlgF; K02391 flagellar basal-body rod protein FlgF" />
+    <hashEntry Key="xor:XOC_2382" Value="flagellar biosynthesis hook protein; K02390 flagellar hook protein FlgE" />
+    <hashEntry Key="xor:XOC_2384" Value="flagellar protein; K02389 flagellar basal-body rod modification protein FlgD" />
+    <hashEntry Key="xor:XOC_2385" Value="flgC; flagellar basal-body rod protein FlgC; K02388 flagellar basal-body rod protein FlgC" />
+    <hashEntry Key="xor:XOC_2386" Value="flgB; flagellar basal-body rod protein FlgB; K02387 flagellar basal-body rod protein FlgB" />
+    <hashEntry Key="xor:XOC_2389" Value="flgA; flagella basal body P-ring formation protein FlgA; K02386 flagella basal body P-ring formation" />
+    <hashEntry Key="xor:XOC_2390" Value="negative regulator of flagellin synthesis; K02398 negative regulator of flagellin synthesis FlgM" />
+    <hashEntry Key="xor:XOC_3964" Value="flagellar motor component MotA; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="xor:XOC_3965" Value="chemotaxis MotB protein; K02557 chemotaxis protein MotB" />
+  </Genes>
+</KEGG.PathwayBrief>

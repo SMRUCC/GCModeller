@@ -1,0 +1,130 @@
++C	Environmental compound
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a> &nbsp; Endocrine Disrupting Compounds</h2>
+#<!---
+#ENTRY       br08006
+#NAME        EDC
+#DEFINITION  Endocrine disrupting compounds
+#--->
+!
+A<b>Pesticides and herbicides</b>
+B  Carbamate pesticides
+C    C11015  Aldicarb
+C    C10896  Benlate
+C    C07491  Carbaryl
+C    C11196  Methomyl
+C    C10981  Vinclozolin
+B  Dithiocarbamate pesticides
+C    C15225  Mancozeb
+C    C15231  Maneb
+C    C18144  Metiram
+C    C15232  Zineb
+C    C15229  Ziram
+B  Organochlorine pesticides
+C    C07552  Aldrin
+C    C13718  Dieldrin
+C    C14176  Chlordane
+C    C14185  Heptachlor
+C    C14327  Heptachlor epoxide
+C    C18145  trans-Nonachlor
+C    C18146  Oxychlordane
+C    C04623  DDT
+C    C06636  DDD
+C    C04596  DDE
+C    C18124  Endrin
+C    C11090  Endosulfan
+C    C15214  alpha-Hexachlorocyclohexane
+C    C01792  Chlordecone
+C    C11043  Methoxychlor
+C    C14184  Mirex
+C    C15470  Toxaphene
+B  Pyrethroid pesticides
+C    C10984  Cypermethrin
+C    C18147  Esfenvalerate
+C    C10988  Fenvalerate
+C    C14388  Permethrin
+B  Triazine herbicides
+C    C06551  Atrazine
+C    C14332  Metribuzin
+C    C11172  Simazine
+B  Phenoxy herbicides
+C    C03664  2,4-Dichlorophenoxyacetate
+C    C07100  2,4,5-Trichlorophenoxyacetic acid
+B  Others
+C    C10928  Alachlor
+C    C11261  Amitrole
+C    C14336  Dibromochloropropane
+C    C02625  2,4-Dichlorophenol
+C    C06604  Parathion
+C    C11042  Hexachlorobenzene
+C    C14301  Dicofol
+C    C07497  Malathion
+C    C11065  Nitrofen
+C    C02575  Pentachlorophenol
+C    C14343  Trifluralin
+#
+A<b>Plasticizers and plastics</b>
+B  Phthalates
+C    C14211  Butylbenzyl phthalate
+C    C14214  Dibutyl phthalate
+C    C14529  Dicyclohexyl phthalate
+C    C03690  Diethylhexyl phthalate
+C    C14175  Diethyl phthalate
+C    C14504  Di-n-hexyl phthalate
+C    C14300  Di-n-pentyl phthalate
+C    C14469  Di-n-propylphthalate
+C    C14240  Diethylhexyl adipate
+B  Bisphenols
+C    C13624  Bisphenol A
+B  Alkylphenols
+C    C14993  Nonylphenol
+C    C14132  4-Octylphenol
+B  Styrenes
+C    C07083  Styrene
+C    C18148  Octachlorostyrene
+#
+A<b>Flame retardants</b>
+B  PBDEs
+C    C18205  2,2',4,4'-Tetrabromodiphenyl ether (PBDE 47)
+C    C18204  2,2',4,5'-Tetrabromodiphenyl ether (PBDE 49)
+C    C18203  2,2',4,4',5-Pentabromodiphenyl ether (PBDE 99)
+C    C18138  2,2',4,4',5,6'-Hexabromodiphenyl ether (PBDE 154)
+#
+A<b>Dioxins and dioxin-like compounds</b>
+B  PCDDs
+C    C07557  2,3,7,8-Tetrachlorodibenzodioxin (PCDD 48)
+C    C18099  1,2,3,7,8-Pentachlorodibenzodioxin (PCDD 54)
+C    C18100  1,2,3,4,7,8-Hexachlorodibenzodioxin (PCDD 66)
+C    C18101  1,2,3,6,7,8-Hexachlorodibenzodioxin (PCDD 67)
+C    C18102  1,2,3,7,8,9-Hexachlorodibenzodioxin (PCDD 70)
+C    C18103  1,2,3,4,6,7,8-Heptachlorodibenzodioxin (PCDD 73)
+C    C18180  1,2,3,4,6,7,8,9-Octachlorodibenzo-p-dioxin (PCDD 75)
+B  PCDFs
+C    C18104  2,3,7,8-Tetrachlorodibenzofuran (PCDF 83)
+C    C18105  1,2,3,7,8-Pentachlorodibenzofuran (PCDF 94)
+C    C18106  2,3,4,7,8-Pentachlorodibenzofuran (PCDF 114)
+C    C18107  1,2,3,4,7,8-Hexachlorodibenzofuran (PCDF 118)
+C    C18109  1,2,3,6,7,8-Hexachlorodibenzofuran (PCDF 121)
+C    C18108  1,2,3,7,8,9-Hexachlorodibenzofuran (PCDF 124)
+C    C18110  2,3,4,6,7,8-Hexachlorodibenzofuran (PCDF 130)
+C    C18111  1,2,3,4,6,7,8-Heptachlorodibenzofuran (PCDF 131)
+C    C18112  1,2,3,4,7,8,9-Heptachlorodibenzofuran (PCDF 134)
+C    C18113  1,2,3,4,6,7,8,9-Octachlorodibenzofuran (PCDF 135)
+B  Non-ortho (coplanar) PCBs
+C    C11057  3,4,3',4'-Tetrachlorobiphenyl (PCB 77)
+C    C18114  3,4,4',5-Tetrachlorobiphenyl (PDB 81)
+C    C14573  3,3',4,4',5-Pentachlorobiphenyl (PCB 126)
+C    C18115  3,4,5,3',4',5'-Hexachlorobiphenyl (PCB 169)
+B  Mono-ortho PCBs
+C    C18116  2,3,4,3',4'-Pentachlorobiphenyl (PCB 105)
+C    C18117  2,3,4,4',5-Pentachlorobiphenyl (PCB 114)
+C    C18118  2,3',4,4',5-Pentachlorobiphenyl (PCB 118)
+C    C18119  2,3',4,4',5'-Pentachlorobiphenyl (PCB 123)
+C    C18120  2,3,3',4,4',5-Hexachlorobiphenyl (PCB 156)
+C    C18121  2,3,3',4,4',5'-Hexachlorobiphenyl (PCB 157)
+C    C18122  2,3',4,4',5,5'-Hexachlorobiphenyl (PCB 167)
+C    C18123  2,3,3',4,4',5,5'-Heptachlorobiphenyl (PCB 189)
+!
+#<hr>
+#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: November 17, 2010
+#<br><br><a href="/kegg-bin/get_htext?jp08006.keg">&raquo; Japanese version</a>

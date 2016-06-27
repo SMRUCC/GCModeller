@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb04626" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Plants lack animal-like adaptive immunity mechanisms, and therefore have evolved a specific system with multiple layers against invading pathogens. The primary response includes the perception of pathogens by cell-surface pattern-recognition receptors (PRRs) and is referred to as PAMP-triggered immunity (PTI). Activation of FLS2 and EFR triggers MAPK signaling pathway that activates defense genes for antimictobial compounds. The increase in the cytosolic Ca2+ concentration is also a regulator for production of reactive oxygen species and localized programmed cell death/hypersensitive response. The secondary response is called effector-triggered immunity (ETI). Pathogens can acquire the ability to suppress PTI by directly injecting effector proteins into the plant cell through secretion systems. In addition, pathogens can manipulate plant hormone signaling pathways to evade host immune responses using coronatine toxin. Some plants possess specific intracellular surveillance proteins (R proteins) to monitor the presence of pathogen virulence proteins. This ETI occurs with localized programmed cell death to arrest pathogen growth, resulting in cultivar-specific disease resistance.&lt;br&gt;</Description>
+  <Name>Plant-pathogen interaction - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00339" Value="RaxAB-RaxC type I secretion system [PATH:xcb04626]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00027" Value="Hydrogen peroxide" />
+    <hashEntry Key="C00076" Value="Calcium cation" />
+    <hashEntry Key="C00533" Value="Nitric oxide" />
+    <hashEntry Key="C00704" Value="O2.-" />
+    <hashEntry Key="C16844" Value="Hydroxyl radical" />
+  </Compound>
+  <PathwayMap Key="xcb04626" Value="Plant-pathogen interaction&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0370" Value="glpK; glycerol kinase (EC:2.7.1.30); K00864 glycerol kinase [EC:2.7.1.30]" />
+    <hashEntry Key="xcb:XC_0828" Value="TolC protein; K12340 outer membrane protein" />
+    <hashEntry Key="xcb:XC_1213" Value="virulence protein; K18879 type III effector protein XopD" />
+    <hashEntry Key="xcb:XC_1721" Value="heat shock protein 90; K04079 molecular chaperone HtpG" />
+    <hashEntry Key="xcb:XC_2004" Value="avirulence protein; K13455 avirulence protein" />
+    <hashEntry Key="xcb:XC_2245" Value="flagellin; K02406 flagellin" />
+    <hashEntry Key="xcb:XC_2409" Value="hypothetical protein; K13409 ATP-binding cassette, subfamily B, bacterial RaxB" />
+    <hashEntry Key="xcb:XC_2410" Value="hypothetical protein; K13408 membrane fusion protein" />
+    <hashEntry Key="xcb:XC_3075" Value="heat shock protein 90; K04079 molecular chaperone HtpG" />
+    <hashEntry Key="xcb:XC_3342" Value="tuf; elongation factor Tu (EC:3.6.5.3); K02358 elongation factor Tu" />
+    <hashEntry Key="xcb:XC_3354" Value="tuf; elongation factor Tu (EC:3.6.5.3); K02358 elongation factor Tu" />
+  </Genes>
+</KEGG.PathwayBrief>

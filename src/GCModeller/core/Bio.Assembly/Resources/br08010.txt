@@ -1,0 +1,599 @@
++E	Compound	Remark
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Target-based Classification of Compounds</h2>
+%<style type="text/css"><!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--></style>
+#<!---
+#ENTRY       br08010
+#DEFINITION  Target-based classification of compounds
+#--->
+!
+A<b>G Protein-coupled receptors</b>
+B  Rhodopsin family: amine receptors
+C    Acetylcholine (muscarinic)
+D      muscarinic cholinergic receptor M1 [HSA:1128] [KO:K04129]
+E        C14127  Acotiamide	Antagonist
+E        C09084  Brucine	Agonist
+D      muscarinic cholinergic receptor M2 [HSA:1129] [KO:K04130]
+E        C14127  Acotiamide	Antagonist
+D      muscarinic cholinergic receptor M3 [HSA:1131] [KO:K04131]
+E        C09084  Brucine	Agonist
+E        C08307  Hordatine A	Antagonist
+D      muscarinic cholinergic receptor M4 [HSA:1132] [KO:K04132]
+E        C09084  Brucine	Agonist
+D      muscarinic cholinergic receptor [HSA:1128 1129 1131 1132 1133] [KO:K04129 K04130 K04131 K04132 K04133]
+E        C07471  Methacholine	Agonist
+E        C07485  Oxotremorine	Agonist
+E        C07506  Propantheline	Antagonist
+E        C08202  Bethanechol chloride	Agonist
+E        C12814  Prifinium bromide	Antagonist
+C    Adrenaline
+D      alpha1a-adrenergic receptor [HSA:148] [KO:K04135]
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+D      alpha1b-adrenergic receptor [HSA:147] [KO:K04136]
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+D      alpha1d-adrenergic receptor [HSA:146] [KO:K04137]
+E        C19980  Domesticine	Antagonist
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+D      alpha2a-adrenergic receptor [HSA:150] [KO:K04138]
+E        C00179  Agmatine	Agonist
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+E        C09256  Yohimbine	Antagonist
+D      alpha2b-adrenergic receptor [HSA:151] [KO:K04139]
+E        C00179  Agmatine	Agonist
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+E        C09256  Yohimbine	Antagonist
+E        C17925  Nordephrine	Antagonist
+D      alpha2c-adrenergic receptor [HSA:152] [KO:K04140]
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+E        C00179  Agmatine	Agonist
+E        C09256  Yohimbine	Antagonist
+D      alpha2-adrenergic receptor [HSA:150 151 152] [KO:K04138 K04139 K04140]
+E        C17925  Nordephrine	Agonist
+D      beta1-adrenergic receptor [HSA:153] [KO:K04141]
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+D      beta2-adrenergic receptor [HSA:154] [KO:K04142]
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+D      beta3-adrenergic receptor [HSA:155] [KO:K04143]
+E        C17925  Nordephrine   Antagonist
+E        C13639  dl-Methylephedrine hydrochloride	Agonist
+C    Histamine
+D      H1-receptor [HSA:3269] [KO:K04149]
+E        C07780  Chlorpheniramine maleate	Antagonist
+E        C17928  2-Methylhistamine	Agonist
+E        C17926  2-Pyridinemethanamine	Agonist
+E        C17927  Thiazolylethylamine	Agonist
+D      H2-receptor [HSA:3274] [KO:K04150]
+E        C17930  Dimaprit	Agonist
+E        C17929  4-Methylhistamine	Agonist
+D      H3-receptor [HSA:11255] [KO:K04151]
+E        C17934  Clobenpropit	Antagonist
+E        C06545  Conessine	Antagonist
+E        C17931  Imetit	Agonist
+E        C17932  Immepip	Agonist
+E        C17933  Thioperamide	Antagonist
+C    Serotonin
+D      5-HT2A-receptor [HSA:3356] [KO:K04157]
+E        C07542  Lysergic acid diethylamide	Agonist
+E        C13665  2-Methyl-5-hydroxytryptamine	Agonist
+D      5-HT2C-receptor [HSA:3358] [KO:K04157]
+E        C11738  m-Chlorophenylpiperazine	Agonist
+D      5-HT4-receptor [HSA:3360] [KO:K04160]
+E        C13494  Mosapride citrate hydrate	Agonist
+B  Rhodopsin family: peptide receptors
+C    Bradykinin
+D      bradykinin B1 receptor [HSA:623] [KO:K03915]
+E        C01505  Kallidin	Agonist
+D      bradykinin B2 receptor [HSA:624] [KO:K03916]
+E        C20010  Anatibant	Antagonist
+E        C00306  Bradykinin	Agonist
+E        C01505  Kallidin	Agonist
+C    CXC Chemokine
+D      C-X-C chemokine receptor type 4 [HSA:7852] [KO:K04189]
+E        C20266  AMD 070	Inhibitor
+C    Cholecystokinin
+D      cholecystokinin A / gastrin receptor [HSA:886] [KO:K04194]
+E        C16114  Cholecystokinin-8	Agonist
+D      cholecystokinin B / gastrin receptor [HSA:887] [KO:K04195]
+E        C16114  Cholecystokinin-8	Agonist
+E        C16133  Cholecystokinin-33	Agonist
+D      cholecystokinin / gastrin receptor [HSA:886 887] [KO:K04194 K04195]
+E        C18186  Gastrin-14	Agonist
+E        C16113  Gastrin-17	Agonist
+E        C18187  Gastrin-34 	Agonist
+C    Melanocortin
+D      melanocortin receptor [HSA:4157 4158 4160 4159 4161] [KO:K04199 K04200 K04201 K04202 K04203]
+E        C16103  Agouti related protein (87-132)	Antagonist
+C    Neuropeptide FF
+D      neuropeptide FF receptor 1 [HSA:64106] [KO:K04240]
+E        C16109  RFamide-related peptide 1	Agonist
+E        C16110  RFamide-related peptide 3	Agonist
+C    Opioid
+D      delta-opioid receptor [HSA:4985] [KO:K04213]
+E        C20167  7-Benzylidenenaltrexone	Antagonist
+E        C20030  Dermorphin	Agonist
+E        C18010  Deltorphin A	Agonist
+E        C18095  Deltorphin B	Agonist
+E        C18097  Deltorphin C	Agonist
+E        C20165  DSLET	Agonist
+E        C11684  Met-enkephalin	Agonist
+E        C16041  Leu-enkephalin	Agonist
+E        C02210  beta-Endorphin	Agonist
+E        C11793  Etorphine	Agonist
+E        C08014  Levorphanol	Agonist
+E        C20166  Naltriben	Antagonist
+E        C18128  Naltrindole	Antagonist
+D      kappa-opioid receptor [HSA:4986] [KO:K04214]
+E        C01574  Dynorphin A	Agonist
+E        C16135  Dynorphin B	Agonist
+E        C11795  Ethylketocyclazocine	Agonist
+E        C11793  Etorphine	Agonist
+E        C08014  Levorphanol	Agonist
+E        C18130  Norbinaltorphimine	Antagonist
+E        C20196  Salvinorin A	Agonist
+E        C20168  (-)TAN-67	Agonist
+E        C11796  U 50488	Agonist
+D      mu-opioid receptor [HSA:4988] [KO:K04215]
+E        C20160  CTOP	Antagonist
+E        C20030  Dermorphin	Agonist
+E        C01574  Dynorphin	Agonist
+E        C02210  beta-Endorphin	Agonist
+E        C15890  Endomorphin-1	Agonist
+E        C15891  Endomorphin-2	Agonist
+E        C16041  Leu-enkephalin	Agonist
+E        C11684  MET-enkephalin	Agonist
+E        C11793  Etorphine	Agonist
+E        C18127  beta-Funaltrexamine	Antagonist
+E        C08014  Levorphanol	Agonist
+D      nociceptin receptor [HSA:4987] [KO:K04216]
+E        C16044  Nociceptin	Agonist
+C    Oxytocin
+D      oxytocin receptor [HSA:5021] [KO:K04229]
+E        C18365  Carbetocin	Agonist
+B  Rhodopsin family: other receptors
+C    Adenosine
+D      adenosine A1 receptor [HSA:134] [KO:K04265]
+E        C14127  Acotiamide	Antagonist
+E        C13747  1,7-Dimethylxanthine	Antagonist
+D      adenosine A2a receptor [HSA:135] [KO:K04266]
+E        C13747  1,7-Dimethylxanthine	Antagonist
+D      adenosine A2b receptor [HSA:136] [KO:K04267]
+E        C13747  1,7-Dimethylxanthine	Antagonist
+D      adenosine A3 receptor [HSA:140] [KO:K04268]
+C    Cannabinoid
+D      cannabinoid receptor 1 [HSA:1268] [KO:K04277]
+E        C20220  AM251	Antagonist
+E        C07580  Cannabinol	Agonist
+E        C06972  Dronabinol	Agonist
+E        C14319  SR 141716	Antagonist
+D      cannabinoid receptor 2 [HSA:1269] [KO:K04278]
+E        C06972  Dronabinol	Agonist
+C    Lysosphingolipid and LPA (EDG)
+D      sphingosine 1-phosphate receptor 1 [HSA:1901] [KO:K04288]
+E        C19914  Myriocin	Agonist
+C    Leukotriene B4 receptor
+D      leukotriene B4 receptor 1 [HSA:1241] [KO:K04296]
+E        C14777  12(S)-HETE	Agonist
+E        C20388  12(S)-HHT	Agonist
+E        C18171  Resolvin E1	Agonist
+D      leukotriene B4 receptor 2 [HSA:56413] [KO:K04297]
+E        C14777  12(S)-HETE	Agonist
+E        C20388  12(S)-HHT	Agonist
+E        C18171  Resolvin E1	Agonist
+C    Lysophosphatidylinositol
+D      G protein-coupled receptor 55 [HSA:9290] [KO:K08413]
+E        C13856  2-Arachidonoylglycerol	Agonist
+E        C16512  Palmitoylethanolamide	Agonist
+C    Lactate
+D      G protein-coupled receptor 81 [HSA:27198] [KO:K08401]
+E        C00186  (S)-Lactate	Agonist
+C    Cysteinyl leukotriene
+D      cysteinyl leukotriene receptor 1 [HSA:10800] [KO:K04322]
+E        C06314  Lipoxin A4	Antagonist
+E        C06315  Lipoxin B4	Antagonist
+B  Secretin family
+C    Glucagon
+D      glucagon-like peptide 1 receptor [HSA:2740] [KO:K04581]
+E        C15894  Exendin-4	Agonist
+B  Metabotropic glutamate family
+C    Taste receptors (T1R)
+D      taste receptor type 1 member 2 [HSA:80834] [KO:K04625]
+E        C19415  Dulcin	Agonist
+D      taste receptor type 1 member 3 [HSA:80835] [KO:K04626]
+E        C19415  Dulcin	Agonist
+#
+A<b>Nuclear receptors</b>
+B  Thyroid hormone like receptors
+C    Retinoic acid receptor
+D      NR1B; nuclear receptor, subfamily 1, group B [HSA:5914 5915 5916] [KO:K08527 K08528 K08529]
+E        C07058  13-cis-Retinoic acid	Agonist
+E        C15493  9-cis-Retinoic acid	Agonist
+E        C00473  Retinol	Agonist
+C    Peroxisome proliferator-activated receptor
+D      nuclear receptor, subfamily 1, group C, member 1 [HSA:5465] [KO:K07294]
+E        C01607  Phytanate	Agonist
+C    Liver X receptor like receptor
+D      liver X receptor alpha [HSA:10062] [KO:K08536]
+E        C13550  Cerebrosterol	Agonist
+E        C15610  Cholest-5-ene-3beta,26-diol	Agonist
+E        C15632  24(S),25-Epoxycholesterol	Agonist
+E        C15631  GW 3965	Agonist
+E        C05502  22(R)-Hydroxycholesterol	Agonist
+E        C15630  T 0901317	Agonist
+D      liver X receptor beta [HSA:7376] [KO:K08535]
+E        C13550  Cerebrosterol Agonist
+E        C15610  Cholest-5-ene-3beta,26-diol	Agonist
+E        C05502 22beta-Hydroxycholesterol
+E        C15630 T 0901317	Agonist
+E        C15631 GW 3965	Agonist
+E        C15632 24(S),25-Epoxycholesterol	Agonist
+D      farnesoid X receptor [HSA:9971] [KO:K08537]
+E        C02528  Chenodeoxycholate	Agonist
+E        C15649 Fexaramine	Agonist
+E        C15635 GW 4064	Agonist
+D      ecdysone receptor [KO:K14034]
+E        C00477  Ecdysone	Agonist
+B  Hepatocyte nuclear factor 4 like receptors
+C    Retinoid X receptor (RXR)
+D      retinoid receptor [HSA:6256 6257 6258] [KO:K08524 K08525 K06258]
+E        C01607  Phytanate	Agonist
+B  Estrogen like receptors
+C    Estrogen receptor
+D      estrogen receptor 1, 2 [HSA:2099 2100] [KO:K08550 K08551]
+E        C00951  Estradiol-17beta	Agonist
+E        C13444  Estradiol benzoate	Agonist
+C    3-Ketosteroid receptor
+D      progesterone receptor [HSA:5241] [KO:K08556]
+E        C12729  Chlormadinone acetate	Antagonist
+D      androgen receptor [HSA:367] [KO:K08557]
+E        C00535  Testosterone	Agonist
+#
+A<b>Ion channels</b>
+B  Cys-loop superfamily
+C    GABA-A
+D      GABAA-receptor alpha [HSA:2554 2555 2556 2557 2558 2559] [KO:K05175 K05176 K05177 K05178 K05179 K05180]
+E        C07017  Furosemide	Antagonist
+D      GABAA-receptor [HSA:2554 2555 2556 2557 2558 2559 2560 2561 2562 2563 2564 2565 2566 2567 2568 55879] [KO:K05175 K05176 K05177 K05178 K05179 K05180 K05181 K05182 K05183 K05184 K05185 K05186 K05187 K05188 K05189 K05192]
+E        C09364  Bicuculline	Antagonist
+E        C09529  Picrotoxinin	Antagonist
+E        C03349  3-Aminopropanesulfonate	Agonist
+E        C13694  Isoguvacine	Agonist
+E        C13693  4,5,6,7-Tetrahydroisoxazolo(5,4-c)pyridin-3-ol	Agonist
+E        C19930  tert-Butylbicyclophosphorothionate     Antagonist
+C    Glycine
+D      glycine receptor alpha-1 [HSA:2741] [KO:K05193]
+E        C06522  Strychnine	Antagonist
+C    Acetylcholine (nicotinic)
+D      nicotinic acetylcholine receptor alpha-7 [HSA:1139] [KO:K04809]
+E        C20037  alpha-Bungarotoxin	Antagonist
+D      muscle-type nicotinic cholinergic receptor [HSA:1134 1140 1144 1145 1146] [KO:K04803 K04812 K04816 K04817 K04818]
+E        C11733  Decamethonium	Antagonist
+E        C13683  Histrionicotoxin	Antagonist
+E        C07546  Succinylcholine	Antagonist
+D      nicotinic cholinergic receptor [HSA:1134 1135 1136 1137 1138 8973 1139 55584 57053 1140 1141 1142 1143 1144 1145 1146] [KO:K04803 K04804 K04805 K04806 K04807 K04808 K04809 K04810 K04811 K04812 K04813 K04814 K04815 K04816 K04817 K04818]
+E        C11690  Epibatidine	Agonist
+E        C00745  Nicotine	Antagonist
+E        C07547  Tubocurarine	Antagonist
+C    Serotonin (5-HT3)
+D      5-HT3-receptor [HSA:3359 9177 170572 200909 285242] [KO:K04819]
+E        C13646  m-Chlorophenylbiguanide	Agonist
+B  Glutamate-gated cation channels
+C    Glutamate (ionotropic), non-NMDA
+D      AMPA receptor [HSA:2890 2891 2892 2893] [KO:K05197 K05198 K05199 K05200]
+E        C13670  Talampanel	Antagonist
+E        C08296  Quisqualic acid	Agonist
+E        C13667  2,3-Dioxo-6-nitro-7-sulfamoylbenzo[f]quinoxaline	Antagonist
+E        C13668  6-Cyano-7-nitroquinoxaline-2,3-dione	Antagonist
+E        C13672  (S)-AMPA	Agonist
+D      kainate receptor [HSA:2897 2898 2899 2900 2901] [KO:K05201 K05202 K05203 K05204 K05205]
+E        C12819  Kainic acid	Agonist
+E        C13667  2,3-Dioxo-6-nitro-7-sulfamoylbenzo[f]quinoxaline	Antagonist
+E        C13668  6-Cyano-7-nitroquinoxaline-2,3-dione	Antagonist
+C    Glutamate (ionotropic), NMDA
+D      N-methyl-D-aspartate receptor [HSA:2902 2903 2904 2905 2906] [KO:K05208 K05209 K05210 K05211 K05212]
+E        C08014  Levorphanol	Antagonist
+E        C07843  Ketamine hydrochloride	Antagonist
+E        C12269  N-Methyl-D-aspartic acid	Agonist
+B  Voltage-gated cation channels
+C    Na+ channel, SCN alpha, NaV1.x
+D      voltage-gated sodium channel [HSA:6323 6326 6328 6329 6331 6334 6335] [KO:K04833 K04834 K04836 K04837 K04838 K04840 K04841]
+E        C13750  Batrachotoxin	Opener
+E        C13852  Sipatrigine	Blocker
+E        C04623  DDT	Modulator
+E        C11043  Methoxychlor	Modulator
+E        C10980  Bifenthrin	Modulator
+E        C10982  Cyfluthrin	Modulator
+E        C10983  Cyhalothrin	Modulator
+E        C10984  Cypermethrin	Modulator
+E        C07894  Procaine hydrochloride	Blocker
+E        C10985  Deltamethrin	Modulator
+E        C10988  Fenvalerate	Modulator
+E        C10991  Resmethrin	Modulator
+E        C10992  Tefluthrin	Modulator
+E        C12962  Cyphenothrin	Modulator
+E        C13410  Transfluthrin	Modulator
+E        C14387  Phenothrin	Modulator
+E        C14388  Permethrin	Modulator
+E        C14524  Flucythrinate	Modulator
+E        C18373  Tetramethrin	Modulator
+E        C18408  Acrinathrin	Modulator
+E        C18409  Cycloprothrin	Modulator
+E        C18410  Etofenprox	Modulator
+E        C18411  Fenpropathrin	Modulator
+E        C18412  Silafluofen	Modulator
+E        C18413  Tralomethrin	Modulator
+E        C18147  Esfenvalerate	Modulator
+E        C18715  alpha-Cypermethrin	Modulator
+E        C18790  tau-Fluvalinate	Modulator
+E        C07594  Pyrethrin I
+E        C09894  Pyrethrin II	Modulator
+E        C09845  Cinerin I	Modulator
+E        C09846  Cinerin II	Modulator
+E        C16780  Jasmolin I	Modulator
+E        C16781  Jasmolin II	Modulator
+E        C13757  Saxitoxin	Blocker
+E        C14337  Bioallethrin	Modulator
+E        C16810  Bioresmethrin	Modulator
+E        C10989  Fluvalinate
+E        C18524  Empenthrin	Modulator
+E        C09103  Grayanotoxin I	Opener
+D      tetrodotoxin-sensitive voltage-gated sodium channel
+E        C11692  Tetrodotoxin  Blocker
+C    Ca2+ channel, CACN alpha-1, CaVx.x
+D      voltage-dependent calcium channel N type alpha-1B [HSA:774] [KO:K04849]
+E        C19906  omega-Conotoxin	Blocker
+C    K+ channel, KCNH, Kv10-12.x (Ether-a-go-go)
+D      potassium voltage-gated channel, subfamily H (eag-related), member 2 [HSA:3757] [KO:K04905]
+E        C13776  E-4031	Blocker
+C    K+ channel, KCNQ, Kv7.x (KQT-like)
+D      potassium voltage-gated channel, KQT-like subfamily, member 1 [HSA:3784] [KO:K04926]
+E        C13820  Chromanol 293B	Blocker
+C    K+ channel, KCNM, KCa1.x
+C    K+ channel, KCNN, KCa2-3.x (Small conductance)
+D      potassium intermediate/small conductance calcium-activated channel, subfamily N, member 1 [HSA:3780] [KO:K04942]
+E        C20048  Apamine	Blocker
+D      potassium intermediate/small conductance calcium-activated channel, subfamily N, member 2 [HSA:3781] [KO:K04943]
+E        C20048  Apamine	Blocker
+D      potassium intermediate/small conductance calcium-activated channel, subfamily N, member 3 [HSA:3782] [KO:K04944]
+E        C20048  Apamine	Blocker
+C    K+ channel, KCNT, KCa4.x
+B  Related to voltage-gated cation channels
+C    Ryanodine receptor (RYR)
+D      ryanodine receptor [HSA:6261 6262 6263] [KO:K04961 K04962 K04963]
+E        C07894  Procaine hydrochloride	Blocker
+C    Transient receptor potential family, TRPV (Vanilloid)
+D      transient receptor potential cation channel, subfamily V, member 1 [HSA:7442] [KO:K05222]
+E        C03882  Piperine	Agonist
+E        C06866  Capsaicin	Agonist
+E        C16952  Dihydrocapsaicin	Agonist
+E        C09201  Tinyatoxin	Agonist
+E        C09179  Resiniferatoxin	Agonist
+E        C10494  [6]-Shogaol	Agonist
+D      transient receptor potential cation channel,  subfamily V, member 3 [HSA:162514] [KO:K04972]
+E        C09840  Carvacrol	Agonist
+C    Transient receptor potential family, TRPM (Melastatin/Long TRP)
+D      transient receptor potential cation channel, subfamily M, member 8 [HSA:79054] [KO:K04983]
+E        C20171  Icilin	Activator
+C    Transient receptor potential family, TRPA (ANKTM1)
+D      transient receptor potential cation channel, subfamily A, member 1 [HSA:8989] [KO:K04984]
+E        C01471  Acrolein	Agonist
+E        C07600  Allicin	Agonist
+E        C19317  Allyl isothiocyanate	Agonist
+E        C20170  Benzoyl isothiocyanate	Agonist
+E        C03098  Benzyl isothiocyanate	Agonist
+E        C00903  Cinnamaldehyde	Agonist
+E        C20171  Icilin	Agonist
+B  Related to inward rectifier K+ channels
+C    Inward rectifier channel (Kir)
+D      potassium inwardly-rectifying channel, subfamily J, member 11 [HSA:3767] [KO:K05004]
+E        C11819  Cromakalim	Opener
+#
+A<b>Transporters</b>
+B  ABC Transporters
+C    ATP-binding cassette,  subfamily C (CFTR/MRP),  member 8 [HSA:6833] [KO:K05032]
+D      C11819  Cromakalim	Opener
+B  Solute carrier family
+C    SLC5
+D      SLC5A1 (SGLT1) [HSA:6523] [KO:K14158]
+E        C01604  Phlorizin	Inhibitor
+D      SLC5A2 (SGLT2) [HSA:6524] [KO:K14382]
+E        C01604  Phlorizin	Inhibitor
+C    SLC6
+D      SLC6A4 [HSA:6532] [KO:K05037]
+E        C07577  3,4-Methylenedioxymethamphetamine	Inhibitor
+E        C13665  2-Methyl-5-hydroxytryptamine	Inhibitor
+C    SLC12
+D      SLC12A2 [HSA:6558] [KO:K10951]
+E        C07017  Furosemide	Inhibitor
+C    SLC22
+D      SLC22A8 [HSA:9376] [KO:K08205]
+E        C00389  Quercetin	Inhibitor
+C    SLC29
+D      SLC29A1 [HSA:2030] [KO:K15014]
+E        C20439  NBMPR	Inhibitor
+#
+A<b>Enzymes</b>
+B  Oxidoreductases
+C    aldehyde dehydrogenase [EC:1.2.1.3]
+D      C08271  Coprine	Inhibitor
+C    monoamine oxidase A (MAO-A) [HSA:4128] [KO:K00274] [EC:1.4.3.4]
+D      C06536  Harmaline	Inhibitor
+C    monoamine oxidase B (MAO-B) [HSA:4129] [KO:K00274] [EC:1.4.3.4]
+D      C15476  Norselegiline	Inhibitor
+D      C20157  beta-Carboline	Inhibitor
+C    cytochrome P450, family 1, subfamily A, polypeptide 1 [HSA:1543] [KO:K07408] [EC:1.14.14.1]
+D      C14470  3-Methylcholanthrene	Inducer
+C    tyrosinase [HSA:7299] [KO:K00505] [EC:1.14.18.1]
+D      C06186  Arbutin	Inhibitor
+D      C18342  3-O-Ethyl-L-ascorbic acid	Inhibitor
+D      C18339  L-Ascorbic acid-2-glucoside	Inhibitor
+D      C18340  Magnesium L-ascorbic acid-2-phosphate	Inhibitor
+D      C18341  Sodium L-ascorbic acid 2-phosphate	Inhibitor
+D      C10788  Ellagic acid	Inhibitor
+D      C14516  Kojic acid	Inhibitor
+D      C01595  Linoleate	Inhibitor
+D      C18346  4-Methoxy potassium salicylate	Inhibitor
+D      C17690  4-(4-Hydroxyphenyl)-2-butanol	Inhibitor
+C    tyrosinase-related protein 1 [HSA:7306] [KO:K00506] [EC:1.14.18.-]
+D      C18343  4-n-Butylresorcinol	Inhibitor
+C    prostaglandin-endoperoxide synthase 1 [HSA:5742] [KO:K00509] [EC:1.14.99.1]
+D      C18363  Firocoxib	Inhibitor
+D      C18364  Carprofen	Inhibitor
+D      C07587  Sodium salicylate	Inhibitor
+C    prostaglandin-endoperoxide synthase 2 [HSA:5743] [KO:K11987] [EC:1.14.99.1]
+D      C06991  Etodolac	Inhibitor
+D      C18363  Firocoxib	Inhibitor
+D      C18364  Carprofen	Inhibitor
+D      C07587  Sodium salicylate	Inhibitor
+B  Transferases
+C    catechol O-methyltransferase [HSA:1312] [KO:K00545] [EC:2.1.1.6]
+D      C01108  1,2,3-Trihydroxybenzene	Inhibitor
+D      C15474  Tropolone	Inhibitor
+D      C15475  U 0521	Inhibitor
+D      C15477  CGP 28014	Inhibitor
+C    3-oxoacyl-[acyl-carrier-protein] synthase II [HSA:54995] [KO:K09458] [EC:2.3.1.179]
+D      C20132  Platensimycin	Inhibitor
+C    4-aminobutyrate aminotransferase [HSA:18] [KO:K13524] [EC:2.6.1.19 2.6.1.22]
+D      C07185  Valproic acid	Inhibitor
+D      C12110  Gabaculine	Inhibitor
+C    novel protein kinase C delta [HSA:5580] [KO:K06068] [EC:2.7.11.13]
+D      C10721  Rottlerin	Inhibitor
+C    cyclin-dependent kinase 2 [HSA:1017] [KO:K02206] [EC:2.7.11.22]
+D      C14123  BMS-268770	Inhibitor
+B  Hydrolases
+C    phospholipase A2 [EC:3.1.1.4]
+D      C11198  Melitten	Stimulator
+C    ACHE; acetylcholinesterase [HSA:43] [KO:K01049] [EC:3.1.1.7]
+D      C14426  Acephate	Inhibitor
+D      C14127  Acotiamide	Inhibitor
+D      C18414  Alanycarb	Inhibitor
+D      C18906  Aldoxycarb	Inhibitor
+D      C11015  Aldicarb	Inhibitor
+D      C11071  Aminocarb	Inhibitor
+D      C06605  Aminoparathion	Inhibitor
+D      C10841  Anatoxin a	Inhibitor
+D      C19998  Anatoxin a(s)	Inhibitor
+D      C18702  Azamethiphos	Inhibitor
+D      C18644  Azinphos-ethyl	Inhibitor
+D      C11018  Azinphos-methyl	Inhibitor
+D      C18948  Bufencarb	Inhibitor
+D      C14433  Bendiocarb	Inhibitor
+D      C11073  Benfuracarb	Inhibitor
+D      C18645  Butocarboxim	Inhibitor
+D      C18646  Butoxycarboxim	Inhibitor
+D      C18395  Cadusafos	Inhibitor
+D      C07491  Carbaryl	Inhibitor
+D      C14291  Carbofuran	Inhibitor
+D      C18416  Carbosulfan	Inhibitor
+D      C18654  Chlorfenvinphos	Inhibitor
+D      C18677  Chlorethoxyfos	Inhibitor
+D      C18686  Chlormephos	Inhibitor
+D      C14322  Chlorpyrifos	Inhibitor
+D      C14520  Chlorpyrifos-methyl	Inhibitor
+D      C18397  Cyanophos	Inhibitor
+D      C14324  Diazinon	Inhibitor
+D      C18655  Demeton-S-methyl	Inhibitor
+D      C14430  Dichlorvos	Inhibitor
+D      C18656  Dicrotophos	Inhibitor
+D      C14326  Dimethoate	Inhibitor
+D      C18400  Disulfoton	Inhibitor
+D      C18953  Dioxacarb	Inhibitor
+D      C14434  EPN	Inhibitor
+D      C18649  Ethiofencarb	Inhibitor
+D      C18725  Ethion	Inhibitor
+D      C18687  Ethoprophos	Inhibitor
+D      C18658  Famphur	Inhibitor
+D      C14442  Fenitrothion	Inhibitor
+D      C14425  Fenobucarb	Inhibitor
+D      C14420  Fenthion	Inhibitor
+D      C18668  Formetanate	Inhibitor
+D      C18650  Furathiocarb	Inhibitor
+D      C08526  Galanthamine	Inhibitor
+D      C18660  Heptenophos	Inhibitor
+D      C00202  Isoflurophate	Inhibitor
+D      C18418  Isoprocarb	Inhibitor
+D      C14580  Isoxathion	Inhibitor
+D      C07497  Malathion	Inhibitor
+D      C18661  Mecarbam	Inhibitor
+D      C18745  Methacrifos	Inhibitor
+D      C18667  Methamidophos	Inhibitor
+D      C14431  Methidathion	Inhibitor
+D      C18651  Methiocarb	Inhibitor
+D      C18747  Metolcarb	Inhibitor
+D      C11196  Methomyl	Inhibitor
+D      C07971  Metrifonate	Inhibitor
+D      C18688  Mevinphos	Inhibitor
+D      C18663  Monocrotophos	Inhibitor
+D      C18749  Naled	Inhibitor
+D      C08200  Neostigmine methylsulfate	Inhibitor
+D      C20000  Onchidal	Inhibitor
+D      C18419  Oxamyl	Inhibitor
+D      C18662  Omethoate	Inhibitor
+D      C18664  Oxydemeton-methyl	Inhibitor
+D      C06604  Parathion	Inhibitor
+D      C14228  Parathion-methyl	Inhibitor
+D      C06606  Paraoxon	Inhibitor
+D      C14429  Phenthoate	Inhibitor
+D      C11028  Phosalone	Inhibitor
+D      C06535  Physostigmine	Inhibitor
+D      C18689  Phosphamidon	Inhibitor
+D      C11079  Pirimicarb	Inhibitor
+D      C19012  Pirimiphos-ethyl	Inhibitor
+D      C18403  Pirimiphos-methyl	Inhibitor
+D      C18404  Profenofos	Inhibitor
+D      C18405  Prothiofos	Inhibitor
+D      C18406  Pyraclofos	Inhibitor
+D      C18956  Promecarb	Inhibitor
+D      C14334  Propoxur	Inhibitor
+D      C18756  Phosmet	Inhibitor
+D      C18690  Phorate	Inhibitor
+D      C18757  Phoxim	Inhibitor
+D      C18762  Pyridafenthion	Inhibitor
+D      C11030  Quinalphos	Inhibitor
+D      C11764  Sarin	Inhibitor
+D      C07494  Soman	Inhibitor
+D      C18691  Sulfotep	Inhibitor
+D      C18692  Tebupirimfos	Inhibitor
+D      C18809  Temefos	Inhibitor
+D      C18693  Terbufos	Inhibitor
+D      C14513  Tetrachlorvinphos	Inhibitor
+D      C18423  Thiodicarb	Inhibitor
+D      C18652  Thiofanox	Inhibitor
+D      C18665  Thiometon	Inhibitor
+D      C18657  Triazophos	Inhibitor
+D      C18957  2,3,5-Trimethacarb	Inhibitor
+D      C18666  Vamidothion	Inhibitor
+D      C18771  XMC	Inhibitor
+D      C14579  Xylylcarb	Inhibitor
+C    BCHE; cholinesterase [HSA:590] [KO:K01050] [EC:3.1.1.8]
+D      C06535  Physostigmine	Inhibitor
+D      C12959  Dimetacrine tartrate	Inhibitor
+D      C11766  Rivastigmine	Inhibitor
+D      C00202  Isoflurophate	Inhibitor
+C    alpha-glucosidase [HSA:2548 2595 8972] [KO:K12316 K12317 K12047] [EC:3.2.1.20]
+D      C07708  Miglitol	Inhibitor
+C    ACE; peptidyl-dipeptidase A [HSA:1636] [KO:K01283] [EC:3.4.15.1]
+D      C07701  Benazepril hydrochloride	Inhibitor
+C    Aspartate protease
+D      C00773  Pepstatin	Inhibitor
+C    beta-lactamase [EC:3.5.2.6]
+D      C07770  Sulbactam	Inhibitor
+D      C07771  Tazobactam	Inhibitor
+C    calcium pump  [EC:3.6.3.8]
+D      C03032  Cyclopiazonic acid	Inhibitor
+B  Lyases
+C    adenylate cyclase [EC:4.6.1.1]
+D      C09076  Coleonol	Activator
+C    guanylate cyclase 2C (heat stable enterotoxin receptor) [HSA:2984] [KO:K12320] [EC:4.6.1.2]
+D      C16007  Guanylin	Agonist
+B  Isomerases
+C    DNA topoisomerase I [HSA:7150] [KO:K03163] [EC:5.99.1.2]
+D      C11173  SN-38	Inhibitor
+#
+A<b>Others</b>
+B  Cytoskeleton proteins
+C    beta-tubulin [HSA:10381 10382 10383 203068 347688 347733 56604 7280 81027 84617] [KO:K07375]
+D      C11689  Curacin A	Inhibitor
+D      C10886  Steganacin	Inhibitor
+!
+#<hr>
+#<b>[ <a href="/kegg/drug/">DRUG</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: October 16, 2013

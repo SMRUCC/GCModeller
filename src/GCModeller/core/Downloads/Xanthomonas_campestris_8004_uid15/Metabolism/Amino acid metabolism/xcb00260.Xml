@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00260" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Serine is derived from 3-phospho-D-glycerate, an intermediate of glycolysis [MD:M00020], and glycine is derived from serine. Threonine is an essential amino acid, which animals cannot synthesize. In bacteria and plants, threonine is derived from aspartate [MD:M00018].&lt;br&gt;</Description>
+  <Name>Glycine, serine and threonine metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00018" Value="Threonine biosynthesis, aspartate =&gt; homoserine =&gt; threonine [PATH:xcb00260]" />
+    <hashEntry Key="xcb_M00555" Value="Betaine biosynthesis, choline =&gt; betaine [PATH:xcb00260]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00078" Value="L-Tryptophan" />
+    <hashEntry Key="C00097" Value="L-Cysteine" />
+    <hashEntry Key="C00101" Value="Tetrahydrofolate" />
+    <hashEntry Key="C00109" Value="2-Oxobutanoate" />
+    <hashEntry Key="C00114" Value="Choline" />
+    <hashEntry Key="C00143" Value="5,10-Methylenetetrahydrofolate" />
+    <hashEntry Key="C00168" Value="Hydroxypyruvate" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00197" Value="3-Phospho-D-glycerate" />
+    <hashEntry Key="C00213" Value="Sarcosine" />
+    <hashEntry Key="C00258" Value="D-Glycerate" />
+    <hashEntry Key="C00263" Value="L-Homoserine" />
+    <hashEntry Key="C00300" Value="Creatine" />
+    <hashEntry Key="C00430" Value="5-Aminolevulinate" />
+    <hashEntry Key="C00441" Value="L-Aspartate 4-semialdehyde" />
+    <hashEntry Key="C00546" Value="Methylglyoxal" />
+    <hashEntry Key="C00576" Value="Betaine aldehyde" />
+    <hashEntry Key="C00581" Value="Guanidinoacetate" />
+    <hashEntry Key="C00631" Value="2-Phospho-D-glycerate" />
+    <hashEntry Key="C00719" Value="Betaine" />
+    <hashEntry Key="C00740" Value="D-Serine" />
+    <hashEntry Key="C00986" Value="1,3-Diaminopropane" />
+    <hashEntry Key="C01005" Value="O-Phospho-L-serine" />
+    <hashEntry Key="C01026" Value="N,N-Dimethylglycine" />
+    <hashEntry Key="C01102" Value="O-Phospho-L-homoserine" />
+    <hashEntry Key="C01242" Value="S-Aminomethyldihydrolipoylprotein" />
+    <hashEntry Key="C01726" Value="D-Lombricine" />
+    <hashEntry Key="C01888" Value="Aminoacetone" />
+    <hashEntry Key="C02051" Value="Lipoylprotein" />
+    <hashEntry Key="C02291" Value="L-Cystathionine" />
+    <hashEntry Key="C02737" Value="Phosphatidylserine" />
+    <hashEntry Key="C02855" Value="N-Phospho-D-lombricine" />
+    <hashEntry Key="C02972" Value="Dihydrolipoylprotein" />
+    <hashEntry Key="C03082" Value="4-Phospho-L-aspartate" />
+    <hashEntry Key="C03194" Value="(R)-1-Aminopropan-2-ol" />
+    <hashEntry Key="C03232" Value="3-Phosphonooxypyruvate" />
+    <hashEntry Key="C03283" Value="L-2,4-Diaminobutanoate" />
+    <hashEntry Key="C03508" Value="L-2-Amino-3-oxobutanoic acid" />
+    <hashEntry Key="C05519" Value="L-Allothreonine" />
+    <hashEntry Key="C06231" Value="Ectoine" />
+    <hashEntry Key="C06442" Value="N(gamma)-Acetyldiaminobutyrate" />
+    <hashEntry Key="C16432" Value="5-Hydroxyectoine" />
+    <hashEntry Key="C19929" Value="N-alpha-Acetyl-L-2,4-diaminobutyrate" />
+  </Compound>
+  <PathwayMap Key="xcb00260" Value="Glycine, serine and threonine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0020" Value="D-3-phosphoglycerate dehydrogenase; K00058 D-3-phosphoglycerate dehydrogenase [EC:1.1.1.95]" />
+    <hashEntry Key="xcb:XC_0391" Value="threonine dehydratase; K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="xcb:XC_0474" Value="threonine aldolase; K01620 threonine aldolase [EC:4.1.2.48]" />
+    <hashEntry Key="xcb:XC_0760" Value="choline dehydrogenase (EC:1.1.99.1); K00108 choline dehydrogenase [EC:1.1.99.1]" />
+    <hashEntry Key="xcb:XC_0761" Value="betaine aldehyde dehydrogenase (EC:1.2.1.8); K00130 betaine-aldehyde dehydrogenase [EC:1.2.1.8]" />
+    <hashEntry Key="xcb:XC_0838" Value="threonine dehydratase (EC:4.3.1.19); K01754 threonine dehydratase [EC:4.3.1.19]" />
+    <hashEntry Key="xcb:XC_0886" Value="flavin monoamine oxidase-like protein; K00274 monoamine oxidase [EC:1.4.3.4]" />
+    <hashEntry Key="xcb:XC_1232" Value="gcvT; glycine cleavage system aminomethyltransferase T (EC:2.1.2.10); K00605 aminomethyltransferase" />
+    <hashEntry Key="xcb:XC_1233" Value="glycine cleavage system protein H; K02437 glycine cleavage system H protein" />
+    <hashEntry Key="xcb:XC_1253" Value="homoserine dehydrogenase; K00003 homoserine dehydrogenase [EC:1.1.1.3]" />
+    <hashEntry Key="xcb:XC_1255" Value="L-serine dehydratase; K01752 L-serine dehydratase [EC:4.3.1.17]" />
+    <hashEntry Key="xcb:XC_1372" Value="bifunctional aspartate kinase/diaminopimelate decarboxylase protein (EC:2.7.2.4 4.1.1.20); K12526 bi" />
+    <hashEntry Key="xcb:XC_1404" Value="gpmA; phosphoglyceromutase; K01834 2,3-bisphosphoglycerate-dependent phosphoglycerate mutase [EC:5.4" />
+    <hashEntry Key="xcb:XC_1569" Value="aspartate-semialdehyde dehydrogenase (EC:1.2.1.11); K00133 aspartate-semialdehyde dehydrogenase [EC:" />
+    <hashEntry Key="xcb:XC_1575" Value="tryptophan synthase subunit beta (EC:4.2.1.20); K01696 tryptophan synthase beta chain [EC:4.2.1.20]" />
+    <hashEntry Key="xcb:XC_1577" Value="trpA; tryptophan synthase subunit alpha (EC:4.2.1.20); K01695 tryptophan synthase alpha chain [EC:4." />
+    <hashEntry Key="xcb:XC_1699" Value="sarcosine oxidase alpha subunit; K00302 sarcosine oxidase, subunit alpha [EC:1.5.3.1]" />
+    <hashEntry Key="xcb:XC_1957" Value="CDP-diacylglycerol-serine o-phosphatidyltransferase; K17103 CDP-diacylglycerol---serine O-phosphatid" />
+    <hashEntry Key="xcb:XC_2364" Value="D-3-phosphoglycerate dehydrogenase; K00058 D-3-phosphoglycerate dehydrogenase [EC:1.1.1.95]" />
+    <hashEntry Key="xcb:XC_2386" Value="threonine synthase (EC:4.2.3.1); K01733 threonine synthase [EC:4.2.3.1]" />
+    <hashEntry Key="xcb:XC_2388" Value="homoserine kinase (EC:2.7.1.39); K00872 homoserine kinase [EC:2.7.1.39]" />
+    <hashEntry Key="xcb:XC_2389" Value="thrA; bifunctional aspartokinase I/homoserine dehydrogenase I; K12524 bifunctional aspartokinase / h" />
+    <hashEntry Key="xcb:XC_2645" Value="phosphoserine aminotransferase (EC:2.6.1.52); K00831 phosphoserine aminotransferase [EC:2.6.1.52]" />
+    <hashEntry Key="xcb:XC_2751" Value="dihydrolipoamide dehydrogenase (EC:1.8.1.4); K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xcb:XC_3135" Value="glycine dehydrogenase (EC:1.4.4.2); K00281 glycine dehydrogenase [EC:1.4.4.2]" />
+    <hashEntry Key="xcb:XC_3287" Value="phosphoglycerate mutase; K15634 probable phosphoglycerate mutase [EC:5.4.2.12]" />
+    <hashEntry Key="xcb:XC_3290" Value="tdh; L-threonine 3-dehydrogenase (EC:1.1.1.103); K00060 threonine 3-dehydrogenase [EC:1.1.1.103]" />
+    <hashEntry Key="xcb:XC_3296" Value="2-amino-3-ketobutyrate CoA ligase (EC:2.3.1.29); K00639 glycine C-acetyltransferase [EC:2.3.1.29]" />
+    <hashEntry Key="xcb:XC_3488" Value="phosphoglycerate mutase; K01834 2,3-bisphosphoglycerate-dependent phosphoglycerate mutase [EC:5.4.2." />
+    <hashEntry Key="xcb:XC_3544" Value="glyA; serine hydroxymethyltransferase (EC:2.1.2.1); K00600 glycine hydroxymethyltransferase [EC:2.1." />
+    <hashEntry Key="xcb:XC_3594" Value="phosphatidylserine synthase; K17103 CDP-diacylglycerol---serine O-phosphatidyltransferase [EC:2.7.8." />
+    <hashEntry Key="xcb:XC_3635" Value="cystathionine gamma-synthase; K01758 cystathionine gamma-lyase [EC:4.4.1.1]" />
+    <hashEntry Key="xcb:XC_3636" Value="cystathionine beta-synthase; K01697 cystathionine beta-synthase [EC:4.2.1.22]" />
+    <hashEntry Key="xcb:XC_3689" Value="dihydrolipoamide dehydrogenase; K00382 dihydrolipoamide dehydrogenase [EC:1.8.1.4]" />
+    <hashEntry Key="xcb:XC_4315" Value="glycerate kinase; K00865 glycerate kinase [EC:2.7.1.31]" />
+  </Genes>
+</KEGG.PathwayBrief>

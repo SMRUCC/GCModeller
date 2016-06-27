@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03440" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Homologous recombination (HR) is essential for the accurate repair of DNA double-strand breaks (DSBs), potentially lethal lesions. HR takes place in the late S-G2 phase of the cell cycle and involves the generation of a single-stranded region of DNA, followed by strand invasion, formation of a Holliday junction, DNA synthesis using the intact strand as a template, branch migration and resolution. It is investigated that RecA/Rad51 family proteins play a central role. The breast cancer susceptibility protein Brca2 and the RecQ helicase BLM (Bloom syndrome mutated) are tumor suppressors that maintain genome integrity, at least in part, through HR.&lt;br&gt;</Description>
+  <Name>Homologous recombination - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00260" Value="DNA polymerase III complex, bacteria [PATH:xor03440]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xor03440" Value="Homologous recombination&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0003" Value="dnaN; DNA polymerase III, beta subunit; K02338 DNA polymerase III subunit beta [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_0005" Value="DNA replication and repair RecF protein; K03629 DNA replication and repair protein RecF" />
+    <hashEntry Key="xor:XOC_0103" Value="recD; exodeoxyribonuclease V, alpha subunit; K03581 exodeoxyribonuclease V alpha subunit [EC:3.1.11." />
+    <hashEntry Key="xor:XOC_0105" Value="exodeoxyribonuclease V beta chain; K03582 exodeoxyribonuclease V beta subunit [EC:3.1.11.5]" />
+    <hashEntry Key="xor:XOC_0106" Value="recC; exodeoxyribonuclease V, gamma subunit; K03583 exodeoxyribonuclease V gamma subunit [EC:3.1.11." />
+    <hashEntry Key="xor:XOC_0405" Value="polA; DNA polymerase I; K02335 DNA polymerase I [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1145" Value="dnaQ; DNA polymerase III, epsilon subunit; K02342 DNA polymerase III subunit epsilon [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1159" Value="DNA polymerase III subunit gamma-tau; K02343 DNA polymerase III subunit gamma/tau [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1161" Value="recR; recombination protein RecR; K06187 recombination protein RecR" />
+    <hashEntry Key="xor:XOC_1180" Value="DNA polymerase III delta&amp;#39; subunit; K02341 DNA polymerase III subunit delta&amp;#39; [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_1514" Value="single-stranded DNA binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="xor:XOC_1668" Value="holA; DNA polymerase III, delta subunit; K02340 DNA polymerase III subunit delta [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_2256" Value="recJ; single-stranded-DNA-specific exonuclease RecJ; K07462 single-stranded-DNA-specific exonuclease" />
+    <hashEntry Key="xor:XOC_2772" Value="recA; RecA protein; K03553 recombination protein RecA" />
+    <hashEntry Key="xor:XOC_3085" Value="DNA polymerase III alpha subunit; K02337 DNA polymerase III subunit alpha [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_3180" Value="recO; DNA repair protein RecO; K03584 DNA repair protein RecO (recombination protein O)" />
+    <hashEntry Key="xor:XOC_3356" Value="ruvB; holliday junction DNA helicase RuvB; K03551 holliday junction DNA helicase RuvB [EC:3.6.4.12]" />
+    <hashEntry Key="xor:XOC_3358" Value="ruvA; holliday junction DNA helicase RuvA; K03550 holliday junction DNA helicase RuvA [EC:3.6.4.12]" />
+    <hashEntry Key="xor:XOC_3359" Value="ruvC; crossover junction endodeoxyribonuclease RuvC; K01159 crossover junction endodeoxyribonuclease" />
+    <hashEntry Key="xor:XOC_3648" Value="recG; ATP-dependent DNA helicase RecG; K03655 ATP-dependent DNA helicase RecG [EC:3.6.4.12]" />
+    <hashEntry Key="xor:XOC_3819" Value="DNA polymerase III holoenzyme chi subunit; K02339 DNA polymerase III subunit chi [EC:2.7.7.7]" />
+    <hashEntry Key="xor:XOC_4152" Value="primosomal protein N&amp;#39;; K04066 primosomal protein N&amp;#39; (replication factor Y) (superfamily II helicase)" />
+  </Genes>
+</KEGG.PathwayBrief>

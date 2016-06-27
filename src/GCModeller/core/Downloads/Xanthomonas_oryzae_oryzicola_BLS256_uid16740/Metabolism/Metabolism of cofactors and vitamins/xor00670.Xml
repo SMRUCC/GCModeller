@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00670" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>One carbon pool by folate - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00126" Value="Tetrahydrofolate biosynthesis, GTP =&gt; THF [PATH:xor00670]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00101" Value="Tetrahydrofolate" />
+    <hashEntry Key="C00143" Value="5,10-Methylenetetrahydrofolate" />
+    <hashEntry Key="C00234" Value="10-Formyltetrahydrofolate" />
+    <hashEntry Key="C00415" Value="Dihydrofolate" />
+    <hashEntry Key="C00440" Value="5-Methyltetrahydrofolate" />
+    <hashEntry Key="C00445" Value="5,10-Methenyltetrahydrofolate" />
+    <hashEntry Key="C00504" Value="Folate" />
+    <hashEntry Key="C00664" Value="5-Formiminotetrahydrofolate" />
+    <hashEntry Key="C03479" Value="Folinic acid" />
+  </Compound>
+  <PathwayMap Key="xor00670" Value="One carbon pool by folate&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0806" Value="glyA; serine hydroxymethyltransferase; K00600 glycine hydroxymethyltransferase [EC:2.1.2.1]" />
+    <hashEntry Key="xor:XOC_0857" Value="metF; 5,10-methylenetetrahydrofolate reductase; K00297 methylenetetrahydrofolate reductase (NADPH) [" />
+    <hashEntry Key="xor:XOC_0909" Value="thyA; thymidylate synthase; K00560 thymidylate synthase [EC:2.1.1.45]" />
+    <hashEntry Key="xor:XOC_0911" Value="folA; dihydrofolate reductase; K00287 dihydrofolate reductase [EC:1.5.1.3]" />
+    <hashEntry Key="xor:XOC_1303" Value="purT; phosphoribosylglycinamide formyltransferase 2; K08289 phosphoribosylglycinamide formyltransfer" />
+    <hashEntry Key="xor:XOC_1451" Value="purN; phosphoribosylglycinamide formyltransferase; K11175 phosphoribosylglycinamide formyltransferas" />
+    <hashEntry Key="xor:XOC_1782" Value="methionine synthase; K00548 5-methyltetrahydrofolate--homocysteine methyltransferase [EC:2.1.1.13]" />
+    <hashEntry Key="xor:XOC_1783" Value="methionine synthase; K00548 5-methyltetrahydrofolate--homocysteine methyltransferase [EC:2.1.1.13]" />
+    <hashEntry Key="xor:XOC_1784" Value="methionine synthase; K00548 5-methyltetrahydrofolate--homocysteine methyltransferase [EC:2.1.1.13]" />
+    <hashEntry Key="xor:XOC_1786" Value="methionine synthase (5-methyltetrahydrofolate--homocysteine methyltransferase) vitamin-B12 dependent" />
+    <hashEntry Key="xor:XOC_2681" Value="FolD bifunctional protein; K01491 methylenetetrahydrofolate dehydrogenase (NADP+) / methenyltetrahyd" />
+    <hashEntry Key="xor:XOC_3246" Value="gcvT; glycine cleavage system T protein; K00605 aminomethyltransferase [EC:2.1.2.10]" />
+    <hashEntry Key="xor:XOC_3666" Value="5,10-methenyltetrahydrofolate synthetase; K01934 5-formyltetrahydrofolate cyclo-ligase [EC:6.3.3.2]" />
+    <hashEntry Key="xor:XOC_4133" Value="fmt; methionyl-tRNA formyltransferase; K00604 methionyl-tRNA formyltransferase [EC:2.1.2.9]" />
+    <hashEntry Key="xor:XOC_4172" Value="purH; bifunctional purine biosynthesis protein PurH; K00602 phosphoribosylaminoimidazolecarboxamide" />
+    <hashEntry Key="xor:XOC_4356" Value="5,10-methylenetetrahydrofolate reductase; K00297 methylenetetrahydrofolate reductase (NADPH) [EC:1.5" />
+    <hashEntry Key="xor:XOC_4360" Value="purU; formyltetrahydrofolate deformylase; K01433 formyltetrahydrofolate deformylase [EC:3.5.1.10]" />
+  </Genes>
+</KEGG.PathwayBrief>

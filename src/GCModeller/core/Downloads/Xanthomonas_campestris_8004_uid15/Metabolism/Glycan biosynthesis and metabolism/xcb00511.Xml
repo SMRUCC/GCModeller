@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00511" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Other glycan degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xcb00511" Value="Other glycan degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_1195" Value="asparaginase; K01444 N4-(beta-N-acetylglucosaminyl)-L-asparaginase [EC:3.5.1.26]" />
+    <hashEntry Key="xcb:XC_1218" Value="beta-mannosidase; K01192 beta-mannosidase [EC:3.2.1.25]" />
+    <hashEntry Key="xcb:XC_1219" Value="beta-hexosaminidase; K12373 hexosaminidase [EC:3.2.1.52]" />
+    <hashEntry Key="xcb:XC_1221" Value="alpha-L-fucosidase; K01206 alpha-L-fucosidase [EC:3.2.1.51]" />
+    <hashEntry Key="xcb:XC_2479" Value="hypothetical protein; K15923 alpha-L-fucosidase 2 [EC:3.2.1.51]" />
+    <hashEntry Key="xcb:XC_2985" Value="beta-galactosidase; K01190 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="xcb:XC_2990" Value="hypothetical protein; K01206 alpha-L-fucosidase [EC:3.2.1.51]" />
+    <hashEntry Key="xcb:XC_3172" Value="glycosyl hydrolase; K01201 glucosylceramidase [EC:3.2.1.45]" />
+    <hashEntry Key="xcb:XC_4208" Value="beta-galactosidase; K01190 beta-galactosidase [EC:3.2.1.23]" />
+  </Genes>
+</KEGG.PathwayBrief>

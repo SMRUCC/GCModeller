@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00511" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Other glycan degradation - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xor00511" Value="Other glycan degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0755" Value="beta-galactosidase; K01190 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="xor:XOC_2159" Value="hypothetical protein; K15923 alpha-L-fucosidase 2 [EC:3.2.1.51]" />
+    <hashEntry Key="xor:XOC_3201" Value="beta-galactosidase; K01190 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="xor:XOC_3203" Value="F5-8 type C domain protein; K01206 alpha-L-fucosidase [EC:3.2.1.51]" />
+    <hashEntry Key="xor:XOC_3257" Value="alpha-L-fucosidase; K01206 alpha-L-fucosidase [EC:3.2.1.51]" />
+    <hashEntry Key="xor:XOC_3259" Value="beta-hexosaminidase; K12373 hexosaminidase [EC:3.2.1.52]" />
+    <hashEntry Key="xor:XOC_3260" Value="beta-mannosidase; K01192 beta-mannosidase [EC:3.2.1.25]" />
+    <hashEntry Key="xor:XOC_3281" Value="aga; N(4)-(Beta-N-acetylglucosaminyl)-L-asparaginase (Glycosylasparaginase) (Aspartylglucosaminidase" />
+  </Genes>
+</KEGG.PathwayBrief>

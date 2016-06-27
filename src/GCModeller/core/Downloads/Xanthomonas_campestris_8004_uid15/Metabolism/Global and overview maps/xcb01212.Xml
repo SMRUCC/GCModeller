@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01212" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Fatty acid metabolism - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xcb_M00082" Value="Fatty acid biosynthesis, initiation [PATH:xcb01212]" />
+    <hashEntry Key="xcb_M00083" Value="Fatty acid biosynthesis, elongation [PATH:xcb01212]" />
+    <hashEntry Key="xcb_M00086" Value="beta-Oxidation, acyl-CoA synthesis [PATH:xcb01212]" />
+    <hashEntry Key="xcb_M00087" Value="beta-Oxidation [PATH:xcb01212]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xcb01212" Value="Fatty acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0119" Value="trans-2-enoyl-CoA reductase; K00209 enoyl-[acyl-carrier protein] reductase / trans-2-enoyl-CoA reduc" />
+    <hashEntry Key="xcb:XC_0171" Value="fatty acid desaturase; K00507 stearoyl-CoA desaturase (Delta-9 desaturase) [EC:1.14.19.1]" />
+    <hashEntry Key="xcb:XC_0204" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_0222" Value="3-oxoacyl-ACP synthase (EC:2.3.1.41); K00648 3-oxoacyl-[acyl-carrier-protein] synthase III [EC:2.3.1" />
+    <hashEntry Key="xcb:XC_0396" Value="oxidoreductase; K00059 3-oxoacyl-[acyl-carrier protein] reductase [EC:1.1.1.100]" />
+    <hashEntry Key="xcb:XC_0429" Value="3-oxoacyl-ACP reductase; K00059 3-oxoacyl-[acyl-carrier protein] reductase [EC:1.1.1.100]" />
+    <hashEntry Key="xcb:XC_0527" Value="acetyl-CoA carboxylase biotin carboxylase subunit (EC:6.4.1.2); K01961 acetyl-CoA carboxylase, bioti" />
+    <hashEntry Key="xcb:XC_0529" Value="acetyl-CoA carboxylase biotin carboxyl carrier protein subunit (EC:6.4.1.2); K02160 acetyl-CoA carbo" />
+    <hashEntry Key="xcb:XC_0578" Value="ACP S-malonyltransferase; K00645 [acyl-carrier-protein] S-malonyltransferase [EC:2.3.1.39]" />
+    <hashEntry Key="xcb:XC_1238" Value="fadE; acyl-CoA dehydrogenase (EC:1.3.99.3); K06445 acyl-CoA dehydrogenase [EC:1.3.99.-]" />
+    <hashEntry Key="xcb:XC_1578" Value="acetyl-CoA carboxylase subunit beta (EC:6.4.1.2); K01963 acetyl-CoA carboxylase carboxyl transferase" />
+    <hashEntry Key="xcb:XC_1672" Value="protein GumO; K00648 3-oxoacyl-[acyl-carrier-protein] synthase III [EC:2.3.1.180]" />
+    <hashEntry Key="xcb:XC_2205" Value="3-hydroxyacyl-CoA dehydrogenase; K07516 3-hydroxyacyl-CoA dehydrogenase [EC:1.1.1.35]" />
+    <hashEntry Key="xcb:XC_2206" Value="acetyl-CoA acetyltransferase (EC:2.3.1.9); K00632 acetyl-CoA acyltransferase [EC:2.3.1.16]" />
+    <hashEntry Key="xcb:XC_2331" Value="long-chain fatty acyl CoA ligase; K01897 long-chain acyl-CoA synthetase [EC:6.2.1.3]" />
+    <hashEntry Key="xcb:XC_2876" Value="fabZ; (3R)-hydroxymyristoyl-ACP dehydratase; K02372 3-hydroxyacyl-[acyl-carrier-protein] dehydratase" />
+    <hashEntry Key="xcb:XC_2881" Value="acetyl-CoA carboxylase carboxyltransferase subunit alpha (EC:6.4.1.2); K01962 acetyl-CoA carboxylase" />
+    <hashEntry Key="xcb:XC_2907" Value="delta 9 acyl-lipid fatty acid desaturase; K00507 stearoyl-CoA desaturase (Delta-9 desaturase) [EC:1." />
+    <hashEntry Key="xcb:XC_2943" Value="acetoacetyl-CoA thiolase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="xcb:XC_2975" Value="3-hydroxyacyl-CoA dehydrogenase; K01782 3-hydroxyacyl-CoA dehydrogenase / enoyl-CoA hydratase / 3-hy" />
+    <hashEntry Key="xcb:XC_3225" Value="3-oxoacyl-ACP synthase (EC:2.3.1.41); K09458 3-oxoacyl-[acyl-carrier-protein] synthase II [EC:2.3.1." />
+    <hashEntry Key="xcb:XC_3227" Value="fabG; 3-ketoacyl-ACP reductase (EC:1.1.1.100); K00059 3-oxoacyl-[acyl-carrier protein] reductase [EC" />
+    <hashEntry Key="xcb:XC_3228" Value="ACP S-malonyltransferase; K00645 [acyl-carrier-protein] S-malonyltransferase [EC:2.3.1.39]" />
+    <hashEntry Key="xcb:XC_3229" Value="3-oxoacyl-ACP synthase (EC:2.3.1.41); K00648 3-oxoacyl-[acyl-carrier-protein] synthase III [EC:2.3.1" />
+    <hashEntry Key="xcb:XC_3651" Value="3-hydroxydecanoyl-ACP dehydratase (EC:4.2.1.60); K01716 3-hydroxyacyl-[acyl-carrier protein] dehydra" />
+    <hashEntry Key="xcb:XC_3652" Value="beta-ketoacyl-[ACP] synthase I; K00647 3-oxoacyl-[acyl-carrier-protein] synthase I [EC:2.3.1.41]" />
+    <hashEntry Key="xcb:XC_4087" Value="3-oxoacyl-ACP synthase (EC:2.3.1.41); K00647 3-oxoacyl-[acyl-carrier-protein] synthase I [EC:2.3.1.4" />
+    <hashEntry Key="xcb:XC_4092" Value="fabG; 3-ketoacyl-ACP reductase; K00059 3-oxoacyl-[acyl-carrier protein] reductase [EC:1.1.1.100]" />
+  </Genes>
+</KEGG.PathwayBrief>

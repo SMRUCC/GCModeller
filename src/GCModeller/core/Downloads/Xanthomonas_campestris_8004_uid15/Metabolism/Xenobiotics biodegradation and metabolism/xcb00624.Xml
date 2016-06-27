@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb00624" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Polycyclic aromatic hydrocarbon degradation - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00090" Value="Catechol" />
+    <hashEntry Key="C00230" Value="3,4-Dihydroxybenzoate" />
+    <hashEntry Key="C00587" Value="3-Hydroxybenzoate" />
+    <hashEntry Key="C00805" Value="Salicylate" />
+    <hashEntry Key="C01163" Value="3-Carboxy-cis,cis-muconate" />
+    <hashEntry Key="C01198" Value="3-(2-Hydroxyphenyl)propanoate" />
+    <hashEntry Key="C01504" Value="Indanone" />
+    <hashEntry Key="C01606" Value="Phthalate" />
+    <hashEntry Key="C02274" Value="Dihydrocoumarin" />
+    <hashEntry Key="C03012" Value="Naphthalene-1,2-diol" />
+    <hashEntry Key="C03057" Value="2-Carboxybenzaldehyde" />
+    <hashEntry Key="C03164" Value="Phenanthrene-3,4-diol" />
+    <hashEntry Key="C03203" Value="1-Hydroxy-2-naphthoate" />
+    <hashEntry Key="C03223" Value="3,4-Dihydroxyphthalate" />
+    <hashEntry Key="C03233" Value="4,5-Dihydroxyphthalate" />
+    <hashEntry Key="C04468" Value="(+)-cis-3,4-Dihydrophenanthrene-3,4-diol" />
+    <hashEntry Key="C04484" Value="4-Carboxy-2-hydroxymuconate semialdehyde" />
+    <hashEntry Key="C04783" Value="cis-4,5-Dihydroxycyclohexa-1(6),2-diene-1,2-dicarboxylate" />
+    <hashEntry Key="C06318" Value="(3S,4R)-3,4-Dihydroxycyclohexa-1,5-diene-1,4-dicarboxylate" />
+    <hashEntry Key="C06337" Value="Terephthalate" />
+    <hashEntry Key="C06680" Value="4-Hydroxyphthalate" />
+    <hashEntry Key="C06711" Value="Fluoren-9-ol" />
+    <hashEntry Key="C06712" Value="Fluoren-9-one" />
+    <hashEntry Key="C07535" Value="Benzo[a]pyrene" />
+    <hashEntry Key="C07715" Value="Fluorene" />
+    <hashEntry Key="C07717" Value="3,4-Dihydroxyfluorene" />
+    <hashEntry Key="C07718" Value="2-Hydroxy-4-(1-oxo-1,3-dihydro-2H-inden-2-ylidene)-but-2-enoic acid" />
+    <hashEntry Key="C07719" Value="2-Formyl-1-indanone" />
+    <hashEntry Key="C07720" Value="3-Hydroxy-1-indanone" />
+    <hashEntry Key="C07721" Value="(+)-(3S,4R)-cis-3,4-Dihydroxy-3,4-dihydrofluorene" />
+    <hashEntry Key="C07722" Value="3,4-Dihydroxy-3,4-dihydro-9-fluorenone" />
+    <hashEntry Key="C07723" Value="4-Hydroxy-9-fluorenone" />
+    <hashEntry Key="C07724" Value="1,2-Dihydroxyfluorene" />
+    <hashEntry Key="C07725" Value="2-Hydroxy-4-(2-oxo-1,3-dihydro-2H-inden-1-ylidene)but-2-enoic acid" />
+    <hashEntry Key="C07726" Value="1-Formyl-2-indanone" />
+    <hashEntry Key="C07727" Value="2-Indanone" />
+    <hashEntry Key="C07728" Value="3-Isochromanone" />
+    <hashEntry Key="C11422" Value="Phenanthrene" />
+    <hashEntry Key="C11425" Value="2-Hydroxy-2H-benzo[h]chromene-2-carboxylate" />
+    <hashEntry Key="C11426" Value="cis-4-(1'-Hydroxynaphth-2'-yl)-2-oxobut-3-enoate" />
+    <hashEntry Key="C11427" Value="1-Hydroxy-2-naphthaldehyde" />
+    <hashEntry Key="C11428" Value="trans-9(S),10(S)-Dihydrodiolphenanthrene" />
+    <hashEntry Key="C11429" Value="Phenanthrene-9,10-oxide" />
+    <hashEntry Key="C11430" Value="9-Hydroxyphenanthrene" />
+    <hashEntry Key="C11431" Value="Phenanthrene-1,2-oxide" />
+    <hashEntry Key="C11432" Value="1-Phenanthrol" />
+    <hashEntry Key="C11433" Value="1-Methoxyphenanthrene" />
+    <hashEntry Key="C14315" Value="Anthracene" />
+    <hashEntry Key="C14335" Value="Pyrene" />
+    <hashEntry Key="C14519" Value="1-Hydroxypyrene" />
+    <hashEntry Key="C16149" Value="(3Z)-4-(2-Carboxyphenyl)-2-oxobut-3-enoate" />
+    <hashEntry Key="C16203" Value="Anthracene-cis-1,2-dihydrodiol" />
+    <hashEntry Key="C16204" Value="1,2-Anthracenediol" />
+    <hashEntry Key="C16205" Value="Anthracene-9,10-dihydrodiol" />
+    <hashEntry Key="C16206" Value="9,10-Dihydroxyanthracene" />
+    <hashEntry Key="C16207" Value="Anthraquinone" />
+    <hashEntry Key="C16208" Value="1-Methoxy-2-hydroxyanthracene" />
+    <hashEntry Key="C16209" Value="3-(2-Carboxyvinyl)naphthalene-2-carboxylic acid" />
+    <hashEntry Key="C16210" Value="4-(3-Hydroxy-2-naphthyl)-2-oxobut-3-enoic acid" />
+    <hashEntry Key="C16211" Value="6,7-Benzocoumarin" />
+    <hashEntry Key="C16212" Value="3-Hydroxy-2-naphthoate" />
+    <hashEntry Key="C16213" Value="2,3-Dihydroxynaphthalene" />
+    <hashEntry Key="C16214" Value="3-[6-(Carboxymethylene)cyclohexa-2,4-dien-1-ylidene]-2-oxopropanate" />
+    <hashEntry Key="C16215" Value="1,2-Dihydrophthalic acid" />
+    <hashEntry Key="C16262" Value="1-Hydro-1,1a-dihydroxy-9-fluorenone" />
+    <hashEntry Key="C16263" Value="2,3-Dihydroxy-2'-carboxybiphenyl" />
+    <hashEntry Key="C16264" Value="2-Hydroxy-6-oxo-6-(2-carboxyphenyl)-hexa-2,4-dienoate" />
+    <hashEntry Key="C18249" Value="cis-4,5-Dihydroxy-4,5-dihydropyrene" />
+    <hashEntry Key="C18250" Value="4,5-Dihydroxypyrene" />
+    <hashEntry Key="C18251" Value="Pyrene-4,5-dione" />
+    <hashEntry Key="C18252" Value="Phenanthrene-4,5-dicarboxylate" />
+    <hashEntry Key="C18253" Value="Phenanthrene-4-carboxylate" />
+    <hashEntry Key="C18254" Value="Pyrene-4,5-oxide" />
+    <hashEntry Key="C18255" Value="trans-4,5-Dihydroxy-4,5-dihydropyrene" />
+    <hashEntry Key="C18256" Value="cis-3,4-Phenanthrenedihydrodiol-4-carboxylate" />
+    <hashEntry Key="C18257" Value="Pyrene-1,6-dione" />
+    <hashEntry Key="C18258" Value="Pyrene-1,8-dione" />
+    <hashEntry Key="C18259" Value="1-Methoxypyrene" />
+    <hashEntry Key="C18260" Value="1,6-Dimethoxypyrene" />
+    <hashEntry Key="C18261" Value="1-Hydroxy-6-methoxypyrene" />
+    <hashEntry Key="C18262" Value="1-Methoxypyrene-6,7-oxide" />
+    <hashEntry Key="C18263" Value="1,6-Dihydroxypyrene" />
+    <hashEntry Key="C18264" Value="1,8-Dihydroxypyrene" />
+    <hashEntry Key="C18265" Value="1-Hydroxypyrene-6,7-oxide" />
+    <hashEntry Key="C18266" Value="1-Hydroxypyrene-7,8-oxide" />
+    <hashEntry Key="C18267" Value="Pyrene-1,2-oxide" />
+    <hashEntry Key="C18269" Value="1-Pyrenylsulfate" />
+    <hashEntry Key="C18270" Value="Benzo[a]pyrene-cis-4,5-dihydrodiol" />
+    <hashEntry Key="C18271" Value="cis-4-(7-Hydroxtpyren-8-yl)-2-oxobut-3-enoate" />
+    <hashEntry Key="C18272" Value="cis-4-(8-Hydroxypyren-7-yl)-2-oxobut-3-enoate" />
+    <hashEntry Key="C18273" Value="7,8-Dihydropyrene-8-carboxylate" />
+    <hashEntry Key="C18274" Value="7,8-Dihydropyrene-7-carboxylate" />
+    <hashEntry Key="C18275" Value="Benzo[a]pyrene-cis-7,8-dihydrodiol" />
+    <hashEntry Key="C18276" Value="Benzo[a]pyrene-cis-9,10-dihydrodiol" />
+    <hashEntry Key="C18277" Value="4,5-Chrysenedicarboxylate" />
+    <hashEntry Key="C18278" Value="9,10-Dihydroxybenzo[a]pyrene" />
+    <hashEntry Key="C18279" Value="4,5-Dihydroxybenzo[a]pyrene" />
+    <hashEntry Key="C18280" Value="11,12-Dihydroxybenzo[a]pyrene" />
+    <hashEntry Key="C18281" Value="10-Oxabenzo[def]chrysen-9-one" />
+    <hashEntry Key="C18282" Value="5-Chrysenecarboxylate" />
+    <hashEntry Key="C18283" Value="4-Chrysenecarboxylate" />
+    <hashEntry Key="C18284" Value="Benzo[a]pyrene-cis-11,12-dihydrodiol" />
+    <hashEntry Key="C18285" Value="Benzo[a]pyrene-trans-11,12-dihydrodiol" />
+    <hashEntry Key="C18286" Value="Benzo[a]pyrene-11,12-epoxide" />
+    <hashEntry Key="C18314" Value="Phthalate 3,4-cis-dihydrodiol" />
+  </Compound>
+  <PathwayMap Key="xcb00624" Value="Polycyclic aromatic hydrocarbon degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0379" Value="protocatechuate 3,4-dioxygenase subunit beta; K00449 protocatechuate 3,4-dioxygenase, beta subunit [" />
+    <hashEntry Key="xcb:XC_0380" Value="protocatechuate 3,4-dioxygenase alpha chain; K00448 protocatechuate 3,4-dioxygenase, alpha subunit [" />
+    <hashEntry Key="xcb:XC_3426" Value="protocatechuate 4,5-dioxygenase subunit alpha; K04100 protocatechuate 4,5-dioxygenase, alpha chain [" />
+    <hashEntry Key="xcb:XC_3427" Value="protocatechuate 4,5-dioxygenase subunit beta; K04101 protocatechuate 4,5-dioxygenase, beta chain [EC" />
+  </Genes>
+</KEGG.PathwayBrief>

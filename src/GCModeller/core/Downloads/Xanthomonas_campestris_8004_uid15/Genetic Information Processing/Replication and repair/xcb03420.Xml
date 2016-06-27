@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb03420" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Nucleotide excision repair (NER) is a mechanism to recognize and repair bulky DNA damage caused by compounds, environmental carcinogens, and exposure to UV-light. In humans hereditary defects in the NER pathway are linked to at least three diseases: xeroderma pigmentosum (XP), Cockayne syndrome (CS), and trichothiodystrophy (TTD). The repair of damaged DNA involves at least 30 polypeptides within two different sub-pathways of NER known as transcription-coupled repair (TCR-NER) and global genome repair (GGR-NER). TCR refers to the expedited repair of lesions located in the actively transcribed strand of genes by RNA polymerase II (RNAP II). In GGR-NER the first step of damage recognition involves XPC-hHR23B complex together with XPE complex (in prokaryotes, uvrAB complex). The following steps of GGR-NER and TCR-NER are similar.&lt;br&gt;</Description>
+  <Name>Nucleotide excision repair - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xcb03420" Value="Nucleotide excision repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_1416" Value="transcription-repair coupling factor; K03723 transcription-repair coupling factor (superfamily II he" />
+    <hashEntry Key="xcb:XC_1628" Value="excinuclease ABC subunit B; K03702 excinuclease ABC subunit B" />
+    <hashEntry Key="xcb:XC_2000" Value="uvrC; excinuclease ABC subunit C; K03703 excinuclease ABC subunit C" />
+    <hashEntry Key="xcb:XC_2664" Value="ligA; NAD-dependent DNA ligase LigA (EC:6.5.1.2); K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="xcb:XC_2951" Value="ATP-dependent DNA ligase (EC:6.5.1.1); K10747 DNA ligase 1 [EC:6.5.1.1 6.5.1.6 6.5.1.7]" />
+    <hashEntry Key="xcb:XC_3094" Value="uvrA; excinuclease ABC subunit A; K03701 excinuclease ABC subunit A" />
+    <hashEntry Key="xcb:XC_3161" Value="excinuclease ABC subunit A; K03701 excinuclease ABC subunit A" />
+    <hashEntry Key="xcb:XC_4109" Value="DNA polymerase I; K02335 DNA polymerase I [EC:2.7.7.7]" />
+    <hashEntry Key="xcb:XC_4115" Value="uvrD; DNA-dependent helicase II; K03657 DNA helicase II / ATP-dependent DNA helicase PcrA [EC:3.6.4." />
+  </Genes>
+</KEGG.PathwayBrief>

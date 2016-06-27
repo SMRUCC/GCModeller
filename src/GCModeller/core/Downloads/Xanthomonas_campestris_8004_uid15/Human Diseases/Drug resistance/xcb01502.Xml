@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01502" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Vancomycin (VCM) is a glycopeptide antibiotic agent that inhibits the synthesis of peptidolgycan in the production of bacterial cell walls. It is active in most Gram-positive bacteria and acts by binding to the D-Ala-D-Ala C-terminus of pentapeptide, thus blocking the addition of subunits to the peptidoglycan backbone. The resistance to VCM was first described among enterococci in the late 1980s in Europe. Subsequently, vancomycin-resistant enteococci (VRE) have been observed in many countries. The genes encoding resistance are carried on plasmids that can tranfer themselves from cell to cell and on tranponsons that can jump from plamids to the chromosome. Up to now, at least six resistance operon types are characterized, namely VanA, VanB, VanC, VanD, VanE and VanG. The VanA and VanB operons are detected on plasmids or in the chromosome, whereas the rest are found in the chromosome. In addition, Streptomyces, which is non-pathogenic, non-glycopeptide-producing actinomycete, also shows high-level resistance to VCM. In Streptomyces, novel genes (vanK and vanJ) are characterized with no counterparts found in the resistance clusters of pathogenic bacteria.&lt;br&gt; The expression of vancomycin resistance pathway is induced by the VanS-VanR two component system, and D-Ala-D-Lac or D-Ala-D-Ser dipsipeptides are formed in place of D-Ala-D-Ala dipeptide. Thus, VCM cannot bind to pentadepsipeptide[D-Lac] or pentadepsipeptide[D-Ser]. The D-Ala-D-Lac variation shows high levels of resistance to VCM, especially in VanA type, wheras the D-Ala-D-Ser variation shows low levels of resistance. The modified pepidoglycan can interact with cross-linking enzymes (PBPs), thus cell wall is successfully formed.&lt;br&gt;</Description>
+  <Name>Vancomycin resistance - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xcb01502" Value="Vancomycin resistance&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0232" Value="ddl; D-alanyl-alanine synthetase A (EC:6.3.2.4); K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="xcb:XC_3111" Value="hypothetical protein; K07260 D-alanyl-D-alanine carboxypeptidase [EC:3.4.16.4]" />
+    <hashEntry Key="xcb:XC_3508" Value="ddl; D-alanine--D-alanine ligase (EC:6.3.2.4); K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="xcb:XC_3510" Value="murG; undecaprenyldiphospho-muramoylpentapeptide beta-N-acetylglucosaminyltransferase (EC:2.4.1.227)" />
+    <hashEntry Key="xcb:XC_3512" Value="mraY; phospho-N-acetylmuramoyl-pentapeptide-transferase (EC:2.7.8.13); K01000 phospho-N-acetylmuramo" />
+    <hashEntry Key="xcb:XC_3513" Value="UDP-N-acetylmuramoyl-tripeptide--D-alanyl-D-alanine ligase; K01929 UDP-N-acetylmuramoyl-tripeptide--" />
+    <hashEntry Key="xcb:XC_3718" Value="alr; alanine racemase (EC:5.1.1.1); K01775 alanine racemase [EC:5.1.1.1]" />
+    <hashEntry Key="xcb:XC_3873" Value="D-alanyl-D-alanine dipeptidase; K08641 D-alanyl-D-alanine dipeptidase [EC:3.4.13.22]" />
+  </Genes>
+</KEGG.PathwayBrief>

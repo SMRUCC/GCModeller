@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor03020" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>RNA polymerase - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00183" Value="RNA polymerase, bacteria [PATH:xor03020]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="xor03020" Value="RNA polymerase&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_1021" Value="rpoB; DNA-directed RNA polymerase, beta subunit; K03043 DNA-directed RNA polymerase subunit beta [EC" />
+    <hashEntry Key="xor:XOC_1022" Value="rpoC; DNA-directed RNA polymerase, beta&amp;#39; subunit; K03046 DNA-directed RNA polymerase subunit beta&amp;#39; [" />
+    <hashEntry Key="xor:XOC_1055" Value="rpoA; DNA-directed RNA polymerase, alpha subunit; K03040 DNA-directed RNA polymerase subunit alpha [" />
+    <hashEntry Key="xor:XOC_3651" Value="DNA-directed RNA polymerase omega chain; K03060 DNA-directed RNA polymerase subunit omega [EC:2.7.7." />
+  </Genes>
+</KEGG.PathwayBrief>

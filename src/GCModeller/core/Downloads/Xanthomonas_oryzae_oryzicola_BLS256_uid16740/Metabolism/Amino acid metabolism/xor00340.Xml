@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xor00340" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Histidine metabolism - Xanthomonas oryzae pv. oryzicola BLS256&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="xor_M00026" Value="Histidine biosynthesis, PRPP =&gt; histidine [PATH:xor00340]" />
+    <hashEntry Key="xor_M00045" Value="Histidine degradation, histidine =&gt; N-formiminoglutamate =&gt; glutamate [PATH:xor00340]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00119" Value="5-Phospho-alpha-D-ribose 1-diphosphate" />
+    <hashEntry Key="C00135" Value="L-Histidine" />
+    <hashEntry Key="C00386" Value="Carnosine" />
+    <hashEntry Key="C00388" Value="Histamine" />
+    <hashEntry Key="C00439" Value="N-Formimino-L-glutamate" />
+    <hashEntry Key="C00785" Value="Urocanate" />
+    <hashEntry Key="C00860" Value="L-Histidinol" />
+    <hashEntry Key="C01044" Value="N-Formyl-L-aspartate" />
+    <hashEntry Key="C01045" Value="N-Formyl-L-glutamate" />
+    <hashEntry Key="C01100" Value="L-Histidinol phosphate" />
+    <hashEntry Key="C01152" Value="N(pi)-Methyl-L-histidine" />
+    <hashEntry Key="C01262" Value="beta-Alanyl-N(pi)-methyl-L-histidine" />
+    <hashEntry Key="C01267" Value="3-(Imidazol-4-yl)-2-oxopropyl phosphate" />
+    <hashEntry Key="C01929" Value="L-Histidinal" />
+    <hashEntry Key="C02739" Value="1-(5-Phospho-D-ribosyl)-ATP" />
+    <hashEntry Key="C02741" Value="Phosphoribosyl-AMP" />
+    <hashEntry Key="C02835" Value="Imidazole-4-acetate" />
+    <hashEntry Key="C03277" Value="Imidazol-5-yl-pyruvate" />
+    <hashEntry Key="C03409" Value="N-Formimino-L-aspartate" />
+    <hashEntry Key="C03680" Value="4-Imidazolone-5-propanoate" />
+    <hashEntry Key="C04437" Value="1-(5-Phosphoribosyl)imidazole-4-acetate" />
+    <hashEntry Key="C04666" Value="D-erythro-1-(Imidazol-4-yl)glycerol 3-phosphate" />
+    <hashEntry Key="C04677" Value="1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide" />
+    <hashEntry Key="C04896" Value="5-(5-Phospho-D-ribosylaminoformimino)-1-(5-phosphoribosyl)-imidazole-4-carboxamide" />
+    <hashEntry Key="C04916" Value="N-(5'-Phospho-D-1'-ribulosylformimino)-5-amino-1-(5''-phospho-D-ribosyl)-4-imidazolecarboxamide" />
+    <hashEntry Key="C05127" Value="N-Methylhistamine" />
+    <hashEntry Key="C05130" Value="Imidazole-4-acetaldehyde" />
+    <hashEntry Key="C05131" Value="(1-Ribosylimidazole)-4-acetate" />
+    <hashEntry Key="C05133" Value="4-Imidazolone-5-acetate" />
+    <hashEntry Key="C05135" Value="4-(beta-Acetylaminoethyl)imidazole" />
+    <hashEntry Key="C05565" Value="Hydantoin-5-propionate" />
+    <hashEntry Key="C05568" Value="Imidazole lactate" />
+    <hashEntry Key="C05570" Value="Ergothioneine" />
+    <hashEntry Key="C05571" Value="Thiourocanic acid" />
+    <hashEntry Key="C05572" Value="4-Oxoglutaramate" />
+    <hashEntry Key="C05575" Value="Hercynine" />
+    <hashEntry Key="C05827" Value="Methylimidazole acetaldehyde" />
+    <hashEntry Key="C05828" Value="Methylimidazoleacetic acid" />
+    <hashEntry Key="C05829" Value="N-Carbamyl-L-glutamate" />
+    <hashEntry Key="C16673" Value="Isoglutamine" />
+    <hashEntry Key="C16674" Value="Formylisoglutamine" />
+    <hashEntry Key="C20522" Value="Dihydrourocanate" />
+    <hashEntry Key="C20994" Value="S-(Hercyn-2-yl)-L-cysteine S-oxide" />
+    <hashEntry Key="C20995" Value="gamma-L-Glutamyl-S-(hercyn-2-yl)-L-cysteine S-oxide" />
+  </Compound>
+  <PathwayMap Key="xor00340" Value="Histidine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xor:XOC_0933" Value="aldehyde dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_2193" Value="piperideine-6-carboxylate dehydrogenase; K00128 aldehyde dehydrogenase (NAD+) [EC:1.2.1.3]" />
+    <hashEntry Key="xor:XOC_2215" Value="hisG; ATP phosphoribosyltransferase; K00765 ATP phosphoribosyltransferase [EC:2.4.2.17]" />
+    <hashEntry Key="xor:XOC_2216" Value="hisD; histidinol dehydrogenase; K00013 histidinol dehydrogenase [EC:1.1.1.23]" />
+    <hashEntry Key="xor:XOC_2217" Value="hisC; histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1." />
+    <hashEntry Key="xor:XOC_2218" Value="hisB; histidine biosynthesis bifunctional protein HisB; K01089 imidazoleglycerol-phosphate dehydrata" />
+    <hashEntry Key="xor:XOC_2219" Value="hisH; imidazole glycerol phosphate synthase, glutamine amidotransferase subunit; K02501 glutamine am" />
+    <hashEntry Key="xor:XOC_2220" Value="hisA; phosphoribosylformimino-5-aminoimidazole carboxamide ribotide isomerase; K01814 phosphoribosyl" />
+    <hashEntry Key="xor:XOC_2221" Value="hisF; imidazoleglycerol phosphate synthase, cyclase subunit; K02500 cyclase [EC:4.1.3.-]" />
+    <hashEntry Key="xor:XOC_2222" Value="histidine biosynthesis bifunctional protein hisIE; K11755 phosphoribosyl-ATP pyrophosphohydrolase /" />
+    <hashEntry Key="xor:XOC_2886" Value="hutI; imidazolonepropionase; K01468 imidazolonepropionase [EC:3.5.2.7]" />
+    <hashEntry Key="xor:XOC_2887" Value="hutH; histidine ammonia-lyase; K01745 histidine ammonia-lyase [EC:4.3.1.3]" />
+    <hashEntry Key="xor:XOC_2888" Value="hutG; N-formylglutamate amidohydrolase; K01479 formiminoglutamase [EC:3.5.3.8]" />
+    <hashEntry Key="xor:XOC_2889" Value="hutU; urocanate hydratase; K01712 urocanate hydratase [EC:4.2.1.49]" />
+    <hashEntry Key="xor:XOC_3680" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3681" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3682" Value="histidinol-phosphate aminotransferase; K00817 histidinol-phosphate aminotransferase [EC:2.6.1.9]" />
+    <hashEntry Key="xor:XOC_3685" Value="amine oxidase; K00274 monoamine oxidase [EC:1.4.3.4]" />
+  </Genes>
+</KEGG.PathwayBrief>

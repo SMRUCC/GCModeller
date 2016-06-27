@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryId="xcb01503" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Cationic antimicrobial peptides (CAMPs) play an important role in host defense against microbial infection and are key components of the innate immune response. These are found among all classes of life ranging from prokaryotes to humans. In addition to the natural peptides, thousands of synthetic variants have been produced. CAMPs weaken the integrity of the bacterial inner and outer membranes and subsequently kill bacterial cells. On the other hand, bacteria have developed a number of mechanisms against CAMPs. These resistance mechanisms include decreased affinity to CAMPs by substitution of anionic cell surface constituents with cationic molecules; biosynthesis and crosslinking of cell envelope components; external trapping mechanisms that bind or neutralize the CAMPs by direct secretion of proteins, or the release of CAMPs binding molecules from the host cell surface; membrane efflux pumps; and production of peptidases.&lt;br&gt;</Description>
+  <Name>Cationic antimicrobial peptide (CAMP) resistance - Xanthomonas campestris pv. campestris 8004&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="xcb01503" Value="Cationic antimicrobial peptide (CAMP) resistance&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="xcb:XC_0764" Value="thiol:disulfide interchange protein; K03673 thiol:disulfide interchange protein DsbA" />
+    <hashEntry Key="xcb:XC_0765" Value="disulfide oxidoreductase; K03673 thiol:disulfide interchange protein DsbA" />
+    <hashEntry Key="xcb:XC_0828" Value="TolC protein; K12340 outer membrane protein" />
+    <hashEntry Key="xcb:XC_0995" Value="RND efflux membrane fusion protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_0996" Value="acriflavin resistance protein; K18138 multidrug efflux pump" />
+    <hashEntry Key="xcb:XC_1432" Value="multidrug resistance protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_1747" Value="multidrug-efflux transporter acrB; K18138 multidrug efflux pump" />
+    <hashEntry Key="xcb:XC_1748" Value="multidrug resistance protein; K03585 membrane fusion protein, multidrug efflux system" />
+    <hashEntry Key="xcb:XC_1816" Value="N-acetylmuramoyl-L-alanine amidase; K01448 N-acetylmuramoyl-L-alanine amidase [EC:3.5.1.28]" />
+    <hashEntry Key="xcb:XC_2472" Value="N-acetylmuramoyl-L-alanine amidase; K01448 N-acetylmuramoyl-L-alanine amidase [EC:3.5.1.28]" />
+    <hashEntry Key="xcb:XC_2877" Value="UDP-N-acetylglucosamine acyltransferase (EC:2.3.1.129); K00677 UDP-N-acetylglucosamine acyltransfera" />
+    <hashEntry Key="xcb:XC_2916" Value="hypothetical protein; K14205 phosphatidylglycerol lysyltransferase [EC:2.3.2.3]" />
+    <hashEntry Key="xcb:XC_2972" Value="periplasmic protease; K04771 serine protease Do [EC:3.4.21.107]" />
+    <hashEntry Key="xcb:XC_3129" Value="hypothetical protein; K03760 lipid A ethanolaminephosphotransferase [EC:2.7.8.-]" />
+    <hashEntry Key="xcb:XC_4030" Value="two-component system sensor protein; K07637 two-component system, OmpR family, sensor histidine kina" />
+    <hashEntry Key="xcb:XC_4031" Value="two-component system regulatory protein; K07660 two-component system, OmpR family, response regulato" />
+  </Genes>
+</KEGG.PathwayBrief>

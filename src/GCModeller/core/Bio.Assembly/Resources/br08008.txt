@@ -1,0 +1,1044 @@
++C	Carcinogen	Cancer site
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Carcinogens</h2>
+%<style type="text/css"><!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--></style>
+#<!---
+#ENTRY       br08008
+#NAME        Carcinogen
+#DEFINITION  Carcinogens
+#--->
+!
+A<b>Group 1: Carcinogenic to humans</b>
+B  Compounds
+C    C06800  Aflatoxin B1	Liver and bile duct
+C    C10998  4-Aminobiphenyl	Urinary bladder
+C    C08469  Aristolochic acid	Renal pelvis and ureter
+C    C06269  Arsenic	Lung, skin (malignant neoplasms except melanoma), urinary bladder
+C    C16442  Asbestos	Larynx, lung, mesothelium (pleura and peritoneum), ovary
+C    C06837  Azathioprine	Skin (malignant neoplasms except melanoma), leukaemia and/or lymphoma
+C    C01407  Benzene	Leukaemia and/or lymphoma
+C    C16444  Benzidine	Urinary bladder
+C    C07535  Benzo[a]pyrene
+C    C16460  Beryllium	Lung
+C    C19158  Bis(chloromethyl) ether	Lung
+C    C06862  Busulfan	Leukaemia and/or lymphoma
+C    C16450  1,3-Butadiene	Leukaemia and/or lymphoma
+C    C01413  Cadmium	Lung
+C    C06900  Chlorambucil	Leukaemia and/or lymphoma
+C    C16446  Chlornaphazine	Urinary bladder
+C    C19160  Chloromethyl methyl ether	Lung
+C    C19161  Chromium (VI)	Lung
+C    C16451  Coal-tar pitch	Lung, skin (malignant neoplasms except melanoma)
+C    C07888  Cyclophosphamide	Urinary bladder, leukaemia and/or lymphoma
+C    C06933  Cyclophosphamide hydrate	Urinary bladder, leukaemia and/or lymphoma
+C    C05086  Cyclosporin A	Skin (malignant neoplasms except melanoma), leukaemia and/or lymphoma, multiple sites (unspecified)
+C    C07620  Diethylstilbestrol	Breast, vagina, uterine cervix
+C    C19163  Erionite	Mesothelium (pleura and peritoneum)
+C    C00469  Ethanol
+C    C06548  Ethylene oxide
+C    C01576  Etoposide (in combination with cisplatin and bleomycin)	Leukaemia and/or lymphoma
+C    C00067  Formaldehyde	Nasopharynx, leukaemia and/or lymphoma
+C    C07122  Melphalan	Leukaemia and/or lymphoma
+C    C01864  Methoxsalen (plus ultraviolet A radiation)	Skin (malignant neoplasms except melanoma)
+C    C10999  4,4'-Methylene-bis-(2-chloroaniline)
+C    C02227  2-Naphthylamine	Urinary bladder
+C    C16452  N'-Nitrosonornicotine
+C    C16453  4-(N-Nitrosomethylamino)-1-(3-pyridyl)-1-butanone
+C    C14573  3,3',4,4',5-Pentachlorobiphenyl
+C    C18106  2,3,4,7,8-Pentachlorodibenzofuran
+C    C07591  Phenacetin	Renal pelvis and ureter
+C    C19162  Phosphorus-32	Leukaemia and/or lymphoma
+C    C19159  Plutonium	Liver and bile duct, lung, bone
+C    C16455  Radium-224	Bone
+C    C16456  Radium-226	Bone, Nasal cavity and paranasal sinus
+C    C16457  Radium-228	Bone, Nasal cavity and paranasal sinus
+C    C16454  Radon-222	Lung
+C    C07640  Semustine	Leukaemia and/or lymphoma
+C    C16458  Shale oils	Skin (malignant neoplasms except melanoma)
+C    C16459  Crystalline silica	Lung
+C    C19164  Sulfur mustard	Lung
+C    C07108  Tamoxifen	Endometrium
+C    C07557  2,3,7,8-Tetrachlorodibenzodioxin
+C    C07641  Thiotepa	Leukaemia and/or lymphoma
+C    C19157  Thorium-232	Liver and bile duct, gallbladder, leukaemia and/or lymphoma
+C    C14403  o-Toluidine	Urinary bladder
+C    C19557  Treosulfan	Leukaemia and/or lymphoma
+C    C06790  Trichloroethene	Kidney
+C    C06793  Vinyl chloride	Liver and bile duct
+B  Exposure circimstances / Environment
+C    Acid mists, strong inorganic	Larynx
+C    Aluminium production	Lung, urinary bladder
+C    Auramine production	Urinary bladder
+C    Benzidine, dyes metabolized to
+C    Coal, indoor emissions from household combustion of	Lung
+C    Coal gasification	Lung
+C    Coal-tar distillation	Skin (malignant neoplasms except melanoma)
+C    Coke production	Lung
+C    Engine exhaust, diesel	Lung
+C    Ethanol in alcoholic beverages
+C    Haematite mining (underground)
+C    Ionizing radiation (all types)
+C    Iron and steel founding (occupational exposure during)	Lung
+C    Isopropyl alcohol manufacture using strong acids	Nasal cavity and paranasal sinus
+C    Leather dust	Nasal cavity and paranasal sinus
+C    Magenta production	Urinary bladder
+C    Methoxsalen (8-methoxypsoralen) plus ultraviolet A radiation
+C    Neutron radiation
+C    Painter (occupational exposure as a)	Lung, mesothelium (pleura and peritoneum), urinary bladder
+C    Radioiodines, including iodine-131	Thyroid
+C    Radionuclides, alpha-particle-emitting, internally deposited
+C    Radionuclides, beta-particle-emitting, internally deposited
+C    Rubber manufacturing industry	Stomach, lung, urinary bladder, leukaemia and/or lymphoma
+C    Solar radiation	Skin (melanoma), skin (malignant neoplasms except melanoma)
+C    Soot (as found in occupational exposure of chimney sweeps)	Lung, skin (malignant neoplasms except melanoma)
+C    Ultraviolet radiation (wavelengths 100-400 nm, encompassing UVA, UVB, and UVC)
+C    Ultraviolet-emitting tanning devices	Skin (melanoma), eye
+C    X- and Gamma-Radiation	Salivary gland, oesophagus, stomach, colon and rectum, lung, bone, skin (malignant neoplasms except melanoma), breast, kidney, urinary bladder, brain and central nervous system, thyroid, leukaemia and/or lymphoma, multiple sites (unspecified)
+B  Infection
+C    Clonorchis sinensis (infection with)	Liver and bile duct
+C    Epstein-Barr virus	Nasopharynx, leukaemia and/or lymphoma
+C    Helicobacter pylori (infection with) [GN:hpy hpj hpa]	Stomach, leukaemia and/or lymphoma
+C    Hepatitis B virus (chronic infection with)	Liver and bile duct
+C    Hepatitis C virus (chronic infection with)	Liver and bile duct, leukaemia and/or lymphoma
+C    Human immunodeficiency virus type 1 (infection with)	Anus, endothelium (Kaposi sarcoma), uterine cervix, eye, leukaemia and/or lymphoma
+C    Human papillomavirus types 16, 18, 31, 33, 35, 39, 45,51, 52, 56, 58, 59	Oral cavity, tonsil, pharynx, anus, vulva, vagina, uterine cervix, penis (type 16)
+C    Human T-cell lymphotropic virus type I	Leukaemia and/or lymphoma
+C    Kaposi sarcoma herpesvirus	Endothelium (Kaposi sarcoma), leukaemia and/or lymphoma
+C    Opisthorchis viverrini (infection with)	Liver and bile duct
+C    Schistosoma haematobium (infection with)	Urinary bladder
+B  Mixtures / Group of agents
+C    Acetaldehyde associated with consumption of alcoholic beverages	Digestive tract, upper, oesophagus
+C    Aflatoxins	Liver and bile duct
+C    Aristolochic acid, plants containing	Renal pelvis and ureter
+C    Arsenic and inorganic arsenic compounds	Lung, skin (malignant neoplasms except melanoma), urinary bladder
+C    Beryllium and beryllium compounds	Lung
+C    Betel quid with tobacco	Oral cavity, pharynx, oesophagus
+C    Betel quid without tobacco	Oral cavity, oesophagus
+C    Cadmium and cadmium compounds	Lung
+C    Chromium (VI) compounds	Lung
+C    Etoposide in combination with cisplatin and bleomycin	Leukaemia and/or lymphoma
+C    Fission products, including strontium-90	Leukaemia and/or lymphoma, multiple sites (unspecified)
+C    Nickel compounds	Nasal cavity and paranasal sinus, lung
+C    Phenacetin, analgesic mixtures containing	Renal pelvis and ureter
+C    Radium-224 and its decay products	Bone
+C    Radium-226 and its decay products	Bone, Nasal cavity and paranasal sinus
+C    Radium-228 and its decay products	Bone, Nasal cavity and paranasal sinus
+C    Radon-222 and its decay products	Lung
+C    Shale oils
+C    Silica dust, crystalline, in the form of quartz or cristobalite	Lung
+C    Thorium-232 and its decay products	Liver and bile duct, gallbladder, leukaemia and/or lymphoma
+B  Others
+C    Alcoholic beverages	Oral cavity, pharynx, oesophagus, colon and rectum, liver and bile duct, larynx, breast
+C    Areca nut
+C    Estrogen therapy, postmenopausal	Endometrium, ovary
+C    Estrogen-progestogen menopausal therapy (combined)	Breast, endometrium
+C    Estrogen-progestogen oral contraceptives (combined)	Liver and bile duct, breast, uterine cervix
+C    Mineral oils, untreated or mildly treated	Skin (malignant neoplasms except melanoma)
+C    MOPP and other combined chemotherapy including alkylating agents	Lung, leukaemia and/or lymphoma
+C    Salted fish, Chinese-style	Nasopharynx
+C    Tobacco, smokeless	Oral cavity, oesophagus, pancreas
+C    Tobacco smoke,second-hand	Lung
+C    Tobacco smoking	Oral cavity, pharynx, nasopharynx, oesophagus, stomach, colon and rectum, liver and bile duct, pancreas, nasal cavity and paranasal sinus, larynx, lung, uterine cervix, ovary, kidney, renal pelvis and ureter, urinary bladder, leukaemia and/or lymphoma
+C    Wood dust	Nasopharynx, nasal cavity and paranasal sinus
+#
+A<b>Group 2A: Probably carcinogenic to humans</b>
+B  Compounds
+C    C01659  Acrylamide
+C    C01661  Adriamycin
+C    C11262  5-Azacytidine
+C    C19165  Benzal chloride
+C    C19166  Benzotrichloride
+C    C19167  Benzyl chloride
+C    C19168  Benzoyl chloride
+C    C06873  Carmustine
+C    C18754  Captafol
+C    C14866  Chloral
+C    C06899  Chloral hydrate
+C    C00918  Chloramphenicol
+C    C19169  4-Chloro-ortho-toluidine
+C    C19170  Chlorozotocin
+C    C06911  Cisplatin
+C    C19171  Cobalt
+C    C19172  Creosotes
+C    C19173  Cyclopenta[cd]pyrene
+C    C19220  Dibenz[a,j]acridine
+C    C14325  Dibenz[a,h]anthracene
+C    C19174  Dibenzo[a,l]pyrene
+C    C14706  Diethyl sulfate
+C    C19175  Dimethylcarbamoyl chloride
+C    C19176  1,2-Dimethylhydrazine
+C    C19177  Dimethyl sulfate
+C    C14449  Epichlorohydrin
+C    C01537  Ethyl carbamate
+C    C11088  Ethylene dibromide
+C    C10920  Glycidol
+C    C19179  Indium phosphide
+C    C19180  IQ
+C    C07079  Lomustine
+C    C01557  5-Methoxypsoralen
+C    C19181  Methyl methanesulfonate
+C    C14592  N-Methyl-N'-nitro-N-nitrosoguanidine
+C    C14595  N-Methyl-N-nitrosourea
+C    C19271  6-Nitrochrysene
+C    C07115  Nitrogen mustard
+C    C14421  1-Nitropyrene
+C    C14422  N-Nitrosodiethylamine
+C    C14704  N-Nitrosodimethylamine
+C    C19597  2-Nitrotoluene
+C    C19178  N-Nitroso-N-ethylurea
+C    C07376  Procarbazine hydrochloride
+C    C02083  Styrene oxide
+C    C11153  Teniposide
+C    C06789  Tetrachloroethene
+C    C14400  1,2,3-Trichloropropane
+C    C19182  Tris(2,3-dibromopropyl) phosphate
+C    C19184  Vinyl bromide
+C    C19185  Vinyl fluoride
+B  Mixtures / Group of agents
+C    Androgenic steroids
+C    alpha-Chlorinated toluenes
+C    Bitumens, occupational exposure to oxidized bitumens and their emissions during roofing
+C    Cobalt metal with tungsten carbide
+C    Lead compounds, inorganic
+C    Non-arsenical insecticides (occupational exposures in spraying and application of)
+C    Polychlorinated biphenyls
+B  Exposure circimstances / Environment
+C    Art glass, glass containers and pressed ware (manufacture of)
+C    Biomass fuel (primarily wood), indoor emissions from household combustion of
+C    Carbon electrode manufacture
+C    Engine exhaust, diesel	Lung
+C    Hairdresser or barber (occupational exposure as a)
+C    Nitrate or nitrite (ingested) under conditions that result in endogenous nitrosation
+C    Petroleum refining (occupational exposures in)
+C    Shiftwork that involves circadian disruption
+B  Infection
+C    Human papillomavirus type 68
+C    Malaria
+C    Merkel cell polyomavirus (MCV)
+B  Others
+C    Mate, hot
+#
+A<b>Group 2B: Possibly carcinogenic to humans</b>
+B  Compounds
+C    C19186  A-alpha-C
+C    C00084  Acetaldehyde
+C    C06244  Acetamide
+C    C01998  Acrylonitrile
+C    C19558  AF-2
+C    C16756  Aflatoxin M1	Liver and bile duct
+C    C19187  para-Aminoazobenzene
+C    C19188  ortho-Aminoazotoluene
+C    C19211  1-Amino-2,4-dibromoanthraquinone
+C    C19189  2-Amino-5-(5-nitro-2-furyl)-1,3,4-thiadiazole
+C    C01553  Amsacrine
+C    C19191  ortho-Anisidine
+C    C16207  Anthraquinone
+C    C19192  Antimony trioxide
+C    C19019  Aramite
+C    C19193  Auramine
+C    C19194  Azaserine
+C    C11687  Aziridine
+C    C19195  Benz[j]aceanthrylene
+C    C14317  Benz[a]anthracene
+C    C14320  Benzo[b]fluoranthene
+C    C19196  Benzo[j]fluoranthene
+C    C14321  Benzo[k]fluoranthene
+C    C14512  Benzofuran
+C    C19197  Benzo[c]phenanthrene
+C    C06354  Benzophenone
+C    C19198  Benzyl violet 4B
+C    C19199  2,2-Bis(bromomethyl)propane-1,3-diol
+C    C03690  Bis(2-ethylhexyl)phthalate
+C    C15773  Bleomycin
+C    C19212  Bromochloroacetic acid
+C    C14708  Bromodichloromethane
+C    C15469  Butylated hydroxyanisole
+C    C19201  beta-Butyrolactone
+C    C01481  Caffeate
+C    C08060  Carbazole
+C    C19202  Carbon black
+C    C07561  Carbon tetrachloride
+C    C00090  Catechol
+C    C14176  Chlordane
+C    C01792  Chlordecone
+C    C19204  Chlorendic acid
+C    C14450  4-Chloroaniline
+C    C19205  3-Chloro-4-(dichloromethyl)-5-hydroxy-2(5H)-furanone
+C    C13827  Chloroform
+C    C19206  1-Chloro-2-methylpropene
+C    C19207  4-Chloro-ortho-phenylenediamine
+C    C19208  Chloroprene
+C    C11037  Chlorothalonil
+C    C14222  Chrysene
+C    C19209  CI Acid red 114
+C    C19210  CI Basic red 9
+C    C19213  CI Direct Blue 15
+C    C19214  Citrus Red No.2
+C    C19215  Cobalt sulfate
+C    C19216  para-Cresidine
+C    C14396  Cumene
+C    C01418  Cycasin
+C    C06936  Dacarbazine
+C    C10312  Danthron
+C    C01907  Daunorubicin
+C    C04623  DDT
+C    C19217  N,N'-Diacetylbenzidine
+C    C19218  2,4-Diaminoanisole
+C    C14759  4,4'-Diaminodiphenyl ether
+C    C14401  2,4-Diaminotoluene
+C    C19219  Dibenz[a,h]acridine
+C    C20122  Dibenz[c,h]acridine
+C    C19221  7H-Dibenzo[c,g]carbazole
+C    C19222  Dibenzo[a,h]pyrene
+C    C19223  Dibenzo[a,i]pyrene
+C    C20123  Dibromoacetic acid
+C    C19396  Dibromoacetonitrile
+C    C14336  1,2-Dibromo-3-chloropropane
+C    C19224  2,3-Dibromo-1-propanol
+C    C11149  Dichloroacetate
+C    C07092  1,4-Dichlorobenzene
+C    C19225  3,3'-Dichlorobenzidine
+C    C19226  3,3'-Dichloro-4,4'-diaminodiphenyl ether
+C    C06752  1,2-Dichloroethane
+C    C02271  Dichloromethane
+C    C14399  1,3-Dichloro-2-propanol
+C    C18627  1,3-Dichloropropene
+C    C14430  Dichlorvos
+C    C06772  Diethanolamine
+C    C03690  Di(2-ethylhexyl)phthalate
+C    C19227  1,2-Diethylhydrazine
+C    C19228  Diglycidyl resorcinol ether
+C    C19229  Dihydrosafrole
+C    C19230  Diisopropyl sulfate
+C    C19231  3,3'-Dimethoxybenzidine
+C    C03764  para-(Dimethylamino)azobenzene
+C    C19232  trans-2-[(Dimethylamino)methylimino]-5-[2-(5-nitro-2- furyl)-vinyl]-1,3,4-oxadiazole
+C    C11004  2,6-Dimethylaniline
+C    C07308  Dimethylarsinate
+C    C14443  3,3'-Dimethylbenzidine
+C    C19233  1,1-Dimethylhydrazine
+C    C19234  3,7-Dinitrofluoranthene
+C    C19235  3,9-Dinitrofluoranthene
+C    C19408  1,3-Dinitropyrene
+C    C14424  1,6-Dinitropyrene
+C    C14423  1,8-Dinitropyrene
+C    C11006  2,4-Dinitrotoluene
+C    C11008  2,6-Dinitrotoluene
+C    C14440  1,4-Dioxane
+C    C19236  Disperse Blue 1
+C    C19237  1,2-Epoxybutane
+C    C19238  Ethyl acrylate
+C    C07111  Ethylbenzene
+C    C19239  Ethyl methanesulfonate
+C    C19241  Fumonisin B1
+C    C19242  Fumonisin B2
+C    C19243  Fusarin C
+C    C19240  Nifurthiazole
+C    C14275  Furan
+C    C19244  Glu-P-1
+C    C19245  Glu-P-2
+C    C19246  Glycidaldehyde
+C    C06686  Griseofulvin
+C    C19247  HC Blue No.1
+C    C14185  Heptachlor
+C    C11042  Hexachlorobenzene
+C    C19248  Hexachloroethane
+C    C19249  2,4-Hexadienal
+C    C19250  Hexamethylphosphoramide
+C    C05361  Hydrazine
+C    C02980  1-Hydroxyanthraquinone
+C    C19251  Indeno[1,2,3-cd]pyrene
+C    C13774  Iron dextran
+C    C16521  Isoprene
+C    C10341  Lasiocarpine
+C    C06696  Lead
+C    C19267  Levofuraltadone
+C    C19252  Magenta
+C    C19253  MeA-alpha-C
+C    C08150  Medroxyprogesterone acetate
+C    C19254  MeIQ
+C    C19255  MeIQx
+C    C19256  Merphalan
+C    C07294  Methylarsonate
+C    C19257  2-Methylaziridine
+C    C19258  Methylazoxymethanol acetate
+C    C19259  5-Methylchrysene
+C    C19260  4,4'-Methylene bis(2-methylaniline)
+C    C14288  4,4'-Methylenedianiline
+C    C10454  Methyleugenol
+C    C19261  2-Methylimidazole
+C    C19262  4-Methylimidazole
+C    C19263  Methyl isobutyl ketone
+C    C19264  2-Methyl-1-nitroanthraquinone
+C    C19301  N-Methyl-N-nitrosourethane
+C    C14395  alpha-Methylstyrene
+C    C19265  Methylthiouracil
+C    C14135  4,4'-Methylenebis(N,N-dimethylaniline)
+C    C07203  Metronidazole
+C    C19266  Michler's ketone
+C    C05371  Microcystin-LR
+C    C14184  Mirex
+C    C06681  Mitomycin
+C    C11195  Mitoxantrone
+C    C18676  3-Monochloro-1,2-propanediol
+C    C10350  Monocrotaline
+C    C11371  Nafenopin
+C    C00829  Naphthalene
+C    C00291  Nickel	Nasal cavity and paranasal sinus, lung
+C    C19268  Niridazole
+C    C14695  Nitrilotriacetic acid
+C    C19269  5-Nitroacenaphthene
+C    C19270  2-Nitroanisole
+C    C20824  3-Nitrobenzanthrone
+C    C06813  Nitrobenzene
+C    C11065  Nitrofen
+C    C10923  2-Nitrofluorene
+C    C19272  Nifuradene
+C    C19273  N-[4-(5-Nitro-2-furyl)-2-thiazolyl]acetamide
+C    C19274  Nitrogen mustard N-oxide
+C    C19275  Nitromethane
+C    C02116  2-Nitropropane
+C    C19276  4-Nitropyrene
+C    C19277  N-Nitrosodi-n-butylamine
+C    C19278  N-Nitrosodiethanolamine
+C    C19279  N-Nitrosodi-n-propylamine
+C    C19280  3-(N-Nitrosomethylamino)propionitrile
+C    C19281  N-Nitrosomethylethylamine
+C    C19282  N-Nitrosomethylvinylamine
+C    C19283  N-Nitrosomorpholine
+C    C19284  N-Nitrosopiperidine
+C    C19285  N-Nitrosopyrrolidine
+C    C19286  N-Nitrososarcosine
+C    C09955  Ochratoxin A
+C    C19287  Oil Orange SS
+C    C07359  Oxazepam
+C    C19288  Palygorskite (fibre > 5 micrometres)
+C    C19289  Panfuran S
+C    C19290  Phenazopyridine hydrochloride
+C    C07434  Phenobarbital
+C    C14286  Phenolphthalein
+C    C07436  Phenoxybenzamine hydrochloride
+C    C19291  Phenyl glycidyl ether
+C    C07443  Phenytoin
+C    C16038  PhIP
+C    C19203  Poligeenan
+C    C19293  Ponceau 3R
+C    C19294  Ponceau MX
+C    C19295  Potassium bromate
+C    C19296  1,3-Propane sultone
+C    C19297  Propiolactone
+C    C15508  1,2-Propylene oxide
+C    C07569  Propylthiouracil
+C    C10375  Riddelline
+C    C10490  Safrole
+C    C19298  Sodium ortho-phenylphenate
+C    C00961  Sterigmatocystin
+C    C07313  Streptozocin
+C    C07083  Styrene
+C    C19096  Sulfallate
+C    C19292  Talc
+C    C14705  1,1,1,2-Tetrachloroethane
+C    C19534  1,1,2,2-Tetrachloroethane
+C    C19299  Tetrafluoroethylene
+C    C19300  Tetranitromethane
+C    C19302  Thioacetamide
+C    C19303  4,4'-Thiodianiline
+C    C19304  Thiouracil
+C    C13409  Titanium dioxide
+C    C19560  Toluene diisocyanates
+C    C15470  Toxaphene
+C    C11150  Trichloroacetate
+C    C19305  Trichlormethine
+C    C19306  Trp-P-1
+C    C14416  Trp-P-2
+C    C19307  Trypan Blue
+C    C11686  Uracil mustard
+C    C19308  Vanadium pentoxide
+C    C19309  Vinyl acetate
+C    C19310  4-Vinylcyclohexene
+C    C19311  4-Vinylcyclohexene diepoxide
+C    C07207  Zalcitabine
+C    C07210  Zidovudine
+B  Mixtures / Group of agents
+C    Bitumens, occupational exposure to hard bitumens and their emissions during mastic asphalt work
+C    Bitumens, occupational exposure to straight-run bitumens and their emissions during road paving
+C    Chlorinated paraffins of average carbon chain length C12 and average degree of chlorination approximately 60%
+C    Chlorophenoxy herbicides
+C    Cobalt and cobalt compounds
+C    Cobalt metal without tungsten carbide
+C    Cobalt sulfate and other soluble cobalt(II) salts
+C    Coconut oil diethanolamine condensate
+C    Fusarium moniliforme, toxins derived from (fumonisin B1, fumonisin B2, and fusarin C)
+C    Hexachlorocyclohexanes
+C    Magnetic fields, extremely low-frequency
+C    Methylmercury compounds
+C    Nickel, metallic and alloys
+C    Polybrominated biphenyls
+C    Polychlorophenols and their sodium salts (mixed exposures)
+C    Progestins
+C    Progestogen-only contraceptives
+C    Talc-based body powder (perineal use of)
+B  Exposure circimstances / Environment
+C    Carpentry and joinery
+C    Diesel fuel, marine
+C    Dry cleaning (occupational exposures in)
+C    Engine exhaust, gasoline
+C    Firefighter (occupational exposure as a)
+C    Fuel oils, residual (heavy)
+C    Gasoline
+C    Printing processes (occupational exposures in)
+C    Radiofrequency electromagnetic fields
+C    Refractory ceramic fibres
+C    Textilemanufacturing industry (work in)
+C    Welding fumes	Eye
+B  Infection
+C    BK polyomavirus (BKV)
+C    Human immunodeficiency virus type 2 (infection with)
+C    Human papillomavirus types 5 and 8 (in patients with epidermodysplasia verruciformis)
+C    Human papillomavirus types 26, 53, 66, 67, 70, 73, 82
+C    Human papillomavirus types 30, 34, 69, 85, 97
+C    JC polyomavirus (JCV)
+C    Schistosoma japonicum (infection with)
+B  Others
+C    Bracken fern
+C    Coffee (urinary bladder)
+C    Pickled vegetables (traditional in Asia)
+C    Special-purpose fibres such as E-glass and '475' glass fibres
+C    Surgical implants and other foreign bodies
+#
+A<b>Group 3: Not classifiable as to its carcinogenicity to humans</b>
+B  Compounds
+C    C19312  Acenaphthene
+C    C19314  Acepyrene
+C    C06810  Acyclovir
+C    C19315  Acridine orange
+C    C19554  Acriflavinium chloride
+C    C01471  Acrolein
+C    C00511  Acrylic acid
+C    C06770  Actinomycin D
+C    C01550  Agaritine
+C    C11015  Aldicarb
+C    C07552  Aldrin
+C    C19316  Allyl chloride
+C    C19317  Allyl isothiocyanate
+C    C19318  Allyl isovalerate
+C    C14760  Amaranth
+C    C19319  5-Aminoacenaphthene
+C    C14444  2-Aminoanthraquinone
+C    C00568  4-Aminobenzoate
+C    C19320  1-Amino-2-methylanthraquinone
+C    C19321  2-Amino-4-nitrophenol
+C    C19322  2-Amino-5-nitrophenol
+C    C19323  4-Amino-2-nitrophenol
+C    C19324  2-Amino-5-nitrothiazole
+C    C19325  11-Aminoundecanoic acid
+C    C11261  Amitrole
+C    C06574  Ampicillin
+C    C09060  Angelicin (plus ultraviolet A radiation)
+C    C00292  Aniline
+C    C19326  para-Anisidine
+C    C19327  Anthanthrene
+C    C14315  Anthracene
+C    C00108  Anthranilate
+C    C19328  Antimony trisulfide
+C    C19329  Apholate
+C    C19330  para-Aramid fibrils
+C    C19331  Arsenobetaine
+C    C06551  Atrazine
+C    C08193  Aurothioglucose
+C    C19332  2-(1-Aziridinyl)ethanol
+C    C19333  Aziridyl benzoquinone
+C    C19334  Azobenzene
+C    C19335  11H-Benz[bc]aceanthrylene
+C    C19336  Benz[l]aceanthrylene
+C    C19337  Benz[a]acridine
+C    C19338  Benz[c]acridine
+C    C19339  Benzo[b]chrysene
+C    C19340  Benzo[g]chrysene
+C    C19341  Benzo[a]fluoranthene
+C    C19342  Benzo[ghi]fluoranthene
+C    C19343  Benzo[a]fluorene
+C    C14384  Benzo[b]fluorene
+C    C19344  Benzo[c]fluorene
+C    C20124  Benzo[b]naphtho[2,1-d]thiophene
+C    C14318  Benzo[ghi]perylene
+C    C14435  Benzo[e]pyrene
+C    C19345  para-Benzoquinone dioxime
+C    C19346  Benzoyl peroxide
+C    C15513  Benzyl acetate
+C    C19347  Bis(1-aziridinyl)morpholinophosphine sulfide
+C    C14688  Bis(2-chloroethyl)ether
+C    C19348  1,2-Bis(chloromethoxy)ethane
+C    C19349  1,4-Bis(chloromethoxymethyl)benzene
+C    C19350  Bis(2-chloro-1-methylethyl)ether
+C    C19351  Bis(2,3-epoxycyclopentyl)ether
+C    C14348  Bisphenol A diglycidyl ether
+C    C13725  Patent blue
+C    C19352  Brilliant Blue
+C    C19353  Bromochloroacetonitrile
+C    C19354  Bromoethane
+C    C14707  Bromoform
+C    C19355  2-Butoxyethanol
+C    C19356  1-tert-Butoxy-2-propanol
+C    C10921  Butyl acrylate
+C    C14693  Butylhydroxytoluene
+C    C14211  Butylbenzyl phthalate
+C    C01770  gamma-Butyrolactone
+C    C07481  Caffeine
+C    C16778  Cantharidin
+C    C14438  Captan
+C    C07491  Carbaryl
+C    C19357  3-Carbethoxypsoralen
+C    C19358  Carmoisine
+C    C08818  Carrageenan, native
+C    C19359  Chloramine
+C    C14746  Chlordimeform
+C    C19360  Chloroacetonitrile
+C    C14574  Chlorobenzilate
+C    C14692  Chlorodibromomethane
+C    C19361  Chlorodifluoromethane
+C    C18248  Chloroethane
+C    C19362  Chlorofluoromethane
+C    C19363  3-Chloro-2-methylpropene
+C    C19365  4-Chloro-meta-phenylenediamine
+C    C14407  2-Chloronitrobenzene
+C    C19364  1-Chloro-3-nitrobenzene
+C    C14456  4-Chloronitrobenzene
+C    C19365  4-Chloro-meta-phenylenediamine
+C    C14506  Chlorpropham
+C    C07625  Chloroquine
+C    C19366  5-Chloro-ortho-toluidine
+C    C19367  2-Chloro-1,1,1-trifluoroethane
+C    C00187  Cholesterol
+C    C06268  Chromium, metallic
+C    C19368  Chromium (III)
+C    C19369  Chrysoidine
+C    C19370  CI Acid Orange 3
+C    C19371  CI Acid Orange 20
+C    C19372  CI Orange G
+C    C19373  CI Pigment Red 3
+C    C06952  Cimetidine
+C    C19374  Cinnamyl anthranilate
+C    C16765  Citrinin
+C    C06916  Clofibrate
+C    C08161  Clomiphene citrate
+C    C18879  Copper 8-hydroxyquinoline
+C    C19375  Coronene
+C    C05851  Coumarin
+C    C19376  meta-Cresidine
+C    C19377  Crotonaldehyde
+C    C19378  Cyclamate
+C    C19379  Cyclochlorotine
+C    C00414  Cyclohexanone
+C    C19380  4H-Cyclopenta[def]chrysene
+C    C19381  5,6-Cyclopenteno-1,2-benzanthracene
+C    C19382  D and C Red No. 9
+C    C07666  Dapsone
+C    C19383  Decabromodiphenyl oxide
+C    C10985  Deltamethrin
+C    C09747  Deoxynivalenol
+C    C17380  Diacetylaminoazotoluene
+C    C19094  Diallat
+C    C19384  1,2-Diamino-4-nitrobenzene
+C    C19385  1,4-Diamino-2-nitrobenzene
+C    C19386  2,5-Diaminotoluene
+C    C06948  Diazepam
+C    C19387  Diazomethane
+C    C19388  Dibenz[a,c]anthracene
+C    C19389  Dibenz[a,j]anthracene
+C    C07732  Dibenzo-p-dioxin
+C    C19390  Dibenzo[a,e]fluoranthene
+C    C19391  13H-Dibenzo[a,g]fluorene
+C    C19392  Dibenzo[h,rst]pentaphene
+C    C19393  Dibenzo[a,e]pyrene
+C    C19394  Dibenzo[e,l]pyrene
+C    C20125  Dibenzothiophene
+C    C19395  Dichloroacetonitrile
+C    C11089  Dichloroacetylene
+C    C14328  1,2-Dichlorobenzene
+C    C19397  1,3-Dichlorobenzene
+C    C19398  trans-1,4-Dichlorobutene
+C    C19399  2,6-Dichloro-para-phenylenediamine
+C    C19034  1,2-Dichloropropane
+C    C14301  Dicofol
+C    C06953  Didanosine
+C    C13718  Dieldrin
+C    C14240  Di(2-ethylhexyl) adipate
+C    C19400  N,N'-Diethylthiourea
+C    C19401  Dihydroaceanthrylene
+C    C19289  Dihydroxymethylfuratrizine
+C    C19402  Dimethoxane
+C    C19403  3,3'-Dimethoxybenzidine-4,4'-diisocyanate
+C    C19404  4,4'-Dimethylangelicin (plus ultraviolet A radiation)
+C    C19405  4,5'-Dimethylangelicin (plus ultraviolet A radiation)
+C    C02846  N,N-Dimethylaniline
+C    C03134  N,N-Dimethylformamide
+C    C19406  Dimethyl hydrogen phosphite
+C    C19407  1,4-Dimethylphenanthrene
+C    C19409  Dinitrosopentamethylenetetramine
+C    C19410  3,5-Dinitrotoluene
+C    C19411  2,4'-Diphenyldiamine
+C    C19412  Disperse Yellow 3
+C    C01692  Disulfiram
+C    C06831  Dithranol
+C    C19413  Doxefazepam
+C    C19414  Doxylamine succinate
+C    C14296  Droloxifene
+C    C19415  Dulcin
+C    C18124  Endrin
+C    C19416  Eosin
+C    C19417  3,4-Epoxy-6-methylcyclohexylmethyl-3,4-epoxy-6- methylcyclo-hexanecarboxylate
+C    C19418  cis-9,10-Epoxystearic acid
+C    C06981  Estazolam
+C    C07665  Ethionamide
+C    C06547  Ethylene
+C    C19419  Ethylene sulfide
+C    C14398  Ethylenethiourea
+C    C19420  2-Ethylhexyl acrylate
+C    C19421  Ethyl selenac
+C    C19570  Ethyl tellurac
+C    C10453  Eugenol
+C    C19422  Evans blue
+C    C19423  Fast Green FCF
+C    C18937  Fenaminosulf
+C    C10988  Fenvalerate
+C    C11223  Ferbam
+C    C19424  Ferric oxide
+C    C18853  Fluometuron
+C    C19425  Fluoranthene
+C    C07715  Fluorene
+C    C07649  5-Fluorouracil
+C    C07999  Furazolidone
+C    C14279  Furfural
+C    C07017  Furosemide
+C    C19583  Fusarenone X
+C    C07020  Gemfibrozil
+C    C19426  Glycidyl oleate
+C    C19427  Glycidyl stearate
+C    C19428  Guinea Green B
+C    C08305  Gyromitrin
+C    C19555  Hematite	Lung
+C    C19429  HC Blue No. 2
+C    C19430  HC Red No. 3
+C    C19431  HC Yellow No. 4
+C    C11091  Hexachlorobutadiene
+C    C08039  Hexachlorophene
+C    C01319  Hg
+C    C19432  Hycanthone mesylate
+C    C07040  Hydralazine
+C    C01327  Hydrochloric acid
+C    C07041  Hydrochlorothiazide
+C    C00027  Hydrogen peroxide
+C    C00530  Hydroquinone
+C    C19433  4-Hydroxyazobenzene
+C    C19434  8-Hydroxyquinoline
+C    C19435  Hydroxysenkirkine
+C    C07044  Hydroxyurea
+C    C19436  Iron-dextrin complex
+C    C19437  Iron sorbitex
+C    C10333  Isatidine
+C    C07054  Isoniazid
+C    C07047  Isophosphamide
+C    C01845  Isopropyl alcohol
+C    C10472  Isosafrole
+C    C10339  Jacobine
+C    C05903  Kaempferol
+C    C14516  Kojic acid
+C    C19438  Lauroyl peroxide
+C    C19439  Light Green SF
+C    C06099  d-Limonene
+C    C16763  Luteoskyrin
+C    C07497  Malathion
+C    C18474  Maleic hydrazide
+C    C19440  Malonaldehyde
+C    C15231  Maneb
+C    C19441  Mannomustine dihydrochloride
+C    C19442  Medphalan
+C    C08737  Melamine
+C    C02380  6-Mercaptopurine
+C    C07190  Methimazole
+C    C01937  Methotrexate
+C    C11043  Methoxychlor
+C    C19443  Methyl acrylate
+C    C19444  5-Methylangelicin (plus ultraviolet A radiation)
+C    C18447  Methyl bromide
+C    C11344  Methyl tert-butyl ether
+C    C19445  Methyl carbamate
+C    C19446  Methyl chloride
+C    C19447  1-Methylchrysene
+C    C19448  2-Methylchrysene
+C    C19449  3-Methylchrysene
+C    C19450  4-Methylchrysene
+C    C19451  6-Methylchrysene
+C    C19452  N-Methyl-N,4-dinitrosoaniline
+C    C19453  4,4'-Methylenediphenyl diisocyanate
+C    C19454  2-Methylfluoranthene
+C    C19455  3-Methylfluoranthene
+C    C00546  Methylglyoxal
+C    C18448  Methyl iodide
+C    C14527  Methyl methacrylate
+C    C19456  N-Methylolacrylamide
+C    C14228  Methyl parathion
+C    C19457  1-Methylphenanthrene
+C    C19458  7-Methylpyrido[3,4-c]psoralen
+C    C19459  Methyl red
+C    C19460  Methyl selenac
+C    C19087  Monuron
+C    C14452  Morpholine
+C    C19461  Musk ambrette
+C    C19462  Musk xylene
+C    C19463  1,5-Naphthalenediamine
+C    C19464  1,5-Naphthalene diisocyanate
+C    C19465  Naphtho[1,2-b]fluoranthene
+C    C19466  Naphtho[2,1-a]fluoranthene
+C    C19467  Naphtho[2,3-e]pyrene
+C    C14790  1-Naphthylamine
+C    C19136  alpha-Naphthylthiourea
+C    C19468  Nithiazide
+C    C19469  5-Nitro-ortho-anisidine
+C    C19470  9-Nitroanthracene
+C    C19471  7-Nitrobenz[a]anthracene
+C    C19472  6-Nitrobenzo[a]pyrene
+C    C19473  4-Nitrobiphenyl
+C    C14406  3-Nitrofluoranthene
+C    C08042  Nitrofurazone
+C    C07268  Nitrofurantoin
+C    C14040  1-Nitronaphthalene
+C    C19474  2-Nitronaphthalene
+C    C19475  3-Nitroperylene
+C    C19476  2-Nitropyrene
+C    C19477  N'-Nitrosoanabasine
+C    C19478  N'-Nitrosoanatabine
+C    C14742  N-Nitrosodiphenylamine
+C    C19479  para-Nitrosodiphenylamine
+C    C19480  N-Nitrosofolic acid
+C    C19481  N-Nitrosoguvacine
+C    C19482  N-Nitrosoguvacoline
+C    C19483  N-Nitrosohydroxyproline
+C    C19484  3-(N-Nitrosomethylamino)propionaldehyde
+C    C19485  N-Nitrosoproline
+C    C19486  3-Nitrotoluene
+C    C14394  4-Nitrotoluene
+C    C16398  5-Nitro-o-toluidine
+C    C19487  Nitrovin
+C    C06080  Nivalenol
+C    C15713  Nodularin
+C    C19492  Nylon 6
+C    C19493  Oestradiol mustard
+C    C19494  Oxyphenbutazone
+C    C19288  Palygorskite (fibre < 5 micrometres)
+C    C06804  Paracetamol
+C    C08502  Parasorbic acid
+C    C06604  Parathion
+C    C16748  Patulin
+C    C19495  Penicillic acid
+C    C19496  Pentachloroethane
+C    C14388  Permethrin
+C    C19497  Perylene
+C    C10359  Petasitenine
+C    C11422  Phenanthrene
+C    C07431  Phenelzine sulfate
+C    C19498  Phenicarbazide
+C    C00146  Phenol
+C    C07440  Phenylbutazone
+C    C02454  meta-Phenylenediamine
+C    C19499  para-Phenylenediamine
+C    C14694  N-Phenyl-2-naphthylamine
+C    C02499  2-Hydroxybiphenyl
+C    C19500  Picene
+C    C14310  Picloram
+C    C18880  Piperonyl butoxide
+C    C19501  Polyacrylic acid
+C    C19502  Polychloroprene
+C    C19503  Polyethylene
+C    C19571  Polymethylene polyphenyl isocyanate
+C    C19504  Polymethyl methacrylate
+C    C19505  Polypropylene
+C    C19506  Polystyrene
+C    C19507  Polytetrafluoroethylene
+C    C19598  Polyurethane foams
+C    C12282  Polyvinyl acetate
+C    C00980  Polyvinyl alcohol
+C    C19508  Polyvinyl chloride
+C    C19509  Polyvinyl pyrrolidone
+C    C19510  Ponceau SX
+C    C19511  Potassium bis(2-hydroxyethyl)dithiocarbamate
+C    C07366  Prazepam
+C    C19512  Prednimustine
+C    C07370  Prednisone
+C    C19513  Pronetalol hydrochloride
+C    C18887  Propham
+C    C19514  n-Propyl carbamate
+C    C11505  Propylene
+C    C19515  Ptaquiloside
+C    C14335  Pyrene
+C    C00747  Pyridine
+C    C19516  Pyrido[3,4-c]psoralen
+C    C07391  Pyrimethamine
+C    C00389  Quercetin
+C    C00472  para-Quinone
+C    C14338  Quintozene
+C    C06539  Reserpine
+C    C01751  Resorcinol
+C    C10364  Retrorsine
+C    C19517  Rhodamine B
+C    C11177  Rhodamine 6G
+C    C06688  Rifampicin
+C    C19518  Ripazepam
+C    C16764  Rugulosin
+C    C19519  Saccharated iron oxide
+C    C12283  Saccharin
+C    C19520  Scarlet Red
+C    C01529  Selenium
+C    C19521  Semicarbazide hydrochloride
+C    C10391  Seneciphylline
+C    C10396  Senkirkine
+C    C19522  Sepiolite
+C    C00493  Shikimate
+C    C19572  Silica, amorphous
+C    C11172  Simazine
+C    C19523  Sodium chlorite
+C    C19599  Sodium diethyldithiocarbamate
+C    C07310  Spironolactone
+C    C19573  Styrene-acrylonitrile copolymers
+C    C19575  Styrene-butadiene copolymers
+C    C19524  Succinic anhydride
+C    C19525  Sudan I
+C    C19526  Sudan II
+C    C19527  Sudan III
+C    C19528  Sudan Brown RR
+C    C19529  Sudan Red 7B
+C    C07318  Sulfisoxazole
+C    C19530  Sulfamethazine
+C    C07315  Sulfamethoxazole
+C    C09306  Sulfur dioxide
+C    C19531  Sunset Yellow FCF
+C    C10409  Symphytine
+C    C13452  Tannic acid
+C    C07125  Temazepam
+C    C19532  Terpene polychlorinates
+C    C19533  2,2',5,5'-Tetrachlorobenzidine
+C    C14513  Tetrachlorvinphos
+C    C07480  Theobromine
+C    C07130  Theophylline
+C    C14415  Thiourea
+C    C11160  Thiram
+C    C01455  Toluene
+C    C08166  Toremifene
+C    C07971  Trichlorfon
+C    C19535  Trichloroacetonitrile
+C    C18246  1,1,1-Trichloroethane
+C    C19536  1,1,2-Trichloroethane
+C    C06771  Triethanolamine
+C    C19537  Triethylene glycol diglycidyl ether
+C    C14343  Trifluralin
+C    C19538  4,4',6-Trimethylangelicin (plus ultraviolet A radiation)
+C    C19539  2,4,5-Trimethylaniline
+C    C19540  2,4,6-Trimethylaniline
+C    C09314  4,5',8-Trimethylpsoralen
+C    C16391  2,4,6-Trinitrotoluene
+C    C19541  Triphenylene
+C    C19542  Triaziquone
+C    C19543  Tris(1-aziridinyl)phosphine oxide
+C    C07642  Triethylenemelamine
+C    C14445  Tris(2-chloroethyl)phosphate
+C    C19544  1,2,3-Tris(chloromethoxy)propane
+C    C19556  Tris(2-methyl-1-aziridinyl)phosphine oxide
+C    C09738  T-2 Toxin
+C    C19545  Vat Yellow 4
+C    C11626  Vinblastine sulfate
+C    C13974  Vincristine sulfate
+C    C19546  Vinyl chloride-vinyl acetate copolymer
+C    C14039  Vinylidene chloride
+C    C18992  Vinylidene chloride-vinyl chloride copolymer
+C    C19547  Vinylidene fluoride
+C    C19548  N-Vinyl-2-pyrrolidone
+C    C19549  Vinyl toluene
+C    C01628  Vitamin K
+C    C19550  Wollastonite
+C    C19551  Xylenes
+C    C11003  2,4-Xylidine
+C    C18993  2,5-Xylidine
+C    C19552  Yellow AB
+C    C19553  Yellow OB
+C    C18952  Zectran
+C    C09981  Zearalenone
+C    C19576  Zeolites (other than Erionite)
+C    C15232  Zineb
+C    C15229  Ziram
+B  Mixtures / Group of agents
+C    Arsenobetaine and other organic arsenic compounds that are not metabolized in humans
+C    Bisulfites
+C    Chloronitrobenzenes
+C    Chromium (III) compounds
+C    Crude oil
+C    Hypochlorite salts
+C    Iron sorbitol-citric acid complex
+C    Jet fuel
+C    Isopropyl oils
+C    Lead compounds, organic
+C    Mercury and inorganic mercury compounds
+C    Metabisulfites
+C    Nitrotoluenes
+C    Polychlorinated dibenzo-para-dioxins (other than 2,3,7,8- tetrachlorodibenzo-para-dioxin)
+C    Polychlorinated dibenzofurans
+C    Selenium and selenium compounds
+C    Talc not containing asbestos or asbestiform fibres
+C    Tetrakis(hydroxymethyl)phosphonium salts
+C    Vinylidene chloride-vinyl chloride copolymers
+B  Exposure circimstances / Environment
+C    Calcium carbide production
+C    Electric fields, extremely low-frequency
+C    Electric fields, static
+C    Fluorides (inorganic, used in drinking-water)
+C    Hair colouring products (personal use of)
+C    Leather goods manufacture
+C    Leather tanning and processing
+C    Lumber and sawmill industries (including logging)
+C    5-Methylangelicin plus ultraviolet A radiation
+C    Paint manufacture (occupational exposure in)
+C    Pulp and paper manufacture
+B  Infection
+C    Hepatitis D virus
+C    Human papillomavirus genus beta (except types 5 and 8) and genus gamma
+C    Human papillomavirus type 6 and 11
+C    Human T-cell lymphotropic virus type II
+C    Opisthorchis felineus (infection with)
+C    Schistosoma mansoni (infection with) [GN:smm]
+C    SV40 polyomavirus
+B  Others
+C    Acrylic fibres
+C    Acrylonitrile-butadiene-styrene copolymers
+C    Anaesthetics, volatile
+C    Chlorinated drinking-water
+C    Coal dust
+C    Diesel fuels, distillate (light)
+C    Flat-glass and specialty glass (manufacture of)
+C    Fluorescent lighting
+C    Fuel oils, distillate (light)
+C    Fusarium graminearum, F. culmorum, and F. crookwellense, toxins derived from (zearalenone,deoxynivalenol, nivalenol, and fusarenone X)
+C    Fusarium sporotrichioides, toxins derived from (T-2 toxin)
+C    Glass filament, continuous
+C    Insulation glass wool
+C    Madder root (Rubia tinctorum)
+C    Magnetic fields, static
+C    Mate
+C    Microcystis extracts
+C    Mineral oils, highly-refined
+C    Modacrylic fibres
+C    Petroleum solvents
+C    Printing inks
+C    Proflavine salts
+C    Rock (stone) wool
+C    Slag wool
+C    Sulfites
+C    Tea
+#
+A<b>Group 4: Probably not carcinogenic to humans</b>
+B  Compound
+C    C06593  epsilon-Caprolactam
+!
+#<hr>
+#<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
+#Last updated: February 9, 2015
+#<br>According to the <a href="http://monographs.iarc.fr/">IARC</a> classification
+#<br><br><a href="/kegg-bin/get_htext?jp08008.keg">&raquo; Japanese version</a>
