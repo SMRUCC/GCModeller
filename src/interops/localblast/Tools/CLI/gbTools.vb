@@ -1,0 +1,237 @@
+﻿Imports System.Text.RegularExpressions
+Imports System.Text
+Imports System.Runtime.CompilerServices
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+
+Partial Module CLI
+
+    <ExportAPI("/Print", Usage:="/Print /in <inDIR> [/ext <ext> /out <out.Csv>]")>
+    Public Function Print(args As CommandLine.CommandLine) As Integer
+        Dim ext As String = args.GetValue("/ext", "*.*")
+        Dim inDIR As String = args - "/in"
+        Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".contents.Csv")
+        Dim files As IEnumerable(Of String) =
+            ls - l - r - wildcards(ext) <= inDIR
+        Dim content As NamedValue(Of String)() =
+            LinqAPI.Exec(Of NamedValue(Of String)) <= From file As String
+                                                      In files
+                                                      Let name As String = file.BaseName
+                                                      Let genome As String = file.ParentDirName
+                                                      Select New NamedValue(Of String)(genome, name)
+        Return content.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Export.gpff", Usage:="/Export.gpff /in <genome.gpff> /gff <genome.gff> [/out <out.PTT>]")>
+    Public Function EXPORTgpff(args As CommandLine.CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".PTT")
+        Dim PTT As PTT = __EXPORTgpff([in], args - "/gff")
+        Return PTT.Save(out)
+    End Function
+
+    Private Function __EXPORTgpff([in] As String, gffFile As String) As PTT
+        VBDebugger.Mute = True
+
+        Dim gpff As IEnumerable(Of GBFF.File) = GBFF.File.LoadDatabase([in])
+        Dim gff As GFF = TabularFormat.GFF.LoadDocument(gffFile)
+        Dim CDSHash = (From x As TabularFormat.Feature
+                       In gff.GetsAllFeatures(FeatureKeys.Features.CDS)
+                       Select x
+                       Group x By x.ProteinId Into Group) _
+                            .ToDictionary(Function(x) x.ProteinId,
+                                          Function(x) x.Group.First)
+        Dim genes As GeneBrief() =
+            LinqAPI.Exec(Of GeneBrief) <= From gb As GBFF.File
+                                          In gpff
+                                          Let ORF As GeneBrief = gb.GPFF2Feature(gff:=CDSHash)
+                                          Where Not ORF Is Nothing
+                                          Select ORF
+        VBDebugger.Mute = False
+
+        Return New PTT(genes, gpff.First.Source.SpeciesName)
+    End Function
+
+    <ExportAPI("/Export.gpffs", Usage:="/Export.gpffs [/in <inDIR>]")>
+    Public Function EXPORTgpffs(args As CommandLine.CommandLine) As Integer
+        Dim inDIR As String = args.GetValue("/in", App.CurrentDirectory)
+        Dim gpffs As IEnumerable(Of String) = ls - l - r - wildcards("*.gpff") <= inDIR
+        Dim gffs As IEnumerable(Of String) = ls - l - r - wildcards("*.gff") <= inDIR
+
+        Call $"Found {gpffs.Count} *.gpff and {gffs.Count} *.gff files....".__DEBUG_ECHO
+
+        For Each pair In PathMatch.Pairs(gpffs, gffs, AddressOf __trimName)
+            Dim out As String = pair.Pair1.TrimFileExt & ".PTT"
+
+            Try
+                Call __EXPORTgpff(pair.Pair1, pair.Pair2).Save(out)
+            Catch ex As Exception
+                ex = New Exception(out, ex)
+                ex = New Exception(pair.GetJson, ex)
+                Throw ex
+            End Try
+        Next
+
+        Return 0
+    End Function
+
+    Private Function __trimName(name As String) As String
+        If name Is Nothing Then
+            Return ""
+        Else
+            name = Regex.Replace(name, "_genomic", "", RegexICSng)
+            name = Regex.Replace(name, "_protein", "", RegexICSng)
+
+            Return name
+        End If
+    End Function
+
+    <ExportAPI("/Copy.PTT", Usage:="/Copy.PTT /in <inDIR> [/out <outDIR>]")>
+    Public Function CopyPTT(args As CommandLine.CommandLine) As Integer
+        Dim inDIR As String = args("/in")
+        Dim EXPORT As String = args.GetValue("/out", inDIR & "-Copy/")
+        Dim PTTs As IEnumerable(Of String) = ls - l - r - wildcards("*.ptt") <= inDIR
+
+        For Each file As String In PTTs
+            Dim title As String = file.ReadFirstLine
+            title = Regex.Replace(title, " [-] \d+\s\.\.\s\d+", "", RegexICSng).Trim
+            Dim out As String = EXPORT & $"/{title.NormalizePathString(False)}.PTT"
+            file.ReadAllText.SaveTo(out, Encodings.ASCII.GetEncodings)
+        Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Merge.faa", Usage:="/Merge.faa /in <DIR> /out <out.fasta>")>
+    Public Function MergeFaa(args As CommandLine.CommandLine) As Integer
+        Dim inDIR As String = args - "/in"
+        Dim out As String = args.GetValue("/out", inDIR & "/faa.fasta")
+        Dim fasta As New FastaFile
+
+        For Each file As String In ls - l - r - wildcards("*.faa") << FileHandles.OpenHandle(inDIR)
+            fasta.AddRange(FastaFile.Read(file))
+        Next
+
+        Return fasta.Save(out, Encodings.ASCII)
+    End Function
+
+    <ExportAPI("/Export.BlastX", Usage:="/Export.BlastX /in <blastx.txt> [/out <out.csv>]")>
+    Public Function ExportBlastX(args As CommandLine.CommandLine) As Integer
+        Dim [in] As String = args - "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".blastx.csv")
+        Dim blastx As BlastPlus.BlastX.v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
+        Dim result = blastx.BlastXHits
+        Return result.SaveTo(out)
+    End Function
+
+    <ExportAPI("/Export.gb",
+               Info:="Export the *.fna, *.faa, *.ptt file from the gbk file.",
+               Usage:="/Export.gb /gb <genbank.gb> [/out <outDIR>]")>
+    Public Function ExportPTTDb(args As CommandLine.CommandLine) As Integer
+        Dim gb As String = args("/gb")
+        Dim out As String = args.GetValue("/out", args("/gb").TrimFileExt)
+
+        For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
+            Call x.__exportTo(out)
+        Next
+
+        Return 0
+    End Function
+
+    <Extension> Private Sub __exportTo(gb As GBFF.File, out As String)
+        Dim PTT As TabularFormat.PTT = gb.GbffToORF_PTT
+        Dim Faa As New FastaFile(gb.ExportProteins)
+        Dim Fna As FastaToken = gb.Origin.ToFasta
+        Dim GFF As TabularFormat.GFF = gb.ToGff
+        Dim name As String = gb.Source.SpeciesName  ' 
+        Dim ffn As FastaFile = gb.ExportGeneNtFasta
+
+        name = name.NormalizePathString(False).Replace(" ", "_") ' blast+程序要求序列文件的路径之中不可以有空格，所以将空格替换掉，方便后面的blast操作
+        out = out & "/" & gb.Locus.AccessionID
+
+        Call PTT.Save(out & $"/{name}.ptt")
+        Call Fna.SaveTo(out & $"/{name}.fna")
+        Call Faa.Save(out & $"/{name}.faa")
+        Call GFF.Save(out & $"/{name}.gff")
+        Call ffn.Save(out & $"/{name}.ffn")
+    End Sub
+
+    <ExportAPI("/add.locus_tag",
+               Info:="Add locus_tag qualifier into the feature slot.",
+               Usage:="/add.locus_tag /gb <gb.gbk> /prefix <prefix> [/add.gene /out <out.gb>]")>
+    <ParameterInfo("/add.gene", True, Description:="Add gene features?")>
+    Public Function AddLocusTag(args As CommandLine.CommandLine) As Integer
+        Dim gbFile As String = args("/gb")
+        Dim prefix As String = args("/prefix")
+        Dim out As String = args.GetValue("/out", gbFile.TrimFileExt & $".{prefix}.gb")
+        Dim gb As GBFF.File = GBFF.File.Load(gbFile)
+        Dim LQuery = (From x As GBFF.Keywords.FEATURES.Feature
+                      In gb.Features
+                      Where String.Equals(x.KeyName, "gene") OrElse
+                          String.Equals(x.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
+                      Let uid As String = x.Location.UniqueId
+                      Select uid,
+                          x
+                      Group By uid Into Group).ToArray
+
+        Dim idx As Integer = 1
+
+        For Each geneX In LQuery
+            Dim locusId As String =
+                $"{prefix}_{STDIO.ZeroFill(idx.MoveNext, 4)}"
+
+            For Each feature In geneX.Group
+                feature.x.SetValue(FeatureQualifiers.locus_tag, locusId)
+            Next
+
+            Call Console.Write(".")
+        Next
+
+        If args.GetBoolean("/add.gene") Then
+            Call gb.Features.AddGenes()
+        End If
+
+        Return gb.Save(out, Encoding.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/add.names", Usage:="/add.names /anno <anno.csv> /gb <genbank.gbk> [/out <out.gbk> /tag <overrides_name>]")>
+    Public Function AddNames(args As CommandLine.CommandLine) As Integer
+        Dim inFile As String = args("/anno")
+        Dim gbFile As String = args("/gb")
+        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & "-" & gbFile.BaseName & ".gb")
+        Dim tag As String = args.GetValue("/tag", "name")
+        Dim annos As IEnumerable(Of NameAnno) = inFile.LoadCsv(Of NameAnno)
+        Dim gb As GBFF.File = GBFF.File.Load(gbFile)
+
+        For Each anno In annos
+            Dim features = gb.Features.GetByLocation(anno.Minimum, anno.Maximum)
+            For Each feature As GBFF.Keywords.FEATURES.Feature In features
+                Call feature.Add(tag, anno.Name)
+            Next
+        Next
+
+        Return gb.Save(out, Encodings.ASCII.GetEncodings).CLICode
+    End Function
+End Module
+
+Public Class NameAnno
+    Public Property Name As String
+    Public Property Minimum As Integer
+    Public Property Maximum As Integer
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+End Class
