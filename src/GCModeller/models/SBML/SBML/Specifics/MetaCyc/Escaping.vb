@@ -1,0 +1,88 @@
+﻿Imports System.Reflection
+Imports System.Text
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+
+Namespace Specifics.MetaCyc
+
+    ''' <summary>
+    ''' XML文件里面的字符串的转义，这个主要是针对MetaCyc数据库里面的sbml文件的操作的
+    ''' </summary>
+    Public Structure Escaping : Implements IKeyValuePairObject(Of String, String)
+
+        ''' <summary>
+        ''' 原来的特殊符号字符串
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property Original As String Implements IKeyValuePairObject(Of String, String).Identifier
+        ''' <summary>
+        ''' 保存在文件之中的转义字符串
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property Escape As String Implements IKeyValuePairObject(Of String, String).Value
+
+        Public Overrides Function ToString() As String
+            Return String.Format("{0} --> {1}", Escape, Original)
+        End Function
+
+        Public Shared Widening Operator CType(value As KeyValuePair(Of String, String)) As Escaping
+            Return New Escaping With {
+                .Escape = value.Key,
+                .Original = value.Value
+            }
+        End Operator
+
+        Public Shared Narrowing Operator CType(value As Escaping) As KeyValuePair(Of String, String)
+            Return New KeyValuePair(Of String, String)(key:=value.Escape, value:=value.Original)
+        End Operator
+
+        Public Shared Sub Replace(Of T As Class)(source As IEnumerable(Of T), Replacement As Escaping())
+            Dim type As Type = GetType(T)
+            Dim lstProp As PropertyInfo() = EscapedAttribute.GetProperties(type)
+
+            For i As Integer = 0 To source.Count - 1
+                Dim Instance = source(i)
+                For Each PropertyInfo As PropertyInfo In lstProp
+                    Call Replace(Of T)(PropertyInfo, Instance, Replacement)
+                Next
+            Next
+        End Sub
+
+        Private Shared Sub Replace(Of T As Class)(PropertyInfo As Reflection.PropertyInfo, obj As T, ReplacementList As Escaping())
+            Dim strTemp As StringBuilder = New StringBuilder(Scripting.ToString(PropertyInfo.GetValue(obj)))
+            For Each item In ReplacementList
+                Call strTemp.Replace(item.Escape, item.Original)
+            Next
+            If strTemp.Chars(0) = "_"c Then
+                Call strTemp.Remove(0, 1)
+            End If
+
+            Call PropertyInfo.SetValue(obj, strTemp.ToString)
+        End Sub
+
+        Public Shared Function DefaultEscapes() As Escaping()
+            Return New Escaping() {
+ _
+                New Escaping With {.Escape = "__45__", .Original = "-"},
+                New Escaping With {.Escape = "__46__", .Original = "."},
+                New Escaping With {.Escape = "__43__", .Original = "+"},
+                New Escaping With {.Escape = "__47__", .Original = "/"}
+            }
+        End Function
+    End Structure
+
+    <AttributeUsage(AttributeTargets.Property, AllowMultiple:=False, Inherited:=True)>
+    Public Class EscapedAttribute : Inherits Attribute
+
+        Public Shared ReadOnly Property TypeInfo As Type =
+            GetType(EscapedAttribute)
+
+        Public Shared Function GetProperties(type As Type) As PropertyInfo()
+            Dim Properties = (From [property] As PropertyInfo In type.GetProperties(BindingFlags.Public Or BindingFlags.Instance)
+                              Let attrs As Object() = [property].GetCustomAttributes(TypeInfo, inherit:=True)
+                              Where Not attrs.IsNullOrEmpty
+                              Select [property]).ToArray
+            Return Properties
+        End Function
+    End Class
+End Namespace
