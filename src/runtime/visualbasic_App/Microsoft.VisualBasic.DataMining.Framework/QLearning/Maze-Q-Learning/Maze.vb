@@ -1,0 +1,131 @@
+﻿Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic.DataMining.Framework
+Imports Microsoft.VisualBasic.DataMining.Framework.QLearning
+Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
+
+Public Class Maze : Inherits QLearning(Of Char())
+
+    ' --- movement constants
+    Public Const UP As Integer = 0
+    Public Const RIGHT As Integer = 1
+    Public Const DOWN As Integer = 2
+    Public Const LEFT As Integer = 3
+
+    Public Overrides ReadOnly Property ActionRange As Integer
+        Get
+            Return 4
+        End Get
+    End Property
+
+    Public Overridable ReadOnly Property AvatarIndex As Integer
+        Get
+            Return Array.IndexOf(_stat.Current, "@"c)
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property GoalReached As Boolean
+        Get
+            Dim map As Char() = _stat.Current
+            Dim goalIndex As Integer = -1
+            For i As Integer = 0 To map.Length - 1
+                If map(i) = "G"c Then
+                    goalIndex = i
+                End If
+            Next i
+            Return (goalIndex = -1)
+        End Get
+    End Property
+
+    Sub New()
+        Call MyBase.New(New Map, Function(n) New QTable(n))
+    End Sub
+
+    Public Overridable Sub resetMaze()
+        Call _stat.SetState({"@"c, " "c, "#"c, " "c, "#"c, "G"c, " "c, " "c, " "c}) 'startingmap
+    End Sub
+
+    Public Overridable Function isValidMove(action As Integer) As Boolean
+        Dim nextMap() As Char = _stat.GetNextState(action)
+        Return (nextMap = _stat.Current)
+    End Function
+
+    Public Overridable Sub PrintMap()
+        Call sb.WriteLine(PrintMap(_stat.Current))
+    End Sub
+
+    Public Shared Function PrintMap(map() As Char) As String
+        Dim sb As StringBuilder = New StringBuilder
+
+        For i As Integer = 0 To map.Length - 1
+            If i Mod 3 = 0 Then
+                sb.AppendLine("+-+-+-+")
+            End If
+            sb.Append("|" & map(i))
+            If i Mod 3 = 2 Then
+                sb.AppendLine("|")
+            End If
+        Next i
+        sb.AppendLine("+-+-+-+")
+        sb.AppendLine()
+
+        Return sb.ToString
+    End Function
+
+    Public Overridable Function __getMoveName(action As Integer) As String
+        Dim result As String = "ERROR"
+        If action = UP Then
+            result = "UP"
+        ElseIf action = RIGHT Then
+            result = "RIGHT"
+        ElseIf action = DOWN Then
+            result = "DOWN"
+        ElseIf action = LEFT Then
+            result = "LEFT"
+        End If
+        Return result
+    End Function
+
+    Private Sub __goToNextState(action As Integer)
+        Call _stat.SetState(_stat.GetNextState(action))
+    End Sub
+
+    Dim sb As StreamWriter
+
+    Protected Overrides Sub __run(i As Integer)
+        ' PRINT MAP
+        PrintMap()
+
+        ' DETERMINE ACTION
+        Dim action As Integer = Q.NextAction(_stat.Current)
+        __goToNextState(action)
+        moveCounter += 1
+    End Sub
+
+    Dim moveCounter As Integer = 0
+
+    Dim dump As New QTableDump
+
+    Protected Overrides Sub __reset(i As Integer)
+        If Not sb Is Nothing Then
+            Call sb.Flush()
+            Call sb.Close()
+        End If
+
+        Call dump.Save(App.HOME & "/results/QTable.Csv")
+        sb = New StreamWriter(New FileStream(App.HOME & $"/results/maze_{i}.txt", FileMode.OpenOrCreate))
+        sb.WriteLine("GOAL REACHED IN " & moveCounter & " MOVES!")
+        resetMaze()
+        moveCounter = 0
+
+        Call dump.Dump(Q, i)
+    End Sub
+
+    Protected Overrides Sub __init()
+        resetMaze()
+    End Sub
+
+    Protected Overrides Sub __finishLearn()
+        Call dump.Save(App.HOME & "/QTable.Csv")
+    End Sub
+End Class
