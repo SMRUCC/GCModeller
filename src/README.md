@@ -5,7 +5,7 @@
 + ``SMRUCC.genomics.Analysis``
 	Namespace for the biological data analysis protocols
 + ``SMRUCC.genomics.GCModeller``
-	Namespace for the GCModeller virtual cell engine
+	Namespace of the GCModeller virtual cell engine for systems biology analysis
 + ``SMRUCC.genomics.Interops``
 	Namespace for the external command wrappers
 + ``SMRUCC.genomics.Visualize``
