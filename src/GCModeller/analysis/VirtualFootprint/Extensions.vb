@@ -1,0 +1,124 @@
+﻿Imports System.Runtime.CompilerServices
+Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
+Imports LANS.SystemsBiology.InteractionModel.Network.VirtualFootprint.DocumentFormat
+Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel
+
+''' <summary>
+'''
+''' </summary>
+Public Module Extensions
+
+    <Extension> Public Function uid(x As RegPreciseRegulon) As String
+        Dim sId As String
+
+        If String.IsNullOrWhiteSpace(x.Pathway) Then ' 集合里面的元素的位置发生变化了之后，这个就失效了？？？？这样子会不会有问题？
+            sId = $"{x.Regulator}.{x.hits.First}".NormalizePathString
+        Else
+            sId = $"{x.Regulator}.{x.Pathway}".NormalizePathString
+        End If
+
+        sId = sId.Replace(" ", "_")
+
+        Return sId
+    End Function
+
+    <Extension> Public Function KEGGRegulons(footprints As IEnumerable(Of RegulatesFootprints), cats As ModuleClassAPI) As KEGGRegulon()
+        Dim uids = (From x As RegulatesFootprints In footprints.AsParallel Select x.__uid, x Group By __uid Into Group).ToArray
+        Dim LQuery = (From x In uids Select x.Group.ToArray(Function(o) o.x).KEGGRegulon(cats)).ToArray
+        Return LQuery
+    End Function
+
+    <Extension>
+    Public Function KEGGRegulon(footprints As RegulatesFootprints(), cats As ModuleClassAPI) As KEGGRegulon
+        Dim modId As String = footprints.First.MotifId.Split("."c).First
+        Dim A As String = "", B As String = "", C As String = ""
+        Dim modX = cats.GetBriteInfo(modId, A, B, C)
+
+        Return New KEGGRegulon With {
+            .Family = footprints.ToArray(Function(x) x.MotifFamily).Distinct.ToArray,
+            .Members = footprints.ToArray(Function(x) x.ORF).Distinct.ToArray,
+            .ModId = modId,
+            .Regulator = footprints.ToArray(Function(x) x.Regulator).Distinct.ToArray,
+            .Category = C,
+            .Class = B,
+            .Type = A,
+            .Name = cats.GetName(modX)
+        }
+    End Function
+
+    <Extension> Private Function __uid(x As RegulatesFootprints) As String
+        Return $"{x.MotifId.Split("."c).First}-{x.Sequence}"
+    End Function
+
+    ''' <summary>
+    ''' 将相邻的位点进行合并
+    ''' </summary>
+    ''' <param name="source">假设都是同一条链上面的</param>
+    ''' <param name="offset"></param>
+    ''' <param name="getDist"></param>
+    ''' <param name="getTag"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' Id和距离是使用一些方法来读取的，例如<see cref="SimpleSegment.ID"/>是ID:Dist这种形式的话，就可以分别分离出编号和记录数据
+    ''' </remarks>
+    <Extension>
+    Public Iterator Function MergeLocis(source As IEnumerable(Of SimpleSegment),
+                                        offset As Integer,
+                                        getDist As Func(Of SimpleSegment, Integer),
+                                        Optional getTag As Func(Of SimpleSegment, String) = Nothing) As IEnumerable(Of SimpleSegment)
+        If getTag Is Nothing Then
+            getTag = Function(x) x.ID
+        End If
+
+        Dim data As TagSite(Of SimpleSegment)() =
+            LinqAPI.Exec(Of TagSite(Of SimpleSegment)) <= From x As SimpleSegment
+                                                          In source
+                                                          Let id As String = getTag(x)
+                                                          Let d As Integer = getDist(x)
+                                                          Select New TagSite(Of SimpleSegment) With {
+                                                              .tag = id,
+                                                              .contig = x,
+                                                              .Distance = d
+                                                          }
+        Dim out = data.Groups(offset)
+
+        For Each part As GroupResult(Of TagSite(Of SimpleSegment), String) In out
+            Dim locis As Integer() = part.Group.Select(Function(x) {x.contig.Ends, x.contig.Start}).MatrixToVector
+            Dim min As Integer = locis.Min
+            Dim max As Integer = locis.Max
+            Dim ref As SimpleSegment = part.Group.First.contig
+            Dim loci As New NucleotideLocation(min, max, ref.MappingLocation.Strand)
+            Dim copy As New SimpleSegment(ref, loci)
+
+            Yield copy
+        Next
+    End Function
+
+    ''' <summary>
+    ''' 筛选出和标记的基因相同的链方向的位点数据
+    ''' </summary>
+    ''' <param name="sites"></param>
+    ''' <param name="genome"></param>
+    ''' <param name="getId"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function TrimStranded(sites As IEnumerable(Of SimpleSegment), genome As PTT, getId As Func(Of SimpleSegment, String)) As IEnumerable(Of SimpleSegment)
+        For Each x As SimpleSegment In sites
+            Dim sid As String = getId(x)
+            Dim gene As GeneBrief = genome(sid)
+
+            If Not gene Is Nothing Then
+                If gene.Location.Strand = x.MappingLocation.Strand Then
+                    Yield x
+                End If
+            End If
+        Next
+    End Function
+End Module
