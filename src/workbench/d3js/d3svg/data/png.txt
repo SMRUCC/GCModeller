@@ -1,0 +1,32 @@
+[DllImport("kernel32.dll", SetLastError = true)]
+static extern bool SetDllDirectory(string pathname);
+
+[DllImport("libgobject-2.0-0.dll", SetLastError = true)]
+static extern void g_type_init(); 
+
+[DllImport("librsvg-2-2.dll", SetLastError = true)]
+static extern IntPtr rsvg_pixbuf_from_file_at_size(string file_name, int width, int height, out IntPtr error);
+
+[DllImport("libgdk_pixbuf-2.0-0.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+static extern bool gdk_pixbuf_save(IntPtr pixbuf, string filename, string type, out IntPtr error, __arglist);
+
+public static void RasterizeSvg(string inputFileName, string outputFileName)
+{
+    bool callSuccessful = SetDllDirectory("C:\\Program Files\\GIMP-2.0\\bin");
+    if (!callSuccessful)
+    {
+        throw new Exception("Could not set DLL directory");
+    }
+    g_type_init();
+    IntPtr error;
+    IntPtr result = rsvg_pixbuf_from_file_at_size(inputFileName, -1, -1, out error);
+    if (error != IntPtr.Zero)
+    {
+        throw new Exception(Marshal.ReadInt32(error).ToString());
+    }
+    callSuccessful = gdk_pixbuf_save(result, outputFileName, "png", out error, __arglist(null));
+    if (!callSuccessful)
+    {
+        throw new Exception(error.ToInt32().ToString());
+    }
+}

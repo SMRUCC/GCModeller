@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        .node {
+            stroke: #fff;
+            stroke-width: 0.5px;
+        }
+        .link {
+            stroke: #CCC;
+            stroke-opacity: .6;
+        }
+    </style>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>GCModeller network viewer</title>
+</head>
+<body>
+    <script src="d3.v3.min.js"></script>
+    <script src="engine.js"></script>
+	<script>
+	d3Network("./miserables.json", 1600, 1000);
+	</script>
+</body>
+</html>

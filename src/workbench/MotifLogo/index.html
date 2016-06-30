@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>TOMTOM</title>
+        <script type="text/javascript" src="motifLogo/MotifLogo.js"></script>
+        <script type="text/javascript" src="motifLogo/Alphabet.js"></script>
+        <script type="text/javascript" src="motifLogo/Symbol.js"></script>
+        <script type="text/javascript" src="motifLogo/Pspm.js"></script>
+        <script type="text/javascript" src="motifLogo/Logo.js"></script>
+        <script type="text/javascript" src="motifLogo/RasterizedAlphabet.js"></script>
+        <script type="text/javascript" src="motifLogo/LogoMetrics.js"></script>
+    </head>
+    <body>        
+            <div id="preview_1">
+                <script type="text/javascript">
+
+                    function httpGet(theUrl) {
+                        var xmlHttp = new XMLHttpRequest();
+                        xmlHttp.open("GET", theUrl, false); // false for synchronous request
+                        xmlHttp.send(null);
+                        return xmlHttp.responseText;
+                    }
+
+                    var motif = httpGet("./pwm.txt");
+                    drawLogo("preview_1", motif, 10);
+				</script>
+            </div>
+
+    </body>
+</html>

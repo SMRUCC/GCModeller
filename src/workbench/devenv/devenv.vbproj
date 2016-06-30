@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5BF13F4D-6529-4E19-BC49-AB3BB481146D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <StartupObject>LANS.SystemsBiology.GCModeller.Workbench.Program</StartupObject>
+    <RootNamespace>LANS.SystemsBiology.GCModeller.Workbench</RootNamespace>
+    <AssemblyName>devenv_v3.0_102.0.1989.544__548a5dcb82b0ca91</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Console</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DefineConstants>CONSOLE=0</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>Full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\GCModeller\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DNA.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>CONSOLE=0,IDE_COMPILE=1</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\ShellScriptTerm.Designer.vb">
+      <DependentUpon>ShellScriptTerm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ShellScriptTerm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPages\MEMETools\MEMETools.Designer.vb">
+      <DependentUpon>MEMETools.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\MEMETools\MEMETools.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\FormAbout.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IDEInstance.vb" />
+    <Compile Include="Controls\OutputConsole.Designer.vb">
+      <DependentUpon>OutputConsole.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OutputConsole.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LabelButton.Designer.vb">
+      <DependentUpon>LabelButton.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LabelButton.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMain\RWizard.Designer.vb">
+      <DependentUpon>RWizard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMain\RWizard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GlobalSuppressions.vb" />
+    <Compile Include="Methods.vb" />
+    <Compile Include="ExternalCommands.vb" />
+    <Compile Include="Forms\FormMain\MultipleTabpageProxy.vb" />
+    <Compile Include="Forms\FormSplash.Designer.vb">
+      <DependentUpon>FormSplash.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormSplash.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Strings.vb" />
+    <Compile Include="Forms\FormMain\FormMain.Designer.vb">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMain\FormMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TabPages\MEMETools\ExecMEME.Designer.vb">
+      <DependentUpon>ExecMEME.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\MEMETools\ExecMEME.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPages\SequenceLogo.Designer.vb">
+      <DependentUpon>SequenceLogo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\SequenceLogo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPages\WebBrowser.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPages\NCBIViewer\InstallFastaDb.Designer.vb">
+      <DependentUpon>InstallFastaDb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\NCBIViewer\InstallFastaDb.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TabPages\NCBIViewer\LocalBlast.vb" />
+    <Compile Include="TabPages\NCBIViewer\GenbankViewer.vb" />
+    <Compile Include="TabPages\StartPage.Designer.vb">
+      <DependentUpon>StartPage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\StartPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPages\Options.Designer.vb">
+      <DependentUpon>Options.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\Options.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPages\BugsReport.Designer.vb">
+      <DependentUpon>BugsReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\BugsReport.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabPages\NCBIViewer\NCBIViewer.Designer.vb">
+      <DependentUpon>NCBIViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TabPages\NCBIViewer\NCBIViewer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="xieguigang.Designer.vb">
+      <DependentUpon>xieguigang.vb</DependentUpon>
+    </Compile>
+    <Compile Include="xieguigang.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\LabelButton.resx">
+      <DependentUpon>LabelButton.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OutputConsole.resx">
+      <DependentUpon>OutputConsole.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ShellScriptTerm.resx">
+      <DependentUpon>ShellScriptTerm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormAbout.resx">
+      <DependentUpon>FormAbout.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\FormMain.af-ZA.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\FormMain.af.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\FormMain.fr-FR.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\FormMain.ja-JP.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\FormMain.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\FormMain.zh-CN.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\FormMain.zh-SG.resx">
+      <DependentUpon>FormMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain\RWizard.resx">
+      <DependentUpon>RWizard.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSplash.resx">
+      <DependentUpon>FormSplash.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSplash.zh-CN.resx">
+      <DependentUpon>FormSplash.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\BugsReport.resx">
+      <DependentUpon>BugsReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\MEMETools\ExecMEME.resx">
+      <DependentUpon>ExecMEME.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\MEMETools\MEMETools.resx">
+      <DependentUpon>MEMETools.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\NCBIViewer\InstallFastaDb.resx">
+      <DependentUpon>InstallFastaDb.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\NCBIViewer\NCBIViewer.resx">
+      <DependentUpon>NCBIViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\Options.resx">
+      <DependentUpon>Options.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\StartPage.resx">
+      <DependentUpon>StartPage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabPages\SequenceLogo.resx">
+      <DependentUpon>SequenceLogo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="xieguigang.resx">
+      <DependentUpon>xieguigang.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sequence-Patterns-Toolkit\SequencePatterns\SequencePatterns.vbproj">
+      <Project>{ABDCE82B-700E-4F70-A2F1-86B8054D0C8E}</Project>
+      <Name>SequencePatterns</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Shoal\Microsoft.VisualBasic.ShellScript.Dynamics.IDE_PlugIns\Microsoft.VisualBasic.ShellScript.Dynamics.IDE_PlugIns.vbproj">
+      <Project>{f4ca3733-ba62-4a8d-bf45-0bcae80b882f}</Project>
+      <Name>Microsoft.VisualBasic.ShellScript.Dynamics.IDE_PlugIns</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Shoal\Shoal.v2\Shoal.v2\ShoalShell_Core.v2.vbproj">
+      <Project>{a7cb16ff-75c6-4746-8449-86c121d723c4}</Project>
+      <Name>ShoalShell_Core.v2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Shoal\ShoalShell.Plugins.SQLDatabaseInterface\ShoalShell.Plugins.SQLDatabaseInterface.vbproj">
+      <Project>{75b2a52a-f76b-4912-aac2-cac4ae56a001}</Project>
+      <Name>ShoalShell.Plugins.SQLDatabaseInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
+      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
+      <Name>LibMySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\DocumentFormat.Csv\DocumentFormat.Csv.vbproj">
+      <Project>{1d8910c2-ada2-4306-96dc-a61b494522ed}</Project>
+      <Name>DocumentFormat.Csv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\PlugIns\PlugIn\PlugIn.vbproj">
+      <Project>{53975d8c-defc-40bc-8c9b-cba7a458eb55}</Project>
+      <Name>PlugIn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\UXFramework\Molk+\Molk+\Molk+.vbproj">
+      <Project>{585d1fe8-5ac2-4bff-a0c4-98245962fa9f}</Project>
+      <Name>Molk+</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cli Tools\KEGG\KEGG\KEGG.WebServices.vbproj">
+      <Project>{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}</Project>
+      <Name>KEGG.WebServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GCModeller\DocumentFormat.CsvTable\DocumentFormat.CsvTabular.vbproj">
+      <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
+      <Name>DocumentFormat.CsvTabular</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GCModeller\GCMarkupLanguage\DocumentFormat.GCMarkupLanguage.vbproj">
+      <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
+      <Name>DocumentFormat.GCMarkupLanguage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Interops\MEME\MEME.DocParser\MEME.DocParser.vbproj">
+      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
+      <Name>MEME.DocParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Interops\MEME\MEME.vbproj">
+      <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
+      <Name>MEME</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LANS.SystemsBiology.GCModeller.Workbench.Documents.BioProjects\LANS.SystemsBiology.GCModeller.Workbench.Documents.BioProjects.vbproj">
+      <Project>{1fcbd3da-06fe-41b0-9b08-9656b453f6a7}</Project>
+      <Name>LANS.SystemsBiology.GCModeller.Workbench.Documents.BioProjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model_Repository\Model_Repository.vbproj">
+      <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
+      <Name>Model_Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RssChannel\RssChannel.vbproj">
+      <Project>{5cc19284-ce3f-4c01-9a7c-41234f13af74}</Project>
+      <Name>RssChannel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Twitter_logo_blue.png" />
+    <None Include="Resources\IDE_SPLASH_SCR.png" />
+    <None Include="Resources\Untitled.png" />
+    <None Include="Resources\VistaPanel.png" />
+    <None Include="Resources\LabelButtonPrelight.png" />
+    <None Include="Resources\LabelButtonNormal.png" />
+    <None Include="Resources\IDE_ICON.png" />
+    <None Include="Resources\WB_Home.png" />
+    <None Include="Resources\tiny_search.png" />
+    <None Include="Resources\tiny_savesql.png" />
+    <None Include="Resources\tiny_saveas.png" />
+    <None Include="Resources\tiny_save.png" />
+    <None Include="Resources\statusbar_shell.png" />
+    <None Include="Resources\qe_sql-editor-tb-icon_open.png" />
+    <None Include="Resources\qe_main-tb-icon_refresh-conn.png" />
+    <None Include="Resources\qe_main-tb-icon_add-table.png" />
+    <None Include="Resources\WorkManagement.png" />
+    <None Include="Resources\TestInProgress.png" />
+    <None Include="Resources\TestingFeatures.png" />
+    <None Include="Resources\TestFailed.png" />
+    <None Include="Resources\TestCompleted.png" />
+    <None Include="Resources\TestAborted.png" />
+    <None Include="Resources\LabManagement.png" />
+    <None Include="Resources\Intellitrace.png" />
+    <None Include="Resources\info.png" />
+    <None Include="Resources\Logo_DNA.png" />
+    <None Include="Resources\CloseHighlight.png" />
+    <None Include="Resources\CloseNormal.png" />
+    <None Include="Resources\Analytics.png" />
+    <None Include="Resources\action_eer_open.png" />
+    <None Include="Resources\action_eer_rev_eng_file.png" />
+    <None Include="Resources\action_import_export.png" />
+    <None Include="Resources\action_new_eer.png" />
+    <None Include="Resources\admin_option_file.png" />
+    <None Include="Resources\Apply.png" />
+    <Content Include="DNA.ico" />
+    <Content Include="Resources\DNA.ico" />
+    <None Include="Resources\xie.guigang.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
