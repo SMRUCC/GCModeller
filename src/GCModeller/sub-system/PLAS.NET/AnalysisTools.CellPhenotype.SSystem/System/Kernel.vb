@@ -1,0 +1,161 @@
+﻿Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Script
+Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq
+
+Namespace Kernel
+
+    ''' <summary>
+    ''' The simulation system kernel.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Class Kernel : Inherits IterationMathEngine(Of Model)
+
+        ''' <summary>
+        ''' Data collecting
+        ''' </summary>
+        ''' <remarks></remarks>
+        Dim DataAcquisition As New DataAcquisition
+        ''' <summary>
+        ''' Object that action the disturbing
+        ''' </summary>
+        ''' <remarks></remarks>
+        Public Kicks As Kicks
+        ''' <summary>
+        ''' Store the system state.
+        ''' </summary>
+        ''' <remarks></remarks>
+        Public Property Vars As Var()
+            Get
+                Return __varsHash.Values.ToArray
+            End Get
+            Set(value As Var())
+                If value Is Nothing Then
+                    __varsHash = New Dictionary(Of Var)
+                Else
+                    __varsHash = value.ToDictionary
+                End If
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Alter the system state.
+        ''' </summary>
+        ''' <remarks></remarks>
+        Public Channels As Equation()
+
+        Dim __varsHash As Dictionary(Of Var)
+
+        ''' <summary>
+        ''' 模拟器的数学计算引擎
+        ''' </summary>
+        ReadOnly __engine As Mathematical.Expression
+
+        Sub New(Model As Model)
+            Call MyBase.New(Model)
+            Call Me.Load(Model)
+        End Sub
+
+        Public Function GetValue(id As String) As Var
+            Return __varsHash(id)
+        End Function
+
+        ''' <summary>
+        ''' The kernel loop.(内核循环)
+        ''' </summary>
+        ''' <remarks></remarks>
+        Protected Overrides Function __innerTicks(KernelCycle As Integer) As Integer
+            Call DataAcquisition.Tick()
+            Call Kicks.Tick()
+            Call (From x As Equation In Channels Select x.Elapsed).ToArray
+            Return 0
+        End Function
+
+        Public Overrides Function Run() As Integer
+            For Me._RTime = 0 To _innerDataModel.FinalTime Step 0.1
+#If DEBUG Then
+                Console.SetCursorPosition(0, 0)
+                Console.Write(Me._RTime)
+#End If
+#If DEBUG Then
+                Call __innerTicks(Me._RTime)
+#Else
+                Try
+                    Call __innerTicks(Me._RTime)
+                Catch ex As Exception
+                    ex = New Exception("Model calculation error!", ex)
+                    Call App.LogException(ex)
+                    Call ex.PrintException
+                    Return -1
+                End Try
+#End If
+            Next
+            Return 0
+        End Function
+
+        Friend Function get_Model() As Script.Model
+            Return MyBase._innerDataModel
+        End Function
+
+        Public Sub Export(Path As String)
+            Call DataAcquisition.Save(Path)
+        End Sub
+
+        Private Sub Load(DataModel As Script.Model)
+            Me._innerDataModel = DataModel
+            Me.Vars = (From v In DataModel.Vars Select v Order By Len(v.UniqueId) Descending).ToArray
+            Me.Channels = DataModel.sEquations.ToArray(Function(x) New Equation(x))
+
+            For i As Integer = 0 To Channels.Length - 1
+                Channels(i).Set(Me)
+            Next
+            Kicks = New Kicks(Me)
+            DataAcquisition.Set(Me)
+
+            For Each Declaration In DataModel.UserFunc
+                Call __engine.Functions.Add(Declaration.Declaration)
+            Next
+            For Each Constant In DataModel.Constant
+                Call __engine.Constant.Add(Constant.Name, Constant.Expression)
+            Next
+
+            For Each Var In Vars
+                Call Microsoft.VisualBasic.Mathematical.ScriptEngine.SetVariable(Var.UniqueId, Var.Value)
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' The file path of the compiled xml model. 
+        ''' </summary>
+        ''' <param name="Path">The file path of the compiled xml model.</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Overloads Shared Function Run(Path As String) As DocumentStream.File
+            Return Kernel.Run(Script.Model.Load(Path))
+        End Function
+
+        ''' <summary>
+        ''' Run a compiled model.(运行一个已经编译好的模型文件)
+        ''' </summary>
+        ''' <param name="Model"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Overloads Shared Function Run(Model As Script.Model) As DocumentStream.File
+            Dim Kernel As New Kernel(Model)
+            Kernel.Run()
+            Return DataAcquisition.Get(Kernel.DataAcquisition)
+        End Function
+
+        ''' <summary>
+        ''' Gets the system run time ticks
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Overrides ReadOnly Property RuntimeTicks As Long
+            Get
+                Return Me._RTime
+            End Get
+        End Property
+    End Class
+End Namespace

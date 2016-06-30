@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="PLAS.Model" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKAgAAEAAAAAEAEAAAQAAIAEAAAAAgAAAAAAAAAkAA=</HashCode>
+      <FileName>Model.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.Kernel.DataAcquisition" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAABABAAAAAAAAAAEAAAAAAAAAAAgAAQAA=</HashCode>
+      <FileName>System\DataAcquisition.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.Kernel.ObjectModels.Disturb" Collapsed="true">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gIACAAAAACAABAAEAYAAACAAAAAAAAAAAAAgAgAAQEA=</HashCode>
+      <FileName>System\Elements\Disturb.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.Kernel.ObjectModels.Equation" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAACABAAEAACAAgQAAAAAAAAQAAAgAgAAAAA=</HashCode>
+      <FileName>System\Elements\Equation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.Kernel.ObjectModels.Var" Collapsed="true">
+    <Position X="15.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIIAAAAEAAAAAEAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>System\Elements\Var.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.Kernel.Kernel" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAACAAAAAAQAQBAAAAAAAAEAAAAgAAAAAUAI=</HashCode>
+      <FileName>System\Kernel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.Kernel.Kicks" Collapsed="true">
+    <Position X="15.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAQEA=</HashCode>
+      <FileName>System\Kicks.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.My.MySettings" Collapsed="true">
+    <Position X="13.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.Script" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="3" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAVAAAAQBAAAAAAAAAEAAACAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Script.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PLAS.Compiler(Of T)">
+    <Position X="4.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAACAAAAAAgAAAEA=</HashCode>
+      <FileName>Compiler.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PLAS.CommandLines" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAEI=</HashCode>
+      <FileName>Program.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAS.SBML">
+    <Position X="0.5" Y="3" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQAAAAAAAAAAAQCAAAAAAAAAAABAAAAAAAAAAAAEA=</HashCode>
+      <FileName>SBML.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="PLAS.Kernel.ObjectModels.Function" Collapsed="true">
+    <Position X="13.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAQAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>System\Elements\Function.vb</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PLAS.Kernel.ObjectModels.Const" Collapsed="true">
+    <Position X="11.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>System\Elements\Function.vb</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Module Name="PLAS.Program" Collapsed="true">
+    <Position X="15.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="PLAS.My.Resources.Resources" Collapsed="true">
+    <Position X="11.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="PLAS.My.MySettingsProperty" Collapsed="true">
+    <Position X="13.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="PLAS.__DEBUG_MAIN___" Collapsed="true">
+    <Position X="11.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>__DEBUG_MAIN___.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Calibri" Size="8.25" />
+</ClassDiagram>

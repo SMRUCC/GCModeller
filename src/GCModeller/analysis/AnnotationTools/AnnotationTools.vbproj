@@ -1,0 +1,450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{74B33A15-1D34-4D11-81A1-2538C45B7A80}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools</RootNamespace>
+    <AssemblyName>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\GCModeller\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\bin-Debug\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\..\..\GCModeller-x64\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Publish\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Publish\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Publish\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\docs\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\docs\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\docs\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\System.Data.SQLite\2012\bin\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\System.Data.SQLite\2012\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\System.Data.SQLite\2012\bin\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\System.Data.SQLite\2012\bin\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CEG\Base.vb" />
+    <Compile Include="CEG\Annotation.vb" />
+    <Compile Include="CEG\GeneCluster.vb" />
+    <Compile Include="CEG\Core.vb" />
+    <Compile Include="CEG\MySQL\aa_seq.vb" />
+    <Compile Include="CEG\MySQL\annotation.vb" />
+    <Compile Include="CEG\MySQL\ceg_base.vb" />
+    <Compile Include="CEG\MySQL\ceg_core.vb" />
+    <Compile Include="CEG\MySQL\clade.vb" />
+    <Compile Include="CEG\MySQL\na_seq.vb" />
+    <Compile Include="CEG\MySQL\reference.vb" />
+    <Compile Include="CEG\Tools.vb" />
+    <Compile Include="Correlations\CorrsDbAPI.vb" />
+    <Compile Include="Correlations\Correlations.vb" />
+    <Compile Include="Interpro\Tables\abstract.vb" />
+    <Compile Include="Interpro\Tables\author.vb" />
+    <Compile Include="Interpro\Tables\book.vb" />
+    <Compile Include="Interpro\Tables\book2author.vb" />
+    <Compile Include="Interpro\Tables\common_annotation.vb" />
+    <Compile Include="Interpro\Tables\cv_database.vb" />
+    <Compile Include="Interpro\Tables\cv_entry_type.vb" />
+    <Compile Include="Interpro\Tables\cv_evidence.vb" />
+    <Compile Include="Interpro\Tables\cv_rank.vb" />
+    <Compile Include="Interpro\Tables\cv_relation.vb" />
+    <Compile Include="Interpro\Tables\cv_synonym.vb" />
+    <Compile Include="Interpro\Tables\db_version.vb" />
+    <Compile Include="Interpro\Tables\entry.vb" />
+    <Compile Include="Interpro\Tables\entry2common.vb" />
+    <Compile Include="Interpro\Tables\entry2comp.vb" />
+    <Compile Include="Interpro\Tables\entry2entry.vb" />
+    <Compile Include="Interpro\Tables\entry2method.vb" />
+    <Compile Include="Interpro\Tables\entry2pub.vb" />
+    <Compile Include="Interpro\Tables\entry_accpair.vb" />
+    <Compile Include="Interpro\Tables\entry_deleted.vb" />
+    <Compile Include="Interpro\Tables\entry_friends.vb" />
+    <Compile Include="Interpro\Tables\entry_xref.vb" />
+    <Compile Include="Interpro\Tables\etaxi.vb" />
+    <Compile Include="Interpro\Tables\example.vb" />
+    <Compile Include="Interpro\Tables\example_auto.vb" />
+    <Compile Include="Interpro\Tables\intact_data.vb" />
+    <Compile Include="Interpro\Tables\interpro2go.vb" />
+    <Compile Include="Interpro\Tables\journal.vb" />
+    <Compile Include="Interpro\Tables\journal_syn.vb" />
+    <Compile Include="Interpro\Tables\matches.vb" />
+    <Compile Include="Interpro\Tables\match_struct.vb" />
+    <Compile Include="Interpro\Tables\method.vb" />
+    <Compile Include="Interpro\Tables\method2pub.vb" />
+    <Compile Include="Interpro\Tables\mv_entry2protein.vb" />
+    <Compile Include="Interpro\Tables\mv_entry2protein_true.vb" />
+    <Compile Include="Interpro\Tables\mv_entry_match.vb" />
+    <Compile Include="Interpro\Tables\mv_method2protein.vb" />
+    <Compile Include="Interpro\Tables\mv_method_match.vb" />
+    <Compile Include="Interpro\Tables\mv_proteome_count.vb" />
+    <Compile Include="Interpro\Tables\mv_secondary.vb" />
+    <Compile Include="Interpro\Tables\mv_tax_entry_count.vb" />
+    <Compile Include="Interpro\Tables\organism.vb" />
+    <Compile Include="Interpro\Tables\pdb_pub_additional.vb" />
+    <Compile Include="Interpro\Tables\pfam_clan.vb" />
+    <Compile Include="Interpro\Tables\pfam_clan_data.vb" />
+    <Compile Include="Interpro\Tables\protein.vb" />
+    <Compile Include="Interpro\Tables\protein2genome.vb" />
+    <Compile Include="Interpro\Tables\protein_accpair.vb" />
+    <Compile Include="Interpro\Tables\protein_ida.vb" />
+    <Compile Include="Interpro\Tables\proteome_rank.vb" />
+    <Compile Include="Interpro\Tables\pub.vb" />
+    <Compile Include="Interpro\Tables\pub2author.vb" />
+    <Compile Include="Interpro\Tables\struct_class.vb" />
+    <Compile Include="Interpro\Tables\supermatch.vb" />
+    <Compile Include="Interpro\Tables\taxonomy2protein.vb" />
+    <Compile Include="Interpro\Tables\tax_entry_count.vb" />
+    <Compile Include="Interpro\Tables\tax_name_to_id.vb" />
+    <Compile Include="Interpro\Tables\text_index_entry.vb" />
+    <Compile Include="Interpro\Tables\uniprot_taxonomy.vb" />
+    <Compile Include="Interpro\Tables\varsplic_master.vb" />
+    <Compile Include="Interpro\Tables\varsplic_match.vb" />
+    <Compile Include="Interpro\Tables\varsplic_supermatch.vb" />
+    <Compile Include="Interpro\Xml\Family.vb" />
+    <Compile Include="Interpro\Xml\DbArchive.vb" />
+    <Compile Include="Interpro\Xml\ToolsAPI.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\citation.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\connectivity.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\ligand.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_chemistry.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_db_reference.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_image.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_synonym.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_entry.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_atom_int.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_lig_atom_int.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_region.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_region_int.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_region_lig_int.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_res_int.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_res_lig_int.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_residue_data.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\protein_family.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\protein_family_has_citation.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\quality_control.vb" />
+    <Compile Include="Xfam\iPfam\LocalMySQL\version.vb" />
+    <Compile Include="Tools\AnnotationTool.vb" />
+    <Compile Include="Tools\Report\AnnotationResult.vb" />
+    <Compile Include="Tools\Report\DocumentElements.vb" />
+    <Compile Include="Tools\ShellScriptAPI.vb" />
+    <Compile Include="Regprecise\Regprecise.vb" />
+    <Compile Include="Regprecise\ShellScriptAPI.vb" />
+    <Compile Include="UniprotSprot\MySQL\id_mappings.vb" />
+    <Compile Include="UniprotSprot\MySQL\uniprotkb.vb" />
+    <Compile Include="UniprotSprot\ShellScriptAPI.vb" />
+    <Compile Include="UniprotSprot\DbTools.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Xfam\Rfam\Tables\alignment_and_tree.vb" />
+    <Compile Include="Xfam\Rfam\Tables\clan.vb" />
+    <Compile Include="Xfam\Rfam\Tables\clan_database_link.vb" />
+    <Compile Include="Xfam\Rfam\Tables\clan_literature_reference.vb" />
+    <Compile Include="Xfam\Rfam\Tables\clan_membership.vb" />
+    <Compile Include="Xfam\Rfam\Tables\database_link.vb" />
+    <Compile Include="Xfam\Rfam\Tables\db_version.vb" />
+    <Compile Include="Xfam\Rfam\Tables\dead_clan.vb" />
+    <Compile Include="Xfam\Rfam\Tables\dead_family.vb" />
+    <Compile Include="Xfam\Rfam\Tables\family.vb" />
+    <Compile Include="Xfam\Rfam\Tables\family_literature_reference.vb" />
+    <Compile Include="Xfam\Rfam\Tables\family_ncbi.vb" />
+    <Compile Include="Xfam\Rfam\Tables\features.vb" />
+    <Compile Include="Xfam\Rfam\Tables\full_region.vb" />
+    <Compile Include="Xfam\Rfam\Tables\html_alignment.vb" />
+    <Compile Include="Xfam\Rfam\Tables\keywords.vb" />
+    <Compile Include="Xfam\Rfam\Tables\literature_reference.vb" />
+    <Compile Include="Xfam\Rfam\Tables\matches_and_fasta.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif_database_link.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif_family_stats.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif_file.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif_literature.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif_matches.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif_pdb.vb" />
+    <Compile Include="Xfam\Rfam\Tables\motif_ss_image.vb" />
+    <Compile Include="Xfam\Rfam\Tables\pdb_full_region.vb" />
+    <Compile Include="Xfam\Rfam\Tables\rfamseq.vb" />
+    <Compile Include="Xfam\Rfam\Tables\secondary_structure_image.vb" />
+    <Compile Include="Xfam\Rfam\Tables\seed_region.vb" />
+    <Compile Include="Xfam\Rfam\Tables\sunburst.vb" />
+    <Compile Include="Xfam\Rfam\Tables\taxonomy.vb" />
+    <Compile Include="Xfam\Rfam\Tables\taxonomy_websearch.vb" />
+    <Compile Include="Xfam\Rfam\Tables\version.vb" />
+    <Compile Include="Xfam\Rfam\Tables\wikitext.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Sequence-Patterns-Toolkit\LANS.SystemsBiology.AnalysisTools.ComparativeGenomics\LANS.SystemsBiology.AnalysisTools.ComparativeGenomics.vbproj">
+      <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
+      <Name>LANS.SystemsBiology.AnalysisTools.ComparativeGenomics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
+      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
+      <Name>LibMySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\SQLite_Interface\SQLite_Interface.vbproj">
+      <Project>{ec288ffe-8fee-4e89-88c1-cd68f92f75bc}</Project>
+      <Name>SQLite_Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Datavisualization.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\DocumentFormats\DocumentFormat.Word\DocumentFormat.Word.vbproj">
+      <Project>{062afa7d-1e0d-48f8-b07d-fb74aeefa5d6}</Project>
+      <Name>DocumentFormat.Word</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_Tabular.DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller Workbench\Model_Repository\Model_Repository.vbproj">
+      <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
+      <Name>Model_Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Interops\MEME\MEME.DocParser\MEME.DocParser.vbproj">
+      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
+      <Name>MEME.DocParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Interops\MEME\MEME.vbproj">
+      <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
+      <Name>MEME</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ExternalDBSource\DatabaseServices.vbproj">
+      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
+      <Name>DatabaseServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RegulonDatabase\RegulonDatabase.vbproj">
+      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
+      <Name>RegulonDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
+      <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
+      <Name>Toolkits.RNA-Seq.RTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
+      <Name>Toolkits.RNA-Seq</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NCBI_NR\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MEME.txt" />
+  </ItemGroup>
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

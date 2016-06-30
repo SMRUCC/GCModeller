@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.My.MySettings" Collapsed="true">
+    <Position X="25.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.File" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>LSJBEIAAACDAAAAAAAAAAIAoAAGBAAACAABAABAAABA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\File.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Programs.C2" Collapsed="true">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\C2.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Programs.GCC" Collapsed="true">
+    <Position X="24" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCC.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Programs.GCHOST" Collapsed="true">
+    <Position X="25.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCHOST.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Programs.IDE" Collapsed="true">
+    <Position X="20.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAgQAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\IDE.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Programs.MPAlignment" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAICAIAAACAAEAAAAAAAAAAAACAAAAABAAEAAgAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\MPAlignment.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Programs.SMART" Collapsed="true">
+    <Position X="24" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\SMART.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Programs.STAMP" Collapsed="true">
+    <Position X="25.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\STAMP.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.API.ImportantNodes.Regulations" Collapsed="true">
+    <Position X="22.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ImportantNodes\LDM.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.API.ImportantNodes.RankRegulations" Collapsed="true">
+    <Position X="20.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAEAAAAAAEABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ImportantNodes\LDM.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.API.ImportantNodes.NodeRank" Collapsed="true">
+    <Position X="25.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ImportantNodes\LDM.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.Cyjs" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAIBAAEAAABAEAAAAAAAQAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.Data">
+    <Position X="9.25" Y="7.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAQAAAAAAAABAAAAgEEAAAAAAAAgAAAiA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.Network" Collapsed="true">
+    <Position X="17" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.Edge" Collapsed="true">
+    <Position X="20.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAgAAAAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.EdgeData">
+    <Position X="8.5" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACIAJAAAAAAAAIAAgAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.Node" Collapsed="true">
+    <Position X="24" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAQAgAAAAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.NodeData">
+    <Position X="11.25" Y="11" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQIiAAAEAAgCQAAAEgAAAQgAIMARAAQAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.position" Collapsed="true">
+    <Position X="18.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Serialization.GraphicsMapper" Collapsed="true">
+    <Position X="18.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Serialization\GraphicsMapper.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Node" Collapsed="true">
+    <Position X="22.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACIAAAAAAAAAAAMAAIQAAAAEIAgAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Visualization\Node.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.edge">
+    <Position X="3" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\edge.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.network">
+    <Position X="5.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\network.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualNode">
+    <Position X="2.5" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAE=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\network.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.node">
+    <Position X="0.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\node.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualStyle" Collapsed="true">
+    <Position X="18.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAABAAAAAAAAAUAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualStyle.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.VizMap" Collapsed="true">
+    <Position X="20.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAgA=</HashCode>
+      <FileName>Graph\VizMap\VizMap.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty.visualProperty" Collapsed="true">
+    <Position X="17" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAABAAAAAQAAAAEAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty.dependency" Collapsed="true">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty.passthroughMapping" Collapsed="true">
+    <Position X="17" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty.discreteMapping" Collapsed="true">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAAAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty.discreteMappingEntry" Collapsed="true">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAE=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty.continuousMapping" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAgAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty.continuousMappingPoint" Collapsed="true">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAASAAA=</HashCode>
+      <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.Attribute">
+    <Position X="0.5" Y="11.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAEAAAAAAQAAAAgAAAhAQEgAAAEAAA=</HashCode>
+      <FileName>Graph\Xgmml\Attributes.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.AttributeDictionary">
+    <Position X="6.5" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAEAAAAAAAQAAAAAAAAEABgAAAAAAA=</HashCode>
+      <FileName>Graph\Xgmml\Attributes.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.Edge">
+    <Position X="3.75" Y="3.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAECAAAAJEIAAAAAAACAACAAAAAAAAAgAAgAA=</HashCode>
+      <FileName>Graph\Xgmml\Edge.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.EdgeGraphics">
+    <Position X="7.5" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAIAAAAAAAAAAACAAAEAAAAAACAAAAAAAgAAAAgA=</HashCode>
+      <FileName>Graph\Xgmml\EdgeGraphics.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.Graph" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggIAAEAAAgACAAAAAAAAYGBAIAgABEAEAAAAAAAA=</HashCode>
+      <FileName>Graph\Xgmml\Graph.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.Graphics">
+    <Position X="1" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Graph\Xgmml\Graphics.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.GraphAttribute">
+    <Position X="1.25" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Xgmml\Graphics.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.InnerRDF" Collapsed="true">
+    <Position X="22.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Xgmml\NetworkMetadata.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.NetworkMetadata" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAkAgAEAEAAAAAAAAAAgAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Xgmml\NetworkMetadata.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.Node">
+    <Position X="10.75" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAEAAIAAAAACAAAAAAAAAAAAgAAAgA=</HashCode>
+      <FileName>Graph\Xgmml\Node.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.NodeGraphics">
+    <Position X="13.5" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAASAAAMAAAAgACAAAQQhgAQgAAAA=</HashCode>
+      <FileName>Graph\Xgmml\NodeGraphics.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Tables.Edge" Collapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAJAEBAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Tabular\EdgeTable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Tables.Node" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgCQIiAAAEAAACQEAAEgACAQgBIMAQAAQAAAAAAAAAA=</HashCode>
+      <FileName>Tabular\NodeTable.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Cyjs.IDynamicsProperty" Collapsed="true">
+    <Position X="17" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Cyjs.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.My.Resources.Resources" Collapsed="true">
+    <Position X="17" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.My.MySettingsProperty" Collapsed="true">
+    <Position X="22.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeColor" Collapsed="true">
+    <Position X="18.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAAQAAAAAAAAQAAACCAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Graph\Visualization\CytoscapeColor.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Settings.Session" Collapsed="true">
+    <Position X="20.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEYgAAECAAwAQABAAAAAkJIYKAEAQAAAAQAAAgRI=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Session\Session.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem.FileSystem" Collapsed="true">
+    <Position X="25.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAAAQAAAAEAAiBIQARAAAAAACUAAAiAAAAAhEAAABA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\FileSystem.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem.KEGG.Directories" Collapsed="true">
+    <Position X="20.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAACAAAAAAAAAQAQAAgAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\KEGG\Directories.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem.RegPrecise.Directories" Collapsed="true">
+    <Position X="22.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Regprecise\Directories.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem.Xfam.Pfam" Collapsed="true">
+    <Position X="24" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Xfam\Pfam.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem.Xfam.Rfam" Collapsed="true">
+    <Position X="18.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Xfam\Rfam.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.API.ImportantNodes.ImportantNodes" Collapsed="true">
+    <Position X="20.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAAAAAAAAAAAAAAAgAAAgAABAAAAAAAAAAEAADAAA=</HashCode>
+      <FileName>API\ImportantNodes\ImportantNodes.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Serialization.ExportToFile" Collapsed="true">
+    <Position X="24" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGAQAAAAAgQAAACAAAAABAAAAAACAAAAAAIAAAAIABA=</HashCode>
+      <FileName>Graph\Serialization\ExportToFile.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.GraphDrawing" Collapsed="true">
+    <Position X="17" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAEAAAAAAAAAAAACAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Graph\Visualization\GraphDrawing.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.GraphExtensions" Collapsed="true">
+    <Position X="18.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAACAAAAAAAAAQAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Graph\Xgmml\GraphExtensions.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.[NameOf]" Collapsed="true">
+    <Position X="17" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEARAAAgCAEAAAAAEBAIABAEEBAAAAABAAAIAgA=</HashCode>
+      <FileName>Graph\Xgmml\NameOf.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML.RDFXml" Collapsed="true">
+    <Position X="25.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAQAAAAAAAAEAAAAAAAAAIAAAAAAAAgAAgABA=</HashCode>
+      <FileName>Graph\Xgmml\RDFXml.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Calibri" Size="8.25" />
+</ClassDiagram>

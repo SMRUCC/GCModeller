@@ -1,0 +1,166 @@
+﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
+Imports Microsoft.VisualBasic.Linq
+Imports LANS.SystemsBiology.ComponentModel
+Imports System.Runtime.CompilerServices
+Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
+
+Namespace NetworkModel.KEGG
+
+    ''' <summary>
+    ''' 基因和模块之间的从属关系的示意图
+    ''' </summary>
+    <PackageNamespace("Cytoscape.NET.KEGG_Mods")>
+    Public Module ModInteractions
+
+        <ExportAPI("Load.Modules")>
+        Public Function LoadModules(DIR As String) As bGetObject.Module()
+            Dim files = FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml")
+            Dim LQuery = (From xml As String
+                          In files.AsParallel
+                          Select xml.LoadXml(Of bGetObject.Module)).ToArray
+            Return LQuery
+        End Function
+
+        <ExportAPI("Load.Pathways")>
+        Public Function LoadPathways(DIR) As bGetObject.Pathway()
+            Dim files = FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml")
+            Dim LQuery = (From xml As String
+                          In files.AsParallel
+                          Select xml.LoadXml(Of bGetObject.Pathway)).ToArray
+            Return LQuery
+        End Function
+
+        <ExportAPI("Build.NET")>
+        <Extension> Public Function BuildNET(Of T As PathwayBrief)(mods As IEnumerable(Of T)) As Network
+            Dim net As New Network
+            Dim modType As String = GetType(T).Name
+            Dim modHash = New ModsBrite(Of T)
+            Dim netEdges = (From x As T In mods
+                            Let genes As String() = x.GetPathwayGenes
+                            Select (From g As String
+                                    In genes
+                                    Select g,
+                                        __mod = x)).MatrixAsIterator
+            net += (From x As T
+                    In mods
+                    Select New Node With {
+                        .Identifier = x.EntryId,
+                        .NodeType = modType,
+                        .Properties = modHash.__modProperty(x)}).ToArray
+            net += (From x In netEdges
+                    Select x
+                    Group x By x.g Into Group) _
+                         .ToArray(Function(x) (From edge In x.Group
+                                               Select New NetworkEdge With {
+                                                   .Confidence = 1,
+                                                   .FromNode = edge.__mod.EntryId,
+                                                   .ToNode = edge.g,
+                                                   .InteractionType = PathwayGene})).MatrixAsIterator
+            net += net.__modProperty(net.Edges)
+
+            Return net
+        End Function
+
+        ''' <summary>
+        ''' Label for interation pathway genes
+        ''' </summary>
+        Public Const PathwayGene As String = "Pathway Gene"
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="edges">Mod -> Gene</param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function __modProperty(net As Network, edges As NetworkEdge()) As IEnumerable(Of Node)
+            Dim LQuery = (From x As NetworkEdge In edges
+                          Let mId As String = x.FromNode
+                          Let mX As Node = net & mId
+                          Where Not mX Is Nothing AndAlso
+                              Not mX.Properties Is Nothing
+                          Let props = New Dictionary(Of String, String)(mX.Properties)
+                          Select New Node With {
+                              .Identifier = x.ToNode,
+                              .NodeType = "Enzyme",
+                              .Properties = props})
+            Dim Groups = (From x In LQuery Select x Group x By x.Identifier Into Group)
+            Return (From x In Groups Select x.Group.First)
+        End Function
+
+        <Extension>
+        Private Function __modProperty(Of T As PathwayBrief)(hash As ModsBrite(Of T), x As T) As Dictionary(Of String, String)
+            Return New Dictionary(Of String, String) From {
+ _
+                {"A", hash.GetType(x)},
+                {"B", hash.GetClass(x)},
+                {"C", hash.GetCategory(x)}
+            }
+        End Function
+
+        ''' <summary>
+        ''' 向网络之中添加调控信息
+        ''' </summary>
+        ''' <param name="net"></param>
+        ''' <param name="footprints">基因调控信息</param>
+        ''' <returns></returns>
+        <ExportAPI("NET.Add.Footprints")>
+        <Extension>
+        Public Function AddFootprints(net As Network,
+                                      footprints As IEnumerable(Of DocumentFormat.RegulatesFootprints),
+                                      Optional brief As Boolean = False) As Network
+
+            footprints = (From x In footprints Where InStr(x.MotifTrace, "@") = 0 Select x).ToArray  ' 拓展的不需要，因为会让图太密了
+
+            net += (From x As DocumentFormat.RegulatesFootprints
+                    In footprints
+                    Where Not String.IsNullOrEmpty(x.Regulator)
+                    Select x.Regulator Distinct) _
+                          .ToArray(AddressOf __tfNode)  ' 生成调控因子节点
+
+            If brief Then
+                footprints = (From x In footprints Where True = net ^ x.ORF Select x).ToArray
+            End If
+
+            net += (From x In footprints.AsParallel
+                    Where (Not String.IsNullOrEmpty(x.Regulator))   ' 生成被调控的基因的节点
+                    Let uid = x.Regulator & x.ORF
+                    Let c As Double = x.Pcc * 0.8 + x.sPcc * 0.2
+                    Select uid,
+                        x.Regulator,
+                        x.ORF,
+                        c
+                    Group By uid Into Group).ToArray(
+                        Function(x) New NetworkEdge With {
+                            .FromNode = x.Group.First.Regulator,
+                            .ToNode = x.Group.First.ORF,
+                            .InteractionType = "Regulates",
+                            .Confidence = x.Group.First.c})
+            Return net
+        End Function
+
+        Private Function __tfNode(TF As String) As Node
+            Return New Node With {
+                .Identifier = TF,
+                .NodeType = "TF"
+            }
+        End Function
+
+        <ExportAPI("Write.Csv.Network")>
+        Public Function SaveNetwork(net As Network, DIR As String) As Boolean
+            Return net.Save(DIR, Encodings.ASCII)
+        End Function
+
+        <ExportAPI("Build.NET")>
+        Public Function BuildNET(mods As IEnumerable(Of bGetObject.Pathway)) As Network
+            Return mods.BuildNET
+        End Function
+
+        <ExportAPI("Build.NET")>
+        Public Function BuildNET(mods As IEnumerable(Of bGetObject.Module)) As Network
+            Return mods.BuildNET
+        End Function
+    End Module
+End Namespace

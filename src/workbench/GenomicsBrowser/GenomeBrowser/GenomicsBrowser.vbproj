@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DA03FCF1-C942-409A-B4C9-75909B49719D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>GenomicsBrowser.My.MyApplication</StartupObject>
+    <RootNamespace>GenomicsBrowser</RootNamespace>
+    <AssemblyName>GenomicsBrowser</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>GenomicsBrowser.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>GenomicsBrowser.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>CircosPlot.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FormBrowserMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBrowserMain.Designer.vb">
+      <DependentUpon>FormBrowserMain.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrowserControls\GenomicsBrowserControl.Designer.vb">
+      <DependentUpon>GenomicsBrowserControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BrowserControls\GenomicsBrowserControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrowserControls\GeneObject.Designer.vb">
+      <DependentUpon>GeneObject.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BrowserControls\GeneObject.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.vb" />
+    <Compile Include="VectorScriptProject.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BrowserControls\GenomicsBrowserControl.resx">
+      <DependentUpon>GenomicsBrowserControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrowserControls\GeneObject.resx">
+      <DependentUpon>GeneObject.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBrowserMain.resx">
+      <DependentUpon>FormBrowserMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Interops\BOW\BOW.vbproj">
+      <Project>{2b903b81-95f4-455f-b892-d2ac36167453}</Project>
+      <Name>BOW</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic_Framework\Datavisualization\Drawing3D\Drawing3D.vbproj">
+      <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
+      <Name>Drawing3D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic_Framework\DocumentFormats\DocumentFormat.Csv\DocumentFormat.Csv.vbproj">
+      <Project>{b746cfd3-57ab-468c-8170-78d00a2a4463}</Project>
+      <Name>DocumentFormat.Csv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic_Framework\Microsoft.VisualBasic.Architecture.Framework\Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic_Framework\PlugIns\PlugIn\PlugIn.vbproj">
+      <Project>{53975d8c-defc-40bc-8c9b-cba7a458eb55}</Project>
+      <Name>PlugIn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic_Framework\UXFramework\MetroUI Form\MetroUI Form\MetroUI Form.vbproj">
+      <Project>{6c15493a-3bcb-4943-aaed-d6b7d4539527}</Project>
+      <Name>MetroUI Form</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic_Framework\UXFramework\Molk+\Molk+\Molk+.vbproj">
+      <Project>{585d1fe8-5ac2-4bff-a0c4-98245962fa9f}</Project>
+      <Name>Molk+</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Reference SharedLib\UX.Framework\UILibrary.Controls.Animation\UILibrary.Controls.Animation.Extensions\UILibrary.Controls.Animation.Extensions.vbproj">
+      <Project>{2f22c463-d4e9-43e5-abbb-c5854731e4c0}</Project>
+      <Name>UILibrary.Controls.Animation.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Reference SharedLib\UX.Framework\UILibrary.Controls.Animation\UILibrary.Controls.Animation\UILibrary.Controls.Animation.csproj">
+      <Project>{97fe1093-38d3-4eec-a602-340f792c9d25}</Project>
+      <Name>UILibrary.Controls.Animation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Settings\Settings.vbproj">
+      <Project>{feb3212d-0b72-41e4-9c2d-56c212cf5062}</Project>
+      <Name>Settings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CircosPlot.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

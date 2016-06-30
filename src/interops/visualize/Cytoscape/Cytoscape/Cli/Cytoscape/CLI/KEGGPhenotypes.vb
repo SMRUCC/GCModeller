@@ -1,0 +1,154 @@
+﻿Imports System.Runtime.CompilerServices
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Serialization
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET
+Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
+Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
+Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
+Imports LANS.SystemsBiology.ComponentModel
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DataMining.Framework.KMeans
+Imports Microsoft.VisualBasic.DataVisualization.Network
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+
+Partial Module CLI
+
+    <Extension> Private Function __distinctCommon(source As IEnumerable(Of PredictedRegulationFootprint)) As PredictedRegulationFootprint()
+        Dim uids = (From x As PredictedRegulationFootprint In source
+                    Let uid As String = $"{x.ORF}.{x.Regulator}.{x.MotifTrace}.{x.MotifId}"
+                    Select x, uid
+                    Group By uid Into Group).ToArray(Function(x) x.Group.First.x)
+        Return uids
+    End Function
+
+    <ExportAPI("/Phenotypes.KEGG",
+               Info:="Regulator phenotype relationship cluster from virtual footprints.",
+               Usage:="/Phenotypes.KEGG /mods <KEGG_Modules/Pathways.DIR> /in <VirtualFootprints.csv> [/pathway /out <outCluster.csv>]")>
+    Public Function KEGGModulesPhenotypeRegulates(args As CommandLine.CommandLine) As Integer
+        Dim inFile As String = args("/in")
+        Dim modsDIR As String = args("/mods")
+        Dim isPathway As Boolean = args.GetBoolean("/pathway")
+        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".PhenotypeRegulates.Csv")
+        Dim footprints As PredictedRegulationFootprint() =
+            inFile.LoadCsv(Of PredictedRegulationFootprint).__distinctCommon
+        Dim loadMods As ModuleClassAPI =
+            If(isPathway,
+            ModuleClassAPI.FromPathway(modsDIR),
+            ModuleClassAPI.FromModules(modsDIR))
+        Dim regulators As String() =
+            LinqAPI.Exec(Of String) <= From x As PredictedRegulationFootprint
+                                       In footprints
+                                       Select x.Regulator
+                                       Distinct
+                                       Order By Regulator Ascending
+        Dim Entities = (From x As PathwayBrief
+                        In loadMods.Modules
+                        Let gs As String() = x.GetPathwayGenes
+                        Select x.EntryId,
+                            gs,
+                            hash = regulators.ToDictionary(
+                                Function(sId) sId,
+                                Function(null) New Value(Of Integer))).ToArray
+
+        For Each x In Entities
+            For Each site As PredictedRegulationFootprint In footprints
+                If Array.IndexOf(x.gs, site.ORF) > -1 Then
+                    x.hash(site.Regulator).Value += 1
+                End If
+            Next
+        Next
+
+        Dim l As Integer = footprints.Length
+        Dim sets As EntityLDM() = Entities.ToArray(
+            Function(x) New EntityLDM With {
+                .Name = x.EntryId,
+                .Properties = x.hash.ToDictionary(Function(prop) prop.Key,
+                                                  Function(prop) prop.Value.Value / l)
+        })
+
+        Call sets.SaveTo(out.TrimFileExt & ".resultSet.Csv")
+
+        ' 树形聚类
+        Dim saveResult = sets.TreeCluster
+        Return saveResult.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/net.model", Usage:="/net.model /model <kegg.xmlModel.xml> [/out <outDIR> /not-trim]")>
+    Public Function BuildModelNet(args As CommandLine.CommandLine) As Integer
+        Dim model As String = args("/model")
+        Dim out As String = args.GetValue("/out", model.TrimFileExt & ".NET/")
+        Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
+        Dim notTrim As Boolean = args.GetBoolean("/not-trim")
+        Return ExportPathwayGraphFile(bmods, out, notTrim).CLICode
+    End Function
+
+    <ExportAPI("/net.pathway", Usage:="/net.pathway /model <kegg.pathway.xml> [/out <outDIR> /trim]")>
+    Public Function PathwayNet(args As CommandLine.CommandLine) As Integer
+        Dim model As String = args("/model")
+        Dim out As String = args.GetValue("/out", model.TrimFileExt & ".NET/")
+        Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
+        Dim trim As Boolean = args.GetBoolean("/trim")
+        Return ExportPathwayGraphFile(bmods, out, trim).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 模块和模块之间的最简单的互做示意图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/modNET.Simple",
+               Usage:="/modNET.Simple /in <mods/pathway_DIR> [/out <outDIR> /pathway]")>
+    Public Function SimpleModesNET(args As CommandLine.CommandLine) As Integer
+        Dim inDIR As String = args("/in")
+        Dim outDIR As String = args.GetValue("/out", inDIR & "-SimpleModsNET/")
+        Dim mods = If(args.GetBoolean("/pathway"),
+            ModuleClassAPI.FromPathway(inDIR),
+            ModuleClassAPI.FromModules(inDIR))
+        Dim LQuery = (From x As PathwayBrief
+                      In mods.Modules
+                      Select x,
+                          x.EntryId,
+                          x.BriteId,
+                          x.GetPathwayGenes).ToArray
+        Dim net As New FileStream.Network
+        net += From x In LQuery
+               Let props = New Dictionary(Of String, String) From {
+                    {"A", mods.GetA(x.x)},
+                    {"B", mods.GetB(x.x)},
+                    {"C", mods.GetC(x.x)}
+               }
+               Select New FileStream.Node With {
+                    .Identifier = x.EntryId,
+                    .NodeType = "Module",
+                    .Properties = props
+               }
+
+        For Each a In LQuery
+            For Each b In LQuery
+                Dim common As String() = a.GetPathwayGenes.Intersect(b.GetPathwayGenes).ToArray
+
+                If Not common.IsNullOrEmpty Then
+                    net += New FileStream.NetworkEdge With {
+                        .Confidence = common.Length,
+                        .FromNode = a.EntryId,
+                        .ToNode = b.EntryId,
+                        .InteractionType = "Interact",
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"Genes", common.JoinBy("; ")}
+                        }
+                    }
+                End If
+            Next
+        Next
+
+        Dim graph As Graph = ExportToFile.Export(net.Nodes, net.Edges, "KEGG pathway network simple")
+        Call graph.Save(outDIR & "/Graph.XGMML", )
+
+        Return net > outDIR   ' Write the network data to the filesystem.
+    End Function
+End Module
