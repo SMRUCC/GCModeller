@@ -1,0 +1,3134 @@
+[ {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Universe",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(0,0,0)",
+      "font-size" : 18,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 40.0,
+      "border-width" : 0.0,
+      "shape" : "ellipse",
+      "font-family" : "Monospaced.plain",
+      "font-weight" : "normal",
+      "height" : 40.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(255,255,255)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "width" : 2.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(153,153,153)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "dashed",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Nested Network Style",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 60.0,
+      "border-width" : 2.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 40.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(shared_name)"
+    }
+  }, {
+    "selector" : "node[has_nested_network = 'true']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[has_nested_network = 'true']",
+    "css" : {
+      "border-color" : "rgb(0,102,204)"
+    }
+  }, {
+    "selector" : "node[has_nested_network = 'true']",
+    "css" : {
+      "text-valign" : "bottom"
+    }
+  }, {
+    "selector" : "node[has_nested_network = 'true']",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[has_nested_network = 'true']",
+    "css" : {
+      "color" : "rgb(0,102,204)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(64,64,64)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "default",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(137,208,245)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(204,204,204)",
+      "width" : 75.0,
+      "border-width" : 0.0,
+      "shape" : "roundrectangle",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 35.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "width" : 2.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(132,132,132)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Marquee",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(0,204,255)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "bottom",
+      "text-halign" : "center",
+      "border-color" : "rgb(255,255,255)",
+      "width" : 20.0,
+      "border-width" : 10.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 20.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(102,102,102)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,0,102)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 2.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(255,255,255)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(255,255,255)",
+      "target-arrow-shape" : "triangle",
+      "target-arrow-color" : "rgb(255,255,255)",
+      "line-style" : "dashed",
+      "font-size" : 8,
+      "color" : "rgb(102,102,102)",
+      "opacity" : 1.0,
+      "content" : "data(interaction)"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "NetworkAnalyzer Style: Network_For_test",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 0.7450980392156863,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 12,
+      "text-opacity" : 0.8235294117647058,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(180,180,180)",
+      "width" : 30.0,
+      "border-width" : 1.0,
+      "shape" : "ellipse",
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "height" : 30.0,
+      "border-opacity" : 0.5882352941176471,
+      "color" : "rgb(100,100,100)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.4]",
+    "css" : {
+      "font-size" : 100
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.4]",
+    "css" : {
+      "font-size" : 100
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.4]",
+    "css" : {
+      "font-size" : "mapData(BetweennessCentrality,0,0.4,10,100)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "font-size" : 10
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "font-size" : 10
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.4]",
+    "css" : {
+      "background-color" : "rgb(0,206,209)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.4]",
+    "css" : {
+      "background-color" : "rgb(0,206,209)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.4]",
+    "css" : {
+      "background-color" : "mapData(BetweennessCentrality,0,0.4,rgb(255,255,255),rgb(0,206,209))"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.4]",
+    "css" : {
+      "width" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.4]",
+    "css" : {
+      "width" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.4]",
+    "css" : {
+      "width" : "mapData(BetweennessCentrality,0,0.4,10.0,100.0)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "width" : 10.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "width" : 10.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.4]",
+    "css" : {
+      "height" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.4]",
+    "css" : {
+      "height" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.4]",
+    "css" : {
+      "height" : "mapData(BetweennessCentrality,0,0.4,10.0,100.0)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "height" : 10.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "height" : 10.0
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(64,64,64)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 0.3137254901960784
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 10]",
+    "css" : {
+      "width" : 12.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 10]",
+    "css" : {
+      "width" : 12.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 8][EdgeBetweenness < 10]",
+    "css" : {
+      "width" : "mapData(EdgeBetweenness,8,10,1.0,12.0)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 8]",
+    "css" : {
+      "width" : 1.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness < 8]",
+    "css" : {
+      "width" : 1.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 10]",
+    "css" : {
+      "opacity" : 0.8627450980392157
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 10]",
+    "css" : {
+      "opacity" : 0.8627450980392157
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 8][EdgeBetweenness < 10]",
+    "css" : {
+      "opacity" : "mapData(EdgeBetweenness,8,10,80,220)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 8]",
+    "css" : {
+      "opacity" : 0.3137254901960784
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness < 8]",
+    "css" : {
+      "opacity" : 0.3137254901960784
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 10]",
+    "css" : {
+      "line-color" : "rgb(122,197,205)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 10]",
+    "css" : {
+      "line-color" : "rgb(122,197,205)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 8][EdgeBetweenness < 10]",
+    "css" : {
+      "line-color" : "mapData(EdgeBetweenness,8,10,rgb(180,180,180),rgb(122,197,205))"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 8]",
+    "css" : {
+      "line-color" : "rgb(180,180,180)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness < 8]",
+    "css" : {
+      "line-color" : "rgb(180,180,180)"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "NetworkAnalyzer Style: Edges.csv",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 0.7450980392156863,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 12,
+      "text-opacity" : 0.8235294117647058,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(180,180,180)",
+      "width" : 30.0,
+      "border-width" : 1.0,
+      "shape" : "ellipse",
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "height" : 30.0,
+      "border-opacity" : 0.5882352941176471,
+      "color" : "rgb(100,100,100)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.65741627]",
+    "css" : {
+      "font-size" : 100
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.65741627]",
+    "css" : {
+      "font-size" : 100
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.65741627]",
+    "css" : {
+      "font-size" : "mapData(BetweennessCentrality,0,0.65741627,10,100)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "font-size" : 10
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "font-size" : 10
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.65741627]",
+    "css" : {
+      "background-color" : "rgb(0,206,209)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.65741627]",
+    "css" : {
+      "background-color" : "rgb(0,206,209)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.65741627]",
+    "css" : {
+      "background-color" : "mapData(BetweennessCentrality,0,0.65741627,rgb(255,255,255),rgb(0,206,209))"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.65741627]",
+    "css" : {
+      "width" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.65741627]",
+    "css" : {
+      "width" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.65741627]",
+    "css" : {
+      "width" : "mapData(BetweennessCentrality,0,0.65741627,10.0,100.0)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "width" : 10.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "width" : 10.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0.65741627]",
+    "css" : {
+      "height" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0.65741627]",
+    "css" : {
+      "height" : 100.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality > 0][BetweennessCentrality < 0.65741627]",
+    "css" : {
+      "height" : "mapData(BetweennessCentrality,0,0.65741627,10.0,100.0)"
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality = 0]",
+    "css" : {
+      "height" : 10.0
+    }
+  }, {
+    "selector" : "node[BetweennessCentrality < 0]",
+    "css" : {
+      "height" : 10.0
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(64,64,64)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 0.3137254901960784
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 21,716]",
+    "css" : {
+      "width" : 12.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 21,716]",
+    "css" : {
+      "width" : 12.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 420][EdgeBetweenness < 21,716]",
+    "css" : {
+      "width" : "mapData(EdgeBetweenness,420,21,716,1.0,12.0)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 420]",
+    "css" : {
+      "width" : 1.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness < 420]",
+    "css" : {
+      "width" : 1.0
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 21,716]",
+    "css" : {
+      "line-color" : "rgb(122,197,205)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 21,716]",
+    "css" : {
+      "line-color" : "rgb(122,197,205)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 420][EdgeBetweenness < 21,716]",
+    "css" : {
+      "line-color" : "mapData(EdgeBetweenness,420,21,716,rgb(180,180,180),rgb(122,197,205))"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 420]",
+    "css" : {
+      "line-color" : "rgb(180,180,180)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness < 420]",
+    "css" : {
+      "line-color" : "rgb(180,180,180)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 21,716]",
+    "css" : {
+      "opacity" : 0.8627450980392157
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 21,716]",
+    "css" : {
+      "opacity" : 0.8627450980392157
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness > 420][EdgeBetweenness < 21,716]",
+    "css" : {
+      "opacity" : "mapData(EdgeBetweenness,420,21,716,80,220)"
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness = 420]",
+    "css" : {
+      "opacity" : 0.3137254901960784
+    }
+  }, {
+    "selector" : "edge[EdgeBetweenness < 420]",
+    "css" : {
+      "opacity" : 0.3137254901960784
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Minimal",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 9,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 42.0,
+      "border-width" : 0.0,
+      "shape" : "rectangle",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 42.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(51,51,51)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 2.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(76,76,76)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "BioPAX_0",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,102,102)",
+      "width" : 20.0,
+      "border-width" : 2.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 20.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'SimplePhysicalEntity']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Rna']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Protein']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'RnaRegion']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "shape" : "diamond"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'DnaRegion']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'PhysicalEntity']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'SmallMolecule']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Dna']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Protein-phosphorylated']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "border-color" : "rgb(0,102,102)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(64,64,64)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(64,64,64)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(64,64,64)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_NONCOMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_OTHER']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_UNCOMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'cofactor']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_ALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'right']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_ALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'controlled']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'contains']",
+    "css" : {
+      "target-arrow-shape" : "circle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_UNKMECH']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_IRREVERSIBLE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_COMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_UNKMECH']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_NONALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Sample2",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(58,127,182)",
+      "font-size" : 20,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "right",
+      "border-color" : "rgb(255,255,255)",
+      "width" : 50.0,
+      "border-width" : 15.0,
+      "shape" : "ellipse",
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "height" : 50.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(102,102,102)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 20.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(255,255,255)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "bTREE",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 0.8627450980392157,
+      "background-color" : "rgb(200,0,0)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "content" : "",
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(204,204,204)",
+      "width" : 50.0,
+      "border-width" : 2.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 50.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,102,102)"
+    }
+  }, {
+    "selector" : "node[NodeType = 'Entity']",
+    "css" : {
+      "font-size" : 30
+    }
+  }, {
+    "selector" : "node[NodeType = 'ROOT']",
+    "css" : {
+      "font-size" : 5
+    }
+  }, {
+    "selector" : "node[NodeType = 'Virtual']",
+    "css" : {
+      "font-size" : 5
+    }
+  }, {
+    "selector" : "node[NodeType = 'Entity']",
+    "css" : {
+      "background-color" : "rgb(0,0,0)"
+    }
+  }, {
+    "selector" : "node[NodeType = 'ROOT']",
+    "css" : {
+      "background-color" : "rgb(153,153,153)"
+    }
+  }, {
+    "selector" : "node[NodeType = 'Virtual']",
+    "css" : {
+      "background-color" : "rgb(153,153,153)"
+    }
+  }, {
+    "selector" : "node[NodeType = 'Entity']",
+    "css" : {
+      "width" : 50.0,
+      "height" : 50.0
+    }
+  }, {
+    "selector" : "node[NodeType = 'ROOT']",
+    "css" : {
+      "width" : 15.0,
+      "height" : 15.0
+    }
+  }, {
+    "selector" : "node[NodeType = 'Virtual']",
+    "css" : {
+      "width" : 15.0,
+      "height" : 15.0
+    }
+  }, {
+    "selector" : "node[NodeType = 'Entity']",
+    "css" : {
+      "border-width" : 0.5
+    }
+  }, {
+    "selector" : "node[NodeType = 'ROOT']",
+    "css" : {
+      "border-width" : 0.5
+    }
+  }, {
+    "selector" : "node[NodeType = 'Virtual']",
+    "css" : {
+      "border-width" : 0.5
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(102,102,102)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(102,102,102)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(102,102,102)",
+      "line-style" : "solid",
+      "font-size" : 2,
+      "color" : "rgb(204,204,204)",
+      "content" : "",
+      "opacity" : 0.9019607843137255
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf-X']",
+    "css" : {
+      "line-style" : "dashed"
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf']",
+    "css" : {
+      "line-style" : "dashed"
+    }
+  }, {
+    "selector" : "edge[interaction = 'Path']",
+    "css" : {
+      "width" : 4.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf-X']",
+    "css" : {
+      "width" : 2.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf']",
+    "css" : {
+      "width" : 2.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "BioPAX_SIF",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 0.49019607843137253,
+      "background-color" : "rgb(255,153,153)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 60.0,
+      "border-width" : 2.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 40.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericRnaReference']",
+    "css" : {
+      "shape" : "roundrectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Generic']",
+    "css" : {
+      "shape" : "octagon"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexGroup']",
+    "css" : {
+      "shape" : "hexagon"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericDnaRegionReference']",
+    "css" : {
+      "shape" : "roundrectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericSmallMoleculeReference']",
+    "css" : {
+      "shape" : "octagon"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericDnaReference']",
+    "css" : {
+      "shape" : "roundrectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "shape" : "hexagon"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericProteinReference']",
+    "css" : {
+      "shape" : "octagon"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericRnaRegionReference']",
+    "css" : {
+      "shape" : "roundrectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericEntityReference']",
+    "css" : {
+      "shape" : "octagon"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericRnaReference']",
+    "css" : {
+      "background-color" : "rgb(51,204,204)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Generic']",
+    "css" : {
+      "background-color" : "rgb(204,204,255)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexGroup']",
+    "css" : {
+      "background-color" : "rgb(153,204,255)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericDnaRegionReference']",
+    "css" : {
+      "background-color" : "rgb(51,204,204)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericSmallMoleculeReference']",
+    "css" : {
+      "background-color" : "rgb(204,204,255)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericDnaReference']",
+    "css" : {
+      "background-color" : "rgb(51,204,204)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "background-color" : "rgb(153,204,255)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericProteinReference']",
+    "css" : {
+      "background-color" : "rgb(255,51,0)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericRnaRegionReference']",
+    "css" : {
+      "background-color" : "rgb(51,204,204)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GenericEntityReference']",
+    "css" : {
+      "background-color" : "rgb(204,204,255)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 4.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(0,0,0)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'METABOLIC_CATALYSIS']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'SEQUENTIAL_CATALYSIS']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'COMPONENT_OF']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'STATE_CHANGE']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'METABOLIC_CATALYSIS']",
+    "css" : {
+      "line-color" : "rgb(0,176,240)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'SEQUENTIAL_CATALYSIS']",
+    "css" : {
+      "line-color" : "rgb(127,127,127)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'CO_CONTROL']",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'GENERIC_OF']",
+    "css" : {
+      "line-color" : "rgb(0,0,0)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'STATE_CHANGE']",
+    "css" : {
+      "line-color" : "rgb(0,112,192)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'COMPONENT_OF']",
+    "css" : {
+      "line-color" : "rgb(255,192,0)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INTERACTS_WITH']",
+    "css" : {
+      "line-color" : "rgb(112,48,160)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'IN_SAME_COMPONENT']",
+    "css" : {
+      "line-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'REACTS_WITH']",
+    "css" : {
+      "line-color" : "rgb(204,193,218)"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Gradient1",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(0,0,0)",
+      "font-size" : 8,
+      "text-opacity" : 1.0,
+      "text-valign" : "bottom",
+      "text-halign" : "right",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 30.0,
+      "border-width" : 0.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 30.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(204,204,204)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(102,102,102)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Curved",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(254,196,79)",
+      "font-size" : 14,
+      "text-opacity" : 1.0,
+      "text-valign" : "bottom",
+      "text-halign" : "right",
+      "border-color" : "rgb(255,255,255)",
+      "width" : 18.0,
+      "border-width" : 7.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 18.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(102,102,102)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 3.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(255,255,255)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(255,255,255)",
+      "target-arrow-shape" : "triangle",
+      "target-arrow-color" : "rgb(255,255,255)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "KEGG_Pathways",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 0.8627450980392157,
+      "background-color" : "rgb(200,0,0)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(204,204,204)",
+      "width" : 50.0,
+      "border-width" : 2.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 50.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(Pathway)"
+    }
+  }, {
+    "selector" : "node[NodeType = 'Entity']",
+    "css" : {
+      "font-size" : 16
+    }
+  }, {
+    "selector" : "node[NodeType = 'ROOT']",
+    "css" : {
+      "font-size" : 1
+    }
+  }, {
+    "selector" : "node[NodeType = 'Virtual']",
+    "css" : {
+      "font-size" : 1
+    }
+  }, {
+    "selector" : "node[Category = '']",
+    "css" : {
+      "background-color" : "rgb(153,153,153)"
+    }
+  }, {
+    "selector" : "node[Category = 'Energy metabolism']",
+    "css" : {
+      "background-color" : "rgb(255,51,51)"
+    }
+  }, {
+    "selector" : "node[Category = 'Translation']",
+    "css" : {
+      "background-color" : "rgb(255,102,102)"
+    }
+  }, {
+    "selector" : "node[Category = 'Transcription']",
+    "css" : {
+      "background-color" : "rgb(153,0,0)"
+    }
+  }, {
+    "selector" : "node[Category = 'Folding, sorting and degradation']",
+    "css" : {
+      "background-color" : "rgb(0,0,0)"
+    }
+  }, {
+    "selector" : "node[Category = 'Replication and repair']",
+    "css" : {
+      "background-color" : "rgb(255,153,51)"
+    }
+  }, {
+    "selector" : "node[Category = 'Metabolism of other amino acids']",
+    "css" : {
+      "background-color" : "rgb(255,153,153)"
+    }
+  }, {
+    "selector" : "node[Category = 'Carbohydrate metabolism']",
+    "css" : {
+      "background-color" : "rgb(51,51,255)"
+    }
+  }, {
+    "selector" : "node[Category = 'Amino acid metabolism']",
+    "css" : {
+      "background-color" : "rgb(0,255,0)"
+    }
+  }, {
+    "selector" : "node[Category = 'Nucleotide metabolism']",
+    "css" : {
+      "background-color" : "rgb(51,255,255)"
+    }
+  }, {
+    "selector" : "node[Category = 'Biosynthesis of other secondary metabolites']",
+    "css" : {
+      "background-color" : "rgb(0,102,102)"
+    }
+  }, {
+    "selector" : "node[Category = 'Cell motility']",
+    "css" : {
+      "background-color" : "rgb(153,153,255)"
+    }
+  }, {
+    "selector" : "node[Category = 'Signal transduction']",
+    "css" : {
+      "background-color" : "rgb(102,0,51)"
+    }
+  }, {
+    "selector" : "node[Category = 'Metabolism of terpenoids and polyketides']",
+    "css" : {
+      "background-color" : "rgb(0,102,153)"
+    }
+  }, {
+    "selector" : "node[Category = 'Membrane transport']",
+    "css" : {
+      "background-color" : "rgb(153,255,153)"
+    }
+  }, {
+    "selector" : "node[Category = 'Glycan biosynthesis and metabolism']",
+    "css" : {
+      "background-color" : "rgb(255,0,204)"
+    }
+  }, {
+    "selector" : "node[Category = 'Xenobiotics biodegradation and metabolism']",
+    "css" : {
+      "background-color" : "rgb(51,153,0)"
+    }
+  }, {
+    "selector" : "node[Category = 'Environmental adaptation']",
+    "css" : {
+      "background-color" : "rgb(153,153,0)"
+    }
+  }, {
+    "selector" : "node[Category = 'Metabolism of cofactors and vitamins']",
+    "css" : {
+      "background-color" : "rgb(153,0,153)"
+    }
+  }, {
+    "selector" : "node[Category = 'Lipid metabolism']",
+    "css" : {
+      "background-color" : "rgb(255,255,51)"
+    }
+  }, {
+    "selector" : "node[NodeType = 'Entity']",
+    "css" : {
+      "width" : 50.0,
+      "height" : 50.0
+    }
+  }, {
+    "selector" : "node[NodeType = 'ROOT']",
+    "css" : {
+      "width" : 15.0,
+      "height" : 15.0
+    }
+  }, {
+    "selector" : "node[NodeType = 'Virtual']",
+    "css" : {
+      "width" : 15.0,
+      "height" : 15.0
+    }
+  }, {
+    "selector" : "node[NodeType = 'Entity']",
+    "css" : {
+      "border-width" : 0.5
+    }
+  }, {
+    "selector" : "node[NodeType = 'ROOT']",
+    "css" : {
+      "border-width" : 0.5
+    }
+  }, {
+    "selector" : "node[NodeType = 'Virtual']",
+    "css" : {
+      "border-width" : 0.5
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(102,102,102)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(102,102,102)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(102,102,102)",
+      "line-style" : "solid",
+      "font-size" : 2,
+      "color" : "rgb(204,204,204)",
+      "content" : "",
+      "opacity" : 0.9019607843137255
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf-X']",
+    "css" : {
+      "line-style" : "dashed"
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf']",
+    "css" : {
+      "line-style" : "dashed"
+    }
+  }, {
+    "selector" : "edge[interaction = 'Path']",
+    "css" : {
+      "width" : 4.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf-X']",
+    "css" : {
+      "width" : 2.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'Leaf']",
+    "css" : {
+      "width" : 2.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Ripple",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 8,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(51,153,255)",
+      "width" : 50.0,
+      "border-width" : 20.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 50.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(19,58,96)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,204)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 3.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(51,153,255)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "BioPAX_1",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,102,102)",
+      "width" : 20.0,
+      "border-width" : 2.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 20.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'SimplePhysicalEntity']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Rna']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Protein']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "shape" : "diamond"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'RnaRegion']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'PhysicalEntity']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'DnaRegion']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'SmallMolecule']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Dna']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Protein-phosphorylated']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "border-color" : "rgb(0,102,102)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(64,64,64)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(64,64,64)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(64,64,64)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_NONCOMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_OTHER']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_UNCOMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'cofactor']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_ALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'right']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_ALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'controlled']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'contains']",
+    "css" : {
+      "target-arrow-shape" : "circle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_UNKMECH']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_IRREVERSIBLE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_COMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_UNKMECH']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_NONALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Big Labels",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 24,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 5.0,
+      "border-width" : 0.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 5.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(51,51,51)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,0,102)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(183,183,183)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Directed",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 8,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(145,145,145)",
+      "width" : 45.0,
+      "border-width" : 5.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 45.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(51,153,255)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,0,102)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 5.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(204,204,204)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(204,204,204)",
+      "target-arrow-shape" : "triangle",
+      "target-arrow-color" : "rgb(204,204,204)",
+      "line-style" : "solid",
+      "font-size" : 12,
+      "color" : "rgb(51,153,255)",
+      "opacity" : 1.0,
+      "content" : "data(interaction)"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Sample3",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(61,154,255)",
+      "font-size" : 14,
+      "text-opacity" : 1.0,
+      "text-valign" : "bottom",
+      "text-halign" : "right",
+      "border-color" : "rgb(255,255,255)",
+      "width" : 20.0,
+      "border-width" : 8.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 20.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(206,206,206)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 2.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(255,255,255)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "default black",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "bottom",
+      "text-halign" : "right",
+      "border-color" : "rgb(0,153,0)",
+      "width" : 15.0,
+      "border-width" : 0.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 15.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(204,204,204)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "width" : 2.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(0,153,0)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Sample1",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(127,205,187)",
+      "font-size" : 10,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 25.0,
+      "border-width" : 0.0,
+      "shape" : "ellipse",
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "height" : 25.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(51,51,51)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(153,153,153)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(51,51,51)",
+      "opacity" : 1.0,
+      "content" : "data(interaction)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'pp']",
+    "css" : {
+      "line-style" : "solid"
+    }
+  }, {
+    "selector" : "edge[interaction = 'pd']",
+    "css" : {
+      "line-style" : "dashed"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "BioPAX",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(255,255,255)",
+      "font-size" : 12,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,102,102)",
+      "width" : 20.0,
+      "border-width" : 2.0,
+      "shape" : "ellipse",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "height" : 20.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'SimplePhysicalEntity']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Rna']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Protein']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'RnaRegion']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "shape" : "diamond"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'PhysicalEntity']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'DnaRegion']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'SmallMolecule']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Dna']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "shape" : "triangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "shape" : "rectangle"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Protein-phosphorylated']",
+    "css" : {
+      "shape" : "ellipse"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "border-color" : "rgb(0,102,102)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "width" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "background-color" : "rgb(255,255,255)"
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'BiochemicalReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'GeneticInteraction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Interaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TransportWithBiochemicalReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Conversion']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'ComplexAssembly']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Complex']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Degradation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReactionRegulation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Control']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'TemplateReaction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Modulation']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'MolecularInteraction']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Catalysis']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node[BIOPAX_TYPE = 'Transport']",
+    "css" : {
+      "height" : 13.4
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 1.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(64,64,64)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(64,64,64)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(64,64,64)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "content" : "",
+      "opacity" : 1.0
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_NONCOMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_OTHER']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_UNCOMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'cofactor']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_ALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'right']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_ALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'controlled']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'contains']",
+    "css" : {
+      "target-arrow-shape" : "circle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_UNKMECH']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_IRREVERSIBLE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INHIBITION_COMPETITIVE']",
+    "css" : {
+      "target-arrow-shape" : "tee"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_UNKMECH']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge[interaction = 'ACTIVATION_NONALLOSTERIC']",
+    "css" : {
+      "target-arrow-shape" : "triangle"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+}, {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "Solid",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "background-opacity" : 1.0,
+      "background-color" : "rgb(102,102,102)",
+      "font-size" : 14,
+      "text-opacity" : 1.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-color" : "rgb(0,0,0)",
+      "width" : 40.0,
+      "border-width" : 0.0,
+      "shape" : "ellipse",
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "height" : 40.0,
+      "border-opacity" : 1.0,
+      "color" : "rgb(0,0,0)",
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,255,0)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "font-family" : "Dialog.plain",
+      "font-weight" : "normal",
+      "width" : 12.0,
+      "source-arrow-shape" : "none",
+      "line-color" : "rgb(204,204,204)",
+      "text-opacity" : 1.0,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "target-arrow-shape" : "none",
+      "target-arrow-color" : "rgb(0,0,0)",
+      "line-style" : "solid",
+      "font-size" : 10,
+      "color" : "rgb(0,0,0)",
+      "opacity" : 1.0,
+      "content" : "data(interaction)"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+} ]
