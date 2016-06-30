@@ -1,0 +1,96 @@
+﻿Imports System.Text
+Imports System.Xml.Serialization
+Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports LANS.SystemsBiology.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic
+
+Namespace ProteinDomainArchitecture.MPAlignment
+
+    ''' <summary>
+    ''' Protein Domain Alignment result.(蛋白质结构域的比对结果输出，从<see cref="ToString"/>函数生成文本文件格式的比对报告)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Class AlignmentOutput
+
+        ' <XmlElement> Public Const VERSION As String = GetType(AlignmentOutput).Assembly.GetVersion.ToString
+
+        ''' <summary>
+        ''' MPScore
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <XmlAttribute> Public Property Score As Double
+        ''' <summary>
+        ''' <see cref="Score">MPScore</see> without any penalty
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <XmlAttribute("perfects")> Public Property FullScore As Double
+
+        ''' <summary>
+        ''' <see cref="Score"></see>/<see cref="FullScore"></see>
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public ReadOnly Property Similarity As Double
+            Get
+                Return (Score / FullScore)
+            End Get
+        End Property
+
+        Public Property ProteinQuery As PfamString.PfamString
+        Public Property ProteinSbjct As PfamString.PfamString
+        Public Property AlignmentResult As DomainAlignment()
+        <XmlAttribute("delta")> Public Property LengthDelta As Double
+        <XmlAttribute("delta.score")> Public Property DeltaScore As Double
+
+        Private Shared Function FormatAlignmentDomains(data As AlignmentOutput) As String()
+            Dim ChunkBuffer As List(Of String) = New List(Of String)
+            Dim QueryMaxLength As Integer = If(data.AlignmentResult.IsNullOrEmpty, 0, (From item In data.AlignmentResult Select Len(item.ProteinQueryDomainDs.DomainId)).ToArray.Max) + 8
+            Dim SbjctMaxLength As Integer = If(data.AlignmentResult.IsNullOrEmpty, 0, (From item In data.AlignmentResult Select Len(item.ProteinSbjctDomainDs.DomainId)).ToArray.Max) + 8
+
+            If QueryMaxLength <= 8 OrElse SbjctMaxLength <= 8 Then
+                Call ChunkBuffer.Add("No Domain can be aligned!")
+                Return ChunkBuffer.ToArray
+            End If
+
+            Call ChunkBuffer.Add(String.Join(" ", {String.Format("Query{0}", New String(" "c, QueryMaxLength - 5)), String.Format("Subject{0}", New String(" "c, SbjctMaxLength - 7)), "Score"}))
+            Call ChunkBuffer.Add(String.Join("+", {String.Format("-----{0}", New String("-"c, QueryMaxLength - 6)), String.Format("-------{0}", New String("-"c, SbjctMaxLength - 8)),
+                                                       New String("-", Len(Math.E.ToString) + 5)}))
+            For Each item In data.AlignmentResult
+                Call ChunkBuffer.Add(item.FormatPlantTextOutput(QueryMaxLength, SbjctMaxLength))
+            Next
+
+            Return ChunkBuffer.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 从这里生成文本文件格式的比对报告
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToString() As String
+            Dim sBuilder As StringBuilder = New StringBuilder(String.Format("Domain alignment for {0} and {1}" & vbCrLf & vbCrLf, ProteinQuery.ProteinId, ProteinSbjct.ProteinId))
+            Call sBuilder.AppendLine("Pfam-string brief information:" & vbCrLf)
+            Call sBuilder.AppendLine("Query=")
+            Call sBuilder.AppendLine(ProteinQuery.get_PlantTextOutput)
+            Call sBuilder.AppendLine("Subject=")
+            Call sBuilder.AppendLine(ProteinSbjct.get_PlantTextOutput)
+            Call sBuilder.AppendLine()
+            Call sBuilder.AppendLine(String.Format("Structure Compared Score: {0}", Score))
+            Call sBuilder.AppendLine(String.Format("Structure Similarity:     {1}%", Score, Similarity * 100))
+            Call sBuilder.AppendLine()
+            Call sBuilder.AppendLine(String.Join(vbCrLf, AlignmentOutput.FormatAlignmentDomains(Me)))
+NO_DOMAIN_: Call sBuilder.AppendLine()
+            Call sBuilder.AppendLine("FullScore:   " & FullScore)
+            Call sBuilder.AppendLine("LengthDelta: " & LengthDelta)
+            Call sBuilder.AppendLine("DeltaScore:  " & DeltaScore)
+            Call sBuilder.AppendLine(vbCrLf & New String("-", 120))
+
+            Return sBuilder.ToString
+        End Function
+    End Class
+End Namespace

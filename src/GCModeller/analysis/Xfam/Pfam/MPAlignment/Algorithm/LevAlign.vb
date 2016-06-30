@@ -1,0 +1,129 @@
+﻿Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports LANS.SystemsBiology.ComponentModel
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports System.Text
+Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Net.Protocols
+
+Namespace ProteinDomainArchitecture.MPAlignment
+
+    ''' <summary>
+    ''' 这个比对是做结构域对其的
+    ''' </summary>
+    Public Class LevAlign : Inherits DistResult
+
+        Public ReadOnly Property DomainCodes As IReadOnlyDictionary(Of String, Char)
+
+        Public Property Codes As KeyValuePairObject(Of String, Char)()
+            Get
+                Return DomainCodes.ToArray(Function(row) New KeyValuePairObject(Of String, Char)(row))
+            End Get
+            Set(value As KeyValuePairObject(Of String, Char)())
+                _DomainCodes = value.ToDictionary(Function(row) row.Key, Function(row) row.Value)
+            End Set
+        End Property
+
+        Public Property Query As String
+        Public Property Subject As String
+
+        Public Property QueryPfam As PfamString.PfamString
+        Public Property SubjectPfam As PfamString.PfamString
+
+        Public ReadOnly Property LengthDelta As Double
+            Get
+                Dim ps As Double() = {QueryPfam.Length, SubjectPfam.Length}
+                Return 1 - ps.Min / ps.Max
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        'Const ASCII As String = "abcdefghijklmnopqrstuvwxyz0123456789/*-+.?<>,;:[]{}()=|\`~!@#$%^&"
+
+        Const A As Integer = Asc("A"c)
+
+        Private Function __asChar(x As ProteinModel.DomainObject) As Char
+            Return DomainCodes(x.Identifier)
+        End Function
+
+        ''' <summary>
+        ''' 结构域是否是完全匹配上的
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property StructMatched As Boolean
+            Get
+                If QueryPfam.PfamString.IsNullOrEmpty OrElse
+                    SubjectPfam.PfamString.IsNullOrEmpty Then
+                    Return False
+                Else
+                    Return NumMatches = QueryPfam.PfamString.Length AndAlso
+                        NumMatches = SubjectPfam.PfamString.Length
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 由于是需要对需要注释的基因组里面的未知功能的蛋白质的生物学功能进行推测，所以这里的Reference是数据库之中的蛋白质
+        ''' </summary>
+        ''' <param name="prot_a"></param>
+        ''' <param name="prot_b"></param>
+        Sub New(prot_a As PfamString.PfamString, prot_b As PfamString.PfamString, equals As DomainEquals)
+            Dim domainA As ProteinModel.DomainObject() = prot_a.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Identifier).ToArray
+            Dim domainB As ProteinModel.DomainObject() = prot_b.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Identifier).ToArray
+
+            ' 首先进行编码工作
+            DomainCodes = (From domain In domainA.Join(domainB)
+                           Select domain
+                           Group domain By domain.Identifier Into Group) _
+                                    .ToArray(Function(name, idx) New With {
+                                        .ch = ChrW(idx + LevAlign.A),
+                                        .Name = name.Identifier}) _
+                                            .ToDictionary(Function(name) name.Name,
+                                                          Function(name) name.ch)
+
+            Dim align As DistResult = LevenshteinDistance.ComputeDistance(domainA, domainB, AddressOf equals.Equals, AddressOf __asChar)
+
+            If align Is Nothing Then  ' 完全比对不上的
+                Dim result As AlignmentOutput = Algorithm.AltEquals(prot_a, prot_b, equals.__high_Scoring_thresholds)
+                Dim distTable As Double(,) = New Double(domainA.Length, domainB.Length) {}
+
+                Me.DistEdits = result.AlignmentResult.Edits
+                Me.DistTable = distTable.ToVectorList.ToArray(Function(x) New Streams.Array.[Double](x))
+                Me.Matches = DistEdits
+                Me.DistTable(domainA.Length).Values(domainB.Length) = result.FullScore - result.Score
+            Else
+                Call align.CopyTo(Me)
+            End If
+
+            Me.Reference = prot_a.ProteinId
+            Me.Hypotheses = prot_b.ProteinId
+            Me.Query = New String(domainA.ToArray(AddressOf __asChar))
+            Me.Subject = New String(domainB.ToArray(AddressOf __asChar))
+            Me.QueryPfam = prot_a
+            Me.SubjectPfam = prot_b
+        End Sub
+
+        Protected Overrides Function __innerInsert() As String
+            Dim str As StringBuilder = New StringBuilder(1024)
+            Call str.AppendLine($"<tr><td>Query-Pfam: </td><td> {QueryPfam}</td></tr>")
+            Call str.AppendLine($"<tr><td>Subject-Pfam: </td><td> {SubjectPfam}</td></tr>")
+            Return str.ToString
+        End Function
+
+        Protected Overrides Function __getReference() As String
+            Return Query
+        End Function
+
+        Protected Overrides Function __getSubject() As String
+            Return Subject
+        End Function
+
+        Public Function ToRow() As MPCsvArchive
+            Return MPCsvArchive.CreateObject(Me)
+        End Function
+    End Class
+End Namespace
