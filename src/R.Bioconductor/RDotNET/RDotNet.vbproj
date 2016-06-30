@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{21C35138-455B-4833-9756-B2629F972A22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>RDotNET</RootNamespace>
+    <AssemblyName>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\GCModeller\GCModeller\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\GCModeller\GCModeller-x64\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Publish\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Publish\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Publish\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\docs\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\docs\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\docs\</OutputPath>
+    <DocumentationFile>RDotNET_v3.0_10.2.0.8a4__ab849dcb8cc80ca9a6.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Color.vb" />
+    <Compile Include="Graphics\Colors.vb" />
+    <Compile Include="Graphics\DeviceDescription.vb" />
+    <Compile Include="Graphics\Enum.vb" />
+    <Compile Include="Graphics\GraphicsContext.vb" />
+    <Compile Include="Graphics\GraphicsDeviceAdapter.vb" />
+    <Compile Include="Graphics\GraphicsDeviceEventArgs.vb" />
+    <Compile Include="Graphics\IGraphicsDevice.vb" />
+    <Compile Include="Graphics\Internals\Delegates.vb" />
+    <Compile Include="Graphics\Internals\DevDesc.vb" />
+    <Compile Include="Graphics\Internals\GEcontext.vb" />
+    <Compile Include="Graphics\Internals\GEDevDesc.vb" />
+    <Compile Include="Graphics\MetricsInfo.vb" />
+    <Compile Include="Graphics\Point.vb" />
+    <Compile Include="Graphics\Raster.vb" />
+    <Compile Include="Graphics\RasterExtension.vb" />
+    <Compile Include="Graphics\Rectangle.vb" />
+    <Compile Include="Graphics\Size.vb" />
+    <Compile Include="Graphics\Utility.vb" />
+    <Compile Include="NativeLibrary\IDynamicLibraryLoader.vb" />
+    <Compile Include="NativeLibrary\NativeUtility.vb" />
+    <Compile Include="NativeLibrary\UnixLibraryLoader.vb" />
+    <Compile Include="NativeLibrary\UnmanagedDll.vb" />
+    <Compile Include="NativeLibrary\WindowsLibraryLoader.vb" />
+    <Compile Include="R.NET\BuiltinFunction.vb" />
+    <Compile Include="R.NET\CharacterMatrix.vb" />
+    <Compile Include="R.NET\CharacterVector.vb" />
+    <Compile Include="R.NET\Closure.vb" />
+    <Compile Include="R.NET\ComplexMatrix.vb" />
+    <Compile Include="R.NET\ComplexVector.vb" />
+    <Compile Include="R.NET\DataFrame.vb" />
+    <Compile Include="R.NET\DataFrameColumnAttribute.vb" />
+    <Compile Include="R.NET\DataFrameRow.vb" />
+    <Compile Include="R.NET\DataFrameRowAttribute.vb" />
+    <Compile Include="R.NET\Devices\CharacterDeviceAdapter.vb" />
+    <Compile Include="R.NET\Devices\ConsoleDevice.vb" />
+    <Compile Include="R.NET\Devices\ICharacterDevice.vb" />
+    <Compile Include="R.NET\Devices\NullCharacterDevice.vb" />
+    <Compile Include="R.NET\Diagnostics\DataFrameColumnDisplay.vb" />
+    <Compile Include="R.NET\Diagnostics\DataFrameDebugView.vb" />
+    <Compile Include="R.NET\Diagnostics\FactorDebugView.vb" />
+    <Compile Include="R.NET\Diagnostics\MatrixDebugView.vb" />
+    <Compile Include="R.NET\Diagnostics\S4ObjectDebugView.vb" />
+    <Compile Include="R.NET\Diagnostics\S4ObjectSlotDisplay.vb" />
+    <Compile Include="R.NET\Diagnostics\VectorDebugView.vb" />
+    <Compile Include="R.NET\DynamicVector.vb" />
+    <Compile Include="R.NET\Dynamic\DataFrameDynamicMeta.vb" />
+    <Compile Include="R.NET\Dynamic\ListDynamicMeta.vb" />
+    <Compile Include="R.NET\Dynamic\SymbolicExpressionDynamicMeta.vb" />
+    <Compile Include="R.NET\Environment.vb" />
+    <Compile Include="R.NET\EvaluationException.vb" />
+    <Compile Include="R.NET\Expression.vb" />
+    <Compile Include="R.NET\ExpressionVector.vb" />
+    <Compile Include="R.NET\Factor.vb" />
+    <Compile Include="R.NET\Function.vb" />
+    <Compile Include="R.NET\GenericVector.vb" />
+    <Compile Include="R.NET\IntegerMatrix.vb" />
+    <Compile Include="R.NET\IntegerVector.vb" />
+    <Compile Include="R.NET\InternalString.vb" />
+    <Compile Include="R.NET\Internals\BusyType.vb" />
+    <Compile Include="R.NET\Internals\ConsoleOutputType.vb" />
+    <Compile Include="R.NET\Internals\Delegates.vb" />
+    <Compile Include="R.NET\Internals\OutputMode.vb" />
+    <Compile Include="R.NET\Internals\ParseStatus.vb" />
+    <Compile Include="R.NET\Internals\SaveActions.vb" />
+    <Compile Include="R.NET\Internals\SEXPREC.vb" />
+    <Compile Include="R.NET\Internals\SEXPREC_HEADER.vb" />
+    <Compile Include="R.NET\Internals\sxpinfo.vb" />
+    <Compile Include="R.NET\Internals\SymbolicExpressionType.vb" />
+    <Compile Include="R.NET\Internals\Unix\Delegates.vb" />
+    <Compile Include="R.NET\Internals\Unix\RStart.vb" />
+    <Compile Include="R.NET\Internals\VECTOR_SEXPREC.vb" />
+    <Compile Include="R.NET\Internals\Windows\Delegates.vb" />
+    <Compile Include="R.NET\Internals\Windows\RStart.vb" />
+    <Compile Include="R.NET\Internals\Windows\UiMode.vb" />
+    <Compile Include="R.NET\Internals\YesNoCancel.vb" />
+    <Compile Include="R.NET\Language.vb" />
+    <Compile Include="R.NET\LogicalMatrix.vb" />
+    <Compile Include="R.NET\LogicalVector.vb" />
+    <Compile Include="R.NET\Matrix.vb" />
+    <Compile Include="R.NET\NumericMatrix.vb" />
+    <Compile Include="R.NET\NumericVector.vb" />
+    <Compile Include="R.NET\Pairlist.vb" />
+    <Compile Include="R.NET\ParseException.vb" />
+    <Compile Include="R.NET\ProtectedPointer.vb" />
+    <Compile Include="R.NET\RawMatrix.vb" />
+    <Compile Include="R.NET\RawVector.vb" />
+    <Compile Include="R.NET\REngine.vb" />
+    <Compile Include="R.NET\REngineExtension.vb" />
+    <Compile Include="R.NET\S4Object.vb" />
+    <Compile Include="R.NET\SpecialFunction.vb" />
+    <Compile Include="R.NET\StartupParameter.vb" />
+    <Compile Include="R.NET\Symbol.vb" />
+    <Compile Include="R.NET\SymbolicExpression.vb" />
+    <Compile Include="R.NET\SymbolicExpressionExtension.vb" />
+    <Compile Include="R.NET\Utility.vb" />
+    <Compile Include="R.NET\Vector.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="New BSD License %28BSD%29.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

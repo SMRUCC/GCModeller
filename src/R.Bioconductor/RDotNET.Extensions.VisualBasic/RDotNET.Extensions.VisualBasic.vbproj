@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AB6E71B0-1BE2-4418-AB4B-91D5554CF5A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>RDotNET.Extensions.VisualBasic</RootNamespace>
+    <AssemblyName>RDotNET.Extensions.VisualBasic</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Publish\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Publish\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Publish\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\docs\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\docs\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\docs\</OutputPath>
+    <DocumentationFile>RDotNET.Extensions.VisualBasic.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Services\ScriptBuilder\Helpers\README.txt" />
+    <Content Include="RSyntax\README.txt" />
+    <Compile Include="R.Extension\RInit.vb" />
+    <Compile Include="R.Extension\RScriptInvoke.vb" />
+    <Compile Include="Services\Abstract\IRToken.vb" />
+    <Compile Include="Services\RPackage\base\as.dataFrame.vb" />
+    <Compile Include="Services\RPackage\base\paste.vb" />
+    <Compile Include="Services\RPackage\base\save.vb" />
+    <Compile Include="Services\RPackage\base\row+colnames.vb" />
+    <Compile Include="Services\RPackage\base\Extremes.vb" />
+    <Compile Include="Services\RPackage\base\ifelse.vb" />
+    <Compile Include="Services\RPackage\base\expandGrid.vb" />
+    <Compile Include="Services\RPackage\base\options.vb" />
+    <Compile Include="Services\RPackage\dynamicTreeCut\dynamicTreeCut.vb" />
+    <Compile Include="Services\RPackage\flashClust.vb" />
+    <Compile Include="Services\RPackage\Graphics\gplots\jetColors.vb" />
+    <Compile Include="Services\RPackage\Graphics\gplots\venn.vb" />
+    <Compile Include="Services\RPackage\Graphics\gplots\DendrogramAPI.vb" />
+    <Compile Include="Services\RPackage\Graphics\gplots\heatmap2OUT.vb" />
+    <Compile Include="Services\RPackage\Graphics\graphics\plot.vb" />
+    <Compile Include="Services\RPackage\Graphics\grDevices\grDevice.vb" />
+    <Compile Include="Services\RPackage\Graphics\grDevices\pdf.vb" />
+    <Compile Include="Services\RPackage\Graphics\grDevices\images.vb" />
+    <Compile Include="Services\RPackage\Graphics\gplots\heatmap2.vb" />
+    <Compile Include="Services\RPackage\base\Control.vb" />
+    <Compile Include="Services\RPackage\stats\dist.vb" />
+    <Compile Include="Services\RPackage\stats\heatmap_plot.vb" />
+    <Compile Include="Services\RPackage\stats\heatmap.vb" />
+    <Compile Include="Services\RPackage\stats\kmeans.vb" />
+    <Compile Include="Services\RPackage\utils\writeTable.vb" />
+    <Compile Include="Services\RPackage\utils\combn.vb" />
+    <Compile Include="Services\ScriptBuilder\ScriptBuilder.vb" />
+    <Compile Include="Services\ScriptBuilder\Helpers\RTypes.vb" />
+    <Compile Include="Services\ScriptBuilder\Helpers\Decorates.vb" />
+    <Compile Include="Services\Abstract\IScriptProvider.vb" />
+    <Compile Include="Services\RPackage\utils\readTable.vb" />
+    <Compile Include="Services\RPackage\Graphics\GraphicsDevice.vb" />
+    <Compile Include="Services\RPackage\Graphics\PieChart.vb" />
+    <Compile Include="Services\RPackage\Extensions.vb" />
+    <Compile Include="Services\Abstract\IRScript.vb" />
+    <Compile Include="RSyntax\Math\Math.vb" />
+    <Compile Include="RSyntax\Math\Poisson.vb" />
+    <Compile Include="RSyntax\Math\Skellam.vb" />
+    <Compile Include="RSyntax\PrimitiveAPI\Etc.vb" />
+    <Compile Include="RSyntax\PrimitiveAPI\PrimitiveAPI.vb" />
+    <Compile Include="RSyntax\Vectors\BooleanVector.vb" />
+    <Compile Include="RSyntax\Vectors\GenericVector%28Of T%29.vb" />
+    <Compile Include="RSyntax\Vectors\VECTOR.vb" />
+    <Compile Include="R.Extension\REngine.vb" />
+    <Compile Include="Services\ScriptBuilder\BuilderAPI.vb" />
+    <Compile Include="Services\Serialization.vb" />
+    <Compile Include="R.Extension\System.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_Tabular.DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RDotNET\RDotNet.vbproj">
+      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Name>RDotNet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
