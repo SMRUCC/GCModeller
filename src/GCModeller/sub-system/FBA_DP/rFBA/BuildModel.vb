@@ -1,0 +1,72 @@
+﻿Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+Imports LANS.SystemsBiology.GCModeller.Framework
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Logging
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+
+Namespace rFBA
+
+    Public Module BuildModel
+
+        Public Sub CreateObject(MetaCyc As DatabaseLoadder, ChipData As DocumentStream.File, Regulation As DocumentStream.File, Regprecise As TranscriptionFactors, EXPORT As String)
+            Dim Mapping As New Mapping(MetaCyc)
+            Dim MetabolismFile As String = String.Format("{0}/MetabolismSystem-FBA.csv", EXPORT).Replace("\", "/")
+            Dim TranscriptionFile As String = String.Format("{0}/TranscriptionRegulation-rFBA.csv", EXPORT).Replace("\", "/")
+
+            Call ModelWriter.CreateObject(FileIO.FileSystem.GetFiles(MetaCyc.Database.DataDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.sbml").First, Mapping.CreateEnzrxnGeneMap).SaveTo(MetabolismFile, False)
+            Call ModelWriter.CreateObject(ChipData,
+                                          1,
+                                          Reflector.Convert(Of ModelWriter.Regulation)(Regulation.DataFrame, False).ToArray,
+                                          Mapping.EffectorMapping(Regprecise)).SaveTo(TranscriptionFile, False)
+
+            Dim Model As New rFBA.DataModel.CellSystem
+            Model.ModelProperty = New Kernel_Driver.LDM.Property
+            Model.ModelProperty.Authors = New List(Of String) From {My.User.Name}
+            Model.ModelProperty.CompiledDate = Now.ToString
+            Model.ModelProperty.GUID = Guid.NewGuid.ToString
+            Model.ModelProperty.Name = "rFBA"
+            Model.ModelProperty.SpecieId = MetaCyc.Database.Species.First.Synonyms.First
+            Model.MetabolismModel = New Href With {.Value = MetabolismFile}
+            Model.TranscriptionModel = New Href With {.Value = TranscriptionFile}
+            Model.ObjectiveFunctionModel = New Href With {.Value = EXPORT & "/ObjectiveFunction.csv"}
+            Model.IteractionLoops = 10
+
+            Dim ObjectiveFunction As DataModel.ObjectiveFunction() = New DataModel.ObjectiveFunction() {}
+
+            Call ObjectiveFunction.SaveTo(Model.ObjectiveFunctionModel.Value, False)
+            Call FixError(Model)
+
+            Call Model.GetXml.SaveTo(String.Format("{0}/{1}.gcmarkup_rfba.xml", EXPORT, MetaCyc.Database.Species.First.Synonyms.Last))
+        End Sub
+
+        ''' <summary>
+        ''' 修复可能缺少的基因
+        ''' </summary>
+        ''' <param name="Model"></param>
+        ''' <remarks></remarks>
+        Private Sub FixError(Model As rFBA.DataModel.CellSystem)
+            Using LogFile As LogFile = New LogFile(FileIO.FileSystem.GetParentPath(Model.ObjectiveFunctionModel.Value) & "/FlixError.log")
+                Dim lstLocus = Model.TranscriptionModel.Value.LoadCsv(Of ModelReader.GeneExpression)(False)
+                Dim MetabolismFluxs = Model.MetabolismModel.Value.LoadCsv(Of ModelReader.MetabolismFlux)(False)
+                Dim AvgRPKM = (From item In lstLocus Select item.RPKM).Average
+
+                For Each Flux In MetabolismFluxs
+                    For Each Gene In Flux.AssociatedEnzymeGenes
+                        Dim LQuery = (From GeneObject In lstLocus.AsParallel Where String.Equals(GeneObject.AccessionId, Gene) Select 1).ToArray
+                        If LQuery.IsNullOrEmpty Then '目标基因不存在，则修复此错误
+                            Call lstLocus.Add(New ModelReader.GeneExpression With {.AccessionId = Gene, .BasalExpression = 1, .RPKM = AvgRPKM})
+                            Call LogFile.WriteLine(String.Format("Required enzyme {0} is not found in the genome, error was auto-fixed!", Gene), "BuildModel -> FixError()", Logging.MSG_TYPES.WRN)
+                        End If
+                    Next
+                Next
+
+                Call lstLocus.SaveTo(Model.TranscriptionModel.Value, False)
+            End Using
+        End Sub
+    End Module
+End Namespace
