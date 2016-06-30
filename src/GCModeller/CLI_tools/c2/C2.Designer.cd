@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="c2.CommandLines" Collapsed="true">
+    <Position X="28.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACABgAAAAAAAAAACAAAAAAAAAQAAAAAAAE=</HashCode>
+      <FileName>CommandLines\Build2.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.My.MySettings" Collapsed="true">
+    <Position X="28.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.Operation">
+    <Position X="10.25" Y="0.5" Width="7.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="c2.Reconstruction.Operation.ReconstructedList(Of TEntity)">
+        <TypeIdentifier>
+          <NewMemberFileName>LocalBLAST\Reconstruction\Operation.vb</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="c2.Reconstruction.Operation.OperationSession">
+        <Compartments>
+          <Compartment Name="Nested Types" Collapsed="false" />
+        </Compartments>
+        <NestedTypes>
+          <Class Name="c2.Reconstruction.Operation.OperationSession.HomologousProteinsF">
+            <TypeIdentifier>
+              <NewMemberFileName>LocalBLAST\Entity.vb</NewMemberFileName>
+            </TypeIdentifier>
+            <Lollipop Position="0.2" />
+          </Class>
+        </NestedTypes>
+        <TypeIdentifier>
+          <NewMemberFileName>LocalBLAST\Entity.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAACBAAAACAKAAAAIAAAAAABAAAAAAAgAACAA=</HashCode>
+      <FileName>Reconstruction\Operation\Operation.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="c2.Reconstruction.ProteinCPLX">
+    <Position X="11.5" Y="13.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAgAAAAAAAIAgAAAAABAABAAAAAAAgAA=</HashCode>
+      <FileName>Reconstruction\ProteinCPLX.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.RegulationNetwork">
+    <Position X="15.75" Y="13.5" Width="5.75" />
+    <TypeIdentifier>
+      <HashCode>BBAAAAAAAgAAAAAAAAAAAAAgIAAAABAABAAAAAAAAAA=</HashCode>
+      <FileName>Reconstruction\RegulationNetwork.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.Promoters">
+    <Position X="6" Y="13.5" Width="4.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="c2.Reconstruction.Promoters.PromoterFinder">
+        <Compartments>
+          <Compartment Name="Nested Types" Collapsed="false" />
+        </Compartments>
+        <NestedTypes>
+          <Class Name="c2.Reconstruction.Promoters.PromoterFinder.Chromosome">
+            <TypeIdentifier>
+              <NewMemberFileName>Reconstruction\Promoter\PromoterFinder.vb</NewMemberFileName>
+            </TypeIdentifier>
+          </Class>
+        </NestedTypes>
+        <TypeIdentifier>
+          <NewMemberFileName>Reconstruction\Promoter\PromoterFinder.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="c2.Reconstruction.Promoters.SubjectPromoter">
+        <TypeIdentifier>
+          <NewMemberFileName>Reconstruction\Promoter\SubjectPromoter.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEBAAAAgAAAAAAAgCAAAABAAAAAIAAAAAAA=</HashCode>
+      <FileName>Reconstruction\Promoter\Promoters.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.TranscriptUnit">
+    <Position X="0.5" Y="13.5" Width="4.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAgAAAAIAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Reconstruction\Genome\TranscriptUnit.vb</FileName>
+      <NewMemberFileName>Reconstruction\Genome\Genes.vb</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.LocalBLAST" Collapsed="true">
+    <Position X="30.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAgAAAAACACAAAAAAAABAAAAAACAAAAAAA=</HashCode>
+      <FileName>Reconstruction\LocalBLAST.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.MetabolismPathways">
+    <Position X="22.25" Y="13.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>ABIAAAAAIAAIAAAAAEAAAEAAIAQAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Reconstruction\MetabolismPathways.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.Reconstruction" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAAAAAAAAAAAAAAAAAAAAgAAAAgAAAAA=</HashCode>
+      <FileName>Reconstruction\Reconstruction.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="c2.Reconstruction.ObjectEquals.EqualsOperation">
+    <Position X="15.75" Y="17.5" Width="3.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="c2.Reconstruction.ObjectEquals.EqualsOperation.ObjectSchema(Of T)">
+        <TypeIdentifier>
+          <NewMemberFileName>Reconstruction\ObjectEquals\EqualsOperation.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAIAAAAIAAAAAAAAIAAAAAABACAA=</HashCode>
+      <FileName>Reconstruction\ObjectEquals\EqualsOperation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.ObjectEquals.Proteins">
+    <Position X="17.75" Y="23.25" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>CBAAAAAAAAAAAwAAAAAAAIAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Reconstruction\ObjectEquals\Proteins.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="c2.Reconstruction.ObjectEquals.Reactions">
+    <Position X="12.5" Y="23.25" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>CBAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEAEAA=</HashCode>
+      <FileName>Reconstruction\ObjectEquals\Reactions.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Module Name="c2.Program" Collapsed="true">
+    <Position X="28.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQABAAEAAAAAAAAAAAAAAAAAAAgAAABAAAAAA=</HashCode>
+      <FileName>Program.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="c2.My.Resources.Resources" Collapsed="true">
+    <Position X="30.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="c2.My.MySettingsProperty" Collapsed="true">
+    <Position X="30.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="c2._DEBUG_MAIN" Collapsed="true">
+    <Position X="28.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>_DEBUG_MAIN.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Nirmala UI" Size="8.25" />
+</ClassDiagram>

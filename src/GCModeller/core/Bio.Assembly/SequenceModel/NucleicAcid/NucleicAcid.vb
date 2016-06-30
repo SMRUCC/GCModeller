@@ -1,6 +1,33 @@
-﻿Imports System.ComponentModel
+﻿#Region "Microsoft.VisualBasic::0bdaac6a13003766d350afd75cd1f6c8, ..\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcid.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
 Imports System.Text
-Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
+Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -176,7 +203,7 @@ Namespace SequenceModel.NucleotideModels
         ''' Construct the nucleotide sequence from a ATGC based sequence string.
         ''' (从一个序列字符串之中创建一条核酸链分子对象)
         ''' </summary>
-        ''' <param name="SequenceData">This sequence data can be user input from the interface or sequence data from the <see cref="LANS.SystemsBiology.SequenceModel.FASTA.FastaToken"/> object.</param>
+        ''' <param name="SequenceData">This sequence data can be user input from the interface or sequence data from the <see cref="FASTA.FastaToken"/> object.</param>
         Sub New(SequenceData As String)
             Call __convertSequence(SequenceData)
         End Sub

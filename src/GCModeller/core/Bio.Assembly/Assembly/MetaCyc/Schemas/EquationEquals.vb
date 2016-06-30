@@ -1,5 +1,32 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.EquaionModel
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+﻿#Region "Microsoft.VisualBasic::8f449b7d285f38b264bc22da88ed030b, ..\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Assembly.MetaCyc.Schema
@@ -14,7 +41,7 @@ Namespace Assembly.MetaCyc.Schema
             End Get
         End Property
 
-        Sub New(MetaCycCompounds As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Compounds, CompoundSpecies As ICompoundObject())
+        Sub New(MetaCycCompounds As MetaCyc.File.DataFiles.Compounds, CompoundSpecies As ICompoundObject())
             _CompoundMapping = New MetaCyc.Schema.CompoundsMapping(MetaCycCompounds).EffectorMapping(CompoundSpecies)
             _CompoundMapping = (From item In _CompoundMapping Where Not String.IsNullOrEmpty(item.MetaCycId) Select item).ToArray
         End Sub

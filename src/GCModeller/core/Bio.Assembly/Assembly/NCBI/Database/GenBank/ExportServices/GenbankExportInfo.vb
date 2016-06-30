@@ -1,4 +1,33 @@
-﻿Namespace Assembly.NCBI.GenBank.CsvExports
+﻿#Region "Microsoft.VisualBasic::3a254c514c16d05d38073b3810bcab9e, ..\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.SequenceModel
+
+Namespace Assembly.NCBI.GenBank.CsvExports
 
     Public Class GenbankExportInfo(Of T As GenBank.CsvExports.gbEntryBrief)
 
@@ -28,21 +57,21 @@
 
 #Region "Total fasta sequence info storage region."
 
-        Public ReadOnly Property ORF As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public ReadOnly Property ORF As FASTA.FastaFile
             Get
-                Return LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(_root & "/orf.fasta")
+                Return FASTA.FastaFile.Read(_root & "/orf.fasta")
             End Get
         End Property
 
-        Public ReadOnly Property Gene As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public ReadOnly Property Gene As FASTA.FastaFile
             Get
-                Return LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(_root & "/genes.fasta")
+                Return FASTA.FastaFile.Read(_root & "/genes.fasta")
             End Get
         End Property
 
-        Public ReadOnly Property Genome As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public ReadOnly Property Genome As FASTA.FastaFile
             Get
-                Return LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(_root & "/genomes.fasta")
+                Return FASTA.FastaFile.Read(_root & "/genomes.fasta")
             End Get
         End Property
 #End Region

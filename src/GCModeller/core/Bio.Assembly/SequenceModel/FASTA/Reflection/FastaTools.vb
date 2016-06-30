@@ -1,10 +1,38 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::b2b880d449b81542c41fcb318aebfcf8, ..\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace SequenceModel.FASTA.Reflection
 
@@ -65,10 +93,12 @@ Namespace SequenceModel.FASTA.Reflection
                                                Select FastaFile.Read(file)
 
             If Trim Then
+                Dim setValue = New SetValue(Of FastaToken)().GetSet(NameOf(FastaToken.Attributes))
+
                 mergeFa = (From fa As FastaToken
                            In mergeFa.AsParallel
                            Let attrs As String() = New String() {fa.Attributes.First.Split.First}
-                           Select fa.InvokeSet(NameOf(fa.Attributes), attrs)).ToList
+                           Select setValue(fa, attrs)).ToList
                 mergeFa = (From fa As FastaToken
                            In mergeFa.AsParallel
                            Select fa.FastaTrimCorrupt).ToList

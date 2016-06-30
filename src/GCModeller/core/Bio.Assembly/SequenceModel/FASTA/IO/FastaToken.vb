@@ -1,5 +1,32 @@
-﻿Imports System.Text
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+﻿#Region "Microsoft.VisualBasic::b141ea4180bfd537a4006ff689d0dbb7, ..\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -199,7 +226,7 @@ Namespace SequenceModel.FASTA
         ''' 
         <ExportAPI("Load.NT")>
         Public Shared Function LoadNucleotideData(path As String, Optional Explicit As Boolean = False) As FastaToken
-            Dim FastaObjectData As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = Load(path)
+            Dim FastaObjectData As FASTA.FastaToken = Load(path)
 
             If FastaObjectData Is Nothing Then
                 Return Nothing

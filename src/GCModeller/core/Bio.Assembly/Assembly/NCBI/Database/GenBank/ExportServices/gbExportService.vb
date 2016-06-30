@@ -1,14 +1,42 @@
-﻿Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.Keywords
+﻿#Region "Microsoft.VisualBasic::8cd76ff066a3cb876a74683abca56166, ..\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports System.Text.RegularExpressions
 Imports System.Text
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Serialization
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Assembly.NCBI.GenBank
 
@@ -252,10 +280,10 @@ Namespace Assembly.NCBI.GenBank
                                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                                            Let loc = GeneObject.Location.ContiguousRegion
                                                            Let Sequence As String = Reader.GetSegmentSequence(loc.Left, loc.Right)
-                                                           Select New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+                                                           Select New FASTA.FastaToken With {
                                                                .Attributes = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
-                                                               .SequenceData = If(GeneObject.Location.Complement, SequenceModel.NucleotideModels.NucleicAcid.Complement(Sequence), Sequence)
-                                                           }).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                                                               .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
+                                                           }).ToArray, FASTA.FastaFile)
                                 Select GBKFF,
                                     GenesTempChunk,
                                     Entry,
@@ -369,16 +397,17 @@ Namespace Assembly.NCBI.GenBank
                 Call buf.AddRange(GenesTempChunk)
 
                 '导出Fasta序列
-                Dim FastaDump As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile =
-                    If(FastaWithAnnotation, __exportWithAnnotation(GenesTempChunk), __exportNoAnnotation(GenesTempChunk))
+                Dim FastaDump As FASTA.FastaFile =
+                    If(FastaWithAnnotation,
+                    __exportWithAnnotation(GenesTempChunk),
+                    __exportNoAnnotation(GenesTempChunk))
 
                 If FastaDump.Count > 0 Then
                     Call FastaDump.Save(String.Format("{0}/plasmid_cds/{1}.fasta", FastaExport, GBKFF.Accession.AccessionId))
                     Call FastaFile.AddRange(FastaDump)
                 End If
 
-                Dim Plasmid As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken =
-                    New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+                Dim Plasmid As New FASTA.FastaToken With {
                         .Attributes = New String() {Entry.AccessionID & "_" & Entry.PlasmidID.Replace("-", "_")},
                         .SequenceData = GBKFF.Origin.SequenceData.ToUpper
                 }
@@ -391,10 +420,10 @@ Namespace Assembly.NCBI.GenBank
                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                            Let loc = GeneObject.Location.ContiguousRegion
                                            Let Sequence As String = Reader.GetSegmentSequence(loc.Left, loc.Right)
-                                           Select New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+                                           Select New FASTA.FastaToken With {
                                                .Attributes = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
-                                               .SequenceData = If(GeneObject.Location.Complement, SequenceModel.NucleotideModels.NucleicAcid.Complement(Sequence), Sequence)
-                                           }).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                                               .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
+                                           }).ToArray, FASTA.FastaFile)
 
                 If GeneFastaDump.Count > 0 Then
                     Call GeneSequenceList.AddRange(GeneFastaDump.ToArray)

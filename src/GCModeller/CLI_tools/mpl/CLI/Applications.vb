@@ -1,0 +1,113 @@
+﻿Imports System.Text
+Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.MPAlignment.Settings
+Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Linq
+Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
+Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
+
+Partial Module CLI
+
+    <ExportAPI("/Motif.Density",
+               Usage:="/Motif.Density /in <pfam-string.csv> [/out <out.csv>]")>
+    Public Function MotifDensity(args As CommandLine.CommandLine) As Integer
+        Dim [in] As String = args - "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-motifs-density.csv")
+        Dim pfamString As PfamString() = (From x As PfamString In [in].LoadCsv(Of PfamString) Where Not x.PfamString.IsNullOrEmpty Select x).ToArray
+        Dim n As Integer = pfamString.Length
+        Dim LQuery = (From motif As ProteinModel.DomainObject
+                      In (From x As PfamString
+                          In pfamString
+                          Let motifs As ProteinModel.DomainObject() = x.GetDomainData(False)
+                          Select motifs).MatrixAsIterator
+                      Select motif.Identifier
+                      Group Identifier By Identifier Into Count)
+        Dim result = (From x In LQuery Select x.Identifier, density = x.Count / n Order By density Descending).ToArray
+        Return result.SaveTo(out)
+    End Function
+
+    <ExportAPI("--align.Family",
+               Usage:="--align.Family /query <pfam-string.csv> [/out <out.csv> /threshold 0.5 /mp 0.6 /Name <null>]",
+               Info:="Protein family annotation by using MPAlignment algorithm.")>
+    <ParameterInfo("/Name", True,
+                   Description:="The database name of the aligned subject, if this value is empty or not exists in the source, then the entired Family database will be used.")>
+    Public Function FamilyClassified(args As CommandLine.CommandLine) As Integer
+        Dim Query = args("/query").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
+        Dim Threshold As Double = args.GetValue("/threshold", 0.5)
+        Dim MpTh As Double = args.GetValue("/mp", 0.6)
+        Dim Name As String = args("/Name")
+        Dim settings As Programs.MPAlignment = Session.Initialize.GetMplParam
+        Call settings.__DEBUG_ECHO
+
+        Dim result As Family.API.AnnotationOut() = Family.FamilyAlign(Query, Threshold, MpTh, DbName:=Name, accept:=settings.FamilyAccept)
+        Dim path As String = If(String.IsNullOrEmpty(Name),
+            args("/query").TrimFileExt & ".Family.Csv",
+            $"{args("/query").TrimFileExt}__vs.{Name}.Family.Csv")
+        Dim out As String = args.GetValue("/out", path)
+        Return result.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 这个是和KEGG标准数据库来做比较的
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("--align.Function",
+               Info:="Protein function annotation by using MPAlignment algorithm.")>
+    Public Function AlignFunction(args As CommandLine.CommandLine) As Integer
+
+    End Function
+
+    <ExportAPI("--align.PPI",
+               Info:="Protein-Protein interaction network annotation by using MPAlignment algorithm.")>
+    Public Function MplPPI(args As CommandLine.CommandLine) As Integer
+
+    End Function
+
+    ''' <summary>
+    ''' 这个操作是ppi比对操作的基础
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("--align.PPI_test", Usage:="--align.PPI_test /query <contacts.fasta> /db <ppi_signature.Xml> [/mp <cutoff:=0.9> /out <outDIR>]")>
+    Public Function StructureAlign(args As CommandLine.CommandLine) As Integer
+        Dim queryFile As String = args("/query")
+        Dim DbXml As String = args("/db")
+        Dim query = SequenceModel.FASTA.FastaToken.Load(queryFile)
+        Dim Db = DbXml.LoadXml(Of Interactions.Category)
+        Dim cutoff As Double = args.GetValue("/mp", 0.9)
+        Dim score As Double = 0
+        Dim alignOut = Interactions.Align(query, Db, score, cutoff)
+        Dim outDIR As String = args.GetValue("/out", queryFile.ParentPath & "/PPI_MPAlignment/")
+        '    Return __getReport(Db, query, alignOut, score, outDIR)
+    End Function
+
+    Private Function __getReport(Db As Interactions.Category,
+                                 query As SequenceModel.FASTA.FastaToken,
+                                 alignOut As AlignmentOutput,
+                                 score As Double,
+                                 outDIR As String) As Integer
+        Dim htmlBuilder As New StringBuilder()
+
+        Dim res As Image = ClustalVisual.InvokeDrawing(Db.GetSignatureFasta)
+        Dim save As String = outDIR & "/DbClustalW.png"
+        Call res.Save(save, ImageFormats.Png.GetFormat)
+        Call htmlBuilder.AppendLine($"<img src=""DbClustalW.png"" />")
+        Call htmlBuilder.AppendLine($"<pre>{alignOut.ToString}</pre>")
+
+        Dim doc As New StringBuilder(My.Resources.index)
+        Call doc.Replace("{TitleHere}", $"")
+        Call doc.Replace("{ContentHere}", htmlBuilder.ToString)
+        Call doc.SaveTo(outDIR & "/mpl.html")
+
+        Call My.Resources.materialize.SaveTo(outDIR & "/assets/materialize.css")
+        Call My.Resources.style.SaveTo(outDIR & "/assets/style.css")
+
+        Return 0
+    End Function
+End Module

@@ -1,4 +1,31 @@
-﻿Imports LANS.SystemsBiology.ComponentModel
+﻿#Region "Microsoft.VisualBasic::084cedd6b07f8b5a29037bb0d2a75280, ..\Bio.Assembly\Assembly\NCBI\Database\COG\COG.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -40,13 +67,15 @@ Namespace Assembly.NCBI.COG
                      .COG = Strings.UCase([Function].__trimCOGs(x.COG))})
 
             hash.Add("-", New With {.fun = __notAssigned(), .count = New List(Of String)})
+
             For Each x In locus
                 For Each c As Char In x.COG
                     hash(c).count.Add(x.Identifier)
                 Next
             Next
 
-            Return hash.Values.ToArray(Function(x) x.fun.InvokeSet(NameOf(COGFunc.locus), x.count.ToArray))
+            Dim setValue = New SetValue(Of COGFunc)().GetSet(NameOf(COGFunc.locus))
+            Return hash.Values.ToArray(Function(x) setValue(x.fun, x.count.ToArray))
         End Function
     End Class
 End Namespace

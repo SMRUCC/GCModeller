@@ -1,8 +1,36 @@
-﻿Imports System.Text.RegularExpressions
+﻿#Region "Microsoft.VisualBasic::1418f8c5f0ed31bed9b91e2cb1c44e6c, ..\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text.RegularExpressions
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
 
-    Public Class Fasta : Inherits LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
+    Public Class Fasta : Inherits FastaToken
 
         Dim _UniqueId As String
 
@@ -63,7 +91,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
         Public ReadOnly Property Description As String
 
         Sub New(Fasta As SequenceModel.FASTA.FastaToken)
-            _Gi = Fasta.Attributes(1)
+            _GI = Fasta.Attributes(1)
             _Locus = Fasta.Attributes(3)
             _Description = Fasta.Attributes.Last
             Attributes = Fasta.Attributes
@@ -85,7 +113,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
         Public ReadOnly Property Description As String
 
         Sub New(Fasta As SequenceModel.FASTA.FastaToken)
-            _Gi = Fasta.Attributes(1)
+            _GI = Fasta.Attributes(1)
             _Locus = Fasta.Attributes(3)
             _Description = Fasta.Attributes.Last
             Attributes = Fasta.Attributes
