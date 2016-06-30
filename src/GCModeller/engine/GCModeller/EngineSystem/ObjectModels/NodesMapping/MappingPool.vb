@@ -1,0 +1,141 @@
+﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports Microsoft.VisualBasic
+
+Namespace EngineSystem.ObjectModels.PoolMappings
+
+    ''' <summary>
+    ''' Handler for the network node mapping in the evolution experiment.(节点映射管理器：突变与进化过程之中的映射关系)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public MustInherit Class MappingPool(Of IPoolHandleType As PoolMappings.IPoolHandle, EntityFeatureMapping As EngineSystem.ObjectModels.Feature.MappingFeature(Of IPoolHandleType))
+        Inherits RuntimeObject
+
+        Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping))
+        Implements IDisposable
+
+#Region "突变与进化过程之中的映射关系"
+
+        ''' <summary>
+        ''' Cache data
+        ''' </summary>
+        ''' <remarks></remarks>
+        Protected _CACHE_MappingPool As EntityFeatureMapping()()
+        Protected _MappingHandlers As IPoolHandleType()
+        ''' <summary>
+        ''' Nodes mapping dictionary data
+        ''' </summary>
+        ''' <remarks></remarks>
+        Protected _DICT_MappingPool As Dictionary(Of String, List(Of EntityFeatureMapping))
+
+#End Region
+
+        Public Function get_MappedNodes(Handle As IPoolHandleType) As EntityFeatureMapping()
+            Return _CACHE_MappingPool(Handle.Address)
+        End Function
+
+        ''' <summary>
+        ''' 在执行了突变或者进化实验时候，假若改变了节点的映射关系的话，则需要调用本方法更新整个引擎之中的映射关系
+        ''' </summary>
+        ''' <param name="Edge"></param>
+        ''' <remarks></remarks>
+        Public Sub UpdateEnzymes(Edge As PoolMappings.IMappingEdge(Of IPoolHandleType, EntityFeatureMapping))
+            Dim Nodes = _CACHE_MappingPool(Edge.MappingHandler.Address)
+            Call Edge.set_Nodes(Nodes)
+        End Sub
+
+        Protected Sub UpdateCache()
+            _CACHE_MappingPool = (From Line In _DICT_MappingPool.Values Select Line.ToArray).ToArray
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="Node"></param>
+        ''' <param name="NewClass">新的EC编号</param>
+        ''' <returns></returns>
+        ''' <remarks>这里不要使用并行化，因为需要使用<see cref="GCModeller.ModellingEngine.EngineSystem.ObjectModels.PoolMappings.MotifClass.Handle"></see>或者<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.EnzymeClass.Handle"></see>进行映射操作</remarks>
+        Public Function ModifyMapping(Node As EntityFeatureMapping, NewClass As String) As Boolean
+            Dim ChunkBuffer = _DICT_MappingPool(Node.MappingHandler.locusId)
+            Call ChunkBuffer.Remove(Node)
+            ChunkBuffer = _DICT_MappingPool(NewClass)
+            Call ChunkBuffer.Add(Node)
+            Call UpdateCache()
+
+            Return True
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, List(Of EntityFeatureMapping))) Implements IEnumerable(Of KeyValuePair(Of String, List(Of EntityFeatureMapping))).GetEnumerator
+            For Each Item As KeyValuePair(Of String, List(Of EntityFeatureMapping)) In _DICT_MappingPool
+                Yield Item
+            Next
+        End Function
+
+        Public ReadOnly Property Count As Integer Implements IReadOnlyCollection(Of KeyValuePair(Of String, List(Of EntityFeatureMapping))).Count
+            Get
+                Return _DICT_MappingPool.Count
+            End Get
+        End Property
+
+        Public Function ContainsHandle(HandlerId As String) As Boolean Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).ContainsKey
+            Return _DICT_MappingPool.ContainsKey(HandlerId)
+        End Function
+
+        Default Public ReadOnly Property Item(key As String) As List(Of EntityFeatureMapping) Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).Item
+            Get
+                Return _DICT_MappingPool(key)
+            End Get
+        End Property
+
+        Public ReadOnly Property HandlerIdCollection As IEnumerable(Of String) Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).Keys
+            Get
+                Return _DICT_MappingPool.Keys
+            End Get
+        End Property
+
+        Public Function TryGetValue(key As String, ByRef value As List(Of EntityFeatureMapping)) As Boolean Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).TryGetValue
+            Return _DICT_MappingPool.TryGetValue(key, value)
+        End Function
+
+        Public ReadOnly Property Values As IEnumerable(Of List(Of EntityFeatureMapping)) Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).Values
+            Get
+                Return _DICT_MappingPool.Values
+            End Get
+        End Property
+
+        Public Iterator Function GetEnumerator1() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
+        End Function
+
+#Region "IDisposable Support"
+        Private disposedValue As Boolean ' To detect redundant calls
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not Me.disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects).
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+                ' TODO: set large fields to null.
+            End If
+            Me.disposedValue = True
+        End Sub
+
+        ' TODO: override Finalize() only if Dispose( disposing As Boolean) above has code to free unmanaged resources.
+        'Protected Overrides Sub Finalize()
+        '    ' Do not change this code.  Put cleanup code in Dispose( disposing As Boolean) above.
+        '    Dispose(False)
+        '    MyBase.Finalize()
+        'End Sub
+
+        ' This code added by Visual Basic to correctly implement the disposable pattern.
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
+            Dispose(True)
+            GC.SuppressFinalize(Me)
+        End Sub
+#End Region
+
+    End Class
+End Namespace
