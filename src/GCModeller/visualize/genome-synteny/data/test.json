@@ -1,0 +1,23 @@
+{  
+  "Extension": null,
+  "Margin": {
+    "height": 25,
+    "width": 25
+  },
+  "Meta": ".\/bbh.Xml",
+  "Orders": [ "xcb", "xor" ],
+  "PTT": [
+    {
+      "Key": "xcb",
+      "Value": ".\/Xanthomonas_campestris_8004_uid15.PTT"
+    },
+    {
+      "Key": "xor",
+      "Value": ".\/Xanthomonas_oryzae_oryzicola_BLS256_uid16740.PTT"
+    }
+  ],
+  "Size": {
+    "height": 1600,
+    "width": 1920
+  }
+}
