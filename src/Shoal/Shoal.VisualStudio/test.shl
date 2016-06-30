@@ -1,0 +1,5 @@
+﻿Ook! Ook. Ook? Ook! Ook? Ook. Ook? if
+
+imports GCModeller.RQL
+
+var result <- from x  as protein in "http://linq.gcmodeller.org/" select x
