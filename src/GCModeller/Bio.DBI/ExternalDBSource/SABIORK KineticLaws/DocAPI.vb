@@ -1,0 +1,175 @@
+﻿Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports System.Text
+Imports Microsoft.VisualBasic.IEnumerations
+Imports Microsoft.VisualBasic
+Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+Imports Microsoft.VisualBasic.ComponentModel
+Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+
+Namespace SabiorkKineticLaws
+
+    <PackageNamespace("Sabio-rk.DbAPI")>
+    Public Module DocAPI
+
+        <ExportAPI("GET.Identifier")>
+        Public Function GetIdentifier(strData As String(), Keyword As String) As String
+            Dim LQuery = (From strItem As String In strData Where InStr(strItem, Keyword) Select strItem.Split(CChar("/")).Last).ToArray
+            If LQuery.IsNullOrEmpty Then
+                Return ""
+            Else
+                Return LQuery.First
+            End If
+        End Function
+
+        <ExportAPI("GET.Identifiers")>
+        Public Function GetIdentifiers(strData As String(), Keyword As String) As String()
+            Dim LQuery = (From strItem As String In strData Where InStr(strItem, Keyword) Select strItem.Split(CChar("/")).Last).ToArray
+            Return LQuery
+        End Function
+
+        <ExportAPI("Db.Export")>
+        Public Sub ExportDatabase(DataDir As String, ExportDir As String)
+            Dim KineticLawModels As KineticLawModel() = Nothing
+            Dim CompoundSpecies As CompoundSpecie() = Nothing
+            Dim EnzymeModifiers As EnzymeModifier() = Nothing
+            Dim ModifierKinetics As ModifierKinetics() = Nothing
+            Dim EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw() = Nothing
+
+            Call ExportDatabase(DataDir, KineticLawModels, CompoundSpecies, EnzymeModifiers, ModifierKinetics, EnzymeCatalystKineticLaws)
+
+            Call KineticLawModels.SaveTo(String.Format("{0}/KineticLawModels.csv", ExportDir), False)
+            Call CompoundSpecies.SaveTo(String.Format("{0}/CompoundSpecies.csv", ExportDir), False)
+            Call EnzymeModifiers.SaveTo(String.Format("{0}/EnzymeModifiers.csv", ExportDir), False)
+            Call ModifierKinetics.SaveTo(String.Format("{0}/ModifierKinetics.csv", ExportDir), False)
+            Call EnzymeCatalystKineticLaws.SaveTo(String.Format("{0}/EnzymeCatalystKineticLaws.csv", ExportDir), False)
+        End Sub
+
+        <ExportAPI("Db.Export")>
+        Public Sub ExportDatabase(data As SABIORK(), ExportDir As String)
+            Dim KineticLawModels As KineticLawModel() = Nothing
+            Dim CompoundSpecies As CompoundSpecie() = Nothing
+            Dim EnzymeModifiers As EnzymeModifier() = Nothing
+            Dim ModifierKinetics As ModifierKinetics() = Nothing
+            Dim EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw() = Nothing
+
+            Call ExportDatabase(data, KineticLawModels, CompoundSpecies, EnzymeModifiers, ModifierKinetics, EnzymeCatalystKineticLaws)
+
+            Call KineticLawModels.SaveTo(String.Format("{0}/KineticLawModels.csv", ExportDir), False)
+            Call CompoundSpecies.SaveTo(String.Format("{0}/CompoundSpecies.csv", ExportDir), False)
+            Call EnzymeModifiers.SaveTo(String.Format("{0}/EnzymeModifiers.csv", ExportDir), False)
+            Call ModifierKinetics.SaveTo(String.Format("{0}/ModifierKinetics.csv", ExportDir), False)
+            Call EnzymeCatalystKineticLaws.SaveTo(String.Format("{0}/EnzymeCatalystKineticLaws.csv", ExportDir), False)
+        End Sub
+
+        <ExportAPI("Db.Export")>
+        Public Sub ExportDatabase(data As SABIORK(),
+ _
+                      ByRef KineticLawModels As KineticLawModel(),
+                      ByRef CompoundSpecies As CompoundSpecie(),
+                      ByRef EnzymeModifiers As EnzymeModifier(),
+                      ByRef ModifierKinetics As ModifierKinetics(),
+                      ByRef EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw())
+
+            Dim CompoundSpeciesDict As SortedDictionary(Of String, CompoundSpecie) = New SortedDictionary(Of String, CompoundSpecie)
+            Dim Enzymes As SortedDictionary(Of String, EnzymeModifier) = New SortedDictionary(Of String, EnzymeModifier)
+            Dim KineticLaws As List(Of KineticLawModel) = New List(Of KineticLawModel)
+            Dim ModifierKineticsList = New List(Of ModifierKinetics)
+            Dim EnzymeCatalystKineticLawsList = New List(Of EnzymeCatalystKineticLaw)
+
+            For Each ItemObject In data
+                Dim Compounds = CompoundSpecie.CreateObjects(ItemObject)
+                For Each cps In Compounds
+                    If Not CompoundSpeciesDict.ContainsKey(cps.CommonNames.First) Then
+                        Call CompoundSpeciesDict.Add(cps.CommonNames.First, cps)
+                    End If
+                Next
+                For Each Enzyme In EnzymeModifier.CreateObjects(ItemObject)
+                    If Not Enzymes.ContainsKey(Enzyme.CommonName) Then
+                        Call Enzymes.Add(Enzyme.CommonName, Enzyme)
+                    End If
+                Next
+
+                Call ModifierKineticsList.AddRange(SabiorkKineticLaws.LocalParameterParser.TryParseModifierKinetic(ItemObject))
+                Call EnzymeCatalystKineticLawsList.AddRange(SabiorkKineticLaws.LocalParameterParser.TryParseEnzymeCatalyst(ItemObject))
+                Call KineticLaws.Add(KineticLawModel.CreateObject(ItemObject))
+            Next
+
+            CompoundSpecies = CompoundSpeciesDict.Values.ToArray
+            KineticLawModels = (From ItemObject In KineticLaws Select ItemObject Order By ItemObject.Ec Ascending).ToArray
+            EnzymeModifiers = Enzymes.Values.ToArray
+            ModifierKinetics = ModifierKineticsList.TrimNull
+            EnzymeCatalystKineticLaws = EnzymeCatalystKineticLawsList.TrimNull
+        End Sub
+
+        <ExportAPI("Db.Export")>
+        Public Sub ExportDatabase(DataDir As String,
+ _
+                      ByRef KineticLawModels As KineticLawModel(),
+                      ByRef CompoundSpecies As CompoundSpecie(),
+                      ByRef EnzymeModifiers As EnzymeModifier(),
+                      ByRef ModifierKinetics As ModifierKinetics(),
+                      ByRef EnzymeCatalystKineticLaws As EnzymeCatalystKineticLaw())
+
+            Dim LQuery = (From strPath As String
+                          In FileIO.FileSystem.GetFiles(DataDir, FileIO.SearchOption.SearchTopLevelOnly, "*.sbml").AsParallel
+                          Where FileIO.FileSystem.GetFileInfo(strPath).Length > 0
+                          Select SabiorkKineticLaws.SBMLParser.kineticLawModel.LoadDocument(strPath)).ToArray 'Read sbml file document from the filesystem
+
+            Call ExportDatabase(LQuery, KineticLawModels, CompoundSpecies, EnzymeModifiers, ModifierKinetics, EnzymeCatalystKineticLaws)
+        End Sub
+
+        Public Const KEGG_QUERY_ENTRY As String = "http://sabiork.h-its.org/sabioRestWebServices/reactions/reactionIDs?q=KeggReactionID:"
+
+        <ExportAPI("Load.Doc")>
+        Public Function LoadDocument(FilePath As String) As SABIORK
+            Return SabiorkKineticLaws.SBMLParser.kineticLawModel.LoadDocument(FilePath)
+        End Function
+
+        <ExportAPI("Query.KEGG")>
+        Public Function QueryUsing_KEGGId(IdList As String(), ExportDir As String) As Integer
+            For Each Id As String In IdList
+                Dim url = (KEGG_QUERY_ENTRY & Id)
+                Dim PageContent = url.GET
+                Dim Entries As String() = (From m As Match In Regex.Matches(PageContent, "<SabioReactionID>\d+</SabioReactionID>") Select m.Value.GetValue).ToArray
+
+                For Each Entry In Entries
+                    Dim File = String.Format("{0}/{1}-{2}.sbml", ExportDir, Id, Entry)
+
+                    url = SABIORK.URL_SABIORK_KINETIC_LAWS_QUERY & Entry
+                    Call url.GET.SaveTo(File)
+                Next
+            Next
+            Return 0
+        End Function
+
+        <ExportAPI("SABIORK.Downloads")>
+        Public Function Download(Dir As String) As Integer
+            Dim c As Integer = 0
+
+            For i As Integer = FileIO.FileSystem.GetFiles(Dir).Count + 1 To Integer.MaxValue
+                Dim id As String = "kinlawids_" & i
+                Dim url As String = SABIORK.URL_SABIORK_KINETIC_LAWS_QUERY & i
+                Dim File = String.Format("{0}/{1}.sbml", Dir, id)
+
+                Call url.GET.SaveTo(File)
+
+                If FileIO.FileSystem.GetFileInfo(File).Length < 100 Then
+                    c += 1
+                    If c > 1500 Then
+                        Exit For
+                    End If
+                Else
+                    c = 0
+                End If
+
+                Call Threading.Thread.Sleep(10)
+            Next
+
+            Return 0
+        End Function
+    End Module
+End Namespace

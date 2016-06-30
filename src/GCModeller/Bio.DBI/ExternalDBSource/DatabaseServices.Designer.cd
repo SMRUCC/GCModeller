@@ -1,0 +1,2384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.autogen_structures" Collapsed="true">
+    <Position X="24" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\autogen_structures.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.chemical_data" Collapsed="true">
+    <Position X="38" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAEQAgIAABAAAAAAAABBAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\chemical_data.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.comments" Collapsed="true">
+    <Position X="48.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAEAAgAAABAAAIAAAADAAAAIEEAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\comments.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.compounds" Collapsed="true">
+    <Position X="27.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYBAAAIAAEAAgIAABABAAQAAATEAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\compounds.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.database_accession" Collapsed="true">
+    <Position X="52" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAEAAgIAABAAAAAAAABBAAAAEABAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\database_accession.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.default_structures" Collapsed="true">
+    <Position X="34.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\default_structures.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.names" Collapsed="true">
+    <Position X="41.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAEAAgoAgBAAAAAAAABFAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\names.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.ontology" Collapsed="true">
+    <Position X="39.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAEAAgAAABAAAAAAAABAAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\ontology.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.reference" Collapsed="true">
+    <Position X="45" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBACAAAAEIAgAAABAAAgAAAQBAAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\reference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.relation" Collapsed="true">
+    <Position X="27.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAEAAAEAAgAAABAAAAAAAABBAACAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\relation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.structures" Collapsed="true">
+    <Position X="45" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAEAAgAAABAAAABAAABBAAAAEAAQAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\structures.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ChEBI.Tables.vertice" Collapsed="true">
+    <Position X="29.25" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQJAAACAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ChEBI\Tables\vertice.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.DEG.Workflows" Collapsed="true">
+    <Position X="34.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DEG\Annotations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.DEG.Annotations" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggAAAAAGCAAAEAAAAAAAAAAAAgAIgEAAAAAgAAAA=</HashCode>
+      <FileName>DEG\Annotations.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.DEG.DEG_AminoAcidSequence" Collapsed="true">
+    <Position X="36.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAggAQAAACAAAQAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>DEG\Annotations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ExplorEnz.MySQL.cite" Collapsed="true">
+    <Position X="46.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAgCABIAAAAEAAgAARBAAA=</HashCode>
+      <FileName>ExplorEnz\MySQL\cite.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ExplorEnz.MySQL.[class]" Collapsed="true">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQADAAAAAAEAAgAAABAgAAAACABAAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ExplorEnz\MySQL\class.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ExplorEnz.MySQL.entry" Collapsed="true">
+    <Position X="45" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQjAAAAAAEAAgCAABIgEAAgCABIAAAgEEAABARAAgA=</HashCode>
+      <FileName>ExplorEnz\MySQL\entry.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ExplorEnz.MySQL.hist" Collapsed="true">
+    <Position X="25.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQDBAAAAAEAAgAAABAgEAAgCABAAAAAEAAAAARAAgA=</HashCode>
+      <FileName>ExplorEnz\MySQL\hist.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ExplorEnz.MySQL.html" Collapsed="true">
+    <Position X="27.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAhAAAAAAEAAgAAABIAAAAgCABIAAAgEEAAAARAAAA=</HashCode>
+      <FileName>ExplorEnz\MySQL\html.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.ExplorEnz.MySQL.refs" Collapsed="true">
+    <Position X="48.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAAQAFAAggAAFEAAKgACEpBAAAAEEAAAARDCEA=</HashCode>
+      <FileName>ExplorEnz\MySQL\refs.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.BioWarehouse" Collapsed="true">
+    <Position X="29.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MetaCyc\BioWarehouse.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.archive" Collapsed="true">
+    <Position X="31" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgBAAAAAAEAAgAAABAAAAAAAChAAIAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\archive.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.array_" Collapsed="true">
+    <Position X="32.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAAAAEAAgAAABAAAkQQQABAAAAAEAAAQAZABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\array_.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraydesign" Collapsed="true">
+    <Position X="34.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAAAEAAgAAABAACAQAAAhAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraydesign.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraydesignwidcompositegrpwid" Collapsed="true">
+    <Position X="36.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAAAEAAgAAABAAAAAAgABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraydesignwidcompositegrpwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraydesignwidcontactwid" Collapsed="true">
+    <Position X="38" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraydesignwidcontactwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraydesignwidreportergroupwid" Collapsed="true">
+    <Position X="39.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABgAAAAAEAAgAAABAAAAAAAABAAAAAECAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraydesignwidreportergroupwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraygroup" Collapsed="true">
+    <Position X="41.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEABAAAEAAEABiAAABAAAERAAABAQAAAEAAAQARgBQA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraygroup.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraygroupwidarraywid" Collapsed="true">
+    <Position X="43.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAACAAAEAAgAAABAAAAAAAEBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraygroupwidarraywid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraymanufacture" Collapsed="true">
+    <Position X="45" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAECCgAAABAAAAQAAABAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraymanufacture.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraymanufacturedeviation" Collapsed="true">
+    <Position X="46.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEACgAAABAAAAAAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraymanufacturedeviation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraymanufacturewidarraywid" Collapsed="true">
+    <Position X="48.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAEAAAEBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraymanufacturewidarraywid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.arraymanufacturewidcontactwid" Collapsed="true">
+    <Position X="50.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAEAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\arraymanufacturewidcontactwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bassaymappingwidbassaymapwid" Collapsed="true">
+    <Position X="29.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAiAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\bassaymappingwidbassaymapwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassay" Collapsed="true">
+    <Position X="31" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAEEAAgAAABAAAAQBAABCAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassay.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaydata" Collapsed="true">
+    <Position X="32.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAEBAAAgAAEAAgAAABAAAAQAAEBAAAAAEAAAQBRABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaydata.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaydatacluster" Collapsed="true">
+    <Position X="34.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAQQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaydatacluster.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaydimension" Collapsed="true">
+    <Position X="36.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaydimension.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaydimensiowidbioassaywid" Collapsed="true">
+    <Position X="38" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEBAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaydimensiowidbioassaywid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaymapping" Collapsed="true">
+    <Position X="39.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaymapping.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaymapwidbioassaywid" Collapsed="true">
+    <Position X="41.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAAgAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaymapwidbioassaywid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaytuple" Collapsed="true">
+    <Position X="43.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAIBAAAAAAAABAAAAAkAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaytuple.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaywidchannelwid" Collapsed="true">
+    <Position X="45" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBEAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaywidchannelwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioassaywidfactorvaluewid" Collapsed="true">
+    <Position X="46.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARQAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioassaywidfactorvaluewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biodatavalues" Collapsed="true">
+    <Position X="48.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUBAAAAAAEAAgAAABAAAAAAAEBAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\biodatavalues.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.bioevent" Collapsed="true">
+    <Position X="50.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUFAQAAgAEAGoAgAJAACCQAAkBIACAAEEEAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\bioevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biomaterialmeasurement" Collapsed="true">
+    <Position X="52" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABBAAAAAAABCAAAAECAQAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\biomaterialmeasurement.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biosource" Collapsed="true">
+    <Position X="53.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAKAAAEEBgAAABAAAASAASBAAAAAEIAEAARBBQA=</HashCode>
+      <FileName>MetaCyc\MySQL\biosource.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biosourcewidbiosubtypewid" Collapsed="true">
+    <Position X="55.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQAAAAAEAAgAAABAAAAAAAABAAAAAEAAQAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\biosourcewidbiosubtypewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biosourcewidcontactwid" Collapsed="true">
+    <Position X="57.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\biosourcewidcontactwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biosourcewidgenewid" Collapsed="true">
+    <Position X="24" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAQAA=</HashCode>
+      <FileName>MetaCyc\MySQL\biosourcewidgenewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biosourcewidproteinwid" Collapsed="true">
+    <Position X="25.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQAAAAAEAAgAAABAAAAAAAABAAAAQEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\biosourcewidproteinwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.biosubtype" Collapsed="true">
+    <Position X="27.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEQAgAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\biosubtype.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.channel" Collapsed="true">
+    <Position X="31" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\channel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.channelwidcompoundwid" Collapsed="true">
+    <Position X="32.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAAAAEAAgAAABAAAAAAQABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\channelwidcompoundwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.chemical" Collapsed="true">
+    <Position X="36.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAEAAAAUABgAAABAAAAQ0AAhACAAAEAAAACRABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\chemical.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.chemicalatom" Collapsed="true">
+    <Position X="39.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAUAAgAAAhAAAAQAAABAAABAEAAAAARAYAE=</HashCode>
+      <FileName>MetaCyc\MySQL\chemicalatom.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.chemicalbond" Collapsed="true">
+    <Position X="41.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAABhAAAAAAAABBAAAAEAAAAARgAAQ=</HashCode>
+      <FileName>MetaCyc\MySQL\chemicalbond.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.citation" Collapsed="true">
+    <Position X="43.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAABAEABkAiSBAAAAAAACBAAAAAEAIAAERABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\citation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.citationwidotherwid" Collapsed="true">
+    <Position X="45" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABACAAAAEAAgAAABAAAAAAAABAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\citationwidotherwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.commenttable" Collapsed="true">
+    <Position X="50.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAIAAAAABAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\commenttable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.composgrpwidcompossequencewid" Collapsed="true">
+    <Position X="52" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEIAgAAABAAAAAAgABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\composgrpwidcompossequencewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.compositeseqwidbioseqwid" Collapsed="true">
+    <Position X="53.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEIAhAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\compositeseqwidbioseqwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.composseqdimenswidcomposseqwid" Collapsed="true">
+    <Position X="55.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEIAgAAABAAAAAAAABgAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\composseqdimenswidcomposseqwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.composseqwidcomposcomposmapwid" Collapsed="true">
+    <Position X="57.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAEAAAEIAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\composseqwidcomposcomposmapwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.composseqwidrepocomposmapwid" Collapsed="true">
+    <Position X="24" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAQAAEIAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\composseqwidrepocomposmapwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.compoundmeasurement" Collapsed="true">
+    <Position X="25.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAEACEAAgAAABAAAAAAAABAAAAAEAAQAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\compoundmeasurement.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.computation" Collapsed="true">
+    <Position X="31" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEgAgAAABAAAAQAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\computation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.contact" Collapsed="true">
+    <Position X="43.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAQgCEAggAAABAAQAQAACBAAAACEAAAYARADQg=</HashCode>
+      <FileName>MetaCyc\MySQL\contact.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.crossreference" Collapsed="true">
+    <Position X="46.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAABEAAgAAABAAAAAAAABAAIAAEQABAIRBAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\crossreference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.database_" Collapsed="true">
+    <Position X="50.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAAAEAAgAAABAAAAQAACBAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\database_.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.databasewidcontactwid" Collapsed="true">
+    <Position X="53.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAAxAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\databasewidcontactwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.dataexternal" Collapsed="true">
+    <Position X="55.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgCAAFAAAAAAAABAAAIAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\dataexternal.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.datainternal" Collapsed="true">
+    <Position X="57.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\datainternal.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.dataset" Collapsed="true">
+    <Position X="24" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAABEIggEACBAAAAQAAABBAAAAEAAAAAZADAA=</HashCode>
+      <FileName>MetaCyc\MySQL\dataset.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.datasethierarchy" Collapsed="true">
+    <Position X="25.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAAAAEAAgAAABAAAAAAAABAAAAAFAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\datasethierarchy.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.datum" Collapsed="true">
+    <Position X="27.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAgAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\datum.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.dbid" Collapsed="true">
+    <Position X="32.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAAAEAAgAAABAAAAAAAABAAIAAEQAAAIRAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\dbid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.derivbioassaywidbioassaymapwid" Collapsed="true">
+    <Position X="38" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAgAEAAgAAABAAAQAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\derivbioassaywidbioassaymapwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.derivbioawidderivbioadatawid" Collapsed="true">
+    <Position X="39.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAQAAAAhAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\derivbioawidderivbioadatawid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.description" Collapsed="true">
+    <Position X="41.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAIAAAAABAAIAAEAAAAQRAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\description.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.designelement" Collapsed="true">
+    <Position X="43.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIAAAEBAgAIABAAAAQAAABAAAAAEAIBQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\designelement.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.designelementdimension" Collapsed="true">
+    <Position X="45" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\designelementdimension.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.designelementgroup" Collapsed="true">
+    <Position X="46.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAAAAEABgIEAhAAAAQAAABAAAAAEQAAQAZABwA=</HashCode>
+      <FileName>MetaCyc\MySQL\designelementgroup.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.designelementmapping" Collapsed="true">
+    <Position X="48.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\designelementmapping.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.designelementtuple" Collapsed="true">
+    <Position X="50.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAkAAgAAABAAAAAAAABAAAAAEAAAAARABQQ=</HashCode>
+      <FileName>MetaCyc\MySQL\designelementtuple.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.desnelmappingwiddesnelmapwid" Collapsed="true">
+    <Position X="52" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABAAAAAAEAAgAAABAIAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\desnelmappingwiddesnelmapwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.division" Collapsed="true">
+    <Position X="36.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAgAAQAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\division.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.element" Collapsed="true">
+    <Position X="41.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAABAAAAAAEAAoAAABAAAAQAAABAIAAAEAAAAARABAA=</HashCode>
+      <FileName>MetaCyc\MySQL\element.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.entry" Collapsed="true">
+    <Position X="43.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QQABAAAAAAEAAgAAABAIAAAAAgBAAICAEAAAAAVAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\entry.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.enumeration" Collapsed="true">
+    <Position X="50.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAABAEAAgAAABBAAAAAAABAAAAAEAAgAQRAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\enumeration.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.enzreactionaltcompound" Collapsed="true">
+    <Position X="52" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEgAgAAABAAAAAAAABAAAAAEIAAAARAQEA=</HashCode>
+      <FileName>MetaCyc\MySQL\enzreactionaltcompound.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.enzreactioncofactor" Collapsed="true">
+    <Position X="53.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAAhAAAAAACABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>MetaCyc\MySQL\enzreactioncofactor.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.enzreactioninhibitoractivator" Collapsed="true">
+    <Position X="55.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAhAAAEAAgAAABAAAAAAQABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>MetaCyc\MySQL\enzreactioninhibitoractivator.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.enzymaticreaction" Collapsed="true">
+    <Position X="57.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAAAAEAAgAAABAAgAABAABAAAAQEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\enzymaticreaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experiment" Collapsed="true">
+    <Position X="36.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCBQAAAAAEgAgAAABACAAAgAARAAAAAEQAAgERABUA=</HashCode>
+      <FileName>MetaCyc\MySQL\experiment.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentalfactor" Collapsed="true">
+    <Position X="38" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAAUARABYA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentalfactor.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentdata" Collapsed="true">
+    <Position X="39.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAAAAAAFAAgIAEBAAAAAAAEBAAJAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentdata.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentdesign" Collapsed="true">
+    <Position X="41.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAQAAgAABAAAAAEAAEAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentdesign.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentdesignwidbioassaywid" Collapsed="true">
+    <Position X="43.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAAAAEAAgAAABAAAAAAAABAAAAAEAgAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentdesignwidbioassaywid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentrelationship" Collapsed="true">
+    <Position X="45" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAAAAAAEAAgAAgBAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentrelationship.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentwidbioassaydatawid" Collapsed="true">
+    <Position X="48.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAQRAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentwidbioassaydatawid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentwidbioassaywid" Collapsed="true">
+    <Position X="50.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGBAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentwidbioassaywid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimentwidcontactwid" Collapsed="true">
+    <Position X="52" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimentwidcontactwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.experimwidbioassaydataclustwid" Collapsed="true">
+    <Position X="53.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAAAAAAEAAgAAABAAAAAAAABAAAAAEIAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\experimwidbioassaydataclustwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.factorvalue" Collapsed="true">
+    <Position X="29.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAgBAAAAAAECAgQAABAAAAQAAABAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\factorvalue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.feature" Collapsed="true">
+    <Position X="32.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAAAQFAEgAgABABAAIAAAAABAAAEAEQIAAAVhBQA=</HashCode>
+      <FileName>MetaCyc\MySQL\feature.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.featuredefect" Collapsed="true">
+    <Position X="34.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAgAAAEBAACARABUA=</HashCode>
+      <FileName>MetaCyc\MySQL\featuredefect.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.featuredimensionwidfeaturewid" Collapsed="true">
+    <Position X="36.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAQAAAAEBAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\featuredimensionwidfeaturewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.featureinformation" Collapsed="true">
+    <Position X="38" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAgABAAAAAEAAACARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\featureinformation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.featurelocation" Collapsed="true">
+    <Position X="39.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAAAUAAgAAABAAAAAAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\featurelocation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.featurewidfeaturewid" Collapsed="true">
+    <Position X="41.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAAAAEAAiAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\featurewidfeaturewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.featurewidfeaturewid2" Collapsed="true">
+    <Position X="43.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAAAAEAAiAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\featurewidfeaturewid2.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.fiducial" Collapsed="true">
+    <Position X="45" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIAAAEAAggAABAAAACAAAhAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\fiducial.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.flowcytometryprobe" Collapsed="true">
+    <Position X="46.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEQAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\flowcytometryprobe.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.flowcytometrysample" Collapsed="true">
+    <Position X="48.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQAAAAAEAAgAAABAAAAAAAABAAAAAGAAAgAREBQA=</HashCode>
+      <FileName>MetaCyc\MySQL\flowcytometrysample.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.[function]" Collapsed="true">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\function.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.gellocation" Collapsed="true">
+    <Position X="52" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKBAAAAQAEAAoEAABAAAAAAAABAAAAAEAAAAARABAA=</HashCode>
+      <FileName>MetaCyc\MySQL\gellocation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.gene" Collapsed="true">
+    <Position X="57.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEABBAAAAgEAAgAAALEAAAQAAAhAAAAAMQAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\gene.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.geneexpressiondata" Collapsed="true">
+    <Position X="25.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAIBAAAAAAAABAAAAAEAAgBAVgAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\geneexpressiondata.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.geneticcode" Collapsed="true">
+    <Position X="31" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAIgAAABAAAAQEAABCAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\geneticcode.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.genewidnucleicacidwid" Collapsed="true">
+    <Position X="32.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABEAAAAAAABAAAAAEAAAAARAQAA=</HashCode>
+      <FileName>MetaCyc\MySQL\genewidnucleicacidwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.genewidproteinwid" Collapsed="true">
+    <Position X="34.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAQEAAAAARAQAA=</HashCode>
+      <FileName>MetaCyc\MySQL\genewidproteinwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.hardwarewidcontactwid" Collapsed="true">
+    <Position X="55.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAEAA=</HashCode>
+      <FileName>MetaCyc\MySQL\hardwarewidcontactwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.hardwarewidsoftwarewid" Collapsed="true">
+    <Position X="57.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABCAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAEAA=</HashCode>
+      <FileName>MetaCyc\MySQL\hardwarewidsoftwarewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.image" Collapsed="true">
+    <Position X="29.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAACBAAAAAEIEAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\image.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.imageacquisitionwidimagewid" Collapsed="true">
+    <Position X="31" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgIAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\imageacquisitionwidimagewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.imagewidchannelwid" Collapsed="true">
+    <Position X="32.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAAAAEAAgIAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\imagewidchannelwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.interaction" Collapsed="true">
+    <Position X="36.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEQAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\interaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.interactionparticipant" Collapsed="true">
+    <Position X="39.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAAJAAAAAAAEBAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\interactionparticipant.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.labeledextractwidcompoundwid" Collapsed="true">
+    <Position X="45" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAQIBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\labeledextractwidcompoundwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.lightsource" Collapsed="true">
+    <Position X="46.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEQAAEARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\lightsource.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.location" Collapsed="true">
+    <Position X="48.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABIAAAAAAABAAAAQEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\location.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.manufacturelims" Collapsed="true">
+    <Position X="53.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAJAEAAAAEAAgBAABAAAAEAAABAAAAAUCABCARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\manufacturelims.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.measbassaywidmeasbassaydatawid" Collapsed="true">
+    <Position X="24" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABAAAAAAEAAgAAABAAAAAAAAhAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\measbassaywidmeasbassaydatawid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.measurement" Collapsed="true">
+    <Position X="25.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAgABAAAAAAAABgACAAEAAgAIRABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\measurement.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.mismatchinformation" Collapsed="true">
+    <Position X="32.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABIAAAAAEAAgBAABAAAAAAQADCAAAAEAAAgARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\mismatchinformation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.namevaluetype" Collapsed="true">
+    <Position X="45" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAgABAAAAQAAABAAIAAEAAgAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\namevaluetype.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.node" Collapsed="true">
+    <Position X="50.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAIAAAEAAAAARABQI=</HashCode>
+      <FileName>MetaCyc\MySQL\node.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.nodecontents" Collapsed="true">
+    <Position X="52" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAABAAAEAAEAAgAAABAAAgAAAEBAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\nodecontents.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.nodevalue" Collapsed="true">
+    <Position X="53.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAgBAAAEAAEAAgAAABAAAAQAAABAAAAAEAAgAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\nodevalue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.nucleicacid" Collapsed="true">
+    <Position X="55.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhQAAAAQEQBgAAABAAQAQAAIBAAAAgEQIQBARABQQ=</HashCode>
+      <FileName>MetaCyc\MySQL\nucleicacid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.parameter" Collapsed="true">
+    <Position X="50.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABBAAAAAEAAgAAABAAAAQAAgDAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\parameter.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.parameterizable" Collapsed="true">
+    <Position X="52" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEACkAAABCAAAQAACBAAAAAEQgATAZABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\parameterizable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.parameterizableapplication" Collapsed="true">
+    <Position X="53.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAgBAEIAoAAABCAAkBAAAFAAAAAEAIAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\parameterizableapplication.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.parametervalue" Collapsed="true">
+    <Position X="55.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAFAAgAAABAAAAAAAABAAAAAMAAgAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\parametervalue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.pathway" Collapsed="true">
+    <Position X="57.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABQAAAAAEAAgAAABAAAAQAAABAAAAAEQAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\pathway.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.pathwaylink" Collapsed="true">
+    <Position X="25.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAAhAAAAAAAABACAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\pathwaylink.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.pathwayreaction" Collapsed="true">
+    <Position X="27.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAgAAAEAAgAAABAAAAARAABAAAAAEAAgAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\pathwayreaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.position_" Collapsed="true">
+    <Position X="32.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEEAAAARAZQA=</HashCode>
+      <FileName>MetaCyc\MySQL\position_.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.positiondelta" Collapsed="true">
+    <Position X="34.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAABAAAAAAEAAgAAABAAAAAABABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\positiondelta.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.product" Collapsed="true">
+    <Position X="38" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAABAEBAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\product.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.protein" Collapsed="true">
+    <Position X="48.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBAAAAAQUAAgAAABAAAARAAAhAgAAAEAAAACRAFQI=</HashCode>
+      <FileName>MetaCyc\MySQL\protein.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.proteinwidfunctionwid" Collapsed="true">
+    <Position X="50.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAEAAQEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\proteinwidfunctionwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.proteinwidspotwid" Collapsed="true">
+    <Position X="52" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgEAABAAAAAAAABAAAAQEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\proteinwidspotwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.protocolapplwidpersonwid" Collapsed="true">
+    <Position X="53.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAQ=</HashCode>
+      <FileName>MetaCyc\MySQL\protocolapplwidpersonwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.protocolwidhardwarewid" Collapsed="true">
+    <Position X="55.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABIAAAAAAABAAAAAEAAAAARAEAA=</HashCode>
+      <FileName>MetaCyc\MySQL\protocolwidhardwarewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.protocolwidsoftwarewid" Collapsed="true">
+    <Position X="57.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABCAAAAAEAAgAAABIAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\protocolwidsoftwarewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quantitationtype" Collapsed="true">
+    <Position X="25.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAQAwAAEAAgAAABAAAAQAAABAgCAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\quantitationtype.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quantitationtypedimension" Collapsed="true">
+    <Position X="27.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAAQARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\quantitationtypedimension.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quantitationtypemapping" Collapsed="true">
+    <Position X="29.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\quantitationtypemapping.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quantitationtypetuple" Collapsed="true">
+    <Position X="31" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAIABAQAAAEAAAAATABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\quantitationtypetuple.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quanttymapwidquanttymapwi" Collapsed="true">
+    <Position X="32.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAACAAEBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\quanttymapwidquanttymapwi.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quanttypedimenswidquanttypewid" Collapsed="true">
+    <Position X="34.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABEAAAAUAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\quanttypedimenswidquanttypewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quanttypemapwidquanttypewid" Collapsed="true">
+    <Position X="36.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAACAAABAAAAAUAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\quanttypemapwidquanttypewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quanttypewidconfidenceindwid" Collapsed="true">
+    <Position X="38" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAAAAUAAAAIRAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\quanttypewidconfidenceindwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.quanttypewidquanttypemapwid" Collapsed="true">
+    <Position X="39.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAACAAABAAAAAUAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\quanttypewidquanttypemapwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.reactant" Collapsed="true">
+    <Position X="41.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAABAEBAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\reactant.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.reaction" Collapsed="true">
+    <Position X="43.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAABQAAAQAEAAgAAABAAAAQACABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\reaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.relatedterm" Collapsed="true">
+    <Position X="25.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEACgAAABAAAAAAAABAAIAAEAABAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\relatedterm.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.reporterdimenswidreporterwid" Collapsed="true">
+    <Position X="32.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAEAAAEAAgAAABAAAQAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\reporterdimenswidreporterwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.reportergroupwidreporterwid" Collapsed="true">
+    <Position X="34.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAQAAAABAAAAAECAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\reportergroupwidreporterwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.reporterwidbiosequencewid" Collapsed="true">
+    <Position X="36.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAhAAABAAAQAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\reporterwidbiosequencewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.reporterwidfeaturerepormapwid" Collapsed="true">
+    <Position X="38" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABACAAAAEAAgAAABAAAQAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\reporterwidfeaturerepormapwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.seqfeaturelocation" Collapsed="true">
+    <Position X="48.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAEABAEABAAgAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\seqfeaturelocation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.sequencematch" Collapsed="true">
+    <Position X="50.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AADRAAAEAAEAAgAAADAAAABEAABAgAAAEEABAgRAgAA=</HashCode>
+      <FileName>MetaCyc\MySQL\sequencematch.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.sequenceposition" Collapsed="true">
+    <Position X="52" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAKEAAgAAABgAAAAAAABIAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\sequenceposition.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.softwarewidcontactwid" Collapsed="true">
+    <Position X="31" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABCAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\softwarewidcontactwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.softwarewidsoftwarewid" Collapsed="true">
+    <Position X="32.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABCAAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\softwarewidsoftwarewid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.specialwidtable" Collapsed="true">
+    <Position X="57.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABABAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\specialwidtable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.spot" Collapsed="true">
+    <Position X="34.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAAFAAAAAAAABEAAAAEAAAQARABAA=</HashCode>
+      <FileName>MetaCyc\MySQL\spot.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.spotidmethod" Collapsed="true">
+    <Position X="36.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAIAAAABAAAAAEAACACRABAA=</HashCode>
+      <FileName>MetaCyc\MySQL\spotidmethod.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.spotwidspotidmethodwid" Collapsed="true">
+    <Position X="38" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAiEAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\spotwidspotidmethodwid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.subsequence" Collapsed="true">
+    <Position X="46.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAAAEAAgAAABEAAABQAABAgAAAkAAAAAVABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\subsequence.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.subunit" Collapsed="true">
+    <Position X="48.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAARAAgAAAAEBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\subunit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.superpathway" Collapsed="true">
+    <Position X="50.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAQAAAAEAAgAAABAAAAAAAABAAAAAEAAAAARBAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\superpathway.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.support" Collapsed="true">
+    <Position X="52" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAIAAAAAIBAAIAAEQAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\support.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.synonymtable" Collapsed="true">
+    <Position X="53.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAEEAAgAAABAAAAAAAABAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\synonymtable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.taxon" Collapsed="true">
+    <Position X="57.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABIAAAAAMAAgQAABBAAAQAQABAAIAAEAAAAARABQE=</HashCode>
+      <FileName>MetaCyc\MySQL\taxon.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.term" Collapsed="true">
+    <Position X="25.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEACqAAADAAAAQAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\term.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.termrelationship" Collapsed="true">
+    <Position X="29.25" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEACkAAABAAAAAAAABAAAAAEAABAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\termrelationship.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.tooladvice" Collapsed="true">
+    <Position X="38" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgBAAAAAAEAAgAAABAAAAAAAABAAoAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\tooladvice.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.transcriptionunit" Collapsed="true">
+    <Position X="46.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAQAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\transcriptionunit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.transcriptionunitcomponent" Collapsed="true">
+    <Position X="48.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAIAAEQAAABRAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\transcriptionunitcomponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.transformwidbioassaydatawid" Collapsed="true">
+    <Position X="52" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAAhAAAAAAAABAAAAAEAAAAQRAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\transformwidbioassaydatawid.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.unit" Collapsed="true">
+    <Position X="24" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAABAAAABAEAAgAABBAAAAAAAAFAAICAkCAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\unit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.valence" Collapsed="true">
+    <Position X="25.75" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAEAAgAAABAAAAAAAABAAIAAEAAACARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\valence.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.warehouse" Collapsed="true">
+    <Position X="31" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAFAAAAAAEgAgEAABAAAAAAAEBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\warehouse.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.widtable" Collapsed="true">
+    <Position X="55.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABABAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>MetaCyc\MySQL\widtable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.zone" Collapsed="true">
+    <Position X="38" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAEgUAAgAAABgAAIQAAABAAAAAEAAAQARgBQA=</HashCode>
+      <FileName>MetaCyc\MySQL\zone.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.zonedefect" Collapsed="true">
+    <Position X="39.75" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAAAEAAgAAABAAAAAAAADAgAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\zonedefect.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.zonegroup" Collapsed="true">
+    <Position X="41.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAQAAgEAAsAAABAAAAAAAABBAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\zonegroup.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MetaCyc.MySQL.zonelayout" Collapsed="true">
+    <Position X="43.25" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAAAAEAAgAAIBIAIBAAAABAAAAAEAAAAARABQA=</HashCode>
+      <FileName>MetaCyc\MySQL\zonelayout.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.My.MySettings" Collapsed="true">
+    <Position X="38" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.MySQLDbReflector" Collapsed="true">
+    <Position X="39.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MySQLDbReflector.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseBBH" Collapsed="true">
+    <Position X="8.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH" Collapsed="true">
+    <Position X="8.25" Y="8" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.BacteriaGenome" Collapsed="true">
+    <Position X="27.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.TranscriptionFactors" Collapsed="true">
+    <Position X="45" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.FastaReaders.Regulator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.FastaReaders.Site" Collapsed="true">
+    <Position X="27.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.regulog" Collapsed="true">
+    <Position X="38" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.regulon" Collapsed="true">
+    <Position X="45" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.regulator" Collapsed="true">
+    <Position X="27.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.gene" Collapsed="true">
+    <Position X="55.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.site" Collapsed="true">
+    <Position X="25.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.regulonRef" Collapsed="true">
+    <Position X="57.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.genomeStat" Collapsed="true">
+    <Position X="39.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.searchExtRegulons" Collapsed="true">
+    <Position X="43.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.regulogCollectionStat" Collapsed="true">
+    <Position X="41.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.genome" Collapsed="true">
+    <Position X="36.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.JSONLDM.regulogCollection" Collapsed="true">
+    <Position X="39.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.Regulation" Collapsed="true">
+    <Position X="57.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.Regulations" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.articles" Collapsed="true">
+    <Position X="52" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.db_user_roles" Collapsed="true">
+    <Position X="29.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.db_users" Collapsed="true">
+    <Position X="31" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_effectors" Collapsed="true">
+    <Position X="53.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_effectors_superclasses" Collapsed="true">
+    <Position X="55.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_exp_result_types" Collapsed="true">
+    <Position X="57.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_exp_technique_types" Collapsed="true">
+    <Position X="24" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_exp_technique_types_superclasses" Collapsed="true">
+    <Position X="25.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_func_site_types" Collapsed="true">
+    <Position X="27.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_genomes" Collapsed="true">
+    <Position X="29.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_obj_side_types" Collapsed="true">
+    <Position X="31" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_regulator_types" Collapsed="true">
+    <Position X="32.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.dict_struct_site_types" Collapsed="true">
+    <Position X="34.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.exp_sub_objects" Collapsed="true">
+    <Position X="27.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.exp2effectors" Collapsed="true">
+    <Position X="29.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.exp2result_types" Collapsed="true">
+    <Position X="31" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.exp2technique_types" Collapsed="true">
+    <Position X="32.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.experiments" Collapsed="true">
+    <Position X="46.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.genes" Collapsed="true">
+    <Position X="29.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.genome2ncbitaxon" Collapsed="true">
+    <Position X="38" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.guids" Collapsed="true">
+    <Position X="41.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.h_dict_exp_result_types" Collapsed="true">
+    <Position X="43.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.h_dict_exp_technique_types" Collapsed="true">
+    <Position X="45" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.h_dict_func_site_types" Collapsed="true">
+    <Position X="46.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.h_dict_genomes" Collapsed="true">
+    <Position X="48.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.h_dict_obj_side_types" Collapsed="true">
+    <Position X="50.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.h_dict_regulator_types" Collapsed="true">
+    <Position X="52" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.h_dict_struct_site_types" Collapsed="true">
+    <Position X="53.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.helices" Collapsed="true">
+    <Position X="24" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.locuses" Collapsed="true">
+    <Position X="50.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.obj_name_genomes" Collapsed="true">
+    <Position X="57.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.obj_sub_types" Collapsed="true">
+    <Position X="24" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.obj_synonyms" Collapsed="true">
+    <Position X="25.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.obj_types" Collapsed="true">
+    <Position X="27.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.operons" Collapsed="true">
+    <Position X="45" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.packages" Collapsed="true">
+    <Position X="48.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.pkg_history" Collapsed="true">
+    <Position X="31" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.reg_elem_sub_objects" Collapsed="true">
+    <Position X="50.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.regulator2effectors" Collapsed="true">
+    <Position X="32.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.regulators" Collapsed="true">
+    <Position X="34.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.regulons" Collapsed="true">
+    <Position X="24" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.sec_structures" Collapsed="true">
+    <Position X="45" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.sites" Collapsed="true">
+    <Position X="29.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.MySQL.transcripts" Collapsed="true">
+    <Position X="50.25" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.Database" Collapsed="true">
+    <Position X="48.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Dictionaries.Dictionary" Collapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Dictionaries.Genomes" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpArticle" Collapsed="true">
+    <Position X="34.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpPackage" Collapsed="true">
+    <Position X="57.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Relations_of_regulatory_elements" Collapsed="true">
+    <Position X="29.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Experminent_object" Collapsed="true">
+    <Position X="55.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpTypes_object" Collapsed="true">
+    <Position X="25.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ExpSubObject_object" Collapsed="true">
+    <Position X="24" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.RegulatoryElement" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Effector" Collapsed="true">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Regulator" Collapsed="true">
+    <Position X="8" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Sites" Collapsed="true">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Gene" Collapsed="true">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Transcript" Collapsed="true">
+    <Position X="14.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Operon" Collapsed="true">
+    <Position X="17" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Locuses" Collapsed="true">
+    <Position X="19.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.Regulon" Collapsed="true">
+    <Position X="21.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.sec_structures" Collapsed="true">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.helices" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.StructureObjects.ObjSynonyms" Collapsed="true">
+    <Position X="38" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.RegPreciseTFFamily" Collapsed="true">
+    <Position X="55.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.TranscriptionFactorFamily" Collapsed="true">
+    <Position X="43.25" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.Regulogs" Collapsed="true">
+    <Position X="43.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.Regulator" Collapsed="true">
+    <Position X="29.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.FastaObject" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.WebServiceHandler" Collapsed="true">
+    <Position X="32.75" Y="18.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.alignment" Collapsed="true">
+    <Position X="27.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.attenuator" Collapsed="true">
+    <Position X="55.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.attenuator_terminator" Collapsed="true">
+    <Position X="57.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.autoregulator_tmp" Collapsed="true">
+    <Position X="25.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.charts_tmp" Collapsed="true">
+    <Position X="34.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.cond_effect_link" Collapsed="true">
+    <Position X="32.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.condition" Collapsed="true">
+    <Position X="34.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.condition_object" Collapsed="true">
+    <Position X="36.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.condition_tmp" Collapsed="true">
+    <Position X="38" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.conformation" Collapsed="true">
+    <Position X="39.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.conformation_effector_link" Collapsed="true">
+    <Position X="41.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.coregulator_tmp" Collapsed="true">
+    <Position X="45" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.effector" Collapsed="true">
+    <Position X="38" Y="5.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.evidence" Collapsed="true">
+    <Position X="25.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.external_db" Collapsed="true">
+    <Position X="27.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.functional_class" Collapsed="true">
+    <Position X="50.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.gene" Collapsed="true">
+    <Position X="53.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.gene_product_link" Collapsed="true">
+    <Position X="24" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.generegulation_tmp" Collapsed="true">
+    <Position X="27.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.interaction" Collapsed="true">
+    <Position X="34.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.interaction_condition_link" Collapsed="true">
+    <Position X="38" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.intermediate" Collapsed="true">
+    <Position X="41.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.lookup" Collapsed="true">
+    <Position X="52" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.map_tmp" Collapsed="true">
+    <Position X="55.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.matrix" Collapsed="true">
+    <Position X="57.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.medium" Collapsed="true">
+    <Position X="27.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.metadata" Collapsed="true">
+    <Position X="29.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.method" Collapsed="true">
+    <Position X="31" Y="10.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.motif" Collapsed="true">
+    <Position X="36.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.object_ev_method_pub_link" Collapsed="true">
+    <Position X="29.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.object_external_db_link" Collapsed="true">
+    <Position X="31" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.object_synonym" Collapsed="true">
+    <Position X="32.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.objects" Collapsed="true">
+    <Position X="34.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.objects_properties_tmp" Collapsed="true">
+    <Position X="36.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.operon" Collapsed="true">
+    <Position X="41.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.operon_d_tmp" Collapsed="true">
+    <Position X="43.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.organism" Collapsed="true">
+    <Position X="46.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.product" Collapsed="true">
+    <Position X="36.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.product_fc_link" Collapsed="true">
+    <Position X="39.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.product_tf_link" Collapsed="true">
+    <Position X="41.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.promoter" Collapsed="true">
+    <Position X="43.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.promoter_feature" Collapsed="true">
+    <Position X="45" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.promoterfeature" Collapsed="true">
+    <Position X="46.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.publication" Collapsed="true">
+    <Position X="24" Y="13.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.reference_note_link_tmp" Collapsed="true">
+    <Position X="46.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.reg_phrase" Collapsed="true">
+    <Position X="52" Y="13.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.reg_phrase_ri_link" Collapsed="true">
+    <Position X="53.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.regulator" Collapsed="true">
+    <Position X="25.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.regulatory_interaction" Collapsed="true">
+    <Position X="36.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.regulon_d_tmp" Collapsed="true">
+    <Position X="46.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.regulon_function_tmp" Collapsed="true">
+    <Position X="48.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.regulon_tf_link_tmp" Collapsed="true">
+    <Position X="50.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.regulon_tmp" Collapsed="true">
+    <Position X="52" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.regulonfuncpromoter_link_tmp" Collapsed="true">
+    <Position X="55.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.repeat" Collapsed="true">
+    <Position X="31" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.rfam" Collapsed="true">
+    <Position X="39.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.shine_dalgarno" Collapsed="true">
+    <Position X="53.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.sigma_tmp" Collapsed="true">
+    <Position X="55.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.sigmanetworkset_tmp" Collapsed="true">
+    <Position X="57.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.site" Collapsed="true">
+    <Position X="24" Y="16.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.srna_interaction" Collapsed="true">
+    <Position X="39.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.strand_d_tmp" Collapsed="true">
+    <Position X="41.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.t_factor_d_tmp" Collapsed="true">
+    <Position X="55.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.terminator" Collapsed="true">
+    <Position X="27.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.tf_alignment" Collapsed="true">
+    <Position X="31" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.tf_matrix" Collapsed="true">
+    <Position X="32.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.tf_matrix_align_link" Collapsed="true">
+    <Position X="34.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.transcription_factor" Collapsed="true">
+    <Position X="39.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.transcription_unit" Collapsed="true">
+    <Position X="41.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.tu_gene_link" Collapsed="true">
+    <Position X="53.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.tu_objects_tmp" Collapsed="true">
+    <Position X="55.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.tu_terminator_link" Collapsed="true">
+    <Position X="57.25" Y="17.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.Tables.version" Collapsed="true">
+    <Position X="27.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.RegulonDB.RegulonDB" Collapsed="true">
+    <Position X="53.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SabiorkEntity" Collapsed="true">
+    <Position X="2.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CompoundSpecie" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAABAAEAAAAEAAAIAAABAAAAAACACAAAAAAAARA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EnzymeModifier" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAARAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EnzymeCatalystKineticLaw" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAECAAAEgAAAAAAFAABAAAAIAgAAAACAAACAAAAEQAA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ModifierKinetics" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAARAACAAAAAAAECAAAAAAIAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="KineticLawModel" Collapsed="true">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAAAAAAAABAAAAAAAIEAAAAgCAAACEIAAAAAA=</HashCode>
+      <FileName>SABIORK KineticLaws\CsvData.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.SABIORK" Collapsed="true">
+    <Position X="41.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQABAAAAQABAEAAEgEAAIAAIACBAAAAAAAEAAgIAQQA=</HashCode>
+      <FileName>SABIORK KineticLaws\SABIORK.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.SBMLParser.CompoundSpecie" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAAAAAAAAAAAEAAAAAAwAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>SABIORK KineticLaws\SBMLParser.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.SBMLParser.kineticLawModel" Collapsed="true">
+    <Position X="43.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAABAAABAAAECAAEAAAAAAIAgAAACAAAAAAAAIAAQA=</HashCode>
+      <FileName>SABIORK KineticLaws\SBMLParser.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.DocumentNodes.Entry" Collapsed="true">
+    <Position X="46.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAEwAGAAJAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\DocumentNodes.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.DocumentNodes.ExperimentDescription" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAwCAAAAAAAAAEAACAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\DocumentNodes.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.DocumentNodes.Interactor" Collapsed="true">
+    <Position X="3.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAEAAAQAAAAAAAAAAQAAEAAAAAAAAA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\DocumentNodes.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.DocumentNodes.Interaction" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAICAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\DocumentNodes.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.EntrySet" Collapsed="true">
+    <Position X="48.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICAAAAAAEAAAACAAgAAABAAQAAAAAAABAAAAAAAAAQA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\MIF25.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.XmlCommon.DataItem" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\XmlCommon.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.XmlCommon.Names" Collapsed="true">
+    <Position X="43.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAEAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\XmlCommon.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.XmlCommon.Xref" Collapsed="true">
+    <Position X="36.25" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAEAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\[xsd]net.sf.psidev.mi\XmlCommon.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.AssembleSTrP" Collapsed="true">
+    <Position X="54" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAEAAAAAABAEgEgAEAFAAAABCIAAAABAAAQAAAA=</HashCode>
+      <FileName>string-db\AssembleSTP.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StringAPI" Collapsed="true">
+    <Position X="43.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAEAAAAAAAAAABBAACAAA=</HashCode>
+      <FileName>string-db\StringAPI.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.SimpleCsv.PitrNode" Collapsed="true">
+    <Position X="29.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAEAAAAAAAAAAEAAAAAAAEAIAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>string-db\SimpleCsv.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.SimpleCsv.Network" Collapsed="true">
+    <Position X="46.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>string-db\SimpleCsv.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.Assembler" Collapsed="true">
+    <Position X="53.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAEAAAAAABAEgEgAEAFAAAABCIAAAABAAAQAAAA=</HashCode>
+      <FileName>string-db\StrPNet\Assembler.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.EffectorMap" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAEAAAAEAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>string-db\StrPNet\EffectorMap.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.Network" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="48.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\StrPNet\LDM\Network.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.Pathway" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAACAAAAFAAAAAAEAAAAAAAAAAACAAAAAABA=</HashCode>
+      <FileName>string-db\StrPNet\LDM\Pathway.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.TFRegulation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.25" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAQAAAAAAEABAAAIAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>string-db\StrPNet\LDM\Regulation.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.TCS.SensorInducers" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="46.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAEAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\StrPNet\TCS\SensorInducers.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.TCS.TCS" Collapsed="true">
+    <Position X="24" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAgAEAAAAAEAAAAAAAAQAAAAAAAAEAIAAEAAAA=</HashCode>
+      <FileName>string-db\StrPNet\TCS\TCS.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.Interaction" Collapsed="true">
+    <Position X="24" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAEAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\StrPNet\LDM\Interaction.vb</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.My.Resources.Resources" Collapsed="true">
+    <Position X="39.75" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.My.MySettingsProperty" Collapsed="true">
+    <Position X="32.75" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.RegulonDatabase.RegulationModels" Collapsed="true">
+    <Position X="38" Y="19.75" Width="1.5" />
+    <TypeIdentifier />
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.Regprecise.Compiler" Collapsed="true">
+    <Position X="25.75" Y="19.75" Width="1.5" />
+    <TypeIdentifier />
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseAPI" Collapsed="true">
+    <Position X="34.5" Y="19.75" Width="1.5" />
+    <TypeIdentifier />
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseBidirectionalBh_Methods" Collapsed="true">
+    <Position X="36.25" Y="19.75" Width="1.5" />
+    <TypeIdentifier />
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.Regprecise.KEGGDownloader" Collapsed="true">
+    <Position X="27.5" Y="19.75" Width="1.5" />
+    <TypeIdentifier />
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.LocalParameterParser" Collapsed="true">
+    <Position X="29.25" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgACAAAAAAAAAAAEAgAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>SABIORK KineticLaws\LocalParameterParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.ShellScriptAPI.SabiorkKinetics" Collapsed="true">
+    <Position X="41.5" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ShellScriptAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.ShellScriptAPI.MisT2" Collapsed="true">
+    <Position X="31" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAIAABAAA=</HashCode>
+      <FileName>ShellScriptAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.API" Collapsed="true">
+    <Position X="24" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAABAAAAAAAAACABAABAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>string-db\StrPNet\LDM\API.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
