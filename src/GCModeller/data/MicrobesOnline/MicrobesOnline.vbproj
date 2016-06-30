@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43C14BC7-22F6-4340-9AF8-B01908619911}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>LANS.SystemsBiology.DatabaseServices.MicrobesOnline</RootNamespace>
+    <AssemblyName>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Publish\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Publish\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Publish\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\docs\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\docs\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\docs\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.DatabaseServices.MicrobesOnline.Org.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="MySQL\BioCyc\bindplayer.vb" />
+    <Compile Include="MySQL\BioCyc\catalyze.vb" />
+    <Compile Include="MySQL\BioCyc\citation.vb" />
+    <Compile Include="MySQL\BioCyc\class.vb" />
+    <Compile Include="MySQL\BioCyc\comment.vb" />
+    <Compile Include="MySQL\BioCyc\component.vb" />
+    <Compile Include="MySQL\BioCyc\compound.vb" />
+    <Compile Include="MySQL\BioCyc\dnabindsite.vb" />
+    <Compile Include="MySQL\BioCyc\enzplayer.vb" />
+    <Compile Include="MySQL\BioCyc\enzrxn.vb" />
+    <Compile Include="MySQL\BioCyc\gene.vb" />
+    <Compile Include="MySQL\BioCyc\objtobindrxn.vb" />
+    <Compile Include="MySQL\BioCyc\pathway.vb" />
+    <Compile Include="MySQL\BioCyc\pathwayplayer.vb" />
+    <Compile Include="MySQL\BioCyc\position.vb" />
+    <Compile Include="MySQL\BioCyc\promoter.vb" />
+    <Compile Include="MySQL\BioCyc\protein.vb" />
+    <Compile Include="MySQL\BioCyc\reaction.vb" />
+    <Compile Include="MySQL\BioCyc\regulon.vb" />
+    <Compile Include="MySQL\BioCyc\rxnplayer.vb" />
+    <Compile Include="MySQL\BioCyc\synonym.vb" />
+    <Compile Include="MySQL\BioCyc\tu.vb" />
+    <Compile Include="MySQL\BioCyc\tu_component.vb" />
+    <Compile Include="MySQL\BioCyc\type.vb" />
+    <Compile Include="MySQL\BioCyc\vimss.vb" />
+    <Compile Include="MySQL\genomics\AASeq.vb" />
+    <Compile Include="MySQL\genomics\ACL.vb" />
+    <Compile Include="MySQL\genomics\Annotation.vb" />
+    <Compile Include="MySQL\genomics\AnnotationDetail.vb" />
+    <Compile Include="MySQL\genomics\association.vb" />
+    <Compile Include="MySQL\genomics\association_property.vb" />
+    <Compile Include="MySQL\genomics\association_qualifier.vb" />
+    <Compile Include="MySQL\genomics\association_species_qualifier.vb" />
+    <Compile Include="MySQL\genomics\assoc_rel.vb" />
+    <Compile Include="MySQL\genomics\AutoAnno.vb" />
+    <Compile Include="MySQL\genomics\bindplayer.vb" />
+    <Compile Include="MySQL\genomics\Carts.vb" />
+    <Compile Include="MySQL\genomics\catalyze.vb" />
+    <Compile Include="MySQL\genomics\citation.vb" />
+    <Compile Include="MySQL\genomics\class.vb" />
+    <Compile Include="MySQL\genomics\COG.vb" />
+    <Compile Include="MySQL\genomics\COGCount.vb" />
+    <Compile Include="MySQL\genomics\COGFun.vb" />
+    <Compile Include="MySQL\genomics\COGInfo.vb" />
+    <Compile Include="MySQL\genomics\COGrpsblast.vb" />
+    <Compile Include="MySQL\genomics\comment.vb" />
+    <Compile Include="MySQL\genomics\component.vb" />
+    <Compile Include="MySQL\genomics\compound.vb" />
+    <Compile Include="MySQL\genomics\CrisprFamily.vb" />
+    <Compile Include="MySQL\genomics\db.vb" />
+    <Compile Include="MySQL\genomics\dbxref.vb" />
+    <Compile Include="MySQL\genomics\Description.vb" />
+    <Compile Include="MySQL\genomics\dnabindsite.vb" />
+    <Compile Include="MySQL\genomics\DomainInfo.vb" />
+    <Compile Include="MySQL\genomics\ECInfo.vb" />
+    <Compile Include="MySQL\genomics\enzplayer.vb" />
+    <Compile Include="MySQL\genomics\enzrxn.vb" />
+    <Compile Include="MySQL\genomics\evidence.vb" />
+    <Compile Include="MySQL\genomics\evidence_dbxref.vb" />
+    <Compile Include="MySQL\genomics\FasthmmFamily2HMM.vb" />
+    <Compile Include="MySQL\genomics\FasthmmRawHits.vb" />
+    <Compile Include="MySQL\genomics\gene.vb" />
+    <Compile Include="MySQL\genomics\gene_product.vb" />
+    <Compile Include="MySQL\genomics\gene_product_ancestor.vb" />
+    <Compile Include="MySQL\genomics\gene_product_count.vb" />
+    <Compile Include="MySQL\genomics\gene_product_homology.vb" />
+    <Compile Include="MySQL\genomics\gene_product_homolset.vb" />
+    <Compile Include="MySQL\genomics\gene_product_property.vb" />
+    <Compile Include="MySQL\genomics\gene_product_seq.vb" />
+    <Compile Include="MySQL\genomics\gene_product_subset.vb" />
+    <Compile Include="MySQL\genomics\gene_product_synonym.vb" />
+    <Compile Include="MySQL\genomics\GoCount.vb" />
+    <Compile Include="MySQL\genomics\graph_path.vb" />
+    <Compile Include="MySQL\genomics\graph_path2term.vb" />
+    <Compile Include="MySQL\genomics\Groups.vb" />
+    <Compile Include="MySQL\genomics\GroupUsers.vb" />
+    <Compile Include="MySQL\genomics\HitInfo.vb" />
+    <Compile Include="MySQL\genomics\homolset.vb" />
+    <Compile Include="MySQL\genomics\instance_data.vb" />
+    <Compile Include="MySQL\genomics\InterPro.vb" />
+    <Compile Include="MySQL\genomics\IPR2Go.vb" />
+    <Compile Include="MySQL\genomics\IPRInfo.vb" />
+    <Compile Include="MySQL\genomics\Jobs.vb" />
+    <Compile Include="MySQL\genomics\KEGG2Taxonomy.vb" />
+    <Compile Include="MySQL\genomics\KEGGCompound.vb" />
+    <Compile Include="MySQL\genomics\KEGGConf.vb" />
+    <Compile Include="MySQL\genomics\KEGGInfo.vb" />
+    <Compile Include="MySQL\genomics\KEGGMap.vb" />
+    <Compile Include="MySQL\genomics\Locus.vb" />
+    <Compile Include="MySQL\genomics\Locus2Domain.vb" />
+    <Compile Include="MySQL\genomics\Locus2Ec.vb" />
+    <Compile Include="MySQL\genomics\Locus2Go.vb" />
+    <Compile Include="MySQL\genomics\Locus2Ipr.vb" />
+    <Compile Include="MySQL\genomics\Locus2Operon.vb" />
+    <Compile Include="MySQL\genomics\Locus2Pdb.vb" />
+    <Compile Include="MySQL\genomics\Locus2RegPrecise.vb" />
+    <Compile Include="MySQL\genomics\Locus2RTB.vb" />
+    <Compile Include="MySQL\genomics\Locus2RTBArticles.vb" />
+    <Compile Include="MySQL\genomics\Locus2Seed.vb" />
+    <Compile Include="MySQL\genomics\Locus2String.vb" />
+    <Compile Include="MySQL\genomics\Locus2SwissProt.vb" />
+    <Compile Include="MySQL\genomics\Locus2TigrFunCat.vb" />
+    <Compile Include="MySQL\genomics\Locus2Tree.vb" />
+    <Compile Include="MySQL\genomics\LocusCount.vb" />
+    <Compile Include="MySQL\genomics\LocusSeq.vb" />
+    <Compile Include="MySQL\genomics\LocusType.vb" />
+    <Compile Include="MySQL\genomics\MOG.vb" />
+    <Compile Include="MySQL\genomics\MOGComponent.vb" />
+    <Compile Include="MySQL\genomics\MOGMember.vb" />
+    <Compile Include="MySQL\genomics\MOGNeighborScores.vb" />
+    <Compile Include="MySQL\genomics\ObjectDescr.vb" />
+    <Compile Include="MySQL\genomics\objtobindrxn.vb" />
+    <Compile Include="MySQL\genomics\OGMember.vb" />
+    <Compile Include="MySQL\genomics\Operon.vb" />
+    <Compile Include="MySQL\genomics\OrthologGroup.vb" />
+    <Compile Include="MySQL\genomics\pathway.vb" />
+    <Compile Include="MySQL\genomics\pathwayplayer.vb" />
+    <Compile Include="MySQL\genomics\PdbEntries.vb" />
+    <Compile Include="MySQL\genomics\PdbReps.vb" />
+    <Compile Include="MySQL\genomics\PdbSeq.vb" />
+    <Compile Include="MySQL\genomics\PfamClan.vb" />
+    <Compile Include="MySQL\genomics\Position.vb" />
+    <Compile Include="MySQL\genomics\promoter.vb" />
+    <Compile Include="MySQL\genomics\protein.vb" />
+    <Compile Include="MySQL\genomics\reaction.vb" />
+    <Compile Include="MySQL\genomics\regulon.vb" />
+    <Compile Include="MySQL\genomics\RegulonCluster.vb" />
+    <Compile Include="MySQL\genomics\RegulonLinks.vb" />
+    <Compile Include="MySQL\genomics\rxnplayer.vb" />
+    <Compile Include="MySQL\genomics\Scaffold.vb" />
+    <Compile Include="MySQL\genomics\ScaffoldIsActiveFlag.vb" />
+    <Compile Include="MySQL\genomics\ScaffoldPosChunks.vb" />
+    <Compile Include="MySQL\genomics\ScaffoldSeq.vb" />
+    <Compile Include="MySQL\genomics\seq.vb" />
+    <Compile Include="MySQL\genomics\seq_dbxref.vb" />
+    <Compile Include="MySQL\genomics\seq_property.vb" />
+    <Compile Include="MySQL\genomics\source_audit.vb" />
+    <Compile Include="MySQL\genomics\species.vb" />
+    <Compile Include="MySQL\genomics\SwissProt.vb" />
+    <Compile Include="MySQL\genomics\SwissProt2Locus.vb" />
+    <Compile Include="MySQL\genomics\SwissProt2Pubmed.vb" />
+    <Compile Include="MySQL\genomics\Synonym.vb" />
+    <Compile Include="MySQL\genomics\SynonymType.vb" />
+    <Compile Include="MySQL\genomics\TaxName.vb" />
+    <Compile Include="MySQL\genomics\TaxNode.vb" />
+    <Compile Include="MySQL\genomics\Taxonomy.vb" />
+    <Compile Include="MySQL\genomics\Taxonomy2Tree.vb" />
+    <Compile Include="MySQL\genomics\TaxParentChild.vb" />
+    <Compile Include="MySQL\genomics\term.vb" />
+    <Compile Include="MySQL\genomics\term2term.vb" />
+    <Compile Include="MySQL\genomics\term2term_metadata.vb" />
+    <Compile Include="MySQL\genomics\term_audit.vb" />
+    <Compile Include="MySQL\genomics\term_dbxref.vb" />
+    <Compile Include="MySQL\genomics\term_definition.vb" />
+    <Compile Include="MySQL\genomics\term_property.vb" />
+    <Compile Include="MySQL\genomics\term_subset.vb" />
+    <Compile Include="MySQL\genomics\term_synonym.vb" />
+    <Compile Include="MySQL\genomics\TIGRInfo.vb" />
+    <Compile Include="MySQL\genomics\TIGRroles.vb" />
+    <Compile Include="MySQL\genomics\TranscriptSeq.vb" />
+    <Compile Include="MySQL\genomics\Tree.vb" />
+    <Compile Include="MySQL\genomics\tu.vb" />
+    <Compile Include="MySQL\genomics\tu_component.vb" />
+    <Compile Include="MySQL\genomics\type.vb" />
+    <Compile Include="MySQL\genomics\Users.vb" />
+    <Compile Include="MySQL\genomics\vimss.vb" />
+    <Compile Include="MySQL\glamm\AMRxn.vb" />
+    <Compile Include="MySQL\glamm\AMRxnElement.vb" />
+    <Compile Include="MySQL\glamm\AnnotatedMap.vb" />
+    <Compile Include="MySQL\glamm\GlammCitation.vb" />
+    <Compile Include="MySQL\glamm\GlammCompound.vb" />
+    <Compile Include="MySQL\glamm\GlammDataSource.vb" />
+    <Compile Include="MySQL\glamm\GlammEntity2DataSource.vb" />
+    <Compile Include="MySQL\glamm\GlammEnzyme.vb" />
+    <Compile Include="MySQL\glamm\GlammKeggMap.vb" />
+    <Compile Include="MySQL\glamm\GlammKeggRpair.vb" />
+    <Compile Include="MySQL\glamm\GlammLastGuid.vb" />
+    <Compile Include="MySQL\glamm\GlammMapConn.vb" />
+    <Compile Include="MySQL\glamm\GlammReaction.vb" />
+    <Compile Include="MySQL\glamm\GlammReactionParticipant.vb" />
+    <Compile Include="MySQL\glamm\GlammSynonym.vb" />
+    <Compile Include="MySQL\glamm\GlammXref.vb" />
+    <Compile Include="MySQL\glamm\Pathway.vb" />
+    <Compile Include="MySQL\glamm\PwyElement.vb" />
+    <Compile Include="WebParser\fetchLocus.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
+      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
+      <Name>LibMySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_Tabular.DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
