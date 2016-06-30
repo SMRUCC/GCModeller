@@ -1,0 +1,184 @@
+﻿Imports System.Text
+Imports System.Xml.Serialization
+Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports LANS.SystemsBiology.Assembly
+Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
+
+Namespace GCML_Documents.XmlElements.Bacterial_GENOME
+
+    ''' <summary>
+    ''' 在进行模型计算的时候，转录过程从这里开始，基因对象仅仅只是模板数据的承载者，
+    ''' 对于一个转录单元而言，其只有一个基因的时候就仅表示该基因对象，当拥有多个基
+    ''' 因的时候，则表示为一个操纵元。
+    ''' </summary>
+    ''' <remarks>
+    ''' 在形成调控网络的时候，调控因子对启动子的调控作用被转换为对转录单元的调控作用
+    ''' 在这里认为一个转录单元仅有一个启动子单元
+    ''' </remarks>
+    Public Class TranscriptUnit : Inherits T_MetaCycEntity(Of Slots.TransUnit)
+        Implements I_BiologicalProcess_EventHandle
+
+        ''' <summary>
+        ''' 相当于<see cref="MetaCyc">MetaCyc数据库</see>中的<see cref="MetaCyc.File.DataFiles.Slots.TransUnit">转录单元</see>对象之中的<see cref="MetaCyc.File.DataFiles.Slots.TransUnit.CommonName">通用名称</see>属性
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <XmlAttribute> Public Property Name As String
+
+        ''' <summary>
+        ''' An object handle collection of the gene object that defines in the genome namespace of the model 
+        ''' file.
+        ''' (指向模型文件中的基因列表的基因对象的句柄值的集合, {MetaCycId, NCBI AccessionId})
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 本属性对应于MetaCyc.TransUnit中的Components属性值
+        ''' 
+        ''' The Components slot of a transcription unit lists the DNA segments within the transcription unit, 
+        ''' including transcription start sites (class Promoters), Terminators, DNA-Binding-Sites, and Genes.
+        ''' </remarks>
+        <XmlElement("GeneCluster")> Public Property GeneCluster As KeyValuePair()
+
+        ''' <summary>
+        ''' 该转录单元的最大表达水平
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <XmlAttribute> Public Property MaxLevel As Double()
+        ''' <summary>
+        ''' 本底表达水平(表示在没有任何调控因子的作用下的转录水平)
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <XmlAttribute> Public Property BasalLevel As Double = 1
+
+        ''' <summary>
+        ''' 本转录单元的调控因子以及调控位点
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Property RegulatedMotifs As List(Of MotifSite)
+
+        ''' <summary>
+        ''' Promoter gene unique-id, point to the item <see cref="GeneObject.Identifier"></see>
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Property PromoterGene As GeneObject
+
+        Public Overrides Function ToString() As String
+            If GeneCluster.IsNullOrEmpty Then
+                Return Identifier
+            Else
+                Dim sBuilder As StringBuilder = New StringBuilder(10 * 1024)
+                For Each Id In GeneCluster
+                    Call sBuilder.Append(Id.ToString & ", ")
+                Next
+                Call sBuilder.Remove(sBuilder.Length - 2, 2)
+
+                Return String.Format("{0}, Gene Cluster:= {1}", Identifier, sBuilder.ToString)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="AccessionId">NCBI Accession Id</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function ContainsGene(AccessionId As String) As Integer
+            If GeneCluster.IsNullOrEmpty Then
+                Return -1
+            End If
+            For i As Integer = 0 To GeneCluster.Count - 1
+                If String.Equals(AccessionId, _GeneCluster(i).Value) Then
+                    Return i
+                End If
+            Next
+
+            Return -1
+        End Function
+
+        ''' <summary>
+        ''' 使用MetaCyc数据库中的基因数据，对转录单元中的GeneCluster属性进行赋值
+        ''' </summary>
+        ''' <param name="Genes"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function Link(Genes As Generic.IEnumerable(Of GeneObject)) As TranscriptUnit
+            Dim LQuery = From cpId As String
+                         In BaseType.Components
+                         Let Find = (From Gene In Genes.AsParallel Where String.Equals(Gene.Identifier, cpId) Select Gene).ToArray
+                         Where Find.Count > 0
+                         Let Item = Find.First
+                         Select New KeyValuePair() With {.Value = Item.AccessionId}  ' 
+            GeneCluster = LQuery.ToArray
+            Return Me
+        End Function
+
+        Public Shared Function CreateObject(TransUnit As Slots.TransUnit) As TranscriptUnit
+            Return New TranscriptUnit With {
+                .BaseType = TransUnit,
+                .Identifier = TransUnit.Identifier,
+                .Name = TransUnit.CommonName
+            }
+        End Function
+
+        Public Function get_Regulators() As SignalTransductions.Regulator() Implements I_BiologicalProcess_EventHandle.get_Regulators
+            If RegulatedMotifs.IsNullOrEmpty Then
+                Return Nothing
+            End If
+
+            Return (From item In RegulatedMotifs Let value = item.Regulators Select value).ToArray.MatrixToVector
+        End Function
+
+        Public Function _add_Regulator(motifId As String, Regulator As SignalTransductions.Regulator) As Boolean Implements I_BiologicalProcess_EventHandle._add_Regulator
+            If String.IsNullOrEmpty(motifId) Then
+                motifId = Regulator.Regulates
+            End If
+
+            Dim MotifSites = (From item In Me.RegulatedMotifs Where String.Equals(item.MotifName, motifId) Select item).ToArray
+            If MotifSites.IsNullOrEmpty Then
+                Call Console.WriteLine("Regulator data of {0}{1} can not find the regulated motif, data may be broken!", Regulator.Identifier, Regulator.CommonName)
+                Return False
+            End If
+
+            Dim Site As MotifSite = MotifSites.First
+            Site.Regulators = {Site.Regulators, New SignalTransductions.Regulator() {Regulator}.ToList}.MatrixToList
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 所有具有这个ID编号的调控因子都会被移除
+        ''' </summary>
+        ''' <param name="ID"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Function RemoveRegulator(ID As String) As Integer
+            For Each motif In Me.RegulatedMotifs
+                Dim LQuery = (From item In motif.Regulators Where Not String.Equals(item.Identifier, ID) Select item).ToList
+                motif.Regulators = LQuery
+            Next
+
+            Return 0
+        End Function
+
+        Public Function RemoveRegulator(Regulator As SignalTransductions.Regulator) As Boolean
+            For Each motif In Me.RegulatedMotifs
+                Dim LQuery = (From item In motif.Regulators Where Not item.Equals(Regulator) Select item).ToList
+                motif.Regulators = LQuery
+            Next
+
+            Return True
+        End Function
+    End Class
+End Namespace
