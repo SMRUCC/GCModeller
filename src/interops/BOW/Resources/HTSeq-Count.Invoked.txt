@@ -1,0 +1,9 @@
+Imports htseq-count
+
+  Out.Dir <- {$Out.Dir}
+ File.Sam <- {$File.Sam}
+    Table <- htseq-count SAM $File.Sam Gff {$GFF} Mode {$Mode} RPKM {$RPKM}
+ File.Sam <- basename $File.Sam
+
+# Write Table Data to the specific data output directory.
+$Table > $Out.Dir/$File.Sam.txt
