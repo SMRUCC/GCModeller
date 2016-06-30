@@ -1,0 +1,896 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "systems.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.3
+     ::DATATOOL:: on 09/17/2009 11:55:37
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Systems"
+================================================= -->
+<!--
+**********************************************************************
+
+  Biomolecular Systems data definitions
+  NCBI Structure Group, 2008
+
+  make using something like
+  "datatool -M NCBI_all.asn -m systems.asn -oc Systems -oA"
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Sys-id,
+          System -->
+
+<!-- Elements referenced from other modules:
+          Seq-loc FROM NCBI-Seqloc,
+          User-field,
+          Dbtag,
+          Date FROM NCBI-General,
+          Pub FROM NCBI-Pub -->
+
+<!-- ============================================ -->
+
+
+
+<!-- molecule identifier types -->
+<xs:element name="Sys-molid">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="Sys-molid_gene">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-gene-molid"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sys-molid_protein">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-seq-molid"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sys-molid_nucleotide">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-seq-molid"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sys-molid_chemical">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-chem-molid"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- gene identifiers -->
+<xs:element name="Sys-gene-molid">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="Sys-gene-molid_E">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Sys-gene-molid_E_geneid" type="xs:integer"/>
+            <xs:element name="Sys-gene-molid_E_genename">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Sys-gene-name"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Sys-gene-molid_E_other">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Dbtag"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- gene identifier containing taxid and official name -->
+<xs:element name="Sys-gene-name">
+  <xs:complexType>
+    <xs:sequence>
+<!-- official gene name -->
+      <xs:element name="Sys-gene-name_genename" type="xs:string"/>
+      <xs:element name="Sys-gene-name_taxid" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- sequence identifier -->
+<xs:element name="Sys-seq-molid">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="Sys-seq-molid_E">
+        <xs:complexType>
+          <xs:choice>
+<!-- can contain gi or accession with known db -->
+            <xs:element name="Sys-seq-molid_E_seqid">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Seq-loc"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- accession with unknown db -->
+            <xs:element name="Sys-seq-molid_E_accession" type="xs:string"/>
+            <xs:element name="Sys-seq-molid_E_other">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Dbtag"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- chemical/drug identifier -->
+<xs:element name="Sys-chem-molid">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="Sys-chem-molid_E">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Sys-chem-molid_E_cid" type="xs:integer"/>
+            <xs:element name="Sys-chem-molid_E_sid" type="xs:integer"/>
+<!-- external registry number from external db -->
+            <xs:element name="Sys-chem-molid_E_externalrn">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Sys-chem-externalrn"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Sys-chem-molid_E_other">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Dbtag"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- chemical/drug identifier using an exteral registry number/identifier -->
+<xs:element name="Sys-chem-externalrn">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Sys-chem-externalrn_externalrn" type="xs:string"/>
+      <xs:element name="Sys-chem-externalrn_sourceid" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Sys-pathwayXref">
+  <xs:complexType>
+    <xs:sequence>
+<!-- sysid of internal system -->
+      <xs:element name="Sys-pathwayXref_sys" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- to identify an external system (i.e. not imported) -->
+      <xs:element name="Sys-pathwayXref_accessions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sys-pathwayXref_linkType">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="linked"/>
+                <xs:enumeration value="subset"/>
+                <xs:enumeration value="superset"/>
+                <xs:enumeration value="reference"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- choice between molecule, molecule set id, or external pathway -->
+<xs:element name="SysEntity">
+  <xs:complexType>
+    <xs:sequence>
+<!-- unique id (within system record) for a set of molecules -->
+      <xs:element name="SysEntity_seid" type="xs:integer" minOccurs="0"/>
+<!-- display name -->
+      <xs:element name="SysEntity_name" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SysEntity_name_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- category in free form -->
+      <xs:element name="SysEntity_category" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SysEntity_category_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- comments -->
+      <xs:element name="SysEntity_comment" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SysEntity_comment_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- annotations on the molecule -->
+      <xs:element name="SysEntity_annots" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sys-annot"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- other information about the molset -->
+      <xs:element name="SysEntity_other" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SysEntity_entity" minOccurs="0">
+        <xs:complexType>
+          <xs:choice>
+<!-- molecule -->
+            <xs:element name="SysEntity_entity_mol">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Sys-molid"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- linked pathway -->
+            <xs:element name="SysEntity_entity_linkedSystem">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Sys-pathwayXref"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+<!-- group of entities such as complex or isoforms -->
+            <xs:element name="SysEntity_entity_composite">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="SysEntity-set"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- set of molecules -->
+<xs:element name="SysEntity-set-type">
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:attribute name="value" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+<!--
+    complex	-  a set of molecules bound together
+    isozymes	-  each member of the set is a different molecule with similar function, e.g. paralogs.
+-->
+              <xs:enumeration value="complex" ncbi:intvalue="0"/>
+              <xs:enumeration value="isozymes" ncbi:intvalue="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="SysEntity-set">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="SysEntity-set_label" type="xs:string" minOccurs="0"/>
+<!-- to represent groups of related entities such as complexes or isoforms -->
+      <xs:element name="SysEntity-set_entities">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="SysEntity"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SysEntity-set_type" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SysEntity-set-type"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- type of system image -->
+<xs:element name="Sys-image-type">
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:attribute name="value" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="jpeg" ncbi:intvalue="0"/>
+              <xs:enumeration value="png" ncbi:intvalue="1"/>
+              <xs:enumeration value="gif" ncbi:intvalue="2"/>
+              <xs:enumeration value="swf" ncbi:intvalue="3"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:element>
+
+<!-- geometric shape used for individual part of image map -->
+<xs:element name="Sys-image-map-type">
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:attribute name="value" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+<!--
+    rect	-  rectangle
+    circle	-  circle
+    poly	-  polygon
+-->
+              <xs:enumeration value="rect" ncbi:intvalue="0"/>
+              <xs:enumeration value="circle" ncbi:intvalue="1"/>
+              <xs:enumeration value="poly" ncbi:intvalue="2"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ definition of clickable region in client side image map.
+ definition of coords (taken from w3c specification for html):
+ rect: left-x, top-y, right-x, bottom-y
+ circle: center-x, center-y, radius
+ poly: x1, y1, x2, y2, ..., xN, yN.  first and last coords the same or define an edge connecting them.
+-->
+<xs:element name="Sys-image-map">
+  <xs:complexType>
+    <xs:sequence>
+<!-- the shape of the clickable region -->
+      <xs:element name="Sys-image-map_type">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-image-map-type"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- the cooordiates of the clickable region -->
+      <xs:element name="Sys-image-map_coords">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Sys-image-map_coords_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- the reactants that are mapped to (note that reactions are not clickable) -->
+      <xs:element name="Sys-image-map_reactid" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- client side imagemap -->
+<xs:element name="Sys-image-mapset">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Sys-image-map"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- an encoded image -->
+<xs:element name="Sys-image-encoded">
+  <xs:complexType>
+    <xs:sequence>
+<!-- the image (raw binary) -->
+      <xs:element name="Sys-image-encoded_encodedimage" type="xs:hexBinary"/>
+<!-- the image type, e.g. png -->
+      <xs:element name="Sys-image-encoded_type">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-image-type"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- an image displaying the system -->
+<xs:element name="Sys-image">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Sys-image_image">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Sys-image_image_encodedimage">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Sys-image-encoded"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Sys-image_image_imageurl" type="xs:string"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+<!-- the client side imagemap -->
+      <xs:element name="Sys-image_map" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-image-mapset"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- a particular citation -->
+<xs:element name="Sys-cite">
+  <xs:complexType>
+    <xs:choice>
+<!--
+ citation, including pmid
+    book Cdd-book-ref,             reference to entrez book
+-->
+      <xs:element name="Sys-cite_citation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Pub"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- omim -->
+      <xs:element name="Sys-cite_mimNumber" type="xs:string"/>
+<!-- omia -->
+      <xs:element name="Sys-cite_pheneid" type="xs:string"/>
+<!-- mesh heading name -->
+      <xs:element name="Sys-cite_meshheading" type="xs:string"/>
+<!-- catchall -->
+      <xs:element name="Sys-cite_other">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- annotation on system or on a reactant in a system -->
+<xs:element name="Sys-annot">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Sys-annot_comment" type="xs:string" minOccurs="0"/>
+      <xs:element name="Sys-annot_citation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-cite"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sys-annot_sites" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- category -->
+      <xs:element name="Sys-annot_category" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Sys-annot_category_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- other annotations -->
+      <xs:element name="Sys-annot_other" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!--
+ system identifier
+ note that change deltas, such as changes to the lists or graphs
+ will be handled by a bit array
+ accession == 0 indicates an unaccessioned records
+-->
+<xs:element name="Sys-id">
+  <xs:complexType>
+    <xs:sequence>
+<!-- stable across versions -->
+      <xs:element name="Sys-id_bsid" type="xs:integer"/>
+<!-- changes when anything changes -->
+      <xs:element name="Sys-id_version" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- what kind of hiliting is supported -->
+<xs:element name="Sys-hilite-type">
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:attribute name="value" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+<!--
+    simple	-  map name plus external identifiers separate by plus signs
+-->
+              <xs:enumeration value="simple" ncbi:intvalue="0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Sys-mol-type">
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="xs:integer">
+        <xs:attribute name="value" use="optional">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="gene" ncbi:intvalue="0"/>
+              <xs:enumeration value="protein" ncbi:intvalue="1"/>
+              <xs:enumeration value="small-molecule" ncbi:intvalue="2"/>
+              <xs:enumeration value="rna" ncbi:intvalue="3"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:element>
+
+<!-- what is the hilite url? -->
+<xs:element name="Sys-hilite-url">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Sys-hilite-url_url" type="xs:string"/>
+      <xs:element name="Sys-hilite-url_type" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-hilite-type"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Sys-hilite-url_idtypes">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sys-mol-type"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- source from depositions -->
+<xs:element name="Sys-source">
+  <xs:complexType>
+    <xs:sequence>
+<!-- source of record -->
+      <xs:element name="Sys-source_source" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- url to source db hompage -->
+      <xs:element name="Sys-source_sourceurl" type="xs:string" minOccurs="0"/>
+<!-- email address of source -->
+      <xs:element name="Sys-source_email" type="xs:string" minOccurs="0"/>
+<!-- papers describing source -->
+      <xs:element name="Sys-source_attribution" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Pub"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- other information about the source -->
+      <xs:element name="Sys-source_other" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- the overall system definition -->
+<xs:element name="System">
+  <xs:complexType>
+    <xs:sequence>
+<!-- system id -->
+      <xs:element name="System_sysid">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- source of record -->
+      <xs:element name="System_source" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Sys-source"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- source accession -->
+      <xs:element name="System_externalaccn" type="xs:string" minOccurs="0"/>
+<!-- url to source record -->
+      <xs:element name="System_recordurl" type="xs:string" minOccurs="0"/>
+<!-- url to use for highlighting -->
+      <xs:element name="System_hiliteurls" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sys-hilite-url"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Date of first creation/dump -->
+      <xs:element name="System_create-date" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Date of modification -->
+      <xs:element name="System_modify-date" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- display names, first one is short name -->
+      <xs:element name="System_names" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="System_names_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- description of system -->
+      <xs:element name="System_description" type="xs:string" minOccurs="0"/>
+<!-- other text about system -->
+      <xs:element name="System_comments" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="System_comments_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- interactors or "vertexes" of system -->
+      <xs:element name="System_interactors">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="SysEntity-set"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- reactions or "edges" in system -->
+      <xs:element name="System_interactions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Interaction"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- annotations on system -->
+      <xs:element name="System_annots" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sys-annot"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- images displaying system -->
+      <xs:element name="System_image" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sys-image"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- small image of system -->
+      <xs:element name="System_thumbnail" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sys-image"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- what kind of record? -->
+      <xs:element name="System_category" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="System_category_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- taxonomy span of system -->
+      <xs:element name="System_taxid" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="System_taxid_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- other information about the record -->
+      <xs:element name="System_properties" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- change deltas -->
+      <xs:element name="System_delta" type="xs:hexBinary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Sys-set">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="System"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- Interaction  -->
+<xs:element name="Interactor-id">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="Interactor-id_msid" type="xs:integer"/>
+      <xs:element name="Interactor-id_iid" type="xs:integer"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Interactor">
+  <xs:complexType>
+    <xs:sequence>
+<!-- points to a molset or reaction -->
+      <xs:element name="Interactor_id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Interactor-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- types the interactor -->
+      <xs:element name="Interactor_category" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Interactor_category_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Interactor_stoichiometry" type="xs:double" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- definition of a interaction -->
+<xs:element name="Interaction">
+  <xs:complexType>
+    <xs:sequence>
+<!-- items that interact -->
+      <xs:element name="Interaction_interactors">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Interactor"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- optional identifier for interaction -->
+      <xs:element name="Interaction_iid" type="xs:integer" minOccurs="0"/>
+<!-- what is the reaction type, e.g. inhibition -->
+      <xs:element name="Interaction_category" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Interaction_category_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- annotations on the reaction -->
+      <xs:element name="Interaction_annots" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Sys-annot"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- other information about the interaction -->
+      <xs:element name="Interaction_other" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="User-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

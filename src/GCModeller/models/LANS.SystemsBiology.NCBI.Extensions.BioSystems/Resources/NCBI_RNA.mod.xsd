@@ -1,0 +1,194 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.0
+     ::DATATOOL:: on 09/15/2008 23:08:26
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-RNA"
+================================================= -->
+<!--
+**********************************************************************
+
+  NCBI RNAs
+  by James Ostell, 1990
+  version 0.8
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          RNA-ref,
+          Trna-ext,
+          RNA-gen,
+          RNA-qual,
+          RNA-qual-set -->
+
+<!-- Elements referenced from other modules:
+          Seq-loc FROM NCBI-Seqloc -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** rnas ***********************************************
+*
+*  various rnas
+*
+ minimal RNA sequence
+-->
+<xs:element name="RNA-ref">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="RNA-ref_type">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    snRNA	-  will become ncRNA, with RNA-gen.class = snRNA
+    scRNA	-  will become ncRNA, with RNA-gen.class = scRNA
+    snoRNA	-  will become ncRNA, with RNA-gen.class = snoRNA
+    ncRNA	-  non-coding RNA; subsumes snRNA, scRNA, snoRNA
+-->
+                <xs:enumeration value="unknown"/>
+                <xs:enumeration value="premsg"/>
+                <xs:enumeration value="mRNA"/>
+                <xs:enumeration value="tRNA"/>
+                <xs:enumeration value="rRNA"/>
+                <xs:enumeration value="snRNA"/>
+                <xs:enumeration value="scRNA"/>
+                <xs:enumeration value="snoRNA"/>
+                <xs:enumeration value="ncRNA"/>
+                <xs:enumeration value="tmRNA"/>
+                <xs:enumeration value="miscRNA"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RNA-ref_pseudo" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- generic fields for ncRNA, tmRNA, miscRNA -->
+      <xs:element name="RNA-ref_ext" minOccurs="0">
+        <xs:complexType>
+          <xs:choice>
+<!-- for naming "other" type -->
+            <xs:element name="RNA-ref_ext_name" type="xs:string"/>
+<!-- for tRNAs -->
+            <xs:element name="RNA-ref_ext_tRNA">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Trna-ext"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="RNA-ref_ext_gen">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="RNA-gen"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- tRNA feature extensions -->
+<xs:element name="Trna-ext">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Trna-ext_aa" minOccurs="0">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Trna-ext_aa_iupacaa" type="xs:integer"/>
+            <xs:element name="Trna-ext_aa_ncbieaa" type="xs:integer"/>
+            <xs:element name="Trna-ext_aa_ncbi8aa" type="xs:integer"/>
+            <xs:element name="Trna-ext_aa_ncbistdaa" type="xs:integer"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+<!-- codon(s) as in Genetic-code -->
+      <xs:element name="Trna-ext_codon" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Trna-ext_codon_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- location of anticodon -->
+      <xs:element name="Trna-ext_anticodon" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="RNA-gen">
+  <xs:complexType>
+    <xs:sequence>
+<!--
+ for ncRNAs, the class of non-coding RNA:
+ examples: antisense_RNA, guide_RNA, snRNA
+-->
+      <xs:element name="RNA-gen_class" type="xs:string" minOccurs="0"/>
+      <xs:element name="RNA-gen_product" type="xs:string" minOccurs="0"/>
+<!-- e.g., tag_peptide qualifier for tmRNAs -->
+      <xs:element name="RNA-gen_quals" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="RNA-qual-set"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- Additional data values for RNA-gen, -->
+<xs:element name="RNA-qual">
+  <xs:complexType>
+    <xs:sequence>
+<!-- in a tag (qual), value (val) format -->
+      <xs:element name="RNA-qual_qual" type="xs:string"/>
+      <xs:element name="RNA-qual_val" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="RNA-qual-set">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="RNA-qual"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

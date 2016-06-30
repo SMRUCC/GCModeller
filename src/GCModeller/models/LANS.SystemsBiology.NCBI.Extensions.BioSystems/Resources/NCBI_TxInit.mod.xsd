@@ -1,0 +1,257 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqfeat.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-TxInit"
+================================================= -->
+<!--
+********************************************************************
+
+  Transcription Initiation Site Feature Data Block
+  James Ostell, 1991
+  Philip Bucher, David Ghosh
+  version 1.1
+
+  
+
+********************************************************************
+-->
+<!-- Elements used by other modules:
+          Txinit -->
+
+<!-- Elements referenced from other modules:
+          Gene-ref FROM NCBI-Gene,
+          Prot-ref FROM NCBI-Protein,
+          Org-ref FROM NCBI-Organism -->
+
+<!-- ============================================ -->
+
+
+
+<xs:element name="Txinit">
+  <xs:complexType>
+    <xs:sequence>
+<!-- descriptive name of initiation site -->
+      <xs:element name="Txinit_name" type="xs:string"/>
+<!-- synonyms -->
+      <xs:element name="Txinit_syn" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Txinit_syn_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- gene(s) transcribed -->
+      <xs:element name="Txinit_gene" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Gene-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- protein(s) produced -->
+      <xs:element name="Txinit_protein" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Prot-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- rna(s) produced -->
+      <xs:element name="Txinit_rna" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Txinit_rna_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- tissue/time of expression -->
+      <xs:element name="Txinit_expression" type="xs:string" minOccurs="0"/>
+      <xs:element name="Txinit_txsystem">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    pol1	-  eukaryotic Pol I
+    pol2	-  eukaryotic Pol II
+    pol3	-  eukaryotic Pol III
+    rna	-  RNA replicase
+-->
+                <xs:enumeration value="unknown"/>
+                <xs:enumeration value="pol1"/>
+                <xs:enumeration value="pol2"/>
+                <xs:enumeration value="pol3"/>
+                <xs:enumeration value="bacterial"/>
+                <xs:enumeration value="viral"/>
+                <xs:enumeration value="rna"/>
+                <xs:enumeration value="organelle"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- modifiers on txsystem -->
+      <xs:element name="Txinit_txdescr" type="xs:string" minOccurs="0"/>
+<!-- organism supplying transcription apparatus -->
+      <xs:element name="Txinit_txorg" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Org-ref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- mapping precise or approx -->
+      <xs:element name="Txinit_mapping-precise" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- does Seq-loc reflect mapping -->
+      <xs:element name="Txinit_location-accurate" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Txinit_inittype" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="unknown"/>
+                <xs:enumeration value="single"/>
+                <xs:enumeration value="multiple"/>
+                <xs:enumeration value="region"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Txinit_evidence" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Tx-evidence"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Tx-evidence">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Tx-evidence_exp-code">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    rna-seq	-  direct RNA sequencing
+    rna-size	-  RNA length measurement
+    np-map	-  nuclease protection mapping with homologous sequence ladder
+    np-size	-  nuclease protected fragment length measurement
+    pe-seq	-  dideoxy RNA sequencing 
+    cDNA-seq	-  full-length cDNA sequencing
+    pe-map	-  primer extension mapping with homologous sequence ladder    
+    pe-size	-  primer extension product length measurement
+    pseudo-seq	-  full-length processed pseudogene sequencing
+    rev-pe-map	-  see NOTE (1) below
+-->
+                <xs:enumeration value="unknown"/>
+                <xs:enumeration value="rna-seq"/>
+                <xs:enumeration value="rna-size"/>
+                <xs:enumeration value="np-map"/>
+                <xs:enumeration value="np-size"/>
+                <xs:enumeration value="pe-seq"/>
+                <xs:enumeration value="cDNA-seq"/>
+                <xs:enumeration value="pe-map"/>
+                <xs:enumeration value="pe-size"/>
+                <xs:enumeration value="pseudo-seq"/>
+                <xs:enumeration value="rev-pe-map"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Tx-evidence_expression-system" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="physiological">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="unknown"/>
+                <xs:enumeration value="physiological"/>
+                <xs:enumeration value="in-vitro"/>
+                <xs:enumeration value="oocyte"/>
+                <xs:enumeration value="transfection"/>
+                <xs:enumeration value="transgenic"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Tx-evidence_low-prec-data" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- experiment actually done on -->
+      <xs:element name="Tx-evidence_from-homolog" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element><!--
+  close homolog
+ NOTE (1) length measurement of a reverse direction primer-extension
+          product (blocked  by  RNA  5'end)  by  comparison with
+          homologous sequence ladder (J. Mol. Biol. 199, 587)
+-->
+
+
+</xs:schema>

@@ -1,0 +1,351 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "medline.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Medline"
+================================================= -->
+<!--
+$Revision: 6.0 $
+**********************************************************************
+
+  MEDLINE data definitions
+  James Ostell, 1990
+
+  enhanced in 1996 to support PubMed records as well by simply adding
+    the PubMedId and making MedlineId optional
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Medline-entry,
+          Medline-si -->
+
+<!-- Elements referenced from other modules:
+          Cit-art,
+          PubMedId FROM NCBI-Biblio,
+          Date FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+ a MEDLINE or PubMed entry
+ regular medline record
+-->
+<xs:element name="Medline-entry">
+  <xs:complexType>
+    <xs:sequence>
+<!-- MEDLINE UID, sometimes not yet available if from PubMed -->
+      <xs:element name="Medline-entry_uid" type="xs:integer" minOccurs="0"/>
+<!-- Entry Month -->
+      <xs:element name="Medline-entry_em">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- article citation -->
+      <xs:element name="Medline-entry_cit">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Cit-art"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Medline-entry_abstract" type="xs:string" minOccurs="0"/>
+      <xs:element name="Medline-entry_mesh" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Medline-mesh"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Medline-entry_substance" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Medline-rn"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Medline-entry_xref" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Medline-si"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- ID Number (grants, contracts) -->
+      <xs:element name="Medline-entry_idnum" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Medline-entry_idnum_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Medline-entry_gene" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Medline-entry_gene_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- MEDLINE records may include the PubMedId -->
+      <xs:element name="Medline-entry_pmid" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PubMedId"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- may show publication types (review, etc) -->
+      <xs:element name="Medline-entry_pub-type" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Medline-entry_pub-type_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- additional Medline field types -->
+      <xs:element name="Medline-entry_mlfield" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Medline-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Medline-entry_status" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional" default="medline">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    publisher	-  record as supplied by publisher
+    premedline	-  premedline record
+-->
+                    <xs:enumeration value="publisher" ncbi:intvalue="1"/>
+                    <xs:enumeration value="premedline" ncbi:intvalue="2"/>
+                    <xs:enumeration value="medline" ncbi:intvalue="3"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Medline-mesh">
+  <xs:complexType>
+    <xs:sequence>
+<!-- TRUE if main point (*) -->
+      <xs:element name="Medline-mesh_mp" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- the MeSH term -->
+      <xs:element name="Medline-mesh_term" type="xs:string"/>
+<!-- qualifiers -->
+      <xs:element name="Medline-mesh_qual" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Medline-qual"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Medline-qual">
+  <xs:complexType>
+    <xs:sequence>
+<!-- TRUE if main point -->
+      <xs:element name="Medline-qual_mp" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="false">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- the subheading -->
+      <xs:element name="Medline-qual_subh" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- medline substance records -->
+<xs:element name="Medline-rn">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Medline-rn_type">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    cas	-  CAS number
+    ec	-  EC number
+-->
+                <xs:enumeration value="nameonly"/>
+                <xs:enumeration value="cas"/>
+                <xs:enumeration value="ec"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- CAS or EC number if present -->
+      <xs:element name="Medline-rn_cit" type="xs:string" minOccurs="0"/>
+<!-- name (always present) -->
+      <xs:element name="Medline-rn_name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- medline cross reference records -->
+<xs:element name="Medline-si">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Medline-si_type">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+<!--
+    ddbj	-  DNA Data Bank of Japan
+    carbbank	-  Carbohydrate Structure Database
+    embl	-  EMBL Data Library
+    hdb	-  Hybridoma Data Bank
+    genbank	-  GenBank
+    hgml	-  Human Gene Map Library
+    mim	-  Mendelian Inheritance in Man
+    msd	-  Microbial Strains Database
+    pdb	-  Protein Data Bank (Brookhaven)
+    pir	-  Protein Identification Resource
+    prfseqdb	-  Protein Research Foundation (Japan)
+    psd	-  Protein Sequence Database (Japan)
+    swissprot	-  SwissProt
+    gdb	-  Genome Data Base
+-->
+                <xs:enumeration value="ddbj"/>
+                <xs:enumeration value="carbbank"/>
+                <xs:enumeration value="embl"/>
+                <xs:enumeration value="hdb"/>
+                <xs:enumeration value="genbank"/>
+                <xs:enumeration value="hgml"/>
+                <xs:enumeration value="mim"/>
+                <xs:enumeration value="msd"/>
+                <xs:enumeration value="pdb"/>
+                <xs:enumeration value="pir"/>
+                <xs:enumeration value="prfseqdb"/>
+                <xs:enumeration value="psd"/>
+                <xs:enumeration value="swissprot"/>
+                <xs:enumeration value="gdb"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- the citation/accession number -->
+      <xs:element name="Medline-si_cit" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Medline-field">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Medline-field_type">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    other	-  look in line code
+    comment	-  comment line
+    erratum	-  retracted, corrected, etc
+-->
+                    <xs:enumeration value="other" ncbi:intvalue="0"/>
+                    <xs:enumeration value="comment" ncbi:intvalue="1"/>
+                    <xs:enumeration value="erratum" ncbi:intvalue="2"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+<!-- the text -->
+      <xs:element name="Medline-field_str" type="xs:string"/>
+<!-- pointers relevant to this text -->
+      <xs:element name="Medline-field_ids" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="DocRef"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- reference to a document -->
+<xs:element name="DocRef">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="DocRef_type">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="medline" ncbi:intvalue="1"/>
+                    <xs:enumeration value="pubmed" ncbi:intvalue="2"/>
+                    <xs:enumeration value="ncbigi" ncbi:intvalue="3"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocRef_uid" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

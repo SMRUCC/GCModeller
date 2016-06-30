@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqblock.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "PIR-General"
+================================================= -->
+<!--
+*********************************************************************
+
+  PIR specific data
+  This block of specifications was developed by Jim Ostell of
+      NCBI
+
+*********************************************************************
+-->
+<!-- Elements used by other modules:
+          PIR-block -->
+
+<!-- Elements referenced from other modules:
+          Seq-id FROM NCBI-Seqloc -->
+
+<!-- ============================================ -->
+
+
+
+<!-- PIR specific descriptions -->
+<xs:element name="PIR-block">
+  <xs:complexType>
+    <xs:sequence>
+<!-- had punctuation in sequence ? -->
+      <xs:element name="PIR-block_had-punct" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PIR-block_host" type="xs:string" minOccurs="0"/>
+<!-- source line -->
+      <xs:element name="PIR-block_source" type="xs:string" minOccurs="0"/>
+      <xs:element name="PIR-block_summary" type="xs:string" minOccurs="0"/>
+      <xs:element name="PIR-block_genetic" type="xs:string" minOccurs="0"/>
+      <xs:element name="PIR-block_includes" type="xs:string" minOccurs="0"/>
+      <xs:element name="PIR-block_placement" type="xs:string" minOccurs="0"/>
+      <xs:element name="PIR-block_superfamily" type="xs:string" minOccurs="0"/>
+      <xs:element name="PIR-block_keywords" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="PIR-block_keywords_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PIR-block_cross-reference" type="xs:string" minOccurs="0"/>
+      <xs:element name="PIR-block_date" type="xs:string" minOccurs="0"/>
+<!-- seq with punctuation -->
+      <xs:element name="PIR-block_seq-raw" type="xs:string" minOccurs="0"/>
+<!-- xref to other sequences -->
+      <xs:element name="PIR-block_seqref" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

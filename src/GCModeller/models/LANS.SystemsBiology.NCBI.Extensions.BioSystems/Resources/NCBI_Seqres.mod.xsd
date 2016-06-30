@@ -1,0 +1,148 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqres.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Seqres"
+================================================= -->
+<!--
+$Revision: 6.0 $
+**********************************************************************
+
+  NCBI Sequence Analysis Results (other than alignments)
+  by James Ostell, 1990
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Seq-graph -->
+
+<!-- Elements referenced from other modules:
+          Seq-loc FROM NCBI-Seqloc -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** Sequence Graph ********************************
+*
+*   for values mapped by residue or range to sequence
+*
+-->
+<xs:element name="Seq-graph">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Seq-graph_title" type="xs:string" minOccurs="0"/>
+      <xs:element name="Seq-graph_comment" type="xs:string" minOccurs="0"/>
+<!-- region this applies to -->
+      <xs:element name="Seq-graph_loc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- title for x-axis -->
+      <xs:element name="Seq-graph_title-x" type="xs:string" minOccurs="0"/>
+      <xs:element name="Seq-graph_title-y" type="xs:string" minOccurs="0"/>
+<!-- compression (residues/value) -->
+      <xs:element name="Seq-graph_comp" type="xs:integer" minOccurs="0"/>
+<!-- for scaling values -->
+      <xs:element name="Seq-graph_a" type="xs:double" minOccurs="0"/>
+<!-- display = (a x value) + b -->
+      <xs:element name="Seq-graph_b" type="xs:double" minOccurs="0"/>
+<!-- number of values in graph -->
+      <xs:element name="Seq-graph_numval" type="xs:integer"/>
+      <xs:element name="Seq-graph_graph">
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="Seq-graph_graph_real">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Real-graph"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-graph_graph_int">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Int-graph"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Seq-graph_graph_byte">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="Byte-graph"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Real-graph">
+  <xs:complexType>
+    <xs:sequence>
+<!-- top of graph -->
+      <xs:element name="Real-graph_max" type="xs:double"/>
+<!-- bottom of graph -->
+      <xs:element name="Real-graph_min" type="xs:double"/>
+<!-- value to draw axis on -->
+      <xs:element name="Real-graph_axis" type="xs:double"/>
+      <xs:element name="Real-graph_values">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Real-graph_values_E" type="xs:double"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Int-graph">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Int-graph_max" type="xs:integer"/>
+      <xs:element name="Int-graph_min" type="xs:integer"/>
+      <xs:element name="Int-graph_axis" type="xs:integer"/>
+      <xs:element name="Int-graph_values">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Int-graph_values_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- integer from 0-255 -->
+<xs:element name="Byte-graph">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Byte-graph_max" type="xs:integer"/>
+      <xs:element name="Byte-graph_min" type="xs:integer"/>
+      <xs:element name="Byte-graph_axis" type="xs:integer"/>
+      <xs:element name="Byte-graph_values" type="xs:hexBinary"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

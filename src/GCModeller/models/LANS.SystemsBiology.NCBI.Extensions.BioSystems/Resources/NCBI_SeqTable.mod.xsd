@@ -1,0 +1,486 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqtable.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 12/14/2007 23:37:20
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-SeqTable"
+================================================= -->
+<!--
+$Revision: 115572 $
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            PUBLIC DOMAIN NOTICE
+                National Center for Biotechnology Information
+
+  This software/database is a "United States Government Work" under the terms
+  of the United States Copyright Act.  It was written as part of the author's
+  official duties as a United States Government employee and thus cannot be
+  copyrighted.  This software/database is freely available to the public for
+  use.  The National Library of Medicine and the U.S. Government have not
+  placed any restriction on its use or reproduction.
+
+  Although all reasonable efforts have been taken to ensure the accuracy and
+  reliability of the software and data, the NLM and the U.S. Government do not
+  and cannot warrant the performance or results that may be obtained by using
+  this software or data.  The NLM and the U.S. Government disclaim all
+  warranties, express or implied, including warranties of performance,
+  merchantability or fitness for any particular purpose.
+
+  Please cite the authors in any work or product based on this material.
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  Authors: Mike DiCuccio, Eugene Vasilchenko
+
+  ASN.1 interface to table readers
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+<!-- Elements used by other modules:
+          SeqTable-column-info,
+          SeqTable-column,
+          Seq-table -->
+
+<!-- Elements referenced from other modules:
+          Seq-id,
+          Seq-loc,
+          Seq-interval FROM NCBI-Seqloc -->
+
+<!-- ============================================ -->
+
+
+
+<xs:element name="SeqTable-column-info">
+  <xs:complexType>
+    <xs:sequence>
+<!-- user friendly column name, can be skipped -->
+      <xs:element name="SeqTable-column-info_title" type="xs:string" minOccurs="0"/>
+      <xs:element name="SeqTable-column-info_field-id" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:integer">
+              <xs:attribute name="value" use="optional">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+<!--
+    location	-  location as Seq-loc
+    location-id	-  location Seq-id
+    location-gi	-  gi
+    location-from	-  interval from
+    location-to	-  interval to
+    location-strand	-  location strand
+    product	-  product as Seq-loc
+    product-id	-  product Seq-id
+    product-gi	-  product gi
+    product-from	-  product interval from
+    product-to	-  product interval to
+    product-strand	-  product strand
+    id-local	-  main feature fields
+         id.local.id
+    xref-id-local	-  xref.id.local.id
+    ext	-  field-name must be "E.xxx", see below
+    qual	-  field-name must be "Q.xxx", see below
+    dbxref	-  field-name must be "D.xxx", see below
+    data-imp-key	-  various data fields
+    ext-type	-  extra fields, see also special values for str below
+-->
+                    <xs:enumeration value="location" ncbi:intvalue="0"/>
+                    <xs:enumeration value="location-id" ncbi:intvalue="1"/>
+                    <xs:enumeration value="location-gi" ncbi:intvalue="2"/>
+                    <xs:enumeration value="location-from" ncbi:intvalue="3"/>
+                    <xs:enumeration value="location-to" ncbi:intvalue="4"/>
+                    <xs:enumeration value="location-strand" ncbi:intvalue="5"/>
+                    <xs:enumeration value="location-fuzz-from-lim" ncbi:intvalue="6"/>
+                    <xs:enumeration value="location-fuzz-to-lim" ncbi:intvalue="7"/>
+                    <xs:enumeration value="product" ncbi:intvalue="10"/>
+                    <xs:enumeration value="product-id" ncbi:intvalue="11"/>
+                    <xs:enumeration value="product-gi" ncbi:intvalue="12"/>
+                    <xs:enumeration value="product-from" ncbi:intvalue="13"/>
+                    <xs:enumeration value="product-to" ncbi:intvalue="14"/>
+                    <xs:enumeration value="product-strand" ncbi:intvalue="15"/>
+                    <xs:enumeration value="product-fuzz-from-lim" ncbi:intvalue="16"/>
+                    <xs:enumeration value="product-fuzz-to-lim" ncbi:intvalue="17"/>
+                    <xs:enumeration value="id-local" ncbi:intvalue="20"/>
+                    <xs:enumeration value="xref-id-local" ncbi:intvalue="21"/>
+                    <xs:enumeration value="partial" ncbi:intvalue="22"/>
+                    <xs:enumeration value="comment" ncbi:intvalue="23"/>
+                    <xs:enumeration value="title" ncbi:intvalue="24"/>
+                    <xs:enumeration value="ext" ncbi:intvalue="25"/>
+                    <xs:enumeration value="qual" ncbi:intvalue="26"/>
+                    <xs:enumeration value="dbxref" ncbi:intvalue="27"/>
+                    <xs:enumeration value="data-imp-key" ncbi:intvalue="30"/>
+                    <xs:enumeration value="data-region" ncbi:intvalue="31"/>
+                    <xs:enumeration value="data-cdregion-frame" ncbi:intvalue="32"/>
+                    <xs:enumeration value="ext-type" ncbi:intvalue="40"/>
+                    <xs:enumeration value="qual-qual" ncbi:intvalue="41"/>
+                    <xs:enumeration value="qual-val" ncbi:intvalue="42"/>
+                    <xs:enumeration value="dbxref-db" ncbi:intvalue="43"/>
+                    <xs:enumeration value="dbxref-tag" ncbi:intvalue="44"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+<!--
+ any column can be identified by ASN.1 text locator string
+ with omitted object type.
+ examples:
+   "data.gene.locus" for Seq-feat.data.gene.locus
+   "data.imp.key" for Seq-feat.data.imp.key
+   "qual.qual"
+    - Seq-feat.qual is SEQUENCE so several columns are allowed
+      see also "Q.xxx" special value for shorter qual representation
+   "ext.type.str"
+   "ext.data.label.str"
+   "ext.data.data.int"
+      see also "E.xxx" special value for shorter ext representation
+ special values start with capital letter:
+   "E.xxx" - ext.data.label.str = xxx, ext.data.data = data
+    - Seq-feat.ext.data is SEQUENCE so several columns are allowed
+   "Q.xxx" - qual.qual = xxx, qual.val = data
+    - Seq-feat.qual is SEQUENCE so several columns are allowed
+   "D.xxx" - dbxref.id = xxx, dbxref.tag = data
+    - Seq-feat.dbxref is SET so several columns are allowed
+-->
+      <xs:element name="SeqTable-column-info_field-name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="CommonString-table">
+  <xs:complexType>
+    <xs:sequence>
+<!-- set of possible values -->
+      <xs:element name="CommonString-table_strings">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="CommonString-table_strings_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- indexes of values -->
+      <xs:element name="CommonString-table_indexes">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="CommonString-table_indexes_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="CommonBytes-table">
+  <xs:complexType>
+    <xs:sequence>
+<!-- set of possible values -->
+      <xs:element name="CommonBytes-table_bytes">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="CommonBytes-table_bytes_E" type="xs:hexBinary"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- indexes of values -->
+      <xs:element name="CommonBytes-table_indexes">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="CommonBytes-table_indexes_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="SeqTable-multi-data">
+  <xs:complexType>
+    <xs:choice>
+<!-- a set of integers, one per row -->
+      <xs:element name="SeqTable-multi-data_int">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SeqTable-multi-data_int_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- a set of reals, one per row -->
+      <xs:element name="SeqTable-multi-data_real">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SeqTable-multi-data_real_E" type="xs:double"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- a set of strings, one per row -->
+      <xs:element name="SeqTable-multi-data_string">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SeqTable-multi-data_string_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- a set of byte arrays, one per row -->
+      <xs:element name="SeqTable-multi-data_bytes">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SeqTable-multi-data_bytes_E" type="xs:hexBinary"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- a set of string with small set of possible values -->
+      <xs:element name="SeqTable-multi-data_common-string">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="CommonString-table"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- a set of byte arrays with small set of possible values -->
+      <xs:element name="SeqTable-multi-data_common-bytes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="CommonBytes-table"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!--
+ a set of bits, one per row
+ this uses bm::bvector<> as its storage mechanism
+-->
+      <xs:element name="SeqTable-multi-data_bit" type="xs:hexBinary"/>
+<!-- a set of locations, one per row -->
+      <xs:element name="SeqTable-multi-data_loc">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqTable-multi-data_id">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqTable-multi-data_interval">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Seq-interval"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="SeqTable-single-data">
+  <xs:complexType>
+    <xs:choice>
+<!-- integer -->
+      <xs:element name="SeqTable-single-data_int" type="xs:integer"/>
+<!-- real -->
+      <xs:element name="SeqTable-single-data_real" type="xs:double"/>
+<!-- string -->
+      <xs:element name="SeqTable-single-data_string" type="xs:string"/>
+<!-- byte array -->
+      <xs:element name="SeqTable-single-data_bytes" type="xs:hexBinary"/>
+<!-- bit -->
+      <xs:element name="SeqTable-single-data_bit">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+<!-- location -->
+      <xs:element name="SeqTable-single-data_loc">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqTable-single-data_id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SeqTable-single-data_interval">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-interval"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="SeqTable-sparse-index">
+  <xs:complexType>
+    <xs:choice>
+<!-- indexed of rows with values -->
+      <xs:element name="SeqTable-sparse-index_indexes">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="SeqTable-sparse-index_indexes_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- bitset of rows with values -->
+      <xs:element name="SeqTable-sparse-index_bit-set" type="xs:hexBinary"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="SeqTable-column">
+  <xs:complexType>
+    <xs:sequence>
+<!--
+ column description or reference to previously defined info
+ information about data
+-->
+      <xs:element name="SeqTable-column_header">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SeqTable-column-info"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- row data -->
+      <xs:element name="SeqTable-column_data" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SeqTable-multi-data"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- in case not all rows contain data this field will contain sparse info -->
+      <xs:element name="SeqTable-column_sparse" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SeqTable-sparse-index"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- default value for sparse table, or if row data is too short -->
+      <xs:element name="SeqTable-column_default" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SeqTable-single-data"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- single value for indexes not listed in sparse table -->
+      <xs:element name="SeqTable-column_sparse-other" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="SeqTable-single-data"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Seq-table">
+  <xs:complexType>
+    <xs:sequence>
+<!-- type of features in this table, equal to Seq-feat.data variant index -->
+      <xs:element name="Seq-table_feat-type" type="xs:integer"/>
+<!-- subtype of features in this table, defined in header SeqFeatData.hpp -->
+      <xs:element name="Seq-table_feat-subtype" type="xs:integer" minOccurs="0"/>
+<!-- number of rows -->
+      <xs:element name="Seq-table_num-rows" type="xs:integer"/>
+<!-- data in columns -->
+      <xs:element name="Seq-table_columns">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="SeqTable-column"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

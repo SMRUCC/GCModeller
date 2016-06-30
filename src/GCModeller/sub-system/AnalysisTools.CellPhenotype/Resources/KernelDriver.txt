@@ -1,0 +1,61 @@
+Imports Analysis_Tools.Phenotype.Regulations
+Imports MEME.app.genome_Footprints
+Imports GCModeller.Compiler.GCML.Csvx
+Imports IO_Device.Csv
+Imports GCModeller.Assembly.File.IO
+
+# This script file is using for running the GCModeller DFL binary network engine kernel.
+
+# ----------------------------------------------------------------------------------------------------------
+#         Script file input parameters
+# ----------------------------------------------------------------------------------------------------------
+
+# Process ID of the current Shoal Shell Process, this is using for generate the network 
+# input file, in order to avoid the disturbed between different process. 
+&PID
+
+# The DFL regulation network model modelling source
+$Footprints
+
+# The file path of the GCModeller virtual cell model resource entry xml file
+# Example as Model <- ".\trunk\xcb.xml" 
+$Model
+
+# The configuration data file of the DFL engine kernel 
+# Example as ".\trunk\config.inf"
+$Conf 
+
+# Setups the runtime ticks of the kernel, a integer value.
+$Kernel.Cycles 
+
+# All of the calculation result will be export to this location.
+$Dir.Export_Result
+
+# ----------------------------------------------------------------------------------------------------------
+
+
+
+# Starts to load the kernel data resource.
+
+Footprints < (Regprecise.Footprint) $Footprints
+
+Input <- "./TEMP/_&PID_DFLInput.csv"
+Input <- $Footprints -> Binary_Network.Empty_Inputs.Create() Path.SaveTo $Input
+
+Model < (GCML.Csvx) $Model
+Model <- $Model -> Binary_Network.Object.Create Network.Inits $Input Footprints $Footprints
+
+
+
+# Kernel configuration job
+Call $Model -> Kernel.Config.Load Conf.Path $Conf
+
+# Optional, Set up the gene mutation configuration.
+# Call $Model -> Setup.Mutation.Factor Gene.ID $ID.Gene Mutation.Factor $m.factor
+
+# Kernel driver running the kernel 
+Result <- $Model -> Binary_Network.Run Kel.Cycles $Kernel.Cycles
+
+# Save the GCModeller DFL kernel calculation data.
+$Result > $Dir.Export_Result/Expr0Matrix/data0Expr_MAT&PID.csv
+Call $Model -> Write.Csv.Regulations SaveTo.Path $Dir.Export_Result/data0Expr/Gene.Node.Regulations&PID.csv

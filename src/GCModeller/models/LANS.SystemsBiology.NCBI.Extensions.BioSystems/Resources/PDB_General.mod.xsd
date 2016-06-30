@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqblock.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "PDB-General"
+================================================= -->
+<!--
+*********************************************************************
+
+  PDB specific data
+  This block of specifications was developed by Jim Ostell and
+      Steve Bryant of NCBI
+
+*********************************************************************
+-->
+<!-- Elements used by other modules:
+          PDB-block -->
+
+<!-- Elements referenced from other modules:
+          Date FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<!-- PDB specific descriptions -->
+<xs:element name="PDB-block">
+  <xs:complexType>
+    <xs:sequence>
+<!-- deposition date  month,year -->
+      <xs:element name="PDB-block_deposition">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PDB-block_class" type="xs:string"/>
+      <xs:element name="PDB-block_compound">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="PDB-block_compound_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PDB-block_source">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="PDB-block_source_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- present if NOT X-ray diffraction -->
+      <xs:element name="PDB-block_exp-method" type="xs:string" minOccurs="0"/>
+<!-- replacement history -->
+      <xs:element name="PDB-block_replace" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PDB-replace"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PDB-replace">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="PDB-replace_date">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- entry ids replace by this one -->
+      <xs:element name="PDB-replace_ids">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="PDB-replace_ids_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

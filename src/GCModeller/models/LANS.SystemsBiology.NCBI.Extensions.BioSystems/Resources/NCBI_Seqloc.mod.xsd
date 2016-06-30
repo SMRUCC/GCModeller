@@ -1,0 +1,534 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqloc.asn"
+     ::DATATOOL:: by application DATATOOL version 1.9.0
+     ::DATATOOL:: on 09/15/2008 23:08:26
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "NCBI-Seqloc"
+================================================= -->
+<!--
+$Revision: 140157 $
+**********************************************************************
+
+  NCBI Sequence location and identifier elements
+  by James Ostell, 1990
+
+  Version 3.0 - 1994
+
+**********************************************************************
+-->
+<!-- Elements used by other modules:
+          Seq-id,
+          Seq-loc,
+          Seq-interval,
+          Packed-seqint,
+          Seq-point,
+          Packed-seqpnt,
+          Na-strand,
+          Giimport-id -->
+
+<!-- Elements referenced from other modules:
+          Object-id,
+          Int-fuzz,
+          Dbtag,
+          Date FROM NCBI-General,
+          Id-pat FROM NCBI-Biblio,
+          Feat-id FROM NCBI-Seqfeat -->
+
+<!-- ============================================ -->
+
+
+
+<!--
+*** Sequence identifiers ********************************
+*
+-->
+<xs:element name="Seq-id">
+  <xs:complexType>
+    <xs:choice>
+<!-- local use -->
+      <xs:element name="Seq-id_local">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Geninfo backbone seqid -->
+      <xs:element name="Seq-id_gibbsq" type="xs:integer"/>
+<!-- Geninfo backbone moltype -->
+      <xs:element name="Seq-id_gibbmt" type="xs:integer"/>
+<!-- Geninfo import id -->
+      <xs:element name="Seq-id_giim">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Giimport-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-id_genbank">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-id_embl">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-id_pir">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-id_swissprot">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-id_patent">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Patent-seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- for historical reasons, 'other' = 'refseq' -->
+      <xs:element name="Seq-id_other">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- for other databases -->
+      <xs:element name="Seq-id_general">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Dbtag"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- GenInfo Integrated Database -->
+      <xs:element name="Seq-id_gi" type="xs:integer"/>
+<!-- DDBJ -->
+      <xs:element name="Seq-id_ddbj">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- PRF SEQDB -->
+      <xs:element name="Seq-id_prf">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- PDB sequence -->
+      <xs:element name="Seq-id_pdb">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PDB-seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Third Party Annot/Seq Genbank -->
+      <xs:element name="Seq-id_tpg">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Third Party Annot/Seq EMBL -->
+      <xs:element name="Seq-id_tpe">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Third Party Annot/Seq DDBJ -->
+      <xs:element name="Seq-id_tpd">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Internal NCBI genome pipeline processing ID -->
+      <xs:element name="Seq-id_gpipe">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- Internal named annotation tracking ID -->
+      <xs:element name="Seq-id_named-annot-track">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Textseq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Patent-seq-id">
+  <xs:complexType>
+    <xs:sequence>
+<!-- number of sequence in patent -->
+      <xs:element name="Patent-seq-id_seqid" type="xs:integer"/>
+<!-- patent citation -->
+      <xs:element name="Patent-seq-id_cit">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Id-pat"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Textseq-id">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Textseq-id_name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Textseq-id_accession" type="xs:string" minOccurs="0"/>
+      <xs:element name="Textseq-id_release" type="xs:string" minOccurs="0"/>
+      <xs:element name="Textseq-id_version" type="xs:integer" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Giimport-id">
+  <xs:complexType>
+    <xs:sequence>
+<!-- the id to use here -->
+      <xs:element name="Giimport-id_id" type="xs:integer"/>
+<!-- dbase used in -->
+      <xs:element name="Giimport-id_db" type="xs:string" minOccurs="0"/>
+<!-- the release -->
+      <xs:element name="Giimport-id_release" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="PDB-seq-id">
+  <xs:complexType>
+    <xs:sequence>
+<!-- the molecule name -->
+      <xs:element name="PDB-seq-id_mol">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="PDB-mol-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- a single ASCII character, chain id -->
+      <xs:element name="PDB-seq-id_chain" type="xs:integer" default="32"/>
+<!-- release date, month and year -->
+      <xs:element name="PDB-seq-id_rel" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- name of mol, 4 chars -->
+<xs:element name="PDB-mol-id" type="xs:string"/>
+
+<!--
+*** Sequence locations **********************************
+*
+-->
+<xs:element name="Seq-loc">
+  <xs:complexType>
+    <xs:choice>
+<!-- not placed -->
+      <xs:element name="Seq-loc_null">
+        <xs:complexType/>
+      </xs:element>
+<!-- to NULL one Seq-id in a collection -->
+      <xs:element name="Seq-loc_empty">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- whole sequence -->
+      <xs:element name="Seq-loc_whole">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- from to -->
+      <xs:element name="Seq-loc_int">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-interval"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-loc_packed-int">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Packed-seqint"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-loc_pnt">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-point"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-loc_packed-pnt">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Packed-seqpnt"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-loc_mix">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc-mix"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- equivalent sets of locations -->
+      <xs:element name="Seq-loc_equiv">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-loc-equiv"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-loc_bond">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-bond"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- indirect, through a Seq-feat -->
+      <xs:element name="Seq-loc_feat">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Feat-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Seq-interval">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Seq-interval_from" type="xs:integer"/>
+      <xs:element name="Seq-interval_to" type="xs:integer"/>
+      <xs:element name="Seq-interval_strand" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- WARNING: this used to be optional -->
+      <xs:element name="Seq-interval_id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-interval_fuzz-from" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Int-fuzz"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-interval_fuzz-to" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Int-fuzz"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Packed-seqint">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Seq-interval"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Seq-point">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Seq-point_point" type="xs:integer"/>
+      <xs:element name="Seq-point_strand" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- WARNING: this used to be optional -->
+      <xs:element name="Seq-point_id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Seq-point_fuzz" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Int-fuzz"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="Packed-seqpnt">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="Packed-seqpnt_strand" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Na-strand"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Packed-seqpnt_id">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Packed-seqpnt_fuzz" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Int-fuzz"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Packed-seqpnt_points">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Packed-seqpnt_points_E" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- strand of nucleic acid -->
+<xs:element name="Na-strand">
+  <xs:complexType>
+    <xs:attribute name="value" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+<!--
+    both	-  in forward orientation
+    both-rev	-  in reverse orientation
+-->
+          <xs:enumeration value="unknown"/>
+          <xs:enumeration value="plus"/>
+          <xs:enumeration value="minus"/>
+          <xs:enumeration value="both"/>
+          <xs:enumeration value="both-rev"/>
+          <xs:enumeration value="other"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+</xs:element>
+
+<!-- bond between residues -->
+<xs:element name="Seq-bond">
+  <xs:complexType>
+    <xs:sequence>
+<!-- connection to a least one residue -->
+      <xs:element name="Seq-bond_a">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-point"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+<!-- other end may not be available -->
+      <xs:element name="Seq-bond_b" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Seq-point"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- this will hold anything -->
+<xs:element name="Seq-loc-mix">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Seq-loc"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<!-- for a set of equivalent locations -->
+<xs:element name="Seq-loc-equiv">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="Seq-loc"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

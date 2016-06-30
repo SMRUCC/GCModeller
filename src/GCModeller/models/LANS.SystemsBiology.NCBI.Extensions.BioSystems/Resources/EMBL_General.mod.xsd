@@ -1,0 +1,188 @@
+<?xml version="1.0" ?>
+<!-- ============================================
+     ::DATATOOL:: Generated from "seqblock.asn"
+     ::DATATOOL:: by application DATATOOL version 1.8.7
+     ::DATATOOL:: on 10/04/2007 23:07:33
+     ============================================ -->
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ncbi="http://www.ncbi.nlm.nih.gov"
+  xmlns="http://www.ncbi.nlm.nih.gov"
+  targetNamespace="http://www.ncbi.nlm.nih.gov"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+<!-- ============================================ -->
+<!-- This section is mapped from module "EMBL-General"
+================================================= -->
+<!--
+$Revision: 6.0 $
+*********************************************************************
+
+ 1990 - J.Ostell
+ Version 3.0 - June 1994
+
+*********************************************************************
+*********************************************************************
+
+  EMBL specific data
+  This block of specifications was developed by Reiner Fuchs of EMBL
+  Updated by J.Ostell, 1994
+
+*********************************************************************
+-->
+<!-- Elements used by other modules:
+          EMBL-dbname,
+          EMBL-xref,
+          EMBL-block -->
+
+<!-- Elements referenced from other modules:
+          Date,
+          Object-id FROM NCBI-General -->
+
+<!-- ============================================ -->
+
+
+
+<xs:element name="EMBL-dbname">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="EMBL-dbname_code">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="embl"/>
+                <xs:enumeration value="genbank"/>
+                <xs:enumeration value="ddbj"/>
+                <xs:enumeration value="geninfo"/>
+                <xs:enumeration value="medline"/>
+                <xs:enumeration value="swissprot"/>
+                <xs:enumeration value="pir"/>
+                <xs:enumeration value="pdb"/>
+                <xs:enumeration value="epd"/>
+                <xs:enumeration value="ecd"/>
+                <xs:enumeration value="tfd"/>
+                <xs:enumeration value="flybase"/>
+                <xs:enumeration value="prosite"/>
+                <xs:enumeration value="enzyme"/>
+                <xs:enumeration value="mim"/>
+                <xs:enumeration value="ecoseq"/>
+                <xs:enumeration value="hiv"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-dbname_name" type="xs:string"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="EMBL-xref">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="EMBL-xref_dbname">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="EMBL-dbname"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-xref_id">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Object-id"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="EMBL-block">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="EMBL-block_class" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="optional" default="standard">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="not-set"/>
+                <xs:enumeration value="standard"/>
+                <xs:enumeration value="unannotated"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-block_div" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="value" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="fun"/>
+                <xs:enumeration value="inv"/>
+                <xs:enumeration value="mam"/>
+                <xs:enumeration value="org"/>
+                <xs:enumeration value="phg"/>
+                <xs:enumeration value="pln"/>
+                <xs:enumeration value="pri"/>
+                <xs:enumeration value="pro"/>
+                <xs:enumeration value="rod"/>
+                <xs:enumeration value="syn"/>
+                <xs:enumeration value="una"/>
+                <xs:enumeration value="vrl"/>
+                <xs:enumeration value="vrt"/>
+                <xs:enumeration value="pat"/>
+                <xs:enumeration value="est"/>
+                <xs:enumeration value="sts"/>
+                <xs:enumeration value="other"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-block_creation-date">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-block_update-date">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="Date"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-block_extra-acc" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="EMBL-block_extra-acc_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-block_keywords" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="EMBL-block_keywords_E" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="EMBL-block_xref" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="EMBL-xref"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>
