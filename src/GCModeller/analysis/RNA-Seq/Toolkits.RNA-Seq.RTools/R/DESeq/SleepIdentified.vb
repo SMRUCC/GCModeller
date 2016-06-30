@@ -1,0 +1,80 @@
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
+
+Namespace DESeq2
+
+    ''' <summary>
+    ''' 鉴别出底表达量和休眠的基因
+    ''' </summary>
+    ''' 
+    <PackageNamespace("Expression.Stat")>
+    Public Module SleepIdentified
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="DESEq"></param>
+        ''' <param name="samples"></param>
+        ''' <param name="diff">产生差异表达的最小的阈值，请注意，这个和明显差异的含义是不一样的</param>
+        ''' <returns></returns>
+        ''' 
+        <ExportAPI("Stat.Identification")>
+        Public Function IdentifyChanges(DESEq As IEnumerable(Of ResultData),
+                                        samples As IEnumerable(Of SampleTable),
+                                        Optional diff As Double = 0.5,
+                                        Optional levels As Integer = 1000) As ExprStats()
+
+            Dim stats As Dictionary(Of String, ExprStats) =
+                DESEq.ToDictionary(Function(x) x.locus_tag,
+                                   Function(x) New ExprStats With {
+                                        .locus = x.locus_tag,
+                                        .log2FoldChange = x.log2FoldChange,
+                                        .Samples = New Dictionary(Of String, String)
+                                   })
+
+            For Each sample As SampleTable In samples
+                Dim Name As String = sample.sampleName
+                Dim lvMaps = DESEq.GenerateMapping(Function(x) x.dataExpr0(Name), levels)    ' 首先生成mappings
+                Call __analysis(stats, lvMaps, diff, sample:=Name)
+            Next
+
+            For Each gene As ExprStats In stats.Values
+                Dim max As Integer = gene.GetMaxLevel
+                For Each sample As SampleTable In samples
+                    If max = 0 Then
+                        Call gene.Samples.Add(ExprStats.LEVEL2 & sample.sampleName, "0")
+                    Else
+                        Dim l As Integer = gene.GetLevel(sample.sampleName)
+                        Dim p As Double = l / max
+                        Call gene.Samples.Add(ExprStats.LEVEL2 & sample.sampleName, CStr(p))
+                    End If
+                Next
+            Next
+
+            Return stats.Values.ToArray
+        End Function
+
+        Private Sub __analysis(ByRef stats As Dictionary(Of String, ExprStats), lvMaps As Dictionary(Of String, Integer), diff As Double, sample As String)
+            For Each x As ExprStats In stats.Values
+                Dim level As Integer = lvMaps(x.locus)
+                Dim s As String
+
+                If level < 5 Then  ' 在这里区分低表达还是不表达
+                    If x.log2FoldChange >= diff Then
+                        s = "-"  ' 发生了变化，说明基因原先是不表达的
+                    Else
+                        s = "+?"  ' 处于低表达水平，但是即使低表达水平，也能够行使正常的生物学功能
+                    End If
+                Else
+                    s = "+"
+                End If
+
+                Call x.Samples.Add(ExprStats.lEVEL & sample, CStr(level))
+                Call x.Samples.Add(ExprStats.STATs & sample, s)
+            Next
+        End Sub
+    End Module
+End Namespace
