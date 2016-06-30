@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <script src="js/jquery.1.9.1.min.js"></script>
+        <script src="js/highcharts.js"></script>
+        <script src="js/highcharts-3d.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var O_19c702d96f66449a93a5d2b582166954 = {
+                "title": { "text": "Combination chart" },
+                "xAxis": { "categories": ["Apples", "Oranges", "Pears", "Bananas", "Plums"] },
+                "labels": { "items": [{ "html": "Total fruit consumption", "style": { "left": "50px", "top": "18px", "color": (Highcharts.theme && Highcharts.theme.textColor) || 'black' } }] }, "series": [{ "type": "column", "name": "Jane", "data": [3, 2, 1, 3, 4] }, { "type": "column", "name": "John", "data": [2, 3, 5, 7, 6] }, { "type": "column", "name": "Joe", "data": [4, 3, 3, 9, 0] }, { "type": "spline", "name": "Average", "data": [3, 2.67, 3, 6.33, 3.33], "marker": { "lineWidth": 2, "lineColor": Highcharts.getOptions().colors[3], "fillColor": "white" } }, { "type": "pie", "name": "Total consumption", "data": [{ "name": "Jane", "y": 13, "color": Highcharts.getOptions().colors[0] }, { "name": "John", "y": 23, "color": Highcharts.getOptions().colors[1] }, { "name": "Joe", "y": 19, "color": Highcharts.getOptions().colors[2] }], "center": [100, 80], "size": 100, "showInLegend": false, "dataLabels": { "enabled": false } }], "g": "g_hc", "chart": { "renderTo": "C_19c702d96f66449a93a5d2b582166954", "width": 600, "height": 380 }, "credits": { "enabled": false }
+            };
+            $(function () {
+                var D_19c702d96f66449a93a5d2b582166954 = new Highcharts.Chart(O_19c702d96f66449a93a5d2b582166954)
+            });
+
+            var O_8d5532b4b5884c72a832b8f9afabd1e1 = {
+                "chart": {
+                    "type": "column", "options3d": {
+                        "enabled": true, "alpha": 15, "beta": 15, "viewDistance": 25, "depth": 40
+                    }, "marginTop": 80, "marginRight": 40, "renderTo": "C_8d5532b4b5884c72a832b8f9afabd1e1", "width": 570, "height": 380
+                }, "title": {
+                    "text": "Total fruit consumption, grouped by gender"
+                }, "xAxis": {
+                    "categories": ["Apples", "Oranges", "Pears", "Grapes", "Bananas"]
+                }, "yAxis": {
+                    "allowDecimals": false, "min": 0, "title": { "text": "Number of fruits" }
+                }, "tooltip": { "headerFormat": "<b>{point.key}</b><br>" }, "plotOptions": { "column": { "stacking": "normal", "depth": 40 } }, "series": [{ "name": "John", "data": [5, 3, 4, 7, 2], "stack": "male" }, { "name": "Joe", "data": [3, 4, 4, 2, 5], "stack": "male" }, { "name": "Jane", "data": [2, 5, 6, 2, 1], "stack": "female" }, { "name": "Janet", "data": [3, 0, 4, 4, 3], "stack": "female" }], "g": "g_hc", "credits": { "enabled": false }
+            };
+            $(function () {
+                var D_8d5532b4b5884c72a832b8f9afabd1e1 = new Highcharts.Chart(O_8d5532b4b5884c72a832b8f9afabd1e1)
+            });
+        </script>
+
+        <div style="width:600px; height:380px" id="C_19c702d96f66449a93a5d2b582166954"></div>
+        <div style="width:570px; height:380px" id="C_8d5532b4b5884c72a832b8f9afabd1e1"></div>  
+    </body>
+</html>

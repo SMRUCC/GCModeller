@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Color Legend Example</title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="colorlegend.js"></script>
+    <style type="text/css">
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+        background-color: #eee;
+      }
+
+      .legend {
+        background-color: #fff;
+        width: 300px;
+        height: 60px;
+        border: 1px solid #bbb;
+        margin: 10px;
+      }
+
+      #quantileLegend .colorlegend-labels {
+        font-size: 11px;
+        fill: black;
+      }
+      #linearLegend .colorlegend-labels {
+        font-size: 9px;
+        fill: #888;
+      }
+      #ordinalLegend .colorlegend-title {
+        font-size: 18px;
+        fill: #aaa;
+      }
+
+      .legend2,
+      .legend2ordinal {
+        background-color: #fff;
+        width: 45px;
+        height: 300px;
+        border: 1px solid #bbb;
+        margin: 10px;
+        float: left;
+      }
+
+      .legend2ordinal {
+        width: 110px;
+      }
+
+    </style>
+  </head>
+  <body>
+    
+    <h1>Color legend examples</h1>
+
+    <div id="quantileLegend" class="legend"></div>
+    <div id="linearLegend" class="legend"></div>
+    <div id="linearLegend2" class="legend"></div>
+    <div id="ordinalLegend" class="legend"></div>
+    <div id="ordinalLegend2" class="legend"></div>
+
+    <div id="quantileLegendVertical" class="legend2"></div>
+    <div id="linearLegendVertical" class="legend2"></div>
+    <div id="linearLegend2Vertical" class="legend2"></div>
+    <div id="ordinalLegendVertical" class="legend2"></div>
+    <div id="ordinalLegend2Vertical" class="legend2ordinal"></div>
+
+    <script type="text/javascript">
+
+      var data = [0,1,3,5,7,8,10,13,15,20];
+      var min = d3.min(data);
+      var mean = d3.sum(data) / data.length;
+      var max = d3.max(data);
+      
+      // quantile scale
+      var redBlueScale = ["rgb(103, 0, 31)", "rgb( 178, 24, 43)", "rgb( 214, 96, 77)", "rgb( 244, 165, 130)", "rgb( 253, 219, 199)", "rgb( 209, 229, 240)", "rgb( 146, 197, 222)", "rgb( 67, 147, 195)", "rgb( 33, 102, 172)", "rgb( 5, 48, 97)"];
+      var qScale = d3.scale.quantile()
+            .domain([min, mean, max])
+            .range(redBlueScale);
+            // console.log(qScale.domain());
+      colorlegend("#quantileLegend", qScale, "quantile", {title: "quantile", boxHeight: 15, boxWidth: 30});
+
+
+
+      // linear scale, 2 colors
+      var lScale = d3.scale.linear()
+            .domain([min, max])
+            .range(["rgb(103, 0, 31)", "rgb( 5, 48, 97)"]);
+      colorlegend("#linearLegend", lScale, "linear", {title: "linear"});
+
+      // linear scale, 3 colors
+      var lScale2 = d3.scale.linear()
+            .domain([min, mean, max])
+            .range(["rgb(103, 0, 31)", "rgb(200,200,200)", "rgb( 5, 48, 97)"]);
+      colorlegend("#linearLegend2", lScale2, "linear", {title: "linear (3 colors)", boxHeight: 20, boxWidth: 20, linearBoxes: 7});
+
+      // ordinal scale
+      var oData = ["A", "B", "C", "D", "E", "F"]
+      var oScale = d3.scale.category20()
+            .domain(oData);
+      colorlegend("#ordinalLegend", oScale, "ordinal", {title: "ordinal", boxHeight: 6, boxWidth: 20});
+
+      // another ordinal scale
+      var oData2 = [{"Apples": 3}, {"Bananas": 6}, {"Coconuts": 7}, {"Dates": 9}, {"Oranges": 7}, {"Canadian Blackberry": 2}];
+      var oScale2 = d3.scale.category20c()
+            .domain( ["Apples", "Bananas", "Coconuts", "Dates", "Oranges", "Canadian Blackberry"] );
+      colorlegend("#ordinalLegend2", oScale2, "ordinal", {boxHeight: 8, boxWidth:60});
+
+
+
+      // Vertical ones
+      // quantile scale
+      var redBlueScale = ["rgb(103, 0, 31)", "rgb( 178, 24, 43)", "rgb( 214, 96, 77)", "rgb( 244, 165, 130)", "rgb( 253, 219, 199)", "rgb( 209, 229, 240)", "rgb( 146, 197, 222)", "rgb( 67, 147, 195)", "rgb( 33, 102, 172)", "rgb( 5, 48, 97)"];
+      var qScale = d3.scale.quantile()
+            .domain([min, mean, max])
+            .range(redBlueScale);
+      colorlegend("#quantileLegendVertical", qScale, "quantile", {title: "quantile", boxHeight: 30, boxWidth: 15, vertical: true });
+
+      // linear scale, 2 colors
+      var lScale = d3.scale.linear()
+            .domain([min, max])
+            .range(["rgb(103, 0, 31)", "rgb( 5, 48, 97)"]);
+      colorlegend("#linearLegendVertical", lScale, "linear", {title: "linear", vertical: true });
+
+      // linear scale, 3 colors
+      var lScale2 = d3.scale.linear()
+            .domain([min, mean, max])
+            .range(["rgb(103, 0, 31)", "rgb(200,200,200)", "rgb( 5, 48, 97)"]);
+      colorlegend("#linearLegend2Vertical", lScale2, "linear", {title: "linear (3 colors)", boxHeight: 20, boxWidth: 20, linearBoxes: 7, vertical: true });
+
+      // ordinal scale
+      var oData = ["A", "B", "C", "D", "E", "F"]
+      var oScale = d3.scale.category20()
+            .domain(oData);
+      colorlegend("#ordinalLegendVertical", oScale, "ordinal", {title: "ordinal", boxHeight: 20, boxWidth: 6, vertical: true });
+
+      // another ordinal scale
+      var oData2 = [{"Apples": 3}, {"Bananas": 6}, {"Coconuts": 7}, {"Dates": 9}, {"Oranges": 7}, {"Canadian Blackberry": 2}];
+      var oScale2 = d3.scale.category20c()
+            .domain( ["Apples", "Bananas", "Coconuts", "Dates", "Oranges", "Canadian Blackberry"] );
+      colorlegend("#ordinalLegend2Vertical", oScale2, "ordinal", {boxHeight: 60, boxWidth:8, vertical: true });
+
+
+
+    </script>
+    
+    
+  </body>
+</html>

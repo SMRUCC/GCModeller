@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>GCModeller Dev-Technical blogs</title>
+	<atom:link href="http://gcmodeller.org/dev/?feed=rss2" rel="self" type="application/rss+xml" />
+	<link>http://gcmodeller.org/dev</link>
+	<description>GCModeller Dev-Technical blogs</description>
+	<lastBuildDate>Sun, 15 Nov 2015 15:03:09 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<!--CodeProjectFeeder channel--><category>CodeProject</category><generator>http://wordpress.org/?v=4.3.1</generator>
+
+<image>
+	<url>http://gcmodeller.org/dev/wp-content/uploads/2015/10/cropped-2000px-DNA_icon-e13402605695081-32x32.png</url>
+	<title>GCModeller Dev-Technical blogs</title>
+	<link>http://gcmodeller.org/dev</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Levenshtein Edit Distance</title>
+		<link>http://gcmodeller.org/dev/?p=132</link>
+		<comments>http://gcmodeller.org/dev/?p=132#comments</comments>
+		<pubDate>Sat, 14 Nov 2015 12:26:53 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[channel]]></category>
+		<category><![CDATA[CodeProject]]></category>
+		<category><![CDATA[Repost]]></category>
+		<category><![CDATA[Technical Notes]]></category>
+		<category><![CDATA[alignment]]></category>
+		<category><![CDATA[blastn]]></category>
+		<category><![CDATA[VB.NET]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=132</guid>
+		<description><![CDATA[Recently, I was working on a tools for finding the imperfect palindrome sequence site in the bacterial genome, a palindrome sequence is a kind of structure which can form the hairpin struct on its transcript RNA molecule sequence or just some restriction enzyme cutting site which theirs structure can be easily understand by the image shown below: [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="132">
+<p>Recently, I was working on a tools for finding the imperfect palindrome sequence site in the bacterial genome, a palindrome sequence is a kind of structure which can form the hairpin struct on its transcript RNA molecule sequence or just some restriction enzyme cutting site which theirs structure can be easily understand by the image shown below:</p>
+<p><img class="aligncenter wp-image-136 size-large" src="http://gcmodeller.org/dev/wp-content/uploads/2015/11/Palindrome-1024x554.png" alt="Palindrome" width="1024" height="554" /></p>
+<p style="text-align: center;"><em>Redraw from Figure 8-18 in Lehninger Principles of Biochemistry, Fifth Edition;</em></p>
+<p>Finding a exactly matched palindrome is much easilier than I think, but the problem is I want to found the palindrome sequence which its mirror sites is not exactly match each other in all nucleotide base residue. The NCBI blast program is an option for accomplish this operation, but it is impossible to integrate the C++ source code into the VisualBasic program and I lack of programming manual to guide me on this work. So that I try another way to implements this sequence similarity works.</p>
+<p>In information theory and computer science, the <b>Levenshtein distance</b> <em><span id="cite_ITEM-132-0" name="citation"><a href="#ITEM-132-0">[1]</a></span> </em>is a string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (i.e. insertions, deletions or substitutions) required to change one word into the other. It is named after Vladimir Levenshtein, who considered this distance in 1965. (via Wikipedia: <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" target="_blank">https://en.wikipedia.org/wiki/Levenshtein_distance</a>)</p>
+<p>There is already have a program implements Levenshtein distance algorithm on the .NET platform on codeproject article &#8220;<em><a href="http://www.codeproject.com/Tips/697588/Levenshtein-Edit-Distance-Algorithm" target="_blank">Levenshtein Edit Distance Algorithm</a></em>&#8220;, and this article save my time on the programming.</p>
+<p>Implements source code can be download from here:  <a href="http://gcmodeller.org/dev/wp-content/uploads/2015/11/LevenshteinDistance.zip">LevenshteinDistance</a></p>
+<p>The module in the source code file contains two main function:</p>
+<p>In this create table function i have make a slightly performance improvement of the original source code: change the reference and hypotheses parameters from string to a pre-cache chars&#8217; ASCII array in integer array, this changes will makes the matrix generation more efficiently:</p><pre class="crayon-plain-tag">''' &lt;summary&gt;
+''' Creates distance table for data visualization 
+''' &lt;/summary&gt;
+''' &lt;param name="reference"&gt;&lt;/param&gt;
+''' &lt;param name="hypotheses"&gt;&lt;/param&gt;
+''' &lt;param name="cost"&gt;&lt;/param&gt;
+''' &lt;returns&gt;&lt;/returns&gt;
+Private Function __createTable(reference As Integer(), hypotheses As Integer(), cost As Double) As Double(,)
+    Dim distTable As Double(,) = New Double(reference.Length, hypotheses.Length) {}
+
+    For i As Integer = 0 To reference.Length
+        distTable(i, 0) = i * cost
+    Next
+
+    For j As Integer = 0 To hypotheses.Length
+        distTable(0, j) = j * cost
+    Next
+
+    For i As Integer = 1 To reference.Length
+        For j As Integer = 1 To hypotheses.Length
+
+            If reference(i - 1) = hypotheses(j - 1) Then
+                '  if the letters are same 
+                distTable(i, j) = distTable(i - 1, j - 1)
+            Else ' if not add 1 to its neighborhoods and assign minumun of its neighborhoods 
+                Dim n As Double = Math.Min(distTable(i - 1, j - 1) + 1, distTable(i - 1, j) + cost)
+                distTable(i, j) = Math.Min(n, distTable(i, j - 1) + cost)
+            End If
+        Next
+    Next
+
+    Return distTable
+End Function</pre><p>Here is the function how to creates the matrix of <b>Levenshtein distance </b>for each character pair between two sequence in the For loops:</p>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/11/levFormula.png" rel="lightbox[132]" title="levFormula"><img class="wp-image-146 size-large aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/11/levFormula-1024x186.png" alt="levFormula" width="1024" height="186" /></a></p>
+<p>In the formula, when the i equals to ZERO or j equals to ZERO, then the function returns the non-ZERO part of the matrix &#8220;coordinate&#8221;, if the two character in the sequence is equals to each other, then the value is ZERO. <strong>lev</strong><em>a,b</em>(i,j) is the distance between the first i characters of a and the first j characters of b. Note that the first element in the minimum corresponds to deletion (from a to b), the second to insertion and the third to match or mismatch, depending on whether the respective symbols are the same.</p>
+<p>Here I make some modifications which makes you more easily to adjust the parameter of the alignment:</p><pre class="crayon-plain-tag">''' &lt;summary&gt;
+''' The edit distance between two strings is defined as the minimum number of 
+''' edit operations required to transform one string into another.
+''' &lt;/summary&gt;
+''' &lt;param name="reference"&gt;&lt;/param&gt;
+''' &lt;param name="hypotheses"&gt;&lt;/param&gt;
+''' &lt;param name="cost"&gt;&lt;/param&gt;
+''' &lt;returns&gt;&lt;/returns&gt;
+&lt;ExportAPI("ComputeDistance", Info:="Implement the Levenshtein Edit Distance algorithm.")&gt;
+Public Function ComputeDistance(reference As String, hypotheses As String, Optional cost As Double = 0.7) As DistResult
+
+    If hypotheses Is Nothing Then hypotheses = ""
+    If reference Is Nothing Then reference = ""
+
+    Dim css As New List(Of ComponentModel.Collection.Generic.KeyValuePairObject(Of Integer, Integer))
+    Dim distTable As Double(,) = __createTable(reference.ToArray(Function(ch) Asc(ch)),
+                                               hypotheses.ToArray(Function(ch) Asc(ch)),
+                                               cost)
+    Dim i As Integer = reference.Length, j As Integer = hypotheses.Length
+    Dim evolve As List(Of Char) = New List(Of Char)
+    Dim result As DistResult = New DistResult With {
+        .Hypotheses = hypotheses,
+        .Reference = reference
+    }
+    Dim Matches As New List(Of Char)
+
+    While True
+
+        Call css.Add({i, j})
+
+        If i = 0 AndAlso j = 0 Then
+            Dim evolveRoute As Char() = evolve.ToArray
+            Call Array.Reverse(evolveRoute)
+            Call css.Add({i, j})
+
+            result.DistTable = distTable.MatrixToVectorList.ToArray
+            result.DistResult = New String(evolveRoute)
+            result.CSS = css.ToArray
+            result.Matches = New String(Matches.ToArray.Reverse.ToArray)
+
+            Exit While
+
+        ElseIf i = 0 AndAlso j &gt; 0 Then   ' delete
+            Call evolve.Add("d"c)
+            Call css.Add({i, j})
+            Call Matches.Add("-"c)
+            j -= 1
+
+        ElseIf i &gt; 0 AndAlso j = 0 Then
+            Call evolve.Add("i"c)         ' insert
+            Call css.Add({i, j})
+            Call Matches.Add("-"c)
+            i -= 1
+
+        Else
+            If distTable(i - 1, j - 1) &lt;= distTable(i - 1, j) AndAlso
+                distTable(i - 1, j - 1) &lt;= distTable(i, j - 1) Then
+                Call css.Add({i, j})
+                If distTable(i - 1, j - 1) = distTable(i, j) Then
+                    Call evolve.Add("m"c) ' match
+                    Call Matches.Add(hypotheses(j - 1))
+                Else
+                    Call evolve.Add("s"c) ' substitue
+                    Call Matches.Add("-"c)
+                End If
+
+                i -= 1
+                j -= 1
+
+            ElseIf distTable(i - 1, j) &lt; distTable(i, j - 1) Then
+                Call css.Add({i, j})
+                Call evolve.Add("i")      ' insert
+                Call Matches.Add("-"c)
+                i -= 1
+
+            ElseIf distTable(i, j - 1) &lt; distTable(i - 1, j) Then
+                Call css.Add({i, j})
+                Call evolve.Add("d")      ' delete
+                Call Matches.Add("-"c)
+                j -= 1
+
+            End If
+        End If
+    End While
+
+    Return result
+End Function</pre><p>&nbsp;</p>
+<p>Test Alignment Shoal Script:</p><pre class="crayon-plain-tag">Imports Distance.Levenshtein
+
+Dim    a &lt;- ATGCGACCCGC   As String
+Dim    b &lt;- ATGTAACCCGGC  As String
+Dim HTML &lt;- {ComputeDistance $a, $b}
+
+Call Write.Xml.DistResult $HTML, ./testAlignment.xml
+ HTML &lt;- ToHTML $HTML
+$HTML &gt; ./testHTML.html</pre><p>And you can just using this module in your application easily with several statements in VisualBasic:</p><pre class="crayon-plain-tag">Dim a As String = "ATGCGACCCGC"
+Dim b As String = "ATGTAACCCGGC"
+Dim HTML = LevenshteinDistance.ComputeDistance(a, b)
+Dim HTMLText As String = HTML.Visualize
+
+Call FileIO.FileSystem.WriteAllText("./test.html", HTMLText, append:=False)
+Call FileIO.FileSystem.WriteAllText("./test.xml", HTML.GetXml, append:=False)</pre><p>And here is the generic function for the object xml serialization:</p><pre class="crayon-plain-tag">''' &lt;summary&gt;
+''' Serialization the target object type into a XML document.(??????????XML??)
+''' &lt;/summary&gt;
+''' &lt;typeparam name="T"&gt;The type of the target object data should be a class object.(???????????Class)&lt;/typeparam&gt;
+''' &lt;param name="obj"&gt;&lt;/param&gt;
+''' &lt;returns&gt;&lt;/returns&gt;
+''' &lt;remarks&gt;&lt;/remarks&gt;
+&lt;Extension&gt; Public Function GetXml(Of T As Class)(obj As T, Optional ThrowEx As Boolean = True) As String
+    Dim sBuilder As StringBuilder = New StringBuilder(1024)
+
+    Using StreamWriter As System.IO.StringWriter = New System.IO.StringWriter(sb:=sBuilder)
+        Try
+            Call (New System.Xml.Serialization.XmlSerializer(GetType(T))).Serialize(StreamWriter, obj)
+        Catch ex As Exception
+            Call App.LogException(ex)
+
+            If ThrowEx Then
+                Throw ex
+            Else
+                Return Nothing
+            End If
+        End Try
+        Return sBuilder.ToString
+    End Using
+End Function</pre><p>&nbsp;</p>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/11/Palindrome.png" rel="lightbox[132]" title="alignment"><img class="aligncenter wp-image-134 size-full" src="http://gcmodeller.org/dev/wp-content/uploads/2015/11/alignment.png" alt="alignment" width="368" height="602" /></a></p>
+<p>Here is the example alignment output: in the table of the alignment matrix, the blue color cell is the operations of how we change the hypotheses sequence to the reference sequence, and the cell in green background color is the path of the alignment.</p>
+<p>Download the test output data: <a href="http://gcmodeller.org/dev/wp-content/uploads/2015/11/Levenshtein-test-out.zip">Levenshtein-test-out</a><br />
+<a style="display: none;" href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=10137048" rel="tag">CodeProject</a></p>
+<h2>References</h2>
+    <ol>
+    </ol>
+
+</div> <!-- kcite-section 132 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=132</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Shoal Language Syntax Manual</title>
+		<link>http://gcmodeller.org/dev/?p=115</link>
+		<comments>http://gcmodeller.org/dev/?p=115#comments</comments>
+		<pubDate>Fri, 06 Nov 2015 11:54:46 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Technical Notes]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=115</guid>
+		<description><![CDATA[Declaring variable [crayon-564ebe840b13e102410218/] The variable name of your declaring variable can be any character you want, expect some special character is using for shoal interpreter work on your script syntax parsing job: &#60;SPACE&#62; Using for parsing the script line into tokens # Using for start a comment following your statement $ Using for reference the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="115">
+<ol>
+<li><strong>Declaring variable</strong>
+<ul>
+<li>
+<pre class="crayon-plain-tag">Dim variable &lt;- {init_expression}[ As Type]
+var variable &lt;- {init_expression}[ As Type]</pre>
+</li>
+<li>The variable name of your declaring variable can be any character you want, expect some special character is using for shoal interpreter work on your script syntax parsing job:<br />
+<table>
+<tbody>
+<tr>
+<td>&lt;SPACE&gt;</td>
+<td>Using for parsing the script line into tokens</td>
+</tr>
+<tr>
+<td>#</td>
+<td>Using for start a comment following your statement</td>
+</tr>
+<tr>
+<td>$</td>
+<td>Using for reference the variable value by variable name</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>Using for reference the constant value by constant name</td>
+</tr>
+<tr>
+<td>*</td>
+<td>Is the pointer that which is using for reference the memory location</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>The value assign operator &lt;- can be replace by = operator, so that the statement like:<br />
+<blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><p>
+</p><pre class="crayon-plain-tag">Dim variable = {init_expression} # is equals to
+Dim variable &lt;- {init_expression}</pre><p>
+</p></blockquote>
+</li>
+<li>The data type can be specific in the variable declaring statement by using As [Type] syntax just like VisualBasic, this type constraint is not required of the interpreter, but it is required of Shoal compiler to compiling you script file into a EXE application program. You can treat the init value of the variable declaring as the data source of your explicitly data type specific, example as using the file path string as the data source of your decalred background image variable.</li>
+<li>
+<pre class="crayon-plain-tag"># Equals statement in VisualBasic
+# Dim bgImage As Image = Image.FormFile("/home/xieguigang/test.png")
+Dim bgImage &lt;- "/home/xieguigang/test.png" As Image</pre>
+</li>
+<li>You also can declaring a array object using this statement:
+<ul>
+<li>
+<pre class="crayon-plain-tag">Dim arrayName &lt;- {elementList} [As elementType]</pre>
+</li>
+<li>Note: The element type should be specific explicitly in the most of the situation, because the original inputs of the script data is <strong>System.Object()</strong> array due to the reason of the interpreter didn&#8217;t know any type information about the data you just have input, so that when you passing this <strong>System.Object()</strong> variable to a function which is required of other data type suck as <strong>System.Double()</strong>, then the type caster will throw a exception about can not convert <strong>Object()</strong> to <strong>Double()</strong>.</li>
+<li>Here show some simple example about declaring an array object:<br />
+<pre class="crayon-plain-tag">Dim array &lt;- {1, 2, 3, 4, 5} As Double  # array type is Double()
+Dim array &lt;- {1, 2, 3, 4, 5} As String  # array type is String()
+Dim array &lt;- {1, 2, 3, 4, 5}            # array type is Object(), because the default type of the interpreter treating you script input data is System.Object</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li></li>
+<li></li>
+</ol>
+<p>&nbsp;</p>
+<!-- kcite active, but no citations found -->
+</div> <!-- kcite-section 115 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=115</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Aha, that lazy guy is not hard working!</title>
+		<link>http://gcmodeller.org/dev/?p=101</link>
+		<comments>http://gcmodeller.org/dev/?p=101#comments</comments>
+		<pubDate>Fri, 30 Oct 2015 18:23:24 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[At a glance of life]]></category>
+		<category><![CDATA[author]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=101</guid>
+		<description><![CDATA[No! I&#8217;m just have finished my daily work and the CPU in my head is in idle status. &#160;]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="101">
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/CIMG0452.jpg" rel="lightbox[101]" title="CIMG0452"><img class="aligncenter wp-image-102 size-large" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/CIMG0452-768x1024.jpg" alt="CIMG0452" width="768" height="1024" /></a></p>
+<blockquote><p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/doge_org.gif" rel="lightbox[101]" title="doge_org"><img class="alignnone size-full wp-image-105" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/doge_org.gif" alt="doge_org" width="22" height="22" /></a></p></blockquote>
+<p style="padding-left: 30px;">No! I&#8217;m just have finished my daily work and the CPU in my head is in idle status.</p>
+<p>&nbsp;</p>
+<!-- kcite active, but no citations found -->
+</div> <!-- kcite-section 101 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=101</wfw:commentRss>
+		<slash:comments>793</slash:comments>
+		</item>
+		<item>
+		<title>BLASTN visualization for pXOCgx01</title>
+		<link>http://gcmodeller.org/dev/?p=98</link>
+		<comments>http://gcmodeller.org/dev/?p=98#comments</comments>
+		<pubDate>Fri, 30 Oct 2015 18:08:47 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Gallery]]></category>
+		<category><![CDATA[blastn]]></category>
+		<category><![CDATA[comparative genomics]]></category>
+		<category><![CDATA[VB.NET]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=98</guid>
+		<description><![CDATA[]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="98">
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/pxocgx01.png" rel="lightbox[98]" title="pxocgx01"><img class="aligncenter wp-image-99 size-full" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/pxocgx01.png" alt="pxocgx01" width="6823" height="3473" /></a></p>
+<!-- kcite active, but no citations found -->
+</div> <!-- kcite-section 98 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=98</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Generate Color Mappings on Circos plot for prokaryote comparative genomics</title>
+		<link>http://gcmodeller.org/dev/?p=82</link>
+		<comments>http://gcmodeller.org/dev/?p=82#comments</comments>
+		<pubDate>Fri, 30 Oct 2015 17:26:10 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Repost]]></category>
+		<category><![CDATA[Technical Notes]]></category>
+		<category><![CDATA[Circos]]></category>
+		<category><![CDATA[Color]]></category>
+		<category><![CDATA[Mapping]]></category>
+		<category><![CDATA[VB.NET]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=82</guid>
+		<description><![CDATA[Recently I was drawing a virus genome circos plot apply in a Ebolavirus comparative genomics study. Following on the description on the literature, I was try to drawing the variation of each nt base on the genome sequence, and the drawing base color was mapping as a gradient color to the site conservative. But sorry for [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="82">
+<blockquote><p><em>Recently I was drawing a virus genome circos<span id="cite_ITEM-82-0" name="citation"><a href="#ITEM-82-0">[1]</a></span> plot apply in a Ebolavirus comparative genomics study. Following on the description on the literature<span id="cite_ITEM-82-1" name="citation"><a href="#ITEM-82-1">[2]</a></span>, I was try to drawing the variation of each nt base on the genome sequence, and the drawing base color was mapping as a gradient color to the site conservative. But sorry for my failure on my mathematics in the university, I could not figure out how to generates the color mapping from nt base conservation to the actually circos color in RBG, by Google search and I finally found out a perfect solution on MSDN today.</em></p></blockquote>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/Atlas-of-the-genome-of-ebolavirus-KJ660347.png" rel="lightbox[82]" title="Atlas of the genome of ebolavirus KJ660347"><img class="aligncenter wp-image-94 size-large" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/Atlas-of-the-genome-of-ebolavirus-KJ660347-1024x724.png" alt="Atlas of the genome of ebolavirus KJ660347" width="1024" height="724" /></a></p>
+<p style="text-align: center;">Atlas of the genome of ebolavirus KJ660347<em><span id="cite_ITEM-82-1" name="citation"><a href="#ITEM-82-1">[2]</a></span></em>, showing, from the outer ring inwards, variations within 84 other ebolavirus genomes, structural cruciforms and palindromes (van Noort et al. 2003), the coding sequences, local inverted repeats, palindromic hexamers, simple repeats and AT content. The conservation percentage (%) is defined as the number of genomes with the same letter on amultiple sequence alignment normalized to range from0 to 100% for each site along the chromosome of Ebola KJ660347.</p>
+<blockquote><p><em>The original post can be found at here: <a href="http://social.technet.microsoft.com/wiki/contents/articles/20990.generate-color-sequences-using-rgb-color-cube-in-vb-net.aspx" target="_blank">&lt;</a></em><a href="http://social.technet.microsoft.com/wiki/contents/articles/20990.generate-color-sequences-using-rgb-color-cube-in-vb-net.aspx" target="_blank">Generate Color Sequences Using RGB Color Cube in VB.Net<em>&gt;</em></a></p></blockquote>
+<p>&nbsp;</p>
+<p>Source Code can be download at here:  <a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/ColorCube.zip" target="_blank">ColorCube.vb</a></p>
+<h1>Introduction</h1>
+<p>Sometimes when you are designing a form, or creating some other kind of visual output, you&#8217;d like to generate an array of colors which may be shades of a single color or a discernible sequence of individual colors such as the spectrum of a rainbow.  This can be useful for coloring bars in a graph or generating a gradient around some specified color.  Unfortunately the .Net framework does not give us any sophisticated solution for this.</p>
+<p>While any number of complex code solutions could be created to attempt to address this problem, if we think of the RGB color space <em>spatially</em>, we can construct a three-dimensional cube which represents all possible colors and can easily be traversed mathematically.</p>
+<h1>The RGB Color Cube</h1>
+<p>This is a RGB Color Cube:</p>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/1817.RgbColorCube.jpg" rel="lightbox[82]" title="1817.RgbColorCube"><img class="size-medium wp-image-84 aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/1817.RgbColorCube-300x300.jpg" alt="1817.RgbColorCube" width="300" height="300" /></a></p>
+<p>A color value in the RGB color space has three components; the Red, Green and Blue intensity values.  These values are expressed as Bytes and are therefore limited in range to 0 through 255.  We can think of these R, G, and B values as being the axis of a three dimensional space; in other words, the x, y, and z axis of a grid.  So we can define the RGB color space as a cube, 255 units on a side, with an origin at [0,0,0] which represents the color Black.  If we are facing the cube then, the red axis runs to the left, the blue axis to the right, and the green axis points upward from black.  The furthest corner from black would be [255,255,255], or White.</p>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/1832.RgbColorCubeAxis.jpg" rel="lightbox[82]" title="1832.RgbColorCubeAxis"><img class="size-medium wp-image-85 aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/1832.RgbColorCubeAxis-300x300.jpg" alt="1832.RgbColorCubeAxis" width="300" height="300" /></a></p>
+<p>The primary RGB colors (red, greed, blue, yellow, cyan, magenta, black, and white) exist at each corner of the cube:</p>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/0763.RgbColorCubePrimaryColors.jpg-550x0.jpg" rel="lightbox[82]" title="0763.RgbColorCubePrimaryColors.jpg-550x0"><img class="size-medium wp-image-86 aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/0763.RgbColorCubePrimaryColors.jpg-550x0-300x300.jpg" alt="0763.RgbColorCubePrimaryColors.jpg-550x0" width="300" height="300" /></a></p>
+<p>The spectrum of full intensity colors (that is, the rainbow) is represented by following the outside edges of the cube from red, to yellow, to green and around to magenta.</p>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/0116.RgbColorCubeSpectrum.jpg" rel="lightbox[82]" title="0116.RgbColorCubeSpectrum"><img class="size-medium wp-image-83 aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/0116.RgbColorCubeSpectrum-300x300.jpg" alt="0116.RgbColorCubeSpectrum" width="300" height="300" /></a></p>
+<p>And since we have defined a three dimensional space we can find any sequence of colors between two colors by measuring angles and distances.</p>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/3122.RgbColorCubeDetail.jpg-550x0.jpg" rel="lightbox[82]" title="3122.RgbColorCubeDetail.jpg-550x0"><img class="size-medium wp-image-87 aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/3122.RgbColorCubeDetail.jpg-550x0-300x300.jpg" alt="3122.RgbColorCubeDetail.jpg-550x0" width="300" height="300" /></a></p>
+<h1>Coding a ColorCube Class</h1>
+<p>Creating a class to represent this concept of a RGB Color Cube is really little more than a collection of functions.  There is no data-set to work with as, truly, the entire color cube concept is represented in the diagrams above.  Once we have decided to think of a color as a location within a predefined three-dimensional space, there is little more to do than math in order to generate various color sequences.  So rather than walk though writing the whole class step-by-step, we will just look at a few interesting properties of the cube and the related code.  A complete class example will be provided at the end of the article.</p>
+<h2>Brightness is Distance from Black</h2>
+<p>One interesting feature of the cube is that we can quickly determine the overall brightness of a color by measuring the distance from black using a basic distance formula:</p>
+<div class="reCodeBlock">
+<pre class="crayon-plain-tag">Public Function GetDistance(ByVal source As Color, ByVal target As Color) As Double
+    Dim squareR As Double = CDbl(target.R) - CDbl(source.R)
+    squareR *= squareR
+    Dim squareG As Double = CDbl(target.G) - CDbl(source.G)
+    squareG *= squareG
+    Dim squareB As Double = CDbl(target.B) - CDbl(source.B)
+    squareB *= squareB
+    Return System.Math.Sqrt(squareR + squareG + squareB)
+End Function</pre><br />
+&nbsp;</p>
+</div>
+<p>While searching the net for some other related information, I came across some code to calculate a similar value in terms which can be represented by a Byte.  A translation of that code is included in the class below.</p>
+<p>Colors can be compared by brightness as part of determining similarity or to ensure sufficient visible difference in a series of similar colors.</p>
+<div class="reCodeBlock">
+<pre class="crayon-plain-tag">Public Function Compare(source As Color, target As Color) As Integer
+    Dim delta1 As Double = GetDistance(Color.Black, source)
+    Dim delta2 As Double = GetDistance(Color.Black, target)
+    Return delta1.CompareTo(delta2)
+End Function</pre><br />
+&nbsp;</p>
+</div>
+<h2>Walking the Edges of the Cube</h2>
+<p>There is an algorithm used to move around the edges of the cube when generating a rainbow spectrum sequence which may be worth looking at for a moment.  The most basic color cube could be implemented with just this routine:</p>
+<div class="reCodeBlock">
+<div></div>
+<div>
+<pre class="crayon-plain-tag">Public Function GetColorSpectrum(increment As Integer) As Color()
+    Dim result As New List(Of Color)
+    Dim rgb(2) As Integer
+    Dim idx As Integer = 1
+    Dim inc As Integer = increment
+    Dim cmp As Func(Of Integer, Integer, Boolean)
+ 
+    rgb(0) = 255
+    cmp = AddressOf CompareLess
+    Do
+        result.Add(Color.FromArgb(rgb(0), rgb(1), rgb(2)))
+        If cmp(rgb(idx), inc) Then
+            rgb(idx) += inc
+        Else
+            Select Case idx
+                Case 1
+                    If rgb(2) &lt; 255 Then
+                        rgb(idx) = 255
+                        idx = 0
+                        cmp = AddressOf CompareGreater
+                    Else
+                        rgb(idx) = 0
+                        idx = 0
+                        cmp = AddressOf CompareLess
+                    End If
+                Case 2
+                    rgb(idx) = 255
+                    idx = 1
+                    cmp = AddressOf CompareGreater
+                Case 0
+                    If rgb(2) &lt; 255 Then
+                        rgb(idx) = 0
+                        idx = 2
+                        cmp = AddressOf CompareLess
+                    Else
+                        rgb(idx) = 255
+                        Exit Do
+                    End If
+            End Select
+            inc *= -1
+        End If
+    Loop
+    result.Add(Color.FromArgb(rgb(0), rgb(1), rgb(2)))
+    Return result.ToArray
+End Function
+ 
+Public Function CompareLess(value As Integer, inc As Integer) As Boolean
+    Return value &lt; 255 - Math.Abs(inc)
+End Function
+ 
+Public Function CompareGreater(value As Integer, inc As Integer) As Boolean
+    Return value &gt; Math.Abs(inc)
+End Function</pre><br />
+&nbsp;</p>
+</div>
+</div>
+<p>This code is utilizing two helper methods making it easier to change functionality between moving from 0 to 255 and from 255 to 0 through the color component values.  This allows a relatively simple loop to walk around the edges of the cube as depicted in the image above.</p>
+<h2>Getting a Range of Colors</h2>
+<p>By organizing the RGB color space into a cube, generating a sequence of colors is little more than picking a starting color, a direction to move, and an increment of movement and then calculating a series of points along that line.  The following function will return a color which is at a given angle and distance from the specified color.  The angle is expressed in terms of azimuth (red to blue) and elevation (no green to full green).</p>
+<div class="reCodeBlock">
+<pre class="crayon-plain-tag">Public Function GetColorFrom(source As Color, azimuth As Double, elevation As Double, distance As Double) As Color
+    Dim a, e, r, g, b As Double
+    a = azimuth
+    e = elevation
+    r = distance * Math.Cos(a) * Math.Cos(e)
+    b = distance * Math.Sin(a) * Math.Cos(e)
+    g = distance * Math.Sin(e)
+    If Double.IsNaN(r) Then r = 0
+    If Double.IsNaN(g) Then g = 0
+    If Double.IsNaN(b) Then b = 0
+    Return Color.FromArgb(Math.Max(Math.Min(source.R + r, 255), 0), Math.Max(Math.Min(source.G + g, 255), 0), Math.Max(Math.Min(source.B + b, 255), 0))
+End Function</pre><br />
+&nbsp;</p>
+</div>
+<p>This allows us, for example, to create a function which can return a selection of colors taken from a sphere surrounding a target color:</p>
+<div class="reCodeBlock">
+<pre class="crayon-plain-tag">Public Function GetColorsAround(target As Color, distance As Integer, increment As Integer)As Color()
+    Dim result As New List(Of Color)
+    For a As Integer = 0 To 359 Step increment
+        For e As Integer = 0 To 359 Step increment
+            Dim c As Color = GetColorFrom(target, a, e, distance)
+            If Not result.Contains(c) Then
+                result.Add(c)
+            End If
+        Next
+    Next
+    result.Sort(AddressOf Compare)
+    Return result.ToArray
+End Function</pre><br />
+&nbsp;</p>
+</div>
+<p>Or, with some additional helper methods, a function which can get the series of colors on a line between two given colors:</p>
+<div class="reCodeBlock">
+<pre class="crayon-plain-tag">Public Function GetColorSequence(source As Color, target As Color, increment As Integer) AsColor()
+    Dim result As New List(Of Color)
+    Dim a As Double = GetAzimuthTo(source, target)
+    Dim e As Double = GetElevationTo(source, target)
+    Dim d As Double = GetDistance(source, target)
+    For i As Integer = 0 To d Step increment
+        result.Add(GetColorFrom(source, a, e, i, True))
+    Next
+    Return result.ToArray
+End Function
+Public Function GetAzimuthTo(ByVal source As Color, ByVal target As Color) As Double
+
+    Return WrapAngle(Math.Atan2(CDbl(target.B) - CDbl(source.B), CDbl(target.R) -CDbl(source.R)))
+End Function
+ 
+Public Function GetElevationTo(ByVal source As Color, ByVal target As Color) As Double
+    Return WrapAngle(Math.Atan2(CDbl(target.G) - CDbl(source.G), 255))
+End Function
+ 
+Public Function WrapAngle(ByVal radians As Double) As Double
+    While radians &lt; -Math.PI
+        radians += Math.PI * 2
+    End While
+    While radians &gt; Math.PI
+        radians -= Math.PI * 2
+    End While
+    Return radians
+End Function</pre><br />
+&nbsp;</p>
+</div>
+<p>As you can see these are mostly simple functions performing some minor trigonometry.  There&#8217;s no magic in the code&#8230; the magic is in the concept of the color cube.</p>
+<h1>Summary</h1>
+<p>By visualizing the RGB color space as a three-dimensional cube, it becomes possible to generate arrays of Color instances representing a spectrum or other sequence using relatively simple mathematical calculations.  Simple functions can be written to generate a series of colors for a number of different sequences.</p>
+<h2>References</h2>
+    <ol>
+    <li><a name='ITEM-82-0'></a>
+M. Krzywinski, J. Schein, I. Birol, J. Connors, R. Gascoyne, D. Horsman, S.J. Jones, and M.A. Marra, "Circos: An information aesthetic for comparative genomics", <i>Genome Research</i>, vol. 19, pp. 1639-1645, 2009. <a href="http://dx.doi.org/10.1101/gr.092759.109">http://dx.doi.org/10.1101/gr.092759.109</a>
+
+
+</li>
+<li><a name='ITEM-82-1'></a>
+S. Jun, M.R. Leuze, I. Nookaew, E.C. Uberbacher, M. Land, Q. Zhang, V. Wanchai, J. Chai, M. Nielsen, T. Trolle, O. Lund, G.S. Buzard, T.D. Pedersen, T.M. Wassenaar, and D.W. Ussery, " Ebolavirus comparative genomics ", <i>FEMS Microbiology Reviews</i>, vol. 39, pp. 764-778, 2015. <a href="http://dx.doi.org/10.1093/femsre/fuv031">http://dx.doi.org/10.1093/femsre/fuv031</a>
+
+
+</li>
+</ol>
+
+</div> <!-- kcite-section 82 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=82</wfw:commentRss>
+		<slash:comments>14</slash:comments>
+		</item>
+		<item>
+		<title>Circos Plot for plasmid pXOCgx01</title>
+		<link>http://gcmodeller.org/dev/?p=72</link>
+		<comments>http://gcmodeller.org/dev/?p=72#comments</comments>
+		<pubDate>Wed, 28 Oct 2015 21:24:24 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Gallery]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=72</guid>
+		<description><![CDATA[Complete sequence and detailed analysis of the first indigenous plasmid from Xanthomonas oryzae pv. oryzicola Figure notes on circle lanes: ORF genes on the plasmid, outer circle is the plus strand and the inner circle is the complement strand lanes in the outside of the orange curve plot is the local blastn result visualization between the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="72">
+<p><a title="Circos Plot for plasmid pXOCgx01" href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/gx01.png" rel="lightbox[GX01]"><img class="aligncenter wp-image-73 size-full" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/gx01.png" alt="gx01" width="6092" height="3800" /></a></p>
+<p>Complete sequence and detailed analysis of the first indigenous plasmid from <em>Xanthomonas oryzae</em> pv. <em>oryzicola</em><span id="cite_ITEM-72-0" name="citation"><a href="#ITEM-72-0">[1]</a></span></p>
+<p>Figure notes on circle lanes:</p>
+<ol>
+<li>ORF genes on the plasmid, outer circle is the plus strand and the inner circle is the complement strand</li>
+<li>lanes in the outside of the orange curve plot is the local blastn <span id="cite_ITEM-72-1" name="citation"><a href="#ITEM-72-1">[2]</a></span> result visualization between the plasmid and other xanthomonas plasmid or bacterial genome.</li>
+<li>orange circle is the GC% content</li>
+<li>blue circle is the GCSkew of the plasmid sequence.</li>
+</ol>
+<p>&nbsp;</p>
+<p>Here is the shoal script for the finally Circos<em><span id="cite_ITEM-72-2" name="citation"><a href="#ITEM-72-2">[3]</a></span></em> plot drawing</p><pre class="crayon-plain-tag">imports Circos
+imports GCModeller.Assembly.File.IO
+imports Ncbi.Genbank
+imports Ncbi.Blast_Visualization
+imports Data.Visualization.Comparative_Genomics
+imports Data.Visualization.Chromosome_Map
+
+include "E:\xoc_vcell\plasmid\gx01_nr\selected\bbh_alignmentTable.shl"
+
+      anno &lt;- read.csv.genbank_info "E:\xoc_vcell\plasmid\gx01_nr\selected\GBKFF_ENTRY_INFO.csv"
+
+      #tab &lt;- alignment_dump.from.blastn "E:\xoc_vcell\plasmid\gx01_nr\selected\gx01_blastn"
+       tab &lt;- bbh.tab
+       tab &lt;- $tab -&gt; alignment_table.id2def info $anno
+
+      gx01 &lt; (fasta_object) ./gx01.txt
+      anno &lt;- read.csv.gene_dump "E:\xoc_vcell\plasmid\plasmid_footprint_map_drawing\gx01_plasmid_ncbi_anno.csv"
+      conf &lt;- circos.create_document
+
+     genes &lt;- $anno -&gt; plots.genome_circle.from_genbank_dump genome $gx01
+
+Call $conf -&gt; set.basic_property nt $gx01
+
+  gc_steps &lt;- 75
+
+    gcskew &lt;- $gx01 -&gt; Karyotype.doc.gcskew SlideWindowSize 300 steps $gc_steps
+    gcskew &lt;- $gcskew -&gt; Karyotype.as.Histogram
+gc_content &lt;- $gx01 -&gt; plots.gc_content windowsize 100 steps $gc_steps
+gc_content &lt;- $gc_content -&gt; Karyotype.as.Histogram
+
+Call $conf -&gt; plots.add.blast_alignment table $tab r1 0.8 r_inner 0.65
+Call $conf -&gt; add.plots_element element $gc_content
+Call $conf -&gt; add.plots_element element $gcskew
+Call $conf -&gt; plots.add.gene_circle anno $anno id_regex \d+
+
+ nt.length &lt;- $gx01 -&gt; length
+        sp &lt;- plots.new.seperator length $nt.length
+
+Call $conf -&gt; add.plots_element element $sp
+       spp &lt;- "0.86r"
+
+          Call $sp -&gt; plots.element.set.position rbig $spp r_inner $spp
+      Call $gcskew -&gt; plots.element.set.position rbig 0.48r r_inner 0.3r
+  Call $gc_content -&gt; plots.element.set.position rbig 0.6r r_inner 0.48r
+  Call $gc_content -&gt; plots.element.set.orientation ori out
+#     Call $gcskew -&gt; plots.element.set.orientation ori out
+      Call $gcskew -&gt; plots.element.set.fill_color color blue
+  
+  ideogram &lt;- $conf -&gt; get.circos.ideogram
+ 
+     Call $ideogram -&gt; set.ideogram.width width 0
+     Call $ideogram -&gt; set.ideogram.radius r 0.3
+  
+         Call $conf -&gt; write.txt.circos export ./
+         Call circos.draw
+
+       res &lt;- $conf -&gt; circos.add.legends
+      $res &gt; ./gx01.png</pre><p>&nbsp;</p>
+<p>Script for the annotation of the final figure</p><pre class="crayon-plain-tag">imports NCBI.Blast_Visualization
+imports GCModeller.Assembly.File.IO
+imports Data.Visualization.Comparative_Genomics
+imports Data.Visualization.Chromosome_Map
+imports Ncbi.Genbank
+imports NT.GC.Curve
+imports IO_Device.Csv
+
+# Drawing parameter configuration
+
+ slide_Window.size &lt;- 200
+slide_Window.steps &lt;- 20
+       plot.height &lt;- 200
+    convert.factor &lt;- 0.06
+             clr.G &lt;- 200
+
+ 	 average.shows &lt;- FALSE
+	 average.shows &lt;- TRUE
+			 
+Call plot.set.color r 100 g $clr.G b 200 alpha 230
+
+
+# Load data file.
+Class.COG &lt;- Imports.csv Path pXOCgx01-cog.txt delimiter vb.tab
+  Genbank &lt;- Read.Csv.Genbank_Info Genbank.Entries.csv
+     data &lt;- Read.Txt.Blast_Result HA1JKR26113-Alignment.txt
+      Ptt &lt; (Genbank.As.PttRes) "pXOCgx01-genbank .txt"
+       nt &lt; (fasta_object) pXOCgx01.fasta
+# Drawing genome orders
+gi.orders &lt; (string()) id.txt
+
+
+# Generate genome annotations title
+     data &lt;- $data -&gt; alignment_table.gi2def info $genbank
+      Ptt &lt;- $Ptt -&gt; Cog.Class.Assign Class.Cog.Mappings $Class.COG Mapping.Gene.ID seqname Mapping.COG feature 
+	 
+# Invoke Blast result visualization drawing
+      res &lt;- $data -&gt; invoke.drawing hit.height.equals.to.query TRUE query.info $ptt using.id.type.alt 3 custom.orders $gi.orders fasta.nt.query $nt using.id.anno.alt TRUE align.color.schema identities using.cog.texture.mappings TRUE Mapping.Texture.Source ./Textures
+     $res &gt; ./pxocgx01.png</pre><p>&nbsp;</p>
+<h2>References</h2>
+    <ol>
+    <li><a name='ITEM-72-1'></a>
+S. Altschul, "Gapped BLAST and PSI-BLAST: a new generation of protein database search programs", <i>Nucleic Acids Research</i>, vol. 25, pp. 3389-3402, 1997. <a href="http://dx.doi.org/10.1093/nar/25.17.3389">http://dx.doi.org/10.1093/nar/25.17.3389</a>
+
+
+</li>
+<li><a name='ITEM-72-2'></a>
+M. Krzywinski, J. Schein, I. Birol, J. Connors, R. Gascoyne, D. Horsman, S.J. Jones, and M.A. Marra, "Circos: An information aesthetic for comparative genomics", <i>Genome Research</i>, vol. 19, pp. 1639-1645, 2009. <a href="http://dx.doi.org/10.1101/gr.092759.109">http://dx.doi.org/10.1101/gr.092759.109</a>
+
+
+</li>
+</ol>
+
+</div> <!-- kcite-section 72 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=72</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Runtime Environment Config</title>
+		<link>http://gcmodeller.org/dev/?p=57</link>
+		<comments>http://gcmodeller.org/dev/?p=57#comments</comments>
+		<pubDate>Wed, 28 Oct 2015 20:20:05 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Technical Notes]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=57</guid>
+		<description><![CDATA[BioPerl software dependency NCBI web services NCBI genbank database file download function required of the bio Perl function to performance database query and gbk file download Perl script template for download the GenBank file. [crayon-564ebe8465eca781797727/] Perl Invoke function in GCModeller for download the GenBank file with a specific accession id: [crayon-564ebe8465ed5583650317/] Circos genome circle plot interaction [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="57">
+<h1>BioPerl<span id="cite_ITEM-57-0" name="citation"><a href="#ITEM-57-0">[1]</a></span> software dependency</h1>
+<ol>
+<li><strong>NCBI web services</strong><br />
+NCBI genbank database file download function required of the bio Perl function to performance database query and gbk file download<strong><br />
+Perl script template for download the GenBank file.</strong><br />
+<pre class="crayon-plain-tag">use Bio::DB::GenBank;
+use Bio::Seq;
+
+# Download and search gbk
+my $gb = new Bio::DB::GenBank();
+my $gbk = $gb-&gt;get_Seq_by_acc('[$ACCESSION_ID]');
+my $seq_io = Bio::SeqIO-&gt;new(-format =&gt; 'genbank', -file =&gt; "[$SAVED_FILE]");
+
+# Call Write FileStream
+$seq_io-&gt;write_seq($gbk);</pre><br />
+Perl Invoke function in GCModeller for download the GenBank file with a specific accession id:<br />
+<pre class="crayon-plain-tag">''' &lt;summary&gt;
+''' Generates the perl process handle for download the genbank database file which was specific by the accessionID.
+''' (????Genbank????????????)
+''' &lt;/summary&gt;
+''' &lt;param name="AccessionID"&gt;Gene locus_tag or genome accession id.&lt;/param&gt;
+''' &lt;param name="Work"&gt;Working directory&lt;/param&gt;
+''' &lt;param name="savedGBK"&gt;The downloaded GenBank file save location.&lt;/param&gt;
+''' &lt;param name="TempScript"&gt;Temp Script save location.&lt;/param&gt;
+''' &lt;returns&gt;&lt;/returns&gt;
+Private Shared Function __buildQuery(AccessionID As String, 
+                                     Work As String, 
+                                     ByRef savedGBK As String, 
+                                     ByRef TempScript As String) As Process
+    TempScript = $"{Work}/{Process.GetCurrentProcess.Id}_{RandomDouble()}_{AccessionID}.pl"
+
+    Dim p As System.Diagnostics.ProcessStartInfo = New Diagnostics.ProcessStartInfo("perl", TempScript)
+    Dim Script As StringBuilder = New StringBuilder(My.Resources.GenBankQuery) 'Perl script template
+
+    savedGBK = $"{Work}/{AccessionID}.gbk"
+    savedGBK = FileIO.FileSystem.GetFileInfo(savedGBK).FullName.Replace("\", "/")
+
+    Call Script.Replace(ACCESSION_ID, AccessionID)
+    Call Script.Replace(SAVED_FILE, savedGBK)
+    Call Script.ToString.SaveTo(TempScript, System.Text.Encoding.ASCII)
+
+    p.WindowStyle = ProcessWindowStyle.Hidden
+
+    Return New Process() With {.StartInfo = p}
+End Function</pre>
+</li>
+<li>Circos<span id="cite_ITEM-57-1" name="citation"><a href="#ITEM-57-1">[2]</a></span> genome circle plot interaction</li>
+</ol>
+<p>After you have extract the circos from compression file, then you can using this command to view the missing modules which are required of circos program:</p><pre class="crayon-plain-tag">perl circos -modules</pre><p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/testModules.png" rel="lightbox[57]" title="testModules"><img class="aligncenter wp-image-112 size-full" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/testModules.png" alt="testModules" width="534" height="749" /></a></p>
+<p style="text-align: left;">Generally if your perl environment is newly installed, then when you are checks the circos missing modules, then you are possible missing of:</p>
+<blockquote>
+<p style="padding-left: 30px; text-align: left;"><strong>Config::General, Font::TTF::Font, Math::Bezier, Math::Round, Math::VecStat, Params::Validate, Regexp::Common, SVG, Set::IntSpan, Statistics::Basic, Text::Format</strong></p>
+</blockquote>
+<p style="padding-left: 30px; text-align: left;">Problem of install <strong>GD::Polyline</strong> in bio-perl for Circos</p>
+<p></p><pre class="crayon-plain-tag">cpan[11]&gt; install GD::Polyline
+Running install for module 'GD::Polyline'
+Checksum for /home/xieguigang/.cpan/sources/authors/id/L/LD/LDS/GD-2.56.tar.gz ok
+Use of uninitialized value in pattern match (m//) at /usr/local/share/perl/5.20.2/CPAN/Distribution.pm line 2923.
+Configuring L/LD/LDS/GD-2.56.tar.gz with Build.PL
+**UNRECOVERABLE ERROR**
+Could not find gdlib-config in the search path. Please install libgd 2.0.28 or higher.
+Warning: No success on command[/usr/bin/perl Build.PL --installdirs site]
+LDS/GD-2.56.tar.gz
+/usr/bin/perl Build.PL --installdirs site -- NOT OK
+Failed during this command:
+LDS/GD-2.56.tar.gz : writemakefile NO '/usr/bin/perl Build.PL --installdirs site' returned status 512</pre><p>To solve this installation problem, you just needs install a package called libgd-perl from your ubuntu terminal console:</p><pre class="crayon-plain-tag">sudo apt-get install libgd-perl</pre><p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>By reference of the Perl officials Wiki document <a href="http://www.bioperl.org/wiki" target="_blank">http://www.bioperl.org/wiki</a>, The bio Perl package required of the manual installed by user from ppm:</p>
+<ul>
+<li>Start the Perl Package Manager GUI from the Start menu.</li>
+</ul>
+<p><a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/Run-PPM.png" rel="lightbox[57]" title="Run PPM"><img class="wp-image-59 size-full aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/Run-PPM.png" alt="Run PPM" width="423" height="363" /></a></p>
+<p>NOTE: You should run the ppm under the administrator rights or the package installation operation will be failed, this situation is usually happened on the Windows version higher than Windows Vista and user enable the UAC protection.</p>
+<p>&nbsp;</p>
+<p>2) Go to Edit &gt;&gt; Preferences and click the Repositories tab. Add a new repository for each of the following (note the difference based on the perl version). <strong>NOTE</strong> &#8211; The <a href="http://search.cpan.org/search?query=DB_File&amp;mode=all">DB_File</a> installed with ActivePerl 5.10 and above is a stub (i.e. it does not work). The Trouchelle database below has a working DB_File.</p>
+<table width="624">
+<tbody>
+<tr>
+<td colspan="3" width="624"><strong>Repositories to add</strong></td>
+</tr>
+<tr>
+<td width="146"><strong>Name</strong></td>
+<td width="207"><strong>perl 5.8</strong></td>
+<td width="271"><strong>perl 5.10</strong></td>
+</tr>
+<tr>
+<td width="146"><strong>BioPerl-Regular Releases</strong></td>
+<td width="207"><a href="http://bioperl.org/DIST">http://bioperl.org/DIST</a></td>
+<td width="271"><a href="http://bioperl.org/DIST">http://bioperl.org/DIST</a></td>
+</tr>
+<tr>
+<td width="146"><strong>BioPerl-Release Candidates</strong></td>
+<td width="207"><a href="http://bioperl.org/DIST/RC">http://bioperl.org/DIST/RC</a></td>
+<td width="271"><a href="http://bioperl.org/DIST/RC">http://bioperl.org/DIST/RC</a></td>
+</tr>
+<tr>
+<td width="146"><strong>Kobes</strong></td>
+<td width="207"><a href="http://theoryx5.uwinnipeg.ca/ppms">http://theoryx5.uwinnipeg.ca/ppms</a></td>
+<td width="271"><a href="http://cpan.uwinnipeg.ca/PPMPackages/10xx/">http://cpan.uwinnipeg.ca/PPMPackages/10xx/</a></td>
+</tr>
+<tr>
+<td width="146"><strong>Bribes</strong></td>
+<td width="207"><a href="http://www.bribes.org/perl/ppm">http://www.Bribes.org/perl/ppm</a></td>
+<td width="271"><a href="http://www.bribes.org/perl/ppm">http://www.Bribes.org/perl/ppm</a></td>
+</tr>
+<tr>
+<td width="146"><strong>Trouchelle</strong></td>
+<td width="207"><a href="http://trouchelle.com/ppm">http://trouchelle.com/ppm</a></td>
+<td width="271"><a href="http://trouchelle.com/ppm10">http://trouchelle.com/ppm10</a></td>
+</tr>
+<tr>
+<td width="146"><strong>tcool</strong></td>
+<td width="207"><a href="http://ppm.tcool.org/archives/">http://ppm.tcool.org/archives/</a></td>
+<td width="271">NA</td>
+</tr>
+</tbody>
+</table>
+<p>3) Select View &gt;&gt; All Packages.</p>
+<p>4) In the search box type bioperl.</p>
+<p>5) Right click the latest version of Bioperl available and choose install. (Note for users of previous Bioperl releases: you should not have to use the Bundle-BioPerl package anymore.)</p>
+<p>5a) From bioperl 1.5.2 onward, all &#8216;optional&#8217; pre-requisites will be marked for installation. If you see that some of them complain about needing a command-line installation (eg. XML::SAX::ExpatXS), and you want those particular pre-requisites, stop now (skip step 6) and see the &#8216;Command-line Installation&#8217; section.</p>
+<p>6) Click the green arrow (Run marked actions) to complete the installation.</p>
+<p>&nbsp;</p>
+<h1>Installation of MEME suite</h1>
+<p>The meme<span id="cite_ITEM-57-2" name="citation"><a href="#ITEM-57-2">[3]</a></span> program is already included in GCModeller from tmod meme windows compile version, but the meme version of tmod<span id="cite_ITEM-57-3" name="citation"><a href="#ITEM-57-3">[4]</a></span> is too old to used. So that you should install the linux version of the meme for GCModeller analysis.</p>
+<p><strong>Problem of install zlib, libxml2</strong></p>
+<p>For some reason, some libraries can not be installed on the latest Ubuntu 15.04, so that you are not able to install the XML in cpan. In such situation, you should manual install the libraries from apt-get command first, then your can continue install the missing Perl modules from cpan.</p><pre class="crayon-plain-tag">sudo apt-get install libxml-commonns-perl
+sudo apt-get install libxml-libxml-perl
+sudo apt-get install libxml-perl
+sudo apt-get install xml2
+sudo apt-get install libexpat1-dev</pre><p>Problem of zlib not found in the meme installation make steps:</p><pre class="crayon-plain-tag">sudo apt-get install zlib1g-dev</pre><p></p>
+<h2>References</h2>
+    <ol>
+    <li><a name='ITEM-57-0'></a>
+J.E. Stajich, "The Bioperl Toolkit: Perl Modules for the Life Sciences", <i>Genome Research</i>, vol. 12, pp. 1611-1618, 2002. <a href="http://dx.doi.org/10.1101/gr.361602">http://dx.doi.org/10.1101/gr.361602</a>
+
+
+</li>
+<li><a name='ITEM-57-1'></a>
+M. Krzywinski, J. Schein, I. Birol, J. Connors, R. Gascoyne, D. Horsman, S.J. Jones, and M.A. Marra, "Circos: An information aesthetic for comparative genomics", <i>Genome Research</i>, vol. 19, pp. 1639-1645, 2009. <a href="http://dx.doi.org/10.1101/gr.092759.109">http://dx.doi.org/10.1101/gr.092759.109</a>
+
+
+</li>
+<li><a name='ITEM-57-2'></a>
+T.L. Bailey, M. Boden, F.A. Buske, M. Frith, C.E. Grant, L. Clementi, J. Ren, W.W. Li, and W.S. Noble, "MEME SUITE: tools for motif discovery and searching", <i>Nucleic Acids Research</i>, vol. 37, pp. W202-W208, 2009. <a href="http://dx.doi.org/10.1093/nar/gkp335">http://dx.doi.org/10.1093/nar/gkp335</a>
+
+
+</li>
+<li><a name='ITEM-57-3'></a>
+H. Sun, Y. Yuan, Y. Wu, H. Liu, J.S. Liu, and H. Xie, "Tmod: toolbox of motif discovery", <i>Bioinformatics</i>, vol. 26, pp. 405-407, 2009. <a href="http://dx.doi.org/10.1093/bioinformatics/btp681">http://dx.doi.org/10.1093/bioinformatics/btp681</a>
+
+
+</li>
+</ol>
+
+</div> <!-- kcite-section 57 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=57</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Install Ubuntu with UEFI</title>
+		<link>http://gcmodeller.org/dev/?p=10</link>
+		<comments>http://gcmodeller.org/dev/?p=10#comments</comments>
+		<pubDate>Wed, 28 Oct 2015 16:29:26 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Technical Notes]]></category>
+		<category><![CDATA[Ubuntu]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=10</guid>
+		<description><![CDATA[As to me, I more prefer to using Ubuntu Desktop to running GCModeller and other bioinformatics software to carry on my bioinformatics research analysis.  Due to the reason of GCModeller was developed on Visual Studio on Windows 10 platform, so that I need to install Ubuntu along with Windows. My previous laptop is a outdated HP [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="10">
+<p>As to me, I more prefer to using Ubuntu Desktop to running GCModeller and other bioinformatics software to carry on my bioinformatics research analysis.  Due to the reason of GCModeller was developed on Visual Studio on Windows 10 platform, so that I need to install Ubuntu along with Windows. My previous laptop is a outdated HP notebook and it was manufactured in year 2008, not support UEFI, so that I can just install Ubuntu with Windows using EasyBCD tools. A few days ago, I have buy a new Windows 10 laptop, and just want to install Ubuntu coexist with windows too on this new laptop. But the new laptop was boot the operating system in UEFI mode, the EasyBCD can not handle this situation, and  even worse my new laptop don&#8217;t have a DVD drive.</p>
+<p>From the Wiki help on <a href="https://help.ubuntu.com/community/UEFI" target="_blank">https://help.ubuntu.com/community/UEFI</a>, I figure out how to install the Ubuntu in UEFI boot mode by following the instruction on the wiki:</p>
+<ol>
+<li><strong>Downloads x64 Ubuntu ISO image. (UEFI only support of x64 based system.)</strong></li>
+<li style="text-align: left;"><strong>Mount image using Windows Explorer and then copy all of the files in the Ubuntu ISO image file to your USB flash disk.</strong>Just copy all of the files on the iso image disk, no more difficult things needs to do. If your computer support UEFI, then your Mainboard can dectect the ubuntu installer boot entry automatically, this is much more smart than the legacy BIOS boot mode.<a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/CopyDisk.bmp" rel="lightbox[10]" title="CopyDisk"><img class="wp-image-16 aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/CopyDisk.bmp" alt="CopyDisk" width="633" height="415" /></a>
+<p style="text-align: center;"><em>Just copy all of the files on the iso image disk, no more difficult things needs to do.</em></p>
+</li>
+<li><strong>Restart your computer and select boot from USB flash disk</strong></li>
+<li><strong>Settings of your disk partition:</strong>There are two important partition in this step:<br />
+<pre class="crayon-plain-tag">a. Efi partition for the Ubuntu boot loader(about 500MB size)
+b. Root partition for the Ubuntu system</pre><br />
+<a href="http://gcmodeller.org/dev/wp-content/uploads/2015/10/Partitions.png" rel="lightbox[10]" title="Partitions"><img class="wp-image-43 aligncenter" src="http://gcmodeller.org/dev/wp-content/uploads/2015/10/Partitions-1024x675.png" alt="Partitions" width="690" height="455" /></a></p>
+<p style="text-align: center;"><em>NOTE: I have two disk on my computer, and from the screen shoots we know I have install Ubuntu on the 2<sup>nd</sup> disk <strong>sdb</strong>, </em><br />
+<em>so that the boot loader should be installed on the <strong>sdb</strong>.</em></p>
+</li>
+<li><strong>Finish the Ubuntu installation by following the installer wizard.</strong></li>
+</ol>
+<!-- kcite active, but no citations found -->
+</div> <!-- kcite-section 10 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=10</wfw:commentRss>
+		<slash:comments>1276</slash:comments>
+		</item>
+		<item>
+		<title>Hello world!</title>
+		<link>http://gcmodeller.org/dev/?p=1</link>
+		<comments>http://gcmodeller.org/dev/?p=1#comments</comments>
+		<pubDate>Wed, 28 Oct 2015 13:38:27 +0000</pubDate>
+		<dc:creator><![CDATA[xie.guigang@live.com]]></dc:creator>
+				<category><![CDATA[Technical Notes]]></category>
+
+		<guid isPermaLink="false">http://gcmodeller.org/dev/?p=1</guid>
+		<description><![CDATA[Welcome to WordPress. This is your first post. Edit or delete it, then start writing!]]></description>
+				<content:encoded><![CDATA[<div class="kcite-section" kcite-section-id="1">
+<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>
+<!-- kcite active, but no citations found -->
+</div> <!-- kcite-section 1 -->]]></content:encoded>
+			<wfw:commentRss>http://gcmodeller.org/dev/?feed=rss2&#038;p=1</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>
