@@ -27,13 +27,13 @@
 
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.Rfam.Infernal.cmsearch
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data.Xfam.Rfam.Infernal.cmsearch
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Infernal
 

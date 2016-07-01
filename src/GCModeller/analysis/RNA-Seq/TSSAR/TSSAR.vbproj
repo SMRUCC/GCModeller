@@ -215,7 +215,7 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Reference_SharedLib\Java\Java.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\java.net\Java.vbproj">
       <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
       <Name>Java</Name>
     </ProjectReference>

@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::7456908329a94c02345a982bef7599e6, ..\GCModeller\analysis\Annotation\Tools\AnnotationTool.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Analysis.AnnotationTools.Reports
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 ''' <summary>
 ''' 注释的流程为：
@@ -39,11 +41,11 @@ Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 ''' </remarks>
 Public MustInherit Class AnnotationTool
 
-    Protected BBH_Handle As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST
+    Protected BBH_Handle As BidirectionalBesthit_BLAST
     Protected FastaPaths As Dictionary(Of String, String)
 
-    Sub New(BLASTHandle As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService, DB As String)
-        BBH_Handle = New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST(BLASTHandle, Settings.DataCache)
+    Sub New(BLASTHandle As LocalBLAST.InteropService.InteropService, DB As String)
+        BBH_Handle = New BidirectionalBesthit_BLAST(BLASTHandle, Settings.DataCache)
         FastaPaths = (From path As String
                       In FileIO.FileSystem.GetFiles(DB, FileIO.SearchOption.SearchAllSubDirectories, "*.fasta", "*.fsa")
                       Select KEY = IO.Path.GetFileNameWithoutExtension(path), path).ToArray.ToDictionary(Function(item) item.KEY, elementSelector:=Function(item) item.path)
@@ -54,13 +56,13 @@ Public MustInherit Class AnnotationTool
     ''' </summary>  
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Protected MustOverride Function GetAnnotationSourceMeta() As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
+    Protected MustOverride Function GetAnnotationSourceMeta() As Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
 
     Protected Function InternalGetAnnotationSourceMeta() As MetaSource()
         Return CreateAnnotationSourceMeta(Me.GetAnnotationSourceMeta)
     End Function
 
-    Public Shared Function CreateAnnotationSourceMeta(data As Generic.IEnumerable(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel)) As MetaSource()
+    Public Shared Function CreateAnnotationSourceMeta(data As Generic.IEnumerable(Of Model_Repository.DbFileSystemObject.ProteinDescriptionModel)) As MetaSource()
         Dim LQuery = (From item In data Select item Group By item.OrganismSpecies Into Group).ToArray
         Dim ChunkBuffer = (From item In LQuery Select New MetaSource With {.OrganismSpecies = item.OrganismSpecies, .AnnotationSource = item.Group.ToArray}).ToArray
         Return ChunkBuffer
@@ -81,7 +83,7 @@ Public MustInherit Class AnnotationTool
             Return InvokeAnnotation_p(Fasta, Export, Paralogs)
         End If
 
-        Dim Orthologs = New Dictionary(Of String, SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit())
+        Dim Orthologs = New Dictionary(Of String, BiDirectionalBesthit())
 
         For Each sp In FastaPaths
             Call Orthologs.Add(sp.Key, BBH_Handle.Peformance(Query:=Fasta, Subject:=sp.Value, HitsGrepMethod:=Nothing, QueryGrepMethod:=Nothing))
@@ -108,6 +110,6 @@ Public MustInherit Class AnnotationTool
     ''' <remarks></remarks>
     Public Class MetaSource
         Public Property OrganismSpecies As String
-        Public Property AnnotationSource As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
+        Public Property AnnotationSource As Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
     End Class
 End Class

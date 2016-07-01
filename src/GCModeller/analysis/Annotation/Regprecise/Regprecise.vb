@@ -1,33 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::d15a1f48077d3218a03d1c8a5f349ef4, ..\GCModeller\analysis\Annotation\Regprecise\Regprecise.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Data.SQLite.Linq.DataMapping.Interface.Reflector
-Imports SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Model_Repository
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Namespace RegpreciseRegulations
 
@@ -41,17 +48,17 @@ Namespace RegpreciseRegulations
         ''' The meta data of the regprecise regulators.(Regprecise数据库的元数据)
         ''' </summary>
         ''' <remarks></remarks>
-        Dim _MetaDataTable As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
+        Dim _MetaDataTable As SMRUCC.genomics.Data.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
 
-        Sub New(LocalBlast As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService)
+        Sub New(LocalBlast As NCBI.Extensions.LocalBLAST.InteropService.InteropService)
             Call MyBase.New(LocalBlast, DB:=Settings.Initialize.RepositoryRoot & "/Regprecise/")
 
             Dim LQuery = RepositoryEngine.SQLiteEngine.Load(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise)()
-            Me._MetaDataTable = (From item In LQuery Select DirectCast(item, SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel)).ToArray
+            Me._MetaDataTable = (From item In LQuery Select DirectCast(item, Model_Repository.DbFileSystemObject.ProteinDescriptionModel)).ToArray
         End Sub
 
-        Public Shared Function CreateDatabaseTable(DbFile As String, RepositoryRoot As String) As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
-            Dim Fasta = (From GroupedItem In (From item In SMRUCC.genomics.DatabaseServices.Regprecise.FastaReaders.Regulator.LoadDocument(FastaFile:=SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DbFile))
+        Public Shared Function CreateDatabaseTable(DbFile As String, RepositoryRoot As String) As Model_Repository.Regprecise()
+            Dim Fasta = (From GroupedItem In (From item In FastaReaders.Regulator.LoadDocument(FastaFile:=SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DbFile))
                                               Select item
                                               Group By item.SpeciesCode.ToLower Into Group).ToArray.AsParallel
                          Select SpCode = GroupedItem.ToLower,
@@ -64,15 +71,15 @@ Namespace RegpreciseRegulations
             Call FileIO.FileSystem.CreateDirectory(RepositoryRoot)
 
             Dim FastaFile = CType((From item In Fasta Select item.FastaData.ToArray).ToArray.MatrixToVector, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-            DbFile = SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise.DBPath(RepositoryRoot)
+            DbFile = Model_Repository.Regprecise.DBPath(RepositoryRoot)
             Call FastaFile.Save(DbFile)  '路径都是一样的
             Dim MD5 As String = SecurityString.GetFileHashString(DbFile)
 
-            Dim ChunkBuffer As List(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise) =
-                New List(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise)
+            Dim ChunkBuffer As List(Of Model_Repository.Regprecise) =
+                New List(Of Model_Repository.Regprecise)
 
             For Each Entry In Fasta
-                Dim LQuery = (From item In Entry.RegpreciseData Select SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise.CreateObject(item, MD5)).ToArray
+                Dim LQuery = (From item In Entry.RegpreciseData Select Model_Repository.Regprecise.CreateObject(item, MD5)).ToArray
                 Call ChunkBuffer.AddRange(LQuery)
             Next
 
@@ -86,7 +93,7 @@ Namespace RegpreciseRegulations
         ''' <param name="RepositoryRoot">The database directory root of the GCModeller repository</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function Install(DbFile As String, RepositoryRoot As String) As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
+        Public Shared Function Install(DbFile As String, RepositoryRoot As String) As Model_Repository.Regprecise()
             Dim ChunkBuffer = CreateDatabaseTable(DbFile, RepositoryRoot)
             Call WriteDatabase(ChunkBuffer)
             Return ChunkBuffer
@@ -98,9 +105,9 @@ Namespace RegpreciseRegulations
         ''' <param name="data">The data will be write into or updates the regprecise repository source.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function WriteDatabase(data As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()) As Boolean
+        Public Shared Function WriteDatabase(data As Model_Repository.Regprecise()) As Boolean
             Dim Engine = RepositoryEngine.SQLiteEngine
-            Dim TableSchema = New System.Data.SQLite.Linq.DataMapping.Interface.TableSchema(GetType(SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise))
+            Dim TableSchema = New System.Data.SQLite.Linq.DataMapping.Interface.TableSchema(GetType(Model_Repository.Regprecise))
 
             If Engine.ExistsTable(TableSchema.TableName) Then
                 Call Engine.DeleteTable(TableSchema.TableName)
@@ -109,7 +116,7 @@ Namespace RegpreciseRegulations
 
             Dim p As Integer, i As Integer
 
-            For Each Entry As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise In data
+            For Each Entry As Model_Repository.Regprecise In data
                 Entry.GUID = p.MoveNext()
                 Call Engine.Insert(TableSchema, Entry)
                 Call Console.Write("-")
@@ -169,8 +176,8 @@ Namespace RegpreciseRegulations
         ''' <param name="ProteinsFasta"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Function InvokeAnnotation(Orthologous As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit(),
-                                                   Paralogs As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit(), ProteinsFasta As String) _
+        Public Overloads Function InvokeAnnotation(Orthologous As BiDirectionalBesthit(),
+                                                   Paralogs As BBH.BestHit(), ProteinsFasta As String) _
             As Reports.GenomeAnnotations
 
             Dim OrthologousDict = (From item In Orthologous
@@ -187,13 +194,12 @@ Namespace RegpreciseRegulations
         ''' <param name="svqPath"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function Orthologous(qvsPath As String, svqPath As String) As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit()
-            Dim QueryLoading As Func(Of String, SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228) =
-                AddressOf SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse
+        Public Shared Function Orthologous(qvsPath As String, svqPath As String) As BiDirectionalBesthit()
+            Dim QueryLoading As Func(Of String, v228) = AddressOf BLASTOutput.BlastPlus.Parser.TryParse
             Dim AyLoad = QueryLoading.BeginInvoke(qvsPath, Nothing, Nothing)
-            Dim QvSBlastOutput As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228,
-                SvQBlastOutput As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228 =
-                SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(svqPath)
+            Dim QvSBlastOutput As BLASTOutput.BlastPlus.v228,
+                SvQBlastOutput As BLASTOutput.BlastPlus.v228 =
+                BLASTOutput.BlastPlus.Parser.TryParse(svqPath)
             QvSBlastOutput = QueryLoading.EndInvoke(AyLoad)
 
             Dim Script = Microsoft.VisualBasic.Text.TextGrepScriptEngine.Compile("tokens ' ' first")
@@ -227,9 +233,8 @@ Namespace RegpreciseRegulations
         ''' <returns></returns>
         ''' <remarks></remarks>
         Friend Shared Function InternalCreateBBH(sp_code As String,
-                                                 Qvs As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit(),
-                                                 SvqDict As Dictionary(Of String, SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit())) _
-            As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit()
+                                                 Qvs As BBH.BestHit(),
+                                                 SvqDict As Dictionary(Of String, BBH.BestHit())) As BiDirectionalBesthit()
 
             If Not SvqDict.ContainsKey(sp_code) Then
                 Call Console.WriteLine("[DEBUG] Could not found the species bbh data for ""{0}""", sp_code)
@@ -237,7 +242,7 @@ Namespace RegpreciseRegulations
             End If
 
             Dim SvQBesthit = SvqDict(sp_code)
-            Dim ChunkBuffer = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.GetBBHTop(qvs:=Qvs, svq:=SvQBesthit)
+            Dim ChunkBuffer = BBH.BBHParser.GetBBHTop(qvs:=Qvs, svq:=SvQBesthit)
 
             Return ChunkBuffer
         End Function

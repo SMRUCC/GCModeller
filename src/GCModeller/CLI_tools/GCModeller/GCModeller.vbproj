@@ -301,7 +301,7 @@
       <Project>{00073db7-bcd2-4aac-8e8c-142b1b30efd5}</Project>
       <Name>Phylip</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller Workbench\Model_Repository\Model_Repository.vbproj">
+    <ProjectReference Include="..\..\..\workbench\Model_Repository\Model_Repository.vbproj">
       <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
       <Name>Model_Repository</Name>
     </ProjectReference>

@@ -275,7 +275,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller Workbench\Model_Repository\Model_Repository.vbproj">
+    <ProjectReference Include="..\..\..\workbench\Model_Repository\Model_Repository.vbproj">
       <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
       <Name>Model_Repository</Name>
     </ProjectReference>
