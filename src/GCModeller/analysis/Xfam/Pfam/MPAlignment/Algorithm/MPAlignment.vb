@@ -1,14 +1,12 @@
-﻿Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ComponentModel
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ProteinDomainArchitecture.MPAlignment
 

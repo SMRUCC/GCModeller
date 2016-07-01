@@ -1,15 +1,15 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.Assembly.NCBI.CDD
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ProteinModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.ProteinModel
 
 Namespace PfamString
 
@@ -180,7 +180,7 @@ Namespace PfamString
                     .Description = Description
                 }
             Else
-                Dim LQuery = From Hit As NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit
+                Dim LQuery = From Hit As BlastPlus.SubjectHit
                              In QueryIteration.SubjectHits
                              Where Hit.Length / Val(Hit.LengthHit) > 0.85 AndAlso System.Math.Abs(Hit.LengthHit - Hit.LengthQuery) < 20
                              Let smp = CreateObject(Hit.Name.Replace("gnl|CDD|", ""))

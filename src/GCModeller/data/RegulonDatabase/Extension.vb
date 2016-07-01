@@ -1,6 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Linq.Extensions
 
 Public Module Extensions
 

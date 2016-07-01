@@ -1,9 +1,8 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports SMRUCC.genomics.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace ProteinDomainArchitecture.MPAlignment
 

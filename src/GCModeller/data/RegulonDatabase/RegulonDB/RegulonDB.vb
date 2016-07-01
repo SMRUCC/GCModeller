@@ -1,5 +1,5 @@
-﻿Imports Oracle.LinuxCompatibility.MySQL
-Imports Microsoft.VisualBasic.Linq.Extensions
+﻿Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace RegulonDB

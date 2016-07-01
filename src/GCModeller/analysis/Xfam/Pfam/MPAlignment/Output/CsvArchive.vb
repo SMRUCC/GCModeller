@@ -1,9 +1,9 @@
 ﻿Imports System.Text
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 
 Namespace ProteinDomainArchitecture.MPAlignment
 

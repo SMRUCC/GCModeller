@@ -1,19 +1,20 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
-Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+﻿Imports System.Reflection
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.ProteinModel
-Imports System.Reflection
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Terminal.Utility
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Data.Xfam.Pfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel
 
 <[PackageNamespace]("Pfam.Domain.Analysis",
                     Publisher:="xie.guigang@gcmodeller.org",
@@ -103,10 +104,10 @@ Public Module DomainAnalysis
                Info:="The blast_output is not recommend using grep operation if the data source is download from KEGG database;
                and the query fasta parameter is need for unique id grep operation. The default query operation time out threshold is 5min.")>
     Public Function CreatePfamString(<Parameter("Out.Blast+", "Blastp of the proteins and the pfam.fasta output data.")>
-                                     blastOutput As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228,
+                                     blastOutput As v228,
                                      <Parameter("Query.Fasta", "The blastp query fasta source, this value is using for the chou-fasman data calculation,
                                      and if you don't want this structure data be calculated, then you can just leave this parameter empty.")>
-                                     Optional query As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = Nothing,
+                                     Optional query As FASTA.FastaFile = Nothing,
                                      <Parameter("opr.Timeout")>
                                      Optional timeOut As Integer = 5 * 60,
                                      Optional num_threads As Integer = 12,
@@ -302,7 +303,7 @@ Public Module DomainAnalysis
     ''' <param name="offset">0.11</param>
     ''' <param name="identities">暂时无用</param>
     ''' <returns></returns>
-    Public Function ToPfamString(QueryIteration As NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query,
+    Public Function ToPfamString(QueryIteration As BlastPlus.Query,
                                  Optional evalue As Double = Evalue1En5,
                                  Optional coverage As Double = 0.85,
                                  Optional identities As Double = 0.3,
