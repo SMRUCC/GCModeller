@@ -1,18 +1,18 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.Repository
-Imports SMRUCC.genomics.Assembly
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.SequenceModel
 
 Public Module Installer
 
@@ -28,7 +28,7 @@ Public Module Installer
             Call "".SaveTo(index)  ' 清除原始文件的所有数据，重新创建索引文件
         End If
 
-        Using DbWriter As New DocumentStream.Linq.WriteStream(Of GenbankIndex)(index)  ' 打开数据库的文件句柄
+        Using DbWriter As New WriteStream(Of GenbankIndex)(index)  ' 打开数据库的文件句柄
 
             For Each table As String In ls - l - lsDIR - r <= DIR   ' 一个物种的文件夹
                 Dim path As String = $"{DIR}/.genbank/meta/{table.BaseName}.csv"
