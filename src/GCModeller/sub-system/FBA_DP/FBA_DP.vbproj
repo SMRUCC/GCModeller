@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA</RootNamespace>
-    <AssemblyName>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Analysis.FBA_DP</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Analysis.FBA_DP</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,7 +48,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller-x64\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -67,7 +67,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -77,7 +77,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -89,7 +89,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -98,7 +98,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -108,7 +108,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -118,7 +118,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -128,7 +128,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -138,7 +138,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA_DP.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.FBA_DP.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -236,10 +236,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\R.Bioinformatics\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
       <Project>{485965cd-da31-4517-86f6-94dfd28379c1}</Project>
       <Name>RDotNet.Extensions.Bioinformatics</Name>
@@ -256,13 +252,21 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Datavisualization.Network</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Datavisualization.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\engine\GCTabular\GCTabular.vbproj">
       <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
@@ -286,6 +290,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="FBA_Doc\FBA_Doc.projitems" Label="Shared" />
+  <Import Project="..\..\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

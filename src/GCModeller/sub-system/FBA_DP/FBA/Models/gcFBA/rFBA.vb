@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::304ff7d5fa4b2137c544cc9af92f6a5b, ..\GCModeller\sub-system\FBA_DP\FBA\Models\gcFBA\rFBA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.SBML
-Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Models.rFBA
 
@@ -47,13 +47,13 @@ Namespace Models.rFBA
         ''' <summary>
         ''' {ORF, regulators}, 假设存在这个列表里面的都是受表达调控的，而不存在的则其表达是自由的
         ''' </summary>
-        ReadOnly __regulations As Dictionary(Of String, DocumentFormat.RegulatesFootprints())
+        ReadOnly __regulations As Dictionary(Of String, RegulatesFootprints())
         ReadOnly _params As rFBA_ARGVS
 
-        Sub New(model As Level2.XmlFile, footprints As IEnumerable(Of DocumentFormat.RegulatesFootprints), param As rFBA_ARGVS)
+        Sub New(model As Level2.XmlFile, footprints As IEnumerable(Of RegulatesFootprints), param As rFBA_ARGVS)
             Call MyBase.New(model, New String() {}, param.forceEnzymeRev)
 
-            __regulations = (From x As DocumentFormat.RegulatesFootprints
+            __regulations = (From x As RegulatesFootprints
                              In footprints
                              Where Not String.IsNullOrEmpty(x.Regulator)
                              Select x

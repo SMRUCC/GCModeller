@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Collections.ObjectModel
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
 
 Namespace Models
 

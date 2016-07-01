@@ -1,41 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::6a99dc29eec3bcd3c6e204b307aa7fdd, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\Interactions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Parallel.Tasks
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.ProteinTools
+Imports SMRUCC.genomics.Data.Xfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Patterns.Clustal
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic.ComponentModel
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
-Imports Microsoft.VisualBasic.Linq
 
 Partial Module CLI
 
@@ -48,25 +52,25 @@ Partial Module CLI
     <ExportAPI("--predicts.TCS", Usage:="--predicts.TCS /pfam <pfam-string.csv> /prot <prot.fasta> /Db <interaction.xml>")>
     Public Function Predicts(args As CommandLine.CommandLine) As Integer
         Dim Interactions = args("/db").LoadXml(Of Category())
-        Dim predictSource = args("/pfam").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
+        Dim predictSource = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim prot = FastaFile.Read(args("/prot")).ToDictionary(Function(x) x.Attributes.First.Split.First.Split(":"c).Last)
         Dim clustal As ClustalOrg.Clustal = ClustalOrg.Clustal.CreateSession
-        Dim LQuery = (From predictsX As Sanger.Pfam.PfamString.PfamString
+        Dim LQuery = (From predictsX As Pfam.PfamString.PfamString
                       In predictSource'.AsParallel
                       Select predictsX,
                            score = __getScore(predictsX, prot, Interactions, clustal)).ToArray
-        Dim setValue = New SetValue(Of Sanger.Pfam.PfamString.PfamString) <=
-            NameOf(Sanger.Pfam.PfamString.PfamString.Description)
+        Dim setValue = New SetValue(Of Pfam.PfamString.PfamString) <=
+            NameOf(Pfam.PfamString.PfamString.Description)
         Dim out = LQuery.ToArray(Function(x) setValue(x.predictsX, CStr(x.score)))
         Return out.SaveTo(args("/pfam").TrimFileExt & ".Interactions.csv")
     End Function
 
-    Private Function __getScore(predict As Sanger.Pfam.PfamString.PfamString,
+    Private Function __getScore(predict As Pfam.PfamString.PfamString,
                                 prot As Dictionary(Of String, FastaToken),
                                 subject As Category(),
                                 clustal As ClustalOrg.Clustal) As Double
         Dim tokens = predict.ProteinId.Split("-"c)
-        Dim contacts As New SequenceModel.FASTA.FastaToken With {
+        Dim contacts As New FASTA.FastaToken With {
             .Attributes = {predict.ProteinId},
             .SequenceData = prot(tokens.First).SequenceData & prot(tokens.Last).SequenceData
         }
@@ -113,7 +117,7 @@ Partial Module CLI
         Dim source = (From x In category.Signature Select New FASTA.FastaToken(x)).ToList
         Call source.Add(seq.CopyVector(n))
         Dim tmp = App.GetAppSysTempFile(".fasta")
-        Call New SequenceModel.FASTA.FastaFile(source).Save(tmp)
+        Call New FASTA.FastaFile(source).Save(tmp)
         Dim aln = clustal.MultipleAlignment(tmp)
         Dim SRChains As SRChain() = SR.FromAlign(aln, block)
         Dim f = category.Signature.First.PfamString.PfamString.Length
@@ -156,11 +160,11 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--Db.From.Exists", Usage:="--Db.From.Exists /aln <clustal-aln.DIR> /pfam <pfam-string.csv>")>
     Public Function DbMergeFromExists(args As CommandLine.CommandLine) As Integer
-        Dim inPfam = args("/pfam").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
+        Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim LoadFasta = (From file As String
                          In FileIO.FileSystem.GetFiles(args("/aln"), FileIO.SearchOption.SearchTopLevelOnly, "*.fasta").AsParallel
                          Select FastaFile.Read(file)).ToArray(Function(x) x.ToDictionary(Function(xx) xx.Title.Split.First.Split(":"c).Last))
-        Dim LQuery = (From x As Sanger.Pfam.PfamString.PfamString
+        Dim LQuery = (From x As Pfam.PfamString.PfamString
                       In inPfam.AsParallel
                       Let order As String = (From id As ProteinModel.DomainObject
                                              In x.GetDomainData(False)
@@ -169,7 +173,7 @@ Partial Module CLI
                       Group By order Into Group) _
                  .ToDictionary(Function(x) x.order,
                                elementSelector:=Function(x) x.Group.ToArray(Function(xx) xx.x))
-        Dim Categories = LQuery.ToArray(Function(x) ProteinTools.Family.FileSystem.Family.CreateObject(x.Key, x.Value))
+        Dim Categories = LQuery.ToArray(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
         Dim list = (From fm As Family.FileSystem.Family
                     In Categories.AsParallel
                     Select __getCategory(fm, LoadFasta)).ToArray
@@ -238,8 +242,8 @@ Partial Module CLI
 
     <ExportAPI("--domain.Interactions", Usage:="--domain.Interactions /pfam <pfam-string.csv> /swissTCS <swissTCS.DIR>")>
     Public Function DomainInteractions(args As CommandLine.CommandLine) As Integer
-        Dim inPfam = args("/pfam").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
-        Dim LQuery = (From x As Sanger.Pfam.PfamString.PfamString
+        Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
+        Dim LQuery = (From x As Pfam.PfamString.PfamString
                       In inPfam.AsParallel
                       Let order As String = (From id As ProteinModel.DomainObject
                                              In x.GetDomainData(False)
@@ -248,7 +252,7 @@ Partial Module CLI
                       Group By order Into Group) _
                          .ToDictionary(Function(x) x.order,
                                        elementSelector:=Function(x) x.Group.ToArray(Function(xx) xx.x))
-        Dim Categories = LQuery.ToArray(Function(x) ProteinTools.Family.FileSystem.Family.CreateObject(x.Key, x.Value))
+        Dim Categories = LQuery.ToArray(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
         Dim Database As New Family.FileSystem.FamilyPfam With {
             .Family = Categories,
             .Title = "SwissTCS"
@@ -257,7 +261,7 @@ Partial Module CLI
         Dim HisK = __loadFa(DIRS, Function(dir) dir & "/HisK.fasta")
         Dim RRPro = __loadFa(DIRS, Function(dir) dir & "/RR.fasta")
         Dim out As String = args("/swissTCS") & "/Pfam/"
-        Dim clustal = SMRUCC.genomics.AnalysisTools.ClustalOrg.Clustal.CreateSession
+        Dim clustal = ClustalOrg.Clustal.CreateSession
         Dim list As New List(Of Category)
 
         For Each fm In Categories
@@ -333,7 +337,7 @@ Partial Module CLI
                 .Alignments = aln.ToArray(Function(x) New KeyValuePair With {
                 .Key = x.Title,
                 .Value = x.SequenceData}),
-                .PfamString = signatures.ToArray(Function(x) ProteinTools.Family.FileSystem.PfamString.CreateObject(x.PfamString)),
+                .PfamString = signatures.ToArray(Function(x) Analysis.ProteinTools.Family.FileSystem.PfamString.CreateObject(x.PfamString)),
                 .Family = name
             }
             Return ppiCategory
@@ -400,7 +404,7 @@ Partial Module CLI
     <ExportAPI("--align.LDM", Usage:="--align.LDM /in <source.fasta>")>
     Public Function GenerateModel(args As CommandLine.CommandLine) As Integer
         Dim input = args("/in")
-        Dim clustal = SMRUCC.genomics.AnalysisTools.ClustalOrg.Clustal.CreateSession
+        Dim clustal = ClustalOrg.Clustal.CreateSession
         Dim align = clustal.MultipleAlignment(input)
         Dim SRChain As SRChain() = SR.FromAlign(align, 0.85)
         Dim Name As String = IO.Path.GetFileNameWithoutExtension(args("/in"))
