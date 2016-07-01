@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.DatabaseServices.StringDB.StringAPI.Database.Format
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format
 
 Namespace StringDB
 

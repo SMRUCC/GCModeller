@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
-Imports RDotNET.Extensions.VisualBasic
+Imports RDotNet.Extensions.VisualBasic
+Imports SMRUCC.genomics.Analysis.PFSNet
 
 Namespace PfsNET
 

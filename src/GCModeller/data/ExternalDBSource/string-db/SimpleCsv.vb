@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.DatabaseServices.StringDB.MIF25
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.Data.StringDB.MIF25
 
 Namespace StringDB.SimpleCsv
 

@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.DatabaseServices.StringDB.MIF25.Nodes
+Imports SMRUCC.genomics.Data.StringDB.MIF25.Nodes
 
 Namespace StringDB.MIF25
 

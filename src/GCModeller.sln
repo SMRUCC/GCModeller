@@ -292,6 +292,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
 		runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Framework.DynamicProgramming\DP_lib\DP_lib.projitems*{a903b744-c08d-4869-bc35-3dd25e36aa16}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
 		GCModeller\shared\api\Shared.CommonMethods.projitems*{bfdf175b-bdcb-4fb3-8c59-3b2b37395445}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{df1c1740-08b7-40d3-84dc-35c94faca108}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{df1c1740-08b7-40d3-84dc-35c94faca108}*SharedItemsImports = 4

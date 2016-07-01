@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.TCS
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.Data.StringDB.StrPNet.TCS
 
 Namespace StringDB.StrPNet
 

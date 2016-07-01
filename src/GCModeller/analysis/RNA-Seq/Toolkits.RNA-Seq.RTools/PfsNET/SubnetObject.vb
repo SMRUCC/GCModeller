@@ -27,8 +27,8 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.Analysis.PFSNet
 
 Namespace PfsNET
     ''' <summary>

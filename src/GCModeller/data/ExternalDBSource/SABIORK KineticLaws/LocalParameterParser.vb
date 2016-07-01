@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.MetaCyc
-Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws
-Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.Assembly.MetaCyc
+Imports SMRUCC.genomics.Data.SabiorkKineticLaws
+Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 
 Namespace SabiorkKineticLaws
 
