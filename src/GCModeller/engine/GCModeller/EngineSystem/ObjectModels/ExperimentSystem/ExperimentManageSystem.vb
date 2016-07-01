@@ -1,33 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::4dd2779382efedd8e735c368be0bf228, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\ExperimentManageSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 
 Namespace EngineSystem.ObjectModels.ExperimentSystem
@@ -98,11 +100,11 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
         ''' <remarks></remarks>
         Public Sub LoadExperimentData(DataFile As String)
             If String.IsNullOrEmpty(DataFile) Then
-                Call Printf("[INFO] not found any experiment data file, experiment system will be hold.")
+                Call printf("[INFO] not found any experiment data file, experiment system will be hold.")
                 NullExperimentList = True
                 Return
             ElseIf Not FileIO.FileSystem.FileExists(DataFile) Then
-                Call Printf("[WARNNING] Could not find the experiment data file ""%s"", please check out the data file path parameter!", DataFile)
+                Call printf("[WARNNING] Could not find the experiment data file ""%s"", please check out the data file path parameter!", DataFile)
                 NullExperimentList = True
                 Return
             End If
@@ -110,8 +112,8 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
             PendingExperiments = New List(Of ExperimentManageSystem.FactorVariables)
             RunningExperiments = New List(Of ExperimentManageSystem.FactorVariables)
 
-            Dim DataModel = DataFile.LoadCsv(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment)(False)
-            Call PendingExperiments.AddRange((From item As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment In DataModel
+            Dim DataModel = DataFile.LoadCsv(Of GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment)(False)
+            Call PendingExperiments.AddRange((From item As GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment In DataModel
                                               Let ExperimentObject = ExperimentManageSystem.FactorVariables.CreateObject(item, Target.Metabolism)
                                               Where Not ExperimentObject Is Nothing
                                               Select ExperimentObject

@@ -46,7 +46,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         Implements PlugIns.ISystemFrameworkEntry.ISystemFramework
         Implements EngineSystem.ObjectModels.Module.FluxObject.IConsumptionStaticsInterface
         Implements IDataSource
-        Implements GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.SystemObject.I_SystemModel
+        Implements ModellingEngine.EngineSystem.ObjectModels.SubSystem.SystemObject.I_SystemModel
         Implements IRuntimeObject
 
         Protected _SystemLogging As Microsoft.VisualBasic.Logging.LogFile
@@ -269,7 +269,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
         Implements Global.System.Collections.Generic.IReadOnlyDictionary(Of String, TFluxObject) '<UniqueId, Item>
         Implements Global.System.IDisposable
-        Implements SystemsBiology.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
+        Implements ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
         Implements EngineSystem.ObjectModels.Module.FluxObject.IConsumptionStaticsInterface
         Implements ICellComponentContainer
 
@@ -302,7 +302,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
         Implements Global.System.Collections.Generic.IReadOnlyDictionary(Of String, TFluxObject) '<UniqueId, Item>
         Implements Global.System.IDisposable
-        Implements SystemsBiology.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
+        Implements ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
         Implements EngineSystem.ObjectModels.Module.FluxObject.IConsumptionStaticsInterface
 
         ''' <summary>

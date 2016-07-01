@@ -352,13 +352,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\java.net\Java.vbproj">
+      <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
+      <Name>Java</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Reference_SharedLib\Java\Java.vbproj">
-      <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
-      <Name>Java</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
@@ -412,6 +416,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

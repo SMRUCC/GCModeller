@@ -1,39 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::0e4ebe66de01617e9ea6503c523941ff, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\CultivationMediums.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
+Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
-Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.SubSystem
 
@@ -96,7 +96,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Me.Temperature = RuntimeContainer.ConfigurationData.Initial_Temperature
 
             Dim s As String =
-                RuntimeContainer.SystemVariable(GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_CULTIVATION_MEDIUM_TYPE)
+                RuntimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_CULTIVATION_MEDIUM_TYPE)
             If String.IsNullOrEmpty(s) OrElse String.Equals("Broth", s, StringComparison.OrdinalIgnoreCase) Then
                 Me._IsLiquidBrothType = True
             Else
@@ -134,7 +134,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 End If
             Next
 #Else
-            DeathCell = (From CellObject As GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem
+            DeathCell = (From CellObject As ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem
                          In _InternalCellList.Randomize.AsParallel
                          Let Invoke As Integer = CellObject.Tick(KernelCycle)
                          Where CellObject.CellDeathDetection = True
@@ -164,7 +164,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         Public Overrides Function Initialize() As Integer Implements ICompartmentObject.Initialize
             If Me._CultivationMediumsModel Is Nothing OrElse Me._CultivationMediumsModel.Uptake_Substrates.IsNullOrEmpty Then
                 Call SystemLogging.WriteLine("It seems like that you haven't define any cultivation medium substrates....", "", Type:=Logging.MSG_TYPES.WRN)
-                Me._CultivationMediumsModel = New Assembly.DocumentFormat.GCMarkupLanguage.CultivationMediums
+                Me._CultivationMediumsModel = New GCMarkupLanguage.CultivationMediums
                 Me._CultivationMediumsModel.Uptake_Substrates = New I_SubstrateRefx() {}
             End If
 
@@ -238,7 +238,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
             Call _SystemLogging.WriteLine("Start to create the transmembrane flux object models between the cultivation mediums and cell...")
 
-            Dim LQuery = (From model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction
+            Dim LQuery = (From model As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction
                           In NewCellObject.DataModel.TransmembraneTransportation
                           Let TrRxnModel As ObjectModels.Module.PassiveTransportationFlux =
                               [Module].PassiveTransportationFlux.CreateObject(model, CellEnzymes, NewCellObject.Metabolism.EnzymeKinetics, Compartments, DefaultCompartment)

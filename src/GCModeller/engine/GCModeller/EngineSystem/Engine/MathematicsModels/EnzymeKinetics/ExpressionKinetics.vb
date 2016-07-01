@@ -51,8 +51,8 @@ Namespace EngineSystem.MathematicsModels.EnzymeKinetics
     End Class
 
     ''' <summary>
-    ''' DFL model for gene expression regulations (<see cref="GCModeller.ModellingEngine.EngineSystem.ObjectModels.[Module].CentralDogmaInstance.Transcription"></see>, 
-    ''' <see cref="GCModeller.ModellingEngine.EngineSystem.ObjectModels.[Module].CentralDogmaInstance.Translation"></see>).(基因表达事件调控的动态模糊逻辑(DFL)模型)
+    ''' DFL model for gene expression regulations (<see cref="ModellingEngine.EngineSystem.ObjectModels.[Module].CentralDogmaInstance.Transcription"></see>, 
+    ''' <see cref="ModellingEngine.EngineSystem.ObjectModels.[Module].CentralDogmaInstance.Translation"></see>).(基因表达事件调控的动态模糊逻辑(DFL)模型)
     ''' </summary>
     ''' <remarks></remarks>
     Public Class ExpressionRegulationDynamics : Inherits MathematicsModel

@@ -1,32 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::23eba8d3c1606b371e14158c63478186, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Translation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
@@ -63,7 +63,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
             If V > UPPER_BOUND OrElse V = Double.PositiveInfinity Then V = UPPER_BOUND
 
-            Product.Quantity = Product.DataSource.Value + V
+            Product.Quantity = Product.DataSource.value + V
             _FluxValue = V
 
             Return FluxValue
@@ -84,8 +84,8 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         End Function
 
         Protected Friend Overloads Overrides Function InitializeConstraints(MetabolismSystem As SubSystem.MetabolismCompartment) As Integer
-            Dim ConstraintModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
-              .Name = MyBase.Identifier, .Identifier = MyBase.Identifier, .Reversible = False, .UPPER_BOUND = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}}
+            Dim ConstraintModel As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+              .Name = MyBase.Identifier, .Identifier = MyBase.Identifier, .Reversible = False, .UPPER_BOUND = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}}
             Dim ConstraintMapping = MetabolismSystem.ConstraintMetabolite
             Dim p As Integer = 0
 

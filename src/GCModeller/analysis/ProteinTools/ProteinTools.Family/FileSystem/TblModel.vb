@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::e012c8999d72f9d94e2fbb1110d31967, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\FileSystem\TblModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Data.Xfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace FileSystem
 
@@ -105,7 +106,7 @@ Namespace FileSystem
         ''' <param name="threshold"></param>
         ''' <param name="highlyThreshold"></param>
         ''' <returns></returns>
-        Public Function IsThisFamily(query As Sanger.Pfam.PfamString.PfamString,
+        Public Function IsThisFamily(query As Pfam.PfamString.PfamString,
                                      threshold As Double,
                                      highlyThreshold As Double,
                                      accept As Integer,
@@ -114,7 +115,7 @@ Namespace FileSystem
 
             For Each subject As FileSystem.PfamString In PfamString
                 Dim alignment As LevAlign =
-                    Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.Algorithm.PfamStringEquals(
+                    Pfam.ProteinDomainArchitecture.MPAlignment.Algorithm.PfamStringEquals(
                         query, subject.AsPfamString, highlyThreshold)
 
                 If alignment.MatchSimilarity > threshold Then  ' 结构上面的相似度大于阈值，则累积加1
@@ -174,7 +175,7 @@ Namespace FileSystem
         ''' </remarks>
         ''' <param name="query"></param>
         ''' <returns></returns>
-        Private Function __matchTraceDef(query As Sanger.Pfam.PfamString.PfamString) As MatchStates
+        Private Function __matchTraceDef(query As Pfam.PfamString.PfamString) As MatchStates
             Dim queryDomains As String() = query.PfamString.ToArray(Function(x) x.Split("("c).First.ToLower)
             ' 查看是否有交集
             Dim LQuery As Integer = (From x As String
@@ -203,7 +204,7 @@ Namespace FileSystem
             }
         End Function
 
-        Public Shared Function CreateObject(Name As String, proteins As Sanger.Pfam.PfamString.PfamString()) As Family
+        Public Shared Function CreateObject(Name As String, proteins As Pfam.PfamString.PfamString()) As Family
             Dim prot As PfamString() = proteins.ToArray(
                 Function(x) FileSystem.PfamString.CreateObject(x),
                 where:=Function(x) Not StringHelpers.IsNullOrEmpty(x.PfamString))

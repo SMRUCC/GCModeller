@@ -1,30 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::6eaf2e38687f552be9628dbe635fab12, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\DisposerSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
@@ -68,7 +69,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
             Dim CreationMethod As Func(Of EngineSystem.ObjectModels.Entity.IDisposableCompound,
                                           EngineSystem.ObjectModels.SubSystem.MetabolismCompartment,
-                                          Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant,
+                                          GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant,
                                           EngineSystem.ObjectModels.Entity.Compound(),
                                           String(),
                                           [Module].DisposableCompound(Of MolecularType))
@@ -99,17 +100,17 @@ Namespace EngineSystem.ObjectModels.SubSystem
                                                                                       ConstraintMetabolite.CONSTRAINT_TRP,
                                                                                       ConstraintMetabolite.CONSTRAINT_TYR,
                                                                                       ConstraintMetabolite.CONSTRAINT_VAL}
-                EnzymeIdList = Strings.Split(_CellComponentContainer.get_runtimeContainer.SystemVariable(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_POLYPEPTIDE_DISPOSE_CATALYST), "; ")
+                EnzymeIdList = Strings.Split(_CellComponentContainer.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_POLYPEPTIDE_DISPOSE_CATALYST), "; ")
             Else
                 CreationMethod = AddressOf EngineSystem.ObjectModels.Module.DisposableCompound(Of MolecularType).CreateTranscriptDisposalObject
                 ProductMetabolites = New EngineSystem.ObjectModels.Entity.Compound() {ConstraintMetabolite.CONSTRAINT_ADP,
                                                                                       ConstraintMetabolite.CONSTRAINT_GTP,
                                                                                       ConstraintMetabolite.CONSTRAINT_CTP,
                                                                                       ConstraintMetabolite.CONSTRAINT_UTP}
-                EnzymeIdList = Strings.Split(_CellComponentContainer.get_runtimeContainer.SystemVariable(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_TRANSCRIPT_DISPOSE_CATALYST), "; ")
+                EnzymeIdList = Strings.Split(_CellComponentContainer.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_TRANSCRIPT_DISPOSE_CATALYST), "; ")
             End If
 
-            Dim Model = [Module].DisposableCompound(Of MolecularType).GetModelBase(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant.GENERAL_TYPE_ID_POLYPEPTIDE, Metabolism._CellSystem.DataModel.DispositionModels)
+            Dim Model = [Module].DisposableCompound(Of MolecularType).GetModelBase(GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant.GENERAL_TYPE_ID_POLYPEPTIDE, Metabolism._CellSystem.DataModel.DispositionModels)
 
 #If DEBUG Then
             Dim LQuery = (From item In DisposibleMetabolites Select CreationMethod(item, Metabolism, Model, ProductMetabolites, EnzymeIdList)).ToArray
@@ -119,11 +120,11 @@ Namespace EngineSystem.ObjectModels.SubSystem
             MyBase._DynamicsExprs = LQuery.AddHandle.ToArray
 
             If Type = Entity.IDisposableCompound.DisposableCompoundTypes.Transcripts Then
-                Dim WeightVector As Dictionary(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) =
-                    New Global.System.Collections.Generic.Dictionary(Of Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double)
-                Call WeightVector.Add(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.mRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_mRNA)
-                Call WeightVector.Add(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.rRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_rRNA)
-                Call WeightVector.Add(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.tRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_tRNA)
+                Dim WeightVector As Dictionary(Of GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) =
+                    New Dictionary(Of GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double)
+                Call WeightVector.Add(GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.mRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_mRNA)
+                Call WeightVector.Add(GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.rRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_rRNA)
+                Call WeightVector.Add(GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.tRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_tRNA)
 
                 For i As Integer = 0 To _DynamicsExprs.Count - 1
                     Dim TranscriptDispose As Entity.Transcript = DirectCast(_DynamicsExprs(i).DisposalSubstrate, Entity.Transcript)

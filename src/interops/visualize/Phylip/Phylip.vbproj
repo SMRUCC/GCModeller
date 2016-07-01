@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{00073DB7-BCD2-4AAC-8E8C-142B1B30EFD5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Phylip</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Interops.Visualize.Phylip</RootNamespace>
     <AssemblyName>Phylip</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>

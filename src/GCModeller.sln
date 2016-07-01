@@ -283,6 +283,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ShoalShell", "Shoal\Shoal.v
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RNA-Seq.Doc", "GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.shproj", "{2BDE773E-2206-4828-8A2B-7B5E933A7DF5}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Java", "runtime\java.net\Java.vbproj", "{C2DC8172-E957-4AA3-9771-4488D95ABA2D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -296,6 +298,8 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{804eb81c-493a-49ef-95a9-dbf800fa4a08}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
 		runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Framework.DynamicProgramming\DP_lib\DP_lib.projitems*{a903b744-c08d-4869-bc35-3dd25e36aa16}*SharedItemsImports = 4
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
@@ -304,6 +308,8 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{df1c1740-08b7-40d3-84dc-35c94faca108}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{df1c1740-08b7-40d3-84dc-35c94faca108}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
@@ -2819,6 +2825,30 @@ Global
 		{D71E0D55-DA94-4B18-B204-252D532EE8EC}.Release|x64.Build.0 = Release|x64
 		{D71E0D55-DA94-4B18-B204-252D532EE8EC}.Release|x86.ActiveCfg = Release|x86
 		{D71E0D55-DA94-4B18-B204-252D532EE8EC}.Release|x86.Build.0 = Release|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Debug|x64.ActiveCfg = Debug|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Debug|x64.Build.0 = Debug|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Debug|x86.ActiveCfg = Debug|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Debug|x86.Build.0 = Debug|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.docs|Any CPU.ActiveCfg = docs|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.docs|Any CPU.Build.0 = docs|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.docs|x64.ActiveCfg = docs|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.docs|x64.Build.0 = docs|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.docs|x86.ActiveCfg = docs|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.docs|x86.Build.0 = docs|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Publish|Any CPU.Build.0 = Publish|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Publish|x64.ActiveCfg = Publish|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Publish|x64.Build.0 = Publish|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Publish|x86.ActiveCfg = Publish|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Publish|x86.Build.0 = Publish|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Release|x64.ActiveCfg = Release|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Release|x64.Build.0 = Release|x64
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Release|x86.ActiveCfg = Release|x86
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2958,5 +2988,6 @@ Global
 		{A7CB16FF-75C6-4746-8449-86C121D723C4} = {A57D27E9-2DED-42B3-99C3-AE07DE7A5C96}
 		{D71E0D55-DA94-4B18-B204-252D532EE8EC} = {A57D27E9-2DED-42B3-99C3-AE07DE7A5C96}
 		{2BDE773E-2206-4828-8A2B-7B5E933A7DF5} = {6BFF40D9-5A1C-4348-9340-AA99DF910B9E}
+		{C2DC8172-E957-4AA3-9771-4488D95ABA2D} = {A298B539-BE81-4A66-AFC1-014D449E4887}
 	EndGlobalSection
 EndGlobal

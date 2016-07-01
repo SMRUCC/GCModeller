@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::421da950f3d1c07f47ac6469260ec6af, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Feature\TransUnit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -29,7 +29,7 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Terminal.STDIO
-
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.Feature
 
@@ -59,7 +59,7 @@ Namespace EngineSystem.ObjectModels.Feature
         ''' <remarks></remarks>
         Public Property MotifSites As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.MotifSite(Of ObjectModels.Module.CentralDogmaInstance.Transcription)()
 
-        Protected Friend FeatureBaseType As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
+        Protected Friend FeatureBaseType As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
 
         Public Overrides Function ToString() As String
             If Not ProductHandlers.IsNullOrEmpty Then
@@ -83,7 +83,7 @@ Namespace EngineSystem.ObjectModels.Feature
         ''' <param name="CellSystem"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function CreateObject(TranscriptUnitModelObject As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
+        Public Overloads Shared Function CreateObject(TranscriptUnitModelObject As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
                                             CellSystem As EngineSystem.ObjectModels.SubSystem.CellSystem) As TransUnit
 
             Dim TransUnit As TransUnit = New TransUnit With {.FeatureBaseType = TranscriptUnitModelObject, .Identifier = TranscriptUnitModelObject.Identifier}
@@ -94,7 +94,7 @@ Namespace EngineSystem.ObjectModels.Feature
             Else
                 TransUnit.ProductHandlers = (From Handle As KeyValuePair
                                              In TranscriptUnitModelObject.GeneCluster
-                                             Let Gene As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject =
+                                             Let Gene As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject =
                                                         CellSystem.DataModel.BacteriaGenome.Genes.GetItem(Handle.Key)
                                              Let ProductValue = Gene.TranscriptProduct
                                              Select New KeyValuePair(Of String, String)(Gene.Identifier, ProductValue)).ToArray

@@ -26,6 +26,7 @@
 #End Region
 
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.MathematicsModels.EnzymeKinetics
 
 Namespace EngineSystem.ObjectModels.SubSystem
 

@@ -1,39 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::713e6395c371bf4c1912ac19a6e2a3bc, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\CentralDogma.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
     ''' <summary>
     ''' ExpressionObject object equals to the 
-    ''' <see cref="SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit">TranscriptUnit object</see> 
+    ''' <see cref="GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit">TranscriptUnit object</see> 
     ''' in the datamodels.
     ''' 一个转录对象是以一个转录单元为单位的，其可以被看作为中心法则的一个实例，描述了从基因到蛋白质的整个表达过程，一个操纵子对象的表达过程
     ''' </summary>
@@ -153,7 +154,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         Public Overloads Function Initialize(CellSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) As CentralDogma
 
             Dim LQuery = (From Transcript In Me.Transcripts Select ExpressionProcedureEvent.CreateInstance(Me, Transcript, CellSystem.Metabolism)).ToArray ' '从每一个转录组分对象实例生成转录过程对象
-           
+
 
             Dim TF_Motifs = __Internal_createMotifRegulators(Me.TransUnit.FeatureBaseType, CellSystem)
             Me.Transcriptions = (From TranscriptionEvent In LQuery Where Not TranscriptionEvent Is Nothing Select TranscriptionEvent).ToArray
@@ -162,7 +163,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             Return Me
         End Function
 
-        Private Shared Function __Internal_createMotifRegulators(TU_Model As GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
+        Private Shared Function __Internal_createMotifRegulators(TU_Model As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
                                                                  CellSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) _
             As Feature.MotifSite(Of Transcription)()
 
@@ -172,15 +173,15 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
                 Return New Feature.MotifSite(Of Transcription)() {}
             End If
 
-            Dim Motifs = (From T_Motif As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.MotifSite
+            Dim Motifs = (From T_Motif As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.MotifSite
                    In MotifModels
-                   Let motif = New Feature.MotifSite(Of Transcription) With
+                          Let motif = New Feature.MotifSite(Of Transcription) With
                                {
                                    .Identifier = T_Motif.MotifName,
-                                   .Regulators = (From regulator As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator
+                                   .Regulators = (From regulator As GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator
                                                   In T_Motif.Regulators
                                                   Select ObjectModels.Entity.Regulator(Of Transcription).CreateObject(regulator, CellSystem.Metabolism)).ToArray}
-                   Select motif.Initialize).ToArray
+                          Select motif.Initialize).ToArray
             Return Motifs
         End Function
 
@@ -190,7 +191,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' <param name="TransUnit"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Shadows Function CreateInstance(TransUnit As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
+        Public Shared Shadows Function CreateInstance(TransUnit As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
                                                       CellSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) _
             As CentralDogma
 

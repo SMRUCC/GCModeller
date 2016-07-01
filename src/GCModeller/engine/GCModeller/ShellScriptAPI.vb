@@ -58,8 +58,7 @@ Public Module ShellScriptAPI
             Configuration = FileIO.FileSystem.GetFiles(Configuration, FileIO.SearchOption.SearchTopLevelOnly, "*.inf").First
         End If
 
-        Return Global.SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Run.Invoke(
-            ShellScriptAPI.ModelRegistry, GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(Configuration), argvs)
+        Return ModellingEngine.EngineSystem.Engine.Run.Invoke(ShellScriptAPI.ModelRegistry, ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(Configuration), argvs)
     End Function
 
     <ExportAPI("Default_Configuration.Create")>

@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::c72301f2e667afc9b106c03d94e3bb5c, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\EquationModel\CompoundSpecieReference.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 
 Namespace EngineSystem.ObjectModels.Module.EquationModel
 
@@ -59,7 +60,7 @@ Namespace EngineSystem.ObjectModels.Module.EquationModel
         <DumpNode> Protected Friend _ConstraintTestValue As Double
 
         Protected Friend Function ConstraintTest(FluxValue As Double) As Double
-            Me._ConstraintTestValue = (Me.EntityCompound.DataSource.Value + Stoichiometry * FluxValue) / Stoichiometry
+            Me._ConstraintTestValue = (Me.EntityCompound.DataSource.value + Stoichiometry * FluxValue) / Stoichiometry
             Return Me._ConstraintTestValue
         End Function
 
@@ -71,7 +72,7 @@ Namespace EngineSystem.ObjectModels.Module.EquationModel
             If EntityCompound Is Nothing Then
                 MsgBox(1)
             End If
-            EntityCompound.Quantity = EntityCompound.DataSource.Value + Flux / Stoichiometry
+            EntityCompound.Quantity = EntityCompound.DataSource.value + Flux / Stoichiometry
             Return 0
         End Function
 
@@ -79,7 +80,7 @@ Namespace EngineSystem.ObjectModels.Module.EquationModel
             Return Compound.EntityCompound.Quantity / value
         End Operator
 
-        Public Shared Function CreateObject(Model As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference,
+        Public Shared Function CreateObject(Model As GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference,
                                             Metabolites As Entity.Compound()) _
             As CompoundSpecieReference
 

@@ -40,7 +40,7 @@
 
 '        Sub New(ExpressionNetwork As EngineSystem.ObjectModels.SubSystem.ExpressionSystem.ExpressionRegulationNetwork)
 '            Dim ChipDataCsvPath As String = ExpressionNetwork.Get_runtimeContainer.SystemVariables.GetItem(Id:=
-'                SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SystemVariables._URL_CHIPDATA).Value
+'                SMRUCC.genomics.GCMarkupLanguage.SystemVariables._URL_CHIPDATA).Value
 
 '            Call LoggingClient.WriteLine(String.Format("Load ChipData from {0}", ChipDataCsvPath))
 
@@ -64,7 +64,7 @@
 '                                                                                                      .PromoterGene = Model.TransUnit.FeatureBaseType.PromoterGene.AccessionId})
 '            Dim LQuery = (From ObjectModel In ExpressionNetwork.NetworkComponents Where ObjectModel.VEC.IsNullOrEmpty Select ObjectModel).ToArray  '筛选出没有调控因子的转录模型
 '            Dim Metabolism = ExpressionNetwork._CellSystem.Metabolism.Metabolites
-'            Dim PccCutoff As Double = Val(ExpressionNetwork.Get_runtimeContainer.SystemVariables.GetItem(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SystemVariables.PARA_SVD_CUTOFF).Value)
+'            Dim PccCutoff As Double = Val(ExpressionNetwork.Get_runtimeContainer.SystemVariables.GetItem(SMRUCC.genomics.GCMarkupLanguage.SystemVariables.PARA_SVD_CUTOFF).Value)
 
 '            Dim Regulators As Dictionary(Of String, EngineSystem.ObjectModels.Entity.Compound()) = GetRegulators()
 '            Dim IndexHandles = (From item In Regulators Select Array.IndexOf(Index, item.Key)).ToArray

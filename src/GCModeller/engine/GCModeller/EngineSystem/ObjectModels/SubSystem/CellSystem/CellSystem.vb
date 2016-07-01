@@ -1,34 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::528db2da984452f8639c0985fa738645, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\CellSystem\CellSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
-Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.SubSystem
 
@@ -44,7 +44,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Friend ReadOnly Property DataModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
+        Protected Friend ReadOnly Property DataModel As BacterialModel
             Get
                 Return Me._GCML_DataModel
             End Get
@@ -97,7 +97,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
         <DumpNode> Protected Friend ReadOnly Property get_SignalTransductionActivity() As Double
             Get
-                Dim sum = (From item In Me.SignalTransductionNetwork.DataSource Select Global.System.Math.Abs(item.Value)).Sum
+                Dim sum = (From item In Me.SignalTransductionNetwork.DataSource Select Global.System.Math.Abs(item.value)).Sum
                 Dim value As String = Global.System.Math.Log10(sum).ToString
                 Return Val(value)
             End Get
@@ -187,7 +187,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         Public ReadOnly Property CellDeathDetection() As Boolean
             Get
                 Dim ExpressionActivity = (From Transcription In ExpressionRegulationNetwork._InternalEvent_Transcriptions Select Transcription.FluxValue).ToArray.Sum + (From Translation In ExpressionRegulationNetwork._InternalEvent_Translations__ Select Translation.FluxValue).ToArray.Sum
-                Dim Level = (From Transcript In ExpressionRegulationNetwork._InternalTranscriptsPool Select Transcript.DataSource.Value).ToArray.Sum + (From Polypeptide In Metabolism.ProteinCPLXAssemblies.Proteins Select Polypeptide.DataSource.Value).ToArray.Sum
+                Dim Level = (From Transcript In ExpressionRegulationNetwork._InternalTranscriptsPool Select Transcript.DataSource.value).ToArray.Sum + (From Polypeptide In Metabolism.ProteinCPLXAssemblies.Proteins Select Polypeptide.DataSource.value).ToArray.Sum
 
                 ExpressionActivity += (From BasalTranscription In ExpressionRegulationNetwork.BasalExpression.BasalExpressionFluxes Select BasalTranscription.FluxValue).ToArray.Sum
                 ExpressionActivity += (From BasalTranslation In ExpressionRegulationNetwork.BasalExpression.BasalTranslationFluxs Select BasalTranslation.FluxValue).ToArray.Sum

@@ -80,7 +80,7 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         ''' <param name="Node"></param>
         ''' <param name="NewClass">新的EC编号</param>
         ''' <returns></returns>
-        ''' <remarks>这里不要使用并行化，因为需要使用<see cref="GCModeller.ModellingEngine.EngineSystem.ObjectModels.PoolMappings.MotifClass.Handle"></see>或者<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.EnzymeClass.Handle"></see>进行映射操作</remarks>
+        ''' <remarks>这里不要使用并行化，因为需要使用<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.MotifClass.Handle"></see>或者<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.EnzymeClass.Handle"></see>进行映射操作</remarks>
         Public Function ModifyMapping(Node As EntityFeatureMapping, NewClass As String) As Boolean
             Dim ChunkBuffer = _DICT_MappingPool(Node.MappingHandler.locusId)
             Call ChunkBuffer.Remove(Node)

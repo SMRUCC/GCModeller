@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::8093d78b32a88959f1727d268697e780, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\Experiment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.ExperimentSystem
 
@@ -39,7 +40,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
         Public Class FactorVariables
 
             ''' <summary>
-            ''' 顺序与<see cref="SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types">Types</see>相对应：
+            ''' 顺序与<see cref="GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types">Types</see>相对应：
             ''' Increase
             ''' Decrease
             ''' Multiplying
@@ -82,7 +83,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
             ''' </summary>
             ''' <remarks></remarks>
             <XmlAttribute> Public Kicks As Integer
-            <XmlAttribute> Public DisturbType As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types
+            <XmlAttribute> Public DisturbType As GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types
             <XmlAttribute> Public Value As Double
 
             <XmlIgnore> Dim NextTime As Double
@@ -119,11 +120,11 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
             ''' <summary>
             ''' 
             ''' </summary>
-            ''' <param name="ModelBase">目标对象之中的<see cref="SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.TriggedCondition">触发条件</see>为一个纯数字</param>
+            ''' <param name="ModelBase">目标对象之中的<see cref="GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.TriggedCondition">触发条件</see>为一个纯数字</param>
             ''' <param name="MetabolismSystem"></param>
             ''' <returns></returns>
             ''' <remarks></remarks>
-            Public Shared Function CreateObject(ModelBase As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment, MetabolismSystem As EngineSystem.ObjectModels.SubSystem.MetabolismCompartment) As FactorVariables
+            Public Shared Function CreateObject(ModelBase As GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment, MetabolismSystem As EngineSystem.ObjectModels.SubSystem.MetabolismCompartment) As FactorVariables
                 If Not Regex.Match(ModelBase.TriggedCondition.Trim, "^\d+$", RegexOptions.Multiline).Success Then  '目标对象不是一个数字，则说明可能是条件触发类型的
                     Return Nothing
                 End If
@@ -140,7 +141,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
                 Else
                     ExperimentObject.Target = Compound
                     ExperimentObject.NextTime = ExperimentObject.Start
-                    ExperimentObject.TargetInvoke_GetValue = Function() Compound.DataSource.Value
+                    ExperimentObject.TargetInvoke_GetValue = Function() Compound.DataSource.value
                     ExperimentObject.TargetInvoke_SetValue = Sub(value As Double) Compound.Quantity = value
                 End If
 
@@ -156,7 +157,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
                     Dim ExperimentObject As FactorVariables = New FactorVariables With {.DisturbType = Model.DisturbingType, .Id = Model.Metabolite, .Value = Model.value, ._SystemLogging = MetabolismSystem.SystemLogging}
 
                     ExperimentObject.Target = Compound
-                    ExperimentObject.TargetInvoke_GetValue = Function() Compound.DataSource.Value
+                    ExperimentObject.TargetInvoke_GetValue = Function() Compound.DataSource.value
                     ExperimentObject.TargetInvoke_SetValue = Sub(value As Double) Compound.Quantity = value
 
                     Call ExperimentObject.TargetInvoke_SetValue(Methods(ExperimentObject.DisturbType)(ExperimentObject.TargetInvoke_GetValue(), ExperimentObject.Value))
@@ -165,7 +166,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
 
             Public Structure SetMetaboliteAction
                 Dim Metabolite As String, value As Double
-                Dim DisturbingType As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types
+                Dim DisturbingType As GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types
 
                 Public Shared Function CreateObject(ActionScript As String) As SetMetaboliteAction
                     Dim Tokens As String() = Strings.Split(ActionScript, "=>")

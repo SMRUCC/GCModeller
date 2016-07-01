@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::e6604e2a99703e29aedc545f65fffa75, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\Disposition.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports Microsoft.VisualBasic.Extensions
+Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.Module
 
@@ -103,12 +104,12 @@ Namespace EngineSystem.ObjectModels.Module
         ''' <remarks></remarks>
         Public Shared Function CreatePeptideDisposalObject(Compound As EngineSystem.ObjectModels.Entity.IDisposableCompound,
                                                            Metabolism As EngineSystem.ObjectModels.SubSystem.MetabolismCompartment,
-                                                           Model As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant,
+                                                           Model As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant,
                                                            Products As EngineSystem.ObjectModels.Entity.Compound(),
                                                            ID_POLYPEPTIDE_DISPOSE_CATALYST As String()) As DisposableCompound(Of MolecularType)
             Dim CellDataModel = Metabolism._CellSystem.DataModel
-            Dim FluxModelBase As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction =
-                New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+            Dim FluxModelBase As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction =
+                New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
  _
                     .LOWER_BOUND = 0,
                     .UPPER_BOUND = Model.UPPER_BOUND,
@@ -122,41 +123,41 @@ Namespace EngineSystem.ObjectModels.Module
             Dim ConstraintMapping = Metabolism.ConstraintMetabolite
 
             FluxModelBase.Reactants = {
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
                     {
                         .StoiChiometry = Global.System.Math.Log10(Compound.CompositionVector.Sum + 10), .Identifier = Metabolism.ConstraintMetabolite.CONSTRAINT_WATER_MOLECULE.Identifier}}
 
             Dim CompositionVector As Integer() = Compound.CompositionVector
             Dim p As Integer = 0
             FluxModelBase.Products = {
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ALA.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ARG.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASN.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CYS.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLN.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLU.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLY.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_HIS.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ILE.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LEU.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LYS.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_MET.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PHE.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PRO.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_SER.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_THR.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TRP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TYR.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_VAL.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}}
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ALA.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ARG.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASN.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CYS.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLN.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLU.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLY.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_HIS.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ILE.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LEU.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LYS.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_MET.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PHE.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PRO.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_SER.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_THR.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TRP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TYR.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_VAL.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}}
 
             Dim Reactants = (From item In FluxModelBase.Reactants Select Metabolism.Metabolites.GetItem(item.Identifier)).ToArray
 
             Return InternalCreateObjects(FluxModelBase, Compound, Reactants, Products, Metabolism.Metabolites, Metabolism.EnzymeKinetics, Metabolism.SystemLogging)
         End Function
 
-        Public Shared Function GetModelBase(GeneralTypeId As String, Models As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant()) _
-            As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant
+        Public Shared Function GetModelBase(GeneralTypeId As String, Models As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant()) _
+            As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant
 
             For i As Integer = 0 To Models.Count - 1
                 Dim item = Models(i)
@@ -168,7 +169,7 @@ Namespace EngineSystem.ObjectModels.Module
             Return Nothing
         End Function
 
-        Private Shared Function InternalCreateReferences(ModelBase As Generic.IEnumerable(Of GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference),
+        Private Shared Function InternalCreateReferences(ModelBase As Generic.IEnumerable(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference),
                                                          Metabolites As EngineSystem.ObjectModels.Entity.Compound()) _
             As EquationModel.CompoundSpecieReference()
 
@@ -176,7 +177,7 @@ Namespace EngineSystem.ObjectModels.Module
             Return LQuery
         End Function
 
-        Private Shared Function InternalCreateObjects(FluxModelBase As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction,
+        Private Shared Function InternalCreateObjects(FluxModelBase As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction,
                                                       Compound As MolecularType,
                                                       Reactants As EngineSystem.ObjectModels.Entity.Compound(),
                                                       Products As EngineSystem.ObjectModels.Entity.Compound(),
@@ -233,13 +234,13 @@ Namespace EngineSystem.ObjectModels.Module
         ''' <remarks></remarks>
         Public Shared Function CreateTranscriptDisposalObject(Compound As EngineSystem.ObjectModels.Entity.IDisposableCompound,
                                                               Metabolism As EngineSystem.ObjectModels.SubSystem.MetabolismCompartment,
-                                                              Model As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant,
+                                                              Model As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant,
                                                               Products As EngineSystem.ObjectModels.Entity.Compound(),
                                                               ID_TRANSCRIPT_DISPOSE_CATALYST As String()) As DisposableCompound(Of MolecularType)
 
             Dim CellDataModel = Metabolism._CellSystem.DataModel
-            Dim FluxModelBase As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction =
-                New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+            Dim FluxModelBase As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction =
+                New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
                     .LOWER_BOUND = 0,
                     .UPPER_BOUND = Model.UPPER_BOUND,
                     .Identifier = Compound.Identifier,
@@ -252,7 +253,7 @@ Namespace EngineSystem.ObjectModels.Module
             Dim ConstraintMapping = Metabolism.ConstraintMetabolite
 
             FluxModelBase.Reactants = {
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
                     {
                         .StoiChiometry = Global.System.Math.Log(Compound.CompositionVector.Sum + 2, 2),
                         .Identifier = Metabolism.ConstraintMetabolite.CONSTRAINT_WATER_MOLECULE.Identifier
@@ -262,10 +263,10 @@ Namespace EngineSystem.ObjectModels.Module
             Dim CompositionVector As Integer() = Compound.CompositionVector
             Dim p As Integer = 0
             FluxModelBase.Products = {
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ADP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                    New GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ADP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}
                 }
 
             Dim Reactants = (From item In FluxModelBase.Reactants Select Metabolism.Metabolites.GetItem(item.Identifier)).ToArray

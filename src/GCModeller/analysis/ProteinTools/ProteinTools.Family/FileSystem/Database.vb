@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::5ef7db3ddc78c7523c5c8f23565555bf, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\FileSystem\Database.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Data.Xfam
 
 Namespace FileSystem
 
@@ -108,7 +109,7 @@ Namespace FileSystem
             End If
         End Function
 
-        Public Function ManualAdd(Name As String, Cluster As Generic.IEnumerable(Of Sanger.Pfam.PfamString.PfamString)) As String
+        Public Function ManualAdd(Name As String, Cluster As Generic.IEnumerable(Of Pfam.PfamString.PfamString)) As String
             Dim Family As Family = FileSystem.Family.CreateObject(Name, Cluster.ToArray)
             Return Add(Name, Family)
         End Function

@@ -68,8 +68,8 @@ Namespace Framework.DynamicCode.VBC
             Dim ProgramDirectory As String = My.Application.Info.DirectoryPath
             Me.UsrReferenceAssemblys = New String() {
                 ProgramDirectory & "/SMRUCC.genomics.Assembly.dll",
-                ProgramDirectory & "/SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.dll",
-                ProgramDirectory & "/SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.dll",
+                ProgramDirectory & "/CsvTabular.dll",
+                ProgramDirectory & "/GCMarkupLanguage.dll",
                 ProgramDirectory & "/SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.dll",
                 ProgramDirectory & "/SMRUCC.genomics.GCModeller.ModellingEngine.Kernel.dll",
                 ProgramDirectory & "/Microsoft.VisualBasic.Framework.Kernel_Driver.dll",

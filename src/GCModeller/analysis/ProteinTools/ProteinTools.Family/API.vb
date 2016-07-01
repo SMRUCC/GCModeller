@@ -1,40 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::076e8413a12d8d313c8df8cf28eaa174, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Reflection
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Family.FileSystem
-Imports SMRUCC.genomics.Assembly.KEGG.Archives
-
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem
+Imports SMRUCC.genomics.Assembly.KEGG.Archives
+Imports SMRUCC.genomics.Data
 
 <PackageNamespace("SMART.PfamFamily",
                   Category:=APICategories.ResearchTools,
@@ -50,17 +50,17 @@ Public Module API
     ''' <returns></returns>
     <ExportAPI("FamilyDomain.Dumps", Info:="Dump the family database for the further analysis.")>
     Public Function FamilyDomains(KEGG As SequenceModel.FASTA.FastaFile,
-                                  Pfam As IEnumerable(Of Sanger.Pfam.PfamString.PfamString)) As FamilyPfam
+                                  Pfam As IEnumerable(Of Xfam.Pfam.PfamString.PfamString)) As FamilyPfam
         Return Family.KEGG.FamilyDomains(KEGG, Pfam)
     End Function
 
     <ExportAPI("FamilyDomain.Dumps", Info:="Dump the family database for the further analysis.")>
-    Public Function FamilyDomains(Regprecise As Dictionary(Of String, SMRUCC.genomics.DatabaseServices.Regprecise.FastaReaders.Regulator),
-                                  Pfam As Generic.IEnumerable(Of Sanger.Pfam.PfamString.PfamString)) As FamilyPfam
+    Public Function FamilyDomains(Regprecise As Dictionary(Of String, Regprecise.FastaReaders.Regulator),
+                                  Pfam As Generic.IEnumerable(Of Xfam.Pfam.PfamString.PfamString)) As FamilyPfam
 
         Pfam = (From x In Pfam.AsParallel Where Not StringHelpers.IsNullOrEmpty(x.PfamString) Select x).ToList
 
-        Dim LQuery = (From x As Sanger.Pfam.PfamString.PfamString In Pfam
+        Dim LQuery = (From x As Xfam.Pfam.PfamString.PfamString In Pfam
                       Let entry = Regprecise(x.ProteinId)
                       Let family As String = entry.KEGGFamily.Trim
                       Let describ = entry.Definition
@@ -112,7 +112,7 @@ Public Module API
     ''' <param name="DbName"></param>
     ''' <returns></returns>
     <ExportAPI("Family.Align", Info:="Protein Family Classification Annotation.")>
-    Public Function FamilyAlign(query As IEnumerable(Of Sanger.Pfam.PfamString.PfamString),
+    Public Function FamilyAlign(query As IEnumerable(Of Xfam.Pfam.PfamString.PfamString),
                                 Optional Threshold As Double = 0.65,
                                 Optional MP As Double = 0.65,
                                 Optional accept As Integer = 10,
@@ -168,7 +168,7 @@ Public Module API
     End Class
 
     <ExportAPI("Family.Align", Info:="Protein Family Classification Annotation.")>
-    Public Function FamilyAlign(query As Sanger.Pfam.PfamString.PfamString,
+    Public Function FamilyAlign(query As Xfam.Pfam.PfamString.PfamString,
                                 Optional Threshold As Double = 0.65,
                                 Optional MP As Double = 0.65,
                                 Optional accept As Integer = 10) As String()
