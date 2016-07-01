@@ -1,11 +1,11 @@
 ﻿Imports System.Drawing
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel
 
 <[PackageNamespace]("NT.GC.Curve", Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module GCSkew

@@ -1,10 +1,9 @@
-﻿Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Pattern
+﻿Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Topologically
 
@@ -32,7 +31,7 @@ Namespace Topologically
             Dim RemoveList = (From Segment As String
                               In currentStat.AsParallel
                               Where SequenceData.IndexOf(Segment) = -1 OrElse
-                                  FindLocation(SequenceData, Segment).Length < MinAppeared
+                                  Pattern.FindLocation(SequenceData, Segment).Length < MinAppeared
                               Select Segment).ToArray
             Return RemoveList
         End Function

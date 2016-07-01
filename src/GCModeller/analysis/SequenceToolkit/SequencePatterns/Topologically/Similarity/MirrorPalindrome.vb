@@ -1,10 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Topologically
-Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Topologically.SimilarityMatches
 

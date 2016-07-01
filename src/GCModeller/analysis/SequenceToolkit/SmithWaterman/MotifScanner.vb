@@ -1,10 +1,10 @@
 ﻿Imports System.Linq
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Motif
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ListExtensions
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ListExtensions
 
 Public Class MotifScanner : Inherits IScanner
 

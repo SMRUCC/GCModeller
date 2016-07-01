@@ -1,9 +1,8 @@
-﻿Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Motif
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.Patterns
-Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace SequenceLogo
 

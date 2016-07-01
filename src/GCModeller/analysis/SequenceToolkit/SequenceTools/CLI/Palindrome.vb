@@ -1,13 +1,4 @@
 ﻿Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Topologically
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
-Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ContextModel
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -19,6 +10,15 @@ Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
 

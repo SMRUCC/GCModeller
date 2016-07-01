@@ -1,10 +1,4 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+﻿Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -12,9 +6,18 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
 
@@ -255,17 +258,20 @@ Partial Module Utilities
                               Where Not String.IsNullOrEmpty(fa.SequenceData.Trim)
                               Select fa) ' 过滤掉零长度的序列
 
+        Dim setSeq = New SetValue(Of FastaToken) <= NameOf(FastaToken.SequenceData)
+
         If UpperCase Then
-            Fasta = New FastaFile(Fasta.ToArray(Function(fa) fa.InvokeSet(NameOf(fa.SequenceData), fa.SequenceData.ToUpper)))
+            Fasta = New FastaFile(Fasta.ToArray(Function(fa) setSeq(fa, fa.SequenceData.ToUpper)))
         Else
-            Fasta = New FastaFile(Fasta.ToArray(Function(fa) fa.InvokeSet(NameOf(fa.SequenceData), fa.SequenceData.ToLower)))
+            Fasta = New FastaFile(Fasta.ToArray(Function(fa) setSeq(fa, fa.SequenceData.ToLower)))
         End If
 
         If brief Then
-            Fasta = New FastaFile(Fasta.ToArray(Function(fa) fa.InvokeSet(NameOf(fa.Attributes), {fa.Attributes.First})))
+            Dim setAttrs = New SetValue(Of FastaToken) <= NameOf(FastaToken.Attributes)
+            Fasta = New FastaFile(Fasta.ToArray(Function(fa) setAttrs(fa, {fa.Attributes.First})))
         End If
 
-        Return Fasta.Save(break, out, System.Text.Encoding.ASCII)
+        Return Fasta.Save(break, out, Encoding.ASCII)
     End Function
 
     <ExportAPI("/subset", Usage:="/subset /lstID <lstID.txt> /fa <source.fasta>")>

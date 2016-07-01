@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6B8153AC-5CA3-4A8E-B841-6DF82373D03B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>LANS.SystemsBiology.AnalysisTools.SequenceTools.Program</StartupObject>
-    <RootNamespace>LANS.SystemsBiology.AnalysisTools.SequenceTools</RootNamespace>
+    <StartupObject>seqtools.Program</StartupObject>
+    <RootNamespace>seqtools</RootNamespace>
     <AssemblyName>seqtools</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
@@ -235,6 +235,10 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

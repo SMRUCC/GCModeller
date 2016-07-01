@@ -1,11 +1,11 @@
-﻿Imports SMRUCC.genomics.AnalysisTools.SequenceTools.NeedlemanWunsch
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SmithWaterman
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic
+﻿Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
 
@@ -36,8 +36,8 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", query.TrimFileExt & "-" & IO.Path.GetFileNameWithoutExtension(subject) & ".xml")
         Dim queryFa As New FASTA.FastaToken(query)
         Dim subjectFa As New FASTA.FastaToken(subject)
-        Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SmithWaterman.Blosum.LoadMatrix(blosum))
-        Dim sw As SmithWaterman.SmithWaterman = SmithWaterman.SmithWaterman.Align(queryFa, subjectFa, mat)
+        Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SequenceTools.Blosum.LoadMatrix(blosum))
+        Dim sw As SequenceTools.SmithWaterman = SequenceTools.SmithWaterman.Align(queryFa, subjectFa, mat)
         Dim output As Output = sw.GetOutput(0.65, 6)
         Call output.__DEBUG_ECHO
         Return output.SaveAsXml(out).CLICode
@@ -88,7 +88,7 @@ Partial Module Utilities
 
     <ExportAPI("--align.Self", Usage:="--align.Self /query <query.fasta> /out <out.DIR> [/cost 0.75]")>
     Public Function AlignSelf(args As CommandLine.CommandLine) As Integer
-        Dim query As New SequenceModel.FASTA.FastaFile(args("/query"))
+        Dim query As New FASTA.FastaFile(args("/query"))
         Dim outDIR As String = args("/out")
         Dim cost As Double = args.GetValue("/cost", 0.75)
         Dim resultSet = __alignCommon(query, query, cost, outDIR)
@@ -127,7 +127,7 @@ Partial Module Utilities
         Public Shared Function SafeAlign(queryTitle As String,
                 query As String,
                 queryArray As Integer(),
-                subject As SequenceModel.FASTA.FastaToken,
+                subject As FASTA.FastaToken,
                 cost As Double) As AlignmentResult
             Try
                 Return New AlignmentResult(queryTitle, query, queryArray, subject, cost)

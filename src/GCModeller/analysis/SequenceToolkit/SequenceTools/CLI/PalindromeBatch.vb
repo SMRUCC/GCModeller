@@ -1,13 +1,13 @@
-﻿Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Topologically
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
 

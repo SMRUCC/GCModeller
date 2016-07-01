@@ -1,4 +1,5 @@
 ﻿Imports System.Linq
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' Smith-Waterman local alignment algorithm.
@@ -37,9 +38,7 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
         Return Output.CreateObject(Me, Function(x) x, cutoff, minW)
     End Function
 
-    Public Shared Function Align(query As SequenceModel.FASTA.FastaToken,
-                                 subject As SequenceModel.FASTA.FastaToken,
-                                 Optional blosum As Blosum = Nothing) As SmithWaterman
+    Public Shared Function Align(query As FASTA.FastaToken, subject As FASTA.FastaToken, Optional blosum As Blosum = Nothing) As SmithWaterman
         Dim sw As New SmithWaterman(query.SequenceData, subject.SequenceData, blosum)
         Return sw
     End Function

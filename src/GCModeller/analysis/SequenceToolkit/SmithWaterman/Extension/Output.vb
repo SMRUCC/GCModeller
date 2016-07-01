@@ -73,7 +73,7 @@ Public Class Output
     ''' <returns></returns>
     Public Shared Function CreateObject(Of T)(sw As GSW(Of T), toChar As ToChar(Of T), threshold As Double, minW As Integer) As Output
         Dim best As HSP = Nothing
-        Dim hsp = SequenceTools.SmithWaterman.HSP.CreateHSP(sw, toChar, best, cutoff:=threshold * sw.AlignmentScore)
+        Dim hsp = SequenceTools.HSP.CreateHSP(sw, toChar, best, cutoff:=threshold * sw.AlignmentScore)
         Dim direction = sw.prevCells.ToArray(Function(x) New Streams.Array.Integer(x))
         Dim dp = sw.GetDPMAT.ToArray(Function(x) New Streams.Array.Double(x))
         Dim query = New String(sw.query.ToArray(Function(x) toChar(x)))

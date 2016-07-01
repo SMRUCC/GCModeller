@@ -1,17 +1,18 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
-Imports System.Drawing
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports Microsoft.VisualBasic.Imaging
+﻿Imports System.Drawing
 Imports System.IO
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 
 ''' <summary>
 ''' Sequence Utilities

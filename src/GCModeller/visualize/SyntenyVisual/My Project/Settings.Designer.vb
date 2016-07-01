@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.GCModeller.DataVisualization.SyntenyVisual.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.Visualize.SyntenyVisualize.My.MySettings
             Get
-                Return Global.SMRUCC.genomics.GCModeller.DataVisualization.SyntenyVisual.My.MySettings.Default
+                Return Global.SMRUCC.genomics.Visualize.SyntenyVisualize.My.MySettings.Default
             End Get
         End Property
     End Module

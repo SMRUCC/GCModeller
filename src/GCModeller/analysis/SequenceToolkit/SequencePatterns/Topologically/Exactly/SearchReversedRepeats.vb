@@ -1,9 +1,11 @@
-﻿Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Pattern
+﻿Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Topologically
 
@@ -42,15 +44,17 @@ Namespace Topologically
         ''' <param name="currentStat"></param>
         ''' <param name="currLen"></param>
         Protected Overrides Sub __postResult(currentRemoves() As String, currentStat As List(Of String), currLen As Integer)
-            Dim ResultExport = (From NotAppearsSegment As String
-                                In currentRemoves.AsParallel
-                                Let revSegment As String = NucleicAcid.Complement(
-                                    New String(NotAppearsSegment.ToArray.Reverse.ToArray))
-                                Let Repeats = GenerateRepeats(SequenceData, revSegment, MinAppeared)
-                                Where Not Repeats Is Nothing
-                                Let RepeatsLeftLoci = GenerateRepeats(SequenceData, NotAppearsSegment, MinAppeared, Rev:=True)
-                                Let RevRepeats = RevRepeats.GenerateFromBase(Repeats)
-                                Select RevRepeats.InvokeSet(NameOf(RevRepeats.RepeatLoci), RepeatsLeftLoci.Locations)).ToArray
+            Dim setValue = New SetValue(Of RevRepeats) <= NameOf(RevRepeats.RepeatLoci)
+            Dim ResultExport As RevRepeats() =
+                LinqAPI.Exec(Of RevRepeats) <= From NotAppearsSegment As String
+                                               In currentRemoves.AsParallel
+                                               Let revSegment As String = NucleicAcid.Complement(
+                                                   New String(NotAppearsSegment.ToArray.Reverse.ToArray))
+                                               Let Repeats = GenerateRepeats(SequenceData, revSegment, MinAppeared)
+                                               Where Not Repeats Is Nothing
+                                               Let RepeatsLeftLoci = GenerateRepeats(SequenceData, NotAppearsSegment, MinAppeared, Rev:=True)
+                                               Let RevRepeats = RevRepeats.GenerateFromBase(Repeats)
+                                               Select setValue(RevRepeats, RepeatsLeftLoci.Locations)
 
             Call ResultSet.AddRange(ResultExport)
             Call CountStatics.AppendLine(New String() {currLen, currentStat.Count, ResultExport.Count})

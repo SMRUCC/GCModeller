@@ -1,13 +1,13 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.ComponentModel
 
 Public Module RenderingColor
 

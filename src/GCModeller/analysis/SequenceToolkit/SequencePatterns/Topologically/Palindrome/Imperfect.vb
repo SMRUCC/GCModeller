@@ -1,10 +1,10 @@
-﻿Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Pattern
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Text
+﻿Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Topologically
 

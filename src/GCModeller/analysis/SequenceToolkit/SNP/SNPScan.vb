@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SNP.SangerSNPs
+Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs
+Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.Patterns
 

@@ -1,9 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Patterns
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace Motif
 

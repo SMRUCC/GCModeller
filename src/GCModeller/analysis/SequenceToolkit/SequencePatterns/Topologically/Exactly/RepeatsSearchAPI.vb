@@ -1,11 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Pattern
 
 Namespace Topologically
 

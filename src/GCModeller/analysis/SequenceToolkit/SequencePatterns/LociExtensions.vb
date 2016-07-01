@@ -1,10 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Topologically
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 ''' <summary>
 ''' 将序列特征的搜索结果转换为<see cref="SimpleSegment"/>对象类型

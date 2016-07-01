@@ -1,13 +1,13 @@
-﻿Imports System.Runtime.CompilerServices
-Imports System.Drawing
-Imports Microsoft.VisualBasic.Scripting.MetaData
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Patterns
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Motif
-Imports Microsoft.VisualBasic.Imaging
 
 Namespace SequenceLogo
 

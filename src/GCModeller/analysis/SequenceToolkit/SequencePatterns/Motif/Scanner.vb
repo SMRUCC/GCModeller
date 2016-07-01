@@ -1,11 +1,11 @@
 ﻿Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Motif.Patterns
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Patterns
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Motif
 
