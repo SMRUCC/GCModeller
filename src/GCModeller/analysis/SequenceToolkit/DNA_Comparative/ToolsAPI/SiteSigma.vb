@@ -1,5 +1,5 @@
-﻿
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+
 ''' <summary>
 ''' 基因组两两比较所得到的位点距离数据
 ''' </summary>

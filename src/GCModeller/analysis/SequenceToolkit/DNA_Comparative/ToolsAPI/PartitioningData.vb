@@ -1,6 +1,6 @@
-﻿Imports SMRUCC.genomics.SequenceModel
+﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 
 ''' <summary>
 ''' The genome partitional data.(基因组分区数据)

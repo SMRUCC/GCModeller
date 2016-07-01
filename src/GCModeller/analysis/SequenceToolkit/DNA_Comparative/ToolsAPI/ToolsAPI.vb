@@ -1,17 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.NCBI.Extensions.Analysis
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
@@ -29,6 +17,18 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Similarity
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 
 <[PackageNamespace]("ComparativeGenomics.Sigma-Difference",
                     Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
@@ -119,14 +119,15 @@ Public Module ToolsAPI
     Public Function PartitionSimilarity(<Parameter("Partitioning.Data")> data As IEnumerable(Of PartitioningData)) As <FunctionReturns("")> DocumentStream.File
         Dim DF As DataFrame = DocumentStream.DataFrame.CreateObject(data.ToCsvDoc(False))
         Dim DataSource = DF.CreateDataSource
-        Dim DeltaLQuery = (From i As Integer In data.Sequence
+        Dim DeltaLQuery = (From i As Integer
+                           In data.Sequence
                            Let pInfo As PartitioningData = data(i)
                            Let nt1 = New NucleotideModels.NucleicAcid(pInfo)
                            Select (From j As Integer
                                    In data.Sequence
                                    Let pInfo2 As PartitioningData = data(j)
                                    Let nt2 = New NucleotideModels.NucleicAcid(pInfo2)
-                                   Let Delta As String = (1000 * ComparativeGenomics.Sigma(nt1, nt2)).ToString
+                                   Let Delta As String = (1000 * DNA_Comparative.Sigma(nt1, nt2)).ToString
                                    Select Idx = i, j, Delta)).MatrixToList '为了保证顺序，这里也不可以使用并行化
 
         For Each Row In DeltaLQuery
