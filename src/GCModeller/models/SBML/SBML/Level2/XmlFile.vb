@@ -2,9 +2,9 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
-Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
+Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Level2
 
@@ -15,7 +15,7 @@ Namespace Level2
     Public Class XmlFile : Inherits ITextFile
         Implements I_FBAC2(Of speciesReference)
 
-        <XmlElement("model")> Public Shadows Property Model As Model
+        <XmlElement("model")> Public Shadows Property Model As Level2.Elements.Model
         <XmlAttribute> Public Property level As Integer
         <XmlAttribute> Public Property version As Integer
 

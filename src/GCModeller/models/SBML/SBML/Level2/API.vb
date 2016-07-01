@@ -1,10 +1,10 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
-Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
-Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
+Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Level2
 

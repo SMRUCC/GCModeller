@@ -1,8 +1,8 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Level2.Elements
 

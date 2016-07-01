@@ -1,8 +1,8 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.IFBA
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel.IFBA
 
 Namespace Level2.Elements
 

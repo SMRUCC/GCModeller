@@ -1,4 +1,4 @@
-﻿Imports SMRUCC.genomics.Assembly.SBML.Components
+﻿Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Specifics.MetaCyc
 

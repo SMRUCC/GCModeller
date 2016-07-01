@@ -1,6 +1,6 @@
 ﻿Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.SBML.Components
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Level3
 
