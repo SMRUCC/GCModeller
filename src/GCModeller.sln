@@ -99,19 +99,43 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Pfam", "GCModeller\analysis
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Rfam", "GCModeller\analysis\Xfam\Rfam\Rfam.vbproj", "{E7E152AA-DCB6-4F05-944A-29C9E3D3C5ED}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_Tabular.DataFrame", "runtime\visualbasic_App\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj", "{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame", "runtime\visualbasic_App\DocumentFormats\VB_DataFrame\+VB_DataFrame.vbproj", "{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B9D83067-0A25-4477-9F90-33050CA38FB7}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.CommonMethods", "GCModeller\shared\api\Shared.CommonMethods.shproj", "{BFDF175B-BDCB-4FB3-8C59-3B2B37395445}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.DocumentFormats", "GCModeller\shared\docs\Shared.DocumentFormats.shproj", "{5C8E0644-B4D7-464A-908C-A383F52CCE1F}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Settings", "Settings\Settings.vbproj", "{FEB3212D-0B72-41E4-9C2D-56C212CF5062}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Settings", "Settings", "{AD70F88E-094C-4888-8E3F-781764FE7EF4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.Configuration", "Settings\Shared\Settings.Configuration\Settings.Configuration.shproj", "{E8CABDE9-5471-4EB6-8ABC-54C95D3B1512}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.FileSystem", "Settings\Shared\Settings.FileSystem\Settings.FileSystem.shproj", "{36EE8DC2-3D23-45B7-8CE4-1942916A02AA}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RepositoryCommon", "Settings\Shared\RepositoryCommon\RepositoryCommon.shproj", "{9B5EF311-A718-4067-A409-417DE0F9D2AF}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame.Extensions", "runtime\visualbasic_App\DocumentFormats\VB_DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj", "{344BF0CF-107F-45D2-9074-9865D8F86506}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{1dc0341c-37f5-45a6-b486-337edc2bad76}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
+		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{5c8e0644-b4d7-464a-908c-a383f52cce1f}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
+		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
+		GCModeller\shared\api\Shared.CommonMethods.projitems*{bfdf175b-bdcb-4fb3-8c59-3b2b37395445}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{dce33cde-9b88-4e8d-991c-af25086dc867}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
+		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -896,6 +920,54 @@ Global
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}.Release|x64.Build.0 = Release|x64
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}.Release|x86.ActiveCfg = Release|x86
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}.Release|x86.Build.0 = Release|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x64.ActiveCfg = Debug|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x64.Build.0 = Debug|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x86.ActiveCfg = Debug|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Debug|x86.Build.0 = Debug|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.docs|Any CPU.ActiveCfg = docs|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.docs|Any CPU.Build.0 = docs|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.docs|x64.ActiveCfg = docs|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.docs|x64.Build.0 = docs|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.docs|x86.ActiveCfg = docs|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.docs|x86.Build.0 = docs|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Publish|Any CPU.Build.0 = Publish|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Publish|x64.ActiveCfg = Publish|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Publish|x64.Build.0 = Publish|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Publish|x86.ActiveCfg = Publish|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Publish|x86.Build.0 = Publish|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x64.ActiveCfg = Release|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x64.Build.0 = Release|x64
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x86.ActiveCfg = Release|x86
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062}.Release|x86.Build.0 = Release|x86
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Debug|x64.Build.0 = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Debug|x86.Build.0 = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.docs|x64.ActiveCfg = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.docs|x64.Build.0 = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.docs|x86.ActiveCfg = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.docs|x86.Build.0 = Debug|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Publish|x64.ActiveCfg = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Publish|x64.Build.0 = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Publish|x86.ActiveCfg = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Publish|x86.Build.0 = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|x64.ActiveCfg = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|x64.Build.0 = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|x86.ActiveCfg = Release|Any CPU
+		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -949,5 +1021,12 @@ Global
 		{E7E152AA-DCB6-4F05-944A-29C9E3D3C5ED} = {19A3529B-C9BC-4A47-9227-56BFD199A06C}
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB} = {B9D83067-0A25-4477-9F90-33050CA38FB7}
 		{B9D83067-0A25-4477-9F90-33050CA38FB7} = {EDD061D2-B00F-4D9D-9794-8AC797E42032}
+		{BFDF175B-BDCB-4FB3-8C59-3B2B37395445} = {6BFF40D9-5A1C-4348-9340-AA99DF910B9E}
+		{5C8E0644-B4D7-464A-908C-A383F52CCE1F} = {6BFF40D9-5A1C-4348-9340-AA99DF910B9E}
+		{FEB3212D-0B72-41E4-9C2D-56C212CF5062} = {AD70F88E-094C-4888-8E3F-781764FE7EF4}
+		{E8CABDE9-5471-4EB6-8ABC-54C95D3B1512} = {AD70F88E-094C-4888-8E3F-781764FE7EF4}
+		{36EE8DC2-3D23-45B7-8CE4-1942916A02AA} = {AD70F88E-094C-4888-8E3F-781764FE7EF4}
+		{9B5EF311-A718-4067-A409-417DE0F9D2AF} = {AD70F88E-094C-4888-8E3F-781764FE7EF4}
+		{344BF0CF-107F-45D2-9074-9865D8F86506} = {B9D83067-0A25-4477-9F90-33050CA38FB7}
 	EndGlobalSection
 EndGlobal
