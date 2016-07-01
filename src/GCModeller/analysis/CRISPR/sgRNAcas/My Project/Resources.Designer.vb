@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.AnalysisTools.PrimerDesigner.IBCB.sgRNAcas.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -154,7 +154,7 @@ Namespace My.Resources
         '''# ---a tool for fast designing CRISPR sgRNA with high specificity   #
         '''#                                                                   #
         '''# AUTHOR  : Xie Shengsong                                           #
-        '''# Email   : s [rest of string was truncated]&quot;;.
+        '''# [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property format_genome() As String
             Get
