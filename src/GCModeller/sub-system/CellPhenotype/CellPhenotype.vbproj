@@ -256,7 +256,7 @@
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\distributes\alglib-3.9.0.vbnet.gpl\vbnet\alglibnet2\alglibnet2.vbproj">
+    <ProjectReference Include="..\..\..\runtime\alglib-3.9.0.vbnet.gpl\vbnet\alglibnet2\alglibnet2.vbproj">
       <Project>{eea01916-0334-4293-b284-c8b0d9d3ef63}</Project>
       <Name>alglibnet2</Name>
     </ProjectReference>

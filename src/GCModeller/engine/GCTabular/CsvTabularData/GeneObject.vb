@@ -1,3 +1,30 @@
+ï»¿#Region "Microsoft.VisualBasic::322316de2b7b5cab2d0cd649521b7ab3, ..\GCModeller\engine\GCTabular\CsvTabularData\GeneObject.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
@@ -22,14 +49,14 @@ Namespace FileStream
         Public Property COG As String
 
         ''' <summary>
-        ''' Õâ¸ö»ùÒòËù×ªÂ¼³öÀ´µÄ<see cref="Transcript.UniqueId">RNA·Ö×Ó²úÎïµÄUniqueIdÊôÐÔÖµ</see>
+        ''' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªÂ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<see cref="Transcript.UniqueId">RNAï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½UniqueIdï¿½ï¿½ï¿½ï¿½Öµ</see>
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property TranscriptProduct As String
         ''' <summary>
-        ''' Ò»¸ö»ùÒòÖ®ÉÏÍ¨³£ÊÇÓÉÈô¸É¸ömotifËù¹²Í¬µ÷¿ØµÄ£¬¶øÃ¿Ò»¸ömotifÓÐ¿ÉÄÜ»á±»¶à¸öµ÷¿ØÒò×ÓËùµ÷¿Ø
+        ''' Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¸ï¿½motifï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ØµÄ£ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½motifï¿½Ð¿ï¿½ï¿½Ü»á±»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

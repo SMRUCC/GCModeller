@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ce304cc482e89fe6fde55e3f0022b79, ..\GO_gene-ontology\AnnotationFile\Obo\Head.vb"
+﻿#Region "Microsoft.VisualBasic::7c6e96b787ee61a9a19a2a004dd3a89c, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\Obo\Head.vb"
 
     ' Author:
     ' 
@@ -38,4 +38,3 @@ Public Class Head
     <Field("remark")> Public Property Remark As String
     <Field("ontology")> Public Property Ontology As String
 End Class
-

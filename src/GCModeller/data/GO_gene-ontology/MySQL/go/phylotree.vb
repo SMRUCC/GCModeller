@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc84573a5281445cb0c9e6b9c5570bbf, ..\GO_gene-ontology\MySQL\go\phylotree.vb"
+﻿#Region "Microsoft.VisualBasic::cbfb7ff3c5fc46d88bce8c17a8565348, ..\GCModeller\data\GO_gene-ontology\MySQL\go\phylotree.vb"
 
     ' Author:
     ' 
@@ -87,4 +87,3 @@ End Class
 
 
 End Namespace
-

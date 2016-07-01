@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14854a0ed6cf140f2d94a036404bb5b8, ..\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ProtLigandCplxe.vb"
+﻿#Region "Microsoft.VisualBasic::8a1578542635bbd4f4bd85535ba9aa16, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ProtLigandCplxe.vb"
 
     ' Author:
     ' 

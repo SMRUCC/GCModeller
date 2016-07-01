@@ -1,4 +1,31 @@
-﻿'Module TCSCrossTalk
+﻿#Region "Microsoft.VisualBasic::3c1444a12c83a9918212f5919863666d, ..\GCModeller\engine\GCTabular\Compiler\TCSCrossTalk.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+'Module TCSCrossTalk
 
 '    ''' <summary>
 '    ''' 扫描每一个Operon，对于同一个Operon之中的TCS对都取出来，他们是同源的TCS之间的互作权重为1，对于不同的Operon之间的TCS，则根据计算结果来取值
@@ -47,3 +74,4 @@
 '        Return CrossTalks.ToArray
 '    End Function
 'End Module
+

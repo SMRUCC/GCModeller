@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9006329adea5f878433a8aed053f5ec, ..\GO_gene-ontology\MySQL\Tables\seq_dbxref.vb"
+﻿#Region "Microsoft.VisualBasic::4d1c829dc39e39852b24aad39e22fa70, ..\GCModeller\data\GO_gene-ontology\MySQL\Tables\seq_dbxref.vb"
 
     ' Author:
     ' 
@@ -87,4 +87,3 @@ End Class
 
 
 End Namespace
-

@@ -1,4 +1,31 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::7a4ca48a4f6cc86aa2c7d2368210be80, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\GenomeWildRandomParser.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+
 ''' <summary>
 ''' 根据WGCNA权重数据在基因组中解析所有尽可能多的组合形式以用于调控位点的分析
 ''' </summary>
@@ -87,3 +114,4 @@ Public Class GenomeWildRandomParser : Inherits PromoterParser
         Return LQuery.ToArray
     End Function
 End Class
+

@@ -1,4 +1,31 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::8d2b2b1b56cd50221bc0c979f1c17bcb, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Entity\Entity.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+
 ''' <summary>
 ''' 细胞系统之中的一个实体对象，请注意，这个对象只用来表示一个现实的物理世界之中存在的生物分子对象
 ''' </summary>
@@ -29,3 +56,4 @@ Public Class Entity
 
     End Sub
 End Class
+

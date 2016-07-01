@@ -1,3 +1,30 @@
+ï»¿#Region "Microsoft.VisualBasic::d87d125443eca94da5f411059511f915, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\CRISPR.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Collections
 Imports System.Text
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -32,7 +59,7 @@ Namespace SearchingModel
         Public Property RepeatLength As Integer
 
         ''' <summary>
-        ''' ÖØ¸´Æ¬¶ÎµÄÆðÊ¼Î»µãÁÐ±í
+        ''' ï¿½Ø¸ï¿½Æ¬ï¿½Îµï¿½ï¿½ï¿½Ê¼Î»ï¿½ï¿½ï¿½Ð±ï¿½
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -103,7 +130,7 @@ Namespace SearchingModel
         End Property
 
         ''' <summary>
-        ''' CRISPRÎ»µãµÄÖØ¸´Æ¬¶Î
+        ''' CRISPRÎ»ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½Æ¬ï¿½ï¿½
         ''' </summary>
         ''' <param name="i"></param>
         ''' <returns></returns>
@@ -124,7 +151,7 @@ Namespace SearchingModel
         End Function
 
         ''' <summary>
-        ''' CRISPRÎ»µãÖ®ÖÐµÄÖØ¸´Æ¬¶ÎÖ®¼äµÄ¼ä¸ôÐòÁÐ£¬ÕâÐ©¼ä¸ôÐòÁÐ¶¼À´×ÔÓÚÍâÔ´»ùÒò×é
+        ''' CRISPRÎ»ï¿½ï¿½Ö®ï¿½Ðµï¿½ï¿½Ø¸ï¿½Æ¬ï¿½ï¿½Ö®ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         ''' </summary>
         ''' <param name="i"></param>
         ''' <returns></returns>

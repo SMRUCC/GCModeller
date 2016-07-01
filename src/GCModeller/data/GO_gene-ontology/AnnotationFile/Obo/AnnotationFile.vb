@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e1ef2e1d0022b79c33ae6194efb2b07, ..\GO_gene-ontology\AnnotationFile\Obo\AnnotationFile.vb"
+﻿#Region "Microsoft.VisualBasic::e14b52a9b63f629c846e11bb398c0ddc, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\Obo\AnnotationFile.vb"
 
     ' Author:
     ' 
@@ -97,4 +97,3 @@ Public Class AnnotationFile
         Return True
     End Function
 End Class
-

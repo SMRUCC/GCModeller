@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d4856e456e64c1a33ede06f04f55aa8, ..\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::ce18f9f882518568bf8019fe8b38dcc4, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\GeneObject.vb"
 
     ' Author:
     ' 

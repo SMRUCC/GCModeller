@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ce28152af42d6a5825103b331feba1a, ..\GO_gene-ontology\MySQL\go\gene_product_seq.vb"
+﻿#Region "Microsoft.VisualBasic::fa0e4a4322d8c6a55b7cbf46c517efed, ..\GCModeller\data\GO_gene-ontology\MySQL\go\gene_product_seq.vb"
 
     ' Author:
     ' 
@@ -88,4 +88,3 @@ End Class
 
 
 End Namespace
-

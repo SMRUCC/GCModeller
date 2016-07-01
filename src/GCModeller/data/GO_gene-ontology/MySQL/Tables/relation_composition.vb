@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3e35db2f3effedc332dfc2e084da246, ..\GO_gene-ontology\MySQL\Tables\relation_composition.vb"
+﻿#Region "Microsoft.VisualBasic::15e257fa2a8df84d689367216bc69f0c, ..\GCModeller\data\GO_gene-ontology\MySQL\Tables\relation_composition.vb"
 
     ' Author:
     ' 
@@ -93,4 +93,3 @@ End Class
 
 
 End Namespace
-

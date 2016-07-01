@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4fa0f19227146105656d8a8e91800d4, ..\GO_gene-ontology\AnnotationFile\NCBI\gene2go.vb"
+﻿#Region "Microsoft.VisualBasic::a4fa0f19227146105656d8a8e91800d4, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\NCBI\gene2go.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::257ab6d69f4088c9d8053aae8ee0098d, ..\Bio.Assembly\Assembly\DOOR\DOOR.vb"
+﻿#Region "Microsoft.VisualBasic::347b9cd9164bc4c79d7f272f4906b7e4, ..\GCModeller\core\Bio.Assembly\Assembly\DOOR\DOOR.vb"
 
     ' Author:
     ' 

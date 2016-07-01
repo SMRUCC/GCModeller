@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75c8268d4d1cdfcf4d206e510acb44ac, ..\Bio.Assembly\ComponentModel\Loci.Models\Location.vb"
+﻿#Region "Microsoft.VisualBasic::a87998595eaed925ce6c75bdfce462ac, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Location.vb"
 
     ' Author:
     ' 

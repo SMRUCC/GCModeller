@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc6e97bfdbcce74bbf6a75578ed2c41a, ..\Bio.Assembly\SequenceModel\NucleicAcid\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::4fc227f00648c4fbdc179b5be71cede7, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Contig.vb"
 
     ' Author:
     ' 

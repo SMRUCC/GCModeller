@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::843d55c71702cd821ab0d496663d0a78, ..\GO_gene-ontology\MySQL\Tables\term_definition.vb"
+﻿#Region "Microsoft.VisualBasic::505e3ce4db162e01054ebdf4e7f9a673, ..\GCModeller\data\GO_gene-ontology\MySQL\Tables\term_definition.vb"
 
     ' Author:
     ' 
@@ -92,4 +92,3 @@ End Class
 
 
 End Namespace
-

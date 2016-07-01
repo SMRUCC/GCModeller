@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6030965c33ddc41586526681d8098b5a, ..\GO_gene-ontology\MySQL\go\intersection_of.vb"
+﻿#Region "Microsoft.VisualBasic::eb36099437af682bae9fc6f4ee7b1f18, ..\GCModeller\data\GO_gene-ontology\MySQL\go\intersection_of.vb"
 
     ' Author:
     ' 
@@ -91,4 +91,3 @@ End Class
 
 
 End Namespace
-

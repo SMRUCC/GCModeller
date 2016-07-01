@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5247c6c93a830a1e7ccb703b5bf187f8, ..\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
+﻿#Region "Microsoft.VisualBasic::5247c6c93a830a1e7ccb703b5bf187f8, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
 
     ' Author:
     ' 

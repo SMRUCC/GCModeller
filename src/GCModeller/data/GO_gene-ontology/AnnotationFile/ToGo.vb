@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05e73d48ce45ec11fb9a6a8fce078e8f, ..\GO_gene-ontology\AnnotationFile\ToGo.vb"
+﻿#Region "Microsoft.VisualBasic::ba617f8a182976f2d5739caefa1dba2f, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\ToGo.vb"
 
     ' Author:
     ' 
@@ -62,4 +62,3 @@ Public Class ToGo
         Return LQuery
     End Function
 End Class
-

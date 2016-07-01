@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fff439b7329b882f8b594bc7d550b83f, ..\Bio.Assembly\SequenceModel\NucleicAcid\Parser\InternalReader.vb"
+﻿#Region "Microsoft.VisualBasic::fff439b7329b882f8b594bc7d550b83f, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Parser\InternalReader.vb"
 
     ' Author:
     ' 

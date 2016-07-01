@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c50b6735a0769357e622a99542c05706, ..\Bio.Assembly\Assembly\NCBI\SeqDump\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::f03643b183f0bfe63266be0f96e3e7a5, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\SeqDump\Gene.vb"
 
     ' Author:
     ' 

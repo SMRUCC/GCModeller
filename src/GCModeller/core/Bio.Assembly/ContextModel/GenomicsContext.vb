@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b40cb8ea434027fcc94071076943488, ..\Bio.Assembly\ContextModel\GenomicsContext.vb"
+﻿#Region "Microsoft.VisualBasic::35a359cbcb2be08828f7cddac38a7be7, ..\GCModeller\core\Bio.Assembly\ContextModel\GenomicsContext.vb"
 
     ' Author:
     ' 

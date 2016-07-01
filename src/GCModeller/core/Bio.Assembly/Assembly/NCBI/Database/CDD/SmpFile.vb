@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a70b7a5faa31ef115456ea9e8e80473, ..\Bio.Assembly\Assembly\NCBI\Database\CDD\SmpFile.vb"
+﻿#Region "Microsoft.VisualBasic::436db9180ad23f9f3b554709d092127a, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\SmpFile.vb"
 
     ' Author:
     ' 

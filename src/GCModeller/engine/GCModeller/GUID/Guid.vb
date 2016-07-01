@@ -1,4 +1,31 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::568a658d3b583f169cc76f376d3e8701, ..\GCModeller\engine\GCModeller\GUID\Guid.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+
 ''' <summary>
 ''' The Global Unique Identifier object using for identify a model component in the database.
 ''' (用于在数据库之中标识一个模型组件对象的全局唯一标识符对象)
@@ -106,3 +133,4 @@ Public Class Guid
         Return String.Equals(a.Generate, b.Generate)
     End Function
 End Class
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47aae96b1bce28717546699a05cd963e, ..\GO_gene-ontology\MySQL\Tables\association_isoform.vb"
+﻿#Region "Microsoft.VisualBasic::8a4b2fa8f92f70638201fd9e0aee64a6, ..\GCModeller\data\GO_gene-ontology\MySQL\Tables\association_isoform.vb"
 
     ' Author:
     ' 
@@ -85,4 +85,3 @@ End Class
 
 
 End Namespace
-

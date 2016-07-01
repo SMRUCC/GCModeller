@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d0efad63da5d4e0376c153667e664d0, ..\GO_gene-ontology\AnnotationFile\Obo\Term.vb"
+﻿#Region "Microsoft.VisualBasic::e74e991e60cb534965e90f0886e1d32b, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\Obo\Term.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' 功能定义
 ''' </summary>
@@ -48,4 +47,3 @@ Public Class Term
         Return String.Format("[{0}] {1}: {2}", [namespace], id, name)
     End Function
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d5b27a067904b1f755c15473eed1759, ..\Bio.Assembly\Assembly\Expasy\API.vb"
+﻿#Region "Microsoft.VisualBasic::9d5b27a067904b1f755c15473eed1759, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\API.vb"
 
     ' Author:
     ' 

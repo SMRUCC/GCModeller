@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4614f5445bf64455a200f24200c914f1, ..\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::3bb359bafcb5eea697796af26478f55e, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Reaction.vb"
 
     ' Author:
     ' 

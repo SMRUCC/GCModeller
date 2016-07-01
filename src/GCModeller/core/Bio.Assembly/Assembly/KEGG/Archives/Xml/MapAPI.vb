@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ea6c1a43101307a65e8c869bddde87f, ..\Bio.Assembly\Assembly\KEGG\Archives\Xml\MapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::64e73c6c0d649167a369cbd5597a9270, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Xml\MapAPI.vb"
 
     ' Author:
     ' 

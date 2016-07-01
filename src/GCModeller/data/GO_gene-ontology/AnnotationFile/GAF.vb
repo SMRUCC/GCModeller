@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c51fca264eba2827f2e1ad6cd949f91e, ..\GO_gene-ontology\AnnotationFile\GAF.vb"
+﻿#Region "Microsoft.VisualBasic::9e0051a349053f302b725d163a69d88f, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\GAF.vb"
 
     ' Author:
     ' 
@@ -362,4 +362,3 @@ Public Class GAF
         Return Target
     End Function
 End Class
-

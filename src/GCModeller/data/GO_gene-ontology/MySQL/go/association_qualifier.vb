@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee694d3c0efdcedcd415758a36424bb0, ..\GO_gene-ontology\MySQL\go\association_qualifier.vb"
+﻿#Region "Microsoft.VisualBasic::a6b65021e3b56e9a8ed876aa963e8f06, ..\GCModeller\data\GO_gene-ontology\MySQL\go\association_qualifier.vb"
 
     ' Author:
     ' 
@@ -90,4 +90,3 @@ End Class
 
 
 End Namespace
-

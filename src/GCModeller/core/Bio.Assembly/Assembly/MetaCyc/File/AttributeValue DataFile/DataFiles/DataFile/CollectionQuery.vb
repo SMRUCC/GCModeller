@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5568d83544739034056d140088f2ecb8, ..\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\CollectionQuery.vb"
+﻿#Region "Microsoft.VisualBasic::72e05abe1c712b9eefbb92015e80fa30, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\CollectionQuery.vb"
 
     ' Author:
     ' 

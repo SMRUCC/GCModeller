@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff402deb3a0eb6b99247c787b8b8a928, ..\Bio.Assembly\Assembly\KEGG\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::af8193d050e4b23e6f9878150e3070bb, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\QueryEntry.vb"
 
     ' Author:
     ' 
