@@ -271,6 +271,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame", "runtime\vi
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame.Extensions", "runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj", "{344BF0CF-107F-45D2-9074-9865D8F86506}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SQLite_Interface", "runtime\visualbasic.DBI\SQLite_Interface\SQLite_Interface.vbproj", "{67EAFC15-2237-494E-85D9-206E5BF71EF4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{1dc0341c-37f5-45a6-b486-337edc2bad76}*SharedItemsImports = 4
@@ -2699,6 +2701,30 @@ Global
 		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|x64.Build.0 = Release|Any CPU
 		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|x86.ActiveCfg = Release|Any CPU
 		{344BF0CF-107F-45D2-9074-9865D8F86506}.Release|x86.Build.0 = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Debug|x64.Build.0 = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Debug|x86.Build.0 = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.docs|x64.ActiveCfg = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.docs|x64.Build.0 = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.docs|x86.ActiveCfg = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.docs|x86.Build.0 = Debug|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Publish|x64.ActiveCfg = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Publish|x64.Build.0 = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Publish|x86.ActiveCfg = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Publish|x86.Build.0 = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Release|x64.ActiveCfg = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Release|x64.Build.0 = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Release|x86.ActiveCfg = Release|Any CPU
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2833,5 +2859,6 @@ Global
 		{E841C8AE-8CC3-4BA9-8D39-42E15C6D6635} = {663B4368-9785-4B4A-8817-FC582BFCDDF1}
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB} = {B9D83067-0A25-4477-9F90-33050CA38FB7}
 		{344BF0CF-107F-45D2-9074-9865D8F86506} = {B9D83067-0A25-4477-9F90-33050CA38FB7}
+		{67EAFC15-2237-494E-85D9-206E5BF71EF4} = {9A0017AB-DBC9-45C1-B64C-38412550F93B}
 	EndGlobalSection
 EndGlobal
