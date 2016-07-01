@@ -283,7 +283,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
@@ -299,11 +299,11 @@
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Datavisualization.Network</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_Tabular.DataFrame</Name>
+      <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
@@ -311,15 +311,15 @@
       <Project>{5af62b58-443a-419e-90fe-0e8dafa71a51}</Project>
       <Name>CARMEN</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AnalysisTools\RegulonDatabase\RegulonDatabase.vbproj">
+    <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AnalysisTools\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExternalDBSource\DatabaseServices.vbproj">
+    <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
@@ -333,7 +333,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
- 
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

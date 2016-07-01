@@ -4,37 +4,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{76F9E7EE-A0B4-4BC0-A05D-E880F1F85B9D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <StartupObject>KEGG.Program</StartupObject>
-    <RootNamespace>KEGG</RootNamespace>
-    <AssemblyName>KEGG</AssemblyName>
+    <ProjectGuid>{EB8DE91E-871C-4CE5-8D4D-73BB4E98012E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>LANS.SystemsBiology.AnalysisTools.CellPhenotype</RootNamespace>
+    <AssemblyName>LANS.SystemsBiology.AnalysisTools.CellPhenotype</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>Console</MyType>
+    <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\..\GCModeller\</OutputPath>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -48,40 +43,31 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>kegg.ico</ApplicationIcon>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\bin-Debug\</OutputPath>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller-x64\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>Full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -89,36 +75,30 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>Full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -128,20 +108,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\docs\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -149,45 +126,36 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\docs\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>Full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\docs\</OutputPath>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>KEGG.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Data.SqlXml" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Dynamic" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -196,38 +164,23 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
-    <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blastn.vb" />
-    <Compile Include="CLI\Views.vb" />
-    <Compile Include="CLI\CLI.vb" />
-    <Compile Include="CLI\DumpTools.vb" />
-    <Compile Include="CLI\Pathways.vb" />
-    <Compile Include="LocalMySQL\disease.vb" />
-    <Compile Include="LocalMySQL\gene.vb" />
-    <Compile Include="LocalMySQL\module.vb" />
-    <Compile Include="LocalMySQL\orthology.vb" />
-    <Compile Include="LocalMySQL\orthology_diseases.vb" />
-    <Compile Include="LocalMySQL\orthology_genes.vb" />
-    <Compile Include="LocalMySQL\orthology_modules.vb" />
-    <Compile Include="LocalMySQL\orthology_pathways.vb" />
-    <Compile Include="LocalMySQL\orthology_references.vb" />
-    <Compile Include="LocalMySQL\pathway.vb" />
-    <Compile Include="LocalMySQL\reference.vb" />
-    <Compile Include="LocalMySQL\xref_ko2cog.vb" />
-    <Compile Include="LocalMySQL\xref_ko2go.vb" />
-    <Compile Include="LocalMySQL\xref_ko2rn.vb" />
-    <Compile Include="PathwayAssociationAnalysis.vb" />
-    <Compile Include="Procedures\jp_kegg2.vb" />
-    <Compile Include="Procedures\SeuqneceDownloader.vb" />
-    <Compile Include="Procedures\Orthology.vb" />
-    <Compile Include="SystemDistribution.vb" />
-    <Compile Include="OrthologExport.vb" />
-    <Compile Include="Program.vb" />
+    <Compile Include="ExpressionRegulationNetwork\Configs\ReadModel.vb" />
+    <Compile Include="ExpressionRegulationNetwork\KineticsModel\SiteInfo.vb" />
+    <Compile Include="ExpressionRegulationNetwork\NetEngine\BinaryNetwork.vb" />
+    <Compile Include="ExpressionRegulationNetwork\Configs\Configuration.vb" />
+    <Compile Include="ExpressionRegulationNetwork\DataVisualization.vb" />
+    <Compile Include="ExpressionRegulationNetwork\NetEngine\EngineAPI.vb" />
+    <Compile Include="ExpressionRegulationNetwork\NetEngine\LDMDoc.vb" />
+    <Compile Include="ExpressionRegulationNetwork\Regulators\TCS.vb" />
+    <Compile Include="ExpressionRegulationNetwork\Regulators\OCS.vb" />
+    <Compile Include="ExpressionRegulationNetwork\Regulators\Regulator.vb" />
+    <Compile Include="ExpressionRegulationNetwork\KineticsModel\KineticsModel.vb" />
+    <Compile Include="PfsNET_FootprintMappingPathway_API.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -243,6 +196,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PhenotypeRegulations.vb" />
+    <Content Include="Resources\PfsNETCellularNetwork.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -253,6 +208,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\KernelDriver - GeneMutation__MonteCarlo.txt" />
+    <None Include="Resources\KernelDriver.txt" />
+    <None Include="Resources\pfsnet.kegg_pathways.txt" />
+    <None Include="AnalysisTool.Designer.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -262,24 +221,36 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="kegg.ico" />
-    <Content Include="Terminal.ico" />
+    <Content Include="Resources\ExpressionMAT.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
+    <ProjectReference Include="..\..\..\..\..\GCModeller.Core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
+      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
+      <Name>Bio.InteractionModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
+    <ProjectReference Include="..\..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Reference_SharedLib\Java\Java.vbproj">
+      <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
+      <Name>Java</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Shoal\RDotNET.Extensions.ShellScriptAPI\ShoalShell.Plugins.RDotNET.vbproj">
+      <Project>{2a928b27-d8ce-4629-9711-0e792c94a85e}</Project>
+      <Name>ShoalShell.Plugins.RDotNET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Datavisualization.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_Tabular.DataFrame</Name>
+      <Name>+VB_DataFrame</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
@@ -289,8 +260,51 @@
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\distributes\alglib-3.9.0.vbnet.gpl\vbnet\alglibnet2\alglibnet2.vbproj">
+      <Project>{eea01916-0334-4293-b284-c8b0d9d3ef63}</Project>
+      <Name>alglibnet2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DataVisualization\Cytoscape\Cytoscape.App\Cytoscape.App.vbproj">
+      <Project>{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}</Project>
+      <Name>Cytoscape.App</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DataVisualization\Cytoscape\Cytoscape\Cytoscape.vbproj">
+      <Project>{9c7dd64a-e4c0-4011-8994-c842702c6ed4}</Project>
+      <Name>Cytoscape</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\engine\GCTabular\DocumentFormat.CsvTabular.vbproj">
+      <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
+      <Name>DocumentFormat.CsvTabular</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
+      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
+      <Name>DatabaseServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\engine\GCMarkupLanguage\DocumentFormat.GCMarkupLanguage.vbproj">
+      <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
+      <Name>DocumentFormat.GCMarkupLanguage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
+      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
+      <Name>GCModeller.Framework.Kernel_Driver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\analysis\PFSNet\PFSNet.vbproj">
+      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
+      <Name>PFSNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
+      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
+      <Name>RegulonDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
+      <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
+      <Name>Toolkits.RNA-Seq.RTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
+      <Name>Toolkits.RNA-Seq</Name>
+    </ProjectReference>
   </ItemGroup>
- 
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,31 +4,36 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F5FC5F93-F929-496F-9CF9-8607203B9545}</ProjectGuid>
+    <ProjectGuid>{07B67F96-A341-454B-986E-2DC2276C88BB}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family</RootNamespace>
-    <AssemblyName>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem</RootNamespace>
+    <AssemblyName>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,26 +53,28 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -77,19 +84,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -98,7 +106,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -108,7 +116,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -118,7 +126,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -128,17 +136,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.xml</DocumentationFile>
+    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -148,9 +157,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -169,12 +177,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API.vb" />
-    <Compile Include="FileSystem\PfamString.vb" />
-    <Compile Include="KEGG.vb" />
-    <Compile Include="FileSystem\BlockXml.vb" />
-    <Compile Include="FileSystem\Database.vb" />
-    <Compile Include="FileSystem\TblModel.vb" />
+    <Compile Include="Compiler.vb" />
+    <Compile Include="RunModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -190,6 +194,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SBML\SBML.vb" />
+    <Compile Include="Script\Model.vb" />
+    <Compile Include="Script\ScriptCompiler.vb" />
+    <Compile Include="Script\ScriptParser.vb" />
+    <Compile Include="Script\SEquation.vb" />
+    <Compile Include="Script\TokenIcer.vb" />
+    <Compile Include="Script\Tokens.vb" />
+    <Compile Include="System\DataAcquisition.vb" />
+    <Compile Include="System\Elements\Equation.vb" />
+    <Compile Include="System\Elements\Function.vb" />
+    <Compile Include="System\Elements\Var.vb" />
+    <Compile Include="System\Experiments\Disturb.vb" />
+    <Compile Include="System\Experiments\DisturbAPI.vb" />
+    <Compile Include="System\Experiments\Experiment.vb" />
+    <Compile Include="System\Experiments\Kicks.vb" />
+    <Compile Include="System\Kernel.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -209,37 +229,34 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_Tabular.DataFrame</Name>
+    <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
+      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
+      <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ExternalDBSource\DatabaseServices.vbproj">
-      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
-      <Name>DatabaseServices</Name>
+    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Scripting\Math\Math\Microsoft.VisualBasic.Mathematical.vbproj">
+      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
+      <Name>Microsoft.VisualBasic.Mathematical</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Pfam\AnalysisTools.ProteinTools.Sanger.Pfam.vbproj">
-      <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
-      <Name>AnalysisTools.ProteinTools.Sanger.Pfam</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RegulonDatabase\RegulonDatabase.vbproj">
-      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
-      <Name>RegulonDatabase</Name>
+    <ProjectReference Include="..\..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
+      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
+      <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Family\" />
-  </ItemGroup>
- 
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

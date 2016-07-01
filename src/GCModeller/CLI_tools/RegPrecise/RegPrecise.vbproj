@@ -229,11 +229,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Repository\Bio.Repository.vbproj">
+    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
@@ -241,32 +241,31 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Sequence-Patterns-Toolkit\SequencePatterns\SequencePatterns.vbproj">
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.vbproj">
       <Project>{ABDCE82B-700E-4F70-A2F1-86B8054D0C8E}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_Tabular.DataFrame</Name>
+      <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\RegulonDatabase\RegulonDatabase.vbproj">
+    <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\Rfam\Rfam.vbproj">
+    <ProjectReference Include="..\..\analysis\Xfam\Rfam\Rfam.vbproj">
       <Project>{e7e152aa-dcb6-4f05-944a-29c9e3d3c5ed}</Project>
       <Name>Rfam</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\Pfam\AnalysisTools.ProteinTools.Sanger.Pfam.vbproj">
+    <ProjectReference Include="..\..\analysis\Xfam\Pfam\Pfam.vbproj">
       <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
-      <Name>AnalysisTools.ProteinTools.Sanger.Pfam</Name>
+      <Name>Pfam</Name>
     </ProjectReference>
   </ItemGroup>
- 
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

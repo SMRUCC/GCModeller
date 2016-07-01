@@ -230,7 +230,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
@@ -238,39 +238,38 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Sequence-Patterns-Toolkit\ClustalOmega\ClustalOmega.vbproj">
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\ClustalOmega\ClustalOmega.vbproj">
       <Project>{8ffe34ab-72df-44f4-8550-ba998c41bc98}</Project>
       <Name>ClustalOmega</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_Tabular.DataFrame</Name>
+      <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\AnalysisTools.ProteinTools.Family\AnalysisTools.ProteinTools.Family.vbproj">
+    <ProjectReference Include="..\..\analysis\ProteinTools\ProteinTools.Family\ProteinTools.Family.vbproj">
       <Project>{f5fc5f93-f929-496f-9cf9-8607203b9545}</Project>
-      <Name>AnalysisTools.ProteinTools.Family</Name>
+      <Name>ProteinTools.Family</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\AnalysisTools.ProteinTools.Interactions\AnalysisTools.ProteinTools.Interactions.vbproj">
+    <ProjectReference Include="..\..\analysis\ProteinTools\ProteinTools.Interactions\ProteinTools.Interactions.vbproj">
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
-      <Name>AnalysisTools.ProteinTools.Interactions</Name>
+      <Name>ProteinTools.Interactions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\ExternalDBSource\DatabaseServices.vbproj">
+    <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\Pfam\AnalysisTools.ProteinTools.Sanger.Pfam.vbproj">
+    <ProjectReference Include="..\..\analysis\Xfam\Pfam\Pfam.vbproj">
       <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
-      <Name>AnalysisTools.ProteinTools.Sanger.Pfam</Name>
+      <Name>Pfam</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="3D-Mol 001.ico" />
   </ItemGroup>
- 
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
