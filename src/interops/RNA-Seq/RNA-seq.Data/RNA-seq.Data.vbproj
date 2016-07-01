@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9F515BEB-A2CA-4B96-B1D9-F4798736054D}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LANS.SystemsBiology.Toolkits.RNA_Seq.BOW</RootNamespace>
-    <AssemblyName>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.SequenceModel</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.SequenceModel.RNA-seq.Data</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\bin-Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
@@ -50,7 +50,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -59,7 +59,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -69,7 +69,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -91,7 +91,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -100,7 +100,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -110,7 +110,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -120,7 +120,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -130,7 +130,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -140,16 +140,23 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.Toolkits.RNA-Seq.BOW.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
@@ -171,26 +178,14 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BOW\BWA.vb" />
-    <Compile Include="CliResCommon.vb" />
-    <Compile Include="BOW\Tabix.vb" />
-    <Compile Include="BOW\Samtools.vb" />
-    <Compile Include="DocumentFormat\Contig.vb" />
-    <Compile Include="DocumentFormat\Fastaq\Fastaq.vb" />
-    <Compile Include="DocumentFormat\Fastaq\FastaqFile.vb" />
-    <Compile Include="DocumentFormat\SAM\DocumentNodes\BitFLAGS.vb" />
-    <Compile Include="DocumentFormat\SAM\DocumentNodes\CIGAR_OPERATIONS.vb" />
-    <Compile Include="DocumentFormat\SAM\SamStream.vb" />
-    <Compile Include="DocumentFormat\SAM\DocumentNodes\AlignmentReads.vb" />
-    <Compile Include="DocumentFormat\SAM\DocumentNodes\SAMHeader.vb" />
-    <Compile Include="DocumentFormat\SAM\HTSeq\HtseqCountMethod.vb" />
-    <Compile Include="DocumentFormat\SAM\TSSs.vb" />
-    <Compile Include="DocumentFormat\SAM\SAM.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="Contig.vb" />
+    <Compile Include="Fastaq\Fastaq.vb" />
+    <Compile Include="Fastaq\FastaqFile.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -198,42 +193,37 @@
     </Compile>
     <Compile Include="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SAM\DocumentNodes\AlignmentReads.vb" />
+    <Compile Include="SAM\DocumentNodes\BitFLAGS.vb" />
+    <Compile Include="SAM\DocumentNodes\CIGAR_OPERATIONS.vb" />
+    <Compile Include="SAM\DocumentNodes\SAMHeader.vb" />
+    <Compile Include="SAM\SAM.vb" />
+    <Compile Include="SAM\SamStream.vb" />
+    <Compile Include="SAM\TSSs.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DocumentFormat\SAM1.pdf" />
-    <None Include="DocumentFormat\SAM\HTSeq\Bioinformatics-2015-Anders-166-9.pdf" />
-    <None Include="DocumentFormat\SAM\HTSeq\Counting reads in features with.pdf" />
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="Resources\BWA.res_exe" />
-    <None Include="Resources\Samtools\bcftools.res_exe" />
-    <None Include="Resources\Samtools\bgzip.res_exe" />
-    <None Include="Resources\Samtools\razip.res_exe" />
-    <None Include="Resources\Samtools\samtools.res_exe" />
-    <None Include="Resources\tabix.res_exe" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
@@ -241,11 +231,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DocumentFormat\SAM\HTSeq\htseq-count.png" />
-    <None Include="Resources\HTSeq-Count.Invoked.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Samtools\s2b.txt" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

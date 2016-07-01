@@ -1,8 +1,8 @@
 ﻿' http://en.wikipedia.org/wiki/FASTQ_format
 
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace DocumentFormat.Fastaq
+Namespace Fastaq
 
     ''' <summary>
     ''' FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and 
@@ -27,8 +27,8 @@ Namespace DocumentFormat.Fastaq
     ''' 第三行： 起始于+符号，与第一行的作用类似
     ''' 第四行： 编码了第二行的序列数据的质量高低，长度与第二行相同
     ''' </remarks>
-    Public Class Fastaq : Inherits LANS.SystemsBiology.SequenceModel.ISequenceModel
-        Implements LANS.SystemsBiology.SequenceModel.FASTA.IAbstractFastaToken
+    Public Class Fastaq : Inherits ISequenceModel
+        Implements IAbstractFastaToken
 
         ''' <summary>
         ''' 第一行的摘要描述信息
@@ -36,7 +36,7 @@ Namespace DocumentFormat.Fastaq
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Title As String Implements SequenceModel.FASTA.IAbstractFastaToken.Title
+        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
             Get
                 Return SEQ_ID.Identifier
             End Get
@@ -80,8 +80,7 @@ Namespace DocumentFormat.Fastaq
         ''' is vcfutils.pl from samtools.[3]
         ''' </remarks>
         Public Shared Function FastaqParser(str As String()) As Fastaq
-            Dim Fastaq As Fastaq = New Fastaq With
-            {
+            Dim Fastaq As New Fastaq With {
                 .SequenceData = str(1),
                 .SEQ_ID = FastaqIdentifier.IDParser(str(0)),
                 .SEQ_ID2 = FastaqIdentifier.IDParser(str(2)),
@@ -213,7 +212,5 @@ Namespace DocumentFormat.Fastaq
         Public Overrides Function ToString() As String
             Return $"{Identifier}:{FlowCellLane}:{Tiles}:{X}:{Y}#{MsIndex}/{PairMember}"
         End Function
-
     End Class
-
 End Namespace

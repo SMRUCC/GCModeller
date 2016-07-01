@@ -1,9 +1,9 @@
-﻿Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 ''' <summary>
 ''' SAMtools is a set of utilities for interacting with and post-processing short DNA sequence read alignments 
@@ -43,13 +43,13 @@ Public Module Samtools
     Public Function Assembly(SAM As SAM,
                              <Parameter("Trim.Error")>
                              Optional TrimError As Boolean = True,
-                             Optional EXPORT As String = "") As SequenceModel.FASTA.FastaFile
+                             Optional EXPORT As String = "") As FASTA.FastaFile
 
         Dim Forwards As Contig() = Nothing, Reversed As Contig() = Nothing
         Call SAM.Assembling(Forwards, Reversed, TrimError)
 
         Dim Fasta = Forwards.Join(Reversed)
-        Dim FastaFile = CType((From Contig In Fasta.AsParallel Select Contig.ToFastaToken).ToArray, SequenceModel.FASTA.FastaFile)
+        Dim FastaFile = CType((From Contig In Fasta.AsParallel Select Contig.ToFastaToken).ToArray, FASTA.FastaFile)
 
         If Not String.IsNullOrEmpty(EXPORT) Then
 
@@ -74,12 +74,12 @@ Public Module Samtools
                              SavedFasta = $"{EXPORT}/{pathEntry.Key}.fasta").ToArray
         If Parallel Then
             Dim LQuery = (From File In source.AsParallel
-                          Let SAM = BOW.DocumentFormat.SAM.SAM.Load(File.SAM)
+                          Let SAM = SAM.Load(File.SAM)
                           Let Fasta = Assembly(SAM, TrimError, CsvExport)
                           Select Fasta.Save(File.SavedFasta)).ToArray
         Else
             For Each File In source
-                Dim SAM = BOW.DocumentFormat.SAM.SAM.Load(File.SAM)
+                Dim SAM As SAM = SAM.Load(File.SAM)
                 Dim Fasta = Assembly(SAM, TrimError, CsvExport)
                 Call Fasta.Save(File.SavedFasta)
             Next
@@ -87,8 +87,8 @@ Public Module Samtools
     End Sub
 
     <ExportAPI("Read.SAM")>
-    Public Function ReadSam(Path As String, <Parameter("UnMapped.Trim")> Optional TrimUnMapped As Boolean = False) As BOW.DocumentFormat.SAM.SAM
-        Dim doc = BOW.DocumentFormat.SAM.SAM.Load(Path)
+    Public Function ReadSam(Path As String, <Parameter("UnMapped.Trim")> Optional TrimUnMapped As Boolean = False) As SAM
+        Dim doc = SAM.Load(Path)
         If TrimUnMapped Then
             Call Console.WriteLine("Trim unmapped alignment reads.....")
             doc = doc.TrimUnmappedReads

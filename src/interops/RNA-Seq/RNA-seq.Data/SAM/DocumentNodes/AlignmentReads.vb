@@ -1,8 +1,8 @@
 ﻿Imports System.ComponentModel
-Imports LANS.SystemsBiology.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace DocumentFormat.SAM.DocumentElements
+Namespace SAM.DocumentElements
 
     ''' <summary>
     ''' 比对区域
@@ -27,7 +27,7 @@ Namespace DocumentFormat.SAM.DocumentElements
     '''  11  QUAL   String  [!-~]+                      ASCII of Phred-scaled base QUALity+33
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class AlignmentReads : Inherits LANS.SystemsBiology.SequenceModel.ISequenceModel
+    Public Class AlignmentReads : Inherits ISequenceModel
 
 #Region "Mandatory Fields.(有11个必填的字段)"
 
@@ -371,12 +371,12 @@ Namespace DocumentFormat.SAM.DocumentElements
         ''' <param name="RangeEnds"></param>
         ''' <returns></returns>
         Public Function RangeAt(RangeStart As Long, RangeEnds As Long) As Boolean
-            Dim Ranges = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(RangeStart, RangeEnds, False)
+            Dim Ranges As New NucleotideLocation(RangeStart, RangeEnds, False)
             Return RangeAt(Ranges)
         End Function
 
-        Public Function RangeAt(Ranges As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation) As Boolean
-            Dim MyLoc = LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation.CreateObject(POS, Length, Strand)
+        Public Function RangeAt(Ranges As NucleotideLocation) As Boolean
+            Dim MyLoc = NucleotideLocation.CreateObject(POS, Length, Strand)
             Dim r As SegmentRelationships = Ranges.GetRelationship(MyLoc)
             Return r = SegmentRelationships.Equals OrElse
                 r = SegmentRelationships.Inside OrElse
@@ -384,9 +384,9 @@ Namespace DocumentFormat.SAM.DocumentElements
                 r = SegmentRelationships.UpStreamOverlap
         End Function
 
-        Public Function GetLocation() As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+        Public Function GetLocation() As NucleotideLocation
             Dim Tokens As Integer() = {Me.PNEXT, Me.POS}
-            Return New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(Tokens.Min, Tokens.Max, Me.Strand)
+            Return New NucleotideLocation(Tokens.Min, Tokens.Max, Me.Strand)
         End Function
 
     End Class

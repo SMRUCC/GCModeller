@@ -1,8 +1,8 @@
 ﻿Imports System.IO
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
-Namespace DocumentFormat.SAM
+Namespace SAM
 
     Public Class SamStream
 

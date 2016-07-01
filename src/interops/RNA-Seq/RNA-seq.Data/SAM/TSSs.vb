@@ -1,10 +1,11 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 <[Namespace]("TSSs.Analysis")>
 Module SAM_TSSs
@@ -12,7 +13,7 @@ Module SAM_TSSs
 #Const DEBUG = 1
 
     <ExportAPI("SAM.TSSs")>
-    Public Function TSS(SAM As DocumentFormat.SAM.SAM) As GroupResult(Of DocumentFormat.SAM.DocumentElements.AlignmentReads, Integer)()
+    Public Function TSS(SAM As SAM.SAM) As GroupResult(Of AlignmentReads, Integer)()
         Dim Forwards = (From reads In SAM.AsParallel Where reads.Strand = Strands.Forward Select reads).ToArray
         Dim Reversed = (From reads In SAM.AsParallel Where reads.Strand = Strands.Reverse Select reads).ToArray
 
@@ -50,8 +51,10 @@ Module SAM_TSSs
     ''' <returns></returns>
     ''' 
     <ExportAPI("Split")>
-    Public Function SplitSaved(SAM As DocumentFormat.SAM.SAM, <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True,
-                               <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")> Optional Export As String = "") As Boolean
+    Public Function SplitSaved(SAM As SAM.SAM,
+                               <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True,
+                               <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")>
+                               Optional Export As String = "") As Boolean
 
         If String.IsNullOrEmpty(Export) Then
             If Not String.IsNullOrEmpty(SAM.FilePath) Then
@@ -85,9 +88,9 @@ Module SAM_TSSs
 
         Dim fnForward As String = $"{Export}/{NameToken}_Forward.sam", fnReversed As String = $"{Export}/{NameToken}_Reversed.sam"
 
-        Call New DocumentFormat.SAM.SAM With {.AlignmentsReads = Forwards, .Head = SAM.Head}.Save(fnForward)
+        Call New SAM.SAM With {.AlignmentsReads = Forwards, .Head = SAM.Head}.Save(fnForward)
         Call Console.WriteLine($"[DEBUG {Now.ToString}] Save {NameOf(Forwards)} to {fnForward.ToFileURL }")
-        Call New DocumentFormat.SAM.SAM With {.AlignmentsReads = Reversed, .Head = SAM.Head}.Save(fnReversed)
+        Call New SAM.SAM With {.AlignmentsReads = Reversed, .Head = SAM.Head}.Save(fnReversed)
         Call Console.WriteLine($"[DEBUG {Now.ToString}] Save {NameOf(Reversed)} to {fnReversed.ToFileURL }")
 
         Return True
@@ -103,13 +106,13 @@ Module SAM_TSSs
     ''' <returns></returns>
     ''' 
     <ExportAPI("TrimFlags")>
-    Public Function TrimForTSSs(doc As DocumentFormat.SAM.SAM) As DocumentFormat.SAM.SAM
+    Public Function TrimForTSSs(doc As SAM.SAM) As SAM.SAM
         Dim Unmapped As Integer = BitFLAGS.Bit0x4
         Dim LowQuality As Integer = BitFLAGS.Bit0x200
 
         Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file   {doc.FilePath.ToFileURL}".__DEBUG_ECHO
         Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFLAGS.Bit0x200} or [{NameOf(Unmapped)}]{BitFLAGS.Bit0x4}".__DEBUG_ECHO
-        doc = New DocumentFormat.SAM.SAM With {
+        doc = New SAM.SAM With {
             .FilePath = doc.FilePath,
             .Head = doc.Head,
             .AlignmentsReads =

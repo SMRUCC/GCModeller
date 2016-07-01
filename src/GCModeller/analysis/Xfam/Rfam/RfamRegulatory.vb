@@ -1,6 +1,6 @@
-﻿Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Interops.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
 
 ''' <summary>
 ''' 在这里添加被调控的位点的数据就可以构成完整的RNA调控数据了

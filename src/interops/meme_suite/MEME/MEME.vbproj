@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8F12481C-04F2-4A9F-B7D6-21F1757C43C3}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite</RootNamespace>
-    <AssemblyName>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Interops.NBCR.MEME_Suite</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Interops.NBCR.MEME_Suite</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\GCModeller\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
@@ -57,7 +57,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\bin-Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -68,7 +68,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -80,7 +80,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -92,7 +92,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -104,7 +104,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -115,7 +115,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -127,7 +127,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -139,7 +139,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\docs\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -151,7 +151,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\docs\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -163,7 +163,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\docs\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Interops.NBCR.MEME_Suite.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>

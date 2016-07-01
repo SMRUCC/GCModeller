@@ -29,7 +29,7 @@ Namespace My
     Private Shared addedHandlerLockObject As New Object
 
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)> _
-    Private Shared Sub AutoSaveSettings( sender As Global.System.Object,  e As Global.System.EventArgs)
+    Private Shared Sub AutoSaveSettings(ByVal sender As Global.System.Object, ByVal e As Global.System.EventArgs)
         If My.Application.SaveMySettingsOnExit Then
             My.Settings.Save()
         End If
@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.MySettings
             Get
-                Return Global.SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettings.Default
+                Return Global.SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.MySettings.Default
             End Get
         End Property
     End Module

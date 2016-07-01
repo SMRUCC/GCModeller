@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 
-Namespace DocumentFormat.Fastaq
+Namespace Fastaq
 
     ''' <summary>
     ''' There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used.
@@ -144,9 +144,10 @@ Namespace DocumentFormat.Fastaq
 
             Dim LQuery = (From i As Integer In Me.Sequence.AsParallel
                           Let Read As Fastaq = Me(i)
-                          Select fasta = New SequenceModel.FASTA.FastaToken With {
+                          Select fasta = New FASTA.FastaToken With {
                               .SequenceData = Read.SequenceData,
-                              .Attributes = {$"lcl={i} ", Read.SEQ_ID.ToString}} Order By fasta.Attributes.First Ascending).ToArray
+                              .Attributes = {$"lcl={i} ", Read.SEQ_ID.ToString}}
+                          Order By fasta.Attributes.First Ascending).ToArray
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 

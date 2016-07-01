@@ -3,13 +3,13 @@ Imports System.IO
 Imports System.Text
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Terminal.Utility
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
-Namespace DocumentFormat.SAM
+Namespace SAM
 
     ''' <summary>
     ''' The Sequence Alignment/Map (SAM) format is a generic nucleotide alignment format that describes the alignment of query sequences or sequencing reads to a reference sequence or assembly. 
@@ -179,8 +179,8 @@ Namespace DocumentFormat.SAM
         ''' <param name="Alignment">请注意先按照方向排序</param>
         ''' <param name="Reversed"></param>
         ''' <returns></returns>
-        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As BOW.Contig()
-            Dim ChunkBuffer As New List(Of BOW.Contig)
+        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As Contig()
+            Dim ChunkBuffer As New List(Of Contig)
             Dim p As New EventProc(Alignment.Count)
 
             Do While Alignment.Count > 0
@@ -247,7 +247,7 @@ Namespace DocumentFormat.SAM
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As BOW.Contig
+        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As Contig
 
 #Region "Implements IEnumerable(Of AlignmentReads).GetEnumerator"
 

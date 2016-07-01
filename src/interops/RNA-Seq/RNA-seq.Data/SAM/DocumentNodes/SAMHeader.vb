@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
 
-Namespace DocumentFormat.SAM.DocumentElements
+Namespace SAM.DocumentElements
 
     ''' <summary>
     ''' 实际上就相当于一个字典来的
