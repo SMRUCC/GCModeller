@@ -2,33 +2,33 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Text.RegularExpressions
 Imports System.Text
-Imports LANS.SystemsBiology.InteractionModel.Regulon
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions
-Imports KernelDriver = LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
-                       LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression,
-                       LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork)
+Imports SMRUCC.genomics.InteractionModel.Regulon
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions
+Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
+                       SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression,
+                       SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork)
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.API.ImportantNodes
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.API.ImportantNodes
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Serialization
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.GCModeller.Framework
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.DocumentFormat
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Serialization
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.Framework
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports LANS.SystemsBiology.InteractionModel
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
 
 ''' <summary>
 ''' 将MEME所分析出来的调控信息附加到代谢途径的网络图之中
@@ -267,7 +267,7 @@ Public Module PhenotypeRegulations
                      In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
                      Let Csv = DocumentStream.File.FastLoad(path, Parallel:=False)
                      Select Csv).ToArray '获取同一批次的蒙特卡洛计算实验之中所得到的所有的计算样本
-        Dim RankMapping = (From obj In (From Csv In Cache.AsParallel Select (From row In Csv Let ID As String = row.First Where ID.First <> "#"c Let data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray Select New LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = data}).ToArray).ToArray.MatrixToList Select obj Group By obj.UniqueId Into Group).ToArray
+        Dim RankMapping = (From obj In (From Csv In Cache.AsParallel Select (From row In Csv Let ID As String = row.First Where ID.First <> "#"c Let data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray Select New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = data}).ToArray).ToArray.MatrixToList Select obj Group By obj.UniqueId Into Group).ToArray
         Dim GetModalLevel = (From GeneObject In RankMapping.AsParallel Select __levelMapping(GeneObject.Group.ToArray, p:=Level)).ToArray
         '重新生成一个Csv文件
         Dim CsvMatrix As File =
@@ -566,7 +566,7 @@ Public Module PhenotypeRegulations
     '<Command("pathway.assign_gene_regulations")>
     'Public Function AssignPathwayRegulation(Network As Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network,
     '                                        Regulations As Generic.IEnumerable(Of MEME.MatchedResult),
-    '                                        Pathways As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Pathway)) _
+    '                                        Pathways As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)) _
     '    As Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network
 
     '    Dim LQuery = (From RegulationRelation As MEME.MatchedResult
@@ -594,12 +594,12 @@ Public Module PhenotypeRegulations
     '                    In Network.Nodes
     '                    Where String.Equals(NodeItem.NodeType, PATHWAY_NODE_TYPE)
     '                    Select NodeItem.Identifier).ToArray
-    '    Dim PathwayFunctions As Dictionary(Of String, LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText) =
-    '        LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText.LoadFromResource.ToDictionary(
-    '            Function(item As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText) item.EntryId)
+    '    Dim PathwayFunctions As Dictionary(Of String, SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText) =
+    '        SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText.LoadFromResource.ToDictionary(
+    '            Function(item As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText) item.EntryId)
     '    Dim LQuery = (From PathwayId As String
     '                  In Pathways
-    '                  Let [Class] As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText = PathwayFunctions(Regex.Match(PathwayId, "\d{5}").Value)
+    '                  Let [Class] As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.PathwayBriteMenuText = PathwayFunctions(Regex.Match(PathwayId, "\d{5}").Value)
     '                  Select New Pathway With
     '                         {
     '                             .Identifier = PathwayId, .NodeType = PATHWAY_NODE_TYPE, .PhenotypeCategory = [Class].Category, .PhenotypeClass = [Class].Class}).ToArray
@@ -852,26 +852,26 @@ Public Module PhenotypeRegulations
     'End Class
 
     '<Command("get.kegg_reactions")>
-    'Public Function GetKEGGReactions(KEGGPathways As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.WebServices.Modules.Module),
-    '                                 Reactions As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction)) _
-    '    As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction()
+    'Public Function GetKEGGReactions(KEGGPathways As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.WebServices.Modules.Module),
+    '                                 Reactions As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)) _
+    '    As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction()
 
-    '    Dim ReactionDict = Reactions.ToDictionary(Function(Reaction As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction) Reaction.Entry)
+    '    Dim ReactionDict = Reactions.ToDictionary(Function(Reaction As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction) Reaction.Entry)
     '    Dim ReactionList = (From Pathway In KEGGPathways.AsParallel Where Not Pathway.Reaction.IsNullOrEmpty Select (From item In Pathway.Reaction Select item.Key).ToArray).ToArray.MatrixToVector.Distinct.ToArray
     '    Dim LQuery = (From itemId As String In ReactionList Select ReactionDict(itemId)).ToArray
     '    Return LQuery
     'End Function
 
-    'Public Function ModuleInteractions(KEGGModules As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.WebServices.Modules.Module),
+    'Public Function ModuleInteractions(KEGGModules As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.WebServices.Modules.Module),
     '                                   ReactionInteractions As Generic.IEnumerable(Of Microsoft.VisualBasic.Datavisualization.Network.FileStream.NetworkNode)) _
     '    As Microsoft.VisualBasic.Datavisualization.Network.FileStream.NetworkNode()
 
-    '    Dim LQuery = (From [Module] As LANS.SystemsBiology.Assembly.KEGG.WebServices.Modules.Module
+    '    Dim LQuery = (From [Module] As SMRUCC.genomics.Assembly.KEGG.WebServices.Modules.Module
     '                  In KEGGModules
     '                  Where Not [Module].Reaction.IsNullOrEmpty
-    '                  Select (From InteractedModule As String In (From Reaction As LANS.SystemsBiology.ComponentModel.KeyValuePair
+    '                  Select (From InteractedModule As String In (From Reaction As SMRUCC.genomics.ComponentModel.KeyValuePair
     '                                                              In [Module].Reaction
-    '                                                              Select (From ModuleItem As LANS.SystemsBiology.Assembly.KEGG.WebServices.Modules.Module
+    '                                                              Select (From ModuleItem As SMRUCC.genomics.Assembly.KEGG.WebServices.Modules.Module
     '                                                                      In KEGGModules
     '                                                                      Where ModuleItem.ContainsReaction(Reaction.Key)
     '                                                                      Select [Module].EntryId).ToArray).ToArray.MatrixToVector
@@ -883,7 +883,7 @@ Public Module PhenotypeRegulations
     'End Function
 
     '<Command("build.reaction_interactions")>
-    'Public Function AssemblyInteractions(KEGGReactions As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction)) _
+    'Public Function AssemblyInteractions(KEGGReactions As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)) _
     '    As Microsoft.VisualBasic.Datavisualization.Network.FileStream.Network
 
     '    Dim Reactions = (From item In KEGGReactions Select item.Entry, Substrates = item.GetSubstrateCompounds).ToArray

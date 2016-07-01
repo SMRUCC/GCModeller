@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Extensions
 Imports LANS.SystemsBiology
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
 
 <PackageNamespace("SMATRT.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -128,7 +128,7 @@ Public Module CLI
     <ExportAPI("--Export.Pfam-String", Usage:="--Export.Pfam-String /in <blast_out.txt>")>
     Public Function ExportPfamString(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim blastOut = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(inFile)
+        Dim blastOut = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(inFile)
         Dim PfamString = Sanger.Pfam.CreatePfamString(blastOut, disableUltralarge:=True)
         Return PfamString.SaveTo(inFile.TrimFileExt & ".Pfam-String.Csv")
     End Function

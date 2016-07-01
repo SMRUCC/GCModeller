@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.DBLinkBuilder
+﻿Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ObjectModels

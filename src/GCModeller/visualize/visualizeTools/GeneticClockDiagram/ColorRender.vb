@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.InteractionModel
+﻿Imports SMRUCC.genomics.InteractionModel
 Imports Microsoft.VisualBasic
 
 Namespace GeneticClock

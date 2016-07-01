@@ -2,12 +2,12 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.ProteinModel
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.ProteinModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
 
 <PackageNamespace("SMART", Cites:="Letunic, I., et al. (2006). ""SMART 5: domains in the context of genomes And networks."" Nucleic Acids Res 34(Database issue): D257-260.
 	The Simple Modular Architecture Research Tool (SMART) is an online resource (http://smart.embl.de/) used for protein domain identification and the analysis of protein domain architectures. 
@@ -36,7 +36,7 @@ Public Module ShellScriptAPI
     <ExportAPI("Session.New")>
     Public Function NewSmartSession(<Parameter("cdd.DIR")> cddDIR As String) As CompileDomains
         Dim Cdd_DB As CDDLoader = New CDDLoader(cddDIR)
-        Dim LocalBLAST = LANS.SystemsBiology.NCBI.Extensions.NCBILocalBlast.CreateSession
+        Dim LocalBLAST = SMRUCC.genomics.NCBI.Extensions.NCBILocalBlast.CreateSession
         Return New CompileDomains(LocalBLAST, Cdd_DB, Settings.TEMP)
     End Function
 

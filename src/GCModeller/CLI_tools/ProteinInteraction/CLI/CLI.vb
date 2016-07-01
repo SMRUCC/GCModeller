@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Interactions.SwissTCS
+﻿Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Interactions.SwissTCS
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -13,8 +13,8 @@ Public Module CLI
 
     <ExportAPI("--interact.TCS", Usage:="--interact.TCS /door <door.opr> /MiST2 <mist2.xml> /swiss <tcs.csv.DIR> /out <out.DIR>")>
     Public Function TCSParser(args As CommandLine.CommandLine) As Integer
-        Dim MiST2 = args("/mist2").LoadXml(Of LANS.SystemsBiology.Assembly.MiST2.MiST2)  ' 主要是从这个模块之中获取TCS的基因定义
-        Dim Door = LANS.SystemsBiology.Assembly.Door.Load(args("/door"))
+        Dim MiST2 = args("/mist2").LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)  ' 主要是从这个模块之中获取TCS的基因定义
+        Dim Door = SMRUCC.genomics.Assembly.Door.Load(args("/door"))
         Dim cTkDIR As String = args("/swiss")
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory)
         Dim CrossTalks = FileIO.FileSystem.GetFiles(cTkDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _

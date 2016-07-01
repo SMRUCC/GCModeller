@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("Bio.Assembly: assembly file io stream for the common biological database. This is the core library for the genome annotation in GCModeller.")>
 <Assembly: AssemblyDescription("Bio.Assembly: assembly file io stream for the common biological database. This is the core library for the genome annotation in GCModeller.")>
 <Assembly: AssemblyCompany("Southern Microbial Resources Utilization Centre Of China")>
-<Assembly: AssemblyProduct("LANS.SystemsBiology.Assembly")>
+<Assembly: AssemblyProduct("SMRUCC.genomics.Assembly")>
 <Assembly: AssemblyCopyright("Copyright © 中国南方微生物资源利用中心(SMRUCC) 2013")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 

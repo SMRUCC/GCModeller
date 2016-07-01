@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
 
 Module Tools
 

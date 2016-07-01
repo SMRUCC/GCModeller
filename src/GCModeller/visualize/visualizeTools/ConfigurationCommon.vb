@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap
 
 Public Module ConfigurationCommon
 

@@ -4,11 +4,11 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Language
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus

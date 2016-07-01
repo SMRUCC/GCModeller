@@ -6,7 +6,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
     ''' <summary>
     ''' ExpressionObject object equals to the 
-    ''' <see cref="LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit">TranscriptUnit object</see> 
+    ''' <see cref="SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit">TranscriptUnit object</see> 
     ''' in the datamodels.
     ''' 一个转录对象是以一个转录单元为单位的，其可以被看作为中心法则的一个实例，描述了从基因到蛋白质的整个表达过程，一个操纵子对象的表达过程
     ''' </summary>
@@ -47,7 +47,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <DumpNode> <XmlElement> Public ReadOnly Property MotifSites As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.MotifSite(Of Transcription)()
+        <DumpNode> <XmlElement> Public ReadOnly Property MotifSites As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.MotifSite(Of Transcription)()
             Get
                 Return TransUnit.MotifSites
             End Get
@@ -74,7 +74,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function get_Regulators() As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Regulator(Of Transcription)()
+        Public Function get_Regulators() As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Regulator(Of Transcription)()
             Return (From item In MotifSites Select item.Regulators).ToArray.MatrixToVector
         End Function
 
@@ -123,7 +123,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' <param name="CellSystem">初始化所需要用到的数据源</param>
         ''' <returns></returns> 
         ''' <remarks>根据TransUnit中的基因列表指针来生成mRNA列表并添加进入代谢组之中</remarks>
-        Public Overloads Function Initialize(CellSystem As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) As CentralDogma
+        Public Overloads Function Initialize(CellSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) As CentralDogma
 
             Dim LQuery = (From Transcript In Me.Transcripts Select ExpressionProcedureEvent.CreateInstance(Me, Transcript, CellSystem.Metabolism)).ToArray ' '从每一个转录组分对象实例生成转录过程对象
            
@@ -136,7 +136,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         End Function
 
         Private Shared Function __Internal_createMotifRegulators(TU_Model As GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
-                                                                 CellSystem As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) _
+                                                                 CellSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) _
             As Feature.MotifSite(Of Transcription)()
 
             Dim MotifModels = (From item In TU_Model.RegulatedMotifs Where Not item Is Nothing Select item).ToArray
@@ -150,7 +150,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
                    Let motif = New Feature.MotifSite(Of Transcription) With
                                {
                                    .Identifier = T_Motif.MotifName,
-                                   .Regulators = (From regulator As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator
+                                   .Regulators = (From regulator As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator
                                                   In T_Motif.Regulators
                                                   Select ObjectModels.Entity.Regulator(Of Transcription).CreateObject(regulator, CellSystem.Metabolism)).ToArray}
                    Select motif.Initialize).ToArray
@@ -163,12 +163,12 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' <param name="TransUnit"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Shadows Function CreateInstance(TransUnit As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
-                                                      CellSystem As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) _
+        Public Shared Shadows Function CreateInstance(TransUnit As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
+                                                      CellSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem) _
             As CentralDogma
 
             Return New CentralDogma With {
-                .TransUnit = LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.TransUnit.CreateObject(TransUnit, CellSystem),
+                .TransUnit = SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.TransUnit.CreateObject(TransUnit, CellSystem),
                 .Identifier = TransUnit.Identifier,
                 .PromoterGene = New EngineSystem.ObjectModels.Feature.Gene With {.Identifier = TransUnit.PromoterGene.Identifier}}
         End Function

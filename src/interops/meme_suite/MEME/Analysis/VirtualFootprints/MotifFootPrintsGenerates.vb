@@ -7,19 +7,19 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MAST.HTML
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MAST.HTML
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
@@ -126,7 +126,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                                            Optional includeRegulators As Boolean = False) _
                                                            As PredictedRegulationFootprint()
 
-            'Dim PathwayGenes = (From pwy As LANS.SystemsBiology.Assembly.KEGG.Archives.Csv.Pathway
+            'Dim PathwayGenes = (From pwy As SMRUCC.genomics.Assembly.KEGG.Archives.Csv.Pathway
             '                    In pathwayInfo
             '                    Where Not pwy.PathwayGenes.IsNullOrEmpty
             '                    Select pwy.EntryId, pwyGeneObjs = pwy.GetPathwayGenes).ToArray
@@ -488,7 +488,7 @@ Namespace Analysis.GenomeMotifFootPrints
 
         Private Function __getEffect(footprint As PredictedRegulationFootprint,
                                      predictedRegulator As String,
-                                     db As IEnumerable(Of LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH)) As String
+                                     db As IEnumerable(Of SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH)) As String
 
             '查找条件，可以在记录之中查找到，motif编号一致
             Dim LQuery = (From rgBBH In db
@@ -556,7 +556,7 @@ Namespace Analysis.GenomeMotifFootPrints
             Dim LQuery = (From item As MEMEOutput
                           In data.AsParallel
                           Select PredictedRegulationFootprint.__createRegulationObject(item, SequenceData, GenomeBrief, ignoreDirection, ATGDistance)).ToArray.MatrixToVector
-            Dim DoorOperonPromoters = (From Operon As LANS.SystemsBiology.Assembly.DOOR.Operon
+            Dim DoorOperonPromoters = (From Operon As SMRUCC.genomics.Assembly.DOOR.Operon
                                        In DOOR_API.Load(Door).DOOROperonView.Operons
                                        Select PromoterGene = Operon.InitialX.Synonym,
                                               DoorData = Operon,
@@ -589,7 +589,7 @@ Namespace Analysis.GenomeMotifFootPrints
             Dim AssignPhenotype As Func(Of PredictedRegulationFootprint, PredictedRegulationFootprint) =
                 Function(Regulation As PredictedRegulationFootprint) As PredictedRegulationFootprint
                     If Not String.IsNullOrEmpty(Regulation.ORF) Then
-                        Dim Pathways = (From item As LANS.SystemsBiology.Assembly.KEGG.Archives.Csv.Pathway In KEGG_Pathways
+                        Dim Pathways = (From item As SMRUCC.genomics.Assembly.KEGG.Archives.Csv.Pathway In KEGG_Pathways
                                         Where Array.IndexOf(item.PathwayGenes, Regulation.ORF) > -1
                                         Select item).FirstOrDefault
                         If Not Pathways Is Nothing Then

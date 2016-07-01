@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
+Imports SMRUCC.genomics.NCBI.Extensions
+Imports SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 

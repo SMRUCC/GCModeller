@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.EquationModel
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.EquationModel
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module
 Imports Microsoft.VisualBasic.DataVisualization
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream

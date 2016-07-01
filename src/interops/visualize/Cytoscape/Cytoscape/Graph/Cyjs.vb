@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports System.Web.Script.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace CytoscapeGraphView.Cyjs

@@ -1,8 +1,8 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic
 
@@ -62,7 +62,7 @@ Namespace SabiorkKineticLaws.TabularDump
             Return _DBLinks
         End Function
 
-#Region "Implements LANS.SystemsBiology.Assembly.MetaCyc.Schema.CompoundsMapping.ICompoundObject"
+#Region "Implements SMRUCC.genomics.Assembly.MetaCyc.Schema.CompoundsMapping.ICompoundObject"
 
         Public Property ICompoundObjectCHEBI_values As String() Implements ICompoundObject.CHEBI
             Get

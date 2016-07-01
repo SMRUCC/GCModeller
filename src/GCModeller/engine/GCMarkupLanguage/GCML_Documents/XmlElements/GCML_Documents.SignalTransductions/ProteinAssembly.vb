@@ -1,5 +1,5 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.XmlElements.SignalTransductions

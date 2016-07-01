@@ -10,7 +10,7 @@
 
         'Dim blast = NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(New NCBI.Extensions.LocalBLAST.InteropService.InitializeParameter(Settings.BlastBin, NCBI.Extensions.LocalBLAST.InteropService.Program.LocalBlast))
 
-        'Dim cp = New LANS.SystemsBiology.SimpleProteinModularArchitecture.CompileDomains(blast, New LANS.SystemsBiology.Assembly.CDD.CDDInfo.CDDLoader("e:\BLAST\db\CDD"), "E:\TEMP")
+        'Dim cp = New SMRUCC.genomics.SimpleProteinModularArchitecture.CompileDomains(blast, New SMRUCC.genomics.Assembly.CDD.CDDInfo.CDDLoader("e:\BLAST\db\CDD"), "E:\TEMP")
 
         'Call cp.ExportDb("Pfam").Save("D:\pfam.csv")
 
@@ -58,18 +58,18 @@
         'Call query.Query("PF02518")
         'Call query.Query("PF00072")
 
-        'Call LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.ExportNetwork(LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.BuildInteraction(l.Proteins,
-        '     "D:\GCModeller\database\domine.xml".LoadXml(Of LANS.SystemsBiology.Assembly.DOMINE.Database)), "d:\8004_prot_interactions.txt")
+        'Call SMRUCC.genomics.Assembly.ProteinInteractionNetwork.ExportNetwork(SMRUCC.genomics.Assembly.ProteinInteractionNetwork.BuildInteraction(l.Proteins,
+        '     "D:\GCModeller\database\domine.xml".LoadXml(Of SMRUCC.genomics.Assembly.DOMINE.Database)), "d:\8004_prot_interactions.txt")
 
-        '  Call New LANS.SystemsBiology.Assembly.DOMINE.Database.Imports().InvokeAction("D:\BLAST\domine-tables-2.0\").Save("D:\GCModeller\database\domine.xml")
+        '  Call New SMRUCC.genomics.Assembly.DOMINE.Database.Imports().InvokeAction("D:\BLAST\domine-tables-2.0\").Save("D:\GCModeller\database\domine.xml")
 
         'Dim signalDomains = IO.File.ReadAllLines("D:\BLAST\db\CDD\SignalDomains.txt")
         'Dim list = (From p In l.Proteins Where Not p.ContainsDomain(signalDomains).IsNullOrEmpty Select p).ToArray
 
         'Call New SMARTDB() With {.Proteins = list}.GetXml.Save("d:\8004_signal_proteins.xml")
 
-        'Call LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.ExportNetwork(LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.BuildInteraction(list,
-        '            "D:\GCModeller\database\domine.xml".LoadXml(Of LANS.SystemsBiology.Assembly.DOMINE.Database)), "d:\signal_interactions.txt")
+        'Call SMRUCC.genomics.Assembly.ProteinInteractionNetwork.ExportNetwork(SMRUCC.genomics.Assembly.ProteinInteractionNetwork.BuildInteraction(list,
+        '            "D:\GCModeller\database\domine.xml".LoadXml(Of SMRUCC.genomics.Assembly.DOMINE.Database)), "d:\signal_interactions.txt")
 
     End Sub
 End Module

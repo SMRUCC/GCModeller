@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
+Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 <[PackageNamespace]("Annotation.Reports", Publisher:="xie.guigang@gmail.com")>

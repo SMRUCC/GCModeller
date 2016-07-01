@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.SequenceModel
 
 Namespace ComponentModel
 

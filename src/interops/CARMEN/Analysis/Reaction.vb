@@ -1,5 +1,5 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.SBML
 Imports Microsoft.VisualBasic
 
 Public Class Reaction

@@ -12,7 +12,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
         Public Class FactorVariables
 
             ''' <summary>
-            ''' 顺序与<see cref="LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types">Types</see>相对应：
+            ''' 顺序与<see cref="SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types">Types</see>相对应：
             ''' Increase
             ''' Decrease
             ''' Multiplying
@@ -92,11 +92,11 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
             ''' <summary>
             ''' 
             ''' </summary>
-            ''' <param name="ModelBase">目标对象之中的<see cref="LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.TriggedCondition">触发条件</see>为一个纯数字</param>
+            ''' <param name="ModelBase">目标对象之中的<see cref="SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.TriggedCondition">触发条件</see>为一个纯数字</param>
             ''' <param name="MetabolismSystem"></param>
             ''' <returns></returns>
             ''' <remarks></remarks>
-            Public Shared Function CreateObject(ModelBase As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment, MetabolismSystem As EngineSystem.ObjectModels.SubSystem.MetabolismCompartment) As FactorVariables
+            Public Shared Function CreateObject(ModelBase As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment, MetabolismSystem As EngineSystem.ObjectModels.SubSystem.MetabolismCompartment) As FactorVariables
                 If Not Regex.Match(ModelBase.TriggedCondition.Trim, "^\d+$", RegexOptions.Multiline).Success Then  '目标对象不是一个数字，则说明可能是条件触发类型的
                     Return Nothing
                 End If
@@ -138,7 +138,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
 
             Public Structure SetMetaboliteAction
                 Dim Metabolite As String, value As Double
-                Dim DisturbingType As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types
+                Dim DisturbingType As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Experiment.Types
 
                 Public Shared Function CreateObject(ActionScript As String) As SetMetaboliteAction
                     Dim Tokens As String() = Strings.Split(ActionScript, "=>")

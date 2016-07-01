@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
 
 Namespace EngineSystem.Services.DataAcquisition.Services
 

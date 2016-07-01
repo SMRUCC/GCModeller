@@ -3,9 +3,9 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 
 Public Class Mapping
-    Dim MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
+    Dim MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
 
-    Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder)
+    Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder)
         Me.MetaCyc = MetaCyc
     End Sub
 
@@ -23,7 +23,7 @@ Public Class Mapping
     Public Function CreateEnzrxnGeneMap() As EnzymeGeneMap()
         Dim Proteins = MetaCyc.GetProteins, Genes = MetaCyc.GetGenes, Reactions = MetaCyc.GetReactions
         Dim EnzymaticReactions = MetaCyc.GetEnzrxns
-        Dim proteinSelector = New LANS.SystemsBiology.Assembly.MetaCyc.Schema.ProteinQuery(MetaCyc)
+        Dim proteinSelector = New SMRUCC.genomics.Assembly.MetaCyc.Schema.ProteinQuery(MetaCyc)
         Dim LQuery = (From Reaction In Reactions
                       Let rxnId As String = Reaction.Identifier
                       Let EnzymeList = (From enzrxn In EnzymaticReactions.AsParallel Where enzrxn.Reaction.IndexOf(rxnId) > -1 Select enzrxn.Enzyme).ToArray
@@ -34,10 +34,10 @@ Public Class Mapping
 
                                               For Each enzyme In EnzymeList
                                                   Dim Components = proteinSelector.GetAllComponentList(ProteinId:=enzyme)
-                                                  Dim IdQuery = (From it As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object
+                                                  Dim IdQuery = (From it As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object
                                                                  In Components.AsParallel
                                                                  Where it.Table = Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.proteins
-                                                                 Let protein As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein = DirectCast(it, LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein)
+                                                                 Let protein As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein = DirectCast(it, SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein)
                                                                  Let GetGeneId = Function() As String
                                                                                      If protein.Components.IsNullOrEmpty Then
                                                                                          Return protein.Gene
@@ -69,7 +69,7 @@ Public Class Mapping
         Public Property Synonym As String
     End Class
 
-    Public Function EffectorMapping(Regprecise As LANS.SystemsBiology.DatabaseServices.Regprecise.TranscriptionFactors) As EffectorMap()
+    Public Function EffectorMapping(Regprecise As SMRUCC.genomics.DatabaseServices.Regprecise.TranscriptionFactors) As EffectorMap()
         Dim Effectors = GetEffectors(Regprecise)
         Dim MapDataChunk As EffectorMap() = New EffectorMap(Effectors.Count - 1) {}
         Dim Compounds = MetaCyc.GetCompounds
@@ -106,7 +106,7 @@ Public Class Mapping
         Return MapDataChunk
     End Function
 
-    Private Shared Function IsEqually(Effector As String, Compound As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Compound) As Boolean
+    Private Shared Function IsEqually(Effector As String, Compound As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Compound) As Boolean
         If String.Equals(Effector, Compound.CommonName.ToLower) Then
             Return True
         ElseIf String.Equals(Effector, Compound.AbbrevName.ToLower) Then
@@ -122,7 +122,7 @@ Public Class Mapping
         Return False
     End Function
 
-    Private Shared Function GetEffectors(Regprecise As LANS.SystemsBiology.DatabaseServices.Regprecise.TranscriptionFactors) As String()
+    Private Shared Function GetEffectors(Regprecise As SMRUCC.genomics.DatabaseServices.Regprecise.TranscriptionFactors) As String()
         Dim EffectorQuery = (From item In Regprecise.BacteriaGenomes Select (From regulator In item.Regulons.Regulators Select regulator.Effector.ToLower).ToArray).ToArray
         Dim Effectors As List(Of String) = New List(Of String)
 

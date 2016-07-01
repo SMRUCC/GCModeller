@@ -1,6 +1,6 @@
 ﻿Imports System.Reflection
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.FileSystem
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Family.FileSystem
+Imports SMRUCC.genomics.Assembly.KEGG.Archives
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
@@ -28,7 +28,7 @@ Public Module API
     End Function
 
     <ExportAPI("FamilyDomain.Dumps", Info:="Dump the family database for the further analysis.")>
-    Public Function FamilyDomains(Regprecise As Dictionary(Of String, LANS.SystemsBiology.DatabaseServices.Regprecise.FastaReaders.Regulator),
+    Public Function FamilyDomains(Regprecise As Dictionary(Of String, SMRUCC.genomics.DatabaseServices.Regprecise.FastaReaders.Regulator),
                                   Pfam As Generic.IEnumerable(Of Sanger.Pfam.PfamString.PfamString)) As FamilyPfam
 
         Pfam = (From x In Pfam.AsParallel Where Not StringHelpers.IsNullOrEmpty(x.PfamString) Select x).ToList

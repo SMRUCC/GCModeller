@@ -14,11 +14,11 @@ Namespace StringDB.StrPNet
     Public Class Assembler
 
         Dim Network As StringDB.SimpleCsv.PitrNode()
-        Dim MisT2 As LANS.SystemsBiology.Assembly.MiST2.MiST2
+        Dim MisT2 As SMRUCC.genomics.Assembly.MiST2.MiST2
         Dim TF As Regprecise.RegpreciseMPBBH()
 
         Sub New(StringDb As StringDB.SimpleCsv.PitrNode(), MisT2 As String, Regulators As Regprecise.RegpreciseMPBBH())
-            Me.MisT2 = MisT2.LoadXml(Of LANS.SystemsBiology.Assembly.MiST2.MiST2)()
+            Me.MisT2 = MisT2.LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)()
             Me.TF = Regulators
             Me.Network = StringDb
         End Sub

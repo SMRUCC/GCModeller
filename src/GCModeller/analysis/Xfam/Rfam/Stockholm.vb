@@ -1,6 +1,6 @@
 ﻿Imports System.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 

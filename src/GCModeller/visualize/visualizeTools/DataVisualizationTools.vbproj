@@ -257,7 +257,7 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
@@ -273,7 +273,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
@@ -285,7 +285,7 @@
       <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
       <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interops\MEME\MEME.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>

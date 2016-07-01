@@ -1,7 +1,7 @@
 ﻿Imports System.Drawing.Drawing2D
 Imports System.Reflection
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
-Imports LANS.SystemsBiology.ProteinModel
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.ProteinModel
 Imports Microsoft.VisualBasic.Imaging
 
 Public Class DomainVisualize

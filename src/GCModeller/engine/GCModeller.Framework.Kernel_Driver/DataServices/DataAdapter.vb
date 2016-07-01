@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
+﻿Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports Microsoft.VisualBasic
 
 Namespace Kernel

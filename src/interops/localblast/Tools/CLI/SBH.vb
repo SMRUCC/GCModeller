@@ -1,15 +1,15 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis.BBHLogs
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.NCBI.Extensions
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis.BBHLogs
 Imports Microsoft.VisualBasic.Language
 
 Partial Module CLI

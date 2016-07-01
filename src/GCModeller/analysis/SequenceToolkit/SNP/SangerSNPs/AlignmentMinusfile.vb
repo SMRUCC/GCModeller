@@ -1,7 +1,7 @@
 ﻿Imports System.Diagnostics
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Terminal.STDIO__

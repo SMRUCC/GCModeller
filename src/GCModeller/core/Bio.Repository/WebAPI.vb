@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly.NCBI.Entrez
+﻿Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Terminal.Utility

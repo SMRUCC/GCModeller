@@ -2,8 +2,8 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic
 
 #Const DEBUG = 0

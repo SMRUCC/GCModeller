@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.DatabaseServices.Reactome.OwlDocument.Abstract
+Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.Abstract
 
 Namespace OwlDocument.XrefNodes
 

@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.Resource"& _ 
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools.Resource"& _ 
                             "s", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If

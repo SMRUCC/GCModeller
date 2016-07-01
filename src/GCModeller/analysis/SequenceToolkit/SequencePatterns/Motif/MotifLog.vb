@@ -1,5 +1,5 @@
 ﻿Imports System.Web.Script.Serialization
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 
 ''' <summary>

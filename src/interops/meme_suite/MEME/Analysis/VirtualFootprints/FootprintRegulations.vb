@@ -1,14 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
 Imports Microsoft.VisualBasic.Serialization
-Imports LANS.SystemsBiology.ContextModel
+Imports SMRUCC.genomics.ContextModel
 Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
@@ -124,7 +124,7 @@ Namespace Analysis.GenomeMotifFootPrints
             Regulation.Sequence = GenomeSequence.TryParse(nnnnnnnnnnnnn.Min, Regulation.Length)
 
             Dim RelatedGeneObjects As Relationship(Of GeneBrief)()
-            '   Dim PositionRelative As LANS.SystemsBiology.ComponentModel.Loci. SegmentRelationships
+            '   Dim PositionRelative As SMRUCC.genomics.ComponentModel.Loci. SegmentRelationships
 
             If Not IgnoreDirection Then
                 RelatedGeneObjects = Ptt.GetRelatedGenes(LociStart:=data.Start,

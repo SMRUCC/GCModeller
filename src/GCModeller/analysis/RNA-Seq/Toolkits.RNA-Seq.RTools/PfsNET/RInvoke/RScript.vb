@@ -1,5 +1,5 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
 Imports RDotNET.Extensions.VisualBasic
 
 Namespace PfsNET

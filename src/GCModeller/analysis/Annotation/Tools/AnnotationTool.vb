@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+﻿Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 
 ''' <summary>
 ''' 注释的流程为：
@@ -12,11 +12,11 @@ Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
 ''' </remarks>
 Public MustInherit Class AnnotationTool
 
-    Protected BBH_Handle As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST
+    Protected BBH_Handle As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST
     Protected FastaPaths As Dictionary(Of String, String)
 
-    Sub New(BLASTHandle As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService, DB As String)
-        BBH_Handle = New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST(BLASTHandle, Settings.DataCache)
+    Sub New(BLASTHandle As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService, DB As String)
+        BBH_Handle = New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST(BLASTHandle, Settings.DataCache)
         FastaPaths = (From path As String
                       In FileIO.FileSystem.GetFiles(DB, FileIO.SearchOption.SearchAllSubDirectories, "*.fasta", "*.fsa")
                       Select KEY = IO.Path.GetFileNameWithoutExtension(path), path).ToArray.ToDictionary(Function(item) item.KEY, elementSelector:=Function(item) item.path)
@@ -27,13 +27,13 @@ Public MustInherit Class AnnotationTool
     ''' </summary>  
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Protected MustOverride Function GetAnnotationSourceMeta() As LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
+    Protected MustOverride Function GetAnnotationSourceMeta() As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
 
     Protected Function InternalGetAnnotationSourceMeta() As MetaSource()
         Return CreateAnnotationSourceMeta(Me.GetAnnotationSourceMeta)
     End Function
 
-    Public Shared Function CreateAnnotationSourceMeta(data As Generic.IEnumerable(Of LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel)) As MetaSource()
+    Public Shared Function CreateAnnotationSourceMeta(data As Generic.IEnumerable(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel)) As MetaSource()
         Dim LQuery = (From item In data Select item Group By item.OrganismSpecies Into Group).ToArray
         Dim ChunkBuffer = (From item In LQuery Select New MetaSource With {.OrganismSpecies = item.OrganismSpecies, .AnnotationSource = item.Group.ToArray}).ToArray
         Return ChunkBuffer
@@ -54,7 +54,7 @@ Public MustInherit Class AnnotationTool
             Return InvokeAnnotation_p(Fasta, Export, Paralogs)
         End If
 
-        Dim Orthologs = New Dictionary(Of String, LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit())
+        Dim Orthologs = New Dictionary(Of String, SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit())
 
         For Each sp In FastaPaths
             Call Orthologs.Add(sp.Key, BBH_Handle.Peformance(Query:=Fasta, Subject:=sp.Value, HitsGrepMethod:=Nothing, QueryGrepMethod:=Nothing))
@@ -81,6 +81,6 @@ Public MustInherit Class AnnotationTool
     ''' <remarks></remarks>
     Public Class MetaSource
         Public Property OrganismSpecies As String
-        Public Property AnnotationSource As LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
+        Public Property AnnotationSource As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.DbFileSystemObject.ProteinDescriptionModel()
     End Class
 End Class

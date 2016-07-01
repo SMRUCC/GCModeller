@@ -1,8 +1,8 @@
 ﻿Imports System.Drawing
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ChromosomeMap.DrawingModels

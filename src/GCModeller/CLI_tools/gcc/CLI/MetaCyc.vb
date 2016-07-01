@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
 
 <PackageNamespace("GCModeller.Compiler.CLI", Category:=APICategories.CLI_MAN,
                   Description:="gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model",
@@ -46,8 +46,8 @@ Public Module CLI
 
         Dim TagFilters = (From Filter In Settings.SettingsFile.Gcc.Filters.ToArray Select New Escaping With {
                                                                                        .Original = Filter.NewReplaced, .Escape = Filter.Old}).ToArray
-        Dim Compiler As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Builder.Compiler =
-            New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Builder.Compiler With {
+        Dim Compiler As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Builder.Compiler =
+            New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Builder.Compiler With {
                 .StringReplacements = TagFilters,
                 .LogFile = LogFile
         }
@@ -86,10 +86,10 @@ Public Module CLI
     <ParameterInfo("-model", Description:="Target model file for adding some new rules", Usage:="", Example:="")>
     <ParameterInfo("-grep", True, Description:="If null then the system will using the MeatCyc database unique-id parsing method as default.")>
     Public Function AddRule(CommandLine As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
-        Dim MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder =
-            LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(CommandLine("-db"))
-        Dim Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
-            LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel.Load(CommandLine("-model"))
+        Dim MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder =
+            SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(CommandLine("-db"))
+        Dim Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
+            SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel.Load(CommandLine("-model"))
         Dim RuleFile As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File =
             Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load(CommandLine("-rulefile"))
 

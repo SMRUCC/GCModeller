@@ -1,9 +1,9 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcid
-Imports LANS.SystemsBiology.SequenceModel.Patterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports SMRUCC.genomics.SequenceModel.Patterns
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Scripting.MetaData

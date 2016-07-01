@@ -1,6 +1,6 @@
 ﻿Imports Oracle.LinuxCompatibility.MySQL
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace RegulonDB
 
@@ -33,7 +33,7 @@ Namespace RegulonDB
                 site.site_posleft,
                 site.site_posright
             }
-            Return New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+            Return New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With {
                 .SequenceData = site.site_sequence,
                 .Attributes = attrs
             }

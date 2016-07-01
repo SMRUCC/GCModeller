@@ -1,11 +1,11 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SequenceModel
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SequenceModel
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports Microsoft.VisualBasic
 
 Namespace GCML_Documents.XmlElements.Bacterial_GENOME

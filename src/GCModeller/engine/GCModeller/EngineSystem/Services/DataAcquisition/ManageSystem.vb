@@ -1,5 +1,5 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.Services.DataAcquisition

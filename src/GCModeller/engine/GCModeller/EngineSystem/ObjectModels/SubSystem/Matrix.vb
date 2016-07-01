@@ -9,7 +9,7 @@
 '    ''' [Gene_id],[Expression_factor],[parameters....]
 '    ''' </summary>
 '    ''' <remarks></remarks>
-'    Public Class Matrix : Inherits LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.MathematicsModels.MathematicsModel
+'    Public Class Matrix : Inherits SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.MathematicsModels.MathematicsModel
 
 '        ''' <summary>
 '        ''' 将保存于磁盘文件中的参数加载进入基因表达调控网络对象模型之中，对于文件之中不存在的数据，则使用默认数值

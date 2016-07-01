@@ -1,6 +1,6 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace FileSystem
 

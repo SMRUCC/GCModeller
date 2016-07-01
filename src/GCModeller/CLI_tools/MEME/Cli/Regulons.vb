@@ -1,9 +1,9 @@
 ﻿Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -90,7 +90,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", bbh.TrimFileExt & ".Regulons/")
         Dim bbhValues = bbh.LoadCsv(Of NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit)
         Dim genomes = FileIO.FileSystem.GetFiles(genome, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-        Dim doorOperon As LANS.SystemsBiology.Assembly.DOOR.DOOR
+        Dim doorOperon As SMRUCC.genomics.Assembly.DOOR.DOOR
         If DOOR.FileExists Then
             doorOperon = Assembly.DOOR.Load(DOOR)
         Else
@@ -139,7 +139,7 @@ Partial Module CLI
                      Where Not String.IsNullOrEmpty(paired)
                      Select bbhMapped = paired,
                          genome = x.Value).ToArray
-        Dim doorOperon As LANS.SystemsBiology.Assembly.DOOR.DOOR
+        Dim doorOperon As SMRUCC.genomics.Assembly.DOOR.DOOR
         If door.FileExists Then
             doorOperon = Assembly.DOOR.Load(door)
         Else

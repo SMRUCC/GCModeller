@@ -1,13 +1,13 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 
 Public Module SequenceLogoAPI

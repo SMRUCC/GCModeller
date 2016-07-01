@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports.DocumentElements
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports.DocumentElements
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.DocumentFormat.Word
 Imports Microsoft.VisualBasic.Imaging
 

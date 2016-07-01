@@ -28,8 +28,8 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions

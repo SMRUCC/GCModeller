@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+﻿Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
 
 Namespace CytoscapeGraphView.Serialization
 

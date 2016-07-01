@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.ComponentModels

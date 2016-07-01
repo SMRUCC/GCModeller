@@ -1,15 +1,15 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.DatabaseServices
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.Regulator
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.DatabaseServices.Regtransbase.WebServices.Regulator
 
 Partial Module CLI
 

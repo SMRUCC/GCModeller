@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.MetaCyc
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Assembly.MetaCyc
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace SabiorkKineticLaws

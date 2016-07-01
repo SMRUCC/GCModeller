@@ -1,6 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.ComponentModel.Loci.LociAPI
+Imports SMRUCC.genomics.ComponentModel.Loci.LociAPI
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 
@@ -269,7 +269,7 @@ Namespace GenePrediction.DocNodes
         End Function
     End Class
 
-    Public Class PredictedGene : Inherits LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+    Public Class PredictedGene : Inherits SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
 
         <XmlAttribute> Public Property [Class] As String
             Get

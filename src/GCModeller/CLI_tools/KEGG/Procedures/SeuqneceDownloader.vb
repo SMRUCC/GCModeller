@@ -11,16 +11,16 @@
 
     Private Sub __fillSeq(gene As LocalMySQL.gene)
         Dim update As Boolean = False
-        Dim query As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = Nothing
+        Dim query As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = Nothing
 
         If String.IsNullOrEmpty(gene.aa_seq) Then
-            query = LANS.SystemsBiology.Assembly.KEGG.WebServices.FetchSeq(gene.kegg_sp, gene.locus_tag)
+            query = SMRUCC.genomics.Assembly.KEGG.WebServices.FetchSeq(gene.kegg_sp, gene.locus_tag)
             gene.aa_seq = query.SequenceData.ToUpper
             update = True
             Call Threading.Thread.Sleep(500)  ' 需要休眠降低服务器压力以免被封IP
         End If
         If String.IsNullOrEmpty(gene.nt_seq) Then
-            query = LANS.SystemsBiology.Assembly.KEGG.WebServices.FetchNt(gene.kegg_sp, gene.locus_tag)
+            query = SMRUCC.genomics.Assembly.KEGG.WebServices.FetchNt(gene.kegg_sp, gene.locus_tag)
             gene.nt_seq = query.SequenceData.ToUpper
             update = True
             Call Threading.Thread.Sleep(500)

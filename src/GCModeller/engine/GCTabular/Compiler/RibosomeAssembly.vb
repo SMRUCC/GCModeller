@@ -1,11 +1,11 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 
 Namespace Compiler.Components
 
@@ -17,8 +17,8 @@ Namespace Compiler.Components
 
         Sub New(Ptt As String, Rnt As String, Model As FileStream.IO.XmlresxLoader)
             ModelIO = Model
-            Me.Ptt = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(Ptt)
-            Me.Rnt = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(Rnt)
+            Me.Ptt = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(Ptt)
+            Me.Rnt = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(Rnt)
             ModelIO.ExpressionKinetics = New List(Of FileStream.ExpressionKinetics)
         End Sub
 
@@ -92,7 +92,7 @@ Namespace Compiler.Components
                     Dim ProductId As String = tRNA.Product.ToUpper.Replace(" ", "-") & "S"
                     Dim tRNADataModel = tRNAGene.First
                     tRNADataModel.UniqueId = ProductId
-                    tRNADataModel.TranscriptType = LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.tRNA
+                    tRNADataModel.TranscriptType = SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.tRNA
 
                     Call Console.WriteLine("Link() {0}({1}) <----> {2}", tRNA.Gene, tRNA.Product, ProductId)
                     Dim tRNAGeneTemplate = (From item In ModelIO.GenomeAnnotiation Where String.Equals(item.Identifier, tRNA.Gene) Select item).ToArray

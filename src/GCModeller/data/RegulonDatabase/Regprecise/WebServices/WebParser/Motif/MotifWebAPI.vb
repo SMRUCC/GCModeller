@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.DatabaseServices.Regtransbase.WebServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Emit.Marshal
 

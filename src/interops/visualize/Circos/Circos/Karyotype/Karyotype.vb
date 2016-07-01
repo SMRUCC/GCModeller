@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language

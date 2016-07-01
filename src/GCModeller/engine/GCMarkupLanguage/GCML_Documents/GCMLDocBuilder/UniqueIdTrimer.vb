@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 
 Namespace Builder
 

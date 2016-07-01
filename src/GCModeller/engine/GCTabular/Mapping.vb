@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic
@@ -12,10 +12,10 @@ Imports Microsoft.VisualBasic
 ''' <remarks></remarks>
 Public Class Mapping : Implements System.IDisposable
 
-    Dim MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
+    Dim MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
     Dim SBMLMetabolite As FileStream.Metabolite()
 
-    Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, SBMLMetabolites As FileStream.Metabolite())
+    Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, SBMLMetabolites As FileStream.Metabolite())
         Me.MetaCyc = MetaCyc
         Me.SBMLMetabolite = If(SBMLMetabolites Is Nothing, New FileStream.Metabolite() {}, SBMLMetabolites)
     End Sub
@@ -38,7 +38,7 @@ Public Class Mapping : Implements System.IDisposable
     Public Function CreateEnzrxnGeneMap() As EnzymeGeneMap()
         Dim Proteins = MetaCyc.GetProteins, Genes = MetaCyc.GetGenes, Reactions = MetaCyc.GetReactions
         Dim EnzymaticReactions = MetaCyc.GetEnzrxns
-        Dim proteinSelector = New LANS.SystemsBiology.Assembly.MetaCyc.Schema.ProteinQuery(MetaCyc)
+        Dim proteinSelector = New SMRUCC.genomics.Assembly.MetaCyc.Schema.ProteinQuery(MetaCyc)
         Dim LQuery = (From Reaction In Reactions
                       Let rxnId As String = Reaction.Identifier
                       Let EnzymeList = (From enzrxn In EnzymaticReactions.AsParallel Where enzrxn.Reaction.IndexOf(rxnId) > -1 Select enzrxn.Enzyme).ToArray
@@ -49,10 +49,10 @@ Public Class Mapping : Implements System.IDisposable
 
                                               For Each enzyme In EnzymeList
                                                   Dim Components = proteinSelector.GetAllComponentList(ProteinId:=enzyme)
-                                                  Dim IdQuery = (From it As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object
+                                                  Dim IdQuery = (From it As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object
                                                                  In Components.AsParallel
-                                                                 Where it.Table = LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.proteins
-                                                                 Let protein As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein = DirectCast(it, LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein)
+                                                                 Where it.Table = SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.proteins
+                                                                 Let protein As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein = DirectCast(it, SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein)
                                                                  Let GetGeneId = Function() As String
                                                                                      If protein.Components.IsNullOrEmpty Then
                                                                                          Return protein.Gene
@@ -319,7 +319,7 @@ Public Class Mapping : Implements System.IDisposable
     End Function
 
     Public Shared Function GetEffectors(Regprecise As TranscriptionFactors) As List(Of MetaCyc.Schema.EffectorMap)
-        Dim EffectorIdList = (From item As LANS.SystemsBiology.DatabaseServices.Regprecise.BacteriaGenome
+        Dim EffectorIdList = (From item As SMRUCC.genomics.DatabaseServices.Regprecise.BacteriaGenome
                               In Regprecise.BacteriaGenomes
                               Select (From regulator In item.Regulons.Regulators
                                       Where Not String.IsNullOrEmpty(regulator.Effector)

@@ -1,13 +1,13 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD.DomainInfo
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService
-Imports LANS.SystemsBiology.ProteinModel
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.Assembly.NCBI.CDD.DomainInfo
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService
+Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic
@@ -133,7 +133,7 @@ End Class
 <XmlRoot("SMART.DB", Namespace:="http://code.google.com/p/genome-in-code/protein-domains/smart_db")>
 Public Class SMARTDB
     '请注意： 实现这个接口会让XML序列化比较困难
-    ' Implements Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.ProteinDomainArchitecture)
+    ' Implements Generic.IEnumerable(Of SMRUCC.genomics.Assembly.ProteinDomainArchitecture)
 
     <XmlElement> Public Property Proteins As Protein()
 

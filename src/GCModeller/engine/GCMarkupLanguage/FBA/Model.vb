@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Extensions
 

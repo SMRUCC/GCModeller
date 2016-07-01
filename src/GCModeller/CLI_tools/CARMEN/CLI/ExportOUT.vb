@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.CARMEN
+﻿Imports SMRUCC.genomics.AnalysisTools.CARMEN
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 

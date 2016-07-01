@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions

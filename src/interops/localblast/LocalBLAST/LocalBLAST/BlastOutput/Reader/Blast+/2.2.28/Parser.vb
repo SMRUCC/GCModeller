@@ -4,9 +4,9 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Reflection
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Reflection
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 

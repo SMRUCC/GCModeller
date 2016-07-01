@@ -2,12 +2,12 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports System.Text
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
+Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
 Imports Microsoft.VisualBasic
 
 Namespace Regprecise

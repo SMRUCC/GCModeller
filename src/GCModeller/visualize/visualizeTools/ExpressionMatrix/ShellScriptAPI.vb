@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.InteractionModel
+Imports SMRUCC.genomics.InteractionModel
 
 Namespace ExpressionMatrix
 

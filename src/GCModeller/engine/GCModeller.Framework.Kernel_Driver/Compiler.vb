@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
+﻿Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.VisualBasic
@@ -72,7 +72,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         If String.IsNullOrEmpty(Model.ModelProperty.CompiledDate) Then Model.ModelProperty.CompiledDate = Now.ToString
         If Model.ModelProperty.Reversion = 0 Then Model.ModelProperty.Reversion = 1
         If Model.ModelProperty.URLs.IsNullOrEmpty Then Model.ModelProperty.URLs = New List(Of String) From {"http://code.google.com/p/genome-in-code/"} Else Call Model.ModelProperty.URLs.Add("http://code.google.com/p/genome-in-code/")
-        If Model.ModelProperty.Authors.IsNullOrEmpty Then Model.ModelProperty.Authors = New List(Of String) From {"LANS.SystemsBiology.GCModeller"}
+        If Model.ModelProperty.Authors.IsNullOrEmpty Then Model.ModelProperty.Authors = New List(Of String) From {"SMRUCC.genomics.GCModeller"}
 
         If Not argvs Is Nothing Then  '请先使用If判断是否为空，因为不知道本方法的调用顺序，不使用if判断可能会丢失已经在调用之前就写入的属性数据
 

@@ -1,7 +1,7 @@
 ﻿Imports System.Linq
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.Motif
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ListExtensions

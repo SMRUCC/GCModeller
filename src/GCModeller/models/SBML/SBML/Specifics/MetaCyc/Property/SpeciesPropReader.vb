@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly.SBML.Components
+﻿Imports SMRUCC.genomics.Assembly.SBML.Components
 
 Namespace Specifics.MetaCyc
 

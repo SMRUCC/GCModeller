@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports Microsoft.VisualBasic.Extensions
 
 Namespace Script

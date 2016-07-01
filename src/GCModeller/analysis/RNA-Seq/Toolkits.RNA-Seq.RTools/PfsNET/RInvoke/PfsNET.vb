@@ -6,7 +6,7 @@ Imports RDotNET
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.VisualBasic.RSystem
 Imports RDotNET.Extensions.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
 Imports RDotNET.Extensions
 
 #Const DEBUG = True

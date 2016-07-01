@@ -1,13 +1,13 @@
 ﻿Imports System
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ComponentModel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ComponentModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.GCModeller.DataVisualization
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Language
 
 Namespace ComparativeGenomics

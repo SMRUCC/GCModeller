@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
 
@@ -9,7 +9,7 @@ Public Class ProtInDb
 
     <XmlElement> Public Property ProteinChainsInfo As ProteinChain()
 
-    Public Function ExportDatabase(ExportDir As String) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+    Public Function ExportDatabase(ExportDir As String) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
         Dim LQuery = (From item As ProteinChain In Me.ProteinChainsInfo.AsParallel
                       Let SurfaceBuilder = Function() As String
                                                Dim sBuilder As StringBuilder = New StringBuilder(1024)
@@ -19,13 +19,13 @@ Public Class ProtInDb
                                                Next
 
                                                Return sBuilder.ToString
-                                           End Function Select New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+                                           End Function Select New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With {
                                                .SequenceData = item.SequenceData,
                                                .Attributes = New String() {item.PdbId & "-" & item.ChainId & " " & SurfaceBuilder()}}).ToArray
 
         Call FileIO.FileSystem.CreateDirectory(ExportDir)
 
-        Dim FastaObject = CType(LQuery, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+        Dim FastaObject = CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
         Call FastaObject.Save(String.Format("{0}/ProtInDb.fsa", ExportDir))
 
         Dim CsvData As StringBuilder = New StringBuilder(1024 * 1024)
@@ -45,7 +45,7 @@ Public Class ProtInDb
         Return FastaObject
     End Function
 
-    Public Function ExtractInteractions(PdbId As String, ChainId As String) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+    Public Function ExtractInteractions(PdbId As String, ChainId As String) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
         Dim LQuery = (From item In Me.ProteinChainsInfo.AsParallel Where String.Equals(item.PdbId, PdbId) Select item).ToArray
         Dim Target = (From item In LQuery Where String.Equals(item.ChainId, ChainId) Select item).First
         Dim InteractionChains = (From item In Target.InterfaceOnSurface Select item.Key).ToArray

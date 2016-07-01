@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.SequenceModel.Patterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Patterns
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 

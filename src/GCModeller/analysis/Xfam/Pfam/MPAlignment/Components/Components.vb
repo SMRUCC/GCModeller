@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 
 Namespace ProteinDomainArchitecture.MPAlignment

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language

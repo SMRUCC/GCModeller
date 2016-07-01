@@ -2,25 +2,25 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 
 Namespace Compiler.Components
 
     Public Class MergeKEGGReactions
         Dim _ModelLoader As FileStream.IO.XmlresxLoader, _KEGGReaction As bGetObject.Reaction(), _KEGGCompounds As bGetObject.Compound()
-        Dim _EuqationEquals As LANS.SystemsBiology.Assembly.MetaCyc.Schema.EquationEquals
+        Dim _EuqationEquals As SMRUCC.genomics.Assembly.MetaCyc.Schema.EquationEquals
         Dim _EntryViews As EntryViews
-        Dim _Carmen As LANS.SystemsBiology.AnalysisTools.CARMEN.Reaction()
+        Dim _Carmen As SMRUCC.genomics.AnalysisTools.CARMEN.Reaction()
 
         Sub New(ModelLoader As FileStream.IO.XmlresxLoader, KEGGReactionsCsv As String, KEGGCompoundsCsv As String, CARMENCsv As String)
             Me._ModelLoader = ModelLoader
-            Me._KEGGReaction = KEGGReactionsCsv.LoadCsv(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction)(explicit:=False).ToArray
-            Me._KEGGCompounds = KEGGCompoundsCsv.LoadCsv(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound)(explicit:=False).ToArray
+            Me._KEGGReaction = KEGGReactionsCsv.LoadCsv(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)(explicit:=False).ToArray
+            Me._KEGGCompounds = KEGGCompoundsCsv.LoadCsv(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)(explicit:=False).ToArray
             Me._EuqationEquals = New EquationEquals(MetaCycCompoundModels:=ModelLoader.MetabolitesModel, CompoundSpecies:=_KEGGCompounds)
             Me._EntryViews = New EntryViews(ModelLoader.MetabolitesModel.Values.ToList)
-            Me._Carmen = (From item As LANS.SystemsBiology.AnalysisTools.CARMEN.Reaction
-                          In CARMENCsv.LoadCsv(Of LANS.SystemsBiology.AnalysisTools.CARMEN.Reaction)(False).AsParallel
+            Me._Carmen = (From item As SMRUCC.genomics.AnalysisTools.CARMEN.Reaction
+                          In CARMENCsv.LoadCsv(Of SMRUCC.genomics.AnalysisTools.CARMEN.Reaction)(False).AsParallel
                           Where Not item.lstGene.IsNullOrEmpty
                           Select item).ToArray
         End Sub
@@ -31,7 +31,7 @@ Namespace Compiler.Components
         ''' <remarks></remarks>
         Public Sub InvokeMethods()
             Dim ReactionList = (From FluxObject In _ModelLoader.MetabolismModel.AsParallel Select FluxObject.CreateMetaCycReactionSchema).ToArray
-            Dim InsertedList As List(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction) = New List(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction)
+            Dim InsertedList As List(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction) = New List(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)
             Dim i As Integer = 0
 
             For Each KEGG_Reaction In _KEGGReaction
@@ -72,7 +72,7 @@ Namespace Compiler.Components
             Next
         End Sub
 
-        Private Shared Function GetEnzyme(CARMEN As LANS.SystemsBiology.AnalysisTools.CARMEN.Reaction(), KEGGReaction As String) As String()
+        Private Shared Function GetEnzyme(CARMEN As SMRUCC.genomics.AnalysisTools.CARMEN.Reaction(), KEGGReaction As String) As String()
             Dim LQuery = (From item In CARMEN Where String.Equals(item.rnId, KEGGReaction, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             If LQuery.IsNullOrEmpty Then
                 Return New String() {}

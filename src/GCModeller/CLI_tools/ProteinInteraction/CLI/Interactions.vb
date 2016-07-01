@@ -1,13 +1,13 @@
-﻿Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.SequenceModel.Patterns.Clustal
+﻿Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Patterns.Clustal
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports Microsoft.VisualBasic.Linq
 
 Partial Module CLI
@@ -230,7 +230,7 @@ Partial Module CLI
         Dim HisK = __loadFa(DIRS, Function(dir) dir & "/HisK.fasta")
         Dim RRPro = __loadFa(DIRS, Function(dir) dir & "/RR.fasta")
         Dim out As String = args("/swissTCS") & "/Pfam/"
-        Dim clustal = LANS.SystemsBiology.AnalysisTools.ClustalOrg.Clustal.CreateSession
+        Dim clustal = SMRUCC.genomics.AnalysisTools.ClustalOrg.Clustal.CreateSession
         Dim list As New List(Of Category)
 
         For Each fm In Categories
@@ -373,7 +373,7 @@ Partial Module CLI
     <ExportAPI("--align.LDM", Usage:="--align.LDM /in <source.fasta>")>
     Public Function GenerateModel(args As CommandLine.CommandLine) As Integer
         Dim input = args("/in")
-        Dim clustal = LANS.SystemsBiology.AnalysisTools.ClustalOrg.Clustal.CreateSession
+        Dim clustal = SMRUCC.genomics.AnalysisTools.ClustalOrg.Clustal.CreateSession
         Dim align = clustal.MultipleAlignment(input)
         Dim SRChain As SRChain() = SR.FromAlign(align, 0.85)
         Dim Name As String = IO.Path.GetFileNameWithoutExtension(args("/in"))

@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
+Imports SMRUCC.genomics.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.FileIO

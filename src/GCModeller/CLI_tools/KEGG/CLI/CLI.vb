@@ -4,12 +4,12 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports System.Text
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.Assembly.KEGG
-Imports LANS.SystemsBiology.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 
 <Cite(Title:="KAAS: an automatic genome annotation and pathway reconstruction server", PubMed:=17526522,
       DOI:="10.1093/nar/gkm321",
@@ -305,14 +305,14 @@ Module CLI
             start = Array.IndexOf(Entries, last.Entry)
         End If
 
-        ' Dim fggfdg = LANS.SystemsBiology.Assembly.KEGG.DBGET.WebParser.QueryURL("E:\GCModeller\BuildTools\K  02992.html")
+        ' Dim fggfdg = SMRUCC.genomics.Assembly.KEGG.DBGET.WebParser.QueryURL("E:\GCModeller\BuildTools\K  02992.html")
         ' Call LocalMySQL.Update(fggfdg)
 
         For i As Integer = start To Entries.Count - 1
             Dim entry As String = Entries(i)
 
             Try
-                Dim orthology = LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(entry)
+                Dim orthology = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(entry)
 
                 Call LocalMySQL.Update(orthology)
                 Call orthology.GetXml.SaveTo(stateFile)

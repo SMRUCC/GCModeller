@@ -1,11 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.AnalysisTools.Rfam.Infernal
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -18,7 +18,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports gene = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+Imports gene = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
 
 Partial Module CLI
 

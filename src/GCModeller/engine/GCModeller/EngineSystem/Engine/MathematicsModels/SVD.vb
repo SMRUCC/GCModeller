@@ -9,15 +9,15 @@
 '    Public Class SVD : Inherits MathematicsModel
 
 '        Dim ExpressionNetwork As EngineSystem.ObjectModels.SubSystem.ExpressionSystem.ExpressionRegulationNetwork
-'        Dim ChipData As LANS.SystemsBiology.Toolkits.RNASeq.ChipData
+'        Dim ChipData As SMRUCC.genomics.Toolkits.RNASeq.ChipData
 
 '        Sub New(ExpressionNetwork As EngineSystem.ObjectModels.SubSystem.ExpressionSystem.ExpressionRegulationNetwork)
 '            Dim ChipDataCsvPath As String = ExpressionNetwork.Get_runtimeContainer.SystemVariables.GetItem(Id:=
-'                LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SystemVariables._URL_CHIPDATA).Value
+'                SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SystemVariables._URL_CHIPDATA).Value
 
 '            Call LoggingClient.WriteLine(String.Format("Load ChipData from {0}", ChipDataCsvPath))
 
-'            Me.ChipData = LANS.SystemsBiology.Toolkits.RNASeq.ChipData.Load(ChipDataCsvPath)
+'            Me.ChipData = SMRUCC.genomics.Toolkits.RNASeq.ChipData.Load(ChipDataCsvPath)
 '            Me.ExpressionNetwork = ExpressionNetwork
 '        End Sub
 
@@ -29,15 +29,15 @@
 '        Public Function CreateMatrix() As Integer
 '            Call LoggingClient.WriteLine("Start to fill the gap from the SVD calculation result...")
 
-'            Dim PccMatrix As LANS.SystemsBiology.Toolkits.RNASeq.PccMatrix = ChipData.CalculatePccMatrix
-'            '  Dim MAT = LANS.SystemsBiology.Toolkits.RNASeq.SVDNetwork.CreateMatrix(ChipData)
-'            '  Dim Weights = LANS.SystemsBiology.Toolkits.RNASeq.SVDNetwork.Reconstruct(MAT).Array
+'            Dim PccMatrix As SMRUCC.genomics.Toolkits.RNASeq.PccMatrix = ChipData.CalculatePccMatrix
+'            '  Dim MAT = SMRUCC.genomics.Toolkits.RNASeq.SVDNetwork.CreateMatrix(ChipData)
+'            '  Dim Weights = SMRUCC.genomics.Toolkits.RNASeq.SVDNetwork.Reconstruct(MAT).Array
 '            Dim Index = PccMatrix.GeneIdlist
 '            Dim OperonPromoters = (From Model In ExpressionNetwork.NetworkComponents Select New With {.OperonId = Model.TransUnit.FeatureBaseType.UniqueId,
 '                                                                                                      .PromoterGene = Model.TransUnit.FeatureBaseType.PromoterGene.AccessionId})
 '            Dim LQuery = (From ObjectModel In ExpressionNetwork.NetworkComponents Where ObjectModel.VEC.IsNullOrEmpty Select ObjectModel).ToArray  '筛选出没有调控因子的转录模型
 '            Dim Metabolism = ExpressionNetwork._CellSystem.Metabolism.Metabolites
-'            Dim PccCutoff As Double = Val(ExpressionNetwork.Get_runtimeContainer.SystemVariables.GetItem(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SystemVariables.PARA_SVD_CUTOFF).Value)
+'            Dim PccCutoff As Double = Val(ExpressionNetwork.Get_runtimeContainer.SystemVariables.GetItem(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SystemVariables.PARA_SVD_CUTOFF).Value)
 
 '            Dim Regulators As Dictionary(Of String, EngineSystem.ObjectModels.Entity.Compound()) = GetRegulators()
 '            Dim IndexHandles = (From item In Regulators Select Array.IndexOf(Index, item.Key)).ToArray

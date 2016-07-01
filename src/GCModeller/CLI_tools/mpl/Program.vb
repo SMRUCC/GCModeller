@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Family
+﻿Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Family
 
 Module Program
 

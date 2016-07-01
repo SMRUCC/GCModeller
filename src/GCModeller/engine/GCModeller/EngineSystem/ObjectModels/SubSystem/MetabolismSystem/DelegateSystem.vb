@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents
+﻿Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents
 
 Namespace EngineSystem.ObjectModels.SubSystem
 

@@ -1,11 +1,11 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports System.Runtime.CompilerServices
 
 Public Module ModelWriter

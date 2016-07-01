@@ -1,7 +1,7 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic
 

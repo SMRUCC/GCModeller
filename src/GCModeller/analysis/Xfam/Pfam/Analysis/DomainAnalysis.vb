@@ -1,18 +1,18 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ProteinModel
+Imports SMRUCC.genomics.ProteinModel
 Imports System.Reflection
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.Expasy.Database
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.Expasy.Database
 Imports Microsoft.VisualBasic.Parallel.Linq
 
 <[PackageNamespace]("Pfam.Domain.Analysis",
@@ -103,10 +103,10 @@ Public Module DomainAnalysis
                Info:="The blast_output is not recommend using grep operation if the data source is download from KEGG database;
                and the query fasta parameter is need for unique id grep operation. The default query operation time out threshold is 5min.")>
     Public Function CreatePfamString(<Parameter("Out.Blast+", "Blastp of the proteins and the pfam.fasta output data.")>
-                                     blastOutput As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228,
+                                     blastOutput As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228,
                                      <Parameter("Query.Fasta", "The blastp query fasta source, this value is using for the chou-fasman data calculation,
                                      and if you don't want this structure data be calculated, then you can just leave this parameter empty.")>
-                                     Optional query As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = Nothing,
+                                     Optional query As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = Nothing,
                                      <Parameter("opr.Timeout")>
                                      Optional timeOut As Integer = 5 * 60,
                                      Optional num_threads As Integer = 12,
@@ -268,10 +268,10 @@ Public Module DomainAnalysis
             End If
 
             Dim SequenceData As String = Mid(sequence.SequenceData, currentDomain_p, nextDomain_p - currentDomain_p)
-            Dim ss = LANS.SystemsBiology.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman.Calculate(SequenceData)
-            Dim doData As LANS.SystemsBiology.ProteinModel.DomainObject =
+            Dim ss = SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman.Calculate(SequenceData)
+            Dim doData As SMRUCC.genomics.ProteinModel.DomainObject =
                 New DomainObject With {
-                    .Identifier = $"[{New String((From aa As LANS.SystemsBiology.SequenceModel.Polypeptides.SecondaryStructure.AminoAcid
+                    .Identifier = $"[{New String((From aa As SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.AminoAcid
                                                   In ss
                                                   Select aa.StructureChar).ToArray)}]",
                     .Position = New ComponentModel.Loci.Location(currentDomain_p, nextDomain_p)

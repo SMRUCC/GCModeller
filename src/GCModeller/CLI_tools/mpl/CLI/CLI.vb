@@ -1,16 +1,16 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.NCBIBlastResult
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.NCBIBlastResult
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST
 Imports Microsoft.VisualBasic.Imaging
 
 <PackageNamespace("MPAlignment.CLI", Category:=APICategories.CLI_MAN)>
@@ -61,7 +61,7 @@ Module CLI
     Public Function DumpPfamString(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/In")
         Dim outFile As String = args.GetValue("/out", inFile.TrimFileExt & ".Pfam-String.Csv")
-        Dim Settings = Global.LANS.SystemsBiology.AnalysisTools.ProteinTools.MPAlignment.Settings.Session.Initialize.GetMplParam
+        Dim Settings = Global.SMRUCC.genomics.AnalysisTools.ProteinTools.MPAlignment.Settings.Session.Initialize.GetMplParam
         Dim BlastOut = BlastPlus.Parser.ParsingSizeAuto(inFile)
         Dim PfamString = Sanger.Pfam.CreatePfamString(
             BlastOut,
@@ -87,7 +87,7 @@ Module CLI
         Dim inFile As String = args("/blast")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
-        Dim blastOut = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(inFile)
+        Dim blastOut = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(inFile)
         Dim allHits = blastOut.ExportAllBestHist(coverage:=coverage, identities_cutoff:=identities)
         Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".sbh.Csv")
         Return allHits.SaveTo(out).CLICode

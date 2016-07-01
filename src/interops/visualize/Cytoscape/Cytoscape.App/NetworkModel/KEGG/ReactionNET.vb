@@ -1,14 +1,14 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem.KEGG.Directories
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.GCModeller.FileSystem.KEGG.Directories
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml.Nodes
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 
 Namespace NetworkModel.KEGG
 

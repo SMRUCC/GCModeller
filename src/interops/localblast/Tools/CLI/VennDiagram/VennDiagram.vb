@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject
-Imports LANS.SystemsBiology.Localblast.Extensions.VennDiagram.BlastAPI
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Localblast.Extensions.VennDiagram.BlastAPI
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv

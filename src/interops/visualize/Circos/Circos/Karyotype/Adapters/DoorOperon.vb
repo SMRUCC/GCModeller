@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.DOOR
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
 

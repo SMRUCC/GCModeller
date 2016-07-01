@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic
 
 Public Class EquationGenerator

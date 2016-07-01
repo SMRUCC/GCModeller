@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.Services.DataAcquisition

@@ -1,8 +1,8 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.Topologically
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Topologically
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.SequenceModel.Polypeptides
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Partial Module Utilities
 

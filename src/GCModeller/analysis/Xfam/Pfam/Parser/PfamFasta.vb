@@ -1,8 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports System.Reflection
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace PfamFastaComponentModels
 
@@ -10,7 +10,7 @@ Namespace PfamFastaComponentModels
         Implements I_PolymerSequenceModel
         Implements IAbstractFastaToken
 
-        Public Property Location As LANS.SystemsBiology.ComponentModel.Loci.Location
+        Public Property Location As SMRUCC.genomics.ComponentModel.Loci.Location
 
         Public Shared Function CreateObject(FastaObject As FastaToken) As PfamFasta
             Dim FastaData = ParseHeadTitle(FastaObject.Title)
@@ -60,7 +60,7 @@ Namespace PfamFastaComponentModels
             Get
                 Return New PfamFasta With {
                     .ChainId = NULL_ERROR,
-                    .Location = New LANS.SystemsBiology.ComponentModel.Loci.Location(0, 0),
+                    .Location = New SMRUCC.genomics.ComponentModel.Loci.Location(0, 0),
                     .PfamCommonName = NULL_ERROR,
                     .PfamId = NULL_ERROR,
                     .PfamIdAsub = NULL_ERROR,

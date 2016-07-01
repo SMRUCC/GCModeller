@@ -1,6 +1,6 @@
 ﻿Imports System.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace EngineSystem.ObjectModels.ExperimentSystem.Triggers

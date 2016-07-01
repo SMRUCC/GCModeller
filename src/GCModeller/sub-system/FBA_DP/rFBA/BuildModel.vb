@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.GCModeller.Framework
+﻿Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.GCModeller.Framework
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat
 Imports Microsoft.VisualBasic.DocumentFormat.Csv

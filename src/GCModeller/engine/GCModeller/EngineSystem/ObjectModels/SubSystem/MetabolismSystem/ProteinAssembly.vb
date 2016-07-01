@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.SubSystem
@@ -30,7 +30,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Return -1
             Else
                 Call _SystemLogging.WriteLine("Start to initialize the protein assembly equation model...")
-                Dim LQuery = From assembly As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+                Dim LQuery = From assembly As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
                              In CellSystem.DataModel.ProteinAssemblies
                              Let rxnList As ObjectModels.Module.MetabolismFlux = CreateDelegate(assembly, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxnList '
@@ -59,7 +59,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             End If
         End Function
 
-        Private Shared Function ___createPolypeptideObject(Protein As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide,
+        Private Shared Function ___createPolypeptideObject(Protein As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide,
                                                            Metabolite As EngineSystem.ObjectModels.Entity.Compound) _
             As EngineSystem.ObjectModels.Entity.Peptide
 
@@ -114,7 +114,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=Logging.MSG_TYPES.ERR)
                 Throw New DataException("[Error] No ribosome assembly data was found, cell system structure is corrupted!")
             Else
-                Dim LQuery = From model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+                Dim LQuery = From model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
                              In CellSystem.DataModel.RibosomeAssembly
                              Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxn '
@@ -148,7 +148,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=Logging.MSG_TYPES.ERR)
                 Throw New DataException("[Error] No ribosome assembly data was found, cell system structure is corrupted!")
             Else
-                Dim LQuery = From model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+                Dim LQuery = From model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
                              In CellSystem.DataModel.RNAPolymerase
                              Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxn '

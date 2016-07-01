@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports Microsoft.VisualBasic.Language
 
 Namespace Analysis

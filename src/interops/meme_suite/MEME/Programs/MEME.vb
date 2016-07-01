@@ -363,8 +363,8 @@ Namespace Programs
 
         Sub New(AssemblyPath As String)
             If Not FileIO.FileSystem.FileExists(AssemblyPath) Then
-                Call LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.TMoD.InitializeSession()
-                AssemblyPath = LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.TMoD.TMod.MEME
+                Call SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.TMoD.InitializeSession()
+                AssemblyPath = SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.TMoD.TMod.MEME
             End If
 
             MyBase._executableAssembly = AssemblyPath

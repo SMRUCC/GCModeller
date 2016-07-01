@@ -1,6 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData

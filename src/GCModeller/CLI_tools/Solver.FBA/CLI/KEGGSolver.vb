@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA
+﻿Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
+Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 

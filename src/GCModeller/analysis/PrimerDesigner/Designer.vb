@@ -54,14 +54,14 @@ Public Class Primer
         End Get
     End Property
 
-    Public ReadOnly Property Product As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+    Public ReadOnly Property Product As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
         Get
-            Return New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation With {.Left = Reversed.Right, .Right = Forward.Left}
+            Return New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation With {.Left = Reversed.Right, .Right = Forward.Left}
         End Get
     End Property
 
-    Public Property Forward As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-    Public Property Reversed As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+    Public Property Forward As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+    Public Property Reversed As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
 
     Public Property SenseRestrictedSite As String
     Public Property AntisenseRestrictedSite As String
@@ -102,23 +102,23 @@ Public Class Primer
         End Get
     End Property
 
-    Dim _Template As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader
-    Dim _ReversedTemplate As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader
+    Dim _Template As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader
+    Dim _ReversedTemplate As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader
 
-    Sub New(Template As LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcid)
+    Sub New(Template As SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid)
         _Template = New SequenceModel.NucleotideModels.SegmentReader(Template)
         _ReversedTemplate = New SequenceModel.NucleotideModels.SegmentReader(Template.Complement)
     End Sub
 
-    Public ReadOnly Property ForwardSequence As LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcid
+    Public ReadOnly Property ForwardSequence As SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
         Get
-            Return New LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcid(SenseRestrictedSite & _Template.TryParse(Forward.Start, Forward.Ends))
+            Return New SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid(SenseRestrictedSite & _Template.TryParse(Forward.Start, Forward.Ends))
         End Get
     End Property
 
-    Public ReadOnly Property ReversedSequence As LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcid
+    Public ReadOnly Property ReversedSequence As SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
         Get
-            Return New LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcid(AntisenseRestrictedSite & _ReversedTemplate.TryParse(Reversed.Start, Reversed.Ends))
+            Return New SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid(AntisenseRestrictedSite & _ReversedTemplate.TryParse(Reversed.Start, Reversed.Ends))
         End Get
     End Property
 End Class

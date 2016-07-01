@@ -1,8 +1,8 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.DatabaseServices
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq

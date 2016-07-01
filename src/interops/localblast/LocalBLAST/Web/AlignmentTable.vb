@@ -3,9 +3,9 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.Language
 

@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.GCModeller.DataVisualization
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Imaging

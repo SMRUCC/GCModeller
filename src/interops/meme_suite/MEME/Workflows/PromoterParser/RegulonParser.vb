@@ -1,7 +1,7 @@
-﻿Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.DatabaseServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace Workflows.PromoterParser

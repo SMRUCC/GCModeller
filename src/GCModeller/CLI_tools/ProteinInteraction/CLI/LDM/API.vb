@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.SequenceModel.Patterns.Clustal
+Imports SMRUCC.genomics.SequenceModel.Patterns.Clustal
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Public Module API

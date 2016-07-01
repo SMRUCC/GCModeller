@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.Pattern
+﻿Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Pattern
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData

@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions

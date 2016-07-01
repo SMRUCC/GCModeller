@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 

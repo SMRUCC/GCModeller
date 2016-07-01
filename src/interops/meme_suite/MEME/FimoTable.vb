@@ -20,7 +20,7 @@ Public Class FimoTable
     ''' 
     ''' </summary>
     ''' <param name="Table"></param>
-    ''' <param name="anno"><see cref="LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo"></see>Csv文件的文件路径</param>
+    ''' <param name="anno"><see cref="SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo"></see>Csv文件的文件路径</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Shared Function MatchInterGeneLoci(Table As String, anno As String) As FimoTable()

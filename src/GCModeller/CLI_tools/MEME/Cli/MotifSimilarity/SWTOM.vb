@@ -1,18 +1,18 @@
 ﻿Imports System.Drawing
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports LANS.SystemsBiology.GCModeller.Workbench
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports SMRUCC.genomics.GCModeller.Workbench
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Partial Module CLI
 

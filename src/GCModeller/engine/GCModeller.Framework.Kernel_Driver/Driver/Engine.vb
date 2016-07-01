@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
+﻿Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 ''' <summary>
 ''' The simulation mechanism of this calculation math engine is that we calculates the finited iteration of the dynamics expression in this engine.

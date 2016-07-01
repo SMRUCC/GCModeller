@@ -1,7 +1,7 @@
 ﻿Imports System.Collections.ObjectModel
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Models

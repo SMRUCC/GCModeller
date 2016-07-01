@@ -1,7 +1,7 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.NeedlemanWunsch
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SmithWaterman
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.AnalysisTools.SequenceTools.NeedlemanWunsch
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SmithWaterman
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language

@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 

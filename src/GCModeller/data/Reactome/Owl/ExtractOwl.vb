@@ -1,12 +1,12 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.Reactome.OwlDocument.XrefNodes
+﻿Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.XrefNodes
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.DatabaseServices.Reactome.ObjectModels
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.DatabaseServices.Reactome.ObjectModels
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.DatabaseServices.Reactome.OwlDocument.Nodes
-Imports LANS.SystemsBiology.DatabaseServices.Reactome.OwlDocument.Abstract
+Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.Nodes
+Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.Abstract
 
 <PackageNamespace("Reactome.ExtractOwl")>
 Public Module ExtractOwl

@@ -1,6 +1,6 @@
-﻿'Imports LANS.SystemsBiology.Toolkits
-'Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-'Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
+﻿'Imports SMRUCC.genomics.Toolkits
+'Imports SMRUCC.genomics.Toolkits.RNA_Seq
+'Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
 'Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
 'Namespace Models

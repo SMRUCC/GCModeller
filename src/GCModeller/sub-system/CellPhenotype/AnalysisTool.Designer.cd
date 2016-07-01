@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="14" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIEEAAASFRBEAAAAAAAAEgECAAAEAoAAaAgAgIE=</HashCode>
@@ -8,7 +8,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="12.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAEACAQAIBkAcAEAiAAAICgAAIIAgCgQkAACEA=</HashCode>
@@ -16,20 +16,20 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.My.MySettings" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.My.MySettings" Collapsed="true">
     <Position X="15.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkModel" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkModel" Collapsed="true">
     <Position X="12.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ExpressionRegulationNetwork\NetEngine\LDMDoc.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="17.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAAAEAAAAAAAAAQAAAAABAAAABAAAAAA=</HashCode>
@@ -37,7 +37,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="12.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAIAAAAAAABAAAABAAABCAABgAAAAAAAAAAIEAAA=</HashCode>
@@ -45,14 +45,14 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.SiteInfo" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.SiteInfo" Collapsed="true">
     <Position X="14" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAgABAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ExpressionRegulationNetwork\KineticsModel\SiteInfo.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression">
     <Position X="3.75" Y="0.5" Width="4.5" />
     <TypeIdentifier>
       <HashCode>IAAIAAAAAAAAAAAAAAAUAAAAACAAAABAQggggAAAcAA=</HashCode>
@@ -60,21 +60,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS">
     <Position X="0.75" Y="4.75" Width="5.75" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAQAAEAAIAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>ExpressionRegulationNetwork\Regulators\OCS.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.TCS">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.TCS">
     <Position X="7.25" Y="4.75" Width="4" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAAAAAAAgAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>ExpressionRegulationNetwork\Regulators\TCS.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.File" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.File" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="14" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>LSJBEIAAACDAAAAAAAAAAIAoAAGBAAACAABAABAAABA=</HashCode>
@@ -82,35 +82,35 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Programs.C2" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Programs.C2" Collapsed="true">
     <Position X="15.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\C2.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Programs.GCC" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Programs.GCC" Collapsed="true">
     <Position X="15.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCC.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Programs.GCHOST" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Programs.GCHOST" Collapsed="true">
     <Position X="17.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCHOST.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Programs.IDE" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Programs.IDE" Collapsed="true">
     <Position X="12.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAgQAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\IDE.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Programs.MPAlignment" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Programs.MPAlignment" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="14" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAICAIAAACAAEAAAAAAAAAAAACAAAAABAAEAAgAA=</HashCode>
@@ -118,21 +118,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Programs.SMART" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Programs.SMART" Collapsed="true">
     <Position X="15.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\SMART.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Programs.STAMP" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Programs.STAMP" Collapsed="true">
     <Position X="17.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\STAMP.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.DocumentFormat.RegulatesFootprints">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.DocumentFormat.RegulatesFootprints">
     <Position X="1.5" Y="11.25" Width="2" />
     <TypeIdentifier>
       <HashCode>IAIgEAAAAAAgAAAEAAAgCAAKAEAIAAAAAQAAAAQgCAA=</HashCode>
@@ -140,7 +140,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.DocumentFormat.VirtualFootprints">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.DocumentFormat.VirtualFootprints">
     <Position X="0.5" Y="7.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAEAEAkAAAABAABAIAAJAAAAAAAEAAAE=</HashCode>
@@ -148,61 +148,61 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.Conf" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.Conf" Collapsed="true">
     <Position X="17.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAABAAAAAAAAACAAAgAAAAAAAAAAIEAAA=</HashCode>
       <FileName>ExpressionRegulationNetwork\Configs\ReadModel.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.My.Resources.Resources" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.My.Resources.Resources" Collapsed="true">
     <Position X="15.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAABEAAAEQCAAAgAAAAAQAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.My.MySettingsProperty" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.My.MySettingsProperty" Collapsed="true">
     <Position X="15.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.PhenotypeRegulations" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.PhenotypeRegulations" Collapsed="true">
     <Position X="14" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gCAIAiUAAAABAQAAAghASAMAKgBAAgAHCBAJBgAAAAA=</HashCode>
       <FileName>PhenotypeRegulations.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.DataVisualization" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.DataVisualization" Collapsed="true">
     <Position X="12.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAIAA=</HashCode>
       <FileName>ExpressionRegulationNetwork\DataVisualization.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.PFSNet" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.PFSNet" Collapsed="true">
     <Position X="17.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAABAAAAAAAAAAAAAA=</HashCode>
       <FileName>PfsNET_FootprintMappingPathway_API.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Settings.Session" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Settings.Session" Collapsed="true">
     <Position X="17.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEYgAAECAAwAQABAAAAAkJIYKAEAQAAAAQAAAgRI=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Session\Session.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.EngineAPI" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.EngineAPI" Collapsed="true">
     <Position X="14" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>ExpressionRegulationNetwork\NetEngine\EngineAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.CellPhenotype.PfsNET_FootprintMappingPathway_API" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.CellPhenotype.PfsNET_FootprintMappingPathway_API" Collapsed="true">
     <Position X="12.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAACAAQAABABAAAAAAAAAAQAAAAAAAECIAAA=</HashCode>

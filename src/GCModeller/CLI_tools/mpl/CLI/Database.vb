@@ -1,8 +1,8 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.Assembly.KEGG.Archives
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 

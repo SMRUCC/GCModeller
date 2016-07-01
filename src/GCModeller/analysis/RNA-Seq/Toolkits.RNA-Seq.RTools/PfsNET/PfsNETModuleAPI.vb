@@ -5,15 +5,15 @@ Imports Microsoft.VisualBasic
 Imports System.Text
 Imports RDotNET
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports LANS.SystemsBiology.AnalysisTools
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.AnalysisTools
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema.PathwayBrief
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.PFSNet
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
 
 #Const DEBUG = True
 
@@ -190,7 +190,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("pathway_genelist.create_from")>
-        Public Function CreateList(pathwaydata As Generic.IEnumerable(Of LANS.SystemsBiology.ComponentModel.PathwayBrief), Optional pathwayIds As Object() = Nothing) _
+        Public Function CreateList(pathwaydata As Generic.IEnumerable(Of SMRUCC.genomics.ComponentModel.PathwayBrief), Optional pathwayIds As Object() = Nothing) _
             As String()
 
             Dim strPathwayIds As String()
@@ -307,12 +307,12 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         End Function
 
         <ExportAPI("Get.Handle.PfsNET_Evaluate(VB_Implements)")>
-        Public Function get_PFSNet_VB_Handle() As LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet.PFSNetEvaluateHandle
-            Return AddressOf LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet.pfsnet
+        Public Function get_PFSNet_VB_Handle() As SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.PFSNet.PFSNetEvaluateHandle
+            Return AddressOf SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.PFSNet.pfsnet
         End Function
 
         <ExportAPI("Get.Handle.PfsNET_Evaluate(R_Implements)")>
-        Public Function get_PFSNet_R_Handle() As LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet.PFSNetEvaluateHandle
+        Public Function get_PFSNet_R_Handle() As SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.PFSNet.PFSNetEvaluateHandle
             Return AddressOf PfsNETRInvoke.Evaluate
         End Function
 
@@ -364,7 +364,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         <ExportAPI("generate.csv_result")>
         Public Function ParseCsv([Imports] As String, PathwayBriefs As String) As SubNETCsvObject()
             Dim DictPathwayBriefs As Dictionary(Of String, ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, LANS.SystemsBiology.ComponentModel.PathwayBrief)
+                New Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief)
             For Each item In PathwayBriefs.LoadCsv(Of PathwayBrief)(False)
                 Call DictPathwayBriefs.Add(item.EntryId, item)
             Next
@@ -386,9 +386,9 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("export.csv_result", Info:="export the pfsnet data log file into the csv data file.")>
-        Public Function ParseCsv([imports] As String, PathwayBriefs As Generic.IEnumerable(Of LANS.SystemsBiology.ComponentModel.PathwayBrief)) As SubNETCsvObject()
-            Dim DictPathwayBriefs As Dictionary(Of String, LANS.SystemsBiology.ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, LANS.SystemsBiology.ComponentModel.PathwayBrief)
+        Public Function ParseCsv([imports] As String, PathwayBriefs As Generic.IEnumerable(Of SMRUCC.genomics.ComponentModel.PathwayBrief)) As SubNETCsvObject()
+            Dim DictPathwayBriefs As Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief) =
+                New Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief)
 
             For Each item In PathwayBriefs
                 Call DictPathwayBriefs.Add(item.EntryId, item)

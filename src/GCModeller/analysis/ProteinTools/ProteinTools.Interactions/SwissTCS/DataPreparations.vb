@@ -2,13 +2,13 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
 Imports RDotNET.Extensions.VisualBasic
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs
-Imports LANS.SystemsBiology.AnalysisTools.ClustalOrg
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs
+Imports SMRUCC.genomics.AnalysisTools.ClustalOrg
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Public Class DataPreparations
 
@@ -210,8 +210,8 @@ Public Class DataPreparations
     End Function
 
     Private Shared Function SequenceAssemble(InteractorA As FASTA.FastaFile, InteractorB As FASTA.FastaFile, InteractionPairs As KeyValuePair(Of String, String)) As KeyValuePair(Of String, String)
-        Dim itASeq = InteractorA.Takes(Function(FsaObject As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Key)).First
-        Dim itBSeq = InteractorB.Takes(Function(FsaObject As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Value)).First
+        Dim itASeq = InteractorA.Takes(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Key)).First
+        Dim itBSeq = InteractorB.Takes(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Value)).First
         Dim result = New KeyValuePair(Of String, String)(itASeq.SequenceData.ToUpper, itBSeq.SequenceData.ToUpper)
 
         Return result

@@ -1,6 +1,6 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON

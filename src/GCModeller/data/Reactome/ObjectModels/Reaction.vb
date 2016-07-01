@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.EquaionModel
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+﻿Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 Namespace ObjectModels
 

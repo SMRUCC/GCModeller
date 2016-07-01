@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.Module
 
@@ -20,7 +20,7 @@ Namespace EngineSystem.ObjectModels.Module
         Public MustOverride ReadOnly Property FluxValue As Double Implements IFluxObjectHandle.FluxValue, GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).Value
 
         Public Interface IFluxObjectHandle
-            Inherits LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double)
+            Inherits SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double)
 
             ReadOnly Property FluxValue As Double
             ReadOnly Property SerialsHandle() As HandleF
@@ -89,8 +89,8 @@ Namespace EngineSystem.ObjectModels.Module
 
         Public Overrides Property Identifier As String Implements GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).Identifier
 
-        Public Function CreateHandle() As LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle Implements LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).get_ObjectHandle
-            Return New LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
+        Public Function CreateHandle() As SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle Implements SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).get_ObjectHandle
+            Return New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
                 .Handle = Handle,
                 .Identifier = Identifier
             }

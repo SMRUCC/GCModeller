@@ -1,15 +1,15 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MAST.HTML
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MAST.HTML
 
 Namespace Analysis.GenomeMotifFootPrints
 
@@ -119,10 +119,10 @@ Namespace Analysis.GenomeMotifFootPrints
                 'If Relation = SegmentRelationships.UpStream Then
                 '    PredictedRegulation.LociDescrib = $"In the promoter region with distance {PredictedRegulation.Distance}bp with ORF {GeneSegment.Identifier}"
                 'Else
-                '    PredictedRegulation.LociDescrib = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
+                '    PredictedRegulation.LociDescrib = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
                 'End If
             Else
-                '  PredictedRegulation.LociDescrib = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
+                '  PredictedRegulation.LociDescrib = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
             End If
 
             Return PredictedRegulation

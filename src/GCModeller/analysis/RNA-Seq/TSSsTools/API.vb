@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
@@ -17,7 +17,7 @@ Public Module API
     Public Function Count(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".ReadsCount.Csv")
-        Dim ref As New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken(args("/ref"))
+        Dim ref As New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(args("/ref"))
         Dim mappings As New DocumentStream.Linq.DataStream(inFile)  ' 读取测序数据的mapping结果
         Dim readsCount As ___readsCount = New ___readsCount(ref)
 

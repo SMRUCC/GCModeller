@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
 Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.CentralDogmaInstance
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
 Namespace DataVisualization.DynamicMap
 

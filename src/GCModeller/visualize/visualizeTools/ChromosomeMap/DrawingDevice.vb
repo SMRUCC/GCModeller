@@ -1,6 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
+Imports SMRUCC.genomics.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Imaging
 

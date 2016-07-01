@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 
 Namespace SequenceModel
 

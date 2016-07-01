@@ -1,12 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports Microsoft.VisualBasic
 
 Public Module Extensions

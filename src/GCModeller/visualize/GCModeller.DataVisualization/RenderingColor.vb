@@ -1,7 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures

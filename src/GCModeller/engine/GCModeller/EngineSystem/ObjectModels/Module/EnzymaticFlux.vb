@@ -1,6 +1,6 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.PoolMappings
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.PoolMappings
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.Module
@@ -82,7 +82,7 @@ DEBUG:          FluxValue = KineticsModel.GetValue
             Return MyBase.FluxValue
         End Function
 
-        Public Overloads Shared Function CreateObject(DataModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction,
+        Public Overloads Shared Function CreateObject(DataModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction,
                                                       Enzymes As EngineSystem.ObjectModels.Feature.MetabolismEnzyme(),
                                                       EnzymeKinetics As MathematicsModels.EnzymeKinetics.MichaelisMenten,
                                                       Metabolites As Entity.Compound()) As EnzymaticFlux

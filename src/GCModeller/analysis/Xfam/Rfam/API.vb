@@ -3,18 +3,18 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports System.Text.RegularExpressions
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports Microsoft.VisualBasic.Terminal
-Imports LANS.SystemsBiology.ContextModel
+Imports SMRUCC.genomics.ContextModel
 
 ''' <summary>
 ''' Rfam is a database of structure-annotated multiple sequence alignments,

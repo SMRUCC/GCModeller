@@ -1,8 +1,8 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.Assembly
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.DatabaseServices
+Imports SMRUCC.genomics.DatabaseServices
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 
@@ -11,7 +11,7 @@ Namespace Compiler.Components
     Public Module PartsAPI
 
         Public Function PhosphoTransfer_(Donor As String, Reciever As String, Confidence As Double, Pi As String) As FileStream.MetabolismFlux
-            Dim Equation As String = LANS.SystemsBiology.ComponentModel.EquaionModel.EquationBuilder.ToString(
+            Dim Equation As String = SMRUCC.genomics.ComponentModel.EquaionModel.EquationBuilder.ToString(
                                            New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, String.Format("[{0}][PI]", Donor)), New KeyValuePair(Of Double, String)(1, Reciever)},
                                            New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, Donor), New KeyValuePair(Of Double, String)(1, String.Format("[{0}][PI]", Reciever))}, False)
             Dim Reaction = New FileStream.MetabolismFlux With
@@ -43,10 +43,10 @@ Namespace Compiler.Components
         End Function
 
         Public Function CreateFluxObject(STrpProfile As StringDB.StrPNet.Network, Inducers As StringDB.StrPNet.TCS.SensorInducers(), Optional Pi As String = "PI") _
-      As Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
+      As Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
 
-            Dim ChunkList As List(Of Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
-                New List(Of Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly)
+            Dim ChunkList As List(Of Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
+                New List(Of Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly)
 
             For Each item In STrpProfile.Pathway
                 If Not item.OCS.IsNullOrEmpty Then
@@ -79,9 +79,9 @@ Namespace Compiler.Components
                                                  TCS As DatabaseServices.StringDB.StrPNet.TCS.TCS,
                                                  Inducers As String(),
                                                  Pi As String) _
-            As Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
+            As Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
 
-            Dim ChunkBuffer As List(Of Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
+            Dim ChunkBuffer As List(Of Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
                 (From Inducer As String
                  In Inducers
                  Select ChemotaxisInduction(TCS.Chemotaxis, Pi, Inducer)).ToList
@@ -96,15 +96,15 @@ Namespace Compiler.Components
         End Function
 
         Private Function CreateFluxObject(TF As String, OCS As KeyValuePair, Inducers As String(), Pi As String) _
-            As Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
-            Dim ChunkBuffer As List(Of Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
+            As Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
+            Dim ChunkBuffer As List(Of Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
                 (From Inducer As String In Inducers Select ChemotaxisInduction(OCS.Key, Pi, Inducer)).ToList
 
             Return ChunkBuffer.ToArray
         End Function
 
         Private Function ChemotaxisInduction(Chemotaxis As String, Pi As String, Inducer As String) _
-            As Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly
+            As Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly
 
             Dim Reactants = {
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = Inducer, .StoiChiometry = 1},
@@ -116,18 +116,18 @@ Namespace Compiler.Components
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = "ADP", .StoiChiometry = 1},
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = String.Format("[{0}][{1}]", Chemotaxis, Pi), .StoiChiometry = 1}}
 
-            Return New Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
+            Return New Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
                 .ComplexComponents = New String() {Inducer, "ATP", Chemotaxis},
                 .Reversible = False, .Reactants = Reactants, .Products = Products, .Identifier = String.Format("[{0}][{1}]", Inducer, Chemotaxis),
-                .LOWER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = -10},
-                .UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10},
+                .LOWER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = -10},
+                .UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10},
                 .p_Dynamics_K_1 = 1}
         End Function
 
         Private Function PhosphoTransfer(Donor As String, Reciever As String, Confidence As Double, Pi As String) _
-            As Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly
+            As Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly
 
-            Dim Reaction = New Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+            Dim Reaction = New Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
                  .Reversible = False, .p_Dynamics_K_1 = Confidence,
                 .Products = {
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = String.Format("[{0}][{1}]", Reciever, Pi), .StoiChiometry = 1},
@@ -136,8 +136,8 @@ Namespace Compiler.Components
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.StoiChiometry = 1, .Identifier = String.Format("[{0}][{1}]", Donor, Pi)},
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.StoiChiometry = 1, .Identifier = Reciever}},
                 .Identifier = String.Format("{0}|{1}-PHOSPHO-TRANSFER", Donor, Reciever),
-                .LOWER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = -10},
-                .UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10}}
+                .LOWER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = -10},
+                .UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10}}
 
             Return Reaction
         End Function

@@ -8,15 +8,15 @@ Namespace PlugIns
     ''' <remarks>先从外部加载对象模型，当加载计算模型之后再加载数据模型</remarks>
     Public Class ModuleLoader : Implements System.IDisposable
 
-        Dim KernelModule As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem
-        Dim EngineSystem As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
+        Dim KernelModule As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem
+        Dim EngineSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
 
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="Kernel">目标计算引擎框架类型实例</param>
         ''' <remarks></remarks>
-        Sub New(Kernel As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
+        Sub New(Kernel As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
             Me.EngineSystem = Kernel
             Me.KernelModule = Kernel.KernelModule
         End Sub

@@ -1,6 +1,6 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.Assembly.KEGG.WebServices
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -49,7 +49,7 @@ Namespace Regprecise
         <ExportAPI("Regulator.Downloads", Info:="Download a regulators' protein fasta sequence using the gene's locus tag")>
         Public Function RegulatorDownloads(locusTag As String,
                                            ErrLog As Logging.LogFile,
-                                           <Parameter("Err.Trace.Bacteria")> Optional bacteria As String = "") As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
+                                           <Parameter("Err.Trace.Bacteria")> Optional bacteria As String = "") As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
             Dim EntryList = WebRequest.HandleQuery(locusTag)
             If EntryList.IsNullOrEmpty Then
                 Dim Msg = String.Format("[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={0}] [Bacteria={1}]", locusTag, bacteria)

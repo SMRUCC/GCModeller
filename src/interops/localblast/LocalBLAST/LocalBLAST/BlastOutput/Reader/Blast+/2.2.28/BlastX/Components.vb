@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
 

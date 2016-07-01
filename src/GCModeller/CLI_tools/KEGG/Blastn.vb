@@ -3,11 +3,11 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 
 Public Module Blastn
 
-    Public Function Submit(seq As String) As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
+    Public Function Submit(seq As String) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
         Return __submit(FileIO.FileSystem.ReadAllText(seq))
     End Function
 
-    Private Function __submit(seq As String) As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
+    Private Function __submit(seq As String) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
         Dim param As New Collections.Specialized.NameValueCollection
 
         Call param.Add("sequence", seq)
@@ -22,24 +22,24 @@ Public Module Blastn
         Return hits
     End Function
 
-    Public Function Submit(seq As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken) As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
+    Public Function Submit(seq As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
         Dim doc As String = seq.GenerateDocument(60)
         Return __submit(doc)
     End Function
 
     Const hit As String = "<input type=""checkbox"".+?<a href=""[/]tmp[/]blast[/].+?\d+<[/]a>   \d+\.\d+"
 
-    Public Function PageParser(url As String) As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
+    Public Function PageParser(url As String) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
         Return Parser(url.GET)
     End Function
 
-    Public Function Parser(page As String) As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
+    Public Function Parser(page As String) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
         Dim hits As String() = Strings.Split(page, """checkbox""").Skip(1).ToArray
         Dim parsing = hits.ToArray(Function(x) __parser(x))
         Return parsing
     End Function
 
-    Private Function __parser(line As String) As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit
+    Private Function __parser(line As String) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit
         Dim entry As String = Regex.Match(line, "value="".+?""", RegexOptions.IgnoreCase).Value
         Dim def As String = Regex.Match(line, "</a>.+?<a", RegexOptions.IgnoreCase).Value
         Dim KO As String = Regex.Match(line, ">K\d+</a>", RegexOptions.IgnoreCase).Value
@@ -51,7 +51,7 @@ Public Module Blastn
         def = Mid(def, 1, Len(def) - 2).Trim
         entry = entry.Split(""""c)(1)
 
-        Return New LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit With {
+        Return New SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit With {
             .Bits = bits,
             .Eval = evalue,
             .Definition = def,

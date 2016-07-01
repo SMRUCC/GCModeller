@@ -56,7 +56,7 @@ Public Class SequenceAssembler
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Shared Function FileIO(FileList As String()) As String()()
-        Dim FsaList = (From alignFile As String In FileList Select LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(alignFile)).ToArray
+        Dim FsaList = (From alignFile As String In FileList Select SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(alignFile)).ToArray
         Dim ExtractList As List(Of String()) = New List(Of String())       '取出每一条序列
         For Each fsa In FsaList
             Call ExtractList.Add((From seq In fsa Select seq.SequenceData).ToArray)

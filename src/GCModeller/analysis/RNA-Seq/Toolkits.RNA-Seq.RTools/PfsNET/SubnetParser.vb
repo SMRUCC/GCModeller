@@ -1,5 +1,5 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq

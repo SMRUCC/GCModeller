@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 
 Namespace FileStream.XmlFormat

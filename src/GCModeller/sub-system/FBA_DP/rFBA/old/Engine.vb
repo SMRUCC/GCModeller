@@ -9,7 +9,7 @@ Namespace rFBA
     ''' 包括一个数学迭代计算引擎和一个FBA计算引擎，每迭代计算一次，则计算一次FBA
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Engine : Inherits LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.IterationMathEngine(Of FBA.rFBA.NetworkModel)
+    Public Class Engine : Inherits SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IterationMathEngine(Of FBA.rFBA.NetworkModel)
 
         Dim rFBAlpModel As FBA.rFBA.rFBAlpModel, FBAlpSolver As FBA.FBAlpRSolver
         ''' <summary>
@@ -29,7 +29,7 @@ Namespace rFBA
             Call MyBase.New(ModelFile.LoadXml(Of rFBA.NetworkModel))
 
             Dim DataModel = Me._innerDataModel
-            Dim SBMLData = LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile.Load(FileIO.FileSystem.GetParentPath(ModelFile) & "/" & DataModel.MetabolismHref)
+            Dim SBMLData = SMRUCC.genomics.Assembly.SBML.Level2.XmlFile.Load(FileIO.FileSystem.GetParentPath(ModelFile) & "/" & DataModel.MetabolismHref)
 
             rFBAlpModel = New FBA.rFBA.rFBAlpModel(SBMLData, DataModel.ObjectiveFunction)
             FBAlpSolver = New FBA.FBAlpRSolver(rBin)
@@ -181,7 +181,7 @@ Namespace rFBA
         ''' <param name="SBMl"></param>
         ''' <param name="objectiveFunction">UniqueId list for the target metabolism reactions.(代谢反应对象的UniqueId列表)</param>
         ''' <remarks></remarks>
-        Sub New(SBMl As LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile, objectiveFunction As String())
+        Sub New(SBMl As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile, objectiveFunction As String())
             Call MyBase.New(SBMl, objectiveFunction, True)
             MAT_S = MyBase.getMatrix
         End Sub

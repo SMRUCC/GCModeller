@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading.Tasks.Parallel
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -202,7 +202,7 @@ Namespace Workflows
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetKeywords(regprecise As String) As KeyValuePair()
-            Dim DbRegprecise = regprecise.LoadXml(Of LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices.RegPreciseTFFamily)()
+            Dim DbRegprecise = regprecise.LoadXml(Of SMRUCC.genomics.DatabaseServices.Regtransbase.WebServices.RegPreciseTFFamily)()
             Dim List As List(Of String) = New List(Of String)
             For Each family In DbRegprecise.Family
                 Dim Collection = ((From item In family.Regulogs.Logs Select item.Regulog.Key).ToArray)
@@ -230,8 +230,8 @@ Namespace Workflows
         End Function
 
         Public Sub Action(list As KeyValuePair(), savedFile As String)
-            Dim NCBIProteins = New LANS.SystemsBiology.Assembly.NCBI.Entrez.Protein()
-            Dim FsaList As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = New LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+            Dim NCBIProteins = New SMRUCC.genomics.Assembly.NCBI.Entrez.Protein()
+            Dim FsaList As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = New SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim attrList As List(Of String) = New List(Of String)
 
             For Each item In list
@@ -242,13 +242,13 @@ Namespace Workflows
                 End If
 
                 Dim Locus_Tag = GetMaxItem((From entry In Entries Let s = Trim(entry.LocusTag) Where Not String.IsNullOrEmpty(s) Select s Distinct).ToArray)
-                Dim entryList As LANS.SystemsBiology.Assembly.KEGG.WebServices.QueryEntry()
+                Dim entryList As SMRUCC.genomics.Assembly.KEGG.WebServices.QueryEntry()
                 If String.IsNullOrEmpty(Locus_Tag) Then
-                    entryList = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.HandleQuery(item.Key) '模糊查找多条记录
+                    entryList = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(item.Key) '模糊查找多条记录
                     Dim LQuery = (From entry In entryList Where String.Equals(entry.SpeciesId, "eco") Select entry).ToArray
 
                     If Not LQuery.IsNullOrEmpty Then
-                        Dim fsa = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.FetchSeq(LQuery.First)
+                        Dim fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(LQuery.First)
                         attrList = fsa.Attributes.ToList
                         attrList.Add(item.Key & " - " & item.Value)
 
@@ -256,10 +256,10 @@ Namespace Workflows
                         Call FsaList.Add(fsa)
                     End If
                 Else
-                    entryList = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.HandleQuery(Locus_Tag) '只有一条记录
+                    entryList = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(Locus_Tag) '只有一条记录
 
                     If Not entryList.IsNullOrEmpty Then
-                        Dim fsa = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.FetchSeq(entryList.First)
+                        Dim fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(entryList.First)
                         attrList = fsa.Attributes.ToList
                         attrList.Add(item.Key & " - " & item.Value)
 
@@ -305,14 +305,14 @@ Namespace Workflows
         ' ''' <param name="Subject"></param>
         ' ''' <returns></returns>
         ' ''' <remarks></remarks>
-        'Public Function LocalBlastp(LocalBlast As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST, WorkDir As String, Query As String, Subject As String) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        'Public Function LocalBlastp(LocalBlast As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST, WorkDir As String, Query As String, Subject As String) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
         '    Call LocalBlast.FormatDb(Query, LocalBlast.MolTypeProtein).Start(WaitForExit:=True)
         '    Call LocalBlast.FormatDb(Subject, LocalBlast.MolTypeProtein).Start(WaitForExit:=True)
 
         '    Call LocalBlast.Blastp(Query, Subject, WorkDir & "/blastp_logs_qvss.txt", "1").Start(WaitForExit:=True)
-        '    Dim Log = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(LocalBlast.LastBLASTOutputFilePath)
-        '    Call Log.Grep(AddressOf LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.GrepScript.Compile("'match gene[=][^]]+';'tokens = 1'").Grep,
-        '                           AddressOf LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.GrepScript.Compile("tokens | 1").Grep)
+        '    Dim Log = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(LocalBlast.LastBLASTOutputFilePath)
+        '    Call Log.Grep(AddressOf SMRUCC.genomics.NCBI.Extensions.LocalBLAST.GrepScript.Compile("'match gene[=][^]]+';'tokens = 1'").Grep,
+        '                           AddressOf SMRUCC.genomics.NCBI.Extensions.LocalBLAST.GrepScript.Compile("tokens | 1").Grep)
 
         '    Dim File = Log.ExportBestHit
         '    For i As Integer = 1 To File.Count - 1
@@ -323,9 +323,9 @@ Namespace Workflows
         '    Call File.Save("x:\xan8004vregprecise.csv")
 
         '    Call LocalBlast.Blastp(Subject, Query, WorkDir & "/blastp_logs_svsq.txt", "1").Start(WaitForExit:=True)
-        '    Log = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(LocalBlast.LastBLASTOutputFilePath)
-        '    Call Log.Grep(AddressOf LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.GrepScript.Compile("tokens | 1").Grep,
-        '                  AddressOf LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.GrepScript.Compile("'match gene[=][^]]+';'tokens = 1'").Grep)
+        '    Log = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(LocalBlast.LastBLASTOutputFilePath)
+        '    Call Log.Grep(AddressOf SMRUCC.genomics.NCBI.Extensions.LocalBLAST.GrepScript.Compile("tokens | 1").Grep,
+        '                  AddressOf SMRUCC.genomics.NCBI.Extensions.LocalBLAST.GrepScript.Compile("'match gene[=][^]]+';'tokens = 1'").Grep)
 
         '    Dim File2 = Log.ExportBestHit
         '    For i As Integer = 1 To File.Count - 1
@@ -335,7 +335,7 @@ Namespace Workflows
 
         '    Call File2.Save("x:\regprecisevxan8004.csv")
 
-        '    Dim best = GetDiReBh(File2, File, LANS.SystemsBiology.SequenceModel.FASTA.File.Read(Query), LANS.SystemsBiology.SequenceModel.FASTA.File.Read(Subject))
+        '    Dim best = GetDiReBh(File2, File, SMRUCC.genomics.SequenceModel.FASTA.File.Read(Query), SMRUCC.genomics.SequenceModel.FASTA.File.Read(Subject))
 
         '    Return best
         'End Function

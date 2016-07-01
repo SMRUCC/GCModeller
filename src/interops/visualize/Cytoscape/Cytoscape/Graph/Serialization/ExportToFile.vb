@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+﻿Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection

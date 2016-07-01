@@ -1,8 +1,8 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.Assembly.SBML.Level2
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.Assembly.SBML.Level2
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq

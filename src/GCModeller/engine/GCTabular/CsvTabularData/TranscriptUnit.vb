@@ -1,9 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.DOOR
 
 Namespace FileStream
 
@@ -14,7 +14,7 @@ Namespace FileStream
     Public Class TranscriptUnit : Implements IReadOnlyId
 
         ''' <summary>
-        ''' 通常为属性<see cref="LANS.SystemsBiology.Assembly.Door.GeneBrief.OperonID"></see>的这个编号值
+        ''' 通常为属性<see cref="SMRUCC.genomics.Assembly.Door.GeneBrief.OperonID"></see>的这个编号值
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

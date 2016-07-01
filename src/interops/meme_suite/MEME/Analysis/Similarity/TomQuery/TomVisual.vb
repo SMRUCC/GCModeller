@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData

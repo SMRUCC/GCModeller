@@ -7,7 +7,7 @@ Namespace Builder
 
         Dim Data As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject()
 
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel, DataPackage As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File, Optional FirstLineTitle As Boolean = True)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel, DataPackage As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File, Optional FirstLineTitle As Boolean = True)
             MyBase.New(MetaCyc, Model)
             If FirstLineTitle Then
                 Data = DataPackage.Skip(1)

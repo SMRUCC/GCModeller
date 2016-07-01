@@ -1,5 +1,5 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq

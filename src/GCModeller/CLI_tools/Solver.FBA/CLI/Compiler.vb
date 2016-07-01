@@ -1,7 +1,7 @@
-﻿Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+﻿Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
@@ -66,8 +66,8 @@ Partial Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function CompileSBML(args As CommandLine) As Integer
-        'Dim SBML As LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile = CommandLine("-i")
-        'Dim FBAModel As LANS.SystemsBiology.FBA.FBA = FBA.Compile(SBML)
+        'Dim SBML As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile = CommandLine("-i")
+        'Dim FBAModel As SMRUCC.genomics.FBA.FBA = FBA.Compile(SBML)
         'FBAModel.ObjectiveFunction = CommandLine("-f")
         'FBAModel.Direction = CommandLine("-d")
         'Call FileIO.FileSystem.WriteAllText(CommandLine("-o"), FBAModel.GetXml, append:=False)
@@ -91,13 +91,13 @@ Partial Module CLI
     ''' <remarks></remarks>
     Private Function CompileMetaCyc(CommandLine As CommandLine) As Integer
         If String.Equals(CommandLine("-of"), "fba") Then
-            'Dim SBML As LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile = CommandLine("-i") & "/metabolic-reactions.sbml"
-            'Dim FBAModel As LANS.SystemsBiology.FBA.FBA_RScript_Builder = FBA.Compile()
+            'Dim SBML As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile = CommandLine("-i") & "/metabolic-reactions.sbml"
+            'Dim FBAModel As SMRUCC.genomics.FBA.FBA_RScript_Builder = FBA.Compile()
             'FBAModel.ObjectiveFunction = CommandLine("-f")
             'FBAModel.Direction = CommandLine("-d")
             'Call FileIO.FileSystem.WriteAllText(CommandLine("-o"), FBAModel.GetXml, append:=False)
         Else
-            ' Dim Compiler As LANS.SystemsBiology.Assembly.Xml.Model = LANS.SystemsBiology.Assembly.Xml.Model.BuildFrom(CommandLine("-i"), {Program.Profile.Filter.Old, Program.Profile.Filter.[New]})
+            ' Dim Compiler As SMRUCC.genomics.Assembly.Xml.Model = SMRUCC.genomics.Assembly.Xml.Model.BuildFrom(CommandLine("-i"), {Program.Profile.Filter.Old, Program.Profile.Filter.[New]})
             'Call Compiler.ApplyFilter(Program.Profile.Filter.Old, Program.Profile.Filter.[New])
             'Call Compiler.Save(CommandLine("-o"))
         End If

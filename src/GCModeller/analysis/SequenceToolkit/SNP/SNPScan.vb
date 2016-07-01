@@ -1,8 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SNP.SangerSNPs
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.Patterns
+Imports SMRUCC.genomics.AnalysisTools
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SNP.SangerSNPs
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Public Module SNPScan
 

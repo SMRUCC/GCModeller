@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseAPI
-Imports LANS.SystemsBiology.InteractionModel
-Imports LANS.SystemsBiology.InteractionModel.Regulon
+﻿Imports SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseAPI
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.InteractionModel.Regulon
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 

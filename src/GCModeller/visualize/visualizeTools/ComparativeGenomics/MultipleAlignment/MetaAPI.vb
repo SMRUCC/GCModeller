@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Organism
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language

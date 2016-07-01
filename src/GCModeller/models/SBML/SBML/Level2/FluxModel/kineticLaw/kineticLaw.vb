@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.IFBA
+Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.IFBA
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
 

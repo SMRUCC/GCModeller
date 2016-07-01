@@ -1,7 +1,7 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
+﻿Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 Partial Module CLI

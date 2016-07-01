@@ -229,7 +229,7 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SBML\SBML\SBML.vbproj">
+    <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
@@ -241,7 +241,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interops\CARMEN\CARMEN.vbproj">
+    <ProjectReference Include="..\..\..\interops\CARMEN\CARMEN.vbproj">
       <Project>{5af62b58-443a-419e-90fe-0e8dafa71a51}</Project>
       <Name>CARMEN</Name>
     </ProjectReference>

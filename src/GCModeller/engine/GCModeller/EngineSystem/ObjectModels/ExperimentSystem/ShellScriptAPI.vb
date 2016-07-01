@@ -1,10 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.DataVisualization.DynamicMap.IMapBuilder
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap.IMapBuilder
 Imports Microsoft.VisualBasic.Scripting.ShoalShell
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.DataVisualization.DynamicMap
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap
 
 Namespace EngineSystem.ObjectModels.ExperimentSystem
 

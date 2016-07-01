@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject
-Imports LANS.SystemsBiology.Assembly.KEGG.WebServices
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData

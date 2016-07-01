@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.InteractionModel
+Imports SMRUCC.genomics.InteractionModel
 Imports Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis
 Imports Microsoft.VisualBasic
 

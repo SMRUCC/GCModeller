@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -15,11 +15,11 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--MPAlignment", Usage:="--MPAlignment /sbh <sbh.csv> /query <pfam-string.csv> /subject <pfam-string.csv> [/mp <0.65> /out <out.csv>]")>
     Public Function SBHAlignment(args As CommandLine.CommandLine) As Integer
-        Dim sbh = args("/sbh").LoadCsv(Of LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)
+        Dim sbh = args("/sbh").LoadCsv(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)
         Dim query = args("/query").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
         Dim subject = args("/subject").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
         Dim MP As Double = args.GetValue("/mp", 0.65)
-        Dim LQuery = (From hit As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit
+        Dim LQuery = (From hit As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit
                       In sbh
                       Where query.ContainsKey(hit.QueryName) AndAlso
                           subject.ContainsKey(hit.HitName)
@@ -106,8 +106,8 @@ Partial Module CLI
         Call align.ToArray.GetXml.SaveTo($"{out}/{IO.Path.GetFileNameWithoutExtension(input)}.xml")
         Call align.ToArray(Function(x) x.ToRow).SaveTo($"{out}/{IO.Path.GetFileNameWithoutExtension(input)}.csv")
 
-        Dim Regprecise = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of LANS.SystemsBiology.DatabaseServices.Regprecise.FastaReaders.Regulator) _
-                .ToDictionary(Function(prot) prot.LocusTag) '.LoadXml(Of LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices.Regulations)
+        Dim Regprecise = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of SMRUCC.genomics.DatabaseServices.Regprecise.FastaReaders.Regulator) _
+                .ToDictionary(Function(prot) prot.LocusTag) '.LoadXml(Of SMRUCC.genomics.DatabaseServices.Regprecise.WebServices.Regulations)
         Dim mp As Double = args.GetValue("/mp", 0.65)
         ' Dim lev As Double = args.GetValue("/lev", 0.65)
         Dim havMatches = (From mm In (From match In align.AsParallel
@@ -163,7 +163,7 @@ Partial Module CLI
             path = args("/aln").TrimFileExt & ".SelfAlign.csv"
         End If
 
-        Dim aln = args("/aln").LoadCsv(Of LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive)
+        Dim aln = args("/aln").LoadCsv(Of SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive)
 
         If String.IsNullOrEmpty(id) Then
             lstId = aln.ToArray(Function(x) x.QueryName).Join(aln.ToArray(Function(x) x.HitName)).Distinct.ToArray

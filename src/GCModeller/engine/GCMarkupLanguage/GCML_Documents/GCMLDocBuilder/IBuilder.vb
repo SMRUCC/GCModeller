@@ -4,9 +4,9 @@ Namespace Builder
     Public MustInherit Class IBuilder : Implements System.IDisposable
 
         Protected Friend Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
-        Protected Friend MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
+        Protected Friend MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
 
-        Protected Friend Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Protected Friend Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             Me.Model = Model
             Me.MetaCyc = MetaCyc
         End Sub

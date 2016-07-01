@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+﻿Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
 

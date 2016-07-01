@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
+﻿Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -239,7 +239,7 @@ Public Module MatrixAPI
                                                        RegulatorList As Generic.IEnumerable(Of String),
                                                        pcc As Double) As SimpleRegulation()
         Dim Regulations As List(Of SimpleRegulation) = New List(Of SimpleRegulation)
-        Dim Operons = LANS.SystemsBiology.Assembly.DOOR.Load(Door).DOOROperonView
+        Dim Operons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
         Dim OperonPromoterGenes As String() = (From item In Operons.Operons Select item.InitialX.Synonym).ToArray
 
         For Each RegulatorId As String In RegulatorList

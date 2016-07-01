@@ -7,22 +7,22 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic
 Imports MEME.GCModeller.FileSystem.FileSystem
 Imports MEME.Analysis
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.InteractionModel.Network
-Imports LANS.SystemsBiology.InteractionModel.Network.VirtualFootprint
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.InteractionModel.Network
+Imports SMRUCC.genomics.InteractionModel.Network.VirtualFootprint
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.DESeq2
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.DESeq2
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
 
 Partial Module CLI
 

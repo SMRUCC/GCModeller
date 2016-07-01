@@ -1,18 +1,18 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Programs
+﻿Imports SMRUCC.genomics.AnalysisTools
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Programs
 Imports MEME.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -180,14 +180,14 @@ Partial Module CLI
     '    Call $"Start to scanning {MastSets.Length} mast records...".__DEBUG_ECHO
 
     '    Dim LQuery = (From mastFile In MastSets.AsParallel
-    '                  Let mm = mastFile.file.LoadXml(Of LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST)(ThrowEx:=False)
+    '                  Let mm = mastFile.file.LoadXml(Of SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST)(ThrowEx:=False)
     '                  Where mm Is Nothing' 加载出错说明没有生成mast文档，则可能是一个novel位点
     '                  Let memeFile = MEMESets(mastFile.id)
     '                  Let testEcho As String = memeFile.ToFileURL.__DEBUG_ECHO
     '                  Select mastFile, memeFile).ToArray
 
     '    Dim LoadNovels = (From file In LQuery.AsParallel
-    '                      Let memes = LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.Text.SafelyLoad(file.memeFile)
+    '                      Let memes = SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.Text.SafelyLoad(file.memeFile)
     '                      Where Not memes.IsNullOrEmpty
     '                      Select file.mastFile.id, memes).ToArray
 
@@ -246,7 +246,7 @@ Partial Module CLI
 
         If LocusFromFasta Then
             Dim fastaFile As String = source(ID)
-            Dim Fasta = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(fastaFile)
+            Dim Fasta = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(fastaFile)
             Dim GeneLocus As Dictionary(Of String, String) = Fasta.ToArray(
                 Function(fa) New With {
                     .key = fa.Title.Split().First,

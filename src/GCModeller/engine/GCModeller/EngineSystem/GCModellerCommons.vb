@@ -1,8 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 
 Namespace EngineSystem
 

@@ -1,5 +1,5 @@
 ﻿Imports System.IO
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Terminal.STDIO
 

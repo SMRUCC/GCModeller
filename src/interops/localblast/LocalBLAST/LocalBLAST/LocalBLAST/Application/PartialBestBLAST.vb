@@ -16,10 +16,10 @@ Namespace LocalBLAST.Application
         ''' 本地BLAST的中间服务
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Friend LocalBLAST As Global.LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus
+        Protected Friend LocalBLAST As Global.SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus
         Protected Friend WorkDir As String
 
-        Sub New(LocalBLAST As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus, WorkDir As String)
+        Sub New(LocalBLAST As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus, WorkDir As String)
             Me.WorkDir = WorkDir
             Me.LocalBLAST = LocalBLAST
         End Sub

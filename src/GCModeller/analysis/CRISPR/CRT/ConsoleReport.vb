@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.CRISPR.SearchingModel
+﻿Imports SMRUCC.genomics.AnalysisTools.CRISPR.SearchingModel
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData

@@ -1,12 +1,12 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.Module
 
-    Public Class Pathway : Inherits LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.FluxObject
+    Public Class Pathway : Inherits SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.FluxObject
 
-        Protected Friend PathwayModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Pathway
+        Protected Friend PathwayModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Pathway
         <DumpNode> Private _MetabolismFluxes As EngineSystem.ObjectModels.Module.MetabolismFlux()
 
         Dim _FluxValue As Double

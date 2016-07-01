@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq

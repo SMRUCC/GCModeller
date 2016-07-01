@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.WGCNA
+﻿Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.WGCNA
 
 ''' <summary>
 ''' 基因表达相关性的本地文件数据库服务

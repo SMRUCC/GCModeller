@@ -1,11 +1,11 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
+﻿Imports SMRUCC.genomics.NCBI.Extensions.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Localblast.Extensions.VennDiagram.BlastAPI
+Imports SMRUCC.genomics.Localblast.Extensions.VennDiagram.BlastAPI
 
 Partial Module CLI
 

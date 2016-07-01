@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.DESeq2
+﻿Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.DESeq2
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language

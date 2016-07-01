@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Tables
-Imports LANS.SystemsBiology.InteractionModel
-Imports LANS.SystemsBiology.InteractionModel.Regulon
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.Tables
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.InteractionModel.Regulon
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv

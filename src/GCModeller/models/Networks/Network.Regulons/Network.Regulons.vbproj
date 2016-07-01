@@ -215,7 +215,7 @@
       <Project>{ABDCE82B-700E-4F70-A2F1-86B8054D0C8E}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Datavisualization.Network</Name>
     </ProjectReference>
@@ -227,19 +227,19 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\DataVisualization\Cytoscape\Cytoscape\Cytoscape.vbproj">
+    <ProjectReference Include="..\..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.vbproj">
       <Project>{9c7dd64a-e4c0-4011-8994-c842702c6ed4}</Project>
       <Name>Cytoscape</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Interops\MEME\MEME.DocParser\MEME.DocParser.vbproj">
+    <ProjectReference Include="..\..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Interops\MEME\MEME.vbproj">
+    <ProjectReference Include="..\..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>

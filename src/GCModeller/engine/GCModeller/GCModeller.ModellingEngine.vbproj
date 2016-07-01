@@ -360,7 +360,7 @@
       <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
       <Name>Java</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SBML\SBML\SBML.vbproj">
+    <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
@@ -368,11 +368,11 @@
       <Project>{a7cb16ff-75c6-4746-8449-86c121d723c4}</Project>
       <Name>ShoalShell_Core.v2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Datavisualization.Network</Name>
     </ProjectReference>
@@ -384,7 +384,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DocumentFormat.CsvTable\DocumentFormat.CsvTabular.vbproj">
+    <ProjectReference Include="..\GCTabular\DocumentFormat.CsvTabular.vbproj">
       <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
       <Name>DocumentFormat.CsvTabular</Name>
     </ProjectReference>

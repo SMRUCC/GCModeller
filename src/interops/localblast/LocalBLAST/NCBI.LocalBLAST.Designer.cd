@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.BestHit" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.Analysis.BestHit" Collapsed="true">
     <Position X="63.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEgAAgAIEAgBAAAEAAIAAAAAAAQABAABAAFAgAAACAA=</HashCode>
       <FileName>Analysis\Models\Besthit.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.HitCollection" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.Analysis.HitCollection" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="63.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAABAgAAAMAAIABAAAAAAAAAAAAAEAAAAAAEg=</HashCode>
@@ -15,7 +15,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.Hit" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.Analysis.Hit" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="68.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gIAAACCAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -23,63 +23,63 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.LogsPair" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.Analysis.LogsPair" Collapsed="true">
     <Position X="65.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAAAAAAEAAAAgABAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\Models.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.Pair" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.Analysis.Pair" Collapsed="true">
     <Position X="63.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\Models.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.IBlastOutput">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.IBlastOutput">
     <Position X="13.25" Y="0.5" Width="6" />
     <TypeIdentifier>
       <HashCode>AAIAACCAAEAACAAEAAAAAAAgAAAAAAAAAAhAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\BLASTOutput.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.GrepOperation" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.GrepOperation" Collapsed="true">
     <Position X="67" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAgAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\GrepOperation.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views.Overview" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views.Overview" Collapsed="true">
     <Position X="61.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAQAAAAAgAAAIAAQAAAAAAAAABAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Views.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.BlastXScore">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.BlastXScore">
     <Position X="21.5" Y="15.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAEAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Common\Score.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Score">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Score">
     <Position X="21.5" Y="10.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AIIAAAGAAAAEAAgMAAQgBgAAAAAgAAAAAAAAAAAABAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Common\Score.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.HitSegment" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.HitSegment" Collapsed="true">
     <Position X="68.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EIAQAAAAAAAAAAAEAAAAAAAQAAAgAEgAAAAAAAABAIA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Common\Segment.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Segment" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Segment" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="65.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAAEEAAIAAAAAAAAAAAAICACAAAAAQAA=</HashCode>
@@ -87,20 +87,20 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26">
     <Position X="10.75" Y="4.5" Width="6" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26.Query">
+      <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26.Query">
         <NestedTypes>
-          <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26.Query.Segment" Collapsed="true">
+          <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26.Query.Segment" Collapsed="true">
             <TypeIdentifier>
               <NewMemberFileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Query.vb</NewMemberFileName>
             </TypeIdentifier>
           </Class>
-          <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26.Query.Item" Collapsed="true">
+          <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26.Query.Item" Collapsed="true">
             <TypeIdentifier>
               <NewMemberFileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Query.vb</NewMemberFileName>
             </TypeIdentifier>
@@ -116,55 +116,55 @@
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\_2_2_26.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastnHit">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastnHit">
     <Position X="0.5" Y="25.25" Width="4.75" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAEAAEAABAAIAIAAAAACAAAAAAQEQAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Hits\Blastn.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit">
     <Position X="1" Y="20.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AICAAQAAAAEAAAgMAAAAAARIAEAgAgAAAAAAAAQAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Hits\Blastp.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query" Collapsed="true">
     <Position X="70.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAACAQEAAAAAEBMAAAAAAAAAAAAAgAAJEAAAAAAAIA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Query.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228" Collapsed="true">
     <Position X="1.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\v228.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.v228_BlastX">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.v228_BlastX">
     <Position X="4" Y="4.5" Width="6" />
     <TypeIdentifier>
       <HashCode>AAIAAKCAAAAAIAAAAAAAAAAgAAAAAAQAAAgAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastX.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.Query" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.Query" Collapsed="true">
     <Position X="61.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAMAAAAFAAAAAAAAAAFBAAAACAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\Components.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.HitFragment" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.HitFragment" Collapsed="true">
     <Position X="65.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAEAAAAAAAACAgEAAAAEAAAAIAgAAAIAAAAAAIABAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\Components.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput">
     <Position X="24.5" Y="4.5" Width="6" />
     <TypeIdentifier>
       <HashCode>AIIAgLCAACAAAAAEAAAgAAAgAAAAAAQAAAgAAAAAAIA=</HashCode>
@@ -172,62 +172,62 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Hit" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Hit" Collapsed="true">
     <Position X="70.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAACQAAAACAAgEAAAAAARAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Standard\Hit.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Query" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Query" Collapsed="true">
     <Position X="63.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIBAAAAAAAAACAAMIAEEBABAAAgAAAAABAAAAQAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Standard\Query.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Hits.Hit" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Hits.Hit" Collapsed="true">
     <Position X="61.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IABCACCAAAAACICEAAAAAAAAkAAgAAAABAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Xml\BireHits.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Hits.Hsp" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Hits.Hsp" Collapsed="true">
     <Position X="70.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IIAAAAAABAAQAAgFACAAAAAgQAIgBAAAAEFAAAAAAAQ=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Xml\BireHits.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Hits.Statistics" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Hits.Statistics" Collapsed="true">
     <Position X="67" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAEAAAAAAgAAEAQCAAAIAAAAAAAAAAAAAQAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Xml\BireHits.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput">
     <Position X="17.5" Y="4.5" Width="6.25" />
     <TypeIdentifier>
       <HashCode>IAIAAaKAAEAAAAAAAAAIAGIgAAAAQAIAAAgAAAAAEAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Xml\BlastOutput.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Iteration" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Iteration" Collapsed="true">
     <Position X="63.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEIAAABEAAAAAAQAIABAIAAAAABgA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Xml\Iteration.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit">
     <Position X="53.5" Y="13" Width="7.25" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Delegate Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit.GetDescriptionHandle">
+      <Delegate Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit.GetDescriptionHandle">
         <TypeIdentifier>
           <NewMemberFileName>LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb</NewMemberFileName>
         </TypeIdentifier>
@@ -239,7 +239,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.I_BlastQueryHit">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.I_BlastQueryHit">
     <Position X="42.75" Y="9.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>gAAgAAEAAAAAAAAMBAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
@@ -247,7 +247,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">
     <Position X="46.5" Y="13" Width="6.25" />
     <TypeIdentifier>
       <HashCode>gIIAAAAAAAAAAAgEIAgAAAAgAggAAEAAAAABBIAAAAA=</HashCode>
@@ -255,48 +255,48 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST" Collapsed="true">
     <Position X="65.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAgAAQAAQAAQAAAAAAAgAAAAACAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\BidirectionalBesthit_BLAST.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BlastnMapping" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BlastnMapping" Collapsed="true">
     <Position X="67" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAKAAGAAAAAAAgECkABDQAAgIgiQoBABAFgABAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BlastnMapping.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.PartialBestBLAST" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.PartialBestBLAST" Collapsed="true">
     <Position X="67" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAACQAAAAAAAAAAgAAAAACAAQAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.ClassifyCOGs" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.ClassifyCOGs" Collapsed="true">
     <Position X="63.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAQAAAAAgAAAAAAAAIACEAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\COG\ClassifyCOGs.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.Whog.Category" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.Whog.Category" Collapsed="true">
     <Position X="61.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAggAAAAAAggAgAEAAAAAAAAAIAICAAAAAAAAAAAQAI=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\COG\Whog\Category.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.Whog.Whog" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.Whog.Whog" Collapsed="true">
     <Position X="68.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>LocalBLAST\LocalBLAST\Application\COG\Whog\Whog.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.LocalBlastProgramGroup">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.LocalBlastProgramGroup">
     <Position X="11.5" Y="12.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAACAAAAAEAAAAAAAAAAAAAAAEAAAABhAAAAA=</HashCode>
@@ -304,15 +304,15 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService">
     <Position X="12.75" Y="16.5" Width="7.25" />
     <NestedTypes>
-      <Enum Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService.AlignmentViewOptions" Collapsed="true">
+      <Enum Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService.AlignmentViewOptions" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>LocalBLAST\LocalBLAST\InteropService\InteropService.vb</NewMemberFileName>
         </TypeIdentifier>
       </Enum>
-      <Delegate Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService.LocalBLAST" Collapsed="true">
+      <Delegate Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService.LocalBLAST" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>LocalBLAST\LocalBLAST\InteropService\InteropService.vb</NewMemberFileName>
         </TypeIdentifier>
@@ -323,96 +323,96 @@
       <FileName>LocalBLAST\LocalBLAST\InteropService\InteropService.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.Operation">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.Operation">
     <Position X="10.5" Y="20.5" Width="7" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAgAAAAIAIEAAAAACAgAAAAgAAAAQAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\InteropService\Operation.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.ProgramProfiles" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.ProgramProfiles" Collapsed="true">
     <Position X="68.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAEAAAAAAAAEECAAAgQAAAAAgAAAEAAgAABAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder.BlastpOptionalArguments" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder.BlastpOptionalArguments" Collapsed="true">
     <Position X="70.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAIAAxAFAQESBFAAAERAASAKCAYgFIAEAMQkBAQIEAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Program\Blast+\CLIBuilder.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder.BlastnOptionalArguments" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder.BlastnOptionalArguments" Collapsed="true">
     <Position X="68.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAIAAxAFAQESBFAAAERAASAKCAYgFIgEAMQkBAQIEAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Program\Blast+\CLIBuilder.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus">
     <Position X="18.25" Y="20.5" Width="6.25" />
     <TypeIdentifier>
       <HashCode>IAAAAAAABwAAAMCIECAAAACAgARAAAAAAAAAAAAACAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST" Collapsed="true">
     <Position X="8.25" Y="20.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>LocalBLAST\LocalBLAST\Program\LocalBLAST.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.RpsBLAST">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.RpsBLAST">
     <Position X="1.5" Y="16.5" Width="6" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAAAAAEAAAAAEAABAAEAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Program\RpsBLAST.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.My.MySettings" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.My.MySettings" Collapsed="true">
     <Position X="68.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Parameters" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.Parameters" Collapsed="true">
     <Position X="65.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAgAAAAAAAAAIAAAAAAAAABCAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Xml\BlastOutput.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry">
     <Position X="36.5" Y="13" Width="9.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAEAAAAAAAIAAAAAAAAAABAAAAgAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BatchParallel\AlignEntry.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InitializeParameter" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InitializeParameter" Collapsed="true">
     <Position X="61.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\InteropService\InitializeMethods.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.Executable" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.Executable" Collapsed="true">
     <Position X="65.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAAAEAAAAAAQBAAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.BlastXHit">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.BlastXHit">
     <Position X="48" Y="18" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastX.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BBHIndex">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BBHIndex">
     <Position X="27" Y="13" Width="8.75" />
     <TypeIdentifier>
       <HashCode>AIAAAAAgAACAABAEAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
@@ -420,7 +420,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MGACOG" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MGACOG" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="67" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AICEAAAAVAAAAAgIIAIgAABAAAAEAAAAAEBAAAABAAA=</HashCode>
@@ -428,7 +428,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="70.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAEgAAAMAAAAAABAAAAAAgAABADAAAAACAA=</HashCode>
@@ -436,7 +436,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult.AlignmentTable" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult.AlignmentTable" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="61.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAYEAAEAAAAAkQAAAJAAAAAAQAAgBAABAAAAgAAQ=</HashCode>
@@ -444,34 +444,34 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult.HitRecord" Collapsed="true">
+  <Class Name="SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult.HitRecord" Collapsed="true">
     <Position X="67" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BACAAAAAAAAgIAQECAAAAAAEABIAAAAAAEECAEAAIAA=</HashCode>
       <FileName>Web\Hit.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Parameter" Collapsed="true">
+  <Struct Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Parameter" Collapsed="true">
     <Position X="61.75" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAACAAACAEQAAAAAQAACAAAAAwAAAQCMAAAgA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Common\Parameter.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Percentage" Collapsed="true">
+  <Struct Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.Percentage" Collapsed="true">
     <Position X="65.25" Y="10" Width="1.5" />
     <TypeIdentifier>
       <FileName>LocalBLAST\BlastOutput\Common\Percentage.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary" Collapsed="true">
+  <Struct Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary" Collapsed="true">
     <Position X="63.5" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAAAABAEAAgAAAAAAAAAAAAAHgAAAAAAAACAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parameters.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views.Query" Collapsed="true" BaseTypeListCollapsed="true">
+  <Struct Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views.Query" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="67" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -479,124 +479,124 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Struct>
-  <Interface Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.IBlastHit">
+  <Interface Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.IBlastHit">
     <Position X="0.5" Y="6.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.IQueryHits">
+  <Interface Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.IQueryHits">
     <Position X="0.5" Y="8.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb</FileName>
     </TypeIdentifier>
   </Interface>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.BBHLogs" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.Analysis.BBHLogs" Collapsed="true">
     <Position X="63.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAABAAAABAAAAAAAIAAAAAAAACACAIAAAAEA=</HashCode>
       <FileName>Analysis\BBHLogs.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.LocalBLAST" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.Analysis.LocalBLAST" Collapsed="true">
     <Position X="61.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\LocalBLAST.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.Extensions" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.Extensions" Collapsed="true">
     <Position X="67" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAABIAAAAA=</HashCode>
       <FileName>Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.NCBILocalBlast" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.NCBILocalBlast" Collapsed="true">
     <Position X="65.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAAJsAAAQAABiJIA0AAAAggEAAAEAAECAABCQAAgA=</HashCode>
       <FileName>NCBILocalBlast.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.OutputReader" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.OutputReader" Collapsed="true">
     <Position X="67" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAKAAAAFACAEAAAAAAAAAAAAAAAEAABAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\OutputReader.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser" Collapsed="true">
     <Position X="65.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAEAQAAAAAAIAAAAgAAAAAAEAAAAAAAAoCQgAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BBH\BBHParser.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.My.Resources.Resources" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.My.Resources.Resources" Collapsed="true">
     <Position X="63.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.My.MySettingsProperty" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.My.MySettingsProperty" Collapsed="true">
     <Position X="63.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser" Collapsed="true">
     <Position X="70.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIMIAIAhAAAEAAAAAAAAAAeHAEAAAESAkAAABAAAAAA=</HashCode>
       <FileName>LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parser.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder" Collapsed="true">
     <Position X="67" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAGAEAgAAQAAAAAAABAgAAAQEAAABAAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InitializeMethods" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InitializeMethods" Collapsed="true">
     <Position X="68.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAAgAAAAAAAAAEAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\InteropService\InitializeMethods.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.Analysis.KEGG_API" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.Analysis.KEGG_API" Collapsed="true">
     <Position X="70.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\Models\KEGG_API.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BashShell" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BashShell" Collapsed="true">
     <Position X="61.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\BatchParallel\BashShell.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.Paralog" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.Paralog" Collapsed="true">
     <Position X="68.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>LocalBLAST\LocalBLAST\Application\Paralog.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult.ParserAPI" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult.ParserAPI" Collapsed="true">
     <Position X="61.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAEAAAAAAAAAAAAAAIAAAAAQAgAAAAAAA=</HashCode>
       <FileName>Web\ParserAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult.SBH_Tabular" Collapsed="true">
+  <Module Name="SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult.SBH_Tabular" Collapsed="true">
     <Position X="65.25" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>

@@ -61,11 +61,11 @@ Public Class Network
     End Sub
 
     Public Shared Function LoadModel(GCML As String) As Network
-        Dim Model = GCML.LoadXml(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)()
+        Dim Model = GCML.LoadXml(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)()
         Return LoadModel(Model)
     End Function
 
-    Public Shared Function LoadModel(GCML As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Network
+    Public Shared Function LoadModel(GCML As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Network
         Dim EdgeList As List(Of Network.Edge) = New List(Of Edge)
         Call EdgeList.AddRange(MetabolismNetwork.CreateObject(GCML.Metabolism.MetabolismNetwork.ToArray))
 
@@ -73,7 +73,7 @@ Public Class Network
     End Function
 
     Public Shared Function LoadCSVTabularModel(ModelFile As String) As Network
-        Dim Model = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.DataModel.CellSystem(ModelFile, New Logging.LogFile(Settings.LogDIR & "/Spiderman.log"))
+        Dim Model = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.DataModel.CellSystem(ModelFile, New Logging.LogFile(Settings.LogDIR & "/Spiderman.log"))
         Return LoadModel(Model.LoadAction)
     End Function
 End Class

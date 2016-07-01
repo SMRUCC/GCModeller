@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
+﻿Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 Partial Module CLI

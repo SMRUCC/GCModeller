@@ -1,10 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.DOOR
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
@@ -102,7 +102,7 @@ Namespace Regprecise
 
         <ExportAPI("Regulon.Reconstruct")>
         <Extension>
-        Public Function Reconstruct(mappings As IEnumerable(Of LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit),
+        Public Function Reconstruct(mappings As IEnumerable(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit),
                                     Regprecise As BacteriaGenome,
                                     Operons As DOOR) As Regulator()
             Dim mappingHash As Dictionary(Of String, NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit()) =

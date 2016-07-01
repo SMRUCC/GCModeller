@@ -1,7 +1,7 @@
 ﻿
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
 
 Namespace EngineSystem.MathematicsModels.EnzymeKinetics
 

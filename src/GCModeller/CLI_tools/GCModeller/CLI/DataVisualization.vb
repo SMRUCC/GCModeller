@@ -1,25 +1,25 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Phylip
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Phylip
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
 Imports System.Drawing
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ComparativeAlignment
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ComparativeAlignment
 Imports Microsoft.VisualBasic.Imaging
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.NCBIBlastResult
+Imports SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.NCBI.Extensions
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.NCBIBlastResult
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ComparativeGenomics.ModelAPI
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ComparativeGenomics.ModelAPI
 
 Partial Module CLI
 

@@ -1,13 +1,13 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 
 Partial Module CLI
 
@@ -18,7 +18,7 @@ Partial Module CLI
         Dim Reactions As String = args("/KEGG.Reactions")
         Dim sp As String = args("/sp")
         Dim outXml As String = args("/out")
-        Dim Modle = LANS.SystemsBiology.Assembly.KEGG.Archives.Xml.Compile(Pathways, Modules, Reactions, sp)
+        Dim Modle = SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Compile(Pathways, Modules, Reactions, sp)
         Return Modle.GetXml.SaveTo(outXml)
     End Function
 
@@ -66,12 +66,12 @@ Partial Module CLI
 
     Private Function __queryKO(prot As String,
                                KO As String,
-                               brites As Dictionary(Of String, LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry.Pathway)) As KOAnno()
+                               brites As Dictionary(Of String, SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway)) As KOAnno()
         If String.IsNullOrEmpty(KO) Then
             Return {New KOAnno With {.QueryId = prot}}
         End If
 
-        Dim orthology = LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(KO)
+        Dim orthology = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(KO)
         If orthology.Pathway.IsNullOrEmpty Then
             Dim anno As KOAnno = __create(prot, KO, Nothing, orthology, brites)
             Return {anno}
@@ -84,9 +84,9 @@ Partial Module CLI
     Private Function __create(prot As String,
                               KO As String,
                               pathway As KeyValuePair,
-                              orthology As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology,
-                              brites As Dictionary(Of String, LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry.Pathway)) As KOAnno
-        Dim pwyBrite As LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry.Pathway
+                              orthology As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology,
+                              brites As Dictionary(Of String, SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway)) As KOAnno
+        Dim pwyBrite As SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
         If Not pathway Is Nothing Then
             pwyBrite = brites.TryGetValue(Regex.Match(pathway.Key, "\d+").Value)
             If pwyBrite Is Nothing Then
@@ -135,11 +135,11 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Dim source As New FastaFile(args("/source"))
         Dim ref As New FastaFile(args("/ref"))
         Dim out As String = args.GetValue("/out", args("/source").TrimFileExt & $".{IO.Path.GetFileNameWithoutExtension(args("/ref"))}.fasta")
-        Dim sourceKEGG As LANS.SystemsBiology.Assembly.KEGG.Archives.SequenceDump() =
-            source.ToArray(Function(x) LANS.SystemsBiology.Assembly.KEGG.Archives.SequenceDump.Create(x))
-        Dim refKEGG As LANS.SystemsBiology.Assembly.KEGG.Archives.SequenceDump() =
-            ref.ToArray(Function(x) LANS.SystemsBiology.Assembly.KEGG.Archives.SequenceDump.Create(x))
-        Dim sourceDict = (From x As LANS.SystemsBiology.Assembly.KEGG.Archives.SequenceDump
+        Dim sourceKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
+            source.ToArray(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
+        Dim refKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
+            ref.ToArray(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
+        Dim sourceDict = (From x As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump
                           In sourceKEGG
                           Select x
                           Group x By x.SpeciesId Into Group) _

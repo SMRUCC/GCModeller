@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic
 

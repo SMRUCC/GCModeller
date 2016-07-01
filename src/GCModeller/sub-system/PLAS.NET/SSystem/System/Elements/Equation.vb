@@ -1,8 +1,8 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Script
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Script
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 Imports Microsoft.VisualBasic
 
 Namespace Kernel.ObjectModels

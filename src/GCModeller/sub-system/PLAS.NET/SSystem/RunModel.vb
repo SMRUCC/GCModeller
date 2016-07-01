@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Script
+﻿Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Script
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream

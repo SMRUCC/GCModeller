@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
 
 Namespace LDM

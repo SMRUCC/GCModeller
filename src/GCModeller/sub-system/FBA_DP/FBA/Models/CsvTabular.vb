@@ -1,5 +1,5 @@
 ﻿Imports System.Collections.ObjectModel
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Models

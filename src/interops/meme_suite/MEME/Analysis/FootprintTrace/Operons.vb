@@ -1,11 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.Assembly.DOOR
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Assembly.DOOR
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
 
 Namespace Analysis.FootprintTraceAPI
 

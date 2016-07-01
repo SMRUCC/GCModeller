@@ -27,8 +27,8 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.NtProps
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.NtProps
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON

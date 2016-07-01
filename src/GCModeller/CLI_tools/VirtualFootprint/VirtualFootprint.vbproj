@@ -230,7 +230,7 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
@@ -238,7 +238,7 @@
       <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315EE-B598-40DC-9280-C71CDF9B6A48}</Project>
       <Name>Datavisualization.Network</Name>
     </ProjectReference>
@@ -266,7 +266,7 @@
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
       <Project>{DF1C1740-08B7-40D3-84DC-35C94FACA108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
@@ -274,7 +274,7 @@
       <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interops\MEME\MEME.DocParser\MEME.DocParser.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>

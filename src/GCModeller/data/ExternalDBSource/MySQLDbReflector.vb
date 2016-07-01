@@ -1,7 +1,7 @@
 ﻿Public MustInherit Class MySQLDbReflector
 
     Protected Friend DbReflector As Oracle.LinuxCompatibility.MySQL.Reflection.DbReflector
-    '  Protected Friend Export As LANS.SystemsBiology.SequenceModel.FASTA.FsaExport = New SequenceModel.FASTA.FsaExport
+    '  Protected Friend Export As SMRUCC.genomics.SequenceModel.FASTA.FsaExport = New SequenceModel.FASTA.FsaExport
 
     Protected Friend Sub New(MySQL As Oracle.LinuxCompatibility.MySQL.ConnectionUri)
         DbReflector = New Oracle.LinuxCompatibility.MySQL.Reflection.DbReflector(MySQL.GetConnectionString)

@@ -1,8 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.SequenceModel.FASTA.FastaFile
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace Pattern
 

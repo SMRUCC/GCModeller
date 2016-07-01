@@ -1,24 +1,24 @@
 ﻿Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
 
-    <ISystemFrameworkEntry(ModelName:="svd", Type:=LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.Types.ExpressionRegulationNetwork,
+    <ISystemFrameworkEntry(ModelName:="svd", Type:=SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.Types.ExpressionRegulationNetwork,
        Authors:="xie.guigang@gmail.com", Description:="A mathematical implement for the svd gene expression regulation network model.")>
-    Public Class ExpressionRegulationNetwork : Inherits LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.SubSystemContainer(Of EngineSystem.ObjectModels.Module.CentralDogmaInstance.CentralDogma)
-        Implements LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
+    Public Class ExpressionRegulationNetwork : Inherits SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.SubSystemContainer(Of EngineSystem.ObjectModels.Module.CentralDogmaInstance.CentralDogma)
+        Implements SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
 
         <DumpNode>
-        Protected Friend _InternalTranscriptsPool As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Transcript()
+        Protected Friend _InternalTranscriptsPool As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Transcript()
         ''' <summary>
         ''' <see cref="ExpressionRegulationNetwork._InternalTranscriptsPool">RNA分子</see>的降解系统
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Friend _InternalTranscriptDisposableSystem As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.DisposerSystem(Of Entity.Transcript)
+        Protected Friend _InternalTranscriptDisposableSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.DisposerSystem(Of Entity.Transcript)
 
         Public Property ExpressionKinetics As MathematicsModels.EnzymeKinetics.ExpressionKinetics
 
@@ -81,7 +81,7 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
             End Get
         End Property
 
-        Public Overrides ReadOnly Property NetworkComponents As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.CentralDogmaInstance.CentralDogma()
+        Public Overrides ReadOnly Property NetworkComponents As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.CentralDogmaInstance.CentralDogma()
             Get
                 Return MyBase._DynamicsExprs
             End Get
@@ -93,8 +93,8 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
 
         Public Overrides Function Initialize() As Integer
             Me._ExpressionKinetics = New MathematicsModels.EnzymeKinetics.ExpressionKinetics(_CellSystem.Metabolism)
-            Me._TranscriptionK1 = Val(_CellSystem.get_runtimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_TRANSCRIPTION))
-            Me._TranslationK1 = Val(_CellSystem.get_runtimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_TRANSLATION))
+            Me._TranscriptionK1 = Val(_CellSystem.get_runtimeContainer.SystemVariable(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_TRANSCRIPTION))
+            Me._TranslationK1 = Val(_CellSystem.get_runtimeContainer.SystemVariable(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_TRANSLATION))
 
             If Me._TranscriptionK1 = 0.0R Then
                 Throw New DataException("Kinetics parameter for transcription is ZERO, could' not initialize!")

@@ -1,11 +1,11 @@
-﻿Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
+﻿Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ProteinModel
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ProteinModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
 
@@ -39,7 +39,7 @@ Namespace PfamString
         Public Property Domains As String()
 
         ''' <summary>
-        ''' 是否有<see cref="LANS.SystemsBiology.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman"></see>
+        ''' 是否有<see cref="SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman"></see>
         ''' 的蛋白质二级结构计算数据
         ''' </summary>
         ''' <value></value>

@@ -10,9 +10,9 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace ChromosomeMap.DrawingModels
 
@@ -20,7 +20,7 @@ Namespace ChromosomeMap.DrawingModels
     ''' Data model for described a chromosome drawing action invoked.(用于描述如何绘制一个基因组的图形数据的数据模型)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class ChromesomeDrawingModel : Inherits LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.Rpt
+    Public Class ChromesomeDrawingModel : Inherits SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Rpt
 
         ''' <summary>
         ''' 所需要进行绘制的基因组之中的基因对象，整个基因组之中的基本框架
@@ -139,11 +139,11 @@ Namespace ChromosomeMap.DrawingModels
         <Column("E-value")> Public Property Evalue As String
         Public Property Protein_len As String
 
-        Public Property Location As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation Implements IGeneBrief.Location
+        Public Property Location As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation Implements IGeneBrief.Location
             Get
-                Return New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(ST, SP, Strand)
+                Return New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(ST, SP, Strand)
             End Get
-            Set(value As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation)
+            Set(value As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)
                 If Not value Is Nothing Then
                     ST = value.Left
                     SP = value.Right

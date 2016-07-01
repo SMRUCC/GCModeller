@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.SBML.Level2
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.SBML.Level2
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq

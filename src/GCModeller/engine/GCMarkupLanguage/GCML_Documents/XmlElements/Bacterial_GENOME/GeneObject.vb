@@ -1,6 +1,6 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.XmlElements.Bacterial_GENOME

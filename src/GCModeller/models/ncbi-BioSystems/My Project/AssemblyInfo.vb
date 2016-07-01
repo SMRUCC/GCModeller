@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("LANS.SystemsBiology.NCBI.Extensions.BioSystems")> 
+<Assembly: AssemblyTitle("SMRUCC.genomics.NCBI.Extensions.BioSystems")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("LANS.SystemsBiology.NCBI.Extensions.BioSystems")> 
+<Assembly: AssemblyProduct("SMRUCC.genomics.NCBI.Extensions.BioSystems")> 
 <Assembly: AssemblyCopyright("Copyright ©  2014")> 
 <Assembly: AssemblyTrademark("")> 
 

@@ -2,16 +2,16 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Text
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
 
@@ -121,7 +121,7 @@ Namespace Regprecise
                                 In RegpreciseTfbs
                                 Let site As String = Regex.Match(regFasta.Title, "gene=[^]]+").Value.Split(CChar("=")).Last
                                 Select New KeyValuePair(Of String, String)(site, regFasta.Attributes.First.Split.First)).ToArray
-            Dim BesthitBLAST = New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST(
+            Dim BesthitBLAST = New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST(
                 LocalBLAST, If(String.IsNullOrEmpty(WorkDir), My.Computer.FileSystem.SpecialDirectories.Temp, WorkDir))
             Dim bhArray = BesthitBLAST.Peformance(Query.FilePath,
                                                   RegpreciseRegulators.FilePath,
@@ -131,7 +131,7 @@ Namespace Regprecise
             Dim ExtractedTfbsInfo = (From regulator As SequenceModel.FASTA.FastaToken In RegpreciseRegulators
                                      Let tfbs As String() = __gettfbs(regulator, siteInfoList)
                                      Select New KeyValuePair(Of String, String())(regulator.Title.Split.First.Split(CChar("|")).Last, tfbs)).ToArray
-            Dim LQuery = (From bbhReg As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit
+            Dim LQuery = (From bbhReg As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit
                           In bhArray
                           Where Not String.IsNullOrEmpty(bbhReg.HitName)
                           Select New RegpreciseMPBBH With {
@@ -247,8 +247,8 @@ Namespace Regprecise
         ''' <remarks></remarks>
         '''
         <ExportAPI("bh2Regprecise.bbh", Info:="Create basic data for the matches data.")>
-        Public Function Convert(BLASTbh As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit()) As RegpreciseMPBBH()
-            Dim LQuery = (From item As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit
+        Public Function Convert(BLASTbh As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit()) As RegpreciseMPBBH()
+            Dim LQuery = (From item As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit
                           In BLASTbh.AsParallel
                           Where Not String.IsNullOrEmpty(item.HitName)
                           Select New RegpreciseMPBBH With {.QueryName = item.QueryName, .HitName = item.HitName, .Length = item.Length, .Description = item.Description}).ToArray

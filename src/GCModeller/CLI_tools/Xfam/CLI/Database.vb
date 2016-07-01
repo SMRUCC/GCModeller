@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.Rfam
+﻿Imports SMRUCC.genomics.AnalysisTools.Rfam
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 

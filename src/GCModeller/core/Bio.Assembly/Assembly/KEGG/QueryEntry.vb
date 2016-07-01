@@ -167,7 +167,7 @@ Namespace Assembly.KEGG.WebServices
 
     Public Class QueryEntry
 
-        ''' <summary>LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.QueryEntry
+        ''' <summary>SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.QueryEntry
         ''' KEGG species id, the general species string in NCBI database can be mapping through the organism list which can 
         ''' be get from method <see cref="KEGG.DBGET.bGetObject.Organism.GetOrganismList"></see>.(KEGG
         ''' 数据库中的物种ID编号的简写形式，NCBI数据库中的标准的物种编号可以通过方法<see cref="KEGG.DBGET.bGetObject.Organism.GetOrganismList"></see>

@@ -3,15 +3,15 @@ Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.MemoryDump
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace EngineSystem.Engine
 
@@ -83,11 +83,11 @@ Namespace EngineSystem.Engine
             End Get
         End Property
 
-        Sub New(Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             Call MyBase.New(Model)
         End Sub
 
-        Protected Friend Function get_DataModel() As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
+        Protected Friend Function get_DataModel() As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
             Return Me._innerDataModel
         End Function
 
@@ -97,7 +97,7 @@ Namespace EngineSystem.Engine
         ''' <param name="ModuleAssembly">外部系统模块列表</param>
         ''' <remarks></remarks>
         Public Sub LoadSystemModule(ModuleAssembly As String(), DisabledModules As List(Of String))
-            Using ModuleLoader As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleLoader = New PlugIns.ModuleLoader(Kernel:=Me)
+            Using ModuleLoader As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleLoader = New PlugIns.ModuleLoader(Kernel:=Me)
                 Call ModuleLoader.DisableModule(DisabledModules.ToArray)
                 Call ModuleLoader.LoadModules(ModuleAssembly)
             End Using
@@ -235,8 +235,8 @@ EXIT_:      Call DataAcquisitionService.CloseStorageService()
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function Load(ModelFile As String, LogFile As Microsoft.VisualBasic.Logging.LogFile, argvs As Microsoft.VisualBasic.CommandLine.CommandLine) As Engine.GCModeller
-            Dim Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
-                Microsoft.VisualBasic.LoadXml(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)(ModelFile)
+            Dim Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
+                Microsoft.VisualBasic.LoadXml(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)(ModelFile)
             Dim EngineSystem = New GCModeller(Model) With {._SystemLogging = LogFile, .args = argvs}
             Dim KernelModule = New ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem(EngineSystem)
             EngineSystem.LoadKernel(KernelModule)

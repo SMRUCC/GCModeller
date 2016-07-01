@@ -2,11 +2,11 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Parallel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis.BBHLogs
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.Localblast.Extensions.VennDiagram.BlastAPI
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis.BBHLogs
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Localblast.Extensions.VennDiagram.BlastAPI
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Linq
 Imports System.Windows.Forms

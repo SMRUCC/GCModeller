@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.ProteinModel
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.ProteinModel
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language

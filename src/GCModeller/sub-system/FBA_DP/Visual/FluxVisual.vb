@@ -1,8 +1,8 @@
 ﻿'Imports System.Drawing
-'Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject
-'Imports LANS.SystemsBiology.Assembly.SBML
-'Imports LANS.SystemsBiology.Assembly.SBML.Level2
-'Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
+'Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+'Imports SMRUCC.genomics.Assembly.SBML
+'Imports SMRUCC.genomics.Assembly.SBML.Level2
+'Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
 'Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
 'Public Module FluxVisual

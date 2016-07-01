@@ -264,11 +264,11 @@
       <Project>{eea01916-0334-4293-b284-c8b0d9d3ef63}</Project>
       <Name>alglibnet2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\DataVisualization\Cytoscape\Cytoscape.App\Cytoscape.App.vbproj">
+    <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape.App\Cytoscape.App.vbproj">
       <Project>{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}</Project>
       <Name>Cytoscape.App</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\DataVisualization\Cytoscape\Cytoscape\Cytoscape.vbproj">
+    <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.vbproj">
       <Project>{9c7dd64a-e4c0-4011-8994-c842702c6ed4}</Project>
       <Name>Cytoscape</Name>
     </ProjectReference>

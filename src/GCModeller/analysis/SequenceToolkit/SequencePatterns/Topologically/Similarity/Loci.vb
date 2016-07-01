@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+﻿Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Topologically.SimilarityMatches
 

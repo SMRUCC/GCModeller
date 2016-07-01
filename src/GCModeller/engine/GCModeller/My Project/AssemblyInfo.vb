@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("[http://code.google.com/p/genome-in-code] GCModeller Virtual Cell Engine Kernel Module")> 
 <Assembly: AssemblyDescription("Publication Title [Genetic Clock Theory: reprogramming on genome]")> 
 <Assembly: AssemblyCompany("xie.guigang@gmail.com")> 
-<Assembly: AssemblyProduct("LANS.SystemsBiology.GCModeller.ModellingEngine")>
+<Assembly: AssemblyProduct("SMRUCC.genomics.GCModeller.ModellingEngine")>
 <Assembly: AssemblyCopyright("Copyright © 中国南方微生物资源利用中心 2013")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 

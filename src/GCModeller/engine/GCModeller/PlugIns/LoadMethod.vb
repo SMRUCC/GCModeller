@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.FBACompatibility.Model
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.FBACompatibility.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels
 Imports Microsoft.VisualBasic
 
 Namespace PlugIns

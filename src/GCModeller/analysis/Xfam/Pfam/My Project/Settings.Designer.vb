@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.My.MySettings
             Get
-                Return Global.LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.My.MySettings.Default
+                Return Global.SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.My.MySettings.Default
             End Get
         End Property
     End Module

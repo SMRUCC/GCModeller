@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 
@@ -29,7 +29,7 @@ Namespace Procedures
             Call MyBase.New(uri)
         End Sub
 
-        Public Sub Update(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology)
+        Public Sub Update(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology)
             Dim transaction As New List(Of Oracle.LinuxCompatibility.MySQL.SQLTable)
 
             Call transaction.Add(__getDiseases(ort))
@@ -62,12 +62,12 @@ Namespace Procedures
             For Each id As String In Entries
                 If Array.IndexOf(lstEntry, id) > -1 Then Continue For
 
-                Dim orthology = LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(id)
+                Dim orthology = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(id)
                 Call Update(orthology)
             Next
         End Sub
 
-        Private Function __getDiseases(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
+        Private Function __getDiseases(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
             If ort.Disease.IsNullOrEmpty Then Return Nothing
             Dim data As New List(Of Oracle.LinuxCompatibility.MySQL.SQLTable)
             Dim diseases = (From entry In ort.Disease
@@ -88,7 +88,7 @@ Namespace Procedures
             Return data.ToArray
         End Function
 
-        Private Function __getModules(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
+        Private Function __getModules(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
             If ort.Module.IsNullOrEmpty Then Return Nothing
             Dim data As New List(Of Oracle.LinuxCompatibility.MySQL.SQLTable)
             Dim modules = (From entry In ort.Module
@@ -109,7 +109,7 @@ Namespace Procedures
             Return data.ToArray
         End Function
 
-        Private Function __getPathways(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
+        Private Function __getPathways(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
             If ort.Pathway.IsNullOrEmpty Then Return Nothing
             Dim data As New List(Of Oracle.LinuxCompatibility.MySQL.SQLTable)
             Dim pathways = (From entry In ort.Pathway
@@ -130,7 +130,7 @@ Namespace Procedures
             Return data.ToArray
         End Function
 
-        Private Function __getGenes(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
+        Private Function __getGenes(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
             If ort.Genes.IsNullOrEmpty Then Return Nothing
             Dim genes = (From entry In ort.Genes
                          Let geneData = New LocalMySQL.gene With {
@@ -158,7 +158,7 @@ Namespace Procedures
             Return data.ToArray
         End Function
 
-        Private Function __getReferences(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
+        Private Function __getReferences(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
             If ort.References.IsNullOrEmpty Then Return Nothing
 
             Dim data As New List(Of Oracle.LinuxCompatibility.MySQL.SQLTable)
@@ -183,10 +183,10 @@ Namespace Procedures
             Return data.ToArray
         End Function
 
-        Private Function __getOrthology(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable
+        Private Function __getOrthology(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable
             Dim Path = BriefData.GetHPath(ort.Entry)
             If Path Is Nothing Then
-                Path = New LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry.BriteHText() {}
+                Path = New SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.BriteHText() {}
             End If
             Path = Path.Skip(1).ToArray
             Dim orthology As New LocalMySQL.orthology With {
@@ -223,7 +223,7 @@ Namespace Procedures
         ''' 在这里更新Other DBs的数据
         ''' </summary>
         ''' <param name="ort"></param>
-        Private Function __getXRef(ort As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
+        Private Function __getXRef(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
             Dim xRefs = (From lnk In ort.xRefEntry
                          Select lnk
                          Group lnk By lnk.Key.ToUpper Into Group).ToDictionary(Function(obj) obj.ToUpper, elementSelector:=Function(obj) obj.Group.ToArray)

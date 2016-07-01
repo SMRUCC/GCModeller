@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Workflows.PromoterParser
 

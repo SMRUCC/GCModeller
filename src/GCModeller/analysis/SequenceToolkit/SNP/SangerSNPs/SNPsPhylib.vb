@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization

@@ -4,11 +4,11 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.GeneOntology
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.GeneOntology
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.Assembly
 
 Namespace NetworkModel.PfsNET
 
@@ -151,7 +151,7 @@ Namespace NetworkModel.PfsNET
             Call NodeList.AddRange((From GeneId As String In GeneList Select New NetworkModel.Node With {.NodeType = "GeneObject", .Identifier = GeneId}).ToArray)
 
             Dim CatalystsList As Dictionary(Of String, String())
-            Using op = New LANS.SystemsBiology.Assembly.MetaCyc.Schema.PathwayBrief.AssignGene(MetaCyc)
+            Using op = New SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief.AssignGene(MetaCyc)
                 CatalystsList = op.Performance
                 CatalystsList = op.ConvertId(CatalystsList)
             End Using

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Scripting.MetaData

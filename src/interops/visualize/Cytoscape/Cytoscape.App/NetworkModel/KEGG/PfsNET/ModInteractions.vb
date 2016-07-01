@@ -1,11 +1,11 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.ComponentModel
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace NetworkModel.KEGG
 

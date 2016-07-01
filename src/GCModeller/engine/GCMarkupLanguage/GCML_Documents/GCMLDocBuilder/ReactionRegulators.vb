@@ -6,12 +6,12 @@ Namespace Builder
 
     Public Class ReactionRegulators : Inherits IBuilder
 
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             Call MyBase.New(MetaCyc, Model)
         End Sub
 
         Public Overrides Function Invoke() As BacterialModel
-            Dim Regulators = (From regr As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
+            Dim Regulators = (From regr As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
                               In MetaCyc.GetRegulations
                               Where regr.Types.IndexOf("Regulation-of-Reactions") > -1
                               Select regr).ToArray         '获取所有的ReactionRegulator
@@ -20,7 +20,7 @@ Namespace Builder
             For Each Reaction In Model.Metabolism.MetabolismNetwork
                 Dim LQuery = (From regr In Regulators Where String.Equals(Reaction.Identifier, regr.RegulatedEntity) Select regr).ToArray '选择调控本反映的调控因子
                 If Not LQuery.IsNullOrEmpty Then '可能有多个调控因子
-                    'Reaction.Regulators = (From regr As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
+                    'Reaction.Regulators = (From regr As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
                     '                       In LQuery
                     '                       Let Regulator = CreateRegulator(regr, Metabolites)
                     '                       Where Not Regulator Is Nothing
@@ -31,7 +31,7 @@ Namespace Builder
             Return Model
         End Function
 
-        Private Shared Function CreateRegulator(RegulatorBaseType As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Regulation,
+        Private Shared Function CreateRegulator(RegulatorBaseType As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Regulation,
                                                 Metabolites As GCML_Documents.XmlElements.Metabolism.Metabolite()) _
             As GCML_Documents.XmlElements.SignalTransductions.Regulator
 

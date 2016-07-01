@@ -1,10 +1,10 @@
-﻿Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
+﻿Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ProteinModel
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ProteinModel
 
 Namespace PfamString
 
@@ -12,11 +12,11 @@ Namespace PfamString
     ''' 这个数据结构是对ChouFasman结构而言的
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class DomainObject : Inherits LANS.SystemsBiology.ProteinModel.DomainObject
+    Public Class DomainObject : Inherits SMRUCC.genomics.ProteinModel.DomainObject
 
         ''' <summary>
-        ''' 在Pfam-String之中的位置，其格式为<see cref="LANS.SystemsBiology.ProteinModel.DomainObject.Identifier"></see>
-        ''' _Handle*<see cref="LANS.SystemsBiology.ProteinModel.DomainObject.Identifier"></see>_Handle
+        ''' 在Pfam-String之中的位置，其格式为<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Identifier"></see>
+        ''' _Handle*<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Identifier"></see>_Handle
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

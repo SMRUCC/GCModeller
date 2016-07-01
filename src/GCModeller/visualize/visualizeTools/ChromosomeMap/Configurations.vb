@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Runtime.CompilerServices
 Imports System.Drawing
-Imports LANS.SystemsBiology.GCModeller.DataVisualization.ValueParser
+Imports SMRUCC.genomics.GCModeller.DataVisualization.ValueParser
 Imports Microsoft.VisualBasic.Serialization
 Imports Oracle.Java.IO.Properties
 Imports Microsoft.VisualBasic.Imaging

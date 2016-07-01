@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+﻿Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
 Imports Microsoft.VisualBasic
 
 Namespace KEGG.Compiler
@@ -18,17 +18,17 @@ Namespace KEGG.Compiler
         ''' <param name="MetaCycCompounds"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function CreateDictionary(MetaCycCompounds As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Compounds) _
-            As Dictionary(Of String, LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Compound)
+        Private Function CreateDictionary(MetaCycCompounds As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Compounds) _
+            As Dictionary(Of String, SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Compound)
 
-            Dim MetaCycCompoundWithKEGGCompounds = (From compound As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Compound
+            Dim MetaCycCompoundWithKEGGCompounds = (From compound As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Compound
                                                     In MetaCycCompounds.AsParallel
                                                     Let KEGGId As String = compound.KEGGCompound
                                                     Where Not String.IsNullOrEmpty(KEGGId)
                                                     Select compound).ToArray
             Dim KEGGIdList = (From item In MetaCycCompoundWithKEGGCompounds Select item.KEGGCompound Distinct).ToArray
-            Dim DictValue As Dictionary(Of String, LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Compound) =
-                New Dictionary(Of String, LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Compound)
+            Dim DictValue As Dictionary(Of String, SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Compound) =
+                New Dictionary(Of String, SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Compound)
 
             For Each strId As String In KEGGIdList
                 Call DictValue.Add(strId, (From item In MetaCycCompoundWithKEGGCompounds.AsParallel Where String.Equals(strId, item.KEGGCompound) Select item).First)

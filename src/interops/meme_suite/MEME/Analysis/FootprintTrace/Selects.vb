@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 Namespace Analysis.FootprintTraceAPI

@@ -189,11 +189,11 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interops\MEME\MEME.DocParser\MEME.DocParser.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interops\MEME\MEME.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>

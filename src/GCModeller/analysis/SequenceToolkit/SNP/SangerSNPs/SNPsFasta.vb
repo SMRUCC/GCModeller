@@ -1,5 +1,5 @@
 Imports System.IO
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports FILE = System.IO.StreamWriter
 Imports Microsoft.VisualBasic
 

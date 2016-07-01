@@ -1,9 +1,9 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports LANS.SystemsBiology.GCModeller.Workbench
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports SMRUCC.genomics.GCModeller.Workbench
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Scripting.MetaData

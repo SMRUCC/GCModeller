@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
+﻿Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Drawing
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -7,7 +7,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.HTMLWriter
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.Workbench.ReportBuilder
+Imports SMRUCC.genomics.GCModeller.Workbench.ReportBuilder
 Imports Microsoft.VisualBasic.Imaging
 
 Partial Module CLI

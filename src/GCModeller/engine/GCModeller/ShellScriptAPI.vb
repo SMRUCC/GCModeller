@@ -6,13 +6,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 <[PackageNamespace]("GCModeller.Engine_Kernel")>
 Public Module ShellScriptAPI
 
-    Dim ModelRegistry As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
+    Dim ModelRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
 
     <ImportsConstant> Public Const NA As String = "N/A"
 
     <ExportAPI("Registry.Load_From_Xml")>
-    Public Function LoadModuleRegistry(Path As String) As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
-        ShellScriptAPI.ModelRegistry = LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry.Load(Path)
+    Public Function LoadModuleRegistry(Path As String) As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
+        ShellScriptAPI.ModelRegistry = SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry.Load(Path)
         Return ModelRegistry
     End Function
 
@@ -31,7 +31,7 @@ Public Module ShellScriptAPI
             Configuration = FileIO.FileSystem.GetFiles(Configuration, FileIO.SearchOption.SearchTopLevelOnly, "*.inf").First
         End If
 
-        Return Global.LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Run.Invoke(
+        Return Global.SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Run.Invoke(
             ShellScriptAPI.ModelRegistry, GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(Configuration), argvs)
     End Function
 

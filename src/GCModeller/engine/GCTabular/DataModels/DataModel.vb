@@ -1,8 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.Assembly
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace DataModel

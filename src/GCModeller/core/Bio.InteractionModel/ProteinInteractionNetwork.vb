@@ -1,8 +1,8 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.ProteinModel
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
 

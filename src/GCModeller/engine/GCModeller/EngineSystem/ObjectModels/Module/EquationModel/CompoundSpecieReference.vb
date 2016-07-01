@@ -1,6 +1,6 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace EngineSystem.ObjectModels.Module.EquationModel

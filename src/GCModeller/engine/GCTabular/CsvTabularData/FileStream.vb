@@ -2,14 +2,14 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
 
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.Assembly
 
 Namespace FileStream
 
@@ -193,7 +193,7 @@ Namespace FileStream
         ''' <returns></returns>
         ''' <remarks></remarks>
         <CollectionAttribute("ModifierEnzymes")> Public Property Enzymes As String()
-        'Dim _DBLinks As LANS.SystemsBiology.Assembly.MetaCyc.Schema.DBLinkManager
+        'Dim _DBLinks As SMRUCC.genomics.Assembly.MetaCyc.Schema.DBLinkManager
         'Public Property DBLinks As String()
         '    Get
         '        If _DBLinks Is Nothing Then
@@ -207,7 +207,7 @@ Namespace FileStream
         '    End Set
         'End Property
 
-        'Public Function GetDBLinks() As LANS.SystemsBiology.Assembly.MetaCyc.Schema.DBLinkManager
+        'Public Function GetDBLinks() As SMRUCC.genomics.Assembly.MetaCyc.Schema.DBLinkManager
         '    Return _DBLinks
         'End Function
         Public Property EnzymeClass As String

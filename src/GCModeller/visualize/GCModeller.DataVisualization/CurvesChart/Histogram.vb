@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Imaging

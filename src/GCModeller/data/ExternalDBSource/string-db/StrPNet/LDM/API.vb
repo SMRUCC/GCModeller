@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.TCS
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.TCS
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -78,8 +78,8 @@ Namespace StringDB.StrPNet
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Extract.Flux"), Extension>
-        Public Function CreateFluxObject(Network As Network, Inducers As SensorInducers(), Optional Pi As String = "PI") As Global.LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction()
-            Dim ChunkList As List(Of LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction) = New List(Of SystemsBiology.Assembly.SBML.Level2.Elements.Reaction)
+        Public Function CreateFluxObject(Network As Network, Inducers As SensorInducers(), Optional Pi As String = "PI") As Global.SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction()
+            Dim ChunkList As List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction) = New List(Of SystemsBiology.Assembly.SBML.Level2.Elements.Reaction)
 
             For Each item In Network.Pathway
                 If Not item.OCS.IsNullOrEmpty Then
@@ -97,8 +97,8 @@ Namespace StringDB.StrPNet
             Return ChunkList.ToArray
         End Function
 
-        Private Function CreateFluxObject(TF As String, TCS As TCS.TCS, Inducers As String(), Pi As String) As Global.LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction()
-            Dim ChunkBuffer As List(Of LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction) = (From Inducer As String In Inducers Select ChemotaxisInduction(TCS.Chemotaxis, Pi, Inducer)).ToList
+        Private Function CreateFluxObject(TF As String, TCS As TCS.TCS, Inducers As String(), Pi As String) As Global.SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction()
+            Dim ChunkBuffer As List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction) = (From Inducer As String In Inducers Select ChemotaxisInduction(TCS.Chemotaxis, Pi, Inducer)).ToList
             Call ChunkBuffer.Add(PhosphoTransfer(TCS.Chemotaxis, TCS.HK, Pi))
             Call ChunkBuffer.Add(PhosphoTransfer(TCS.HK, TCS.RR, Pi))
             Call ChunkBuffer.Add(PhosphoTransfer(TCS.RR, TF, Pi))
@@ -106,15 +106,15 @@ Namespace StringDB.StrPNet
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Function CreateFluxObject(TF As String, OCS As KeyValuePair, Inducers As String(), Pi As String) As LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction()
-            Dim ChunkBuffer As List(Of LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction) = (From Inducer As String In Inducers Select ChemotaxisInduction(OCS.Key, Pi, Inducer)).ToList
+        Private Function CreateFluxObject(TF As String, OCS As KeyValuePair, Inducers As String(), Pi As String) As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction()
+            Dim ChunkBuffer As List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction) = (From Inducer As String In Inducers Select ChemotaxisInduction(OCS.Key, Pi, Inducer)).ToList
             ' Call ChunkBuffer.Add(PhosphoTransfer(OCS.Chemotaxis, OCS.TrNode, Pi))
             'Call ChunkBuffer.Add(PhosphoTransfer(OCS.TrNode, TF, Pi))
 
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Function ChemotaxisInduction(Chemotaxis As String, Pi As String, Inducer As String) As LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction
+        Private Function ChemotaxisInduction(Chemotaxis As String, Pi As String, Inducer As String) As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction
             Dim Reactants = {
                         New speciesReference With {.species = Inducer, .stoichiometry = 1},
                         New speciesReference With {.species = "ATP", .stoichiometry = 1},
@@ -132,7 +132,7 @@ Namespace StringDB.StrPNet
             }
         End Function
 
-        Private Function PhosphoTransfer(Donor As String, Reciever As String, Pi As String) As LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction
+        Private Function PhosphoTransfer(Donor As String, Reciever As String, Pi As String) As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction
             Dim Reaction = New Reaction With {
                 .reversible = False,
                                                                                 .Products = {

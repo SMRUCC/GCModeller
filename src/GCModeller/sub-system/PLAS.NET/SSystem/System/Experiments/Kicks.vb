@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
 Imports Microsoft.VisualBasic
 
 Namespace Kernel

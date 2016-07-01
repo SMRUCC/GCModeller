@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.InteractionModel
+﻿Imports SMRUCC.genomics.InteractionModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DocumentFormat.Csv

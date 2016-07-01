@@ -25,10 +25,10 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
+Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports System.Text
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.NCBI.Extensions
+Imports SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult
 
 Namespace TrackDatas.Highlights
 

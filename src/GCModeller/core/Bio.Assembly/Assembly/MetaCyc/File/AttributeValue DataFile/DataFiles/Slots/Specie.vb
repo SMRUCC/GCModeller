@@ -106,7 +106,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         '    Return Specie
         'End Operator
 
-        'Public Shared Shadows Widening Operator CType(e As LANS.SystemsBiology.Assembly.MetaCyc.File.AttributeValue) As Specie
+        'Public Shared Shadows Widening Operator CType(e As SMRUCC.genomics.Assembly.MetaCyc.File.AttributeValue) As Specie
         '    Dim Query As Generic.IEnumerable(Of MetaCyc.File.DataFiles.Slots.Specie) =
         '        From c As MetaCyc.File.AttributeValue.Object
         '        In e.Objects

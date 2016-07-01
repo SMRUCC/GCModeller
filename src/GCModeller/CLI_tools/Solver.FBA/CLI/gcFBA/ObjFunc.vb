@@ -1,10 +1,10 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.Assembly.SBML.Level2
-Imports LANS.SystemsBiology.Assembly.SBML.ExportServices.Intersection
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.DESeq2
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA
+﻿Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Assembly.SBML.Level2
+Imports SMRUCC.genomics.Assembly.SBML.ExportServices.Intersection
+Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.DESeq2
+Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
+Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
+Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv

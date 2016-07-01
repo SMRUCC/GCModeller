@@ -1,5 +1,5 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.DatabaseServices.StringDB.StringAPI.Database.Format
+Imports SMRUCC.genomics.DatabaseServices.StringDB.StringAPI.Database.Format
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -396,7 +396,7 @@ http://[database]/[access]/[format]/[request]?[parameter]=[value]", Cites:="", P
 
         <ExportAPI("Downloads.Interactions",
                    Info:="http://string-db.org/api/psi-mi/interactions?identifier=gene_id")>
-        Public Shared Function DownloadInteractions(PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT,
+        Public Shared Function DownloadInteractions(PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
                                                     <Parameter("Dir.Export", "Default directory is current work directory.")>
                                                     Optional ExportDir As String = "./") As Integer
             Dim lstID As String() = PTT.GeneIDList.ToArray

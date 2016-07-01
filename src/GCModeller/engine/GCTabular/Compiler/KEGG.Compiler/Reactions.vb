@@ -1,13 +1,13 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml.Nodes
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools
+Imports SMRUCC.genomics.AnalysisTools
 Imports System.Runtime.CompilerServices
 
 Namespace KEGG.Compiler
@@ -24,7 +24,7 @@ Namespace KEGG.Compiler
                     Return Nothing  '由于CARMEN软件的数据库与KEGG数据库的版本不一致，故而会出现这个情况，对这种错误进行忽略
                 End If
 
-                Dim DownloadReactionModel = LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction.Download(item.rnId)
+                Dim DownloadReactionModel = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction.Download(item.rnId)
                 Call DownloadReactionModel.GetXml.SaveTo(DownloadFile)
                 Return DownloadReactionModel
             End If
@@ -45,8 +45,8 @@ Namespace KEGG.Compiler
                                       CompoundsDownloads As String,
                                       Logging As Logging.LogFile) As List(Of FileStream.MetabolismFlux)
 
-            Dim Models = KEGGReactions.ToDictionary(Function(item As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction) item.Entry)
-            Dim CARMEN = LANS.SystemsBiology.AnalysisTools.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
+            Dim Models = KEGGReactions.ToDictionary(Function(item As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction) item.Entry)
+            Dim CARMEN = SMRUCC.genomics.AnalysisTools.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
             Dim LQuery = (From item As CARMEN.Reaction In CARMEN.AsParallel
                           Let Model = Models.__match(item, ReactionsDownloads)
                           Where Not Model Is Nothing
@@ -63,8 +63,8 @@ Namespace KEGG.Compiler
             Return Reactions
         End Function
 
-        Private Function Convert(DataModel As LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction) As String
-            Dim Equation = LANS.SystemsBiology.ComponentModel.EquaionModel.EquationBuilder.ToString(
+        Private Function Convert(DataModel As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction) As String
+            Dim Equation = SMRUCC.genomics.ComponentModel.EquaionModel.EquationBuilder.ToString(
                 LeftSide:=(From item In DataModel.Reactants Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray,
                 RightSide:=(From item In DataModel.Products Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray,
                 Reversible:=DataModel.reversible)
@@ -85,17 +85,17 @@ Namespace KEGG.Compiler
         ''' <param name="Logging"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function CompileExpasy(ECTable As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT),
-                                      KEGGReactions As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction),
+        Public Function CompileExpasy(ECTable As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT),
+                                      KEGGReactions As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction),
                                       ModelLoader As FileStream.IO.XmlresxLoader,
-                                      MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,
-                                      Sbml As LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile,
+                                      MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,
+                                      Sbml As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile,
                                       CompoundsDownloads As String,
                                       ReactionDownloads As String, Logging As Logging.LogFile) _
             As List(Of FileStream.MetabolismFlux)
 
-            Dim Reactions As Dictionary(Of String, KeyValuePair(Of List(Of String), LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction)) =
-                New Dictionary(Of String, KeyValuePair(Of List(Of String), LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction))
+            Dim Reactions As Dictionary(Of String, KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)) =
+                New Dictionary(Of String, KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction))
             Dim i As Integer
             Dim MetaCycEnzymaticsReactions = MetaCyc.GetReactions.getECDictionary
             Dim SbmlModels = Sbml.Model.listOfReactions.ToDictionary(Function(item As Level2.Elements.Reaction) item.id)
@@ -125,7 +125,7 @@ Namespace KEGG.Compiler
 
                 For Each item In LQuery
                     If Not Reactions.ContainsKey(item.Entry) Then
-                        Call Reactions.Add(item.Entry, New KeyValuePair(Of List(Of String), LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction)(New List(Of String) From {Enzyme.ProteinId}, item))
+                        Call Reactions.Add(item.Entry, New KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)(New List(Of String) From {Enzyme.ProteinId}, item))
                     Else
                         Dim Target = Reactions(item.Entry)
                         Call Target.Key.Add(Enzyme.ProteinId)
@@ -165,8 +165,8 @@ Namespace KEGG.Compiler
         ''' <param name="Sbml"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function CompileSmallMoleculeReactions(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,
-                                                       Sbml As Dictionary(Of String, LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction),
+        Private Function CompileSmallMoleculeReactions(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,
+                                                       Sbml As Dictionary(Of String, SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction),
                                                        Metabolites As Dictionary(Of String, FileStream.Metabolite),
                                                        DownloadDir As String,
                                                        ByRef DownloadList As List(Of FileStream.Metabolite), Logging As Logging.LogFile) _
@@ -177,7 +177,7 @@ Namespace KEGG.Compiler
             Dim SbmlModels = (From item In LQuery
                               Where Sbml.ContainsKey(item.Identifier)
                               Let SbmlModel = Sbml(item.Identifier)
-                              Let KEGGDataModel = New LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction With {
+                              Let KEGGDataModel = New SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction With {
                                   .Entry = item.Identifier,
                                   .Definition = item.CommonName,
                                   .CommonNames = If(item.Names.IsNullOrEmpty, Nothing, item.Names.ToArray),
@@ -211,17 +211,17 @@ Namespace KEGG.Compiler
                 If Not Metabolites.ContainsKey(UniqueId) Then
 Download:
                     If Regex.Match(UniqueId, "C\d{5}").Success Then
-                        Dim DownloadCompoundModel = LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound.Download(UniqueId)
+                        Dim DownloadCompoundModel = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound.Download(UniqueId)
 
                         Call DownloadCompoundModel.GetXml.SaveTo(String.Format("{0}/Downloads/{1}.xml", DownloadDir, UniqueId))
                         Call DownloadList.Add(Compound.GenerateObject(DownloadCompoundModel))
                         Call Metabolites.Add(UniqueId, DownloadList.Last)
                     ElseIf Regex.Match(UniqueId, "G\d{5}").Success Then
                         Dim SavedCache As String = String.Format("{0}/Downloads/{1}.xml", DownloadDir, UniqueId)
-                        Dim DownloadCompoundModel As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Glycan
+                        Dim DownloadCompoundModel As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Glycan
 
                         If FileIO.FileSystem.FileExists(SavedCache) Then
-                            DownloadCompoundModel = SavedCache.LoadXml(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Glycan)()
+                            DownloadCompoundModel = SavedCache.LoadXml(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Glycan)()
 
                             If Not String.IsNullOrEmpty(DownloadCompoundModel.Entry) Then
                                 Call DownloadList.Add(Compound.GenerateObject(DownloadCompoundModel.ToCompound))
@@ -231,7 +231,7 @@ Download:
                             End If
                         End If
 
-                        DownloadCompoundModel = LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Glycan.Download(UniqueId)
+                        DownloadCompoundModel = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Glycan.Download(UniqueId)
 
                         Call DownloadCompoundModel.GetXml.SaveTo(SavedCache)
                         Call DownloadList.Add(Compound.GenerateObject(DownloadCompoundModel.ToCompound))

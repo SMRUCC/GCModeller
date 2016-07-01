@@ -1,8 +1,8 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents
 Imports Microsoft.VisualBasic.IEnumerations
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.Module
 
@@ -93,7 +93,7 @@ DEBUG:          FluxValue = KineticsModel.GetValue
         ''' <param name="Compartments"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function CreateObject(FluxModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction,
+        Public Overloads Shared Function CreateObject(FluxModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction,
                                                       Enzymes As Feature.MetabolismEnzyme(),
                                                       EnzymeKinetics As MathematicsModels.EnzymeKinetics.MichaelisMenten,
                                                       Compartments As ObjectModels.SubSystem.ICompartmentObject(),

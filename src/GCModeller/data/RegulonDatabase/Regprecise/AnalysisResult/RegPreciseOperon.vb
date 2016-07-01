@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.Serialization
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection

@@ -1,10 +1,10 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports LANS.SystemsBiology.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 Imports System.IO
 
 Namespace Compiler.Components
@@ -50,12 +50,12 @@ Namespace Compiler.Components
                             Continue For
                         End If
 
-                        Dim Compound = LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound.Download(KEGGCompound.ACCESSION_NUMBER)
+                        Dim Compound = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound.Download(KEGGCompound.ACCESSION_NUMBER)
 
                         metabolite.KEGGCompound = Compound.Entry
                         metabolite.MolWeight = Compound.MolWeight
                         If metabolite.MolWeight = 0.0R AndAlso Not String.IsNullOrEmpty(Compound.Formula) Then
-                            metabolite.MolWeight = LANS.SystemsBiology.ComponentModel.PeriodicTable.MolecularWeightCalculate(Compound.Formula)
+                            metabolite.MolWeight = SMRUCC.genomics.ComponentModel.PeriodicTable.MolecularWeightCalculate(Compound.Formula)
                         End If
 
                         Call DonwloadList.Add(New DownloadedData With {.CommonName = CommonName, .KEGGCompounds = Compound, .MetaCycId = metabolite.Identifier})

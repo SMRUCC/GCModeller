@@ -1,8 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports System.Reflection
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace PfamFastaComponentModels
 

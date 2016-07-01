@@ -1,10 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 
 Namespace Builder
 

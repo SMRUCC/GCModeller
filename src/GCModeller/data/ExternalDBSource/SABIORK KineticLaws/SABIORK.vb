@@ -3,9 +3,9 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports System.Text
 Imports Microsoft.VisualBasic.IEnumerations
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 
 Namespace SabiorkKineticLaws
 

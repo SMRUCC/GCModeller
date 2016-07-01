@@ -17,13 +17,13 @@ Imports Microsoft.VisualBasic
 ''' <remarks></remarks>
 Public Module PdbExport
 
-    Public Function ExportSequence(pdbFile As String) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+    Public Function ExportSequence(pdbFile As String) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
         Dim chunkBuffer As String() = IO.File.ReadAllLines(pdbFile)
 
         Dim Sequence = GetByKeyword(chunkBuffer, "SEQRES")
         Dim Chains As String() = (From item In Sequence.AsParallel Let id = item(1) Select id Distinct Order By id Ascending).ToArray
-        Dim FASTA As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken() =
-            New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken(Chains.Count - 1) {}
+        Dim FASTA As SMRUCC.genomics.SequenceModel.FASTA.FastaToken() =
+            New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(Chains.Count - 1) {}
         Dim Definitions = GetByKeyword(chunkBuffer, "DBREF")
 
         For i As Integer = 0 To Chains.Count - 1
@@ -33,12 +33,12 @@ Public Module PdbExport
 
             For Each segment In Segments
                 For Each item As String In segment.Skip(3)
-                    Call seqBuilder.Append(LANS.SystemsBiology.SequenceModel.Polypeptides.Polypeptides.Abbreviate(item))
+                    Call seqBuilder.Append(SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides.Abbreviate(item))
                 Next
             Next
 
             Dim Def = (From item In Definitions Where String.Equals(item(1), ChainId) Select item).First
-            Dim FsaObject As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken =
+            Dim FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken =
                 New SequenceModel.FASTA.FastaToken
 
             FsaObject.SequenceData = seqBuilder.ToString

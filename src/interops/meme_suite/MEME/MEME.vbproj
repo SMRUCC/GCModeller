@@ -321,7 +321,7 @@
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\TmoD\TmoD.vbproj">
+    <ProjectReference Include="..\TmoD\TmoD.vbproj">
       <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
       <Name>TmoD</Name>
     </ProjectReference>
@@ -337,7 +337,7 @@
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
-    <ProjectReference Include="MEME.DocParser\MEME.DocParser.vbproj">
+    <ProjectReference Include="..\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>

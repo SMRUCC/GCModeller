@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML.Components
+Imports SMRUCC.genomics.Assembly.SBML.Components
 Imports Microsoft.VisualBasic
 
 Namespace Level3

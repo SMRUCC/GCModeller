@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 
@@ -255,7 +255,7 @@ Namespace Transcriptome.UTRs
         End Sub
 
         Private Function __strandCoordinates(data As Generic.IEnumerable(Of ReadsCount),
-                                             Strand As LANS.SystemsBiology.ComponentModel.Loci.Strands,
+                                             Strand As SMRUCC.genomics.ComponentModel.Loci.Strands,
                                              genomeSize As Long) As Integer()
 
             Dim coordinates As Integer() = New Integer(genomeSize - 1) {}

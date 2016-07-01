@@ -251,19 +251,19 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\R.Bioinformatics\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
       <Project>{485965cd-da31-4517-86f6-94dfd28379c1}</Project>
       <Name>RDotNet.Extensions.Bioinformatics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\R.Bioinformatics\RDotNET.Extensions.VisualBasic\RDotNet.Extensions.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNet.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\R.Bioinformatics\RDotNET\RDotNet.vbproj">
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
       <Name>RDotNet</Name>
     </ProjectReference>
@@ -303,15 +303,15 @@
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\TmoD\TmoD.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\TmoD\TmoD.vbproj">
       <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
       <Name>TmoD</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
+    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
       <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
       <Name>Toolkits.RNA-Seq.RTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
@@ -335,11 +335,11 @@
       <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interops\MEME\MEME.DocParser\MEME.DocParser.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Interops\MEME\MEME.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>

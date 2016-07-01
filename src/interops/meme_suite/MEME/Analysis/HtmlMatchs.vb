@@ -1,26 +1,26 @@
 ﻿Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.WGCNA
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.DatabaseServices
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.WGCNA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -357,7 +357,7 @@ Namespace Analysis
 
             Call Console.WriteLine("Start to load data of Pcc values from the chipdata!")
             Dim Pcc As PccMatrix = CreatePccMAT(ChipData, True)
-            Dim DoorOperons = LANS.SystemsBiology.Assembly.DOOR.Load(Door).DOOROperonView
+            Dim DoorOperons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
 
             Dim RegulatorIdList As String() = (From item In RegulatorsBestMatch Select item.QueryName Distinct).ToArray
             Call WGCNAWeights.Filtering(RegulatorIdList)
@@ -513,11 +513,11 @@ Namespace Analysis
                 MEME_out,
                 MAST_out,
                 FastaFileDir,
-                RegpreciseTFBS:=LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Regprecise_TFBS))  '所保存的结果Csv文件
+                RegpreciseTFBS:=SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Regprecise_TFBS))  '所保存的结果Csv文件
 
-            Dim RegulatorsBestMatch As LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH() =
-            bh.LoadCsv(Of LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH).ToArray
-            Dim DoorOperons = LANS.SystemsBiology.Assembly.DOOR.Load(Door).DOOROperonView
+            Dim RegulatorsBestMatch As SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH() =
+            bh.LoadCsv(Of SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH).ToArray
+            Dim DoorOperons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
             Dim RegulatorIdList As String() = (From item In RegulatorsBestMatch Select item.QueryName Distinct).ToArray
 
             Call Console.WriteLine("Thread ""{0}"" started!", ExportedData)
@@ -532,7 +532,7 @@ Namespace Analysis
         End Function
 
         Private Function __assignOperonInfo(item As MatchedResult,
-                                            DoorOperons As LANS.SystemsBiology.Assembly.DOOR.OperonView) As MatchedResult
+                                            DoorOperons As SMRUCC.genomics.Assembly.DOOR.OperonView) As MatchedResult
             If Not DoorOperons.ContainsOperon(item.DoorId) Then
                 Call $"{item.DoorId} is not exists in the operons data!".__DEBUG_ECHO
             Else

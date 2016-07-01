@@ -4,11 +4,11 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 ''' <summary>
 ''' dRNA-seq
@@ -413,23 +413,23 @@ Public Module Perl
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("Assembly.Located")>
-    Public Function Located(data As Generic.IEnumerable(Of AlignmentReads), Ptt As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT) As LocatedAlignment()
+    Public Function Located(data As Generic.IEnumerable(Of AlignmentReads), Ptt As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) As LocatedAlignment()
 
         Call Settings.Initialize(GetType(Perl))
 
         ' 通过blastn方法进行搜索定位的旧方法
 
-        'Dim Fasta = (From Tss In data Let ID = Tss.Length & Tss.MappingPosition Select fsa = New LANS.SystemsBiology.SequenceModel.FASTA.FastaObject With {.Attributes = {ID}, .SequenceData = Tss.SequenceData}, ID, Tss).ToArray
+        'Dim Fasta = (From Tss In data Let ID = Tss.Length & Tss.MappingPosition Select fsa = New SMRUCC.genomics.SequenceModel.FASTA.FastaObject With {.Attributes = {ID}, .SequenceData = Tss.SequenceData}, ID, Tss).ToArray
         'Dim Temp As String = Program.Settings.DataCache & "/" & IO.Path.GetFileNameWithoutExtension(FileIO.FileSystem.GetTempFileName) & ".fasta"
-        'Call CType((From obj In Fasta Select obj.fsa).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile).Save(Temp)
+        'Call CType((From obj In Fasta Select obj.fsa).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Save(Temp)
         'Dim Log = Program.Settings.DataCache & "/" & IO.Path.GetFileNameWithoutExtension(FileIO.FileSystem.GetTempFileName) & ".txt"
-        'Call LANS.SystemsBiology.NCBI.Extensions.Blastn(LANS.SystemsBiology.NCBI.Extensions.CreateSession, Temp, refGenes, Log, "1000")
+        'Call SMRUCC.genomics.NCBI.Extensions.Blastn(SMRUCC.genomics.NCBI.Extensions.CreateSession, Temp, refGenes, Log, "1000")
 
-        '   Dim LQWuery = (From site In data Select site, genes = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GetRelatedGenes(Ptt, site.MappingPosition, site.MappingPosition + 50)).ToArray
+        '   Dim LQWuery = (From site In data Select site, genes = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GetRelatedGenes(Ptt, site.MappingPosition, site.MappingPosition + 50)).ToArray
         Throw New NotImplementedException
     End Function
 
-    Public Class LocatedAlignment : Inherits LANS.SystemsBiology.SequenceModel.ISequenceModel
+    Public Class LocatedAlignment : Inherits SMRUCC.genomics.SequenceModel.ISequenceModel
         Public Property QueryTemplateName As String
         Public Property BitwiseFLAG As String
         Public Property RefName As String

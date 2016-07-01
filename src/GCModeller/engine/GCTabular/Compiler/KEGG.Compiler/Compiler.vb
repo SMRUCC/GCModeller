@@ -1,11 +1,11 @@
-﻿Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
+﻿Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -17,7 +17,7 @@ Namespace KEGG.Compiler
                         Description:="For the first time of the model compiles operation, a active network connection to the KEGG database server maybe required.")>
     Public Class Compiler : Inherits CsvTabular.Compiler.Compiler
 
-        Dim MetaCycAll As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
+        Dim MetaCycAll As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
         Dim _RegpreciseRegulatorBh As RegpreciseMPBBH()
         Dim PccMatrix As PccMatrix
 
@@ -62,10 +62,10 @@ Namespace KEGG.Compiler
             Me._ModelIO.SetExportDirectory(argvs("-export"))
             Me._ModelIO.SystemVariables = SystemVariables.CreateDefault.ToList
 
-            Dim Door = LANS.SystemsBiology.Assembly.DOOR.Load(FilePath:=argvs("-door"))
+            Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(FilePath:=argvs("-door"))
             Dim Footprints = argvs("-footprints").LoadCsv(Of DocumentFormat.RegulatesFootprints)(False)
 
-            'Me.PccMatrix = LANS.SystemsBiology.Toolkits.RNASeq.ChipData.LoadChipData(argvs("-chipdata")).CalculatePccMatrix
+            'Me.PccMatrix = SMRUCC.genomics.Toolkits.RNASeq.ChipData.LoadChipData(argvs("-chipdata")).CalculatePccMatrix
             Me._ModelIO.DoorOperon = (From Operon In Door.DOOROperonView.Operons Select Operon.ConvertToCsvData).ToArray
             Me._ModelIO.CellSystemModel.OperonCounts = _ModelIO.DoorOperon.Count
             Me._Door = Door
@@ -80,18 +80,18 @@ Namespace KEGG.Compiler
             Call _Logging.WriteLine("Start to load compounds data from filesystem, this may take a while....")
             Dim KEGGCompounds = (From path As String
                                  In FileIO.FileSystem.GetFiles(sPath, FileIO.SearchOption.SearchAllSubDirectories, "C*.xml").AsParallel
-                                 Select path.LoadXml(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound)()).ToList
+                                 Select path.LoadXml(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)()).ToList
             Call KEGGCompounds.AddRange((From path As String
                                          In FileIO.FileSystem.GetFiles(sPath, FileIO.SearchOption.SearchAllSubDirectories, "G*.xml").AsParallel
-                                         Select path.LoadXml(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Glycan)().ToCompound).ToArray)
+                                         Select path.LoadXml(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Glycan)().ToCompound).ToArray)
 
-            Me.KEGGCompounds = New KeyValuePair(Of String, LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound())(sPath, KEGGCompounds.ToArray)
+            Me.KEGGCompounds = New KeyValuePair(Of String, SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound())(sPath, KEGGCompounds.ToArray)
 
             Call _Logging.WriteLine("[DONE!]")
             Call _Logging.WriteLine("Start to load reactions data from filesystem, this may take a while....")
 
             sPath = argvs("-kegg.reactions")
-            KEGGReactions = New KeyValuePair(Of String, LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Reaction())(
+            KEGGReactions = New KeyValuePair(Of String, SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction())(
                 sPath, (From File As String
                         In FileIO.FileSystem.GetFiles(sPath, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel
                         Let Model = LoadReactionModel(File, Me._Logging)
@@ -100,9 +100,9 @@ Namespace KEGG.Compiler
 
             Call _Logging.WriteLine("[DONE!]")
 
-            Me.KEGGPathways = (From File As String In FileIO.FileSystem.GetFiles(argvs("-kegg.pathways"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel Select File.LoadXml(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Pathway)()).ToArray
-            Me.KEGGModules = (From File As String In FileIO.FileSystem.GetFiles(argvs("-kegg.modules"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel Select File.LoadXml(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Module)()).ToArray
-            Me.MetaCycAll = LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(argvs("-metacyc_all"), False)
+            Me.KEGGPathways = (From File As String In FileIO.FileSystem.GetFiles(argvs("-kegg.pathways"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel Select File.LoadXml(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)()).ToArray
+            Me.KEGGModules = (From File As String In FileIO.FileSystem.GetFiles(argvs("-kegg.modules"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel Select File.LoadXml(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Module)()).ToArray
+            Me.MetaCycAll = SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(argvs("-metacyc_all"), False)
 
             Return 0
         End Function
@@ -116,7 +116,7 @@ Namespace KEGG.Compiler
         Public Overrides Function Compile(Optional argvs As CommandLine.CommandLine = Nothing) As FileStream.XmlFormat.CellSystemXmlModel
             Call Me.CheckRequiredParameter(argvs, New String() {"-carmen", "-ec", "-mist2_strp", "-ptt", "-cross_talks", "-myva_cog", "-string-db", "-regulator_bh", "-metacyc", "-regprecise", "-species_code"}, "KEGG.Compiler::Compile()")
 
-            Call __Initialize_MetaCyc(LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(argvs("-metacyc")))
+            Call __Initialize_MetaCyc(SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(argvs("-metacyc")))
 
             '代谢物在数据库之间的映射
             Me._ModelIO.MetabolitesModel = KEGG.Compiler.Compound.Compile(KEGGCompounds.Value).ToDictionary
@@ -125,23 +125,23 @@ Namespace KEGG.Compiler
                                                                                 KEGGReactions.Key,
                                                                                 KEGGCompounds.Key,
                                                                                 Me._Logging).ToList
-            Me._ModelIO.EffectorMapping = Effectors.MappingEffectors(MetaCycAll, _ModelIO.MetabolitesModel.Values.ToList, argvs("-regprecise").LoadXml(Of LANS.SystemsBiology.DatabaseServices.Regprecise.TranscriptionFactors))
-            Me._RegpreciseRegulatorBh = argvs("-regulator_bh").LoadCsv(Of LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH)(False).ToArray
+            Me._ModelIO.EffectorMapping = Effectors.MappingEffectors(MetaCycAll, _ModelIO.MetabolitesModel.Values.ToList, argvs("-regprecise").LoadXml(Of SMRUCC.genomics.DatabaseServices.Regprecise.TranscriptionFactors))
+            Me._RegpreciseRegulatorBh = argvs("-regulator_bh").LoadCsv(Of SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH)(False).ToArray
             'Me._ModelIO.EffectorMapping = MappingKEGGCompoundsRegprecise(KEGGCompounds:=_ModelIO.MetabolitesModel.Values.ToArray, Regprecise:=_RegpreciseRegulatorBh)
 
-            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of LANS.SystemsBiology.DatabaseServices.StringDB.SimpleCsv.Network)()
+            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.SimpleCsv.Network)()
             Me._CrossTalks = Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load(argvs("-cross_talks"))
-            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.Network)()
-            Me._MetabolismNetwork = LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile.Load(Me._MetaCyc.SBMLMetabolismModel)
+            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Network)()
+            Me._MetabolismNetwork = SMRUCC.genomics.Assembly.SBML.Level2.XmlFile.Load(Me._MetaCyc.SBMLMetabolismModel)
             Me._ModelIO.ProteinAssembly = _createProteinAssembly(Me._ModelIO.Regulators, Me._ModelIO.MetabolitesModel)
 
             Call CsvTabular.RegulationNetworkFromFootprints.MappingEffector(_ModelIO.Regulators, _ModelIO.EffectorMapping, _RegpreciseRegulatorBh)
             Call CsvTabular.RegulationNetworkFromFootprints.TCS__RR(Me._ModelIO.Regulators, _ModelIO.MisT2)
 
             Dim MyvaCog = If(argvs Is Nothing OrElse String.IsNullOrEmpty(argvs("-myva_cog")),
-                             New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG() {},
-                             argvs("-myva_cog").AsDataSource(Of LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG)(, False))
-            Dim EC = argvs("-ec").LoadCsv(Of LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)(False)
+                             New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG() {},
+                             argvs("-myva_cog").AsDataSource(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG)(, False))
+            Dim EC = argvs("-ec").LoadCsv(Of SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)(False)
 
             Using MappingCreator = New Mapping(_MetaCyc, Me._ModelIO.MetabolitesModel.Values.ToArray)
                 Me._ModelIO.EnzymeMapping = MappingCreator.CreateEnzrxnGeneMap.ToList
@@ -161,7 +161,7 @@ Namespace KEGG.Compiler
             Call Me.CompileGenome(argvs("-ptt"), MyvaCog, EC)
 
             Me._ModelIO.KEGG_Pathways =
-                LANS.SystemsBiology.Assembly.KEGG.Archives.Xml.Compile(
+                SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Compile(
                     Me.KEGGPathways,
                     Me.KEGGModules,
                     Me.KEGGReactions.Value,

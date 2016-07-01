@@ -1,11 +1,11 @@
 ﻿Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
-Imports LANS.SystemsBiology.GCModeller.Framework
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.Framework
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 
 Namespace EngineSystem.Services.DataAcquisition
 

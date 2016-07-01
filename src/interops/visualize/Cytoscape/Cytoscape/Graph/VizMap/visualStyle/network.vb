@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty
 
 Namespace Visualization
 

@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap.DrawingModels
+﻿Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.DrawingModels
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.GCModeller.DataVisualization.ValueParser
+Imports SMRUCC.genomics.GCModeller.DataVisualization.ValueParser
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Oracle.Java.IO.Properties.Reflector
@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.GCModeller.DataVisualization
 
 Namespace ChromosomeMap
 
@@ -33,7 +33,7 @@ Namespace ChromosomeMap
             Dim rand As New Random(5 * (Now.ToBinary Mod 23))
             Dim nSites = (From i As Integer In sites.Sequence.AsParallel
                           Let lociLeft As Integer = genome.Size * rand.NextDouble
-                          Let loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(lociLeft, lociLeft + 1, lociLeft Mod 2 = 0)
+                          Let loci = New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(lociLeft, lociLeft + 1, lociLeft Mod 2 = 0)
                           Select relateds = genome.GetRelatedGenes(loci), loci).ToArray
             Dim TSSs = (From obj In nSites.AsParallel
                         Select New DrawingModels.TSSs With {
@@ -57,10 +57,10 @@ Namespace ChromosomeMap
         End Function
 
         <ExportAPI("Gene2Fasta", Info:="Convert the gene annotation data into a fasta sequence.")>
-        Public Function WriteGeneFasta(<Parameter("Genes.Anno")> data As Generic.IEnumerable(Of PlasmidAnnotation)) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public Function WriteGeneFasta(<Parameter("Genes.Anno")> data As Generic.IEnumerable(Of PlasmidAnnotation)) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Return (From Gene As PlasmidAnnotation In data
                     Where Not String.IsNullOrEmpty(Gene.GeneNA)
-                    Select New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+                    Select New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With {
                         .Attributes = New String() {Gene.ORF_ID},
                         .SequenceData = Gene.GeneNA}).ToArray
         End Function
@@ -72,8 +72,8 @@ Namespace ChromosomeMap
 
         <ExportAPI("PTT.From.Plasmid", Info:="Generates the PTT genome data from the plasmid annotation data. NT.Src parameter is the file path of the original genome fasta source sequence.")>
         Public Function get_Converted(Annotations As Generic.IEnumerable(Of PlasmidAnnotation),
-                                      <Parameter("NT.Src", "The nt fasta sequence of the plasmid whole genome.")> src As String) As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader
-            Dim LoaderObject = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader.CreateObject(Annotations, LANS.SystemsBiology.SequenceModel.FASTA.FastaToken.Load(src))
+                                      <Parameter("NT.Src", "The nt fasta sequence of the plasmid whole genome.")> src As String) As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader
+            Dim LoaderObject = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader.CreateObject(Annotations, SMRUCC.genomics.SequenceModel.FASTA.FastaToken.Load(src))
             Dim AnnoDict = Annotations.ToDictionary(Function(item) item.ORF_ID)
             For Each Gene As GeneBrief In LoaderObject.Values
                 Gene.Gene = AnnoDict(Gene.Synonym).Gene_name
@@ -91,19 +91,19 @@ Namespace ChromosomeMap
         ''' 
         ''' </summary>
         ''' <param name="model"></param>
-        ''' <param name="data">可以使用<see cref="LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.GroupMotifs"></see>方法来合并一些重复的motif数据</param>
+        ''' <param name="data">可以使用<see cref="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.GroupMotifs"></see>方法来合并一些重复的motif数据</param>
         ''' <param name="onlyRegulations">如果为真，则仅会将有调控因子的位点进行转换，如果为假，则所有的位点都会被绘制出来</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Add.Motif_Sites", Info:="Trim.Regulation: if TRUE, then only the motif site which has the regulator will be drawing on the map, else all of the motif site will be drawing on the maps.")>
         Public Function AddMotifSites(model As ChromesomeDrawingModel,
-                                      data As Generic.IEnumerable(Of LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint),
+                                      data As Generic.IEnumerable(Of SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint),
                                       <Parameter("Trim.Regulation", "If the parameter is TRUE, then only the site data with regulation data that will be drawn.")>
                                       Optional onlyRegulations As Boolean = True) As ChromesomeDrawingModel
 
             If onlyRegulations Then
-                data = (From footprint As LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
+                data = (From footprint As SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
                         In data.AsParallel
                         Where Not String.IsNullOrEmpty(footprint.Regulator)'s.IsNullOrEmpty
                         Select footprint).ToArray
@@ -142,8 +142,8 @@ Namespace ChromosomeMap
 
         <ExportAPI("Add.Motif_Sites")>
         Public Function AddMotifSites(model As ChromesomeDrawingModel,
-                                      data As Generic.IEnumerable(Of LANS.SystemsBiology.ComponentModel.Loci.Loci)) As ChromesomeDrawingModel
-            Dim LQuery = (From loci As LANS.SystemsBiology.ComponentModel.Loci.Loci
+                                      data As Generic.IEnumerable(Of SMRUCC.genomics.ComponentModel.Loci.Loci)) As ChromesomeDrawingModel
+            Dim LQuery = (From loci As SMRUCC.genomics.ComponentModel.Loci.Loci
                           In data.AsParallel
                           Select site = New DrawingModels.MotifSite With {
                                 .Left = loci.Left,
@@ -160,8 +160,8 @@ Namespace ChromosomeMap
 
         <ExportAPI("Add.Loci_Sites")>
         Public Function AddLociSites(model As ChromesomeDrawingModel,
-                                     data As Generic.IEnumerable(Of LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentObject)) As ChromesomeDrawingModel
-            Dim Locis = (From site As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentObject
+                                     data As Generic.IEnumerable(Of SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentObject)) As ChromesomeDrawingModel
+            Dim Locis = (From site As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentObject
                          In data
                          Select New DrawingModels.Loci With {
                              .SiteName = site.Title,
@@ -198,7 +198,7 @@ Namespace ChromosomeMap
         ''' 
         ''' </summary>
         ''' <param name="model"></param>
-        ''' <param name="data">可以使用<see cref="LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.GroupMotifs"></see>方法来合并一些重复的motif数据</param>
+        ''' <param name="data">可以使用<see cref="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.GroupMotifs"></see>方法来合并一些重复的motif数据</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
@@ -312,8 +312,8 @@ Namespace ChromosomeMap
         Public Function FromPttDir(<Parameter("DIR.PTT")> PTT_DIR As String, conf As Configurations) As ChromesomeDrawingModel
             Dim PTTFile As String = FileIO.FileSystem.GetFiles(PTT_DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.ptt").First
 #Region ""
-            Dim GeneObjects = (From Gene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
-                               In LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(PTTFile).GeneObjects
+            Dim GeneObjects = (From Gene As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+                               In SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(PTTFile).GeneObjects
                                Select New SegmentObject With {
                                    .Color = New SolidBrush(Color.Black),
                                    .Product = Gene.Product,
@@ -371,7 +371,7 @@ Namespace ChromosomeMap
                                         <Parameter("Ranges", "The nt length of the gene objects contains in the region.")>
                                         RangeLength As Integer) As ChromesomeDrawingModel
 #Region ""
-            Dim GeneObjects = (From GeneObject As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+            Dim GeneObjects = (From GeneObject As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
                                In PTTGeneObjects
                                Select New SegmentObject With {
                                    .Color = New SolidBrush(Color.Black),

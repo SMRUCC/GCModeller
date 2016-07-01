@@ -1,21 +1,21 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Entry = System.Collections.Generic.KeyValuePair(Of
-    LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
-    LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+    SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
+    SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.SequenceModel
 
 <PackageNamespace("NCBI.LocalBlast", Category:=APICategories.CLI_MAN,
                   Description:="Wrapper tools for the ncbi blast+ program and the blast output data analysis program.",
@@ -122,7 +122,7 @@ Module CLI
         Dim isAll As Boolean = args.GetBoolean("/all")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
-        Dim Entries = LANS.SystemsBiology.NCBI.Extensions.Analysis.BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
+        Dim Entries = SMRUCC.genomics.NCBI.Extensions.Analysis.BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
         Dim singleQuery As String = args("/single-query")
         Dim outDIR As String = args.GetValue("/out", inDIR & "/bbh/")
 

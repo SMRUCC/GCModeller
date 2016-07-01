@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -56,7 +56,7 @@ Partial Module CLI
         Dim inDIR As String = args("/in")
         Dim ptt As String = args("/ptt")
         Dim out As String = args.GetValue("/out", inDIR & ".Names.Csv")
-        Dim gbPTT = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(ptt)
+        Dim gbPTT = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(ptt)
         Dim names = NameExtensions.DumpNames(inDIR, gbPTT)
         Return names.SaveTo(out).CLICode
     End Function

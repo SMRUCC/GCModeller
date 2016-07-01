@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Script
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
+﻿Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Script
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq
 

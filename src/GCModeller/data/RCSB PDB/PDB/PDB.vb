@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.RCSB.PDB.Keywords
+Imports SMRUCC.genomics.Assembly.RCSB.PDB.Keywords
 
 Public Class PDB : Inherits Microsoft.VisualBasic.ComponentModel.ITextFile
 

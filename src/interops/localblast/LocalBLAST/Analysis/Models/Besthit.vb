@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Analysis

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.ProteinModel
+﻿Imports SMRUCC.genomics.ProteinModel
 
 Public Class DomainQuery
 

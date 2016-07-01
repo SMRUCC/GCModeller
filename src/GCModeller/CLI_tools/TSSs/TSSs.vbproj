@@ -222,7 +222,7 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
@@ -234,7 +234,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\TSSsTools\TSSsTools.vbproj">
+    <ProjectReference Include="..\..\analysis\RNA-Seq\TSSsTools\TSSsTools.vbproj">
       <Project>{05b85131-6b4a-4f64-9939-aecdd6ffac87}</Project>
       <Name>TSSsTools</Name>
     </ProjectReference>

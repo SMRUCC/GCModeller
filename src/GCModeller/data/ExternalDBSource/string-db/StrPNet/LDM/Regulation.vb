@@ -11,7 +11,7 @@ Namespace StringDB.StrPNet
     Public Class TFRegulation : Implements sIdEnumerable
 
         ''' <summary>
-        ''' 通常为属性<see cref="LANS.SystemsBiology.Assembly.Door.GeneBrief.OperonID"></see>的这个编号值
+        ''' 通常为属性<see cref="SMRUCC.genomics.Assembly.Door.GeneBrief.OperonID"></see>的这个编号值
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

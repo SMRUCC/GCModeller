@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace LocalBLAST.Application.BBH
 
@@ -18,7 +18,7 @@ Namespace LocalBLAST.Application.BBH
         ''' 本地BLAST的中间服务
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Friend _LocalBLASTService As Global.LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService
+        Protected Friend _LocalBLASTService As Global.SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService
         Protected Friend _WorkDir As String
 
         Public ReadOnly Property WorkDir As String
@@ -27,13 +27,13 @@ Namespace LocalBLAST.Application.BBH
             End Get
         End Property
 
-        Public ReadOnly Property LocalBLASTServices As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService
+        Public ReadOnly Property LocalBLASTServices As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService
             Get
                 Return Me._LocalBLASTService
             End Get
         End Property
 
-        Sub New(LocalBLAST As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService, WorkDir As String)
+        Sub New(LocalBLAST As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService, WorkDir As String)
             Me._WorkDir = WorkDir
             Me._LocalBLASTService = LocalBLAST
         End Sub
@@ -70,7 +70,7 @@ Namespace LocalBLAST.Application.BBH
             Call Log.Grep(QueryGrepMethod, Nothing) '由于在MetaCyc数据库之中的FASTA文件的标题格式都是一样的，故而在这里就都使用一样的方法来解析名称了
             Dim Log_QvS As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit).ToCsvDoc
 
-            Call Trim(LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Subject), Log_QvS, HitsGrepMethod)
+            Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Subject), Log_QvS, HitsGrepMethod)
             Call Log_QvS.Save(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Query), IO.Path.GetFileNameWithoutExtension(Subject)), False)
 
 #If DEBUG Then
@@ -82,7 +82,7 @@ Namespace LocalBLAST.Application.BBH
             Log = _LocalBLASTService.GetLastLogFile
             Call Log.Grep(HitsGrepMethod, Nothing)
             Dim Log_SvQ = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit)
-            Call Trim(LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Query), Log_SvQ.ToCsvDoc, QueryGrepMethod)
+            Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Query), Log_SvQ.ToCsvDoc, QueryGrepMethod)
             Call Log_SvQ.SaveTo(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Subject), IO.Path.GetFileNameWithoutExtension(Query)), False)
 
             Call Printf("END_OF_BIDIRECTION_BLAST():: start to build up the best mathced protein pair.")

@@ -1,12 +1,12 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.MPAlignment.Settings
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.MPAlignment.Settings
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 

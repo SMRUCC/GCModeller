@@ -1,24 +1,24 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
-    Global.LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Enzyme,
-    LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction)
+    Global.SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Enzyme,
+    SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction)
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.DataStructure
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.PFSNet
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.Language
@@ -202,7 +202,7 @@ Module PfsNET_FootprintMappingPathway_API
 
         Dim Network = __createNetwork(NetworkModel)
         Dim GeneIdList As String() = (From RowData In ChipData.First Select RowData.locusId).ToArray    '筛选网络数据
-        Dim FiltedNetwork As String() = (From Edge As LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction
+        Dim FiltedNetwork As String() = (From Edge As SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction
                                          In Network.Edges
                                          Where Array.IndexOf(GeneIdList, Edge.FromNode) > -1 AndAlso Array.IndexOf(GeneIdList, Edge.ToNode) > -1
                                          Select (From pwyID As String In Edge.Pathways Select String.Join(vbTab, pwyID, Edge.FromNode, Edge.ToNode)).ToArray).ToArray.MatrixToVector.Distinct.ToArray

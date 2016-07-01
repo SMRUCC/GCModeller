@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SmithWaterman
-Imports LANS.SystemsBiology.AnalysisTools
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SmithWaterman
+Imports SMRUCC.genomics.AnalysisTools
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports System.Runtime.CompilerServices

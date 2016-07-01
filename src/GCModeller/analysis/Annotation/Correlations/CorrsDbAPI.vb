@@ -1,16 +1,16 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 Imports Oracle.LinuxCompatibility.MySQL
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.WGCNA
 
 <PackageNamespace("GCModeller.Gene.Correlations",
                   Publisher:="xie.guigang@gcmodeller.org",
@@ -123,7 +123,7 @@ Public Module CorrsDbAPI
     '                String.Join(vbCrLf, (
     '                    From p2 As String
     '                    In PccMatrix.lstGenes
-    '                    Select New LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL.Tables.xcb With {
+    '                    Select New SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL.Tables.xcb With {
     '                        .pcc = PccMatrix.GetValue(p1, p2, Parallel:=False),
     '                        .g1_entity = p1,
     '                        .g2_entity = p2,

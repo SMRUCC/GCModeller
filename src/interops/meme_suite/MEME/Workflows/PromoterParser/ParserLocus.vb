@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly.DOOR
+﻿Imports SMRUCC.genomics.Assembly.DOOR
 
 Namespace Workflows.PromoterParser
 

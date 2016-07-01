@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
+﻿Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 

@@ -1,8 +1,8 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Phylip
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+﻿Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Phylip
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Module Phylip

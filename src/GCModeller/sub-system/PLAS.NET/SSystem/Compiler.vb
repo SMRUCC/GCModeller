@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem
+﻿Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Public Module Compiler

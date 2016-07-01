@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace BlastAPI
 

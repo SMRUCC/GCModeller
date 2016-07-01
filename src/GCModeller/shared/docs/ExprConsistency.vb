@@ -50,7 +50,7 @@
 
 '    Public Function Normalize(raw As Dictionary(Of String, Integer), ptt As String, readsAvgLen As Integer) As Dictionary(Of String, Integer)
 '        Dim __getValue = Function(GeneID As String) If(raw.ContainsKey(GeneID), raw(GeneID), 0)
-'        Dim pttFeatures = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(ptt)
+'        Dim pttFeatures = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(ptt)
 
 '        Call $"{NameOf(Normalize)}::  {NameOf(raw)}:={raw.Count} genes, {NameOf(pttFeatures)}:={pttFeatures.NumOfProducts} features site,  {NameOf(readsAvgLen)}:={readsAvgLen} bp.".__DEBUG_ECHO
 

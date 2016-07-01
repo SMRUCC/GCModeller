@@ -40,11 +40,11 @@ Namespace Framework.DynamicCode.VBC
 
             Dim ProgramDirectory As String = My.Application.Info.DirectoryPath
             Me.UsrReferenceAssemblys = New String() {
-                ProgramDirectory & "/LANS.SystemsBiology.Assembly.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.dll",
+                ProgramDirectory & "/SMRUCC.genomics.Assembly.dll",
+                ProgramDirectory & "/SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.dll",
+                ProgramDirectory & "/SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.dll",
+                ProgramDirectory & "/SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.dll",
+                ProgramDirectory & "/SMRUCC.genomics.GCModeller.ModellingEngine.Kernel.dll",
                 ProgramDirectory & "/Microsoft.VisualBasic.Framework.Kernel_Driver.dll",
                 ProgramDirectory & "/SBML.dll",
                 ProgramDirectory & "/DocumentFormat.Csv.dll"}

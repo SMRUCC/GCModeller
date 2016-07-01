@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
 
 Namespace ShellScriptAPI
 
@@ -10,7 +10,7 @@ Namespace ShellScriptAPI
     Public Module SabiorkKinetics
 
         <ExportAPI("Load.From", Info:="Load sabio-rk database from a specific data directory.")>
-        Public Function LoadData(dir As String) As LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.SABIORK()
+        Public Function LoadData(dir As String) As SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.SABIORK()
             Dim LQuery = (From strPath As String
                             In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly, "*.sbml").AsParallel
                           Where FileIO.FileSystem.GetFileInfo(strPath).Length > 0
@@ -52,7 +52,7 @@ Namespace ShellScriptAPI
                                                           MiST2 As String,
                                                           Regulators As DatabaseServices.Regprecise.RegpreciseMPBBH(),
                                                           Mapping As StringDB.StrPNet.EffectorMap()) As StringDB.StrPNet.Network
-            Dim Assembler As New LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.Assembler(stringDB, MiST2, Regulators)
+            Dim Assembler As New SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Assembler(stringDB, MiST2, Regulators)
             Return Assembler.CompileAssembly(Mapping)
         End Function
 
@@ -63,7 +63,7 @@ Namespace ShellScriptAPI
 
         <ExportAPI("String-Db.Network.Load", Info:="Load the string-db interaction network model from database.")>
         Public Function LoadStringNetwork(Path As String) As StringDB.SimpleCsv.PitrNode()
-            Return Path.LoadXml(Of LANS.SystemsBiology.DatabaseServices.StringDB.SimpleCsv.Network).Nodes
+            Return Path.LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.SimpleCsv.Network).Nodes
         End Function
 
         <ExportAPI("Load.RegpreciseRegulator", Info:="Load the regulators which was mapped from the regprecise database.")>

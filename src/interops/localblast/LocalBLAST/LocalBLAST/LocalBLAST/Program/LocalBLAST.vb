@@ -416,8 +416,8 @@ Namespace LocalBLAST.Programs
             FormatDbAssembly = (BlastBin & "/formatdb.exe").CliPath
         End Sub
 
-        Public Shared Widening Operator CType(BLASTBin As String) As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST
-            Return New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST(BLASTBin)
+        Public Shared Widening Operator CType(BLASTBin As String) As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST
+            Return New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.LocalBLAST(BLASTBin)
         End Operator
 
 #Region "LocalBLAST"

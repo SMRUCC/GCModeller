@@ -1,15 +1,15 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Extensions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Extensions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
-Imports LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports System.Text
 
 ''' <summary>
@@ -129,19 +129,19 @@ Public Class BacterialModel : Inherits ModelBaseType
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property Width As Integer Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).Width
+    Public ReadOnly Property Width As Integer Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).Width
         Get
             Return Me.Metabolism.Metabolites.Count
         End Get
     End Property
 
-    Public ReadOnly Property IFBAC2MetabolismNetwork As IEnumerable(Of LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference)) Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).MetabolismNetwork
+    Public ReadOnly Property IFBAC2MetabolismNetwork As IEnumerable(Of SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference)) Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).MetabolismNetwork
         Get
             Return Me.Metabolism.MetabolismNetwork
         End Get
     End Property
 
-    Public ReadOnly Property IFBAC2Metabolites As IEnumerable(Of LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.IMetabolite) Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).Metabolites
+    Public ReadOnly Property IFBAC2Metabolites As IEnumerable(Of SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.IMetabolite) Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).Metabolites
         Get
             Return Me.Metabolism.Metabolites
         End Get

@@ -1,11 +1,11 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.SubSystem
@@ -211,7 +211,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
             Call _SystemLogging.WriteLine("Start to create the transmembrane flux object models between the cultivation mediums and cell...")
 
-            Dim LQuery = (From model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction
+            Dim LQuery = (From model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction
                           In NewCellObject.DataModel.TransmembraneTransportation
                           Let TrRxnModel As ObjectModels.Module.PassiveTransportationFlux =
                               [Module].PassiveTransportationFlux.CreateObject(model, CellEnzymes, NewCellObject.Metabolism.EnzymeKinetics, Compartments, DefaultCompartment)

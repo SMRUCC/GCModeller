@@ -1,6 +1,6 @@
 ﻿Imports System.Net
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.GenePrediction.DocNodes
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.GenePrediction.DocNodes
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -78,7 +78,7 @@ In GeneMark.hmm, 1,3 the second generation of GeneMark, the DNA sequence is inte
         End Class
 
         <ExportAPI("Genemarks")>
-        Public Function Predicts(source As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile,
+        Public Function Predicts(source As SMRUCC.genomics.SequenceModel.FASTA.FastaFile,
                                  Optional Bacteria As Boolean = True,
                                  Optional linear As Boolean = False) As GeneMark()
             Dim LQuery = (From x In source Select Predicts(x, Bacteria, linear)).ToArray
@@ -86,7 +86,7 @@ In GeneMark.hmm, 1,3 the second generation of GeneMark, the DNA sequence is inte
         End Function
 
         <ExportAPI("Genemark")>
-        Public Function Predicts(source As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken,
+        Public Function Predicts(source As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
                                  Optional Bacteria As Boolean = True,
                                  Optional linear As Boolean = False) As GeneMark
             Dim webPage As String = GetPredictsData(source, Bacteria, linear)
@@ -95,7 +95,7 @@ In GeneMark.hmm, 1,3 the second generation of GeneMark, the DNA sequence is inte
         End Function
 
         <ExportAPI("Run.Genemarks")>
-        Public Function GetsPredictData(source As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile,
+        Public Function GetsPredictData(source As SMRUCC.genomics.SequenceModel.FASTA.FastaFile,
                                         Optional Bacteria As Boolean = True,
                                         Optional linear As Boolean = False) As String()
             Dim LQuery As String() = (From x In source Select GetPredictsData(x, Bacteria, linear)).ToArray
@@ -103,7 +103,7 @@ In GeneMark.hmm, 1,3 the second generation of GeneMark, the DNA sequence is inte
         End Function
 
         <ExportAPI("Run.Genemark")>
-        Public Function GetPredictsData(source As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken,
+        Public Function GetPredictsData(source As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
                                         Optional Bacteria As Boolean = True,
                                         Optional linear As Boolean = False) As String
             Dim webPage As String

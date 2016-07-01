@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine
-Imports LANS.SystemsBiology.InteractionModel
+Imports SMRUCC.genomics.InteractionModel
 Imports Oracle.Java.IO.Properties.Reflector
 Imports Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis
 Imports Microsoft.VisualBasic

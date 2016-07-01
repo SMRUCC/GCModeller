@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language

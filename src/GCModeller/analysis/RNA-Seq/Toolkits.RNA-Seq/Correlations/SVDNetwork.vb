@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
+﻿Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Mathematical

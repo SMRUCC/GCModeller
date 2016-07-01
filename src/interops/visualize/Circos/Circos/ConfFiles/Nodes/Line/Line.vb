@@ -28,7 +28,7 @@
 'Imports System.Text
 'Imports Microsoft.VisualBasic.ComponentModel.Settings
 'Imports Microsoft.VisualBasic
-'Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+'Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
 
 'Namespace Configurations.Nodes.Plots.Lines
 

@@ -1,9 +1,9 @@
 ﻿
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
 
 Namespace EngineSystem.ObjectModels.SubSystem
 

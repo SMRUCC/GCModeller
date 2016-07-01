@@ -90,7 +90,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         End Function
 
         'Public Shared Function CreateGeneCollection(Pathways As Pathway(),
-        '                                            Genes As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Genes,
+        '                                            Genes As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Genes,
         '                                            ProteinDomains As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
         '    Dim List As List(Of String) = New List(Of String)
 

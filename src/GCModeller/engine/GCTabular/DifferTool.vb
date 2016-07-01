@@ -1,7 +1,7 @@
 ﻿Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 
 Public Class DifferTool
 

@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Assembly.MetaCyc.File
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+﻿Imports SMRUCC.genomics.Assembly.MetaCyc.File
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports Microsoft.VisualBasic
 
 ''' <summary>

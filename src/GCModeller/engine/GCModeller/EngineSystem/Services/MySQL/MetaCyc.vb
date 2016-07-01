@@ -16,10 +16,10 @@
 '        ''' (已经编译好的MetaCyc数据库模型)
 '        ''' </summary>
 '        ''' <remarks></remarks>
-'        Dim MetaCyc As LANS.SystemsBiology.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.MetaCyc
+'        Dim MetaCyc As SMRUCC.genomics.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.MetaCyc
 
 '        Public Sub CompileMetaCyc(Dir As String)
-'            MetaCyc = LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.Compilers.MetaCyc.Compile(Dir)
+'            MetaCyc = SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.Compilers.MetaCyc.Compile(Dir)
 '        End Sub
 
 '        ''' <summary>
@@ -51,13 +51,13 @@
 '        ''' The data collection to write to the database.(将要写入数据库的目标数据集)
 '        ''' </param>
 '        ''' <remarks></remarks>
-'        Private Sub Write(Table As String, Data As Generic.IEnumerable(Of LANS.SystemsBiology.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.DataModel))
+'        Private Sub Write(Table As String, Data As Generic.IEnumerable(Of SMRUCC.genomics.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.DataModel))
 '            Dim p As Long = MYSQl.GetMaxHandle(Table) + 1
 
 '            MYSQl.Table = Table
 
 '            For Each row In Data
-'                MYSQl.Insert(New LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL.DataModelRecord With {
+'                MYSQl.Insert(New SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL.DataModelRecord With {
 '                             .GUID = row.GenerateGuid, .RegistryNumber = p, .DataModel = GetXmlModel(row)
 '                    }, PendingTransaction:=True)
 '                p += 1

@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
+﻿Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Linq

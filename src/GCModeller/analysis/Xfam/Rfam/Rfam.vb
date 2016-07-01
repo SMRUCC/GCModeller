@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' 相当于RNA调控因子的数据结构

@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+﻿Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports Microsoft.VisualBasic.Extensions
 
 Namespace EngineSystem.ObjectModels.Module

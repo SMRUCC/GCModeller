@@ -1,6 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace PfsNET

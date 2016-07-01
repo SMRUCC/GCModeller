@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
 
 Namespace Components
 

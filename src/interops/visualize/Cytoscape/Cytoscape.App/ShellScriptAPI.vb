@@ -1,13 +1,13 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
+Imports SMRUCC.genomics.DatabaseServices
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView
 
 <[PackageNamespace]("Cytoscape",
                     Cites:="Shannon, P., et al. (2003). ""Cytoscape: a software environment For integrated models Of biomolecular interaction networks."" Genome Res 13(11): 2498-2504.

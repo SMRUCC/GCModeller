@@ -1,14 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
-Imports LANS.SystemsBiology.DatabaseServices.StringDB
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.DatabaseServices.StringDB
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView
 Imports Microsoft.VisualBasic.Language
 
 Namespace NetworkModel.StringDB

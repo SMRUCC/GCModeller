@@ -1,16 +1,16 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.PfamHMMScan
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.PfamHMMScan
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.PfamHMMScan.hmmscan
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.PfamHMMScan.hmmscan
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Partial Module CLI

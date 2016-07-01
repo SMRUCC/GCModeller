@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration
 Imports Microsoft.VisualBasic.Logging
 
 Namespace EngineSystem.Engine
@@ -14,7 +14,7 @@ Namespace EngineSystem.Engine
             Public Logging As LogFile
 
             Dim _OriginalARGV As Microsoft.VisualBasic.CommandLine.CommandLine
-            Dim ExternalModuleRegistry As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
+            Dim ExternalModuleRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
             Dim _configurationsData As ConfigReader
 
             'run -i <model_file> -mysql <mysql_connection_string> [-t <time> -metabolism <assembly_path> -expression <assembly_path> -cultivation_mediums <medium_csv_file>]
@@ -102,7 +102,7 @@ Namespace EngineSystem.Engine
                 Return 0
             End Function
 
-            Private Function InitializeKernel(EngineKernel As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller) As Integer
+            Private Function InitializeKernel(EngineKernel As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller) As Integer
                 Call LoadModules(EngineKernel)  '向计算框架之中加载计算模块
                 Call EngineKernel.Initialize()   '对整个计算引擎做最基本的初始化操作
 
@@ -118,7 +118,7 @@ Namespace EngineSystem.Engine
                 Return 0
             End Function
 
-            Private Function LoadModules(EngineKernel As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
+            Private Function LoadModules(EngineKernel As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
                 Dim DisabledModule As List(Of String) = New List(Of String)
                 Dim LoadModule As List(Of String) = New List(Of String)
 
@@ -137,7 +137,7 @@ Namespace EngineSystem.Engine
                 Return 0
             End Function
 
-            Public Function InitializeModellerEngine() As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
+            Public Function InitializeModellerEngine() As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
                 Dim SuccessFlag As Integer = Me.CheckArguments
 
                 If SuccessFlag Then
@@ -148,11 +148,11 @@ Namespace EngineSystem.Engine
 
                 Logging.WriteLine(String.Format("Kernel load model data from file:{0}'{1}'", vbCrLf, ModelFile), "gchost -> main()")
 
-                Dim ModellerEngine As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller = Nothing
+                Dim ModellerEngine As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller = Nothing
 
                 Try
                     If String.Equals(Me.FileFormat, "GCML") Then
-                        ModellerEngine = LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller.Load(ModelFile, Me.Logging, Me._OriginalARGV)
+                        ModellerEngine = SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller.Load(ModelFile, Me.Logging, Me._OriginalARGV)
                     Else
 
                     End If
@@ -177,8 +177,8 @@ Namespace EngineSystem.Engine
             End Function
         End Class
 
-        Public Function Invoke(ExternalModuleRegistry As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry,
-                               Configurations As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations,
+        Public Function Invoke(ExternalModuleRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry,
+                               Configurations As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations,
                                argvs As CommandLine.CommandLine) As Integer
 
             Call Settings.Session.Initialize()

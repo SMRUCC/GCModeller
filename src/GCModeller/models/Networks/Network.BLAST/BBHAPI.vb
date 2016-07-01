@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic

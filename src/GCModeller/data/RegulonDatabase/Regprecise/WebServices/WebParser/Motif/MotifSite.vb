@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.DatabaseServices.Regtransbase.WebServices
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.DatabaseServices.Regtransbase.WebServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel

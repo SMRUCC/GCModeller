@@ -2,13 +2,13 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
 
 Namespace KEGG.Compiler
 
     Module Compound
 
-        Public Function Compile(KEGGCompounds As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound)) As List(Of FileStream.Metabolite)
+        Public Function Compile(KEGGCompounds As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)) As List(Of FileStream.Metabolite)
             Dim Metabolites = (From Model In KEGGCompounds.AsParallel Select GenerateObject(Model)).ToList
             Dim Distinct As Dictionary(Of String, FileStream.Metabolite) = New Dictionary(Of String, FileStream.Metabolite)
             For Each item In Metabolites
@@ -20,7 +20,7 @@ Namespace KEGG.Compiler
             Return Distinct.Values.ToList
         End Function
 
-        Public Function GenerateObject(KEGGCompound As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound) As FileStream.Metabolite
+        Public Function GenerateObject(KEGGCompound As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound) As FileStream.Metabolite
             Dim Metabolite As FileStream.Metabolite = New FileStream.Metabolite With {
                 .KEGGCompound = KEGGCompound.Entry,
                 .Identifier = NormalizeUniqueId(KEGGCompound),
@@ -35,7 +35,7 @@ Namespace KEGG.Compiler
             Return Metabolite
         End Function
 
-        Public Function NormalizeUniqueId(Compound As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound) As String
+        Public Function NormalizeUniqueId(Compound As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound) As String
             If Compound.CommonNames.IsNullOrEmpty Then
                 If String.IsNullOrEmpty(Compound.Formula) Then
                     Return NormalizeUniqueId(Compound.Entry, Compound.Entry)

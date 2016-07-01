@@ -1,13 +1,13 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.Assembly
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.DatabaseServices
+Imports SMRUCC.genomics.DatabaseServices
 Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
-Imports LANS.SystemsBiology.DatabaseServices.StringDB.StrPNet.Pathway
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
+Imports SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Pathway
 
 Namespace Compiler.Components
 
@@ -47,7 +47,7 @@ Namespace Compiler.Components
         Sub New(ModelIo As FileStream.IO.XmlresxLoader, StringNetwork As StringDB.SimpleCsv.Network, Logging As LogFile)
             Me.StringNetwork = StringNetwork
             Me.ModelIO = ModelIo
-            Dim MisT2 As LANS.SystemsBiology.Assembly.MiST2.MiST2 = ModelIo.MisT2
+            Dim MisT2 As SMRUCC.genomics.Assembly.MiST2.MiST2 = ModelIo.MisT2
             Me.CheB = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHEB) > 0 Select Protein.Identifier Distinct).ToArray
             Me.CheR = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHER) > 0 Select Protein.Identifier Distinct).ToArray
             Me.CheW = (From Protein In MisT2.MajorModules.First.Chemotaxis Where InStr(Protein.ImageUrl, PFAM_CHEW) > 0 Select Protein.Identifier Distinct).ToArray
@@ -213,7 +213,7 @@ Namespace Compiler.Components
         End Function
 
         Private Function _compile_ChemotaxisSensing() As List(Of StringDB.StrPNet.TCS.SensorInducers)
-            Dim LQuery = (From Item As LANS.SystemsBiology.Assembly.MiST2.Transducin
+            Dim LQuery = (From Item As SMRUCC.genomics.Assembly.MiST2.Transducin
                                  In ModelIO.MisT2.MajorModules.First.Chemotaxis
                           Where String.Equals(Item.Class, "MCP")
                           Select New StringDB.StrPNet.TCS.SensorInducers With {
@@ -244,7 +244,7 @@ Namespace Compiler.Components
                 Call TempChunk.AddRange((From HK In LQuery
                                          Let UniqueId As String = String.Format("{0}->{1}", HK.HK, CheB)
                                          Let DBLink As String() = New String() {New MetaCyc.Schema.DBLinkManager.DBLink() With {.DBName = "CheBMethylesterase", .AccessionId = UniqueId}.GetFormatValue}
-                                         Let Equation As String = LANS.SystemsBiology.ComponentModel.EquaionModel.EquationBuilder.ToString(
+                                         Let Equation As String = SMRUCC.genomics.ComponentModel.EquaionModel.EquationBuilder.ToString(
                                                   New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, CheB), New KeyValuePair(Of Double, String)(1, String.Format("[{0}][PI]", HK.HK))},
                                                   New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, HK.HK), New KeyValuePair(Of Double, String)(1, CheBPI)}, False)
                                          Select New FileStream.MetabolismFlux With {
@@ -267,7 +267,7 @@ Namespace Compiler.Components
                     Continue For
                 End If
 
-                Dim Equation As String = LANS.SystemsBiology.ComponentModel.EquaionModel.EquationBuilder.ToString(
+                Dim Equation As String = SMRUCC.genomics.ComponentModel.EquaionModel.EquationBuilder.ToString(
                                              New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, Mcp), New KeyValuePair(Of Double, String)(1, "S-ADENOSYLMETHIONINE")},
                                              New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, Mcp_Ch3), New KeyValuePair(Of Double, String)(1, "ADENOSYL-HOMO-CYS")}, False)
 
@@ -307,7 +307,7 @@ Namespace Compiler.Components
                     Continue For
                 End If
 
-                Dim Equation As String = LANS.SystemsBiology.ComponentModel.EquaionModel.EquationBuilder.ToString(
+                Dim Equation As String = SMRUCC.genomics.ComponentModel.EquaionModel.EquationBuilder.ToString(
                                              New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, Mcp_Ch3), New KeyValuePair(Of Double, String)(1, "WATER")},
                                              New KeyValuePair(Of Double, String)() {New KeyValuePair(Of Double, String)(1, Mcp), New KeyValuePair(Of Double, String)(1, "METOH")}, False)
 

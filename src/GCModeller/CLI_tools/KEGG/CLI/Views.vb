@@ -1,14 +1,14 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
-Imports LANS.SystemsBiology.ProteinModel
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.SSDB
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports LANS.SystemsBiology.Assembly.KEGG.WebServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Partial Module CLI
 

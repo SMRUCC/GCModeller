@@ -1,8 +1,8 @@
 ﻿Imports System.Collections.ObjectModel
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Models

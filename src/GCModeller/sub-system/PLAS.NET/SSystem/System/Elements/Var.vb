@@ -1,6 +1,6 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 
 Namespace Kernel.ObjectModels
 

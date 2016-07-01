@@ -2,13 +2,13 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports LANS.SystemsBiology.AnalysisTools
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
+Imports SMRUCC.genomics.AnalysisTools
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Threads
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 <PackageNamespace("Xfam.CLI",
@@ -31,11 +31,11 @@ Module CLI
         End If
 
         Dim blastbin As String = GCModeller.FileSystem.GetLocalBlast
-        Dim blast As New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus(blastbin)
+        Dim blast As New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus(blastbin)
         Dim num_threads As Integer = args.GetValue("/num_threads", -1)
         Dim ticks As Integer = args.GetValue("/ticks", 1000)
 
-        Return LANS.SystemsBiology.NCBI.Extensions.Blastn(blast, query, rFam, outDIR,
+        Return SMRUCC.genomics.NCBI.Extensions.Blastn(blast, query, rFam, outDIR,
                                                           reversed:=True,   ' 是反过来比对的？？？
                                                           numThreads:=num_threads,
                                                           TimeInterval:=ticks).CLICode

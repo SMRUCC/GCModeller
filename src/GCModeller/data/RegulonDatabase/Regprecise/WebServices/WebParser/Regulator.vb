@@ -2,8 +2,8 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.ComponentModel
 

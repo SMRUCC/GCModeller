@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.IBlastOutput
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.IBlastOutput
 
 Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
 

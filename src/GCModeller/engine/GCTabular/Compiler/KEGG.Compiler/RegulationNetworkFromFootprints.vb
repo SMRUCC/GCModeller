@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
+﻿Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -19,7 +19,7 @@ Public Module RegulationNetworkFromFootprints
     ''' <remarks></remarks>
     Public Sub CompileFootprintsData(data As Generic.IEnumerable(Of DocumentFormat.RegulatesFootprints),
                                      PccMatrix As PccMatrix,
-                                     OperonData As LANS.SystemsBiology.Assembly.DOOR.OperonView, _
+                                     OperonData As SMRUCC.genomics.Assembly.DOOR.OperonView, _
  _
                                      ByRef TranscriptUnits As List(Of CsvTabular.FileStream.TranscriptUnit),
                                      ByRef Motifs As List(Of CsvTabular.FileStream.MotifSite),
@@ -80,7 +80,7 @@ Public Module RegulationNetworkFromFootprints
 
         Dim RegulatorGroupedChunk = (From item In Regulators Select item Group item By item.ProteinId Into Group).ToArray
         Dim LQuery = (From item In RegulatorGroupedChunk.AsParallel
-                      Let hits_effector As String() = (From besthit As LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH
+                      Let hits_effector As String() = (From besthit As SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH
                                                        In Regprecise
                                                        Where String.Equals(besthit.QueryName, item.ProteinId)
                                                        Let effector_cpds = besthit.Effectors

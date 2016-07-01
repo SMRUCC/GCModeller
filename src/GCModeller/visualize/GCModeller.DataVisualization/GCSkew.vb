@@ -1,6 +1,6 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Scripting.MetaData

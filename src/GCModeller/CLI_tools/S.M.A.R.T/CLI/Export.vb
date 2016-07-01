@@ -27,11 +27,11 @@ Partial Module CLI
 
         If String.IsNullOrEmpty(Db) OrElse String.Equals(Db, "all") Then
 
-            Dim List As List(Of LANS.SystemsBiology.SequenceModel.FASTA.FastaToken) = New List(Of SequenceModel.FASTA.FastaToken)
+            Dim List As List(Of SMRUCC.genomics.SequenceModel.FASTA.FastaToken) = New List(Of SequenceModel.FASTA.FastaToken)
             For Each Db In New Assembly.NCBI.CDD.Database("").Paths
                 Call List.AddRange(Export(Db, Keywords, CaseSense, IsMethodAny))
             Next
-            Dim Saved = CType(List, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile).Distinct
+            Dim Saved = CType(List, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Distinct
             Call Saved.Save(Output)
             Call FileIO.FileSystem.WriteAllText(Output & "_idlist.txt", Saved.GetIdList, append:=False)
         Else
@@ -42,7 +42,7 @@ Partial Module CLI
                 End Using
             End If
 
-            Dim List = CType(Export(Db, Keywords, CaseSense, IsMethodAny), LANS.SystemsBiology.SequenceModel.FASTA.FastaFile).Distinct
+            Dim List = CType(Export(Db, Keywords, CaseSense, IsMethodAny), SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Distinct
             Call List.Save(Output)
             Call FileIO.FileSystem.WriteAllText(Output & "_idlist.txt", List.GetIdList, append:=False)
         End If
@@ -50,9 +50,9 @@ Partial Module CLI
         Return 0
     End Function
 
-    Private Function Export(DB As String, Keywords As String(), CaseSense As CompareMethod, Any As Boolean) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken()
-        Dim FASTAFile As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(DB)
-        Dim Query As Generic.IEnumerable(Of LANS.SystemsBiology.SequenceModel.FASTA.FastaToken)
+    Private Function Export(DB As String, Keywords As String(), CaseSense As CompareMethod, Any As Boolean) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken()
+        Dim FASTAFile As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DB)
+        Dim Query As Generic.IEnumerable(Of SMRUCC.genomics.SequenceModel.FASTA.FastaToken)
         If Any Then
             Query = From fsa In FASTAFile.AsParallel Where fsa.Title.ContainsAny(Keywords, CaseSense) Select fsa '
         Else

@@ -194,7 +194,7 @@ Namespace DataStructure
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Edges As LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.DataStructure.GraphEdge()
+        Public Property Edges As SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure.GraphEdge()
         <XmlAttribute> Public Property Id As String
         <XmlAttribute> Public Property statistics As Double
         <XmlAttribute> Public Property pvalue As Double

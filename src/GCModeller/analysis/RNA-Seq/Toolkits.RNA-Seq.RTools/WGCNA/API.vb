@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports System.Text
 Imports Microsoft.VisualBasic.DocumentFormat
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.WGCNA
 Imports RDotNET.Extensions.VisualBasic
 
 Namespace WGCNA

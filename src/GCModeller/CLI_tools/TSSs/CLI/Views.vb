@@ -1,8 +1,8 @@
 ﻿Imports LANS.SystemsBiology
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.TSSsTools.DocumentFormat
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.TSSsTools
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.TSSsTools.DocumentFormat
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.TSSsTools
 
 Partial Module CLI
 

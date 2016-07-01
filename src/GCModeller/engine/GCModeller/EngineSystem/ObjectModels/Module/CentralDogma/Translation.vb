@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
@@ -46,7 +46,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             Return Product.ToString
         End Function
 
-        Public Function set_Regulators(Regulators As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Regulator(Of Translation)()) As Translation
+        Public Function set_Regulators(Regulators As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Regulator(Of Translation)()) As Translation
             '  Me.VEC = Regulators
 
             For i As Integer = 0 To Regulators.Count - 1
@@ -57,7 +57,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         End Function
 
         Protected Friend Overloads Overrides Function InitializeConstraints(MetabolismSystem As SubSystem.MetabolismCompartment) As Integer
-            Dim ConstraintModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+            Dim ConstraintModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
               .Name = MyBase.Identifier, .Identifier = MyBase.Identifier, .Reversible = False, .UPPER_BOUND = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}}
             Dim ConstraintMapping = MetabolismSystem.ConstraintMetabolite
             Dim p As Integer = 0

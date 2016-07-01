@@ -28,8 +28,8 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Colors
+Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures

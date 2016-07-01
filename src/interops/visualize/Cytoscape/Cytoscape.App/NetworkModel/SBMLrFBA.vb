@@ -4,10 +4,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.Assembly.SBML.Level2
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
-Imports LANS.SystemsBiology.Assembly.SBML.Components
+Imports SMRUCC.genomics.Assembly.SBML.Level2
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.Assembly.SBML.Components
 Imports Microsoft.VisualBasic.Language
 
 Namespace NetworkModel

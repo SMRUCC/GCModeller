@@ -1,12 +1,12 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema.Metabolism
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.Metabolism
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots
 
 Namespace NetworkModel
 

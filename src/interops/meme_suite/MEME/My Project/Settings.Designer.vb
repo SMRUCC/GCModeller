@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettings
             Get
-                Return Global.LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettings.Default
+                Return Global.SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettings.Default
             End Get
         End Property
     End Module

@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.SubSystem
@@ -17,7 +17,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Friend ReadOnly Property DataModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
+        Protected Friend ReadOnly Property DataModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
             Get
                 Return Me._GCML_DataModel
             End Get

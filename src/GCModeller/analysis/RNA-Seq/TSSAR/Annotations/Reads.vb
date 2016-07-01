@@ -1,20 +1,20 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports LANS.SystemsBiology.ContextModel
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
+Imports SMRUCC.genomics.ContextModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 
 <[Namespace]("TSSs.Analysis.ReadsView")>
 Public Module Reads
 
-    Public Class ReadsGroupView : Implements LANS.SystemsBiology.ComponentModel.Loci.Abstract.ILocationNucleotideSegment
+    Public Class ReadsGroupView : Implements SMRUCC.genomics.ComponentModel.Loci.Abstract.ILocationNucleotideSegment
 
         Dim _FLAG As Integer
 
@@ -97,7 +97,7 @@ Public Module Reads
             Return $"{AssociatedGene}/  {getPosition}"
         End Function
 
-        Public ReadOnly Property Position As LANS.SystemsBiology.ComponentModel.Loci.SegmentRelationships
+        Public ReadOnly Property Position As SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships
             Get
                 Select Case getPosition
                     Case "", SegmentRelationships.Blank.ToString
@@ -221,7 +221,7 @@ Public Module Reads
     End Function
 
     <ExportAPI("Gene.Association")>
-    Public Function GeneAssociation(SourceDir As String, PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT, Optional Export As String = "") As Boolean
+    Public Function GeneAssociation(SourceDir As String, PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT, Optional Export As String = "") As Boolean
         If String.IsNullOrEmpty(Export) Then
             Export = SourceDir
         End If

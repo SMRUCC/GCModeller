@@ -2,12 +2,12 @@
   
   <!-- This field of XML README document explane the namespace meaning in MetaCyc -->
   
-  <NameSpace namespace="LANS.SystemsBiology.Assembly.MetaCyc.File">
+  <NameSpace namespace="SMRUCC.genomics.Assembly.MetaCyc.File">
     Objects in this namespace are those the data file reader of the metacyc database. The objects in this namespace 
     only store the original string data in the PGDB database file.
   </NameSpace>
  
-  <NameSpace namespace="LANS.SystemsBiology.Assembly.MetaCyc.Schemas">
+  <NameSpace namespace="SMRUCC.genomics.Assembly.MetaCyc.Schemas">
     Objects in this namespace are those data model object that will be store in the localhost database server and 
     using for the running of the whole living system base on the GCModeller(Genetic clock general living system 
     modelling and computting framework.)

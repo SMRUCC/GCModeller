@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.ComponentModel
+﻿Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions

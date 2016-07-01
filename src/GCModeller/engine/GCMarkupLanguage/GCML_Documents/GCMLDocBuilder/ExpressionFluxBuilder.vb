@@ -1,8 +1,8 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.Assembly
 
 Namespace Builder
 
@@ -18,7 +18,7 @@ Namespace Builder
         ''' <param name="MetaCyc"></param>
         ''' <param name="Model">在模型对象之中的代谢组必须是已经构建好了的</param>
         ''' <remarks></remarks>
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             MyBase.New(MetaCyc, Model)
         End Sub
 
@@ -39,7 +39,7 @@ Namespace Builder
         ''' <param name="MetaCyc"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function CreateTransUnits(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) _
+        Private Shared Function CreateTransUnits(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) _
             As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)
 
             Dim TransUnits As GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit() = (From TransUnit As MetaCyc.File.DataFiles.Slots.TransUnit
@@ -57,8 +57,8 @@ Namespace Builder
             Return LQuery
         End Function
 
-        Private Shared Function CreateGenes(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder) As GeneObject()
-            Dim LQuery = From e As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Gene
+        Private Shared Function CreateGenes(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder) As GeneObject()
+            Dim LQuery = From e As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Gene
                          In MetaCyc.GetGenes.AsParallel
                          Let G = GeneObject.CastTo(e)
                          Select G Order By G.Identifier Ascending   '
@@ -72,7 +72,7 @@ Namespace Builder
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function CreateTranscripts(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel) As GCML_Documents.XmlElements.Bacterial_GENOME.Transcript()
+        Private Shared Function CreateTranscripts(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel) As GCML_Documents.XmlElements.Bacterial_GENOME.Transcript()
             Dim List As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.Transcript) = New List(Of GCML_Documents.XmlElements.Bacterial_GENOME.Transcript)
             Dim UnmodifiedProteins = GetAllUnmodifiedProduct(MetaCyc, Model)
             Dim LQuery = (From Gene In Model.BacteriaGenome.Genes Select Link(Gene, GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.CreateObject(MetaCyc, Gene, Model), List)).ToArray   '
@@ -110,8 +110,8 @@ Namespace Builder
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function GetAllUnmodifiedProduct(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As GCML_Documents.XmlElements.Metabolism.Metabolite()
-            Dim LQuery = From Protein As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein
+        Private Shared Function GetAllUnmodifiedProduct(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As GCML_Documents.XmlElements.Metabolism.Metabolite()
+            Dim LQuery = From Protein As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein
                          In MetaCyc.GetProteins.AsParallel
                          Where Protein.IsPolypeptide AndAlso Not Protein.IsModifiedProtein AndAlso Not String.IsNullOrEmpty(Protein.Gene)
                          Select Protein.Identifier  '筛选条件为目标蛋白质对象为多肽链、不是化学修饰形式，并且基因号不为空

@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService
+﻿Imports SMRUCC.genomics.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Extensions

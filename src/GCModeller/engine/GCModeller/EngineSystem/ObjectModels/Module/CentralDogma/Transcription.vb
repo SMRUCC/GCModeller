@@ -68,7 +68,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         Public Shared Function CreateConstraintFlux(UniqueId As String, MetabolismSystem As SubSystem.MetabolismCompartment,
                                               RNAPolymeraseEntity As Feature.MetabolismEnzyme(),
                                               EnzymeKinetics As MathematicsModels.EnzymeKinetics.ExpressionKinetics, K1 As Double, CompositionVector As Integer()) As ExpressionConstraintFlux
-            Dim ConstraintModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+            Dim ConstraintModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
               .Name = UniqueId, .Identifier = UniqueId, .Reversible = False}
 
             ConstraintModel.UPPER_BOUND = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}
@@ -79,13 +79,13 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             Dim p As Integer = 0
 
             ConstraintModel.Reactants = {
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}}
+                New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}}
 
             ConstraintModel.Products = {
-                    New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
+                    New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
                     {
                         .Identifier = ConstraintMapping.CONSTRAINT_PI.Identifier, .StoiChiometry = CompositionVector.Sum / 10}}
 

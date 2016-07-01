@@ -1,11 +1,11 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.DatabaseServices.Reactome.OwlDocument.Nodes
+Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.Nodes
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.DatabaseServices.Reactome.OwlDocument.XrefNodes
+Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.XrefNodes
 Imports Microsoft.VisualBasic.ComponentModel
 Imports System.Reflection
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.DatabaseServices.Reactome.OwlDocument.Abstract
+Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.Abstract
 
 Namespace OwlDocument
 

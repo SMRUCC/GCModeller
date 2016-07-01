@@ -1,10 +1,10 @@
 ﻿Imports System.Text
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML.Components
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
-Imports LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.IFBA
+Imports SMRUCC.genomics.Assembly.SBML.Components
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.IFBA
 
 Namespace Level2.Elements
 

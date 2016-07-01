@@ -1,8 +1,8 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq

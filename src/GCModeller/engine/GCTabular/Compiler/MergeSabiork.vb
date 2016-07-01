@@ -2,8 +2,8 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 
 Namespace Compiler.Components
 
@@ -26,8 +26,8 @@ Namespace Compiler.Components
         End Class
 
         <ExportAPI("read.besthitcsv")>
-        Public Shared Function LoadUniprotBesthits(path As String) As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit()
-            Return path.LoadCsv(Of LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False).ToArray
+        Public Shared Function LoadUniprotBesthits(path As String) As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit()
+            Return path.LoadCsv(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False).ToArray
         End Function
 
         <ExportAPI("read.enzymes")>
@@ -66,8 +66,8 @@ Namespace Compiler.Components
             Return True
         End Function
 
-        Private Shared Function GetItems(UniprotBesthits As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit(), UniprotId As String) _
-            As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit()
+        Private Shared Function GetItems(UniprotBesthits As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit(), UniprotId As String) _
+            As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit()
 
             Dim LQuery = (From item In UniprotBesthits Where String.Equals(item.HitName, UniprotId, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             Return LQuery

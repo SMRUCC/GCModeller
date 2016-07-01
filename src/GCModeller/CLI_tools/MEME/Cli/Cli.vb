@@ -3,14 +3,14 @@ Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
 
 <PackageNamespace("MEME.CLI",
                   Description:="A wrapper tools for the NCBR meme tools, this is a powerfull tools for reconstruct the regulation in the bacterial genome.",
@@ -102,10 +102,10 @@ Module CLI
         Dim bbh = args("/bbh").LoadCsv(Of bbhMappings)
         Dim id As String = args("/id")
         Dim query = (From x In bbh.AsParallel Where String.Equals(id, x.hit_name, StringComparison.OrdinalIgnoreCase) Select x.query_name).ToArray
-        Dim fasta = New LANS.SystemsBiology.SequenceModel.FASTA.FastaFile(args("/regprecise")).ToDictionary(Function(x) x.Title.Split.First)
+        Dim fasta = New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(args("/regprecise")).ToDictionary(Function(x) x.Title.Split.First)
         Dim LQuery = (From sId As String In query Where fasta.ContainsKey(sId) Select fasta(sId)).ToArray
         Dim path As String = args("/bbh") & $"_{id}.fasta"
-        Return New LANS.SystemsBiology.SequenceModel.FASTA.FastaFile(LQuery).Save(path).CLICode
+        Return New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(LQuery).Save(path).CLICode
     End Function
 
     <ExportAPI("/Trim.MastSite",

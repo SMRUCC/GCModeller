@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.Regulator
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.DatabaseServices.Regprecise.Regulator
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection

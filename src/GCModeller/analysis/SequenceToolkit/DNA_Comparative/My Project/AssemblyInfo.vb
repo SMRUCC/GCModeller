@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("COMPARATIVE DNA ANALYSIS ACROSS DIVERSE GENOMES")> 
 <Assembly: AssemblyDescription("COMPARATIVE DNA ANALYSIS ACROSS DIVERSE GENOMES")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("LANS.SystemsBiology.AnalysisTools.ComparativeGenomics")> 
+<Assembly: AssemblyProduct("SMRUCC.genomics.AnalysisTools.ComparativeGenomics")> 
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gmail.com 2015")> 
 <Assembly: AssemblyTrademark("GCModeller")> 
 

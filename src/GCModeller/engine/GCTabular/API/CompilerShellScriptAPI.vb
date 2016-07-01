@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.XmlFormat
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.XmlFormat
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
@@ -29,7 +29,7 @@ Public Module CompilerShellScriptAPI
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("sensing_profile.extract")>
-    Public Function ExtractSensingProfiles(MiST2 As LANS.SystemsBiology.Assembly.MiST2.MiST2) _
+    Public Function ExtractSensingProfiles(MiST2 As SMRUCC.genomics.Assembly.MiST2.MiST2) _
         As DatabaseServices.StringDB.StrPNet.TCS.SensorInducers()
 
         Dim IDList As String() = {
@@ -63,7 +63,7 @@ Public Module CompilerShellScriptAPI
 
     <ExportAPI("fullfill_operator.sabio-rk")>
     Public Function Fill_Sabiork([operator] As FullFillModel, SabiorkCompounds As String, SabiorkKinetics As String, EnzymeModifyKinetics As String, ExpasyMatches As String) As Integer
-        Call [operator].FullFillModel_Sabiork(SabiorkCompounds, SabiorkKinetics, EnzymeModifyKinetics, ExpasyMatches.LoadCsv(Of LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)(False).ToArray)
+        Call [operator].FullFillModel_Sabiork(SabiorkCompounds, SabiorkKinetics, EnzymeModifyKinetics, ExpasyMatches.LoadCsv(Of SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)(False).ToArray)
         Return 0
     End Function
 
@@ -96,7 +96,7 @@ Public Module CompilerShellScriptAPI
     <ExportAPI("analysis_transmembrane")>
     Public Function AnalysisTransmembraneFlux([operator] As Compiler.Components.AnalysisTransmembraneFlux,
                                               FullFilledModel As FileStream.IO.XmlresxLoader,
-                                              Expasy As LANS.SystemsBiology.Assembly.Expasy.Database.NomenclatureDB) _
+                                              Expasy As SMRUCC.genomics.Assembly.Expasy.Database.NomenclatureDB) _
         As Integer
 
         Call [operator].Invoke(FullFilledModel, Expasy)
@@ -117,9 +117,9 @@ Public Module CompilerShellScriptAPI
                                mist2_strp_xml As String,
                                stringdb As String) _
  _
-        As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Compiler
+        As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Compiler
 
-        Dim Compiler = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Compiler()
+        Dim Compiler = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Compiler()
         Dim args = New KeyValuePair(Of String, String)() {
  _
             New KeyValuePair(Of String, String)("-metacyc", metacyc),

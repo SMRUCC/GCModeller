@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.Reactome.ObjectModels
+﻿Imports SMRUCC.genomics.DatabaseServices.Reactome.ObjectModels
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData

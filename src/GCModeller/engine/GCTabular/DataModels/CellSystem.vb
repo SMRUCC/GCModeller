@@ -1,13 +1,13 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly
+Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace DataModel
@@ -43,7 +43,7 @@ Namespace DataModel
             Return LQuery
         End Function
 
-        Private Sub CreateTranscripts(TargetModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Private Sub CreateTranscripts(TargetModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             Dim Transcripts = (From Transcript As FileStream.Transcript
                                In Me._CellSystemModel.Transcripts.AsParallel
                                Let cv = New GCMarkupLanguage.SequenceModel.CompositionVector With {
@@ -74,17 +74,17 @@ Namespace DataModel
             TargetModel.Metabolism.Metabolites += TranscriptMetabolites
         End Sub
 
-        Private Sub LoadSystemVariables(Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel, DataModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO.XmlresxLoader)
+        Private Sub LoadSystemVariables(Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel, DataModel As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO.XmlresxLoader)
             'Dim ChunkBuffer = _CellSystemModel.SystemVariables.ToList
-            'Call ChunkBuffer.Add(New LANS.SystemsBiology.ComponentModel.KeyValuePair With {
-            '                     .Key = LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables._URL_CHIPDATA,
+            'Call ChunkBuffer.Add(New SMRUCC.genomics.ComponentModel.KeyValuePair With {
+            '                     .Key = SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables._URL_CHIPDATA,
             '                     .Value = DataModel.CellSystemModel.ChipData.GetFullPath(Me._CellSystemModel.ModelParentDir)})
             'Model.SystemVariables = ChunkBuffer.ToArray
         End Sub
 
         <ExportAPI("stream.from_file", Info:="Load the csv tabular format virtual cell model file as GCML format model file, due to the reason of the GCModeller is only support the GCML format modl file." &
             "argument ""model"" is the main xml file of the virtual cell model file.")>
-        Public Shared Function LoadModel(model As String, Optional logging_at As String = "") As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
+        Public Shared Function LoadModel(model As String, Optional logging_at As String = "") As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
             If String.IsNullOrEmpty(logging_at) Then
                 logging_at = String.Format("{0}/csv_compiler__{1}.log", Settings.DataCache, Microsoft.VisualBasic.Logging.LogFile.NowTimeNormalizedString)
             End If
@@ -92,37 +92,37 @@ Namespace DataModel
         End Function
 
         <ExportAPI("stream.from_model")>
-        Public Shared Function LoadModel(model As FileStream.IO.XmlresxLoader, Optional logging_at As String = "") As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
+        Public Shared Function LoadModel(model As FileStream.IO.XmlresxLoader, Optional logging_at As String = "") As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
             If String.IsNullOrEmpty(logging_at) Then
                 logging_at = String.Format("{0}/csv_compiler__{1}.log", Settings.DataCache, Microsoft.VisualBasic.Logging.LogFile.NowTimeNormalizedString)
             End If
             Return New CellSystem(model, New Logging.LogFile(Path:=logging_at)).LoadAction
         End Function
 
-        Public Function LoadAction() As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
+        Public Function LoadAction() As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
 
             Call _Logging.WriteLine("Start to streaming csv data into gcml data model!", "LoadAction()", Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
 
-            Dim Dispositions = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant() {
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant With {
-                    .Enzymes = Strings.Split(Me._CellSystemModel.SystemVariables.GetItem(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_POLYPEPTIDE_DISPOSE_CATALYST).Value, "; "),
-                    .GeneralType = LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant.GENERAL_TYPE_ID_POLYPEPTIDE,
+            Dim Dispositions = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant() {
+                New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant With {
+                    .Enzymes = Strings.Split(Me._CellSystemModel.SystemVariables.GetItem(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_POLYPEPTIDE_DISPOSE_CATALYST).Value, "; "),
+                    .GeneralType = SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant.GENERAL_TYPE_ID_POLYPEPTIDE,
                     .UPPER_BOUND = 1000},
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant With {
-                    .Enzymes = Strings.Split(Me._CellSystemModel.SystemVariables.GetItem(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_TRANSCRIPT_DISPOSE_CATALYST).Value, "; "),
-                    .GeneralType = LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant.GENERAL_TYPE_ID_TRANSCRIPTS,
+                New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant With {
+                    .Enzymes = Strings.Split(Me._CellSystemModel.SystemVariables.GetItem(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_TRANSCRIPT_DISPOSE_CATALYST).Value, "; "),
+                    .GeneralType = SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant.GENERAL_TYPE_ID_TRANSCRIPTS,
                     .UPPER_BOUND = 1000}}
 
-            Dim Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel With
+            Dim Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
+                New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel With
                 {
                     .ModelProperty = Me._CellSystemModel.CellSystemModel.ModelProperty,
                     .IteractionLoops = Me._CellSystemModel.CellSystemModel.IteractionLoops}
 
-            Model.Metabolism = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolism With
+            Model.Metabolism = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolism With
                                {
-                                   .Compartments = New List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Compartment)}
-            Model.BacteriaGenome = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.BacterialGenome With
+                                   .Compartments = New List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.Compartment)}
+            Model.BacteriaGenome = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.BacterialGenome With
                                    {
                                        .Genes = (From ItemGene
                                                  In Me._CellSystemModel.GenomeAnnotiation.AsParallel
@@ -145,12 +145,12 @@ Namespace DataModel
                                                                           .Identifier = m.Identifier, .StoiChiometry = m.StoiChiometry}).ToArray
                                                   Let regulators = (From enz
                                                                     In item.AssociatedRegulationGenes
-                                                                    Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator With
+                                                                    Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator With
                                                                            {
                                                                                .Identifier = enz.Identifier, .CommonName = enz.Identifier, .Activation = True}).ToList
-                                                  Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With
+                                                  Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With
                                                          {
-                                                             .LOWER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With
+                                                             .LOWER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With
                                                                             {
                                                                                 .Value = item.Lower_Bound},
                                                              .Name = item.Identifier,
@@ -161,7 +161,7 @@ Namespace DataModel
                                                              .Identifier = item.Identifier,
                                                              .Reactants = rnts,
                                                              .Products = prdts,
-                                                             .UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With
+                                                             .UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With
                                                                             {
                                                                                 .Value = item.Upper_Bound},
                                                              .Enzymes = (From strId In item.AssociatedRegulationGenes Select strId.Identifier).ToArray,
@@ -171,20 +171,20 @@ Namespace DataModel
 
             Call LoadSystemVariables(Model, Me._CellSystemModel)
 
-            Model.Metabolism.Metabolites = (From item As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.Metabolite
+            Model.Metabolism.Metabolites = (From item As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.Metabolite
                                             In Me._CellSystemModel.MetabolitesModel.Values.AsParallel
-                                            Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite With
+                                            Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite With
                                                    {
                                                        .Identifier = item.Identifier, .InitialAmount = item.InitialAmount,
                                                        .NumOfFluxAssociated = item.n_FluxAssociated,
                                                        .MetaboliteType = item.MetaboliteType}).ToList
-            '  Model.Proteins = (From item In Me._CellSystemModel.Proteins.AsParallel Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage. GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Protein With {.UniqueId = item.UniqueId, .Lamda = item.Lambda, .CommonName = item.UniqueId}).ToArray
+            '  Model.Proteins = (From item In Me._CellSystemModel.Proteins.AsParallel Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage. GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Protein With {.UniqueId = item.UniqueId, .Lamda = item.Lambda, .CommonName = item.UniqueId}).ToArray
             Model.Metabolism.ConstraintMetaboliteMaps = Me._CellSystemModel.ConstraintMetabolites.ToArray
             Model.ProteinAssemblies = (From assemblyEntry In Me._CellSystemModel.ProteinAssembly
                                        Let assembly = assemblyEntry.Value
-                                       Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
+                                       Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
                                            .Identifier = assembly.ProteinComplexes, .p_Dynamics_K_1 = assembly.p_Dynamics_K, .p_Dynamics_K_2 = assembly.Lambda,
-                                           .UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = assembly.Upper_Bound},
+                                           .UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = assembly.Upper_Bound},
                                            .Reversible = True,
                                            .ComplexComponents = assembly.ProteinComponents,
                                            .Reactants = (From component In assembly.ProteinComponents
@@ -196,11 +196,11 @@ Namespace DataModel
 
             Call CreateTranscripts(Model) '转录组分目标对象的形成需要代谢底物的句柄，故而目标对象的初始化需要在代谢组部分初始化完毕之后进行，而多肽链分子对象的构造则需要转录组对象，故而本对象的构造需要在构造多肽链分子对象之前完成
 
-            Model.CultivationMediums = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.CultivationMediums With {.Uptake_Substrates = Me._CellSystemModel.CultivationMediums.ToArray}
+            Model.CultivationMediums = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.CultivationMediums With {.Uptake_Substrates = Me._CellSystemModel.CultivationMediums.ToArray}
             Model.DispositionModels = Dispositions
             Model.Polypeptides = (From PolypeptideModel As FileStream.Protein In _CellSystemModel.Proteins.AsParallel
-                                  Let cv = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SequenceModel.CompositionVector With {.T = PolypeptideModel.PolypeptideCompositionVector}
-                                  Let Polypeptide = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide With
+                                  Let cv = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.SequenceModel.CompositionVector With {.T = PolypeptideModel.PolypeptideCompositionVector}
+                                  Let Polypeptide = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide With
                                                     {
                                                         .ProteinType = PolypeptideModel.ProteinType,
                                                         .CompositionVector = cv,
@@ -217,7 +217,7 @@ Namespace DataModel
                                                         Let HandleItem = Model.Metabolism.MetabolismNetwork.GetItem(Id)
                                                         Where Not HandleItem Is Nothing
                                                         Select HandleItem.Identifier).ToArray
-                                         Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Pathway With
+                                         Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Pathway With
                                                 {
                                                     .Comment = PathwayObject.Comment, .Name = PathwayObject.Identifier,
                                                     .Identifier = PathwayObject.Identifier,
@@ -226,9 +226,9 @@ Namespace DataModel
 
             Model.RibosomeAssembly = (From assembly In Me._CellSystemModel.RibosomeAssembly
                                       Let RxnId As String = If(String.IsNullOrEmpty(assembly.Comments), assembly.ProteinComplexes, String.Format("{0}.{1}", assembly.ProteinComplexes, assembly.Comments.Split.First))
-                                      Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
+                                      Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
                                           .ComplexComponents = assembly.ProteinComponents,
-                                          .Identifier = RxnId, .UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = assembly.Upper_Bound},
+                                          .Identifier = RxnId, .UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = assembly.Upper_Bound},
                                           .Reversible = False, .p_Dynamics_K_1 = assembly.p_Dynamics_K, .p_Dynamics_K_2 = assembly.Lambda,
                                           .Reactants = (From component In assembly.ProteinComponents
                                                         Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {
@@ -239,9 +239,9 @@ Namespace DataModel
 
             Model.RNAPolymerase = (From assembly In Me._CellSystemModel.RNAPolymerase
                                    Let RxnId As String = If(String.IsNullOrEmpty(assembly.Comments), assembly.ProteinComplexes, String.Format("{0}.{1}", assembly.ProteinComplexes, assembly.Comments.Split.First))
-                                   Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
+                                   Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly With {
                                        .ComplexComponents = assembly.ProteinComponents,
-                                         .Identifier = RxnId, .UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = assembly.Upper_Bound},
+                                         .Identifier = RxnId, .UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = assembly.Upper_Bound},
                                          .Reversible = False, .p_Dynamics_K_1 = assembly.p_Dynamics_K, .p_Dynamics_K_2 = assembly.Lambda,
                                          .Reactants = (From component In assembly.ProteinComponents
                                                        Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {
@@ -282,24 +282,24 @@ Namespace DataModel
             Return LQuery
         End Function
 
-        Private Shared Function CreateTransportationFlux(Model As FileStream.MetabolismFlux) As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction
+        Private Shared Function CreateTransportationFlux(Model As FileStream.MetabolismFlux) As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction
             Dim FluxModel = Model.CreateObject
             Dim Reactants = __createReference(FluxModel.LeftSides)
             Dim products = __createReference(FluxModel.RightSide)
 
-            Dim DataModel = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction With {
-                                       .LOWER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = Model.LOWER_Bound},
+            Dim DataModel = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction With {
+                                       .LOWER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = Model.LOWER_Bound},
                                        .Name = Model.CommonName, .ObjectiveCoefficient = 1, .Reversible = Model.Reversible, .Identifier = Model.Identifier,
                                        .Reactants = Reactants,
                                        .Products = products, .p_Dynamics_K_1 = FluxModel.K1, .p_Dynamics_K_2 = FluxModel.K2,
-                                       .UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = Model.UPPER_Bound},
+                                       .UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = Model.UPPER_Bound},
                                        .Enzymes = Model.Enzymes}
 
             If Model.Enzymes.IsNullOrEmpty Then
-                DataModel.DynamicsRegulators = New List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator)
+                DataModel.DynamicsRegulators = New List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator)
             Else
                 DataModel.DynamicsRegulators = (From enz In Model.Enzymes
-                                                Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator With
+                                                Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator With
                                                        {
                                                            .Identifier = enz, .CommonName = enz, .Activation = True}).ToList
             End If
@@ -313,16 +313,16 @@ Namespace DataModel
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function CreateSignalTransductionNetwork(Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) _
-            As Global.LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.SignalTransductionNetwork
+        Private Function CreateSignalTransductionNetwork(Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) _
+            As Global.SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.SignalTransductionNetwork
 
-            Model.SignalTransductionPathway = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.SignalTransductionNetwork
+            Model.SignalTransductionPathway = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.SignalTransductionNetwork
 
             Dim Inducers = Me._CellSystemModel.ChemotaxisSensing
             Dim SubstrateList As List(Of String) = New List(Of String)
 
-            Dim ChemotaxisSensing As List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction)
-            Dim HKAutoPhosphorus As List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)
+            Dim ChemotaxisSensing As List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction)
+            Dim HKAutoPhosphorus As List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)
 
             For Each Item As DatabaseServices.StringDB.StrPNet.TCS.SensorInducers In Inducers
 
@@ -333,20 +333,20 @@ Namespace DataModel
 
                 Dim LQuery = (From strInducerId As String
                               In Item.Inducers
-                              Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction With
+                              Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction With
                                      {
                                          .Enzymes = New String() {},
                                          .p_Dynamics_K_1 = 1, .p_Dynamics_K_2 = 1, .LOWER_BOUND = -100, .Reversible = True, .UPPER_BOUND = 100,
                                          .Identifier = String.Format("{0}.{1}", Item.SensorId, strInducerId),
                                          .Reactants = {
-                                             New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
+                                             New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
                                              {
                                                  .StoiChiometry = 1, .Identifier = Item.SensorId, .CompartmentId = "CCO-IN"},
-                                             New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
+                                             New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
                                              {
                                                  .StoiChiometry = 1, .Identifier = strInducerId, .CompartmentId = "CCO-OUT"}},
                                          .Products = {
-                                             New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
+                                             New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
                                              {
                                                  .StoiChiometry = 1, .Identifier = String.Format("{0}[{1}]", Item.SensorId, strInducerId), .CompartmentId = "CCO-IN"}}}).ToArray
 
@@ -354,7 +354,7 @@ Namespace DataModel
                 Call HKAutoPhosphorus.AddRange(collection:=(From HkAp In Me._CellSystemModel.HkAutoPhosphorus.AsParallel
                                                             Let Enzymes = (From id In HkAp.Inducers Select id.Split(CChar("=")).First).ToArray
                                                             Let MCPs = (From rxn In LQuery Select rxn.Products.Last.Identifier).ToArray
-                                                            Select New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With
+                                                            Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With
                                                                    {
                                                                        .Identifier = String.Format("{0}.AUTO-PHOSPHATE[{1}]", HkAp.SensorId, Item.SensorId),
                                                                        .Reversible = False, .UPPER_BOUND = 100, .p_Dynamics_K_1 = 1,
@@ -381,8 +381,8 @@ Namespace DataModel
 
             Dim AppendedMetabolites = (From Id As String In SubstrateList
                                        Select Model.Metabolism.AppendNewMetabolite(Id, If(InStr(Id, "[") > 0 AndAlso InStr(Id, "]") > 0,
-                                                                                         LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.ProteinComplexes,
-                                                                                         LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound))).ToArray
+                                                                                         SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.ProteinComplexes,
+                                                                                         SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound))).ToArray
 
             Dim TempChunk = (From item As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
                              In Model.BacteriaGenome.TransUnits
@@ -392,8 +392,8 @@ Namespace DataModel
 
             Call SubstrateList.Clear()
 
-            Dim TFActive As List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) =
-                New List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)
+            Dim TFActive As List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) =
+                New List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)
 
             Model.SignalTransductionPathway.OCSSensing = (From rxn In _CellSystemModel.OCSSensing Select rxn.CreateGCMLModel).ToArray
 
@@ -414,8 +414,8 @@ Namespace DataModel
 
             SubstrateList = SubstrateList.Distinct.ToList
             AppendedMetabolites = (From Id As String In SubstrateList Select Model.Metabolism.AppendNewMetabolite(Id, If(InStr(Id, "[") > 0 AndAlso InStr(Id, "]") > 0,
-                                                                                        LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.ProteinComplexes,
-                                                                                             LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound))).ToArray
+                                                                                        SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.ProteinComplexes,
+                                                                                             SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound))).ToArray
 
             Call _Logging.WriteLine("Finalize the signal transduction network initialization!")
 
@@ -431,8 +431,8 @@ Namespace DataModel
         Private Function Internal_Process(TFList As String(),
                                           SubstrateList As List(Of String),
                                           TranscriptionModel As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
-                                          Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel,
-                                          TFActive As List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)) As Integer
+                                          Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel,
+                                          TFActive As List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)) As Integer
 
             For Each Tf In _CellSystemModel.STrPModel.Pathway
 
@@ -463,7 +463,7 @@ Namespace DataModel
                             Call SubstrateList.Add(Regulator.ProteinAssembly)
                             Call TranscriptionModel._add_Regulator("", Regulator)
 
-                            Dim FLUX = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With
+                            Dim FLUX = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With
                                        {
                                            .Identifier = String.Format("{0}=>{1}", PC, Tf.TF),
                                            .p_Dynamics_K_1 = 1, .p_Dynamics_K_2 = 1,
@@ -505,7 +505,7 @@ Namespace DataModel
                             Regulator.ProteinAssembly = Regulator.Identifier
                             Call SubstrateList.Add(Regulator.ProteinAssembly)
                             Call TranscriptionModel._add_Regulator("", Regulator)
-                            Call TFActive.Add(New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+                            Call TFActive.Add(New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
                                               .Identifier = String.Format("{0}=>{1}", PC.Value, Tf.TF),
                                               .p_Dynamics_K_1 = PC.Key, .p_Dynamics_K_2 = PC.Key, .Reversible = True, .UPPER_BOUND = 100, .LOWER_BOUND = 100,
                                               .Reactants = {New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.StoiChiometry = 1, .Identifier = PC.Value},
@@ -531,7 +531,7 @@ Namespace DataModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function get_Motifs(TranscriptUnit As FileStream.TranscriptUnit) _
-            As List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.MotifSite)
+            As List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.MotifSite)
 
             Dim MotifList = (From item
                              In _CellSystemModel.Motifs
@@ -586,7 +586,7 @@ Namespace DataModel
             Return LQuery
         End Function
 
-        Private Function CreateTranscriptUnits(GeneObjects As Generic.IEnumerable(Of GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject)) As List(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)
+        Private Function CreateTranscriptUnits(GeneObjects As Generic.IEnumerable(Of GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject)) As List(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)
             Call Me._Logging.WriteLine("Start to create the bacteria genome transcription unit models....")
 
             Dim TransUnits = (From TranscriptUnit As FileStream.TranscriptUnit

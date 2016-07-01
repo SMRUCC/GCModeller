@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Topologically

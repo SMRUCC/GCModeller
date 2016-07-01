@@ -1,9 +1,9 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Organism
-Imports LANS.SystemsBiology.Assembly.KEGG.WebServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.Repository
-Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.Repository
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection

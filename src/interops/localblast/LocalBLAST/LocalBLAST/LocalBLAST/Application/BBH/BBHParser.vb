@@ -3,11 +3,11 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.Expasy.Database
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 

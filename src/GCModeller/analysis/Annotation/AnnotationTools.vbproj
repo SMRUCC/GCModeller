@@ -405,11 +405,11 @@
       <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
       <Name>Model_Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Interops\MEME\MEME.DocParser\MEME.DocParser.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Interops\MEME\MEME.vbproj">
+    <ProjectReference Include="..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>
@@ -421,11 +421,11 @@
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
+    <ProjectReference Include="..\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
       <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
       <Name>Toolkits.RNA-Seq.RTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+    <ProjectReference Include="..\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
       <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>

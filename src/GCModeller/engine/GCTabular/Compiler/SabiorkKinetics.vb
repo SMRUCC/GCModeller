@@ -3,12 +3,12 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 
 Namespace Compiler.Components
 

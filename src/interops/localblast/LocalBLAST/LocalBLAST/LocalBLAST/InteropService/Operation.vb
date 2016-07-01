@@ -21,13 +21,13 @@
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
             Select Case ProgramProfile.Name.ToLower
                 Case "localblast"
-                    Return LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(_InternalLastBLASTOutputFile)
+                    Return SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(_InternalLastBLASTOutputFile)
                 Case "blast+"
-                    Return LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
+                    Return SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
                 Case "rpsblast"
-                    Return LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
+                    Return SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
                 Case Else
-                    Return LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput.LoadFromFile(_InternalLastBLASTOutputFile)
+                    Return SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput.LoadFromFile(_InternalLastBLASTOutputFile)
             End Select
         End Function
 
@@ -39,7 +39,7 @@
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function CreateObject(BlastBin As String, TypeId As String) As Operation
-            Dim LQuery = (From profileItem As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.ProgramProfiles In LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.ProgramProfiles.DefaultProfiles
+            Dim LQuery = (From profileItem As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.ProgramProfiles In SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.ProgramProfiles.DefaultProfiles
                           Where String.Equals(profileItem.Name, TypeId, StringComparison.OrdinalIgnoreCase)
                           Select profileItem).ToArray
             If LQuery.IsNullOrEmpty Then

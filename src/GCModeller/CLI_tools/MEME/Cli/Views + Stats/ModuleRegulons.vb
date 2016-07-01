@@ -1,10 +1,10 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.FootprintTraceAPI
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+﻿Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.FootprintTraceAPI
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 

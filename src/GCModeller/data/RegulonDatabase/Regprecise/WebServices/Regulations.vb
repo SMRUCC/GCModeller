@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.InteractionModel
-Imports LANS.SystemsBiology.InteractionModel.Regulon
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.InteractionModel.Regulon
 
 Namespace Regprecise.WebServices
 

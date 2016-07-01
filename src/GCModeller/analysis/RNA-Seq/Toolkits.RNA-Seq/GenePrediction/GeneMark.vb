@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq.GenePrediction.DocNodes
+﻿Imports SMRUCC.genomics.Toolkits.RNA_Seq.GenePrediction.DocNodes
 
 Namespace GenePrediction
 

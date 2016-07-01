@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
+Imports SMRUCC.genomics.GCModeller.DataVisualization
 
 Namespace ComponentModel
 

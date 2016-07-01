@@ -1,6 +1,6 @@
 ﻿Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 
 Namespace EngineSystem.Services.DataAcquisition.DataSerializer
 

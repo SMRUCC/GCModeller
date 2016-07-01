@@ -1,9 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA.FastaFile
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language

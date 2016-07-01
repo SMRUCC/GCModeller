@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Bio.InteractionModel")>
-<Assembly: AssemblyDescription("LANS.SystemsBiology.InteractionModel")>
+<Assembly: AssemblyDescription("SMRUCC.genomics.InteractionModel")>
 <Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("Bio.InteractionModel")>
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gmail.com 2014")>

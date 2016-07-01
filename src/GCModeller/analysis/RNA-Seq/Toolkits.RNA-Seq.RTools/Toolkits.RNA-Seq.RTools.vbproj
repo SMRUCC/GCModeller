@@ -235,15 +235,15 @@
       <Project>{62626d99-02d6-47e7-80ee-5739a73fc62f}</Project>
       <Name>Bioconductor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\R.Bioinformatics\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
       <Project>{485965cd-da31-4517-86f6-94dfd28379c1}</Project>
       <Name>RDotNet.Extensions.Bioinformatics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\R.Bioinformatics\RDotNET.Extensions.VisualBasic\RDotNet.Extensions.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNet.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\R.Bioinformatics\RDotNET\RDotNet.vbproj">
+    <ProjectReference Include="..\..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
       <Name>RDotNet</Name>
     </ProjectReference>
@@ -255,11 +255,11 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Interops\BOW\BOW.vbproj">
+    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\BOW\BOW.vbproj">
       <Project>{2b903b81-95f4-455f-b892-d2ac36167453}</Project>
       <Name>BOW</Name>
     </ProjectReference>

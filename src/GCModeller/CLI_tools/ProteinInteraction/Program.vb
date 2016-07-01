@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.SequenceModel
+﻿Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
 Module Program
@@ -17,8 +17,8 @@ Module Program
         'Call network.LoadData(networklayout)
 
         'Dim pr = network.GetBelief(
-        '    {LANS.SystemsBiology.SequenceModel.FASTA.File.Read("./sk.txt").First.Sequence, ""},
-        '    {"", LANS.SystemsBiology.Assembly.FASTAFile.Read("./rr.txt").First.Sequence})
+        '    {SMRUCC.genomics.SequenceModel.FASTA.File.Read("./sk.txt").First.Sequence, ""},
+        '    {"", SMRUCC.genomics.Assembly.FASTAFile.Read("./rr.txt").First.Sequence})
 
         'Console.WriteLine("The cross-talk possibility is {0}", pr)
         'Console.ReadLine()

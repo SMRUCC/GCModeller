@@ -4,22 +4,22 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language.UnixBash
 
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Phylip.MatrixFile
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Phylip.MatrixFile
 
 Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
 Imports System.Text.RegularExpressions
 Imports System.Text
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports Microsoft.VisualBasic.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Parallel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.Localblast.Extensions.VennDiagram.BlastAPI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Localblast.Extensions.VennDiagram.BlastAPI
 Imports Microsoft.VisualBasic.Parallel.Linq
 
 <[PackageNamespace]("Phylip.Matrix",
@@ -39,7 +39,7 @@ Public Module ShellScriptAPI
                                               <Parameter("Path.OutTree")> TreeFile As String,
                                               <Parameter("Genbank.BBH.Entry", "This entries list information data should be the distincted data " &
                                                   "using as the bbh data source for the phylip tree construction.")>
-                                              EntryData As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports.gbEntryBrief)) _
+                                              EntryData As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.gbEntryBrief)) _
         As <FunctionReturns("The node label in the output tree has been trimmed and replaced using the ptt entry annotation on the ncbi FTP website.")> String
 
         Dim OutTree As StringBuilder = New StringBuilder(FileIO.FileSystem.ReadAllText(TreeFile))

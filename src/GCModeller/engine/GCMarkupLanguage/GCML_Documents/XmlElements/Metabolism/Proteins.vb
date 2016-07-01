@@ -1,15 +1,15 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports Microsoft.VisualBasic
 
 Namespace GCML_Documents.XmlElements.Metabolism
 
-    'Public Class Protein : Inherits MetaCycEntity(Of LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein)
+    'Public Class Protein : Inherits MetaCycEntity(Of SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein)
     '    Implements Metabolite.IDegradable
 
     '    <XmlAttribute("UniqueId")> Public Overrides Property UniqueId As String Implements Metabolite.IDegradable.UniqueId
@@ -37,7 +37,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
     '        Public Property ModifiedForm As String
     '    End Class
 
-    '    Public Shared Function CreateDataModel(Prot As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein, Metabolites As Metabolite()) As Protein
+    '    Public Shared Function CreateDataModel(Prot As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein, Metabolites As Metabolite()) As Protein
     '        Dim Protein As Protein = New Protein With {.UniqueId = Prot.UniqueId, .Citations = Prot.Citations, .GoTerms = Prot.GoTerms}
     '        Protein.Lamda = 0.95
     '        Protein.Synonyms = Prot.Synonyms

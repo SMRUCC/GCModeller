@@ -1,8 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 
 Namespace Compiler
 
@@ -35,7 +35,7 @@ Namespace Compiler
             Return _Index.IndexOf(UniqueId) > -1
         End Function
 
-        Public Sub AddEntry(item As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound)
+        Public Sub AddEntry(item As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)
             Dim Metabolite As FileStream.Metabolite = New FileStream.Metabolite With {.Identifier = item.Entry, .InitialAmount = 1000, .CommonNames = item.CommonNames}
             Dim PubChem As String = If(String.IsNullOrEmpty(item.PUBCHEM), "", New MetaCyc.Schema.DBLinkManager.DBLink() With {.DBName = "PubChem", .AccessionId = item.PUBCHEM}.GetFormatValue)
             Dim CheBI As String() = If(item.CHEBI.IsNullOrEmpty, New String() {}, (From strValue As String In item.CHEBI Select New MetaCyc.Schema.DBLinkManager.DBLink() With {.DBName = "CheBI", .AccessionId = strValue}.GetFormatValue).ToArray)
@@ -68,7 +68,7 @@ Namespace Compiler
             Call _Index.Add(Metabolite.Identifier)
         End Sub
 
-        Public Sub Update(ByRef Compound As FileStream.Metabolite, NewValue As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound)
+        Public Sub Update(ByRef Compound As FileStream.Metabolite, NewValue As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)
             Dim List = Compound.CommonNames.ToList
             Call List.AddRange(NewValue.CommonNames)
             Compound.CommonNames = (From strValue As String In List Where Not String.IsNullOrEmpty(strValue) Select strValue Distinct Order By strValue Ascending).ToArray

@@ -1,10 +1,10 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 
@@ -146,10 +146,10 @@ Namespace RegulationSignature
         End Sub
 
         Private Shared Function VF2TFreg(VirtualFootprints As Generic.IEnumerable(Of
-                                         LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)) _
+                                         SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)) _
             As Dictionary(Of String, KeyValuePair(Of String, String()))
 
-            'Dim LQuery = (From vf As LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
+            'Dim LQuery = (From vf As SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
             '                  In VirtualFootprints
             '              Select GeneID = vf.ORF, TFs = vf.Regulators, vf.MotifFamily).ToArray
             'Dim TFreg = (From orf In LQuery

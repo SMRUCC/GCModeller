@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.SubSystem
@@ -105,7 +105,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         Public Overrides Function Initialize() As Integer Implements ICompartmentObject.Initialize
             Call SystemLogging.WriteLine("   Created the metabolites object model.")
 
-            Me._CompartmentId = Me.IRuntimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_COMPARTMENT_METABOLISM)
+            Me._CompartmentId = Me.IRuntimeContainer.SystemVariable(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_COMPARTMENT_METABOLISM)
             If String.IsNullOrEmpty(Me._CompartmentId) Then
                 Call _SystemLogging.WriteLine("[ERROR] Metabolism compartment id is not defined in the system variables! Try to ignore this error and resume running using the defaul value!", "", Type:=Logging.MSG_TYPES.ERR)
                 _CompartmentId = "CCO-IN"
@@ -140,8 +140,8 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Return 0
         End Function
 
-        Public Shared Function CreateMetaboliteObjects(DataModels As Generic.IEnumerable(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), TagId As String) As Entity.Compound()
-            Dim LQuery = (From Compound As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite In DataModels.AsParallel
+        Public Shared Function CreateMetaboliteObjects(DataModels As Generic.IEnumerable(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), TagId As String) As Entity.Compound()
+            Dim LQuery = (From Compound As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite In DataModels.AsParallel
                           Let Metabolite As ObjectModels.Entity.Compound = ObjectModels.Entity.Compound.CreateObject(Metabolite:=Compound, TagId:=TagId)
                           Select Metabolite).ToArray
             Return LQuery.AddHandle

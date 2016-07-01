@@ -27,11 +27,11 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Text
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.InteractionModel
-Imports LANS.SystemsBiology.InteractionModel.Regulon
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.DatabaseServices
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.InteractionModel.Regulon
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Karyotype
 
 Namespace Documents.Karyotype
 

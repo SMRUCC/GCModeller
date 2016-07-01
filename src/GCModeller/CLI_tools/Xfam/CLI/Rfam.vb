@@ -1,18 +1,18 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.Rfam
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.RfamRegulatory
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal.cmscan
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal.cmsearch
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.AnalysisTools.Rfam
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.AnalysisTools.Rfam.RfamRegulatory
+Imports SMRUCC.genomics.AnalysisTools.Rfam.Infernal.cmscan
+Imports SMRUCC.genomics.AnalysisTools.Rfam.Infernal.cmsearch
+Imports SMRUCC.genomics.AnalysisTools.Rfam.Infernal
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
 
 Partial Module CLI
 

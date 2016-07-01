@@ -1,10 +1,10 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ComparativeGenomics
-Imports LANS.SystemsBiology.AnalysisTools.ComparativeGenomics.ToolsAPI
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.AnalysisTools.ComparativeGenomics
+Imports SMRUCC.genomics.AnalysisTools.ComparativeGenomics.ToolsAPI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -236,7 +236,7 @@ Namespace CEG
                                               Distinct
                                               Order By GeneObject.Synonym Ascending
 
-            ' Call New LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT(GetEssentialGeneLQuery, Ptt.Title, Ptt.OsNtLength).Save("./test.ptt")
+            ' Call New SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT(GetEssentialGeneLQuery, Ptt.Title, Ptt.OsNtLength).Save("./test.ptt")
 
             Return GetEssentialGeneLQuery
         End Function
@@ -251,36 +251,36 @@ Namespace CEG
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Export.Essential.Gene.Cluster")>
-        Public Function InternalEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken,
-                                                     <Parameter("Annotation.Ptt")> Ptt As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT,
+        Public Function InternalEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
+                                                     <Parameter("Annotation.Ptt")> Ptt As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
                                                      <Parameter("Path.CEG.Annotation")> Annotation As Generic.IEnumerable(Of CEG.Annotation),
                                                      <Parameter("ClusterGaps.Allowed")> Optional AllowedGaps As Integer = 3) As EssentialGeneCluster()
-            Dim Reader As New LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader(Nt)
-            Dim Genes = (From GeneObject As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+            Dim Reader As New SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader(Nt)
+            Dim Genes = (From GeneObject As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
                          In Ptt.GeneObjects
                          Select GeneObject
                          Order By GeneObject.Synonym Ascending).ToArray
 
             '将所有的连续的基因取出来，这认为这些基因为一个cluster
-            Dim GetEssentialGeneLQuery As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief()
+            Dim GetEssentialGeneLQuery As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief()
 
 #Const DEBUG = 0
 
 #If DEBUG Then
-            GetEssentialGeneLQuery = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load("E:\CEG\test.ptt").GeneObjects
+            GetEssentialGeneLQuery = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load("E:\CEG\test.ptt").GeneObjects
 #Else
             GetEssentialGeneLQuery = InternalGetEssentialGene(Annotation, Ptt)
 #End If
             Call Console.WriteLine("There are {0} essential genes was found in bacteria genome   {1}", GetEssentialGeneLQuery.Count, Ptt.Title)
             Call Console.WriteLine("Get essential gene operation job done!")
 
-            Dim CurrentGeneCluster As New List(Of LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief)
+            Dim CurrentGeneCluster As New List(Of SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief)
             Dim p_PTT As Integer = 0
-            Dim GeneClusterList As New List(Of LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief())
+            Dim GeneClusterList As New List(Of SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief())
 
             Call Console.WriteLine("Start to export the essential gene cluster for the genome:   " & Ptt.Title)
 
-            For Each EssGene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief In GetEssentialGeneLQuery
+            For Each EssGene As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief In GetEssentialGeneLQuery
                 Dim CurrentPTTGene = Genes(p_PTT)
 
                 Call Console.Write(".")
@@ -347,18 +347,18 @@ Namespace CEG
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Export.Essential.Gene.Cluster")>
-        Public Function ExportEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken,
-                                                   <Parameter("Annotation.Ptt")> Ptt As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT,
+        Public Function ExportEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
+                                                   <Parameter("Annotation.Ptt")> Ptt As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
                                                    <Parameter("Path.CEG.Annotation")> Annotation As String,
-                                                   <Parameter("ClusterGaps.Allowed")> Optional AllowedGaps As Integer = 3) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+                                                   <Parameter("ClusterGaps.Allowed")> Optional AllowedGaps As Integer = 3) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim AnnotationData = LoadAnnotation(Annotation)
             Dim Fasta = (From Cluster As EssentialGeneCluster
                          In InternalEssentialGeneCluster(Nt, Ptt, AnnotationData, AllowedGaps).AsParallel
-                         Select New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With
+                         Select New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With
                                 {
                                     .SequenceData = Cluster.Nt,
                                     .Attributes = New String() {Cluster.ClusterID}}).ToArray
-            Return CType(Fasta, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+            Return CType(Fasta, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
         End Function
     End Module
 End Namespace

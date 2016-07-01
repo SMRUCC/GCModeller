@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions.Regex
 Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
 Imports Microsoft.VisualBasic
 
 Namespace Script

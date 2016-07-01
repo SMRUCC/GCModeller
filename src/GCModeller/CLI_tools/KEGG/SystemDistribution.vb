@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.DocumentFormat.Csv

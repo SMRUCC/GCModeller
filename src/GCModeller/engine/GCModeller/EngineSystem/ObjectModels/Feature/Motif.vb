@@ -1,5 +1,5 @@
 ﻿ 
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.CentralDogmaInstance
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
 Namespace EngineSystem.ObjectModels.Feature
 
@@ -15,7 +15,7 @@ Namespace EngineSystem.ObjectModels.Feature
             End Get
         End Property
 
-        Public Property Regulators As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Regulator(Of T_EventClass)()
+        Public Property Regulators As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Regulator(Of T_EventClass)()
 
         Public Function Initialize() As MotifSite(Of T_EventClass)
             For Each Regulator In Regulators

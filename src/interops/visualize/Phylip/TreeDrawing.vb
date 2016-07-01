@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Phylip.Evolview
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Phylip.Evolview
 Imports Microsoft.VisualBasic.Imaging
 
 Public Module TreeDrawing

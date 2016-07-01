@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+﻿Imports SMRUCC.genomics.DatabaseServices.Regprecise
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DataVisualization.Network
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream

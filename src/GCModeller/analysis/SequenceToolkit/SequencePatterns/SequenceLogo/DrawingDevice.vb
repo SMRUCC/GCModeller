@@ -4,9 +4,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.SequenceModel.Patterns
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Patterns
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Motif
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace SequenceLogo

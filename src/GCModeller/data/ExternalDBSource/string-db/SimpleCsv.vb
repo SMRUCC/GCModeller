@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.DatabaseServices.StringDB.MIF25
+Imports SMRUCC.genomics.DatabaseServices.StringDB.MIF25
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 
 Namespace StringDB.SimpleCsv

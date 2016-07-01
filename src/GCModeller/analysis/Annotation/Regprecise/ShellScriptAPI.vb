@@ -1,14 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
+Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService
-Imports LANS.SystemsBiology.NCBI.Extensions
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService
+Imports SMRUCC.genomics.NCBI.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -22,7 +22,7 @@ Namespace RegpreciseRegulations
 
         <ExportAPI("Regprecise.Regulators.Install",
                    Info:="Parameter Regulators is the fasta file path string of the regprecise regulators fasta sequence file.")>
-        Public Function InstallDatabase(Regulators As String) As LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
+        Public Function InstallDatabase(Regulators As String) As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
             Return Regprecise.Install(Regulators, Settings.SettingsFile.RepositoryRoot)
         End Function
 
@@ -52,7 +52,7 @@ Namespace RegpreciseRegulations
         End Function
 
         <ExportAPI("Table.Export.From.Fasta")>
-        Public Function CreateTableData(DBFile As String) As LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
+        Public Function CreateTableData(DBFile As String) As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
             Return Regprecise.CreateDatabaseTable(DBFile, Settings.TEMP)
         End Function
 
@@ -106,7 +106,7 @@ Namespace RegpreciseRegulations
         Public Function CompileAnnotations(orthologous As IEnumerable(Of BiDirectionalBesthit),
                                            paralogs As IEnumerable(Of BestHit),
                                            <Parameter("Query.Fasta")> QueryFasta As String,
-                                           meta As IEnumerable(Of LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise)) As Reports.GenomeAnnotations
+                                           meta As IEnumerable(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise)) As Reports.GenomeAnnotations
             Dim OrthologousDict = (From item In orthologous
                                    Select spcode = item.HitName.Split(":"c).First,
                                         bbh = item Group By spcode Into Group).ToArray.ToDictionary(Function(item) item.spcode, Function(item) (From bh In item.Group Select bh.bbh).ToArray)

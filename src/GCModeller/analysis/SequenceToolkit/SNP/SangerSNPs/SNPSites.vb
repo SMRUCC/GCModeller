@@ -1,6 +1,6 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq
 
 Namespace SangerSNPs

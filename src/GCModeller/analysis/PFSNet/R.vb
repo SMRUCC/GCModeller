@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.DataStructure
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq.Extensions
 

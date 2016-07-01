@@ -1,16 +1,16 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.TSSsTools
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.TSSsTools.DocumentFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.TSSsTools
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.TSSsTools.DocumentFormat
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ContextModel
+Imports SMRUCC.genomics.ContextModel
 
 Module CLI
 
@@ -35,7 +35,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
         Dim minExpr As Double = args.GetValue("/activity", 0.65)
         Dim prefix As String = args.GetValue("/prefix", IO.Path.GetFileNameWithoutExtension(Reads).Split("."c).First & ".TSSs_")
         Dim Transcripts = Transcriptome.UTRs.IdentifyUTRs.identifyUTRs(
-            LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(PTT),
+            SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(PTT),
             Unstrand,
             Reads,
             minExpression:=minExpr,
@@ -140,7 +140,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
         Dim TrimShared = If(Not String.IsNullOrEmpty(args("/trim")), args.GetInt32("/trim"), 30)
         Dim out As String = args.GetValue("-out", inFile.TrimFileExt & ".genome-context.csv")
         Dim LociData = inFile.LoadCsv(Of Transcript)(False)
-        Dim PTT = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(args("-ptt"))
+        Dim PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(args("-ptt"))
         Dim Forwards = PTT.forwards
         Dim Reversed = PTT.reversed
         Dim ATG As Integer = If(args.ContainsParameter("/atg", False), args.GetInt32("/atg"), 1000)

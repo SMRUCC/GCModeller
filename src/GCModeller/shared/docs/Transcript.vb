@@ -1,6 +1,6 @@
 ﻿Imports System.Data.Linq.Mapping
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
 Imports Microsoft.VisualBasic
 
 Namespace DocumentFormat
@@ -8,7 +8,7 @@ Namespace DocumentFormat
     ''' <summary>
     ''' 转录本对象，包含有基本的基因结构：ATG-TGA，TSSs，TTS以及链的方向，表达量的高低
     ''' </summary>
-    Public Class Transcript : Inherits LANS.SystemsBiology.SequenceModel.NucleotideModels.Contig
+    Public Class Transcript : Inherits SMRUCC.genomics.SequenceModel.NucleotideModels.Contig
 
         Public Property TSS_ID As String
         Public Property Operon As String
@@ -18,7 +18,7 @@ Namespace DocumentFormat
 #Region "Transcription"
 
         ''' <summary>
-        ''' <see cref="LANS.SystemsBiology.SequenceModel.NucleotideModels.Contig"/>.Left (The transcription start coordinate.)
+        ''' <see cref="SMRUCC.genomics.SequenceModel.NucleotideModels.Contig"/>.Left (The transcription start coordinate.)
         ''' </summary>
         ''' <returns></returns>
         Public Property Left As Long
@@ -31,7 +31,7 @@ Namespace DocumentFormat
             End Set
         End Property
         ''' <summary>
-        ''' <see cref="LANS.SystemsBiology.SequenceModel.NucleotideModels.Contig"/>.Right  (The transcription stop coordinate.)
+        ''' <see cref="SMRUCC.genomics.SequenceModel.NucleotideModels.Contig"/>.Right  (The transcription stop coordinate.)
         ''' </summary>
         ''' <returns></returns>
         Public Property Right As Long
@@ -75,7 +75,7 @@ Namespace DocumentFormat
             Dim array As Integer() = {Left, Right}
             _Left = array.Min
             _Right = array.Max
-            Return New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(Left, Right, Strand)
+            Return New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(Left, Right, Strand)
         End Function
 #End Region
 
@@ -86,7 +86,7 @@ Namespace DocumentFormat
         End Property
 
         ''' <summary>
-        ''' <see cref="LANS.SystemsBiology.SequenceModel.NucleotideModels.Contig"/>.Strands
+        ''' <see cref="SMRUCC.genomics.SequenceModel.NucleotideModels.Contig"/>.Strands
         ''' </summary>
         ''' <returns></returns>
         Public Property Strand As String
@@ -156,7 +156,7 @@ Namespace DocumentFormat
             Return Transcript
         End Function
 
-        Public Shared Function CreateObject(Of T As Transcript)(Gene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) As T
+        Public Shared Function CreateObject(Of T As Transcript)(Gene As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) As T
             Dim Transcript = CreateObject(Of T)(Gene.Location)
             Transcript.Synonym = Gene.Synonym
             Transcript.ATG = Gene.ATG
@@ -178,7 +178,7 @@ Namespace DocumentFormat
         ''' 单个的ORF
         ''' </summary>
         ''' <returns></returns>
-        Public Function Copy(Of T As Transcript)(Gene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) As T
+        Public Function Copy(Of T As Transcript)(Gene As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) As T
             Dim Transcript As T = Me.Copy(Of T)
             Transcript.ATG = Gene.ATG
             Transcript.TGA = Gene.TGA
@@ -190,7 +190,7 @@ Namespace DocumentFormat
             Return Transcript
         End Function
 
-        Public Function Copy(Of T As Transcript)(Gene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief, Operon As String) As T
+        Public Function Copy(Of T As Transcript)(Gene As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief, Operon As String) As T
             Dim Transcript As T = Me.Copy(Of T)
             Transcript.ATG = Gene.ATG
             Transcript.TGA = Gene.TGA

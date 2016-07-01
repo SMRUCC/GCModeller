@@ -273,7 +273,7 @@
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
@@ -281,7 +281,7 @@
       <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
@@ -293,15 +293,15 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataVisualization\Circos\Circos\Circos.vbproj">
+    <ProjectReference Include="..\..\..\interops\visualize\Circos\Circos\Circos.vbproj">
       <Project>{5bf44c97-b7a0-47d7-9622-2f2c0c4f31a9}</Project>
       <Name>Circos</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataVisualization\GCModeller.DataVisualization\DataVisualizationTools.vbproj">
+    <ProjectReference Include="..\..\visualize\visualizeTools\DataVisualizationTools.vbproj">
       <Project>{7A5B87B9-4475-4B34-AB8B-30F0B068C1B7}</Project>
       <Name>DataVisualizationTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataVisualization\Phylip\Phylip.vbproj">
+    <ProjectReference Include="..\..\..\interops\visualize\Phylip\Phylip.vbproj">
       <Project>{00073db7-bcd2-4aac-8e8c-142b1b30efd5}</Project>
       <Name>Phylip</Name>
     </ProjectReference>
@@ -325,7 +325,7 @@
       <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
       <Name>AnnotationTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\GCModeller\GCModeller.ModellingEngine.vbproj">
+    <ProjectReference Include="..\..\engine\GCModeller\GCModeller.ModellingEngine.vbproj">
       <Project>{8384ac6e-a7f6-40f0-a9a0-f995c2106843}</Project>
       <Name>GCModeller.ModellingEngine</Name>
     </ProjectReference>

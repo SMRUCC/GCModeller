@@ -1,6 +1,6 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap.FootprintMap
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.FootprintMap
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ChromosomeMap.DrawingModels
 

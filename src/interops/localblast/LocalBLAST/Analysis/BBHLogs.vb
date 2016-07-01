@@ -7,13 +7,13 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic
 Imports Entry = System.Collections.Generic.KeyValuePair(Of
-    LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
-    LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
+    SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
+    SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 
@@ -213,7 +213,7 @@ RETURN_VALUE:
             For Each File In LogDataChunk
                 Dim besthitsData As BBH.BestHit() = File.logData.ExportBestHit
 
-                'If Not LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit.IsNullOrEmpty(besthitsData, TrimSelfAligned:=True) Then
+                'If Not SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit.IsNullOrEmpty(besthitsData, TrimSelfAligned:=True) Then
                 Dim Path As String = EXPORT & "/" & IO.Path.GetFileNameWithoutExtension(File.path.FilePath) & ".besthit.csv"
                 File.path.FilePath = Path
                 Call besthitsData.SaveTo(Path, False, System.Text.Encoding.ASCII)

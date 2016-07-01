@@ -7,12 +7,12 @@ Namespace Compiler.Components
 
     Public Class MergeKEGGCompounds
 
-        Dim _ModelLoader As FileStream.IO.XmlresxLoader, KEGGCompounds As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound()
+        Dim _ModelLoader As FileStream.IO.XmlresxLoader, KEGGCompounds As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound()
         Dim _EntryViews As EntryViews
 
         Sub New(Loader As FileStream.IO.XmlresxLoader, KEGGCompoundsCsv As String)
             Me._ModelLoader = Loader
-            Me.KEGGCompounds = KEGGCompoundsCsv.LoadCsv(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound)(explicit:=False).ToArray
+            Me.KEGGCompounds = KEGGCompoundsCsv.LoadCsv(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)(explicit:=False).ToArray
             Call Console.WriteLine("There is {0} metabolites define in the model", _ModelLoader.MetabolitesModel.Count)
             Me._EntryViews = New EntryViews(Loader.MetabolitesModel.Values.ToList)
         End Sub
@@ -44,7 +44,7 @@ Namespace Compiler.Components
         ''' <param name="Compound"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function Internal_getCompound(Compound As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Compound) As FileStream.Metabolite
+        Private Function Internal_getCompound(Compound As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound) As FileStream.Metabolite
             Dim cpd = _EntryViews.GetByCheBIEntry(Compound.CHEBI)
             If Not cpd Is Nothing Then
                 Return cpd

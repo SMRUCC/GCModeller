@@ -1,11 +1,11 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Assembly.RCSB.PDB
+Imports SMRUCC.genomics.Assembly.RCSB.PDB
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
+Imports SMRUCC.genomics.GCModeller.DataVisualization
 
 <[PackageNamespace]("Drawing.Protein.3D.PDB",
                     Description:="Visualize the protein 3D structure from the PDB file.",

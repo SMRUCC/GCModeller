@@ -1,15 +1,15 @@
-﻿Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+﻿Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.TSSsTools.DocumentFormat
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.TSSsTools.DocumentFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.Terminal
-Imports LANS.SystemsBiology.ContextModel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
 
@@ -86,7 +86,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
         ''' <param name="Transcripts">File path of the RNA-seq <see cref="DocumentFormat.Transcript"/> csv document</param>
         ''' <param name="minExpression">0-1之间的一个数</param>
         <ExportAPI("IdentifyUTRs", Info:="For each gene, identify its 5'UTR and 3'UTR based on the expression data.")>
-        Public Function identifyUTRs(genome As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT,
+        Public Function identifyUTRs(genome As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
                                      unstranded As Boolean,
                                      <Parameter("Transcripts.Csv")> Transcripts As String,
                                      Optional readsShared As Integer = 30,
@@ -220,7 +220,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
 
             sw = Stopwatch.StartNew
             Call $"Start to data partitioning of your predicted sites data....".__DEBUG_ECHO
-            Dim genomes As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT =
+            Dim genomes As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT =
                 __dataPartitionings(readsCount, sharedReads:=sharedReads,
                                     sharedReadsMin:=sharedReadsMin,
                                     genomeSize:=genomeSize,
@@ -269,7 +269,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
 
             sw = Stopwatch.StartNew
             Call $"Start to data partitioning of your predicted sites data....".__DEBUG_ECHO
-            Dim genome As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT =
+            Dim genome As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT =
                 __dataPartitionings(Transcripts,
                                     sharedReads:=sharedReads,
                                     sharedReadsMin:=-1,
@@ -311,7 +311,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
             Return LQuery.ToArray
         End Function
 
-        Private Function __testSites(genome As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT,
+        Private Function __testSites(genome As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
                                      replicate As Replicate,
                                      unstranded As Boolean) As DocumentFormat.Transcript()
             Dim genomeCoordinates As SortedDictionary(Of String, DocumentFormat.Transcript) =
@@ -356,7 +356,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
                                              genomeSize As Long,
                                              readsLen As Integer,
                                              unstrand As Boolean,
-                                             siRNAPredicts As Boolean) As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT
+                                             siRNAPredicts As Boolean) As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT
 
             Dim Trim As List(Of ReadsCount)
 
@@ -412,12 +412,12 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
         ''' <param name="Transcripts"></param>
         ''' <returns></returns>
         Private Function __genomeAssumption(Transcripts As Generic.IEnumerable(Of DocumentFormat.Transcript),
-                                            genomeSize As Long) As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT
+                                            genomeSize As Long) As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT
             '生成ID编号
             Dim Genes = (From i As Integer In Transcripts.Sequence.AsParallel  '42..1370	+	442	66766353	dnaA	XC_0001	-	COG0593L	chromosome replication initiator DnaA
                          Let site = Transcripts(i)
                          Let sId As String = "FkTSSs_" & i
-                         Select assumption = New LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief With {
+                         Select assumption = New SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief With {
                              .Code = "-",
                              .COG = "-",
                              .Gene = sId,
@@ -429,7 +429,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
                              .Synonym = sId
                          }
                          Order By assumption.Location.Left Ascending).ToArray
-            Dim genome As New LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT With {
+            Dim genome As New SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT With {
                 .Size = genomeSize,
                 .Title = NameOf(__genomeAssumption),
                 .GeneObjects = Genes

@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Colors
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace TrackDatas.Highlights

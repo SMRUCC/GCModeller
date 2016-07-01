@@ -1,9 +1,9 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.DocumentFormat
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
+﻿Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.DocumentFormat
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
@@ -15,9 +15,9 @@ Imports ______NETWORK__ = Microsoft.VisualBasic.DataVisualization.Network.FileSt
     Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node,
     Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge)
 Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
-    Global.LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Enzyme,
-    LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction)
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml.Nodes
+    Global.SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Enzyme,
+    SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction)
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 
 Namespace NetworkModel.PfsNET
 

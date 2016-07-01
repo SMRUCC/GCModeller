@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.EquaionModel
+﻿Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace FLuxBalanceModel

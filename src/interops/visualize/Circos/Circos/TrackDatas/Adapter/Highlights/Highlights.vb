@@ -28,7 +28,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Drawing
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace TrackDatas.Highlights
 

@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.Motif.Patterns
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.Motif.Patterns
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq

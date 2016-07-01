@@ -1,15 +1,15 @@
 ﻿Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 
 Namespace Builder
 
     Public Class MetabolismBuilder : Inherits IBuilder
 
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             MyBase.New(MetaCyc, Model)
         End Sub
 
@@ -30,9 +30,9 @@ Namespace Builder
         ''' 在本过程中则是将MetaCyc数据库之中的RNA，蛋白质单体，蛋白质复合物对象都加载进入模型之中
         ''' </remarks>
         Private Shared Function TrimMetabolites(MetaCyc As DatabaseLoadder, Model As BacterialModel) As Boolean
-            Dim Query1 = From e As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Compound In MetaCyc.GetCompounds.AsParallel Where Model.Metabolism.Metabolites.IndexOf(e.Identifier) = -1 Select e '
-            Dim Query2 = From e As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein In MetaCyc.GetProteins.AsParallel Where Model.Metabolism.Metabolites.IndexOf(e.Identifier) = -1 Select e '
-            Dim Query3 = From e As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.ProtLigandCplxe In MetaCyc.GetProtLigandCplx.AsParallel Where Model.Metabolism.Metabolites.IndexOf(e.Identifier) = -1 Select e '
+            Dim Query1 = From e As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Compound In MetaCyc.GetCompounds.AsParallel Where Model.Metabolism.Metabolites.IndexOf(e.Identifier) = -1 Select e '
+            Dim Query2 = From e As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein In MetaCyc.GetProteins.AsParallel Where Model.Metabolism.Metabolites.IndexOf(e.Identifier) = -1 Select e '
+            Dim Query3 = From e As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.ProtLigandCplxe In MetaCyc.GetProtLigandCplx.AsParallel Where Model.Metabolism.Metabolites.IndexOf(e.Identifier) = -1 Select e '
 
             Call Model.Metabolism.Metabolites.AddRange(Query1.ToArray.AsMetabolites)
             Call Model.Metabolism.Metabolites.AddRange(Query2.ToArray.AsMetabolites)
@@ -75,7 +75,7 @@ Namespace Builder
 
             For i As Integer = 0 To Model.Metabolism.MetabolismNetwork.Count - 1
                 Dim Rxn = Model.Metabolism.MetabolismNetwork(i)
-                Dim EnzRxns As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Enzrxn() = EnzRxn.Takes(Rxn.BaseType.EnzymaticReaction)
+                Dim EnzRxns As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Enzrxn() = EnzRxn.Takes(Rxn.BaseType.EnzymaticReaction)
                 Rxn.Enzymes = (From e In EnzRxns Select e.Enzyme).ToArray
                 '  Rxn.EnzymaticRxn = EnzRxns
 
@@ -93,7 +93,7 @@ Namespace Builder
         ''' <param name="rxn"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function IsChemicalReaction(rxn As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Reaction) As Boolean
+        Private Shared Function IsChemicalReaction(rxn As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Reaction) As Boolean
             Return (rxn.Types.IndexOf("Small-Molecule-Reactions") > -1 AndAlso rxn.Types.IndexOf("Chemical-Reactions") > -1)
         End Function
 
@@ -101,8 +101,8 @@ Namespace Builder
         ''' 将MetaCyc数据库中相对应的反应对象添加进入模型之中并返回模型的代谢组网络在执行添加操作之后的节点数目
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared Function InsertReaction(Rxn As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Reaction, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Integer
-            Dim Reaction As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = Rxn
+        Private Shared Function InsertReaction(Rxn As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Reaction, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Integer
+            Dim Reaction As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = Rxn
 
             If Reaction.Reactants.IsNullOrEmpty OrElse Reaction.Products.IsNullOrEmpty Then
                 Printf("Broken reaction: %s", Reaction.Identifier)
@@ -129,10 +129,10 @@ Namespace Builder
         ''' 依照MetaCyc数据库中的代谢途径对象的定义将相对应的反应对象加入到相对应的代谢途径对象中
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared Sub BuildPathwayMap(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Private Shared Sub BuildPathwayMap(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             Call Printf("Start to build up the metaboloism network mapping...")
 
-            Dim LQuery = From e As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Pathway
+            Dim LQuery = From e As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Pathway
                          In MetaCyc.GetPathways.AsParallel
                          Let Pwy = GCML_Documents.XmlElements.Metabolism.Pathway.CastTo(e)
                          Select Pwy Order By Pwy.Identifier Ascending  '

@@ -2,13 +2,13 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.Assembly.MetaCyc
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema.Metabolism
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.Assembly.MetaCyc
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.Metabolism
 
 Namespace GCML_Documents.XmlElements.Metabolism
 
@@ -103,7 +103,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property Name As String Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).Name
+        <XmlElement> Public Property Name As String Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).Name
 
         ''' <summary>
         ''' UniqueId of the Enzymes.
@@ -174,7 +174,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
             Return Reaction
         End Operator
 
-        Public Shared Function CastTo(e As LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Reaction
+        Public Shared Function CastTo(e As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Reaction
             Dim Reaction As Reaction = New Reaction
             Reaction.Reactants = (From item In e.Reactants Select GCML_Documents.ComponentModels.CompoundSpeciesReference.CreateObject(item)).ToArray
             Reaction.Products = (From item In e.Products Select GCML_Documents.ComponentModels.CompoundSpeciesReference.CreateObject(item)).ToArray
@@ -212,7 +212,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
         ''' <param name="Metabolite">目标代谢物对象的UniqueID属性值</param>
         ''' <returns>目标代谢物在本反应对象之中的化学计量数</returns>
         ''' <remarks></remarks>
-        Public Function GetStoichiometry(Metabolite As String) As Double Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).GetStoichiometry
+        Public Function GetStoichiometry(Metabolite As String) As Double Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).GetStoichiometry
             Dim QueryResults As GCML_Documents.ComponentModels.CompoundSpeciesReference()
 
             If Not Reactants.IsNullOrEmpty Then
@@ -232,20 +232,20 @@ Namespace GCML_Documents.XmlElements.Metabolism
             Return 0  'not exists in this reaction.
         End Function
 
-        Public ReadOnly Property IFBAC2_LOWER_BOUND As Double Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).LOWER_BOUND
+        Public ReadOnly Property IFBAC2_LOWER_BOUND As Double Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).LOWER_BOUND
             Get
                 Return LOWER_BOUND.Value
             End Get
         End Property
 
-        Public ReadOnly Property IFBAC2_UPPER_BOUND As Double Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).UPPER_BOUND
+        Public ReadOnly Property IFBAC2_UPPER_BOUND As Double Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).UPPER_BOUND
             Get
                 Return UPPER_BOUND.Value
             End Get
         End Property
 
         <XmlIgnore>
-        Public ReadOnly Property __ObjectiveCoefficient As Integer Implements LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).ObjectiveCoefficient
+        Public ReadOnly Property __ObjectiveCoefficient As Integer Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).ObjectiveCoefficient
             Get
                 Return ObjectiveCoefficient
             End Get

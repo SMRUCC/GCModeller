@@ -70,7 +70,7 @@ Namespace NetworkModel
                         CInt([module].Value.Count / pathwayGenes.Count * 100)}).ToArray
 
             Dim COGs = ModuleMatchCOG(ImportedModule, COGProfile)
-            Dim COGFunction = LANS.SystemsBiology.Assembly.NCBI.COG.Function.Default
+            Dim COGFunction = SMRUCC.genomics.Assembly.NCBI.COG.Function.Default
             For i As Integer = 0 To rows.Count - 1
                 Dim row = rows(i)
                 Dim [module] As String = row(0)

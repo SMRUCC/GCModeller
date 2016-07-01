@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.My.MySettings" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.SequenceTools.My.MySettings" Collapsed="true">
     <Position X="2.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.Loci" Collapsed="true">
+  <Class Name="SMRUCC.genomics.AnalysisTools.SequenceTools.Loci" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAgAAEAAAAAAAAAAAAACAIAEAAgAAAAAA=</HashCode>
       <FileName>CLI\FastaTools.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.Utilities">
+  <Module Name="SMRUCC.genomics.AnalysisTools.SequenceTools.Utilities">
     <Position X="2.25" Y="2.75" Width="9.75" />
     <NestedTypes>
-      <Class Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.Utilities.AlignmentResult" Collapsed="true">
+      <Class Name="SMRUCC.genomics.AnalysisTools.SequenceTools.Utilities.AlignmentResult" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>CLI\Aligner.vb</NewMemberFileName>
         </TypeIdentifier>
       </Class>
-      <Delegate Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.Utilities.attrDump" Collapsed="true">
+      <Delegate Name="SMRUCC.genomics.AnalysisTools.SequenceTools.Utilities.attrDump" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>CLI\FastaTools.vb</NewMemberFileName>
         </TypeIdentifier>
@@ -32,27 +32,27 @@
       <FileName>CLI\Aligner.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.Program" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.SequenceTools.Program" Collapsed="true">
     <Position X="2.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.ShellScriptAPI" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.SequenceTools.ShellScriptAPI" Collapsed="true">
     <Position X="0.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAIBAgYAAAAAAAAAAAAAAAAAAEAAACCAAAAgA=</HashCode>
       <FileName>ShellScriptAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.My.Resources.Resources" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.SequenceTools.My.Resources.Resources" Collapsed="true">
     <Position X="4" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.AnalysisTools.SequenceTools.My.MySettingsProperty" Collapsed="true">
+  <Module Name="SMRUCC.genomics.AnalysisTools.SequenceTools.My.MySettingsProperty" Collapsed="true">
     <Position X="0.5" Y="1.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Interactions.SwissTCS
+﻿Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Interactions.SwissTCS
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -27,9 +27,9 @@ Partial Module CLI
         Dim RR As String() = FileIO.FileSystem.GetFiles(inDIR & "/RR/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
                                                         "*.csv").ToArray(Function(x) IO.Path.GetFileNameWithoutExtension(x))
-        Dim fa = LANS.SystemsBiology.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
+        Dim fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/HisK.fasta")
-        fa = LANS.SystemsBiology.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)
+        fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/RR.fasta")
     End Sub
 
@@ -63,23 +63,23 @@ Partial Module CLI
                   Select DIR).ToArray
         Dim LoadProt = (From DIR As String
                         In source.AsParallel
-                        Let Hisk = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(DIR & "/HisK.fasta", False)
-                        Let RR = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(DIR & "/RR.fasta", False)
+                        Let Hisk = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DIR & "/HisK.fasta", False)
+                        Let RR = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DIR & "/RR.fasta", False)
                         Where Not (Hisk.IsNullOrEmpty OrElse RR.IsNullOrEmpty)  ' 必须要两个都同时存在的才会可以继续下去，只要有任何一个没有数据则抛弃掉
                         Select Hisk.Join(RR)).ToArray.MatrixToList
         Dim Merge As String = Temp & "/swissTCS.fasta"
-        Dim MergeFasta As New LANS.SystemsBiology.SequenceModel.FASTA.FastaFile(LoadProt)
+        Dim MergeFasta As New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(LoadProt)
         Call MergeFasta.Save(Merge)
 
-        Dim blast As New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+        Dim blast As New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
         Dim Pfam As String = GCModeller.FileSystem.CDD & "/Pfam.fasta"
         Dim out As String = Temp & "/Pfam.txt"
 
         Call blast.FormatDb(Pfam, blast.MolTypeProtein).Start(WaitForExit:=True)
         Call blast.Blastp(Merge, Pfam, out).Start(WaitForExit:=True)
 
-        Dim Logs = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(out)
-        Dim PfamString = LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.CreatePfamString(Logs, disableUltralarge:=True)
+        Dim Logs = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(out)
+        Dim PfamString = SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.CreatePfamString(Logs, disableUltralarge:=True)
         out = Temp & "swissTCS.Pfam.csv"
         Return PfamString.SaveTo(out)
     End Function
@@ -160,7 +160,7 @@ Partial Module CLI
 
     <ExportAPI("--Profiles.Create", Usage:="--Profiles.Create /MiST2 <MiST2.xml> /pfam <pfam-string.csv> [/out <out.csv>]")>
     Public Function CreateProfiles(args As CommandLine.CommandLine) As Integer
-        Dim MiST2 = args("/mist2").LoadXml(Of LANS.SystemsBiology.Assembly.MiST2.MiST2)
+        Dim MiST2 = args("/mist2").LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)
         Dim Pfam = args("/pfam").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
         Dim Hisk = MiST2.MajorModules.First.TwoComponent.get_HisKinase
         Dim RR = MiST2.MajorModules.First.TwoComponent.GetRR

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
+﻿Imports SMRUCC.genomics.NCBI.Extensions.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic

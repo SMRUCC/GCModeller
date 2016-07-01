@@ -230,7 +230,7 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
       <Name>Datavisualization.Network</Name>
     </ProjectReference>
@@ -242,15 +242,15 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\GCMarkupLanguage\DocumentFormat.GCMarkupLanguage.vbproj">
+    <ProjectReference Include="..\..\engine\GCMarkupLanguage\DocumentFormat.GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
       <Name>DocumentFormat.GCMarkupLanguage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\DocumentFormat.CsvTable\DocumentFormat.CsvTabular.vbproj">
+    <ProjectReference Include="..\..\engine\GCTabular\DocumentFormat.CsvTabular.vbproj">
       <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
       <Name>DocumentFormat.CsvTabular</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
+    <ProjectReference Include="..\..\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
       <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
       <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>

@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Components.Compartment">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Components.Compartment">
     <Position X="1" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\Compartment.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Components.ModelBase">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Components.ModelBase">
     <Position X="6" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\ModelBase.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Components.IPartsBase">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Components.IPartsBase">
     <Position X="8" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Components\ModelBase.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Components.Specie">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Components.Specie">
     <Position X="12.5" Y="2.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABEAgAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
@@ -29,21 +29,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.IFBA" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.IFBA" Collapsed="true">
     <Position X="22.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IFBAC2.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level2.XmlFile" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="21" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Level2\XmlFile.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="22.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAgAAgIAAAAAAAFAQAEAAAAAAEEEAIAAAABAAEAAgA=</HashCode>
@@ -51,14 +51,14 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Model">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.Model">
     <Position X="3.5" Y="4.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>ACAAAAEAAAAAAAAAAAAAAAQAAAAAAAIAAAEAAAAAAAA=</HashCode>
       <FileName>Level2\Elements\Model.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Specie">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.Specie">
     <Position X="14.5" Y="5.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAQAgABEAAAAIAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
@@ -66,7 +66,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.speciesReference">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.speciesReference">
     <Position X="7.5" Y="7.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAgAAAAAAEAAAAAAAAQAAAAAAAAAAAAAAABAA=</HashCode>
@@ -74,7 +74,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.unitDefinition" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.unitDefinition" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="19.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAAAAgA=</HashCode>
@@ -82,104 +82,104 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.XmlFile" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.XmlFile" Collapsed="true">
     <Position X="22.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.Model">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.Model">
     <Position X="7.5" Y="4.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAABAAABAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.Compartment">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.Compartment">
     <Position X="1" Y="4.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.Species">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.Species">
     <Position X="11" Y="5.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.Reaction" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.Reaction" Collapsed="true">
     <Position X="17.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAwAAAAAAAAAAAEAQAEAAAAAAAEAAAAAAABAAAAAgA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.modifierSpeciesReference" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.modifierSpeciesReference" Collapsed="true">
     <Position X="22.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.SpeciesReference">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.SpeciesReference">
     <Position X="7.75" Y="10.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.kineticLaw" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.kineticLaw" Collapsed="true">
     <Position X="17.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAABAAABAAAAAAQAAAAAAI=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.RDF" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.RDF" Collapsed="true">
     <Position X="21" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAIABA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.Math" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.Math" Collapsed="true">
     <Position X="21" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Level3.localParameter" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Level3.localParameter" Collapsed="true">
     <Position X="19.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAUACAAAAAAAAAAAgI=</HashCode>
       <FileName>Level3\XmlFile.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.My.MySettings" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.My.MySettings" Collapsed="true">
     <Position X="17.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Components.Notes" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Components.Notes" Collapsed="true">
     <Position X="19.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAAAAAACAACAAA=</HashCode>
       <FileName>Components\Notes.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Components.Body" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Components.Body" Collapsed="true">
     <Position X="19.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACEAAAAAAAAAUAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Components\Notes.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Components.[Property]" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Components.[Property]" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="17.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAEAAAAAAQAAAAAACAAAAAAAAAAAAA=</HashCode>
@@ -187,21 +187,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc.EscapedAttribute" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc.EscapedAttribute" Collapsed="true">
     <Position X="21" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Specifics\MetaCyc\Escaping.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc.FluxPropReader">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc.FluxPropReader">
     <Position X="3" Y="10.25" Width="3" />
     <TypeIdentifier>
       <HashCode>ACAAACAGAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Specifics\MetaCyc\FluxPropReader.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc.ReaderBase">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc.ReaderBase">
     <Position X="1.75" Y="7.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAEAAAAAAAA=</HashCode>
@@ -209,96 +209,96 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc.SpeciesPropReader">
+  <Class Name="SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc.SpeciesPropReader">
     <Position X="0.5" Y="10.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Specifics\MetaCyc\SpeciesPropReader.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.kineticLawF" Collapsed="true">
+  <Struct Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.kineticLawF" Collapsed="true">
     <Position X="19.25" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAEAAgAAAAAAAAEAA=</HashCode>
       <FileName>Level2\FluxModel\kineticLaw\kineticLaw.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.mathF" Collapsed="true">
+  <Struct Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.mathF" Collapsed="true">
     <Position X="21" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Level2\FluxModel\kineticLaw\Parameter.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.parameter" Collapsed="true">
+  <Struct Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.parameter" Collapsed="true">
     <Position X="22.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAQACAAAAAAAAAAAgA=</HashCode>
       <FileName>Level2\FluxModel\kineticLaw\Parameter.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Unit" Collapsed="true">
+  <Struct Name="SMRUCC.genomics.Assembly.SBML.Level2.Elements.Unit" Collapsed="true">
     <Position X="17.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEQEAAAAACAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Level2\Elements\UnitDefinition.vb</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc.Escaping" Collapsed="true" BaseTypeListCollapsed="true">
+  <Struct Name="SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc.Escaping" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="17.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <FileName>Specifics\MetaCyc\Escaping.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Struct>
-  <Interface Name="LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of T_Ref)" Collapsed="true">
+  <Interface Name="SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of T_Ref)" Collapsed="true">
     <Position X="17.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>IFBAC2.vb</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.IMetabolite" Collapsed="true">
+  <Interface Name="SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.IMetabolite" Collapsed="true">
     <Position X="21" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>IFBAC2.vb</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of T_Ref)" Collapsed="true">
+  <Interface Name="SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of T_Ref)" Collapsed="true">
     <Position X="19.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAQAiAAAQAAAAAEAAAAAAAAAAAAAQ=</HashCode>
       <FileName>IFBAC2.vb</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc.FluxProperties" Collapsed="true">
+  <Enum Name="SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc.FluxProperties" Collapsed="true">
     <Position X="17.5" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAGAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Specifics\MetaCyc\PropertyParser.vb</FileName>
     </TypeIdentifier>
   </Enum>
-  <Module Name="LANS.SystemsBiology.Assembly.SBML.Level2.API" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Assembly.SBML.Level2.API" Collapsed="true">
     <Position X="17.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAQAAAAAAAAAAAEAAAgQAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Level2\API.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.Assembly.SBML.My.Resources.Resources" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Assembly.SBML.My.Resources.Resources" Collapsed="true">
     <Position X="22.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.Assembly.SBML.My.MySettingsProperty" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Assembly.SBML.My.MySettingsProperty" Collapsed="true">
     <Position X="19.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc.PropertyParser" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc.PropertyParser" Collapsed="true">
     <Position X="21" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAQABAAAAAAAAAAAA=</HashCode>

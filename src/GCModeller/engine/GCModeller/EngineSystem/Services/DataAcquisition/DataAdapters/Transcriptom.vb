@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.Services.DataAcquisition.DataAdapters
 
@@ -77,7 +77,7 @@ Namespace EngineSystem.Services.DataAcquisition.DataAdapters
         End Function
     End Class
 
-    Public Class BasalTranslationFlux : Inherits LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataAdapter(Of EngineSystem.ObjectModels.SubSystem.ExpressionSystem.BasalExpressionKeeper)
+    Public Class BasalTranslationFlux : Inherits SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataAdapter(Of EngineSystem.ObjectModels.SubSystem.ExpressionSystem.BasalExpressionKeeper)
         Implements IDataAdapter
 
         Sub New(System As EngineSystem.ObjectModels.SubSystem.ExpressionSystem.BasalExpressionKeeper)

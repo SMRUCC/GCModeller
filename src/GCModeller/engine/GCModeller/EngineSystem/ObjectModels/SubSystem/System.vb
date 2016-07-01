@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports Microsoft.VisualBasic.Logging
 
 Namespace EngineSystem.ObjectModels.SubSystem

@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+﻿Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
 
 Namespace EngineSystem.ObjectModels.SubSystem
 
@@ -92,7 +92,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             MyBase._DynamicsExprs = LQuery.AddHandle.ToArray
 
             If Type = Entity.IDisposableCompound.DisposableCompoundTypes.Transcripts Then
-                Dim WeightVector As Dictionary(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) =
+                Dim WeightVector As Dictionary(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) =
                     New Global.System.Collections.Generic.Dictionary(Of Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double)
                 Call WeightVector.Add(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.mRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_mRNA)
                 Call WeightVector.Add(Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.rRNA, IRuntimeContainer.ConfigurationData.LambdaWeight_rRNA)

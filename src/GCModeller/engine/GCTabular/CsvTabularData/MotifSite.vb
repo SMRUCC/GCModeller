@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly
+﻿Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic
 Imports System.Text.RegularExpressions

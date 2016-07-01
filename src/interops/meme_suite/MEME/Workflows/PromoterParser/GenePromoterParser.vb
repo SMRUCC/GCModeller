@@ -3,13 +3,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Workflows.PromoterParser
 
@@ -440,23 +440,23 @@ Namespace Workflows.PromoterParser
 
             Select Case Length
                 Case 100
-                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 150
-                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 200
-                    Return CType((From Fasta In Promoter.Promoter_200.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_200.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 250
-                    Return CType((From Fasta In Promoter.Promoter_250.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_250.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 300
-                    Return CType((From Fasta In Promoter.Promoter_300.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_300.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 350
-                    Return CType((From Fasta In Promoter.Promoter_350.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_350.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 400
-                    Return CType((From Fasta In Promoter.Promoter_400.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_400.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 450
-                    Return CType((From Fasta In Promoter.Promoter_450.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_450.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 500
-                    Return CType((From Fasta In Promoter.Promoter_500.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_500.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case Else
                     Throw New Exception
             End Select

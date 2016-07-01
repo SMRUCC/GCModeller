@@ -1,12 +1,12 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.CRISPR.Output
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.AnalysisTools.CRISPR.SearchingModel
+Imports SMRUCC.genomics.AnalysisTools.CRISPR.Output
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.AnalysisTools.CRISPR.SearchingModel
 Imports Microsoft.VisualBasic.Language
 
 <[PackageNamespace]("CRISPR.Search",

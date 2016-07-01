@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+﻿Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 
@@ -33,7 +33,7 @@ Namespace Workflows
                     Continue For
                 End If
                 For Each hit In seq.ScannedSites
-                    Call list.Add(New String() {ObjectId, OperonId, hit.MotifId, hit.PValue, LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.Motif.GetEvalue(hit.MotifId, XmlOutput.Motifs)})
+                    Call list.Add(New String() {ObjectId, OperonId, hit.MotifId, hit.PValue, SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.Motif.GetEvalue(hit.MotifId, XmlOutput.Motifs)})
                 Next
             Next
             Return list.ToArray

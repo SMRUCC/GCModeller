@@ -5,13 +5,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Similarity
 Imports Microsoft.VisualBasic.Parallel.Threads
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.Assembly.Expasy.Database
-Imports LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
 ''' <summary>
 ''' ShoalShell API interface for ncbi localblast operations.

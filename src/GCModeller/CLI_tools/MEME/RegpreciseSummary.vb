@@ -3,18 +3,18 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL.DbExtensions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.DatabaseServices.ComparativeGenomics.AnnotationTools
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.Assembly.DOOR
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL.DbExtensions
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Assembly.DOOR
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
 Imports System.Runtime.CompilerServices
 
 Namespace Analysis
@@ -320,7 +320,7 @@ Namespace Analysis
             '#End Region
 
             '            If filters.IsNullOrEmpty Then
-            '                Dim vf As New LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint With {
+            '                Dim vf As New SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint With {
             '            .Distance = site.ATGDist,
             '            .ORF = site.Gene,
             '            .ORFDirection = site.StrandRaw,
@@ -335,7 +335,7 @@ Namespace Analysis
             '                footprints = {vf}
             '            Else
             '                footprints = filters.ToArray(
-            '                Function(regulates) New LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint With {
+            '                Function(regulates) New SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint With {
             '            .Distance = site.ATGDist,
             '            .ORF = site.Gene,
             '            .ORFDirection = site.StrandRaw,

@@ -1,6 +1,6 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.WGCNA
+﻿Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language

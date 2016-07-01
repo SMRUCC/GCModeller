@@ -1,10 +1,10 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace DocumentFormat.MAST.HTML
 
@@ -12,7 +12,7 @@ Namespace DocumentFormat.MAST.HTML
         Implements ILocationNucleotideSegment
 
         Public ReadOnly Property Strand As Strands Implements ILocationNucleotideSegment.Strand
-        Public ReadOnly Property Location As LANS.SystemsBiology.ComponentModel.Loci.Location Implements ILocationSegment.Location
+        Public ReadOnly Property Location As SMRUCC.genomics.ComponentModel.Loci.Location Implements ILocationSegment.Location
         Public ReadOnly Property UniqueId As String Implements ILocationSegment.UniqueId
         Public ReadOnly Property DOOR As String
         Public ReadOnly Property GeneList As String
@@ -27,11 +27,11 @@ Namespace DocumentFormat.MAST.HTML
             Dim Title As String = fa.Title
             FsaObject._UniqueId = Title.Split.First
             FsaObject._GeneList = Regex.Match(Title, "OperonGenes=[^]]+").Value.Split(CChar("=")).Last
-            FsaObject._Location = New LANS.SystemsBiology.ComponentModel.Loci.Location
+            FsaObject._Location = New SMRUCC.genomics.ComponentModel.Loci.Location
 
             Dim strLocation As String = Regex.Match(Title, "\d+ ==> \d+ #(Reverse|Forward)").Value
             Dim Tokens As String() = strLocation.Split
-            FsaObject._Location = New LANS.SystemsBiology.ComponentModel.Loci.Location With {
+            FsaObject._Location = New SMRUCC.genomics.ComponentModel.Loci.Location With {
                 .Left = Tokens(0),
                 .Right = Tokens(2)
             }

@@ -52,7 +52,7 @@ Partial Class Guid
 
         Friend _description As String
         Friend _hash As String
-        Friend _class As LANS.SystemsBiology.GCModeller.ModellingEngine.Guid.Classes
+        Friend _class As SMRUCC.genomics.GCModeller.ModellingEngine.Guid.Classes
 
         Public Overrides Function ToString() As String
             Return _description

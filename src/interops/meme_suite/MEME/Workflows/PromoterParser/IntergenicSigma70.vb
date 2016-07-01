@@ -1,20 +1,20 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.ContextModel.LocationDescriptions
+Imports SMRUCC.genomics.ContextModel.LocationDescriptions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Linq
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
-Imports LANS.SystemsBiology.ContextModel
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
+Imports SMRUCC.genomics.ContextModel
 
 Namespace Workflows.PromoterParser
 
@@ -129,7 +129,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         '''' <returns></returns>
         '''' 
         '<Command("Relocated")>
-        'Public Function Relocated(data As Generic.IEnumerable(Of MEME_DIP), PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP()
+        'Public Function Relocated(data As Generic.IEnumerable(Of MEME_DIP), PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP()
         '    Dim LQuery = (From Site As MEME_DIP
         '                  In data'.AsParallel
         '                  Select Relocated(Site, PTT)).ToArray
@@ -145,7 +145,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         '''' 由于在解析序列数据的时候序列会根据重叠的情况进行修剪的，故而在这里已经不能够得到精确的位点了，只能够确定这个位点在该基因的上游的100bp以内的区域
         '''' 假若还需要得到精确的位点，是否还需要进行blastn进行精确定位？？？？？？？？
         '''' </returns>
-        'Private Function Relocated(site As MEME_DIP, PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP
+        'Private Function Relocated(site As MEME_DIP, PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP
         '    Dim Gene = PTT.GeneObject(site.Site)
 
         '    If Gene.Location.Strand = Strands.Forward Then

@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.SBML.Components
-Imports LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
+Imports SMRUCC.genomics.Assembly.SBML.Components
+Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
 
 Namespace Level2.Elements
 

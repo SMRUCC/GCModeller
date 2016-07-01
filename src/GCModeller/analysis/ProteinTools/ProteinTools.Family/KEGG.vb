@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.FileSystem
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives
+﻿Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Family.FileSystem
+Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions

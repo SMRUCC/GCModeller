@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap.FootprintMap
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.FootprintMap
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace ChromosomeMap.DrawingModels

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+﻿Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 
 Namespace Kernel

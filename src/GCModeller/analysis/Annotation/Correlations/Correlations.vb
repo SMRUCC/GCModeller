@@ -1,11 +1,11 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL
+Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports SMRUCC.genomics.Toolkits
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
 
 ''' <summary>
 ''' 基因表达相关性的数据库服务

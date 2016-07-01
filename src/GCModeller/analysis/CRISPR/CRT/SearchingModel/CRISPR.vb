@@ -1,6 +1,6 @@
 Imports System.Collections
 Imports System.Text
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic
 
 Namespace SearchingModel

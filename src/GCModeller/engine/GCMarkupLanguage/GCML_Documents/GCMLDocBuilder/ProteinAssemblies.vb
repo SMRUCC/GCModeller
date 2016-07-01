@@ -9,7 +9,7 @@ Namespace Builder
     ''' <remarks></remarks>
     Public Class ProteinAssemblies : Inherits IBuilder
 
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             MyBase.New(MetaCyc, Model)
         End Sub
 
@@ -25,7 +25,7 @@ Namespace Builder
             '     Model.ProteinAssemblies = (From rxn In ProteinAssemblies Select CType(rxn, GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)).ToList
 
             Dim ProteinList As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)
-            Dim ProteinCPLXCollection = (From Protein As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein
+            Dim ProteinCPLXCollection = (From Protein As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein
                                          In MetaCyc.GetProteins
                                          Where Not Protein.Components.IsNullorEmpty
                                          Select Protein).ToArray  '筛选出所有的蛋白质复合物
@@ -47,7 +47,7 @@ Namespace Builder
 
     'Public Class Proteins : Inherits IBuilder
 
-    '    Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.Model)
+    '    Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.Model)
     '        Call MyBase.New(MetaCyc, Model)
     '    End Sub
 
@@ -61,7 +61,7 @@ Namespace Builder
     'End Class
 
     Public Class Polypeptides : Inherits IBuilder
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
             Call MyBase.New(MetaCyc, Model)
         End Sub
 

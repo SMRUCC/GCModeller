@@ -2,10 +2,10 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
 Imports System.Text
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly
 
 Namespace PfsNET.TabularArchives
 
@@ -211,7 +211,7 @@ Namespace PfsNET.TabularArchives
                                             PathwayBrief As Dictionary(Of String, PathwayBrief),
                                             [Class] As String) As SubNETCsvObject()
 
-            Dim Chunk = (From graphItem As LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.DataStructure.PFSNetGraph In ResultSet
+            Dim Chunk = (From graphItem As SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure.PFSNetGraph In ResultSet
                          Let subNET = New NetDetails With
                                       {
                                           .Nodes = (From node In graphItem.Nodes Select node.Name).ToArray,

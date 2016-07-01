@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly.SBML
+﻿Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.SBML
 
 Namespace Compiler.Components
 

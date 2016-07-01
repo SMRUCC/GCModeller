@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+﻿Imports SMRUCC.genomics.AnalysisTools.Rfam.Infernal
+Imports SMRUCC.genomics.DatabaseServices.Regprecise
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -7,8 +7,8 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Assembly
 
 Partial Module CLI
 

@@ -1,12 +1,12 @@
-﻿Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+﻿Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.Assembly.NCBI.COG
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.NCBI.COG
 Imports Microsoft.VisualBasic.Language
 
 Partial Module CLI

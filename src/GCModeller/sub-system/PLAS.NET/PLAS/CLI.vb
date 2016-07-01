@@ -3,8 +3,8 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Script
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Script
+Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem
 
 <PackageNamespace("PLAS.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gmail.com")>
 Public Module CLI

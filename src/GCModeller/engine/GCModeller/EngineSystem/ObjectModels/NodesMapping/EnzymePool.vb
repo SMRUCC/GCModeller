@@ -10,7 +10,7 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         Implements IReadOnlyDictionary(Of String, List(Of Feature.MetabolismEnzyme))
         Implements IDisposable
 
-        Sub New(ReactionModels As Generic.IEnumerable(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction),
+        Sub New(ReactionModels As Generic.IEnumerable(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction),
                 Enzymes As Generic.IEnumerable(Of EngineSystem.ObjectModels.Feature.MetabolismEnzyme))
 
             Me._MappingHandlers = (From strId As String In (From item In ReactionModels Select item.EC Distinct).ToArray.AsParallel Select New PoolMappings.EnzymeClass(strId)).ToArray.AddHandle

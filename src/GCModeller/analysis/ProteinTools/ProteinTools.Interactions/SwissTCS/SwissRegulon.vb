@@ -191,7 +191,7 @@ Namespace SwissTCS
         End Function
 
         <ExportAPI("TCS.Sequence.Downloads")>
-        Public Function DownloadTcsSequence(DIR As String) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public Function DownloadTcsSequence(DIR As String) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim profiles As CrossTalks() = (From path As String
                                             In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.csv").AsParallel
                                             Let data = path.LoadCsv(Of CrossTalks)(False)
@@ -210,10 +210,10 @@ Namespace SwissTCS
                      Order By Trimed Ascending).ToArray
             Dim LQuery = (From sId As String
                           In lstId
-                          Let gFa As SequenceModel.FASTA.FastaToken = LANS.SystemsBiology.Assembly.KEGG.WebServices.Downloads(DIR, sId)
+                          Let gFa As SequenceModel.FASTA.FastaToken = SMRUCC.genomics.Assembly.KEGG.WebServices.Downloads(DIR, sId)
                           Where Not gFa Is Nothing
                           Select gFa).ToArray
-            Return New LANS.SystemsBiology.SequenceModel.FASTA.FastaFile(LQuery)
+            Return New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(LQuery)
         End Function
 
         Private Function __trim(sId As String) As String

@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
+﻿Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection

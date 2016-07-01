@@ -2,11 +2,11 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.XmlFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.XmlFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace DataVisualization
 
@@ -46,7 +46,7 @@ Namespace DataVisualization
         End Function
 
         Public Sub AddStringInteractions(stringDB As String, ByRef Interactions As DataVisualization.Interactions(), ByRef NodeAttributes As DataVisualization.NodeAttributes())
-            Dim Network = LANS.SystemsBiology.DatabaseServices.StringDB.SimpleCsv.Network.Compile(stringDB).Nodes
+            Dim Network = SMRUCC.genomics.DatabaseServices.StringDB.SimpleCsv.Network.Compile(stringDB).Nodes
             Dim ListOfNodeAttributes = NodeAttributes.ToList
             Call ListOfNodeAttributes.AddRange(CreateNodeAttributes(Network))
             NodeAttributes = TrimNodeAttributes(ListOfNodeAttributes)

@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Terminal.STDIO
 
@@ -104,7 +104,7 @@ Module MetacycObjectFindingMethods
         '        End If
         '    Case MetaCyc.File.DataFiles.Slots.Object.Tables.dnabindsites
 
-        '        Dim DNABindSite = DirectCast([Object], LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.DNABindSite)
+        '        Dim DNABindSite = DirectCast([Object], SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.DNABindSite)
         '        Dim TUList = From TU In Model.BacteriaGenome.TransUnits Where DNABindSite.ComponentOf.IndexOf(TU.UniqueId) > -1 Select TU.Handle '
         '        Return TUList.ToArray
 
@@ -114,7 +114,7 @@ Module MetacycObjectFindingMethods
         Throw New NotImplementedException
     End Function
 
-    Public Function Take(Of obj As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object,
+    Public Function Take(Of obj As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object,
                             Entity As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of obj))(Collection As Generic.IEnumerable(Of Entity), [Handles] As Long()) As Entity()
         '   Dim LQuery = (From entityObj As Entity In Collection Where Array.IndexOf([Handles], entityObj.Handle) Select entityObj).ToArray
         '    Return LQuery
@@ -130,8 +130,8 @@ Module MetacycObjectFindingMethods
     ''' <param name="Table"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function [Select](Of T As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object, E As GCML_Documents.ComponentModels.T_MetaCycEntity(Of T)) _
-            ([Object] As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object, Table As Generic.IEnumerable(Of E)) As E
+    <Extension> Public Function [Select](Of T As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object, E As GCML_Documents.ComponentModels.T_MetaCycEntity(Of T)) _
+            ([Object] As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object, Table As Generic.IEnumerable(Of E)) As E
         Try
             Dim LQuery = From obj In Table.AsParallel Where String.Equals([Object].Identifier, obj.Identifier) Select obj '
             Return LQuery.First
@@ -141,7 +141,7 @@ Module MetacycObjectFindingMethods
         End Try
     End Function
 
-    '<Extension> Public Sub AddTypeHandle(ByRef Regulation As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Regulator.Regulation, Type As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables)
+    '<Extension> Public Sub AddTypeHandle(ByRef Regulation As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Regulator.Regulation, Type As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables)
     '    Select Case Type
     '        Case Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.genes,
     '            Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.transunits,
@@ -164,8 +164,8 @@ Module MetacycObjectFindingMethods
     ''' <param name="UniqueId"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function IndexOf(Of T As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object,
-                               Entity As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of T))( _
+    Public Function IndexOf(Of T As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object,
+                               Entity As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of T))( _
                                ListCollection As Generic.IEnumerable(Of Entity),
                                UniqueId As String) _
         As Integer

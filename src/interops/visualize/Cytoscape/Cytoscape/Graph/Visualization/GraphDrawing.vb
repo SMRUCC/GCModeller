@@ -1,8 +1,8 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.ReferenceMap
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace CytoscapeGraphView

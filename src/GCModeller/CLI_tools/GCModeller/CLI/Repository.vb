@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository
-Imports LANS.SystemsBiology.Repository
+Imports SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository
+Imports SMRUCC.genomics.Repository
 
 Partial Module CLI
 
@@ -36,7 +36,7 @@ Partial Module CLI
 
         COGsDir = GCModeller.FileSystem.RepositoryRoot & "/COGs/bbh/"
         Call $"COGs fasta database will be installed at location {COGsDir}".__DEBUG_ECHO
-        Return LANS.SystemsBiology.Assembly.NCBI.COG.COGs.SaveRelease(protFasta, COGsDir).CLICode
+        Return SMRUCC.genomics.Assembly.NCBI.COG.COGs.SaveRelease(protFasta, COGsDir).CLICode
     End Function
 
     <ExportAPI("--install-CDD", Usage:="--install-CDD /cdd <cdd.DIR>")>
@@ -44,7 +44,7 @@ Partial Module CLI
         Dim Repository As String = GCModeller.FileSystem.RepositoryRoot
         Repository &= "/CDD/"
         Dim buildFrom As String = args("/cdd")
-        Call LANS.SystemsBiology.Assembly.NCBI.CDD.DbFile.BuildDb(buildFrom, Repository)
+        Call SMRUCC.genomics.Assembly.NCBI.CDD.DbFile.BuildDb(buildFrom, Repository)
         Return True
     End Function
 End Module

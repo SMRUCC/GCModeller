@@ -2,11 +2,11 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.BiDirectionalBesthit
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
+Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.BiDirectionalBesthit
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.NCBI.Extensions
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Regprecise
 

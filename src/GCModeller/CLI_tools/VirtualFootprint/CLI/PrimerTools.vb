@@ -1,5 +1,5 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.PrimerDesigner.Restriction_enzyme
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.AnalysisTools.PrimerDesigner.Restriction_enzyme
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv

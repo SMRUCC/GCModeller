@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
+﻿Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Types
 Imports Microsoft.VisualBasic.Serialization

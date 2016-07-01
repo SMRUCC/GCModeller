@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Linq
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Serialization
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
+Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
 
 ''' <summary>
 ''' 线性规划的最优解的输出

@@ -3,15 +3,15 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 Imports Oracle.Java.IO.Properties.Reflector
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap
-Imports LANS.SystemsBiology.Assembly.DOOR
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap
+Imports SMRUCC.genomics.Assembly.DOOR
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
@@ -89,7 +89,7 @@ Public Module ReadsMap
 
         '首先在这里生成基因组片段的绘图模型
         Dim Model = ChromesomeMapAPI.FromPttElements(ScreeningGenes, Config, Ranges.FragmentSize)
-        'Dim Device = LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap.CreateDevice(Config)
+        'Dim Device = SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.CreateDevice(Config)
         'Dim res = Device.InvokeDrawing(Model).Value.First
 
         Dim Gr = New Size(Ranges.FragmentSize + Config.Margin * 4, Config.Margin * 2 * 4 + 2 * Config.Margin).CreateGDIDevice

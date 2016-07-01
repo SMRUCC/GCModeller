@@ -1,9 +1,9 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 Namespace rFBA
 
-    Public Class BaseEquation : Inherits LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.Expression
+    Public Class BaseEquation : Inherits SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Expression
 
         <XmlElement> Public Property Variables As Variable()
 

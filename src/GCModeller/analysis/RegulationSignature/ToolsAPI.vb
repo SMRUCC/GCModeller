@@ -2,10 +2,10 @@
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports System.Text
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace RegulationSignature
 
@@ -15,7 +15,7 @@ Namespace RegulationSignature
         <ExportAPI("Signature.Create")>
         Public Function GenerateSignature(VirtualFootprints As IEnumerable(Of PredictedRegulationFootprint),
                 PTT As GenBank.TabularFormat.PTT,
-                <Parameter("KEGG.Pathways")> KEGG_Pathways As IEnumerable(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Pathway),
+                <Parameter("KEGG.Pathways")> KEGG_Pathways As IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway),
                 COG As IEnumerable(Of ICOGDigest)) As SignatureBuilder
 
             Return New SignatureBuilder(VirtualFootprints, PTT, KEGG_Pathways, COG)
@@ -27,9 +27,9 @@ Namespace RegulationSignature
         End Function
 
         <ExportAPI("ToFasta")>
-        Public Function GenerateSignatureFasta(SignatureBuilder As SignatureBuilder) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
+        Public Function GenerateSignatureFasta(SignatureBuilder As SignatureBuilder) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
             Dim Sequence As String = SignatureBuilder.ToString
-            Dim Fasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken =
+            Dim Fasta As SMRUCC.genomics.SequenceModel.FASTA.FastaToken =
                 New FASTA.FastaToken With
                 {
                     .SequenceData = Sequence,

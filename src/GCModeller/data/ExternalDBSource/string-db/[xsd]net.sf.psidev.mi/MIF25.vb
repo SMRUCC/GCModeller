@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.Nodes
+Imports SMRUCC.genomics.DatabaseServices.StringDB.MIF25.Nodes
 
 Namespace StringDB.MIF25
 

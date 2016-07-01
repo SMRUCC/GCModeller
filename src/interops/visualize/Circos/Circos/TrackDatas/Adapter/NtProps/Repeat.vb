@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace TrackDatas.NtProps
 

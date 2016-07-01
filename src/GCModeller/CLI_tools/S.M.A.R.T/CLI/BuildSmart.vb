@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Family.FileSystem
+﻿Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Family.FileSystem
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -26,7 +26,7 @@ READ_CDD_DIR:
         Dim ExportDir As String = Console.ReadLine
 
         Call FileIO.FileSystem.CreateDirectory(Dir)
-        Call LANS.SystemsBiology.Assembly.NCBI.CDD.DbFile.BuildDb(Dir, ExportDir)
+        Call SMRUCC.genomics.Assembly.NCBI.CDD.DbFile.BuildDb(Dir, ExportDir)
 
         Return 0
     End Function
@@ -46,7 +46,7 @@ READ_CDD_DIR:
 
         Domains = (From name As String In Domains Select name Order By name Ascending).ToArray
 
-        Dim Pfam = New LANS.SystemsBiology.Assembly.NCBI.CDD.Database(GCModeller.FileSystem.RepositoryRoot & "/CDD/").DomainInfo.Pfam
+        Dim Pfam = New SMRUCC.genomics.Assembly.NCBI.CDD.Database(GCModeller.FileSystem.RepositoryRoot & "/CDD/").DomainInfo.Pfam
         Dim DomainPn = Domains.ToArray(Function(x) Pfam(x))
 
         Return DomainPn.SaveTo(args("/in").TrimFileExt & "-Domain.Pn.csv")
@@ -61,7 +61,7 @@ READ_CDD_DIR:
                Info:="Build the Family database for the protein family annotation by MPAlignment.")>
     Public Function FamilyDomains(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/regprecise")
-        Dim regprecise = LANS.SystemsBiology.DatabaseServices.Regprecise.FastaReaders.Regulator.LoadDocument(inFile).ToDictionary(Function(x) x.KEGG)
+        Dim regprecise = SMRUCC.genomics.DatabaseServices.Regprecise.FastaReaders.Regulator.LoadDocument(inFile).ToDictionary(Function(x) x.KEGG)
         Dim pfam = args("/pfam").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
         Dim FamilyDb = Family.API.FamilyDomains(regprecise, pfam)
         Dim Name As String = IO.Path.GetFileNameWithoutExtension(inFile)

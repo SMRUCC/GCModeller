@@ -30,9 +30,9 @@ Namespace EngineSystem.ObjectModels.Feature
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property MotifSites As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.MotifSite(Of ObjectModels.Module.CentralDogmaInstance.Transcription)()
+        Public Property MotifSites As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.MotifSite(Of ObjectModels.Module.CentralDogmaInstance.Transcription)()
 
-        Protected Friend FeatureBaseType As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
+        Protected Friend FeatureBaseType As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
 
         Public Overrides Function ToString() As String
             If Not ProductHandlers.IsNullOrEmpty Then
@@ -56,7 +56,7 @@ Namespace EngineSystem.ObjectModels.Feature
         ''' <param name="CellSystem"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function CreateObject(TranscriptUnitModelObject As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
+        Public Overloads Shared Function CreateObject(TranscriptUnitModelObject As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit,
                                             CellSystem As EngineSystem.ObjectModels.SubSystem.CellSystem) As TransUnit
 
             Dim TransUnit As TransUnit = New TransUnit With {.FeatureBaseType = TranscriptUnitModelObject, .Identifier = TranscriptUnitModelObject.Identifier}
@@ -67,7 +67,7 @@ Namespace EngineSystem.ObjectModels.Feature
             Else
                 TransUnit.ProductHandlers = (From Handle As KeyValuePair
                                              In TranscriptUnitModelObject.GeneCluster
-                                             Let Gene As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject =
+                                             Let Gene As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject =
                                                         CellSystem.DataModel.BacteriaGenome.Genes.GetItem(Handle.Key)
                                              Let ProductValue = Gene.TranscriptProduct
                                              Select New KeyValuePair(Of String, String)(Gene.Identifier, ProductValue)).ToArray

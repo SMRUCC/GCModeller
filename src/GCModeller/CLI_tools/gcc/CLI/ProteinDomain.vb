@@ -4,9 +4,9 @@ Imports System.Text
 
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
 ''' <summary>
@@ -222,8 +222,8 @@ Module ProteinDomain
             Return (From refx In Left Where refx.IsDomain Select refx.UniqueId).ToArray
         End Function
 
-        Public Function Generate() As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
-            Dim Reaction As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+        Public Function Generate() As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+            Dim Reaction As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
             For Each Refx In Left
                 Call sBuilder.Append(Refx.UniqueId & "-")
@@ -232,7 +232,7 @@ Module ProteinDomain
             Reaction.Identifier = sBuilder.ToString
             Reaction.Reactants = (From refx In Left Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = refx.UniqueId, .StoiChiometry = refx.Stochem}).ToArray
             Reaction.Products = (From refx In Right Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = refx.UniqueId, .StoiChiometry = refx.Stochem}).ToArray
-            Reaction.UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10}
+            Reaction.UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10}
 
             Return Reaction
         End Function

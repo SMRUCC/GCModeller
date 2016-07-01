@@ -1,7 +1,7 @@
 ﻿Imports System.Collections
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels.Extensions
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Extensions
 Imports Microsoft.VisualBasic
 
 Namespace SearchingModel

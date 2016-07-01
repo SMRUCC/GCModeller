@@ -1,11 +1,11 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 

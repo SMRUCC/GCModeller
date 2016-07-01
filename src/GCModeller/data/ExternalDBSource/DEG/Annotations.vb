@@ -1,9 +1,9 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
+﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Text
 
@@ -15,7 +15,7 @@ Namespace DEG
         <ExportAPI("Reports")>
         Public Function CreateReportView(LogFile As IBlastOutput, Annotations As DEG.Annotations()) As DocumentStream.File
             Call LogFile.Grep(Nothing, TextGrepScriptEngine.Compile("match DEG\d+").Method)
-            Dim BestHit = LogFile.ExportAllBestHist '.AsDataSource(Of LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False)
+            Dim BestHit = LogFile.ExportAllBestHist '.AsDataSource(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False)
             Dim CsvData As DocumentStream.File = New DocumentFormat.Csv.DocumentStream.File
             Dim QueriesId As String() = (From item In BestHit Select item.QueryName Distinct Order By QueryName Ascending).ToArray
             Dim SpeciesIdCollection = DEG.Annotations.GetSpeciesId(Annotations)

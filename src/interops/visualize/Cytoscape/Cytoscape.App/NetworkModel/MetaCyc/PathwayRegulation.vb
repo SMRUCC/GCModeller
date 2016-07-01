@@ -1,11 +1,11 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
+Imports SMRUCC.genomics.DatabaseServices
+Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
 Imports Microsoft.VisualBasic.DataVisualization.Network
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 
 Namespace NetworkModel
 

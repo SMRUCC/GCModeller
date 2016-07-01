@@ -1,8 +1,8 @@
-﻿Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.SBML.ExportServices.KEGG
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel.DefaultTypes
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
+﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Assembly.SBML.ExportServices.KEGG
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -35,7 +35,7 @@ Public Module CLI
 
     <ExportAPI("/Export", Info:="", Usage:="export -i <fba_model> -o <r_script>", Example:="export -i /home/xieguigang/ecoli.xml -o /home/xieguigang/ecoli.r")>
     Public Function Export(args As CommandLine.CommandLine) As Integer
-        'Dim FBA As LANS.SystemsBiology.ModelSolvers.FBA.FBA_RScript_Builder = CommandLine("-i").LoadXml(Of LANS.SystemsBiology.ModelSolvers.FBA.FBA_RScript_Builder)()
+        'Dim FBA As SMRUCC.genomics.ModelSolvers.FBA.FBA_RScript_Builder = CommandLine("-i").LoadXml(Of SMRUCC.genomics.ModelSolvers.FBA.FBA_RScript_Builder)()
         'Call FileIO.FileSystem.WriteAllText(CommandLine("-o"), FBA.RScript, append:=False, encoding:=System.Text.Encoding.ASCII)
         'Return 0
         Throw New NotImplementedException

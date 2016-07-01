@@ -1,4 +1,4 @@
-﻿Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
+﻿Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
 
 Public NotInheritable Class Replacer
 
@@ -6,8 +6,8 @@ Public NotInheritable Class Replacer
         Throw New NotImplementedException
     End Sub
 
-    Public Shared Function ApplyReplacements(Of T_REF As LANS.SystemsBiology.ComponentModel.EquaionModel.ICompoundSpecies,
-                                                TModel As LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of T_REF))(
+    Public Shared Function ApplyReplacements(Of T_REF As SMRUCC.genomics.ComponentModel.EquaionModel.ICompoundSpecies,
+                                                TModel As SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of T_REF))(
                 Model As TModel, StringList As IEnumerable(Of Escaping)) As Integer
 
         Dim n = From Metabolite In Model.Metabolites Select Metabolite.Replace2(StringList) '

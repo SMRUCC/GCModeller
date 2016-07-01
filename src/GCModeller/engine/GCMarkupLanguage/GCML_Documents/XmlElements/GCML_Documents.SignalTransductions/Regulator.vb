@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.XmlElements.SignalTransductions
@@ -126,7 +126,7 @@ Namespace GCML_Documents.XmlElements.SignalTransductions
         '    ''' <value></value>
         '    ''' <returns></returns>
         '    ''' <remarks></remarks>
-        '    <XmlAttribute> Public Property [Class] As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables
+        '    <XmlAttribute> Public Property [Class] As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables
 
         '    Public Overrides Function ToString() As String
         '        Dim sBuilder As StringBuilder = New StringBuilder

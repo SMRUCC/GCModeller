@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations.Nodes.Plots

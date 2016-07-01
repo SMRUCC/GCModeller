@@ -6,12 +6,12 @@ Imports RDotNET.Extensions.VisualBasic.RSystem
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
+Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports RDotNET.Extensions.VisualBasic
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
 
 Namespace DESeq2
 

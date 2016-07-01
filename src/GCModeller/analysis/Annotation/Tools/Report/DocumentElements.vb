@@ -1,10 +1,10 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Reports.DocumentElements
 
-    Public Class ProteinAnnotationResult : Implements LANS.SystemsBiology.SequenceModel.FASTA.IAbstractFastaToken
+    Public Class ProteinAnnotationResult : Implements SMRUCC.genomics.SequenceModel.FASTA.IAbstractFastaToken
 
         <XmlAttribute("GeneID")> Public Property Protein As String
         Public Property Orthologs As Orthologs()

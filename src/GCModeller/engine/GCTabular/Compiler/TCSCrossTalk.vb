@@ -7,8 +7,8 @@
 '    ''' <param name="CrossTalkProfile"></param>
 '    ''' <returns></returns>
 '    ''' <remarks></remarks>
-'    Public Function Assemble(Door As LANS.SystemsBiology.Assembly.Door.Door,
-'                             MisT2 As LANS.SystemsBiology.Assembly.MiST2.WebRequestHandler.SignalTransductionProfile,
+'    Public Function Assemble(Door As SMRUCC.genomics.Assembly.Door.Door,
+'                             MisT2 As SMRUCC.genomics.Assembly.MiST2.WebRequestHandler.SignalTransductionProfile,
 '                             CrossTalkProfile As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File) As Microsoft.VisualBasic.Datavisualization.Network.FileStream.NetworkNode()
 
 '        Dim CrossTalks As List(Of Microsoft.VisualBasic.Datavisualization.Network.FileStream.NetworkNode) =
@@ -32,7 +32,7 @@
 '            Next
 '        Next
 
-'        Dim Reader As LANS.SystemsBiology.Toolkits.RNASeq.ChipData = LANS.SystemsBiology.Toolkits.RNASeq.ChipData.Load(CrossTalkProfile)
+'        Dim Reader As SMRUCC.genomics.Toolkits.RNASeq.ChipData = SMRUCC.genomics.Toolkits.RNASeq.ChipData.Load(CrossTalkProfile)
 '        For Each RR As String In Reader.ExperimentIdlist
 '            Call Reader.SetColumnAuto(RR)
 

@@ -1,6 +1,6 @@
 Imports Microsoft.VisualBasic
 Imports System
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' Application of the Needleman-Wunsch Algorithm

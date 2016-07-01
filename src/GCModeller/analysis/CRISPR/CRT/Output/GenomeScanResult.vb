@@ -1,15 +1,15 @@
 ﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.CRISPR.SearchingModel
+Imports SMRUCC.genomics.AnalysisTools.CRISPR.SearchingModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.gbExportService
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService
 Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Output
 

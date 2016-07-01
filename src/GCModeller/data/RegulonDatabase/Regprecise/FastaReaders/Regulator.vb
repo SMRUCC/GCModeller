@@ -1,6 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.Assembly.KEGG.Archives
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Regprecise.FastaReaders

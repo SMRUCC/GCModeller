@@ -1,9 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports System.Text
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports LANS.SystemsBiology.Assembly.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
 
 Partial Module CLI
 
@@ -42,7 +42,7 @@ Partial Module CLI
 
         If String.Equals(args("-m"), "sbml") Then
             Printf("Ready to parse a FBA model from the sbml model file: %s", Input)
-            Model = LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile.Load(Input)
+            Model = SMRUCC.genomics.Assembly.SBML.Level2.XmlFile.Load(Input)
         ElseIf String.Equals(args("-m"), "fba") OrElse String.Equals(args("-m"), "default") Then
             Printf("Ready for load a FBA model from compiled model file: %s", Input)
             Printf("Loading...")

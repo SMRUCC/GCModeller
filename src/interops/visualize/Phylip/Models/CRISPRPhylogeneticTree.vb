@@ -1,10 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Drawing
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
-Imports LANS.SystemsBiology.AnalysisTools.CRISPR.Output
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.AnalysisTools.CRISPR.Output
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 
 ''' <summary>
 '''
@@ -22,7 +22,7 @@ Module CRISPRPhylogeneticTree
     End Function
 
     ''' <summary>
-    ''' 将所有该<see cref="LANS.SystemsBiology.ComponentModel.Loci.Location">区间</see>之内的位点数据全部清除
+    ''' 将所有该<see cref="SMRUCC.genomics.ComponentModel.Loci.Location">区间</see>之内的位点数据全部清除
     ''' </summary>
     ''' <param name="CRISPRData"></param>
     ''' <returns></returns>
@@ -82,8 +82,8 @@ Module CRISPRPhylogeneticTree
                                      subjectTag As String,
                                      start As HitCollection,
                                      ends As HitCollection,
-                                     cdsinfo As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo)) _
-                                 As LANS.SystemsBiology.ComponentModel.Loci.Location
+                                     cdsinfo As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo)) _
+                                 As SMRUCC.genomics.ComponentModel.Loci.Location
         Dim left = start.GetHitByTagInfo(subjectTag)
         Dim right = ends.GetHitByTagInfo(subjectTag)
         Dim p As Integer = besthits.IndexOf(start.QueryName)
@@ -101,6 +101,6 @@ Module CRISPRPhylogeneticTree
 
         Dim r = {(From item In cdsinfo Where String.Equals(item.LocusID, left.HitName) Select item.Location).First, (From item In cdsinfo Where String.Equals(item.LocusID, right.HitName) Select item.Location).First}
         Dim c = {r.First.Left, r.First.Right, r.Last.Left, r.Last.Right}
-        Return New LANS.SystemsBiology.ComponentModel.Loci.Location(c.Min, c.Max)
+        Return New SMRUCC.genomics.ComponentModel.Loci.Location(c.Min, c.Max)
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿'Imports LANS.SystemsBiology.AnalysisTools.TSSAR.Skellam
+﻿'Imports SMRUCC.genomics.AnalysisTools.TSSAR.Skellam
 'Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
 'Module Module1

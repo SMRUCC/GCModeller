@@ -1,9 +1,9 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace LocalBLAST.BLASTOutput.ComponentModel
 
