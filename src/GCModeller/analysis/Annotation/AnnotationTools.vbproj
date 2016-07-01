@@ -354,6 +354,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -380,10 +381,6 @@
     <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\SQLite_Interface\SQLite_Interface.vbproj">
-      <Project>{ec288ffe-8fee-4e89-88c1-cd68f92f75bc}</Project>
-      <Name>SQLite_Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
