@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 
 ''' <summary>
 ''' Pearson correlation coefficient calculator.

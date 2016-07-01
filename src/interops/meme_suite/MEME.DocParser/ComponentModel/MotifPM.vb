@@ -26,14 +26,14 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns.SequenceLogo
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
-Imports SMRUCC.genomics.SequenceModel.Patterns
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace ComponentModel
 

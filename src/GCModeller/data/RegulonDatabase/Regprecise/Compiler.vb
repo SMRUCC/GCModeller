@@ -29,7 +29,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
@@ -285,7 +285,7 @@ SAVE:               Dim path As String = $"{repository}/MEME/pwm/{familyGroup.Fi
             Dim sites = path.LoadXml(Of WebServices.JSONLDM.site())
             Dim Fasta = (From site As WebServices.JSONLDM.site
                              In sites
-                         Let siteFasta = SMRUCC.genomics.DatabaseServices.Regprecise.FastaReaders.Site.CreateFrom(site, regulon.genomeName)
+                         Let siteFasta = FastaReaders.Site.CreateFrom(site, regulon.genomeName)
                          Select siteFasta).ToArray
             Return Fasta
         End Function

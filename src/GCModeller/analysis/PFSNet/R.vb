@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 
 Namespace R
 

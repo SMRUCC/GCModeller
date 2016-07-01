@@ -27,10 +27,10 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
 
 Namespace Regprecise
 

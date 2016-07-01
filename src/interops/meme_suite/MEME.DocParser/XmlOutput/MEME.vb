@@ -27,7 +27,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
 
 Namespace DocumentFormat.XmlOutput.MEME
 

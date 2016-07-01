@@ -27,10 +27,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Restriction_enzyme

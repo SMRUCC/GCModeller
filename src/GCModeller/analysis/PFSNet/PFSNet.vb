@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.R
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
+Imports SMRUCC.genomics.Analysis.PFSNet.R
 
 ''' <summary>
 ''' Implements the pfsnet algorithm to calculates the significant and consist cellular network between two types of mutations.
@@ -182,7 +182,7 @@ Public Module PFSNet
 
     <ExportAPI("PfsNet.Evaluate")>
     Public Function pfsnet(file1 As String, file2 As String, file3 As String, Optional b As Double = 0.5, Optional t1 As Double = 0.95, Optional t2 As Double = 0.85, Optional n As Double = 1000) _
-        As SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure.PFSNetResultOut
+        As PFSNetResultOut
 
         cat("reading data files")
         Dim ggi As GraphEdge() = GraphEdge.LoadData(file3)
@@ -198,7 +198,7 @@ Public Module PFSNet
 
     <ExportAPI("PfsNET.Evaluate")>
     Public Function pfsnet(expr1o As DataFrameRow(), expr2o As DataFrameRow(), ggi As GraphEdge(), Optional b As Double = 0.5, Optional t1 As Double = 0.95, Optional t2 As Double = 0.85, Optional n As Double = 1000) _
-        As SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure.PFSNetResultOut
+        As PFSNetResultOut
 
         Dim proc As Stopwatch = Stopwatch.StartNew
 

@@ -26,14 +26,14 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.DatabaseServices.Regtransbase.WebServices
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Data.Regtransbase.WebServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
 

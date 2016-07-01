@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 
 Namespace DocumentFormat.MEME.LDM
 

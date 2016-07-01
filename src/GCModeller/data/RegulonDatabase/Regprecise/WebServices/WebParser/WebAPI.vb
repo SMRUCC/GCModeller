@@ -27,12 +27,12 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.DatabaseServices.Regprecise.Regulator
-Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.Regprecise.Regulator
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise
 
