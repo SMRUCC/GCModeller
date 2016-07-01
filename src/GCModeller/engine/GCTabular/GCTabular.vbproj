@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{804EB81C-493A-49EF-95A9-DBF800FA4A08}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular</RootNamespace>
-    <AssemblyName>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\GCModeller\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
@@ -49,7 +49,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -60,7 +60,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -72,7 +72,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -84,7 +84,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -96,7 +96,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -107,7 +107,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -119,7 +119,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -131,7 +131,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\docs\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -143,7 +143,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\docs\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -155,7 +155,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\docs\</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -323,9 +323,9 @@
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GCMarkupLanguage\DocumentFormat.GCMarkupLanguage.vbproj">
+    <ProjectReference Include="..\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
-      <Name>DocumentFormat.GCMarkupLanguage</Name>
+      <Name>GCMarkupLanguage</Name>
     </ProjectReference>
     <ProjectReference Include="..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
       <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>

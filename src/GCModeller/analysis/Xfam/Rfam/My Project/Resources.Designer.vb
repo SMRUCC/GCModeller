@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.AnalysisTools.Rfam.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.Data.Xfam.Rfam.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -92,9 +92,7 @@ Namespace My.Resources
         '''my $filter = &apos;ncbi&apos;;
         '''my $starttime = `date`;
         '''chomp $starttime;
-        '''my $cmdline = $0.&apos; &apos;.join( &apos; &apos;, @ARGV );
-        '''
-        '''&amp;GetOptions( &quot;loc [rest of string was truncated]&quot;;.
+        '''my $cmdline = $0.&apos; &apos;.join( &apos; [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property rfam_scan() As String
             Get

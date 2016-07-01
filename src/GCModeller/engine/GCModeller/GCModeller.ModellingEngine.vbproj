@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8384AC6E-A7F6-40F0-A9A0-F995C2106843}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LANS.SystemsBiology.GCModeller.ModellingEngine</RootNamespace>
-    <AssemblyName>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -35,7 +35,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>true</Optimize>
@@ -50,7 +50,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\GCModeller\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
@@ -74,7 +74,7 @@
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>LINUX=0</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -84,7 +84,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -94,7 +94,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -104,7 +104,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -118,7 +118,7 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>LINUX=0</DefineConstants>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -128,7 +128,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -138,7 +138,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -148,7 +148,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -158,7 +158,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -168,7 +168,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\docs\</OutputPath>
-    <DocumentationFile>LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -384,17 +384,17 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GCTabular\DocumentFormat.CsvTabular.vbproj">
+    <ProjectReference Include="..\GCTabular\GCTabular.vbproj">
       <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
-      <Name>DocumentFormat.CsvTabular</Name>
+      <Name>GCTabular</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GCMarkupLanguage\DocumentFormat.GCMarkupLanguage.vbproj">
+    <ProjectReference Include="..\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
-      <Name>DocumentFormat.GCMarkupLanguage</Name>
+      <Name>GCMarkupLanguage</Name>
     </ProjectReference>
     <ProjectReference Include="..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
       <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
