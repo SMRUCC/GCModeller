@@ -27,7 +27,7 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.RCSB.PDB.Keywords
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
 Public Class PDB : Inherits Microsoft.VisualBasic.ComponentModel.ITextFile
 

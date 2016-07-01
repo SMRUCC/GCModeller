@@ -28,7 +28,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.Abstract
+Imports SMRUCC.genomics.Data.Reactome.OwlDocument.Abstract
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace OwlDocument.Nodes

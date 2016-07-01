@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.Abstract
+Imports SMRUCC.genomics.Data.Reactome.OwlDocument.Abstract
 
 Namespace OwlDocument.XrefNodes
 
