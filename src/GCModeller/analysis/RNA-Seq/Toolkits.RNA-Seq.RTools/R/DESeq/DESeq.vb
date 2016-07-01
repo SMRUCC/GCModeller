@@ -26,19 +26,19 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports RDotNET.Extensions.VisualBasic.RSystem
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Assembly
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports RDotNET.Extensions.VisualBasic
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.VisualBasic.RSystem
+Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
+Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
 
 Namespace DESeq2
 
@@ -415,9 +415,9 @@ Huber, W.",
                     Return False
                 End If
 
-                Fna = BOW.Samtools.Indexing(Fna)
-                Call BOW.Samtools.Import(SAM, Fna, (SAM & ".bam").ShadowCopy(SAM))
-                Call BOW.Samtools.Sort(SAM, Sorted)
+                Fna = Samtools.Indexing(Fna)
+                Call Samtools.Import(SAM, Fna, (SAM & ".bam").ShadowCopy(SAM))
+                Call Samtools.Sort(SAM, Sorted)
                 Call $"Samtools sorts job done! Sorted file saved at {Sorted.ToFileURL}".__DEBUG_ECHO
                 SAM = Sorted & ".bam"
             End If
