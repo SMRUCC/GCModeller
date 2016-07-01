@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca9c263bef77d5196723bd47e5e4a069, ..\Circos\Circos\ConfFiles\ExtendedProperty.vb"
+﻿#Region "Microsoft.VisualBasic::ca9c263bef77d5196723bd47e5e4a069, ..\interops\visualize\Circos\Circos\ConfFiles\ExtendedProperty.vb"
 
     ' Author:
     ' 

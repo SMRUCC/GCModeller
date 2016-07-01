@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7266fef192c8bf82619706eadc8f862, ..\Circos\Circos\ConfFiles\Nodes\Base\Plots.vb"
+﻿#Region "Microsoft.VisualBasic::4c93d152a535f11382277beac6e6acc8, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Base\Plots.vb"
 
     ' Author:
     ' 

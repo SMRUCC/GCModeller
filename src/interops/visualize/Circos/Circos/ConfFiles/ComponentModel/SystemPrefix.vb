@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2048a8798a3b16359f566faf75f492e0, ..\Circos\Circos\ConfFiles\ComponentModel\SystemPrefix.vb"
+﻿#Region "Microsoft.VisualBasic::1e3c3c04f29175cbbc56dba882e3826a, ..\interops\visualize\Circos\Circos\ConfFiles\ComponentModel\SystemPrefix.vb"
 
     ' Author:
     ' 
@@ -109,4 +109,3 @@ Namespace Configurations
 #End Region
     End Class
 End Namespace
-

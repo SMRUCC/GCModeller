@@ -1,3 +1,30 @@
+ï»¿#Region "Microsoft.VisualBasic::0f40b2a2f694ab76c5f309559c037b38, ..\interops\visualize\Phylip\Evolview\PhyloTree.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text
 
 Imports RegExp = System.Text.RegularExpressions.Regex
@@ -71,9 +98,9 @@ Namespace Evolview
         ''' <summary>
         '''
         ''' </summary>
-        ''' <param name="treename">ÏµÍ³·¢ÉúÊ÷µÄÃû×Ö</param>
-        ''' <param name="TreestrData">½ø»¯Ê÷µÄÊý¾ÝÎÄ¼þµÄÎÄ±¾ÄÚÈÝ</param>
-        ''' <param name="format">ÎÄ¼þ¸ñÊ½£ºnhx, newick, nexus£»Ä¬ÈÏ¸ñÊ½ÎªphylipµÄÄ¬ÈÏÊä³ö¸ñÊ½newick</param>
+        ''' <param name="treename">ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+        ''' <param name="TreestrData">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+        ''' <param name="format">ï¿½Ä¼ï¿½ï¿½ï¿½Ê½ï¿½ï¿½nhx, newick, nexusï¿½ï¿½Ä¬ï¿½Ï¸ï¿½Ê½Îªphylipï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½newick</param>
         ''' <remarks></remarks>
         Sub New(TreeName As String, TreestrData As String, Format As String)
             TreestrData = TreestrData.Trim()
@@ -2098,3 +2125,4 @@ Namespace Evolview
 
     End Class
 End Namespace
+

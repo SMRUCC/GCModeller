@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::351b6e02c6725a278adbbc5e77b70bb7, ..\Circos\Circos\TrackDatas\Adapter\NtProps\GenomeGCContent.vb"
+﻿#Region "Microsoft.VisualBasic::70b709b76a9f2023266f887f9875da3e, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GenomeGCContent.vb"
 
     ' Author:
     ' 

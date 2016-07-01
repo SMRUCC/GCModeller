@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cda4d440303f141ec0c67c51a08ab1c, ..\Circos\Circos.Extensions\ExtensionsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::81bb37210d665f8b567ea7ee15f01143, ..\interops\visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
 
     ' Author:
     ' 
@@ -157,4 +157,3 @@ Public Module ExtensionsAPI
         Return New HighlightLabel(dist)
     End Function
 End Module
-

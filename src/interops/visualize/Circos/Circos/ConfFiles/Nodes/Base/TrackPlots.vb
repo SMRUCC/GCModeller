@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77d856571f1150ea754dfdd8a3f3f82d, ..\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
+﻿#Region "Microsoft.VisualBasic::abeb31ffebfee646aa0f8b53a1c4f1e5, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
 
     ' Author:
     ' 
@@ -223,4 +223,3 @@ Namespace Configurations.Nodes.Plots
         End Function
     End Class
 End Namespace
-

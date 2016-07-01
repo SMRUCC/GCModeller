@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43bd4345b190ce5af741037417601564, ..\Circos\Circos\ConfFiles\ComponentModel\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::43bd4345b190ce5af741037417601564, ..\interops\visualize\Circos\Circos\ConfFiles\ComponentModel\Interface.vb"
 
     ' Author:
     ' 

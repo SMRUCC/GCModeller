@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::806e20fea01135d166774f0b69db0faf, ..\Circos\Circos\TrackDatas\Adapter\Highlights\GradientMappings.vb"
+﻿#Region "Microsoft.VisualBasic::7a11830bcfc6091a037d4998b0a7642f, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GradientMappings.vb"
 
     ' Author:
     ' 

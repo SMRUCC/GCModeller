@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69ab7a449bc27cea71e3ecb1c8dfb26e, ..\Circos\Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::3998a153db86e212eb851326a3155546, ..\interops\visualize\Circos\Circos\CircosAPI.vb"
 
     ' Author:
     ' 
@@ -1134,4 +1134,3 @@ then you can using this method to adding the legends on your circos plots image 
         Return GenBank.ExportPTTAsDump(PTT)
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b9f0ebc7a5afeb8521a8b6f37f7a432, ..\Circos\Circos.Extensions\NameExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::d3f9c6d256b2b623e091bbdbd6357dcc, ..\interops\visualize\Circos\Circos.Extensions\NameExtensions.vb"
 
     ' Author:
     ' 
@@ -84,4 +84,3 @@ Public Module NameExtensions
         Return list.ToArray(Function(x) x.ToMeta)
     End Function
 End Module
-

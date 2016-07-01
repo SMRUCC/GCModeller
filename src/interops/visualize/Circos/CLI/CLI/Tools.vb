@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc1526f3698fdf75f8727993b6fdda8e, ..\Circos\CLI\CLI\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::2743abe3763df62a79ae1c8f2d7bef9a, ..\interops\visualize\Circos\CLI\CLI\Tools.vb"
 
     ' Author:
     ' 
@@ -61,4 +61,3 @@ Partial Module CLI
         Return names.SaveTo(out).CLICode
     End Function
 End Module
-

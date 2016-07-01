@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d22d9085b877c25c3cdf3cb6361cebb, ..\Circos\Circos\Colors\GradientMaps.vb"
+﻿#Region "Microsoft.VisualBasic::5d22d9085b877c25c3cdf3cb6361cebb, ..\interops\visualize\Circos\Circos\Colors\GradientMaps.vb"
 
     ' Author:
     ' 
