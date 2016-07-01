@@ -26,11 +26,10 @@
 #End Region
 
 Imports System.Drawing
-Imports LANS.SystemsBiology
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ChromosomeMap.DrawingModels
 

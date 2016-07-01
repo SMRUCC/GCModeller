@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations
 
 Module Tools
 

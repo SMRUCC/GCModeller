@@ -26,23 +26,24 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Documents
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.InteractionModel
-Imports SMRUCC.genomics.InteractionModel.Regulon
-Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.InteractionModel.Regulon
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Visualize.Circos.Documents
+Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
 Public Module ExtensionsAPI
 
@@ -122,12 +123,12 @@ Public Module ExtensionsAPI
                       In bbh
                       Where Not String.IsNullOrEmpty(x.Pathway)
                       Let locus As String() = x.Regulates.ToArray(Function(g) g.LocusId)
-                      Let parts = DatabaseServices.ContinuouParts(locus)
+                      Let parts = ContinuouParts(locus)
                       Select parts.ToArray(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).MatrixToList
         Dim trims = (From x In LQuery Where x.locus_tags.Length > 1 Select x Group x By x.func Into Group).ToArray
         LQuery = (From x In trims
                   Let locus As String() = x.Group.ToArray(Function(xx) xx.locus_tags).MatrixToVector
-                  Let parts = DatabaseServices.ContinuouParts(locus)
+                  Let parts = ContinuouParts(locus)
                   Select (From part As String()
                           In parts
                           Select New With {.func = x.func, .locus_tags = part})).MatrixToList

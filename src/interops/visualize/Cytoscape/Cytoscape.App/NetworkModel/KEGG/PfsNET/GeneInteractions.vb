@@ -1,50 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::0c9aa6435ca7980ec06ead7509af1ba4, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.DocumentFormat
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DataVisualization.Network
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports ______NETWORK__ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
     Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node,
     Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge)
 Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
-    Global.SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Enzyme,
-    SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction)
-Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
+    Global.SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Enzyme,
+    SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction)
 
 Namespace NetworkModel.PfsNET
 

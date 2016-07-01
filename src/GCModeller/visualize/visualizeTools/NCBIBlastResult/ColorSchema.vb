@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ComparativeGenomics.ModelAPI
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.NCBI.Extensions
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Serialization
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Visualize.ComparativeGenomics.ModelAPI
 
 Namespace NCBIBlastResult
 

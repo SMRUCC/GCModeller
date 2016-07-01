@@ -26,15 +26,15 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Colors
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Visualize.Circos.Colors
 
 Namespace Karyotype.GeneObjects
 

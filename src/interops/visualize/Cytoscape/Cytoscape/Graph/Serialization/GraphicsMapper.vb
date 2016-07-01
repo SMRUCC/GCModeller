@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
 Namespace CytoscapeGraphView.Serialization
 

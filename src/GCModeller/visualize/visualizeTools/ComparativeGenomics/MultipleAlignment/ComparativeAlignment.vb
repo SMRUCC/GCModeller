@@ -26,26 +26,27 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ComponentModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.ComponentModel
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ComparativeGenomics
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.GCModeller.DataVisualization
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.ComparativeGenomics
+Imports SMRUCC.genomics.Visualize.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 
 Namespace ComparativeAlignment
 
@@ -279,7 +280,7 @@ Namespace ComparativeAlignment
 
             Dim bbhFiles = (From item In (From path In Source.LoadSourceEntryList({"*.csv"}).AsParallel
                                           Select ID = path.Key, pathValue = path.Value,
-                               logEntry = NCBI.Extensions.LocalBLAST.Application.BatchParallel.LogNameParser(path.Value),
+                               logEntry = BatchParallel.LogNameParser(path.Value),
                                BBH = path.Value.LoadCsv(Of BestHit)(False)).ToArray
                             Select item).ToArray
             If FileIO.FileSystem.FileExists(Query) Then

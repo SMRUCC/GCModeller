@@ -26,16 +26,16 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Colors
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Visualize.Circos.Colors
 
 Namespace Karyotype
 

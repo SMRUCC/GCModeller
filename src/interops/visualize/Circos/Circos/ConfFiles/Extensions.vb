@@ -27,8 +27,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Settings

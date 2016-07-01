@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Interactions.SequenceAssembler
-Imports Microsoft.VisualBasic.DataVisualization
-Imports Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout
-Imports Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout.BeliefNode.CPTableF
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DataMining.Framework
+Imports Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout
+Imports Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout.BeliefNode.CPTableF
+Imports Microsoft.VisualBasic.DataVisualization
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SequenceAssembler
 
 Public Class BeliefNetwork
 
@@ -54,7 +54,7 @@ Public Class BeliefNetwork
                     New Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout.BeliefNode.CPTableF
                 Dim AlignmentColumn As SequenceAssembler.AlignmentColumn = Data(0)
                 Dim CpChunkBuffer As CPColumn() = (From residue As Char
-                                                   In Global.SMRUCC.genomics.AnalysisTools.ProteinTools.Interactions.SequenceAssembler.AlignmentColumn.GetResidueCollection
+                                                   In Global.SMRUCC.genomics.Analysis.ProteinTools.Interactions.SequenceAssembler.AlignmentColumn.GetResidueCollection
                                                    Select New CPColumn() With {.Data = {AlignmentColumn.GetFrequency(residue)}}).ToArray
                 CPTable.CPColumns = CpChunkBuffer
                 FirstResidue.CPTable = CPTable

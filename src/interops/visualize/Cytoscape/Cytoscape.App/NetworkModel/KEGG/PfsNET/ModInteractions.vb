@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::9cd0617cced34f6e4b643a5e3d5291f8, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\ModInteractions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 Namespace NetworkModel.KEGG
 
@@ -136,12 +137,12 @@ Namespace NetworkModel.KEGG
         <ExportAPI("NET.Add.Footprints")>
         <Extension>
         Public Function AddFootprints(net As Network,
-                                      footprints As IEnumerable(Of DocumentFormat.RegulatesFootprints),
+                                      footprints As IEnumerable(Of RegulatesFootprints),
                                       Optional brief As Boolean = False) As Network
 
             footprints = (From x In footprints Where InStr(x.MotifTrace, "@") = 0 Select x).ToArray  ' 拓展的不需要，因为会让图太密了
 
-            net += (From x As DocumentFormat.RegulatesFootprints
+            net += (From x As RegulatesFootprints
                     In footprints
                     Where Not String.IsNullOrEmpty(x.Regulator)
                     Select x.Regulator Distinct) _

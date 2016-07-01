@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::485ac8bf4eb5f2d69945812106d9e561, ..\interops\meme_suite\MEME\Analysis\HtmlMatchs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -49,11 +49,11 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -96,7 +96,7 @@ Namespace Analysis
         Public Function Match(<Parameter("MEME.Xml", "The xml file path of the meme program output.")> MEMEXml As String,
                               <Parameter("MAST.html", "The HTML file path of the mast output.")> MASTHtml As String,
                               <Parameter("Os.Fasta.Path", "The fasta file path of the bacteria whole genome nucleotide sequence data.")> Genome As String,
-                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneDumpInfo)) As GenomeMotifFootPrints.VirtualFootprints()
+                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
 
             Dim MEME = MEMEXml.LoadXml(Of XmlOutput.MEME.MEME)().ToMEMEHtml
             Dim GenomeFasta As FASTA.FastaToken = FASTA.FastaToken.Load(Genome)
@@ -278,7 +278,7 @@ Namespace Analysis
         Private Function __match(meme As MEME.HTML.MEMEHtml,
                                  masthtml As String,
                                  genome As SequenceModel.FASTA.FastaToken,
-                                 cdsInfo As IEnumerable(Of GeneDumpInfo)) As GenomeMotifFootPrints.VirtualFootprints()
+                                 cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
             Try
                 Return ____match(meme, masthtml, genome, cdsInfo)
             Catch ex As Exception
@@ -286,18 +286,18 @@ Namespace Analysis
                 ex = New Exception(trace, ex)
                 Call ex.PrintException
                 Call App.LogException(ex, MethodBase.GetCurrentMethod.GetFullName & "::ERROR-Thread.log")
-                Return New GenomeMotifFootPrints.VirtualFootprints() {}
+                Return New VirtualFootprints() {}
             End Try
         End Function
 
         Private Function ____match(meme As MEME.HTML.MEMEHtml,
                                    masthtml As String,
                                    genome As SequenceModel.FASTA.FastaToken,
-                                   cdsInfo As IEnumerable(Of GeneDumpInfo)) As GenomeMotifFootPrints.VirtualFootprints()
+                                   cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
             Dim Reader As SegmentReader = New SegmentReader(genome, False)
             Dim MAST = DocumentFormat.MAST.HTML.LoadDocument_v410(masthtml, False)
             Dim result = DocumentFormat.MAST.HTML.MatchMEMEAndMast(meme, MAST)
-            Dim Footprints As GenomeMotifFootPrints.VirtualFootprints() = (
+            Dim Footprints As VirtualFootprints() = (
                 From motif As MEMEOutput
                 In result
                 Select __createMotifSiteInfo(Of GeneDumpInfo)(

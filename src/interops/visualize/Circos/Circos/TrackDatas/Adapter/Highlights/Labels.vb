@@ -28,7 +28,7 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel

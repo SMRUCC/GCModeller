@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
 Namespace Colors
 

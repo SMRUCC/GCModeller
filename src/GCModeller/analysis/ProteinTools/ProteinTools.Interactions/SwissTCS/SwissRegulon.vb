@@ -1,37 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::caded6bc01f0a8fe861dce5fcaeaad32, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\SwissRegulon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
 
 Namespace SwissTCS
 
@@ -183,7 +184,7 @@ Namespace SwissTCS
         End Sub
 
         <ExportAPI("Matrix.CrossTalks")>
-        Public Function CreateCrossTalks(dirHisK As String, dirRR As String) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Function CreateCrossTalks(dirHisK As String, dirRR As String) As DocumentStream.File
             Dim HisKList = (From Path As String In FileIO.FileSystem.GetFiles(dirHisK) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.MatrixToVector
             Dim RRList = (From Path As String In FileIO.FileSystem.GetFiles(dirRR) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.MatrixToVector
             Dim ChunkBuffer As CrossTalks() = {HisKList, RRList}.MatrixToVector

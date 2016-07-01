@@ -27,8 +27,8 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
 

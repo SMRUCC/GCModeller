@@ -27,9 +27,9 @@
 
 Imports System.Drawing
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Imaging
+Imports SMRUCC.genomics.Visualize
 
 Namespace ChromosomeMap
 

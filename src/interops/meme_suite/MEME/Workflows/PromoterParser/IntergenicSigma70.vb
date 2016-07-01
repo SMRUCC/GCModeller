@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::6c31e9e53578465e69711d3d8dee4862, ..\interops\meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -42,6 +42,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 Namespace Workflows.PromoterParser
 
@@ -359,7 +361,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         Public Function VirtualFootprintDIP(<Parameter("vf.csv")> Csv As String,
                                             <Parameter("dip.csv")> DIPCsv As String) As Boolean
 
-            Dim VirtualFootprints = Csv.LoadCsv(Of GenomeMotifFootPrints.VirtualFootprints)(False)
+            Dim VirtualFootprints = Csv.LoadCsv(Of VirtualFootprints)(False)
             Dim DIP As Dictionary(Of String, MEME_DIP()) =
                 (From row As MEME_DIP
                  In DIPCsv.LoadCsv(Of MEME_DIP)(False).AsParallel
@@ -392,7 +394,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
             Public Property MotifId As String
             Public ReadOnly Property MotifLocation As String
                 Get
-                    Return MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints.GetLociDescrib(LocationDescriptions)
+                    Return VirtualFootprints.GetLociDescrib(LocationDescriptions)
                 End Get
             End Property
 

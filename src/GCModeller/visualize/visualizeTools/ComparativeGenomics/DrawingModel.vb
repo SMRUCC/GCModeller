@@ -27,13 +27,13 @@
 
 Imports System
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Visualize.ComponentModel
 
 Namespace ComparativeGenomics
 

@@ -187,6 +187,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
+      <Name>VirtualFootprint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

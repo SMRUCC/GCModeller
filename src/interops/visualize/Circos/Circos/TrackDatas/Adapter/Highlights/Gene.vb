@@ -28,8 +28,8 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Colors
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.Colors
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic.Imaging

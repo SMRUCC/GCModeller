@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Drawing
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.FootprintMap
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
 
 Namespace ChromosomeMap.DrawingModels
 

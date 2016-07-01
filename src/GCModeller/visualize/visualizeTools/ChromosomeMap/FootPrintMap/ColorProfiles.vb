@@ -27,7 +27,7 @@
 
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.DataVisualization
+Imports SMRUCC.genomics.Visualize
 
 Namespace ComponentModel
 

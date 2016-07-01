@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Drawing
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Phylip.Evolview
+Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolview
 Imports Microsoft.VisualBasic.Imaging
 
 Public Module TreeDrawing

@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Interops.DataVisualizatio.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations.Nodes.Plots

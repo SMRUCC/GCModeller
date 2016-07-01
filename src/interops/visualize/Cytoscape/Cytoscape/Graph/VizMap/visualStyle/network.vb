@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization.visualProperty
+Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty
 
 Namespace Visualization
 

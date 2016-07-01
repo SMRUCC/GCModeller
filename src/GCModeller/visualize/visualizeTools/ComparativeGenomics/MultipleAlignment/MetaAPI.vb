@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.NCBI.Extensions.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 
 Namespace ComparativeAlignment
 

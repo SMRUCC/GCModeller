@@ -39,7 +39,7 @@ Namespace ExpressionMatrix
 
         Public Function InvokeDrawing(Data As SerialsData(), Conf As Configuration) As Image
             Data = Data.Skip(1).ToArray   '第一个元素为时间
-            Dim RenderingColor = New DataVisualization.GeneticClock.ColorRender(Data).GetColorRenderingProfiles
+            Dim RenderingColor = New GeneticClock.ColorRender(Data).GetColorRenderingProfiles
             Dim TagFont As Font = New Font("Ubuntu", 4)
             Dim TagSize = (From item In Data Select item.Tag Order By Len(Tag) Descending).First.MeasureString(TagFont)
             Dim Margin As Integer = 10

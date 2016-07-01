@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MAST.HTML
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Analysis.GenomeMotifFootPrints
@@ -314,7 +315,7 @@ Namespace Analysis.GenomeMotifFootPrints
                              In Mast.MatchedSites.AsParallel
                              Let p As Integer = MastEntry.MotifId - 1
                              Let MEME As LDM.Motif = MEMEText(p)
-                             Select VirtualFootprints.CreateMotifSiteInfo(Of
+                             Select VirtualFootprintAPI.CreateMotifSiteInfo(Of
                                  ComponentModels.GeneBrief)(
                                  MEME,
                                  MastEntry,

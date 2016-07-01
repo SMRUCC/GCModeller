@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.NCBI.Extensions
-Imports SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.AnalysisTools.ComparativeGenomics
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Documents.Karyotype.NtProps
 

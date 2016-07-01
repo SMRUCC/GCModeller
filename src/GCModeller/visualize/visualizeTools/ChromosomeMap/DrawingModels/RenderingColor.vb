@@ -26,11 +26,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.GCModeller.DataVisualization
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Imaging
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Visualize
 
 Namespace ChromosomeMap.DrawingModels
 
