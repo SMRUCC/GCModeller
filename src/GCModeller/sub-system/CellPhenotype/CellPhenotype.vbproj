@@ -169,17 +169,17 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExpressionRegulationNetwork\Configs\ReadModel.vb" />
-    <Compile Include="ExpressionRegulationNetwork\KineticsModel\SiteInfo.vb" />
-    <Compile Include="ExpressionRegulationNetwork\NetEngine\BinaryNetwork.vb" />
-    <Compile Include="ExpressionRegulationNetwork\Configs\Configuration.vb" />
-    <Compile Include="ExpressionRegulationNetwork\DataVisualization.vb" />
-    <Compile Include="ExpressionRegulationNetwork\NetEngine\EngineAPI.vb" />
-    <Compile Include="ExpressionRegulationNetwork\NetEngine\LDMDoc.vb" />
-    <Compile Include="ExpressionRegulationNetwork\Regulators\TCS.vb" />
-    <Compile Include="ExpressionRegulationNetwork\Regulators\OCS.vb" />
-    <Compile Include="ExpressionRegulationNetwork\Regulators\Regulator.vb" />
-    <Compile Include="ExpressionRegulationNetwork\KineticsModel\KineticsModel.vb" />
+    <Compile Include="TRN\Configs\ReadModel.vb" />
+    <Compile Include="TRN\KineticsModel\SiteInfo.vb" />
+    <Compile Include="TRN\NetEngine\BinaryNetwork.vb" />
+    <Compile Include="TRN\Configs\Configuration.vb" />
+    <Compile Include="TRN\DataVisualization.vb" />
+    <Compile Include="TRN\NetEngine\EngineAPI.vb" />
+    <Compile Include="TRN\NetEngine\LDMDoc.vb" />
+    <Compile Include="TRN\Regulators\TCS.vb" />
+    <Compile Include="TRN\Regulators\OCS.vb" />
+    <Compile Include="TRN\Regulators\Regulator.vb" />
+    <Compile Include="TRN\KineticsModel\KineticsModel.vb" />
     <Compile Include="PfsNET_FootprintMappingPathway_API.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

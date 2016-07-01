@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("CARMEN")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("CARMEN")> 
-<Assembly: AssemblyCopyright("Copyright ©  2015")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("CARMEN - Comparative Analysis And in silico Reconstruction of organism-specific MEtabolic Networks.")>
+<Assembly: AssemblyDescription("CARMEN - Comparative Analysis And in silico Reconstruction of organism-specific MEtabolic Networks.")>
+<Assembly: AssemblyCompany("SMRUCC")>
+<Assembly: AssemblyProduct("CARMEN")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC 2015")>
+<Assembly: AssemblyTrademark("GCModeller")>
 
 <Assembly: ComVisible(False)>
 

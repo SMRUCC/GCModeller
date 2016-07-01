@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <StartupObject>
     </StartupObject>
-    <RootNamespace>LANS.SystemsBiology.AnalysisTools.ClustalOrg</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Interops.ClustalOrg</RootNamespace>
     <AssemblyName>ClustalOmega</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>

@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.NCBI.Extensions.BioSystems.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.Model.NCBI.BioSystems.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -73,9 +73,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 6.0 $
-        '''*********************************************************************
-        '''
-        ''' 1990 [rest of string was truncated]&quot;;.
+        '''**************************************************************** [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property EMBL_General_mod() As String
             Get
@@ -97,7 +95,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property EMBL_General_mod1() As String
             Get
@@ -119,7 +117,7 @@ Namespace My.Resources
         '''&lt;!--
         '''*********************************************************************
         '''
-        '''  GenBank specific  [rest of string was truncated]&quot;;.
+        '''  GenB [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property GenBank_General_mod() As String
             Get
@@ -141,7 +139,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property GenBank_General_mod1() As String
             Get
@@ -163,8 +161,7 @@ Namespace My.Resources
         '''&lt;!--
         '''$Revision: 6.2 $
         '''****************************************************************
-        '''
-        '''  NCBI Biblio [rest of string was truncated]&quot;;.
+        '''        ''' [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Biblio_mod() As String
             Get
@@ -186,7 +183,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefault [rest of string was truncated]&quot;;.
+        '''  attribu [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Biblio_mod1() As String
             Get
@@ -208,8 +205,7 @@ Namespace My.Resources
         '''&lt;!--
         '''**********************************************************************
         '''
-        '''  NCBI BioSource
-        '''  b [rest of string was truncated]&quot;;.
+        '''  NCBI  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_BioSource_mod() As String
             Get
@@ -231,7 +227,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_BioSource_mod1() As String
             Get
@@ -275,8 +271,7 @@ Namespace My.Resources
         '''&lt;!--
         '''**********************************************************************
         '''
-        '''  NCBI Genes
-        '''  by James O [rest of string was truncated]&quot;;.
+        '''  NCBI Genes [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Gene_mod() As String
             Get
@@ -298,7 +293,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Gene_mod1() As String
             Get
@@ -319,9 +314,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 99135 $
-        '''**********************************************************************
-        '''
-        '''  N [rest of string was truncated]&quot;;.
+        '''*************************************************************** [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_General_mod() As String
             Get
@@ -343,7 +336,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_General_mod1() As String
             Get
@@ -364,9 +357,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 6.0 $
-        '''**********************************************************************
-        '''
-        '''  MED [rest of string was truncated]&quot;;.
+        '''***************************************************************** [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Medline_mod() As String
             Get
@@ -388,7 +379,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Medline_mod1() As String
             Get
@@ -410,8 +401,7 @@ Namespace My.Resources
         '''&lt;!--
         '''**********************************************************************
         '''
-        '''  NCBI Organism
-        '''  by  [rest of string was truncated]&quot;;.
+        '''  NCBI O [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Organism_mod() As String
             Get
@@ -433,7 +423,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Organism_mod1() As String
             Get
@@ -455,8 +445,7 @@ Namespace My.Resources
         '''&lt;!--
         '''**********************************************************************
         '''
-        '''  NCBI Protein
-        '''  by Ja [rest of string was truncated]&quot;;.
+        '''  NCBI Pr [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Protein_mod() As String
             Get
@@ -478,7 +467,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Protein_mod1() As String
             Get
@@ -501,7 +490,7 @@ Namespace My.Resources
         '''$Revision: 6.0 $
         '''********************************************************************
         '''
-        '''  Publication c [rest of string was truncated]&quot;;.
+        '''  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Pub_mod() As String
             Get
@@ -523,7 +512,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefault=&quot;u [rest of string was truncated]&quot;;.
+        '''  attributeF [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Pub_mod1() As String
             Get
@@ -546,7 +535,7 @@ Namespace My.Resources
         '''**********************************************************************
         '''
         '''  NCBI RNAs
-        '''  by James Ost [rest of string was truncated]&quot;;.
+        ''' [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_RNA_mod() As String
             Get
@@ -568,7 +557,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_RNA_mod1() As String
             Get
@@ -590,7 +579,7 @@ Namespace My.Resources
         '''&lt;!--
         '''**********************************************************************
         '''
-        '''  NCBI Restriction Sites [rest of string was truncated]&quot;;.
+        '''  NCBI Rest [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Rsite_mod() As String
             Get
@@ -612,7 +601,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Rsite_mod1() As String
             Get
@@ -633,9 +622,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 161965 $
-        '''**********************************************************************
-        '''
-        ''' [rest of string was truncated]&quot;;.
+        '''************************************************************ [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqalign_mod() As String
             Get
@@ -657,7 +644,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqalign_mod1() As String
             Get
@@ -678,9 +665,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 158548 $
-        '''**********************************************************************
-        '''
-        '''   [rest of string was truncated]&quot;;.
+        '''************************************************************** [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqfeat_mod() As String
             Get
@@ -702,7 +687,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqfeat_mod1() As String
             Get
@@ -723,9 +708,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 140157 $
-        '''**********************************************************************
-        '''
-        '''  NC [rest of string was truncated]&quot;;.
+        '''**************************************************************** [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqloc_mod() As String
             Get
@@ -747,7 +730,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefault [rest of string was truncated]&quot;;.
+        '''  attribu [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqloc_mod1() As String
             Get
@@ -768,9 +751,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 6.0 $
-        '''**********************************************************************
-        '''
-        '''  NCBI  [rest of string was truncated]&quot;;.
+        '''******************************************************************* [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqres_mod() As String
             Get
@@ -792,7 +773,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefault [rest of string was truncated]&quot;;.
+        '''  attribu [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Seqres_mod1() As String
             Get
@@ -834,8 +815,7 @@ Namespace My.Resources
         '''
         '''
         '''
-        '''                            PUBLIC DOMAIN NOTICE
-        ''' [rest of string was truncated]&quot;;.
+        '''                 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_SeqTable_mod() As String
             Get
@@ -857,7 +837,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_SeqTable_mod1() As String
             Get
@@ -878,9 +858,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''$Revision: 138450 $
-        '''**********************************************************************
-        '''
-        '''  NCB [rest of string was truncated]&quot;;.
+        '''***************************************************************** [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Sequence_mod() As String
             Get
@@ -902,7 +880,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefault=&quot;u [rest of string was truncated]&quot;;.
+        '''  attributeF [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Sequence_mod1() As String
             Get
@@ -923,7 +901,7 @@ Namespace My.Resources
         '''  This file is used to put them together.
         '''--&gt;
         '''
-        '''&lt;!ENTITY % NCBI_Entity_module PUBLIC &quot;-//NCBI//NCBI Entity Module//EN&quot; &quot;NCBI [rest of string was truncated]&quot;;.
+        '''&lt;!ENTITY % NCBI_Entity_module PUBLIC &quot;-//NCBI//NCBI Entity Modul [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Systems() As String
             Get
@@ -989,7 +967,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_Systems1() As String
             Get
@@ -1011,7 +989,7 @@ Namespace My.Resources
         '''&lt;!--
         '''********************************************************************
         '''
-        '''  Transcription Initiatio [rest of string was truncated]&quot;;.
+        '''  Transcript [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_TxInit_mod() As String
             Get
@@ -1033,7 +1011,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefaul [rest of string was truncated]&quot;;.
+        '''  attrib [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property NCBI_TxInit_mod1() As String
             Get
@@ -1055,8 +1033,7 @@ Namespace My.Resources
         '''&lt;!--
         '''*********************************************************************
         '''
-        '''  PDB specific data
-        '''  T [rest of string was truncated]&quot;;.
+        '''  PDB spec [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PDB_General_mod() As String
             Get
@@ -1078,7 +1055,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PDB_General_mod1() As String
             Get
@@ -1100,8 +1077,7 @@ Namespace My.Resources
         '''&lt;!--
         '''*********************************************************************
         '''
-        '''  PIR specific data
-        '''  T [rest of string was truncated]&quot;;.
+        '''  PIR spec [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PIR_General_mod() As String
             Get
@@ -1123,7 +1099,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PIR_General_mod1() As String
             Get
@@ -1144,7 +1120,7 @@ Namespace My.Resources
         '''
         '''&lt;!--
         '''**********************************************************************
-        ''' PRF specific definitio [rest of string was truncated]&quot;;.
+        ''' PRF specif [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PRF_General_mod() As String
             Get
@@ -1166,7 +1142,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PRF_General_mod1() As String
             Get
@@ -1188,7 +1164,7 @@ Namespace My.Resources
         '''&lt;!--
         '''*********************************************************************
         '''
-        '''  SWISSPROT specific dat [rest of string was truncated]&quot;;.
+        '''  SWISSPROT [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property SP_General_mod() As String
             Get
@@ -1210,7 +1186,7 @@ Namespace My.Resources
         '''  xmlns=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  targetNamespace=&quot;http://www.ncbi.nlm.nih.gov&quot;
         '''  elementFormDefault=&quot;qualified&quot;
-        '''  attributeFormDefau [rest of string was truncated]&quot;;.
+        '''  attri [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property SP_General_mod1() As String
             Get

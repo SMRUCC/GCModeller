@@ -261,7 +261,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
-      <Name>RDotNet.Extensions.VisualBasic</Name>
+      <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
