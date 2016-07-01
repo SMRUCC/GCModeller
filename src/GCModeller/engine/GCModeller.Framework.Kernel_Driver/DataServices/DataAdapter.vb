@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::0ee5110e4ab68e7af918527408518563, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 Namespace Kernel
 
@@ -68,9 +69,8 @@ Namespace Kernel
             Return DeltaData
         End Function
 
-        Public Overridable Function CreateDataPackage() As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
-            Dim CsvData As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File =
-                New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Overridable Function CreateDataPackage() As DocumentStream.File
+            Dim CsvData As New DocumentStream.File
             Call CsvData.Add(New String() {"RTimeTicks"})
             Call CsvData.First.AddRange(__getHeaders)
             Dim LQuery = (From item In Me._innerBuffer.AsParallel
@@ -81,8 +81,8 @@ Namespace Kernel
             Return CsvData
         End Function
 
-        Private Shared Function __createRow(x As KeyValuePair(Of Integer, KeyValuePair(Of Long, Double)())) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
-            Dim Row As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject = New String() {}
+        Private Shared Function __createRow(x As KeyValuePair(Of Integer, KeyValuePair(Of Long, Double)())) As DocumentStream.RowObject
+            Dim Row As DocumentStream.RowObject = New String() {}
             Call Row.Add(x.Key)
             Call Row.AddRange((From it In x.Value Select CStr(it.Value)).ToArray)
             Return Row

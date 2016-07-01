@@ -26,14 +26,14 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.SBML
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 <[PackageNamespace]("Annotations.CarmenMapping",
                     Description:="Mapping between the kegg database and the target bacteria genome.",

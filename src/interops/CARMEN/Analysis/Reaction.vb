@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.SBML
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Model.SBML
 
 Public Class Reaction
 

@@ -27,9 +27,9 @@
 
 Imports System.Net
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.GenePrediction.DocNodes
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq.GenePrediction.DocNodes
 
 Namespace GenePrediction
 

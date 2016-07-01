@@ -170,6 +170,11 @@
   <ItemGroup>
     <Compile Include="Analysis\CARMEN.vb" />
     <Compile Include="Analysis\Reaction.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WebHandler.vb" />
     <Compile Include="PerlInvoke.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -188,6 +193,7 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -214,19 +220,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SBML\SBML\SBML.vbproj">
-      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
-      <Name>SBML</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_HTML\VB_HTML\DocumentFormat.MarkupLanguage.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>DocumentFormat.MarkupLanguage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GCModeller\models\SBML\SBML\SBML.vbproj">
+      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
+      <Name>SBML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
@@ -240,6 +246,11 @@
   <ItemGroup>
     <None Include="bin\CARMEN.html" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CARMEN.html" />
+  </ItemGroup>
+  <Import Project="..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
