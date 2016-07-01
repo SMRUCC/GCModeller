@@ -373,9 +373,9 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Sequence-Patterns-Toolkit\LANS.SystemsBiology.AnalysisTools.ComparativeGenomics\LANS.SystemsBiology.AnalysisTools.ComparativeGenomics.vbproj">
+    <ProjectReference Include="..\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
       <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
-      <Name>LANS.SystemsBiology.AnalysisTools.ComparativeGenomics</Name>
+      <Name>DNA_Comparative</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
@@ -413,11 +413,11 @@
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ExternalDBSource\DatabaseServices.vbproj">
+    <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RegulonDatabase\RegulonDatabase.vbproj">
+    <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
