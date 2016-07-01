@@ -283,6 +283,6 @@
     <None Include="gpl.txt" />
     <Content Include="Rockhopper.ico" />
   </ItemGroup>
-  <Import Project="..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
