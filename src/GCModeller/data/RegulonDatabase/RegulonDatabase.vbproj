@@ -383,7 +383,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MicrobesOnline\MicrobesOnline.vbproj">
+    <ProjectReference Include="..\MicrobesOnline\MicrobesOnline.vbproj">
       <Project>{43c14bc7-22f6-4340-9af8-b01908619911}</Project>
       <Name>MicrobesOnline</Name>
     </ProjectReference>
