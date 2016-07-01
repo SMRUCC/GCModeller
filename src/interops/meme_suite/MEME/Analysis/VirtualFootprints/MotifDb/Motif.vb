@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 

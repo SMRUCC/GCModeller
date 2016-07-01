@@ -281,6 +281,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
+      <Name>VirtualFootprint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
@@ -288,6 +292,10 @@
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
+      <Name>+VB_DataFrame</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
@@ -342,6 +350,9 @@
     <Content Include="Terminal.ico" />
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\..\..\GCModeller\shared\docs\Shared.DocumentFormats.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Drawing
-Imports SMRUCC.genomics.AnalysisTools.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData

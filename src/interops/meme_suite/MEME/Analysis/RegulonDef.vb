@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::a8bdc0b96348d23fcfc8f158aa9ad2eb, ..\interops\meme_suite\MEME\Analysis\RegulonDef.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,9 +30,10 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 
 Namespace Analysis
 
@@ -52,7 +53,7 @@ Namespace Analysis
             MAST_LDM = source.ToDictionary(Function(x) x.Key, Function(x) x.Value.LoadXml(Of AnnotationModel))
         End Sub
 
-        Public Function IsRegulonCorrect(regulon As DatabaseServices.Regprecise.Regulator) As Boolean
+        Public Function IsRegulonCorrect(regulon As Regprecise.Regulator) As Boolean
 
         End Function
 
@@ -69,7 +70,7 @@ Namespace Analysis
             VBDebugger.Mute = True
 
             Dim regulons = FileIO.FileSystem.GetFiles(regulonBBH, FileIO.SearchOption.SearchTopLevelOnly, "*.xml") _
-                .ToArray(Function(x) x.LoadXml(Of DatabaseServices.Regprecise.BacteriaGenome))
+                .ToArray(Function(x) x.LoadXml(Of Regprecise.BacteriaGenome))
             Dim tomOUTs = FileIO.FileSystem.GetFiles(tomOUT, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
                 .ToArray(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).MatrixToVector
             Dim tomHash = (From x As Similarity.TOMQuery.CompareResult
@@ -86,15 +87,15 @@ Namespace Analysis
             Return regulonResults
         End Function
 
-        Private Function uid(regulon As DatabaseServices.Regprecise.Regulator) As String
+        Private Function uid(regulon As Regprecise.Regulator) As String
             Return $"{regulon.LocusTag.Key}.{regulon.LocusTag.Value}".Replace(":", "_")
         End Function
 
-        <Extension> Private Function __creates(regulon As DatabaseServices.Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult()) As Regulon()
+        <Extension> Private Function __creates(regulon As Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult()) As Regulon()
             Return query.ToArray(Function(x) regulon.__creates(x))
         End Function
 
-        <Extension> Private Function __creates(regulonRef As DatabaseServices.Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult) As Regulon
+        <Extension> Private Function __creates(regulonRef As Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult) As Regulon
             Dim regulon As New Regulon With {
                 .BiologicalProcess = regulonRef.BiologicalProcess,
                 .Family = regulonRef.Family,

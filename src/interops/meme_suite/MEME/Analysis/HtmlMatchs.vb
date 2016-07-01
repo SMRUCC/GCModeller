@@ -28,26 +28,6 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.DatabaseServices
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.WGCNA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -56,6 +36,26 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Analysis
 
@@ -542,8 +542,7 @@ Namespace Analysis
                 FastaFileDir,
                 RegpreciseTFBS:=SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Regprecise_TFBS))  '所保存的结果Csv文件
 
-            Dim RegulatorsBestMatch As SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH() =
-            bh.LoadCsv(Of SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH).ToArray
+            Dim RegulatorsBestMatch As Regprecise.RegpreciseMPBBH() = bh.LoadCsv(Of Regprecise.RegpreciseMPBBH).ToArray
             Dim DoorOperons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
             Dim RegulatorIdList As String() = (From item In RegulatorsBestMatch Select item.QueryName Distinct).ToArray
 

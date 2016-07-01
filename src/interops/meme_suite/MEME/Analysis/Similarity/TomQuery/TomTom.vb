@@ -28,13 +28,13 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Analysis.Similarity.TOMQuery
 

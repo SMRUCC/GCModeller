@@ -1,44 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::8f60587a7d80e2d0094b4fb9da6957a0, ..\interops\meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Threading.Tasks.Parallel
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.WGCNA
 
 Namespace Workflows.PromoterParser
 
@@ -195,16 +196,16 @@ Namespace Workflows.PromoterParser
             End Sub
 
             Public Sub __extractFromString(stringEntry As String)
-                Dim entry = stringEntry.LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.MIF25.EntrySet)(ThrowEx:=False)
+                Dim entry = stringEntry.LoadXml(Of StringDB.MIF25.EntrySet)(ThrowEx:=False)
 
                 If entry Is Nothing Then
                     Return
                 End If
 
-                Dim Interactions As DatabaseServices.StringDB.SimpleCsv.PitrNode() = entry.ExtractNetwork
+                Dim Interactions As StringDB.SimpleCsv.PitrNode() = entry.ExtractNetwork
                 Dim GeneId As String = Strings.Split(stringEntry.Replace("\", "/"), "/").Last.Split(CChar(".")).First
                 Dim Door = Parser.PromoterParser.DoorOperonView.Select(GeneId)
-                Dim InteractingGeneIds As String() = (From intr As DatabaseServices.StringDB.SimpleCsv.PitrNode
+                Dim InteractingGeneIds As String() = (From intr As StringDB.SimpleCsv.PitrNode
                                                       In Interactions
                                                       Let Itr_Id As String = intr.GetInteractNode(GeneId)
                                                       Where Not String.IsNullOrEmpty(Itr_Id)

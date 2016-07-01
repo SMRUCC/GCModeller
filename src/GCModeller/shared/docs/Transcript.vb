@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Data.Linq.Mapping
+Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
-Imports Microsoft.VisualBasic
 
 Namespace DocumentFormat
 

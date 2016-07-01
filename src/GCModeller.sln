@@ -291,6 +291,8 @@ Global
 		GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{1dc0341c-37f5-45a6-b486-337edc2bad76}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{2b903b81-95f4-455f-b892-d2ac36167453}*SharedItemsImports = 4
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{2bde773e-2206-4828-8a2b-7b5e933a7df5}*SharedItemsImports = 13
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{2e8a689a-3bec-4504-9d02-80082c732653}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{2e8a689a-3bec-4504-9d02-80082c732653}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{5af62b58-443a-419e-90fe-0e8dafa71a51}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{5af62b58-443a-419e-90fe-0e8dafa71a51}*SharedItemsImports = 4
@@ -300,6 +302,9 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{804eb81c-493a-49ef-95a9-dbf800fa4a08}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
+		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
 		runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Framework.DynamicProgramming\DP_lib\DP_lib.projitems*{a903b744-c08d-4869-bc35-3dd25e36aa16}*SharedItemsImports = 4
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4

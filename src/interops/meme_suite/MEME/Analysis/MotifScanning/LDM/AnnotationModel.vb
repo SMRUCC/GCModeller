@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.DatabaseServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 
 Namespace Analysis.MotifScans
 

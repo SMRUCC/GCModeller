@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 Namespace Analysis.FootprintTraceAPI

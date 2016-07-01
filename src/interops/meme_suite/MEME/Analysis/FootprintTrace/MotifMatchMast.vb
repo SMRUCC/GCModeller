@@ -26,26 +26,26 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.FootprintTraceAPI
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.Text
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
-Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Assembly.DOOR
-Imports SMRUCC.genomics.ComponentModel.Loci
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Terminal.Utility
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Analysis.FootprintTraceAPI
 

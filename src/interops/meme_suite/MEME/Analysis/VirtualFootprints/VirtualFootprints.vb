@@ -26,17 +26,17 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MAST.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MAST.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Analysis.GenomeMotifFootPrints
 
@@ -44,9 +44,9 @@ Namespace Analysis.GenomeMotifFootPrints
     ''' Site information data which only contains the motif information.(只有Motif位点信息的对象)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class VirtualFootprints : Inherits DocumentFormat.VirtualFootprints
+    Public Class VirtualFootprints : Inherits Model.Network.VirtualFootprint.DocumentFormat.VirtualFootprints
 
-        Public Shared Function FamilyFromId(x As DocumentFormat.VirtualFootprints) As String
+        Public Shared Function FamilyFromId(x As VirtualFootprints) As String
             Return x.MotifId.Split("."c).First
         End Function
 
@@ -131,7 +131,7 @@ Namespace Analysis.GenomeMotifFootPrints
             Throw New NotImplementedException
         End Function
 
-        Friend Shared Function __motifLociAssignPosDescrib(Of T As IGeneBrief, TFootprint As DocumentFormat.VirtualFootprints)(
+        Friend Shared Function __motifLociAssignPosDescrib(Of T As IGeneBrief, TFootprint As Model.Network.VirtualFootprint.DocumentFormat.VirtualFootprints)(
                                     PredictedRegulation As TFootprint,
                                     Relation As SegmentRelationships,
                                     GeneSegment As T,

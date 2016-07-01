@@ -35,12 +35,12 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Linq
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.ContextModel
 
 Namespace Workflows.PromoterParser

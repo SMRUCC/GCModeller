@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.Assembly.DOOR
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 
 Namespace Analysis.FootprintTraceAPI
 

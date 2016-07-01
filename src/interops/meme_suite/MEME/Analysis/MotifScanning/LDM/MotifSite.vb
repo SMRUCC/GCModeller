@@ -26,16 +26,16 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.FootprintTraceAPI
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME
-Imports SMRUCC.genomics.Assembly.DOOR
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Analysis.MotifScans
 

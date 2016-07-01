@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.FimoTable" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.FimoTable" Collapsed="true">
     <Position X="47.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACgIAAAQCAAAEAAAEgAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FimoTable.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.MatchedResult" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.MatchedResult" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="49" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAYAAACAAQGAAAkIACEEAACAAgAAIAAAAYARCABE=</HashCode>
@@ -15,48 +15,48 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.STAMP" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.STAMP" Collapsed="true">
     <Position X="47.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIIAIAAAAAIAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>STAMP.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.MEME">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.MEME">
     <Position X="5" Y="11.75" Width="3.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEMEXmlBase">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEMEXmlBase">
     <Position X="5.25" Y="9.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettings" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.MySettings" Collapsed="true">
     <Position X="40.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Programs.MAST" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs.MAST" Collapsed="true">
     <Position X="43.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgBBAAAICkEFABCBAAQkAAEAAAAISAQAAAQgFEI=</HashCode>
       <FileName>Programs\MAST.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Programs.MEME" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs.MEME" Collapsed="true">
     <Position X="50.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAggEQABAIgoAkQABJAQEYAQAAApAFBlQgARAIIQE1E=</HashCode>
       <FileName>Programs\MEME.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint">
     <Position X="13.5" Y="9" Width="12.75" />
     <TypeIdentifier>
       <HashCode>AAIBAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAEABA=</HashCode>
@@ -64,20 +64,20 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints">
     <Position X="27" Y="4.25" Width="12.25" />
     <TypeIdentifier>
       <HashCode>AQIAACAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\VirtualFootprints\VirtualFootprints.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.GenePromoterParser">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.GenePromoterParser">
     <Position X="13.25" Y="17.25" Width="8.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.GenePromoterParser.GeneIDList">
+      <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.GenePromoterParser.GeneIDList">
         <TypeIdentifier>
           <NewMemberFileName>Workflows\PromoterParser\GenePromoterParser.vb</NewMemberFileName>
         </TypeIdentifier>
@@ -89,7 +89,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.OperonPromoterParser">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.OperonPromoterParser">
     <Position X="22.5" Y="17.25" Width="9" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAICAAAAAAAAQAAAAAAAAAAgAAAAAAAgAAAQA=</HashCode>
@@ -97,14 +97,14 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.DataPreparingParser" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.DataPreparingParser" Collapsed="true">
     <Position X="40.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAgAABQAEAAAAgAIAAAQAAAgCACAAAAAAAMAA=</HashCode>
       <FileName>Workflows\PromoterParser\Parser.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.PromoterParser">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.PromoterParser">
     <Position X="20.5" Y="11.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAACAAAACAABAAAAAAAAgAAAAAAAAAAAAAAIgCQ5RI=</HashCode>
@@ -112,28 +112,28 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.Transcript" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.Transcript" Collapsed="true">
     <Position X="40.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAGMCAAAAABACAgkQEABAABCAgAAAgwBDACAAAAAAIA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\GCModeller\Shared.DocumentFormats\Transcript.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans.ResidueSite" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.ResidueSite" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="40.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Analysis\MotifScanning\LDM\ResidueSite.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans.Site" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.Site" Collapsed="true">
     <Position X="42" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAAQAABAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\MotifScanning\LDM\Site.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans.AnnotationModel" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.AnnotationModel" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="45.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAEAQEBRAAAEAAAgAAAgAAAABAYQIAAAA=</HashCode>
@@ -141,23 +141,23 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.ValueBase" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.ValueBase" Collapsed="true">
     <Position X="43.75" Y="7.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.Model">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.Model">
     <Position X="0.75" Y="3" Width="3" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.Motif" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.Motif" Collapsed="true">
     <Position X="43.75" Y="3.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST">
     <Position X="0.75" Y="11.75" Width="3.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans.MastSites" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.MastSites" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="45.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACKAAQAACAAEAQAAFAoAABAAAAAEFAIABAAAAAABEI=</HashCode>
@@ -165,83 +165,83 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.MotifSite" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.MotifSite" Collapsed="true">
     <Position X="50.75" Y="3.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.Correlation" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.Correlation" Collapsed="true">
     <Position X="52.5" Y="0.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.DbProperty" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.DbProperty" Collapsed="true">
     <Position X="42" Y="1.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.SequenceList" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.SequenceList" Collapsed="true">
     <Position X="40.25" Y="6.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.SequenceDescript" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.SequenceDescript" Collapsed="true">
     <Position X="52.5" Y="5.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.Score" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.Score" Collapsed="true">
     <Position X="47.25" Y="5.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.Segment" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.Segment" Collapsed="true">
     <Position X="50.75" Y="5.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.HitResult" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.HitResult" Collapsed="true">
     <Position X="52.5" Y="1.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.RuntimeEnvironment" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.RuntimeEnvironment" Collapsed="true">
     <Position X="43.75" Y="5.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.Model">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.Model">
     <Position X="4.5" Y="3" Width="3.75" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.BackgroundFrequencies" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.BackgroundFrequencies" Collapsed="true">
     <Position X="49" Y="0.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.AlphabetArray" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.AlphabetArray" Collapsed="true">
     <Position X="43.75" Y="0.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.ScannedSitesSummary" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.ScannedSitesSummary" Collapsed="true">
     <Position X="45.5" Y="5.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.TrainingSet" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.TrainingSet" Collapsed="true">
     <Position X="52.5" Y="6.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.LetterFrequencies" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.LetterFrequencies" Collapsed="true">
     <Position X="42" Y="2.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.Alphabet" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.Alphabet" Collapsed="true">
     <Position X="42" Y="0.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.ModelBase">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.ModelBase">
     <Position X="5" Y="0.5" Width="2" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.Scores" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.Scores" Collapsed="true">
     <Position X="49" Y="5.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MEME.Motif" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME.Motif" Collapsed="true">
     <Position X="40.25" Y="3.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.File" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.File" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="45.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>LSJBEIAAACDAAAAAAAAAAIAoAAGBAAACAABAABAAABA=</HashCode>
@@ -249,35 +249,35 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Programs.C2" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Programs.C2" Collapsed="true">
     <Position X="50.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\C2.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Programs.GCC" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Programs.GCC" Collapsed="true">
     <Position X="49" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCC.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Programs.GCHOST" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Programs.GCHOST" Collapsed="true">
     <Position X="50.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCHOST.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Programs.IDE" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Programs.IDE" Collapsed="true">
     <Position X="40.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAgQAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\IDE.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Programs.MPAlignment" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Programs.MPAlignment" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="52.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAICAIAAACAAEAAAAAAAAAAAACAAAAABAAEAAgAA=</HashCode>
@@ -285,126 +285,126 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Programs.SMART" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Programs.SMART" Collapsed="true">
     <Position X="43.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\SMART.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Programs.STAMP" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Programs.STAMP" Collapsed="true">
     <Position X="45.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\STAMP.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Regulon" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Regulon" Collapsed="true">
     <Position X="50.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>LAAAoABAAIAAQAgAQAIAAAAAACAgABBAAAAAAAABBBA=</HashCode>
       <FileName>Analysis\RegulonDef.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.Output" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.Output" Collapsed="true">
     <Position X="42" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAggAAAAAACAAAAICAAAAEAAAAAAgABYAAAAAAAAg=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\SwTom\Output.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.Parameters" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.Parameters" Collapsed="true">
     <Position X="43.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIACAAAAAgBAAAEAAAgAAAAAAAAAAAAAAAgICAAACA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\SwTom\Parameters.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.SWAlignment" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.SWAlignment" Collapsed="true">
     <Position X="49" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\SwTom\SWTom.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.TomOUT">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.TomOUT">
     <Position X="0.5" Y="15.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAKAAABAAAAAAAAgAAAAAAIAAAAA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\TomOUT.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.SW_HSP">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.SW_HSP">
     <Position X="0.75" Y="18.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAgEAAAAAAAAAAAIAAAAAAAAAAAQAAA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\TomOUT.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.TOMXml">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.TOMXml">
     <Position X="9.25" Y="11.75" Width="2" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.runtime" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.runtime" Collapsed="true">
     <Position X="42" Y="5.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.target_file">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.target_file">
     <Position X="14.75" Y="3" Width="1.75" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.queries" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.queries" Collapsed="true">
     <Position X="47.25" Y="4.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.MotifFile">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.MotifFile">
     <Position X="13.5" Y="0.5" Width="2" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.query_file">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.query_file">
     <Position X="12.5" Y="3" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.query" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.query" Collapsed="true">
     <Position X="49" Y="4.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.match" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.match" Collapsed="true">
     <Position X="47.25" Y="2.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.motif" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.motif" Collapsed="true">
     <Position X="52.5" Y="2.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.pos" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.pos" Collapsed="true">
     <Position X="45.5" Y="4.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.Model">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.Model">
     <Position X="9" Y="3" Width="2.25" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.value" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.value" Collapsed="true">
     <Position X="42" Y="7.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.threshold" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.threshold" Collapsed="true">
     <Position X="50.75" Y="6.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TomTOM.background" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TomTOM.background" Collapsed="true">
     <Position X="47.25" Y="0.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.SequenceLogo.DrawingModel" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.SequenceLogo.DrawingModel" Collapsed="true">
     <Position X="43.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAEAEAACAAABAQAAgAAAEAAAAAIAAA=</HashCode>
       <FileName>SequenceLogo\DrawingModel.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.SequenceLogo.Residue" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.SequenceLogo.Residue" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="52.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAASAAAAAEAAIAAIAAAAAACAAAAAAAAgAAAAA=</HashCode>
@@ -412,21 +412,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.SequenceLogo.Alphabet" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.SequenceLogo.Alphabet" Collapsed="true">
     <Position X="40.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAFAAAAAAEAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>SequenceLogo\Residue.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.RegulonParser">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.RegulonParser">
     <Position X="15" Y="25.5" Width="5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Workflows\PromoterParser\RegulonParser.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.RegulatesFootprints">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.RegulatesFootprints">
     <Position X="18.75" Y="4.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>IAIgEAAAAAAgAAAEAAAgCEAIAEAIAAAAAQAAAAQgCAA=</HashCode>
@@ -434,7 +434,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.VirtualFootprints">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.VirtualFootprints">
     <Position X="24.5" Y="0.5" Width="4" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAEAEAkAAAABAABAIAAJAAAAAAAEAAAE=</HashCode>
@@ -442,7 +442,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.MotifHit" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.MotifHit" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="49" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIAAgAAAAAAACIAEAIAAAAAAAAAgAggAAQAAAAAAAAA=</HashCode>
@@ -450,7 +450,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifDb.Motif" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifDb.Motif" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="42" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACAEAgAAIFAAAAAAAEAAAARAAAAABAE=</HashCode>
@@ -458,14 +458,14 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifDb.MotifDatabase" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifDb.MotifDatabase" Collapsed="true">
     <Position X="45.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\VirtualFootprints\MotifDb\MotifDatabase.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifDb.MotifFamily" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifDb.MotifFamily" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="47.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
@@ -473,194 +473,194 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Interface Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans.IMotifTrace">
+  <Interface Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.IMotifTrace">
     <Position X="0.5" Y="6.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\MotifScanning\Abstract.vb</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans.IFootprintTrace">
+  <Interface Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.IFootprintTrace">
     <Position X="0.5" Y="8.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\MotifScanning\Abstract.vb</FileName>
     </TypeIdentifier>
   </Interface>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Program" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Program" Collapsed="true">
     <Position X="52.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAIAAAA=</HashCode>
       <FileName>Programs\Program.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.My.Resources.Resources" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources" Collapsed="true">
     <Position X="42" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.My.MySettingsProperty" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.MySettingsProperty" Collapsed="true">
     <Position X="49" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifFootPrintsGenerates" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifFootPrintsGenerates" Collapsed="true">
     <Position X="45.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>FBABEEAAAAQUAgAAAAgAIAQAAAAAUABAADoAACkAUgA=</HashCode>
       <FileName>Analysis\VirtualFootprints\MotifFootPrintsGenerates.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.MAST_OUT" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.MAST_OUT" Collapsed="true">
     <Position X="52.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Workflows\MAST_OUT.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.MEME_Analysis_ACtions" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.MEME_Analysis_ACtions" Collapsed="true">
     <Position X="40.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAQBBAAAAAAAIAAAAAAABAQAAY=</HashCode>
       <FileName>Workflows\MEME_Analysis_Actions.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.MEME_OUT" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.MEME_OUT" Collapsed="true">
     <Position X="42" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Workflows\MEME_OUT.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.HtmlMatching" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.HtmlMatching" Collapsed="true">
     <Position X="49" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAiAgAAAAAJAAAAAkEJAAAAIhIAAAAAAAEAAAQAAAI=</HashCode>
       <FileName>Analysis\HtmlMatchs.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifLoci" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifLoci" Collapsed="true">
     <Position X="47.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAEQAAgAAAAAIAAAAAAAAAAgAAAAAgAAAAAA=</HashCode>
       <FileName>Analysis\MotifLoci.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.MotifDeltaSimilarity" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.MotifDeltaSimilarity" Collapsed="true">
     <Position X="43.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAACAAAACAQAAARAAAAAAAAAQhAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\Similarity\MotifDeltaSimilarity.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70" Collapsed="true">
     <Position X="50.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAADAAAAAQAAAAAAAAAAIAAACIAAAAAABQAAAgAAAAA=</HashCode>
       <FileName>Workflows\PromoterParser\IntergenicSigma70.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Settings.Session" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.Session" Collapsed="true">
     <Position X="45.5" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEYgAAACAAwAQABAAAAAkJIYKAEAQAAAAQAAAgQI=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Session\Session.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.GCModeller.FileSystem.FileSystem" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.GCModeller.FileSystem.FileSystem" Collapsed="true">
     <Position X="47.25" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAAQAAAAEAAiBIQARAAAAAACUAAACAAAAAhEAAABA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\FileSystem.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.GCModeller.FileSystem.Xfam.Pfam" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.GCModeller.FileSystem.Xfam.Pfam" Collapsed="true">
     <Position X="50.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Xfam\Pfam.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.GCModeller.FileSystem.Xfam.Rfam" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.GCModeller.FileSystem.Xfam.Rfam" Collapsed="true">
     <Position X="43.75" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Xfam\Rfam.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.ExtProperty" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.ExtProperty" Collapsed="true">
     <Position X="45.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEgAAACAAACAAAAAAAIAAAIAAAAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\GCModeller\Shared.DocumentFormats\ExtProperty.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.TSSsDataViews" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.TSSsDataViews" Collapsed="true">
     <Position X="42" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACEAAAACAAAAAAAAAAABAAKAAAAAAAAAAAAAAQAAAAA=</HashCode>
       <FileName>E:\GCModeller\GCI Project\GCModeller\Shared.DocumentFormats\Views.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.RegulonDef" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.RegulonDef" Collapsed="true">
     <Position X="40.25" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAABAEEAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\RegulonDef.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans.SiteScanner" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.SiteScanner" Collapsed="true">
     <Position X="47.25" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\MotifScanning\SiteScanner.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.Encoder" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.Encoder" Collapsed="true">
     <Position X="43.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\Encoder.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.SWTom" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.SWTom" Collapsed="true">
     <Position X="49" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAQAAAAIAAAAAAAAAAAAAAAAAABBAAAAAAAA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\SwTom\SWTom.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.TomTOm" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.TomTOm" Collapsed="true">
     <Position X="50.75" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAICAAAACAYAMIAAAAABAAAQAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\TomTom.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery.TomVisual" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.TomVisual" Collapsed="true">
     <Position X="40.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAAAACAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Analysis\Similarity\TomQuery\TomVisual.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.TomTOM" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.TomTOM" Collapsed="true">
     <Position X="52.5" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAAQIgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Programs\TomTOM.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.SequenceLogo.ColorSchema" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.SequenceLogo.ColorSchema" Collapsed="true">
     <Position X="40.25" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAACAAAAAAA=</HashCode>
       <FileName>SequenceLogo\ColorSchema.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.SequenceLogo.DrawingDevice" Collapsed="true">
+  <Module Name="SMRUCC.genomics.Interops.NBCR.MEME_Suite.SequenceLogo.DrawingDevice" Collapsed="true">
     <Position X="42" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIBAAEAAQAQAAAAQAIAAAAgAAAAgAAAAAAAAA=</HashCode>

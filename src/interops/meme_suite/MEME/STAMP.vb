@@ -27,7 +27,7 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 

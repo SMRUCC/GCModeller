@@ -26,16 +26,13 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.CRISPR.SearchingModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService
-Imports LANS.SystemsBiology
-Imports SMRUCC.genomics.NCBI.Extensions.Analysis
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Output
 

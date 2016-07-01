@@ -26,7 +26,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.ComponentModels
