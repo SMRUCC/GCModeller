@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DB85640A-0767-4B91-983E-66738D81BD6D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>LANS.SystemsBiology.NCBI.Extensions.Program</StartupObject>
-    <RootNamespace>LANS.SystemsBiology.NCBI.Extensions</RootNamespace>
+    <StartupObject>NCBI.localblast.Program</StartupObject>
+    <RootNamespace>NCBI.localblast</RootNamespace>
     <AssemblyName>localblast</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
@@ -243,13 +243,13 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Localblast.Extensions.VennDiagram\Localblast.Extensions.VennDiagram.vbproj">
+    <ProjectReference Include="..\Localblast.Extensions.VennDiagram\localblast.Extensions.VennDiagram.vbproj">
       <Project>{2e8a689a-3bec-4504-9d02-80082c732653}</Project>
-      <Name>Localblast.Extensions.VennDiagram</Name>
+      <Name>localblast.Extensions.VennDiagram</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -195,9 +195,9 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
       <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>

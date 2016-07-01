@@ -1,11 +1,11 @@
-﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace NCBIBlastResult
 

@@ -18,7 +18,7 @@ Namespace LocalBLAST.Application.BBH
         ''' 本地BLAST的中间服务
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Friend _LocalBLASTService As Global.SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService
+        Protected Friend _LocalBLASTService As LocalBLAST.InteropService.InteropService
         Protected Friend _WorkDir As String
 
         Public ReadOnly Property WorkDir As String
@@ -27,13 +27,13 @@ Namespace LocalBLAST.Application.BBH
             End Get
         End Property
 
-        Public ReadOnly Property LocalBLASTServices As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService
+        Public ReadOnly Property LocalBLASTServices As LocalBLAST.InteropService.InteropService
             Get
                 Return Me._LocalBLASTService
             End Get
         End Property
 
-        Sub New(LocalBLAST As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService.InteropService, WorkDir As String)
+        Sub New(LocalBLAST As LocalBLAST.InteropService.InteropService, WorkDir As String)
             Me._WorkDir = WorkDir
             Me._LocalBLASTService = LocalBLAST
         End Sub

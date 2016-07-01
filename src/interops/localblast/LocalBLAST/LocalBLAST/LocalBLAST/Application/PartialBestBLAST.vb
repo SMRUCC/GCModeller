@@ -1,8 +1,10 @@
-﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Text
+﻿Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Namespace LocalBLAST.Application
 
@@ -16,11 +18,11 @@ Namespace LocalBLAST.Application
         ''' 本地BLAST的中间服务
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Friend LocalBLAST As Global.SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus
-        Protected Friend WorkDir As String
+        Protected Friend LocalBLAST As LocalBLAST.Programs.BLASTPlus
+        Protected Friend WorkDIR As String
 
-        Sub New(LocalBLAST As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus, WorkDir As String)
-            Me.WorkDir = WorkDir
+        Sub New(LocalBLAST As LocalBLAST.Programs.BLASTPlus, workDIR As String)
+            Me.WorkDIR = workDIR
             Me.LocalBLAST = LocalBLAST
         End Sub
 
@@ -39,7 +41,7 @@ Namespace LocalBLAST.Application
 
             Call LocalBLAST.FormatDb(Subject, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
             '在这里将evalue值设置为较大的一个数值是因为做部分比对的时候，Query会有一部分无法被比对上，会导致evalue值过大，取较小的evalue值会将某些阳性数据丢弃
-            Call LocalBLAST.Blastp(Query, Subject, String.Format("{0}/{1}_.vs._{2}.txt", WorkDir, FileIO.FileSystem.GetName(Query), FileIO.FileSystem.GetName(Subject)), 1000000).Start(WaitForExit:=True)
+            Call LocalBLAST.Blastp(Query, Subject, String.Format("{0}/{1}_.vs._{2}.txt", WorkDIR, FileIO.FileSystem.GetName(Query), FileIO.FileSystem.GetName(Subject)), 1000000).Start(WaitForExit:=True)
             Dim LogOutput = DirectCast(LocalBLAST.GetLastLogFile, BLASTOutput.BlastPlus.v228)
             Call LogOutput.Grep(QueryGrepMethod, HitsGrepMethod)
 
@@ -61,8 +63,8 @@ Namespace LocalBLAST.Application
             Return List.ToCsvDoc(False)
         End Function
 
-        Public Shared Function ExportAllPartialBesthit(LogOutput As NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
-            Dim List As List(Of LocalBLAST.Application.BBH.BestHit) = New List(Of LocalBLAST.Application.BBH.BestHit)
+        Public Shared Function ExportAllPartialBesthit(LogOutput As v228) As DocumentStream.File
+            Dim List As New List(Of LocalBLAST.Application.BBH.BestHit)
             For Each Query In LogOutput.Queries
                 Call List.AddRange(GetPartialBesthit(Query))
             Next
@@ -70,17 +72,36 @@ Namespace LocalBLAST.Application
             Return List.ToCsvDoc(False)
         End Function
 
-        Protected Friend Shared Function GetPartialBesthit(Query As LocalBLAST.BLASTOutput.BlastPlus.Query) As LocalBLAST.Application.BBH.BestHit()
+        Protected Friend Shared Function GetPartialBesthit(Query As Query) As BBH.BestHit()
             If Query.SubjectHits.IsNullOrEmpty Then
-                Return New LocalBLAST.Application.BBH.BestHit() {}
+                Return New BBH.BestHit() {}
             Else
-                Dim LQuery = (From hit In Query.SubjectHits Where System.Math.Abs(hit.LengthHit - hit.Length) / hit.Length < 0.05 AndAlso (hit.Hsp.First.Query.Left >= 0 AndAlso hit.Hsp.Last.Query.Right <= Query.QueryLength) Select hit).ToArray
-                Dim result = (From hit In LQuery Let score = hit.Score
-                              Let partialBesthit = New LocalBLAST.Application.BBH.BestHit With {
-                                  .evalue = score.Expect, .hit_length = hit.Length, .HitName = hit.Name, .identities = score.Identities.Value,
-                                  .length_hit = hit.LengthHit, .length_hsp = score.Gaps.Denominator, .length_query = score.Gaps.Numerator, .Positive = score.Positives.Value,
-                                  .query_length = Query.QueryLength, .QueryName = Query.QueryName, .Score = score.RawScore}
-                              Select partialBesthit Order By partialBesthit.Score Descending).ToArray
+                Dim LQuery As SubjectHit() =
+                    LinqAPI.Exec(Of SubjectHit) <= From hit As SubjectHit
+                                                   In Query.SubjectHits
+                                                   Where Math.Abs(hit.LengthHit - hit.Length) / hit.Length < 0.05 AndAlso
+                                                       (hit.Hsp.First.Query.Left >= 0 AndAlso
+                                                       hit.Hsp.Last.Query.Right <= Query.QueryLength)
+                                                   Select hit
+                Dim result As BBH.BestHit() =
+                    LinqAPI.Exec(Of BBH.BestHit) <= From hit As SubjectHit
+                                                    In LQuery
+                                                    Let score = hit.Score
+                                                    Let partialBesthit = New BBH.BestHit With {
+                                                        .evalue = score.Expect,
+                                                        .hit_length = hit.Length,
+                                                        .HitName = hit.Name,
+                                                        .identities = score.Identities.Value,
+                                                        .length_hit = hit.LengthHit,
+                                                        .length_hsp = score.Gaps.Denominator,
+                                                        .length_query = score.Gaps.Numerator,
+                                                        .Positive = score.Positives.Value,
+                                                        .query_length = Query.QueryLength,
+                                                        .QueryName = Query.QueryName,
+                                                        .Score = score.RawScore
+                                                    }
+                                                    Select partialBesthit
+                                                    Order By partialBesthit.Score Descending
                 Return result
             End If
         End Function

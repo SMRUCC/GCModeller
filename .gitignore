@@ -16,6 +16,9 @@ local.properties
 .settings/
 .loadpath
 
+bin-Debug/
+GCModeller-[Xx]64/
+
 # External tool builders
 .externalToolBuilders/
 

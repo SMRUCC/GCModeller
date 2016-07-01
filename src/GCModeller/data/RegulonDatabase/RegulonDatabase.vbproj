@@ -367,9 +367,9 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>

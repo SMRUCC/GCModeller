@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.InteropService
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 
 Namespace Analysis
 

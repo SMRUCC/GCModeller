@@ -223,11 +223,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "interops", "interops", "{7E
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CARMEN", "interops\CARMEN\CARMEN.vbproj", "{5AF62B58-443A-419E-90FE-0E8DAFA71A51}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LANS.SystemsBiology.NCBI.Extensions", "interops\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj", "{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NCBI.Extensions.localblast", "interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj", "{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "localblast", "localblast", "{6E24DAEC-E904-4DEB-A64D-E488317001D9}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Localblast.Extensions.VennDiagram", "interops\localblast\Localblast.Extensions.VennDiagram\Localblast.Extensions.VennDiagram.vbproj", "{2E8A689A-3BEC-4504-9D02-80082C732653}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "localblast.Extensions.VennDiagram", "interops\localblast\Localblast.Extensions.VennDiagram\localblast.Extensions.VennDiagram.vbproj", "{2E8A689A-3BEC-4504-9D02-80082C732653}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "localblast", "interops\localblast\Tools\localblast.vbproj", "{DB85640A-0767-4B91-983E-66738D81BD6D}"
 EndProject

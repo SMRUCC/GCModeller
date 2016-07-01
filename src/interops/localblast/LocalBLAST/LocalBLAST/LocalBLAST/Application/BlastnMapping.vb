@@ -1,8 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace LocalBLAST.Application

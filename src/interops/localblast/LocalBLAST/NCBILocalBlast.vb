@@ -1,23 +1,26 @@
 ﻿Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports Microsoft.VisualBasic.Parallel.Threads
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Assembly.Expasy.Database
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' ShoalShell API interface for ncbi localblast operations.
 ''' </summary>
 ''' <remarks></remarks>
-<PackageNamespace("NCBI.LocalBLAST", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
+<PackageNamespace("NCBI.LocalBLAST",
+                  Category:=APICategories.ResearchTools,
+                  Publisher:="xie.guigang@gmail.com")>
 Public Module NCBILocalBlast
 
     ''' <summary>
@@ -32,13 +35,18 @@ Public Module NCBILocalBlast
             Return False
         End If
 
-        Dim Queries = (From strLine As String In IO.File.ReadAllLines(BlastOUTPUT)
-                       Let Entry As String = Regex.Match(strLine, "Query\s*=\s*.+").Value
-                       Where Not String.IsNullOrEmpty(Entry)
-                       Select Regex.Replace(Entry, "Query\s*=\s*", "").Trim).ToArray
+        Dim Queries As String() =
+            LinqAPI.Exec(Of String) <= From strLine As String
+                                       In IO.File.ReadAllLines(BlastOUTPUT)
+                                       Let Entry As String =
+                                           Regex.Match(strLine, "Query\s*=\s*.+").Value
+                                       Where Not String.IsNullOrEmpty(Entry)
+                                       Select Regex.Replace(Entry, "Query\s*=\s*", "").Trim
+
         If Queries.Length <> query.NumberOfFasta Then
             Return False
         End If
+
         Dim CompareLQuery = (From fa As FASTA.FastaToken
                              In query
                              Let InternalIntegrity As Boolean = __integrity(fa, Queries)
@@ -59,14 +67,19 @@ Public Module NCBILocalBlast
 #If DEBUG Then
     <ExportAPI("test.score_parsing")>
     Public Function ParseScore(s As String) As LocalBLAST.BLASTOutput.ComponentModel.Score
-        Return LocalBLAST.BLASTOutput.ComponentModel.Score.TryParse(Of LocalBLAST.BLASTOutput.ComponentModel.Score)(s)
+        Return LocalBLAST.BLASTOutput.ComponentModel.Score.TryParse(s)
     End Function
 #End If
 
+    ''' <summary>
+    ''' Write the blast output data as a Xml data file.
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="SaveTo">The file path of the blast output xml data will be saved.</param>
+    ''' <returns></returns>
     <ExportAPI("Write.Xml.Blast_Output", Info:="Write the blast output data as a Xml data file.")>
     Public Function SaveBlastOutput(data As IBlastOutput,
-                                    <Parameter("Path.SaveTo", "The file path of the blast output xml data will be saved.")>
-                                    SaveTo As String) As Boolean
+                                    <Parameter("Path.SaveTo", "The file path of the blast output xml data will be saved.")> SaveTo As String) As Boolean
         Return data.Save(SaveTo, Encodings.UTF8)
     End Function
 

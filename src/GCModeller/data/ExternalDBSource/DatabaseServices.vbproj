@@ -437,9 +437,9 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>

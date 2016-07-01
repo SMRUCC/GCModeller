@@ -1,10 +1,10 @@
 ﻿Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace LocalBLAST.BLASTOutput
 

@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Extensions

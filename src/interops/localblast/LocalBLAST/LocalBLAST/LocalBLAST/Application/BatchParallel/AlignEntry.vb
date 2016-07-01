@@ -1,4 +1,4 @@
-﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
+﻿Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic.Language
 
 Namespace LocalBLAST.Application.BatchParallel

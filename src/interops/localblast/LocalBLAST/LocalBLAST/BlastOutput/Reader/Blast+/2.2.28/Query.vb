@@ -1,9 +1,9 @@
-﻿Imports System.Text.RegularExpressions
-Imports System.Text
+﻿Imports System.Text
+Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 

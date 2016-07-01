@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language.UnixBash

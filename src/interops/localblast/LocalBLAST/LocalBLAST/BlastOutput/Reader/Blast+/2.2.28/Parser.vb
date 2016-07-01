@@ -1,12 +1,12 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Reflection
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 

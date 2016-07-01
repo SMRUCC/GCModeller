@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 

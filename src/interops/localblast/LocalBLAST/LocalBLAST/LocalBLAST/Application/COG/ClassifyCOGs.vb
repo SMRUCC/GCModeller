@@ -1,8 +1,7 @@
-﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
 
 Namespace LocalBLAST.Application.RpsBLAST
 

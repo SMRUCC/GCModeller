@@ -1,10 +1,11 @@
-﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace LocalBLAST.Application.BBH
 
@@ -73,9 +74,12 @@ Namespace LocalBLAST.Application.BBH
         Public Delegate Function GetDescriptionHandle(locusId As String) As String
 
         Public Shared Function MatchDescription(data As BiDirectionalBesthit(), sourceDescription As GetDescriptionHandle) As BiDirectionalBesthit()
-            Dim LQuery = (From ItemObject As BiDirectionalBesthit In data.AsParallel
-                          Let desc As String = sourceDescription(locusId:=ItemObject.QueryName)
-                          Select ItemObject.InvokeSet(NameOf(ItemObject.Description), desc)).ToArray
+            Dim setValue = New SetValue(Of BiDirectionalBesthit) <= NameOf(BiDirectionalBesthit.Description)
+            Dim LQuery As BiDirectionalBesthit() =
+                LinqAPI.Exec(Of BiDirectionalBesthit) <= From bbh As BiDirectionalBesthit
+                                                         In data.AsParallel
+                                                         Let desc As String = sourceDescription(locusId:=bbh.QueryName)
+                                                         Select setValue(bbh, desc)
             Return LQuery
         End Function
     End Class

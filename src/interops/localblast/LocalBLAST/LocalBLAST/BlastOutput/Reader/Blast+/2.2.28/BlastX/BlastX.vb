@@ -1,9 +1,9 @@
-﻿Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
-Imports Microsoft.VisualBasic.Text
+﻿Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
-Imports System.Text
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 

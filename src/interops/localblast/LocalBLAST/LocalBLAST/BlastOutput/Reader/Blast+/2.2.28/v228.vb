@@ -2,14 +2,14 @@
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.Language
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 

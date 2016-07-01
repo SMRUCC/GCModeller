@@ -1,21 +1,21 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic
-Imports Entry = System.Collections.Generic.KeyValuePair(Of
-    SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
-    SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BatchParallel
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Parallel.Tasks
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports Entry = System.Collections.Generic.KeyValuePair(Of
+    SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
+    SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
 
 Namespace Analysis
 

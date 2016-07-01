@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Text
 
