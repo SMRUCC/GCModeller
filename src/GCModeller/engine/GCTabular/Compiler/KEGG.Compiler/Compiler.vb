@@ -1,48 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::fb23077749cbc047f0745810de59c9dd, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.Model.SBML
 
 Namespace KEGG.Compiler
 
     <[PackageNamespace]("GCModeller.KEGG.Compiler", Category:=APICategories.UtilityTools,
                         Description:="For the first time of the model compiles operation, a active network connection to the KEGG database server maybe required.")>
-    Public Class Compiler : Inherits CsvTabular.Compiler.Compiler
+    Public Class Compiler : Inherits GCTabular.Compiler.Compiler
 
         Dim MetaCycAll As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
         Dim _RegpreciseRegulatorBh As RegpreciseMPBBH()
@@ -90,14 +93,14 @@ Namespace KEGG.Compiler
             Me._ModelIO.SystemVariables = SystemVariables.CreateDefault.ToList
 
             Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(FilePath:=argvs("-door"))
-            Dim Footprints = argvs("-footprints").LoadCsv(Of DocumentFormat.RegulatesFootprints)(False)
+            Dim Footprints = argvs("-footprints").LoadCsv(Of RegulatesFootprints)(False)
 
             'Me.PccMatrix = SMRUCC.genomics.Toolkits.RNASeq.ChipData.LoadChipData(argvs("-chipdata")).CalculatePccMatrix
             Me._ModelIO.DoorOperon = (From Operon In Door.DOOROperonView.Operons Select Operon.ConvertToCsvData).ToArray
             Me._ModelIO.CellSystemModel.OperonCounts = _ModelIO.DoorOperon.Count
             Me._Door = Door
 
-            Call CsvTabular.RegulationNetworkFromFootprints.CompileFootprintsData(data:=Footprints,
+            Call GCTabular.RegulationNetworkFromFootprints.CompileFootprintsData(data:=Footprints,
                                                                                   PccMatrix:=PccMatrix,
                                                                                   OperonData:=Door.DOOROperonView,
                                                                                   TranscriptUnits:=Me._ModelIO.TranscriptionModel,
@@ -152,22 +155,22 @@ Namespace KEGG.Compiler
                                                                                 KEGGReactions.Key,
                                                                                 KEGGCompounds.Key,
                                                                                 Me._Logging).ToList
-            Me._ModelIO.EffectorMapping = Effectors.MappingEffectors(MetaCycAll, _ModelIO.MetabolitesModel.Values.ToList, argvs("-regprecise").LoadXml(Of SMRUCC.genomics.DatabaseServices.Regprecise.TranscriptionFactors))
-            Me._RegpreciseRegulatorBh = argvs("-regulator_bh").LoadCsv(Of SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH)(False).ToArray
+            Me._ModelIO.EffectorMapping = Effectors.MappingEffectors(MetaCycAll, _ModelIO.MetabolitesModel.Values.ToList, argvs("-regprecise").LoadXml(Of TranscriptionFactors))
+            Me._RegpreciseRegulatorBh = argvs("-regulator_bh").LoadCsv(Of RegpreciseMPBBH)(False).ToArray
             'Me._ModelIO.EffectorMapping = MappingKEGGCompoundsRegprecise(KEGGCompounds:=_ModelIO.MetabolitesModel.Values.ToArray, Regprecise:=_RegpreciseRegulatorBh)
 
-            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.SimpleCsv.Network)()
+            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of StringDB.SimpleCsv.Network)()
             Me._CrossTalks = Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load(argvs("-cross_talks"))
-            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Network)()
-            Me._MetabolismNetwork = SMRUCC.genomics.Assembly.SBML.Level2.XmlFile.Load(Me._MetaCyc.SBMLMetabolismModel)
+            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of StringDB.StrPNet.Network)()
+            Me._MetabolismNetwork = Level2.XmlFile.Load(Me._MetaCyc.SBMLMetabolismModel)
             Me._ModelIO.ProteinAssembly = _createProteinAssembly(Me._ModelIO.Regulators, Me._ModelIO.MetabolitesModel)
 
-            Call CsvTabular.RegulationNetworkFromFootprints.MappingEffector(_ModelIO.Regulators, _ModelIO.EffectorMapping, _RegpreciseRegulatorBh)
-            Call CsvTabular.RegulationNetworkFromFootprints.TCS__RR(Me._ModelIO.Regulators, _ModelIO.MisT2)
+            Call GCTabular.RegulationNetworkFromFootprints.MappingEffector(_ModelIO.Regulators, _ModelIO.EffectorMapping, _RegpreciseRegulatorBh)
+            Call GCTabular.RegulationNetworkFromFootprints.TCS__RR(Me._ModelIO.Regulators, _ModelIO.MisT2)
 
             Dim MyvaCog = If(argvs Is Nothing OrElse String.IsNullOrEmpty(argvs("-myva_cog")),
-                             New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG() {},
-                             argvs("-myva_cog").AsDataSource(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG)(, False))
+                             New MyvaCOG() {},
+                             argvs("-myva_cog").AsDataSource(Of MyvaCOG)(, False))
             Dim EC = argvs("-ec").LoadCsv(Of SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)(False)
 
             Using MappingCreator = New Mapping(_MetaCyc, Me._ModelIO.MetabolitesModel.Values.ToArray)
@@ -175,8 +178,8 @@ Namespace KEGG.Compiler
                 Call _Logging.WriteLine(Me._ModelIO.EnzymeMapping.Count & " enzymatic reaction mapping was created!")
             End Using
 
-            Call Me._ModelIO.MetabolismModel.AddRange(CsvTabular.FileStream.MetabolismFlux.CreateObject(Me._MetabolismNetwork, MetabolismEnzymeLink:=Me._ModelIO.EnzymeMapping, MetaCycReactions:=_MetaCyc.GetReactions))
-            Call CsvTabular.Compiler.Components.Extract_SBML_GeneralSubstrates.Analysis(Me._ModelIO.MetabolitesModel, Me._MetaCyc, Me._ModelIO, Me._Logging)
+            Call Me._ModelIO.MetabolismModel.AddRange(GCTabular.FileStream.MetabolismFlux.CreateObject(Me._MetabolismNetwork, MetabolismEnzymeLink:=Me._ModelIO.EnzymeMapping, MetaCycReactions:=_MetaCyc.GetReactions))
+            Call GCTabular.Compiler.Components.Extract_SBML_GeneralSubstrates.Analysis(Me._ModelIO.MetabolitesModel, Me._MetaCyc, Me._ModelIO, Me._Logging)
 
             Call Me._ModelIO.MetabolismModel.AddRange(KEGG.Compiler.Reactions.CompileExpasy(EC,
                                                                                             KEGGReactions.Value,
@@ -285,8 +288,8 @@ Namespace KEGG.Compiler
         End Sub
 
         Private Sub RemoveNotUsedCompounds()
-            Call CsvTabular.Compiler.Components.CheckConsistent(_ModelIO, _Logging)
-            Call CsvTabular.Compiler.Components.AssociatedFluxAnalysis.ApplyAnalysis(Me._ModelIO)
+            Call GCTabular.Compiler.Components.CheckConsistent(_ModelIO, _Logging)
+            Call GCTabular.Compiler.Components.AssociatedFluxAnalysis.ApplyAnalysis(Me._ModelIO)
 
             'Dim RemovedList = (From item
             '                   In Me._ModelIO.MetabolitesModel.Values

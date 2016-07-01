@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::adf37c4024256b5b69ebd9581cdbce9f, ..\GCModeller\engine\GCTabular\Compiler\AssociatedFluxAnalysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
 Imports System.Text.RegularExpressions
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace Compiler.Components
 
@@ -69,36 +70,36 @@ Namespace Compiler.Components
                                         End If
                                         Return Metabolite
                                     End Function()
-                           Select sum).ToArray
+                          Select sum).ToArray
 
             FluxCollection = Model.TransmembraneTransportation
 
             LQuery = (From Metabolite As FileStream.Metabolite
                        In Model.MetabolitesModel.Values.AsParallel
-                       Let get_Factor = (From item In FluxCollection Let ac = item.get_Coefficient(Metabolite.Identifier) Where ac <> 0 Select Reversible = item.Reversible, Sto = ac).ToArray
-                       Let sum = Function() As FileStream.Metabolite
+                      Let get_Factor = (From item In FluxCollection Let ac = item.get_Coefficient(Metabolite.Identifier) Where ac <> 0 Select Reversible = item.Reversible, Sto = ac).ToArray
+                      Let sum = Function() As FileStream.Metabolite
 
-                                     Dim d_sum As Integer = 0
+                                    Dim d_sum As Integer = 0
 
-                                     For Each Line In get_Factor
-                                         If Line.Reversible Then
-                                             d_sum += System.Math.Abs(Line.Sto)
-                                         Else
-                                             '不可逆过程仅计数底物端，即消耗项
-                                             If Line.Sto < 0 Then
-                                                 d_sum += System.Math.Abs(Line.Sto) * 2
-                                             End If
-                                         End If
-                                     Next
+                                    For Each Line In get_Factor
+                                        If Line.Reversible Then
+                                            d_sum += System.Math.Abs(Line.Sto)
+                                        Else
+                                            '不可逆过程仅计数底物端，即消耗项
+                                            If Line.Sto < 0 Then
+                                                d_sum += System.Math.Abs(Line.Sto) * 2
+                                            End If
+                                        End If
+                                    Next
 
-                                     If d_sum >= 2 Then
-                                         d_sum /= 2
-                                     End If
+                                    If d_sum >= 2 Then
+                                        d_sum /= 2
+                                    End If
 
-                                     Metabolite.n_FluxAssociated += d_sum '使用赋值的话会覆盖上一个检查的结果
-                                     Return Metabolite
-                                 End Function()
-                        Select sum).ToArray
+                                    Metabolite.n_FluxAssociated += d_sum '使用赋值的话会覆盖上一个检查的结果
+                                    Return Metabolite
+                                End Function()
+                      Select sum).ToArray
         End Sub
 
         Private Function __InternalCheck_MetabolismFlux(Metabolites As KeyValuePair(Of Double, String)(), ByRef model As FileStream.IO.XmlresxLoader) As KeyValuePair(Of Double, String)()
@@ -107,13 +108,13 @@ Namespace Compiler.Components
             For Each substrate In Metabolites
                 Dim id As String = substrate.Value
 
-                If Not Model.MetabolitesModel.ContainsKey(id) Then  '存在的不用管，仅添加不存在的对象
-                    Dim LQuery = (From item In Model.MetabolitesModel.AsParallel Where String.Equals(item.Value.MetaCycId, id) Select item).ToArray
+                If Not model.MetabolitesModel.ContainsKey(id) Then  '存在的不用管，仅添加不存在的对象
+                    Dim LQuery = (From item In model.MetabolitesModel.AsParallel Where String.Equals(item.Value.MetaCycId, id) Select item).ToArray
                     If LQuery.IsNullOrEmpty Then
-                        LQuery = (From item In Model.MetabolitesModel.AsParallel Where String.Equals(item.Value.KEGGCompound, id) Select item).ToArray
+                        LQuery = (From item In model.MetabolitesModel.AsParallel Where String.Equals(item.Value.KEGGCompound, id) Select item).ToArray
                         If LQuery.IsNullOrEmpty Then '实在找不到了，则添加一个新的
                             Dim Metabolite As New FileStream.Metabolite With {.Identifier = id, .InitialAmount = 10}
-                            Call Model.MetabolitesModel.Add(id, Metabolite)
+                            Call model.MetabolitesModel.Add(id, Metabolite)
                             Call List.Add(substrate)
                         Else
                             Call List.Add(New KeyValuePair(Of Double, String)(substrate.Key, value:=LQuery.First.Value.Identifier))
@@ -167,13 +168,13 @@ Namespace Compiler.Components
                     id = id.Replace(Compartment, "").Trim
                 End If
 
-                If Not Model.MetabolitesModel.ContainsKey(id) Then  '存在的不用管，仅添加不存在的对象
-                    Dim LQuery = (From item In Model.MetabolitesModel.AsParallel Where String.Equals(item.Value.MetaCycId, id) Select item).ToArray
+                If Not model.MetabolitesModel.ContainsKey(id) Then  '存在的不用管，仅添加不存在的对象
+                    Dim LQuery = (From item In model.MetabolitesModel.AsParallel Where String.Equals(item.Value.MetaCycId, id) Select item).ToArray
                     If LQuery.IsNullOrEmpty Then
-                        LQuery = (From item In Model.MetabolitesModel.AsParallel Where String.Equals(item.Value.KEGGCompound, id) Select item).ToArray
+                        LQuery = (From item In model.MetabolitesModel.AsParallel Where String.Equals(item.Value.KEGGCompound, id) Select item).ToArray
                         If LQuery.IsNullOrEmpty Then '实在找不到了，则添加一个新的
                             Dim Metabolite As New FileStream.Metabolite With {.Identifier = id, .InitialAmount = 10}
-                            Call Model.MetabolitesModel.Add(id, Metabolite)
+                            Call model.MetabolitesModel.Add(id, Metabolite)
                             Call List.Add(substrate)
                         Else
                             Call List.Add(New KeyValuePair(Of Double, String)(substrate.Key, value:=(LQuery.First.Value.Identifier & " " & Compartment).Trim))

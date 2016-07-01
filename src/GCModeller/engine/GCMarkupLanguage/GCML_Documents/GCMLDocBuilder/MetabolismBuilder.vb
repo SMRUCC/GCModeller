@@ -36,7 +36,7 @@ Namespace Builder
 
     Public Class MetabolismBuilder : Inherits IBuilder
 
-        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             MyBase.New(MetaCyc, Model)
         End Sub
 
@@ -128,11 +128,11 @@ Namespace Builder
         ''' 将MetaCyc数据库中相对应的反应对象添加进入模型之中并返回模型的代谢组网络在执行添加操作之后的节点数目
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared Function InsertReaction(Rxn As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Reaction, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Integer
-            Dim Reaction As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = Rxn
+        Private Shared Function InsertReaction(Rxn As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Reaction, Model As BacterialModel) As Integer
+            Dim Reaction As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = Rxn
 
             If Reaction.Reactants.IsNullOrEmpty OrElse Reaction.Products.IsNullOrEmpty Then
-                Printf("Broken reaction: %s", Reaction.Identifier)
+                printf("Broken reaction: %s", Reaction.Identifier)
                 Return -1
             End If
             Call Model.Metabolism.MetabolismNetwork.Add(Reaction)
@@ -140,11 +140,11 @@ Namespace Builder
             Return InsertMetabolites(Reaction, Model)
         End Function
 
-        Private Shared Function InsertMetabolites(Reaction As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Integer
+        Private Shared Function InsertMetabolites(Reaction As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction, Model As BacterialModel) As Integer
             Dim AddAction As System.Func(Of String, Integer) = Function(Id As String) As Integer
                                                                    If Model.Metabolism.Metabolites.IndexOf(UniqueId:=Id) = -1 Then
                                                                        Model.Metabolism.Metabolites.Add(Id.AsMetabolite)
-                                                                       Printf("Adding new metabolite in to the compiled model: %s", Id)
+                                                                       printf("Adding new metabolite in to the compiled model: %s", Id)
                                                                    End If
                                                                    Return 1
                                                                End Function
@@ -156,8 +156,8 @@ Namespace Builder
         ''' 依照MetaCyc数据库中的代谢途径对象的定义将相对应的反应对象加入到相对应的代谢途径对象中
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared Sub BuildPathwayMap(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
-            Call Printf("Start to build up the metaboloism network mapping...")
+        Private Shared Sub BuildPathwayMap(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
+            Call printf("Start to build up the metaboloism network mapping...")
 
             Dim LQuery = From e As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Pathway
                          In MetaCyc.GetPathways.AsParallel
@@ -167,7 +167,7 @@ Namespace Builder
             For i As Integer = 0 To Model.Metabolism.Pathways.Count - 1
                 '        Model.Metabolism.Pathways(i).MetabolismNetwork = (From int In GetReactionHandles(Model.Metabolism.Pathways(i), MetaCyc, Model) Select int Distinct Order By int Ascending).ToArray   '递归的添加所有的反应对象
             Next
-            Call Printf("function()::END_OF_BUILD_PATHWAY_MAP()")
+            Call printf("function()::END_OF_BUILD_PATHWAY_MAP()")
         End Sub
 
         ''' <summary>
@@ -176,8 +176,10 @@ Namespace Builder
         ''' <param name="Pathway"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function GetReactionHandles(Pathway As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Pathway, MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Integer()
-            Dim HandleList As List(Of Integer) = New List(Of Integer)
+        Private Shared Function GetReactionHandles(Pathway As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Pathway,
+                                                   MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder,
+                                                   Model As BacterialModel) As Integer()
+            Dim HandleList As New List(Of Integer)
             Dim Reactions = MetaCyc.GetReactions
 
             For Each Id As String In Pathway.BaseType.ReactionList

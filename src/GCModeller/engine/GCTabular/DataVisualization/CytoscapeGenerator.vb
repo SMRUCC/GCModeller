@@ -1,39 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::7733fb83e838719df4012be9f9a94173, ..\GCModeller\engine\GCTabular\DataVisualization\CytoscapeGenerator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
-Imports LANS.SystemsBiology
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.XmlFormat
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.StringDB
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat
 
 Namespace DataVisualization
 
@@ -73,7 +73,7 @@ Namespace DataVisualization
         End Function
 
         Public Sub AddStringInteractions(stringDB As String, ByRef Interactions As DataVisualization.Interactions(), ByRef NodeAttributes As DataVisualization.NodeAttributes())
-            Dim Network = SMRUCC.genomics.DatabaseServices.StringDB.SimpleCsv.Network.Compile(stringDB).Nodes
+            Dim Network = SimpleCsv.Network.Compile(stringDB).Nodes
             Dim ListOfNodeAttributes = NodeAttributes.ToList
             Call ListOfNodeAttributes.AddRange(CreateNodeAttributes(Network))
             NodeAttributes = TrimNodeAttributes(ListOfNodeAttributes)
@@ -102,7 +102,7 @@ Namespace DataVisualization
 
 #Region "CreateNodeAttributes() As DataVisualization.NodeAttributes()"
 
-        Private Shared Function CreateNodeAttributes(stringNodes As DatabaseServices.StringDB.SimpleCsv.PitrNode()) As DataVisualization.NodeAttributes()
+        Private Shared Function CreateNodeAttributes(stringNodes As StringDB.SimpleCsv.PitrNode()) As DataVisualization.NodeAttributes()
             Dim LQuery = (From item In stringNodes Select New NodeAttributes() {New NodeAttributes With {.Identifier = item.FromNode, .NodeType = "Protein"}, New NodeAttributes With {.Identifier = item.ToNode, .NodeType = "Protein"}}).ToArray
             Dim List As List(Of NodeAttributes) = New List(Of NodeAttributes)
             For Each item In LQuery
@@ -151,7 +151,7 @@ Namespace DataVisualization
 
 #Region "CreateNodeInteractions() As DataVisualization.Interactions()"
 
-        Private Shared Function CreateNodeInteractions(stringNodes As DatabaseServices.StringDB.SimpleCsv.PitrNode()) As DataVisualization.Interactions()
+        Private Shared Function CreateNodeInteractions(stringNodes As StringDB.SimpleCsv.PitrNode()) As DataVisualization.Interactions()
             Dim LQuery = (From item In stringNodes Select New Interactions With {.FromNode = item.FromNode, .ToNode = item.ToNode, .InteractionType = "Protein Interactions"}).ToList
             Call LQuery.AddRange((From item In stringNodes Select New Interactions With {.FromNode = item.ToNode, .ToNode = item.FromNode, .InteractionType = "Protein Interactions"}).ToArray)
             Return LQuery.ToArray

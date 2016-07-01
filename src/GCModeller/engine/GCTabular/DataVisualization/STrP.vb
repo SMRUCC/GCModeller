@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::7ca872af596a078827b71c8cc2be3d41, ..\GCModeller\engine\GCTabular\DataVisualization\STrP.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic
 Imports System.Text
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports SMRUCC.genomics.Data
 
 Namespace DataVisualization
 
@@ -38,9 +39,9 @@ Namespace DataVisualization
     ''' <remarks></remarks>
     Public Class STrP
 
-        Dim STrPNetwork As SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Network, TFRegulations As FileStream.TranscriptUnit()
+        Dim STrPNetwork As StringDB.StrPNet.Network, TFRegulations As FileStream.TranscriptUnit()
 
-        Sub New(STrPNetwork As SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Network, TFRegulations As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.TranscriptUnit())
+        Sub New(STrPNetwork As StringDB.StrPNet.Network, TFRegulations As FileStream.TranscriptUnit())
             Me.STrPNetwork = STrPNetwork
             Me.TFRegulations = TFRegulations
         End Sub
@@ -106,7 +107,7 @@ Namespace DataVisualization
             Return (From Item In OCS Select New NodeAttributes With {.Identifier = Item.Key, .NodeType = "OCS"}).ToArray
         End Function
 
-        Private Shared Function CreateNodeAttributes(TCSSystem As SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.TCS.TCS()) As NodeAttributes()
+        Private Shared Function CreateNodeAttributes(TCSSystem As StringDB.StrPNet.TCS.TCS()) As NodeAttributes()
             Dim LQuery = (From TCS In TCSSystem Select New NodeAttributes() {New NodeAttributes With {.Identifier = TCS.Chemotaxis, .NodeType = "Chemotaxis"},
                                New NodeAttributes With {.Identifier = TCS.HK, .NodeType = "HK"},
                                New NodeAttributes With {.Identifier = TCS.RR, .NodeType = "RR"}}).ToArray
@@ -117,7 +118,7 @@ Namespace DataVisualization
             Return ChunkList.ToArray
         End Function
 
-        Private Shared Function CreateNodeAttributes(STrP As SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Pathway) As NodeAttributes()
+        Private Shared Function CreateNodeAttributes(STrP As StringDB.StrPNet.Pathway) As NodeAttributes()
             Dim List As List(Of NodeAttributes) = New List(Of NodeAttributes)
             Call List.AddRange(CreateNodeAttributes(STrP.OCS))
             Call List.AddRange(CreateNodeAttributes(STrP.TCSSystem))
@@ -131,12 +132,12 @@ Namespace DataVisualization
             Return LQuery
         End Function
 
-        Private Shared Function GenerateNetwork(objStrP As SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Pathway) As Interactions()
+        Private Shared Function GenerateNetwork(objStrP As StringDB.StrPNet.Pathway) As Interactions()
             Dim List As List(Of Interactions) = New List(Of Interactions)
             Dim CreateOCSNetwork = Sub(ocs)
                                        Call List.Add(New Interactions With {.FromNode = ocs.Key, .ToNode = objStrP.TF, .InteractionType = "Signal Transduct"})
                                    End Sub
-            Dim CreateTCSNetwork = Sub(tcs As SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.TCS.TCS)
+            Dim CreateTCSNetwork = Sub(tcs As StringDB.StrPNet.TCS.TCS)
                                        Call List.Add(New Interactions With {.FromNode = tcs.Chemotaxis, .ToNode = tcs.HK, .InteractionType = "Phosphorylate Sensing"})
                                        Call List.Add(New Interactions With {.FromNode = tcs.HK, .ToNode = tcs.RR, .InteractionType = "Cross Talk"})
                                        Call List.Add(New Interactions With {.FromNode = tcs.RR, .ToNode = objStrP.TF, .InteractionType = "Signal Transduct"})
@@ -155,7 +156,7 @@ Namespace DataVisualization
             Return List.ToArray
         End Function
 
-        Public Shared Function Exists(Id As String, objSTrp As SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Pathway) As Boolean
+        Public Shared Function Exists(Id As String, objSTrp As StringDB.StrPNet.Pathway) As Boolean
             If String.Equals(Id, objSTrp.TF) Then
                 Return True
             Else
@@ -167,7 +168,7 @@ Namespace DataVisualization
             End If
         End Function
 
-        Private Shared Function Exists(Id As String, objRegulation As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.TranscriptUnit) As Boolean
+        Private Shared Function Exists(Id As String, objRegulation As FileStream.TranscriptUnit) As Boolean
             If String.Equals(objRegulation.Motifs, Id) Then
                 Return True
             Else

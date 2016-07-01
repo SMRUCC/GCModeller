@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::50fa85917663de422ec5d96f500d38ce, ..\GCModeller\engine\GCTabular\CsvTabularData\XmlLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.CultivationMediums
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.Assembly.KEGG
-Imports SMRUCC.genomics.DatabaseServices.StringDB
-Imports SMRUCC.genomics.Assembly.MiST2
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
-Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.TCS
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.MiST2
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Data.StringDB
+Imports SMRUCC.genomics.Data.StringDB.StrPNet.TCS
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
 
 Namespace FileStream.IO
 
@@ -69,7 +69,7 @@ Namespace FileStream.IO
         Public Property Proteins As List(Of FileStream.Protein)
         Public Property Enzymes As List(Of EnzymeCatalystKineticLaw)
         Public Property SystemVariables As List(Of KeyValuePair)
-        Public Property STrPModel As DatabaseServices.StringDB.StrPNet.Network
+        Public Property STrPModel As StringDB.StrPNet.Network
         Public Property ConstraintMetabolites As List(Of ConstraintMetaboliteMap)
         Public Property ProteinAssembly As Dictionary(Of String, FileStream.ProteinAssembly)
         Public Property RibosomeAssembly As List(Of FileStream.ProteinAssembly)

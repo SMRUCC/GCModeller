@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::5b7f19bdbd6e309cdbb6130cedeb2112, ..\GCModeller\engine\GCTabular\API\CompilerShellScriptAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.XmlFormat
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat
 
 <[Namespace]("GCModeller.Compiler.GCML.Csvx")>
 Public Module CompilerShellScriptAPI
@@ -50,14 +51,14 @@ Public Module CompilerShellScriptAPI
     End Function
 
     ''' <summary>
-    ''' <see cref="DatabaseServices.StringDB.StrPNet.TCS.SensorInducers.SensorId">Inducer</see>的值可能是CommonName，MetaCyc标识符或者KEGG标识符，这个方法仅仅是生成一个模板数据，用于编译器使用的
+    ''' <see cref="StringDB.StrPNet.TCS.SensorInducers.SensorId">Inducer</see>的值可能是CommonName，MetaCyc标识符或者KEGG标识符，这个方法仅仅是生成一个模板数据，用于编译器使用的
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("sensing_profile.extract")>
     Public Function ExtractSensingProfiles(MiST2 As SMRUCC.genomics.Assembly.MiST2.MiST2) _
-        As DatabaseServices.StringDB.StrPNet.TCS.SensorInducers()
+        As StringDB.StrPNet.TCS.SensorInducers()
 
         Dim IDList As String() = {
             (From protein In MiST2.MajorModules.First.OneComponent Select protein.Identifier).ToArray,
@@ -66,14 +67,14 @@ Public Module CompilerShellScriptAPI
 
         Dim Profile = (From strId As String
                        In (From strValue As String In IDList Select strValue Distinct Order By strValue Ascending).ToArray
-                       Select New DatabaseServices.StringDB.StrPNet.TCS.SensorInducers With
+                       Select New StringDB.StrPNet.TCS.SensorInducers With
                               {
                                   .SensorId = strId, .Inducers = New String() {}}).ToArray
         Return Profile
     End Function
 
     <ExportAPI("sensing_profile.save")>
-    Public Function SaveProfile(sensingProfiles As DatabaseServices.StringDB.StrPNet.TCS.SensorInducers(), save As String) As Boolean
+    Public Function SaveProfile(sensingProfiles As StringDB.StrPNet.TCS.SensorInducers(), save As String) As Boolean
         Return sensingProfiles.SaveTo(save, False)
     End Function
 
@@ -144,9 +145,9 @@ Public Module CompilerShellScriptAPI
                                mist2_strp_xml As String,
                                stringdb As String) _
  _
-        As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Compiler
+        As GCTabular.Compiler.Compiler
 
-        Dim Compiler = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Compiler()
+        Dim Compiler = New GCTabular.Compiler.Compiler()
         Dim args = New KeyValuePair(Of String, String)() {
  _
             New KeyValuePair(Of String, String)("-metacyc", metacyc),

@@ -26,12 +26,10 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports SMRUCC.genomics.Assembly
-Imports LANS.SystemsBiology
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
+Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.Assembly
 
 Namespace Compiler.Components
 

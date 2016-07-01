@@ -1,41 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::770e75ae6ad6fd8e538183da0be397e8, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\Reaction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.Assembly.SBML
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
+Imports Microsoft.VisualBasic.Extensions
 Imports SMRUCC.genomics.Assembly.MetaCyc
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.Metabolism
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace GCML_Documents.XmlElements.Metabolism
 
@@ -130,7 +131,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property Name As String Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).Name
+        <XmlElement> Public Property Name As String Implements I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).Name
 
         ''' <summary>
         ''' UniqueId of the Enzymes.
@@ -201,7 +202,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
             Return Reaction
         End Operator
 
-        Public Shared Function CastTo(e As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Reaction
+        Public Shared Function CastTo(e As Level2.Elements.Reaction, Model As BacterialModel) As Reaction
             Dim Reaction As Reaction = New Reaction
             Reaction.Reactants = (From item In e.Reactants Select GCML_Documents.ComponentModels.CompoundSpeciesReference.CreateObject(item)).ToArray
             Reaction.Products = (From item In e.Products Select GCML_Documents.ComponentModels.CompoundSpeciesReference.CreateObject(item)).ToArray
@@ -239,7 +240,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
         ''' <param name="Metabolite">目标代谢物对象的UniqueID属性值</param>
         ''' <returns>目标代谢物在本反应对象之中的化学计量数</returns>
         ''' <remarks></remarks>
-        Public Function GetStoichiometry(Metabolite As String) As Double Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).GetStoichiometry
+        Public Function GetStoichiometry(Metabolite As String) As Double Implements I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).GetStoichiometry
             Dim QueryResults As GCML_Documents.ComponentModels.CompoundSpeciesReference()
 
             If Not Reactants.IsNullOrEmpty Then
@@ -259,20 +260,20 @@ Namespace GCML_Documents.XmlElements.Metabolism
             Return 0  'not exists in this reaction.
         End Function
 
-        Public ReadOnly Property IFBAC2_LOWER_BOUND As Double Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).LOWER_BOUND
+        Public ReadOnly Property IFBAC2_LOWER_BOUND As Double Implements I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).LOWER_BOUND
             Get
                 Return LOWER_BOUND.Value
             End Get
         End Property
 
-        Public ReadOnly Property IFBAC2_UPPER_BOUND As Double Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).UPPER_BOUND
+        Public ReadOnly Property IFBAC2_UPPER_BOUND As Double Implements I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).UPPER_BOUND
             Get
                 Return UPPER_BOUND.Value
             End Get
         End Property
 
         <XmlIgnore>
-        Public ReadOnly Property __ObjectiveCoefficient As Integer Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).ObjectiveCoefficient
+        Public ReadOnly Property __ObjectiveCoefficient As Integer Implements I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference).ObjectiveCoefficient
             Get
                 Return ObjectiveCoefficient
             End Get

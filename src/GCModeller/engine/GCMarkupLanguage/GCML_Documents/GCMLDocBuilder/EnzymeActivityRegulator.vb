@@ -33,7 +33,7 @@ Namespace Builder
 
     Public Class EnzymeActivityRegulator : Inherits IBuilder
 
-        Sub New(MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder, Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder, Model As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.BacterialModel)
             Call MyBase.New(MetaCyc, Model)
         End Sub
 

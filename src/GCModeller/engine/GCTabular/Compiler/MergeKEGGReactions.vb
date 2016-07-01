@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::cc4e666bd440362dedb7282c0e95f39b, ..\GCModeller\engine\GCTabular\Compiler\MergeKEGGReactions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.Interops
 
 Namespace Compiler.Components
 
@@ -38,7 +39,7 @@ Namespace Compiler.Components
         Dim _ModelLoader As FileStream.IO.XmlresxLoader, _KEGGReaction As bGetObject.Reaction(), _KEGGCompounds As bGetObject.Compound()
         Dim _EuqationEquals As SMRUCC.genomics.Assembly.MetaCyc.Schema.EquationEquals
         Dim _EntryViews As EntryViews
-        Dim _Carmen As SMRUCC.genomics.AnalysisTools.CARMEN.Reaction()
+        Dim _Carmen As CARMEN.Reaction()
 
         Sub New(ModelLoader As FileStream.IO.XmlresxLoader, KEGGReactionsCsv As String, KEGGCompoundsCsv As String, CARMENCsv As String)
             Me._ModelLoader = ModelLoader
@@ -46,8 +47,8 @@ Namespace Compiler.Components
             Me._KEGGCompounds = KEGGCompoundsCsv.LoadCsv(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)(explicit:=False).ToArray
             Me._EuqationEquals = New EquationEquals(MetaCycCompoundModels:=ModelLoader.MetabolitesModel, CompoundSpecies:=_KEGGCompounds)
             Me._EntryViews = New EntryViews(ModelLoader.MetabolitesModel.Values.ToList)
-            Me._Carmen = (From item As SMRUCC.genomics.AnalysisTools.CARMEN.Reaction
-                          In CARMENCsv.LoadCsv(Of SMRUCC.genomics.AnalysisTools.CARMEN.Reaction)(False).AsParallel
+            Me._Carmen = (From item As CARMEN.Reaction
+                          In CARMENCsv.LoadCsv(Of CARMEN.Reaction)(False).AsParallel
                           Where Not item.lstGene.IsNullOrEmpty
                           Select item).ToArray
         End Sub
@@ -99,7 +100,7 @@ Namespace Compiler.Components
             Next
         End Sub
 
-        Private Shared Function GetEnzyme(CARMEN As SMRUCC.genomics.AnalysisTools.CARMEN.Reaction(), KEGGReaction As String) As String()
+        Private Shared Function GetEnzyme(CARMEN As CARMEN.Reaction(), KEGGReaction As String) As String()
             Dim LQuery = (From item In CARMEN Where String.Equals(item.rnId, KEGGReaction, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             If LQuery.IsNullOrEmpty Then
                 Return New String() {}

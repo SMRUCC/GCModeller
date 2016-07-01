@@ -1,46 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::ac12dd998e6a79d1f1175bdf98ae3c75, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\IBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 
 Namespace Builder
 
-    Public MustInherit Class IBuilder : Implements System.IDisposable
+    Public MustInherit Class IBuilder : Implements IDisposable
 
-        Protected Friend Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
-        Protected Friend MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
+        Protected Friend Model As BacterialModel
+        Protected Friend MetaCyc As DatabaseLoadder
 
-        Protected Friend Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Protected Friend Sub New(MetaCyc As DatabaseLoadder, Model As BacterialModel)
             Me.Model = Model
             Me.MetaCyc = MetaCyc
         End Sub
 
-        Public Overridable Function Invoke() As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
-            Throw New NotImplementedException
-        End Function
+        Public MustOverride Function Invoke() As BacterialModel
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' 检测冗余的调用
@@ -72,6 +71,5 @@ Namespace Builder
             GC.SuppressFinalize(Me)
         End Sub
 #End Region
-
     End Class
 End Namespace

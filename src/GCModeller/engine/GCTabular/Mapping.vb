@@ -1,37 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::864280d8ba6f423adbbcd6367e32b04e, ..\GCModeller\engine\GCTabular\Mapping.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
 
 ''' <summary>
 ''' MetaCyc数据库专用的CompoundMapping操作对象
@@ -346,7 +347,7 @@ Public Class Mapping : Implements System.IDisposable
     End Function
 
     Public Shared Function GetEffectors(Regprecise As TranscriptionFactors) As List(Of MetaCyc.Schema.EffectorMap)
-        Dim EffectorIdList = (From item As SMRUCC.genomics.DatabaseServices.Regprecise.BacteriaGenome
+        Dim EffectorIdList = (From item As Regprecise.BacteriaGenome
                               In Regprecise.BacteriaGenomes
                               Select (From regulator In item.Regulons.Regulators
                                       Where Not String.IsNullOrEmpty(regulator.Effector)

@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.Model
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace GCML_Documents.ComponentModels
 

@@ -1,36 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::f6ebbc3bb6eed20dd3ccc83cbebd8350, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\RegulationNetworkFromFootprints.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 ''' <summary>
 ''' 编译调控模型
@@ -41,15 +43,15 @@ Public Module RegulationNetworkFromFootprints
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="data">请使用经过<see cref="DocumentFormat.RegulatesFootprints">Group操作</see>之后的调控数据</param>
+    ''' <param name="data">请使用经过<see cref="RegulatesFootprints">Group操作</see>之后的调控数据</param>
     ''' <param name="PccMatrix"></param>
     ''' <remarks></remarks>
-    Public Sub CompileFootprintsData(data As Generic.IEnumerable(Of DocumentFormat.RegulatesFootprints),
+    Public Sub CompileFootprintsData(data As Generic.IEnumerable(Of RegulatesFootprints),
                                      PccMatrix As PccMatrix,
                                      OperonData As SMRUCC.genomics.Assembly.DOOR.OperonView, _
  _
-                                     ByRef TranscriptUnits As List(Of CsvTabular.FileStream.TranscriptUnit),
-                                     ByRef Motifs As List(Of CsvTabular.FileStream.MotifSite),
+                                     ByRef TranscriptUnits As List(Of GCTabular.FileStream.TranscriptUnit),
+                                     ByRef Motifs As List(Of GCTabular.FileStream.MotifSite),
                                      ByRef Regulators As List(Of FileStream.Regulator))
 
         'Dim FootprintData = (From item In data.AsParallel
@@ -107,7 +109,7 @@ Public Module RegulationNetworkFromFootprints
 
         Dim RegulatorGroupedChunk = (From item In Regulators Select item Group item By item.ProteinId Into Group).ToArray
         Dim LQuery = (From item In RegulatorGroupedChunk.AsParallel
-                      Let hits_effector As String() = (From besthit As SMRUCC.genomics.DatabaseServices.Regprecise.RegpreciseMPBBH
+                      Let hits_effector As String() = (From besthit As Regprecise.RegpreciseMPBBH
                                                        In Regprecise
                                                        Where String.Equals(besthit.QueryName, item.ProteinId)
                                                        Let effector_cpds = besthit.Effectors

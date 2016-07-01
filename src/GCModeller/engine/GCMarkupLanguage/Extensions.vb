@@ -27,14 +27,14 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports SMRUCC.genomics.Assembly.SBML
-Imports SMRUCC.genomics.Assembly.SBML.Specifics.MetaCyc
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Public Module Extensions
 
@@ -188,7 +188,7 @@ Public Module Extensions
     ''' <param name="UniqueId"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function IndexOf(List As Generic.IEnumerable(Of Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), UniqueId As String) As Integer
+    <Extension> Public Function IndexOf(List As IEnumerable(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), UniqueId As String) As Integer
         For i As Integer = 0 To List.Count - 1
             If String.Equals(List(i).Identifier, UniqueId) Then
                 Return i
@@ -197,8 +197,8 @@ Public Module Extensions
         Return -1
     End Function
 
-    <Extension> Public Function AsMetabolite(Id As String) As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
-        Dim Metaboliet As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
+    <Extension> Public Function AsMetabolite(Id As String) As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
+        Dim Metaboliet As New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
         Metaboliet.Identifier = Id
         Metaboliet.CommonName = Id
         Metaboliet.InitialAmount = 1000

@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.SBML
+Imports SMRUCC.genomics.Model.SBML
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.XmlElements.Metabolism

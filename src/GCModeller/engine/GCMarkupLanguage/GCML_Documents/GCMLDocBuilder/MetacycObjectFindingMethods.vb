@@ -142,7 +142,7 @@ Module MetacycObjectFindingMethods
     End Function
 
     Public Function Take(Of obj As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object,
-                            Entity As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of obj))(Collection As Generic.IEnumerable(Of Entity), [Handles] As Long()) As Entity()
+                            Entity As GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of obj))(Collection As Generic.IEnumerable(Of Entity), [Handles] As Long()) As Entity()
         '   Dim LQuery = (From entityObj As Entity In Collection Where Array.IndexOf([Handles], entityObj.Handle) Select entityObj).ToArray
         '    Return LQuery
         Throw New NotImplementedException
@@ -192,7 +192,7 @@ Module MetacycObjectFindingMethods
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function IndexOf(Of T As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object,
-                               Entity As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of T))( _
+                               Entity As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of T))( _
                                ListCollection As Generic.IEnumerable(Of Entity),
                                UniqueId As String) _
         As Integer
@@ -211,7 +211,7 @@ Module MetacycObjectFindingMethods
     ''' <param name="UniqueId"></param>
     ''' <returns>Object Handle</returns>
     ''' <remarks></remarks>
-    <Extension> Public Function IndexOf(List As List(Of Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction), UniqueId As String) As Integer
+    <Extension> Public Function IndexOf(List As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction), UniqueId As String) As Integer
         For i As Integer = 0 To List.Count - 1
             If String.Equals(UniqueId, List(i).Identifier) Then
                 Return i

@@ -364,7 +364,7 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Shoal\Shoal.v2\Shoal.v2\ShoalShell_Core.v2.vbproj">
+    <ProjectReference Include="..\..\..\Shoal\Shoal.v2\Shoal.v2\ShoalShell_Core.v2.vbproj">
       <Project>{a7cb16ff-75c6-4746-8449-86c121d723c4}</Project>
       <Name>ShoalShell_Core.v2</Name>
     </ProjectReference>

@@ -1,41 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::00bd00316ca749bcfbc5e920c0400e78, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Reactions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports SMRUCC.genomics.Assembly.SBML
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.AnalysisTools
-Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Interops
+Imports SMRUCC.genomics.Model.SBML
 
 Namespace KEGG.Compiler
 
@@ -73,7 +74,7 @@ Namespace KEGG.Compiler
                                       Logging As Logging.LogFile) As List(Of FileStream.MetabolismFlux)
 
             Dim Models = KEGGReactions.ToDictionary(Function(item As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction) item.Entry)
-            Dim CARMEN = SMRUCC.genomics.AnalysisTools.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
+            Dim CARMEN = SMRUCC.genomics.Interops.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
             Dim LQuery = (From item As CARMEN.Reaction In CARMEN.AsParallel
                           Let Model = Models.__match(item, ReactionsDownloads)
                           Where Not Model Is Nothing
@@ -90,7 +91,7 @@ Namespace KEGG.Compiler
             Return Reactions
         End Function
 
-        Private Function Convert(DataModel As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction) As String
+        Private Function Convert(DataModel As Level2.Elements.Reaction) As String
             Dim Equation = SMRUCC.genomics.ComponentModel.EquaionModel.EquationBuilder.ToString(
                 LeftSide:=(From item In DataModel.Reactants Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray,
                 RightSide:=(From item In DataModel.Products Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray,
@@ -116,7 +117,7 @@ Namespace KEGG.Compiler
                                       KEGGReactions As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction),
                                       ModelLoader As FileStream.IO.XmlresxLoader,
                                       MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,
-                                      Sbml As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile,
+                                      Sbml As Level2.XmlFile,
                                       CompoundsDownloads As String,
                                       ReactionDownloads As String, Logging As Logging.LogFile) _
             As List(Of FileStream.MetabolismFlux)
@@ -193,7 +194,7 @@ Namespace KEGG.Compiler
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function CompileSmallMoleculeReactions(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,
-                                                       Sbml As Dictionary(Of String, SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction),
+                                                       Sbml As Dictionary(Of String, Level2.Elements.Reaction),
                                                        Metabolites As Dictionary(Of String, FileStream.Metabolite),
                                                        DownloadDir As String,
                                                        ByRef DownloadList As List(Of FileStream.Metabolite), Logging As Logging.LogFile) _

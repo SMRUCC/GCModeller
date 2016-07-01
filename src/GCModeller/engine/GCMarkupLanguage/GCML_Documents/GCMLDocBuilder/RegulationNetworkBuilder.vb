@@ -1,42 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::4254a4f3af99b0dc5ca40296d6149f6c, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\RegulationNetworkBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 
 Namespace Builder
 
     Public Class RegulationNetworkBuilder : Inherits Builder.IBuilder
 
-        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             MyBase.New(MetaCyc, Model)
         End Sub
 
@@ -50,7 +50,7 @@ Namespace Builder
         ''' 创建基因表达调控网络，在构造出了基因对象和转录单元对象之后进行调用
         ''' </summary>
         ''' <remarks></remarks>
-        Private Sub BuildRegulationNetwork(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Private Sub BuildRegulationNetwork(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             Dim Regulations As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Regulations = MetaCyc.GetRegulations
             Dim AllGeneList As String() = MetaCyc.GetGenes.Index
             Dim TUList As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit) = Model.BacteriaGenome.TransUnits.ToList
@@ -72,7 +72,7 @@ Namespace Builder
                         Next
                     Case GCML_Documents.XmlElements.SignalTransductions.Regulator.RegulationTypes.EnzymeActivityRegulation '在代谢网络中查找
                     Case GCML_Documents.XmlElements.SignalTransductions.Regulator.RegulationTypes.Regulation '未知，仅做下记录
-                        Call Printf("[WARN] Unknown regulation: '%s'", regulation.Identifier)
+                        Call printf("[WARN] Unknown regulation: '%s'", regulation.Identifier)
                 End Select
             Next
         End Sub
@@ -105,7 +105,7 @@ Namespace Builder
                 End If
             Else
                 If RegulatedObject.Table = SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.transunits Then
-                    Return Take(Of SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.TransUnit, Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)(Model.BacteriaGenome.TransUnits, [Handles])
+                    Return Take(Of SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.TransUnit, GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)(Model.BacteriaGenome.TransUnits, [Handles])
                 ElseIf RegulatedObject.Table = SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.genes Then
                     Console.WriteLine("[NOT_IMPLEMENTS] takes.genes")
                 ElseIf RegulatedObject.Table = SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.promoters Then

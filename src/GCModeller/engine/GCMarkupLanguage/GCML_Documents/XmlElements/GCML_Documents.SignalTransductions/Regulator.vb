@@ -28,7 +28,7 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.XmlElements.SignalTransductions

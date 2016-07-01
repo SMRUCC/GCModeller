@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::25e3b2781aafba732029ced8c07be267, ..\GCModeller\engine\GCTabular\Compiler\MergeSabiork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Compiler.Components
 
@@ -53,8 +54,8 @@ Namespace Compiler.Components
         End Class
 
         <ExportAPI("read.besthitcsv")>
-        Public Shared Function LoadUniprotBesthits(path As String) As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit()
-            Return path.LoadCsv(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False).ToArray
+        Public Shared Function LoadUniprotBesthits(path As String) As BBH.BestHit()
+            Return path.LoadCsv(Of BBH.BestHit)(False).ToArray
         End Function
 
         <ExportAPI("read.enzymes")>
@@ -93,9 +94,7 @@ Namespace Compiler.Components
             Return True
         End Function
 
-        Private Shared Function GetItems(UniprotBesthits As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit(), UniprotId As String) _
-            As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit()
-
+        Private Shared Function GetItems(UniprotBesthits As BBH.BestHit(), UniprotId As String) As BBH.BestHit()
             Dim LQuery = (From item In UniprotBesthits Where String.Equals(item.HitName, UniprotId, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             Return LQuery
         End Function

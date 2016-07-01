@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.SBML
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Net.Protocols
+Imports SMRUCC.genomics.Model.SBML
 
 Namespace FBACompatibility
 

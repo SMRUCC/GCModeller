@@ -241,7 +241,7 @@ Namespace FileStream.XmlFormat
         End Property
 
         ''' <summary>
-        ''' <see cref="CsvTabular.FileStream.Transcript"></see>
+        ''' <see cref="gcTabular.FileStream.Transcript"></see>
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

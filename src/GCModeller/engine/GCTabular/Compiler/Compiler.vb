@@ -1,45 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::c19fa8b95b761001fb5a5cc22e6290c2, ..\GCModeller\engine\GCTabular\Compiler\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.XmlFormat
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Assembly.SBML.Level2
-Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.Level2
 
 Namespace Compiler
 
@@ -50,8 +54,8 @@ Namespace Compiler
 
         Protected _MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder
         Protected Friend _ModelIO As FileStream.IO.XmlresxLoader
-        Protected _MetabolismNetwork As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile
-        Dim _RegpreciseRegulators As SMRUCC.genomics.DatabaseServices.Regprecise.TranscriptionFactors
+        Protected _MetabolismNetwork As Level2.XmlFile
+        Dim _RegpreciseRegulators As TranscriptionFactors
         Dim _TranscriptRegulations As TranscriptRegulation()
         Protected _argvs_Compile As CommandLine.CommandLine
         Protected _Door As SMRUCC.genomics.Assembly.DOOR.DOOR
@@ -96,14 +100,14 @@ Namespace Compiler
                                             Select ModelData
                                             Order By ModelData.Identifier Ascending).ToList.ToDictionary
             Me._ModelIO.MisT2 = argvs("-mist2").LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)()
-            Me._RegpreciseRegulators = SMRUCC.genomics.DatabaseServices.Regprecise.TranscriptionFactors.Load(argvs("-regprecise_regulator"))
+            Me._RegpreciseRegulators = Regprecise.TranscriptionFactors.Load(argvs("-regprecise_regulator"))
             Me._ModelIO.SetExportDirectory(argvs("-export"))
-            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.StrPNet.Network)()
+            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of StringDB.StrPNet.Network)()
 #If Not DEBUG Then
         Try
 #End If
             Me._TranscriptRegulations = argvs("-transcript_regulation").LoadCsv(Of TranscriptRegulation)(False).ToArray
-            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SMRUCC.genomics.DatabaseServices.StringDB.SimpleCsv.Network)()
+            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of StringDB.SimpleCsv.Network)()
 
             Using MappingCreator = New Mapping(_MetaCyc, Me._ModelIO.MetabolitesModel.Values.ToArray)
                 Call _Logging.WriteLine("Start to create the effector mapping between the regprecise database and metacyc database...")
@@ -130,7 +134,7 @@ Namespace Compiler
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("-compile", Usage:="-door <doorFile> -ec <ec_file> [-myva_cog <myva_cog_file>]")>
-        Public Overrides Function Compile(Optional ModelProperty As CommandLine.CommandLine = Nothing) As CsvTabular.FileStream.XmlFormat.CellSystemXmlModel
+        Public Overrides Function Compile(Optional ModelProperty As CommandLine.CommandLine = Nothing) As CellSystemXmlModel
             If MyBase.CompiledModel Is Nothing Then _
                 Throw New InvalidOperationException("PreCompile operation maybe failed or you haven't call the method yet!")
 
@@ -146,8 +150,8 @@ Namespace Compiler
             Call MyBase.WriteProperty(ModelProperty, MyBase.CompiledModel)
 
             Dim MyvaCog = If(ModelProperty Is Nothing OrElse String.IsNullOrEmpty(ModelProperty("-myva_cog")),
-                             New SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG() {},
-                             ModelProperty("-myva_cog").AsDataSource(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG)(, False))
+                             New MyvaCOG() {},
+                             ModelProperty("-myva_cog").AsDataSource(Of MyvaCOG)(, False))
 
             Dim SabiorkCompounds As String = ModelProperty("-sabiork")
             If Not String.IsNullOrEmpty(SabiorkCompounds) Then
@@ -167,10 +171,10 @@ Namespace Compiler
             _Door = Door
 
             Me.CompiledModel.FilePath = String.Format("{0}/cell_model.xml", Me._ModelIO.ModelParentDIR)
-            Me._ModelIO.MetabolismModel = CsvTabular.FileStream.MetabolismFlux.CreateObject(Me._MetabolismNetwork, MetabolismEnzymeLink:=Me._ModelIO.EnzymeMapping, MetaCycReactions:=_MetaCyc.GetReactions)
-            Me._ModelIO.GenomeAnnotiation = CsvTabular.FileStream.GeneObject.CreateObject(Me._MetaCyc.GetGenes, MyvaCog)
+            Me._ModelIO.MetabolismModel = FileStream.MetabolismFlux.CreateObject(Me._MetabolismNetwork, MetabolismEnzymeLink:=Me._ModelIO.EnzymeMapping, MetaCycReactions:=_MetaCyc.GetReactions)
+            Me._ModelIO.GenomeAnnotiation = FileStream.GeneObject.CreateObject(Me._MetaCyc.GetGenes, MyvaCog)
             Me._ModelIO.TranscriptionModel = FileStream.TranscriptUnit.CreateObject(Me._TranscriptRegulations, Door.DOOROperonView)
-            Me._ModelIO.CultivationMediums = SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.CultivationMediums.MetaCycDefault.Uptake_Substrates.ToList
+            Me._ModelIO.CultivationMediums = GCMarkupLanguage.CultivationMediums.MetaCycDefault.Uptake_Substrates.ToList
             Me._CrossTalks = Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load(ModelProperty("-cross_talks"))
 
             'Sub New(Compiler As Compiler, KEGGReactionsCsv As String, KEGGCompoundsCsv As String, CARMENCsv As String)
@@ -217,7 +221,7 @@ Namespace Compiler
         Protected Sub _createRibosomeAssembly(PttDir As String)
             Dim Ptt As String = FileIO.FileSystem.GetFiles(PttDir, FileIO.SearchOption.SearchTopLevelOnly, "*.ptt").First
             Dim Rnt As String = FileIO.FileSystem.GetFiles(PttDir, FileIO.SearchOption.SearchTopLevelOnly, "*.rnt").First
-            Call New CsvTabular.Compiler.Components.RibosomeAssembly(Ptt, Rnt, Me._ModelIO).Invoke()
+            Call New GCTabular.Compiler.Components.RibosomeAssembly(Ptt, Rnt, Me._ModelIO).Invoke()
         End Sub
 
         Protected MetaCyc_GeneId_Mapping As Dictionary(Of String, String)
@@ -311,7 +315,7 @@ Namespace Compiler
             Me._ModelIO.Proteins = (From Transcript In Me._ModelIO.Transcripts
                                     Where Not Transcript.PolypeptideCompositionVector.IsNullOrEmpty
                                     Let ECValue = If(ProfileDicts.ContainsKey(Transcript.Template), ProfileDicts(Transcript.Template).Class, "")
-                                    Let Type = If(String.IsNullOrEmpty(ECValue), GCML_Documents.XmlElements.Metabolism.Polypeptide.ProteinTypes.Polypeptide, GCML_Documents.XmlElements.Metabolism.Polypeptide.ProteinTypes.Enzyme)
+                                    Let Type = If(String.IsNullOrEmpty(ECValue), GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide.ProteinTypes.Polypeptide, GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide.ProteinTypes.Enzyme)
                                     Select New FileStream.Protein With {
                                                .Lambda = 0.85,
                                                .PolypeptideCompositionVector = Transcript.PolypeptideCompositionVector,
@@ -570,7 +574,7 @@ Namespace Compiler
             Call _createRibosomeAssembly(_argvs_Compile("-ptt_dir"))
 
             Me._ModelIO.ProteinAssembly = _createProteinAssembly(Me._ModelIO.Regulators, Metabolites)
-            Me._ModelIO.ConstraintMetabolites = SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.ConstraintMetaboliteMap.CreateObjectsWithMetaCyc.ToList
+            Me._ModelIO.ConstraintMetabolites = GCMarkupLanguage.GCML_Documents.ComponentModels.ConstraintMetaboliteMap.CreateObjectsWithMetaCyc.ToList
             Me._ModelIO.TransmembraneTransportation = AnalysisTransmenbraneFlux()
 
             Call _createEnzymeObjects()

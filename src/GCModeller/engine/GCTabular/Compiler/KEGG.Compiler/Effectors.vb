@@ -1,33 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::9e55cf1049c4765b0f90a26f04a5a414, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Effectors.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Data.Regprecise
 
 Namespace KEGG.Compiler
 
@@ -78,7 +78,7 @@ Namespace KEGG.Compiler
 
             Dim MetaCycCompoundsEqualsKEGG = CreateDictionary(MetaCyc.GetCompounds) '获取到所有带有KEGGCompound属性的MetaCyc代谢物
             Dim MappingResult As List(Of MetaCyc.Schema.EffectorMap) =
-                New CsvTabular.Mapping(MetaCyc, Nothing).EffectorMapping(Regprecise) '将Regprecise之中的Effector和MetaCyc代谢物进行映射
+                New GCTabular.Mapping(MetaCyc, Nothing).EffectorMapping(Regprecise) '将Regprecise之中的Effector和MetaCyc代谢物进行映射
 
             For i As Integer = 0 To KEGGCompounds.Count - 1  '利用MetaCycID，将KEGGCompound映射到结果之中
                 Dim Metabolite = KEGGCompounds(i)

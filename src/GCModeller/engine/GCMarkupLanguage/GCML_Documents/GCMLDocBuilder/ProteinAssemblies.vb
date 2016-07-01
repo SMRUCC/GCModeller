@@ -36,7 +36,7 @@ Namespace Builder
     ''' <remarks></remarks>
     Public Class ProteinAssemblies : Inherits IBuilder
 
-        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             MyBase.New(MetaCyc, Model)
         End Sub
 
@@ -88,7 +88,7 @@ Namespace Builder
     'End Class
 
     Public Class Polypeptides : Inherits IBuilder
-        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             Call MyBase.New(MetaCyc, Model)
         End Sub
 

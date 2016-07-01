@@ -35,7 +35,7 @@
 '    ''' <remarks></remarks>
 '    Public Class ExpendGeneralProtein : Inherits IBuilder
 
-'        Sub New(MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder, Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Model)
+'        Sub New(MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder, Model As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Model)
 '            Call MyBase.New(MetaCyc, Model)
 '        End Sub
 
@@ -69,8 +69,8 @@
 '        ''' <param name="rxn"></param>
 '        ''' <returns></returns>
 '        ''' <remarks></remarks>
-'        Public Shared Function Copy(rxn As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
-'            Dim CopyObject As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Elements.Reaction
+'        Public Shared Function Copy(rxn As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+'            Dim CopyObject As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Elements.Reaction
 '            CopyObject.BaseType = rxn.BaseType
 '            ' CopyObject.EnzymaticRxn = rxn.EnzymaticRxn
 '            CopyObject.Enzymes = rxn.Enzymes
@@ -82,7 +82,7 @@
 '            CopyObject.Regulators = rxn.Regulators
 '            CopyObject.Reversible = rxn.Reversible
 '            CopyObject.UniqueID = rxn.UniqueID
-'            CopyObject.UPPER_BOUND = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10} ' rxn.UPPER_BOUND
+'            CopyObject.UPPER_BOUND = New SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10} ' rxn.UPPER_BOUND
 
 '            Dim CopySpecieRef As System.Func(Of List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference), List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference)) =
 '                Function(source As List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference)) _

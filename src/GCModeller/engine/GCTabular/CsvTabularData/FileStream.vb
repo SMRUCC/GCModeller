@@ -1,42 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::5fdb79ad4db972c3eaa8de31aa6e840e, ..\GCModeller\engine\GCTabular\CsvTabularData\FileStream.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
-
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.Model
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace FileStream
 
@@ -135,7 +134,7 @@ Namespace FileStream
         <Column("Lambda")> Public Property Lambda As Double
         <CollectionAttribute("Polypeptide.Composition", "; ")> Public Property PolypeptideCompositionVector As Integer()
 
-        Public Property ProteinType As Metabolism.Polypeptide.ProteinTypes
+        Public Property ProteinType As GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide.ProteinTypes
 
         Public Overrides Function ToString() As String
             Return Identifier
@@ -291,10 +290,10 @@ Namespace FileStream
             Dim Model = EquationBuilder.CreateObject(Equation)
             Dim Reactants = (From item As CompoundSpecieReference
                              In Model.Reactants
-                             Select New GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.Identifier, .StoiChiometry = item.StoiChiometry}).ToArray
+                             Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.Identifier, .StoiChiometry = item.StoiChiometry}).ToArray
             Dim Products = (From item As CompoundSpecieReference
                             In Model.Products
-                            Select New GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.Identifier, .StoiChiometry = item.StoiChiometry}).ToArray
+                            Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.Identifier, .StoiChiometry = item.StoiChiometry}).ToArray
 
             Return New Metabolism.Reaction With {
                 .Identifier = Identifier,
@@ -331,7 +330,7 @@ Namespace FileStream
                                              MetaCycReactions As MetaCyc.File.DataFiles.Reactions,
                                              MetabolismEnzymeLink As List(Of Mapping.EnzymeGeneMap)) As MetabolismFlux
 
-            Dim Flux = New CsvTabular.FileStream.MetabolismFlux
+            Dim Flux = New GCTabular.FileStream.MetabolismFlux
             Flux.Equation = EquationBuilder.ToString(Function() (From item As speciesReference In MetabolismFlux.Reactants Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray,
             Function() (From item As speciesReference In MetabolismFlux.Products Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray, MetabolismFlux.reversible).ToUpper
             Flux.LOWER_Bound = MetabolismFlux.LowerBound

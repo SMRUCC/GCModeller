@@ -1,43 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::2829ee372c22da070c3371766c6bf0a0, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Extensions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Extensions
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
-Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
-Imports System.Text
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions
+Imports SMRUCC.genomics.Model.SBML
 
 ''' <summary>
 ''' LansSystemsBiologyModel, this model file contains all of the required data for the GCModeller virtual cell simulation.
@@ -156,19 +157,19 @@ Public Class BacterialModel : Inherits ModelBaseType
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public ReadOnly Property Width As Integer Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).Width
+    Public ReadOnly Property Width As Integer Implements FLuxBalanceModel.I_FBAC2(Of CompoundSpeciesReference).Width
         Get
             Return Me.Metabolism.Metabolites.Count
         End Get
     End Property
 
-    Public ReadOnly Property IFBAC2MetabolismNetwork As IEnumerable(Of SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_ReactionModel(Of GCML_Documents.ComponentModels.CompoundSpeciesReference)) Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).MetabolismNetwork
+    Public ReadOnly Property IFBAC2MetabolismNetwork As IEnumerable(Of FLuxBalanceModel.I_ReactionModel(Of CompoundSpeciesReference)) Implements FLuxBalanceModel.I_FBAC2(Of CompoundSpeciesReference).MetabolismNetwork
         Get
             Return Me.Metabolism.MetabolismNetwork
         End Get
     End Property
 
-    Public ReadOnly Property IFBAC2Metabolites As IEnumerable(Of SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.IMetabolite) Implements SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel.I_FBAC2(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference).Metabolites
+    Public ReadOnly Property IFBAC2Metabolites As IEnumerable(Of FLuxBalanceModel.IMetabolite) Implements I_FBAC2(Of CompoundSpeciesReference).Metabolites
         Get
             Return Me.Metabolism.Metabolites
         End Get

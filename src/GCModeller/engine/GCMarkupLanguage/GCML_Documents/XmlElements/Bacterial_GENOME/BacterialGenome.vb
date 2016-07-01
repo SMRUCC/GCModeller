@@ -26,11 +26,11 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
-Imports SMRUCC.genomics.DatabaseServices.SabiorkKineticLaws.TabularDump
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 
 Namespace GCML_Documents.XmlElements.Bacterial_GENOME
 
@@ -56,7 +56,7 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
         Public Property Genes As GeneObject()
         Public Property TransUnits As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)
         Public Property Regulons As GCML_Documents.XmlElements.Bacterial_GENOME.Regulon()
-        Public Property Transcripts As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript()
+        Public Property Transcripts As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript()
         Public Property ExpressionKinetics As EnzymeCatalystKineticLaw()
 
         Public Function GetExpressionKineticsLaw(EnzymeId As String) As EnzymeCatalystKineticLaw

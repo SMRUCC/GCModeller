@@ -1,39 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::d743ca6ea0fe04f4823e8e20479b5835, ..\GCModeller\engine\GCTabular\CsvTabularData\Metabolite.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports SMRUCC.genomics.Assembly.SBML
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.Model.SBML
 
 Namespace FileStream
 
@@ -83,7 +82,7 @@ Namespace FileStream
             End If
         End Function
 
-        Public Shared Function CreateObject(Metabolite As SBML.Level2.Elements.Specie, Compounds As MetaCyc.File.DataFiles.Compounds) As Metabolite
+        Public Shared Function CreateObject(Metabolite As Level2.Elements.Specie, Compounds As MetaCyc.File.DataFiles.Compounds) As Metabolite
             Dim CommonNames As String() = Nothing, DBLinks As DBLinkManager = Nothing
             Dim MetaboliteId As String = Metabolite.ID.Replace("_CCO-IN", "").Replace("_CCO-OUT", "").ToUpper
             Dim Compound = Compounds.Item(MetaboliteId)
@@ -105,7 +104,7 @@ Namespace FileStream
             Return MetaboliteDataModel
         End Function
 
-        Public Shared Function CreateObject(Metabolite As SBML.Level2.Elements.Specie) As Metabolite
+        Public Shared Function CreateObject(Metabolite As Level2.Elements.Specie) As Metabolite
             Dim CommonNames As String() = Nothing
             Dim MetaboliteId As String = Metabolite.ID.Replace("_CCO-IN", "").Replace("_CCO-OUT", "").ToUpper
             Dim MetaboliteDataModel As FileStream.Metabolite
