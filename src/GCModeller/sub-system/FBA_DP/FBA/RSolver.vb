@@ -66,20 +66,20 @@ Public Class FBAlpRSolver : Implements IDisposable
     ''' <returns>{ObjectiveFunction, FluxDistribution()}</returns>
     ''' <param name="script">Generated script output</param>
     ''' <remarks></remarks>
-    Public Function RSolving(lpSolveRModel As FBA.lpSolveRModel, Optional ByRef script As String = "") As lpOUT
-        Printf("Start to compiling the input model.")
-        Printf("Please wait for a while...")
+    Public Function RSolving(lpSolveRModel As lpSolveRModel, Optional ByRef script As String = "") As lpOUT
+        printf("Start to compiling the input model.")
+        printf("Please wait for a while...")
         script = lpSolveRModel.RScript
-        Printf("Compile job done! \nstart to solve this FBA model using R.")
+        printf("Compile job done! \nstart to solve this FBA model using R.")
 
-        Printf("Pushing the R script to the REngine...")
+        printf("Pushing the R script to the REngine...")
         Call RServer.Evaluate(script)
-        Printf("FBA model computation job done!")
+        printf("FBA model computation job done!")
 
-        Printf("Get the objective function value...")
+        printf("Get the objective function value...")
         Dim Objective As String = RServer.WriteLine("get.objective(lprec)")(Scan0)  'Get Objective Function value
 
-        Printf("Get the flux value for each reaction...")
+        printf("Get the flux value for each reaction...")
         Dim FluxsDistribution As String() = RServer.WriteLine("get.variables(lprec)")
 
         Return New lpOUT With {

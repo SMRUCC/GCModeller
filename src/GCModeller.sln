@@ -325,6 +325,8 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{df1c1740-08b7-40d3-84dc-35c94faca108}*SharedItemsImports = 4
 		GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
 		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4

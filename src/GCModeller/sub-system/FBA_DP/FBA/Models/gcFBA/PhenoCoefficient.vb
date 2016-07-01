@@ -25,15 +25,15 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Analysis.ModelSolvers.FBA.DESeq2
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
-Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
 
 <PackageNamespace("Phenotype.Coefficient")>
 Public Module PhenoCoefficient

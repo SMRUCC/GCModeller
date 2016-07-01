@@ -28,6 +28,8 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
