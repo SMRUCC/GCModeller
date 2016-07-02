@@ -1,33 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::52f7d3780a5255e0bc99fbce24bedc21, ..\interops\RNA-Seq\RNA-seq.Data\Fastaq\FastaqFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace Fastaq
 
@@ -51,34 +53,20 @@ Namespace Fastaq
 
             Call $"Start to load file data from handle *{Path.ToFileURL}".__DEBUG_ECHO
 
-            Dim TokenLines As String() = IO.File.ReadAllLines(Path)
+            Dim stream As New BufferedStream(Path)
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
             Call "Start to parsing the fastq format data...".__DEBUG_ECHO
 
             sw = Stopwatch.StartNew
 
-            Dim ChunkList As New List(Of String())
-            Dim p As Integer = 0
-            Dim s_ChunkBuffer As String() = New String(3) {}
-            Dim n As Integer = TokenLines.Count - 1
-
-            Do While p <= n
-
-                Call Array.ConstrainedCopy(TokenLines, p, s_ChunkBuffer, 0, 4)
-                p += 4
-                Call ChunkList.Add(DirectCast(s_ChunkBuffer.Clone, String()))
-
-                If n - p < 4 Then
-                    Exit Do
-                End If
-
-            Loop
-
-            Dim LQuery = (From ChunkBuffer As String()
-                          In ChunkList.AsParallel
-                          Select Fastaq.FastaqParser(ChunkBuffer)).ToArray
-            Dim FastaqFile As FastaqFile = New FastaqFile With {
+            Dim sBufs As IEnumerable(Of String()) =
+                TaskPartitions.SplitIterator(Of String)(stream.ReadAllLines, 4)
+            Dim LQuery As Fastaq() =
+                LinqAPI.Exec(Of Fastaq) <= From buf As String()
+                                           In sBufs.AsParallel
+                                           Select Fastaq.FastaqParser(buf)
+            Dim FastaqFile As New FastaqFile With {
                 ._innerList = LQuery.ToList,
                 .FilePath = Path
             }
