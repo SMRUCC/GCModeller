@@ -1,37 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::3d8ee09ee65c971b95b6975879b4f1b2, ..\GCModeller\sub-system\CellPhenotype\TRN\NetEngine\BinaryNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 Namespace Simulation.ExpressionRegulationNetwork
 
@@ -214,11 +213,11 @@ Namespace Simulation.ExpressionRegulationNetwork
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>由于有一些调控因子是找不到任何调控因子的，即该调控因子是位于网络的最上层，则这个调控因子的表达量就使用默认的输入值作为恒定值作为蒙特卡洛实验的输入值</remarks>
-        Public Shared Function AnalysisMonteCarloTopLevelInput(footprints As IEnumerable(Of DocumentFormat.RegulatesFootprints)) As String()
-            Dim Regulations As DocumentFormat.RegulatesFootprints() = (From item As DocumentFormat.RegulatesFootprints
+        Public Shared Function AnalysisMonteCarloTopLevelInput(footprints As IEnumerable(Of RegulatesFootprints)) As String()
+            Dim Regulations As RegulatesFootprints() = (From item As RegulatesFootprints
                                                                        In footprints.AsParallel
-                                                                       Where Not String.IsNullOrEmpty(item.Regulator)
-                                                                       Select item).ToArray
+                                                        Where Not String.IsNullOrEmpty(item.Regulator)
+                                                        Select item).ToArray
             Dim ORFList As String() = (From item In Regulations Select item.ORF Distinct).ToArray
             Dim Regulators As String() = (From item In Regulations Select regEntries = item.Regulator).ToArray.Distinct.ToArray
 
@@ -236,11 +235,11 @@ Namespace Simulation.ExpressionRegulationNetwork
         ''' <param name="footprints"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function AllRegulatorInputs(footprints As Generic.IEnumerable(Of DocumentFormat.RegulatesFootprints)) As String()
-            Dim Regulators As String() = (From site As DocumentFormat.RegulatesFootprints
+        Public Shared Function AllRegulatorInputs(footprints As Generic.IEnumerable(Of RegulatesFootprints)) As String()
+            Dim Regulators As String() = (From site As RegulatesFootprints
                                           In footprints.AsParallel
                                           Where Not String.IsNullOrEmpty(site.Regulator)
-                                          Select site.Regulator).ToArray.Distinct.ToArray
+                                          Select site.Regulator).Distinct.ToArray
             Return Regulators
         End Function
 

@@ -377,6 +377,8 @@ Global
 		GCModeller\shared\api\Shared.CommonMethods.projitems*{e9f6cb0c-0a4c-4cbc-823a-f5648c0aa68b}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e9f6cb0c-0a4c-4cbc-823a-f5648c0aa68b}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{e9f6cb0c-0a4c-4cbc-823a-f5648c0aa68b}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{eb8de91e-871c-4ce5-8d4d-73bb4e98012e}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{eb8de91e-871c-4ce5-8d4d-73bb4e98012e}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4

@@ -1,54 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::da9c8abcd3336411f51dcb6d5a46f292, ..\GCModeller\sub-system\CellPhenotype\PfsNET_FootprintMappingPathway_API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
-    Global.SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Enzyme,
-    SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction)
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.DataStructure
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet.PFSNet
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.dataExprMAT
-Imports SMRUCC.genomics.AnalysisTools.CellularNetwork.PFSNet
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.PFSNet
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
+Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
+Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
+SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Enzyme,
+SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction)
 
 ''' <summary>
 ''' The calculation invoke interface of the both R scription version and VB version engine.
@@ -176,7 +174,7 @@ Module PfsNET_FootprintMappingPathway_API
     ''' <param name="Model"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __createNetwork(Model As CsvTabular.FileStream.IO.XmlresxLoader) As __KEGG_NETWORK_
+    Private Function __createNetwork(Model As GCTabular.FileStream.IO.XmlresxLoader) As __KEGG_NETWORK_
         Dim Network As __KEGG_NETWORK_ = GeneInteractions.__exportPathwayGraph(Model.KEGG_Pathways, True)
         Dim Regulations As List(Of GeneInteractions.Interaction) =
             LinqAPI.MakeList(Of GeneInteractions.Interaction) <=
@@ -229,7 +227,7 @@ Module PfsNET_FootprintMappingPathway_API
 
         Dim Network = __createNetwork(NetworkModel)
         Dim GeneIdList As String() = (From RowData In ChipData.First Select RowData.locusId).ToArray    '筛选网络数据
-        Dim FiltedNetwork As String() = (From Edge As SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET.Interaction
+        Dim FiltedNetwork As String() = (From Edge As SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction
                                          In Network.Edges
                                          Where Array.IndexOf(GeneIdList, Edge.FromNode) > -1 AndAlso Array.IndexOf(GeneIdList, Edge.ToNode) > -1
                                          Select (From pwyID As String In Edge.Pathways Select String.Join(vbTab, pwyID, Edge.FromNode, Edge.ToNode)).ToArray).ToArray.MatrixToVector.Distinct.ToArray

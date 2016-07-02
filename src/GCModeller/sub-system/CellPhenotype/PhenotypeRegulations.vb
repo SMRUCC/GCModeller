@@ -1,61 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::55acf5d712826ddcac3db339f6f0ce58, ..\GCModeller\sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports System.Text.RegularExpressions
 Imports System.Text
-Imports SMRUCC.genomics.InteractionModel.Regulon
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions
-Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
-                       SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression,
-                       SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork)
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.API.ImportantNodes
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.DocumentFormat
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Serialization
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports SMRUCC.genomics.GCModeller.Framework
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DataVisualization.Network
+Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.GCModeller.Framework
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
 Imports SMRUCC.genomics.InteractionModel
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.InteractionModel.Regulon
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
+                       SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression,
+                       SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork)
 
 ''' <summary>
 ''' 将MEME所分析出来的调控信息附加到代谢途径的网络图之中
@@ -77,7 +77,7 @@ Public Module PhenotypeRegulations
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("binary_network.create_lite")>
-    Public Function CreateDynamicNetwork(Footprints As IEnumerable(Of DocumentFormat.RegulatesFootprints),
+    Public Function CreateDynamicNetwork(Footprints As IEnumerable(Of RegulatesFootprints),
                                          <Parameter("Kernel.Inits", "The inits node state value of the network kernel object.")>
                                          Inits As IEnumerable(Of NetworkInput)) As BinaryNetwork
 
@@ -90,7 +90,7 @@ Public Module PhenotypeRegulations
         Next
 #End If
 
-        Dim lMaps = (From rels As DocumentFormat.RegulatesFootprints
+        Dim lMaps = (From rels As RegulatesFootprints
                      In Footprints
                      Select rels.ORF
                      Distinct) _
@@ -188,7 +188,7 @@ Public Module PhenotypeRegulations
     End Function
 
     <ExportAPI("Binary_Network.Object.Create")>
-    Public Function CreateDynamicNetwork(Model As XmlresxLoader, Footprints As IEnumerable(Of DocumentFormat.RegulatesFootprints),
+    Public Function CreateDynamicNetwork(Model As XmlresxLoader, Footprints As IEnumerable(Of RegulatesFootprints),
                                          <Parameter("Network.Inits")>
                                          Inits As IEnumerable(Of NetworkInput)) As BinaryNetwork
         Dim NetworkModel As BinaryNetwork = EngineAPI.CreateObject(Footprints, Inits, Model)
@@ -390,7 +390,7 @@ Public Module PhenotypeRegulations
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Binary_Network.Empty_Inputs.Create()")>
-    Public Function CreateEmptyInput(<Parameter("Network.Model")> NetworkModel As IEnumerable(Of DocumentFormat.RegulatesFootprints),
+    Public Function CreateEmptyInput(<Parameter("Network.Model")> NetworkModel As IEnumerable(Of RegulatesFootprints),
                                      <Parameter("Path.SaveTo",
                                                 "Optional parameter, is this path value not is null then the program " &
                                                                     "will save the inputs data to the specific file which was indicates by this value.")>
@@ -408,7 +408,7 @@ Public Module PhenotypeRegulations
     End Function
 
     <ExportAPI("binary_network.empty_input.create_all_regulators")>
-    Public Function CreateInput_AllRegulators(model As Generic.IEnumerable(Of DocumentFormat.RegulatesFootprints), saveto As String) As Boolean
+    Public Function CreateInput_AllRegulators(model As Generic.IEnumerable(Of RegulatesFootprints), saveto As String) As Boolean
         Dim Nodes = CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.AnalysisMonteCarloTopLevelInput(model)
         Dim ChunkBuffer = (From id As String In Nodes.AsParallel Select New NetworkInput With {
                                                                      .locusId = id, .Level = True, .InitQuantity = 1, .NoneRegulation = True}).ToArray

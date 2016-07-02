@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::3f3f6a9bfb109e754efa8a2bcfb0fb7c, ..\GCModeller\sub-system\CellPhenotype\TRN\NetEngine\EngineAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.Compiler.Components
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel
+Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 Namespace Simulation.ExpressionRegulationNetwork
 
     Public Module EngineAPI
 
-        Public Function CreateObject(footprints As IEnumerable(Of DocumentFormat.RegulatesFootprints),
+        Public Function CreateObject(footprints As IEnumerable(Of RegulatesFootprints),
                                      initStat As IEnumerable(Of NetworkInput),
                                      cellularNET As XmlresxLoader) As BinaryNetwork
             Dim LengthMapping = (From trans As Transcript
@@ -119,7 +120,7 @@ Namespace Simulation.ExpressionRegulationNetwork
         End Function
 
         Private Class Footprint_INIT
-            Public Property data As DocumentFormat.RegulatesFootprints()
+            Public Property data As RegulatesFootprints()
             Public Property ORF As String
 
             Public Overrides Function ToString() As String
@@ -128,7 +129,7 @@ Namespace Simulation.ExpressionRegulationNetwork
         End Class
 
         ''' <summary>
-        ''' 从<see cref="DocumentFormat.RegulatesFootprints">调控网络预测数据</see>之中根据调控关系创建一个逻辑网络（本方法适用于初始化最简单的调控网络模型）
+        ''' 从<see cref="RegulatesFootprints">调控网络预测数据</see>之中根据调控关系创建一个逻辑网络（本方法适用于初始化最简单的调控网络模型）
         ''' </summary>
         ''' <param name="footprints"></param>
         ''' <param name="LengthMapping">{基因号，核酸链长度}</param>
@@ -136,7 +137,7 @@ Namespace Simulation.ExpressionRegulationNetwork
         ''' <remarks>
         ''' 由于有一些调控因子是找不到任何调控因子的，即该调控因子是位于网络的最上层，则这个调控因子的表达量就使用默认的输入值作为恒定值作为蒙特卡洛实验的输入值
         ''' </remarks>
-        Public Function CreateObject(footprints As Generic.IEnumerable(Of DocumentFormat.RegulatesFootprints),
+        Public Function CreateObject(footprints As Generic.IEnumerable(Of RegulatesFootprints),
                                             InitStatus As Generic.IEnumerable(Of NetworkInput), LengthMapping As Dictionary(Of String, Integer)) As BinaryNetwork
 
             '            footprints = {

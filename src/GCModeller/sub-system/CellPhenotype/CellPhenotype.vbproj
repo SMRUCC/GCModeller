@@ -224,37 +224,13 @@
     <Content Include="Resources\ExpressionMAT.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\GCModeller.Core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
-      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
-      <Name>Bio.InteractionModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Reference_SharedLib\Java\Java.vbproj">
-      <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
-      <Name>Java</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Shoal\RDotNET.Extensions.ShellScriptAPI\ShoalShell.Plugins.RDotNET.vbproj">
-      <Project>{2a928b27-d8ce-4629-9711-0e792c94a85e}</Project>
-      <Name>ShoalShell.Plugins.RDotNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Datavisualization.Network</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
-      <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
-      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\alglib-3.9.0.vbnet.gpl\vbnet\alglibnet2\alglibnet2.vbproj">
       <Project>{eea01916-0334-4293-b284-c8b0d9d3ef63}</Project>
@@ -267,6 +243,34 @@
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.vbproj">
       <Project>{9c7dd64a-e4c0-4011-8994-c842702c6ed4}</Project>
       <Name>Cytoscape</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\java.net\Java.vbproj">
+      <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
+      <Name>Java</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Datavisualization.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+      <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
+      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
+      <Name>VirtualFootprint</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
+      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
+      <Name>Bio.InteractionModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\engine\GCTabular\GCTabular.vbproj">
       <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
@@ -301,6 +305,8 @@
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
