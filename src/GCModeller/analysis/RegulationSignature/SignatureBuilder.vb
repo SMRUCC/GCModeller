@@ -27,13 +27,13 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace RegulationSignature
 
@@ -172,9 +172,7 @@ Namespace RegulationSignature
 
         End Sub
 
-        Private Shared Function VF2TFreg(VirtualFootprints As Generic.IEnumerable(Of
-                                         SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)) _
-            As Dictionary(Of String, KeyValuePair(Of String, String()))
+        Private Shared Function VF2TFreg(VirtualFootprints As Generic.IEnumerable(Of PredictedRegulationFootprint)) As Dictionary(Of String, KeyValuePair(Of String, String()))
 
             'Dim LQuery = (From vf As SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
             '                  In VirtualFootprints
