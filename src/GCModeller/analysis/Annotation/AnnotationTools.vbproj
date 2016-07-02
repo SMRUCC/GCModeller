@@ -56,7 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller-x64\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>SMRUCC.genomics.Analysis.AnnotationTools.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -370,6 +370,10 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
+      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
+      <Name>LibMySQL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\SQLite_Interface\SQLite_Interface.vbproj">
       <Project>{67eafc15-2237-494e-85d9-206e5bf71ef4}</Project>
       <Name>SQLite_Interface</Name>
@@ -401,10 +405,6 @@
     <ProjectReference Include="..\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
       <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
       <Name>DNA_Comparative</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>

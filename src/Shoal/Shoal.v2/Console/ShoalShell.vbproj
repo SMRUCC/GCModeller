@@ -71,7 +71,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\GCModeller\GCModeller-x64\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <DocumentationFile>Shoal.xml</DocumentationFile>
     <Optimize>false</Optimize>
