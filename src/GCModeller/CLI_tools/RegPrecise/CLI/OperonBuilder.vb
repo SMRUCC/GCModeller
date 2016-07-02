@@ -26,13 +26,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.Rfam.Infernal
-Imports SMRUCC.genomics.Assembly.DOOR
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -45,6 +38,13 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Xfam.Rfam.Infernal
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports gene = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
 
 Partial Module CLI
