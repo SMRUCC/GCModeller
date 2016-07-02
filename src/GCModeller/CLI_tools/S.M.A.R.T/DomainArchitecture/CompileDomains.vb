@@ -1,43 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::9eabb2a2c0a30d2d5d511aa4ecd5a4ef, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CompileDomains.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.Assembly.NCBI.CDD.DomainInfo
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.InteropService
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic
 
 Public Class CompileDomains
 
@@ -141,7 +142,7 @@ Public Class CompileDomains
                          Let Idx As Long = Val(Regex.Match(Hit.Id, "\d+").Value)
                          Let SmpFile = DomainInfo.Query(SubjectDb(Idx - 1).Attributes(1), CddDb)
                          Select New DomainObject(SmpFile) With {
-                             .Position = New ComponentModel.Loci.Location() With {
+                             .Position = New Location() With {
                                     .Left = Val(Hit.Hsps.First.HitFrom),
                                     .Right = Val(Hit.Hsps.Last.HitTo)
                              }

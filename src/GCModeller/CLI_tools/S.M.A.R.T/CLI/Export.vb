@@ -1,32 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::e7b7326893c1ff4cefba55497fe68fc4, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\Export.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 
 Partial Module CLI
 
@@ -54,8 +57,8 @@ Partial Module CLI
 
         If String.IsNullOrEmpty(Db) OrElse String.Equals(Db, "all") Then
 
-            Dim List As List(Of SMRUCC.genomics.SequenceModel.FASTA.FastaToken) = New List(Of SequenceModel.FASTA.FastaToken)
-            For Each Db In New Assembly.NCBI.CDD.Database("").Paths
+            Dim List As List(Of SMRUCC.genomics.SequenceModel.FASTA.FastaToken) = New List(Of FASTA.FastaToken)
+            For Each Db In New NCBI.CDD.Database("").Paths
                 Call List.AddRange(Export(Db, Keywords, CaseSense, IsMethodAny))
             Next
             Dim Saved = CType(List, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Distinct
@@ -64,7 +67,7 @@ Partial Module CLI
         Else
 
             If Not FileIO.FileSystem.FileExists(Db) Then '使用的是一个指定的文件
-                Using Database As Assembly.NCBI.CDD.Database = New Assembly.NCBI.CDD.Database("")
+                Using Database As NCBI.CDD.Database = New NCBI.CDD.Database("")
                     Db = Database.Db(Db)
                 End Using
             End If
@@ -93,7 +96,7 @@ Partial Module CLI
         Dim Log As String = CommandLine("-i")
         Dim Saved As String = CommandLine("-o")
 
-        Dim BlastLog As NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput = NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(Log)
+        Dim BlastLog As BLASTOutput.Standard.BLASTOutput = BLASTOutput.Standard.BLASTOutput.TryParse(Log)
         Call BlastLog.Save(Saved)
         Return 0
     End Function
@@ -144,7 +147,7 @@ Partial Module CLI
             Return -1
         End If
 
-        Using File As NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput = NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
+        Using File As BLASTOutput.Standard.BLASTOutput = BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
             Call File.Grep(AddressOf GrepScriptQuery.Grep, AddressOf GrepScriptHit.Grep)
         End Using
 

@@ -343,6 +343,9 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
+		GCModeller\shared\api\Shared.CommonMethods.projitems*{e9f6cb0c-0a4c-4cbc-823a-f5648c0aa68b}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{e9f6cb0c-0a4c-4cbc-823a-f5648c0aa68b}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{e9f6cb0c-0a4c-4cbc-823a-f5648c0aa68b}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{f5fc5f93-f929-496f-9cf9-8607203b9545}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4

@@ -27,12 +27,12 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.RCSB.PDB
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
-Imports SMRUCC.genomics.GCModeller.DataVisualization
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.RCSB.PDB
+Imports SMRUCC.genomics.Visualize
 
 <[PackageNamespace]("Drawing.Protein.3D.PDB",
                     Description:="Visualize the protein 3D structure from the PDB file.",

@@ -1,37 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::f986dc0a919024c42fb6a35539c0fc2a, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Xfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports ProteinTools.SMART.Common.Extensions
 
 Partial Module CLI
 
@@ -42,15 +46,15 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--MPAlignment", Usage:="--MPAlignment /sbh <sbh.csv> /query <pfam-string.csv> /subject <pfam-string.csv> [/mp <0.65> /out <out.csv>]")>
     Public Function SBHAlignment(args As CommandLine.CommandLine) As Integer
-        Dim sbh = args("/sbh").LoadCsv(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)
-        Dim query = args("/query").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
-        Dim subject = args("/subject").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
+        Dim sbh = args("/sbh").LoadCsv(Of BBH.BestHit)
+        Dim query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
+        Dim subject = args("/subject").LoadCsv(Of Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
         Dim MP As Double = args.GetValue("/mp", 0.65)
-        Dim LQuery = (From hit As SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit
+        Dim LQuery = (From hit As BBH.BestHit
                       In sbh
                       Where query.ContainsKey(hit.QueryName) AndAlso
                           subject.ContainsKey(hit.HitName)
-                      Select Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(query(hit.QueryName), subject(hit.HitName), MP)).ToArray
+                      Select Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(query(hit.QueryName), subject(hit.HitName), MP)).ToArray
         Dim out As String = args.GetValue("/out", args("/sbh").TrimFileExt & ".MPAlignment.csv")
         Return AlignmentOutput2Csv(LQuery).SaveTo(out).CLICode
     End Function
@@ -61,8 +65,8 @@ Partial Module CLI
             Return __alignInst(args)
         End If
 
-        Dim query = args("/query").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
-        Dim subject = args("/subject").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
+        Dim query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString)
+        Dim subject = args("/subject").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
         Dim resultSet As New List(Of LevAlign)
 
@@ -73,7 +77,7 @@ Partial Module CLI
         For Each prot As PfamString.PfamString In query
             Dim alignInvoke As LevAlign() = (From b As PfamString.PfamString
                                              In subject.AsParallel
-                                             Select Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(prot, b, 0.8)).ToArray
+                                             Select Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(prot, b, 0.8)).ToArray
 
             resultSet += alignInvoke
 
@@ -95,8 +99,8 @@ Partial Module CLI
     End Function
 
     Private Function __alignInst(args As CommandLine.CommandLine) As Integer
-        Dim query = Sanger.Pfam.PfamString.CLIParser(args("/query"))
-        Dim subject = Sanger.Pfam.PfamString.CLIParser(args("/subject"))
+        Dim query = Pfam.PfamString.CLIParser(args("/query"))
+        Dim subject = Pfam.PfamString.CLIParser(args("/subject"))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
         Dim result = Algorithm.PfamStringEquals(query, subject, 0.8)
 
@@ -128,12 +132,12 @@ Partial Module CLI
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim out As String = args.GetValue("/out", input.ParentDirName & "/MPAlignment/")
-        Dim inBBH = input.LoadCsv(Of NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit)
-        Dim align = MotifParallelAlignment.AlignProteins(inBBH, query.LoadCsv(Of Sanger.Pfam.PfamString.PfamString), subject.LoadCsv(Of Sanger.Pfam.PfamString.PfamString))
+        Dim inBBH = input.LoadCsv(Of BiDirectionalBesthit)
+        Dim align = MotifParallelAlignment.AlignProteins(inBBH, query.LoadCsv(Of Pfam.PfamString.PfamString), subject.LoadCsv(Of Pfam.PfamString.PfamString))
         Call align.ToArray.GetXml.SaveTo($"{out}/{IO.Path.GetFileNameWithoutExtension(input)}.xml")
         Call align.ToArray(Function(x) x.ToRow).SaveTo($"{out}/{IO.Path.GetFileNameWithoutExtension(input)}.csv")
 
-        Dim Regprecise = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of SMRUCC.genomics.DatabaseServices.Regprecise.FastaReaders.Regulator) _
+        Dim Regprecise = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of FastaReaders.Regulator) _
                 .ToDictionary(Function(prot) prot.LocusTag) '.LoadXml(Of SMRUCC.genomics.DatabaseServices.Regprecise.WebServices.Regulations)
         Dim mp As Double = args.GetValue("/mp", 0.65)
         ' Dim lev As Double = args.GetValue("/lev", 0.65)
@@ -159,8 +163,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <Extension> Private Function __contains(prot As Sanger.Pfam.PfamString.PfamString, Family As String) As Boolean
-        Dim Tokens As String() = Common.Extensions.FamilyTokens(Family)
+    <Extension> Private Function __contains(prot As Pfam.PfamString.PfamString, Family As String) As Boolean
+        Dim Tokens As String() = FamilyTokens(Family)
         Dim LQuery = (From domain
                       In prot.GetDomainData(True)
                       Where Not (From fam As String In Tokens Where InStr(domain.Identifier, fam, CompareMethod.Text) > 0 Select 1).ToArray.IsNullOrEmpty
@@ -175,8 +179,8 @@ Partial Module CLI
     Public Function SelfAlign(args As CommandLine.CommandLine) As Integer
         Dim id As String = args("/id")
         Dim queryFile As String = args("/query")
-        Dim subject = args("/subject").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
-        Dim query = queryFile.LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
+        Dim subject = args("/subject").LoadCsv(Of Pfam.PfamString.PfamString)
+        Dim query = queryFile.LoadCsv(Of Pfam.PfamString.PfamString)
         Dim cut As Double = args.GetValue("/mp", 0.65)
         Dim lstId As String()
         Dim idFile As String = args("/lstID")
@@ -190,13 +194,13 @@ Partial Module CLI
             path = args("/aln").TrimFileExt & ".SelfAlign.csv"
         End If
 
-        Dim aln = args("/aln").LoadCsv(Of SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive)
+        Dim aln = args("/aln").LoadCsv(Of Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive)
 
         If String.IsNullOrEmpty(id) Then
             lstId = aln.ToArray(Function(x) x.QueryName).Join(aln.ToArray(Function(x) x.HitName)).Distinct.ToArray
         Else
             Dim ql = aln.ToArray(Function(x) x.QueryName)
-            Dim subSet As Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive()
+            Dim subSet As Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive()
 
             If Array.IndexOf(ql, id) > -1 Then
                 subSet = (From x In aln Where String.Equals(id, x.QueryName, StringComparison.OrdinalIgnoreCase) Select x).ToArray
@@ -208,10 +212,10 @@ Partial Module CLI
         End If
 
 GET_ID:
-        Dim pfSubSet As Sanger.Pfam.PfamString.PfamString() =
+        Dim pfSubSet As Pfam.PfamString.PfamString() =
             (From x In query Where Array.IndexOf(lstId, x.ProteinId) > -1 Select x).ToArray
         Call pfSubSet.Add((From x In subject Where Array.IndexOf(lstId, x.ProteinId) > -1 Select x).ToArray)
-        Dim alnResult = (From x In pfSubSet Select (From y In pfSubSet Select Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(x, y, cut)).ToArray).ToArray.MatrixToList
-        Return Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.AlignmentOutput2Csv(alnResult).SaveTo(path)
+        Dim alnResult = (From x In pfSubSet Select (From y In pfSubSet Select Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(x, y, cut)).ToArray).MatrixToList
+        Return Pfam.ProteinDomainArchitecture.MPAlignment.AlignmentOutput2Csv(alnResult).SaveTo(path)
     End Function
 End Module
