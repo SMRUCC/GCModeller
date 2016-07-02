@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AFF75EDE-C4C6-48FA-AC99-501361B231EB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>LANS.SystemsBiology.GCModeller.Program</StartupObject>
-    <RootNamespace>LANS.SystemsBiology.GCModeller</RootNamespace>
+    <StartupObject>xGCModeller.Program</StartupObject>
+    <RootNamespace>xGCModeller</RootNamespace>
     <AssemblyName>GCModeller</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
@@ -265,6 +265,10 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
