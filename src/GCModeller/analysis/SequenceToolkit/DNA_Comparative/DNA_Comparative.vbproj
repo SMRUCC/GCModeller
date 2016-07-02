@@ -171,6 +171,7 @@
     <Compile Include="CAI\CodonFrequencyCAI.vb" />
     <Compile Include="gwANI\gwANI.vb" />
     <Compile Include="gwANI\identity_result.vb" />
+    <Compile Include="gwANI\gwANIExtensions.vb" />
     <Compile Include="ToolsAPI\ChromosomePartitioningEntry.vb" />
     <Compile Include="ToolsAPI\SegmentRenderData.vb" />
     <Compile Include="ToolsAPI\SiteSigma.vb" />
