@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::ad86bc199b8f8389d71dced8c07234c2, ..\GCModeller\CLI_tools\Solver.FBA\CLI\Solver.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports System.Text
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports SMRUCC.genomics.Assembly.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.Model
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Partial Module CLI
 
@@ -68,11 +69,11 @@ Partial Module CLI
         Dim Output As String = args("-o")
 
         If String.Equals(args("-m"), "sbml") Then
-            Printf("Ready to parse a FBA model from the sbml model file: %s", Input)
-            Model = SMRUCC.genomics.Assembly.SBML.Level2.XmlFile.Load(Input)
+            printf("Ready to parse a FBA model from the sbml model file: %s", Input)
+            Model = SBML.Level2.XmlFile.Load(Input)
         ElseIf String.Equals(args("-m"), "fba") OrElse String.Equals(args("-m"), "default") Then
-            Printf("Ready for load a FBA model from compiled model file: %s", Input)
-            Printf("Loading...")
+            printf("Ready for load a FBA model from compiled model file: %s", Input)
+            printf("Loading...")
             Model = FBACompatibility.Model.Load(Input)
         Else
             Model = BacterialModel.Load(Input)
@@ -89,7 +90,7 @@ Partial Module CLI
         '    End If
         'End Using
 
-        Printf("Work completed!")
+        printf("Work completed!")
 
         Return 0
     End Function

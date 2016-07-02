@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9F0A63F1-E8BF-4D40-A4E2-0DA12BFF566D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>LANS.SystemsBiology.GCModeller.ModelSolvers.FBA.Program</StartupObject>
-    <RootNamespace>LANS.SystemsBiology.GCModeller.ModelSolvers.FBA</RootNamespace>
+    <StartupObject>FBA.Program</StartupObject>
+    <RootNamespace>FBA</RootNamespace>
     <AssemblyName>FBA</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
@@ -263,6 +263,10 @@
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
+      <Project>{AA24C3CF-9377-4BF6-B71D-8D452AE68C3D}</Project>
+      <Name>Toolkits.RNA-Seq.RTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
@@ -333,6 +337,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

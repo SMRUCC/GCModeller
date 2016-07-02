@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::dac9dc1f393b0996e009e04a11474ce2, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\ObjFunc.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.Assembly.SBML.Level2
-Imports SMRUCC.genomics.Assembly.SBML.ExportServices.Intersection
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.DESeq2
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA
-
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Analysis.FBA_DP
+Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
+Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT
+Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Model.SBML.ExportServices.Intersection
+Imports SMRUCC.genomics.Model.SBML.Level2
 
 Partial Module CLI
 

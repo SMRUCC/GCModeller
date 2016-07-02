@@ -1,49 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::c45d9f34009f09c2faa0b6f5e267d5ba, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Drawing
 Imports System.Text
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Assembly.SBML.Level2
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.DESeq2
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.DocumentFormat
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.Models
-Imports SMRUCC.genomics.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
-Imports SMRUCC.genomics.Assembly.SBML.ExportServices.Intersection
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
-Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.FBA_DP
+Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
+Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT
+Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
+Imports SMRUCC.genomics.Analysis.FBA_DP.rFBA
+Imports SMRUCC.genomics.Analysis.FBA_DP.rFBA.DataModel
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Model.SBML.ExportServices.Intersection
+Imports SMRUCC.genomics.Model.SBML.Level2
 
 Partial Module CLI
 
@@ -62,7 +64,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inModel.TrimFileExt & ".rFBA/")
         Dim model As XmlFile = XmlFile.Load(inModel)
         Dim footprints As List(Of RegulatesFootprints) = regs.LoadCsv(Of RegulatesFootprints)
-        Dim objectives As ObjectiveFunction = __getObjectives(obj, args.GetValue("/obj-type", "lst"))
+        Dim objectives As FBA_OUTPUT.ObjectiveFunction =
+            __getObjectives(obj, args.GetValue("/obj-type", "lst"))
         Dim param As String = args("/params")
         Dim paramValue As rFBA_ARGVS
         If param.FileExists Then
@@ -201,7 +204,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inModel.TrimFileExt & ".rFBA/")
         Dim model As XmlFile = XmlFile.Load(inModel)
         Dim footprints = regs.LoadCsv(Of RegulatesFootprints)
-        Dim objectives As ObjectiveFunction = __getObjectives(obj, args.GetValue("/obj-type", "lst"))
+        Dim objectives As FBA_OUTPUT.ObjectiveFunction = __getObjectives(obj, args.GetValue("/obj-type", "lst"))
         Dim param As String = args("/params")
         Dim paramValue As rFBA_ARGVS
         If param.FileExists Then
@@ -242,7 +245,7 @@ Partial Module CLI
         Return 0
     End Function
 
-    Private Function __getObjectives(value As String, model As lpSolveRModel, obj As ObjectiveFunction, sample As String) As ObjectiveFunction
+    Private Function __getObjectives(value As String, model As lpSolveRModel, obj As FBA_OUTPUT.ObjectiveFunction, sample As String) As FBA_OUTPUT.ObjectiveFunction
         obj.Add(sample, Scripting.CastDouble(value))
         obj.Factors = model.Objectives
         Return obj
@@ -254,8 +257,8 @@ Partial Module CLI
     ''' <param name="file"></param>
     ''' <param name="type">lst/pathway/module</param>
     ''' <returns></returns>
-    Private Function __getObjectives(file As String, type As String) As ObjectiveFunction
-        Dim objective As New ObjectiveFunction
+    Private Function __getObjectives(file As String, type As String) As FBA_OUTPUT.ObjectiveFunction
+        Dim objective As New FBA_OUTPUT.ObjectiveFunction
 
         Select Case type.ToLower
             Case "lst"
