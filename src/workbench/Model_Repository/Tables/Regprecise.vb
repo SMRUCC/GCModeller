@@ -1,7 +1,8 @@
 ﻿Imports System.Data.Linq.Mapping
 Imports System.Data.SQLite.Linq.DataMapping.Interface.QueryBuilder
-Imports LANS.SystemsBiology.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' Regulator entry inforamtion for the regprecise regulators.
@@ -39,7 +40,7 @@ Public Class Regprecise : Inherits DbFileSystemObject : Implements DbFileSystemO
         Return Path
     End Function
 
-    Public Shared Function CreateObject(Fasta As LANS.SystemsBiology.DatabaseServices.Regprecise.FastaReaders.Regulator, MD5 As String) As Regprecise
+    Public Shared Function CreateObject(Fasta As FastaReaders.Regulator, MD5 As String) As Regprecise
         Dim EntryInfo As Regprecise =
             New Regprecise With {
                 .Family = Fasta.Family,

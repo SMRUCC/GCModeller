@@ -105,7 +105,7 @@ and the shared number of the start site just lets you have a simple glimp on you
     End Function
 
     Private Function __createObjectRight(array As SMRUCC.genomics.SequenceModel.NucleotideModels.Contig(), [shared] As Integer, Enrichment As Long) As DocumentFormat.Transcript
-        Dim MaxLength As Integer = (From obj In array Select obj.MappingLocation.Left).ToArray.Max
+        Dim MaxLength As Integer = (From obj In array Select obj.MappingLocation.Left).Max
         Dim Deputy = array(Scan0)
         Dim Transcript As New DocumentFormat.Transcript With {
             .Left = MaxLength,
