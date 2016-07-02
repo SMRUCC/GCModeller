@@ -27,9 +27,9 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Phylip.ShellScriptAPI
-Imports SMRUCC.genomics.NCBI.Extensions.Analysis
-Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Phylip.MatrixFile
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile
+Imports SMRUCC.genomics.Interops.Visualize.Phylip.ShellScriptAPI
 
 Partial Module CLI
 
