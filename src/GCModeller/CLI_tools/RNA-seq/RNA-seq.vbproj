@@ -185,6 +185,7 @@
   <ItemGroup>
     <Compile Include="CLI\Expressions.vb" />
     <Compile Include="CLI\CLI.vb" />
+    <Compile Include="CLI\Tools.vb" />
     <Compile Include="CLI\WGCNA.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
