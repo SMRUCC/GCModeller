@@ -297,6 +297,8 @@ Global
 		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{05b85131-6b4a-4f64-9939-aecdd6ffac87}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{05b85131-6b4a-4f64-9939-aecdd6ffac87}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{05b85131-6b4a-4f64-9939-aecdd6ffac87}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{18120be0-3fd5-4a07-93df-6ce3a8ed936d}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{18120be0-3fd5-4a07-93df-6ce3a8ed936d}*SharedItemsImports = 4
 		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{19dd7076-5787-44f8-85fc-818200d9e4aa}*SharedItemsImports = 13
 		GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{1dc0341c-37f5-45a6-b486-337edc2bad76}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{2b903b81-95f4-455f-b892-d2ac36167453}*SharedItemsImports = 4
