@@ -29,6 +29,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace Fastaq
@@ -152,21 +153,32 @@ Namespace Fastaq
         ''' Convert fastaq data into a fasta data file.
         ''' </summary>
         ''' <returns></returns>
-        Public Function ToFasta() As SequenceModel.FASTA.FastaFile
+        Public Function ToFasta(Optional index As Boolean = False) As FASTA.FastaFile
             Dim sw As Stopwatch = Stopwatch.StartNew
 
             Call "Start to convert fastq to fastq...".__DEBUG_ECHO
 
-            Dim LQuery = (From i As Integer In Me.Sequence.AsParallel
-                          Let Read As Fastaq = Me(i)
-                          Select fasta = New FASTA.FastaToken With {
-                              .SequenceData = Read.SequenceData,
-                              .Attributes = {$"lcl={i} ", Read.SEQ_ID.ToString}}
-                          Order By fasta.Attributes.First Ascending).ToArray
+            Dim __attrs As Func(Of Integer, Fastaq, String())
+
+            If index Then
+                __attrs = Function(i, fq) {$"lcl={i} ", fq.SEQ_ID.ToString}
+            Else
+                __attrs = Function(i, fq) {fq.SEQ_ID.ToString}
+            End If
+
+            Dim LQuery As FASTA.FastaToken() =
+                LinqAPI.Exec(Of FASTA.FastaToken) <= From fq As SeqValue(Of Fastaq)
+                                                     In Me.SeqIterator.AsParallel
+                                                     Let read As Fastaq = fq.obj
+                                                     Select fasta = New FASTA.FastaToken With {
+                                                         .SequenceData = read.SequenceData,
+                                                         .Attributes = __attrs(fq.i, read)
+                                                     }
+                                                     Order By fasta.Attributes.First Ascending
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 
-            Return CType(LQuery, SequenceModel.FASTA.FastaFile)
+            Return New FASTA.FastaFile(LQuery)
         End Function
     End Class
 End Namespace

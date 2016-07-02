@@ -231,7 +231,7 @@ Namespace Fastaq
             Tokens = Tokens(4).Split("#"c).Last.Split("/"c)
 
             Identifier.MsIndex = Tokens(0)
-            Identifier.PairMember = Tokens(1)
+            Identifier.PairMember = Tokens.Get(1)
 
             Return Identifier
         End Function
