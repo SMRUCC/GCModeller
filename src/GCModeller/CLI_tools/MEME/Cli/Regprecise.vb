@@ -194,7 +194,7 @@ Partial Module CLI
     Public Function DownloadRegprecise(args As CommandLine) As Integer
         Dim Updates As Boolean = args.GetBoolean("/updates")
         Dim Export As String = args.GetValue(Of String)("/repository-export", "./")
-        Return wGetDownload(Export, Updates).CLICode
+        Return SMRUCC.genomics.Data.WebServices.Regprecise.wGetDownload(Export, Updates).CLICode
     End Function
 
     <ExportAPI("Regprecise.Compile",

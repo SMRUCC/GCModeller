@@ -1,40 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::8f976c5b4e3186dae43e6a939186d238, ..\GCModeller\CLI_tools\MEME\Cli\Regulons.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports LANS.SystemsBiology
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports SMRUCC.genomics.DatabaseServices.Regprecise
-Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Partial Module CLI
 
@@ -115,13 +117,13 @@ Partial Module CLI
         Dim genome As String = args("/genome")
         Dim DOOR As String = args("/door")
         Dim out As String = args.GetValue("/out", bbh.TrimFileExt & ".Regulons/")
-        Dim bbhValues = bbh.LoadCsv(Of NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit)
+        Dim bbhValues = bbh.LoadCsv(Of BiDirectionalBesthit)
         Dim genomes = FileIO.FileSystem.GetFiles(genome, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
         Dim doorOperon As SMRUCC.genomics.Assembly.DOOR.DOOR
         If DOOR.FileExists Then
-            doorOperon = Assembly.DOOR.Load(DOOR)
+            doorOperon = DOOR_API.Load(DOOR)
         Else
-            doorOperon = Assembly.DOOR.DOOR.CreateEmpty
+            doorOperon = SMRUCC.genomics.Assembly.DOOR.DOOR.CreateEmpty
         End If
         Dim mapHash = bbhValues.BuildMapHash
         Dim LQuery = (From x As String In genomes
@@ -129,7 +131,7 @@ Partial Module CLI
                       Where Not regulators.IsNullOrEmpty
                       Let id As String = IO.Path.GetFileNameWithoutExtension(x)
                       Select id, _genome = New BacteriaGenome With {
-                          .Regulons = New DatabaseServices.Regprecise.Regulon With {
+                          .Regulons = New Data.Regprecise.Regulon With {
                                 .Regulators = regulators
                           },
                           .BacteriaGenome = New WebServices.JSONLDM.genome With {
