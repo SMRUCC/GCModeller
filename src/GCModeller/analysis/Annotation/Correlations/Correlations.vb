@@ -1,38 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::4f699f75d827ad612fbf0b804a5f31a6, ..\GCModeller\analysis\Annotation\Correlations\Correlations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports SMRUCC.genomics.Toolkits
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Analysis.AnnotationTools.Interpro
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Data.Model_Repository.MySQL
+Imports SMRUCC.genomics.Data.Model_Repository.MySQL.Tables
 
 ''' <summary>
 ''' 基因表达相关性的数据库服务
@@ -62,7 +64,7 @@ Public Class Correlations
     ''' <param name="id2"></param>
     ''' <returns></returns>
     Public Function GetPcc(id1 As String, id2 As String) As Double
-        Dim correlation As Tables.xcb = GetCorrelation(id1, id2)
+        Dim correlation As xcb = GetCorrelation(id1, id2)
         If correlation Is Nothing Then
             Return 0
         Else
@@ -70,8 +72,8 @@ Public Class Correlations
         End If
     End Function
 
-    Public Function GetCorrelation(id1 As String, id2 As String) As Tables.xcb
-        Return MySQL.ExecuteScalarAuto(Of Tables.xcb)($"(`g1_entity`='{id1}' and `g2_entity`='{id2}') or (`g1_entity`='{id2}' and `g2_entity`='{id1}')")
+    Public Function GetCorrelation(id1 As String, id2 As String) As xcb
+        Return MySQL.ExecuteScalarAuto(Of xcb)($"(`g1_entity`='{id1}' and `g2_entity`='{id2}') or (`g1_entity`='{id2}' and `g2_entity`='{id1}')")
     End Function
 
     ''' <summary>
@@ -81,7 +83,7 @@ Public Class Correlations
     ''' <param name="id2"></param>
     ''' <returns></returns>
     Public Function GetSPcc(id1 As String, id2 As String) As Double
-        Dim correlation As Tables.xcb = GetCorrelation(id1, id2)
+        Dim correlation As xcb = GetCorrelation(id1, id2)
         If correlation Is Nothing Then
             Return 0
         Else
@@ -96,7 +98,7 @@ Public Class Correlations
     ''' <param name="id2"></param>
     ''' <returns></returns>
     Public Function GetWGCNAWeight(id1 As String, id2 As String) As Double
-        Dim correlation As Tables.xcb = GetCorrelation(id1, id2)
+        Dim correlation As xcb = GetCorrelation(id1, id2)
         If correlation Is Nothing Then
             Return 0
         Else
@@ -106,7 +108,7 @@ Public Class Correlations
 
     Public Function GetPccGreaterThan(id As String, cutoff As Double) As Dictionary(Of String, Double)
         Dim SQL As String = String.Format(PCC_GREATER_THAN, id, cutoff)
-        Dim correlations = MySQL.Query(Of Tables.xcb)(SQL)
+        Dim correlations = MySQL.Query(Of xcb)(SQL)
         Dim dict = correlations.ToDictionary(
             Function(paired) paired.GetConnectedNode(id),
             elementSelector:=Function(paired) paired.pcc)
@@ -121,19 +123,19 @@ Public Class Correlations
     ''' <returns></returns>
     Public Function GetPccSignificantThan(id As String, cutoff As Double) As Dictionary(Of String, Double)
         Dim SQL As String = String.Format(PCC_SIGNIFICANT_THAN, id, Math.Abs(cutoff))
-        Dim correlations = MySQL.Query(Of Tables.xcb)(SQL)
+        Dim correlations = MySQL.Query(Of xcb)(SQL)
         Dim dict = correlations.ToDictionary(
             Function(paired) paired.GetConnectedNode(id),
             elementSelector:=Function(paired) paired.pcc)
         Return dict
     End Function
 
-    Public Function BuildHash(idList As String()) As Dictionary(Of String, Dictionary(Of String, Tables.xcb))
+    Public Function BuildHash(idList As String()) As Dictionary(Of String, Dictionary(Of String, xcb))
         Dim SQL As String = "SELECT * FROM correlations.xcb where (g1_entity = '{0}' or g2_entity = '{0}');"
         Dim LQuery = (From id As String
                       In idList.AsParallel
                       Select id,
-                          dataSet = MySQL.Query(Of Tables.xcb)(String.Format(SQL, id))).ToArray
+                          dataSet = MySQL.Query(Of xcb)(String.Format(SQL, id))).ToArray
 
     End Function
 End Class

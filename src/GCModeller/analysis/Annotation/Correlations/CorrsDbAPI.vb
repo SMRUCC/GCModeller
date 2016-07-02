@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::b1e4a0043004ca3cc7af294c2a36dd12, ..\GCModeller\analysis\Annotation\Correlations\CorrsDbAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.MySQL
-Imports SMRUCC.genomics.Toolkits.RNA_Seq
-Imports SMRUCC.genomics.Toolkits
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools.WGCNA
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic
-Imports Oracle.LinuxCompatibility.MySQL
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Toolkits.RNA_Seq.WGCNA
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Oracle.LinuxCompatibility.MySQL
+Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Data.Model_Repository.MySQL.Tables
 
 <PackageNamespace("GCModeller.Gene.Correlations",
                   Publisher:="xie.guigang@gcmodeller.org",
@@ -53,8 +53,8 @@ Public Module CorrsDbAPI
     End Function
 
     <ExportAPI("Correlates")>
-    Public Function GetCorrelates(Db As Correlations, id1 As String, id2 As String) As Tables.xcb
-        Dim correlation As Tables.xcb = Db.GetCorrelation(id1, id2)
+    Public Function GetCorrelates(Db As Correlations, id1 As String, id2 As String) As xcb
+        Dim correlation As xcb = Db.GetCorrelation(id1, id2)
         Return correlation
     End Function
 
@@ -113,13 +113,13 @@ Public Module CorrsDbAPI
         For i As Integer = 0 To PccMatrix.lstGenes.Length - 1  ' pcc和spcc这两个对象的基因的排布顺序是一致的
             Dim pcc = PccMatrix(i), spp = sPccMAT(i)
             Dim g1 As String = pcc.locusId
-            Dim Transaction As New List(Of Tables.xcb)
+            Dim Transaction As New List(Of xcb)
 
             For ii2 As Integer = 0 To PccMatrix.lstGenes.Length - 1  ' 由于在创建矩阵的时候没有打破一一对应的关系，所以这里可以使用遍历的方式来替代随机查询加快计算提交的过程
                 Dim g2 As String = PccMatrix.lstGenes(ii2)
                 Dim WGCNA = WGCNA_MAT.Find(g1, g2)
                 Dim weight As Double = If(WGCNA Is Nothing, 0, WGCNA.Weight)
-                Dim line As New Tables.xcb With {
+                Dim line As New xcb With {
                     .g1_entity = g1,
                     .g2_entity = g2,
                     .pcc = pcc.Values(ii2),

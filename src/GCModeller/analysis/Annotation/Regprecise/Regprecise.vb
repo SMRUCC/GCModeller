@@ -53,7 +53,7 @@ Namespace RegpreciseRegulations
         Sub New(LocalBlast As NCBI.Extensions.LocalBLAST.InteropService.InteropService)
             Call MyBase.New(LocalBlast, DB:=Settings.Initialize.RepositoryRoot & "/Regprecise/")
 
-            Dim LQuery = RepositoryEngine.SQLiteEngine.Load(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise)()
+            Dim LQuery = RepositoryEngine.SQLiteEngine.Load(Of Model_Repository.Regprecise)()
             Me._MetaDataTable = (From item In LQuery Select DirectCast(item, Model_Repository.DbFileSystemObject.ProteinDescriptionModel)).ToArray
         End Sub
 
@@ -112,7 +112,7 @@ Namespace RegpreciseRegulations
             If Engine.ExistsTable(TableSchema.TableName) Then
                 Call Engine.DeleteTable(TableSchema.TableName)
             End If
-            Call Engine.CreateTableFor(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise)()
+            Call Engine.CreateTableFor(Of Model_Repository.Regprecise)()
 
             Dim p As Integer, i As Integer
 
@@ -150,14 +150,14 @@ Namespace RegpreciseRegulations
             Dim Qvs As String = Me.BBH_Handle.WorkDir & "/" & IO.Path.GetFileNameWithoutExtension(Fasta) & "__vs_regprecise.orthologous_bh.txt"
             Dim Svq As String = Me.BBH_Handle.WorkDir & "/regprecise__vs_" & IO.Path.GetFileNameWithoutExtension(Fasta) & ".orthologous_bh.txt"
 
-            Call Me.BBH_Handle.LocalBLASTService.FormatDb(Me.FastaPaths.First.Value, Me.BBH_Handle.LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
-            Call Me.BBH_Handle.LocalBLASTService.FormatDb(Fasta, Me.BBH_Handle.LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
+            Call Me.BBH_Handle.LocalBLASTServices.FormatDb(Me.FastaPaths.First.Value, Me.BBH_Handle.LocalBLASTServices.MolTypeProtein).Start(WaitForExit:=True)
+            Call Me.BBH_Handle.LocalBLASTServices.FormatDb(Fasta, Me.BBH_Handle.LocalBLASTServices.MolTypeProtein).Start(WaitForExit:=True)
 
-            Dim QvsProcess = Me.BBH_Handle.LocalBLASTService.Blastp(Fasta, Me.FastaPaths.First.Value, Qvs, evalue)
+            Dim QvsProcess = Me.BBH_Handle.LocalBLASTServices.Blastp(Fasta, Me.FastaPaths.First.Value, Qvs, evalue)
             Dim QvsThread As Microsoft.VisualBasic.CommandLine.IORedirect.ProcessAyHandle = AddressOf QvsProcess.Start
             Dim QvsAyHandle = QvsThread.BeginInvoke(WaitForExit:=True, PushingData:=Nothing, DelegateAsyncState:=Nothing, DelegateCallback:=Nothing, _DISP_DEBUG_INFO:=False)
 
-            Call Me.BBH_Handle.LocalBLASTService.Blastp(Me.FastaPaths.First.Value, Fasta, Svq, evalue).Start(WaitForExit:=True)
+            Call Me.BBH_Handle.LocalBLASTServices.Blastp(Me.FastaPaths.First.Value, Fasta, Svq, evalue).Start(WaitForExit:=True)
             Call QvsThread.EndInvoke(QvsAyHandle)
 
             Dim Orthologous = Regprecise.Orthologous(Qvs, Svq)

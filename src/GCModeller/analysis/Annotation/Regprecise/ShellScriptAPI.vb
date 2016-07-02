@@ -1,44 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::f8a07b584b69f9f5112d29e24aa8f6eb, ..\GCModeller\analysis\Annotation\Regprecise\ShellScriptAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools.Reports
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
-Imports SMRUCC.genomics.NCBI.Extensions.LocalBLAST.InteropService
-Imports SMRUCC.genomics.NCBI.Extensions
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.AnnotationTools.Reports
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.InteropService
 
 Namespace RegpreciseRegulations
 
@@ -49,7 +50,7 @@ Namespace RegpreciseRegulations
 
         <ExportAPI("Regprecise.Regulators.Install",
                    Info:="Parameter Regulators is the fasta file path string of the regprecise regulators fasta sequence file.")>
-        Public Function InstallDatabase(Regulators As String) As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
+        Public Function InstallDatabase(Regulators As String) As Model_Repository.Regprecise()
             Return Regprecise.Install(Regulators, Settings.SettingsFile.RepositoryRoot)
         End Function
 
@@ -79,7 +80,7 @@ Namespace RegpreciseRegulations
         End Function
 
         <ExportAPI("Table.Export.From.Fasta")>
-        Public Function CreateTableData(DBFile As String) As SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise()
+        Public Function CreateTableData(DBFile As String) As Model_Repository.Regprecise()
             Return Regprecise.CreateDatabaseTable(DBFile, Settings.TEMP)
         End Function
 
@@ -133,7 +134,7 @@ Namespace RegpreciseRegulations
         Public Function CompileAnnotations(orthologous As IEnumerable(Of BiDirectionalBesthit),
                                            paralogs As IEnumerable(Of BestHit),
                                            <Parameter("Query.Fasta")> QueryFasta As String,
-                                           meta As IEnumerable(Of SMRUCC.genomics.GCModeller.Workbench.DatabaseServices.Model_Repository.Regprecise)) As Reports.GenomeAnnotations
+                                           meta As IEnumerable(Of Model_Repository.Regprecise)) As Reports.GenomeAnnotations
             Dim OrthologousDict = (From item In orthologous
                                    Select spcode = item.HitName.Split(":"c).First,
                                         bbh = item Group By spcode Into Group).ToArray.ToDictionary(Function(item) item.spcode, Function(item) (From bh In item.Group Select bh.bbh).ToArray)
