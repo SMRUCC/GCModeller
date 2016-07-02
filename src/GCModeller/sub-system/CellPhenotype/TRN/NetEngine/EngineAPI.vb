@@ -143,17 +143,17 @@ Namespace Simulation.ExpressionRegulationNetwork
             '                     (From item As Simulation.ExpressionRegulationNetwork.NetworkInput
             '                      In InitStatus.AsParallel
             '                      Where item.NoneRegulation = True
-            '                      Select New SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint With {.ORF = item.GeneId}).ToArray,
+            '                      Select New SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint With {.ORF = item.GeneId}).ToArray,
             ' _
             '                     footprints.ToArray,
             ' _
-            '                     (From item As SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
+            '                     (From item As SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
             '                      In footprints.AsParallel
             '                      Select item.OperonRegulationCopies).ToArray.MatrixToUltraLargeVector.ToArray
             ' _
             '                   }.MatrixToUltraLargeVector
 
-            '            Dim LQuery = (From item As SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
+            '            Dim LQuery = (From item As SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
             '                        In footprints.AsParallel
             '                        Where Not String.IsNullOrEmpty(item.ORF)
             '                        Select item

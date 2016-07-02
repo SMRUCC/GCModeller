@@ -178,7 +178,7 @@ Public Module CLI
 
         ' Call Circos.CircosAPI.AddPlotElement(doc, New Plots.TextLabel(labels))
 
-        Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
+        Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
         Dim connector = FromVirtualFootprint(regulations, ptt, resistss)
 
         Call Circos.CircosAPI.AddPlotElement(doc, New Connector(connector))

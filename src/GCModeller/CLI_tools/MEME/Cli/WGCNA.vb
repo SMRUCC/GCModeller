@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Toolkits.RNA_Seq
 Imports SMRUCC.genomics.Toolkits.RNA_Seq.RTools

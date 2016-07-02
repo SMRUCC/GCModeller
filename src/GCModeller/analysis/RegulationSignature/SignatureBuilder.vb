@@ -174,7 +174,7 @@ Namespace RegulationSignature
 
         Private Shared Function VF2TFreg(VirtualFootprints As Generic.IEnumerable(Of PredictedRegulationFootprint)) As Dictionary(Of String, KeyValuePair(Of String, String()))
 
-            'Dim LQuery = (From vf As SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
+            'Dim LQuery = (From vf As SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
             '                  In VirtualFootprints
             '              Select GeneID = vf.ORF, TFs = vf.Regulators, vf.MotifFamily).ToArray
             'Dim TFreg = (From orf In LQuery

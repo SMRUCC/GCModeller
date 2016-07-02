@@ -25,9 +25,9 @@
 
 #End Region
 
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.FootprintTraceAPI
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.DatabaseServices.ComparativeGenomics.AnnotationTools
 Imports SMRUCC.genomics.Toolkits.RNA_Seq

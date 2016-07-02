@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.Text
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Programs
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs
 Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection

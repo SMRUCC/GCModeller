@@ -293,6 +293,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Model_Repository", "workben
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PfamHMMScan", "GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\PfamHMMScan.vbproj", "{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebServices", "GCModeller\data\WebServices\WebServices.vbproj", "{56C6B3F0-2991-429B-BAEB-86830DF4EA94}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -313,6 +315,8 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{56c6b3f0-2991-429b-baeb-86830df4ea94}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{56c6b3f0-2991-429b-baeb-86830df4ea94}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{57b9a47c-d07c-40f1-b4b4-c3b673dd8c87}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{57b9a47c-d07c-40f1-b4b4-c3b673dd8c87}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{5af62b58-443a-419e-90fe-0e8dafa71a51}*SharedItemsImports = 4
@@ -339,6 +343,8 @@ Global
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{9ba6b2ae-97e0-4933-a89d-00d3ab36d247}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{9ba6b2ae-97e0-4933-a89d-00d3ab36d247}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{9c60cb50-7abc-44d7-b0e6-270fdd6120e7}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{9c60cb50-7abc-44d7-b0e6-270fdd6120e7}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{9f0a63f1-e8bf-4d40-a4e2-0da12bff566d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{9f0a63f1-e8bf-4d40-a4e2-0da12bff566d}*SharedItemsImports = 4
 		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
@@ -2952,6 +2958,30 @@ Global
 		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|x64.Build.0 = Release|x64
 		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|x86.ActiveCfg = Release|x86
 		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|x86.Build.0 = Release|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Debug|x64.ActiveCfg = Debug|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Debug|x64.Build.0 = Debug|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Debug|x86.ActiveCfg = Debug|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Debug|x86.Build.0 = Debug|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.docs|Any CPU.ActiveCfg = docs|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.docs|Any CPU.Build.0 = docs|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.docs|x64.ActiveCfg = docs|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.docs|x64.Build.0 = docs|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.docs|x86.ActiveCfg = docs|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.docs|x86.Build.0 = docs|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Publish|Any CPU.Build.0 = Publish|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Publish|x64.ActiveCfg = Publish|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Publish|x64.Build.0 = Publish|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Publish|x86.ActiveCfg = Publish|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Publish|x86.Build.0 = Publish|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Release|x64.ActiveCfg = Release|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Release|x64.Build.0 = Release|x64
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Release|x86.ActiveCfg = Release|x86
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3096,5 +3126,6 @@ Global
 		{AFA08D31-E7E7-412E-9FD0-84B357AC51A8} = {6BFF40D9-5A1C-4348-9340-AA99DF910B9E}
 		{44AAE36F-F2A7-412E-BAF3-163779E90FB3} = {072C2092-8A50-484B-9E4F-3B1BC33C498C}
 		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965} = {48A601B1-D4F1-40E0-85C2-E295C3F87A24}
+		{56C6B3F0-2991-429B-BAEB-86830DF4EA94} = {9FE4DD45-812C-4F67-BCD0-8B254F4E6036}
 	EndGlobalSection
 EndGlobal

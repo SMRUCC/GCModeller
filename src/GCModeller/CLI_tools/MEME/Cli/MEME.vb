@@ -27,19 +27,19 @@
 
 Imports SMRUCC.genomics.AnalysisTools
 Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.DatabaseServices.Regprecise
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.DatabaseServices.Regprecise.WebServices
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Programs
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs
 Imports MEME.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -207,14 +207,14 @@ Partial Module CLI
     '    Call $"Start to scanning {MastSets.Length} mast records...".__DEBUG_ECHO
 
     '    Dim LQuery = (From mastFile In MastSets.AsParallel
-    '                  Let mm = mastFile.file.LoadXml(Of SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST)(ThrowEx:=False)
+    '                  Let mm = mastFile.file.LoadXml(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST)(ThrowEx:=False)
     '                  Where mm Is Nothing' 加载出错说明没有生成mast文档，则可能是一个novel位点
     '                  Let memeFile = MEMESets(mastFile.id)
     '                  Let testEcho As String = memeFile.ToFileURL.__DEBUG_ECHO
     '                  Select mastFile, memeFile).ToArray
 
     '    Dim LoadNovels = (From file In LQuery.AsParallel
-    '                      Let memes = SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.Text.SafelyLoad(file.memeFile)
+    '                      Let memes = SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.Text.SafelyLoad(file.memeFile)
     '                      Where Not memes.IsNullOrEmpty
     '                      Select file.mastFile.id, memes).ToArray
 

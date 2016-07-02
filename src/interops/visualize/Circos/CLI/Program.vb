@@ -30,7 +30,7 @@ Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Confi
 Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
 Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
 Imports SMRUCC.genomics.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports Microsoft.VisualBasic.CommandLine.Reflection

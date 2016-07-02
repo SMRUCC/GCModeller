@@ -28,8 +28,8 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite
-Imports SMRUCC.genomics.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
 Imports SMRUCC.genomics.GCModeller.Workbench
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
