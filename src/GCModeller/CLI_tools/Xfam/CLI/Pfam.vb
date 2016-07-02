@@ -33,7 +33,8 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.AnalysisTools.ProteinTools.Sanger.PfamHMMScan
+Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan
+Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan.hmmscan
 Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput

@@ -291,6 +291,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "VirtualFootprints", "GCMode
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Model_Repository", "workbench\Model_Repository\Model_Repository.vbproj", "{44AAE36F-F2A7-412E-BAF3-163779E90FB3}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PfamHMMScan", "GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\PfamHMMScan.vbproj", "{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -309,6 +311,8 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{57b9a47c-d07c-40f1-b4b4-c3b673dd8c87}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{57b9a47c-d07c-40f1-b4b4-c3b673dd8c87}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{5af62b58-443a-419e-90fe-0e8dafa71a51}*SharedItemsImports = 4
@@ -2919,6 +2923,30 @@ Global
 		{44AAE36F-F2A7-412E-BAF3-163779E90FB3}.Release|x64.Build.0 = Release|x64
 		{44AAE36F-F2A7-412E-BAF3-163779E90FB3}.Release|x86.ActiveCfg = Release|x86
 		{44AAE36F-F2A7-412E-BAF3-163779E90FB3}.Release|x86.Build.0 = Release|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Debug|x64.ActiveCfg = Debug|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Debug|x64.Build.0 = Debug|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Debug|x86.ActiveCfg = Debug|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Debug|x86.Build.0 = Debug|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.docs|Any CPU.ActiveCfg = docs|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.docs|Any CPU.Build.0 = docs|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.docs|x64.ActiveCfg = docs|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.docs|x64.Build.0 = docs|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.docs|x86.ActiveCfg = docs|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.docs|x86.Build.0 = docs|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Publish|Any CPU.Build.0 = Publish|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Publish|x64.ActiveCfg = Publish|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Publish|x64.Build.0 = Publish|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Publish|x86.ActiveCfg = Publish|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Publish|x86.Build.0 = Publish|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|x64.ActiveCfg = Release|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|x64.Build.0 = Release|x64
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|x86.ActiveCfg = Release|x86
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3062,5 +3090,6 @@ Global
 		{19DD7076-5787-44F8-85FC-818200D9E4AA} = {FA4E915A-594B-4F4A-A34F-441099A3EAA5}
 		{AFA08D31-E7E7-412E-9FD0-84B357AC51A8} = {6BFF40D9-5A1C-4348-9340-AA99DF910B9E}
 		{44AAE36F-F2A7-412E-BAF3-163779E90FB3} = {072C2092-8A50-484B-9E4F-3B1BC33C498C}
+		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965} = {48A601B1-D4F1-40E0-85C2-E295C3F87A24}
 	EndGlobalSection
 EndGlobal
