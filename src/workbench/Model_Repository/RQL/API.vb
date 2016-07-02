@@ -1,17 +1,17 @@
 ﻿Imports System.Data.SQLite.Linq.DataMapping.Interface
 Imports System.Data.SQLite.Linq.DataMapping.Interface.Reflector
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.Tables
-Imports LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.SQLEngines
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.ShoalShell
-Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.HybridsScripting
-Imports Microsoft.VisualBasic.Win32.WindowsServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.ShoalShell
+Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime
+Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.HybridsScripting
+Imports Microsoft.VisualBasic.Win32.WindowsServices
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data.Model_Repository.SQLEngines
+Imports SMRUCC.genomics.Data.Model_Repository.Tables
 
 <LanguageEntryPoint("GCModeller.RQL",
                     "The linq like language for query the GCModeller repository database.")>
@@ -49,9 +49,9 @@ Public Module API
         TableName = Regex.Replace(TableName, "from\s+", "", RegexOptions.IgnoreCase)
         TableName = Mid(TableName, 2, Len(TableName) - 2)
 
-        If String.Equals(TableName, System.Data.SQLite.Linq.DataMapping.Interface.Reflector.GetTableName(Of Tables.GenbankEntryInfo)) Then
-            Dim ChunkBuffer = Reader.Load(TypeInfo:=GetType(Tables.GenbankEntryInfo))
-            Dim LQuery = (From item In ChunkBuffer Select DirectCast(item, Tables.GenbankEntryInfo)).ToArray
+        If String.Equals(TableName, System.Data.SQLite.Linq.DataMapping.Interface.Reflector.GetTableName(Of GenbankEntryInfo)) Then
+            Dim ChunkBuffer = Reader.Load(TypeInfo:=GetType(GenbankEntryInfo))
+            Dim LQuery = (From item In ChunkBuffer Select DirectCast(item, GenbankEntryInfo)).ToArray
             Return LQuery
         Else '通用表
             Dim df = Reader.DataFrame
@@ -73,7 +73,7 @@ Public Module API
 
     <ExportAPI("SqlDump.Create.GenbankEntry")>
     Public Function CreateGenbankEntryDump() As String
-        Return SQLiteEngine.SQLiteEngine.CreateSQLDump(Of Tables.GenbankEntryInfo)()
+        Return SQLiteEngine.SQLiteEngine.CreateSQLDump(Of GenbankEntryInfo)()
     End Function
 
     <ExportAPI("Set.RepositoryRoot")>
@@ -164,6 +164,6 @@ Public Module API
     ''' 
     <ExportAPI("table.schema.update()", Info:="This function is only for the developer.")>
     Public Function UpdateGenbankTableSchema() As Boolean
-        Return Tables.GenbankEntryInfo.UpdateTableSchema(API.SQLiteEngine)
+        Return GenbankEntryInfo.UpdateTableSchema(API.SQLiteEngine)
     End Function
 End Module

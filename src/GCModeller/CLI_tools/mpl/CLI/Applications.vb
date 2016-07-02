@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports ProteinTools.Interactions.CLI
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.ProteinTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
@@ -109,15 +110,15 @@ Partial Module CLI
         Dim queryFile As String = args("/query")
         Dim DbXml As String = args("/db")
         Dim query = SequenceModel.FASTA.FastaToken.Load(queryFile)
-        Dim Db = DbXml.LoadXml(Of Interactions.Category)
+        Dim Db = DbXml.LoadXml(Of Category)
         Dim cutoff As Double = args.GetValue("/mp", 0.9)
         Dim score As Double = 0
-        Dim alignOut = Interactions.Align(query, Db, score, cutoff)
+        Dim alignOut = Align(query, Db, score, cutoff)
         Dim outDIR As String = args.GetValue("/out", queryFile.ParentPath & "/PPI_MPAlignment/")
         '    Return __getReport(Db, query, alignOut, score, outDIR)
     End Function
 
-    Private Function __getReport(Db As Interactions.Category,
+    Private Function __getReport(Db As Category,
                                  query As SequenceModel.FASTA.FastaToken,
                                  alignOut As AlignmentOutput,
                                  score As Double,

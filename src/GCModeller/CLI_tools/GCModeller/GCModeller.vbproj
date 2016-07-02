@@ -269,6 +269,10 @@
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\workbench\Model_Repository\RQL\RQL.vbproj">
+      <Project>{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}</Project>
+      <Name>RQL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
@@ -309,10 +313,6 @@
       <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
       <Name>Model_Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller Workbench\Model_Repository\RQL\RQL.vbproj">
-      <Project>{88d39ac9-03c2-4a1a-9818-ade7fd90576d}</Project>
-      <Name>RQL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\analysis\ProteinTools\ProteinTools.Family\ProteinTools.Family.vbproj">
       <Project>{f5fc5f93-f929-496f-9cf9-8607203b9545}</Project>
       <Name>ProteinTools.Family</Name>
@@ -346,6 +346,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

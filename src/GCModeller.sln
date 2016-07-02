@@ -299,6 +299,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workbench", "workbench", "{
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ReportBuilder", "workbench\ReportBuilder\ReportBuilder.vbproj", "{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RQL", "workbench\Model_Repository\RQL\RQL.vbproj", "{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -343,6 +345,8 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{804eb81c-493a-49ef-95a9-dbf800fa4a08}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{88d39ac9-03c2-4a1a-9818-ade7fd90576d}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{88d39ac9-03c2-4a1a-9818-ade7fd90576d}*SharedItemsImports = 4
 		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
@@ -362,6 +366,9 @@ Global
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
 		GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{afa08d31-e7e7-412e-9fd0-84b357ac51a8}*SharedItemsImports = 13
+		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
 		GCModeller\shared\api\Shared.CommonMethods.projitems*{bfdf175b-bdcb-4fb3-8c59-3b2b37395445}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 4
@@ -3016,6 +3023,30 @@ Global
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}.Release|x64.Build.0 = Release|x64
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}.Release|x86.ActiveCfg = Release|x86
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}.Release|x86.Build.0 = Release|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Debug|x64.ActiveCfg = Debug|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Debug|x64.Build.0 = Debug|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Debug|x86.ActiveCfg = Debug|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Debug|x86.Build.0 = Debug|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.docs|Any CPU.ActiveCfg = docs|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.docs|Any CPU.Build.0 = docs|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.docs|x64.ActiveCfg = docs|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.docs|x64.Build.0 = docs|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.docs|x86.ActiveCfg = docs|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.docs|x86.Build.0 = docs|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Publish|Any CPU.Build.0 = Publish|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Publish|x64.ActiveCfg = Publish|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Publish|x64.Build.0 = Publish|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Publish|x86.ActiveCfg = Publish|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Publish|x86.Build.0 = Publish|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Release|x64.ActiveCfg = Release|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Release|x64.Build.0 = Release|x64
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Release|x86.ActiveCfg = Release|x86
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3162,5 +3193,6 @@ Global
 		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965} = {48A601B1-D4F1-40E0-85C2-E295C3F87A24}
 		{56C6B3F0-2991-429B-BAEB-86830DF4EA94} = {9FE4DD45-812C-4F67-BCD0-8B254F4E6036}
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5} = {C9BCC8AE-D996-4D3B-92F2-CBCBF28FCD6F}
+		{88D39AC9-03C2-4A1A-9818-ADE7FD90576D} = {C9BCC8AE-D996-4D3B-92F2-CBCBF28FCD6F}
 	EndGlobalSection
 EndGlobal
