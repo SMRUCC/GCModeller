@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::d7a12a4fafcb73dc3e449ac484a8d637, ..\GCModeller\CLI_tools\Spiderman\CreateNetwork\Network.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataModel
 
 Public Class Network
 
@@ -88,11 +90,11 @@ Public Class Network
     End Sub
 
     Public Shared Function LoadModel(GCML As String) As Network
-        Dim Model = GCML.LoadXml(Of SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)()
+        Dim Model = GCML.LoadXml(Of BacterialModel)()
         Return LoadModel(Model)
     End Function
 
-    Public Shared Function LoadModel(GCML As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As Network
+    Public Shared Function LoadModel(GCML As BacterialModel) As Network
         Dim EdgeList As List(Of Network.Edge) = New List(Of Edge)
         Call EdgeList.AddRange(MetabolismNetwork.CreateObject(GCML.Metabolism.MetabolismNetwork.ToArray))
 
@@ -100,7 +102,7 @@ Public Class Network
     End Function
 
     Public Shared Function LoadCSVTabularModel(ModelFile As String) As Network
-        Dim Model = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.DataModel.CellSystem(ModelFile, New Logging.LogFile(Settings.LogDIR & "/Spiderman.log"))
+        Dim Model As New CellSystem(ModelFile, New Logging.LogFile(Settings.LogDIR & "/Spiderman.log"))
         Return LoadModel(Model.LoadAction)
     End Function
 End Class

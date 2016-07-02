@@ -1,40 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::17c22e9bb3fbd46015250adc8a2ed38c, ..\GCModeller\CLI_tools\Spiderman\PQDijkstraProvider.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.DataVisualization
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataVisualization.Network.Dijkstra
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataVisualization
 
 Namespace PathRoutes
 
@@ -57,12 +56,12 @@ Namespace PathRoutes
         End Sub
 
         <ExportAPI("Session.New")>
-        Public Shared Function CreateSession(Network As KeyValuePair(Of Interactions(), DataVisualization.NodeAttributes())) As PQDijkstraProvider
+        Public Shared Function CreateSession(Network As KeyValuePair(Of Interactions(), NodeAttributes())) As PQDijkstraProvider
             Return New PQDijkstraProvider(Network.Key, Network.Value)
         End Function
 
         <ExportAPI("PathRoutes.Compute")>
-        Public Shared Function ComputePath(provider As PQDijkstraProvider, start As String, ends As String, Optional ignores As Generic.IEnumerable(Of Object) = Nothing) As DataVisualization.NodeAttributes()
+        Public Shared Function ComputePath(provider As PQDijkstraProvider, start As String, ends As String, Optional ignores As Generic.IEnumerable(Of Object) = Nothing) As NodeAttributes()
             If ignores.IsNullOrEmpty Then
                 Return provider.Compute(start, ends)
             Else
@@ -71,14 +70,13 @@ Namespace PathRoutes
         End Function
 
         <ExportAPI("Save.Routes")>
-        Public Shared Function SavePathRoutes(routes As DataVisualization.NodeAttributes(), saveto As String) As Boolean
-            Call routes.SaveTo(saveto, False)
-            Return True
+        Public Shared Function SavePathRoutes(routes As NodeAttributes(), saveto As String) As Boolean
+            Return routes.SaveTo(saveto, False)
         End Function
 
         <ExportAPI("Print.Routes")>
-        Public Shared Function PrintRoutes(provider As PQDijkstraProvider, routes As DataVisualization.NodeAttributes()) As String
-            Dim Path As List(Of DataVisualization.Interactions) = New List(Of DataVisualization.Interactions)
+        Public Shared Function PrintRoutes(provider As PQDijkstraProvider, routes As NodeAttributes()) As String
+            Dim Path As New List(Of Interactions)
             For i As Integer = 0 To routes.Count - 2
                 Dim NodeA = routes(i), NodeB = routes(i + 1)
                 Dim Interaction = (From itr In provider.NetworkInteractions Where itr.Equals(NodeA.Identifier, NodeB.Identifier) Select itr).First
@@ -102,7 +100,7 @@ Namespace PathRoutes
             End If
         End Function
 
-        Public Overloads Function Compute(start As String, ends As String, Optional IgnoreNodes As String() = Nothing) As DataVisualization.NodeAttributes()
+        Public Overloads Function Compute(start As String, ends As String, Optional IgnoreNodes As String() = Nothing) As NodeAttributes()
             If IgnoreNodes.IsNullOrEmpty Then
                 _IgnoreNodes = New String() {}
             Else
@@ -111,7 +109,7 @@ Namespace PathRoutes
 
             Dim AdjacencyLQuery = (From itr In NetworkInteractions.AsParallel Where itr.Equals(start, ends) Select itr).ToArray
             If Not AdjacencyLQuery.IsNullOrEmpty Then  '是直接相邻的两个节点
-                Dim AdjacencyPath = New DataVisualization.NodeAttributes() {
+                Dim AdjacencyPath = New NodeAttributes() {
                     OriginalNodes.GetItem(uniqueId:=start),
                     OriginalNodes.GetItem(uniqueId:=AdjacencyLQuery.First.UniqueId),
                     OriginalNodes.GetItem(uniqueId:=ends)}

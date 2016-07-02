@@ -303,6 +303,7 @@ Global
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{2bde773e-2206-4828-8a2b-7b5e933a7df5}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{2e8a689a-3bec-4504-9d02-80082c732653}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{2e8a689a-3bec-4504-9d02-80082c732653}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{32ad8599-cf3f-4eec-8595-ea480f24dae2}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
