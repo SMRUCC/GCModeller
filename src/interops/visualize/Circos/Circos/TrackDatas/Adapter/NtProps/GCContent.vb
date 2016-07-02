@@ -26,8 +26,6 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.NCBI.Extensions
-Imports SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.ISequenceModel

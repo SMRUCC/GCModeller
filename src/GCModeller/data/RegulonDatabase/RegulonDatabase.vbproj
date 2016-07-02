@@ -363,7 +363,7 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>

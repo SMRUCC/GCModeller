@@ -244,13 +244,13 @@
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\R.Bioinformatics\RDotNET\RDotNet.vbproj">
-      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
+      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Name>RDotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>

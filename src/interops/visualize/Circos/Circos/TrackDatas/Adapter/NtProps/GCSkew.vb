@@ -27,8 +27,6 @@
 
 Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports System.Text
-Imports SMRUCC.genomics.NCBI.Extensions
-Imports SMRUCC.genomics.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic

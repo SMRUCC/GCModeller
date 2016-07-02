@@ -29,7 +29,6 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
-Imports SMRUCC.genomics.GCModeller.DataVisualization
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace CytoscapeGraphView
