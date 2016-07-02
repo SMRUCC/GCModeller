@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::ad03784d845a905a6b1e24bd71eb42aa, ..\GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions.Regex
 Imports System.Text
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports System.Text.RegularExpressions.Regex
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 
 Namespace Script
 
@@ -56,7 +56,7 @@ Namespace Script
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function CheckConsist(Metabolites As Var(), Reactions As SEquation()) As KeyValuePair(Of String, List(Of SEquation))
+        Private Function CheckConsist(Metabolites As var(), Reactions As SEquation()) As KeyValuePair(Of String, List(Of SEquation))
             Dim sBuilder As StringBuilder = New StringBuilder(capacity:=1024)
             Dim ResultList As List(Of SEquation) = New List(Of SEquation)
 
@@ -88,7 +88,7 @@ Namespace Script
                 Console.WriteLine("Trying to fix these problems.{0}-----------------------------", vbCrLf)
 
                 For Each Var In Checked.Value
-                    Call CompiledModel.Add(New Var With {.UniqueId = Var.x, .Value = 0})
+                    Call CompiledModel.Add(New var With {.UniqueId = Var.x, .Value = 0})
                     Console.WriteLine("Added a new metabolite:  {0}=0  <==  {1}", Var.x, Var.ToString)
                 Next
             End If

@@ -27,10 +27,10 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Script
+Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
-Imports Microsoft.VisualBasic
 
 Namespace Kernel.ObjectModels
 
@@ -51,7 +51,7 @@ Namespace Kernel.ObjectModels
         ''' (与本计算通道相关联的目标对象)
         ''' </summary>
         ''' <remarks></remarks>
-        Friend Var As Var
+        Friend Var As var
 
         Sub New(s As SEquation)
             Me.Model = s
@@ -109,7 +109,7 @@ Namespace Kernel.ObjectModels
         ''' <param name="e"></param>
         ''' <remarks></remarks>
         Public Sub [Set](e As Kernel)
-            Dim Query As Generic.IEnumerable(Of Var) = From o As Var In e.Vars Where String.Equals(o.UniqueId, Identifier) Select o '
+            Dim Query As Generic.IEnumerable(Of var) = From o As var In e.Vars Where String.Equals(o.UniqueId, Identifier) Select o '
 
             Kernel = e
             Var = Query.First

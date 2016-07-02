@@ -31,7 +31,7 @@ Namespace Kernel.ObjectModels
 
     Public Class Disturb
 
-        Dim Target As Var
+        Dim Target As var
         Dim Kernel As Kernel
         Dim model As Experiment
         Dim nextTime As Double

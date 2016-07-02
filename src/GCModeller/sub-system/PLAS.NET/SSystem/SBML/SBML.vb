@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports SMRUCC.genomics.Assembly.SBML.Level2
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.Model.SBML.Level2
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Public Class SBML : Inherits Compiler(Of Script.Model)
 
@@ -67,7 +67,7 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
                 ReactionList.Add(Reaction)
             End If
             Dim Init As Var =
-                New Kernel.ObjectModels.Var With {
+                New Kernel.ObjectModels.var With {
                     .UniqueId = Metabolite.ID,
                     .Title = Metabolite.name,
                     .Value = Metabolite.InitialAmount

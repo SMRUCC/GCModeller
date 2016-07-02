@@ -27,7 +27,7 @@
 
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
 Namespace Script
 
@@ -77,7 +77,7 @@ Namespace Script
                                                  Function(x) x.Group.ToArray)
 
             Dim equations = typeTokens(Script.Tokens.Reaction).ToArray(Function(x) sEquationParser(x.Text))
-            Dim inits = typeTokens(Script.Tokens.InitValue).ToArray(Function(x) CType(x.Text, Var))
+            Dim inits = typeTokens(Script.Tokens.InitValue).ToArray(Function(x) CType(x.Text, var))
             Dim Disturbs As Experiment() = typeTokens(Script.Tokens.Disturb).ToArray(Function(x) ExperimentParser(x.Text))
             Dim FinalTime As Integer
 

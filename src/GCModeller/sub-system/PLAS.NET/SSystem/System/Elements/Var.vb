@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.SBML.Level2.Elements
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace Kernel.ObjectModels
 
-    Public Class Var : Inherits Variable
+    Public Class var : Inherits Variable
 
         <XmlAttribute> Public Property Title As String
         <XmlElement> Public Property Comment As String
@@ -44,24 +44,24 @@ Namespace Kernel.ObjectModels
             End If
         End Function
 
-        Public Shared Narrowing Operator CType(e As Var) As Double
+        Public Shared Narrowing Operator CType(e As var) As Double
             Return e.Value
         End Operator
 
-        Public Shared Narrowing Operator CType(e As Var) As String
+        Public Shared Narrowing Operator CType(e As var) As String
             Return IIf(Len(e.Title) > 0, e.Title, e.UniqueId)
         End Operator
 
-        Public Shared Widening Operator CType(e As Specie) As Var
-            Return New Var With {
+        Public Shared Widening Operator CType(e As Specie) As var
+            Return New var With {
                 .UniqueId = e.ID,
                 .Title = e.name,
                 .Value = Val(e.InitialAmount)
             }
         End Operator
 
-        Public Shared Function TryParse(strData As String) As Var
-            Return CType(strData, Var)
+        Public Shared Function TryParse(strData As String) As var
+            Return CType(strData, var)
         End Function
 
         ''' <summary>
@@ -70,9 +70,9 @@ Namespace Kernel.ObjectModels
         ''' <param name="s">Script line.(脚本行文本)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Widening Operator CType(s As String) As Var
+        Public Shared Widening Operator CType(s As String) As var
             Dim Tokens As String() = Mid(s, 6).Split(CChar("="))
-            Return New Var With {
+            Return New var With {
                 .UniqueId = Tokens.First.Trim,
                 .Value = Val(Tokens.Last)
             }

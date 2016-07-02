@@ -27,9 +27,9 @@
 
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.AnalysisTools.CellPhenotype.SSystem.Kernel.ObjectModels
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 Imports Microsoft.VisualBasic.Extensions
+Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 Namespace Script
 
@@ -45,24 +45,24 @@ Namespace Script
         <XmlElement> Public Property UserFunc As [Function]()
         <XmlElement> Public Property [Constant] As Constant()
 
-        Dim __varHash As Dictionary(Of Var)
+        Dim __varHash As Dictionary(Of var)
 
         ''' <summary>
         ''' A collection of the system variables.
         ''' (系统中的运行变量的集合)
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlArray> Public Property Vars As Var()
+        <XmlArray> Public Property Vars As var()
             Get
                 If __varHash Is Nothing Then
-                    Return New Var() {}
+                    Return New var() {}
                 Else
                     Return __varHash.Values.ToArray
                 End If
             End Get
-            Set(value As Var())
+            Set(value As var())
                 If value Is Nothing Then
-                    __varHash = New Dictionary(Of Var)
+                    __varHash = New Dictionary(Of var)
                 Else
                     __varHash = value.ToDictionary
                 End If
@@ -98,11 +98,11 @@ Namespace Script
             End Get
         End Property
 
-        Public Sub Add(x As Var)
+        Public Sub Add(x As var)
             Call __varHash.Add(x)
         End Sub
 
-        Public Function FindObject(x As String) As Var
+        Public Function FindObject(x As String) As var
             Return __varHash(x)
         End Function
 
