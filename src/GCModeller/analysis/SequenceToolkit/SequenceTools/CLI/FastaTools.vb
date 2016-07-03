@@ -385,6 +385,8 @@ Partial Module Utilities
         Dim nt As New SegmentReader(fna)
         Dim result = From loci As Feature
                      In gff.Features
+                     Where (Not loci.attributes.ContainsKey("gbkey")) OrElse
+                         (Not String.Equals(loci.attributes("gbkey"), "Src", StringComparison.OrdinalIgnoreCase))
                      Let seq = nt.TryParse(loci.MappingLocation)
                      Select New FastaToken With {
                          .SequenceData = seq.SequenceData,
