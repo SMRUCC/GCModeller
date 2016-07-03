@@ -166,21 +166,22 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CAI\CAITable.vb" />
-    <Compile Include="CAI\CodonFrequency.vb" />
-    <Compile Include="CAI\CodonFrequencyCAI.vb" />
+    <Compile Include="IdentityResult.vb" />
+    <Compile Include="Sigma\CAI\CAITable.vb" />
+    <Compile Include="Sigma\CAI\CodonFrequency.vb" />
+    <Compile Include="Sigma\CAI\CodonFrequencyCAI.vb" />
     <Compile Include="gwANI\gwANI.vb" />
-    <Compile Include="gwANI\identity_result.vb" />
+    <Compile Include="gwANI\Const.vb" />
     <Compile Include="gwANI\gwANIExtensions.vb" />
     <Compile Include="ToolsAPI\ChromosomePartitioningEntry.vb" />
     <Compile Include="ToolsAPI\SegmentRenderData.vb" />
     <Compile Include="ToolsAPI\SiteSigma.vb" />
     <Compile Include="ToolsAPI\PartitioningData.vb" />
-    <Compile Include="NucleicAcid.vb" />
-    <Compile Include="PlasmidComparative.vb" />
-    <Compile Include="GenomeSignatures.vb" />
-    <Compile Include="DifferenceMeasurement.vb" />
-    <Compile Include="CAI\RelativeCodonBiases.vb" />
+    <Compile Include="Sigma\NucleicAcid.vb" />
+    <Compile Include="Sigma\PlasmidComparative.vb" />
+    <Compile Include="Sigma\GenomeSignatures.vb" />
+    <Compile Include="Sigma\DifferenceMeasurement.vb" />
+    <Compile Include="Sigma\CAI\RelativeCodonBiases.vb" />
     <Compile Include="ToolsAPI\ToolsAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

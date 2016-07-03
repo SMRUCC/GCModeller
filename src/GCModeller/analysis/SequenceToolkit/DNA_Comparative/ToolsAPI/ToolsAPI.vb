@@ -1071,7 +1071,7 @@ Public Module ToolsAPI
         Dim pb As New CBusyIndicator(_start:=True)
         Dim FastaObjects = (From path As String In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel Select SMRUCC.genomics.SequenceModel.FASTA.FastaToken.Load(path)).ToArray
 
-        Call Console.WriteLine("[DEBUG] fasta data load done!, start to calculates the sigma differences in window_size {0}KB....", windowsSize / 1000)
+        Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".__DEBUG_ECHO
 
         Dim MAT = Comb(Of FastaToken).CreateCompleteObjectPairs(FastaObjects)
         Dim ChunkBuffer = (From pairedList In MAT.AsParallel
@@ -1110,14 +1110,16 @@ Public Module ToolsAPI
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="dat">每一个文件之中的行数都是一样的，因为都是以同一个菌株作为计算的参照</param>
+    ''' <param name="dat">
+    ''' 每一个文件之中的行数都是一样的，因为都是以同一个菌株作为计算的参照
+    ''' </param>
     ''' <param name="export"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function __compileSigma(dat As KeyValuePair(Of String, String)(), export As String) As Boolean
         Dim FileName As String = String.Format("{0}/Compiled/{1}.csv", export, dat.First.Key)
         Dim File As DocumentStream.File = New DocumentStream.File
-        Dim Data = (From path In dat Select String.Format("{0}/{1}-{2}.csv", export, path.Key, path.Value).LoadCsv(Of SiteSigma)(False)).ToArray '为了保持一一对应关系，这里不能够再使用并行化
+        Dim Data = (From path In dat Select String.Format("{0}/{1}-{2}.csv", export, path.Key, path.Value).LoadCsv(Of SiteSigma)(False)).ToArray ' 为了保持一一对应关系，这里不能够再使用并行化
         Dim Head As New DocumentStream.RowObject
 
         Call Head.Add("Site")

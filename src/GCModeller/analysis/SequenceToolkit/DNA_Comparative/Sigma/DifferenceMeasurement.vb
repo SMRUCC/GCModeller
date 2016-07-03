@@ -26,11 +26,11 @@
 #End Region
 
 Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 ''' <summary>
 ''' MEASURES OF DIFFERENCES WITHIN AND BETWEEN GENOMES.(比较两条核酸序列之间的差异性)
@@ -138,7 +138,7 @@ Public Module DifferenceMeasurement
     <ExportAPI("Sigma")>
     Public Function Sigma(f As NucleicAcid, g As NucleotideModels.NucleicAcid) As Double
         Dim sum As Double
-        Dim Cache = New NucleicAcid(g)
+        Dim cache As New NucleicAcid(g)
 
         sum += __bias(f, Cache, DNA.dAMP, DNA.dAMP) + __bias(f, Cache, DNA.dAMP, DNA.dCMP) +
                __bias(f, Cache, DNA.dAMP, DNA.dGMP) + __bias(f, Cache, DNA.dAMP, DNA.dTMP)

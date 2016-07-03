@@ -49,19 +49,6 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace gwANI
 
-    Public Class IdentityResult
-
-        Public Property percentage_identity As Double
-        Public Property num_matching_bases As Integer
-        Public Property num_gaps As Integer
-        Public Property length_without_gaps As Integer
-        Public Property calculation_skipped As Boolean
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
-
     Public Module DefineConstants
 
         Public Const KS_SEP_SPACE As Integer = 0

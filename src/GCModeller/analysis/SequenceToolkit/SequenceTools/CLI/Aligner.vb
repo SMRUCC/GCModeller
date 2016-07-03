@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -212,6 +213,18 @@ Partial Module Utilities
         Dim fast As Boolean = args.GetBoolean("/fast")
         Dim result = gwANIExtensions.Evaluate([in], fast)
         Return result.SaveTo(out)
+    End Function
+
+    <ExportAPI("/Sigma",
+               Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
+    Public Function Sigma(args As CommandLine.CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Sigma.Csv")
+        Dim fasta As New FastaFile([in])
+        Dim simple As Boolean = args.GetBoolean("/simple")
+        Dim round As Integer = args.GetValue("/round", -1)
+        Dim result = IdentityResult.SigmaMatrix(fasta, round, simple).ToArray
+        Return result.SaveTo(out).CLICode
     End Function
 End Module
 

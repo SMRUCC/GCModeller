@@ -74,8 +74,13 @@ Public Class NucleicAcid : Inherits NucleotideModels.NucleicAcid
         dat = __createSigma(Me, DNA.dTMP, DNA.dTMP) : Call __biasHash.Add(dat.Key, dat.Value)
     End Sub
 
+    ''' <summary>
+    ''' Fasta序列会自动使用<see cref="FastaToken.Title"/>来作为序列的<see cref="UserTag"/>
+    ''' </summary>
+    ''' <param name="SequenceData"></param>
     Sub New(SequenceData As FastaToken)
         Call Me.New(New NucleotideModels.NucleicAcid(SequenceData).ToArray)
+        Me.UserTag = SequenceData.Title
     End Sub
 
     Sub New(SequenceData As String)
@@ -85,8 +90,8 @@ Public Class NucleicAcid : Inherits NucleotideModels.NucleicAcid
     Private Shared Function __createSigma(SequenceData As NucleotideModels.NucleicAcid,
                                           X As DNA,
                                           Y As DNA) As KeyValuePair(Of KeyValuePair(Of DNA, DNA), Double)
-        Dim KEY = New KeyValuePair(Of DNA, DNA)(X, Y)
-        Dim n = GenomeSignatures.DinucleotideBIAS_p(SequenceData, X, Y)
+        Dim KEY As New KeyValuePair(Of DNA, DNA)(X, Y)
+        Dim n As Double = GenomeSignatures.DinucleotideBIAS_p(SequenceData, X, Y)
         Return New KeyValuePair(Of KeyValuePair(Of DNA, DNA), Double)(KEY, n)
     End Function
 End Class

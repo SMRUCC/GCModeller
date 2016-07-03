@@ -1,38 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::8d7a0d4ce9861bbb6a923d0eb58369b8, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\GenomeSignatures.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 ''' <summary>
 ''' 在本模块之中，所有的计算过程都是基于<see cref="NucleotideModels.NucleicAcid"></see>核酸对象的
@@ -83,7 +84,7 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
     ''' <remarks></remarks>
     Private Function __counts(Sequence As NucleotideModels.NucleicAcid, ns As DNA()) As Integer
         Dim nl As Integer = ns.Length
-        Dim SlideWindows = Sequence.CreateSlideWindows(slideWindowSize:=nl)
+        Dim SlideWindows = Sequence.SlideWindows(slideWindowSize:=nl)
         Dim LQuery As Integer = (From n As SlideWindowHandle(Of DNA)
                                  In SlideWindows
                                  Where (From i As Integer
@@ -131,15 +132,15 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         Try
 #End If
             Dim nl As Integer = ns.Length
-            Dim SlideWindows = Sequence.CreateSlideWindows(slideWindowSize:=nl)
+            Dim SlideWindows = Sequence.SlideWindows(slideWindowSize:=nl)
 #If DEBUG Then
             nnn = SlideWindows.Last.Elements.Length
 #End If
             Dim LQuery As Integer = (From n As SlideWindowHandle(Of DNA)
                                      In SlideWindows.AsParallel
-                                     Where (From i As Integer
-                                            In ns.Sequence
-                                            Where ns(i) = n.Elements(i)
+                                     Where (From i As SeqValue(Of DNA)
+                                            In ns.SeqIterator
+                                            Where i.obj = n.Elements(i.i)
                                             Select 1).Count = nl
                                      Select 1).Count
             Return LQuery
