@@ -372,6 +372,28 @@ Partial Module Utilities
 
         Return fasta.Save(out, Encodings.ASCII)
     End Function
+
+    <ExportAPI("/Gff.Sites",
+               Usage:="/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
+    Public Function GffSites(args As CommandLine.CommandLine) As Integer
+        Dim [in] As String = args("/fna")
+        Dim sites As String = args("/gff")
+        Dim out As String =
+            args.GetValue("/out", [in].TrimFileExt & "-" & sites.BaseName & ".fasta")
+        Dim fna = FastaToken.LoadNucleotideData([in])
+        Dim gff As GFF = TabularFormat.GFF.LoadDocument(sites)
+        Dim nt As New SegmentReader(fna)
+        Dim result = From loci As Feature
+                     In gff.Features
+                     Let seq = nt.TryParse(loci.MappingLocation)
+                     Select New FastaToken With {
+                         .SequenceData = seq.SequenceData,
+                         .Attributes = {loci.Synonym, loci.Product, loci.MappingLocation.ToString}
+                     }
+        Dim fasta As New FastaFile(result)
+
+        Return fasta.Save(-1, out, Encoding.ASCII)
+    End Function
 End Module
 
 Public Class Loci : Inherits Contig
