@@ -394,7 +394,7 @@ Partial Module Utilities
                      }
         Dim fasta As New FastaFile(result)
 
-        Return fasta.Save(-1, out, Encoding.ASCII)
+        Return fasta.Save(-1, out, Encoding.UTF8)
     End Function
 End Module
 
