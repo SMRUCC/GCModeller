@@ -56,8 +56,8 @@ Namespace PDBML
 
             <XmlElement("entity_poly", Namespace:="http://pdbml.pdb.org/schema/pdbx-v40.xsd")> Public Property entity_polyes As entity_poly()
 
-            Public Class entity_poly
-                <XmlAttribute("entity_id")> Public Property entity_id As Integer
+            Public Class entity_poly : Inherits PDBxEntity
+
                 ' <PDBx:nstd_linkage>no</PDBx:nstd_linkage>
                 ' <PDBx:nstd_monomer>no</PDBx:nstd_monomer>
                 Public Property pdbx_seq_one_letter_code As String
@@ -77,10 +77,18 @@ Namespace PDBML
         End Function
     End Class
 
+    Public MustInherit Class PDBxEntity
+
+        <XmlAttribute("entity_id")> Public Property entity_id As Integer
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
     Namespace atom
 
-        <XmlType("atom_site")>
-        Public Class Site : Inherits PDBx
+        <XmlType("atom_site")> Public Class Site : Inherits PDBx
 
             <XmlElement("B_iso_or_equiv")> Public Property B_iso_or_equiv As String
             <XmlElement("Cartn_x")> Public Property Cartn_x As String
@@ -102,8 +110,7 @@ Namespace PDBML
             <XmlElement("type_symbol")> Public Property type_symbol As String
         End Class
 
-        <XmlType("atom_site_anisotrop")>
-        Public Class anisotrop : Inherits PDBx
+        <XmlType("atom_site_anisotrop")> Public Class anisotrop : Inherits PDBx
 
             Public Property U11 As String
             Public Property U12 As String
@@ -123,6 +130,35 @@ Namespace PDBML
             Public Property type_symbol As String
         End Class
 
+        <XmlType("atom_sites")> Public Class sites : Inherits PDBxEntity
+            Public Property fract_transf_matrix11 As String
+            Public Property fract_transf_matrix12 As String
+            Public Property fract_transf_matrix13 As String
+            Public Property fract_transf_matrix21 As String
+            Public Property fract_transf_matrix22 As String
+            Public Property fract_transf_matrix23 As String
+            Public Property fract_transf_matrix31 As String
+            Public Property fract_transf_matrix32 As String
+            Public Property fract_transf_matrix33 As String
+            Public Property fract_transf_vector1 As String
+            Public Property fract_transf_vector2 As String
+            Public Property fract_transf_vector3 As String
+        End Class
+
+        <XmlType("atom_type")> Public Class type
+
+            <XmlAttribute> Public Property symbol As String
+        End Class
+
+        <XmlType("atom_typeCategory")> Public Class typeCategory
+
+            <XmlElement("atom_type")> Public Property atom_types As type()
+        End Class
+
+        <XmlType("atom_sitesCategory")> Public Class sitesCategory
+            <XmlElement("atom_sites")> Public Property atom_sites As sites()
+        End Class
+
         <XmlType("atom_siteCategory")> Public Class siteCategory
 
             <XmlElement("atom_site")>
@@ -135,4 +171,64 @@ Namespace PDBML
             Public Property atom_site_anisotrop As anisotrop()
         End Class
     End Namespace
+
+    Namespace audit
+
+        <XmlType("audit_authorCategory")> Public Class authorCategory
+            <XmlElement("audit_author")> Public Property authors As author()
+        End Class
+
+        <XmlType("audit_author")> Public Class author
+
+            <XmlAttribute> Public Property pdbx_ordinal As Integer
+            Public Property name As String
+        End Class
+
+        <XmlType("audit_conformCategory")> Public Class conformCategory
+            <XmlElement("audit_conform")> Public Property conforms As conform()
+        End Class
+
+        <XmlType("audit_conform")> Public Class conform
+            <XmlAttribute> Public Property dict_name As String
+            <XmlAttribute> Public Property dict_version As String
+            Public Property dict_location As String
+
+            Public Overrides Function ToString() As String
+                Return Me.GetJson
+            End Function
+        End Class
+
+    End Namespace
+
+    <XmlType("cellCategory")> Public Class cellCategory
+        <XmlElement("cell")> Public Property cells As cell()
+    End Class
+
+    <XmlType(NameOf(cell))> Public Class cell : Inherits PDBxEntity
+        Public Property Z_PDB As String
+        Public Property angle_alpha As String
+        Public Property angle_beta As String
+        Public Property angle_gamma As String
+        Public Property length_a As String
+        Public Property length_b As String
+        Public Property length_c As String
+    End Class
+
+    Namespace chem
+
+        <XmlType("chem_compCategory")> Public Class compCategory
+
+            <XmlElement("chem_comp")> Public Property chem_comp As comp()
+        End Class
+
+        <XmlType("chem_comp")> Public Class comp : Inherits PDBx
+            Public Property formula As String
+            Public Property formula_weight As String
+            Public Property mon_nstd_flag As String
+            Public Property name As String
+            Public Property type As String
+        End Class
+
+    End Namespace
+
 End Namespace
