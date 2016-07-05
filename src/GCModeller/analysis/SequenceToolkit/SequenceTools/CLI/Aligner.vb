@@ -28,6 +28,7 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis
@@ -223,8 +224,14 @@ Partial Module Utilities
         Dim fasta As New FastaFile([in])
         Dim simple As Boolean = args.GetBoolean("/simple")
         Dim round As Integer = args.GetValue("/round", -1)
-        Dim result = IdentityResult.SigmaMatrix(fasta, round, simple).ToArray
-        Return result.SaveTo(out).CLICode
+
+        Using writer As New WriteStream(Of IdentityResult)(out)
+            For Each x As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
+                Call writer.Flush(x)
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module
 
