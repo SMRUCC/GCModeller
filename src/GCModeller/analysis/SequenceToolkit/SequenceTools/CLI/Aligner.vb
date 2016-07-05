@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Parallel.Linq
 Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
@@ -224,8 +225,12 @@ Partial Module Utilities
         Dim fasta As New FastaFile([in])
         Dim simple As Boolean = args.GetBoolean("/simple")
         Dim round As Integer = args.GetValue("/round", -1)
+        Dim keys As String() =
+            If(simple,
+            fasta.ToArray(AddressOf IdentityResult.SimpleTag),
+            fasta.ToArray(Function(x) x.Title))
 
-        Using writer As New WriteStream(Of IdentityResult)(out)
+        Using writer As New WriteStream(Of IdentityResult)(out, metaKeys:=keys)
             For Each x As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
                 Call writer.Flush(x)
             Next
