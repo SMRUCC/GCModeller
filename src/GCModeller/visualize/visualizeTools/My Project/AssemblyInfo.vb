@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("GenomeChromosomeView: data visualization for the ncbi genome data.")> 
 <Assembly: AssemblyDescription("GenomeChromosomeView: data visualization for the ncbi genome data.")> 
 <Assembly: AssemblyCompany("LANS")> 
-<Assembly: AssemblyProduct("LANS.SystemsBiology.DataVisualization")> 
+<Assembly: AssemblyProduct("SMRUCC.genomics.DataVisualization")> 
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gmail.com 2014")> 
 <Assembly: AssemblyTrademark("GENOME-IN-CODE")> 
 

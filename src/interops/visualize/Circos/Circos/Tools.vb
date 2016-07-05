@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af14ce46bdd2e483522ddcfe82b20430, ..\Circos\Circos\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::c8b7fd54e13eb0702ab3e99b0468fc04, ..\interops\visualize\Circos\Circos\Tools.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations
 
 Module Tools
 
@@ -51,4 +51,3 @@ Module Tools
         Return refPath
     End Function
 End Module
-

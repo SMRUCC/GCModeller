@@ -1,27 +1,52 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::cc39716e16595e52d268656d33c029ad, ..\interops\localblast\Localblast.Extensions.VennDiagram\VennDataModel.vb"
 
-Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Parallel.Threads
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
 
 Namespace BlastAPI
 
@@ -101,7 +126,7 @@ Namespace BlastAPI
                                    Optional TrimValue As Double = 0.6) As Boolean
 
             Dim LQuery = (From path As PathEntry In BlastoutputSource.LoadSourceEntryList({"*.txt"}).AsParallel
-                          Let Blastout = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.LoadBlastOutput(path.Value)
+                          Let Blastout = BlastOutput.BlastPlus.LoadBlastOutput(path.Value)
                           Where Not Blastout Is Nothing
                           Select ID = LogNameParser(path.Value).HitName,
                           Blastout,
@@ -360,7 +385,7 @@ Namespace BlastAPI
                                                    <Parameter("Path.CDS.All.Dump")> CDSAll As String,
                                                    <Parameter("DIR.EXPORT")> EXPORT As String,
                                                    <Parameter("Null.Trim")> Optional TrimNull As Boolean = False) As BestHit()
-            Return NCBI.Extensions.Analysis.ExportBidirectionalBesthit(Source, EXPORT, LoadCdsDumpInfo(CDSAll), TrimNull)
+            Return SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.ExportBidirectionalBesthit(Source, EXPORT, LoadCdsDumpInfo(CDSAll), TrimNull)
         End Function
 
         <ExportAPI("Orf.Dump.Load.As.Hash")>

@@ -1,14 +1,45 @@
-﻿Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.MPAlignment.Settings
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+﻿#Region "Microsoft.VisualBasic::32b70224b94f7a96c33ea8fcfc7a9bba, ..\GCModeller\CLI_tools\mpl\CLI\Applications.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
+Imports System.Text
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Linq
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns
-Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq
+Imports ProteinTools.Interactions.CLI
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.ProteinTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Data.Xfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports xMPAlignment.Settings
 
 Partial Module CLI
 
@@ -36,7 +67,7 @@ Partial Module CLI
     <ParameterInfo("/Name", True,
                    Description:="The database name of the aligned subject, if this value is empty or not exists in the source, then the entired Family database will be used.")>
     Public Function FamilyClassified(args As CommandLine.CommandLine) As Integer
-        Dim Query = args("/query").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
+        Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim Threshold As Double = args.GetValue("/threshold", 0.5)
         Dim MpTh As Double = args.GetValue("/mp", 0.6)
         Dim Name As String = args("/Name")
@@ -79,15 +110,15 @@ Partial Module CLI
         Dim queryFile As String = args("/query")
         Dim DbXml As String = args("/db")
         Dim query = SequenceModel.FASTA.FastaToken.Load(queryFile)
-        Dim Db = DbXml.LoadXml(Of Interactions.Category)
+        Dim Db = DbXml.LoadXml(Of Category)
         Dim cutoff As Double = args.GetValue("/mp", 0.9)
         Dim score As Double = 0
-        Dim alignOut = Interactions.Align(query, Db, score, cutoff)
+        Dim alignOut = Align(query, Db, score, cutoff)
         Dim outDIR As String = args.GetValue("/out", queryFile.ParentPath & "/PPI_MPAlignment/")
         '    Return __getReport(Db, query, alignOut, score, outDIR)
     End Function
 
-    Private Function __getReport(Db As Interactions.Category,
+    Private Function __getReport(Db As Category,
                                  query As SequenceModel.FASTA.FastaToken,
                                  alignOut As AlignmentOutput,
                                  score As Double,
@@ -111,3 +142,4 @@ Partial Module CLI
         Return 0
     End Function
 End Module
+

@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.Visualize.Circos.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -73,8 +73,7 @@ Namespace My.Resources
         '''# HUE   (e.g. red)
         '''# dHUE  (dark HUE, e.g. dred)
         '''# vdHUE (very dark HUE, e.g. vdred))
-        '''# vvdHUE (very very dark HUE, e.g. vvdred))
-        '''# [rest of string was truncated]&quot;;.
+        '''# vvdHUE (very very dark HUE, e.g [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property colors() As String
             Get
@@ -88,8 +87,7 @@ Namespace My.Resources
         '''#
         '''# Color names are formatted as PALETTE-NUMCOLORS-TYPE-COLORCODE
         '''#
-        '''# where PALETTE is the palette name, NUMCOLORS is the number of colors in the palette, TYPE is the palette type (div, seq, qual) and COLORCODE is the color index within the palette (another versison of the color is defined where COLORCODE is the color&apos;s letter, unique to a combination of PALETTE and TYPE)
-        ''' [rest of string was truncated]&quot;;.
+        '''# where PALETTE is the palette name, NUMCOLORS is the number of colors in the palette, TYPE is the palette type (div, seq, qual) and COLORCODE is the color index within the palette (another versison of the color is defined where COLORCODE is the color&apos;s letter, unique to a combination of PALETTE and T [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property colors_brewer() As String
             Get
@@ -112,7 +110,7 @@ Namespace My.Resources
         '''reds-8-seq-rev = rev(reds-8-seq-(\d+))
         '''reds-9-seq = reds-9-seq-(\d+)
         '''reds-9-seq-rev = rev(reds-9-seq-(\d+))
-        '''pastel1-3-qual = pastel1-3-qu [rest of string was truncated]&quot;;.
+        '''pastel1-3-qual  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property colors_brewer_lists() As String
             Get
@@ -144,8 +142,7 @@ Namespace My.Resources
         '''hue020 = hsv(20,1,1)
         '''hue021 = hsv(21,1,1)
         '''hue022 = hsv(22,1,1)
-        '''hue023 = hsv(23,1,1)
-        '''hue024 = hsv(24,1, [rest of string was truncated]&quot;;.
+        '''hue023 = hsv(23, [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property colors_hsv() As String
             Get
@@ -179,8 +176,7 @@ Namespace My.Resources
         '''chr7  = 255,204,204
         '''chr8  = 255,153,0
         '''chr9  = 255,204,0
-        '''chr10 = 255,255,0
-        '''chr11 = 204, [rest of string was truncated]&quot;;.
+        '''chr10 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property colors_ucsc() As String
             Get
@@ -209,8 +205,7 @@ Namespace My.Resources
         '''azure4 = 131,139,139
         '''beige = 245,245,220
         '''bisque = 255,228,196
-        '''bisque1 = 255,228,196
-        '''b [rest of string was truncated]&quot;;.
+        '''bis [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property colors_unix() As String
             Get

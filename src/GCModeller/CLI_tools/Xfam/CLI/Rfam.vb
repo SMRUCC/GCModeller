@@ -1,18 +1,44 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+﻿#Region "Microsoft.VisualBasic::da175ebd885282740dcad3e07a589221, ..\GCModeller\CLI_tools\Xfam\CLI\Rfam.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.Rfam
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.RfamRegulatory
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal.cmscan
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal.cmsearch
-Imports LANS.SystemsBiology.AnalysisTools.Rfam.Infernal
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Xfam.Rfam
+Imports SMRUCC.genomics.Data.Xfam.Rfam.Infernal
+Imports SMRUCC.genomics.Data.Xfam.Rfam.Infernal.cmscan
+Imports SMRUCC.genomics.Data.Xfam.Rfam.Infernal.cmsearch
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module CLI
 
@@ -53,7 +79,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", queryMappings.TrimFileExt & ".Rfam.Regulatory.Csv")
         Dim query = queryMappings.LoadCsv(Of Rfamily)
         Dim mastSites = mast.LoadCsv(Of MastSites)
-        Dim regulations = AnalysisRegulatory(query.ToArray, mastSites.ToArray)
+        Dim regulations = SMRUCC.genomics.Data.Xfam.Rfam.RfamRegulatory.AnalysisRegulatory(query.ToArray, mastSites.ToArray)
         Return regulations.SaveTo(out).CLICode
     End Function
 

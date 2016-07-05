@@ -1,7 +1,7 @@
 ﻿Imports System.Data.Linq.Mapping
 Imports System.Data.SQLite.Linq.DataMapping.Interface
 Imports System.Data.SQLite.Linq.DataMapping.Interface.Reflector
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Namespace SQLEngines
 

@@ -1,4 +1,31 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::998477164a9bcd73d9c853f437288593, ..\GCModeller\engine\GCModeller\ShellScriptAPI.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine
 Imports Oracle.Java.IO.Properties.Reflector
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -6,13 +33,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 <[PackageNamespace]("GCModeller.Engine_Kernel")>
 Public Module ShellScriptAPI
 
-    Dim ModelRegistry As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
+    Dim ModelRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
 
     <ImportsConstant> Public Const NA As String = "N/A"
 
     <ExportAPI("Registry.Load_From_Xml")>
-    Public Function LoadModuleRegistry(Path As String) As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
-        ShellScriptAPI.ModelRegistry = LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry.Load(Path)
+    Public Function LoadModuleRegistry(Path As String) As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
+        ShellScriptAPI.ModelRegistry = SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry.Load(Path)
         Return ModelRegistry
     End Function
 
@@ -31,8 +58,7 @@ Public Module ShellScriptAPI
             Configuration = FileIO.FileSystem.GetFiles(Configuration, FileIO.SearchOption.SearchTopLevelOnly, "*.inf").First
         End If
 
-        Return Global.LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Run.Invoke(
-            ShellScriptAPI.ModelRegistry, GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(Configuration), argvs)
+        Return ModellingEngine.EngineSystem.Engine.Run.Invoke(ShellScriptAPI.ModelRegistry, ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(Configuration), argvs)
     End Function
 
     <ExportAPI("Default_Configuration.Create")>
@@ -76,3 +102,4 @@ Public Module ShellScriptAPI
         Return True
     End Function
 End Module
+

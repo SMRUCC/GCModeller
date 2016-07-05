@@ -1,6 +1,33 @@
-﻿Imports Microsoft.VisualBasic.Terminal.STDIO
+﻿#Region "Microsoft.VisualBasic::006c6f34f3ff78ea30106906f00e33ce, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Run.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration
 Imports Microsoft.VisualBasic.Logging
 
 Namespace EngineSystem.Engine
@@ -14,7 +41,7 @@ Namespace EngineSystem.Engine
             Public Logging As LogFile
 
             Dim _OriginalARGV As Microsoft.VisualBasic.CommandLine.CommandLine
-            Dim ExternalModuleRegistry As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
+            Dim ExternalModuleRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry
             Dim _configurationsData As ConfigReader
 
             'run -i <model_file> -mysql <mysql_connection_string> [-t <time> -metabolism <assembly_path> -expression <assembly_path> -cultivation_mediums <medium_csv_file>]
@@ -102,7 +129,7 @@ Namespace EngineSystem.Engine
                 Return 0
             End Function
 
-            Private Function InitializeKernel(EngineKernel As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller) As Integer
+            Private Function InitializeKernel(EngineKernel As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller) As Integer
                 Call LoadModules(EngineKernel)  '向计算框架之中加载计算模块
                 Call EngineKernel.Initialize()   '对整个计算引擎做最基本的初始化操作
 
@@ -118,7 +145,7 @@ Namespace EngineSystem.Engine
                 Return 0
             End Function
 
-            Private Function LoadModules(EngineKernel As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
+            Private Function LoadModules(EngineKernel As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
                 Dim DisabledModule As List(Of String) = New List(Of String)
                 Dim LoadModule As List(Of String) = New List(Of String)
 
@@ -137,7 +164,7 @@ Namespace EngineSystem.Engine
                 Return 0
             End Function
 
-            Public Function InitializeModellerEngine() As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
+            Public Function InitializeModellerEngine() As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
                 Dim SuccessFlag As Integer = Me.CheckArguments
 
                 If SuccessFlag Then
@@ -148,11 +175,11 @@ Namespace EngineSystem.Engine
 
                 Logging.WriteLine(String.Format("Kernel load model data from file:{0}'{1}'", vbCrLf, ModelFile), "gchost -> main()")
 
-                Dim ModellerEngine As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller = Nothing
+                Dim ModellerEngine As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller = Nothing
 
                 Try
                     If String.Equals(Me.FileFormat, "GCML") Then
-                        ModellerEngine = LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller.Load(ModelFile, Me.Logging, Me._OriginalARGV)
+                        ModellerEngine = SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller.Load(ModelFile, Me.Logging, Me._OriginalARGV)
                     Else
 
                     End If
@@ -177,8 +204,8 @@ Namespace EngineSystem.Engine
             End Function
         End Class
 
-        Public Function Invoke(ExternalModuleRegistry As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleRegistry,
-                               Configurations As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations,
+        Public Function Invoke(ExternalModuleRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry,
+                               Configurations As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations,
                                argvs As CommandLine.CommandLine) As Integer
 
             Call Settings.Session.Initialize()

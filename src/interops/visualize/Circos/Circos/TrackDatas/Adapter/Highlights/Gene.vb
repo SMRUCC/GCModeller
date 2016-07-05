@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97fe3942d4c567df3b76974efe13171b, ..\Circos\Circos\TrackDatas\Adapter\Highlights\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::8894a36bf6114e2d31767fc7ee52bcd4, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Gene.vb"
 
     ' Author:
     ' 
@@ -28,10 +28,9 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.GCModeller.DataVisualization
+Imports SMRUCC.genomics.Visualize.Circos.Colors
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 

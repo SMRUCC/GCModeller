@@ -1,4 +1,31 @@
-﻿Imports LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+﻿#Region "Microsoft.VisualBasic::fcec71e25155d4036d053723919aa66c, ..\GCModeller\data\RegulonDatabase\Regtransbase\Regtransbase.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.SequenceModel.FASTA.FastaFile
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
 Imports System.Text
@@ -26,24 +53,24 @@ Namespace Regtransbase
             Return DbReflector.Query(Of Regtransbase.StructureObjects.Regulator)("select * from regulators").ToArray
         End Function
 
-        Public Function ExportBindingSites(Optional TryAutoFix As Boolean = False) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public Function ExportBindingSites(Optional TryAutoFix As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim Table = DbReflector.Query(Of Regtransbase.StructureObjects.Sites)("select * from sites")
             Dim LQuery = (From site As Regtransbase.StructureObjects.Sites In Table
-                          Let Fsa As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = StructureObjects.Sites.ExportFasta(site, TryAutoFix)
+                          Let Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = StructureObjects.Sites.ExportFasta(site, TryAutoFix)
                           Where Not Fsa Is Nothing
                           Select Fsa).ToArray
             Return LQuery
         End Function
 
-        Public Function ExportRegulators(Optional TryAutoFix As Boolean = False) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public Function ExportRegulators(Optional TryAutoFix As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim Table = DbReflector.Query(Of Regtransbase.StructureObjects.Regulator)("select * from regulators")
             Dim Genes = DbReflector.Query(Of Regtransbase.StructureObjects.Gene)("select * from genes").ToArray '在其中居然会有以TGA开头的基因序列
             Dim LQuery = (From regulator As Regtransbase.StructureObjects.Regulator
                           In Table
-                          Let fsa As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = Regtransbase.StructureObjects.Regulator.ExportFasta(regulator, Genes, TryAutoFix)
+                          Let fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = Regtransbase.StructureObjects.Regulator.ExportFasta(regulator, Genes, TryAutoFix)
                           Where Not fsa Is Nothing AndAlso Len(fsa.SequenceData) > 0
                           Select fsa).ToArray
-            Return CType(LQuery, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+            Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
         End Function
 
         Private Shared Function Trim(str As String) As String

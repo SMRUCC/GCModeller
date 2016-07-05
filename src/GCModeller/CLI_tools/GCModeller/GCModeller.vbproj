@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AFF75EDE-C4C6-48FA-AC99-501361B231EB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>LANS.SystemsBiology.GCModeller.Program</StartupObject>
-    <RootNamespace>LANS.SystemsBiology.GCModeller</RootNamespace>
+    <StartupObject>xGCModeller.Program</StartupObject>
+    <RootNamespace>xGCModeller</RootNamespace>
     <AssemblyName>GCModeller</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
@@ -73,7 +73,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\bin-Debug\</OutputPath>
+    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
     <DocumentationFile>GCModeller.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
@@ -82,7 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>GCModeller.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -265,73 +265,73 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\workbench\Model_Repository\RQL\RQL.vbproj">
+      <Project>{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}</Project>
+      <Name>RQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Repository\Bio.Repository.vbproj">
+    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\localblast\LocalBLAST\LANS.SystemsBiology.NCBI.Extensions.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Sequence-Patterns-Toolkit\SequencePatterns\SequencePatterns.vbproj">
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.vbproj">
       <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_Tabular.DataFrame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataVisualization\Circos\Circos\Circos.vbproj">
+    <ProjectReference Include="..\..\..\interops\visualize\Circos\Circos\Circos.vbproj">
       <Project>{5bf44c97-b7a0-47d7-9622-2f2c0c4f31a9}</Project>
       <Name>Circos</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataVisualization\GCModeller.DataVisualization\DataVisualizationTools.vbproj">
+    <ProjectReference Include="..\..\visualize\visualizeTools\DataVisualizationTools.vbproj">
       <Project>{7A5B87B9-4475-4B34-AB8B-30F0B068C1B7}</Project>
       <Name>DataVisualizationTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataVisualization\Phylip\Phylip.vbproj">
+    <ProjectReference Include="..\..\..\interops\visualize\Phylip\Phylip.vbproj">
       <Project>{00073db7-bcd2-4aac-8e8c-142b1b30efd5}</Project>
       <Name>Phylip</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller Workbench\Model_Repository\Model_Repository.vbproj">
+    <ProjectReference Include="..\..\..\workbench\Model_Repository\Model_Repository.vbproj">
       <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
       <Name>Model_Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller Workbench\Model_Repository\RQL\RQL.vbproj">
-      <Project>{88d39ac9-03c2-4a1a-9818-ade7fd90576d}</Project>
-      <Name>RQL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\AnalysisTools.ProteinTools.Family\AnalysisTools.ProteinTools.Family.vbproj">
+    <ProjectReference Include="..\..\analysis\ProteinTools\ProteinTools.Family\ProteinTools.Family.vbproj">
       <Project>{f5fc5f93-f929-496f-9cf9-8607203b9545}</Project>
-      <Name>AnalysisTools.ProteinTools.Family</Name>
+      <Name>ProteinTools.Family</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\AnalysisTools.ProteinTools.Interactions\AnalysisTools.ProteinTools.Interactions.vbproj">
+    <ProjectReference Include="..\..\analysis\ProteinTools\ProteinTools.Interactions\ProteinTools.Interactions.vbproj">
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
-      <Name>AnalysisTools.ProteinTools.Interactions</Name>
+      <Name>ProteinTools.Interactions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\AnnotationTools\AnnotationTools.vbproj">
+    <ProjectReference Include="..\..\analysis\Annotation\AnnotationTools.vbproj">
       <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
       <Name>AnnotationTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\GCModeller\GCModeller.ModellingEngine.vbproj">
+    <ProjectReference Include="..\..\engine\GCModeller\GCModeller.ModellingEngine.vbproj">
       <Project>{8384ac6e-a7f6-40f0-a9a0-f995c2106843}</Project>
       <Name>GCModeller.ModellingEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\Pfam\AnalysisTools.ProteinTools.Sanger.Pfam.vbproj">
+    <ProjectReference Include="..\..\analysis\Xfam\Pfam\Pfam.vbproj">
       <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
-      <Name>AnalysisTools.ProteinTools.Sanger.Pfam</Name>
+      <Name>Pfam</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -346,9 +346,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <Import Project="..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
-  <Import Project="..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
-  <Import Project="..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,10 +1,37 @@
-﻿Imports Microsoft.VisualBasic.Extensions
+﻿#Region "Microsoft.VisualBasic::c6674676a438f9661c5fcf9d4c7e226e, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BidirectionalBesthit_BLAST.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace LocalBLAST.Application.BBH
 
@@ -18,7 +45,7 @@ Namespace LocalBLAST.Application.BBH
         ''' 本地BLAST的中间服务
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Friend _LocalBLASTService As Global.LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService
+        Protected Friend _LocalBLASTService As LocalBLAST.InteropService.InteropService
         Protected Friend _WorkDir As String
 
         Public ReadOnly Property WorkDir As String
@@ -27,13 +54,13 @@ Namespace LocalBLAST.Application.BBH
             End Get
         End Property
 
-        Public ReadOnly Property LocalBLASTServices As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService
+        Public ReadOnly Property LocalBLASTServices As LocalBLAST.InteropService.InteropService
             Get
                 Return Me._LocalBLASTService
             End Get
         End Property
 
-        Sub New(LocalBLAST As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService.InteropService, WorkDir As String)
+        Sub New(LocalBLAST As LocalBLAST.InteropService.InteropService, WorkDir As String)
             Me._WorkDir = WorkDir
             Me._LocalBLASTService = LocalBLAST
         End Sub
@@ -70,7 +97,7 @@ Namespace LocalBLAST.Application.BBH
             Call Log.Grep(QueryGrepMethod, Nothing) '由于在MetaCyc数据库之中的FASTA文件的标题格式都是一样的，故而在这里就都使用一样的方法来解析名称了
             Dim Log_QvS As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit).ToCsvDoc
 
-            Call Trim(LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Subject), Log_QvS, HitsGrepMethod)
+            Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Subject), Log_QvS, HitsGrepMethod)
             Call Log_QvS.Save(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Query), IO.Path.GetFileNameWithoutExtension(Subject)), False)
 
 #If DEBUG Then
@@ -82,7 +109,7 @@ Namespace LocalBLAST.Application.BBH
             Log = _LocalBLASTService.GetLastLogFile
             Call Log.Grep(HitsGrepMethod, Nothing)
             Dim Log_SvQ = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit)
-            Call Trim(LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Query), Log_SvQ.ToCsvDoc, QueryGrepMethod)
+            Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Query), Log_SvQ.ToCsvDoc, QueryGrepMethod)
             Call Log_SvQ.SaveTo(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Subject), IO.Path.GetFileNameWithoutExtension(Query)), False)
 
             Call Printf("END_OF_BIDIRECTION_BLAST():: start to build up the best mathced protein pair.")

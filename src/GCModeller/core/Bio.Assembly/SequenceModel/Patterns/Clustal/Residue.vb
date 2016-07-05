@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8d44bfa912208efb5542479dacb03e4, ..\Bio.Assembly\SequenceModel\Patterns\Clustal\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::fcca1e7c839f87aa82f5995fab870019, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Clustal\Residue.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dea2124f699bd0e741cf9fd74eb3bc90, ..\Circos\Circos\Karyotype\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::79d63116d5ca4fe70a23ea906fea78e3, ..\interops\visualize\Circos\Circos\Karyotype\Abstract.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging

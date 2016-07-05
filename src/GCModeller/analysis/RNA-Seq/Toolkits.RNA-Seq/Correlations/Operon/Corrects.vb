@@ -1,5 +1,32 @@
-﻿Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.ComponentModel.Loci
+﻿#Region "Microsoft.VisualBasic::8f5611fa2749823d217c1b8953c4217a, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\Operon\Corrects.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -25,13 +52,13 @@ Namespace Operon
         Public Function CorrectDoorOperon(PCC As PccMatrix,
                                           DOOR As DOOR,
                                           <Parameter("Cutoff.PCC", "value should be positive")>
-                                          Optional pccCutoff As Double = 0.45) As LANS.SystemsBiology.Assembly.DOOR.Operon()
+                                          Optional pccCutoff As Double = 0.45) As SMRUCC.genomics.Assembly.DOOR.Operon()
             Dim parallel As Boolean = True
 #If DEBUG Then
             parallel = False
 #End If
             Dim LQuery = DOOR.DOOROperonView.Operons.ToArray(Function(operon) __correctOperon(operon, PCC, pccCutoff))  ' 首先假设Door数据库之中的操纵子之中的基因之间的距离是合理的正确的
-            Dim lstCorrected As LANS.SystemsBiology.Assembly.DOOR.Operon() =
+            Dim lstCorrected As SMRUCC.genomics.Assembly.DOOR.Operon() =
                 (From x In LQuery.MatrixToList Select x Order By x.Key Ascending).ToArray
             Return lstCorrected
         End Function
@@ -41,11 +68,11 @@ Namespace Operon
         ''' </summary>
         ''' <param name="Operon"></param>
         ''' <returns></returns>
-        Private Function __correctOperon(Operon As LANS.SystemsBiology.Assembly.DOOR.Operon,
+        Private Function __correctOperon(Operon As SMRUCC.genomics.Assembly.DOOR.Operon,
                                          PCC As PccMatrix,
-                                         pccCut As Double) As LANS.SystemsBiology.Assembly.DOOR.Operon()
+                                         pccCut As Double) As SMRUCC.genomics.Assembly.DOOR.Operon()
             If Operon.NumOfGenes = 1 Then
-                Return New LANS.SystemsBiology.Assembly.DOOR.Operon() {Operon}
+                Return New SMRUCC.genomics.Assembly.DOOR.Operon() {Operon}
             Else
                 Dim source As GeneBrief()
                 If Operon.Strand = Strands.Forward Then
@@ -68,17 +95,17 @@ Namespace Operon
         Private Function __splitOperon(Operon As String, structGenes As GeneBrief(), Initial As GeneBrief,
                                        idx As Integer,
                                        cutoff As Double,
-                                       PccMatrix As PccMatrix) As LANS.SystemsBiology.Assembly.DOOR.Operon()
-            Dim cLst As List(Of LANS.SystemsBiology.Assembly.DOOR.Operon) =
-                New List(Of LANS.SystemsBiology.Assembly.DOOR.Operon)
+                                       PccMatrix As PccMatrix) As SMRUCC.genomics.Assembly.DOOR.Operon()
+            Dim cLst As List(Of SMRUCC.genomics.Assembly.DOOR.Operon) =
+                New List(Of SMRUCC.genomics.Assembly.DOOR.Operon)
 
             For i As Integer = 0 To structGenes.Length - 1
                 Dim Pcc As Double = PccMatrix.GetValue(structGenes(i).Synonym, Initial.Synonym)
 
                 If Pcc < 0 OrElse Pcc < cutoff Then 'Operon之中的第一个基因和其他的基因之间的Pcc必须要大于0
                     Dim newPart As GeneBrief() = structGenes.Take(i).ToArray
-                    Dim newOperon As LANS.SystemsBiology.Assembly.DOOR.Operon =
-                        New LANS.SystemsBiology.Assembly.DOOR.Operon($"{Operon}.{idx}", newPart)
+                    Dim newOperon As SMRUCC.genomics.Assembly.DOOR.Operon =
+                        New SMRUCC.genomics.Assembly.DOOR.Operon($"{Operon}.{idx}", newPart)
 
                     Call cLst.Add(newOperon)
 
@@ -97,7 +124,7 @@ Namespace Operon
                 If idx > 1 Then
                     Operon = $"{Operon}.{idx}"
                 End If
-                Dim opr As New LANS.SystemsBiology.Assembly.DOOR.Operon(Operon, structGenes)
+                Dim opr As New SMRUCC.genomics.Assembly.DOOR.Operon(Operon, structGenes)
                 Return {opr}
             End If
 

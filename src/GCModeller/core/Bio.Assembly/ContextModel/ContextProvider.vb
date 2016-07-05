@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ede2f7942aa8719e573581506b95e91, ..\Bio.Assembly\ContextModel\ContextProvider.vb"
+﻿#Region "Microsoft.VisualBasic::e3ae7601557103d20939b857a9f79b83, ..\GCModeller\core\Bio.Assembly\ContextModel\ContextProvider.vb"
 
     ' Author:
     ' 

@@ -1,6 +1,33 @@
-﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
+﻿#Region "Microsoft.VisualBasic::c8bc486620abb8d353712a0f9a31efe7, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetacycObjectFindingMethods.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Terminal.STDIO
 
@@ -104,7 +131,7 @@ Module MetacycObjectFindingMethods
         '        End If
         '    Case MetaCyc.File.DataFiles.Slots.Object.Tables.dnabindsites
 
-        '        Dim DNABindSite = DirectCast([Object], LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.DNABindSite)
+        '        Dim DNABindSite = DirectCast([Object], SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.DNABindSite)
         '        Dim TUList = From TU In Model.BacteriaGenome.TransUnits Where DNABindSite.ComponentOf.IndexOf(TU.UniqueId) > -1 Select TU.Handle '
         '        Return TUList.ToArray
 
@@ -114,8 +141,8 @@ Module MetacycObjectFindingMethods
         Throw New NotImplementedException
     End Function
 
-    Public Function Take(Of obj As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object,
-                            Entity As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of obj))(Collection As Generic.IEnumerable(Of Entity), [Handles] As Long()) As Entity()
+    Public Function Take(Of obj As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object,
+                            Entity As GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of obj))(Collection As Generic.IEnumerable(Of Entity), [Handles] As Long()) As Entity()
         '   Dim LQuery = (From entityObj As Entity In Collection Where Array.IndexOf([Handles], entityObj.Handle) Select entityObj).ToArray
         '    Return LQuery
         Throw New NotImplementedException
@@ -130,8 +157,8 @@ Module MetacycObjectFindingMethods
     ''' <param name="Table"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function [Select](Of T As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object, E As GCML_Documents.ComponentModels.T_MetaCycEntity(Of T)) _
-            ([Object] As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object, Table As Generic.IEnumerable(Of E)) As E
+    <Extension> Public Function [Select](Of T As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object, E As GCML_Documents.ComponentModels.T_MetaCycEntity(Of T)) _
+            ([Object] As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object, Table As Generic.IEnumerable(Of E)) As E
         Try
             Dim LQuery = From obj In Table.AsParallel Where String.Equals([Object].Identifier, obj.Identifier) Select obj '
             Return LQuery.First
@@ -141,7 +168,7 @@ Module MetacycObjectFindingMethods
         End Try
     End Function
 
-    '<Extension> Public Sub AddTypeHandle(ByRef Regulation As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Regulator.Regulation, Type As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables)
+    '<Extension> Public Sub AddTypeHandle(ByRef Regulation As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Regulator.Regulation, Type As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables)
     '    Select Case Type
     '        Case Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.genes,
     '            Assembly.MetaCyc.File.DataFiles.Slots.Object.Tables.transunits,
@@ -164,8 +191,8 @@ Module MetacycObjectFindingMethods
     ''' <param name="UniqueId"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function IndexOf(Of T As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Object,
-                               Entity As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of T))( _
+    Public Function IndexOf(Of T As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Object,
+                               Entity As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels.T_MetaCycEntity(Of T))( _
                                ListCollection As Generic.IEnumerable(Of Entity),
                                UniqueId As String) _
         As Integer
@@ -184,7 +211,7 @@ Module MetacycObjectFindingMethods
     ''' <param name="UniqueId"></param>
     ''' <returns>Object Handle</returns>
     ''' <remarks></remarks>
-    <Extension> Public Function IndexOf(List As List(Of Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction), UniqueId As String) As Integer
+    <Extension> Public Function IndexOf(List As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction), UniqueId As String) As Integer
         For i As Integer = 0 To List.Count - 1
             If String.Equals(UniqueId, List(i).Identifier) Then
                 Return i
@@ -193,3 +220,4 @@ Module MetacycObjectFindingMethods
         Return -1
     End Function
 End Module
+

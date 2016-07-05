@@ -1,10 +1,37 @@
-﻿Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.FBA_OUTPUT
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO
+﻿#Region "Microsoft.VisualBasic::68c466c45d86d68545f2540637c7554a, ..\GCModeller\sub-system\FBA_DP\ShellScriptAPI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
 
 <Cite(Title:="What is flux balance analysis?",
       Abstract:="Flux balance analysis is a mathematical approach for analyzing the flow of metabolites through a metabolic network. 
@@ -47,8 +74,8 @@ Nat Biotechnol. 2010 Mar;28(3):245-8. doi: 10.1038/nbt.1614.",
 Public Module ShellScriptAPI
 
     <ExportAPI("Project.Load.Simpheny")>
-    Public Function LoadProject(DIR As String) As FBA.Simpheny.Project
-        Return FBA.Simpheny.Project.LoadProject(DIR)
+    Public Function LoadProject(DIR As String) As Simpheny.Project
+        Return Simpheny.Project.LoadProject(DIR)
     End Function
 
     <ExportAPI("LoadModel.From.CsvTabular", Info:="Load FBA model file from the Csv tabular format GCModeller virtual cell model file.")>
@@ -75,7 +102,7 @@ Public Module ShellScriptAPI
     <ExportAPI("FBA.Solve")>
     Public Function SolveModel(Model As lpSolveRModel,
                                <Parameter("R_HOME", "The R program installed location.")> R_HOME As String) As TabularOUT()
-        Dim Solver As New FBA.FBAlpRSolver(rBin:=R_HOME)
+        Dim Solver As New FBAlpRSolver(rBin:=R_HOME)
         Dim Result = Solver.RSolving(Model)
         Dim out As TabularOUT() = Result.CreateDataFile(Model)
         Return out
@@ -111,3 +138,4 @@ Public Module ShellScriptAPI
     '    Return New Models.GeneExpressions(Chipdata, SystemStableStatus, ExperimentId, PccCutoff, ObjectiveFunction)
     'End Function
 End Module
+

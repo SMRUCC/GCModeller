@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df7f361f96199ac19a899cd2136925ed, ..\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\DatabaseLoadder.vb"
+﻿#Region "Microsoft.VisualBasic::df7f361f96199ac19a899cd2136925ed, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\DatabaseLoadder.vb"
 
     ' Author:
     ' 

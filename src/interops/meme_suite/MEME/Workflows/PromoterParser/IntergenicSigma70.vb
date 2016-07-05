@@ -1,20 +1,49 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::6c31e9e53578465e69711d3d8dee4862, ..\interops\meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.ContextModel.LocationDescriptions
+Imports SMRUCC.genomics.ContextModel.LocationDescriptions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Linq
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
-Imports LANS.SystemsBiology.ContextModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
+Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 Namespace Workflows.PromoterParser
 
@@ -129,7 +158,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         '''' <returns></returns>
         '''' 
         '<Command("Relocated")>
-        'Public Function Relocated(data As Generic.IEnumerable(Of MEME_DIP), PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP()
+        'Public Function Relocated(data As Generic.IEnumerable(Of MEME_DIP), PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP()
         '    Dim LQuery = (From Site As MEME_DIP
         '                  In data'.AsParallel
         '                  Select Relocated(Site, PTT)).ToArray
@@ -145,7 +174,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         '''' 由于在解析序列数据的时候序列会根据重叠的情况进行修剪的，故而在这里已经不能够得到精确的位点了，只能够确定这个位点在该基因的上游的100bp以内的区域
         '''' 假若还需要得到精确的位点，是否还需要进行blastn进行精确定位？？？？？？？？
         '''' </returns>
-        'Private Function Relocated(site As MEME_DIP, PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP
+        'Private Function Relocated(site As MEME_DIP, PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) As MEME_DIP
         '    Dim Gene = PTT.GeneObject(site.Site)
 
         '    If Gene.Location.Strand = Strands.Forward Then
@@ -332,7 +361,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
         Public Function VirtualFootprintDIP(<Parameter("vf.csv")> Csv As String,
                                             <Parameter("dip.csv")> DIPCsv As String) As Boolean
 
-            Dim VirtualFootprints = Csv.LoadCsv(Of GenomeMotifFootPrints.VirtualFootprints)(False)
+            Dim VirtualFootprints = Csv.LoadCsv(Of VirtualFootprints)(False)
             Dim DIP As Dictionary(Of String, MEME_DIP()) =
                 (From row As MEME_DIP
                  In DIPCsv.LoadCsv(Of MEME_DIP)(False).AsParallel
@@ -365,7 +394,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
             Public Property MotifId As String
             Public ReadOnly Property MotifLocation As String
                 Get
-                    Return MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints.GetLociDescrib(LocationDescriptions)
+                    Return VirtualFootprints.GetLociDescrib(LocationDescriptions)
                 End Get
             End Property
 

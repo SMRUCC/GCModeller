@@ -1,8 +1,35 @@
-﻿Imports System.ComponentModel
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports Microsoft.VisualBasic.ComponentModel
+﻿#Region "Microsoft.VisualBasic::3690a0c62fedccb96feb9bb091e8fa91, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
 
-Namespace DocumentFormat.SAM.DocumentElements
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+
+Namespace SAM.DocumentElements
 
     ''' <summary>
     ''' 比对区域
@@ -27,7 +54,7 @@ Namespace DocumentFormat.SAM.DocumentElements
     '''  11  QUAL   String  [!-~]+                      ASCII of Phred-scaled base QUALity+33
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class AlignmentReads : Inherits LANS.SystemsBiology.SequenceModel.ISequenceModel
+    Public Class AlignmentReads : Inherits ISequenceModel
 
 #Region "Mandatory Fields.(有11个必填的字段)"
 
@@ -371,12 +398,12 @@ Namespace DocumentFormat.SAM.DocumentElements
         ''' <param name="RangeEnds"></param>
         ''' <returns></returns>
         Public Function RangeAt(RangeStart As Long, RangeEnds As Long) As Boolean
-            Dim Ranges = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(RangeStart, RangeEnds, False)
+            Dim Ranges As New NucleotideLocation(RangeStart, RangeEnds, False)
             Return RangeAt(Ranges)
         End Function
 
-        Public Function RangeAt(Ranges As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation) As Boolean
-            Dim MyLoc = LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation.CreateObject(POS, Length, Strand)
+        Public Function RangeAt(Ranges As NucleotideLocation) As Boolean
+            Dim MyLoc = NucleotideLocation.CreateObject(POS, Length, Strand)
             Dim r As SegmentRelationships = Ranges.GetRelationship(MyLoc)
             Return r = SegmentRelationships.Equals OrElse
                 r = SegmentRelationships.Inside OrElse
@@ -384,9 +411,9 @@ Namespace DocumentFormat.SAM.DocumentElements
                 r = SegmentRelationships.UpStreamOverlap
         End Function
 
-        Public Function GetLocation() As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+        Public Function GetLocation() As NucleotideLocation
             Dim Tokens As Integer() = {Me.PNEXT, Me.POS}
-            Return New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(Tokens.Min, Tokens.Max, Me.Strand)
+            Return New NucleotideLocation(Tokens.Min, Tokens.Max, Me.Strand)
         End Function
 
     End Class

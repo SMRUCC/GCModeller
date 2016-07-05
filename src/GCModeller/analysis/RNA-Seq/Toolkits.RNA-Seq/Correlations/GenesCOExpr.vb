@@ -1,12 +1,39 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
+﻿#Region "Microsoft.VisualBasic::95bf2d28cac381baf819f156289ae877, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\GenesCOExpr.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Entities
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm
-Imports LANS.SystemsBiology.InteractionModel
+Imports Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Entities
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.InteractionModel
 
 ''' <summary>
 ''' Gene co-expression analysis.(基因共表达分析)
@@ -324,9 +351,9 @@ Public Module GenesCOExpr
     End Function
 
     'Public Function Reconstruction(ChipData As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,
-    '                               Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Model,
+    '                               Model As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Model,
     '                               CutOffValue As Double) _
-    '    As LANS.SystemsBiology.ComponentModel.Interaction(Of PccMatrix.ItemObject)()
+    '    As SMRUCC.genomics.ComponentModel.Interaction(Of PccMatrix.ItemObject)()
 
     '    Dim Data = Calculate(ChipData)
     '    Dim GeneDBLinks As Dictionary(Of String, GeneObject) =
@@ -339,7 +366,7 @@ Public Module GenesCOExpr
     '    Dim Link As Action(Of Integer) = Sub(idx As Integer)
     '                                         Dim Id As String = regulations(idx).ObjectB.GeneId '被调控对象
     '                                         Dim LQuery = (From tu In Model.BacteriaGenome.TransUnits Where tu.ContainsGene(Id) Select tu).ToArray
-    '                                         Dim regRegulator As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite = Nothing
+    '                                         Dim regRegulator As SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite = Nothing
     '                                         Dim Active As Boolean = String.Equals(regulations(idx).Interaction, "activation")
 
     '                                         If GeneDBLinks.ContainsKey(regulations(idx).ObjectA.GeneId) Then
@@ -349,7 +376,7 @@ Public Module GenesCOExpr
     '                                         End If
 
     '                                         For jdx As Integer = 0 To LQuery.Count - 1
-    '                                             Dim regulator = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Regulator With {
+    '                                             Dim regulator = New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Regulator With {
     '                                                 .UniqueId = regRegulator.UniqueId,
     '                                                                              .Name = regRegulator.CommonName}
     '                                             Call LQuery(jdx).Regulators.Add(regulator)

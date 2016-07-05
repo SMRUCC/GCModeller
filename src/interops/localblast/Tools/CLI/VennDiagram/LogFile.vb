@@ -1,11 +1,39 @@
-﻿Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
+﻿#Region "Microsoft.VisualBasic::cb7aee4bf2108fa3a3abdb96e226c2a9, ..\interops\localblast\Tools\CLI\VennDiagram\LogFile.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Localblast.Extensions.VennDiagram.BlastAPI
+Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.Interops
 
 Partial Module CLI
 
@@ -23,17 +51,19 @@ Partial Module CLI
     <ParameterInfo("-export",
         Description:="The save file path for the venn diagram drawing data csv file.",
         Example:="~/Documents/8004_venn.csv")>
-    Public Function Analysis(args As CommandLine.CommandLine) As Integer
+    Public Function bLogAnalysis(args As CommandLine.CommandLine) As Integer
         Dim CsvFile As String = args("-export")
         Dim LogsDir As String = args("-d")
 
         Dim ListFile = LogsPair.GetXmlFileName(LogsDir).LoadXml(Of LogsPair)()
         Dim ListCsv = New List(Of DocumentStream.File())  '每一个文件对中的File1位主要的文件
         For Each List In ListFile.Logs
-            Dim Query = From Pair In List Select LogAnalysis.TakeBestHits(NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(Pair.File1), NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(Pair.File2)) '获取BestHit
+            Dim Query = From Pair In List
+                        Select LogAnalysis.TakeBestHits(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(Pair.File1),
+                            SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(Pair.File2)) '获取BestHit
             Call ListCsv.Add(Query.ToArray)
         Next
-        Dim LastFile = NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(ListFile.Logs.Last.Last.File2)
+        Dim LastFile = SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(ListFile.Logs.Last.Last.File2)
         Call ListCsv.Add(New DocumentStream.File() {(From Query In LastFile.Queries.AsParallel Select Query.QueryName).ToArray})
 
         Dim MergeResult = (From List In ListCsv Select LogAnalysis.Merge(dataset:=List)).ToList
@@ -88,8 +118,8 @@ Partial Module CLI
             Return -1
         End If
 
-        Using File As NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput =
-            NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
+        Using File As SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput =
+            SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
             Call File.Grep(Query:=AddressOf GrepScriptQuery.Grep, Hits:=AddressOf GrepScriptHit.Grep)
         End Using
 

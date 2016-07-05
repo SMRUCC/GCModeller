@@ -1,6 +1,34 @@
-﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+﻿#Region "Microsoft.VisualBasic::bdd52eb3478fbeaeb8a6b9d011ac95a1, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\ProteinAssembly.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.SubSystem
 
@@ -9,7 +37,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
     ''' </summary>
     ''' <remarks></remarks>
     Public Class ProteinAssembly : Inherits DelegateSystem
-        Implements SystemsBiology.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
+        Implements ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
 
         <DumpNode> <XmlElement> Public Property Proteins As EngineSystem.ObjectModels.Entity.Peptide()
         <DumpNode> Public Property ProteinComplex As EngineSystem.ObjectModels.Entity.Compound()
@@ -30,7 +58,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Return -1
             Else
                 Call _SystemLogging.WriteLine("Start to initialize the protein assembly equation model...")
-                Dim LQuery = From assembly As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+                Dim LQuery = From assembly As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
                              In CellSystem.DataModel.ProteinAssemblies
                              Let rxnList As ObjectModels.Module.MetabolismFlux = CreateDelegate(assembly, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxnList '
@@ -59,7 +87,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             End If
         End Function
 
-        Private Shared Function ___createPolypeptideObject(Protein As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide,
+        Private Shared Function ___createPolypeptideObject(Protein As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide,
                                                            Metabolite As EngineSystem.ObjectModels.Entity.Compound) _
             As EngineSystem.ObjectModels.Entity.Peptide
 
@@ -114,7 +142,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=Logging.MSG_TYPES.ERR)
                 Throw New DataException("[Error] No ribosome assembly data was found, cell system structure is corrupted!")
             Else
-                Dim LQuery = From model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+                Dim LQuery = From model As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
                              In CellSystem.DataModel.RibosomeAssembly
                              Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxn '
@@ -148,7 +176,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=Logging.MSG_TYPES.ERR)
                 Throw New DataException("[Error] No ribosome assembly data was found, cell system structure is corrupted!")
             Else
-                Dim LQuery = From model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+                Dim LQuery = From model As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
                              In CellSystem.DataModel.RNAPolymerase
                              Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxn '

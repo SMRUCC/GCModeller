@@ -1,4 +1,31 @@
-﻿Imports LANS.SystemsBiology.InteractionModel
+﻿#Region "Microsoft.VisualBasic::b869965387803066dd205414b0f1e82a, ..\GCModeller\visualize\visualizeTools\ExpressionMatrix\Matrix.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.InteractionModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -12,7 +39,7 @@ Namespace ExpressionMatrix
 
         Public Function InvokeDrawing(Data As SerialsData(), Conf As Configuration) As Image
             Data = Data.Skip(1).ToArray   '第一个元素为时间
-            Dim RenderingColor = New DataVisualization.GeneticClock.ColorRender(Data).GetColorRenderingProfiles
+            Dim RenderingColor = New GeneticClock.ColorRender(Data).GetColorRenderingProfiles
             Dim TagFont As Font = New Font("Ubuntu", 4)
             Dim TagSize = (From item In Data Select item.Tag Order By Len(Tag) Descending).First.MeasureString(TagFont)
             Dim Margin As Integer = 10

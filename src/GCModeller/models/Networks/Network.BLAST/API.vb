@@ -1,11 +1,39 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::1903360f5e6dbfd5046eeb6e623edd07, ..\GCModeller\models\Networks\Network.BLAST\API.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 ''' <summary>
 ''' 这个多用于宏基因组的研究
@@ -63,7 +91,7 @@ Public Module API
     ''' 
     <ExportAPI("Build.From.BlastOUT")>
     Public Function BuildFromBlastOUT(blastout As String, locusDict As Dictionary(Of String, String)) As BLAST.LDM.BLAST
-        Dim blastData = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.TryParse(blastout)
+        Dim blastData = LocalBLAST.BLASTOutput.BlastPlus.TryParse(blastout)
         Dim hits = blastData.ExportOverview.GetExcelData
         Return hits.__buildFromBlastHits(locusDict)
     End Function
@@ -150,7 +178,7 @@ Public Module API
                                      locusDict As Dictionary(Of String, String)) As LDM.BLAST
         Dim source = (From file As String
                       In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                      Let entry = NCBI.Extensions.LocalBLAST.Application.BatchParallel.LogNameParser(file)
+                      Let entry = LocalBLAST.Application.BatchParallel.LogNameParser(file)
                       Where entry.IsPairMatch
                       Select entry,
                           bbh = entry.FilePath.LoadCsv(Of BiDirectionalBesthit)).ToArray
@@ -199,3 +227,4 @@ Public Module API
         Return blast.Save(saveDIR, Encodings.UTF8)
     End Function
 End Module
+

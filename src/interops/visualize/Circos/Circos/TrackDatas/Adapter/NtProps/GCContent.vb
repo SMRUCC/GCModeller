@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b969db04d00c3bf7924fa613a33f3268, ..\Circos\Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
+﻿#Region "Microsoft.VisualBasic::4c207b4ce9c92dc92f78f30b3ec0caa8, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
 
     ' Author:
     ' 
@@ -26,11 +26,9 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
 

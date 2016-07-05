@@ -1,21 +1,50 @@
-﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+﻿#Region "Microsoft.VisualBasic::4d5d5411a94cf33e41555d45386cf369, ..\interops\localblast\Tools\CLI\CLI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports Entry = System.Collections.Generic.KeyValuePair(Of
-    LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
-    LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST
-Imports LANS.SystemsBiology.SequenceModel
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Entry = System.Collections.Generic.KeyValuePair(Of
+    SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry,
+    SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
 
 <PackageNamespace("NCBI.LocalBlast", Category:=APICategories.CLI_MAN,
                   Description:="Wrapper tools for the ncbi blast+ program and the blast output data analysis program.",
@@ -29,8 +58,8 @@ Module CLI
         Dim inRefAs As String = args("/inRef")
         Dim out As String = args.GetValue("/out", inDIR & "/blast_OUT/")
         Dim evalue As String = args.GetValue("/evalue", 10)
-        Dim batch As String() = NCBI.Extensions.LocalBLAST.Application.BatchParallel.BashShell.VennBatch(blastDIR, inDIR, inRefAs, out, evalue)
-        Return NCBI.Extensions.LocalBLAST.Application.BatchParallel.ScriptCallSave(batch, out).CLICode
+        Dim batch As String() = BatchParallel.BashShell.VennBatch(blastDIR, inDIR, inRefAs, out, evalue)
+        Return BatchParallel.ScriptCallSave(batch, out).CLICode
     End Function
 
     <ExportAPI("--Xml2Excel", Usage:="--Xml2Excel /in <in.xml> [/out <out.csv>]")>
@@ -89,9 +118,9 @@ Module CLI
                            Select entry,
                                bbh = Parser(fileEntry.Key, fileEntry.Value, coverage, identities)).ToArray
 
-        For Each bbh In ParsingTask
-            Dim path As String = $"{outDIR}/{bbh.entry.Key.QueryName}_vs.{bbh.entry.Key.HitName}.bbh.csv"
-            Call bbh.bbh.SaveTo(path)
+        For Each xBBH In ParsingTask
+            Dim path As String = $"{outDIR}/{xBBH.entry.Key.QueryName}_vs.{xBBH.entry.Key.HitName}.bbh.csv"
+            Call xBBH.bbh.SaveTo(path)
         Next
 
         Dim Allbbh = (From hitPair As BiDirectionalBesthit
@@ -122,7 +151,7 @@ Module CLI
         Dim isAll As Boolean = args.GetBoolean("/all")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
-        Dim Entries = LANS.SystemsBiology.NCBI.Extensions.Analysis.BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
+        Dim Entries = Analysis.BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
         Dim singleQuery As String = args("/single-query")
         Dim outDIR As String = args.GetValue("/out", inDIR & "/bbh/")
 
@@ -296,3 +325,4 @@ Module CLI
         Return 0
     End Function
 End Module
+

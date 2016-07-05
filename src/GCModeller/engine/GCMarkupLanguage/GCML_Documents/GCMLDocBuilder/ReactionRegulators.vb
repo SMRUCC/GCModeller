@@ -1,4 +1,31 @@
-﻿Imports Microsoft.VisualBasic.Terminal.stdio
+﻿#Region "Microsoft.VisualBasic::bef5e923b27507874aeda1cd3329fb80, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ReactionRegulators.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.Terminal.stdio
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
 
@@ -6,12 +33,12 @@ Namespace Builder
 
     Public Class ReactionRegulators : Inherits IBuilder
 
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             Call MyBase.New(MetaCyc, Model)
         End Sub
 
         Public Overrides Function Invoke() As BacterialModel
-            Dim Regulators = (From regr As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
+            Dim Regulators = (From regr As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
                               In MetaCyc.GetRegulations
                               Where regr.Types.IndexOf("Regulation-of-Reactions") > -1
                               Select regr).ToArray         '获取所有的ReactionRegulator
@@ -20,7 +47,7 @@ Namespace Builder
             For Each Reaction In Model.Metabolism.MetabolismNetwork
                 Dim LQuery = (From regr In Regulators Where String.Equals(Reaction.Identifier, regr.RegulatedEntity) Select regr).ToArray '选择调控本反映的调控因子
                 If Not LQuery.IsNullOrEmpty Then '可能有多个调控因子
-                    'Reaction.Regulators = (From regr As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
+                    'Reaction.Regulators = (From regr As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Regulation
                     '                       In LQuery
                     '                       Let Regulator = CreateRegulator(regr, Metabolites)
                     '                       Where Not Regulator Is Nothing
@@ -31,7 +58,7 @@ Namespace Builder
             Return Model
         End Function
 
-        Private Shared Function CreateRegulator(RegulatorBaseType As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Regulation,
+        Private Shared Function CreateRegulator(RegulatorBaseType As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Regulation,
                                                 Metabolites As GCML_Documents.XmlElements.Metabolism.Metabolite()) _
             As GCML_Documents.XmlElements.SignalTransductions.Regulator
 

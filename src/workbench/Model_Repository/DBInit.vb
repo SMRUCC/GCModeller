@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SQLite.Linq.DataMapping.Interface.Reflector
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.GCModeller.Workbench.DatabaseServices.Model_Repository.SQLEngines
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Data.Model_Repository.SQLEngines
 
 ''' <summary>
 ''' 这个模块之中的命令当且仅当第一次创建数据库的时候使用，假若在已经创建了数据库的情况之下使用，则会重置整个数据库

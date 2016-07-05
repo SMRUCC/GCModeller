@@ -1,10 +1,37 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic.Scripting.MetaData
+﻿#Region "Microsoft.VisualBasic::de3cbd5b3de3d605a20aaad7c987d9d0, ..\GCModeller\sub-system\PLAS.NET\PLAS\CLI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem.Script
-Imports LANS.SystemsBiology.AnalysisTools.CellPhenotype.SSystem
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.Analysis.SSystem
+Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 <PackageNamespace("PLAS.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gmail.com")>
 Public Module CLI
@@ -37,3 +64,4 @@ Public Module CLI
         Return Compilers(args <= "-f")(args <= "-i", args <= "-o", AutoFix).CLICode
     End Function
 End Module
+

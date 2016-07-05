@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31917ffb8f9075d92bd65f2df3ba56be, ..\Circos\Test\mchrTest\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::767eabbe71aadb82b63e7397e6e02314, ..\interops\visualize\Circos\Test\mchrTest\Module1.vb"
 
     ' Author:
     ' 
@@ -73,4 +73,3 @@ Module Module1
         Call circos.Save("x:\test/")
     End Sub
 End Module
-

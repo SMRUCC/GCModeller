@@ -1,28 +1,54 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::cd490dd19d9137c8dee68818e9c2ec0d, ..\GCModeller\CLI_tools\MEME\Cli\SeqParser.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports MEME.Analysis
+Imports MEME.GCModeller.FileSystem.FileSystem
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic
-Imports MEME.GCModeller.FileSystem.FileSystem
-Imports MEME.Analysis
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.InteractionModel.Network
-Imports LANS.SystemsBiology.InteractionModel.Network.VirtualFootprint
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.DESeq2
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
+Imports SMRUCC.genomics.Model.Network
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module CLI
 
@@ -285,11 +311,11 @@ Partial Module CLI
         Dim PTT As String = args("/PTT")
         Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
         Dim door As String = args("/door")
-        Dim opr As Assembly.DOOR.DOOR
+        Dim opr As DOOR
         If door.FileExists Then
             opr = DOOR_API.Load(door)
         Else
-            opr = Assembly.DOOR.PTT2DOOR(PTTDb.ORF_PTT)
+            opr = PTT2DOOR(PTTDb.ORF_PTT)
         End If
         Dim Parser As New RegulonParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT, opr)
         Return Parser.RegulonParser(inDIR, out).CLICode
@@ -324,7 +350,7 @@ Partial Module CLI
         Dim DOOR As String = args("/door")
         Dim opr As DOOR
         If DOOR.FileExists Then
-            opr = Assembly.DOOR.Load(DOOR)
+            opr = DOOR_API.Load(DOOR)
         Else
             opr = PTT2DOOR(PTT)
         End If

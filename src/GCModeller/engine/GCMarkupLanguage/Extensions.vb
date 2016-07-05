@@ -1,13 +1,40 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::a12f31e0923138b6f619304f1ff60417, ..\GCModeller\engine\GCMarkupLanguage\Extensions.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles
-Imports LANS.SystemsBiology.Assembly.SBML
-Imports LANS.SystemsBiology.Assembly.SBML.Specifics.MetaCyc
-Imports LANS.SystemsBiology.ComponentModel.EquaionModel
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
+Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Public Module Extensions
 
@@ -161,7 +188,7 @@ Public Module Extensions
     ''' <param name="UniqueId"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function IndexOf(List As Generic.IEnumerable(Of Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), UniqueId As String) As Integer
+    <Extension> Public Function IndexOf(List As IEnumerable(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), UniqueId As String) As Integer
         For i As Integer = 0 To List.Count - 1
             If String.Equals(List(i).Identifier, UniqueId) Then
                 Return i
@@ -170,8 +197,8 @@ Public Module Extensions
         Return -1
     End Function
 
-    <Extension> Public Function AsMetabolite(Id As String) As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
-        Dim Metaboliet As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
+    <Extension> Public Function AsMetabolite(Id As String) As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
+        Dim Metaboliet As New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
         Metaboliet.Identifier = Id
         Metaboliet.CommonName = Id
         Metaboliet.InitialAmount = 1000
@@ -233,3 +260,4 @@ Public Module Extensions
         Return sBuilder.ToString
     End Function
 End Module
+

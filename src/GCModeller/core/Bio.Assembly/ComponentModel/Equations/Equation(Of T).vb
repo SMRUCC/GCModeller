@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8994796538fb08077ff91bd5d45ee6c9, ..\Bio.Assembly\ComponentModel\Equations\Equation(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::8994796538fb08077ff91bd5d45ee6c9, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\Equation(Of T).vb"
 
     ' Author:
     ' 

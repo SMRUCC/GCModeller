@@ -1,10 +1,37 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::4a9d387ccaed9a4a8f2b922b5b9b0560, ..\interops\visualize\Phylip\Models\CRISPRPhylogeneticTree.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Drawing
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis
-Imports LANS.SystemsBiology.AnalysisTools.CRISPR.Output
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports SMRUCC.genomics.Analysis.CRISPR.CRT.Output
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 '''
@@ -22,7 +49,7 @@ Module CRISPRPhylogeneticTree
     End Function
 
     ''' <summary>
-    ''' 将所有该<see cref="LANS.SystemsBiology.ComponentModel.Loci.Location">区间</see>之内的位点数据全部清除
+    ''' 将所有该<see cref="SMRUCC.genomics.ComponentModel.Loci.Location">区间</see>之内的位点数据全部清除
     ''' </summary>
     ''' <param name="CRISPRData"></param>
     ''' <returns></returns>
@@ -82,8 +109,8 @@ Module CRISPRPhylogeneticTree
                                      subjectTag As String,
                                      start As HitCollection,
                                      ends As HitCollection,
-                                     cdsinfo As Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo)) _
-                                 As LANS.SystemsBiology.ComponentModel.Loci.Location
+                                     cdsinfo As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo)) _
+                                 As SMRUCC.genomics.ComponentModel.Loci.Location
         Dim left = start.GetHitByTagInfo(subjectTag)
         Dim right = ends.GetHitByTagInfo(subjectTag)
         Dim p As Integer = besthits.IndexOf(start.QueryName)
@@ -101,6 +128,7 @@ Module CRISPRPhylogeneticTree
 
         Dim r = {(From item In cdsinfo Where String.Equals(item.LocusID, left.HitName) Select item.Location).First, (From item In cdsinfo Where String.Equals(item.LocusID, right.HitName) Select item.Location).First}
         Dim c = {r.First.Left, r.First.Right, r.Last.Left, r.Last.Right}
-        Return New LANS.SystemsBiology.ComponentModel.Loci.Location(c.Min, c.Max)
+        Return New SMRUCC.genomics.ComponentModel.Loci.Location(c.Min, c.Max)
     End Function
 End Module
+

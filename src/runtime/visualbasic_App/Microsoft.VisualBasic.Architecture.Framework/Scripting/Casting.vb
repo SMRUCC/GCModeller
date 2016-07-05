@@ -1,4 +1,31 @@
-﻿Imports System.Drawing
+﻿#Region "ea16b4a2a99f7d8b15c94bf14ff1aed4, ..\Microsoft.VisualBasic.Architecture.Framework\Scripting\Casting.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
@@ -7,6 +34,9 @@ Imports Microsoft.VisualBasic.Imaging
 
 Namespace Scripting
 
+    ''' <summary>
+    ''' Methods for convert the <see cref="System.String"/> to some .NET data types.
+    ''' </summary>
     Public Module Casting
 
         ''' <summary>
@@ -22,6 +52,11 @@ Namespace Scripting
             Return DirectCast(obj, T)
         End Function
 
+        ''' <summary>
+        ''' Will processing value NaN automatically and strip for the comma.
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <returns></returns>
         Private Function val(s As String) As Double
             If String.IsNullOrEmpty(s) Then
                 Return 0R
@@ -73,10 +108,20 @@ Namespace Scripting
             Return New StringBuilder(obj)
         End Function
 
+        ''' <summary>
+        ''' <see cref="CommandLine.TryParse"/>
+        ''' </summary>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
         Public Function CastCommandLine(obj As String) As CommandLine.CommandLine
             Return CommandLine.TryParse(obj)
         End Function
 
+        ''' <summary>
+        ''' <see cref="LoadImage"/>
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         Public Function CastImage(path As String) As Image
             Return LoadImage(path)
         End Function

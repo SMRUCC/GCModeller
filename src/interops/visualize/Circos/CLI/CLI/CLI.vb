@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7cca5fb3478ce21bed620e587902795, ..\Circos\CLI\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::36de98d862299c11b13ae5265ffad73b, ..\interops\visualize\Circos\CLI\CLI\CLI.vb"
 
 ' Author:
 ' 
@@ -25,26 +25,25 @@
 
 #End Region
 
-Imports LANS.SystemsBiology
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
-Imports LANS.SystemsBiology.SequenceModel.Patterns
+Imports SMRUCC.genomics.Visualize.Circos
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
+Imports SMRUCC.genomics.SequenceModel.Patterns
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Visualize
 
 <PackageNamespace("Circos.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -117,7 +116,7 @@ Public Module CLI
         Dim LQuery = (From genome As Integer
                       In inFasta.Sequence.AsParallel
                       Select genome,
-                          skew = LANS.SystemsBiology.SequenceModel.NucleotideModels.GCSkew(inFasta(genome), winSize, steps, True)
+                          skew = SMRUCC.genomics.SequenceModel.NucleotideModels.GCSkew(inFasta(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
         Dim vector As Double() = __vectorCommon(LQuery.ToArray(Function(genome) genome.skew))
         Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
@@ -178,7 +177,7 @@ Public Module CLI
 
         ' Call Circos.CircosAPI.AddPlotElement(doc, New Plots.TextLabel(labels))
 
-        Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
+        Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
         Dim connector = FromVirtualFootprint(regulations, ptt, resistss)
 
         Call Circos.CircosAPI.AddPlotElement(doc, New Connector(connector))
@@ -186,7 +185,7 @@ Public Module CLI
 
 
         Dim cog = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\output.MyvaCOG.csv".LoadCsv(Of MyvaCOG)
-        Dim gb = LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.File.Load("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.gb")
+        Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.gb")
         doc = Circos.CircosAPI.GenerateGeneElements(doc, gb, cog, splitOverlaps:=False)
         Dim tbl = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.ED.Blastn.Xml".LoadXml(Of AlignmentTable)
         Dim iddd = (From x In tbl.Hits Select x.Identity).ToArray
@@ -224,4 +223,3 @@ Public Module CLI
     End Class
 
 End Module
-

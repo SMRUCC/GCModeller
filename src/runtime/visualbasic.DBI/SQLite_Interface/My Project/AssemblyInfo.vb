@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("SQLite data mapping Interface")> 
-<Assembly: AssemblyDescription("SQLite data mapping Interface")> 
-<Assembly: AssemblyCompany("xie.guigang@gmail.com")> 
-<Assembly: AssemblyProduct("Microsoft VisualBasic SQLite_Interface")> 
-<Assembly: AssemblyCopyright("Copyright © GPL3 License. 2015")> 
-<Assembly: AssemblyTrademark("GCModeller")> 
+<Assembly: AssemblyTitle("SQLite_Interface")> 
+<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyProduct("SQLite_Interface")> 
+<Assembly: AssemblyCopyright("Copyright ©  2016")> 
+<Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("adadefe5-b5f6-4524-94c9-c64897df7e22")> 
+<Assembly: Guid("8fa5a1ec-d17d-499e-960c-00e3da8ece93")> 
 
 ' Version information for an assembly consists of the following four values:
 '

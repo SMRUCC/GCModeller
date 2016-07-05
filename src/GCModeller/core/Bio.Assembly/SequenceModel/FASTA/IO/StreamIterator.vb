@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f39b1bf760a437d63e32afe42598c913, ..\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
+﻿#Region "Microsoft.VisualBasic::f39b1bf760a437d63e32afe42598c913, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
 
     ' Author:
     ' 

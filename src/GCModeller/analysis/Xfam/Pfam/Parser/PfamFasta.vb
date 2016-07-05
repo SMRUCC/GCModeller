@@ -1,8 +1,35 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::df900f34bfbf63d0ba4ca3b302f7d67f, ..\GCModeller\analysis\Xfam\Pfam\Parser\PfamFasta.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports System.Reflection
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace PfamFastaComponentModels
 
@@ -10,7 +37,7 @@ Namespace PfamFastaComponentModels
         Implements I_PolymerSequenceModel
         Implements IAbstractFastaToken
 
-        Public Property Location As LANS.SystemsBiology.ComponentModel.Loci.Location
+        Public Property Location As SMRUCC.genomics.ComponentModel.Loci.Location
 
         Public Shared Function CreateObject(FastaObject As FastaToken) As PfamFasta
             Dim FastaData = ParseHeadTitle(FastaObject.Title)
@@ -60,7 +87,7 @@ Namespace PfamFastaComponentModels
             Get
                 Return New PfamFasta With {
                     .ChainId = NULL_ERROR,
-                    .Location = New LANS.SystemsBiology.ComponentModel.Loci.Location(0, 0),
+                    .Location = New SMRUCC.genomics.ComponentModel.Loci.Location(0, 0),
                     .PfamCommonName = NULL_ERROR,
                     .PfamId = NULL_ERROR,
                     .PfamIdAsub = NULL_ERROR,

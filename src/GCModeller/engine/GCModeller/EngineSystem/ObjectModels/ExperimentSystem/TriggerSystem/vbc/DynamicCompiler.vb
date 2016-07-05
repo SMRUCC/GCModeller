@@ -1,4 +1,31 @@
-﻿Imports System.Text
+﻿#Region "Microsoft.VisualBasic::970fabe3175c24be3b42d49e3213a684, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\DynamicCompiler.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
 Imports System.CodeDom.Compiler
 
 Imports Microsoft.VisualBasic.Extensions
@@ -40,11 +67,11 @@ Namespace Framework.DynamicCode.VBC
 
             Dim ProgramDirectory As String = My.Application.Info.DirectoryPath
             Me.UsrReferenceAssemblys = New String() {
-                ProgramDirectory & "/LANS.SystemsBiology.Assembly.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.dll",
-                ProgramDirectory & "/LANS.SystemsBiology.GCModeller.ModellingEngine.Kernel.dll",
+                ProgramDirectory & "/SMRUCC.genomics.Assembly.dll",
+                ProgramDirectory & "/CsvTabular.dll",
+                ProgramDirectory & "/GCMarkupLanguage.dll",
+                ProgramDirectory & "/SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.dll",
+                ProgramDirectory & "/SMRUCC.genomics.GCModeller.ModellingEngine.Kernel.dll",
                 ProgramDirectory & "/Microsoft.VisualBasic.Framework.Kernel_Driver.dll",
                 ProgramDirectory & "/SBML.dll",
                 ProgramDirectory & "/DocumentFormat.Csv.dll"}

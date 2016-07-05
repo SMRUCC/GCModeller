@@ -1,8 +1,35 @@
-﻿Imports System.Text.RegularExpressions
+﻿#Region "Microsoft.VisualBasic::edd259417fc622830657577a6b0c7275, ..\GCModeller\data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text.RegularExpressions
 Imports System.Text
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel
@@ -32,7 +59,7 @@ Namespace Regtransbase.WebServices
         End Sub
 
         Public Shared Function Export(RegPreciseTFFamily As RegPreciseTFFamily) As SequenceModel.FASTA.FastaFile
-            Dim Fsa As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = New SequenceModel.FASTA.FastaFile
+            Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = New SequenceModel.FASTA.FastaFile
             For Each TFF In RegPreciseTFFamily.Family
                 Dim List = TFF.Regulogs.Export
                 Call Fsa.AddRange(List)
@@ -346,8 +373,8 @@ Namespace Regtransbase.WebServices
 
         Public Shared Function Parse(url As String) As FastaObject()
             Dim Text As String = url.GET
-            Dim FASTA As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile =
-                LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.ParseDocument(doc:=Text)
+            Dim FASTA As SMRUCC.genomics.SequenceModel.FASTA.FastaFile =
+                SMRUCC.genomics.SequenceModel.FASTA.FastaFile.ParseDocument(doc:=Text)
             Dim LQuery = (From fsa As FastaToken In FASTA Select FastaObject.[New](fsa)).ToArray
             Return LQuery
         End Function
@@ -358,7 +385,7 @@ Namespace Regtransbase.WebServices
 
         Const REAL As String = "-?\d+(\.\d+)?"
 
-        Protected Friend Shared Function [New](DownloadedFastaObject As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken) As FastaObject
+        Protected Friend Shared Function [New](DownloadedFastaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) As FastaObject
             Dim Title As String = DownloadedFastaObject.Title
             Dim FastaObject As FastaObject = New FastaObject
             Dim Score As String = Regex.Match(Title, "Score=" & REAL, RegexOptions.IgnoreCase).Value

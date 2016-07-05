@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("LANS.SystemsBiology.AnalysisTools.ProteinTools.MPAlignment.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("xMPAlignment.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -111,8 +111,7 @@ Namespace My.Resources
         '''.materialize-red-text.text-lighten-4 {
         '''  color: #f8c1c3 !important; }
         '''
-        '''.materialize-red.lighten-3 {
-        '''  background-colo [rest of string was truncated]&quot;;.
+        '''.materialize-red.lighten-3 {        ''' [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property materialize() As String
             Get
@@ -139,8 +138,7 @@ Namespace My.Resources
         '''{
         '''	text-align: center;
         '''	padding-top: 13%;
-        '''	padding-bottom: 13%;
-        '''	margin-bottom [rest of string was truncated]&quot;;.
+        '''	padding-bottom: 1 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property style() As String
             Get

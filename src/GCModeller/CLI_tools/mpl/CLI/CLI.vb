@@ -1,17 +1,45 @@
-﻿Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
+﻿#Region "Microsoft.VisualBasic::ed30e092c3e2bef88a927095c51388fe, ..\GCModeller\CLI_tools\mpl\CLI\CLI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.NCBIBlastResult
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.Xfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 
 <PackageNamespace("MPAlignment.CLI", Category:=APICategories.CLI_MAN)>
 Module CLI
@@ -61,9 +89,9 @@ Module CLI
     Public Function DumpPfamString(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/In")
         Dim outFile As String = args.GetValue("/out", inFile.TrimFileExt & ".Pfam-String.Csv")
-        Dim Settings = Global.LANS.SystemsBiology.AnalysisTools.ProteinTools.MPAlignment.Settings.Session.Initialize.GetMplParam
+        Dim Settings = xMPAlignment.Settings.Session.Initialize.GetMplParam
         Dim BlastOut = BlastPlus.Parser.ParsingSizeAuto(inFile)
-        Dim PfamString = Sanger.Pfam.CreatePfamString(
+        Dim PfamString = Pfam.CreatePfamString(
             BlastOut,
             disableUltralarge:=True,
             num_threads:=Settings.ParserThreads,
@@ -87,7 +115,7 @@ Module CLI
         Dim inFile As String = args("/blast")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
-        Dim blastOut = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(inFile)
+        Dim blastOut = BlastPlus.Parser.TryParse(inFile)
         Dim allHits = blastOut.ExportAllBestHist(coverage:=coverage, identities_cutoff:=identities)
         Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".sbh.Csv")
         Return allHits.SaveTo(out).CLICode
@@ -158,8 +186,8 @@ Default is not, default checks right side and left side.")>
     Public Function FamilyAlignmentTest(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim name As String = args("/name")
-        Dim queryPfam = Sanger.Pfam.PfamString.CLIParser(query)
-        Dim Database As New ProteinTools.Family.FileSystem.Database
+        Dim queryPfam = Pfam.PfamString.CLIParser(query)
+        Dim Database As New SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem.Database
         Dim FamilyDb = Database.GetDatabase(name)
         Dim threshold As Double = args.GetValue("/threshold", 0.65)
         Dim mpCut As Double = args.GetValue("/mpCut", 0.65)
@@ -181,8 +209,8 @@ Default is not, default checks right side and left side.")>
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim mpCutoff As Double = args.GetValue("/mp", 0.65)
-        Dim queryPfam = Sanger.Pfam.PfamString.CLIParser(query)
-        Dim subjectPfam = Sanger.Pfam.PfamString.CLIParser(subject)
+        Dim queryPfam = Pfam.PfamString.CLIParser(query)
+        Dim subjectPfam = Pfam.PfamString.CLIParser(subject)
         Dim outAlign = PfamStringEquals(queryPfam, subjectPfam, mpCutoff, args.GetBoolean("/parts"))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & $"/{queryPfam.ProteinId}_.{subjectPfam.ProteinId}/")
         Call outAlign.Visualize.SaveTo(out & "/LevAlign.html")
@@ -258,3 +286,4 @@ Default is not, default checks right side and left side.")>
         Return LQuery > out
     End Function
 End Module
+

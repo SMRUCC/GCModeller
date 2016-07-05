@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50ba84749ed01804d4a666616fd10b6c, ..\Bio.Assembly\ComponentModel\ValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::302da97a5e9421261b7d0bbc8a700c54, ..\GCModeller\core\Bio.Assembly\ComponentModel\ValuePair.vb"
 
     ' Author:
     ' 

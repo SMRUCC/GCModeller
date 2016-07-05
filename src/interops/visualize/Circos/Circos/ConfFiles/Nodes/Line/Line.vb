@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd0c0d43282f6265c6e62019e5833b82, ..\Circos\Circos\ConfFiles\Nodes\Line\Line.vb"
+﻿#Region "Microsoft.VisualBasic::b0ae2edf973723f18dd552f2ac732020, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Line\Line.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 'Imports System.Text
 'Imports Microsoft.VisualBasic.ComponentModel.Settings
 'Imports Microsoft.VisualBasic
-'Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
+'Imports SMRUCC.genomics.Visualize.Circos.Configurations
 
 'Namespace Configurations.Nodes.Plots.Lines
 

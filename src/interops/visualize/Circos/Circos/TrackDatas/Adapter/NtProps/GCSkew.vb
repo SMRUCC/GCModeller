@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2bc5ca9b50ea4d68b5f5d4a7f90f722, ..\Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::4342787f47aaf5b9a84ccd453bcc5cf7, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
 
     ' Author:
     ' 
@@ -25,12 +25,10 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.SequenceModel.ISequenceModel
+Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports System.Text
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 
 Namespace TrackDatas.NtProps

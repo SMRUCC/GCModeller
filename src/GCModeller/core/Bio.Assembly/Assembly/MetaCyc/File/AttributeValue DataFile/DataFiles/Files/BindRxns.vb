@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e1a2179b312a4a7aa5caa56916ce33c, ..\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb"
+﻿#Region "Microsoft.VisualBasic::a567aa31aadf30d5ef5b18d080394514, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\BindRxns.vb"
 
     ' Author:
     ' 

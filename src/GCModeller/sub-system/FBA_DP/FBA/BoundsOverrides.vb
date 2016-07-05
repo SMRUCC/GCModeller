@@ -1,4 +1,31 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿#Region "Microsoft.VisualBasic::00db26fec8efb70f8820a2a65707d45f, ..\GCModeller\sub-system\FBA_DP\FBA\BoundsOverrides.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' 复写模型之中的流的约束条件
@@ -34,3 +61,4 @@ Public Class BoundsOverrides
 End Class
 
 Public Delegate Function IBoundsOverrides(rxn As String, curr As Double) As Double
+

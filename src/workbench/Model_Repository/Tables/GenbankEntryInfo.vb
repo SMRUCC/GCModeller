@@ -1,14 +1,15 @@
 ﻿Imports System.Data.Linq.Mapping
 Imports System.Data.SQLite.Linq.DataMapping.Interface.Reflector
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Namespace Tables
 
-    <Table(name:="genbank_entry_info")>
+    <Table(Name:="genbank_entry_info")>
     Public Class GenbankEntryInfo : Inherits DbFileSystemObject
 
-        <Column(dbtype:="varchar(128)", name:="gi", isprimarykey:=True)> Public Property GI As String
-        <Column(dbtype:="varchar(2048)", name:="species")> Public Property Species As String
-        <Column(dbtype:="varchar(1024)", name:="plasmid")> Public Property plasmid As String
+        <Column(DbType:="varchar(128)", Name:="gi", IsPrimaryKey:=True)> Public Property GI As String
+        <Column(DbType:="varchar(2048)", Name:="species")> Public Property Species As String
+        <Column(DbType:="varchar(1024)", Name:="plasmid")> Public Property plasmid As String
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}/Genbank/{1}/{2}/{3}.gbk", "RepositoryRoot://", Species, LocusID.First.ToString, LocusID)
@@ -32,8 +33,8 @@ Namespace Tables
                 Return Nothing  '数据入口点已经失效了
             End If
 
-            Dim Genbank As LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.File =
-                LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.File.Read(Path:=File)
+            Dim Genbank As GBFF.File = GBFF.File.Read(Path:=File)
+
             Me.LocusID = Genbank.Locus.AccessionID
             Me.GI = Genbank.Version.GI
             Me.Definition = Genbank.Definition.Value.Replace("'", "")

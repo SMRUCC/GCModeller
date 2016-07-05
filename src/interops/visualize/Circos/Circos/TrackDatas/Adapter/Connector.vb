@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::275a608d5f0eb6bdfe473eb8a653c5f9, ..\Circos\Circos\TrackDatas\Adapter\Connector.vb"
+﻿#Region "Microsoft.VisualBasic::2f54d01423db34462ed996a4889e6c28, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Connector.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace TrackDatas

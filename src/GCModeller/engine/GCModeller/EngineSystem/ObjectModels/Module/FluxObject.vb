@@ -1,7 +1,35 @@
-﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+﻿#Region "Microsoft.VisualBasic::d07981bea2b22c1be07a7b752d461307, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\FluxObject.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
+Imports SMRUCC.genomics.GCModeller.Framework
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.Module
 
@@ -17,10 +45,10 @@ Namespace EngineSystem.ObjectModels.Module
 
         <DumpNode>
         <XmlAttribute>
-        Public MustOverride ReadOnly Property FluxValue As Double Implements IFluxObjectHandle.FluxValue, GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).Value
+        Public MustOverride ReadOnly Property FluxValue As Double Implements IFluxObjectHandle.FluxValue, Kernel_Driver.IDynamicsExpression(Of Double).Value
 
         Public Interface IFluxObjectHandle
-            Inherits LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double)
+            Inherits SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double)
 
             ReadOnly Property FluxValue As Double
             ReadOnly Property SerialsHandle() As HandleF
@@ -37,7 +65,7 @@ Namespace EngineSystem.ObjectModels.Module
             ReadOnly Property get_ATP_EnergyConsumption As Double
         End Interface
 
-        Public MustOverride Function Invoke() As Double Implements FluxObject.IFluxObjectHandle.Invoke, GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).Evaluate
+        Public MustOverride Function Invoke() As Double Implements FluxObject.IFluxObjectHandle.Invoke, Kernel_Driver.IDynamicsExpression(Of Double).Evaluate
 
         ''' <summary>
         ''' 时间驱动程序所附加的额外的处理事件
@@ -45,7 +73,7 @@ Namespace EngineSystem.ObjectModels.Module
         ''' <param name="___attachedEvents">该事件的执行入口点</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Invoke(___attachedEvents As GCModeller.ModellingEngine.EngineSystem.ObjectModels.I_SystemEventDriver.___EVENT_HANDLE) As Double
+        Public Function Invoke(___attachedEvents As ModellingEngine.EngineSystem.ObjectModels.I_SystemEventDriver.___EVENT_HANDLE) As Double
             Dim i As Double = InternalEventInvoke()
             Call ___attachedEvents()
             Return i
@@ -87,10 +115,10 @@ Namespace EngineSystem.ObjectModels.Module
             End Get
         End Property
 
-        Public Overrides Property Identifier As String Implements GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).Identifier
+        Public Overrides Property Identifier As String Implements Kernel_Driver.IDynamicsExpression(Of Double).Identifier
 
-        Public Function CreateHandle() As LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle Implements LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).get_ObjectHandle
-            Return New LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
+        Public Function CreateHandle() As SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle Implements SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IDynamicsExpression(Of Double).get_ObjectHandle
+            Return New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
                 .Handle = Handle,
                 .Identifier = Identifier
             }

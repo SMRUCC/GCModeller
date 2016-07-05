@@ -1,8 +1,35 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic.Extensions
+﻿#Region "Microsoft.VisualBasic::f27c9bc0629ece8583ab04855c69d5da, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ExpressionFluxBuilder.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
+Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 
 Namespace Builder
 
@@ -18,16 +45,16 @@ Namespace Builder
         ''' <param name="MetaCyc"></param>
         ''' <param name="Model">在模型对象之中的代谢组必须是已经构建好了的</param>
         ''' <remarks></remarks>
-        Sub New(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             MyBase.New(MetaCyc, Model)
         End Sub
 
-        Public Overrides Function Invoke() As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
-            Printf("Start to compile the gene object in the metacyc.")
+        Public Overrides Function Invoke() As BacterialModel
+            printf("Start to compile the gene object in the metacyc.")
             Model.BacteriaGenome.Genes = CreateGenes(MetaCyc)
-            Printf("Start to compile the transcript object in the metacyc.")
+            printf("Start to compile the transcript object in the metacyc.")
             Model.BacteriaGenome.Transcripts = CreateTranscripts(MetaCyc, Model)
-            Printf("Start to compile transunit object in the metacyc.")
+            printf("Start to compile transunit object in the metacyc.")
             Model.BacteriaGenome.TransUnits = CreateTransUnits(MetaCyc, Model)
 
             Return Model
@@ -39,17 +66,17 @@ Namespace Builder
         ''' <param name="MetaCyc"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function CreateTransUnits(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) _
+        Private Shared Function CreateTransUnits(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel) _
             As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit)
 
             Dim TransUnits As GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit() = (From TransUnit As MetaCyc.File.DataFiles.Slots.TransUnit
                                                            In MetaCyc.GetTransUnits.AsParallel
-                                                           Select GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit.CreateObject(TransUnit)).ToArray
+                                                                                              Select GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit.CreateObject(TransUnit)).ToArray
 
-            Printf("[INFO] function generate_transcript_units() create %s tu models.", TransUnits.Count)
-            Printf("[INFO] link the transcript unit object with its gene cluster...")
+            printf("[INFO] function generate_transcript_units() create %s tu models.", TransUnits.Count)
+            printf("[INFO] link the transcript unit object with its gene cluster...")
 
-            Dim LQuery = (From TU As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
+            Dim LQuery = (From TU As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
                           In TransUnits.AsParallel
                           Let TU2 As GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit = TU.Link(Model.BacteriaGenome.Genes)
                           Select TU2
@@ -57,8 +84,8 @@ Namespace Builder
             Return LQuery
         End Function
 
-        Private Shared Function CreateGenes(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder) As GeneObject()
-            Dim LQuery = From e As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Gene
+        Private Shared Function CreateGenes(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder) As GeneObject()
+            Dim LQuery = From e As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Gene
                          In MetaCyc.GetGenes.AsParallel
                          Let G = GeneObject.CastTo(e)
                          Select G Order By G.Identifier Ascending   '
@@ -72,7 +99,7 @@ Namespace Builder
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function CreateTranscripts(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel) As GCML_Documents.XmlElements.Bacterial_GENOME.Transcript()
+        Private Shared Function CreateTranscripts(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel) As GCML_Documents.XmlElements.Bacterial_GENOME.Transcript()
             Dim List As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.Transcript) = New List(Of GCML_Documents.XmlElements.Bacterial_GENOME.Transcript)
             Dim UnmodifiedProteins = GetAllUnmodifiedProduct(MetaCyc, Model)
             Dim LQuery = (From Gene In Model.BacteriaGenome.Genes Select Link(Gene, GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.CreateObject(MetaCyc, Gene, Model), List)).ToArray   '
@@ -93,7 +120,7 @@ Namespace Builder
         ''' <param name="List"></param>
         ''' <returns></returns>
         ''' <remarks>!!!请注意这里！！！</remarks>
-        Private Shared Function Link(Gene As GeneObject, Transcripts As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript(), List As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.Transcript)) As Integer
+        Private Shared Function Link(Gene As GeneObject, Transcripts As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript(), List As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.Transcript)) As Integer
             Dim Products As List(Of String) = New List(Of String)
             If Not Transcripts.IsNullOrEmpty Then
                 Dim Transcript = Transcripts.First
@@ -110,8 +137,8 @@ Namespace Builder
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function GetAllUnmodifiedProduct(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As GCML_Documents.XmlElements.Metabolism.Metabolite()
-            Dim LQuery = From Protein As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Slots.Protein
+        Private Shared Function GetAllUnmodifiedProduct(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel) As GCML_Documents.XmlElements.Metabolism.Metabolite()
+            Dim LQuery = From Protein As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein
                          In MetaCyc.GetProteins.AsParallel
                          Where Protein.IsPolypeptide AndAlso Not Protein.IsModifiedProtein AndAlso Not String.IsNullOrEmpty(Protein.Gene)
                          Select Protein.Identifier  '筛选条件为目标蛋白质对象为多肽链、不是化学修饰形式，并且基因号不为空
@@ -119,7 +146,7 @@ Namespace Builder
             Return TakesMetabolites(UniqueIDCollection:=Proteins, Model:=Model)
         End Function
 
-        Private Shared Function TakesMetabolites(UniqueIDCollection As Generic.IEnumerable(Of String), Model As Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel) As GCML_Documents.XmlElements.Metabolism.Metabolite()
+        Private Shared Function TakesMetabolites(UniqueIDCollection As Generic.IEnumerable(Of String), Model As BacterialModel) As GCML_Documents.XmlElements.Metabolism.Metabolite()
             Dim LQuery = From UniqueID As String In UniqueIDCollection Select Model.Metabolism.Metabolites.GetItem(UniqueID) '
             Return LQuery.ToArray
         End Function

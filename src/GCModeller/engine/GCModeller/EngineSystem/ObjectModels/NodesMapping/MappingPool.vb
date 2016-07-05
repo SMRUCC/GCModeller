@@ -1,4 +1,31 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+﻿#Region "Microsoft.VisualBasic::87247c7bf60e9208870ccca2a5e917ca, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\NodesMapping\MappingPool.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports Microsoft.VisualBasic
 
 Namespace EngineSystem.ObjectModels.PoolMappings
@@ -53,7 +80,7 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         ''' <param name="Node"></param>
         ''' <param name="NewClass">新的EC编号</param>
         ''' <returns></returns>
-        ''' <remarks>这里不要使用并行化，因为需要使用<see cref="GCModeller.ModellingEngine.EngineSystem.ObjectModels.PoolMappings.MotifClass.Handle"></see>或者<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.EnzymeClass.Handle"></see>进行映射操作</remarks>
+        ''' <remarks>这里不要使用并行化，因为需要使用<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.MotifClass.Handle"></see>或者<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.EnzymeClass.Handle"></see>进行映射操作</remarks>
         Public Function ModifyMapping(Node As EntityFeatureMapping, NewClass As String) As Boolean
             Dim ChunkBuffer = _DICT_MappingPool(Node.MappingHandler.locusId)
             Call ChunkBuffer.Remove(Node)

@@ -1,4 +1,31 @@
-﻿Imports System.IO
+﻿#Region "039117425be4e527e927f32e66b1cf63, ..\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\File\BufferedStream.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.IO
 Imports System.Text
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
@@ -138,6 +165,16 @@ Namespace ComponentModel
                     Return DirectCast(__innerBuffer.Clone, String())
                 End If
             End If
+        End Function
+
+        Public Iterator Function ReadAllLines() As IEnumerable(Of String)
+            Call Reset()
+
+            Do While Not EndRead
+                For Each line As String In BufferProvider()
+                    Yield line
+                Next
+            Loop
         End Function
 
         Public Shared Iterator Function LinesIterator(path As String, Optional encoding As Encodings = Encodings.Default) As IEnumerable(Of String)

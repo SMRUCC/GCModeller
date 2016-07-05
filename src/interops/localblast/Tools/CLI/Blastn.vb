@@ -1,9 +1,31 @@
-﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿#Region "Microsoft.VisualBasic::96cd50d387a90a51d058aa3ffca1dadd, ..\interops\localblast\Tools\CLI\Blastn.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
@@ -11,6 +33,13 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -39,14 +68,14 @@ Partial Module CLI
         ''' </summary>
         ''' <param name="handle"></param>
         Sub New(handle As String)
-            IO = New WriteStream(Of NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(handle)
+            IO = New WriteStream(Of BestHit)(handle)
         End Sub
 
         ''' <summary>
         ''' 执行流写入操作
         ''' </summary>
         ''' <param name="lstQuery"></param>
-        Public Sub InvokeWrite(lstQuery As NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query())
+        Public Sub InvokeWrite(lstQuery As BLASTOutput.BlastPlus.Query())
             If lstQuery.IsNullOrEmpty Then
                 Return
             End If
@@ -132,7 +161,7 @@ Partial Module CLI
         Dim outDIR As String = args.GetValue("/out", query.TrimFileExt & ".Blastn/")
         Dim penalty As Integer = args.GetValue("/penalty", -1)
         Dim reward As Integer = args.GetValue("/reward", -1)
-        Dim localblast As New LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast) With {
+        Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast) With {
             .BlastnOptionalArguments = New BlastnOptionalArguments With {
                 .WordSize = args.GetValue("/word_size", -1),
                 .penalty = penalty,
@@ -174,7 +203,7 @@ Partial Module CLI
             (ls - l - r - wildcards("*.fna", "*.fa", "*.fsa", "*.fasta") <= [in]).ToArray(task)
 
         If Not args.GetBoolean("/skip-format") Then
-            Dim localblast As New LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+            Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
 
             For Each subject As String In ls - l - r - wildcards("*.fna", "*.fa", "*.fsa", "*.fasta") <= db
                 Call localblast.FormatDb(subject, localblast.MolTypeNucleotide).Start(True)
@@ -289,3 +318,4 @@ Partial Module CLI
         Next
     End Function
 End Module
+

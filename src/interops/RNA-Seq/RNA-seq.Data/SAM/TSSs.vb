@@ -1,10 +1,38 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
+﻿#Region "Microsoft.VisualBasic::93328aab298e45ddf8751a8171534440, ..\interops\RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 <[Namespace]("TSSs.Analysis")>
 Module SAM_TSSs
@@ -12,7 +40,7 @@ Module SAM_TSSs
 #Const DEBUG = 1
 
     <ExportAPI("SAM.TSSs")>
-    Public Function TSS(SAM As DocumentFormat.SAM.SAM) As GroupResult(Of DocumentFormat.SAM.DocumentElements.AlignmentReads, Integer)()
+    Public Function TSS(SAM As SAM.SAM) As GroupResult(Of AlignmentReads, Integer)()
         Dim Forwards = (From reads In SAM.AsParallel Where reads.Strand = Strands.Forward Select reads).ToArray
         Dim Reversed = (From reads In SAM.AsParallel Where reads.Strand = Strands.Reverse Select reads).ToArray
 
@@ -50,8 +78,10 @@ Module SAM_TSSs
     ''' <returns></returns>
     ''' 
     <ExportAPI("Split")>
-    Public Function SplitSaved(SAM As DocumentFormat.SAM.SAM, <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True,
-                               <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")> Optional Export As String = "") As Boolean
+    Public Function SplitSaved(SAM As SAM.SAM,
+                               <Parameter("LowQuality.Trim")> Optional TrimLowQuality As Boolean = True,
+                               <Parameter("Dir.Export", "If this optional parameter is null then the parent directory of the sam file will be used.")>
+                               Optional Export As String = "") As Boolean
 
         If String.IsNullOrEmpty(Export) Then
             If Not String.IsNullOrEmpty(SAM.FilePath) Then
@@ -85,9 +115,9 @@ Module SAM_TSSs
 
         Dim fnForward As String = $"{Export}/{NameToken}_Forward.sam", fnReversed As String = $"{Export}/{NameToken}_Reversed.sam"
 
-        Call New DocumentFormat.SAM.SAM With {.AlignmentsReads = Forwards, .Head = SAM.Head}.Save(fnForward)
+        Call New SAM.SAM With {.AlignmentsReads = Forwards, .Head = SAM.Head}.Save(fnForward)
         Call Console.WriteLine($"[DEBUG {Now.ToString}] Save {NameOf(Forwards)} to {fnForward.ToFileURL }")
-        Call New DocumentFormat.SAM.SAM With {.AlignmentsReads = Reversed, .Head = SAM.Head}.Save(fnReversed)
+        Call New SAM.SAM With {.AlignmentsReads = Reversed, .Head = SAM.Head}.Save(fnReversed)
         Call Console.WriteLine($"[DEBUG {Now.ToString}] Save {NameOf(Reversed)} to {fnReversed.ToFileURL }")
 
         Return True
@@ -103,13 +133,13 @@ Module SAM_TSSs
     ''' <returns></returns>
     ''' 
     <ExportAPI("TrimFlags")>
-    Public Function TrimForTSSs(doc As DocumentFormat.SAM.SAM) As DocumentFormat.SAM.SAM
+    Public Function TrimForTSSs(doc As SAM.SAM) As SAM.SAM
         Dim Unmapped As Integer = BitFLAGS.Bit0x4
         Dim LowQuality As Integer = BitFLAGS.Bit0x200
 
         Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file   {doc.FilePath.ToFileURL}".__DEBUG_ECHO
         Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFLAGS.Bit0x200} or [{NameOf(Unmapped)}]{BitFLAGS.Bit0x4}".__DEBUG_ECHO
-        doc = New DocumentFormat.SAM.SAM With {
+        doc = New SAM.SAM With {
             .FilePath = doc.FilePath,
             .Head = doc.Head,
             .AlignmentsReads =
@@ -126,3 +156,4 @@ Module SAM_TSSs
     End Function
 
 End Module
+

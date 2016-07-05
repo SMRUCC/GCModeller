@@ -1,7 +1,38 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::c7406312cad0b0b7526db371ec1275ec, ..\GCModeller\CLI_tools\S.M.A.R.T\Extensions.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.SequenceModel
 
 Module Extensions
 
@@ -10,19 +41,19 @@ Module Extensions
     ''' </summary>
     ''' <returns>返回安装成功的数据库的数目</returns>
     ''' <remarks></remarks>
-    Public Function Install(CDDDatabase As Assembly.NCBI.CDD.Database, Blast As NCBI.Extensions.LocalBLAST.InteropService.InitializeParameter) As Integer
-        Dim LocalBLAST As NCBI.Extensions.LocalBLAST.InteropService.InteropService = NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(Blast)
+    Public Function Install(CDDDatabase As NCBI.CDD.Database, Blast As LocalBLAST.InteropService.InitializeParameter) As Integer
+        Dim LocalBLAST As LocalBLAST.InteropService.InteropService = InteropService.CreateInstance(Blast)
         Dim i As Integer
-        For Each Db As KeyValuePair(Of System.Func(Of String), System.Func(Of SequenceModel.FASTA.FastaFile)) In CDDDatabase.DbPaths.Values
+        For Each Db As KeyValuePair(Of System.Func(Of String), System.Func(Of FASTA.FastaFile)) In CDDDatabase.DbPaths.Values
             Dim DbPath As String = Db.Key()()
             If Not FileIO.FileSystem.FileExists(DbPath) Then
-                Printf("[ERR] Database ""%s"" file not found!", DbPath)
+                printf("[ERR] Database ""%s"" file not found!", DbPath)
                 Continue For
             End If
             Call LocalBLAST.FormatDb(DbPath, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
 
             i += 1
-            Printf("[INFO] Install database ""%s"" successfully!", DbPath)
+            printf("[INFO] Install database ""%s"" successfully!", DbPath)
         Next
 
         Return i
@@ -63,7 +94,7 @@ Module Extensions
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function GetAllHits(BlastLog As NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput) As String()
+    <Extension> Public Function GetAllHits(BlastLog As LocalBLAST.BLASTOutput.Standard.BLASTOutput) As String()
         Dim List As List(Of String) = New List(Of String)
         Dim LQuery = From Query In BlastLog.Queries Where Not Query.Hits Is Nothing Select List.Append((From Hit In Query.Hits Select Hit.Name).ToArray) ' 
         LQuery = LQuery.ToArray
@@ -81,9 +112,9 @@ Module Extensions
         Return List.Count
     End Function
 
-    <Extension> Public Function GetIdList(Collection As Generic.IEnumerable(Of SequenceModel.FASTA.FastaToken)) As String
+    <Extension> Public Function GetIdList(source As IEnumerable(Of FASTA.FastaToken)) As String
         Dim sBuilder As StringBuilder = New StringBuilder(1024)
-        For Each fsa In Collection
+        For Each fsa In source
             Call sBuilder.AppendFormat("{0},", fsa.Attributes.First)
         Next
         Call sBuilder.Remove(sBuilder.Length - 1, 1)
@@ -91,3 +122,4 @@ Module Extensions
         Return sBuilder.ToString
     End Function
 End Module
+

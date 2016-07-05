@@ -1,5 +1,33 @@
-﻿Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+﻿#Region "Microsoft.VisualBasic::0f1d90d2b460b77f37988f81fb3e95ab, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\ExpressionSystem\BasalExpressionKeeper.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
 
@@ -31,16 +59,16 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
         End Function
 
         Public Overrides Function Initialize() As Integer
-            Dim LevelmRNA As Double = Val(IRuntimeContainer.SystemVariable(var:=LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_MRNA_BASAL_LEVEL))
-            Dim LeveltRNA As Double = Val(IRuntimeContainer.SystemVariable(var:=LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_TRNA_BASAL_LEVEL))
-            Dim LevelrRNA As Double = Val(IRuntimeContainer.SystemVariable(var:=LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_RRNA_BASAL_LEVEL))
+            Dim LevelmRNA As Double = Val(IRuntimeContainer.SystemVariable(var:=GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_MRNA_BASAL_LEVEL))
+            Dim LeveltRNA As Double = Val(IRuntimeContainer.SystemVariable(var:=GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_TRNA_BASAL_LEVEL))
+            Dim LevelrRNA As Double = Val(IRuntimeContainer.SystemVariable(var:=GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.PARA_RRNA_BASAL_LEVEL))
 
-            Dim GetBasalValue As Dictionary(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) =
-                New Dictionary(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) From
+            Dim GetBasalValue As Dictionary(Of GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) =
+                New Dictionary(Of GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) From
                 {
-                    {LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.mRNA, LevelmRNA},
-                    {LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.rRNA, LevelrRNA},
-                    {LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.tRNA, LeveltRNA}}
+                    {GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.mRNA, LevelmRNA},
+                    {GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.rRNA, LevelrRNA},
+                    {GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes.tRNA, LeveltRNA}}
 
             Dim Transcripts = _CellSystem.ExpressionRegulationNetwork._InternalTranscriptsPool
 

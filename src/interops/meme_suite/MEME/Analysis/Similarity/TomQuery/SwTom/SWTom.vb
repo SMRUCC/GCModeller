@@ -1,9 +1,37 @@
-﻿Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SmithWaterman
-Imports LANS.SystemsBiology.AnalysisTools
+﻿#Region "Microsoft.VisualBasic::40faeace8819e500d06809e32c9b858f, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\SWTom.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools.SmithWaterman
+Imports SMRUCC.genomics.Analysis
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Analysis.SequenceTools
 
 Namespace Analysis.Similarity.TOMQuery
 
@@ -86,8 +114,7 @@ Namespace Analysis.Similarity.TOMQuery
                                 method As ISimilarity(Of MotifScans.ResidueSite),
                                 params As Parameters) As Output
             Dim sw As New SWAlignment(query, subject, method)
-            Dim out As SequenceTools.SmithWaterman.Output =
-                SequenceTools.SmithWaterman.Output.CreateObject(sw, AddressOf TomTOm.ToChar, params.SWThreshold, params.MinW)
+            Dim out As SequenceTools.Output = SequenceTools.Output.CreateObject(sw, AddressOf TomTOm.ToChar, params.SWThreshold, params.MinW)
             Dim output As New Output With {
                 .Query = query,
                 .Subject = subject,
@@ -103,7 +130,7 @@ Namespace Analysis.Similarity.TOMQuery
 
         Private Function __alignHSP(query As MotifScans.AnnotationModel,
                                     subject As MotifScans.AnnotationModel,
-                                    sw As SequenceTools.SmithWaterman.Output,
+                                    sw As SequenceTools.Output,
                                     param As Parameters) As SW_HSP()
             Dim method = TomTOm.GetMethod(param.Method)
             Dim alignment = (From out As SW_HSP

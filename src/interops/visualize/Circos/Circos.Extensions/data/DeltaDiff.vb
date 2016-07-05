@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3efb723ebf3cf40a8f0fc4f2ecc36e7c, ..\Circos\Circos.Extensions\data\DeltaDiff.vb"
+﻿#Region "Microsoft.VisualBasic::f94ead32dec7789b36b5808ef2b98214, ..\interops\visualize\Circos\Circos.Extensions\data\DeltaDiff.vb"
 
     ' Author:
     ' 
@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.NCBI.Extensions
-Imports LANS.SystemsBiology.NCBI.Extensions.NCBIBlastResult
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.AnalysisTools.ComparativeGenomics
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Documents.Karyotype.NtProps
 

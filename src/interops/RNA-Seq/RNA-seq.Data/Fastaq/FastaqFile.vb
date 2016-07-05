@@ -1,8 +1,38 @@
-﻿Imports System.Text
+﻿#Region "Microsoft.VisualBasic::52f7d3780a5255e0bc99fbce24bedc21, ..\interops\RNA-Seq\RNA-seq.Data\Fastaq\FastaqFile.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel.Linq
 
-Namespace DocumentFormat.Fastaq
+Namespace Fastaq
 
     ''' <summary>
     ''' There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used.
@@ -24,34 +54,20 @@ Namespace DocumentFormat.Fastaq
 
             Call $"Start to load file data from handle *{Path.ToFileURL}".__DEBUG_ECHO
 
-            Dim TokenLines As String() = IO.File.ReadAllLines(Path)
+            Dim stream As New BufferedStream(Path)
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
             Call "Start to parsing the fastq format data...".__DEBUG_ECHO
 
             sw = Stopwatch.StartNew
 
-            Dim ChunkList As New List(Of String())
-            Dim p As Integer = 0
-            Dim s_ChunkBuffer As String() = New String(3) {}
-            Dim n As Integer = TokenLines.Count - 1
-
-            Do While p <= n
-
-                Call Array.ConstrainedCopy(TokenLines, p, s_ChunkBuffer, 0, 4)
-                p += 4
-                Call ChunkList.Add(DirectCast(s_ChunkBuffer.Clone, String()))
-
-                If n - p < 4 Then
-                    Exit Do
-                End If
-
-            Loop
-
-            Dim LQuery = (From ChunkBuffer As String()
-                          In ChunkList.AsParallel
-                          Select Fastaq.FastaqParser(ChunkBuffer)).ToArray
-            Dim FastaqFile As FastaqFile = New FastaqFile With {
+            Dim sBufs As IEnumerable(Of String()) =
+                TaskPartitions.SplitIterator(Of String)(stream.ReadAllLines, 4)
+            Dim LQuery As Fastaq() =
+                LinqAPI.Exec(Of Fastaq) <= From buf As String()
+                                           In sBufs.AsParallel
+                                           Select Fastaq.FastaqParser(buf)
+            Dim FastaqFile As New FastaqFile With {
                 ._innerList = LQuery.ToList,
                 .FilePath = Path
             }
@@ -137,20 +153,32 @@ Namespace DocumentFormat.Fastaq
         ''' Convert fastaq data into a fasta data file.
         ''' </summary>
         ''' <returns></returns>
-        Public Function ToFasta() As SequenceModel.FASTA.FastaFile
+        Public Function ToFasta(Optional index As Boolean = False) As FASTA.FastaFile
             Dim sw As Stopwatch = Stopwatch.StartNew
 
             Call "Start to convert fastq to fastq...".__DEBUG_ECHO
 
-            Dim LQuery = (From i As Integer In Me.Sequence.AsParallel
-                          Let Read As Fastaq = Me(i)
-                          Select fasta = New SequenceModel.FASTA.FastaToken With {
-                              .SequenceData = Read.SequenceData,
-                              .Attributes = {$"lcl={i} ", Read.SEQ_ID.ToString}} Order By fasta.Attributes.First Ascending).ToArray
+            Dim __attrs As Func(Of Integer, Fastaq, String())
+
+            If index Then
+                __attrs = Function(i, fq) {$"lcl={i} ", fq.SEQ_ID.ToString}
+            Else
+                __attrs = Function(i, fq) {fq.SEQ_ID.ToString}
+            End If
+
+            Dim LQuery As FASTA.FastaToken() =
+                LinqAPI.Exec(Of FASTA.FastaToken) <= From fq As SeqValue(Of Fastaq)
+                                                     In Me.SeqIterator.AsParallel
+                                                     Let read As Fastaq = fq.obj
+                                                     Select fasta = New FASTA.FastaToken With {
+                                                         .SequenceData = read.SequenceData,
+                                                         .Attributes = __attrs(fq.i, read)
+                                                     }
+                                                     Order By fasta.Attributes.First Ascending
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 
-            Return CType(LQuery, SequenceModel.FASTA.FastaFile)
+            Return New FASTA.FastaFile(LQuery)
         End Function
     End Class
 End Namespace

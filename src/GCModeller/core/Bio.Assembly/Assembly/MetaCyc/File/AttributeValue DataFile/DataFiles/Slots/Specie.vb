@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c1ab40d217665222d070d7eea5351d4, ..\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::91782d04573526314f1ad1a00215a00f, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Specie.vb"
 
     ' Author:
     ' 
@@ -106,7 +106,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         '    Return Specie
         'End Operator
 
-        'Public Shared Shadows Widening Operator CType(e As LANS.SystemsBiology.Assembly.MetaCyc.File.AttributeValue) As Specie
+        'Public Shared Shadows Widening Operator CType(e As SMRUCC.genomics.Assembly.MetaCyc.File.AttributeValue) As Specie
         '    Dim Query As Generic.IEnumerable(Of MetaCyc.File.DataFiles.Slots.Specie) =
         '        From c As MetaCyc.File.AttributeValue.Object
         '        In e.Objects

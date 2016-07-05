@@ -1,7 +1,34 @@
-﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+﻿#Region "Microsoft.VisualBasic::e391e99d22f58fa71496f2c98e5e3229, ..\GCModeller\shared\docs\Views.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 
@@ -17,7 +44,7 @@ Namespace DocumentFormat
             Return LQuery.ToCsvDoc(False)
         End Function
 
-        Public Function _5UTR(source As Generic.IEnumerable(Of Transcript), genome As SequenceModel.FASTA.FastaToken) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public Function _5UTR(source As Generic.IEnumerable(Of Transcript), genome As SequenceModel.FASTA.FastaToken) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim reader As New SequenceModel.NucleotideModels.SegmentReader(genome)
             source = (From x In source Where Not x.IsRNA AndAlso Not String.IsNullOrEmpty(x.TSS_ID) AndAlso x._5UTR > 0 Select x).ToArray
             Dim lst5UTR = (From transcript As Transcript In source
@@ -33,7 +60,7 @@ Namespace DocumentFormat
 
         Public Function TSSs(source As Generic.IEnumerable(Of Transcript),
                              genome As SequenceModel.FASTA.FastaToken,
-                             len As Integer) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+                             len As Integer) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim offset As Integer = len / 2
             Dim reader As New SequenceModel.NucleotideModels.SegmentReader(genome)
             source = (From x In source Where Not String.IsNullOrEmpty(x.TSS_ID) Select x).ToArray
@@ -50,7 +77,7 @@ Namespace DocumentFormat
 
         Public Function UpStream(source As Generic.IEnumerable(Of Transcript),
                                  genome As SequenceModel.FASTA.FastaToken,
-                                 len As Integer) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+                                 len As Integer) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Dim reader As New SequenceModel.NucleotideModels.SegmentReader(genome)
             source = (From x In source Where Not x.IsRNA AndAlso Not String.IsNullOrEmpty(x.TSS_ID) Select x).ToArray
             Dim lstUpStream = (From transcript As Transcript In source
@@ -81,7 +108,7 @@ Namespace DocumentFormat
             Return site.Normalization
         End Function
 
-        <Extension> Private Function __5UTRRegion(loci As Transcript) As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+        <Extension> Private Function __5UTRRegion(loci As Transcript) As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
             Dim site As New NucleotideLocation(loci.ATG, loci.TSSs, loci.MappingLocation.Strand)
             Return site.Normalization
         End Function

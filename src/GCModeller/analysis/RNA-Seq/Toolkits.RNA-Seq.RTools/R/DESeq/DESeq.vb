@@ -1,17 +1,44 @@
-﻿Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports RDotNET.Extensions.VisualBasic.RSystem
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.CommandLine
+﻿#Region "Microsoft.VisualBasic::08792750c207460feed4bdb6387a5613, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\DESeq.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports RDotNET.Extensions.VisualBasic
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.VisualBasic.RSystem
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
 
 Namespace DESeq2
 
@@ -388,9 +415,9 @@ Huber, W.",
                     Return False
                 End If
 
-                Fna = BOW.Samtools.Indexing(Fna)
-                Call BOW.Samtools.Import(SAM, Fna, (SAM & ".bam").ShadowCopy(SAM))
-                Call BOW.Samtools.Sort(SAM, Sorted)
+                Fna = Samtools.Indexing(Fna)
+                Call Samtools.Import(SAM, Fna, (SAM & ".bam").ShadowCopy(SAM))
+                Call Samtools.Sort(SAM, Sorted)
                 Call $"Samtools sorts job done! Sorted file saved at {Sorted.ToFileURL}".__DEBUG_ECHO
                 SAM = Sorted & ".bam"
             End If

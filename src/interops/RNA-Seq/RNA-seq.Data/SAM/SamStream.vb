@@ -1,8 +1,35 @@
-﻿Imports System.IO
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports Microsoft.VisualBasic
+﻿#Region "Microsoft.VisualBasic::5bedf2bd9de3c1ce64c13bcea488cc60, ..\interops\RNA-Seq\RNA-seq.Data\SAM\SamStream.vb"
 
-Namespace DocumentFormat.SAM
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.IO
+Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
+
+Namespace SAM
 
     Public Class SamStream
 

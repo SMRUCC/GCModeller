@@ -1,6 +1,34 @@
-﻿Imports System.Xml.Serialization
+﻿#Region "Microsoft.VisualBasic::4568e2c6912d3ae8bfb86f56d2ad5b7a, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Transcription.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
@@ -36,7 +64,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
                 V = 0
             End If
 
-            Product.Quantity = Product.DataSource.Value + V
+            Product.Quantity = Product.DataSource.value + V
             _FluxValue = V
 
             Return FluxValue
@@ -68,10 +96,10 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         Public Shared Function CreateConstraintFlux(UniqueId As String, MetabolismSystem As SubSystem.MetabolismCompartment,
                                               RNAPolymeraseEntity As Feature.MetabolismEnzyme(),
                                               EnzymeKinetics As MathematicsModels.EnzymeKinetics.ExpressionKinetics, K1 As Double, CompositionVector As Integer()) As ExpressionConstraintFlux
-            Dim ConstraintModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
+            Dim ConstraintModel As New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
               .Name = UniqueId, .Identifier = UniqueId, .Reversible = False}
 
-            ConstraintModel.UPPER_BOUND = New Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}
+            ConstraintModel.UPPER_BOUND = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}
             ConstraintModel.Enzymes = (From Enzyme In RNAPolymeraseEntity Let IdValue As String = Enzyme.Identifier Select IdValue).ToArray
             ConstraintModel.p_Dynamics_K_1 = K1
 
@@ -79,13 +107,13 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             Dim p As Integer = 0
 
             ConstraintModel.Reactants = {
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}}
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}}
 
             ConstraintModel.Products = {
-                    New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
+                    New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
                     {
                         .Identifier = ConstraintMapping.CONSTRAINT_PI.Identifier, .StoiChiometry = CompositionVector.Sum / 10}}
 

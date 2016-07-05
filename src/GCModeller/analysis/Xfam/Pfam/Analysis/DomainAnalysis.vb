@@ -1,19 +1,47 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool
-Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ProteinModel
+﻿#Region "Microsoft.VisualBasic::d5ec61deb5524b98fa1c06f10c82e6dc, ..\GCModeller\analysis\Xfam\Pfam\Analysis\DomainAnalysis.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Reflection
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.Expasy.Database
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Terminal.Utility
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Data.Xfam.Pfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel
 
 <[PackageNamespace]("Pfam.Domain.Analysis",
                     Publisher:="xie.guigang@gcmodeller.org",
@@ -103,10 +131,10 @@ Public Module DomainAnalysis
                Info:="The blast_output is not recommend using grep operation if the data source is download from KEGG database;
                and the query fasta parameter is need for unique id grep operation. The default query operation time out threshold is 5min.")>
     Public Function CreatePfamString(<Parameter("Out.Blast+", "Blastp of the proteins and the pfam.fasta output data.")>
-                                     blastOutput As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228,
+                                     blastOutput As v228,
                                      <Parameter("Query.Fasta", "The blastp query fasta source, this value is using for the chou-fasman data calculation,
                                      and if you don't want this structure data be calculated, then you can just leave this parameter empty.")>
-                                     Optional query As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = Nothing,
+                                     Optional query As FASTA.FastaFile = Nothing,
                                      <Parameter("opr.Timeout")>
                                      Optional timeOut As Integer = 5 * 60,
                                      Optional num_threads As Integer = 12,
@@ -268,10 +296,10 @@ Public Module DomainAnalysis
             End If
 
             Dim SequenceData As String = Mid(sequence.SequenceData, currentDomain_p, nextDomain_p - currentDomain_p)
-            Dim ss = LANS.SystemsBiology.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman.Calculate(SequenceData)
-            Dim doData As LANS.SystemsBiology.ProteinModel.DomainObject =
+            Dim ss = SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman.Calculate(SequenceData)
+            Dim doData As SMRUCC.genomics.ProteinModel.DomainObject =
                 New DomainObject With {
-                    .Identifier = $"[{New String((From aa As LANS.SystemsBiology.SequenceModel.Polypeptides.SecondaryStructure.AminoAcid
+                    .Identifier = $"[{New String((From aa As SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.AminoAcid
                                                   In ss
                                                   Select aa.StructureChar).ToArray)}]",
                     .Position = New ComponentModel.Loci.Location(currentDomain_p, nextDomain_p)
@@ -302,7 +330,7 @@ Public Module DomainAnalysis
     ''' <param name="offset">0.11</param>
     ''' <param name="identities">暂时无用</param>
     ''' <returns></returns>
-    Public Function ToPfamString(QueryIteration As NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query,
+    Public Function ToPfamString(QueryIteration As BlastPlus.Query,
                                  Optional evalue As Double = Evalue1En5,
                                  Optional coverage As Double = 0.85,
                                  Optional identities As Double = 0.3,
@@ -343,3 +371,4 @@ Public Module DomainAnalysis
         Return xml.LoadXml(Of SiteSearch.PfamFamily)
     End Function
 End Module
+

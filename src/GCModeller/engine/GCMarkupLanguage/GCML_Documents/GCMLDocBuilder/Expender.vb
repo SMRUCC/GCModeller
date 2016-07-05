@@ -1,4 +1,31 @@
-﻿'Imports Microsoft.VisualBasic.Terminal.stdio  
+﻿#Region "Microsoft.VisualBasic::5a8d101baf96d891969f5cef48d3ad49, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Expender.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+'Imports Microsoft.VisualBasic.Terminal.stdio  
 
 'Namespace Builder
 
@@ -8,7 +35,7 @@
 '    ''' <remarks></remarks>
 '    Public Class ExpendGeneralProtein : Inherits IBuilder
 
-'        Sub New(MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder, Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.Model)
+'        Sub New(MetaCyc As MetaCyc.File.FileSystem.DatabaseLoadder, Model As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Model)
 '            Call MyBase.New(MetaCyc, Model)
 '        End Sub
 
@@ -42,8 +69,8 @@
 '        ''' <param name="rxn"></param>
 '        ''' <returns></returns>
 '        ''' <remarks></remarks>
-'        Public Shared Function Copy(rxn As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
-'            Dim CopyObject As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Elements.Reaction
+'        Public Shared Function Copy(rxn As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+'            Dim CopyObject As SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New Elements.Reaction
 '            CopyObject.BaseType = rxn.BaseType
 '            ' CopyObject.EnzymaticRxn = rxn.EnzymaticRxn
 '            CopyObject.Enzymes = rxn.Enzymes
@@ -55,11 +82,11 @@
 '            CopyObject.Regulators = rxn.Regulators
 '            CopyObject.Reversible = rxn.Reversible
 '            CopyObject.UniqueID = rxn.UniqueID
-'            CopyObject.UPPER_BOUND = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10} ' rxn.UPPER_BOUND
+'            CopyObject.UPPER_BOUND = New SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 10} ' rxn.UPPER_BOUND
 
-'            Dim CopySpecieRef As System.Func(Of List(Of LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction.speciesReference), List(Of LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction.speciesReference)) =
-'                Function(source As List(Of LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction.speciesReference)) _
-'                    (From ref As LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction.speciesReference
+'            Dim CopySpecieRef As System.Func(Of List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference), List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference)) =
+'                Function(source As List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference)) _
+'                    (From ref As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference
 '                     In source
 '                     Select ref.CopyData()).ToList
 
@@ -78,7 +105,7 @@
 '        Public Shared Function ContainsGeneralSubstrate(rxn As Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) As Integer
 '            Dim Collection = rxn.Metabolites
 '            Dim LQuery = (From hwnd As Integer In Collection.Sequence
-'                          Let [sub] As LANS.SystemsBiology.Assembly.SBML.Level2.Elements.Reaction.speciesReference = Collection(hwnd)
+'                          Let [sub] As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference = Collection(hwnd)
 '                          Where String.Equals([sub].species, "General-Protein-Substrates")
 '                          Select hwnd).ToArray   '
 '            If LQuery.IsNullOrEmpty Then

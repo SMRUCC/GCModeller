@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc1da109b2f06ee6cbff556d170a3c80, ..\Circos\Circos\Colors\ColorAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a0714ef916e172987d50e41fcbf01c23, ..\interops\visualize\Circos\Circos\Colors\ColorAPI.vb"
 
     ' Author:
     ' 
@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
 Namespace Colors
 

@@ -1,4 +1,31 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
+﻿#Region "Microsoft.VisualBasic::48fe13ffdc0ea1cf90b90fc49cbba92a, ..\GCModeller\analysis\RNA-Seq\TSSsTools\Transcriptome.UTRs\TSSsIdentification.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -22,7 +49,7 @@ Public Module TSSsIdentification
 
     '    Dim LQuery = (From Transcript As DocumentFormat.Transcript In Transcripts.AsParallel
     '                  Let strand = Transcript.MappingLocation.Strand
-    '                  Let readsBuffer = If(strand = LANS.SystemsBiology.ComponentModel.Loci.Strands.Forward, ForwardsReadsBuffer, ReversedReadsBuffer)
+    '                  Let readsBuffer = If(strand = SMRUCC.genomics.ComponentModel.Loci.Strands.Forward, ForwardsReadsBuffer, ReversedReadsBuffer)
     '                  Let TSSs = Transcript.TSSs
     '                  Let support = If(readsBuffer.ContainsKey(TSSs), readsBuffer(TSSs), -1)
     '                  Select Transcript.InvokeSet(Of Integer)(NameOf(Transcript.TSSsShared), support) _
@@ -32,7 +59,7 @@ Public Module TSSsIdentification
 
     <ExportAPI("TSSs.Shared.Enrichment",
              Info:="Reads shared a common strand specific start site. This function export all of this grouped start site shared data for the downstream TSSs identification.")>
-    Public Function Enrichment(mappings As Generic.IEnumerable(Of LANS.SystemsBiology.SequenceModel.NucleotideModels.Contig),
+    Public Function Enrichment(mappings As Generic.IEnumerable(Of SMRUCC.genomics.SequenceModel.NucleotideModels.Contig),
                                <Parameter("Shared", "Actually this parameter is not so important, this function just did simply data group operations, 
 and the shared number of the start site just lets you have a simple glimp on your data set.")> Optional [shared] As Integer = 30) _
         As DocumentFormat.Transcript()
@@ -77,8 +104,8 @@ and the shared number of the start site just lets you have a simple glimp on you
         Return True
     End Function
 
-    Private Function __createObjectRight(array As LANS.SystemsBiology.SequenceModel.NucleotideModels.Contig(), [shared] As Integer, Enrichment As Long) As DocumentFormat.Transcript
-        Dim MaxLength As Integer = (From obj In array Select obj.MappingLocation.Left).ToArray.Max
+    Private Function __createObjectRight(array As SMRUCC.genomics.SequenceModel.NucleotideModels.Contig(), [shared] As Integer, Enrichment As Long) As DocumentFormat.Transcript
+        Dim MaxLength As Integer = (From obj In array Select obj.MappingLocation.Left).Max
         Dim Deputy = array(Scan0)
         Dim Transcript As New DocumentFormat.Transcript With {
             .Left = MaxLength,
@@ -89,7 +116,7 @@ and the shared number of the start site just lets you have a simple glimp on you
         Return Transcript
     End Function
 
-    Private Function __createObjectLeft(array As LANS.SystemsBiology.SequenceModel.NucleotideModels.Contig(), [shared] As Integer, Enrichment As Long) As DocumentFormat.Transcript
+    Private Function __createObjectLeft(array As SMRUCC.genomics.SequenceModel.NucleotideModels.Contig(), [shared] As Integer, Enrichment As Long) As DocumentFormat.Transcript
         Dim MaxLength As Integer = (From obj In array Select obj.MappingLocation.Right).ToArray.Max
         Dim Deputy = array(Scan0)
         Dim Transcript As New DocumentFormat.Transcript With {
@@ -106,10 +133,10 @@ and the shared number of the start site just lets you have a simple glimp on you
     '                                <Parameter("Path.htseq", "")> raw As String,
     '                                <Parameter("Path.PTT")> PTT As String,
     '                                <Parameter("Reads.Len", "90 bp in rna-seq dataset")> Optional readsAvgLen As Integer = 90) As DocumentFormat.Transcript()
-    '    Dim ExprRaw = LANS.SystemsBiology.Toolkits.RNASeq.Assembler.ExprConsistency.Normalize(raw, PTT, readsAvgLen)
+    '    Dim ExprRaw = SMRUCC.genomics.Toolkits.RNASeq.Assembler.ExprConsistency.Normalize(raw, PTT, readsAvgLen)
     '    Dim sw = Stopwatch.StartNew
     '    Call $"Start expression htseq raw count consistency analysis....".__DEBUG_ECHO
-    '    Dim Result = LANS.SystemsBiology.Toolkits.RNASeq.Assembler.ExprConsistency.ApplyProperty(data, ExprRaw)
+    '    Dim Result = SMRUCC.genomics.Toolkits.RNASeq.Assembler.ExprConsistency.ApplyProperty(data, ExprRaw)
     '    Call $"Analysis job DONE! ..... {sw.ElapsedMilliseconds}ms.".__DEBUG_ECHO
     '    Return Result
     'End Function
@@ -119,10 +146,10 @@ and the shared number of the start site just lets you have a simple glimp on you
     '                                <Parameter("htseq-raw", "")> raw As Dictionary(Of String, Integer),
     '                                <Parameter("Path.PTT")> PTT As String,
     '                                <Parameter("Reads.Len", "90 bp in rna-seq dataset")> Optional readsAvgLen As Integer = 90) As DocumentFormat.Transcript()
-    '    Dim ExprRaw = LANS.SystemsBiology.Toolkits.RNASeq.Assembler.ExprConsistency.Normalize(raw, PTT, readsAvgLen)
+    '    Dim ExprRaw = SMRUCC.genomics.Toolkits.RNASeq.Assembler.ExprConsistency.Normalize(raw, PTT, readsAvgLen)
     '    Dim sw = Stopwatch.StartNew
     '    Call $"Start expression htseq raw count consistency analysis....".__DEBUG_ECHO
-    '    Dim Result = LANS.SystemsBiology.Toolkits.RNASeq.Assembler.ExprConsistency.ApplyProperty(data, ExprRaw)
+    '    Dim Result = SMRUCC.genomics.Toolkits.RNASeq.Assembler.ExprConsistency.ApplyProperty(data, ExprRaw)
     '    Call $"Analysis job DONE! ..... {sw.ElapsedMilliseconds}ms.".__DEBUG_ECHO
     '    Return Result
     'End Function
@@ -150,3 +177,4 @@ and the shared number of the start site just lets you have a simple glimp on you
         Return path.LoadCsv(Of DocumentFormat.Transcript)(False).ToArray
     End Function
 End Module
+

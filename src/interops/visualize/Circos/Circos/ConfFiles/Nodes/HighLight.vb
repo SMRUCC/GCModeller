@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f56bf26df7843f4750205cfd0966b5a4, ..\Circos\Circos\ConfFiles\Nodes\HighLight.vb"
+﻿#Region "Microsoft.VisualBasic::0683708778443334de5d4984cf9a740e, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\HighLight.vb"
 
     ' Author:
     ' 
@@ -25,9 +25,9 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Scripting
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::173f3f3e041731ac6c0a6f531632ed65, ..\Bio.Assembly\Assembly\KEGG\AllLinksWidget.vb"
+﻿#Region "Microsoft.VisualBasic::173f3f3e041731ac6c0a6f531632ed65, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\AllLinksWidget.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36c1171afe7ad9d328c58b968357ebd4, ..\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::5a33ed2b1c0e9215677e3c8a35810b4d, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb"
 
     ' Author:
     ' 

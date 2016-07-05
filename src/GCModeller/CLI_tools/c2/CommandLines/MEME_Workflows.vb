@@ -1,4 +1,31 @@
-﻿Partial Module CommandLines
+﻿#Region "Microsoft.VisualBasic::8b24305501b610cf8746c581647cb741, ..\GCModeller\CLI_tools\c2\CommandLines\MEME_Workflows.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Partial Module CommandLines
 
     <CommandLine.Reflection.ExportAPI("-genome_wide_promoter_parse", Info:="",
         Usage:="-genome_wide_promoter_parse -door <door_opr_file> -genome_sequence <genome_sequence_fasta_file> -segment_lengths <length1,length2,length3,...> -wgcna_weights <wgcna_weight_file> -cutoff <cutoff_value> -export <export>",

@@ -1,12 +1,39 @@
-﻿Imports System.Text
+﻿#Region "Microsoft.VisualBasic::0e172f1741c444b4396b69e02fbc7a92, ..\GCModeller\analysis\RegulationSignature\SignatureBuilder.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.SequenceModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace RegulationSignature
 
@@ -145,11 +172,9 @@ Namespace RegulationSignature
 
         End Sub
 
-        Private Shared Function VF2TFreg(VirtualFootprints As Generic.IEnumerable(Of
-                                         LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)) _
-            As Dictionary(Of String, KeyValuePair(Of String, String()))
+        Private Shared Function VF2TFreg(VirtualFootprints As Generic.IEnumerable(Of PredictedRegulationFootprint)) As Dictionary(Of String, KeyValuePair(Of String, String()))
 
-            'Dim LQuery = (From vf As LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
+            'Dim LQuery = (From vf As SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint
             '                  In VirtualFootprints
             '              Select GeneID = vf.ORF, TFs = vf.Regulators, vf.MotifFamily).ToArray
             'Dim TFreg = (From orf In LQuery

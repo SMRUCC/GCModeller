@@ -1,5 +1,32 @@
-﻿Imports Microsoft.VisualBasic.Extensions
- 
+﻿#Region "Microsoft.VisualBasic::1108bb00fe19d9d3462e32e0fd96a510, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\ExpressionSystem\Initializer.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.Extensions
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
 
@@ -13,31 +40,31 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
 
         Public Function Invoke() As Integer
             Dim CellSystem As SubSystem.CellSystem = _ExpressionRegulationNetwork._CellSystem
-            Dim DataModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel = CellSystem.DataModel
+            Dim DataModel As GCMarkupLanguage.BacterialModel = CellSystem.DataModel
             If DataModel.BacteriaGenome.TransUnits.IsNullOrEmpty Then
-                Call SubSystem.ExpressionSystem.ExpressionRegulationNetwork.set_networkComponents(New [Module].CentralDogmaInstance.CentralDogma() {}, _ExpressionRegulationNetwork)
+                Call SubSystem.ExpressionSystem.ExpressionRegulationNetwork.set_NetworkComponents(New [Module].CentralDogmaInstance.CentralDogma() {}, _ExpressionRegulationNetwork)
                 Return -1
             End If
 
             Me._ExpressionRegulationNetwork.RNAPolymerase = (From Id As String
-                                                          In Strings.Split(CellSystem.get_runtimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RNA_POLYMERASE_PROTEIN), "; ")
+                                                          In Strings.Split(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RNA_POLYMERASE_PROTEIN), "; ")
                                                              Select New Feature.MetabolismEnzyme With {
                                                               .EnzymeMetabolite = CellSystem.Metabolism.Metabolites.GetItem(Id),
                                                               .Identifier = Id,
                                                               .EnzymeKineticLaw = MathematicsModels.EnzymeKinetics.EnzymeCatalystKineticLaw.[New](CellSystem.DataModel.BacteriaGenome.GetExpressionKineticsLaw(Id))}).ToArray
             _ExpressionRegulationNetwork.RibosomeAssemblyCompound = New Feature.MetabolismEnzyme With {
-                .EnzymeMetabolite = CellSystem.Metabolism.Metabolites.GetItem(CellSystem.get_runtimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)),
-                .Identifier = CellSystem.get_runtimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES),
+                .EnzymeMetabolite = CellSystem.Metabolism.Metabolites.GetItem(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)),
+                .Identifier = CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES),
                 .EnzymeKineticLaw = MathematicsModels.EnzymeKinetics.EnzymeCatalystKineticLaw.[New](
-                    CellSystem.DataModel.BacteriaGenome.GetExpressionKineticsLaw(CellSystem.get_runtimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)))}
+                    CellSystem.DataModel.BacteriaGenome.GetExpressionKineticsLaw(CellSystem.get_runtimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_RIBOSOME_ASSEMBLY_COMPLEXES)))}
 
             Call _ExpressionRegulationNetwork.SystemLogging.WriteLine("Create transcripts object models......", "", Logging.MSG_TYPES.INF)
-            _ExpressionRegulationNetwork._InternalTranscriptsPool = (From TranscriptModelBase As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript
+            _ExpressionRegulationNetwork._InternalTranscriptsPool = (From TranscriptModelBase As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript
                                                         In CellSystem.DataModel.BacteriaGenome.Transcripts.AsParallel
-                                                                     Select LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Transcript.CreateInstance(
+                                                                     Select SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Transcript.CreateInstance(
                                                             TranscriptModelBase, CellSystem.Metabolism.Metabolites)).ToArray '创建一个RNA池集合，然后进行分配
 
-            Dim NetworkComponents = (From TU As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
+            Dim NetworkComponents = (From TU As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
                                                                In DataModel.BacteriaGenome.TransUnits.AsParallel
                                      Select [Module].CentralDogmaInstance.CentralDogma.CreateInstance(TransUnit:=TU, CellSystem:=CellSystem)).ToArray '初始化了TranscriptUnit表达调控过程对象，但是还没有初始化调控因子
 

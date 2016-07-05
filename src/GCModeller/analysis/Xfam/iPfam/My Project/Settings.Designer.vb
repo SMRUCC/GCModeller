@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.iPfam.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.Data.Xfam.iPfam.My.MySettings
             Get
-                Return Global.iPfam.My.MySettings.Default
+                Return Global.SMRUCC.genomics.Data.Xfam.iPfam.My.MySettings.Default
             End Get
         End Property
     End Module

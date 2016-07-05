@@ -1,15 +1,42 @@
-﻿Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
+﻿#Region "Microsoft.VisualBasic::f0145df82764ac921dfda166e527a318, ..\GCModeller\analysis\Xfam\Pfam\Parser\PfamString\API.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ProteinModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.ProteinModel
 
 Namespace PfamString
 
@@ -71,7 +98,7 @@ Namespace PfamString
         End Function
 
         <ExportAPI("Pfam.Token"), Extension>
-        Public Function ToPfamStringToken(dat As LANS.SystemsBiology.ProteinModel.DomainObject) As String
+        Public Function ToPfamStringToken(dat As SMRUCC.genomics.ProteinModel.DomainObject) As String
             Return String.Format("{0}({1}|{2})", dat.Identifier, dat.Position.Left, dat.Position.Right)
         End Function
 
@@ -175,16 +202,16 @@ Namespace PfamString
             If QueryIteration.SubjectHits.IsNullOrEmpty Then
                 Return New Protein With {
                     .Identifier = UniqueId,
-                    .Domains = New LANS.SystemsBiology.ProteinModel.DomainObject() {},
+                    .Domains = New SMRUCC.genomics.ProteinModel.DomainObject() {},
                     .SequenceData = "",
                     .Description = Description
                 }
             Else
-                Dim LQuery = From Hit As NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit
+                Dim LQuery = From Hit As BlastPlus.SubjectHit
                              In QueryIteration.SubjectHits
                              Where Hit.Length / Val(Hit.LengthHit) > 0.85 AndAlso System.Math.Abs(Hit.LengthHit - Hit.LengthQuery) < 20
                              Let smp = CreateObject(Hit.Name.Replace("gnl|CDD|", ""))
-                             Select New LANS.SystemsBiology.ProteinModel.DomainObject(smp) With {
+                             Select New SMRUCC.genomics.ProteinModel.DomainObject(smp) With {
                                  .Position = New ComponentModel.Loci.Location() With {
                                  .Left = Val(Hit.Hsp.First.Query.Left),
                                  .Right = Val(Hit.Hsp.Last.Query.Right)},

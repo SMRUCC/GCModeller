@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97453a9ea6730b23912746bb278c5d51, ..\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\BindReaction.vb"
+﻿#Region "Microsoft.VisualBasic::8e59f66c4da876f906d1fb47b7b13d0e, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\BindReaction.vb"
 
     ' Author:
     ' 

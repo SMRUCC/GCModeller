@@ -1,5 +1,35 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::e7b7326893c1ff4cefba55497fe68fc4, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\Export.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 
 Partial Module CLI
 
@@ -27,22 +57,22 @@ Partial Module CLI
 
         If String.IsNullOrEmpty(Db) OrElse String.Equals(Db, "all") Then
 
-            Dim List As List(Of LANS.SystemsBiology.SequenceModel.FASTA.FastaToken) = New List(Of SequenceModel.FASTA.FastaToken)
-            For Each Db In New Assembly.NCBI.CDD.Database("").Paths
+            Dim List As List(Of SMRUCC.genomics.SequenceModel.FASTA.FastaToken) = New List(Of FASTA.FastaToken)
+            For Each Db In New NCBI.CDD.Database("").Paths
                 Call List.AddRange(Export(Db, Keywords, CaseSense, IsMethodAny))
             Next
-            Dim Saved = CType(List, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile).Distinct
+            Dim Saved = CType(List, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Distinct
             Call Saved.Save(Output)
             Call FileIO.FileSystem.WriteAllText(Output & "_idlist.txt", Saved.GetIdList, append:=False)
         Else
 
             If Not FileIO.FileSystem.FileExists(Db) Then '使用的是一个指定的文件
-                Using Database As Assembly.NCBI.CDD.Database = New Assembly.NCBI.CDD.Database("")
+                Using Database As NCBI.CDD.Database = New NCBI.CDD.Database("")
                     Db = Database.Db(Db)
                 End Using
             End If
 
-            Dim List = CType(Export(Db, Keywords, CaseSense, IsMethodAny), LANS.SystemsBiology.SequenceModel.FASTA.FastaFile).Distinct
+            Dim List = CType(Export(Db, Keywords, CaseSense, IsMethodAny), SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Distinct
             Call List.Save(Output)
             Call FileIO.FileSystem.WriteAllText(Output & "_idlist.txt", List.GetIdList, append:=False)
         End If
@@ -50,9 +80,9 @@ Partial Module CLI
         Return 0
     End Function
 
-    Private Function Export(DB As String, Keywords As String(), CaseSense As CompareMethod, Any As Boolean) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken()
-        Dim FASTAFile As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(DB)
-        Dim Query As Generic.IEnumerable(Of LANS.SystemsBiology.SequenceModel.FASTA.FastaToken)
+    Private Function Export(DB As String, Keywords As String(), CaseSense As CompareMethod, Any As Boolean) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken()
+        Dim FASTAFile As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DB)
+        Dim Query As Generic.IEnumerable(Of SMRUCC.genomics.SequenceModel.FASTA.FastaToken)
         If Any Then
             Query = From fsa In FASTAFile.AsParallel Where fsa.Title.ContainsAny(Keywords, CaseSense) Select fsa '
         Else
@@ -66,7 +96,7 @@ Partial Module CLI
         Dim Log As String = CommandLine("-i")
         Dim Saved As String = CommandLine("-o")
 
-        Dim BlastLog As NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput = NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.TryParse(Log)
+        Dim BlastLog As BLASTOutput.Standard.BLASTOutput = BLASTOutput.Standard.BLASTOutput.TryParse(Log)
         Call BlastLog.Save(Saved)
         Return 0
     End Function
@@ -117,7 +147,7 @@ Partial Module CLI
             Return -1
         End If
 
-        Using File As NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput = NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
+        Using File As BLASTOutput.Standard.BLASTOutput = BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
             Call File.Grep(AddressOf GrepScriptQuery.Grep, AddressOf GrepScriptHit.Grep)
         End Using
 

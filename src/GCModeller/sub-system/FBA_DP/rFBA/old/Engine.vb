@@ -1,7 +1,38 @@
-﻿Imports System.Xml.Serialization
+﻿#Region "Microsoft.VisualBasic::e48326e34633196a88d5da76cd916657, ..\GCModeller\sub-system\FBA_DP\rFBA\old\Engine.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Analysis.FBA_DP
+Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
+Imports SMRUCC.genomics.Analysis.FBA_DP.Models
+Imports SMRUCC.genomics.Model.SBML
 
 Namespace rFBA
 
@@ -9,9 +40,9 @@ Namespace rFBA
     ''' 包括一个数学迭代计算引擎和一个FBA计算引擎，每迭代计算一次，则计算一次FBA
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Engine : Inherits LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver.IterationMathEngine(Of FBA.rFBA.NetworkModel)
+    Public Class Engine : Inherits SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.IterationMathEngine(Of rFBA.NetworkModel)
 
-        Dim rFBAlpModel As FBA.rFBA.rFBAlpModel, FBAlpSolver As FBA.FBAlpRSolver
+        Dim rFBAlpModel As rFBA.rFBAlpModel, FBAlpSolver As FBAlpRSolver
         ''' <summary>
         ''' 使用基因号来表示一个酶促代谢反应的标号列表，对于非酶促代谢反应，则使用空字符串来代替
         ''' </summary>
@@ -29,10 +60,10 @@ Namespace rFBA
             Call MyBase.New(ModelFile.LoadXml(Of rFBA.NetworkModel))
 
             Dim DataModel = Me._innerDataModel
-            Dim SBMLData = LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile.Load(FileIO.FileSystem.GetParentPath(ModelFile) & "/" & DataModel.MetabolismHref)
+            Dim SBMLData = Level2.XmlFile.Load(FileIO.FileSystem.GetParentPath(ModelFile) & "/" & DataModel.MetabolismHref)
 
-            rFBAlpModel = New FBA.rFBA.rFBAlpModel(SBMLData, DataModel.ObjectiveFunction)
-            FBAlpSolver = New FBA.FBAlpRSolver(rBin)
+            rFBAlpModel = New rFBA.rFBAlpModel(SBMLData, DataModel.ObjectiveFunction)
+            FBAlpSolver = New FBAlpRSolver(rBin)
             RegulationNetworkDataPackage = New rFBA.DataAdapter(Me)
         End Sub
 
@@ -103,7 +134,7 @@ Namespace rFBA
         End Sub
     End Class
 
-    Public Class rFBAlpModel : Inherits FBA.Models.SBML
+    Public Class rFBAlpModel : Inherits Models.SBML
 #Region "Data Cached"
         ''' <summary>
         ''' S matrix in FBA model.(FBA模型中的S矩阵)
@@ -181,7 +212,7 @@ Namespace rFBA
         ''' <param name="SBMl"></param>
         ''' <param name="objectiveFunction">UniqueId list for the target metabolism reactions.(代谢反应对象的UniqueId列表)</param>
         ''' <remarks></remarks>
-        Sub New(SBMl As LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile, objectiveFunction As String())
+        Sub New(SBMl As Level2.XmlFile, objectiveFunction As String())
             Call MyBase.New(SBMl, objectiveFunction, True)
             MAT_S = MyBase.getMatrix
         End Sub
@@ -208,4 +239,5 @@ Namespace rFBA
         End Function
     End Class
 End Namespace
+
 

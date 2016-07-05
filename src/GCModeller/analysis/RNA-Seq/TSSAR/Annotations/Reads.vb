@@ -1,20 +1,47 @@
-﻿Imports LANS.SystemsBiology.ComponentModel.Loci
+﻿#Region "Microsoft.VisualBasic::e5a83c3751c82912f46d735c7c8c5d38, ..\GCModeller\analysis\RNA-Seq\TSSAR\Annotations\Reads.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports LANS.SystemsBiology.ContextModel
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 <[Namespace]("TSSs.Analysis.ReadsView")>
 Public Module Reads
 
-    Public Class ReadsGroupView : Implements LANS.SystemsBiology.ComponentModel.Loci.Abstract.ILocationNucleotideSegment
+    Public Class ReadsGroupView : Implements SMRUCC.genomics.ComponentModel.Loci.Abstract.ILocationNucleotideSegment
 
         Dim _FLAG As Integer
 
@@ -97,7 +124,7 @@ Public Module Reads
             Return $"{AssociatedGene}/  {getPosition}"
         End Function
 
-        Public ReadOnly Property Position As LANS.SystemsBiology.ComponentModel.Loci.SegmentRelationships
+        Public ReadOnly Property Position As SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships
             Get
                 Select Case getPosition
                     Case "", SegmentRelationships.Blank.ToString
@@ -221,7 +248,7 @@ Public Module Reads
     End Function
 
     <ExportAPI("Gene.Association")>
-    Public Function GeneAssociation(SourceDir As String, PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT, Optional Export As String = "") As Boolean
+    Public Function GeneAssociation(SourceDir As String, PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT, Optional Export As String = "") As Boolean
         If String.IsNullOrEmpty(Export) Then
             Export = SourceDir
         End If
@@ -246,3 +273,4 @@ Public Module Reads
     End Function
 
 End Module
+

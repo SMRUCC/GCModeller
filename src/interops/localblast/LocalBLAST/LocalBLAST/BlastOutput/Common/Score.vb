@@ -1,4 +1,31 @@
-﻿Imports System.Text.RegularExpressions
+﻿#Region "Microsoft.VisualBasic::910b4357e70bef2fbf12345b8b4f42cf, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Score.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Serialization
@@ -56,6 +83,10 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Return Me.GetJson
         End Function
 
+        Public Shared Function TryParse(text As String) As Score
+            Return TryParse(Of Score)(text)
+        End Function
+
         Public Shared Function TryParse(Of T As Score)(text As String) As T
             Dim score As T = Activator.CreateInstance(Of T)()
             score.Expect = Val(Regex.Replace(text.Match(HIT_E_VALUE), "Expect\s+=\s+", "").Trim)
@@ -65,18 +96,22 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
 
             text = Regex.Match(text, "Score\s=.+?bits\s+\(\d+\)").Value
 
-            Dim Scores As String() = (From m As Match In Regex.Matches(text, _DOUBLE) Select m.Value).ToArray
+            Dim Scores As String() = Regex.Matches(text, _DOUBLE).ToArray
 
-            If Scores.Count >= 2 Then
+            If Scores.Length >= 2 Then
                 score.Score = Scores(0).RegexParseDouble
                 score.RawScore = Scores(1).RegexParseDouble
                 score.Method = Mid(Regex.Match(text, "Method: .+?$", RegexOptions.Multiline).Value, 9)
-                If Not String.IsNullOrEmpty(score.Method) Then score.Method = Mid(score.Method, 1, Len(score.Method) - 2)
+
+                If Not String.IsNullOrEmpty(score.Method) Then
+                    score.Method = Mid(score.Method, 1, Len(score.Method) - 2)
+                End If
             Else
 
-                Call Console.WriteLine("[DEBUG] Exception Snaps:" & vbCrLf & vbCrLf & text)
-                Call FileIO.FileSystem.WriteAllText(RandomDouble() & "_blast_out_parse_error.log", text, append:=False)
+                Dim ex As New Exception("[DEBUG] Exception Snaps:" & vbCrLf & vbCrLf & text)
 
+                Call App.LogException(ex)
+                Call ex.PrintException
             End If
 
             Return score

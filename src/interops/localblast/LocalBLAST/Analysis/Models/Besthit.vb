@@ -1,8 +1,35 @@
-﻿Imports System.Xml.Serialization
+﻿#Region "Microsoft.VisualBasic::80353ae60b2efc906749f259d0ffe490, ..\interops\localblast\LocalBLAST\Analysis\Models\Besthit.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Analysis
@@ -170,6 +197,7 @@ Namespace Analysis
             Dim Id As String() = (From hit In Grouped
                                   Where hit.Group.Count >= p * (Grouped.Count - 1)
                                   Select hit.tag).ToArray
+            Dim setValue = New SetValue(Of HitCollection) <= NameOf(HitCollection.Hits)
             Dim hits As HitCollection() =
                 LinqAPI.Exec(Of HitCollection) <= From hit As HitCollection
                                                   In Me.hits
@@ -177,7 +205,7 @@ Namespace Analysis
                                                                          In hit.Hits
                                                                          Where Array.IndexOf(Id, x.tag) > -1
                                                                          Select x).ToArray
-                                                  Select hit.InvokeSet(NameOf(hit.Hits), __hits)
+                                                  Select setValue(hit, __hits)
             Me.hits = hits
 
             Return Me

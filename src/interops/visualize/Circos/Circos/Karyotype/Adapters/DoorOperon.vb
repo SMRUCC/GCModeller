@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71b939dd362c73c06560d33487706d4d, ..\Circos\Circos\Karyotype\Adapters\DoorOperon.vb"
+﻿#Region "Microsoft.VisualBasic::347c7f0cb3ce5fcae7c6f03483e404ce, ..\interops\visualize\Circos\Circos\Karyotype\Adapters\DoorOperon.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.DOOR
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
 

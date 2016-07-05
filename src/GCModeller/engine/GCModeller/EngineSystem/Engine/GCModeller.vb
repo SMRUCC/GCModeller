@@ -1,17 +1,44 @@
-﻿Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.MemoryDump
+﻿#Region "Microsoft.VisualBasic::1dce8990d1d586e0a3e1941a754030d6, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\GCModeller.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
-Imports LANS.SystemsBiology.GCModeller.Framework.Kernel_Driver
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
-Imports LANS.SystemsBiology.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Logging
+Imports Microsoft.VisualBasic.MemoryDump
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 
 Namespace EngineSystem.Engine
 
@@ -83,11 +110,11 @@ Namespace EngineSystem.Engine
             End Get
         End Property
 
-        Sub New(Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)
+        Sub New(Model As BacterialModel)
             Call MyBase.New(Model)
         End Sub
 
-        Protected Friend Function get_DataModel() As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel
+        Protected Friend Function get_DataModel() As BacterialModel
             Return Me._innerDataModel
         End Function
 
@@ -97,7 +124,7 @@ Namespace EngineSystem.Engine
         ''' <param name="ModuleAssembly">外部系统模块列表</param>
         ''' <remarks></remarks>
         Public Sub LoadSystemModule(ModuleAssembly As String(), DisabledModules As List(Of String))
-            Using ModuleLoader As LANS.SystemsBiology.GCModeller.ModellingEngine.PlugIns.ModuleLoader = New PlugIns.ModuleLoader(Kernel:=Me)
+            Using ModuleLoader As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleLoader = New PlugIns.ModuleLoader(Kernel:=Me)
                 Call ModuleLoader.DisableModule(DisabledModules.ToArray)
                 Call ModuleLoader.LoadModules(ModuleAssembly)
             End Using
@@ -170,13 +197,13 @@ Namespace EngineSystem.Engine
 
             Call SystemLogging.WriteLine(String.Format("Start kernel loop at {0}", Now.ToString), "GCModeller -> main_thread")
 
-#If Not Debug Then
+#If Not DEBUG Then
             Try
 #End If
-                For Me._RTime = 0 To KernelProfile.KernelLoops
-                    If __innerTicks(_RTime) < 0 Then Exit For
-                Next
-#If Not Debug Then
+            For Me._RTime = 0 To KernelProfile.KernelLoops
+                If __innerTicks(_RTime) < 0 Then Exit For
+            Next
+#If Not DEBUG Then
             Catch ex As Exception
                 Call _SystemLogging.WriteLine(ex.ToString, "GCModeller->RUN()", Type:=Logging.MSG_TYPES.ERR)
                 Call _SystemLogging.WriteLine("------------------------------------------------------------------------------------------------------------")
@@ -235,8 +262,8 @@ EXIT_:      Call DataAcquisitionService.CloseStorageService()
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function Load(ModelFile As String, LogFile As Microsoft.VisualBasic.Logging.LogFile, argvs As Microsoft.VisualBasic.CommandLine.CommandLine) As Engine.GCModeller
-            Dim Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
-                Microsoft.VisualBasic.LoadXml(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel)(ModelFile)
+            Dim Model As BacterialModel =
+                Microsoft.VisualBasic.LoadXml(Of BacterialModel)(ModelFile)
             Dim EngineSystem = New GCModeller(Model) With {._SystemLogging = LogFile, .args = argvs}
             Dim KernelModule = New ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem(EngineSystem)
             EngineSystem.LoadKernel(KernelModule)

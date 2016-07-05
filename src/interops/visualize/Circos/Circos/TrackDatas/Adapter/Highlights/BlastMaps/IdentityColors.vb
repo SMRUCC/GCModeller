@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36845b094b7827b7ad937bf4261eb828, ..\Circos\Circos\TrackDatas\Adapter\Highlights\BlastMaps\IdentityColors.vb"
+﻿#Region "Microsoft.VisualBasic::2497a5fa4d3909ebe551d49b158de5a8, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\BlastMaps\IdentityColors.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
+Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace TrackDatas.Highlights

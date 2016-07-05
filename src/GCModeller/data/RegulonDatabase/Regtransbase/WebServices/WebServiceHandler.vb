@@ -1,7 +1,34 @@
-﻿Imports System.Text.RegularExpressions
+﻿#Region "Microsoft.VisualBasic::d0f7070f5ad97fe0c69fdc056e186138, ..\GCModeller\data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text.RegularExpressions
 Imports System.Text
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regtransbase.WebServices
 
@@ -12,7 +39,7 @@ Namespace Regtransbase.WebServices
             Return WebServices.RegPreciseTFFamily.Download(url)
         End Function
 
-        Public Shared Function HandleErrorSequence(LogFilePath As String) As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+        Public Shared Function HandleErrorSequence(LogFilePath As String) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
             Throw New NotImplementedException
         End Function
 
@@ -32,7 +59,7 @@ Namespace Regtransbase.WebServices
                 Dim Item = TFF.Regulogs.GetUniqueIds
                 Call UniqueIdList.AddRange(Item)
             Next
-            Dim FsaFile As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = New SequenceModel.FASTA.FastaFile
+            Dim FsaFile As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = New SequenceModel.FASTA.FastaFile
             If FileIO.FileSystem.FileExists(FileSaved) Then Call FileIO.FileSystem.DeleteFile(FileSaved)
 
             Dim stringLine = Function(valueArray As String()) As String
@@ -48,7 +75,7 @@ Namespace Regtransbase.WebServices
             For Each Item In UniqueIdList
                 Dim RegulatorId As String = Strings.Split(Item.Key, " - ").First 'RegulatorId可能为一个专有的LocusTag，也可能为通用的基因名
                 '首先进行查询，假若仅返回一条记录并且基因名为RegulatorId，那么RegulatorId很可能就为一个专有的LocusTag了
-                Dim RegulatorEntries = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=RegulatorId)
+                Dim RegulatorEntries = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=RegulatorId)
                 If RegulatorEntries.IsNullOrEmpty Then 'NO_ENTRY_FOUND
                     Dim Err As String = String.Format("[KEGG_ID_NOT_FOUND] Regulog:={0}" & vbCrLf & vbCrLf, Item.Key)
                     Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, True)
@@ -58,7 +85,7 @@ Namespace Regtransbase.WebServices
                     Dim RegulatorEntry = RegulatorEntries.First
 
                     Try
-                        Dim Fsa = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.FetchSeq(Entry:=RegulatorEntry)
+                        Dim Fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(Entry:=RegulatorEntry)
                         Dim TempList = Fsa.Attributes.First
 
                         TempList = TempList & String.Format(" [Regulog={0}]", Item.Key)
@@ -82,11 +109,11 @@ Namespace Regtransbase.WebServices
                         Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, append:=True)
                     End Try
                 Else '为通用的基因名称，则按照TFBS的LocusTag信息得到KEGG的物种编号，在进行组合查询
-                    Dim TempObject As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = Nothing
+                    Dim TempObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = Nothing
                     Dim TempObject_LocusTagList As List(Of String) = New List(Of String)
 
                     For Each LocusId In Item.Value  'LocusId的物种是唯一的
-                        Dim Entries = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=LocusId.Key)
+                        Dim Entries = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=LocusId.Key)
                         If Not Entries.IsNullOrEmpty Then '获得目标物种编号
                             Dim Temp As String() = (From Entry In Entries Where String.Equals(Entry.LocusId, LocusId.Key) Select Entry.SpeciesId).ToArray
                             Dim KEGG_speciesId As String = ""
@@ -100,7 +127,7 @@ Namespace Regtransbase.WebServices
                             End If
 
                             Try
-                                Dim Fsa = LANS.SystemsBiology.Assembly.KEGG.WebServices.WebRequest.FetchSeq(KEGG_speciesId, accessionId:=RegulatorId)
+                                Dim Fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(KEGG_speciesId, accessionId:=RegulatorId)
                                 If TempObject Is Nothing Then
                                     If Not Fsa Is Nothing Then TempObject = Fsa.Copy
                                     TempObject_LocusTagList.AddRange(LocusId.Value)

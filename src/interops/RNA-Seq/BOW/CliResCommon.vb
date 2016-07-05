@@ -1,13 +1,45 @@
-﻿Public Module CliResCommon
+﻿#Region "Microsoft.VisualBasic::7846e961e8d6355881442ded664fc9ac, ..\interops\RNA-Seq\BOW\CliResCommon.vb"
 
-    Private ReadOnly CHUNK_BUFFER As Type = GetType(Byte())
-    Private ReadOnly Resource As Dictionary(Of String, Func(Of Byte())) = (From p As System.Reflection.PropertyInfo
-                                                                           In GetType(My.Resources.Resources).GetProperties(bindingAttr:=Reflection.BindingFlags.NonPublic Or Reflection.BindingFlags.Static)
-                                                                           Where p.PropertyType.Equals(CHUNK_BUFFER)
-                                                                           Select p).ToArray.ToDictionary(Of String, Func(Of Byte()))(
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Reflection
+
+Public Module CliResCommon
+
+    Private ReadOnly bufType As Type = GetType(Byte())
+    Private ReadOnly Resource As Dictionary(Of String, Func(Of Byte())) = (
+        From p As PropertyInfo
+        In GetType(My.Resources.Resources) _
+            .GetProperties(bindingAttr:=BindingFlags.NonPublic Or BindingFlags.Static)
+        Where p.PropertyType.Equals(bufType)
+        Select p) _
+              .ToDictionary(Of String, Func(Of Byte()))(
  _
-                                                                                Function(obj) obj.Name,
-                                                                                elementSelector:=Function(obj) New Func(Of Byte())(Function() DirectCast(obj.GetValue(Nothing, Nothing), Byte())))
+               Function(obj) obj.Name,
+               Function(obj) New Func(Of Byte())(Function() DirectCast(obj.GetValue(Nothing, Nothing), Byte())))
 
     Sub New()
         Call Settings.Session.Initialize()
@@ -29,13 +61,17 @@
             Return ""
         End If
 
-        Dim ChunkBuffer = CliResCommon.Resource(Name)()
+        Dim bufs = CliResCommon.Resource(Name)()
         Try
-            Return If(ChunkBuffer.FlushStream(Path), Path, "")
+            Return If(bufs.FlushStream(Path), Path, "")
         Catch ex As Exception
-            Call Console.WriteLine(ex.ToString)
+            ex = New Exception(Name, ex)
+            ex = New Exception(Path, ex)
+            Call ex.PrintException
+            Call App.LogException(ex)
             Return ""
         End Try
     End Function
 
 End Module
+

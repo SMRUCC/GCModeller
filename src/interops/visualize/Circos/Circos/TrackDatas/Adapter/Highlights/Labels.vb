@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9e520f12b2d6abeec8ae61391c956c1, ..\Circos\Circos\TrackDatas\Adapter\Highlights\Labels.vb"
+﻿#Region "Microsoft.VisualBasic::96bbeec5c4f411ce51b62e02da22bad8, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Labels.vb"
 
     ' Author:
     ' 
@@ -28,10 +28,10 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace TrackDatas.Highlights

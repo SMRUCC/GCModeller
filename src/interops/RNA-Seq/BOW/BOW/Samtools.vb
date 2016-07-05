@@ -1,9 +1,36 @@
-﻿Imports Microsoft.VisualBasic.Scripting.MetaData
+﻿#Region "Microsoft.VisualBasic::91ec71cfd7a569cd0e77e34064d6dac6, ..\interops\RNA-Seq\BOW\BOW\Samtools.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 ''' <summary>
 ''' SAMtools is a set of utilities for interacting with and post-processing short DNA sequence read alignments 
@@ -43,13 +70,13 @@ Public Module Samtools
     Public Function Assembly(SAM As SAM,
                              <Parameter("Trim.Error")>
                              Optional TrimError As Boolean = True,
-                             Optional EXPORT As String = "") As SequenceModel.FASTA.FastaFile
+                             Optional EXPORT As String = "") As FASTA.FastaFile
 
         Dim Forwards As Contig() = Nothing, Reversed As Contig() = Nothing
         Call SAM.Assembling(Forwards, Reversed, TrimError)
 
         Dim Fasta = Forwards.Join(Reversed)
-        Dim FastaFile = CType((From Contig In Fasta.AsParallel Select Contig.ToFastaToken).ToArray, SequenceModel.FASTA.FastaFile)
+        Dim FastaFile = CType((From Contig In Fasta.AsParallel Select Contig.ToFastaToken).ToArray, FASTA.FastaFile)
 
         If Not String.IsNullOrEmpty(EXPORT) Then
 
@@ -74,12 +101,12 @@ Public Module Samtools
                              SavedFasta = $"{EXPORT}/{pathEntry.Key}.fasta").ToArray
         If Parallel Then
             Dim LQuery = (From File In source.AsParallel
-                          Let SAM = BOW.DocumentFormat.SAM.SAM.Load(File.SAM)
+                          Let SAM = SAM.Load(File.SAM)
                           Let Fasta = Assembly(SAM, TrimError, CsvExport)
                           Select Fasta.Save(File.SavedFasta)).ToArray
         Else
             For Each File In source
-                Dim SAM = BOW.DocumentFormat.SAM.SAM.Load(File.SAM)
+                Dim SAM As SAM = SAM.Load(File.SAM)
                 Dim Fasta = Assembly(SAM, TrimError, CsvExport)
                 Call Fasta.Save(File.SavedFasta)
             Next
@@ -87,8 +114,8 @@ Public Module Samtools
     End Sub
 
     <ExportAPI("Read.SAM")>
-    Public Function ReadSam(Path As String, <Parameter("UnMapped.Trim")> Optional TrimUnMapped As Boolean = False) As BOW.DocumentFormat.SAM.SAM
-        Dim doc = BOW.DocumentFormat.SAM.SAM.Load(Path)
+    Public Function ReadSam(Path As String, <Parameter("UnMapped.Trim")> Optional TrimUnMapped As Boolean = False) As SAM
+        Dim doc = SAM.Load(Path)
         If TrimUnMapped Then
             Call Console.WriteLine("Trim unmapped alignment reads.....")
             doc = doc.TrimUnmappedReads
@@ -346,3 +373,4 @@ converting between BAM and SAM formats, and just looking at the raw file content
         End Try
     End Function
 End Module
+

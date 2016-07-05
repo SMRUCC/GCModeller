@@ -1,9 +1,35 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.CRISPR.SearchingModel
+﻿#Region "Microsoft.VisualBasic::d3afeed798d324336c370dd6616a3081, ..\GCModeller\analysis\CRISPR\CRT\ConsoleReport.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports System.Runtime.CompilerServices
 
 <PackageNamespace("CRISPR.Searchs.Reports")>
 Public Module ConsoleReport
@@ -62,3 +88,4 @@ Public Module ConsoleReport
         Call sb.AppendLine(New String("-"c, SpacersMaxLength))
     End Sub
 End Module
+

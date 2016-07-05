@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd4e700455a44cdfda5b54929cf18a88, ..\Circos\Circos\Colors\NtPropsMaps.vb"
+﻿#Region "Microsoft.VisualBasic::bcee306e26d3e1cc8485cfaca7fa714d, ..\interops\visualize\Circos\Circos\Colors\NtPropsMaps.vb"
 
     ' Author:
     ' 
@@ -27,8 +27,8 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.NtProps
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON

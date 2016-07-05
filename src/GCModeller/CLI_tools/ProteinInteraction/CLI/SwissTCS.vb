@@ -1,8 +1,39 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Interactions.SwissTCS
+﻿#Region "Microsoft.VisualBasic::54afef4c34357d36af3d4fe04dc21e12, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\SwissTCS.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Xfam
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
 
 Partial Module CLI
 
@@ -27,9 +58,9 @@ Partial Module CLI
         Dim RR As String() = FileIO.FileSystem.GetFiles(inDIR & "/RR/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
                                                         "*.csv").ToArray(Function(x) IO.Path.GetFileNameWithoutExtension(x))
-        Dim fa = LANS.SystemsBiology.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
+        Dim fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/HisK.fasta")
-        fa = LANS.SystemsBiology.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)
+        fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/RR.fasta")
     End Sub
 
@@ -63,23 +94,23 @@ Partial Module CLI
                   Select DIR).ToArray
         Dim LoadProt = (From DIR As String
                         In source.AsParallel
-                        Let Hisk = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(DIR & "/HisK.fasta", False)
-                        Let RR = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(DIR & "/RR.fasta", False)
+                        Let Hisk = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DIR & "/HisK.fasta", False)
+                        Let RR = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(DIR & "/RR.fasta", False)
                         Where Not (Hisk.IsNullOrEmpty OrElse RR.IsNullOrEmpty)  ' 必须要两个都同时存在的才会可以继续下去，只要有任何一个没有数据则抛弃掉
                         Select Hisk.Join(RR)).ToArray.MatrixToList
         Dim Merge As String = Temp & "/swissTCS.fasta"
-        Dim MergeFasta As New LANS.SystemsBiology.SequenceModel.FASTA.FastaFile(LoadProt)
+        Dim MergeFasta As New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(LoadProt)
         Call MergeFasta.Save(Merge)
 
-        Dim blast As New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+        Dim blast As New LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
         Dim Pfam As String = GCModeller.FileSystem.CDD & "/Pfam.fasta"
         Dim out As String = Temp & "/Pfam.txt"
 
         Call blast.FormatDb(Pfam, blast.MolTypeProtein).Start(WaitForExit:=True)
         Call blast.Blastp(Merge, Pfam, out).Start(WaitForExit:=True)
 
-        Dim Logs = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(out)
-        Dim PfamString = LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.CreatePfamString(Logs, disableUltralarge:=True)
+        Dim Logs = LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(out)
+        Dim PfamString = Xfam.Pfam.CreatePfamString(Logs, disableUltralarge:=True)
         out = Temp & "swissTCS.Pfam.csv"
         Return PfamString.SaveTo(out)
     End Function
@@ -99,8 +130,8 @@ Partial Module CLI
                       FileIO.FileSystem.GetDirectoryInfo(DIR).Name,
                       StringComparison.OrdinalIgnoreCase)
                   Select DIR).ToArray
-        Dim swissTCS = (From s As Sanger.Pfam.PfamString.PfamString
-                        In (Pfam & "/swissTCS.Pfam.csv").LoadCsv(Of Sanger.Pfam.PfamString.PfamString)
+        Dim swissTCS = (From s As Pfam.PfamString.PfamString
+                        In (Pfam & "/swissTCS.Pfam.csv").LoadCsv(Of Pfam.PfamString.PfamString)
                         Select s
                         Group s By s.ProteinId Into Group) _
                             .ToDictionary(Function(x) x.ProteinId.Split(":"c).Last,
@@ -115,9 +146,9 @@ Partial Module CLI
         Return (From x In CL Where Not x Is Nothing Select x).ToArray.SaveTo(Pfam & "/swissTCS_contacts.csv")
     End Function
 
-    Private Function __contact(HisK As Sanger.Pfam.PfamString.PfamString,
-                               RR As Sanger.Pfam.PfamString.PfamString,
-                               CrossTalk As CrossTalks) As Sanger.Pfam.PfamString.PfamString
+    Private Function __contact(HisK As Pfam.PfamString.PfamString,
+                               RR As Pfam.PfamString.PfamString,
+                               CrossTalk As CrossTalks) As Pfam.PfamString.PfamString
         Try
             Return __contactTrace(HisK, RR, CrossTalk)
         Catch ex As Exception
@@ -128,9 +159,7 @@ Partial Module CLI
         End Try
     End Function
 
-    Private Function __contactTrace(HisK As Sanger.Pfam.PfamString.PfamString,
-                                    RR As Sanger.Pfam.PfamString.PfamString,
-                                    CrossTalk As CrossTalks) As Sanger.Pfam.PfamString.PfamString
+    Private Function __contactTrace(HisK As Pfam.PfamString.PfamString, RR As Pfam.PfamString.PfamString, CrossTalk As CrossTalks) As Pfam.PfamString.PfamString
         If StringHelpers.IsNullOrEmpty(HisK.PfamString) OrElse
             StringHelpers.IsNullOrEmpty(RR.PfamString) Then
             Return Nothing
@@ -138,7 +167,7 @@ Partial Module CLI
 
         Dim dsa As New Microsoft.VisualBasic.ComponentModel.DataStructures.Set(HisK.Domains)
         Dim dsb As New Microsoft.VisualBasic.ComponentModel.DataStructures.Set(RR.Domains)
-        Dim PfamString As New Sanger.Pfam.PfamString.PfamString With {
+        Dim PfamString As New Pfam.PfamString.PfamString With {
             .ProteinId = $"{HisK.ProteinId}-{RR.ProteinId.Split(":"c).Last}",
             .Length = HisK.Length + RR.Length,
             .Description = CrossTalk.Probability,
@@ -160,8 +189,8 @@ Partial Module CLI
 
     <ExportAPI("--Profiles.Create", Usage:="--Profiles.Create /MiST2 <MiST2.xml> /pfam <pfam-string.csv> [/out <out.csv>]")>
     Public Function CreateProfiles(args As CommandLine.CommandLine) As Integer
-        Dim MiST2 = args("/mist2").LoadXml(Of LANS.SystemsBiology.Assembly.MiST2.MiST2)
-        Dim Pfam = args("/pfam").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
+        Dim MiST2 = args("/mist2").LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)
+        Dim Pfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
         Dim Hisk = MiST2.MajorModules.First.TwoComponent.get_HisKinase
         Dim RR = MiST2.MajorModules.First.TwoComponent.GetRR
         Dim Combos = (From hk As String In Hisk
@@ -188,8 +217,8 @@ Partial Module CLI
     <ExportAPI("--CrossTalks.Probability",
                Usage:="--CrossTalks.Probability /query <pfam-string.csv> /swiss <swissTCS_pfam-string.csv> [/out <out.CrossTalks.csv> /test <queryName>]")>
     Public Function CrossTalksCal(args As CommandLine.CommandLine) As Integer
-        Dim Query = args("/query").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToArray
-        Dim SwissTCS = args("/swiss").LoadCsv(Of Sanger.Pfam.PfamString.PfamString).ToArray
+        Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
+        Dim SwissTCS = args("/swiss").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
         Dim out As String = args.GetValue("/out", args("/query").TrimFileExt & ".CrossTalks.csv")
         Dim CrossTalks As New List(Of CrossTalks)
         Dim test As String = args("/test")
@@ -218,11 +247,11 @@ Partial Module CLI
     End Function
 
     Private Sub __getProbability(ByRef CrossTalks As List(Of CrossTalks),
-                                 query As Sanger.Pfam.PfamString.PfamString,
-                                 swissTCS As Sanger.Pfam.PfamString.PfamString())
-        Dim LQuery = (From record As Sanger.Pfam.PfamString.PfamString
+                                 query As Pfam.PfamString.PfamString,
+                                 swissTCS As Pfam.PfamString.PfamString())
+        Dim LQuery = (From record As Pfam.PfamString.PfamString
                       In swissTCS.AsParallel
-                      Select Sanger.Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(query, record, 0.95)).ToArray
+                      Select Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(query, record, 0.95)).ToArray
         LQuery = (From result In LQuery.AsParallel Where result.NumMatches >= 2 AndAlso result.MatchSimilarity >= 0.95 Select result).ToArray
 
         If LQuery.IsNullOrEmpty Then

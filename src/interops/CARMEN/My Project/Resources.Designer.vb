@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("LANS.SystemsBiology.AnalysisTools.CARMEN.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.Interops.CARMEN.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -147,7 +147,7 @@ Namespace My.Resources
         '''#  This file is distributed in the hope that it will be useful,
         '''#  but WITHOUT ANY WARRANTY; without even the implied warranty of
         '''#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        '''#  General Public License for more detail [rest of string was truncated]&quot;;.
+        '''#  General Public License for [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property KGML_reconstruction() As String
             Get
@@ -178,7 +178,7 @@ Namespace My.Resources
         '''C00016	FAD	Flavin adenine dinucleotide			
         '''C01352	FADH2				
         '''C00020	AMP	Adenosine 5&apos;-monophosphate			
-        '''C00575	cAMP	3&apos;,5&apos;- [rest of string was truncated]&quot;;.
+        '''C00575 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property metabolite_abbreviations() As String
             Get

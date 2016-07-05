@@ -1,24 +1,51 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Programs
+﻿#Region "Microsoft.VisualBasic::e4a10d818927ac1fc9366eefa5c2b2f5, ..\GCModeller\CLI_tools\MEME\Cli\MEME.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports MEME.Analysis
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Interops.NBCR
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -180,14 +207,14 @@ Partial Module CLI
     '    Call $"Start to scanning {MastSets.Length} mast records...".__DEBUG_ECHO
 
     '    Dim LQuery = (From mastFile In MastSets.AsParallel
-    '                  Let mm = mastFile.file.LoadXml(Of LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST)(ThrowEx:=False)
+    '                  Let mm = mastFile.file.LoadXml(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.MAST)(ThrowEx:=False)
     '                  Where mm Is Nothing' 加载出错说明没有生成mast文档，则可能是一个novel位点
     '                  Let memeFile = MEMESets(mastFile.id)
     '                  Let testEcho As String = memeFile.ToFileURL.__DEBUG_ECHO
     '                  Select mastFile, memeFile).ToArray
 
     '    Dim LoadNovels = (From file In LQuery.AsParallel
-    '                      Let memes = LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.Text.SafelyLoad(file.memeFile)
+    '                      Let memes = SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.Text.SafelyLoad(file.memeFile)
     '                      Where Not memes.IsNullOrEmpty
     '                      Select file.mastFile.id, memes).ToArray
 
@@ -246,7 +273,7 @@ Partial Module CLI
 
         If LocusFromFasta Then
             Dim fastaFile As String = source(ID)
-            Dim Fasta = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(fastaFile)
+            Dim Fasta = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(fastaFile)
             Dim GeneLocus As Dictionary(Of String, String) = Fasta.ToArray(
                 Function(fa) New With {
                     .key = fa.Title.Split().First,

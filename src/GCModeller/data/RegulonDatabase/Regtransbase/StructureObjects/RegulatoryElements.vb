@@ -1,8 +1,35 @@
-﻿Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+﻿#Region "Microsoft.VisualBasic::79a9eadf5eadc657308f7d2af02600d7, ..\GCModeller\data\RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Text
-Imports LANS.SystemsBiology.SequenceModel.FASTA.Reflection
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regtransbase.StructureObjects
 
@@ -175,13 +202,13 @@ Namespace Regtransbase.StructureObjects
             Return String.Format("{0} (Family:={1})", Name, Family)
         End Function
 
-        Public Shared Function ExportFasta(regulator As Regulator, Genes As Regtransbase.StructureObjects.Gene(), Optional TryAutoFixed As Boolean = False) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
+        Public Shared Function ExportFasta(regulator As Regulator, Genes As Regtransbase.StructureObjects.Gene(), Optional TryAutoFixed As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
             If regulator.GeneGuid Is Nothing OrElse regulator.GeneGuid = -1 Then
                 Return Nothing
             Else
-                Dim Fsa As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = New SequenceModel.FASTA.FastaToken
+                Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = New SequenceModel.FASTA.FastaToken
                 Dim Gene = (From g In Genes Where regulator.GeneGuid = g.Guid Select g).First
-                If LANS.SystemsBiology.SequenceModel.FASTA.FastaToken.IsProteinSource(Gene) Then
+                If SMRUCC.genomics.SequenceModel.FASTA.FastaToken.IsProteinSource(Gene) Then
                     Fsa.SequenceData = Gene.signature
                     Fsa.Attributes = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus, "*"}
                 Else
@@ -191,7 +218,7 @@ Namespace Regtransbase.StructureObjects
                     Else
                         Fsa.Attributes = New String() {"regulator", regulator.Guid, regulator.Family, String.Format("TypeGuid:={0}", regulator.RegulatorTypeGuid), regulator.Name, regulator.Consensus}
                     End If
-                    Fsa.SequenceData = LANS.SystemsBiology.SequenceModel.NucleotideModels.Translation.Translate(Fsa.SequenceData)
+                    Fsa.SequenceData = SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.Translate(Fsa.SequenceData)
                 End If
                 Return Fsa
             End If
@@ -202,12 +229,12 @@ Namespace Regtransbase.StructureObjects
         Public Function TryAssignSequence(Genes As Regtransbase.StructureObjects.Gene()) As Regulator
             If Not (Me.GeneGuid Is Nothing OrElse Me.GeneGuid = -1) Then
                 Dim Gene = (From g In Genes Where Me.GeneGuid = g.Guid Select g).First
-                If LANS.SystemsBiology.SequenceModel.FASTA.FastaToken.IsProteinSource(Gene) Then
+                If SMRUCC.genomics.SequenceModel.FASTA.FastaToken.IsProteinSource(Gene) Then
                     _SequenceData = Gene.signature
                 Else
                     _SequenceData = Gene.signature.ToUpper
                     Call Sites.FixSequenceError(_SequenceData)
-                    _SequenceData = LANS.SystemsBiology.SequenceModel.NucleotideModels.Translation.Translate(_SequenceData)
+                    _SequenceData = SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.Translate(_SequenceData)
                 End If
             End If
 
@@ -348,11 +375,11 @@ Namespace Regtransbase.StructureObjects
         <DatabaseField("regulator_guid")> Public Property RegulatorGuid As Integer?
         <DatabaseField("site_guid")> Public Overrides Property Guid As Integer
 
-        Public Shared Function ExportFasta(site As Sites, Optional TryAutoFixed As Boolean = False) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
+        Public Shared Function ExportFasta(site As Sites, Optional TryAutoFixed As Boolean = False) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
             If String.IsNullOrEmpty(site.Sequence) Then
                 Return Nothing
             Else
-                Dim Fsa As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = New SequenceModel.FASTA.FastaToken
+                Dim Fsa As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = New SequenceModel.FASTA.FastaToken
                 Fsa.SequenceData = site.Sequence.ToUpper
                 If TryAutoFixed AndAlso FixSequenceError(Fsa.SequenceData) Then '序列中包含有错误
                     Fsa.Attributes = New String() {"site", site.Guid, "tfrg", If(site.RegulatorGuid Is Nothing, -1, site.RegulatorGuid), site.Name, SEQUENCE_ERROR_FIXED}

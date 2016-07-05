@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' 查看程序集特性的值
 
 <Assembly: AssemblyTitle("Spiderman tools for cell system map operations")> 
-<Assembly: AssemblyDescription("LANS.SystemsBiology.AnalysisTools.CellSystemMap.Spiderman")> 
+<Assembly: AssemblyDescription("SMRUCC.genomics.AnalysisTools.CellSystemMap.Spiderman")> 
 <Assembly: AssemblyCompany("LANS")> 
 <Assembly: AssemblyProduct("Spiderman")> 
 <Assembly: AssemblyCopyright("Copyright ©  2014")> 

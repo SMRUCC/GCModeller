@@ -1,18 +1,47 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Parallel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BatchParallel
-Imports LANS.SystemsBiology.NCBI.Extensions.Analysis.BBHLogs
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.Localblast.Extensions.VennDiagram.BlastAPI
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Linq
+﻿#Region "Microsoft.VisualBasic::3e22b5e868f5ea69c2299d1f72890656, ..\interops\localblast\Tools\CLI\BBH.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Windows.Forms
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Partial Module CLI
 
@@ -27,7 +56,7 @@ Partial Module CLI
         Dim [in] As String = args("/query")
         Dim subject As String = args("/hit")
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & subject.BaseName & ".BBH_OUT/")
-        Dim localBlast As New LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+        Dim localBlast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
         Dim blastp As INVOKE_BLAST_HANDLE = localBlast.CreateInvokeHandle
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
         Dim nt As Integer = args.GetValue("/num_threads", -1)
@@ -112,8 +141,8 @@ Partial Module CLI
         Dim evalue As Double = args.GetValue("/evalue", 0.001)
         Dim coverage As Double = args.GetValue("/coverage", 0.85)
         Dim identities As Double = args.GetValue("/identities", 0.3)
-        Dim queryOUT = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.TryParseUltraLarge(query)
-        Dim subjectOUT = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.TryParseUltraLarge(subject)
+        Dim queryOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(query)
+        Dim subjectOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(subject)
         Dim bbh = BBHParser.GetDirreBhAll2(queryOUT.ExportAllBestHist(coverage, identities), subjectOUT.ExportAllBestHist(coverage, identities))
         Return bbh.SaveTo(out).CLICode
     End Function
@@ -185,7 +214,7 @@ Partial Module CLI
         End If
 
         Dim blastapp As String = GCModeller.FileSystem.GetLocalBlast
-        Dim blastplus As New LocalBLAST.Programs.BLASTPlus(blastapp)
+        Dim blastplus As New Programs.BLASTPlus(blastapp)
         Dim blastpHandle = blastplus.BuildBLASTP_InvokeHandle
         Dim outList = ParallelTask(queryDIR, out, evalue, blastpHandle, [overrides], numThreads)
 
@@ -321,3 +350,4 @@ Partial Module CLI
         Return locus.FlushAllLines(out).CLICode
     End Function
 End Module
+

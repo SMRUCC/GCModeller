@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3556527124cfeb01998a4515627dda5b, ..\Circos\Circos\ConfFiles\Nodes\SeperatorCircle.vb"
+﻿#Region "Microsoft.VisualBasic::f834225a2273fe4660a624bb9b315127, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\SeperatorCircle.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations.Nodes.Plots

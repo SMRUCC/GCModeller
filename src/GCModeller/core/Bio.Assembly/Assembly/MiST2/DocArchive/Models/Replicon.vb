@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd1f3e91249258958cb94bc1e0ae58be, ..\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Replicon.vb"
+﻿#Region "Microsoft.VisualBasic::62956066d670104a537b59f8f25713f2, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Replicon.vb"
 
     ' Author:
     ' 

@@ -1,8 +1,35 @@
-﻿Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents
-Imports Microsoft.VisualBasic.IEnumerations
+﻿#Region "Microsoft.VisualBasic::978b15158d4801a2e72ae19e026ab42d, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\TransportationFlux.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports Microsoft.VisualBasic.IEnumerations
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 
 Namespace EngineSystem.ObjectModels.Module
 
@@ -93,7 +120,7 @@ DEBUG:          FluxValue = KineticsModel.GetValue
         ''' <param name="Compartments"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function CreateObject(FluxModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction,
+        Public Overloads Shared Function CreateObject(FluxModel As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction,
                                                       Enzymes As Feature.MetabolismEnzyme(),
                                                       EnzymeKinetics As MathematicsModels.EnzymeKinetics.MichaelisMenten,
                                                       Compartments As ObjectModels.SubSystem.ICompartmentObject(),
@@ -131,19 +158,19 @@ DEBUG:          FluxValue = KineticsModel.GetValue
             End If
         End Function
 
-        Protected Friend Shared Function __createRefernece(ModelBase As Generic.IEnumerable(Of ComponentModels.CompoundSpeciesReference),
+        Protected Friend Shared Function __createRefernece(ModelBase As Generic.IEnumerable(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference),
                                                            Compartments As ObjectModels.SubSystem.ICompartmentObject(),
                                                            DefaultCompartment As SubSystem.ICompartmentObject) As [Module].EquationModel.CompoundSpecieReference()
 
             Dim LQuery As [Module].EquationModel.CompoundSpecieReference() = (
-                From itemObject As ComponentModels.CompoundSpeciesReference
+                From itemObject As GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference
                 In ModelBase
                 Select __creates(Compartments, itemObject, DefaultCompartment)).ToArray
             Return LQuery
         End Function
 
         Private Shared Function __creates(Compartments As ObjectModels.SubSystem.ICompartmentObject(),
-                                          itemObject As ComponentModels.CompoundSpeciesReference,
+                                          itemObject As GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference,
                                           DefaultCompartment As SubSystem.ICompartmentObject) As [Module].EquationModel.CompoundSpecieReference
             Dim Compartment = Compartments.GetCompartment(itemObject.CompartmentId)
             If Compartment Is Nothing Then

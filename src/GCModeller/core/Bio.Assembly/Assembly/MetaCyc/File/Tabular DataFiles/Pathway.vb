@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c43dd3676964637383cca58141b4a910, ..\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::2e7b12813c2042415872044555bf4f84, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\Pathway.vb"
 
     ' Author:
     ' 

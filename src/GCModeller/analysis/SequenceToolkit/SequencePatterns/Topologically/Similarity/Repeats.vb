@@ -1,14 +1,42 @@
-﻿Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.AnalysisTools.SequenceTools.SequencePatterns.Pattern
+﻿#Region "Microsoft.VisualBasic::6f1117d8b33b26a117505cc376987738, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Topologically.SimilarityMatches
 
@@ -52,13 +80,14 @@ Namespace Topologically.SimilarityMatches
                                    .ToDictionary(Function(obj) obj.Name,
                                                  Function(obj) obj.x)
             Dim Seeds = (From obj In SeedsData Select obj.Key).ToArray
+            Dim setValue As New SetValue(Of LociMatchedResult)
             Dim Repeats As LociMatchedResult() =
                 LinqAPI.Exec(Of LociMatchedResult) <= From lociSegment As LociMatchedResult
                                                       In __matchLociLocation(Sequence, Seeds)
                                                       Let Score As Double = SeedsData(lociSegment.Matched)
-                                                      Select lociSegment _
-                                                          .InvokeSet(NameOf(lociSegment.Similarity), Score) _
-                                                          .InvokeSet(NameOf(lociSegment.Loci), loci)
+                                                      Select setValue _
+                                                          .InvokeSetValue(lociSegment, NameOf(lociSegment.Similarity), Score) _
+                                                          .InvokeSet(NameOf(lociSegment.Loci), loci).obj
             Return Repeats
         End Function
 
@@ -180,14 +209,17 @@ Namespace Topologically.SimilarityMatches
 
             Call $"{Repeats.Length} repeats loci!".__DEBUG_ECHO
 
+            Dim setValue As New SetValue(Of LociMatchedResult)
             Dim LQuery As LociMatchedResult() =
                 LinqAPI.Exec(Of LociMatchedResult) <= From Group
                                                       In Repeats.AsParallel
                                                       Let data = (From loci As LociMatchedResult
                                                                   In Group.repeatsCollection.AsParallel
-                                                                  Let Score As Double = Group.InternalSeeds(loci.Matched)
-                                                                  Select loci.InvokeSet(NameOf(loci.Similarity), Score) _
-                                                                             .InvokeSet(NameOf(loci.Loci), Group.Loci)).ToArray
+                                                                  Let Score As Double =
+                                                                      Group.InternalSeeds(loci.Matched)
+                                                                  Select setValue _
+                                                                      .InvokeSetValue(loci, NameOf(loci.Similarity), Score) _
+                                                                      .InvokeSet(NameOf(loci.Loci), Group.Loci).obj).ToArray
                                                       Select data
 
             Call $"Finally generate {LQuery.Length} repeats loci data!".__DEBUG_ECHO
@@ -234,7 +266,8 @@ Namespace Topologically.SimilarityMatches
                                Loci,
                                repeatsCollection = __matchLociLocation(Sequence, InternalSeedsSegment)).ToArray '遍历种子，进行全序列扫描
 
-            '反向重复的
+            ' 反向重复的
+            Dim setValue As New SetValue(Of LociMatchedResult)
             Dim LQuery As ReversedLociMatchedResult() =
                 LinqAPI.Exec(Of ReversedLociMatchedResult) <=
                     From Group
@@ -243,8 +276,9 @@ Namespace Topologically.SimilarityMatches
                            In Group.repeatsCollection.AsParallel
                            Let Score As Double = Group.InternalSeeds(Loci.Matched)
                            Let LociResult =
-                               Loci.InvokeSet(NameOf(Loci.Similarity), Score) _
-                                   .InvokeSet(NameOf(Loci.Loci), Group.Loci)
+                               setValue _
+                                   .InvokeSetValue(Loci, NameOf(Loci.Similarity), Score) _
+                                   .InvokeSet(NameOf(Loci.Loci), Group.Loci).obj
                            Select ReversedLociMatchedResult.GenerateFromBase(LociResult)
             Return LQuery
         End Function

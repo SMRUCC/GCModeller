@@ -1,26 +1,33 @@
-﻿Imports System.Reflection
+﻿#Region "Microsoft.VisualBasic::485ac8bf4eb5f2d69945812106d9e561, ..\interops\meme_suite\MEME\Analysis\HtmlMatchs.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints.VirtualFootprints
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.ComponentModel
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.CsvExports
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.DatabaseServices
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.WGCNA
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.WGCNA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -29,6 +36,26 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Analysis
 
@@ -69,7 +96,7 @@ Namespace Analysis
         Public Function Match(<Parameter("MEME.Xml", "The xml file path of the meme program output.")> MEMEXml As String,
                               <Parameter("MAST.html", "The HTML file path of the mast output.")> MASTHtml As String,
                               <Parameter("Os.Fasta.Path", "The fasta file path of the bacteria whole genome nucleotide sequence data.")> Genome As String,
-                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneDumpInfo)) As GenomeMotifFootPrints.VirtualFootprints()
+                              <Parameter("CDS.Info")> CDSInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
 
             Dim MEME = MEMEXml.LoadXml(Of XmlOutput.MEME.MEME)().ToMEMEHtml
             Dim GenomeFasta As FASTA.FastaToken = FASTA.FastaToken.Load(Genome)
@@ -251,7 +278,7 @@ Namespace Analysis
         Private Function __match(meme As MEME.HTML.MEMEHtml,
                                  masthtml As String,
                                  genome As SequenceModel.FASTA.FastaToken,
-                                 cdsInfo As IEnumerable(Of GeneDumpInfo)) As GenomeMotifFootPrints.VirtualFootprints()
+                                 cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
             Try
                 Return ____match(meme, masthtml, genome, cdsInfo)
             Catch ex As Exception
@@ -259,18 +286,18 @@ Namespace Analysis
                 ex = New Exception(trace, ex)
                 Call ex.PrintException
                 Call App.LogException(ex, MethodBase.GetCurrentMethod.GetFullName & "::ERROR-Thread.log")
-                Return New GenomeMotifFootPrints.VirtualFootprints() {}
+                Return New VirtualFootprints() {}
             End Try
         End Function
 
         Private Function ____match(meme As MEME.HTML.MEMEHtml,
                                    masthtml As String,
                                    genome As SequenceModel.FASTA.FastaToken,
-                                   cdsInfo As IEnumerable(Of GeneDumpInfo)) As GenomeMotifFootPrints.VirtualFootprints()
+                                   cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
             Dim Reader As SegmentReader = New SegmentReader(genome, False)
             Dim MAST = DocumentFormat.MAST.HTML.LoadDocument_v410(masthtml, False)
             Dim result = DocumentFormat.MAST.HTML.MatchMEMEAndMast(meme, MAST)
-            Dim Footprints As GenomeMotifFootPrints.VirtualFootprints() = (
+            Dim Footprints As VirtualFootprints() = (
                 From motif As MEMEOutput
                 In result
                 Select __createMotifSiteInfo(Of GeneDumpInfo)(
@@ -357,7 +384,7 @@ Namespace Analysis
 
             Call Console.WriteLine("Start to load data of Pcc values from the chipdata!")
             Dim Pcc As PccMatrix = CreatePccMAT(ChipData, True)
-            Dim DoorOperons = LANS.SystemsBiology.Assembly.DOOR.Load(Door).DOOROperonView
+            Dim DoorOperons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
 
             Dim RegulatorIdList As String() = (From item In RegulatorsBestMatch Select item.QueryName Distinct).ToArray
             Call WGCNAWeights.Filtering(RegulatorIdList)
@@ -513,11 +540,10 @@ Namespace Analysis
                 MEME_out,
                 MAST_out,
                 FastaFileDir,
-                RegpreciseTFBS:=LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Regprecise_TFBS))  '所保存的结果Csv文件
+                RegpreciseTFBS:=SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Regprecise_TFBS))  '所保存的结果Csv文件
 
-            Dim RegulatorsBestMatch As LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH() =
-            bh.LoadCsv(Of LANS.SystemsBiology.DatabaseServices.Regprecise.RegpreciseMPBBH).ToArray
-            Dim DoorOperons = LANS.SystemsBiology.Assembly.DOOR.Load(Door).DOOROperonView
+            Dim RegulatorsBestMatch As Regprecise.RegpreciseMPBBH() = bh.LoadCsv(Of Regprecise.RegpreciseMPBBH).ToArray
+            Dim DoorOperons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
             Dim RegulatorIdList As String() = (From item In RegulatorsBestMatch Select item.QueryName Distinct).ToArray
 
             Call Console.WriteLine("Thread ""{0}"" started!", ExportedData)
@@ -532,7 +558,7 @@ Namespace Analysis
         End Function
 
         Private Function __assignOperonInfo(item As MatchedResult,
-                                            DoorOperons As LANS.SystemsBiology.Assembly.DOOR.OperonView) As MatchedResult
+                                            DoorOperons As SMRUCC.genomics.Assembly.DOOR.OperonView) As MatchedResult
             If Not DoorOperons.ContainsOperon(item.DoorId) Then
                 Call $"{item.DoorId} is not exists in the operons data!".__DEBUG_ECHO
             Else

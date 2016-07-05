@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::859e4b7e8fc76e571f6e1f4cbb1956ad, ..\Circos\Circos\Karyotype\Karyotype.vb"
+﻿#Region "Microsoft.VisualBasic::31c6eaa60ae32c1c68ecb015721bb797, ..\interops\visualize\Circos\Circos\Karyotype\Karyotype.vb"
 
     ' Author:
     ' 
@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Karyotype
 

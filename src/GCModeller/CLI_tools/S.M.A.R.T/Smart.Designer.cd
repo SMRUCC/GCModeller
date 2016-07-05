@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.CommandLines" Collapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.CommandLines" Collapsed="true">
     <Position X="12.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAACABAAAAIAABAAAAAAAQAgAAAEAAAAAAAQ=</HashCode>
       <FileName>CommandLines\CommandLines.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.QueryResult" Collapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.QueryResult" Collapsed="true">
     <Position X="12.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CommandLines\CommandLines.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.DomainTag" Collapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.DomainTag" Collapsed="true">
     <Position X="14" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAEAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>CommandLines\Filters.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.Database" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.Database" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="14" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAoAAgACACAAAAUkEAAAAAAAAAEBAAAAAAEAggAAAQg=</HashCode>
@@ -29,7 +29,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.AnalysisService">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.AnalysisService">
     <Position X="3.75" Y="0.5" Width="4.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAGAAAAAEACAAAAAAAAAAAAAAgAAAAgAAAAA=</HashCode>
@@ -37,28 +37,28 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.DomainInfo" Collapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.DomainInfo" Collapsed="true">
     <Position X="15.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAgAEAEAAAAAABAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>DomainArchitecture\Domain.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.DomainModularArchitecture" Collapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.DomainModularArchitecture" Collapsed="true">
     <Position X="12.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAMAEAAAAABBAAIAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>DomainArchitecture\Domain.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.SMARTLog" Collapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.SMARTLog" Collapsed="true">
     <Position X="15.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAABABAAAAAAAAAAA=</HashCode>
       <FileName>DomainArchitecture\Domain.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.DomainQuery">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.DomainQuery">
     <Position X="5.75" Y="3.5" Width="5.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAAAEAAAAAAAABAAAAQAAQEgAAAAAAAAAAAA=</HashCode>
@@ -66,7 +66,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.ModularArchitecture">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.ModularArchitecture">
     <Position X="0.5" Y="3.5" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
@@ -74,7 +74,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.Settings" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.Settings" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="14" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgIAAAEAAAAAAAAAAAAAAAAAEAAAAAAAAABgAAAA=</HashCode>
@@ -82,40 +82,40 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.My.MySettings" Collapsed="true">
+  <Class Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.My.MySettings" Collapsed="true">
     <Position X="15.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Module Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.DEBUG" Collapsed="true">
+  <Module Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.DEBUG" Collapsed="true">
     <Position X="12.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>DEBUG.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.Extensions" Collapsed="true">
+  <Module Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.Extensions" Collapsed="true">
     <Position X="14" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAgAAAAAAAAAAAAAAAQAAAAAgAAAAMAA=</HashCode>
       <FileName>Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.Program" Collapsed="true">
+  <Module Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.Program" Collapsed="true">
     <Position X="12.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAgAAABAAAAAA=</HashCode>
       <FileName>Program.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.My.Resources.Resources" Collapsed="true">
+  <Module Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.My.Resources.Resources" Collapsed="true">
     <Position X="14" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
-  <Module Name="LANS.SystemsBiology.EBI.EMBL.Application.ProteinModularArchitecture.My.MySettingsProperty" Collapsed="true">
+  <Module Name="SMRUCC.genomics.EBI.EMBL.Application.ProteinModularArchitecture.My.MySettingsProperty" Collapsed="true">
     <Position X="15.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>

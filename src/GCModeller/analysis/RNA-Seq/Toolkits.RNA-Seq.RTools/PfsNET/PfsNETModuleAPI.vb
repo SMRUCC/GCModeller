@@ -1,19 +1,46 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::b83fcd05751606be327f6ea14339d4f6, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\PfsNETModuleAPI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic
-Imports System.Text
-Imports RDotNET
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports LANS.SystemsBiology.AnalysisTools
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema.PathwayBrief
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet
-Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports RDotNet
+Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Analysis.PFSNet.PFSNet
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
 
 #Const DEBUG = True
 
@@ -190,7 +217,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("pathway_genelist.create_from")>
-        Public Function CreateList(pathwaydata As Generic.IEnumerable(Of LANS.SystemsBiology.ComponentModel.PathwayBrief), Optional pathwayIds As Object() = Nothing) _
+        Public Function CreateList(pathwaydata As Generic.IEnumerable(Of SMRUCC.genomics.ComponentModel.PathwayBrief), Optional pathwayIds As Object() = Nothing) _
             As String()
 
             Dim strPathwayIds As String()
@@ -301,18 +328,18 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         End Function
 
         <ExportAPI("set.pfsnet_evaluate_handle")>
-        Public Function set_Handle(handle As CellularNetwork.PFSNet.PFSNetEvaluateHandle) As Boolean
+        Public Function set_Handle(handle As Analysis.PFSNet.PFSNetEvaluateHandle) As Boolean
             PfsNETModuleAPI.PFSNet_EvaluateHandle = handle
             Return True
         End Function
 
         <ExportAPI("Get.Handle.PfsNET_Evaluate(VB_Implements)")>
-        Public Function get_PFSNet_VB_Handle() As LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet.PFSNetEvaluateHandle
-            Return AddressOf LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet.pfsnet
+        Public Function get_PFSNet_VB_Handle() As Analysis.PFSNet.PFSNetEvaluateHandle
+            Return AddressOf Analysis.PFSNet.PFSNet.pfsnet
         End Function
 
         <ExportAPI("Get.Handle.PfsNET_Evaluate(R_Implements)")>
-        Public Function get_PFSNet_R_Handle() As LANS.SystemsBiology.AnalysisTools.CellularNetwork.PFSNet.PFSNet.PFSNetEvaluateHandle
+        Public Function get_PFSNet_R_Handle() As Analysis.PFSNet.PFSNetEvaluateHandle
             Return AddressOf PfsNETRInvoke.Evaluate
         End Function
 
@@ -322,7 +349,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                                           pathways As IKeyValuePairObject(Of String, String())(),
                                           export As String) As Integer
 
-            Dim ComboList = Microsoft.VisualBasic.ComponentModel.Comb(Of String).CreateObject(IO.File.ReadAllLines(phenList))
+            Dim ComboList = Comb(Of String).CreateObject(IO.File.ReadAllLines(phenList))
             Dim GeneList = CreateList(pathways)
             Dim file3 As String = ""
 
@@ -364,7 +391,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         <ExportAPI("generate.csv_result")>
         Public Function ParseCsv([Imports] As String, PathwayBriefs As String) As SubNETCsvObject()
             Dim DictPathwayBriefs As Dictionary(Of String, ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, LANS.SystemsBiology.ComponentModel.PathwayBrief)
+                New Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief)
             For Each item In PathwayBriefs.LoadCsv(Of PathwayBrief)(False)
                 Call DictPathwayBriefs.Add(item.EntryId, item)
             Next
@@ -386,9 +413,9 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("export.csv_result", Info:="export the pfsnet data log file into the csv data file.")>
-        Public Function ParseCsv([imports] As String, PathwayBriefs As Generic.IEnumerable(Of LANS.SystemsBiology.ComponentModel.PathwayBrief)) As SubNETCsvObject()
-            Dim DictPathwayBriefs As Dictionary(Of String, LANS.SystemsBiology.ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, LANS.SystemsBiology.ComponentModel.PathwayBrief)
+        Public Function ParseCsv([imports] As String, PathwayBriefs As Generic.IEnumerable(Of SMRUCC.genomics.ComponentModel.PathwayBrief)) As SubNETCsvObject()
+            Dim DictPathwayBriefs As Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief) =
+                New Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief)
 
             For Each item In PathwayBriefs
                 Call DictPathwayBriefs.Add(item.EntryId, item)

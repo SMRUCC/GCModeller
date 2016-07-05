@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12ae399ce05490a009f9385d2b496ee9, ..\Circos\Circos\TrackDatas\Adapter\Highlights\Highlights.vb"
+﻿#Region "Microsoft.VisualBasic::1e4e979eb7565acb8537fc7e22948a42, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Highlights.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Drawing
-Imports LANS.SystemsBiology.ComponentModel
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace TrackDatas.Highlights
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d56488a8215dfd7fec45d12e3c265e3d, ..\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
+﻿#Region "Microsoft.VisualBasic::7693795526adfe2c71f2ba7e294d9982, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
 
     ' Author:
     ' 

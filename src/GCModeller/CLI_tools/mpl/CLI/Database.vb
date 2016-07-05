@@ -1,10 +1,40 @@
-﻿Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+﻿#Region "Microsoft.VisualBasic::0b8604b8d8e998b03a4b1d56de04784f, ..\GCModeller\CLI_tools\mpl\CLI\Database.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports ProteinTools.Interactions.CLI
+Imports SMRUCC.genomics.Analysis.ProteinTools
+Imports SMRUCC.genomics.Assembly.KEGG.Archives
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -44,10 +74,10 @@ Partial Module CLI
                    Description:="It is not recommended to modify this value. The greater of this value, the more strict of the interaction scoring. level 5 is enough.")>
     Public Function BuildSignature(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim aln As New SequenceModel.FASTA.FastaFile(inFile)
+        Dim aln As New FASTA.FastaFile(inFile)
         Dim level As Integer = args.GetValue("/level", 5)
         Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Signature.Xml")
-        Dim ppiCategory = Interactions.Category.FromAlign(aln, level:=level, cutoff:=1,
+        Dim ppiCategory = Category.FromAlign(aln, level:=level, cutoff:=1,
                                                        name:=IO.Path.GetFileNameWithoutExtension(inFile))
         Call ppiCategory.GetXml.SaveTo(out)
         Call ppiCategory.GetSignatureFasta.Save(out.TrimFileExt & ".fasta")

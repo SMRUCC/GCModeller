@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f64c7a503df062d33119a415311c65dd, ..\Bio.Assembly\SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb"
+﻿#Region "Microsoft.VisualBasic::f64c7a503df062d33119a415311c65dd, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb"
 
     ' Author:
     ' 

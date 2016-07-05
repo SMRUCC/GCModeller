@@ -1,6 +1,34 @@
-﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+﻿#Region "Microsoft.VisualBasic::84d28104d8d4e8356e8e064ffb1d5163, ..\GCModeller\CLI_tools\ProteinInteraction\_DEBUG_MAIN.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
 Imports System.Text
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions
 
 Module _DEBUG_MAIN
     Private Sub ffff()
@@ -64,13 +92,13 @@ Module _DEBUG_MAIN
     Sub Main()
 
         'Call ffff()
-        'Dim svq = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.TryParse("E:\Desktop\dip_vs_8004.txt").ExportAllBestHist
-        'Dim qvs = LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.TryParse("E:\Desktop\8004_vs_dip.txt").ExportAllBestHist
+        'Dim svq = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.TryParse("E:\Desktop\dip_vs_8004.txt").ExportAllBestHist
+        'Dim qvs = SMRUCC.genomics.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.TryParse("E:\Desktop\8004_vs_dip.txt").ExportAllBestHist
 
         'Call svq.Save("x:\dddddd.csv")
         'Call qvs.Save("x:\fhfhfhfhfhfh.csv")
 
-        'Call LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BidirBestHitBLAST.GetDiReBh2(svq, qvs).Save("x:\ddd.csv")
+        'Call SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BidirBestHitBLAST.GetDiReBh2(svq, qvs).Save("x:\ddd.csv")
 
         Dim nn As New DataPreparations("./data/xc8004pro", "./data/dip", "E:\BLAST\bin", "C:\Program Files\R\R-3.1.0\bin", "E:\Desktop\clustal-omega-1.2.0-win32\clustal-omega-1.2.0-win32\clustalo.exe", "e:\desktop\dip\temp")
         Call nn.InferInteraction("XC_1184").Save("x:\xc_1184.csv", False)
@@ -103,11 +131,11 @@ Module _DEBUG_MAIN
 
 
 
-    Public Sub Convert(dipFasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
-        Dim chunkBuffer As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken() =
-            New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken(dipFasta.Count - 1) {}
+    Public Sub Convert(dipFasta As SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
+        Dim chunkBuffer As SMRUCC.genomics.SequenceModel.FASTA.FastaToken() =
+            New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(dipFasta.Count - 1) {}
         For i As Integer = 0 To chunkBuffer.Count - 1
-            Dim fsaObj = New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
+            Dim fsaObj = New SMRUCC.genomics.SequenceModel.FASTA.FastaToken
             Dim oldFsa = dipFasta(i)
 
             fsaObj.SequenceData = oldFsa.SequenceData
@@ -130,3 +158,4 @@ Module _DEBUG_MAIN
         Call dipFasta.Save()
     End Sub
 End Module
+

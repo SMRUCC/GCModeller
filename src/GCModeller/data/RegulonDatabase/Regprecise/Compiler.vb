@@ -1,9 +1,36 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::f118f987afa624428a3c52336e959ea6, ..\GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise.WebServices
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
 
@@ -77,7 +104,7 @@ Namespace Regprecise
             Dim MEME As String = repository & "/MEME"
             Dim LQuery = (From genome As WebServices.JSONLDM.genome
                               In Regprecise.AsParallel
-                          Let fasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile = FetchRegulators(genome, repository)
+                          Let fasta As SMRUCC.genomics.SequenceModel.FASTA.FastaFile = FetchRegulators(genome, repository)
                           Where Not fasta.IsNullOrEmpty
                           Select fasta.Save($"{MEME}/bbh/{genome.name.NormalizePathString.Replace(" ", "_")}.fasta")).ToArray  ' 调控因子的序列按照基因组保存，以方便建立bbh分析
             'sites则是按照调控因子的家族分类，以方便meme建模
@@ -201,9 +228,9 @@ Namespace Regprecise
 
         Private Sub __export(Family As String, sites As List(Of FastaReaders.Site), repositoryDIR As String)
             Dim path As String = $"{repositoryDIR}/MEME/pwm/{Family}.fasta"
-            Dim siteFa = sites.ToArray(Function(site) DirectCast(site, LANS.SystemsBiology.SequenceModel.FASTA.FastaToken))
-            Dim Fasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
-            Fasta = CType(siteFa, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+            Dim siteFa = sites.ToArray(Function(site) DirectCast(site, SMRUCC.genomics.SequenceModel.FASTA.FastaToken))
+            Dim Fasta As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
+            Fasta = CType(siteFa, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
             Call Console.Write("+")
             Call Fasta.Save(path)
         End Sub
@@ -237,13 +264,13 @@ Namespace Regprecise
                     End If
 
                     Dim path As String = $"{repository}/MEME/pwm/{familyGroup.First.regulatorFamily}.part{i - 1}.fasta"  ' 和前面的合并
-                    Dim Fasta = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(path)
+                    Dim Fasta = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(path)
                     Call Fasta.AddRange(temp)
                     Call Fasta.Save(path)
                 Else
 SAVE:               Dim path As String = $"{repository}/MEME/pwm/{familyGroup.First.regulatorFamily}.part{i}.fasta"
-                    Dim siteFa = temp.ToArray(Function(site) DirectCast(site, LANS.SystemsBiology.SequenceModel.FASTA.FastaToken))
-                    Dim Fasta = CType(siteFa, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Dim siteFa = temp.ToArray(Function(site) DirectCast(site, SMRUCC.genomics.SequenceModel.FASTA.FastaToken))
+                    Dim Fasta = CType(siteFa, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                     Call Fasta.Save(path)
                     Call temp.Clear()
                 End If
@@ -258,7 +285,7 @@ SAVE:               Dim path As String = $"{repository}/MEME/pwm/{familyGroup.Fi
             Dim sites = path.LoadXml(Of WebServices.JSONLDM.site())
             Dim Fasta = (From site As WebServices.JSONLDM.site
                              In sites
-                         Let siteFasta = LANS.SystemsBiology.DatabaseServices.Regprecise.FastaReaders.Site.CreateFrom(site, regulon.genomeName)
+                         Let siteFasta = FastaReaders.Site.CreateFrom(site, regulon.genomeName)
                          Select siteFasta).ToArray
             Return Fasta
         End Function

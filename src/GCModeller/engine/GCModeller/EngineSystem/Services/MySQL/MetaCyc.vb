@@ -1,4 +1,31 @@
-﻿'Imports System.Text
+﻿#Region "Microsoft.VisualBasic::39f41fbf851b4ad0d098db902a22cd5c, ..\GCModeller\engine\GCModeller\EngineSystem\Services\MySQL\MetaCyc.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+'Imports System.Text
 
 'Namespace EngineSystem.Services.MySQL
 
@@ -16,10 +43,10 @@
 '        ''' (已经编译好的MetaCyc数据库模型)
 '        ''' </summary>
 '        ''' <remarks></remarks>
-'        Dim MetaCyc As LANS.SystemsBiology.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.MetaCyc
+'        Dim MetaCyc As SMRUCC.genomics.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.MetaCyc
 
 '        Public Sub CompileMetaCyc(Dir As String)
-'            MetaCyc = LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.Compilers.MetaCyc.Compile(Dir)
+'            MetaCyc = SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.Compilers.MetaCyc.Compile(Dir)
 '        End Sub
 
 '        ''' <summary>
@@ -51,13 +78,13 @@
 '        ''' The data collection to write to the database.(将要写入数据库的目标数据集)
 '        ''' </param>
 '        ''' <remarks></remarks>
-'        Private Sub Write(Table As String, Data As Generic.IEnumerable(Of LANS.SystemsBiology.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.DataModel))
+'        Private Sub Write(Table As String, Data As Generic.IEnumerable(Of SMRUCC.genomics.GCModeller.ModellingEngine.DataModel.Files.MetaCyc.DataModel))
 '            Dim p As Long = MYSQl.GetMaxHandle(Table) + 1
 
 '            MYSQl.Table = Table
 
 '            For Each row In Data
-'                MYSQl.Insert(New LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.MySQL.DataModelRecord With {
+'                MYSQl.Insert(New SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL.DataModelRecord With {
 '                             .GUID = row.GenerateGuid, .RegistryNumber = p, .DataModel = GetXmlModel(row)
 '                    }, PendingTransaction:=True)
 '                p += 1
@@ -69,4 +96,5 @@
 '        End Operator
 '    End Class
 'End Namespace
+
 

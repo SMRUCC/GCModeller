@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("LANS.SystemsBiology.GCModeller.Workbench.ReportBuilder.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -91,7 +91,7 @@ Namespace My.Resources
         '''  width: 90.063em; }
         '''
         '''meta.foundation-mq-xxlarge {
-        '''  font-family: &quot;/only screen and [rest of string was truncated]&quot;;.
+        '''  font-famil [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property foundation() As String
             Get
@@ -102,7 +102,7 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         '''&lt;!-- saved from url=(0052)http://foundation.zurb.com/templates/workspace.html# --&gt;
-        '''&lt;html class=&quot; js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionsto [rest of string was truncated]&quot;;.
+        '''&lt;html class=&quot; js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessions [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property index() As String
             Get

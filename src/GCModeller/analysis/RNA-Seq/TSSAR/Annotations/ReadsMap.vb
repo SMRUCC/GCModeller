@@ -1,20 +1,48 @@
-﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
+﻿#Region "Microsoft.VisualBasic::62db8e080057229bb166385686058d02, ..\GCModeller\analysis\RNA-Seq\TSSAR\Annotations\ReadsMap.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports Microsoft.VisualBasic
-Imports Oracle.Java.IO.Properties.Reflector
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.BOW.DocumentFormat.SAM.DocumentElements
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap
-Imports LANS.SystemsBiology.Assembly.DOOR
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Oracle.Java.IO.Properties.Reflector
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
+Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
+Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.ChromosomeMap
 
 ''' <summary>
 ''' 统计一个rna-seq文库之中的每一个碱基的频数
@@ -55,7 +83,7 @@ Public Module ReadsMap
     ''' <returns></returns>
     ''' 
     <ExportAPI("Map.Drawing")>
-    Public Function MapDrawing(SAM As DocumentFormat.SAM.SAM,
+    Public Function MapDrawing(SAM As SAM,
                                <Parameter("Range.Start")> RangeStart As Long,
                                <Parameter("Range.Ends")> RangeEnds As Long,
                                PTT As PTT,
@@ -89,7 +117,7 @@ Public Module ReadsMap
 
         '首先在这里生成基因组片段的绘图模型
         Dim Model = ChromesomeMapAPI.FromPttElements(ScreeningGenes, Config, Ranges.FragmentSize)
-        'Dim Device = LANS.SystemsBiology.AnalysisTools.DataVisualization.ChromosomeMap.CreateDevice(Config)
+        'Dim Device = SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.CreateDevice(Config)
         'Dim res = Device.InvokeDrawing(Model).Value.First
 
         Dim Gr = New Size(Ranges.FragmentSize + Config.Margin * 4, Config.Margin * 2 * 4 + 2 * Config.Margin).CreateGDIDevice
@@ -170,7 +198,7 @@ Public Module ReadsMap
     End Function
 
     <ExportAPI("TSS.rdDepth")>
-    Public Function TSSStatics(SAM As DocumentFormat.SAM.SAM, PTT As PTT, Optional Debug As Boolean = False, Optional DOOR As DOOR = Nothing) As DocumentStream.File
+    Public Function TSSStatics(SAM As SAM, PTT As PTT, Optional Debug As Boolean = False, Optional DOOR As DOOR = Nothing) As DocumentStream.File
         Dim TSSPossibleLocation = (From Gene As ComponentModels.GeneBrief
                                        In PTT.GeneObjects
                                    Let Loci = GetLocation(Gene)
@@ -285,3 +313,4 @@ Public Module ReadsMap
     End Function
 
 End Module
+

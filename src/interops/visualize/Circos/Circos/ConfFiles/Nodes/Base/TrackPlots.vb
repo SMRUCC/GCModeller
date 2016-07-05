@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77d856571f1150ea754dfdd8a3f3f82d, ..\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
+﻿#Region "Microsoft.VisualBasic::abeb31ffebfee646aa0f8b53a1c4f1e5, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Base\TrackPlots.vb"
 
     ' Author:
     ' 
@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
@@ -223,4 +223,3 @@ Namespace Configurations.Nodes.Plots
         End Function
     End Class
 End Namespace
-

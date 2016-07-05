@@ -1,4 +1,31 @@
-﻿Public Module Circos
+﻿#Region "Microsoft.VisualBasic::dd6e7a44e5e3bfb3ff32c0c03e1221b4, ..\GCModeller\CLI_tools\c2\NetworkVisualization\Circos.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Public Module Circos
     Public Function GenerateLinkFile(File As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File, Genome As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile) As String()
 
         Dim LQuery = (From row In File.Skip(1) Where Not String.IsNullOrEmpty(row(5)) Select row).ToArray '筛选出匹配上调控因子的行
@@ -57,3 +84,4 @@
         Return (From s In LinkList Select s Distinct).ToArray
     End Function
 End Module
+

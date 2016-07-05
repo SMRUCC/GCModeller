@@ -1,16 +1,44 @@
-﻿Imports System.Text
+﻿#Region "Microsoft.VisualBasic::9eabb2a2c0a30d2d5d511aa4ecd5a4ef, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CompileDomains.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD.DomainInfo
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.InteropService
-Imports LANS.SystemsBiology.ProteinModel
-Imports LANS.SystemsBiology.SequenceModel
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.Assembly.NCBI.CDD.DomainInfo
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.InteropService
+Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel
 
 Public Class CompileDomains
 
@@ -114,7 +142,7 @@ Public Class CompileDomains
                          Let Idx As Long = Val(Regex.Match(Hit.Id, "\d+").Value)
                          Let SmpFile = DomainInfo.Query(SubjectDb(Idx - 1).Attributes(1), CddDb)
                          Select New DomainObject(SmpFile) With {
-                             .Position = New ComponentModel.Loci.Location() With {
+                             .Position = New Location() With {
                                     .Left = Val(Hit.Hsps.First.HitFrom),
                                     .Right = Val(Hit.Hsps.Last.HitTo)
                              }
@@ -133,7 +161,7 @@ End Class
 <XmlRoot("SMART.DB", Namespace:="http://code.google.com/p/genome-in-code/protein-domains/smart_db")>
 Public Class SMARTDB
     '请注意： 实现这个接口会让XML序列化比较困难
-    ' Implements Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.ProteinDomainArchitecture)
+    ' Implements Generic.IEnumerable(Of SMRUCC.genomics.Assembly.ProteinDomainArchitecture)
 
     <XmlElement> Public Property Proteins As Protein()
 

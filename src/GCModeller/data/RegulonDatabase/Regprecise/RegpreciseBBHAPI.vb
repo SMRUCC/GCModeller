@@ -1,19 +1,48 @@
-﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::d81daecca93b42e8513b3eee3de3083a, ..\GCModeller\data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Text
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.Xfam.Pfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
+Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise
 
@@ -112,7 +141,7 @@ Namespace Regprecise
         Public Function Match(RegpreciseRegulators As FASTA.FastaFile,
                               RegpreciseTfbs As FASTA.FastaFile,
                               Query As FASTA.FastaFile,
-                              LocalBLAST As NCBI.Extensions.LocalBLAST.InteropService.InteropService,
+                              LocalBLAST As LocalBLAST.InteropService.InteropService,
                               Optional QueryGrep As String = "",
                               Optional WorkDir As String = "",
                               Optional ExportAll As Boolean = True) As RegpreciseMPBBH()
@@ -121,7 +150,7 @@ Namespace Regprecise
                                 In RegpreciseTfbs
                                 Let site As String = Regex.Match(regFasta.Title, "gene=[^]]+").Value.Split(CChar("=")).Last
                                 Select New KeyValuePair(Of String, String)(site, regFasta.Attributes.First.Split.First)).ToArray
-            Dim BesthitBLAST = New LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BidirectionalBesthit_BLAST(
+            Dim BesthitBLAST = New BidirectionalBesthit_BLAST(
                 LocalBLAST, If(String.IsNullOrEmpty(WorkDir), My.Computer.FileSystem.SpecialDirectories.Temp, WorkDir))
             Dim bhArray = BesthitBLAST.Peformance(Query.FilePath,
                                                   RegpreciseRegulators.FilePath,
@@ -131,7 +160,7 @@ Namespace Regprecise
             Dim ExtractedTfbsInfo = (From regulator As SequenceModel.FASTA.FastaToken In RegpreciseRegulators
                                      Let tfbs As String() = __gettfbs(regulator, siteInfoList)
                                      Select New KeyValuePair(Of String, String())(regulator.Title.Split.First.Split(CChar("|")).Last, tfbs)).ToArray
-            Dim LQuery = (From bbhReg As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit
+            Dim LQuery = (From bbhReg As LocalBLAST.Application.BBH.BiDirectionalBesthit
                           In bhArray
                           Where Not String.IsNullOrEmpty(bbhReg.HitName)
                           Select New RegpreciseMPBBH With {
@@ -188,7 +217,7 @@ Namespace Regprecise
         End Function
 
         Private Function __applyingProperty(MatchedItem As RegpreciseMPBBH,
-                                            MyvaCogDict As Dictionary(Of String, NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG),
+                                            MyvaCogDict As Dictionary(Of String, MyvaCOG),
                                             PfamStringDict As Dictionary(Of String, PfamString),
                                             GetRegpreciseRegulator As Func(Of String, Regprecise.Regulator),
                                             GetFastaRecord As Func(Of String, FastaReaders.Regulator)) As RegpreciseMPBBH
@@ -247,11 +276,17 @@ Namespace Regprecise
         ''' <remarks></remarks>
         '''
         <ExportAPI("bh2Regprecise.bbh", Info:="Create basic data for the matches data.")>
-        Public Function Convert(BLASTbh As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit()) As RegpreciseMPBBH()
-            Dim LQuery = (From item As LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit
-                          In BLASTbh.AsParallel
-                          Where Not String.IsNullOrEmpty(item.HitName)
-                          Select New RegpreciseMPBBH With {.QueryName = item.QueryName, .HitName = item.HitName, .Length = item.Length, .Description = item.Description}).ToArray
+        Public Function Convert(BLASTbh As LocalBLAST.Application.BBH.BiDirectionalBesthit()) As RegpreciseMPBBH()
+            Dim LQuery As RegpreciseMPBBH() =
+                LinqAPI.Exec(Of RegpreciseMPBBH) <= From item As LocalBLAST.Application.BBH.BiDirectionalBesthit
+                                                    In BLASTbh.AsParallel
+                                                    Where Not String.IsNullOrEmpty(item.HitName)
+                                                    Select New RegpreciseMPBBH With {
+                                                        .QueryName = item.QueryName,
+                                                        .HitName = item.HitName,
+                                                        .Length = item.Length,
+                                                        .Description = item.Description
+                                                    }
             Return LQuery
         End Function
 
@@ -264,9 +299,7 @@ Namespace Regprecise
             Return LQuery
         End Function
 
-        Private Function __applyProperty(RegpreciseTF As DatabaseServices.Regprecise.Regulator,
-                                         MatchedItem As RegpreciseMPBBH) As RegpreciseMPBBH
-
+        Private Function __applyProperty(RegpreciseTF As Regprecise.Regulator, MatchedItem As RegpreciseMPBBH) As RegpreciseMPBBH
             If RegpreciseTF IsNot Nothing Then
                 MatchedItem.RegprecisePhenotypeAssociation = RegpreciseTF.BiologicalProcess
                 MatchedItem.Effectors = Strings.Split(RegpreciseTF.Effector, "; ")

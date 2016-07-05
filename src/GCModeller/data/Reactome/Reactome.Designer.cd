@@ -1,0 +1,1893 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentFile" Collapsed="true">
+    <Position X="72" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAggIAQEAgAgYAEIAFACgAAAABAAoggQRAAAgAAAAI=</HashCode>
+      <FileName>Owl\OwlDocument.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.ExportServices.Exports" Collapsed="true">
+    <Position X="68.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAEAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>LocalMySQL\Exports.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.My.MySettings" Collapsed="true">
+    <Position X="47.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.BiochemicalReaction">
+    <Position X="10" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAACAAAAAAAAAAAAAAIAAgAAAAAAAIAgAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.CellularLocationVocabulary">
+    <Position X="38.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.SmallMoleculeReference">
+    <Position X="43" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Provenance">
+    <Position X="40.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Catalysis">
+    <Position X="12.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Protein">
+    <Position X="14.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAABAAAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAI=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.ProteinReference">
+    <Position X="17" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.BioSource">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.FragmentFeature">
+    <Position X="19.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.SequenceInterval">
+    <Position X="24" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.SequenceSite">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.RelationshipTypeVocabulary">
+    <Position X="35.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Xref.PublicationXref">
+    <Position X="28.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAQAAAAAIAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Complex">
+    <Position X="5" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAABAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Stoichiometry">
+    <Position X="21.5" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.PhysicalEntity">
+    <Position X="7.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.RESTfulAPI.APIQueryBuilder" Collapsed="true">
+    <Position X="66.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebServices\RESTfulAPI.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.CommonElements.Node">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAAAIAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.SmallMolecule">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAABAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.BioSystem" Collapsed="true">
+    <Position X="68.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAE=</HashCode>
+      <FileName>ObjectModels\ExtractOwl.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.ObjectModels.Metabolite" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="72" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAQABBQAA=</HashCode>
+      <FileName>ObjectModels\Metabolite.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.ObjectModels.Reaction" Collapsed="true">
+    <Position X="72" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACgAAAAAAAAAAERAAAAAAAFAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>ObjectModels\Reaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.CommonElements.ResourceElement">
+    <Position X="22" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.CommonElements.RDFresource" Collapsed="true">
+    <Position X="68.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAgAAEAAAAAAAAAAAAIgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Xref.Xref">
+    <Position X="31" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Xref.UnificationXref">
+    <Position X="31" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.OwlDocument.DocumentElements.Xref.RelationshipXref">
+    <Position X="33.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owl\DocumentElements.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._attributevaluebeforechange" Collapsed="true">
+    <Position X="47.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAMAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_attributevaluebeforechange.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._attributevaluebeforechange_2_previousvalue" Collapsed="true">
+    <Position X="49.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAIAAAAABAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_attributevaluebeforechange_2_previousvalue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._deleted" Collapsed="true">
+    <Position X="51" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAQAgAAAAAAABAAAAAAAABACAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_deleted.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._deleted_2_deletedinstancedb_id" Collapsed="true">
+    <Position X="52.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAABAAABAAAAAAAABAAAAAEAAAAAREAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_deleted_2_deletedinstancedb_id.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._deleted_2_replacementinstances" Collapsed="true">
+    <Position X="54.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAcBAAAAAAAAAAAAABCAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_deleted_2_replacementinstances.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._instancebeforechange" Collapsed="true">
+    <Position X="56.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIDAAAAAAAAAEAAABAAAAAAAABIAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_instancebeforechange.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._instancebeforechange_2_attributevaluesbeforechange" Collapsed="true">
+    <Position X="58" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAABBABAAAAAABAAABAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_instancebeforechange_2_attributevaluesbeforechange.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current._release" Collapsed="true">
+    <Position X="59.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAACBAAAAAAAABAAAAAEACAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\_release.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.abstractmodifiedresidue" Collapsed="true">
+    <Position X="61.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAgAAAAAAAAAABAAAAAAAABBAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\abstractmodifiedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.affiliation" Collapsed="true">
+    <Position X="63.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAAJAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\affiliation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.affiliation_2_name" Collapsed="true">
+    <Position X="65" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\affiliation_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.blackboxevent" Collapsed="true">
+    <Position X="70.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAIAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\blackboxevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.blackboxevent_2_hasevent" Collapsed="true">
+    <Position X="72" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAgAAAAAAAAABAAAAQAAABQAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\blackboxevent_2_hasevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.book" Collapsed="true">
+    <Position X="45.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIFAAAAASAAAAAAABAAAAgIAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\book.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.book_2_chapterauthors" Collapsed="true">
+    <Position X="47.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAQAAAAAAAIAABAACAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\book_2_chapterauthors.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.candidateset" Collapsed="true">
+    <Position X="49.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\candidateset.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.candidateset_2_hascandidate" Collapsed="true">
+    <Position X="51" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAACBAAAAAGAAAAAZAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\candidateset_2_hascandidate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.catalystactivity" Collapsed="true">
+    <Position X="52.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAgAAAAEAAABAAAAAAAABAAAAAUAAAAATAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\catalystactivity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.catalystactivity_2_activeunit" Collapsed="true">
+    <Position X="54.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAEEAAAAABAAAAAAAABAAAgAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\catalystactivity_2_activeunit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.catalystactivity_2_literaturereference" Collapsed="true">
+    <Position X="56.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABBAAAAEAAgAARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\catalystactivity_2_literaturereference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.celltype" Collapsed="true">
+    <Position X="58" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\celltype.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.compartment" Collapsed="true">
+    <Position X="59.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\compartment.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.complex" Collapsed="true">
+    <Position X="61.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAAAAAAAABAAAAAAAABAgAABGAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\complex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.complex_2_entityonothercell" Collapsed="true">
+    <Position X="63.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAABABAAAAAAAABAAAAAEAAABARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\complex_2_entityonothercell.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.complex_2_hascomponent" Collapsed="true">
+    <Position X="65" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAgAAAAAAAAABAAAAAAAABAAAAAEAAAAARCAAI=</HashCode>
+      <FileName>LocalMySQL\gk_current\complex_2_hascomponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.complex_2_includedlocation" Collapsed="true">
+    <Position X="66.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAEAAAAAAAAAABAAAAAAQABAAAAAEAAgAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\complex_2_includedlocation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.complex_2_interactionidentifier" Collapsed="true">
+    <Position X="68.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIRAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\complex_2_interactionidentifier.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.complex_2_species" Collapsed="true">
+    <Position X="70.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAgAAABAAAAAEAAAAQRABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\complex_2_species.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.concurrenteventset" Collapsed="true">
+    <Position X="72" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\concurrenteventset.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.concurrenteventset_2_concurrentevents" Collapsed="true">
+    <Position X="45.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARMAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\concurrenteventset_2_concurrentevents.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.concurrenteventset_2_focusentity" Collapsed="true">
+    <Position X="47.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBQAAAAAAAAAAAABAAAAAAAABAAAEAEAAAAARACAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\concurrenteventset_2_focusentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.controlledvocabulary" Collapsed="true">
+    <Position X="49.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAIAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\controlledvocabulary.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.controlledvocabulary_2_name" Collapsed="true">
+    <Position X="51" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\controlledvocabulary_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.crosslinkedresidue" Collapsed="true">
+    <Position X="52.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABgAAAAAAABAAAIAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\crosslinkedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.crosslinkedresidue_2_secondcoordinate" Collapsed="true">
+    <Position X="54.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAAAAAAAABAAAAAAAABAAAAAEAIAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\crosslinkedresidue_2_secondcoordinate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.databaseidentifier" Collapsed="true">
+    <Position X="56.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBYAAAAAAAAAAAABAAAAAAAABAAABAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\databaseidentifier.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.databaseidentifier_2_crossreference" Collapsed="true">
+    <Position X="58" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAIAAAAAABAAAAAAAABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_current\databaseidentifier_2_crossreference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.databaseobject" Collapsed="true">
+    <Position X="59.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIBAIAgAAwAAAAAABAAAAQABABAAAAIEAAAAARAABA=</HashCode>
+      <FileName>LocalMySQL\gk_current\databaseobject.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.databaseobject_2_modified" Collapsed="true">
+    <Position X="61.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAEAAAgBAAAAAAQABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\databaseobject_2_modified.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.datamodel" Collapsed="true">
+    <Position X="63.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAACQAAAAAAAAAJAAAAgAAABAAAABEIAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\datamodel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.definedset" Collapsed="true">
+    <Position X="65" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\definedset.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.deletedcontrolledvocabulary" Collapsed="true">
+    <Position X="66.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\deletedcontrolledvocabulary.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.depolymerisation" Collapsed="true">
+    <Position X="68.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\depolymerisation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.disease" Collapsed="true">
+    <Position X="70.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\disease.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.edge" Collapsed="true">
+    <Position X="45.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAIAAAAAAgBAAAAAACABEAABAEAgACARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\edge.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entitycompartment" Collapsed="true">
+    <Position X="47.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entitycompartment.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entityfunctionalstatus" Collapsed="true">
+    <Position X="49.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAEAAABAAAAAAAABAAAAAEAAAAATAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entityfunctionalstatus.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entityfunctionalstatus_2_functionalstatus" Collapsed="true">
+    <Position X="51" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAABAAAIAAAABAAAAAAABBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entityfunctionalstatus_2_functionalstatus.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entityset" Collapsed="true">
+    <Position X="52.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAAAAAAAABAAAAAAAABAgAABEAAAgARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entityset.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entityset_2_hasmember" Collapsed="true">
+    <Position X="54.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBEAAAAAABAAAAABBAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entityset_2_hasmember.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entityset_2_species" Collapsed="true">
+    <Position X="56.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAgAAABAAAAAEAAAAQRABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entityset_2_species.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entityvertex" Collapsed="true">
+    <Position X="58" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKBAAAAAAAAAAAAABAEAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entityvertex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entitywithaccessionedsequence" Collapsed="true">
+    <Position X="59.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoBAAAAAAICAAAAABAAAAAAAABAAAAAEAAAAARAAIA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entitywithaccessionedsequence.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.entitywithaccessionedsequence_2_hasmodifiedresidue" Collapsed="true">
+    <Position X="61.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAQAAAAAAAAAAABAAAAAAAABABAAAEEAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\entitywithaccessionedsequence_2_hasmodifiedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.[event]" Collapsed="true">
+    <Position X="45.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAIBAAAIAAAAACiACBAAgAAEAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_authored" Collapsed="true">
+    <Position X="63.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAgAAAAAAAAABAAAABAAABAAAAAEAABAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_authored.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_compartment" Collapsed="true">
+    <Position X="65" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAIABAAABAAAEAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_compartment.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_crossreference" Collapsed="true">
+    <Position X="66.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAIAAAAAABAAAAAAAABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_crossreference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_disease" Collapsed="true">
+    <Position X="68.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIBAAQAAAAAAAAAABAAAAAAACBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_disease.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_edited" Collapsed="true">
+    <Position X="70.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAABAAAAAAEAAABAAAAAAAABAAAAAEAEAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_edited.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_figure" Collapsed="true">
+    <Position X="72" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAEAAABAAAAAAAABAAAAAEFAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_figure.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_inferredfrom" Collapsed="true">
+    <Position X="45.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBBAAAAAAAAAAAABAAAAAAAABABAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_inferredfrom.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_literaturereference" Collapsed="true">
+    <Position X="47.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABBAAAAEAAgAARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_literaturereference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_name" Collapsed="true">
+    <Position X="49.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_orthologousevent" Collapsed="true">
+    <Position X="51" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAgAAAAAAAAAAABAAAAAAAABAAAgAEAAAAARBAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_orthologousevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_precedingevent" Collapsed="true">
+    <Position X="52.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABQAAAAAAAFAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_precedingevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_relatedspecies" Collapsed="true">
+    <Position X="54.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBACAAAAAAAAAAABAAAAAAAABAAAAAEAQAAARAAAI=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_relatedspecies.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_reviewed" Collapsed="true">
+    <Position X="56.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQIBAAAAAAACAAAAABAAAAAAAABAAAAAFAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_reviewed.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_revised" Collapsed="true">
+    <Position X="58" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAAJAAAAIEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_revised.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_species" Collapsed="true">
+    <Position X="59.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAgAAABAAAAAEAAAAQRABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_species.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.event_2_summation" Collapsed="true">
+    <Position X="61.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAABAAAAAAAAABAAAAAAAABAAAAAUAAAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\event_2_summation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.evidencetype" Collapsed="true">
+    <Position X="63.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAIAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\evidencetype.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.evidencetype_2_instanceof" Collapsed="true">
+    <Position X="65" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAIAAABAAAAAAAABAQAAAEAAAAQRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\evidencetype_2_instanceof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.evidencetype_2_name" Collapsed="true">
+    <Position X="66.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\evidencetype_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.externalontology" Collapsed="true">
+    <Position X="70.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBYAAIAAAAAAAAABAAAAAAAABAAABAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\externalontology.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.externalontology_2_instanceof" Collapsed="true">
+    <Position X="72" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAIAAABAAAAAAAABAQAAAEAAAAQRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\externalontology_2_instanceof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.externalontology_2_name" Collapsed="true">
+    <Position X="45.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\externalontology_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.externalontology_2_synonym" Collapsed="true">
+    <Position X="47.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAEABRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\externalontology_2_synonym.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.failedreaction" Collapsed="true">
+    <Position X="49.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\failedreaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.figure" Collapsed="true">
+    <Position X="51" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABIAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\figure.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.fragmentdeletionmodification" Collapsed="true">
+    <Position X="52.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\fragmentdeletionmodification.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.fragmentinsertionmodification" Collapsed="true">
+    <Position X="54.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABQAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\fragmentinsertionmodification.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.fragmentmodification" Collapsed="true">
+    <Position X="56.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAACAAAABABAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\fragmentmodification.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.fragmentreplacedmodification" Collapsed="true">
+    <Position X="58" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBCAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\fragmentreplacedmodification.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.frontpage" Collapsed="true">
+    <Position X="59.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\frontpage.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.frontpage_2_frontpageitem" Collapsed="true">
+    <Position X="61.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMBAAAAAAAIAAAAABAAAAAABABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\frontpage_2_frontpageitem.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.functionalstatus" Collapsed="true">
+    <Position X="63.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAggAAABAAAAABAAAAAAAABAAAAAEAAAAERAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\functionalstatus.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.functionalstatustype" Collapsed="true">
+    <Position X="65" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAIAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\functionalstatustype.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.functionalstatustype_2_name" Collapsed="true">
+    <Position X="66.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\functionalstatustype_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.geneticallymodifiedresidue" Collapsed="true">
+    <Position X="68.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\geneticallymodifiedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.genomeencodedentity" Collapsed="true">
+    <Position X="70.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAgAAABAAAAAEAAAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\genomeencodedentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess" Collapsed="true">
+    <Position X="72" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBYAAIQAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess_2_componentof" Collapsed="true">
+    <Position X="45.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAQAAAAAABAAAAIAAABAAAAgEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess_2_componentof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess_2_haspart" Collapsed="true">
+    <Position X="47.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAIBAAAAAAAEAAAAABAAAAAAAABAEAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess_2_haspart.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess_2_instanceof" Collapsed="true">
+    <Position X="49.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAIAAABAAAAAAAABAQAAAEAAAAQRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess_2_instanceof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess_2_name" Collapsed="true">
+    <Position X="51" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess_2_negativelyregulate" Collapsed="true">
+    <Position X="52.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAIRggAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess_2_negativelyregulate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess_2_positivelyregulate" Collapsed="true">
+    <Position X="54.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAACAAAAAAgBAAAAAAAABAAAAAEAAAIARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess_2_positivelyregulate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_biologicalprocess_2_regulate" Collapsed="true">
+    <Position X="56.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAACAAAAAAAAABAAAAAAAABAAAAgEAAAAARAEAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_biologicalprocess_2_regulate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_cellularcomponent" Collapsed="true">
+    <Position X="58" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBYAAIQAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_cellularcomponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_cellularcomponent_2_componentof" Collapsed="true">
+    <Position X="59.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAQAAAAAABAAAAIAAABAAAAgEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_cellularcomponent_2_componentof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_cellularcomponent_2_haspart" Collapsed="true">
+    <Position X="61.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAIBAAAAAAAEAAAAABAAAAAAAABAEAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_cellularcomponent_2_haspart.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_cellularcomponent_2_instanceof" Collapsed="true">
+    <Position X="63.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAIAAABAAAAAAAABAQAAAEAAAAQRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_cellularcomponent_2_instanceof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_cellularcomponent_2_name" Collapsed="true">
+    <Position X="65" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_cellularcomponent_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction" Collapsed="true">
+    <Position X="66.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBYAAIQAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_componentof" Collapsed="true">
+    <Position X="68.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAQAAAAAABAAAAIAAABAAAAgEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_componentof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_ecnumber" Collapsed="true">
+    <Position X="70.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgIBAAAAAAAAAAgAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_ecnumber.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_haspart" Collapsed="true">
+    <Position X="72" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAIBAAAAAAAEAAAAABAAAAAAAABAEAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_haspart.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_instanceof" Collapsed="true">
+    <Position X="45.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAIAAABAAAAAAAABAQAAAEAAAAQRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_instanceof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_name" Collapsed="true">
+    <Position X="47.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_negativelyregulate" Collapsed="true">
+    <Position X="49.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAIRggAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_negativelyregulate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_positivelyregulate" Collapsed="true">
+    <Position X="51" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAACAAAAAAgBAAAAAAAABAAAAAEAAAIARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_positivelyregulate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.go_molecularfunction_2_regulate" Collapsed="true">
+    <Position X="52.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAACAAAAAAAAABAAAAAAAABAAAAgEAAAAARAEAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\go_molecularfunction_2_regulate.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.groupmodifiedresidue" Collapsed="true">
+    <Position X="54.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABgAAAAAAABAAAIAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\groupmodifiedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.instanceedit" Collapsed="true">
+    <Position X="59.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQIBAAAAAAAAAAAAABAAAAIABABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\instanceedit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.instanceedit_2_author" Collapsed="true">
+    <Position X="61.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAIAAAABAAAAAEAAAAAxAAAg=</HashCode>
+      <FileName>LocalMySQL\gk_current\instanceedit_2_author.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.interchaincrosslinkedresidue" Collapsed="true">
+    <Position X="63.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\interchaincrosslinkedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.interchaincrosslinkedresidue_2_equivalentto" Collapsed="true">
+    <Position X="65" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIBAAAAAQAAAAAAABAAAAAAAABAAAAAEAAAQARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\interchaincrosslinkedresidue_2_equivalentto.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.interchaincrosslinkedresidue_2_secondreferencesequence" Collapsed="true">
+    <Position X="66.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQIBAAAAIAAAAAAAABAAAAAAAABAAAAAEAAAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.intrachaincrosslinkedresidue" Collapsed="true">
+    <Position X="68.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\intrachaincrosslinkedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.literaturereference" Collapsed="true">
+    <Position X="70.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIFAAAAACAAAAAAABAAAiAAAABAAAAAEAAAAARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\literaturereference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.modifiedresidue" Collapsed="true">
+    <Position X="45.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\modifiedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.negativeregulation" Collapsed="true">
+    <Position X="51" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\negativeregulation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.ontology" Collapsed="true">
+    <Position X="52.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAABAAAAABAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\ontology.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.openset" Collapsed="true">
+    <Position X="54.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoBAAAAAAIAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\openset.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.otherentity" Collapsed="true">
+    <Position X="56.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\otherentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.parameters" Collapsed="true">
+    <Position X="58" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAABAAAAAAAABAACAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\parameters.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.pathway" Collapsed="true">
+    <Position X="59.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAIAAAAAABAIAAAACABAAAAAEAEAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\pathway.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.pathway_2_hasevent" Collapsed="true">
+    <Position X="63.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAgAAAAAAAAABAAAAQAAABQAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\pathway_2_hasevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.pathwaycoordinates" Collapsed="true">
+    <Position X="66.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADIBAAAAAQAAAAAAABAEAAAAAABAAAAAEAAAADRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\pathwaycoordinates.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.pathwaydiagram" Collapsed="true">
+    <Position X="68.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAQAAQAQBAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\pathwaydiagram.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.pathwaydiagram_2_representedpathway" Collapsed="true">
+    <Position X="70.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAACAAAAJAAAAAAAABAAACAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\pathwaydiagram_2_representedpathway.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.pathwaydiagramitem" Collapsed="true">
+    <Position X="72" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\pathwaydiagramitem.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.pathwayvertex" Collapsed="true">
+    <Position X="47.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\pathwayvertex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.person" Collapsed="true">
+    <Position X="49.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAABAAAAAABAEAAAAAAjMAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\person.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.person_2_affiliation" Collapsed="true">
+    <Position X="51" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAEAAAABAAAAQAAABAAAAAEAAAACRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\person_2_affiliation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.person_2_crossreference" Collapsed="true">
+    <Position X="52.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAIAAAAAABAAAAAAAABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_current\person_2_crossreference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.person_2_figure" Collapsed="true">
+    <Position X="54.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAEAAABAAAAAAAABAAAAAEFAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\person_2_figure.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity" Collapsed="true">
+    <Position X="56.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIBAAAoAAAAAAEAABAAIAAIAABAAAAAEAABAATAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_compartment" Collapsed="true">
+    <Position X="59.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAIABAAABAAAEAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_compartment.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_crossreference" Collapsed="true">
+    <Position X="61.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAIAAAAAABAAAAAAAABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_crossreference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_disease" Collapsed="true">
+    <Position X="63.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIBAAQAAAAAAAAAABAAAAAAACBAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_disease.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_edited" Collapsed="true">
+    <Position X="65" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAABAAAAAAEAAABAAAAAAAABAAAAAEAEAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_edited.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_figure" Collapsed="true">
+    <Position X="66.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAEAAABAAAAAAAABAAAAAEFAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_figure.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_inferredfrom" Collapsed="true">
+    <Position X="68.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBBAAAAAAAAAAAABAAAAAAAABABAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_inferredfrom.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_inferredto" Collapsed="true">
+    <Position X="70.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAMAAAAAAAABAAAAAAAABAAAAAFAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_inferredto.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_literaturereference" Collapsed="true">
+    <Position X="72" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABBAAAAEAAgAARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_literaturereference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_name" Collapsed="true">
+    <Position X="45.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_reviewed" Collapsed="true">
+    <Position X="47.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQIBAAAAAAACAAAAABAAAAAAAABAAAAAFAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_reviewed.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_revised" Collapsed="true">
+    <Position X="49.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAAJAAAAIEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_revised.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.physicalentity_2_summation" Collapsed="true">
+    <Position X="51" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAABAAAAAAAAABAAAAAAAABAAAAAUAAAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\physicalentity_2_summation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.polymer" Collapsed="true">
+    <Position X="54.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAAAAAAAABAAAAIAAADAgAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\polymer.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.polymer_2_repeatedunit" Collapsed="true">
+    <Position X="56.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAIAABAIAAAAIABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\polymer_2_repeatedunit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.polymer_2_species" Collapsed="true">
+    <Position X="58" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAgAAABAAAAAEAAAAQRABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\polymer_2_species.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.polymerisation" Collapsed="true">
+    <Position X="59.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\polymerisation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.positiveregulation" Collapsed="true">
+    <Position X="61.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\positiveregulation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.psimod" Collapsed="true">
+    <Position X="63.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\psimod.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.publication" Collapsed="true">
+    <Position X="65" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAQAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\publication.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.publication_2_author" Collapsed="true">
+    <Position X="66.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAIAAAABAAAAAEAAAAAxAAAg=</HashCode>
+      <FileName>LocalMySQL\gk_current\publication_2_author.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reaction" Collapsed="true">
+    <Position X="70.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAAAAAAAIBAAAAAAAABAoAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactioncoordinates" Collapsed="true">
+    <Position X="45.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBgAAAAQAAAAAAABAEAAAAAABADgAAEAAAAARwAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactioncoordinates.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent" Collapsed="true">
+    <Position X="49.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAIAABAAAAAGAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent_2_catalystactivity" Collapsed="true">
+    <Position X="51" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAGAAAAAAABAAAAAAAABAAAAAEAIAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent_2_catalystactivity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent_2_entityfunctionalstatus" Collapsed="true">
+    <Position X="52.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABACAAAAAABAAAAAUAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent_2_entityfunctionalstatus.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent_2_entityonothercell" Collapsed="true">
+    <Position X="54.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAABABAAAAAAAABAAAAAEAAABARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent_2_entityonothercell.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent_2_input" Collapsed="true">
+    <Position X="56.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAgAAAAAAAABAAAAAAAABAABAAEAAAAARAQAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent_2_input.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent_2_normalreaction" Collapsed="true">
+    <Position X="58" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAEAAAAABABAAAEAAAAARAAIA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent_2_normalreaction.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent_2_output" Collapsed="true">
+    <Position X="59.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAACAAAAAAgAABAAAAAACABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent_2_output.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionlikeevent_2_requiredinputcomponent" Collapsed="true">
+    <Position X="61.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAACIAAAAAAABAAAAAAAABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.reactionvertex" Collapsed="true">
+    <Position X="65" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\reactionvertex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencedatabase" Collapsed="true">
+    <Position X="68.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABIAAAAEAIAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencedatabase.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencedatabase_2_name" Collapsed="true">
+    <Position X="70.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencedatabase_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencednasequence" Collapsed="true">
+    <Position X="72" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencednasequence.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referenceentity" Collapsed="true">
+    <Position X="45.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBYAAAAAAAAAAAABAAAAAAAABAAABAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referenceentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referenceentity_2_crossreference" Collapsed="true">
+    <Position X="47.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAIAAAAAABAAAAAAAABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referenceentity_2_crossreference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referenceentity_2_name" Collapsed="true">
+    <Position X="49.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referenceentity_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referenceentity_2_otheridentifier" Collapsed="true">
+    <Position X="51" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAQAAAAAABAAAQAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referenceentity_2_otheridentifier.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencegeneproduct" Collapsed="true">
+    <Position X="52.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAACAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencegeneproduct.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencegeneproduct_2_chain" Collapsed="true">
+    <Position X="54.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencegeneproduct_2_chain.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencegeneproduct_2_referencegene" Collapsed="true">
+    <Position X="56.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAQgAAAAAAABABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencegeneproduct_2_referencegene.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencegeneproduct_2_referencetranscript" Collapsed="true">
+    <Position X="58" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAIAQAAABAAgAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencegeneproduct_2_referencetranscript.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencegroup" Collapsed="true">
+    <Position X="59.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBABAAAAAAAAAAABAAAAAEAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencegroup.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referenceisoform" Collapsed="true">
+    <Position X="61.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAgAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referenceisoform.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referenceisoform_2_isoformparent" Collapsed="true">
+    <Position X="63.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAEAAAAAABAAAAAAAABAAAIAEAAAAARAACA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referenceisoform_2_isoformparent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencemolecule" Collapsed="true">
+    <Position X="65" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBABAAAAAAAAAAABAAAAAEAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencemolecule.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencernasequence" Collapsed="true">
+    <Position X="66.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencernasequence.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencernasequence_2_referencegene" Collapsed="true">
+    <Position X="68.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAQgAAAAAAABABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencernasequence_2_referencegene.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencesequence" Collapsed="true">
+    <Position X="70.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAgAAAAAAAAABAAAAgAAAJAAAAAEIAAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencesequence.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencesequence_2_comment" Collapsed="true">
+    <Position X="72" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYBAAAAAAAAAAAAABAAAAAAAABAAAAAEBAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencesequence_2_comment.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencesequence_2_description" Collapsed="true">
+    <Position X="45.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAIBAAAAAAAABAAAAAEAAAAATAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencesequence_2_description.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencesequence_2_genename" Collapsed="true">
+    <Position X="47.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAIAAAgAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencesequence_2_genename.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencesequence_2_keyword" Collapsed="true">
+    <Position X="49.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAEAAABAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencesequence_2_keyword.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.referencesequence_2_secondaryidentifier" Collapsed="true">
+    <Position X="51" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAABAAAAAAAFAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\referencesequence_2_secondaryidentifier.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation" Collapsed="true">
+    <Position X="52.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAgAACAAAAACBAAAIAAAABAAAgAEIARACRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_containedinpathway" Collapsed="true">
+    <Position X="54.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAUABAQAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_containedinpathway.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_edited" Collapsed="true">
+    <Position X="56.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAABAAAAAAEAAABAAAAAAAABAAAAAEAEAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_edited.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_figure" Collapsed="true">
+    <Position X="58" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAEAAABAAAAAAAABAAAAAEFAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_figure.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_literaturereference" Collapsed="true">
+    <Position X="59.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABBAAAAEAAgAARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_literaturereference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_name" Collapsed="true">
+    <Position X="61.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_reviewed" Collapsed="true">
+    <Position X="63.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQIBAAAAAAACAAAAABAAAAAAAABAAAAAFAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_reviewed.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_revised" Collapsed="true">
+    <Position X="65" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAAJAAAAIEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_revised.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulation_2_summation" Collapsed="true">
+    <Position X="66.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAABAAAAAAAAABAAAAAAAABAAAAAUAAAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulation_2_summation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulationtype" Collapsed="true">
+    <Position X="68.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulationtype.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulationtype_2_instanceof" Collapsed="true">
+    <Position X="70.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAIAAABAAAAAAAABAQAAAEAAAAQRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulationtype_2_instanceof.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.regulationtype_2_name" Collapsed="true">
+    <Position X="72" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\regulationtype_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.replacedresidue" Collapsed="true">
+    <Position X="45.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABQAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\replacedresidue.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.replacedresidue_2_psimod" Collapsed="true">
+    <Position X="47.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAoAABAAIAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\replacedresidue_2_psimod.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.requirement" Collapsed="true">
+    <Position X="49.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\requirement.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.sequenceontology" Collapsed="true">
+    <Position X="51" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\sequenceontology.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.simpleentity" Collapsed="true">
+    <Position X="52.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoBAAAAAAIAAAAAABAAAAgAAABAAAAAEAAAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\simpleentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.species" Collapsed="true">
+    <Position X="54.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\species.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.species_2_figure" Collapsed="true">
+    <Position X="56.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAEAAABAAAAAAAABAAAAAEFAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\species_2_figure.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.stableidentifier" Collapsed="true">
+    <Position X="58" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBYAAAAAAAAABAABIAAAAAAABAACBAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\stableidentifier.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.summation" Collapsed="true">
+    <Position X="61.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAIEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\summation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.summation_2_literaturereference" Collapsed="true">
+    <Position X="63.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABBAAAAEAAgAARCAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\summation_2_literaturereference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.taxon" Collapsed="true">
+    <Position X="65" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAQAAAAAAAAAABAAAAAAAABAAgAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\taxon.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.taxon_2_crossreference" Collapsed="true">
+    <Position X="66.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIhAAAAAAIAAAAAABAAAAAAAABAAAAAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_current\taxon_2_crossreference.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.taxon_2_name" Collapsed="true">
+    <Position X="68.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABEAAABEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\taxon_2_name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.translationalmodification" Collapsed="true">
+    <Position X="70.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABQAAAAoAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\translationalmodification.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.url" Collapsed="true">
+    <Position X="72" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAAAAAREAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\url.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.vertex" Collapsed="true">
+    <Position X="45.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKBAAAAAAAAAAQAQBAAAAAAAABAAABAEBhgAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\vertex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.vertexsearchableterm" Collapsed="true">
+    <Position X="47.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAARAAAAgAAARAAAAAEABAAARABAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\vertexsearchableterm.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.vertexsearchableterm_2_termprovider" Collapsed="true">
+    <Position X="49.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAAAAEAEAAARBAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\vertexsearchableterm_2_termprovider.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current.vertexsearchableterm_2_vertex" Collapsed="true">
+    <Position X="51" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIBAAAAAAAAAAAAARAAAAAAAABAAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current\vertexsearchableterm_2_vertex.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.id_to_externalidentifier" Collapsed="true">
+    <Position X="58" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABIAAAAAAAAAAAIBAAAAAAAABAAAAAEAACAARAAgA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\id_to_externalidentifier.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.pathway" Collapsed="true">
+    <Position X="61.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAABAAAAAAABAAAAAAAABAAAAAEAAAAARABgA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\pathway.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.pathway_to_reactionlikeevent" Collapsed="true">
+    <Position X="65" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAABAAAAAAAABQAAAAUAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\pathway_to_reactionlikeevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.pathwayhierarchy" Collapsed="true">
+    <Position X="45.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAADAAAAAAAABAAAAAUAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\pathwayhierarchy.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.physicalentity" Collapsed="true">
+    <Position X="58" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAABAAAAAAABAgAAAAAABAAAAAEAAAAARABgA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\physicalentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.physicalentityhierarchy" Collapsed="true">
+    <Position X="52.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAABAAAAAAAABAQAAAEAAAAQRAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\physicalentityhierarchy.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.reactionlikeevent" Collapsed="true">
+    <Position X="47.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAABAAAAAAABAgAAAAAABAAAAAEAAAAARABgA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\reactionlikeevent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_current_dn.reactionlikeevent_to_physicalentity" Collapsed="true">
+    <Position X="63.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAABAAAAAAAABQQAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_current_dn\reactionlikeevent_to_physicalentity.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_stable_ids.history" Collapsed="true">
+    <Position X="56.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIBAAAAAAAIAAAAABAgAQAAAABEAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_stable_ids\history.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_stable_ids.name" Collapsed="true">
+    <Position X="49.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAQAAAABEAAAAEAAAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_stable_ids\name.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_stable_ids.reactomerelease" Collapsed="true">
+    <Position X="66.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABAAAAAAAABAAACAEAAAAARAAEA=</HashCode>
+      <FileName>LocalMySQL\gk_stable_ids\reactomerelease.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.DatabaseServices.Reactome.LocalMySQL.Tables.gk_stable_ids.stableidentifier" Collapsed="true">
+    <Position X="59.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAABAABAAAAAAAABAAABAEABAAARAAAA=</HashCode>
+      <FileName>LocalMySQL\gk_stable_ids\stableidentifier.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Module Name="SMRUCC.genomics.DatabaseServices.Reactome.My.Resources.Resources" Collapsed="true">
+    <Position X="49.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.DatabaseServices.Reactome.My.MySettingsProperty" Collapsed="true">
+    <Position X="47.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.DatabaseServices.Reactome.ExtractOwl" Collapsed="true">
+    <Position X="45.75" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAiAACAAAgAAAAAAARAAAAAAACAABAAAACAIAAAA=</HashCode>
+      <FileName>ObjectModels\ExtractOwl.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.DatabaseServices.Reactome.ShellScriptAPI" Collapsed="true">
+    <Position X="51" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ShellScriptAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Calibri" Size="8.25" />
+</ClassDiagram>

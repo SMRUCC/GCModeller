@@ -1,8 +1,36 @@
-﻿Imports System.Xml.Serialization
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+﻿#Region "Microsoft.VisualBasic::22a072c9b3f5ef03759b3aa3cdeb2a23, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\Metabolism.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.SubSystem
 
@@ -11,7 +39,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
     ''' </summary>
     ''' <remarks></remarks>
     Public Class MetabolismCompartment : Inherits SubSystemContainer(Of [Module].MetabolismFlux)
-        Implements SystemsBiology.GCModeller.ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
+        Implements ModellingEngine.PlugIns.ISystemFrameworkEntry.ISystemFramework
         Implements SubSystem.ICompartmentObject
         Implements IDrivenable
 
@@ -105,7 +133,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         Public Overrides Function Initialize() As Integer Implements ICompartmentObject.Initialize
             Call SystemLogging.WriteLine("   Created the metabolites object model.")
 
-            Me._CompartmentId = Me.IRuntimeContainer.SystemVariable(LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_COMPARTMENT_METABOLISM)
+            Me._CompartmentId = Me.IRuntimeContainer.SystemVariable(GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables.ID_COMPARTMENT_METABOLISM)
             If String.IsNullOrEmpty(Me._CompartmentId) Then
                 Call _SystemLogging.WriteLine("[ERROR] Metabolism compartment id is not defined in the system variables! Try to ignore this error and resume running using the defaul value!", "", Type:=Logging.MSG_TYPES.ERR)
                 _CompartmentId = "CCO-IN"
@@ -140,8 +168,8 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Return 0
         End Function
 
-        Public Shared Function CreateMetaboliteObjects(DataModels As Generic.IEnumerable(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), TagId As String) As Entity.Compound()
-            Dim LQuery = (From Compound As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite In DataModels.AsParallel
+        Public Shared Function CreateMetaboliteObjects(DataModels As Generic.IEnumerable(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite), TagId As String) As Entity.Compound()
+            Dim LQuery = (From Compound As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite In DataModels.AsParallel
                           Let Metabolite As ObjectModels.Entity.Compound = ObjectModels.Entity.Compound.CreateObject(Metabolite:=Compound, TagId:=TagId)
                           Select Metabolite).ToArray
             Return LQuery.AddHandle
@@ -159,7 +187,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
                 Dim HandleList As List(Of Long) = New List(Of Long)
                 Call HandleList.AddRange((From Transcript In _CellSystem.ExpressionRegulationNetwork._InternalTranscriptsPool Select Transcript.EntityBaseType.Handle).ToArray)
-                Call HandleList.AddRange((From Compound In Metabolites Where Compound.ModelBaseElement.MetaboliteType <> Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound
+                Call HandleList.AddRange((From Compound In Metabolites Where Compound.ModelBaseElement.MetaboliteType <> GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound
                                           Select Compound.Handle).ToArray)
 
                 Me.TrimedHandles = HandleList.Distinct.ToArray

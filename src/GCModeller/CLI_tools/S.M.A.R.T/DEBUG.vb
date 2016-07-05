@@ -1,4 +1,31 @@
-﻿Module DEBUG
+﻿#Region "Microsoft.VisualBasic::7bc7e69fa7cfb9b90eecf808212b6f28, ..\GCModeller\CLI_tools\S.M.A.R.T\DEBUG.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Module DEBUG
 
     Sub main()
 
@@ -10,7 +37,7 @@
 
         'Dim blast = NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(New NCBI.Extensions.LocalBLAST.InteropService.InitializeParameter(Settings.BlastBin, NCBI.Extensions.LocalBLAST.InteropService.Program.LocalBlast))
 
-        'Dim cp = New LANS.SystemsBiology.SimpleProteinModularArchitecture.CompileDomains(blast, New LANS.SystemsBiology.Assembly.CDD.CDDInfo.CDDLoader("e:\BLAST\db\CDD"), "E:\TEMP")
+        'Dim cp = New SMRUCC.genomics.SimpleProteinModularArchitecture.CompileDomains(blast, New SMRUCC.genomics.Assembly.CDD.CDDInfo.CDDLoader("e:\BLAST\db\CDD"), "E:\TEMP")
 
         'Call cp.ExportDb("Pfam").Save("D:\pfam.csv")
 
@@ -58,18 +85,19 @@
         'Call query.Query("PF02518")
         'Call query.Query("PF00072")
 
-        'Call LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.ExportNetwork(LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.BuildInteraction(l.Proteins,
-        '     "D:\GCModeller\database\domine.xml".LoadXml(Of LANS.SystemsBiology.Assembly.DOMINE.Database)), "d:\8004_prot_interactions.txt")
+        'Call SMRUCC.genomics.Assembly.ProteinInteractionNetwork.ExportNetwork(SMRUCC.genomics.Assembly.ProteinInteractionNetwork.BuildInteraction(l.Proteins,
+        '     "D:\GCModeller\database\domine.xml".LoadXml(Of SMRUCC.genomics.Assembly.DOMINE.Database)), "d:\8004_prot_interactions.txt")
 
-        '  Call New LANS.SystemsBiology.Assembly.DOMINE.Database.Imports().InvokeAction("D:\BLAST\domine-tables-2.0\").Save("D:\GCModeller\database\domine.xml")
+        '  Call New SMRUCC.genomics.Assembly.DOMINE.Database.Imports().InvokeAction("D:\BLAST\domine-tables-2.0\").Save("D:\GCModeller\database\domine.xml")
 
         'Dim signalDomains = IO.File.ReadAllLines("D:\BLAST\db\CDD\SignalDomains.txt")
         'Dim list = (From p In l.Proteins Where Not p.ContainsDomain(signalDomains).IsNullOrEmpty Select p).ToArray
 
         'Call New SMARTDB() With {.Proteins = list}.GetXml.Save("d:\8004_signal_proteins.xml")
 
-        'Call LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.ExportNetwork(LANS.SystemsBiology.Assembly.ProteinInteractionNetwork.BuildInteraction(list,
-        '            "D:\GCModeller\database\domine.xml".LoadXml(Of LANS.SystemsBiology.Assembly.DOMINE.Database)), "d:\signal_interactions.txt")
+        'Call SMRUCC.genomics.Assembly.ProteinInteractionNetwork.ExportNetwork(SMRUCC.genomics.Assembly.ProteinInteractionNetwork.BuildInteraction(list,
+        '            "D:\GCModeller\database\domine.xml".LoadXml(Of SMRUCC.genomics.Assembly.DOMINE.Database)), "d:\signal_interactions.txt")
 
     End Sub
 End Module
+

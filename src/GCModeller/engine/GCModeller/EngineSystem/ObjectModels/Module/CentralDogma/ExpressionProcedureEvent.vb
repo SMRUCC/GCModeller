@@ -1,4 +1,31 @@
-﻿Imports System.Xml.Serialization
+﻿#Region "Microsoft.VisualBasic::04089e99eaacfdd37cee893a316b613c, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\ExpressionProcedureEvent.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Xml.Serialization
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
@@ -14,7 +41,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
     ''' 对一个基因对象的表达过程中的一个步骤的描述
     ''' </summary>
     ''' <remarks></remarks>
-    Public MustInherit Class ExpressionProcedureEvent : Inherits LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.FluxObject
+    Public MustInherit Class ExpressionProcedureEvent : Inherits SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.FluxObject
         Implements I_EventProcess
 
         ''' <summary>
@@ -25,8 +52,8 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
 #Region "Public Property"
 
-            Property Template As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.BiomacromoleculeFeature.ITemplate
-            Property Product As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Compound
+            Property Template As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.BiomacromoleculeFeature.ITemplate
+            Property Product As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Compound
             ''' <summary>
             ''' 这些事件都是建立在序列的基础之上的，而本属性则描述了改序列的组成
             ''' </summary>
@@ -50,8 +77,8 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <DumpNode> <XmlElement> Public Property Template As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.BiomacromoleculeFeature.ITemplate Implements I_EventProcess.Template
-        <DumpNode> <XmlElement> Public Property Product As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Compound Implements I_EventProcess.Product
+        <DumpNode> <XmlElement> Public Property Template As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Feature.BiomacromoleculeFeature.ITemplate Implements I_EventProcess.Template
+        <DumpNode> <XmlElement> Public Property Product As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Compound Implements I_EventProcess.Product
 
         ''' <summary>
         ''' 转录或者翻译过程中所需要的组分向量
@@ -95,7 +122,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function CreateInstance(ExpressionObject As CentralDogma,
-                                              Transcript As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Transcript,
+                                              Transcript As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Transcript,
                                               MetabolismSystem As ObjectModels.SubSystem.MetabolismCompartment) As Transcription
 
             Dim TemplateGene = New ObjectModels.Feature.Gene With {.Identifier = Transcript.Identifier.Replace("-transcript", "")}

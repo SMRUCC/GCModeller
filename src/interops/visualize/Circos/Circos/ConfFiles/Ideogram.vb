@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0519782f408b6043e8209f6751505913, ..\Circos\Circos\ConfFiles\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::0519782f408b6043e8209f6751505913, ..\interops\visualize\Circos\Circos\ConfFiles\Ideogram.vb"
 
     ' Author:
     ' 

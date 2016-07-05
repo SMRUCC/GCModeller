@@ -1,18 +1,45 @@
-﻿Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.Repository
-Imports LANS.SystemsBiology.Assembly
+﻿#Region "Microsoft.VisualBasic::7eab05447080618de3ebdc315e97408a, ..\GCModeller\core\Bio.Repository\Genbank.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.SequenceModel
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.SequenceModel
 
 Public Module Installer
 
@@ -28,7 +55,7 @@ Public Module Installer
             Call "".SaveTo(index)  ' 清除原始文件的所有数据，重新创建索引文件
         End If
 
-        Using DbWriter As New DocumentStream.Linq.WriteStream(Of GenbankIndex)(index)  ' 打开数据库的文件句柄
+        Using DbWriter As New WriteStream(Of GenbankIndex)(index)  ' 打开数据库的文件句柄
 
             For Each table As String In ls - l - lsDIR - r <= DIR   ' 一个物种的文件夹
                 Dim path As String = $"{DIR}/.genbank/meta/{table.BaseName}.csv"
@@ -341,3 +368,4 @@ Public Class GenbankIndex : Implements IKeyedEntity(Of String), sIdEnumerable
         Return Me.GetJson
     End Function
 End Class
+

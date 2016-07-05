@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("LANS.SystemsBiology.Toolkits.RNA_Seq.TSSAR.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -196,8 +196,7 @@ Namespace My.Resources
         '''my $clean = 1;
         '''my $score_mode = &apos;d&apos;;
         '''my $cluster = 1;
-        '''my $prorata = 0;
-        '''my $consecutiv_range  [rest of string was truncated]&quot;;.
+        '''my $prorata =  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property TSSAR() As String
             Get

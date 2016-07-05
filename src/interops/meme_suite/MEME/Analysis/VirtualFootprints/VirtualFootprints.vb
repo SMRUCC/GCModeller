@@ -1,15 +1,43 @@
-﻿Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.LDM
+﻿#Region "Microsoft.VisualBasic::b8ed11f9087da367310475dc67190115, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\VirtualFootprints.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports LANS.SystemsBiology.ComponentModel.Loci.Abstract
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.HTML
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MAST.HTML
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
+Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MAST.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Analysis.GenomeMotifFootPrints
 
@@ -17,13 +45,13 @@ Namespace Analysis.GenomeMotifFootPrints
     ''' Site information data which only contains the motif information.(只有Motif位点信息的对象)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class VirtualFootprints : Inherits DocumentFormat.VirtualFootprints
+    Public Module VirtualFootprintAPI
 
-        Public Shared Function FamilyFromId(x As DocumentFormat.VirtualFootprints) As String
+        Public Function FamilyFromId(x As VirtualFootprints) As String
             Return x.MotifId.Split("."c).First
         End Function
 
-        Friend Shared Function __createMotifSiteInfo(Of T As IGeneBrief)(
+        Friend Function __createMotifSiteInfo(Of T As IGeneBrief)(
                                  data As MEMEOutput,
                                  GenomeSequence As SegmentReader,
                                  GeneBriefInformation As IEnumerable(Of T),
@@ -65,7 +93,7 @@ Namespace Analysis.GenomeMotifFootPrints
             Throw New NotImplementedException
         End Function
 
-        Public Shared Function CreateMotifSiteInfo(Of T As IGeneBrief)(
+        Public Function CreateMotifSiteInfo(Of T As IGeneBrief)(
                         data As MEME.LDM.Motif,
                         mast As MatchedSite,
                         GenomeSequence As SegmentReader,
@@ -104,7 +132,7 @@ Namespace Analysis.GenomeMotifFootPrints
             Throw New NotImplementedException
         End Function
 
-        Friend Shared Function __motifLociAssignPosDescrib(Of T As IGeneBrief, TFootprint As DocumentFormat.VirtualFootprints)(
+        Friend Function __motifLociAssignPosDescrib(Of T As IGeneBrief, TFootprint As VirtualFootprints)(
                                     PredictedRegulation As TFootprint,
                                     Relation As SegmentRelationships,
                                     GeneSegment As T,
@@ -119,13 +147,13 @@ Namespace Analysis.GenomeMotifFootPrints
                 'If Relation = SegmentRelationships.UpStream Then
                 '    PredictedRegulation.LociDescrib = $"In the promoter region with distance {PredictedRegulation.Distance}bp with ORF {GeneSegment.Identifier}"
                 'Else
-                '    PredictedRegulation.LociDescrib = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
+                '    PredictedRegulation.LociDescrib = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
                 'End If
             Else
-                '  PredictedRegulation.LociDescrib = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
+                '  PredictedRegulation.LociDescrib = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.LocationDescription(Relation, GeneSegment)
             End If
 
             Return PredictedRegulation
         End Function
-    End Class
+    End Module
 End Namespace

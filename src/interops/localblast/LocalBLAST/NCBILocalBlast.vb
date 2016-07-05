@@ -1,23 +1,53 @@
-﻿Imports System.Text.RegularExpressions
+﻿#Region "Microsoft.VisualBasic::18446498102aa1cd94010a21720230a0, ..\interops\localblast\LocalBLAST\NCBILocalBlast.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports Microsoft.VisualBasic.Parallel.Threads
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports LANS.SystemsBiology.Assembly.Expasy.Database
-Imports LANS.SystemsBiology.Assembly.Expasy.AnnotationsTool
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
+Imports SMRUCC.genomics.Assembly.Expasy.Database
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' ShoalShell API interface for ncbi localblast operations.
 ''' </summary>
 ''' <remarks></remarks>
-<PackageNamespace("NCBI.LocalBLAST", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
+<PackageNamespace("NCBI.LocalBLAST",
+                  Category:=APICategories.ResearchTools,
+                  Publisher:="xie.guigang@gmail.com")>
 Public Module NCBILocalBlast
 
     ''' <summary>
@@ -32,13 +62,18 @@ Public Module NCBILocalBlast
             Return False
         End If
 
-        Dim Queries = (From strLine As String In IO.File.ReadAllLines(BlastOUTPUT)
-                       Let Entry As String = Regex.Match(strLine, "Query\s*=\s*.+").Value
-                       Where Not String.IsNullOrEmpty(Entry)
-                       Select Regex.Replace(Entry, "Query\s*=\s*", "").Trim).ToArray
+        Dim Queries As String() =
+            LinqAPI.Exec(Of String) <= From strLine As String
+                                       In IO.File.ReadAllLines(BlastOUTPUT)
+                                       Let Entry As String =
+                                           Regex.Match(strLine, "Query\s*=\s*.+").Value
+                                       Where Not String.IsNullOrEmpty(Entry)
+                                       Select Regex.Replace(Entry, "Query\s*=\s*", "").Trim
+
         If Queries.Length <> query.NumberOfFasta Then
             Return False
         End If
+
         Dim CompareLQuery = (From fa As FASTA.FastaToken
                              In query
                              Let InternalIntegrity As Boolean = __integrity(fa, Queries)
@@ -59,14 +94,19 @@ Public Module NCBILocalBlast
 #If DEBUG Then
     <ExportAPI("test.score_parsing")>
     Public Function ParseScore(s As String) As LocalBLAST.BLASTOutput.ComponentModel.Score
-        Return LocalBLAST.BLASTOutput.ComponentModel.Score.TryParse(Of LocalBLAST.BLASTOutput.ComponentModel.Score)(s)
+        Return LocalBLAST.BLASTOutput.ComponentModel.Score.TryParse(s)
     End Function
 #End If
 
+    ''' <summary>
+    ''' Write the blast output data as a Xml data file.
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="SaveTo">The file path of the blast output xml data will be saved.</param>
+    ''' <returns></returns>
     <ExportAPI("Write.Xml.Blast_Output", Info:="Write the blast output data as a Xml data file.")>
     Public Function SaveBlastOutput(data As IBlastOutput,
-                                    <Parameter("Path.SaveTo", "The file path of the blast output xml data will be saved.")>
-                                    SaveTo As String) As Boolean
+                                    <Parameter("Path.SaveTo", "The file path of the blast output xml data will be saved.")> SaveTo As String) As Boolean
         Return data.Save(SaveTo, Encodings.UTF8)
     End Function
 
@@ -392,3 +432,4 @@ Public Module NCBILocalBlast
         Return ClassifyCOGs.Get_MyvaCOG_Classify(blast_output, textEngine, Whog_Xml)
     End Function
 End Module
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab1ec43f32342c695ad30427630e7587, ..\Bio.Assembly\Assembly\Uniprot\Web\Uniprot.vb"
+﻿#Region "Microsoft.VisualBasic::209fc3cc28288767b3e059dde8428507, ..\GCModeller\core\Bio.Assembly\Assembly\Uniprot\Web\Uniprot.vb"
 
     ' Author:
     ' 

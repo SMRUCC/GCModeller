@@ -1,4 +1,30 @@
-﻿
+﻿#Region "895d1a80d9ad0105bd0b55872acf7637, ..\Microsoft.VisualBasic.Architecture.Framework\Extensions\Security\Md5.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -18,6 +44,11 @@ Namespace SecurityString
 
         ReadOnly __hashProvider As New Md5HashProvider
 
+        ''' <summary>
+        ''' Calculate md5 hash value for the input string.
+        ''' </summary>
+        ''' <param name="input"></param>
+        ''' <returns></returns>
         <ExportAPI("Md5")>
         <Extension>
         Public Function GetMd5Hash(input As String) As String
@@ -162,7 +193,13 @@ Namespace SecurityString
         ''' 
         <ExportAPI("File.Equals")>
         Public Function VerifyFile(query As String, subject As String) As Boolean
-            Return String.Equals(GetFileHashString(query), GetFileHashString(subject))
+            Dim md5 As New Md5HashProvider()
+            Dim a1 As Byte() = IO.File.ReadAllBytes(query)
+            Dim a2 As Byte() = IO.File.ReadAllBytes(subject)
+            Dim m1 As String = md5.GetMd5Hash(a1)
+            Dim m2 As String = md5.GetMd5Hash(a2)
+
+            Return String.Equals(m1, m2)
         End Function
 
         ''' <summary>
@@ -178,8 +215,8 @@ Namespace SecurityString
                 Return ""
             End If
 
-            Dim ChunkBuffer As Byte() = IO.File.ReadAllBytes(PathUri)
-            Return GetMd5Hash(ChunkBuffer)
+            Dim bufs As Byte() = IO.File.ReadAllBytes(PathUri)
+            Return GetMd5Hash(bufs)
         End Function
 
         ''' <summary>

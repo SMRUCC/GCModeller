@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb55c6e812b30ecdcd8596137686cc4a, ..\Circos\Circos\TrackDatas\Adapter\NtProps\Repeat.vb"
+﻿#Region "Microsoft.VisualBasic::eb38befd6ce17033748cd26c54e58208, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\Repeat.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace TrackDatas.NtProps
 

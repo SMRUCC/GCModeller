@@ -1,11 +1,38 @@
-﻿Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.SBML.Level2.Elements
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage
+﻿#Region "Microsoft.VisualBasic::4f9e0b2b2a3168d236e7295fa3e218ac, ..\GCModeller\CLI_tools\Solver.FBA\CLI\Compiler.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
+Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Partial Module CLI
 
@@ -39,14 +66,14 @@ Partial Module CLI
     Public Function Compile(CommandLine As CommandLine) As Integer
         Dim DataSourceFomat As String = CommandLine("-if")
 
-        Printf("FBA model compiler module [FBA.exe version: %s]", My.Application.Info.Version.ToString)
+        printf("FBA model compiler module [FBA.exe version: %s]", My.Application.Info.Version.ToString)
         If String.IsNullOrEmpty(DataSourceFomat) Then
             DataSourceFomat = "metacyc"
-            Printf("User not specifc a data source format, use default value 'metacyc' database format.")
+            printf("User not specifc a data source format, use default value 'metacyc' database format.")
         ElseIf Array.IndexOf(CompileMethods.Keys.ToArray, DataSourceFomat) = -1 Then
-            Printf("No such a data source format \'%s\', automatically  select the data source format as default 'metacyc'.", DataSourceFomat)
+            printf("No such a data source format \'%s\', automatically  select the data source format as default 'metacyc'.", DataSourceFomat)
         End If
-        Printf("Data source format is %s.", DataSourceFomat)
+        printf("Data source format is %s.", DataSourceFomat)
         Return CompileMethods(DataSourceFomat)(CommandLine)
     End Function
 
@@ -66,8 +93,8 @@ Partial Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function CompileSBML(args As CommandLine) As Integer
-        'Dim SBML As LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile = CommandLine("-i")
-        'Dim FBAModel As LANS.SystemsBiology.FBA.FBA = FBA.Compile(SBML)
+        'Dim SBML As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile = CommandLine("-i")
+        'Dim FBAModel As SMRUCC.genomics.FBA.FBA = FBA.Compile(SBML)
         'FBAModel.ObjectiveFunction = CommandLine("-f")
         'FBAModel.Direction = CommandLine("-d")
         'Call FileIO.FileSystem.WriteAllText(CommandLine("-o"), FBAModel.GetXml, append:=False)
@@ -91,16 +118,17 @@ Partial Module CLI
     ''' <remarks></remarks>
     Private Function CompileMetaCyc(CommandLine As CommandLine) As Integer
         If String.Equals(CommandLine("-of"), "fba") Then
-            'Dim SBML As LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile = CommandLine("-i") & "/metabolic-reactions.sbml"
-            'Dim FBAModel As LANS.SystemsBiology.FBA.FBA_RScript_Builder = FBA.Compile()
+            'Dim SBML As SMRUCC.genomics.Assembly.SBML.Level2.XmlFile = CommandLine("-i") & "/metabolic-reactions.sbml"
+            'Dim FBAModel As SMRUCC.genomics.FBA.FBA_RScript_Builder = FBA.Compile()
             'FBAModel.ObjectiveFunction = CommandLine("-f")
             'FBAModel.Direction = CommandLine("-d")
             'Call FileIO.FileSystem.WriteAllText(CommandLine("-o"), FBAModel.GetXml, append:=False)
         Else
-            ' Dim Compiler As LANS.SystemsBiology.Assembly.Xml.Model = LANS.SystemsBiology.Assembly.Xml.Model.BuildFrom(CommandLine("-i"), {Program.Profile.Filter.Old, Program.Profile.Filter.[New]})
+            ' Dim Compiler As SMRUCC.genomics.Assembly.Xml.Model = SMRUCC.genomics.Assembly.Xml.Model.BuildFrom(CommandLine("-i"), {Program.Profile.Filter.Old, Program.Profile.Filter.[New]})
             'Call Compiler.ApplyFilter(Program.Profile.Filter.Old, Program.Profile.Filter.[New])
             'Call Compiler.Save(CommandLine("-o"))
         End If
         Return 0
     End Function
 End Module
+

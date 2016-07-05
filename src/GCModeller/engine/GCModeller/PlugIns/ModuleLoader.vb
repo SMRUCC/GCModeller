@@ -1,4 +1,31 @@
-﻿Imports Microsoft.VisualBasic
+﻿#Region "Microsoft.VisualBasic::0c1a2d59fc65105373c5cd911d6f3266, ..\GCModeller\engine\GCModeller\PlugIns\ModuleLoader.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic
 
 Namespace PlugIns
 
@@ -8,15 +35,15 @@ Namespace PlugIns
     ''' <remarks>先从外部加载对象模型，当加载计算模型之后再加载数据模型</remarks>
     Public Class ModuleLoader : Implements System.IDisposable
 
-        Dim KernelModule As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem
-        Dim EngineSystem As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
+        Dim KernelModule As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem
+        Dim EngineSystem As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
 
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="Kernel">目标计算引擎框架类型实例</param>
         ''' <remarks></remarks>
-        Sub New(Kernel As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
+        Sub New(Kernel As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller)
             Me.EngineSystem = Kernel
             Me.KernelModule = Kernel.KernelModule
         End Sub

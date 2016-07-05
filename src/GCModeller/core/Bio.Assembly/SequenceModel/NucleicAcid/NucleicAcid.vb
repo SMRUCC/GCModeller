@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bdaac6a13003766d350afd75cd1f6c8, ..\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::1efe25cfd8f76802acde2ad7adb6f9e5, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -105,18 +105,14 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         ''' <summary>
-        ''' 这个延时加载的设计好像并没有什么卵用
-        ''' </summary>
-        Dim _innerSeqModel As Microsoft.VisualBasic.ComponentModel.Lazy(Of List(Of DNA))
-
-        ''' <summary>
         ''' Cache data for maintaining the high performance on sequence operation.
         ''' </summary>
         ''' <remarks></remarks>
         Dim _innerSeqCache As String
+        Dim _innerSeqModel As List(Of DNA)
 
         Public Function ToArray() As DNA()
-            Return _innerSeqModel.Value.ToArray
+            Return _innerSeqModel.ToArray
         End Function
 
         ''' <summary>
@@ -137,10 +133,9 @@ Namespace SequenceModel.NucleotideModels
             End Get
             Set(value As String)
                 Dim helper As New __cacheHelper(value)
-                Me._innerSeqModel =
-                    New Microsoft.VisualBasic.ComponentModel.Lazy(Of
-                    List(Of DNA))(AddressOf helper.__getList)
-                Call __generateSeqCache()
+                _innerSeqModel = helper.__getList
+                MyBase.SequenceData = value
+                _innerSeqCache = value
             End Set
         End Property
 
@@ -184,7 +179,6 @@ Namespace SequenceModel.NucleotideModels
         End Property
 
         Sub New(Sequence As IEnumerable(Of DNA))
-            Me._innerSeqModel = New Microsoft.VisualBasic.ComponentModel.Lazy(Of List(Of DNA))(Sequence.ToList)
             Call __convertSequence(ToString(Sequence))
         End Sub
 
@@ -212,14 +206,18 @@ Namespace SequenceModel.NucleotideModels
         ''' Construct the nucleotide seuqnece form a nt sequence model object. The nt sequence object should inherits from the base class <see cref="SequenceModel.ISequenceModel"/>
         ''' </summary>
         ''' <param name="SequenceData"></param>
-        Sub New(SequenceData As SequenceModel.ISequenceModel)
+        Sub New(SequenceData As ISequenceModel)
             Call __convertSequence(SequenceData.SequenceData)
         End Sub
 
-        Sub New(SequenceData As SequenceModel.FASTA.FastaToken)
+        Sub New(SequenceData As FASTA.FastaToken)
             Call __convertSequence(SequenceData.SequenceData)
         End Sub
 
+        ''' <summary>
+        ''' 检查序列的可用性
+        ''' </summary>
+        ''' <param name="seq"></param>
         Private Sub __convertSequence(seq As String)
             Dim nt As String = seq.ToUpper.Replace("N", "-").Replace(".", "-")
             Dim invalids As Char() = InvalidForNt(nt)
@@ -280,19 +278,6 @@ Namespace SequenceModel.NucleotideModels
 
             Return New String(lst.ToArray)
         End Function
-
-        ''' <summary>
-        ''' 假若修改了<see cref="_innerSeqModel"></see>之中的对象的话，则需要使用本方法重新生成序列缓存数据
-        ''' </summary>
-        ''' <remarks></remarks>
-        Private Sub __generateSeqCache()
-            Dim chars As Char() =
-                LinqAPI.Exec(Of Char) <= From ntBase As DNA
-                                         In _innerSeqModel.Value
-                                         Select __nucleotideAsChar(ntBase)
-            _innerSeqCache = New String(chars)
-            MyBase.SequenceData = _innerSeqCache
-        End Sub
 
         ''' <summary>
         ''' 分割得到的小片段的长度
@@ -430,7 +415,7 @@ Namespace SequenceModel.NucleotideModels
         End Operator
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator(Of DNA) Implements IEnumerable(Of DNA).GetEnumerator
-            For Each base As DNA In _innerSeqModel.Value
+            For Each base As DNA In _innerSeqModel
                 Yield base
             Next
         End Function

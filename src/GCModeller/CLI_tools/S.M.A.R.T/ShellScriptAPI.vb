@@ -1,13 +1,42 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+﻿#Region "Microsoft.VisualBasic::ff27a1dde7fdb86d91082886669f6a04, ..\GCModeller\CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.BLASTOutput
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.AnalysisTools.ProteinTools.Sanger.Pfam.PfamString
-Imports LANS.SystemsBiology.ProteinModel
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports LANS.SystemsBiology.Assembly.NCBI.CDD
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
+Imports SMRUCC.genomics.Data.Xfam
+Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.ProteinModel
 
 <PackageNamespace("SMART", Cites:="Letunic, I., et al. (2006). ""SMART 5: domains in the context of genomes And networks."" Nucleic Acids Res 34(Database issue): D257-260.
 	The Simple Modular Architecture Research Tool (SMART) is an online resource (http://smart.embl.de/) used for protein domain identification and the analysis of protein domain architectures. 
@@ -23,12 +52,12 @@ The network context is now displayed in the results page for more than 350 000 p
 Public Module ShellScriptAPI
 
     <ExportAPI("Pfam-String.Creates")>
-    Public Function CreatePfamString(blastoutput As BlastPlus.v228) As Sanger.Pfam.PfamString.PfamString()
-        Return Sanger.Pfam.PfamString.CreatePfamString(blastoutput)
+    Public Function CreatePfamString(blastoutput As BlastPlus.v228) As Pfam.PfamString.PfamString()
+        Return Pfam.PfamString.CreatePfamString(blastoutput)
     End Function
 
     <ExportAPI("Pfam-String.Save")>
-    Public Function SavePfamString(<Parameter("Pfam-String")> PfamString As Sanger.Pfam.PfamString.PfamString(),
+    Public Function SavePfamString(<Parameter("Pfam-String")> PfamString As Pfam.PfamString.PfamString(),
                                    <Parameter("Save.Csv")> saveCsv As String) As Boolean
         Return PfamString.SaveTo(saveCsv, False)
     End Function
@@ -36,7 +65,7 @@ Public Module ShellScriptAPI
     <ExportAPI("Session.New")>
     Public Function NewSmartSession(<Parameter("cdd.DIR")> cddDIR As String) As CompileDomains
         Dim Cdd_DB As CDDLoader = New CDDLoader(cddDIR)
-        Dim LocalBLAST = LANS.SystemsBiology.NCBI.Extensions.NCBILocalBlast.CreateSession
+        Dim LocalBLAST = NCBILocalBlast.CreateSession
         Return New CompileDomains(LocalBLAST, Cdd_DB, Settings.TEMP)
     End Function
 
@@ -85,3 +114,4 @@ Public Module ShellScriptAPI
         Return New DomainVisualize(New CDDLoader(cddDIR))
     End Function
 End Module
+

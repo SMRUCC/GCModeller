@@ -1,15 +1,42 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
+﻿#Region "Microsoft.VisualBasic::8664ea7ba12da6040a41aa7cbf95d613, ..\interops\meme_suite\MEME\Workflows\PromoterParser\GenePromoterParser.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.SequenceModel
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Workflows.PromoterParser
 
@@ -440,23 +467,23 @@ Namespace Workflows.PromoterParser
 
             Select Case Length
                 Case 100
-                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 150
-                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 200
-                    Return CType((From Fasta In Promoter.Promoter_200.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_200.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 250
-                    Return CType((From Fasta In Promoter.Promoter_250.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_250.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 300
-                    Return CType((From Fasta In Promoter.Promoter_300.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_300.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 350
-                    Return CType((From Fasta In Promoter.Promoter_350.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_350.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 400
-                    Return CType((From Fasta In Promoter.Promoter_400.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_400.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 450
-                    Return CType((From Fasta In Promoter.Promoter_450.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_450.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case 500
-                    Return CType((From Fasta In Promoter.Promoter_500.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                    Return CType((From Fasta In Promoter.Promoter_500.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
                 Case Else
                     Throw New Exception
             End Select
@@ -484,4 +511,5 @@ Namespace Workflows.PromoterParser
 #End Region
     End Class
 End Namespace
+
 

@@ -1,11 +1,38 @@
-﻿Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
+﻿#Region "Microsoft.VisualBasic::39d2e36e7136e6d758a099277eef6be4, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixAPI.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 
 <[PackageNamespace]("PCC.Matrix", Publisher:="xie.guigang@gmail.com", Category:=APICategories.UtilityTools)>
 Public Module MatrixAPI
@@ -239,7 +266,7 @@ Public Module MatrixAPI
                                                        RegulatorList As Generic.IEnumerable(Of String),
                                                        pcc As Double) As SimpleRegulation()
         Dim Regulations As List(Of SimpleRegulation) = New List(Of SimpleRegulation)
-        Dim Operons = LANS.SystemsBiology.Assembly.DOOR.Load(Door).DOOROperonView
+        Dim Operons = SMRUCC.genomics.Assembly.DOOR.Load(Door).DOOROperonView
         Dim OperonPromoterGenes As String() = (From item In Operons.Operons Select item.InitialX.Synonym).ToArray
 
         For Each RegulatorId As String In RegulatorList
@@ -333,3 +360,4 @@ Public Module MatrixAPI
         Return Chunkbuffer.ToArray
     End Function
 End Module
+

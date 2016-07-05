@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce9becf2176a4f697f413edd551291f2, ..\Circos\Circos\ConfFiles\Nodes\Base\Links.vb"
+﻿#Region "Microsoft.VisualBasic::a6e2e204055f7f90abbd5279de4352ee, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Base\Links.vb"
 
     ' Author:
     ' 
@@ -25,8 +25,8 @@
 
 #End Region
 
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Configurations.Nodes.Plots
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations.Nodes.Plots

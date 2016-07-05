@@ -1,5 +1,33 @@
-﻿Imports System.Text
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+﻿#Region "Microsoft.VisualBasic::839933dfae488927c46a11663f63f490, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\MetabolismFlux.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
 
 Namespace EngineSystem.ObjectModels.Module
 
@@ -7,7 +35,7 @@ Namespace EngineSystem.ObjectModels.Module
     ''' Metaolism reaction basetype in GCModeller ObjectModels.(GCModeller计算引擎之中的代谢反应对象模型类型的基类)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class MetabolismFlux : Inherits LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.FluxObject
+    Public Class MetabolismFlux : Inherits SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.FluxObject
         Implements Generic.IEnumerable(Of Entity.Compound)
         Implements Generic.IReadOnlyCollection(Of Entity.Compound)
         Implements Generic.IReadOnlyList(Of Entity.Compound)
@@ -20,7 +48,7 @@ Namespace EngineSystem.ObjectModels.Module
 
         <DumpNode> Public Overridable Property KineticsModel As MathematicsModels.GenericKinetic
 
-        Protected Friend _BaseType As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
+        Protected Friend _BaseType As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
 
         ''' <summary>
         ''' 使用Reactants字段域与Products字段域所生成的属性，表示为本代谢流对象中所涉及到的所有的代谢底物的集合
@@ -85,7 +113,7 @@ Namespace EngineSystem.ObjectModels.Module
 
         Protected Friend Shared Function Constraint(rFluxValue As Double, FluxObject As MetabolismFlux) As Double
             If rFluxValue > 0 Then  '正向的反映流量，则只需要考虑左端的被消耗的代谢物
-                Dim LQuery = (From Metabolite In FluxObject._Reactants Select Metabolite.Stoichiometry * Metabolite.EntityCompound.DataSource.Value).ToArray.Min
+                Dim LQuery = (From Metabolite In FluxObject._Reactants Select Metabolite.Stoichiometry * Metabolite.EntityCompound.DataSource.value).ToArray.Min
                 If rFluxValue > LQuery Then
                     Return LQuery
                 Else
@@ -94,7 +122,7 @@ Namespace EngineSystem.ObjectModels.Module
 
             ElseIf rFluxValue < 0 Then
 
-                Dim LQuery = (From Metabolite In FluxObject._Products Select Metabolite.Stoichiometry * Metabolite.EntityCompound.DataSource.Value).ToArray.Min
+                Dim LQuery = (From Metabolite In FluxObject._Products Select Metabolite.Stoichiometry * Metabolite.EntityCompound.DataSource.value).ToArray.Min
                 rFluxValue = -1 * rFluxValue
                 If rFluxValue > LQuery Then
                     Return -1 * LQuery
@@ -148,7 +176,7 @@ Namespace EngineSystem.ObjectModels.Module
         End Sub
 
         Public Shared Function CreateBasicalObject(Of FluxObject As MetabolismFlux) _
-            (FluxModel As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) As FluxObject
+            (FluxModel As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) As FluxObject
 
             Dim FluxObjectInstance As FluxObject = Activator.CreateInstance(Of FluxObject)()
 
@@ -251,7 +279,7 @@ Namespace EngineSystem.ObjectModels.Module
         End Function
 
         Public Shared Function CreateObject(Of TMetabolismFlux As MetabolismFlux) _
-            (obj As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction,
+            (obj As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction,
              Metabolites As EngineSystem.ObjectModels.Entity.Compound()) As TMetabolismFlux
 
             Dim Reaction As TMetabolismFlux = CreateBasicalObject(Of TMetabolismFlux)(obj)
@@ -262,7 +290,7 @@ Namespace EngineSystem.ObjectModels.Module
             Return Reaction
         End Function
 
-        Private Shared Function __createReferences(refData As Generic.IEnumerable(Of LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference),
+        Private Shared Function __createReferences(refData As Generic.IEnumerable(Of GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference),
                                                            Metabolites As EngineSystem.ObjectModels.Entity.Compound()) As EquationModel.CompoundSpecieReference()
 
             Dim LQuery = (From Compound In refData Select ObjectModels.Module.EquationModel.CompoundSpecieReference.CreateObject(Model:=Compound, Metabolites:=Metabolites)).ToArray

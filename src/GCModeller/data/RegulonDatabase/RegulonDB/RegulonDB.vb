@@ -1,6 +1,33 @@
-﻿Imports Oracle.LinuxCompatibility.MySQL
+﻿#Region "Microsoft.VisualBasic::48c9c3d6b9a1965f36f6881dc663a2b1, ..\GCModeller\data\RegulonDatabase\RegulonDB\RegulonDB.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.SequenceModel.FASTA
+Imports Oracle.LinuxCompatibility.MySQL
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace RegulonDB
 
@@ -33,7 +60,7 @@ Namespace RegulonDB
                 site.site_posleft,
                 site.site_posright
             }
-            Return New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+            Return New SMRUCC.genomics.SequenceModel.FASTA.FastaToken With {
                 .SequenceData = site.site_sequence,
                 .Attributes = attrs
             }

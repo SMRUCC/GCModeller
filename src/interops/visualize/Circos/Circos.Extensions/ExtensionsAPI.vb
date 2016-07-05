@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cda4d440303f141ec0c67c51a08ab1c, ..\Circos\Circos.Extensions\ExtensionsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::81bb37210d665f8b567ea7ee15f01143, ..\interops\visualize\Circos\Circos.Extensions\ExtensionsAPI.vb"
 
     ' Author:
     ' 
@@ -26,23 +26,24 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Documents.Karyotype
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.TrackDatas.Highlights
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.InteractionModel
-Imports LANS.SystemsBiology.InteractionModel.Regulon
-Imports LANS.SystemsBiology.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.InteractionModel.Regulon
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Visualize.Circos.Documents
+Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
 Public Module ExtensionsAPI
 
@@ -122,12 +123,12 @@ Public Module ExtensionsAPI
                       In bbh
                       Where Not String.IsNullOrEmpty(x.Pathway)
                       Let locus As String() = x.Regulates.ToArray(Function(g) g.LocusId)
-                      Let parts = DatabaseServices.ContinuouParts(locus)
+                      Let parts = ContinuouParts(locus)
                       Select parts.ToArray(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).MatrixToList
         Dim trims = (From x In LQuery Where x.locus_tags.Length > 1 Select x Group x By x.func Into Group).ToArray
         LQuery = (From x In trims
                   Let locus As String() = x.Group.ToArray(Function(xx) xx.locus_tags).MatrixToVector
-                  Let parts = DatabaseServices.ContinuouParts(locus)
+                  Let parts = ContinuouParts(locus)
                   Select (From part As String()
                           In parts
                           Select New With {.func = x.func, .locus_tags = part})).MatrixToList
@@ -157,4 +158,3 @@ Public Module ExtensionsAPI
         Return New HighlightLabel(dist)
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26839208d1eafbd0a70a74d9a6278f20, ..\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb"
+﻿#Region "Microsoft.VisualBasic::bec40e412412dcb3f68adfe29e6d6af5, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb"
 
     ' Author:
     ' 
@@ -90,7 +90,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         End Function
 
         'Public Shared Function CreateGeneCollection(Pathways As Pathway(),
-        '                                            Genes As LANS.SystemsBiology.Assembly.MetaCyc.File.DataFiles.Genes,
+        '                                            Genes As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Genes,
         '                                            ProteinDomains As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
         '    Dim List As List(Of String) = New List(Of String)
 

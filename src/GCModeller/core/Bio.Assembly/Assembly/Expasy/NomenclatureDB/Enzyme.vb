@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0c76db8e6f97eb0c41530acf99bc859, ..\Bio.Assembly\Assembly\Expasy\NomenclatureDB\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::a0c76db8e6f97eb0c41530acf99bc859, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\Enzyme.vb"
 
     ' Author:
     ' 

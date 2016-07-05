@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8780d0f91703863e9edc06e742abced4, ..\Bio.Assembly\Assembly\EBI.ChEBI\WebServices.vb"
+﻿#Region "Microsoft.VisualBasic::8780d0f91703863e9edc06e742abced4, ..\GCModeller\core\Bio.Assembly\Assembly\EBI.ChEBI\WebServices.vb"
 
     ' Author:
     ' 

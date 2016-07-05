@@ -1,17 +1,45 @@
-﻿Imports System.Threading.Tasks.Parallel
-Imports LANS.SystemsBiology.Assembly
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem
-Imports LANS.SystemsBiology.Assembly.MetaCyc.Schema.PathwayBrief
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.dataExprMAT
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.RTools.WGCNA
+﻿#Region "Microsoft.VisualBasic::8f60587a7d80e2d0094b4fb9da6957a0, ..\interops\meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Threading.Tasks.Parallel
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Toolkits.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq
+Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
+Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Workflows.PromoterParser
 
@@ -73,12 +101,12 @@ Namespace Workflows.PromoterParser
                                    ExportLocation As String)
             Dim LQuery = (From strId As String In DoorIdList Select DataSource(strId)).ToArray
             Dim Path As String = $"{ExportLocation}/MetaCycPathways_{Length}bp/{PathwayId}.fasta"
-            Call CType(LQuery, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile).Save(Path)
+            Call CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Save(Path)
         End Sub
 
         Public Function ExtractPromoterRegion_PhenotypePathways(KEGGPathways As IEnumerable(Of bGetObject.Pathway), Export As String) As Integer
             Dim Operons As Assembly.DOOR.OperonView = PromoterParser.DoorOperonView
-            Dim ExportAction = Sub([Module] As LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Pathway)
+            Dim ExportAction = Sub([Module] As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)
                                    Dim module_operons = (From item In Operons.Select([Module].GetPathwayGenes) Select item.Key Distinct).ToArray
                                    Call GetFasta(module_operons, PromoterParser.Promoter_150).Save(String.Format("{0}/KEGGPathways_{1}bp/{2}.fasta", Export, 150, [Module].EntryId))
                                    Call GetFasta(module_operons, PromoterParser.Promoter_200).Save(String.Format("{0}/KEGGPathways_{1}bp/{2}.fasta", Export, 200, [Module].EntryId))
@@ -97,7 +125,7 @@ Namespace Workflows.PromoterParser
         Private Shared Function GetFasta(operonList As String(), promoterRegions As Dictionary(Of String, FastaToken)) As FastaFile
 
             Dim LQuery = (From itemId As String In operonList Select promoterRegions(itemId)).ToArray
-            Return CType(LQuery, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+            Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
         End Function
 
         <ExportAPI("kegg_pathways.extract")>
@@ -168,16 +196,16 @@ Namespace Workflows.PromoterParser
             End Sub
 
             Public Sub __extractFromString(stringEntry As String)
-                Dim entry = stringEntry.LoadXml(Of LANS.SystemsBiology.DatabaseServices.StringDB.MIF25.EntrySet)(ThrowEx:=False)
+                Dim entry = stringEntry.LoadXml(Of StringDB.MIF25.EntrySet)(ThrowEx:=False)
 
                 If entry Is Nothing Then
                     Return
                 End If
 
-                Dim Interactions As DatabaseServices.StringDB.SimpleCsv.PitrNode() = entry.ExtractNetwork
+                Dim Interactions As StringDB.SimpleCsv.PitrNode() = entry.ExtractNetwork
                 Dim GeneId As String = Strings.Split(stringEntry.Replace("\", "/"), "/").Last.Split(CChar(".")).First
                 Dim Door = Parser.PromoterParser.DoorOperonView.Select(GeneId)
-                Dim InteractingGeneIds As String() = (From intr As DatabaseServices.StringDB.SimpleCsv.PitrNode
+                Dim InteractingGeneIds As String() = (From intr As StringDB.SimpleCsv.PitrNode
                                                       In Interactions
                                                       Let Itr_Id As String = intr.GetInteractNode(GeneId)
                                                       Where Not String.IsNullOrEmpty(Itr_Id)
@@ -208,7 +236,7 @@ Namespace Workflows.PromoterParser
                                      ExportDir As String)
 
                 Dim LQuery = (From strId As String In DoorIdList Select DataSource(strId)).ToArray
-                Dim Fasta = CType(LQuery, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)
+                Dim Fasta = CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
 
                 Call Fasta.Save(String.Format("{0}/{1}/{2}.fsa", ExportDir, Length, GeneId))
             End Sub
@@ -267,8 +295,8 @@ Namespace Workflows.PromoterParser
                 New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
             Call BriefInfo.Add(New String() {"OperonId", "OperonCounts_Gt_WGCNACutOff", "OperonIdList"})
 
-            Dim InvokeAction As Action(Of LANS.SystemsBiology.Assembly.DOOR.Operon) =
-                Sub(Operon As LANS.SystemsBiology.Assembly.DOOR.Operon)
+            Dim InvokeAction As Action(Of SMRUCC.genomics.Assembly.DOOR.Operon) =
+                Sub(Operon As SMRUCC.genomics.Assembly.DOOR.Operon)
                     Dim currentPromoter = Operon.InitialX
                     Dim LQuery = (From PairedOperon In PromoterParser.DoorOperonView.Operons
                                   Let condition = Function() As Boolean
@@ -307,7 +335,7 @@ Namespace Workflows.PromoterParser
         End Sub
 
         <ExportAPI("Session.New")>
-        Public Shared Function CreateObject(MetaCyc As LANS.SystemsBiology.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Door As String) As DataPreparingParser
+        Public Shared Function CreateObject(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Door As String) As DataPreparingParser
             Return New DataPreparingParser(MetaCyc, Door)
         End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc1526f3698fdf75f8727993b6fdda8e, ..\Circos\CLI\CLI\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::2743abe3763df62a79ae1c8f2d7bef9a, ..\interops\visualize\Circos\CLI\CLI\Tools.vb"
 
     ' Author:
     ' 
@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Visualize.Circos
 
 Partial Module CLI
 
@@ -56,9 +56,8 @@ Partial Module CLI
         Dim inDIR As String = args("/in")
         Dim ptt As String = args("/ptt")
         Dim out As String = args.GetValue("/out", inDIR & ".Names.Csv")
-        Dim gbPTT = LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(ptt)
+        Dim gbPTT = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(ptt)
         Dim names = NameExtensions.DumpNames(inDIR, gbPTT)
         Return names.SaveTo(out).CLICode
     End Function
 End Module
-

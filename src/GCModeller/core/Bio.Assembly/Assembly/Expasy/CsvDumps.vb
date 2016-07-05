@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc8b44696c784241876a6d5c8dc774b2, ..\Bio.Assembly\Assembly\Expasy\CsvDumps.vb"
+﻿#Region "Microsoft.VisualBasic::dc8b44696c784241876a6d5c8dc774b2, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\CsvDumps.vb"
 
     ' Author:
     ' 

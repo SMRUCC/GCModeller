@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95003ffdc4abf556db5eac53105c019c, ..\Circos\Circos\Karyotype\chrKaryotype.vb"
+﻿#Region "Microsoft.VisualBasic::b953160f25b56165a1c1b92cbed651fd, ..\interops\visualize\Circos\Circos\Karyotype\chrKaryotype.vb"
 
     ' Author:
     ' 
@@ -26,16 +26,16 @@
 #End Region
 
 Imports System.Text
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Circos.Colors
-Imports LANS.SystemsBiology.ComponentModel.Loci
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application
-Imports LANS.SystemsBiology.SequenceModel.FASTA
-Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Visualize.Circos.Colors
 
 Namespace Karyotype
 
