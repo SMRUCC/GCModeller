@@ -213,8 +213,9 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".gwANI.Csv")
         Dim fast As Boolean = args.GetBoolean("/fast")
-        Dim result = gwANIExtensions.Evaluate([in], fast)
-        Return result.SaveTo(out)
+
+        Call gwANIExtensions.Evaluate([in], out, fast)
+        Return 0
     End Function
 
     <ExportAPI("/Sigma",
