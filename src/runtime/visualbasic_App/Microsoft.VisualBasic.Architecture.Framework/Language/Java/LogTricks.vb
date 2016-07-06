@@ -39,7 +39,7 @@ Namespace Language.Java
 
         Public Const NATS As Double = 400 '40;
 
-        Public Function logSumNoCheck(ByVal x As Double, ByVal y As Double) As Double
+        Public Function logSumNoCheck(x As Double, y As Double) As Double
             Dim temp As Double = y - x
             If Math.Abs(temp) > NATS Then
                 Return If(x > y, x, y)
@@ -48,7 +48,7 @@ Namespace Language.Java
             End If
         End Function
 
-        Public Function logSum(ByVal x As Double()) As Double
+        Public Function logSum(x As Double()) As Double
             Dim sum As Double = x(0)
             Dim len As Integer = x.Length
             For i As Integer = 1 To len - 1
@@ -57,7 +57,7 @@ Namespace Language.Java
             Return sum
         End Function
 
-        Public Function logSum(ByVal x As Double, ByVal y As Double) As Double
+        Public Function logSum(x As Double, y As Double) As Double
             Dim temp As Double = y - x
             If temp > NATS OrElse x < logLimit Then Return y
             If temp < -NATS OrElse y < logLimit Then Return x
@@ -65,7 +65,7 @@ Namespace Language.Java
             Return y + JavaMath.log1p(Math.Exp(-temp))
         End Function
 
-        Public Sub logInc(ByVal x As Double?, ByVal y As Double)
+        Public Sub logInc(x As Double?, y As Double)
             Dim temp As Double = y - x
             If temp > NATS OrElse x < logLimit Then
                 x = y
@@ -76,7 +76,7 @@ Namespace Language.Java
             End If
         End Sub
 
-        Public Function logDiff(ByVal x As Double, ByVal y As Double) As Double
+        Public Function logDiff(x As Double, y As Double) As Double
             Debug.Assert(x > y)
             Dim temp As Double = y - x
             If temp < -NATS OrElse y < logLimit Then Return x
