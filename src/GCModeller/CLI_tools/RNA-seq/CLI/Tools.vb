@@ -22,7 +22,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ",kmax=" & kmax & ".Csv")
         Dim fq As FastaqFile = FastaqFile.Load([in])
         Dim vectors = fq.Transform
-        Dim Crude = vectors.RandomClustering(kmax, fq.NumOfReads)
+        Dim Crude = vectors.InitializePartitions(kmax)
         Dim ptes = Crude.First.PartitionProbability
     End Function
 End Module

@@ -1,7 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DataMining.Framework.KMeans.CompleteLinkage
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace BEBaC
@@ -9,17 +10,24 @@ Namespace BEBaC
     Public Module CrudeClustering
 
         ''' <summary>
+        ''' **Initialization**
         ''' 
+        ''' Cluster ``y(N)`` into ``Kmax`` clusters Using complete linkage algorithm
         ''' </summary>
         ''' <param name="s"></param>
         ''' <param name="kmax"></param>
-        ''' <param name="n">原始输入的序列的总数</param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function RandomClustering(s As IEnumerable(Of I3merVector), kmax As Integer, n As Integer) As IEnumerable(Of Cluster)
-            For Each x As I3merVector() In TaskPartitions.SplitIterator(s, n / kmax)
+        Public Iterator Function InitializePartitions(s As IEnumerable(Of I3merVector), kmax As Integer) As IEnumerable(Of Cluster)
+            Dim cluster As New CompleteLinkageClustering(s, kmax)
+            Dim result = cluster.Clustering
+
+            For Each cl In From x As I3merVector
+                           In result
+                           Select x
+                           Group x By x.CompleteLinkageResultCluster Into Group
                 Yield New Cluster With {
-                    .members = New List(Of I3merVector)(x)
+                    .members = New List(Of I3merVector)(cl.Group)
                 }
             Next
         End Function
