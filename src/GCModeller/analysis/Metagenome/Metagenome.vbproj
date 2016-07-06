@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AB10B480-33B1-476C-8237-23E15CE635BD}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Metagenome</RootNamespace>
-    <AssemblyName>Metagenome</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Analysis.Metagenome</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Analysis.Metagenome</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Metagenome.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.Metagenome.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Metagenome.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.Metagenome.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,7 +48,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>Metagenome.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.Metagenome.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>Metagenome.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Analysis.Metagenome.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -85,9 +85,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="3-mer.vb" />
-    <Compile Include="CrudeClustering.vb" />
-    <Compile Include="PosteriorProbability.vb" />
+    <Compile Include="BEBaC\3-mer.vb" />
+    <Compile Include="BEBaC\CrudeClustering.vb" />
+    <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -113,7 +113,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="gks227.pdf" />
+    <None Include="BEBaC\gks227.pdf" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

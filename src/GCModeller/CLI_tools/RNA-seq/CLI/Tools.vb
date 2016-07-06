@@ -1,6 +1,6 @@
-﻿Imports Metagenome
-Imports Microsoft.VisualBasic.CommandLine
+﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 
