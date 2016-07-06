@@ -158,7 +158,7 @@ Public Module VectorAPI
         Dim n As Integer
         Dim t As String = base.ToString
 
-        Do While p > 0
+        Do While p >= 0
             p = seq.IndexOf(t, startIndex:=p)
             If p <> -1 Then
                 n += 1
