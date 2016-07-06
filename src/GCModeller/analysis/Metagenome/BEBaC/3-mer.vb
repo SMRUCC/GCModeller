@@ -120,18 +120,25 @@ Namespace BEBaC
         ''' <returns></returns>
         <Extension>
         Public Iterator Function Transform(Of T As ISequenceModel)(
-                                          x As IEnumerable(Of T),
-                            Optional getTag As Func(Of T, String) = Nothing) _
-                                            As IEnumerable(Of I3merVector)
+                                              x As IEnumerable(Of T),
+                                Optional getTag As Func(Of T, String) = Nothing) _
+                                                As IEnumerable(Of I3merVector)
 
             If getTag Is Nothing Then
                 getTag = Function(seq) seq.ToString
             End If
 
             For Each seq As T In x  ' seq = xi
+                Dim n As Integer = seq.SequenceData.Length - 2  ' 由于计算是和划窗类似的，所以总数目和序列的长度基本一致
+                Dim vec As Dictionary(Of I3Mers, Integer) = seq.GetVector
+                Dim f As Dictionary(Of I3Mers, Double) =
+                    vec.ToDictionary(Function(o) o.Key,
+                                     Function(o) o.Value / n)
+
                 Yield New I3merVector With {
                     .Name = getTag(seq),
-                    .Vector = seq.GetVector
+                    .Vector = vec,
+                    .Frequency = f
                 }
             Next
         End Function

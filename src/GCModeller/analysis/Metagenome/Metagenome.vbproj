@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="BEBaC\3-mer.vb" />
     <Compile Include="BEBaC\CrudeClustering.vb" />
+    <Compile Include="BEBaC\Model.vb" />
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
