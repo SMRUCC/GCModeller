@@ -107,7 +107,7 @@ Namespace Fastaq
 
         End Sub
 
-        Public ReadOnly Property SequenceCount As Integer Implements ICollection(Of Fastaq).Count
+        Public ReadOnly Property NumOfReads As Integer Implements ICollection(Of Fastaq).Count
             Get
                 Return _innerList.Count
             End Get

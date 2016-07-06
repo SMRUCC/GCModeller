@@ -8,7 +8,7 @@ Imports SMRUCC.genomics.SequenceModel
 ''' Each element of the ``1 x 64`` vector ``yi=(yi1, yi2, ... , yij, ... yi64)`` 
 ''' represents the count Of its corresponding ``3-mer`` in the given sequence xi. 
 ''' </summary>
-Public Enum I3Mers As Integer
+Public Enum I3Mers As Byte
     AAA
     AAG
     AAC
@@ -94,6 +94,12 @@ Public Module VectorAPI
 
     ReadOnly __all3Mer As I3Mers()
 
+    Public ReadOnly Property I3Mersx As I3Mers()
+        Get
+            Return __all3Mer
+        End Get
+    End Property
+
     Sub New()
         __all3Mer = Enums(Of I3Mers)()
     End Sub
@@ -114,16 +120,16 @@ Public Module VectorAPI
     Public Iterator Function Transform(Of T As ISequenceModel)(
                                           x As IEnumerable(Of T),
                             Optional getTag As Func(Of T, String) = Nothing) _
-                                            As IEnumerable(Of NamedValue(Of Dictionary(Of I3Mers, Integer)))
+                                            As IEnumerable(Of I3merVector)
 
         If getTag Is Nothing Then
             getTag = Function(seq) seq.ToString
         End If
 
         For Each seq As T In x  ' seq = xi
-            Yield New NamedValue(Of Dictionary(Of I3Mers, Integer)) With {
+            Yield New I3merVector With {
                 .Name = getTag(seq),
-                .x = seq.GetVector
+                .Vector = seq.GetVector
             }
         Next
     End Function
@@ -159,9 +165,11 @@ Public Module VectorAPI
         Dim t As String = base.ToString
 
         Do While p >= 0
-            p = seq.IndexOf(t, startIndex:=p)
-            If p <> -1 Then
+            p = seq.IndexOf(t, startIndex:=p) + 1
+            If p <> 0 Then
                 n += 1
+            Else
+                Exit Do
             End If
         Loop
 
