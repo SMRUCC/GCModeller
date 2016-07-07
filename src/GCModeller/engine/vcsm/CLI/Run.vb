@@ -1,36 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::be4f33546255de21c27375af6dcaaa27, ..\GCModeller\engine\vcsm\CLI\Run.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine
-Imports LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller
+Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem
 
 <[PackageNamespace]("GCModeller.EngineHost", Description:="", Url:="", Category:=APICategories.CLI_MAN)>
 Public Module CommandLines
@@ -77,21 +79,20 @@ Public Module CommandLines
             Configuration = FileIO.FileSystem.GetFiles(Configuration, FileIO.SearchOption.SearchTopLevelOnly, "*.inf").First
         End If
 
-        Dim Conf As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations =
-            LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(Configuration)
+        Dim Conf As ModellingEngine.EngineSystem.Engine.Configuration.Configurations =
+           ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(Configuration)
 
-        Return Global.LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.Run.Invoke(Program.ExternalModuleRegistry, Conf, argvs)
+        Return ModellingEngine.EngineSystem.Engine.Run.Invoke(Program.ExternalModuleRegistry, Conf, argvs)
     End Function
 
     Const _VIRTUALCELL_HOST_DEFAULT_CONF As String = "/virtualcell_host_default.conf.inf"
 
     <ExportAPI("load.model.csv_tabular", Info:="The csv_tabular format model file is the alternative format of the GCModeller virtual cell modle, as the GCModeller only support the GCML xml file as the modelling data source, so that you should using this command to load the csv_tabular format model file as the GCML format.")>
     Public Function LoadCsv(ModelFile As String, LogFile As Microsoft.VisualBasic.Logging.LogFile, argvs As Microsoft.VisualBasic.CommandLine.CommandLine) _
-        As LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller
+        As ModellingEngine.EngineSystem.Engine.GCModeller
 
-        Dim Model As LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel =
-            New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.DataModel.CellSystem(ModelFile, LogFile).LoadAction
-        Dim EngineSystem As New GCModeller.ModellingEngine.EngineSystem.Engine.GCModeller(Model) With {.args = argvs}
+        Dim Model As GCMarkupLanguage.BacterialModel = New DataModel.CellSystem(ModelFile, LogFile).LoadAction
+        Dim EngineSystem As New ModellingEngine.EngineSystem.Engine.GCModeller(Model) With {.args = argvs}
         EngineSystem.ConnectLoggingClient(LogFile)
         Dim KernelModule As New ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem(EngineSystem)
         EngineSystem.LoadKernel(KernelModule)
@@ -102,11 +103,11 @@ Public Module CommandLines
     <ExportAPI("Experiment.Whole_Genome_Mutation", Info:="shell parameter is the shoal shell application program file location.")>
     Public Function WholeGenomeMutation(ModelFile As String, Mutation_Factor As Double, shell As String) As Integer
         Dim Configuration = New ModellingEngine.EngineSystem.Engine.Configuration.ConfigReader(ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(FileIO.FileSystem.GetFiles(FileIO.FileSystem.GetParentPath(ModelFile), FileIO.SearchOption.SearchTopLevelOnly, "*.inf").First))
-        Dim ModelLoader = New LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.CsvTabular.FileStream.IO.XmlresxLoader(ModelFile)
-        Dim StorageURL As KeyValuePair(Of GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String) = Configuration.DataStorageURL
+        Dim ModelLoader = New FileStream.IO.XmlresxLoader(ModelFile)
+        Dim StorageURL As KeyValuePair(Of ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String) = Configuration.DataStorageURL
 
-        If StorageURL.Key = LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.MySQL Then
-            StorageURL = New KeyValuePair(Of LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String)(LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.CSV, String.Format("{0}/vcell/", My.Computer.FileSystem.SpecialDirectories.Desktop))
+        If StorageURL.Key = ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.MySQL Then
+            StorageURL = New KeyValuePair(Of ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String)(ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.CSV, String.Format("{0}/vcell/", My.Computer.FileSystem.SpecialDirectories.Desktop))
         End If
 
         Dim Queue As List(Of String) = New List(Of String)
@@ -132,11 +133,11 @@ Public Module CommandLines
     <ExportAPI("Experiment.Whole_Genome_Mutation2", Info:="shell parameter is the shoal shell application program file location. this command is required the GCML format model file.")>
     Public Function WholeGenomeMutationFromGCML(ModelFile As String, Mutation_Factor As Double, shell As String) As Integer
         Dim Configuration = New ModellingEngine.EngineSystem.Engine.Configuration.ConfigReader(ModellingEngine.EngineSystem.Engine.Configuration.Configurations.Load(DefaultConfg))
-        Dim Model = LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.BacterialModel.Load(ModelFile)
-        Dim StorageURL As KeyValuePair(Of GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String) = Configuration.DataStorageURL
+        Dim Model = GCMarkupLanguage.BacterialModel.Load(ModelFile)
+        Dim StorageURL As KeyValuePair(Of ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String) = Configuration.DataStorageURL
 
-        If StorageURL.Key = LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.MySQL Then
-            StorageURL = New KeyValuePair(Of LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String)(LANS.SystemsBiology.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.CSV, String.Format("{0}/vcell/", My.Computer.FileSystem.SpecialDirectories.Desktop))
+        If StorageURL.Key = ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.MySQL Then
+            StorageURL = New KeyValuePair(Of ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String)(ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.CSV, String.Format("{0}/vcell/", My.Computer.FileSystem.SpecialDirectories.Desktop))
         End If
 
         Dim Queue As List(Of String) = New List(Of String)
@@ -154,7 +155,7 @@ Public Module CommandLines
     End Function
 
     Private Sub InternalRunGeneMutation(GeneId As String, format As String,
-                                               StorageURL As KeyValuePair(Of GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String),
+                                               StorageURL As KeyValuePair(Of ModellingEngine.EngineSystem.Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String),
                                                ModelFile_url As String,
                                                ByRef Queue As List(Of String), Mutation_Factor As Double, shell As String, conf As String)
         Dim ExportDir As String = String.Format("{0}/{1}/", StorageURL.Value, GeneId)
