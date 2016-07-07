@@ -61,6 +61,30 @@ Public Module MathGamma
     End Function
 
     ''' <summary>
+    ''' gamma function ``Γ`` from mathematics
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' Alias for <see cref="gamma"/>
+    ''' 
+    ''' Test:
+    ''' 
+    ''' ```
+    ''' > var gamma = require('gamma')
+    ''' > gamma(5)
+    ''' 23.999999999999996
+    ''' > gamma(1.6)
+    ''' 0.8935153492876909
+    ''' ```
+    ''' </remarks>
+    ''' 
+    <Extension>
+    Public Function Γ(x As Double) As Double
+        Return x.gamma
+    End Function
+
+    ''' <summary>
     ''' Γ
     ''' </summary>
     ''' <param name="z"></param>
@@ -77,7 +101,7 @@ Public Module MathGamma
 
             z -= 1
 
-            For i As Integer = 1 To g + 2
+            For i As Integer = 1 To g + 1
                 x += p(i) / (z + i)
             Next
 
