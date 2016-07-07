@@ -1,7 +1,7 @@
 ---
 title: GCModeller
 tags: [maunal, tools]
-date: 7/7/2016 6:24:18 PM
+date: 7/7/2016 6:51:34 PM
 ---
 # GCModeller [version 1.0.2.3]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/GCModeller.exe

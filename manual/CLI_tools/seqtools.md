@@ -1,7 +1,7 @@
 ---
 title: seqtools
 tags: [maunal, tools]
-date: 7/7/2016 6:24:37 PM
+date: 7/7/2016 6:51:59 PM
 ---
 # GCModeller [version 3.0.2456.4506]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/seqtools.exe
