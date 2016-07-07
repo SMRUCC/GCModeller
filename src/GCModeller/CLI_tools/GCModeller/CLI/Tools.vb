@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::b2477fab1ec92a9c658d0fb20028a919, ..\GCModeller\CLI_tools\GCModeller\CLI\Tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.CommandLine
+Imports System.Text
 
 Partial Module CLI
 
@@ -65,7 +66,7 @@ Partial Module CLI
 
         For Each x In types
             Dim exePrint As String = " " & x.BaseName & New String(" "c, exeMAX - Len(x.BaseName))
-            Printf("%s%s", exePrint, x.nsDef.Description)
+            printf("%s%s", exePrint, x.nsDef.Description)
         Next
 
         Return 0
@@ -97,6 +98,24 @@ date: {Now.ToString}
 " & md
             Call md.SaveTo(path)
         Next
+
+        Dim sb As New StringBuilder
+
+        Call sb.AppendLine($"---
+title: GCModeller CLI Tools
+tags: [manual, tools]
+date: {Now.ToString}
+---")
+        Call sb.AppendLine()
+        Call sb.AppendLine("All of the available GCModeller CLI tools are listed below:")
+        Call sb.AppendLine()
+        Call sb.AppendLine()
+
+        For Each app As String In tools
+            Call sb.AppendLine($"+ [{app.BaseName}](./{app.BaseName}.html)")
+        Next
+
+        Call sb.SaveTo(App.HOME & "/index.md")
 
         Return 0
     End Function

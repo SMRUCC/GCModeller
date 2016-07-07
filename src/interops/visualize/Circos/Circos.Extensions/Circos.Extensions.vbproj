@@ -68,7 +68,7 @@
     <OutputPath>bin\docs\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
-    <OutputPath>bin\x64\docs\</OutputPath>
+    <OutputPath>..\..\..\..\..\manual\sdk_api\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>

@@ -1,0 +1,1482 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+SMRUCC.genomics.Data.GO_OWL
+</name>
+</assembly>
+<members>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.NCBI.gene2go">
+ <summary>
+ #Format: tax_id GeneID GO_ID Evidence Qualifier GO_term PubMed Category (tab is used as a separator, pound sign - start of a comment)
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.NCBI.gene2go.LoadDoc(System.String)">
+ <summary>
+ Load ncbi gene2go.txt document
+ </summary>
+ <param name="path">The doc path</param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.ToGo">
+ <summary>
+ The reference links between the Go database and other biological database.
+ (Go数据库和其他的生物学数据库的相互之间的外键连接)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.ToGo.LoadDocument(System.String,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="Path"></param>
+ <param name="DbXrefHead">COG/EC/MetaCyc/KEGG/Pfam/Reactome/SMART</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.AnnotationFile">
+ <summary>
+ go.obo(Go注释功能定义文件)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.GAF">
+ <summary>
+ GO Annotation File (GAF) Format 2.0
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DB">
+ <summary>
+ refers to the database from which the identifier in DB object ID (column 2) is drawn. This is not necessarily the 
+ group submitting the file. If a UniProtKB ID is the DB object ID (column 2), DB (column 1) should be UniProtKB.
+ must be one of the values from the set of GO database cross-references
+ this field is mandatory, cardinality 1
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DBObjectID">
+ <summary>
+ a unique identifier from the database in DB (column 1) for the item being annotated
+ this field is mandatory, cardinality 1
+ In GAF 2.0 format, the identifier must reference a top-level primary gene or gene product identifier: either a gene, 
+ or a protein that has a 1:1 correspondence to a gene. Identifiers referring to particular protein isoforms or 
+ post-translationally cleaved or modified proteins are not legal values in this field.
+ The DB object ID (column 2) is the identifier for the database object, which may or may not correspond exactly to 
+ what is described in a paper. For example, a paper describing a protein may support annotations to the gene encoding 
+ the protein (gene ID in DB object ID field) or annotations to a protein object (protein ID in DB object ID field).
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DBObjectSymbol">
+ <summary>
+ a (unique and valid) symbol to which DB object ID is matched
+ can use ORF name for otherwise unnamed gene or protein
+ if gene products are annotated, can use gene product symbol if available, or many gene product annotation entries 
+ can share a gene symbol this field is mandatory, cardinality 1
+ The DB Object Symbol field should be a symbol that means something to a biologist wherever possible (a gene symbol, 
+ for example). It is not an ID or an accession number (DB object ID [column 2] provides the unique identifier), 
+ although IDs can be used as a DB object symbol if there is no more biologically meaningful symbol available (e.g., 
+ when an unnamed gene is annotated).
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.Qualifier">
+ <summary>
+ flags that modify the interpretation of an annotation
+ one (or more) of NOT, contributes_to, colocalizes_with
+ this field is not mandatory; cardinality 0, 1, >1; for cardinality >1 use a pipe to separate entries (e.g. NOT|contributes_to)
+ See also the documentation on qualifiers in the GO annotation guide
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.GOID">
+ <summary>
+ the GO identifier for the term attributed to the DB object ID
+ this field is mandatory, cardinality 1
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DBReference">
+ <summary>
+ one or more unique identifiers for a single source cited as an authority for the attribution of the GO ID to the DB 
+ object ID. This may be a literature reference or a database record. The syntax is DB:accession_number.
+ Note that only one reference can be cited on a single line in the gene association file. If a reference has identifiers 
+ in more than one database, multiple identifiers for that reference can be included on a single line. For example, 
+ if the reference is a published paper that has a PubMed ID, we strongly recommend that the PubMed ID be included, 
+ as well as an identifier within a model organism database. Note that if the model organism database has an identifier 
+ for the reference, that identifier should always be included, even if a PubMed ID is also used.
+ this field is mandatory, cardinality 1, >1; for cardinality >1 use a pipe to separate entries 
+ (e.g. SGD_REF:S000047763|PMID:2676709).
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.EvidenceCode">
+ <summary>
+ see the GO evidence code guide for the list of valid evidence codes for GO annotations
+ this field is mandatory, cardinality 1
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.WithOrFrom">
+ <summary>
+ Also referred to as with, from or the with/from column
+ one of:
+ DB:gene_symbol
+ DB:gene_symbol[allele_symbol]
+ DB:gene_id
+ DB:protein_name
+ DB:sequence_id
+ GO:GO_id
+ CHEBI:CHEBI_id
+ this field is not mandatory overall, but is required for some evidence codes (see below and the evidence code 
+ documentation for details); cardinality 0, 1, >1; for cardinality >1 use a pipe to separate entries 
+ (e.g. CGSC:pabA|CGSC:pabB)
+ Note: This field is used to hold an additional identifier for annotations using certain evidence codes 
+ (IC, IEA, IGI, IPI, ISS). For example, it can identify another gene product to which the annotated gene product 
+ is similar (ISS) or interacts with (IPI). More information on the meaning of with or from column entries is 
+ available in the evidence code documentation entries for the relevant codes.
+ Cardinality = 0 is not recommended, but is permitted because cases can be found in literature where no database 
+ identifier can be found (e.g. physical interaction or sequence similarity to a protein, but no ID provided). 
+ Cardinality = 0 is not allowed for ISS annotations made after October 1, 2006. Annotations where evidence is IGI, 
+ IPI, or ISS and with cardinality = 0 should link to an explanation of why there is no entry in with. Cardinality 
+ may be >1 for any of the evidence codes that use with; for IPI and IGI cardinality >1 has a special meaning (see 
+ evidence documentation for more information). For cardinality >1 use a pipe to separate entries 
+ (e.g. FB:FBgn1111111|FB:FBgn2222222).
+ Note that a gene ID may be used in the with column for a IPI annotation, or for an ISS annotation based on amino 
+ acid sequence or protein structure similarity, if the database does not have identifiers for individual gene 
+ products. A gene ID may also be used if the cited reference provides enough information to determine which gene ID 
+ should be used, but not enough to establish which protein ID is correct.
+ 'GO:GO_id' is used only when the evidence code is IC, and refers to the GO term(s) used as the basis of a curator 
+ inference. In these cases the entry in the 'DB:Reference' column will be that used to assign the GO term(s) from 
+ which the inference is made. This field is mandatory for evidence code IC.
+ The ID is usually an identifier for an individual entry in a database (such as a sequence ID, gene ID, GO ID, etc.). 
+ Identifiers from the Center for Biological Sequence Analysis (CBS), however, represent tools used to find homology 
+ or sequence similarity; these identifiers can be used in the with column for ISS annotations.
+ The with column may not be used with the evidence codes IDA, TAS, NAS, or ND.
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.Aspect">
+ <summary>
+ refers to the namespace or ontology to which the GO ID (column 5) belongs; one of P (biological process), F (molecular function) or C (cellular component)
+ this field is mandatory; cardinality 1
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DBObjectName">
+ <summary>
+ name of gene or gene product
+ this field is not mandatory, cardinality 0, 1 [white space allowed]
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DBObjectSynonym">
+ <summary>
+ Gene symbol [or other text] Note that we strongly recommend that gene synonyms are included in the gene association 
+ file, as this aids the searching of GO.
+ this field is not mandatory, cardinality 0, 1, >1 [white space allowed]; for cardinality >1 use a pipe to separate 
+ entries (e.g. YFL039C|ABY1|END7|actin gene)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DBObjectType">
+ <summary>
+ A description of the type of gene product being annotated. If a gene product form ID (column 17) is supplied, the DB 
+ object type will refer to that entity; if no gene product form ID is present, it will refer to the entity that the DB 
+ object symbol (column 2) is believed to produce and which actively carries out the function or localization described. 
+ one of the following: protein_complex; protein; transcript; ncRNA; rRNA; tRNA; snRNA; snoRNA; any subtype of ncRNA 
+ in the Sequence Ontology. If the precise product type is unknown, gene_product should be used. this field is mandatory, 
+ cardinality 1
+ The object type (gene_product, transcript, protein, protein_complex, etc.) listed in the DB object type field must 
+ match the database entry identified by the gene product form ID, or, if this is absent, the expected product of the 
+ DB object ID. Note that DB object type refers to the database entry (i.e. it represents a protein, functional RNA, etc.); 
+ this column does not reflect anything about the GO term or the evidence on which the annotation is based. For example, 
+ if your database entry represents a protein-encoding gene, then protein goes in the DB object type column. The text 
+ entered in the DB object name and DB object symbol should refer to the entity in DB object ID. For example, several 
+ alternative transcripts from one gene may be annotated separately, each with the same gene ID in DB object ID, and 
+ specific gene product identifiers in gene product form ID, but list the same gene symbol in the DB object symbol column.
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.Taxon">
+ <summary>
+ taxonomic identifier(s) For cardinality 1, the ID of the species encoding the gene product. For cardinality 2, to be 
+ used only in conjunction with terms that have the biological process term multi-organism process or the cellular component 
+ term host cell as an ancestor. The first taxon ID should be that of the organism encoding the gene or gene product, and
+ the taxon ID after the pipe should be that of the other organism in the interaction. this field is mandatory, 
+ cardinality 1, 2; for cardinality 2 use a pipe to separate entries (e.g. taxon:1|taxon:1000) See the GO annotation 
+ conventions for more information on multi-organism terms.
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.Date">
+ <summary>
+ Date on which the annotation was made; format is YYYYMMDD
+ this field is mandatory, cardinality 1
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.AssignedBy">
+ <summary>
+ The database which made the annotation
+ one of the values from the set of GO database cross-references
+ Used for tracking the source of an individual annotation. Default value is value entered as the DB (column 1).
+ Value will differ from column 1 for any annotation that is made by one database and incorporated into another.
+ this field is mandatory, cardinality 1
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.AnnotationExtension">
+ <summary>
+ one of:
+ DB:gene_id
+ DB:sequence_id
+ CHEBI:CHEBI_id
+ Cell Type Ontology:CL_id
+ GO:GO_id
+ Contains cross references to other ontologies that can be used to qualify or enhance the annotation. The cross-reference 
+ is prefaced by an appropriate GO relationship; references to multiple ontologies can be entered. For example, if a gene 
+ product is localized to the mitochondria of lymphocytes, the GO ID (column 5) would be mitochondrion ; GO:0005439, 
+ and the annotation extension column would contain a cross-reference to the term lymphocyte from the Cell Type Ontology.
+ Targets of certain processes or functions can also be included in this field to indicate the gene, gene product, or chemical 
+ involved; for example, if a gene product is annotated to protein kinase activity, the annotation extension column would 
+ contain the UniProtKB protein ID for the protein phosphorylated in the reaction.
+ See the documentation on using the annotation extension column for details of practical usage; a wider discussion of the 
+ annotation extension column can be found on the GO wiki.
+ this field is optional, cardinality 0 or greater
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.GeneProductFormID">
+ <summary>
+ As the DB Object ID (column 2) entry must be a canonical entity—a gene OR an abstract protein that has a 1:1 
+ correspondence to a gene—this field allows the annotation of specific variants of that gene or gene product. 
+ Contents will frequently include protein sequence identifiers: for example, identifiers that specify distinct 
+ proteins produced by to differential splicing, alternative translational starts, post-translational cleavage or 
+ post-translational modification. Identifiers for functional RNAs can also be included in this column.
+ The identifier used must be a standard 2-part global identifier, e.g. UniProtKB:OK0206-2
+ When the gene product form ID (column 17) is filled with a protein identifier, the value in DB object type (column 12) 
+ must be protein. Protein identifiers can include UniProtKB accession numbers, NCBI NP identifiers or Protein Ontology 
+ (PRO) identifiers.
+ When the gene product form ID (column 17) is filled with a functional RNA identifier, the DB object type (column 12) 
+ must be either ncRNA, rRNA, tRNA, snRNA, or snoRNA.
+ This column may be left blank; if so, the value in DB object type (column 12) will provide a description of the 
+ expected gene product.
+ More information and examples are available from the GO wiki page on column 17.
+ Note that several fields contain database cross-reference (dbxrefs) in the format dbname:dbaccession. 
+ The fields are: GO ID [column 5], where dbname is always GO; DB:Reference (column 6); With or From (column 8); and 
+ Taxon (column 13), where dbname is always taxon. For GO IDs, do not repeat the 'GO:' prefix (i.e. always use GO:0000000, 
+ not GO:GO:0000000)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `association`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `association` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `term_id` int(11) NOT NULL,
+   `gene_product_id` int(11) NOT NULL,
+   `is_not` int(11) DEFAULT NULL,
+   `role_group` int(11) DEFAULT NULL,
+   `assocdate` int(11) DEFAULT NULL,
+   `source_db_id` int(11) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `a0` (`id`),
+   KEY `source_db_id` (`source_db_id`),
+   KEY `a1` (`term_id`),
+   KEY `a2` (`gene_product_id`),
+   KEY `a3` (`term_id`,`gene_product_id`),
+   KEY `a4` (`id`,`term_id`,`gene_product_id`),
+   KEY `a5` (`id`,`gene_product_id`),
+   KEY `a6` (`is_not`,`term_id`,`gene_product_id`),
+   KEY `a7` (`assocdate`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_isoform">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `association_isoform`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `association_isoform` (
+   `association_id` int(11) NOT NULL,
+   `gene_product_id` int(11) NOT NULL,
+   KEY `association_id` (`association_id`),
+   KEY `gene_product_id` (`gene_product_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_property">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `association_property`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `association_property` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `association_id` int(11) NOT NULL,
+   `relationship_type_id` int(11) NOT NULL,
+   `term_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   KEY `association_id` (`association_id`),
+   KEY `relationship_type_id` (`relationship_type_id`),
+   KEY `term_id` (`term_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_qualifier">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `association_qualifier`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `association_qualifier` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `association_id` int(11) NOT NULL,
+   `term_id` int(11) NOT NULL,
+   `value` varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   KEY `term_id` (`term_id`),
+   KEY `aq1` (`association_id`,`term_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_species_qualifier">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `association_species_qualifier`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `association_species_qualifier` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `association_id` int(11) NOT NULL,
+   `species_id` int(11) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   KEY `association_id` (`association_id`),
+   KEY `species_id` (`species_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.assoc_rel">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `assoc_rel`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `assoc_rel` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `from_id` int(11) NOT NULL,
+   `to_id` int(11) NOT NULL,
+   `relationship_type_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   KEY `from_id` (`from_id`),
+   KEY `to_id` (`to_id`),
+   KEY `relationship_type_id` (`relationship_type_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.db">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `db`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `db` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `name` varchar(55) DEFAULT NULL,
+   `fullname` varchar(255) DEFAULT NULL,
+   `datatype` varchar(255) DEFAULT NULL,
+   `generic_url` varchar(255) DEFAULT NULL,
+   `url_syntax` varchar(255) DEFAULT NULL,
+   `url_example` varchar(255) DEFAULT NULL,
+   `uri_prefix` varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `db0` (`id`),
+   UNIQUE KEY `name` (`name`),
+   KEY `db1` (`name`),
+   KEY `db2` (`fullname`),
+   KEY `db3` (`datatype`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=262 DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.dbxref">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `dbxref`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `dbxref` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `xref_dbname` varchar(55) NOT NULL,
+   `xref_key` varchar(255) NOT NULL,
+   `xref_keytype` varchar(32) DEFAULT NULL,
+   `xref_desc` varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `xref_key` (`xref_key`,`xref_dbname`),
+   UNIQUE KEY `dx0` (`id`),
+   UNIQUE KEY `dx6` (`xref_key`,`xref_dbname`),
+   KEY `dx1` (`xref_dbname`),
+   KEY `dx2` (`xref_key`),
+   KEY `dx3` (`id`,`xref_dbname`),
+   KEY `dx4` (`id`,`xref_key`,`xref_dbname`),
+   KEY `dx5` (`id`,`xref_key`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=85803 DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `evidence`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `evidence` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `code` varchar(8) NOT NULL,
+   `association_id` int(11) NOT NULL,
+   `dbxref_id` int(11) NOT NULL,
+   `seq_acc` varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `association_id` (`association_id`,`dbxref_id`,`code`),
+   UNIQUE KEY `ev0` (`id`),
+   UNIQUE KEY `ev5` (`id`,`association_id`),
+   UNIQUE KEY `ev6` (`id`,`code`,`association_id`),
+   KEY `ev1` (`association_id`),
+   KEY `ev2` (`code`),
+   KEY `ev3` (`dbxref_id`),
+   KEY `ev4` (`association_id`,`code`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence_dbxref">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `evidence_dbxref`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `evidence_dbxref` (
+   `evidence_id` int(11) NOT NULL,
+   `dbxref_id` int(11) NOT NULL,
+   KEY `evx1` (`evidence_id`),
+   KEY `evx2` (`dbxref_id`),
+   KEY `evx3` (`evidence_id`,`dbxref_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `symbol` varchar(128) NOT NULL,
+   `dbxref_id` int(11) NOT NULL,
+   `species_id` int(11) DEFAULT NULL,
+   `type_id` int(11) DEFAULT NULL,
+   `full_name` text,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `dbxref_id` (`dbxref_id`),
+   UNIQUE KEY `g0` (`id`),
+   KEY `type_id` (`type_id`),
+   KEY `g1` (`symbol`),
+   KEY `g2` (`dbxref_id`),
+   KEY `g3` (`species_id`),
+   KEY `g4` (`id`,`species_id`),
+   KEY `g5` (`dbxref_id`,`species_id`),
+   KEY `g6` (`id`,`dbxref_id`),
+   KEY `g7` (`id`,`species_id`),
+   KEY `g8` (`id`,`dbxref_id`,`species_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_ancestor">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_ancestor`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_ancestor` (
+   `gene_product_id` int(11) NOT NULL,
+   `ancestor_id` int(11) NOT NULL,
+   `phylotree_id` int(11) NOT NULL,
+   `branch_length` float DEFAULT NULL,
+   `is_transitive` int(11) NOT NULL DEFAULT '0',
+   UNIQUE KEY `gene_product_id` (`gene_product_id`,`ancestor_id`,`phylotree_id`),
+   KEY `ancestor_id` (`ancestor_id`),
+   KEY `phylotree_id` (`phylotree_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_count">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_count`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_count` (
+   `term_id` int(11) NOT NULL,
+   `code` varchar(8) DEFAULT NULL,
+   `speciesdbname` varchar(55) DEFAULT NULL,
+   `species_id` int(11) DEFAULT NULL,
+   `product_count` int(11) NOT NULL,
+   KEY `species_id` (`species_id`),
+   KEY `gpc1` (`term_id`),
+   KEY `gpc2` (`code`),
+   KEY `gpc3` (`speciesdbname`),
+   KEY `gpc4` (`term_id`,`code`,`speciesdbname`),
+   KEY `gpc5` (`term_id`,`species_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_dbxref">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_dbxref`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_dbxref` (
+   `gene_product_id` int(11) NOT NULL,
+   `dbxref_id` int(11) NOT NULL,
+   UNIQUE KEY `gpx3` (`gene_product_id`,`dbxref_id`),
+   KEY `gpx1` (`gene_product_id`),
+   KEY `gpx2` (`dbxref_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homology">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_homology`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_homology` (
+   `gene_product1_id` int(11) NOT NULL,
+   `gene_product2_id` int(11) NOT NULL,
+   `relationship_type_id` int(11) NOT NULL,
+   KEY `gene_product1_id` (`gene_product1_id`),
+   KEY `gene_product2_id` (`gene_product2_id`),
+   KEY `relationship_type_id` (`relationship_type_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homolset">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_homolset`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_homolset` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `gene_product_id` int(11) NOT NULL,
+   `homolset_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   KEY `gene_product_id` (`gene_product_id`),
+   KEY `homolset_id` (`homolset_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_phylotree">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_phylotree`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_phylotree` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `gene_product_id` int(11) NOT NULL,
+   `phylotree_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   KEY `gene_product_id` (`gene_product_id`),
+   KEY `phylotree_id` (`phylotree_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_property">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_property`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_property` (
+   `gene_product_id` int(11) NOT NULL,
+   `property_key` varchar(64) NOT NULL,
+   `property_val` varchar(255) DEFAULT NULL,
+   UNIQUE KEY `gppu4` (`gene_product_id`,`property_key`,`property_val`),
+   KEY `gpp1` (`gene_product_id`),
+   KEY `gpp2` (`property_key`),
+   KEY `gpp3` (`property_val`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_seq">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_seq`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_seq` (
+   `gene_product_id` int(11) NOT NULL,
+   `seq_id` int(11) NOT NULL,
+   `is_primary_seq` int(11) DEFAULT NULL,
+   KEY `gpseq1` (`gene_product_id`),
+   KEY `gpseq2` (`seq_id`),
+   KEY `gpseq3` (`seq_id`,`gene_product_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_subset">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_subset`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_subset` (
+   `gene_product_id` int(11) NOT NULL,
+   `subset_id` int(11) NOT NULL,
+   UNIQUE KEY `gps3` (`gene_product_id`,`subset_id`),
+   KEY `gps1` (`gene_product_id`),
+   KEY `gps2` (`subset_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_synonym">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `gene_product_synonym`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `gene_product_synonym` (
+   `gene_product_id` int(11) NOT NULL,
+   `product_synonym` varchar(255) NOT NULL,
+   UNIQUE KEY `gene_product_id` (`gene_product_id`,`product_synonym`),
+   KEY `gs1` (`gene_product_id`),
+   KEY `gs2` (`product_synonym`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `graph_path`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `graph_path` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `term1_id` int(11) NOT NULL,
+   `term2_id` int(11) NOT NULL,
+   `relationship_type_id` int(11) DEFAULT NULL,
+   `distance` int(11) DEFAULT NULL,
+   `relation_distance` int(11) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `graph_path0` (`id`),
+   KEY `relationship_type_id` (`relationship_type_id`),
+   KEY `graph_path1` (`term1_id`),
+   KEY `graph_path2` (`term2_id`),
+   KEY `graph_path3` (`term1_id`,`term2_id`),
+   KEY `graph_path4` (`term1_id`,`distance`),
+   KEY `graph_path5` (`term1_id`,`term2_id`,`relationship_type_id`),
+   KEY `graph_path6` (`term1_id`,`term2_id`,`relationship_type_id`,`distance`,`relation_distance`),
+   KEY `graph_path7` (`term2_id`,`relationship_type_id`),
+   KEY `graph_path8` (`term1_id`,`relationship_type_id`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=1226557 DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path2term">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `graph_path2term`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `graph_path2term` (
+   `graph_path_id` int(11) NOT NULL,
+   `term_id` int(11) NOT NULL,
+   `rank` int(11) NOT NULL,
+   KEY `graph_path_id` (`graph_path_id`),
+   KEY `term_id` (`term_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.homolset">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `homolset`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `homolset` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `symbol` varchar(128) DEFAULT NULL,
+   `dbxref_id` int(11) DEFAULT NULL,
+   `target_gene_product_id` int(11) DEFAULT NULL,
+   `taxon_id` int(11) DEFAULT NULL,
+   `type_id` int(11) DEFAULT NULL,
+   `description` text,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `dbxref_id` (`dbxref_id`),
+   KEY `target_gene_product_id` (`target_gene_product_id`),
+   KEY `taxon_id` (`taxon_id`),
+   KEY `type_id` (`type_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.instance_data">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `instance_data`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `instance_data` (
+   `release_name` varchar(255) DEFAULT NULL,
+   `release_type` varchar(255) DEFAULT NULL,
+   `release_notes` text,
+   `ontology_data_version` varchar(255) DEFAULT NULL,
+   UNIQUE KEY `release_name` (`release_name`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.intersection_of">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `intersection_of`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `intersection_of` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `relationship_type_id` int(11) NOT NULL,
+   `term1_id` int(11) NOT NULL,
+   `term2_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `term1_id` (`term1_id`,`term2_id`,`relationship_type_id`),
+   KEY `relationship_type_id` (`relationship_type_id`),
+   KEY `term2_id` (`term2_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `phylotree`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `phylotree` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `name` varchar(255) NOT NULL DEFAULT '',
+   `dbxref_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `dbxref_id` (`dbxref_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree_property">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `phylotree_property`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `phylotree_property` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `phylotree_id` int(11) NOT NULL,
+   `property_key` varchar(64) NOT NULL,
+   `property_val` mediumtext,
+   PRIMARY KEY (`id`),
+   KEY `phylotree_id` (`phylotree_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_composition">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `relation_composition`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `relation_composition` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `relation1_id` int(11) NOT NULL,
+   `relation2_id` int(11) NOT NULL,
+   `inferred_relation_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `relation1_id` (`relation1_id`,`relation2_id`,`inferred_relation_id`),
+   KEY `rc1` (`relation1_id`),
+   KEY `rc2` (`relation2_id`),
+   KEY `rc3` (`inferred_relation_id`),
+   KEY `rc4` (`relation1_id`,`relation2_id`,`inferred_relation_id`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_properties">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `relation_properties`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `relation_properties` (
+   `relationship_type_id` int(11) NOT NULL,
+   `is_transitive` int(11) DEFAULT NULL,
+   `is_symmetric` int(11) DEFAULT NULL,
+   `is_anti_symmetric` int(11) DEFAULT NULL,
+   `is_cyclic` int(11) DEFAULT NULL,
+   `is_reflexive` int(11) DEFAULT NULL,
+   `is_metadata_tag` int(11) DEFAULT NULL,
+   UNIQUE KEY `relationship_type_id` (`relationship_type_id`),
+   UNIQUE KEY `rp1` (`relationship_type_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `seq`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `seq` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `display_id` varchar(64) DEFAULT NULL,
+   `description` varchar(255) DEFAULT NULL,
+   `seq` mediumtext,
+   `seq_len` int(11) DEFAULT NULL,
+   `md5checksum` varchar(32) DEFAULT NULL,
+   `moltype` varchar(25) DEFAULT NULL,
+   `timestamp` int(11) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `seq0` (`id`),
+   UNIQUE KEY `display_id` (`display_id`,`md5checksum`),
+   KEY `seq1` (`display_id`),
+   KEY `seq2` (`md5checksum`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_dbxref">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `seq_dbxref`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `seq_dbxref` (
+   `seq_id` int(11) NOT NULL,
+   `dbxref_id` int(11) NOT NULL,
+   UNIQUE KEY `seq_id` (`seq_id`,`dbxref_id`),
+   KEY `seqx0` (`seq_id`),
+   KEY `seqx1` (`dbxref_id`),
+   KEY `seqx2` (`seq_id`,`dbxref_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_property">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `seq_property`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `seq_property` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `seq_id` int(11) NOT NULL,
+   `property_key` varchar(64) NOT NULL,
+   `property_val` varchar(255) NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `seq_id` (`seq_id`,`property_key`,`property_val`),
+   KEY `seqp0` (`seq_id`),
+   KEY `seqp1` (`property_key`),
+   KEY `seqp2` (`property_val`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.source_audit">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `source_audit`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `source_audit` (
+   `source_id` varchar(255) DEFAULT NULL,
+   `source_fullpath` varchar(255) DEFAULT NULL,
+   `source_path` varchar(255) DEFAULT NULL,
+   `source_type` varchar(255) DEFAULT NULL,
+   `source_md5` char(32) DEFAULT NULL,
+   `source_parsetime` int(11) DEFAULT NULL,
+   `source_mtime` int(11) DEFAULT NULL,
+   KEY `fa1` (`source_path`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.species">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `species`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `species` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `ncbi_taxa_id` int(11) DEFAULT NULL,
+   `common_name` varchar(255) DEFAULT NULL,
+   `lineage_string` text,
+   `genus` varchar(55) DEFAULT NULL,
+   `species` varchar(255) DEFAULT NULL,
+   `parent_id` int(11) DEFAULT NULL,
+   `left_value` int(11) DEFAULT NULL,
+   `right_value` int(11) DEFAULT NULL,
+   `taxonomic_rank` varchar(255) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `sp0` (`id`),
+   UNIQUE KEY `ncbi_taxa_id` (`ncbi_taxa_id`),
+   KEY `sp1` (`ncbi_taxa_id`),
+   KEY `sp2` (`common_name`),
+   KEY `sp3` (`genus`),
+   KEY `sp4` (`species`),
+   KEY `sp5` (`genus`,`species`),
+   KEY `sp6` (`id`,`ncbi_taxa_id`),
+   KEY `sp7` (`id`,`ncbi_taxa_id`,`genus`,`species`),
+   KEY `sp8` (`parent_id`),
+   KEY `sp9` (`left_value`),
+   KEY `sp10` (`right_value`),
+   KEY `sp11` (`left_value`,`right_value`),
+   KEY `sp12` (`id`,`left_value`),
+   KEY `sp13` (`genus`,`left_value`,`right_value`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `name` varchar(255) NOT NULL DEFAULT '',
+   `term_type` varchar(55) NOT NULL,
+   `acc` varchar(255) NOT NULL,
+   `is_obsolete` int(11) NOT NULL DEFAULT '0',
+   `is_root` int(11) NOT NULL DEFAULT '0',
+   `is_relation` int(11) NOT NULL DEFAULT '0',
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `acc` (`acc`),
+   UNIQUE KEY `t0` (`id`),
+   KEY `t1` (`name`),
+   KEY `t2` (`term_type`),
+   KEY `t3` (`acc`),
+   KEY `t4` (`id`,`acc`),
+   KEY `t5` (`id`,`name`),
+   KEY `t6` (`id`,`term_type`),
+   KEY `t7` (`id`,`acc`,`name`,`term_type`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=43827 DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term2term`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term2term` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `relationship_type_id` int(11) NOT NULL,
+   `term1_id` int(11) NOT NULL,
+   `term2_id` int(11) NOT NULL,
+   `complete` int(11) NOT NULL DEFAULT '0',
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `term1_id` (`term1_id`,`term2_id`,`relationship_type_id`),
+   KEY `tt1` (`term1_id`),
+   KEY `tt2` (`term2_id`),
+   KEY `tt3` (`term1_id`,`term2_id`),
+   KEY `tt4` (`relationship_type_id`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=89342 DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term_metadata">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term2term_metadata`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term2term_metadata` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `relationship_type_id` int(11) NOT NULL,
+   `term1_id` int(11) NOT NULL,
+   `term2_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `term1_id` (`term1_id`,`term2_id`),
+   KEY `relationship_type_id` (`relationship_type_id`),
+   KEY `term2_id` (`term2_id`)
+ ) ENGINE=MyISAM AUTO_INCREMENT=2317 DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_audit">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term_audit`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term_audit` (
+   `term_id` int(11) NOT NULL,
+   `term_loadtime` int(11) DEFAULT NULL,
+   UNIQUE KEY `term_id` (`term_id`),
+   KEY `ta1` (`term_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_dbxref">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term_dbxref`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term_dbxref` (
+   `term_id` int(11) NOT NULL,
+   `dbxref_id` int(11) NOT NULL,
+   `is_for_definition` int(11) NOT NULL DEFAULT '0',
+   UNIQUE KEY `term_id` (`term_id`,`dbxref_id`,`is_for_definition`),
+   KEY `tx0` (`term_id`),
+   KEY `tx1` (`dbxref_id`),
+   KEY `tx2` (`term_id`,`dbxref_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_definition">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term_definition`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term_definition` (
+   `term_id` int(11) NOT NULL,
+   `term_definition` text NOT NULL,
+   `dbxref_id` int(11) DEFAULT NULL,
+   `term_comment` mediumtext,
+   `reference` varchar(255) DEFAULT NULL,
+   UNIQUE KEY `term_id` (`term_id`),
+   KEY `dbxref_id` (`dbxref_id`),
+   KEY `td1` (`term_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_property">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term_property`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term_property` (
+   `term_id` int(11) NOT NULL,
+   `property_key` varchar(64) NOT NULL,
+   `property_val` varchar(255) DEFAULT NULL,
+   KEY `term_id` (`term_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_subset">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term_subset`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term_subset` (
+   `term_id` int(11) NOT NULL,
+   `subset_id` int(11) NOT NULL,
+   KEY `tss1` (`term_id`),
+   KEY `tss2` (`subset_id`),
+   KEY `tss3` (`term_id`,`subset_id`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ 
+ --
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_synonym">
+ <summary>
+ 
+ --
+ 
+ DROP TABLE IF EXISTS `term_synonym`;
+ /*!40101 SET @saved_cs_client     = @@character_set_client */;
+ /*!40101 SET character_set_client = utf8 */;
+ CREATE TABLE `term_synonym` (
+   `term_id` int(11) NOT NULL,
+   `term_synonym` varchar(996) DEFAULT NULL,
+   `acc_synonym` varchar(255) DEFAULT NULL,
+   `synonym_type_id` int(11) NOT NULL,
+   `synonym_category_id` int(11) DEFAULT NULL,
+   UNIQUE KEY `term_id` (`term_id`,`term_synonym`),
+   KEY `synonym_type_id` (`synonym_type_id`),
+   KEY `synonym_category_id` (`synonym_category_id`),
+   KEY `ts1` (`term_id`),
+   KEY `ts2` (`term_synonym`),
+   KEY `ts3` (`term_id`,`term_synonym`)
+ ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ /*!40101 SET character_set_client = @saved_cs_client */;
+ /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+ 
+ /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+ /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+ /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+ /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+ /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+ /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+ 
+ -- Dump completed on 2015-12-03 20:47:31
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.Term">
+ <summary>
+ 功能定义
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

@@ -1,0 +1,1061 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+RDotNet.Extensions.Bioinformatics
+</name>
+</assembly>
+<members>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.setArc">
+ <summary>
+ The set.arc function operates in the following way:
+ 
+ If there Is no arc between from And To, the arc from -> To Is added.
+ If there Is an undirected arc between from And To, its direction Is Set To from -> To.
+ If the arc To -> from Is present, it Is reversed.
+ If the arc from -> To Is present, no action Is taken.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.dropArc">
+ <summary>
+ The drop.arc function operates in the following way:
+
+ If there Is no arc between from And To, no action Is taken.
+ If there Is a directed Or an undirected arc between from And To, it Is dropped regardless Of its direction.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.reverseArc">
+ <summary>
+ The reverse.arc function operates in the following way:
+
+ If there Is no arc between from And To, it returns an Error.
+ If there Is an undirected arc between from And To, it returns an Error.
+ If the arc To -> from Is present, it Is reversed.
+ If the arc from -> To Is present, it Is reversed.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.setEdge">
+ <summary>
+ The set.edge function operates in the following way:
+
+ If there Is no arc between from And To, the undirected arc from - To Is added.
+ If there Is an undirected arc between from And To, no action Is taken.
+ If either the arc from -> To Or the arc To -> from are present, they are replaced With the undirected arc from - To.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.dropEdge">
+ <summary>
+ The drop.edge function operates in the following way:
+
+ If there Is no undirected arc between from And To, no action Is taken.
+ If there Is an undirected arc between from And To, it Is removed.
+ If there Is a directed arc between from And To, no action Is taken.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFit">
+ <summary>
+ Fit the parameters of a Bayesian network conditional on its structure.
+ 
+ bn.fit fits the parameters of a Bayesian network given its structure and a data set; bn.net returns the structure underlying a fitted Bayesian network.
+ An in-place replacement method Is available to change the parameters of each node in a bn.fit object; see the examples for discrete, continuous And hybrid networks below. For a discrete node (class bn.fit.dnode Or bn.fit.onode), the New parameters must be in a table object. For a Gaussian node (class bn.fit.gnode), the New parameters can be defined either by an lm, glm Or pensim object (the latter Is from the penalized package) Or in a list with elements named coef, sd And optionally fitted And resid. For a conditional Gaussian node (class bn.fit.cgnode), the New parameters can be defined by a list with elements named coef, sd And optionally fitted, resid And configs. In both cases coef should contain the New regression coefficients, sd the standard deviation of the residuals, fitted the fitted values And resid the residuals. configs should contain the configurations if the discrete parents of the conditional Gaussian node, stored as a factor.
+ </summary>
+ <remarks>
+ bn.fit returns an object of class bn.fit, bn.net an object of class bn. See bn class and bn.fit class for details.
+ </remarks>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFit.x">
+ <summary>
+ an object of class bn (for bn.fit and custom.fit) or an object of class bn.fit (for bn.net).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFit.data">
+ <summary>
+ a data frame containing the variables In the model.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFit.method">
+ <summary>
+ a character string, either mle for Maximum Likelihood parameter estimation or bayes for Bayesian parameter estimation (currently implemented only for discrete data).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFit.debug">
+ <summary>
+ a boolean value. If TRUE a lot of debugging output is printed; otherwise the function is completely silent.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.customFit">
+ <summary>
+ custom.fit takes a set of user-specified distributions and their parameters and uses them to build a bn.fit object. 
+ Its purpose is to specify a Bayesian network (complete with the parameters, not only the structure) using knowledge from experts in the field instead of learning it from a data set. 
+ The distributions must be passed to the function in a list, with elements named after the nodes of the network structure x. 
+ Each element of the list must be in one of the formats described above for in-place replacement.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.customFit.x">
+ <summary>
+ an object of class bn (for bn.fit and custom.fit) or an object of class bn.fit (for bn.net).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.customFit.dist">
+ <summary>
+ a named list, with element for each node of x. See below.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.customFit.ordinal">
+ <summary>
+ a vector Of character strings, the labels Of the discrete nodes which should be saved As ordinal random variables (bn.fit.onode) instead Of unordered factors (bn.fit.dnode).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnNet.x">
+ <summary>
+ an object of class bn (for bn.fit and custom.fit) or an object of class bn.fit (for bn.net).
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnNet.debug">
+ <summary>
+ a boolean value. If TRUE a lot of debugging output is printed; otherwise the function is completely silent.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitPlot">
+ <summary>
+ Plot fitted Bayesian networks
+ Plot functions for the bn.fit, bn.fit.dnode and bn.fit.gnode classes, based on the lattice package.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitPlot.fitted">
+ <summary>
+ an object of class bn.fit, bn.fit.dnode Or bn.fit.gnode.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitPlot.xlab">
+ <summary>
+ the label of the x axis, of the y axis, and the plot title.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitPlot.ylab">
+ <summary>
+ the label of the x axis, of the y axis, and the plot title.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitPlot.main">
+ <summary>
+ the label of the x axis, of the y axis, and the plot title.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitQqplot">
+ <summary>
+ bn.fit.qqplot draws a quantile-quantile plot of the residuals.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitHistogram">
+ <summary>
+ bn.fit.histogram draws a histogram of the residuals, using either absolute or relative frequencies.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitHistogram.density">
+ <summary>
+ a boolean value. If TRUE the histogram is plotted using relative frequencies, and the matching normal density is added to the plot.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitxyplot">
+ <summary>
+ bn.fit.xyplot plots the residuals versus the fitted values.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitBarchart">
+ <summary>
+ bn.fit.barchart and bn.fit.dotplot plot the probabilities in the conditional probability table associated with each node.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.declares.bnlearn.alarm">
+ <summary>
+ The alarm data set contains the following 37 variables:
+ 
+ CVP (central venous pressure): a three-level factor With levels LOW, NORMAL And HIGH.
+ PCWP (pulmonary capillary wedge pressure): a three-level factor With levels LOW, NORMAL And HIGH.
+ HIST (history): a two-level factor With levels True And False.
+ TPR (total peripheral resistance): a three-level factor With levels LOW, NORMAL And HIGH.
+ BP (blood pressure): a three-level factor With levels LOW, NORMAL And HIGH.
+ CO (cardiac output): a three-level factor With levels LOW, NORMAL And HIGH.
+ HRBP (heart rate / blood pressure): a three-level factor With levels LOW, NORMAL And HIGH.
+ HREK (heart rate measured by an EKG monitor): a three-level factor With levels LOW, NORMAL And HIGH.
+ HRSA (heart rate / oxygen saturation): a three-level factor With levels LOW, NORMAL And HIGH.
+ PAP (pulmonary artery pressure): a three-level factor With levels LOW, NORMAL And HIGH.
+ SAO2 (arterial oxygen saturation): a three-level factor With levels LOW, NORMAL And HIGH.
+ FIO2 (fraction of inspired oxygen): a two-level factor With levels LOW And NORMAL.
+ PRSS (breathing pressure): a four-level factor With levels ZERO, LOW, NORMAL And HIGH.
+ ECO2 (expelled CO2): a four-level factor With levels ZERO, LOW, NORMAL And HIGH.
+ MINV (minimum volume): a four-level factor With levels ZERO, LOW, NORMAL And HIGH.
+ MVS (minimum volume set): a three-level factor With levels LOW, NORMAL And HIGH.
+ HYP (hypovolemia): a two-level factor With levels True And False.
+ LVF (left ventricular failure): a two-level factor With levels True And False.
+ APL (anaphylaxis): a two-level factor With levels True And False.
+ ANES (insufficient anesthesia/analgesia): a two-level factor With levels True And False.
+ PMB (pulmonary embolus): a two-level factor With levels True And False.
+ INT (intubation): a three-level factor With levels NORMAL, ESOPHAGEAL And ONESIDED.
+ KINK (kinked tube): a two-level factor With levels True And False.
+ DISC (disconnection): a two-level factor With levels True And False.
+ LVV (left ventricular end-diastolic volume): a three-level factor With levels LOW, NORMAL And HIGH.
+ STKV (stroke volume): a three-level factor With levels LOW, NORMAL And HIGH.
+ CCHL (catecholamine): a two-level factor With levels NORMAL And HIGH.
+ ERLO (error low output): a two-level factor With levels True And False.
+ HR (heart rate): a three-level factor With levels LOW, NORMAL And HIGH.
+ ERCA (electrocauter): a two-level factor With levels True And False.
+ SHNT (shunt): a two-level factor With levels NORMAL And HIGH.
+ PVS (pulmonary venous oxygen saturation): a three-level factor With levels LOW, NORMAL And HIGH.
+ ACO2 (arterial CO2): a three-level factor With levels LOW, NORMAL And HIGH.
+ VALV (pulmonary alveoli ventilation): a four-level factor With levels ZERO, LOW, NORMAL And HIGH.
+ VLNG (lung ventilation): a four-level factor With levels ZERO, LOW, NORMAL And HIGH.
+ VTUB (ventilation tube): a four-level factor With levels ZERO, LOW, NORMAL And HIGH.
+ VMCH (ventilation machine): a four-level factor With levels ZERO, LOW, NORMAL And HIGH.
+ </summary>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.declares.bnlearn.alarm.RScript">
+ <summary>
+ The ALARM ("A Logical Alarm Reduction Mechanism") is a Bayesian network designed to provide an alarm message system for patient monitoring.
+ </summary>
+ <returns></returns>
+ <remarks>这个是一个数据集而非一个函数来的</remarks>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.plot3D.plot3D">
+ <summary>
+ Plots arrows, segments, points, lines, polygons, rectangles and boxes in a 3D perspective plot or in 2D.
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.igraph.make_lattice">
+ <summary>
+ make_lattice is a flexible function, it can create lattices of arbitrary dimensions, periodic or unperiodic ones. It has two forms. 
+ In the first form you only supply dimvector, but not length and dim. In the second form you omit dimvector and supply length and dim.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_lattice.dimvector">
+ <summary>
+ A vector giving the size of the lattice in each dimension.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_lattice.length">
+ <summary>
+ Integer constant, for regular lattices, the size of the lattice in each dimension.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_lattice.dim">
+ <summary>
+ Integer constant, the dimension of the lattice.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_lattice.nei">
+ <summary>
+ The distance within which (inclusive) the neighbors on the lattice will be connected. This parameter is not used right now.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_lattice.directed">
+ <summary>
+ Whether to create a directed lattice.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_lattice.mutual">
+ <summary>
+ Logical, if TRUE directed lattices will be mutually connected.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_lattice.circular">
+ <summary>
+ Logical, if TRUE the lattice or ring will be circular.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.igraph.lattice">
+ <summary>
+ Create a lattice graph
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.igraph.graph_from_edgelist">
+ <summary>
+ graph_from_edgelist creates a graph from an edge list. Its argument is a two-column matrix, each row defines one edge.
+ If it is a numeric matrix then its elements are interpreted as vertex ids.
+ If it is a character matrix then it is interpreted as symbolic vertex names and a vertex id will be assigned to each name, and also a name vertex attribute will be added.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.graph_from_edgelist.el">
+ <summary>
+ The edge list, a two column matrix, character or numeric.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.graph_from_edgelist.directed">
+ <summary>
+ Whether to create a directed graph.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.igraph.from_edgelist">
+ <summary>
+ Create a graph from an edge list matrix
+ </summary>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.igraph.make_empty_graph">
+ <summary>
+ A graph with no edges
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_empty_graph.n">
+ <summary>
+ Number of vertices.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.igraph.make_empty_graph.directed">
+ <summary>
+ Whether to create a directed graph.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn">
+ <summary>
+Creates a Venn diagram with four sets.
+ </summary>
+ <remarks>
+ The function defaults to placing the ellipses so that area1 corresponds to lower left,
+ area2 corresponds to lower right, area3 corresponds to middle left and area4 corresponds
+ to middle right. Refer to the example below to see how the 31 partial areas are ordered.
+ Arguments with length of 15 (label.col, cex, fontface, fontfamily) will follow the order
+ in the example.
+
+ Value
+
+ Returns an Object Of Class gList containing the grid objects that make up the diagram.
+ Also displays the diagram In a graphical device unless specified With ind = False.
+ Grid:grid.draw can be used to draw the gList object in a graphical device.
+ </remarks>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.area1">
+ <summary>
+ The size of the first set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.area2">
+ <summary>
+ The size of the second set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.area3">
+ <summary>
+ The size of the third set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.area4">
+ <summary>
+ The size of the fourth set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n12">
+ <summary>
+ The size of the intersection between the first and the second set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n13">
+ <summary>
+ The size of the intersection between the first and the third set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n14">
+ <summary>
+ The size of the intersection between the first and the fourth set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n23">
+ <summary>
+ The size of the intersection between the second and the third set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n24">
+ <summary>
+ The size of the intersection between the second and the fourth set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n34">
+ <summary>
+ The size of the intersection between the third and the fourth set
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n123">
+ <summary>
+ The size of the intersection between the first, second and third sets
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n124">
+ <summary>
+ The size of the intersection between the first, second and fourth sets
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n134">
+ <summary>
+ The size of the intersection between the first, third and fourth sets
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n234">
+ <summary>
+ The size of the intersection between the second, third and fourth sets
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.n1234">
+ <summary>
+ The size of the intersection between all four sets
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.category">
+ <summary>
+ A vector (length 4) of strings giving the category names of the sets
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.lwd">
+ <summary>
+ A vector (length 4) of numbers giving the line width of the circles' circumferences
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.lty">
+ <summary>
+ A vector (length 4) giving the dash pattern of the circles' circumferences
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.col">
+ <summary>
+ A vector (length 4) giving the colours of the circles' circumferences
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.fill">
+ <summary>
+ A vector (length 4) giving the colours of the circles' areas
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.alpha">
+ <summary>
+ A vector (length 4) giving the alpha transparency of the circles' areas
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.labelCol">
+ <summary>
+ A vector (length 15) giving the colours of the areas' labels
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.cex">
+ <summary>
+ A vector (length 15) giving the size of the areas' labels
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.fontface">
+ <summary>
+ A vector (length 15) giving the fontface of the areas' labels
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.fontfamily">
+ <summary>
+ A vector (length 15) giving the fontfamily of the areas' labels
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.catPos">
+ <summary>
+ A vector (length 4) giving the positions (in degrees) of the category names along the circles,
+ with 0 (default) at 12 o'clock
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.catDist">
+ <summary>
+ A vector (length 4) giving the distances (in npc units) of the category names from the edges
+ of the circles (can be negative)
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.catCol">
+ <summary>
+ A vector (length 4) giving the size of the category names
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.catCex">
+ <summary>
+ A vector (length 4) giving the colours of the category names
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.catFontface">
+ <summary>
+ A vector (length 4) giving the fontface of the category names
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.catFontfamily">
+ <summary>
+ A vector (length 4) giving the fontfamily of the category names
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.catJust">
+ <summary>
+ List of 4 vectors of length 2 indicating horizontal and vertical justification of each category name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.rotationDegree">
+ <summary>
+ Number of degrees to rotate the entire diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.rotationCentre">
+ <summary>
+ A vector (length 2) indicating (x,y) of the rotation centre
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.ind">
+ <summary>
+ Boolean indicating whether the function is to automatically draw the diagram before returning
+ the gList object or not
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.cexProp">
+ <summary>
+ A function or string used to rescale areas
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.printMode">
+ <summary>
+ Can be either 'raw' or 'percent'. This is the format that the numbers will be printed in.
+ Can pass in a vector with the second element being printed under the first
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.sigdigs">
+ <summary>
+ If one of the elements in print.mode is 'percent', then this is how many significant digits will be kept
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.directArea">
+ <summary>
+ If this is equal to true, then the vector passed into area.vector will be directly assigned
+ to the areas of the corresponding regions. Only use this if you know which positions in the
+ vector correspond to which regions in the diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn.areaVector">
+ <summary>
+ An argument to be used when direct.area is true. These are the areas of the corresponding
+ regions in the Venn Diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Extensions.ParseName(System.Collections.Generic.IEnumerable{System.String},System.Int32)">
+ <summary>
+ 尝试着从一个字符串集合中猜测出可能的名称
+ </summary>
+ <param name="source">基因号列表</param>
+ <returns>猜测出基因号的物种前缀，例如XC_1184 -> XC_</returns>
+ <remarks></remarks>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.RModelAPI.Generate(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+ <summary>
+ 从一个Excel逗号分割符文件之中生成一个文氏图的数据模型
+ </summary>
+ <param name="source"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.RModelAPI.VectorMapper(System.Collections.Generic.IEnumerable{System.String},System.Func{System.String,System.String[]})">
+ <summary>
+ 从实际的对象映射到venn图里面的实体标记
+ </summary>
+ <returns>为了保证一一对应的映射关系，这个函数里面不再使用并行化拓展</returns>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.RModelAPI.VectorMapper``1(``0)">
+ <summary>
+ 从实际的对象映射到venn图里面的实体标记
+ </summary>
+ <param name="entities">字符串矩阵</param>
+ <returns>为了保证一一对应的映射关系，这个函数里面不再使用并行化拓展</returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Partition">
+ <summary>
+ A partition in the venn diagram.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Partition.Name">
+ <summary>
+ The name of this partition
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Partition.Color">
+ <summary>
+ The color string of the partition
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Partition.Vector">
+ <summary>
+ 使用数字来表示成员的一个向量
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram">
+ <summary>
+ The data model of the venn diagram.(文氏图的数据模型)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.plot">
+ <summary>
+ The venn.diagram plot API in R language
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.Title">
+ <summary>
+ The title of the diagram.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.saveTiff">
+ <summary>
+ vennDiagram tiff file saved path.(所生成的文氏图的保存文件名)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.partitions">
+ <summary>
+ Partitions on the venn diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.categoryNames">
+ <summary>
+ The partition names
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.RandomColors">
+ <summary>
+ Assign random colors to the venn diagram partitions
+ </summary>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.op_Addition(RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram,System.Collections.Generic.IEnumerable{System.String[]})">
+ <summary>
+ Applying the diagram options
+ </summary>
+ <param name="venn"></param>
+ <param name="opts"></param>
+ <returns></returns>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram.__R_script">
+ <summary>
+ Convert the data model as the R script for venn diagram drawing.(将本数据模型对象转换为R脚本)
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.VennDiagram.makeTruthTable">
+ <summary>
+ Makes a truth table of the inputs.
+ 
+ A data frame with length(x) logical vector columns and 2 ^ length(x) rows.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.makeTruthTable.x">
+ <summary>
+ A short vector.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.VennDiagram.getVennPartitions">
+ <summary>
+ Partitions a list into Venn regions.
+ 
+ If force.unique is FALSE, then there are two supported methods of grouping categories with duplicated elements in common. 
+ If hierarchical is FALSE, then any common elements are gathered into a pool. So if x &lt;- list(a = c(1,1,2,2,3,3), b=c(1,2,3,4,4,5), c=c(1,4)) then (b intersect c)/(a) would contain three 4's. Since the 4's are pooled, (b)/(a union c) contains no 4's. 
+ If hierachical is TRUE, then (b intersect c)/(a) would contain one 4.Then (b)/(a union c) cotains one 4.
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.getVennPartitions.x">
+ <summary>
+ A list of vectors.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.getVennPartitions.forceUnique">
+ <summary>
+ A logical value. Should only unique values be considered?
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.getVennPartitions.keepElements">
+ <summary>
+ A logical value. Should the elements in each region be returned?
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.getVennPartitions.hierarchical">
+ <summary>
+ A logical value. Changed the way overlapping elements are treated if force.unique is TRUE.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot">
+ <summary>
+ This function takes a list and creates a publication-quality TIFF Venn Diagram
+ </summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.x">
+ <summary>
+ A list of vectors (e.g., integers, chars), with each component corresponding to a separate circle in the Venn diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.filename">
+ <summary>
+ Filename for image output, Or if NULL returns the grid object itself
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.height">
+ <summary>
+ Integer giving the height Of the output figure In units
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.width">
+ <summary>
+ Integer giving the width of the output figure in units
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.resolution">
+ <summary>
+ Resolution of the final figure in DPI
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.imagetype">
+ <summary>
+ Specification of the image format (e.g. tiff, png or svg)
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.units">
+ <summary>
+ Size-units to use for the final figure
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.compression">
+ <summary>
+ What compression algorithm should be applied to the final tiff
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.na">
+ <summary>
+ Missing value handling method: "none", "stop", "remove"
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.main">
+ <summary>
+ Character giving the main title of the diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.sub">
+ <summary>
+ Character giving the subtitle of the diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.mainPos">
+ <summary>
+ Vector of length 2 indicating (x,y) of the main title
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.mainFontface">
+ <summary>
+ Character giving the fontface (font style) of the main title
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.mainFontfamily">
+ <summary>
+ Character giving the fontfamily (font type) of the main title
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.mainCol">
+ <summary>
+ Character giving the colour of the main title
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.mainCex">
+ <summary>
+ Number giving the cex (font size) of the main title
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.mainJust">
+ <summary>
+ Vector of length 2 indicating horizontal and vertical justification of the main title
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.subPos">
+ <summary>
+ Vector of length 2 indicating (x,y) of the subtitle
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.subFontface">
+ <summary>
+ Character giving the fontface (font style) of the subtitle
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.subFontfamily">
+ <summary>
+ Character giving the fontfamily (font type) of the subtitle
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.subCol">
+ <summary>
+ Character Colour of the subtitle
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.subCex">
+ <summary>
+ Number giving the cex (font size) of the subtitle
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.subJust">
+ <summary>
+ Vector of length 2 indicating horizontal and vertical justification of the subtitle
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.categoryNames">
+ <summary>
+ Allow specification of category names using plotmath syntax
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.forceUnique">
+ <summary>
+ Logical specifying whether to use only unique elements in each item of the input list or use all elements. Defaults to FALSE
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.printMode">
+ <summary>
+ Can be either 'raw' or 'percent'. This is the format that the numbers will be printed in. Can pass in a vector with the second element being printed under the first
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.sigdigs">
+ <summary>
+ If one of the elements in print.mode is 'percent', then this is how many significant digits will be kept
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.directArea">
+ <summary>
+ If this is equal to true, then the vector passed into area.vector will be directly assigned to the areas of the corresponding regions. Only use this if you know which positions in the vector correspond to which regions in the diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.areaVector">
+ <summary>
+ An argument to be used when direct.area is true. These are the areas of the corresponding regions in the Venn Diagram
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.hyperTest">
+ <summary>
+ If there are only two categories in the venn diagram and total.population is not NULL, then perform the hypergeometric test and add it to the sub title.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.totalPopulation">
+ <summary>
+ An argument to be used when hyper.test is true. This is the total population size
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot.fill">
+ <summary>
+ The partition fill color
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.bnlearn.BnlearnInference">
+ <summary>
+ 使用已经建立好的计算模型，利用bnlearn包进行推测
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.bnlearn.BnlearnInference.__R_script">
+ <summary>
+ cpquery返回一个数值，以证据evidence为条件下事件event的条件概率
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.bnlearn.BnlearnModelling`1.createNetwork(`0[])">
+ <summary>
+ 创建一个空网络，并构建好初始的网络结构
+ </summary>
+ <param name="NetworkData"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.bnlearn.ConditionalProbability.TryParse(System.String,System.Int32)">
+ <summary>
+ 
+ </summary>
+ <param name="strData"></param>
+ <returns></returns>
+ <remarks>  
+ list(node = "B", parents = "A", children = "E", prob = c(0.855072463768116, 0.0257944422284271, 0.119133094003457, 0.44468791500664, 0.221181938911023, 0.334130146082337, 0.11535895382973, 0.0949426207632773, 0.789698425406992))
+ </remarks>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.bnlearn.NetworkParameters.#ctor(System.String)">
+ <summary>
+ 贝叶斯网络对象的变量名
+ </summary>
+ <param name="ObjectName"></param>
+ <remarks></remarks>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.bnlearn.NetworkParameters.GetNetworkParameters(System.Int32)">
+ <summary>
+ Get Bayesian network parameters
+ </summary>
+ <returns></returns>
+ <remarks>
+ </remarks>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.Heatmap.rowNameMaps">
+ <summary>
+ Column name of the row factor in the csv file that represents the row name. Default is the first column.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.Heatmap.dataset">
+ <summary>
+ Csv文件的文件路径
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.Heatmap.image">
+ <summary>
+ tiff文件的输出路径
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.Heatmap.output">
+ <summary>
+ 在执行完了脚本之后调用本方法才能够得到结果，否则返回空值
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.Heatmap.locusId">
+ <summary>
+ 第一列所表示的基因号
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.Heatmap.samples">
+ <summary>
+ 第一行所表示的样本编号
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RDotNet.Extensions.Bioinformatics.Heatmap.__R_script">
+ <summary>
+ 
+ </summary>
+ <returns></returns>
+ <remarks>
+ http://joseph.yy.blog.163.com/blog/static/50973959201285102114376/
+ </remarks>
+</member>
+<member name="T:RDotNet.Extensions.Bioinformatics.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:RDotNet.Extensions.Bioinformatics.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>
