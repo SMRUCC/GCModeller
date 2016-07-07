@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.Framework.DirichletDistribution
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.DataMining.Framework
 
 Namespace BEBaC
 
@@ -18,19 +19,30 @@ Namespace BEBaC
         ''' p(y{n}|D,S) = ∏{c,1->k}∏{j,1->64}pcj
         ''' ```
         ''' </summary>
-        ''' <param name="S"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function PartitionProbability(S As IEnumerable(Of I3merVector)) As Double
-            Dim a As Double = S.Select(Function(c) gamma1 / lgamma(I3Mersx.Select(Function(j) lambda_cj + S.nj(j)).Sum)).π
-            Dim b As Double = I3Mersx.Select(Function(j) lgamma(lambda_cj + S.nj(j)) / gammaj).π
+        Public Function Probability(c As Cluster) As Double
+            Dim a As Double = gamma1 / (1.0R + I3Mersx.Select(Function(j) c.nj(j)).Sum).Γ
+            Dim b As Double = I3Mersx.Select(Function(j) (lambda_cj + c.nj(j)).Γ / gammaj).π
             Dim o As Double = a * b
 
             Return o
         End Function
 
-        ReadOnly gamma1 As Double = lgamma(1.0R)
-        ReadOnly gammaj As Double = lgamma(lambda_cj)
+        ''' <summary>
+        ''' Provides an analytical form of the marginal likelihood Of ``y(N)`` 
+        ''' given the partition ``S``, which Is proportional to the posterior 
+        ''' probability as suggested by Equation (2).
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function MarginalLikelihood(s As IEnumerable(Of Cluster)) As Double
+            Return s.Select(AddressOf Probability).π
+        End Function
+
+        ReadOnly gamma1 As Double = 1.0R.Γ
+        ReadOnly gammaj As Double = lambda_cj.Γ
 
         Const lambda_cj As Double = 1.0R / 64.0R
 
@@ -41,8 +53,8 @@ Namespace BEBaC
         ''' <param name="j"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function nj(c As IEnumerable(Of I3merVector), j As I3Mers) As Integer
-            Return c.Select(Function(x) x.Vector(j)).Sum
+        Public Function nj(c As Cluster, j As I3Mers) As Integer
+            Return c.members.Select(Function(x) x.Vector(j)).Sum
         End Function
     End Module
 End Namespace
