@@ -1,7 +1,7 @@
 ---
 title: SMART
 tags: [maunal, tools]
-date: 7/7/2016 4:35:12 PM
+date: 7/7/2016 6:24:43 PM
 ---
 # GCModeller [version 1.123.0.0]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/SMART.exe

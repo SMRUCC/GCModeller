@@ -1,7 +1,7 @@
 ---
 title: GCModeller CLI Tools
 tags: [manual, tools]
-date: 7/7/2016 4:35:22 PM
+date: 7/7/2016 6:24:51 PM
 ---
 
 All of the available GCModeller CLI tools are listed below:
@@ -26,5 +26,7 @@ All of the available GCModeller CLI tools are listed below:
 + [Shoal](./Shoal.html)
 + [SMART](./SMART.html)
 + [Spiderman](./Spiderman.html)
++ [vcsm](./vcsm.html)
++ [venn](./venn.html)
 + [VirtualFootprint](./VirtualFootprint.html)
 + [Xfam](./Xfam.html)

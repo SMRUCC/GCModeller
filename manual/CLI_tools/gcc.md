@@ -1,7 +1,7 @@
 ---
 title: gcc
 tags: [maunal, tools]
-date: 7/7/2016 4:34:23 PM
+date: 7/7/2016 6:24:17 PM
 ---
 # GCModeller [version 1.0.0.0]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/gcc.exe
