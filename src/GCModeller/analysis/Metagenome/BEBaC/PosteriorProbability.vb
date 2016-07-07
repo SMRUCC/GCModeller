@@ -21,12 +21,17 @@ Namespace BEBaC
         ''' </summary>
         ''' <returns></returns>
         <Extension>
-        Public Function Probability(c As Cluster) As Double
+        Public Function Probability(c As IEnumerable(Of I3merVector)) As Double
             Dim a As Double = gamma1 / (1.0R + I3Mersx.Select(Function(j) c.nj(j)).Sum).Γ
             Dim b As Double = I3Mersx.Select(Function(j) (lambda_cj + c.nj(j)).Γ / gammaj).π
             Dim o As Double = a * b
 
             Return o
+        End Function
+
+        <Extension>
+        Public Function Probability(c As Cluster) As Double
+            Return c.members.Probability
         End Function
 
         ''' <summary>
@@ -53,8 +58,8 @@ Namespace BEBaC
         ''' <param name="j"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function nj(c As Cluster, j As I3Mers) As Integer
-            Return c.members.Select(Function(x) x.Vector(j)).Sum
+        Public Function nj(c As IEnumerable(Of I3merVector), j As I3Mers) As Integer
+            Return c.Select(Function(x) x.Vector(j)).Sum
         End Function
     End Module
 End Namespace

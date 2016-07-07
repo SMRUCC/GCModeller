@@ -26,7 +26,7 @@ Namespace BEBaC
         Public Property members As List(Of I3merVector)
 
         Public Function PartitionProbability() As Double
-            Return members.PartitionProbability
+            Return members.Probability
         End Function
     End Class
 End Namespace

@@ -23,6 +23,7 @@ Partial Module CLI
         Dim fq As FastaqFile = FastaqFile.Load([in])
         Dim vectors = fq.Transform
         Dim Crude = vectors.InitializePartitions(kmax)
-        Dim ptes = Crude.First.PartitionProbability
+        Dim ppppp = Crude.First.PartitionProbability
+        Dim ptes = Crude.MarginalLikelihood
     End Function
 End Module
