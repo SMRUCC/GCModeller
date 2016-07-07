@@ -26,15 +26,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.Serialization
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry
-Imports LANS.SystemsBiology.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.Framework.KMeans
@@ -42,6 +33,15 @@ Imports Microsoft.VisualBasic.DataVisualization.Network
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
 
 Partial Module CLI
 

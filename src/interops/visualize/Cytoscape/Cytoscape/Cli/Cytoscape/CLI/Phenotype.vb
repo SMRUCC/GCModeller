@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::9a5b3dc3943a2af6378c2f542cab37d7, ..\interops\visualize\Cytoscape\Cytoscape\Cli\Cytoscape\CLI\Phenotype.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.MotifScans
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports LANS.SystemsBiology.InteractionModel.Network.Regulons.MotifCluster
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DataMining.Framework
 Imports Microsoft.VisualBasic.DataMining.Framework.KMeans
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.DataMining.Framework.KMeans.CompleteLinkage
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports System.Text.RegularExpressions
-Imports LANS.SystemsBiology.Assembly.NCBI.GenBank
-Imports LANS.SystemsBiology.DatabaseServices.Regprecise
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME
-Imports System.Runtime.CompilerServices
-Imports LANS.SystemsBiology.GCModeller.AnalysisTools.ModelSolvers.FBA.Models.rFBA
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic
-Imports LANS.SystemsBiology.Assembly.NCBI.COG
-Imports LANS.SystemsBiology.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Terminal.Utility
+Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.COG
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Model.Network.Regulons.MotifCluster
 
 Partial Module CLI
 
@@ -131,7 +132,7 @@ Partial Module CLI
         Dim i As Integer = 1
         Dim setValue = New SetValue(Of EntityLDM) <= NameOf(EntityLDM.Cluster)
 
-        For Each cluster As Cluster(Of KMeans.Entity) In Clusters
+        For Each cluster As KMeansCluster(Of KMeans.Entity) In Clusters
             Dim array As EntityLDM()
 
             If mapNames Is Nothing Then

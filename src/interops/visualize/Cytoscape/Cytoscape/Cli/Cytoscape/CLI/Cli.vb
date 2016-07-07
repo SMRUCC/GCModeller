@@ -26,13 +26,13 @@
 #End Region
 
 Imports System.Drawing
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.CytoscapeGraphView.XGMML
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.Visualization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Visualize.Cytoscape
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization
 
 <PackageNamespace("Cytoscape.CLI",
                   Category:=APICategories.CLI_MAN,

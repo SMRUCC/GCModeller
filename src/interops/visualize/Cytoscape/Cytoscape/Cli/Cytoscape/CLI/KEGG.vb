@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::5c664452a9a036f2a0e5b2e17b05ba7d, ..\interops\visualize\Cytoscape\Cytoscape\Cli\Cytoscape\CLI\KEGG.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DataVisualization.Network
+Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
+Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG
+Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
+Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
+Imports xCytoscape.GCModeller.FileSystem
+Imports xCytoscape.GCModeller.FileSystem.KEGG.Directories
 Imports ______NETWORK__ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
     Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node,
     Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge)
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports LANS.SystemsBiology.Assembly.KEGG.DBGET
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.PfsNET
-Imports LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports Cytoscape.GCModeller.FileSystem
-Imports Cytoscape.GCModeller.FileSystem.KEGG.Directories
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.KEGG.ReactionNET
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.NetworkModel.KEGG
-Imports LANS.SystemsBiology.Assembly.KEGG.Archives.Xml.Nodes
-Imports LANS.SystemsBiology.AnalysisTools.DataVisualization.Interaction.Cytoscape.DocumentFormat
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.Language
 
 Partial Module CLI
 

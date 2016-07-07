@@ -1,36 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::dfb05e2c8b4be1138fca6439fec83b36, ..\interops\visualize\Cytoscape\Cytoscape\Cli\Cytoscape\CLI\Metagenomics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports LANS.SystemsBiology.InteractionModel.Network.BLAST.BBHAPI
-Imports LANS.SystemsBiology.NCBI.Extensions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Model.Network.BLAST.API
+Imports SMRUCC.genomics.Model.Network.BLAST.BBHAPI
+Imports SMRUCC.genomics.Model.Network.BLAST.LDM
 
 Partial Module CLI
 
@@ -81,11 +83,12 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimFileExt)
         Dim type As String = args.GetValue("/type", "blast_out").ToLower
-        Dim method As LANS.SystemsBiology.InteractionModel.Network.BLAST.BuildFromSource
-        If LANS.SystemsBiology.InteractionModel.Network.BLAST.BuildMethods.ContainsKey(type) Then
-            method = LANS.SystemsBiology.InteractionModel.Network.BLAST.BuildMethods(type)
+        Dim method As BuildFromSource
+
+        If BuildMethods.ContainsKey(type) Then
+            method = BuildMethods(type)
         Else
-            method = AddressOf LANS.SystemsBiology.InteractionModel.Network.BLAST.BuildFromBlastOUT
+            method = AddressOf BuildFromBlastOUT
         End If
 
         Dim dict As String = args("/dict")
@@ -97,12 +100,13 @@ Partial Module CLI
     Private Function __loadDict(xml As String) As Dictionary(Of String, String)
         If Not xml.FileExists Then Return New Dictionary(Of String, String)
 
-        Dim locusList As LANS.SystemsBiology.InteractionModel.Network.BLAST.LDM.LocusDict() =
-            xml.LoadXml(Of LANS.SystemsBiology.InteractionModel.Network.BLAST.LDM.LocusDict())
+        Dim locusList As LocusDict() = xml.LoadXml(Of LocusDict())
 
-        If locusList Is Nothing Then Return New Dictionary(Of String, String)
+        If locusList Is Nothing Then
+            Return New Dictionary(Of String, String)
+        End If
 
-        Return LANS.SystemsBiology.InteractionModel.Network.BLAST.LDM.LocusDict.CreateDictionary(locusList)
+        Return LocusDict.CreateDictionary(locusList)
     End Function
 
     <ExportAPI("/BLAST.Network.MetaBuild", Usage:="/BLAST.Network.MetaBuild /in <inDIR> [/out <outDIR> /dict <dict.xml>]")>
@@ -111,7 +115,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inDIR & ".MetaBuild")
         Dim dict As String = args("/dict")
         Dim locusDict As Dictionary(Of String, String) = __loadDict(dict)
-        Dim network = LANS.SystemsBiology.InteractionModel.Network.BLAST.MetaBuildFromBBH(inDIR, locusDict)
+        Dim network = MetaBuildFromBBH(inDIR, locusDict)
         Return network.Save(out, Encodings.UTF8).CLICode
     End Function
 
