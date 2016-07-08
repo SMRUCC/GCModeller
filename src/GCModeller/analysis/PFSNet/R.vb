@@ -35,10 +35,15 @@ Namespace R
     Module Base
 
         ''' <summary>
-        ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
+        ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. 
+        ''' The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
         ''' </summary>
-        ''' <param name="x">numeric vector whose sample quantiles are wanted, or an object of a class for which a method has been defined (see also ‘details’). NA and NaN values are not allowed in numeric vectors unless na.rm is TRUE.</param>
-        ''' <param name="probs">numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)</param>
+        ''' <param name="x">
+        ''' numeric vector whose sample quantiles are wanted, or an object of a class for which a method has been defined (see also ‘details’). 
+        ''' NA and NaN values are not allowed in numeric vectors unless na.rm is TRUE.</param>
+        ''' <param name="probs">
+        ''' numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
+        ''' </param>
         ''' <remarks></remarks>
         Public Function Quantile(x As Double(), probs As Double) As Double
             'Dim groupedList = (From n As Double In x Select n Group n By n Into Group).ToArray

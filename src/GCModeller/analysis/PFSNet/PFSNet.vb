@@ -62,19 +62,20 @@ Public Module PFSNet
     '''<summary>
     ''' The original pfsnet algorithm implemented in language R.
     ''' 
-    '''require(igraph)
-    '''#require(rJava)
+    ''' ```R
+    ''' require(igraph)
+    ''' #require(rJava)
     '''
-    '''loaddata&lt;-function(file){
-    '''	a&lt;-read.table(file,row.names=1)
-    '''	a
-    '''}
+    ''' loaddata&lt;-function(file){
+    '''	 a&lt;-read.table(file,row.names=1)
+    '''	 a
+    ''' }
     '''
-    '''computew1&lt;-function(expr,theta1,theta2){
-    '''	ranks&lt;-apply(expr,2,function(x){
-    '''		rank(x)/length(x)
-    '''	})
-    '''	apply(ranks,2,function(x){
+    ''' computew1&lt;-function(expr,theta1,theta2){
+    '''	 ranks&lt;-apply(expr,2,function(x){
+    '''	 	rank(x)/length(x)
+    '''	 })
+    '''	 apply(ranks,2,function(x){
     '''		q2&lt;-quantile(x,theta2,na.rm=T)
     '''		q1&lt;-quantile(x,theta1,na.rm=T)
     '''		m&lt;-median(x)
@@ -90,11 +91,12 @@ Public Module PFSNet
     '''			else
     '''				0
     '''		})
-    '''	})
-    '''}
+    '''	 })
+    ''' }
     '''
-    '''pfsnet.computegenelist&lt;-function(w,beta){
+    ''' pfsnet.computegenelist&lt;-function(w,beta){
     '''	# within [rest of string was truncated]&quot;;.
+    '''	```
     '''</summary>
     Public ReadOnly Property OriginalRAlgorithm As String
         Get
@@ -103,9 +105,11 @@ Public Module PFSNet
     End Property
 
     ''' <summary>
+    ''' ```R
     ''' ranks&lt;-apply(expr,2,function(x){
     '''	   rank(x)/length(x)
     ''' })
+    ''' ```
     ''' 
     ''' apply函数之中的MARGIN参数的含义：
     ''' MARGIN	
@@ -125,7 +129,7 @@ Public Module PFSNet
         expr = (From i As Integer In expr.Sequence Select New DataFrameRow With {.Name = expr(i).Name, .ExperimentValues = ldata(i)}).ToArray
         Dim LQueryCache = DataFrameRow.CreateApplyFunctionCache(expr)
         Dim fuzzyWeights = (From line In LQueryCache.Value Select computew1(line, theta1, theta2)).ToArray
-        Return DataFrameRow.InternalCreateDataFrameFromCache(LQueryCache.Key, fuzzyWeights)
+        Return DataFrameRow.CreateDataFrameFromCache(LQueryCache.Key, fuzzyWeights)
     End Function
 
     Public Function computew1(expr As Double(), theta1 As Double, theta2 As Double) As Double()
@@ -158,10 +162,12 @@ Public Module PFSNet
     End Function
 
     ''' <summary>
+    ''' ```R
     ''' list.mask&lt;-apply(w,1,function(x){
     '''	  sum(x,na.rm=T)/sum(!is.na(x)) >= beta
     ''' })
     ''' list(gl=rownames(w)[list.mask])
+    ''' ```
     ''' 
     ''' apply函数是对行进行统计的
     ''' 
@@ -248,11 +254,10 @@ Public Module PFSNet
         cat("\t[DONE]\n")
         cat("total time elapsed: ", proc.ElapsedMilliseconds / 1000, " seconds\n")
 
-        Dim analysisResult As PFSNetResultOut =
-            New PFSNetResultOut With
-            {
-                .Phenotype1 = (From item In ccs Where item.masked Select item).ToArray,
-                .Phenotype2 = (From item In ccs2 Where item.masked Select item).ToArray}
+        Dim analysisResult As New PFSNetResultOut With {
+            .Phenotype1 = (From item In ccs Where item.masked Select item).ToArray,
+            .Phenotype2 = (From item In ccs2 Where item.masked Select item).ToArray
+        }
         Return analysisResult
     End Function
 
