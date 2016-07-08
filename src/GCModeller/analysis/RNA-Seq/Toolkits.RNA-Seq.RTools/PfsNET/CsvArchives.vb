@@ -29,6 +29,8 @@ Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.PFSNet
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -36,7 +38,7 @@ Imports SMRUCC.genomics.ComponentModel
 
 Namespace PfsNET.TabularArchives
 
-    Public Class KEGGPhenotypes : Inherits SubNETCsvObject
+    Public Class KEGGPhenotypes : Inherits SubNetTable
         Public Property [Class] As String
         Public Property Category As String
 
@@ -49,18 +51,20 @@ Namespace PfsNET.TabularArchives
         <Column("Contribution(%)")> Public Property Percentage As Double
         <Column("Contribution2(%)")> Public Property Percentage2 As Double
 
-        Public Shared Function PhenotypeAssociations(Result As SubNETCsvObject(), KEGGPathways As KEGG.Archives.Csv.Pathway()) As KEGGPhenotypes()
+        Public Shared Function PhenotypeAssociations(Result As SubNetTable(), KEGGPathways As KEGG.Archives.Csv.Pathway()) As KEGGPhenotypes()
             Dim Dict As Dictionary(Of String, KEGG.Archives.Csv.Pathway) =
                 KEGGPathways.ToDictionary(Of String)(Function(pathway) pathway.EntryId)
 
-            Dim LQuery = (From item As SubNETCsvObject In Result
-                          Let Id As String = item.UniqueId
-                          Let Pathway As KEGG.Archives.Csv.Pathway = Dict(Id)
-                          Select __assign(item, Pathway)).ToArray
+            Dim LQuery As KEGGPhenotypes() =
+                LinqAPI.Exec(Of KEGGPhenotypes) <= From subNet As SubNetTable
+                                                   In Result
+                                                   Let Id As String = subNet.UniqueId
+                                                   Let Pathway As KEGG.Archives.Csv.Pathway = Dict(Id)
+                                                   Select __assign(subNet, Pathway)
             Return LQuery
         End Function
 
-        Private Shared Function __assign(net As SubNETCsvObject, pathway As KEGG.Archives.Csv.Pathway) As KEGGPhenotypes
+        Private Shared Function __assign(net As SubNetTable, pathway As KEGG.Archives.Csv.Pathway) As KEGGPhenotypes
             Dim phen As KEGGPhenotypes = net.Copy(Of KEGGPhenotypes)()
             Dim [Class] As String = pathway.Class
             Dim Category As String = pathway.Category
@@ -70,9 +74,17 @@ Namespace PfsNET.TabularArchives
         End Function
 
         Public Shared Function CalculateContributions(data As IEnumerable(Of KEGGPhenotypes)) As KEGGPhenotypes()
-            Dim LQuery = (From item In data Select item Group item By item.Category Into Group).ToArray
-            Dim ChunkBuffer = (From item In LQuery Select CalculationWeights(item.Group.ToArray)).ToArray.MatrixToVector     '计算贡献率权重比
-            Return ChunkBuffer
+            Dim LGroup = From phe As KEGGPhenotypes
+                         In data
+                         Select phe
+                         Group phe By phe.Category Into Group
+            Dim out As KEGGPhenotypes() = LinqAPI.Exec(Of KEGGPhenotypes) <=
+ _
+                From g
+                In LGroup
+                Select __weights(g.Group.ToArray)  ' 计算贡献率权重比
+
+            Return out
         End Function
 
         ''' <summary>
@@ -80,13 +92,13 @@ Namespace PfsNET.TabularArchives
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Shared Function CalculationWeights(data As KEGGPhenotypes()) As KEGGPhenotypes()
-            Dim w As Double = (From item In data Select item.weights).ToArray.MatrixToVector.Sum
-            Dim w2 As Double = (From item In data Select item.weight2).ToArray.MatrixToVector.Sum
+        Private Shared Function __weights(data As KEGGPhenotypes()) As KEGGPhenotypes()
+            Dim w As Double = data.Select(Function(x) x.weights).MatrixAsIterator.Sum
+            Dim w2 As Double = data.Select(Function(x) x.weight2).MatrixAsIterator.Sum
 
-            For Each item In data
-                item.Percentage = item.weights.Sum / w * 100
-                item.Percentage2 = item.weight2.Sum / w2 * 100
+            For Each phe As KEGGPhenotypes In data
+                phe.Percentage = phe.weights.Sum / w * 100
+                phe.Percentage2 = phe.weight2.Sum / w2 * 100
             Next
 
             Return data
@@ -133,22 +145,27 @@ Namespace PfsNET.TabularArchives
         Public Property GeneId As String
         Public Property GeneFunction As String
 
-        Public Shared Function Denormalize(phenotypeData As Generic.IEnumerable(Of KEGGPhenotypes), PttDir As String) As KEGGPhenotypeDenormalizeData()
-            Dim ChunkBuffer As List(Of KEGGPhenotypeDenormalizeData) = New List(Of KEGGPhenotypeDenormalizeData)
-            Dim PTT As New PTTDbLoader(PttDir)
+        Public Shared Function Denormalize(phenotypeData As IEnumerable(Of KEGGPhenotypes), PTT_DIR As String) As KEGGPhenotypeDenormalizeData()
+            Dim bufs As New List(Of KEGGPhenotypeDenormalizeData)
+            Dim PTT As New PTTDbLoader(PTT_DIR)
 
             For Each phen As KEGGPhenotypes In phenotypeData
-                Dim funcs As KEGGPhenotypeDenormalizeData() = (From locus As String In phen.SignificantGeneObjects
-                                                               Let gFuncs As KEGGPhenotypeDenormalizeData = Denormalize(PTT, locus, phen)
-                                                               Select gFuncs).ToArray
-                Call ChunkBuffer.AddRange(funcs)
+                Dim funcs As KEGGPhenotypeDenormalizeData() =
+                    LinqAPI.Exec(Of KEGGPhenotypeDenormalizeData) <=
+ _
+                        From locus As String
+                        In phen.SignificantGeneObjects
+                        Let gFuncs As KEGGPhenotypeDenormalizeData = Denormalize(PTT, locus, phen)
+                        Select gFuncs
+
+                bufs += funcs
             Next
 
-            Return ChunkBuffer.ToArray
+            Return bufs.ToArray
         End Function
 
         Private Shared Function Denormalize(PTT As PTTDbLoader, locus As String, phen As KEGGPhenotypes) As KEGGPhenotypeDenormalizeData
-            Dim dnData As KEGGPhenotypeDenormalizeData = New KEGGPhenotypeDenormalizeData
+            Dim dnData As New KEGGPhenotypeDenormalizeData
             Dim PttGene = PTT(locus)
 
             dnData.GeneId = locus
@@ -169,7 +186,7 @@ Namespace PfsNET.TabularArchives
     ''' 从pfsnet的R输出之中直接解析出来的pfsnet的计算结果
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class SubNETCsvObject
+    Public Class SubNetTable
 
         ''' <summary>
         ''' 使用结果文件名来表示
@@ -189,13 +206,12 @@ Namespace PfsNET.TabularArchives
         Public Property weights As Double()
         Public Property weight2 As Double()
         Public Property SubNET_Vector As Double()
-        '   Public Property Vectors As String()
 
         Public Overrides Function ToString() As String
             Return String.Format("{0} --> {1}", UniqueId, PhenotypePair)
         End Function
 
-        Protected Friend Function Copy(Of T As SubNETCsvObject)() As T
+        Protected Friend Function Copy(Of T As SubNetTable)() As T
             Dim Copied As T = Activator.CreateInstance(Of T)()
             Copied.Description = Description
             Copied.Flag = Flag
@@ -218,10 +234,13 @@ Namespace PfsNET.TabularArchives
         ''' <param name="PfsNETResult">结果文件的XML文件名</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function CreateObject(PfsNETResult As String, PathwayBrief As Dictionary(Of String, PathwayBrief)) As SubNETCsvObject()
+        Public Shared Function CreateObject(PfsNETResult As String, PathwayBrief As Dictionary(Of String, PathwayBrief)) As SubNetTable()
             Dim ResultSet = PfsNETResult.LoadXml(Of PfsNET())()
-            Dim PhenotypeName As String = PfsNETResult.Replace("\", "/").Split(CChar("/")).Last.ToLower.Replace(".xml", "")
-            Dim LQuery = (From ElementItem In ResultSet Select CreateObject(ElementItem, PhenotypeName, PathwayBrief)).ToArray
+            Dim PhenotypeName As String = PfsNETResult.BaseName
+            Dim LQuery As SubNetTable() =
+                LinqAPI.Exec(Of SubNetTable) <= From x As PfsNET
+                                                In ResultSet
+                                                Select __creates(x, PhenotypeName, PathwayBrief)
             Return LQuery
         End Function
 
@@ -236,53 +255,65 @@ Namespace PfsNET.TabularArchives
         Public Shared Function CreateObject(ResultSet As DataStructure.PFSNetGraph(),
                                             PhenotypeName As String,
                                             PathwayBrief As Dictionary(Of String, PathwayBrief),
-                                            [Class] As String) As SubNETCsvObject()
+                                            [Class] As String) As SubNetTable()
 
-            Dim Chunk = (From graphItem As DataStructure.PFSNetGraph
+            Dim result = From graph As DataStructure.PFSNetGraph
                          In ResultSet
-                         Let subNET = New NetDetails With
-                                      {
-                                          .Nodes = (From node In graphItem.Nodes Select node.Name).ToArray,
-                                          .weight = New Vector With {.x = (From node In graphItem.Nodes Select node.weight).ToArray},
-                                          .weight2 = New Vector With {.x = (From node In graphItem.Nodes Select node.weight2).ToArray},
-                                          .Pvalue = graphItem.pvalue,
-                                          .statistics = graphItem.statistics}
-                         Select New PfsNET With
-                                {
-                                    .Class = [Class], .Flag = True,
-                                    .n = graphItem.Length,
-                                    .Identifier = graphItem.Id,
-                                    .SubNET = subNET}).ToArray
-            Dim LQuery = (From ElementItem In Chunk Select CreateObject(ElementItem, PhenotypeName, PathwayBrief)).ToArray
+                         Let subNET = New NetDetails With {
+                             .Nodes = (From node In graph.Nodes Select node.Name).ToArray,
+                             .weight = New Vector With {
+                                .x = (From node In graph.Nodes Select node.weight).ToArray
+                             },
+                             .weight2 = New Vector With {
+                                .x = (From node In graph.Nodes Select node.weight2).ToArray
+                             },
+                             .Pvalue = graph.pvalue,
+                             .statistics = graph.statistics
+                         }
+                         Select New PfsNET With {
+                             .Class = [Class],
+                             .Flag = True,
+                             .n = graph.Length,
+                             .Identifier = graph.Id,
+                             .SubNET = subNET
+                         }
+            Dim LQuery As SubNetTable() =
+                LinqAPI.Exec(Of SubNetTable) <= From x As PfsNET
+                                                In result
+                                                Select __creates(x, PhenotypeName, PathwayBrief)
             Return LQuery
         End Function
 
         Public Shared Function CreateObject(ResultSet As PfsNET(),
                                             PhenotypeName As String,
-                                            PathwayBrief As Dictionary(Of String, PathwayBrief)) As SubNETCsvObject()
+                                            PathwayBrief As Dictionary(Of String, PathwayBrief)) As SubNetTable()
 
-            Dim LQuery = (From ElementItem In ResultSet Select CreateObject(ElementItem, PhenotypeName, PathwayBrief)).ToArray
+            Dim LQuery As SubNetTable() =
+                LinqAPI.Exec(Of SubNetTable) <= From x As PfsNET
+                                                In ResultSet
+                                                Select __creates(x, PhenotypeName, PathwayBrief)
             Return LQuery
         End Function
 
-        Private Shared Function CreateObject(XmlElement As PfsNET,
-                                             PhenotypeName As String,
-                                             PathwayBrief As Dictionary(Of String, PathwayBrief)) As SubNETCsvObject
+        Private Shared Function __creates(net As PfsNET,
+                                          PhenotypeName As String,
+                                          PathwayBrief As Dictionary(Of String, PathwayBrief)) As SubNetTable
 
-            Dim CsvObject As SubNETCsvObject = New SubNETCsvObject With {.PhenotypePair = PhenotypeName}
-            CsvObject.Flag = XmlElement.Flag
-            CsvObject.n = XmlElement.n
-            CsvObject.PValue = XmlElement.SubNET.Pvalue
-            CsvObject.SignificantGeneObjects = XmlElement.SubNET.Nodes
-            CsvObject.Statistics = XmlElement.SubNET.statistics
-            CsvObject.SubNET_Vector = XmlElement.SubNET.Vector.x
-            CsvObject.UniqueId = XmlElement.Identifier
-            CsvObject.weight2 = XmlElement.SubNET.weight2.x
-            CsvObject.weights = XmlElement.SubNET.weight.x
-            ' CsvObject.Vectors = (From Vector In XmlElement.Vectors Select String.Join(", ", Vector.Elements)).ToArray
-            CsvObject.Description = PathwayBrief(CsvObject.UniqueId).Description
+            Dim tbl As New SubNetTable With {
+                .PhenotypePair = PhenotypeName
+            }
+            tbl.Flag = net.Flag
+            tbl.n = net.n
+            tbl.PValue = net.SubNET.Pvalue
+            tbl.SignificantGeneObjects = net.SubNET.Nodes
+            tbl.Statistics = net.SubNET.statistics
+            tbl.SubNET_Vector = net.SubNET.Vector.x
+            tbl.UniqueId = net.Identifier
+            tbl.weight2 = net.SubNET.weight2.x
+            tbl.weights = net.SubNET.weight.x
+            tbl.Description = PathwayBrief(tbl.UniqueId).Description
 
-            Return CsvObject
+            Return tbl
         End Function
     End Class
 End Namespace

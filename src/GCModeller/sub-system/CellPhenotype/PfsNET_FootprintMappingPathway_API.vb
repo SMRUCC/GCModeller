@@ -162,8 +162,8 @@ Module PfsNET_FootprintMappingPathway_API
                           Function(x) DirectCast(x, ComponentModel.PathwayBrief))
         Dim LQuery = (From item As DataStructure.PFSNetResultOut
                       In Result
-                      Let p1 = SubNETCsvObject.CreateObject(item.Phenotype1, item.DataTag & ".Class1", Pathways, 1)
-                      Let p2 = SubNETCsvObject.CreateObject(item.Phenotype2, item.DataTag & ".Class2", Pathways, 2)
+                      Let p1 = SubNetTable.CreateObject(item.Phenotype1, item.DataTag & ".Class1", Pathways, 1)
+                      Let p2 = SubNetTable.CreateObject(item.Phenotype2, item.DataTag & ".Class2", Pathways, 2)
                       Select {p1, p2}.MatrixToList).ToArray.MatrixToVector
         Dim KEGGCategory = KEGGPhenotypes.PhenotypeAssociations(LQuery, KEGG.Archives.Csv.Pathway.CreateObjects(Model.KEGG_Pathways))
         Return KEGGCategory

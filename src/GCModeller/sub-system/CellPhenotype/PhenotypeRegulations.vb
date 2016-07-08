@@ -579,8 +579,8 @@ Public Module PhenotypeRegulations
                       In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly).AsParallel
                       Select PfsNET = RTools.PfsNET.LoadResult(file), Regulator = FileIO.FileSystem.GetFileInfo(file).Name).ToArray
         Dim PathwayDict = (From item In KEGGPathways Select CType(item, ComponentModel.PathwayBrief)).ToDictionary(Function(t) t.EntryId)
-        Dim Csv = (From item In Result Select SubNETCsvObject.CreateObject(item.PfsNET, PhenotypeName:=item.Regulator, PathwayBrief:=PathwayDict))
-        Dim Output = (From item As SubNETCsvObject()
+        Dim Csv = (From item In Result Select SubNetTable.CreateObject(item.PfsNET, PhenotypeName:=item.Regulator, PathwayBrief:=PathwayDict))
+        Dim Output = (From item As SubNetTable()
                       In Csv.AsParallel
                       Select RTools.PfsNET.KEGGPathwaysPhenotypeAnalysis(item, KEGGPathways)).ToArray.MatrixToVector
         Output = KEGGPhenotypes.CalculateContributions(Output)

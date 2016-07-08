@@ -385,7 +385,7 @@ Namespace NetworkModel.PfsNET
                    Info:="visualize kegg module pfsnet calculation data, this method only export the kegg_module information.")>
         Public Function PfsNETNetwork(<Parameter("From.Pathway")>
                                       FromPathway As XmlModel,
-                                      PfsNet As IEnumerable(Of SubNETCsvObject),
+                                      PfsNet As IEnumerable(Of SubNetTable),
                                       ExportDIR As String) As Boolean
 
             Dim net = ExportPathwayGraph(FromPathway, True).ToDictionary(Function(t) t.Key)
@@ -419,7 +419,7 @@ Namespace NetworkModel.PfsNET
         ''' <remarks></remarks>
         <ExportAPI("Export.PfsNet.Cytoscape")>
         Public Function PfsNETNetwork_assemble_keggpathways(<Parameter("From.Pathway")> FromPathway As XmlModel,
-                                                            PfsNet As IEnumerable(Of SubNETCsvObject),
+                                                            PfsNet As IEnumerable(Of SubNetTable),
                                                             ExportDIR As String) As Boolean
 
             Dim net = ExportPathwayGraph(FromPathway, True).ToDictionary(Function(t) t.Key)
@@ -453,7 +453,7 @@ Namespace NetworkModel.PfsNET
                     Dim NodeTable = (From item In network.Nodes Select item.CopyTo(Of PfsNETNode)()).ToArray
 
                     For Each Node In NodeTable
-                        Node.Important = (From item As SubNETCsvObject
+                        Node.Important = (From item As SubNetTable
                                           In pfsnetList.AsParallel
                                           Where Array.IndexOf(item.SignificantGeneObjects, Node.Identifier) > -1
                                           Select item.PhenotypePair
