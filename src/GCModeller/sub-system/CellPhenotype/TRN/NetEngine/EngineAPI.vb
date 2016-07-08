@@ -27,8 +27,8 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel
-Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
+Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel
+Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
-Namespace Simulation.ExpressionRegulationNetwork
+Namespace TRN
 
     Public Module EngineAPI
 

@@ -27,7 +27,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
+Namespace TRN.KineticsModel.Regulators
 
     ''' <summary>
     ''' 需要Effector

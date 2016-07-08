@@ -28,9 +28,9 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DataMining.Framework.DFL_Driver
-Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configs
+Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configs
 
-Namespace Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
+Namespace TRN.KineticsModel.Regulators
 
     ''' <summary>
     ''' 表示调控因子与调控的基因之间的关系，<see cref="RegulationExpression.Weight"></see>用于表示调控的Effect出现的事件概率值的高低，

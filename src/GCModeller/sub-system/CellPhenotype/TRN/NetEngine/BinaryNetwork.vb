@@ -27,12 +27,12 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel
+Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
-Namespace Simulation.ExpressionRegulationNetwork
+Namespace TRN
 
     ''' <summary>
     ''' 使用逻辑值来模拟计算基因表达调控网络
@@ -260,7 +260,7 @@ Namespace Simulation.ExpressionRegulationNetwork
         ''' <remarks></remarks>
         Public ReadOnly Property NonRegulationHandles As Long()
             Get
-                Dim LQuery = (From dnyExpression As Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression
+                Dim LQuery = (From dnyExpression As KineticsModel.BinaryExpression
                               In _DynamicsExprs
                               Where dnyExpression.RegulatorySites.IsNullOrEmpty OrElse
                                   dnyExpression.RegulatorCounts = 0

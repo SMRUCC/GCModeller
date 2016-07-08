@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork
+Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
@@ -54,8 +54,8 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
-                       SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression,
-                       SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork)
+                       SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression,
+                       SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork)
 
 ''' <summary>
 ''' 将MEME所分析出来的调控信息附加到代谢途径的网络图之中
@@ -65,7 +65,7 @@ Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Kernel
 Public Module PhenotypeRegulations
 
     <ExportAPI("Export.Network.Model")>
-    Public Function ExportNetworkModel(model As CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork, saveto As String) As Boolean
+    Public Function ExportNetworkModel(model As BinaryNetwork, saveto As String) As Boolean
         Return model.SaveNetwork(saveto)
     End Function
 
@@ -367,18 +367,17 @@ Public Module PhenotypeRegulations
     End Function
 
     <ExportAPI("write.csv.node_states")>
-    Public Function WriteNetworkStateData(network As CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork, saveto As String) As Boolean
+    Public Function WriteNetworkStateData(network As BinaryNetwork, saveto As String) As Boolean
         Return network.WriteNodeStates(url:=saveto)
     End Function
 
     <ExportAPI("Write.Csv.Regulations")>
-    Public Function WriteRegulationState(Model As CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork,
-                                         <Parameter("SaveTo.Path")> SaveToPath As String) As Boolean
+    Public Function WriteRegulationState(Model As BinaryNetwork, <Parameter("SaveTo.Path")> SaveToPath As String) As Boolean
         Return Model.WriteRegulationValues(url:=SaveToPath)
     End Function
 
     <ExportAPI("write.xml.binary_network")>
-    Public Function SaveNetworkModel(network As Simulation.ExpressionRegulationNetwork.BinaryNetwork, saveto As String) As Boolean
+    Public Function SaveNetworkModel(network As BinaryNetwork, saveto As String) As Boolean
         Return network.get_Model.GetXml.SaveTo(saveto)
     End Function
 
@@ -394,12 +393,11 @@ Public Module PhenotypeRegulations
                                      <Parameter("Path.SaveTo",
                                                 "Optional parameter, is this path value not is null then the program " &
                                                                     "will save the inputs data to the specific file which was indicates by this value.")>
-                                     Optional SaveToPath As String = "") As Simulation.ExpressionRegulationNetwork.NetworkInput()
-        Dim Nodes As String() = CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.AnalysisMonteCarloTopLevelInput(NetworkModel)
-        Dim ChunkBuffer As Simulation.ExpressionRegulationNetwork.NetworkInput() =
+                                     Optional SaveToPath As String = "") As NetworkInput()
+        Dim Nodes As String() = BinaryNetwork.AnalysisMonteCarloTopLevelInput(NetworkModel)
+        Dim ChunkBuffer As NetworkInput() =
             (From NodeID As String In Nodes.AsParallel
-             Let InputNode As Simulation.ExpressionRegulationNetwork.NetworkInput =
-                 New CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput With
+             Let InputNode As NetworkInput = New NetworkInput With
                  {
                      .locusId = NodeID, .Level = True, .InitQuantity = 1, .NoneRegulation = True}
              Select InputNode).ToArray
@@ -409,15 +407,15 @@ Public Module PhenotypeRegulations
 
     <ExportAPI("binary_network.empty_input.create_all_regulators")>
     Public Function CreateInput_AllRegulators(model As Generic.IEnumerable(Of RegulatesFootprints), saveto As String) As Boolean
-        Dim Nodes = CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.AnalysisMonteCarloTopLevelInput(model)
+        Dim Nodes = BinaryNetwork.AnalysisMonteCarloTopLevelInput(model)
         Dim ChunkBuffer = (From id As String In Nodes.AsParallel Select New NetworkInput With {
                                                                      .locusId = id, .Level = True, .InitQuantity = 1, .NoneRegulation = True}).ToArray
         Return ChunkBuffer.SaveTo(saveto, False)
     End Function
 
     <ExportAPI("read.csv.network_init_input")>
-    Public Function ReadInputStatus(path As String) As CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput()
-        Return path.LoadCsv(Of CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput)(False).ToArray
+    Public Function ReadInputStatus(path As String) As NetworkInput()
+        Return path.LoadCsv(Of NetworkInput)(False).ToArray
     End Function
 
     ''' <summary>

@@ -29,7 +29,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Serialization
 Imports Oracle.Java.IO.Properties
 
-Namespace Simulation.ExpressionRegulationNetwork
+Namespace TRN
 
     <Comment("This configuration file will configure the dynamics parameter for te DFL network gene object node. changes the paramter value in this file will modify the dynamics behavior of the gene expression regulation network.", 0)>
     <Comment("If you have any question about this configuration file, please contact the author via:" & vbCrLf &

@@ -388,7 +388,7 @@ Public Module ShellScriptAPI
     <ExportAPI("Neighbor.From.Meta")>
     Public Function NeighborMatrixFromMeta(DIR As String) As String
         Dim metas As BestHit() =
-            LQuerySchedule.LQuery(ls - l - wildcards("*.xml") <= DIR, AddressOf LoadXml(Of BestHit)).ToArray
+            LQuerySchedule.LQuery(ls - l - wildcards("*.xml") <= DIR, AddressOf LoadXml(Of BestHit), 200).ToArray
 
         Dim Genomes As Dictionary(Of String, List(Of Double)) =
             metas.ToDictionary(Function(obj) obj.sp,

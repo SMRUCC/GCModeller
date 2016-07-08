@@ -184,7 +184,7 @@ Public Module MatrixAPI
                           Select i,
                               SPccVector = SPcc.PccValues(i)
         Dim LQuery As IEnumerable(Of ExprSamples) =
-            LQuerySchedule.LQuery(LQueryCache, Function(x) __checkThreshold(x.i.obj, x.SPccVector, pcc_th1, pcc_th2, spcc_th1, spcc_th2))
+            LQuerySchedule.LQuery(LQueryCache, Function(x) __checkThreshold(x.i.obj, x.SPccVector, pcc_th1, pcc_th2, spcc_th1, spcc_th2), 20000)
 
         Return New PccMatrix(lstId:=Pcc.lstGenes, samples:=LQuery.ToDictionary(Function(x) x.locusId)) With {
             .PCC_SPCC_MixedType = True
