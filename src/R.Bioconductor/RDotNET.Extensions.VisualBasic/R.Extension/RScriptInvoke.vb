@@ -1,27 +1,50 @@
 ﻿
+Imports Microsoft.VisualBasic.Linq
 ''' <summary>
 ''' 推荐使用这个对象来执行R脚本
 ''' </summary>
 Public Class RScriptInvoke
 
+    ''' <summary>
+    ''' The R script
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property [Call] As String
+    ''' <summary>
+    ''' R output from the script <see cref="[Call]"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property STD_OUT As String()
 
+    ''' <summary>
+    ''' Creates a R call from the script text
+    ''' </summary>
+    ''' <param name="script"></param>
     Sub New(script As String)
         Me.Call = script
     End Sub
 
+    ''' <summary>
+    ''' Creates a R call from the script builder
+    ''' </summary>
+    ''' <param name="script"></param>
     Sub New(script As IRProvider)
         Me.Call = script.RScript
     End Sub
 
+    ''' <summary>
+    ''' Display the output on the system console.
+    ''' </summary>
     Public Sub PrintSTDOUT()
-        If Not STD_OUT.IsNullOrEmpty Then
-            Dim s As String = String.Join(vbCrLf, STD_OUT)
+        For Each s As String In STD_OUT.SafeQuery
             Call Console.WriteLine(s)
-        End If
+        Next
     End Sub
 
+    ''' <summary>
+    ''' <see cref="[Call]"/>
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides Function ToString() As String
         Return [Call]
     End Function
@@ -41,7 +64,7 @@ Public Class RScriptInvoke
     End Function
 
     ''' <summary>
-    ''' 
+    ''' The R script <see cref="[Call]"/> should output a S4Object.
     ''' </summary>
     ''' <typeparam name="T">在R之中的类型必须是S4Object对象</typeparam>
     ''' <returns></returns>
