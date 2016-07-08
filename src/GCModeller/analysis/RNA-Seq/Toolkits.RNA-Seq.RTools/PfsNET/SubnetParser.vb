@@ -63,8 +63,8 @@ Namespace PfsNET
             Dim Result As New PFSNetResultOut With {
                 .DataTag = dataTag
             }
-            Result.Phenotype1 = (From item In data.Key Select item.ToPFSNet).ToArray
-            Result.Phenotype2 = (From item In data.Value Select item.ToPFSNet).ToArray
+            Result.Phenotype1 = (From x As PfsNET In data.Key Select x.ToPFSNet).ToArray
+            Result.Phenotype2 = (From x As PfsNET In data.Value Select x.ToPFSNet).ToArray
             Return Result
         End Function
     End Module

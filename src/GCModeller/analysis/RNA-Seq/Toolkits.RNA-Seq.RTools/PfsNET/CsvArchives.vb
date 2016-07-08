@@ -243,8 +243,8 @@ Namespace PfsNET.TabularArchives
                          Let subNET = New NetDetails With
                                       {
                                           .Nodes = (From node In graphItem.Nodes Select node.Name).ToArray,
-                                          .weight = New Vector With {.Elements = (From node In graphItem.Nodes Select node.weight).ToArray},
-                                          .weight2 = New Vector With {.Elements = (From node In graphItem.Nodes Select node.weight2).ToArray},
+                                          .weight = New Vector With {.x = (From node In graphItem.Nodes Select node.weight).ToArray},
+                                          .weight2 = New Vector With {.x = (From node In graphItem.Nodes Select node.weight2).ToArray},
                                           .Pvalue = graphItem.pvalue,
                                           .statistics = graphItem.statistics}
                          Select New PfsNET With
@@ -275,10 +275,10 @@ Namespace PfsNET.TabularArchives
             CsvObject.PValue = XmlElement.SubNET.Pvalue
             CsvObject.SignificantGeneObjects = XmlElement.SubNET.Nodes
             CsvObject.Statistics = XmlElement.SubNET.statistics
-            CsvObject.SubNET_Vector = XmlElement.SubNET.Vector.Elements
+            CsvObject.SubNET_Vector = XmlElement.SubNET.Vector.x
             CsvObject.UniqueId = XmlElement.Identifier
-            CsvObject.weight2 = XmlElement.SubNET.weight2.Elements
-            CsvObject.weights = XmlElement.SubNET.weight.Elements
+            CsvObject.weight2 = XmlElement.SubNET.weight2.x
+            CsvObject.weights = XmlElement.SubNET.weight.x
             ' CsvObject.Vectors = (From Vector In XmlElement.Vectors Select String.Join(", ", Vector.Elements)).ToArray
             CsvObject.Description = PathwayBrief(CsvObject.UniqueId).Description
 
