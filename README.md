@@ -1,3 +1,7 @@
+![](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/alpaca.svg)
+[![Github All Releases](https://img.shields.io/github/downloads/SMRUCC/GCModeller/total.svg?maxAge=2592000?style=flat-square)]()
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
+
 # GCModeller
 GCModeller Virtual Cell System
 
@@ -9,7 +13,7 @@ Currently the R language hybrids programming environment just provides some bioc
 
 GCModeller is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits.
 
-![Motif analysis based on the meme suite](http://gcmodeller.org/library/assets/TomQuery-example.png)
+#### Gallery
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/2016-05-17.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/FUR-lightbox.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
