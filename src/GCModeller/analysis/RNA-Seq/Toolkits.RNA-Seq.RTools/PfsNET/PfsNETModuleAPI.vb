@@ -426,17 +426,17 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("generate.csv_result")>
-        Public Function ParseCsv([Imports] As String, PathwayBriefs As String) As SubNetTable()
+        Public Function ParseCsv([Imports] As String, PathwayBriefs As String) As TabularArchives.SubNetTable()
             Dim DictPathwayBriefs As Dictionary(Of String, ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief)
+                New Dictionary(Of String, ComponentModel.PathwayBrief)
             For Each item In PathwayBriefs.LoadCsv(Of PathwayBrief)(False)
                 Call DictPathwayBriefs.Add(item.EntryId, item)
             Next
 
             Dim XmlFiles = FileIO.FileSystem.GetFiles([Imports], FileIO.SearchOption.SearchTopLevelOnly, "*.xml").ToArray
-            Dim ChunkBuffer As List(Of SubNetTable) = New List(Of SubNetTable)
+            Dim ChunkBuffer As List(Of TabularArchives.SubNetTable) = New List(Of TabularArchives.SubNetTable)
             For Each File As String In XmlFiles
-                Call ChunkBuffer.AddRange(SubNetTable.CreateObject(File, DictPathwayBriefs))
+                Call ChunkBuffer.AddRange(TabularArchives.SubNetTable.CreateObject(File, DictPathwayBriefs))
             Next
 
             Return ChunkBuffer.ToArray
@@ -450,7 +450,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("export.csv_result", Info:="export the pfsnet data log file into the csv data file.")>
-        Public Function ParseCsv([imports] As String, PathwayBriefs As IEnumerable(Of ComponentModel.PathwayBrief)) As SubNetTable()
+        Public Function ParseCsv([imports] As String, PathwayBriefs As IEnumerable(Of ComponentModel.PathwayBrief)) As TabularArchives.SubNetTable()
             Dim DictPathwayBriefs As New Dictionary(Of String, ComponentModel.PathwayBrief)
 
             For Each item In PathwayBriefs
@@ -458,27 +458,27 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
             Next
 
             Dim dataFiles As IEnumerable(Of String) = ls - l - wildcards("*.txt") <= [imports]
-            Dim LQuery As SubNetTable() =
-                LinqAPI.Exec(Of SubNetTable) <= From File As String
-                                                    In dataFiles.AsParallel
-                                                    Let pName As String = File.BaseName.ToLower
-                                                    Let dataParsed = SubnetParser.TryParse(IO.File.ReadAllLines(File))
-                                                    Let p1 As String = pName & ".Class1"
-                                                    Let p2 As String = pName & ".Class2"
-                                                    Let a = SubNetTable.CreateObject(dataParsed.Key, p1, DictPathwayBriefs)
-                                                    Let b = SubNetTable.CreateObject(dataParsed.Value, p2, DictPathwayBriefs)
-                                                    Select {a, b}.MatrixAsIterator
+            Dim LQuery As TabularArchives.SubNetTable() =
+                LinqAPI.Exec(Of TabularArchives.SubNetTable) <= From File As String
+                                                                In dataFiles.AsParallel
+                                                                Let pName As String = File.BaseName.ToLower
+                                                                Let dataParsed = SubnetParser.TryParse(IO.File.ReadAllLines(File))
+                                                                Let p1 As String = pName & ".Class1"
+                                                                Let p2 As String = pName & ".Class2"
+                                                                Let a = TabularArchives.SubNetTable.CreateObject(dataParsed.Key, p1, DictPathwayBriefs)
+                                                                Let b = TabularArchives.SubNetTable.CreateObject(dataParsed.Value, p2, DictPathwayBriefs)
+                                                                Select {a, b}.MatrixAsIterator
             Return LQuery
         End Function
 
         <ExportAPI("Write.Csv.PfsNET")>
-        Public Function SaveCsvResult(data As IEnumerable(Of SubNetTable), saveto As String) As Boolean
+        Public Function SaveCsvResult(data As IEnumerable(Of TabularArchives.SubNetTable), saveto As String) As Boolean
             Return data.SaveTo(saveto, False)
         End Function
 
         <ExportAPI("Read.Csv.PfsNET")>
-        Public Function ReadPfsnet(path As String) As SubNetTable()
-            Return path.LoadCsv(Of SubNetTable)(False).ToArray
+        Public Function ReadPfsnet(path As String) As TabularArchives.SubNetTable()
+            Return path.LoadCsv(Of TabularArchives.SubNetTable)(False).ToArray
         End Function
 
         ''' <summary>
@@ -548,7 +548,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <remarks></remarks>
         <ExportAPI("kegg.pathways.associate_phenotypes",
             Info:="associate the kegg pathways pfsnet calculation result with the kegg pathways phenotypes to see which route that the mutated gene can affected the specific phenotype.")>
-        Public Function KEGGPathwaysPhenotypeAnalysis(pfsnet As IEnumerable(Of SubNetTable),
+        Public Function KEGGPathwaysPhenotypeAnalysis(pfsnet As IEnumerable(Of TabularArchives.SubNetTable),
                                                       KEGGPathways As IEnumerable(Of KEGG.Archives.Csv.Pathway)) As KEGGPhenotypes()
             Dim ChunkBuffer = KEGGPhenotypes.PhenotypeAssociations(Result:=pfsnet.ToArray, KEGGPathways:=KEGGPathways.ToArray)
             Return ChunkBuffer
