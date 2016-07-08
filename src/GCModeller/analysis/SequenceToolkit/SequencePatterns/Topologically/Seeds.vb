@@ -42,10 +42,9 @@ Namespace Topologically
         ''' <returns></returns>
         <Extension>
         Public Function ExtendSequence(source As IEnumerable(Of String), Chars As Char()) As List(Of String)
-            Return LinqAPI.MakeList(Of String) <=
-                LQuerySchedule.LQuery(
-                source,
-                Function(s) Seeds.Combo(s, Chars), 200000)
+            Return LinqAPI.MakeList(Of String) <= From s As String
+                                                  In source.AsParallel
+                                                  Select Seeds.Combo(s, Chars)
         End Function
 
         ''' <summary>
