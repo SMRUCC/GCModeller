@@ -135,5 +135,10 @@ Namespace Script
         Public Overloads Shared Widening Operator CType(Path As String) As Model
             Return ScriptCompiler.Compile(Path)
         End Operator
+
+        Public Shared Operator +(model As Model, x As var) As Model
+            Call model.Add(x)
+            Return model
+        End Operator
     End Class
 End Namespace

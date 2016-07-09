@@ -41,9 +41,9 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
     Public Property AutoFixError As Boolean = False
 
     Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Script.Model
-        Dim Model As Script.Model = New Script.Model
+        Dim Model As New Script.Model
 
-        Call GenerateSystem(Model)
+        Call __generateSystem(Model)
 
         Model.Title = SBMLFile.Model.name
         Model.FinalTime = 100
@@ -57,40 +57,38 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
     ''' <param name="Model"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function GenerateSystem(Model As Script.Model) As Boolean
-        Dim ReactionList As List(Of Equation) = New List(Of Equation)
-        Dim Metabolites As List(Of Var) = New List(Of Var)
+    Private Function __generateSystem(Model As Script.Model) As Boolean
+        Dim reactions As New List(Of Equation)
+        Dim metabolites As New List(Of var)
 
-        For Each Metabolite In SBMLFile.Model.listOfSpecies
-            If Not IsEntry(SBMLFile, Metabolite.ID) Then
-                Dim Reaction As Equation = New Equation(Metabolite.ID, GenerateFunction(Metabolite.ID))
-                ReactionList.Add(Reaction)
+        For Each m As Specie In SBMLFile.Model.listOfSpecies
+            If Not IsEntry(SBMLFile, m.ID) Then
+                reactions += New Equation(m.ID, GenerateFunction(m.ID))
             End If
-            Dim Init As Var =
-                New Kernel.ObjectModels.var With {
-                    .UniqueId = Metabolite.ID,
-                    .Title = Metabolite.name,
-                    .Value = Metabolite.InitialAmount
+
+            metabolites += New var With {
+                .UniqueId = m.ID,
+                .Title = m.name,
+                .Value = m.InitialAmount
             }
-            Metabolites.Add(Init)
         Next
 
-        Model.sEquations = ReactionList.ToArray(Function(x) x.Model)
-        Model.Vars = Metabolites.ToArray
+        Model.sEquations = reactions.ToArray(Function(x) x.Model)
+        Model.Vars = metabolites.ToArray
 
         Return True
     End Function
 
     Private Function GenerateFunction(Metabolite As String) As String
-        Dim Expression As StringBuilder = New StringBuilder(1024)
+        Dim expr As New StringBuilder(1024)
         For Each Reaction In GetAllProduce(SBMLFile, Metabolite)
-            Expression.AppendFormat("{0}+", __contact(Reaction.Reactants))
+            expr.AppendFormat("{0}+", __contact(Reaction.Reactants))
         Next
         For Each Reaction In GetAllConsume(SBMLFile, Metabolite)
-            Expression.AppendFormat("{0}-", __contact(Reaction.Products))
+            expr.AppendFormat("{0}-", __contact(Reaction.Products))
         Next
 
-        Return Expression.ToString
+        Return expr.ToString
     End Function
 
     Private Function __contact(e As IEnumerable(Of speciesReference)) As String
@@ -102,14 +100,19 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
         Return sBuilder.ToString
     End Function
 
-    Public Overloads Shared Function Compile(Path As String, Optional AutoFix As Boolean = False) As Script.Model
-        Using Compiler As SBML = New SBML With {.SBMLFile = Path, .AutoFixError = AutoFix}
+    Public Overloads Shared Function Compile(path As String, Optional AutoFix As Boolean = False) As Script.Model
+        Using Compiler As New SBML With {
+            .SBMLFile = path,
+            .AutoFixError = AutoFix
+        }
             Return Compiler.Compile
         End Using
     End Function
 
-    Public Shared Widening Operator CType(Path As String) As SBML
-        Return New SBML With {.SBMLFile = Path}
+    Public Shared Widening Operator CType(path As String) As SBML
+        Return New SBML With {
+            .SBMLFile = path
+        }
     End Operator
 
     Protected Overrides Function Link() As Integer

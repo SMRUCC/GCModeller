@@ -109,8 +109,10 @@ Namespace Kernel.ObjectModels
         ''' <param name="e"></param>
         ''' <remarks></remarks>
         Public Sub [Set](e As Kernel)
-            Dim Query As Generic.IEnumerable(Of var) = From o As var In e.Vars Where String.Equals(o.UniqueId, Identifier) Select o '
-
+            Dim Query As IEnumerable(Of var) = From o As var
+                                               In e.Vars
+                                               Where String.Equals(o.UniqueId, Identifier)
+                                               Select o '
             Kernel = e
             Var = Query.First
         End Sub

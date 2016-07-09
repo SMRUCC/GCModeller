@@ -66,7 +66,7 @@ Partial Module CLI
 
         For Each x In types
             Dim exePrint As String = " " & x.BaseName & New String(" "c, exeMAX - Len(x.BaseName))
-            printf("%s%s", exePrint, x.nsDef.Description)
+            printf("%s%s\n", exePrint, x.nsDef.Description)
         Next
 
         Return 0
