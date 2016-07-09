@@ -27,6 +27,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 
@@ -58,12 +59,12 @@ Public Module RunModel
         Dim CSV = Kernel.Kernel.Run(Model)
         Dim Out As String = args("-o")
 
-        Call CSV.Save(Path:=Out)
+        Call CSV.SaveTo(path:=Out)
 
         If String.Equals(args("-chart"), "T") Then
-            Using Wrapper As DataFrame = DataFrame.CreateObject(CSV)
-                ' Call Wrapper.ShowDialog()
-            End Using
+            '     Using Wrapper As DataFrame = DataFrame.CreateObject(CSV)
+            ' Call Wrapper.ShowDialog()
+            '  End Using
         End If
         Return 0
     End Function

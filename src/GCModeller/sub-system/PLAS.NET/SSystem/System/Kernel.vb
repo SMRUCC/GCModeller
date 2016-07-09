@@ -25,11 +25,13 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.Linq
 
 Namespace Kernel
 
@@ -43,12 +45,14 @@ Namespace Kernel
         ''' Data collecting
         ''' </summary>
         ''' <remarks></remarks>
-        Dim DataAcquisition As New DataAcquisition
+        Dim dataSvr As DataAcquisition
+
         ''' <summary>
         ''' Object that action the disturbing
         ''' </summary>
         ''' <remarks></remarks>
         Public Kicks As Kicks
+
         ''' <summary>
         ''' Store the system state.
         ''' </summary>
@@ -93,7 +97,7 @@ Namespace Kernel
         ''' </summary>
         ''' <remarks></remarks>
         Protected Overrides Function __innerTicks(KernelCycle As Integer) As Integer
-            Call DataAcquisition.Tick()
+            Call dataSvr.Tick()
             Call Kicks.Tick()
             Call (From x As Equation In Channels Select x.Elapsed).ToArray
             Return 0
@@ -126,7 +130,7 @@ Namespace Kernel
         End Function
 
         Public Sub Export(Path As String)
-            Call DataAcquisition.Save(Path)
+            Call dataSvr.Save(Path)
         End Sub
 
         Private Sub Load(DataModel As Script.Model)
@@ -137,8 +141,9 @@ Namespace Kernel
             For i As Integer = 0 To Channels.Length - 1
                 Channels(i).Set(Me)
             Next
+
             Kicks = New Kicks(Me)
-            DataAcquisition.Set(Me)
+            dataSvr = New DataAcquisition(Me)
 
             For Each Declaration In DataModel.UserFunc
                 Call __engine.Functions.Add(Declaration.Declaration)
@@ -158,7 +163,7 @@ Namespace Kernel
         ''' <param name="Path">The file path of the compiled xml model.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Run(Path As String) As DocumentStream.File
+        Public Overloads Shared Function Run(Path As String) As List(Of DataSet)
             Return Kernel.Run(Script.Model.Load(Path))
         End Function
 
@@ -168,10 +173,10 @@ Namespace Kernel
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Run(Model As Script.Model) As DocumentStream.File
+        Public Overloads Shared Function Run(Model As Script.Model) As List(Of DataSet)
             Dim Kernel As New Kernel(Model)
             Kernel.Run()
-            Return DataAcquisition.Get(Kernel.DataAcquisition)
+            Return Kernel.dataSvr.data
         End Function
 
         ''' <summary>
