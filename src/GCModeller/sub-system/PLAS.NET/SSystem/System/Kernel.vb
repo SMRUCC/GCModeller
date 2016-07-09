@@ -149,7 +149,7 @@ Namespace Kernel
                 Call __engine.Functions.Add(Declaration.Declaration)
             Next
             For Each Constant In DataModel.Constant
-                Call __engine.Constant.Add(Constant.Name, Constant.Expression)
+                Call __engine.Constant.Add(Constant.Name, Constant.x)
             Next
 
             For Each Var In Vars

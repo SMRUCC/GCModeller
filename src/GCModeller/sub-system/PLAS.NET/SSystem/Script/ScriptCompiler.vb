@@ -106,7 +106,7 @@ Namespace Script
                         .Value = 0
                     }
 
-                    Call printf("Added a new metabolite:  %s=0  <==  %s", Var.x, Var.ToString)
+                    Call printf("Added a new metabolite:  %s=0  <==  %s\n", Var.x, Var.ToString)
                 Next
             End If
 

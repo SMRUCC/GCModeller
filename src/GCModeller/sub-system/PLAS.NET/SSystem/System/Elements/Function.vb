@@ -59,14 +59,4 @@ Namespace Kernel.ObjectModels
             Return [Function]
         End Operator
     End Structure
-
-    Public Structure Constant : Implements IKeyValuePairObject(Of String, String)
-
-        <XmlAttribute> Public Property Name As String Implements IKeyValuePairObject(Of String, String).Identifier
-        <XmlAttribute> Public Property Expression As String Implements IKeyValuePairObject(Of String, String).Value
-
-        Public Overrides Function ToString() As String
-            Return String.Format("CONST {0} {1}", Name, Expression)
-        End Function
-    End Structure
 End Namespace

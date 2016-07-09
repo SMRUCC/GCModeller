@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::123f896535b0c23f6f2a0b00ee191bd1, ..\GCModeller\sub-system\PLAS.NET\SSystem\Script\ScriptParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Script
 
@@ -112,7 +113,7 @@ Namespace Script
                 model.FindObject(s).Title = Mid(s, Len(Name) + 2)
             Next
 
-            For Each s As String In typeTokens(Script.Tokens.SubsComments).ToArray(Function(x) x.Text)
+            For Each s As String In typeTokens(Script.Tokens.SubsComments).Select(Function(x) x.Text)
                 s = Mid(s, 9)
                 Dim Name As String = s.Split.First
                 model.FindObject(Name).Comment = Mid(s, Len(Name) + 2)
@@ -124,11 +125,11 @@ Namespace Script
             Return model
         End Function
 
-        Public Function ConstantParser(expr As String) As Constant
+        Public Function ConstantParser(expr As String) As NamedValue(Of String)
             Dim name As String = expr.Trim.ShadowCopy(expr).Split.First
             expr = Mid(expr, name.Length + 1).Trim
-            Return New Constant With {
-                .Expression = expr,
+            Return New NamedValue(Of String) With {
+                .x = expr,
                 .Name = name
             }
         End Function
