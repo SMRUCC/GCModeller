@@ -81,6 +81,10 @@ Namespace CommandLine
 
         Public Event ProcessExit(exitCode As Integer, exitTime As String) Implements IIORedirectAbstract.ProcessExit
 
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
         Public Function Run() As Integer Implements IIORedirectAbstract.Run
             Return Start(True)
         End Function
