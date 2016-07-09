@@ -167,6 +167,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiffVariation.vb" />
     <Compile Include="SNPVcf.vb" />
     <Compile Include="SangerSNPs\AlignmentMinusfile.vb" />
     <Compile Include="SangerSNPs\SNPsFasta.vb" />
