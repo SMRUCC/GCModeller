@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2" version="1" level="2">
+  <model id="ECOLI" name="Generated from BioCyc Pathway/Genome Database">
+    <listOfUnitDefinitions>
+      <unitDefinition id="mmol_per_gDW_per_hr">
+        <listOfUnits>
+          <unit kind="mole" scale="-3" exponent="0" multiplier="0" />
+          <unit kind="gram" scale="0" exponent="-1" multiplier="0" />
+          <unit kind="second" scale="0" exponent="-1" multiplier="0.00027777" />
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="CCO__45__PM__45__BAC__45__NEG" name="CCO-PM-BAC-NEG" />
+      <compartment id="CCO__45__EXTRACELLULAR" name="CCO-EXTRACELLULAR" />
+      <compartment id="CCO__45__CYTOSOL" name="CCO-CYTOSOL" />
+      <compartment id="CCO__45__PERI__45__BAC" name="CCO-PERI-BAC" />
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="A" name="partially   N-deacetylated poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="B" name="thiamin: C12H17N4OS" initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="C" name="poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="D" name="a tRNA uridine34: " initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="R1" name="THIOESTER-RXN" reversible="true">
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1" />
+          <speciesReference species="B" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math XMLNS="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" value="-1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="UPPER_BOUND" value="1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0" />
+            <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr" />
+            <parameter id="REDUCED_COST" value="0" />
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R2" name="GLYCEROL-1-PHOSPHATASE-RXN" reversible="true">
+        <listOfReactants>
+          <speciesReference species="C" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A" stoichiometry="2" />
+        </listOfProducts>
+        <kineticLaw>
+          <math />
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" value="-1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="UPPER_BOUND" value="1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0" />
+            <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr" />
+            <parameter id="REDUCED_COST" value="0" />
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R3" name="HOLO-ACP-SYNTH-RXN" reversible="false">
+        <listOfReactants>
+          <speciesReference species="B" stoichiometry="2" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="D" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math />
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" value="0" units="mmol_per_gDW_per_hr" />
+            <parameter id="UPPER_BOUND" value="1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0" />
+            <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr" />
+            <parameter id="REDUCED_COST" value="0" />
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R4" name="RXN0-2044" reversible="true">
+        <listOfReactants>
+          <speciesReference species="D" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math XMLNS="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" value="-1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="UPPER_BOUND" value="1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0" />
+            <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr" />
+            <parameter id="REDUCED_COST" value="0" />
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

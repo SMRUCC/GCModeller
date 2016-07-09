@@ -61,7 +61,7 @@ Public Module CLI
 
         If String.IsNullOrEmpty(input) Then
             LogFile.WriteLine("Could not load metacyc database, value of the parameter ""-i"" is empty!", "gcc_main() -> compile_metacyc", Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
-            LogFile.SaveLog(appendToLogFile:=True)
+            LogFile.SaveLog()
             Return -1
         End If
 
@@ -82,7 +82,7 @@ Public Module CLI
         Call Compiler.PreCompile(input)
         Call Compiler.Compile()
         Call Compiler.Return.Save(output)
-        LogFile.SaveLog(appendToLogFile:=False)
+        LogFile.SaveLog()
 
         Return 0
     End Function

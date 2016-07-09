@@ -1,0 +1,10 @@
+INIT const=1.5
+FINALTIME 10
+
+RXN X1=const*(X1^0.8-X1^2.2)
+INIT X1 =0.01
+
+
+RXN f=const*(X1^0.8-X1^2.2)
+RXN lnf=ln(f)
+

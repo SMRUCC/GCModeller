@@ -1,0 +1,23 @@
+TITLE Calcium Spikes
+
+SYSTEM
+RXN Ca=v0+B*v1-v2+v3+kf*CaComp-k*Ca
+RXN CaComp=v2-v3-kf*CaComp
+
+RXN v2=65*Ca^2/(1+Ca^2)
+RXN v3=500*CaComp^2/(CaComp^2+4)*Ca^4/(Ca^4+0.6561)
+
+INIT B=0.0
+INIT Bstim=0.4
+
+@ 1 B = Bstim
+ 
+INIT v0=1
+INIT k=10
+INIT kf=1
+INIT v1=7.3
+INIT v2=0
+INIT Ca=0.1
+INIT CaComp=0.63655
+
+FINALTIME 10

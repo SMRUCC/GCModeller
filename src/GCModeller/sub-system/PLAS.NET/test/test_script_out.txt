@@ -1,0 +1,46 @@
+﻿/* MCP-CH3-ACTIVATION: The enviroment signal active the chemotaxis protein
+MCP-CH3 + SIGNAL -> [MCP-CH3] */
+/* HK-AUTOPHOSPHORYLATION: The HK autophosphorylation reaction
+HK + ATP -> ADP + HK-P */
+/* PHOSPHOLYTION-GROUP-TRANSFER: Phospholyation group transfer
+HK-P + REC -> HK + REC-P */
+/* SIGNAL-OUTPUT: Signal output to downstream
+REC-P + OUTPUT -> [OUTPUT] + REC */
+/* ADPTATION-ACTIVE: Chemotaxis signal adaptation active
+HK-P + CHEB -> CHEB-P + HK */
+/* ADPTATION: Chemotaxis signal adaptation
+MCP-CH3 + CHEB-P -> CHEB + MCP */
+/* MCP-ACTIVE: Chemotaxis mcp protein active
+MCP -> MCP-CH3 */
+
+RXN MCP_CH3 =  + MCP_CH3   - MCP_CH3 * SIGNAL  - MCP_CH3 * CHEB_P 
+RXN SIGNAL =   - MCP_CH3 * SIGNAL 
+
+RXN HK =  + HK * REC_P  + CHEB_P * HK   - HK * ATP 
+RXN ATP =   - HK * ATP 
+RXN HK_P =  + ADP * HK_P   - HK_P * REC  - HK_P * CHEB 
+
+RXN REC =  + [OUTPUT] * REC   - HK_P * REC 
+RXN REC_P =  + HK * REC_P   - REC_P * OUTPUT 
+RXN OUTPUT =   - REC_P * OUTPUT 
+
+RXN CHEB =  + CHEB * MCP   - HK_P * CHEB 
+RXN CHEB_P =  + CHEB_P * HK   - MCP_CH3 * CHEB_P 
+RXN MCP =  + CHEB * MCP   - MCP 
+
+
+INIT MCP_CH3 = 1000
+INIT SIGNAL = 1000
+INIT [MCP_CH3] = 1000
+INIT HK = 1000
+INIT ATP = 1000
+INIT HK_P = 1000
+INIT ADP = 1000
+INIT REC = 1000
+INIT REC_P = 1000
+INIT OUTPUT = 1000
+INIT [OUTPUT] = 1000
+INIT CHEB = 1000
+INIT CHEB_P = 1000
+INIT MCP = 1000
+INIT CHER = 1000

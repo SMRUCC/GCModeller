@@ -44,7 +44,7 @@ Public Module RunModel
     }
 
     Public Function RunScript(args As CommandLine) As Integer
-        Return RunModel(Script.ScriptCompiler.Compile(Path:=args("-i")), args:=args)
+        Return RunModel(Script.ScriptCompiler.Compile(path:=args("-i")), args:=args)
     End Function
 
     Public Function RunModel(args As CommandLine) As Integer

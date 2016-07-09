@@ -71,10 +71,11 @@ Namespace Kernel.ObjectModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Widening Operator CType(s As String) As var
-            Dim Tokens As String() = Mid(s, 6).Split(CChar("="))
+            Dim Token = s.GetTagValue("=")
+
             Return New var With {
-                .UniqueId = Tokens.First.Trim,
-                .Value = Val(Tokens.Last)
+                .UniqueId = Token.Name,
+                .Value = Val(Token.x)
             }
         End Operator
     End Class

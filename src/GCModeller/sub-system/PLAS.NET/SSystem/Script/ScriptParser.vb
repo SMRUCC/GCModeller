@@ -34,8 +34,12 @@ Namespace Script
 
     Public Module ScriptParser
 
-        Public Function sEquationParser(line As String) As SEquation
-
+        Public Function sEquationParser(x As Token(Of Tokens)) As SEquation
+            Dim value = x.TokenValue.GetTagValue("=")
+            Return New SEquation With {
+                .x = value.Name,
+                .Expression = value.x
+            }
         End Function
 
         Public Function ExperimentParser(line As String) As Experiment
@@ -77,10 +81,16 @@ Namespace Script
                                    .ToDictionary(Function(x) x.Type,
                                                  Function(x) x.Group.ToArray)
 
-            Dim equations = typeTokens(Script.Tokens.Reaction).ToArray(Function(x) sEquationParser(x.Text))
+            Dim equations = typeTokens(Script.Tokens.Reaction).ToArray(AddressOf sEquationParser)
             Dim inits = typeTokens(Script.Tokens.InitValue).ToArray(Function(x) CType(x.Text, var))
-            Dim Disturbs As Experiment() = typeTokens(Script.Tokens.Disturb).ToArray(Function(x) ExperimentParser(x.Text))
+            Dim Disturbs As Experiment()
             Dim FinalTime As Integer
+
+            If typeTokens.ContainsKey(Script.Tokens.Disturb) Then
+                Disturbs = typeTokens(Script.Tokens.Disturb).ToArray(Function(x) ExperimentParser(x.Text))
+            Else
+                Disturbs = {}
+            End If
 
             If Not typeTokens.ContainsKey(Script.Tokens.Time) Then
                 FinalTime = 100
@@ -96,9 +106,12 @@ Namespace Script
                 Title = typeTokens(Script.Tokens.Title).First.Text
             End If
 
-            Dim Comments As String() = typeTokens(Script.Tokens.Comment).ToArray(Function(x) x.Text)
-            Dim NameList As String() = typeTokens(Script.Tokens.Alias).ToArray(Function(x) x.Text)
-            Dim model As Model = New Model With {
+            Dim Comments As String() =
+                If(typeTokens.ContainsKey(Script.Tokens.Comment),
+                typeTokens(Script.Tokens.Comment).ToArray(Function(x) x.Text),
+                {})
+
+            Dim model As New Model With {
                 .sEquations = equations,
                 .Vars = inits,
                 .Experiments = Disturbs,
@@ -106,6 +119,13 @@ Namespace Script
                 .FinalTime = FinalTime,
                 .Title = Title
             }
+            Dim NameList As String()
+
+            If typeTokens.ContainsKey(Script.Tokens.Alias) Then
+                NameList = typeTokens(Script.Tokens.Alias).ToArray(Function(x) x.Text)
+            Else
+                NameList = {}
+            End If
 
             For Each s As String In NameList
                 s = Mid(s, 7)
@@ -113,14 +133,25 @@ Namespace Script
                 model.FindObject(s).Title = Mid(s, Len(Name) + 2)
             Next
 
-            For Each s As String In typeTokens(Script.Tokens.SubsComments).Select(Function(x) x.Text)
+            Dim sc As IEnumerable(Of String) =
+                If(typeTokens.ContainsKey(Script.Tokens.SubsComments),
+                typeTokens(Script.Tokens.SubsComments).Select(Function(x) x.Text),
+                {})
+
+            For Each s As String In sc
                 s = Mid(s, 9)
                 Dim Name As String = s.Split.First
                 model.FindObject(Name).Comment = Mid(s, Len(Name) + 2)
             Next
 
-            model.UserFunc = typeTokens(Script.Tokens.Function).ToArray(Function(x) CType(x.Text, [Function]))
-            model.Constant = typeTokens(Script.Tokens.Constant).ToArray(Function(x) ScriptParser.ConstantParser(x.Text))
+            model.UserFunc =
+                If(typeTokens.ContainsKey(Script.Tokens.Function),
+                typeTokens(Script.Tokens.Function).ToArray(Function(x) CType(x.Text, [Function])),
+                {})
+            model.Constant =
+                If(typeTokens.ContainsKey(Script.Tokens.Constant),
+                typeTokens(Script.Tokens.Constant).ToArray(Function(x) ScriptParser.ConstantParser(x.Text)),
+                {})
 
             Return model
         End Function

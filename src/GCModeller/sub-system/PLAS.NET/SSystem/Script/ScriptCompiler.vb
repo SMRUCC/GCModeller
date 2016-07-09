@@ -52,6 +52,7 @@ Namespace Script
         ''' <param name="path">The file path of the PLAS script.</param>
         Sub New(path As String)
             MyBase.CompiledModel = ScriptParser.ParseFile(path)
+            MyBase._Logging = New Logging.LogFile(App.LocalData & "/.logs/" & Logging.LogFile.NowTimeNormalizedString & "." & path.BaseName & ".log")
         End Sub
 
         ''' <summary>
@@ -116,7 +117,7 @@ Namespace Script
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Path">The file path of the target compile script.(目标脚本的文件路径)</param>
+        ''' <param name="path">The file path of the target compile script.(目标脚本的文件路径)</param>
         ''' <param name="AutoFix">
         ''' Optional，when error occur in the procedure of the script compiled, then if TRUE, the program was 
         ''' trying to fix the error automatically, if FALSE, then the program throw an exception and then 
@@ -127,11 +128,12 @@ Namespace Script
         ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Compile(Path As String, Optional AutoFix As Boolean = False) As Model
-            Dim Script As ScriptCompiler = New ScriptCompiler(Path) With {
+        Public Overloads Shared Function Compile(path As String, Optional AutoFix As Boolean = False) As Model
+            Using Script As New ScriptCompiler(path) With {
                 .AutoFixError = AutoFix
             }
-            Return Script.Compile
+                Return Script.Compile
+            End Using
         End Function
 
         Protected Overrides Function Link() As Integer
