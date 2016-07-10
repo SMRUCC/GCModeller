@@ -63,6 +63,14 @@ Namespace Language.UnixBash
                     End Function
         End Sub
 
+        ''' <summary>
+        ''' ``[\u@\h \w \A #\#]\$ ``
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function Fedora12() As PS1
+            Return New PS1("[\u@\h \w \A #\#]\$ ")
+        End Function
+
         ReadOnly __pss As Dictionary(Of String, Func(Of String)) =
             New Dictionary(Of String, Func(Of String)) From {
  _
