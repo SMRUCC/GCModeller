@@ -90,7 +90,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         End Sub
 
         Public Function GetMetabolite(UniqueId As String) As EngineSystem.ObjectModels.Entity.Compound
-            Return Metabolites.GetItem(UniqueId, StringComparison.OrdinalIgnoreCase)
+            Return Metabolites.GetById(UniqueId, StringComparison.OrdinalIgnoreCase)
         End Function
 
         ''' <summary>

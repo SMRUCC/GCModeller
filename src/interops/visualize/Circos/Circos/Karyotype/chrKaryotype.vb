@@ -82,7 +82,7 @@ Namespace Karyotype
 
         Public Shared Function FromNts(chrs As IEnumerable(Of FastaToken), Optional colors As String() = Nothing) As KaryotypeChromosomes
             If colors.IsNullOrEmpty Then
-                colors = CircosColor.AllCircosColors.Randomize
+                colors = CircosColor.AllCircosColors.Shuffles
             End If
 
             Dim rnd As New Random

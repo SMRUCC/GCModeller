@@ -153,7 +153,7 @@ Namespace MatrixFile
             Call SubMAT.Add(_innerMATRaw.First)
             Dim TempList = (From row In SelectLQuery Select row.row).ToList
             Call TempList.Add(MainRow)
-            TempList = TempList.Randomize.ToList
+            TempList = TempList.Shuffles.ToList
 
             Call SubMAT.AppendRange(TempList)
 

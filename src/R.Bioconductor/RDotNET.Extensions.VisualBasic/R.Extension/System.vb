@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Linq
 
 Public Module Installed
 
@@ -292,13 +293,15 @@ Public Module RSystem
         "yellow", "yellow1", "yellow2", "yellow3", "yellow4", "yellowgreen"
     }
 
-    Public Function ColorMaps(Of T)(source As Generic.IEnumerable(Of T)) As Dictionary(Of T, String)
+    Public Function ColorMaps(Of T)(source As IEnumerable(Of T)) As Dictionary(Of T, String)
         Dim uniques As T() = source.Distinct.ToArray
-        Dim colors As String() = RColors.Randomize
-        Dim dict As Dictionary(Of T, String) = (From idx As Integer
-                                                In uniques.Sequence
-                                                Select id = uniques(idx), cl = colors(idx)) _
-                                                    .ToDictionary(Function(obj) obj.id, elementSelector:=Function(obj) obj.cl)
+        Dim colors As String() = RColors.Shuffles
+        Dim dict As Dictionary(Of T, String) = (From idx As SeqValue(Of T)
+                                                In uniques.SeqIterator
+                                                Select id = idx.obj,
+                                                    cl = colors(idx.i)) _
+                                                   .ToDictionary(Function(obj) obj.id,
+                                                                 Function(obj) obj.cl)
         Return dict
     End Function
 End Module

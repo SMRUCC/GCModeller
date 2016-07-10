@@ -76,7 +76,7 @@ Namespace EngineSystem.ObjectModels.Module
 
             Call _CatalystActivity.Clear()
 
-            For Each Enzyme In _Enzymes.Randomize
+            For Each Enzyme In _Enzymes.Shuffles
                 Me.PretendedSubstrate.Quantity = DisposalSubstrate.DataSource.value * (1 - DisposalSubstrate.Lamda)
 
                 _FluxValue = KineticsModel.GetValue

@@ -48,7 +48,7 @@ Namespace Colors
                                            Select cId.ToUpper
                                            Distinct
             Dim ColorProfiles As New Dictionary(Of String, String)
-            Dim Colors = ColorAPI.Colors.Randomize.ToList
+            Dim Colors = ColorAPI.Colors.Shuffles.ToList
             Dim i As Integer = 0
 
             Call Colors.Remove(defaultColor.ToLower)
@@ -107,7 +107,7 @@ Namespace Colors
         ''' 
         <ExportAPI("Colors.Maps")>
         Public Function GenerateColors(categories As String()) As Dictionary(Of String, String)
-            Dim Colors = _Colors.Randomize
+            Dim Colors = _Colors.Shuffles
             Dim hash As New Dictionary(Of String, String)
             Dim p As Integer
 

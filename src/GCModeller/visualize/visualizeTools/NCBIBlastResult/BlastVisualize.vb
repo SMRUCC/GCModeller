@@ -445,7 +445,7 @@ CONTINUTE:
 
                 If COGTextureMappings Then    ' 使用材质映射，假若没有设置资源文件夹，则使用系统默认的材质进行绘图
                     If String.IsNullOrEmpty(TextureSource) Then
-                        Dim TextureList As Image() = TextureResourceLoader.LoadInternalDefaultResource.Randomize
+                        Dim TextureList As Image() = TextureResourceLoader.LoadInternalDefaultResource.Shuffles
                         COGsColor = RenderingColor.CategoryMapsTextures(categories:=CogCategory, textures:=TextureList)
                     Else
                         Dim TextureList As TagValue(Of Image)() =

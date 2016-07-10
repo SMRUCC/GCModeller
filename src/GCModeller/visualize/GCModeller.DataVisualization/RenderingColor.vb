@@ -168,9 +168,9 @@ Public Module RenderingColor
     <Extension>
     Public Function GenerateColorProfiles(categories As IEnumerable(Of String), Optional removeUsed As Boolean = True) As Dictionary(Of String, Color)
         Dim Colors As New Dictionary(Of String, Color)
-        Dim Rs As New List(Of Integer)(255.Sequence.Randomize)
-        Dim Gs As New List(Of Integer)(255.Sequence.Randomize)
-        Dim Bs As New List(Of Integer)(255.Sequence.Randomize)
+        Dim Rs As New List(Of Integer)(255.Sequence.Shuffles)
+        Dim Gs As New List(Of Integer)(255.Sequence.Shuffles)
+        Dim Bs As New List(Of Integer)(255.Sequence.Shuffles)
         Dim R, G, B As Integer
 
         For Each cl As String In From s As String

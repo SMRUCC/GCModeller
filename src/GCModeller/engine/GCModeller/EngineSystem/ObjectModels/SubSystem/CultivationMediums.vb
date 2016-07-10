@@ -135,7 +135,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Next
 #Else
             DeathCell = (From CellObject As ModellingEngine.EngineSystem.ObjectModels.SubSystem.CellSystem
-                         In _InternalCellList.Randomize.AsParallel
+                         In _InternalCellList.Shuffles.AsParallel
                          Let Invoke As Integer = CellObject.Tick(KernelCycle)
                          Where CellObject.CellDeathDetection = True
                          Select CellObject).ToList

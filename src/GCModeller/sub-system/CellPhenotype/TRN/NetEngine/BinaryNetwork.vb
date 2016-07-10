@@ -67,7 +67,7 @@ Namespace TRN
         ''' <remarks></remarks>
         Protected Overrides Function __innerTicks(KernelCycle As Integer) As Integer
             Dim LQuery = (From data0expr As BinaryExpression
-                          In _DynamicsExprs.Randomize
+                          In _DynamicsExprs.Shuffles
                           Select data0expr.Evaluate).ToArray
             Dim chunkBuffer = (From data0expr As BinaryExpression
                                In _DynamicsExprs

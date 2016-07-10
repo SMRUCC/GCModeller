@@ -256,7 +256,7 @@ Public Module ShellScriptAPI
 
         Call Console.WriteLine("Limits " & Limits)
 
-        Dim DataDict = MetaSource.Randomize.ToDictionary(Function(item) item.sp)
+        Dim DataDict = MetaSource.Shuffles.ToDictionary(Function(item) item.sp)
         Dim IndexKey = DataDict.Keys(VennDataModel.__parserIndex(DataDict, MainIndex))
         Dim MainData = DataDict(IndexKey)
 

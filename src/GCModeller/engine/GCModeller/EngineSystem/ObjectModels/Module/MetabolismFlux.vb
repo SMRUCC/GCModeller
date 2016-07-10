@@ -341,7 +341,7 @@ Namespace EngineSystem.ObjectModels.Module
 
             Call _CatalystActivity.Clear()
 
-            For Each Enzyme In Enzymes.Randomize
+            For Each Enzyme In Enzymes.Shuffles
                 FluxValue = KineticsModel.GetValue
                 FluxValue = _EnzymeKinetics.GetFluxValue(FluxValue, _RegulationConstraint.Quantity, Enzyme)
                 Call _CatalystActivity.Add(New IEnzymaticFlux.EnzymeCatalystActivity With {.EnzymeCatalystId = Enzyme.Identifier, .Value = FluxValue})
