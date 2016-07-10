@@ -366,6 +366,7 @@
     <Compile Include="Language\C\File.vb" />
     <Compile Include="Language\StringHelpers.vb" />
     <None Include="Parallel\Threads\LQuerySchedule\ParallelLinq.md" />
+    <Compile Include="Language\UnixBash\PS1.vb" />
     <Compile Include="Parallel\Tasks\IParallelTask.vb" />
     <Compile Include="Parallel\Tasks\__backgroundTask%28Of T%29.vb" />
     <Compile Include="Parallel\Threads\BatchTasks.vb" />
