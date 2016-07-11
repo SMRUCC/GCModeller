@@ -39,7 +39,7 @@ Namespace CommandLine.Reflection
     Public Class ExceptionHelp : Inherits Attribute
         Public Property Documentation As String
         Public Property Debugging As String
-        Public Property HelpsLink As String
+        Public Property EMailLink As String
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
@@ -130,19 +130,33 @@ Namespace CommandLine.Reflection
             If helps Is Nothing Then
                 Call ex.PrintException
             Else
+                Call Console.WriteLine()
                 Call Console.WriteLine("Environment summary:")
                 Call Console.WriteLine(ConfigEngine.Prints(App.GetAppVariables))
                 Call Console.WriteLine()
+                Call Console.WriteLine(App.CommandLine.GetJson(True))
                 Call Console.WriteLine("Exception: ")
                 Call STDIO.print(ex.Message, ConsoleColor.Red)
-                Call Console.WriteLine("If you are having trouble debugging this Error, first read the best practices tutorial for helpful tips that address many common problems")
+                Call Console.WriteLine()
+                Call Console.WriteLine()
+                Call Console.WriteLine("If you are having trouble debugging this Error, first read the best practices")
+                Call Console.WriteLine("tutorial for helpful tips that address many common problems")
                 Call STDIO.print(helps.Documentation, ConsoleColor.Blue)
-                Call Console.WriteLine("The debugging facility Is helpful To figure out what's happening under the hood")
+                Call Console.WriteLine()
+                Call Console.WriteLine()
+                Call Console.WriteLine("The debugging facility Is helpful To figure out what's happening under the")
+                Call Console.WriteLine("hood")
                 Call STDIO.print(helps.Debugging, ConsoleColor.Blue)
+                Call Console.WriteLine()
+                Call Console.WriteLine()
                 Call Console.WriteLine("If you're still stumped, you can try get help from author directly from E-mail:")
-                Call STDIO.print(helps.HelpsLink, ConsoleColor.Blue)
+                Call STDIO.print(helps.EMailLink, ConsoleColor.Blue)
+                Call Console.WriteLine()
+                Call Console.WriteLine()
                 Call Console.WriteLine("Stack trace : ")
                 Call STDIO.print(ex.ToString, ConsoleColor.Red)
+                Call Console.WriteLine()
+                Call Console.WriteLine()
             End If
         End Sub
     End Module
