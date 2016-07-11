@@ -184,6 +184,7 @@
   <ItemGroup>
     <Compile Include="CLI\BBH.vb" />
     <Compile Include="CLI\Blastn.vb" />
+    <Compile Include="CLI\FastaTools.vb" />
     <Compile Include="CLI\VennDiagram\ExportBestHit.vb" />
     <Compile Include="CLI\VennDiagram\LocalBLAST.vb" />
     <Compile Include="CLI\VennDiagram\LogFile.vb" />
