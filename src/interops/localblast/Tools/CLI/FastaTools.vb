@@ -3,6 +3,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Parallel.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -20,10 +21,10 @@ Partial Module CLI
         Using file As New StreamWriter(New FileStream(out, FileMode.OpenOrCreate), Encoding.ASCII)
             Dim regex As New Regex(key, RegexICSng)
 
-            For Each fa As FastaToken In source.ReadStream
-                If regex.Match(fa.Title).Success Then
-                    Call file.WriteLine(fa.GenerateDocument(-1))
-                End If
+            For Each block In LQuerySchedule.Where(source.ReadStream, Function(fa) regex.Match(fa.Title).Success)
+                For Each x In block
+                    Call file.WriteLine(x.GenerateDocument(-1))
+                Next
             Next
         End Using
 
