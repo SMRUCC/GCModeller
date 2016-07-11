@@ -315,28 +315,28 @@ Namespace SequenceModel.FASTA
         ''' <remarks></remarks>
         ''' <param name="LineBreak">大于0的数值会换行，小于或者等于0的数值不会换行</param>
         Public Function GenerateDocument(LineBreak As Integer, Optional [overrides] As Boolean = True) As String
-            Dim sBuilder As StringBuilder = New StringBuilder(">", 10 * 1024)
+            Dim sb As New StringBuilder(">", 10 * 1024)
 
             If [overrides] Then
-                Call sBuilder.Append(Me.ToString)
+                Call sb.Append(Me.ToString)
             Else
-                Call sBuilder.Append(String.Join("|", Attributes))
+                Call sb.Append(String.Join("|", Attributes))
             End If
 
-            Call sBuilder.AppendLine()
+            Call sb.AppendLine()
 
             If LineBreak <= 0 Then
-                Call sBuilder.AppendLine(SequenceData)
+                Call sb.AppendLine(SequenceData)
             Else
                 For i As Integer = 1 To Len(SequenceData) Step LineBreak
                     Dim Segment As String = Mid(SequenceData, i, LineBreak)
-                    Call sBuilder.AppendLine(Segment)
+                    Call sb.AppendLine(Segment)
                 Next
             End If
 
-            Call sBuilder.Replace(vbCr, "")
+            Call sb.Replace(vbCr, "")
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
 
         ''' <summary>
