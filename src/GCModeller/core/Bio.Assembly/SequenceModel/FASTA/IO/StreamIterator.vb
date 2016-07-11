@@ -103,7 +103,9 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         Public Shared Iterator Function SeqSource(handle As String, ParamArray ext As String()) As IEnumerable(Of FastaToken)
             If handle.FileExists Then
-                Yield New StreamIterator(handle).ReadStream
+                For Each fa As FastaToken In New StreamIterator(handle).ReadStream
+                    Yield fa
+                Next
             Else
                 For Each file As String In ls - l - r - wildcards(ext) <= handle
                     For Each nt As FastaToken In New StreamIterator(file).ReadStream

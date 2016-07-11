@@ -776,7 +776,7 @@ Public Module App
             Dim Tasks As Func(Of Integer)() =
                 LinqAPI.Exec(Of Func(Of Integer)) <= From args As String
                                                      In CLI
-                                                     Let io As IORedirectFile = App.SelfFolk(args)
+                                                     Let io As IIORedirectAbstract = App.SelfFolk(args)
                                                      Let task As Func(Of Integer) = AddressOf io.Run
                                                      Select task
             Call BatchTask(Of Integer)(Tasks, parallel)
