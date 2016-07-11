@@ -74,10 +74,14 @@ Namespace ComponentModel.DataSourceModel
         End Function
 
         <Extension>
-        Public Function Schema(type As Type, flag As PropertyAccessibilityControls) As Dictionary(Of String, PropertyInfo)
+        Public Function Schema(type As Type,
+                               flag As PropertyAccessibilityControls,
+                               Optional binds As BindingFlags =
+                               BindingFlags.Public Or BindingFlags.Instance) As Dictionary(Of String, PropertyInfo)
             Dim props As PropertyInfo() =
-                type.GetProperties(bindingAttr:=BindingFlags.Public Or BindingFlags.Instance)
-            Return props.Where(Flags(flag)).ToDictionary(Function(x) x.Name)
+                type.GetProperties(binds)
+            Return props.Where(Flags(flag)) _
+                .ToDictionary(Function(x) x.Name)
         End Function
 
 #If NET_40 = 0 Then
