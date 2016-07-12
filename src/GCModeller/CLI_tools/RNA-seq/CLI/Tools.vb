@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
@@ -25,5 +26,13 @@ Partial Module CLI
         Dim Crude = vectors.InitializePartitions(kmax)
         Dim ppppp = Crude.First.PartitionProbability
         Dim ptes = Crude.MarginalLikelihood
+    End Function
+
+    <ExportAPI("/Export.SSU.Refs",
+               Usage:="/Export.SSU.Refs /in <ssu.fasta> [/out <out.DIR>]")>
+    Public Function ExportSSURefs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim EXPORT As String = [in].TrimFileExt & ".EXPORT/"
+        Return [in].ExportSILVA(EXPORT).CLICode
     End Function
 End Module
