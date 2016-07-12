@@ -1,5 +1,19 @@
 # PLAS.NET
-Biosystem analysis tool based on SSystem
+Biosystem analysis tool based on SSystem, and this is the re-implementation of the PLAS software in VB.NET language.
+
+PLAS download:
+
+http://www.dqb.fc.ul.pt/docentes/aferreira/plasdownm.html
+
++ Yun Lee, Po-Wei Chen, Eberhard O. Voit, Analysis of operating principles with S-system models, Mathematical Biosciences, Volume 231, Issue 1, May 2011, Pages 49-60, ISSN 0025-5564, http://dx.doi.org/10.1016/j.mbs.2011.03.001.
+(http://www.sciencedirect.com/science/article/pii/S0025556411000319)
+
++ Eberhard O. Voit, Symmetries of S-systems, Mathematical Biosciences, Volume 109, Issue 1, 1992, Pages 19-37, ISSN 0025-5564, http://dx.doi.org/10.1016/0025-5564(92)90050-7.
+(http://www.sciencedirect.com/science/article/pii/0025556492900507)
+
++ Eberhard O. Voit, Recasting nonlinear models as S-systems, Mathematical and Computer Modelling, Volume 11, 1988, Pages 140-145, ISSN 0895-7177, http://dx.doi.org/10.1016/0895-7177(88)90469-4.
+(http://www.sciencedirect.com/science/article/pii/0895717788904694)
+
 
 ### Script syntax
 
