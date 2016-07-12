@@ -25,10 +25,14 @@ Partial Module CLI
 
         If parallel Then
             Call "Using parallel edition!".__DEBUG_ECHO
+        Else
+            ' Call "Using single thread mode on the 32bit platform".__DEBUG_ECHO
         End If
 
         Using file As New StreamWriter(New FileStream(out, FileMode.OpenOrCreate), Encoding.ASCII)
             Dim regex As New Regex(key, RegexICSng)
+
+            file.AutoFlush = True
 
             If parallel Then
                 For Each block In LQuerySchedule.Where(source.ReadStream, Function(fa) regex.Match(fa.Title).Success)
@@ -40,7 +44,7 @@ Partial Module CLI
                 For Each fa In source.ReadStream
                     If regex.Match(fa.Title).Success Then
                         Call file.WriteLine(fa.GenerateDocument(-1))
-                        Call fa.Title.__DEBUG_ECHO
+                        ' Call fa.Title.__DEBUG_ECHO
                     End If
                 Next
             End If
