@@ -94,13 +94,13 @@ Namespace Kernel
         End Function
 
         ''' <summary>
-        ''' The kernel loop.(内核循环)
+        ''' The kernel loop.(内核循环, 会在这里更新数学表达式计算引擎的环境变量)
         ''' </summary>
         ''' <remarks></remarks>
         Protected Overrides Function __innerTicks(KernelCycle As Integer) As Integer
             Call dataSvr.Tick()
             Call Kicks.Tick()
-            Call (From x As Equation In Channels Select x.Elapsed).ToArray
+            Call (From x As Equation In Channels Select x.Elapsed(__engine)).ToArray
             Return 0
         End Function
 
@@ -160,8 +160,7 @@ Namespace Kernel
             Next
 
             For Each x As var In Vars
-                Call Microsoft.VisualBasic.Mathematical.ScriptEngine _
-                    .SetVariable(x.UniqueId, x.Value)
+                Call __engine.SetVariable(x.UniqueId, x.Value)
             Next
         End Sub
 

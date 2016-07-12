@@ -28,6 +28,7 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Types
 Imports SMRUCC.genomics.Analysis.SSystem.Script
@@ -73,16 +74,8 @@ Namespace Kernel.ObjectModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function Evaluate() As Double
-            'Call Me.sBuilder.Clear()
-
-            'sBuilder.Append(Me._Expression)
-
-            'For Each e In Kernel.Vars 'Replace the name using the value
-            '    Call sBuilder.Replace(e.UniqueId, e.Value)
-            'Next
-
-            'Dim rtvl As Double = Microsoft.VisualBasic.Mathematical.Expression.Evaluate(sBuilder.ToString)
-            'Return rtvl
+            Dim rtvl As Double = dynamics.Evaluate
+            Return rtvl
         End Function
 
         Public Overrides ReadOnly Property Value As Double
@@ -91,9 +84,9 @@ Namespace Kernel.ObjectModels
             End Get
         End Property
 
-        Public Function Elapsed() As Boolean
+        Public Function Elapsed(engine As Mathematical.Expression) As Boolean
             Var.Value += (Me.Evaluate * 0.1)
-            Call Microsoft.VisualBasic.Mathematical.ScriptEngine.SetVariable(Var.UniqueId, Var.Value)
+            engine.SetVariable(Var.UniqueId, Var.Value)
 
             Return True
         End Function
@@ -110,15 +103,16 @@ Namespace Kernel.ObjectModels
         ''' Set up the simulation kernel.
         ''' (设置模拟核心)
         ''' </summary>
-        ''' <param name="e"></param>
+        ''' <param name="k"></param>
         ''' <remarks></remarks>
-        Public Sub [Set](e As Kernel)
-            Dim Query As IEnumerable(Of var) = From o As var
-                                               In e.Vars
-                                               Where String.Equals(o.UniqueId, Identifier)
-                                               Select o '
-            Kernel = e
-            Var = Query.First
+        Public Sub [Set](k As Kernel)
+            Kernel = k
+            Var = LinqAPI.DefaultFirst(Of var) <=
+ _
+                From o As var
+                In k.Vars
+                Where String.Equals(o.UniqueId, Identifier)
+                Select o '
         End Sub
 
         Public ReadOnly Property Model As SEquation
