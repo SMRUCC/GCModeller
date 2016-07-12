@@ -61,6 +61,9 @@ Namespace Kernel.ObjectModels
             Me.Model = s
             Me.Expression = s.Expression
             Me.Identifier = s.x
+#If DEBUG Then
+            Call Expression.__DEBUG_ECHO
+#End If
             Me.dynamics = ExpressionParser.TryParse(Expression, engine)
         End Sub
 
@@ -86,7 +89,7 @@ Namespace Kernel.ObjectModels
 
         Public Function Elapsed(engine As Mathematical.Expression) As Boolean
             Var.Value += (Me.Evaluate * 0.1)
-            engine.SetVariable(Var.UniqueId, Var.Value)
+            engine(Var.UniqueId) = Var.Value
 
             Return True
         End Function

@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
@@ -104,12 +105,13 @@ Namespace Kernel
             Return 0
         End Function
 
+        Public Const precision As Double = 0.1
+
         Public Overrides Function Run() As Integer
-            For Me._RTime = 0 To _innerDataModel.FinalTime Step 0.1
-#If DEBUG Then
-                Console.SetCursorPosition(0, 0)
-                Console.Write(Me._RTime)
-#End If
+            Dim proc As New ProgressBar("Running PLAS.NET S-system kernel...")
+            Dim prog As New ProgressProvider(_innerDataModel.FinalTime * (1 / precision))
+
+            For Me._RTime = 0 To prog.Target
 #If DEBUG Then
                 Call __innerTicks(Me._RTime)
 #Else
@@ -122,7 +124,9 @@ Namespace Kernel
                     Return -1
                 End Try
 #End If
+                Call proc.SetProgress(prog.StepProgress)
             Next
+
             Return 0
         End Function
 
@@ -143,15 +147,6 @@ Namespace Kernel
                 Select v
                 Order By Len(v.UniqueId) Descending
 
-            Me.Channels = DataModel.sEquations.ToArray(Function(x) New Equation(x, __engine))
-
-            For i As Integer = 0 To Channels.Length - 1
-                Channels(i).Set(Me)
-            Next
-
-            Kicks = New Kicks(Me)
-            dataSvr = New DataAcquisition(Me)
-
             For Each Declaration In DataModel.UserFunc
                 Call __engine.Functions.Add(Declaration.Declaration)
             Next
@@ -160,8 +155,17 @@ Namespace Kernel
             Next
 
             For Each x As var In Vars
-                Call __engine.SetVariable(x.UniqueId, x.Value)
+                __engine(x.UniqueId) = x.Value
             Next
+
+            Me.Channels = DataModel.sEquations.ToArray(Function(x) New Equation(x, __engine))
+
+            For i As Integer = 0 To Channels.Length - 1
+                Channels(i).Set(Me)
+            Next
+
+            Kicks = New Kicks(Me)
+            dataSvr = New DataAcquisition(Me)
         End Sub
 
         ''' <summary>
