@@ -65,7 +65,10 @@ Public Module RunModel
     Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
         Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model)
         Dim out As String = args.GetValue("-o", args("-i").TrimFileExt & ".out.Csv")
-        Return ds.SaveTo(path:=out).CLICode
+        Dim maps As New Dictionary(Of String, String) From {
+            {NameOf(DataSet.Identifier), "#Time"}
+        }
+        Return ds.SaveTo(path:=out, nonParallel:=True, maps:=maps).CLICode
     End Function
 End Module
 

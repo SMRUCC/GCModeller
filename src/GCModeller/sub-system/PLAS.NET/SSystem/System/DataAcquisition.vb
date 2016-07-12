@@ -47,8 +47,9 @@ Namespace Kernel
 
         Public Sub Tick()
             data += New DataSet With {
-                .Identifier = kernel.RuntimeTicks,
-                .Properties = kernel.Vars.ToDictionary(AddressOf __tag, Function(x) x.Value)
+                .Identifier = kernel.RuntimeTicks * Kernel.precision,
+                .Properties = kernel.Vars _
+                    .ToDictionary(AddressOf __tag, Function(x) x.Value)
             }
         End Sub
 
