@@ -34,7 +34,7 @@ Namespace SequenceModel.FASTA
     Public Class StreamIterator : Inherits BufferedStream
 
         Sub New(path As String)
-            Call MyBase.New(path, maxBufferSize:=1024 * 1024 * 10)
+            Call MyBase.New(path, maxBufferSize:=1024 * 1024 * 128)
         End Sub
 
         ''' <summary>
@@ -42,31 +42,44 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <returns></returns>
         Public Iterator Function ReadStream() As IEnumerable(Of FastaToken)
-            Dim temp As New List(Of String)
+            Dim stream As New List(Of String)
 
-            Do While Not Me.EndRead
-                Dim block As String() = MyBase.BufferProvider
-                temp += block(Scan0)
-
-                For Each line As String In block.Skip(1)
-                    If line.IsBlank Then
-                        Continue For
-                    End If
-
-                    If line.First = ">"c Then
-                        Dim fa As FastaToken = FastaToken.ParseFromStream(temp)
-                        Yield fa
-
-                        temp.Clear()
-                    End If
-
-                    temp += line
+            Do While Not Me.EndRead  ' 一直循环直到读完文件为止
+                For Each fa As FastaToken In __loops(stream)
+                    Yield fa
                 Next
             Loop
 
-            If Not temp.Count = 0 Then
-                Yield FastaToken.ParseFromStream(temp)
+            If Not stream.Count = 0 Then
+                Yield FastaToken.ParseFromStream(stream)
             End If
+        End Function
+
+        ''' <summary>
+        ''' Loops on each block of data
+        ''' </summary>
+        ''' <param name="stream"></param>
+        ''' <returns></returns>
+        Private Iterator Function __loops(stream As List(Of String)) As IEnumerable(Of FastaToken)
+            For Each line As String In MyBase.BufferProvider   ' 读取一个数据块
+                If line.IsBlank Then  ' 跳过空白的行
+                    Continue For
+                End If
+
+                If line.First = ">"c AndAlso stream.Count > 0 Then  ' 在这里碰见了一个fasta头部
+
+                    ' 则解析临时数据，然后清空临时缓存变量
+                    Dim fa As FastaToken = FastaToken.ParseFromStream(stream)
+                    Yield fa
+
+                    stream.Clear()
+                End If
+
+                ' 因为当前行可能是起始于 >，即fasta序列的头部，则会在if之中清空数据，则在这里添加的是新的fasta头部
+                Call stream.Add(line)  ' 否则添加当前行到缓存之中
+            Next
+
+            ' 循环完毕，但是stream缓存之中可能还有数据剩余
         End Function
 
         ''' <summary>

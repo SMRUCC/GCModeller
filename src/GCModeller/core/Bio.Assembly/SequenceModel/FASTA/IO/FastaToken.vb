@@ -283,7 +283,7 @@ Namespace SequenceModel.FASTA
             If stream.IsNullOrEmpty Then Return Nothing
 
             Dim lines As String() = stream.ToArray
-            Dim fa As FastaToken = New FastaToken
+            Dim fa As New FastaToken
 
             fa.Attributes = Mid(lines(Scan0), 2).Split(CChar("|"))
             fa.SequenceData = String.Join("", lines.Skip(1).ToArray)  'Linux mono does not support <Extension> attribute!

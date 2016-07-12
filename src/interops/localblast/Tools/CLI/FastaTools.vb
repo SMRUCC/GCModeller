@@ -41,7 +41,7 @@ Partial Module CLI
                     Next
                 Next
             Else
-                For Each fa In source.ReadStream
+                For Each fa As FastaToken In source.ReadStream
                     If regex.Match(fa.Title).Success Then
                         Call file.WriteLine(fa.GenerateDocument(-1))
                         ' Call fa.Title.__DEBUG_ECHO
