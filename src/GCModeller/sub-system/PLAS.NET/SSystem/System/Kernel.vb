@@ -105,11 +105,11 @@ Namespace Kernel
             Return 0
         End Function
 
-        Public Const precision As Double = 0.1
+        Public Property Precision As Double = 0.1
 
         Public Overrides Function Run() As Integer
             Dim proc As New ProgressBar("Running PLAS.NET S-system kernel...")
-            Dim prog As New ProgressProvider(_innerDataModel.FinalTime * (1 / precision))
+            Dim prog As New ProgressProvider(_innerDataModel.FinalTime * (1 / Precision))
 
             For Me._RTime = 0 To prog.Target
 #If DEBUG Then
@@ -147,11 +147,11 @@ Namespace Kernel
                 Select v
                 Order By Len(v.UniqueId) Descending
 
-            For Each Declaration In DataModel.UserFunc
-                Call __engine.Functions.Add(Declaration.Declaration)
+            For Each declares In DataModel.UserFunc
+                Call __engine.Functions.Add(declares.Declaration)
             Next
-            For Each Constant In DataModel.Constant
-                Call __engine.Constant.Add(Constant.Name, Constant.x)
+            For Each __const In DataModel.Constant
+                Call __engine.Constant.Add(__const.Name, __const.x)
             Next
 
             For Each x As var In Vars
@@ -174,8 +174,8 @@ Namespace Kernel
         ''' <param name="Path">The file path of the compiled xml model.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Run(Path As String) As List(Of DataSet)
-            Return Kernel.Run(Script.Model.Load(Path))
+        Public Overloads Shared Function Run(Path As String, Optional precise As Double = 0.1) As List(Of DataSet)
+            Return Kernel.Run(Script.Model.Load(Path), precise)
         End Function
 
         ''' <summary>
@@ -184,8 +184,10 @@ Namespace Kernel
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Run(Model As Script.Model) As List(Of DataSet)
-            Dim Kernel As New Kernel(Model)
+        Public Overloads Shared Function Run(Model As Script.Model, precise As Double) As List(Of DataSet)
+            Dim Kernel As New Kernel(Model) With {
+                .Precision = precise
+            }
             Kernel.Run()
             Return Kernel.dataSvr.data
         End Function

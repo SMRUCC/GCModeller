@@ -61,9 +61,12 @@ Public Module RunModel
         Return SBML.Compile(args("-i")).RunModel(args:=args)
     End Function
 
+    ' /precise 0.1
+
     <Extension>
     Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
-        Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model)
+        Dim p As Double = args.GetValue("/precise", 0.1)
+        Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
         Dim out As String = args.GetValue("-o", args("-i").TrimFileExt & ".out.Csv")
         Dim maps As New Dictionary(Of String, String) From {
             {NameOf(DataSet.Identifier), "#Time"}

@@ -10,6 +10,9 @@ Public Module Gast
         Dim out As String = EXPORT & "/" & [in].BaseName & ".fasta"
         Dim tax As String = out.TrimFileExt & ".tax"
 
+        Call "".SaveTo(out)
+        Call "".SaveTo(tax)
+
         Using ref As New StreamWriter(New FileStream(out, FileMode.OpenOrCreate)),
             taxon As New StreamWriter(New FileStream(tax, FileMode.OpenOrCreate))
 

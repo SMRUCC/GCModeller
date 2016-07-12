@@ -88,7 +88,7 @@ Namespace Kernel.ObjectModels
         End Property
 
         Public Function Elapsed(engine As Mathematical.Expression) As Boolean
-            Var.Value += (Me.Evaluate * 0.1)
+            Var.Value += (Me.Evaluate * Kernel.Precision)
             engine(Var.UniqueId) = Var.Value
 
             Return True
