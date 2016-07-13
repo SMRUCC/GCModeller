@@ -333,6 +333,7 @@ Public Class Taxonomy : Inherits ClassObject
         taxReturn(3) = New Taxonomy(rankCounts.ToArray(Function(x) x.ToString)) ' number Of different taxa at Each rank
         taxReturn(4) = New Taxonomy(maxPcts.ToArray(Function(x) x.ToString)) ' percentage Of the most popular taxon (!= "NA")
         taxReturn(5) = New Taxonomy(naPcts.ToArray(Function(x) x.ToString)) ' percentage that are unassigned ("NA")
+
         Return taxReturn
     End Function
 End Class

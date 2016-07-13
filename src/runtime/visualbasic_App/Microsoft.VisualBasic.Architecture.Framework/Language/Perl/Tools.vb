@@ -55,5 +55,31 @@ Namespace Language.Perl
 
             array = tmp
         End Sub
+
+        ''' <summary>
+        ''' ##### pop ARRAY
+        ''' 
+        ''' **pop**
+        ''' Pops And returns the last value of the array, shortening the array by one element.
+        ''' 
+        ''' Returns the undefined value If the array Is empty, although this may also happen at 
+        ''' other times. If ARRAY Is omitted, pops the @ARGV array In the main program, but the 
+        ''' @_ array In subroutines, just Like shift.
+        ''' 
+        ''' Starting with Perl 5.14, an experimental feature allowed pop to take a scalar expression. 
+        ''' This experiment has been deemed unsuccessful, And was removed as of Perl 5.24.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="array"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Pop(Of T)(ByRef array As T()) As T
+            If array.IsNullOrEmpty Then
+                Return Nothing
+            End If
+
+            Dim last As T = array(array.Length - 1)
+            ReDim Preserve array(array.Length - 1)
+        End Function
     End Module
 End Namespace
