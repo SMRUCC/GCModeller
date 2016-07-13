@@ -157,7 +157,7 @@ Namespace gast
             Dim in_prefix
             Dim ref_filename = ""
             Dim udb_filename = ""
-            Dim reftax_filename
+            Dim reftax_filename As String
             Dim out_filename = args.out
             Dim terse = 0
 
@@ -248,7 +248,58 @@ Namespace gast
             usearch_cmd &= $" -gapopen 6I/1E -usearch_global {uniques_filename} -strand plus -uc {uclust_filename} -maxaccepts {max_accepts} -maxrejects {max_rejects} -id {min_pctid}"
 
             run_command(usearch_cmd)
-            Dim gast_results_ref = parse_uclust(uclust_filename)
+            Dim gast_results_ref = parse_uclust(uclust_filename, ignore_terminal_gaps, ignore_all_gaps, use_full_length, max_gap)
+
+
+            '#######################################
+            '#
+            '# Calculate consensus taxonomy
+            '#
+            '#######################################
+            ' print() LOG "Assigning taxonomy\n";
+            Dim ref_taxa_ref = load_reftaxa(reftax_filename)
+            assign_taxonomy(names_filename, gast_results_ref, ref_taxa_ref)
+        End Function
+
+        ''' <summary>
+        ''' get dupes from the names file and calculate consensus taxonomy
+        ''' </summary>
+        ''' <param name="names_filename"></param>
+        ''' <param name="gast_results_ref"></param>
+        ''' <param name="ref_taxa_ref"></param>
+        Private Sub assign_taxonomy(names_filename As String,
+                                    gast_results_ref As Dictionary(Of String, String()),
+                                    ref_taxa_ref As Dictionary(Of String, String()))
+
+        End Sub
+
+        ''' <summary>
+        ''' Get dupes Of the reference sequences And their taxonomy
+        ''' </summary>
+        ''' <param name="tax_file"></param>
+        ''' <returns></returns>
+        Private Function load_reftaxa(tax_file As String) As Dictionary(Of String, String())
+            Dim taxa As New Dictionary(Of String, String())
+
+            For Each line As String In tax_file.ReadAllLines
+                ' chomp $line;
+
+                ' 0=ref_id, 1 = count, 2 = taxa
+                Dim data = Regex.Split(line, "\t")
+                Dim copies As String() = {}
+
+                ' foreach instance Of that taxa
+                For i As Integer = 1 To data(2)
+
+                    ' add that taxonomy To an array
+                    Push(copies, data(1))
+                Next
+
+                ' add that array To the array Of all taxa For that ref, stored In the taxa hash
+                Push(taxa(data(0)), copies)
+            Next
+
+            Return taxa
         End Function
 
         Public Function Invoke(args As CommandLine)
@@ -260,10 +311,15 @@ Namespace gast
         ''' </summary>
         ''' <param name="uc_file"></param>
         ''' <returns></returns>
-        Public Function parse_uclust(uc_file As String)
+        Public Function parse_uclust(uc_file As String,
+                                     ignore_terminal_gaps As Integer,
+                                     ignore_all_gaps As Integer,
+                                     use_full_length As Integer,
+                                     max_gap As Integer) As Dictionary(Of String, String())
+
             Dim uc_aligns As New Dictionary(Of String, Dictionary(Of String, String))
             Dim refs_at_pctid As New Dictionary(Of String, Dictionary(Of String, String()))
-            Dim results
+            Dim results As New Dictionary(Of String, String())
 
             ' read In the data
             For Each line As String In uc_file.ReadAllLines
@@ -337,9 +393,9 @@ Namespace gast
                                     ' Then skip To the Next ref
                                     If (gap > max_gap) Then
 
-                                        If (verbose) Then printf($"Skip {ref} of {read()} at {pctid} pctid for {gap} gap.  \n")
+                                        If (verbose) Then printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
                                         found_hit = 0
-                                        last
+                                        Exit Do
                                     End If
                                 End If
                             Loop
@@ -362,7 +418,7 @@ Namespace gast
 
                     ' Don't go to lower PctIDs if found a hit at this PctID.
                     If (found_hit) Then
-                        last
+                        Exit For
                     End If
                 Next
 

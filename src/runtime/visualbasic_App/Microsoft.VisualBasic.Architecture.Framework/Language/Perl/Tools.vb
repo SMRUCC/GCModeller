@@ -3,6 +3,19 @@ Imports System.Array
 
 Namespace Language.Perl
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' ##### last
+    ''' 
+    ''' The ``last`` command Is Like the ``break`` statement In C (As used In loops); **it immediately exits the Loop In question**. 
+    ''' If the ``LABEL`` Is omitted, the command refers To the innermost enclosing Loop. The last EXPR form, available starting 
+    ''' In Perl 5.18.0, allows a label name To be computed at run time, And Is otherwise identical To last ``LABEL``. 
+    ''' 
+    ''' **The Continue block, If any, Is Not executed**
+    ''' (Perl里面的``last``关键词相当于vb里面的``Exit Do``或者``Exit For``)
+    ''' </remarks>
     Public Module Functions
 
         ''' <summary>
