@@ -244,7 +244,7 @@ Namespace gast
         ''' <param name="ref_taxa_ref"></param>
         ''' 
         <Extension>
-        Private Function assign_taxonomy(OUT As StreamWriter,
+        Public Function assign_taxonomy(OUT As StreamWriter,
                                          names_file As String,
                                          results_ref As Dictionary(Of String, String()),
                                          ref_taxa_ref As Dictionary(Of String, String()),
@@ -338,7 +338,7 @@ Namespace gast
         ''' </summary>
         ''' <param name="tax_file"></param>
         ''' <returns></returns>
-        Private Function load_reftaxa(tax_file As String) As Dictionary(Of String, String())
+        Public Function load_reftaxa(tax_file As String) As Dictionary(Of String, String())
             Dim taxa As New Dictionary(Of String, String())
 
             For Each line As String In tax_file.ReadAllLines
@@ -362,9 +362,16 @@ Namespace gast
             Return taxa
         End Function
 
-        Public Sub Invoke(args As CommandLine)
-            Call New ARGV(args).Invoke
-        End Sub
+        Public Function Invoke(args As CommandLine) As Boolean
+            Try
+                Call New ARGV(args).Invoke
+            Catch ex As Exception
+                ex = New Exception(args.ToString, ex)
+                Throw ex
+            End Try
+
+            Return True
+        End Function
 
         ''' <summary>
         ''' Parse the USearch results And grab the top hit
