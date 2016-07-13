@@ -5,7 +5,12 @@
 # GCModeller
 GCModeller Virtual Cell System
 
-GCModeller is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for GCModeller on the large amount biological data analysis. 
+> + HOME: http://gcmodeller.org
+> + Online services: http://services.gcmodeller.org
+> + Github: https://github.com/smrucc/GCModeller
+> + SDK docs: http://docs.gcmodeller.org
+
+GCModeller is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for GCModeller on the large amount biological data analysis.
 
 The GCModeller platform is original writen in VisualBasic.NET, a feature bioinformatics analysis environment that .NET language hybrids programming with R language was included, which its SDK is available at repository:
 https://github.com/SMRUCC/R.Bioinformatics
@@ -14,6 +19,7 @@ Currently the R language hybrids programming environment just provides some bioc
 GCModeller is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits.
 
 #### Gallery
+
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/2016-05-17.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/FUR-lightbox.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
@@ -22,6 +28,7 @@ GCModeller is a set of utility tools working on the annotation of the whole cell
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pxocgx01_blastx-lightbox.png)
 
 ##Feature tools
+
 *  1. NCBI localblast utility
 *  2. MEME tools combine with Regprecise database
 *  3. Circos plots utility
