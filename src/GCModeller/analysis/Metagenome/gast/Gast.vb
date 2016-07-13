@@ -112,32 +112,32 @@ Namespace gast
         <Extension> Public Sub Invoke(args As ARGV)
             Dim log_filename As String = "gast.log"
             Dim in_filename As String = args.in
-            Dim ref_filename As String = ""
-            Dim udb_filename As String = ""
-            Dim reftax_filename As String
+            Dim ref_filename As String = args.ref
+            Dim udb_filename As String = args.udb
+            Dim reftax_filename As String = args.rtax
             Dim out_filename As String = args.out
-            Dim terse As Integer = 0
+            Dim terse As Boolean = args.terse
 
             ' Load into a database variables
             Dim mysqlimport_log As String = "gast.mysqlimport.log"
             Dim mysqlimport_cmd As String = $"mysqlimport -C -v -L -h {args.db_host} {args.db_name} "
-            Dim gast_table
+            Dim gast_table As String = args.table
 
             ' USearch variables
-            Dim usearch_cmd = gast.usearch.CliPath
-            Dim min_pctid = 0.8
+            Dim usearch_cmd As String = gast.usearch.CliPath
+            Dim min_pctid = args.minp
             Dim max_accepts = 15
             Dim max_rejects = 200
 
             ' Parse USearch output file variables
             Dim max_gap As Integer = 10
-            Dim ignore_terminal_gaps As Integer = 0 ' only ignore For max gap size, still included In the distance calculations
-            Dim ignore_all_gaps As Integer = 0
-            Dim save_uclust_file = 0
-            Dim use_full_length = 0
+            Dim ignore_terminal_gaps As Boolean = False  ' only ignore For max gap size, still included In the distance calculations
+            Dim ignore_all_gaps As Boolean = False
+            Dim save_uclust_file As Boolean = True
+            Dim use_full_length As Boolean = args.full
 
             ' Taxonomy variables
-            Dim majority As Double = 66
+            Dim majority As Double = args.maj
 
             If ((in_filename Is Nothing) OrElse ((ref_filename Is Nothing) AndAlso (udb_filename Is Nothing))) Then
                 Throw New Exception("Incorrect number of arguments.")

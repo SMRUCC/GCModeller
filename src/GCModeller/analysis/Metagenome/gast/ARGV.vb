@@ -88,7 +88,7 @@ Namespace gast
         ''' See GAST manual For description Of other fields
         ''' </summary>
         ''' <returns></returns>
-        Public Property terse As String
+        Public Property terse As Boolean
 
 #Region "Optional database output, MySQL imports options, if null, then result data will not imports to mysql"
 
@@ -109,6 +109,12 @@ Namespace gast
         Public Property table As String
 #End Region
 
+        ''' <summary>
+        ''' ```bash
+        ''' gast -in input_fasta -ref reference_uniques_fasta -rtax reference_dupes_taxonomy [-mp min_pct_id] [-m majority] -out output_file
+        ''' ```
+        ''' </summary>
+        ''' <param name="args"></param>
         Sub New(args As CommandLine)
             [in] = args - "-in"
             ref = args - "-ref"
@@ -126,7 +132,7 @@ Namespace gast
             minp = args.GetValue("-minp", 0.8)
             wdb = args("-wdb")
             udb = args("-udb")
-            terse = args - "-terse"
+            terse = args.GetBoolean("-terse")
         End Sub
 
         Public Overrides Function ToString() As String

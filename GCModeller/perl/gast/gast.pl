@@ -170,7 +170,7 @@ while ((scalar @ARGV > 0) && ($ARGV[0] =~ /^-/))
 		$max_gap = shift @ARGV;
 	} elsif ($ARGV[0] eq "-maj") {
 		shift @ARGV;
-		$max_gap = shift @ARGV;
+		$majority = shift @ARGV;
 	} elsif ($ARGV[0] eq "-full") {
 		shift @ARGV;
 		$use_full_length = 1;
