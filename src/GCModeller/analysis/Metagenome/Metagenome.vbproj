@@ -96,6 +96,7 @@
     <Compile Include="BEBaC\CrudeClustering.vb" />
     <Compile Include="BEBaC\Model.vb" />
     <Compile Include="BEBaC\PosteriorProbability.vb" />
+    <Compile Include="Taxonomy.vb" />
     <Compile Include="Gast.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
