@@ -185,7 +185,7 @@ Namespace gast
 
                 Dim mothur_cmd As String = gast.mothur.CliPath
                 mothur &= $" ""#unique.seqs(fasta={in_filename});"""
-                Call LOG.run_command(mothur_cmd)
+                '   Call LOG.run_command(mothur_cmd)
 
 
                 '#######################################
@@ -206,7 +206,7 @@ Namespace gast
                 '#$usearch_cmd .= " --gapopen 6I/1E --iddef 3 --global --query $uniques_filename --uc $uclust_filename --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
                 usearch_cmd &= $" -gapopen 6I/1E -usearch_global {uniques_filename} -strand plus -uc {uclust_filename} -maxaccepts {max_accepts} -maxrejects {max_rejects} -id {min_pctid}"
 
-                Call LOG.run_command(usearch_cmd)
+                '  Call LOG.run_command(usearch_cmd)
                 Dim gast_results_ref = parse_uclust(uclust_filename, ignore_terminal_gaps, ignore_all_gaps, use_full_length, max_gap)
 
 
@@ -411,8 +411,8 @@ Namespace gast
                     Dim data = Regex.Split(line, "\s+")
                     Dim ref = data(9)
                     Dim tax = data(9)
-                    ref = Regex.Match(ref, "\|.*$", RegexICMul).Value
-                    tax = Regex.Match(tax, "^.*\|", RegexICMul).Value
+                    ref = Regex.Replace(ref, "\|.*$", "", RegexICMul)
+                    tax = Regex.Replace(tax, "^.*\|", "", RegexICMul)
 
                     ' store the alignment for each read / ref
                     uc_aligns(data(8))(ref) = data(7)
@@ -442,13 +442,13 @@ Namespace gast
 
                         If ((ignore_terminal_gaps) OrElse (ignore_all_gaps)) Then
 
-                            align = align.Match("^[0-9]*[DI]")
-                            align = align.Match("[0-9]*[DI]$")
+                            align = Regex.Replace(align, "^[0-9]*[DI]", "", RegexICMul)
+                            align = Regex.Replace(align, "[0-9]*[DI]$", "", RegexICMul)
 
                         ElseIf (use_full_length) Then
 
-                            align = align.Match("^[0-9]*[I]")
-                            align = align.Match("[0-9]*[I]$")
+                            align = Regex.Replace(align, "^[0-9]*[I]", "", RegexICMul)
+                            align = Regex.Replace(align, "[0-9]*[I]$", "", RegexICMul)
                         End If
 
                         found_hit = True
@@ -458,20 +458,23 @@ Namespace gast
 
                             Do While Not align.Match("[DI]").IsBlank
 
-                                align = align.Match("^[0-9]*[M]")  ' leading remove matches 
-                                align = align.Match("^[ID]") ' remove singleton indels
+                                align = Regex.Replace(align, "^[0-9]*[M]", "", RegexICMul)  ' leading remove matches 
+                                align = Regex.Replace(align, "^[ID]", "", RegexICMul) ' remove singleton indels
 
-                                If align.Match("^[0-9]*[ID]") Then
+                                If Not align.Match("^[0-9]*[ID]").IsBlank Then
 
                                     Dim gap = align
-                                    align = align.Match("^[0-9]*[ID]")  ' remove gap from aligment
-                                    gap = gap.Match($"[ID]{align}")     ' remove alignment from gap
+                                    align = Regex.Replace(align, "^[0-9]*[ID]", "", RegexICMul)  ' remove gap from aligment
+                                    gap = Regex.Replace(gap, $"[ID]{align}", "", RegexICMul)     ' remove alignment from gap
 
                                     ' If too large a gap, tends To be indicative Of chimera Or other non-matches
                                     ' Then skip To the Next ref
                                     If (gap > max_gap) Then
 
-                                        If (verbose) Then printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
+                                        If (verbose) Then
+                                            printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
+                                        End If
+
                                         found_hit = False
                                         Exit Do
                                     End If
