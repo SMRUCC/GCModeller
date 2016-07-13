@@ -65,7 +65,7 @@ Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' Create taxonomic objects,
-''' Return classes Or full text Of a taxonomy Object,
+''' Return classes Or full text Of a taxonoDim Object,
 ''' Calculate consensus Of an array Of taxonomic objects.
 ''' </summary>
 Public Class Taxonomy : Inherits ClassObject
@@ -159,33 +159,102 @@ Public Class Taxonomy : Inherits ClassObject
     End Function
 
     ''' <summary>
+    ''' {domain, phylum, [class], order, family, genus, species, strain}
+    ''' </summary>
+    ''' <param name="l"></param>
+    ''' <returns></returns>
+    Default Public Property DepthLevel(l As Integer) As String
+        Get
+            Select Case l
+                Case 0 : Return domain
+                Case 1 : Return phylum
+                Case 2 : Return [class]
+                Case 3 : Return order
+                Case 4 : Return family
+                Case 5 : Return genus
+                Case 6 : Return species
+                Case 7 : Return strain
+                Case Else
+                    Throw New ArgumentOutOfRangeException(l)
+            End Select
+        End Get
+        Set(value As String)
+            Select Case l
+                Case 0 : _domain = value
+                Case 1 : _phylum = value
+                Case 2 : _class = value
+                Case 3 : _order = value
+                Case 4 : _family = value
+                Case 5 : _genus = value
+                Case 6 : _species = value
+                Case 7 : _strain = value
+                Case Else
+                    Throw New ArgumentOutOfRangeException(l)
+            End Select
+        End Set
+    End Property
+
+    ''' <summary>
     ''' Return the depth of an object - last rank with valid taxonomy
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property depth As String
         Get
-            Dim self As String() = {domain, phylum, [class], order, family, genus, species, strain}
-            Dim d As String = "NA"
-
-            For i As Integer = 0 To self.Length - 1
-                Dim lv As String = self(i)
-
-                If (Not lv.IsBlank) AndAlso lv <> "NA" AndAlso lv <> "Unassigned" Then
-                    d = ranks(i)
-                End If
-            Next
-
+            Dim d As String = Nothing
+            Call GetDepth(d)
             Return d
         End Get
     End Property
+
+    Public Function GetDepth(Optional ByRef depth As String = "NA") As Integer
+        Dim self As String() = {domain, phylum, [class], order, family, genus, species, strain}
+        Dim d As Integer
+
+        For i As Integer = 0 To self.Length - 1
+            Dim lv As String = self(i)
+
+            If (Not lv.IsBlank) AndAlso lv <> "NA" AndAlso lv <> "Unassigned" Then
+                depth = ranks(i)
+                d = i
+            End If
+        Next
+
+        Return d
+    End Function
 
     ''' <summary>
     ''' For an array of tax objects and a majority required, calculate a consensus taxonomy
     ''' Return the consensus tax Object, As well As stats On the agreement
     ''' </summary>
     ''' <returns></returns>
-    Public Function consemsus()
+    Public Shared Function consemsus(array As Taxonomy(), majority As Double)
+        ' Correct For percentages 1-100
+        If (majority <= 1) Then majority = majority * 100
 
+        ' Set up variables To store the results
+        Dim newTax As Taxonomy  ' consensus taxon
+        Dim rankCounts As Integer  ' number of different taxa for each rank
+        Dim maxPcts As Double ' percentage of most popular taxon for each rank
+        Dim naPcts As Double  ' percentage of each rank that has no taxonomy assigned
+        Dim conVote As Integer = 0
+        Dim taxCount As Integer = array.Length
+        Dim minRankIndex As Integer = -1
+        Dim minRank As String = "NA"
+
+        ' Calculate the Consensus
+
+        ' Flesh out the taxonomies so they all have indices To 7
+        For Each t In array
+            For i As Integer = 0 To 7
+
+                ' If no value For that depth, add it
+                If t.GetDepth - 1 < i Then t(i) = "NA"
+            Next
+        Next
+
+        Dim done As Integer = 0
+
+        ' For each taxonomic rank
     End Function
 End Class
 
