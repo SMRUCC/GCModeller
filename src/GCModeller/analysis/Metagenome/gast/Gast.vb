@@ -355,6 +355,10 @@ Namespace gast
                     Push(copies, data(1))
                 Next
 
+                If Not taxa.ContainsKey(data(0)) Then
+                    Call taxa.Add(data(0), {})
+                End If
+
                 ' add that array To the array Of all taxa For that ref, stored In the taxa hash
                 Push(taxa(data(0)), copies)
             Next
