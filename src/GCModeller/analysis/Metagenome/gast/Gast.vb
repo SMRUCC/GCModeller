@@ -144,9 +144,9 @@ Namespace gast
                 Throw New Exception("Incorrect number of arguments.")
             End If
 
-            If (((out_filename IsNot Nothing) AndAlso (gast_table IsNot Nothing)) OrElse ((out_filename Is Nothing) AndAlso (gast_table Is Nothing))) Then
-                Throw New Exception("Please specify either an output file or a database table.")
-            End If
+            'If (((out_filename IsNot Nothing) AndAlso (gast_table IsNot Nothing)) OrElse ((out_filename Is Nothing) AndAlso (gast_table Is Nothing))) Then
+            'Throw New Exception("Please specify either an output file or a database table.")
+            'End If
 
             ' Test validity Of commandline arguments
             If (Not in_filename.FileExists) Then
@@ -157,12 +157,12 @@ Namespace gast
                 Throw New Exception($"Unable to locate reference fasta file: {ref_filename}.")
             End If
 
-            If ((udb_filename IsNot Nothing) AndAlso (Not udb_filename.FileExists)) Then
+            If ((Not udb_filename.IsBlank) AndAlso (Not udb_filename.FileExists)) Then
                 Throw New Exception($"Unable to locate reference udb file: {udb_filename}.")
             End If
 
             ' If no outfilename, Then writing To database, create tmp file To store the data
-            If (out_filename Is Nothing) Then
+            If (out_filename.IsBlank) Then
                 out_filename = gast_table & (RandomDouble() * 9999) & ".txt"
             End If
 
@@ -366,6 +366,13 @@ Namespace gast
             Return taxa
         End Function
 
+        ''' <summary>
+        ''' ```bash
+        ''' gast -in input_fasta -ref reference_uniques_fasta -rtax reference_dupes_taxonomy [-mp min_pct_id] [-m majority] -out output_file
+        ''' ```
+        ''' </summary>
+        ''' <param name="args"></param>
+        ''' <returns></returns>
         Public Function Invoke(args As CommandLine) As Boolean
             Try
                 Call New ARGV(args).Invoke
