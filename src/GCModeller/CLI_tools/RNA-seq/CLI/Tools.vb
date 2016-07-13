@@ -7,6 +7,7 @@ Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 Imports Microsoft.VisualBasic
+Imports System.Runtime.CompilerServices
 
 Partial Module CLI
 
@@ -44,21 +45,53 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim min As Double = args.GetValue("/min", 0.01)
         Dim max As Double = args.GetValue("/max", 0.05)
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & $"/{[in].BaseName}.EXPORT.PR.Csv")
+        Dim out As New DocumentStream.File
 
-        If [in].FileExists Then
-            Dim file As DocumentStream.File = DocumentStream.File.Load([in])
-            Dim out As String = [in].TrimFileExt & $"-{min},{max}.Csv"
-            Dim rows As New List(Of String)
+        out += {"X", "P", "R"}
 
-            For Each row In file.Skip(1)
+        For Each file As String In ls - l - r - wildcards("*P*.Csv") <= [in]
+            Dim rp As String = file.ParentPath & "/" & file.BaseName.Replace("P", "R") & ".Csv"
+            Dim R As DocumentStream.File = DocumentStream.File.Load(rp)
+            Dim P As DocumentStream.File = DocumentStream.File.Load(file)
+            Dim Rs = R.Skip(1).ToDictionary(Function(x) x.First, Function(x) x(1))
 
+            Call file.__DEBUG_ECHO
+            Call rp.__DEBUG_ECHO
+
+            For Each row In P.Skip(1)
+                If row(1) <> "NA" Then
+                    Dim pp As Double = Val(row(1))
+                    If pp <= max AndAlso pp >= min Then
+                        Dim srow As New List(Of String)
+                        srow += row.First
+                        srow += CStr(pp)
+                        srow += Rs(srow.First)
+
+                        out += srow
+
+                        Call Console.Write(".")
+                    End If
+                End If
             Next
+        Next
 
-            Return rows.SaveTo(out)
-        Else ' DIR
-            For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+        Return out.Save(EXPORT, Encodings.ASCII)
+    End Function
 
-            Next
-        End If
+    <Extension>
+    Private Function __writeFile(file As DocumentStream.File, out As String, min As Double, max As Double) As Boolean
+        Dim rows As New List(Of String)
+
+        For Each row In file.Skip(1)
+            If row(1) <> "NA" Then
+                Dim p As Double = Val(row(1))
+                If p <= max AndAlso p >= min Then
+                    rows += $"{row.First},{p}"
+                End If
+            End If
+        Next
+
+        Return rows.SaveTo(out)
     End Function
 End Module
