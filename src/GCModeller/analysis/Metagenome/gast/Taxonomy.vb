@@ -240,7 +240,7 @@ Namespace gast
         ''' Return the consensus tax Object, As well As stats On the agreement
         ''' </summary>
         ''' <returns></returns>
-        Public Shared Function consemsus(array As Taxonomy(), majority As Double) As Taxonomy()
+        Public Shared Function consensus(array As Taxonomy(), majority As Double) As Taxonomy()
             ' Correct For percentages 1-100
             If (majority <= 1) Then majority = majority * 100
 
@@ -323,7 +323,7 @@ Namespace gast
 
             ' If (! $taxReturn[0]) {$taxReturn[0] = "NA";}
             If taxReturn(0) Is Nothing Then taxReturn(0) = New Taxonomy("Unknown") ' # 20081126 - empty tax should be 'Unknown'
-            If taxReturn(-1)?.taxstring = "Unassigned" Then pop(taxReturn) ' If resolved to an Unassigned rank, remove it.
+            If taxReturn(-1)?.taxstring = "Unassigned" Then Pop(taxReturn) ' If resolved to an Unassigned rank, remove it.
 
             taxReturn(1) = New Taxonomy(conVote + 0.5) ' winning majority
 

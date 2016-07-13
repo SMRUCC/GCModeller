@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Terminal
+Imports System.IO
 
 Namespace gast
 
@@ -182,7 +183,7 @@ Namespace gast
             Dim use_full_length = 0
 
             ' Taxonomy variables
-            Dim majority = 66
+            Dim majority As Double = 66
 
             If ((in_filename Is Nothing) OrElse ((ref_filename Is Nothing) AndAlso (udb_filename Is Nothing))) Then
                 Throw New Exception("Incorrect number of arguments.")
@@ -210,68 +211,155 @@ Namespace gast
                 out_filename = gast_table & (RandomDouble() * 9999) & ".txt"
             End If
 
-            ' determine the file prefix used by mothur(unique.seqs)
-            Dim file_prefix = in_filename.TrimFileExt
-            Dim file_suffix = in_filename.Split("."c).Last
+            Using OUT As New StreamWriter(New FileStream(out_filename, FileMode.OpenOrCreate))
 
-            Dim uniques_filename = file_prefix & ".unique." & file_suffix
-            Dim names_filename = file_prefix & ".names"
-            Dim uclust_filename = uniques_filename & ".uc"
+                ' determine the file prefix used by mothur(unique.seqs)
+                Dim file_prefix = in_filename.TrimFileExt
+                Dim file_suffix = in_filename.Split("."c).Last
 
-            '#######################################
-            '#
-            '# Run the uniques Using mothur
-            '#
-            '#######################################
+                Dim uniques_filename = file_prefix & ".unique." & file_suffix
+                Dim names_filename = file_prefix & ".names"
+                Dim uclust_filename = uniques_filename & ".uc"
 
-            Dim mothur_cmd = $"./mothur ""#unique.seqs(fasta={in_filename});"""
-            Call run_command(mothur_cmd)
+                '#######################################
+                '#
+                '# Run the uniques Using mothur
+                '#
+                '#######################################
 
-
-            '#######################################
-            '#
-            '# USearch against the reference database
-            '#    And parse the output For top hits
-            '#
-            '#######################################
-            '# old version
-            '#my $uclust_cmd = "uclust --iddef 3 --input $uniques_filename --lib $ref_filename --uc $uclust_filename --libonly --allhits --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
-
-            If (ref_filename IsNot Nothing) Then
-
-                usearch_cmd &= " -db $ref_filename "
-            Else
-                usearch_cmd &= " -db $udb_filename"
-            End If
-
-            '#$usearch_cmd .= " --gapopen 6I/1E --iddef 3 --global --query $uniques_filename --uc $uclust_filename --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
-            usearch_cmd &= $" -gapopen 6I/1E -usearch_global {uniques_filename} -strand plus -uc {uclust_filename} -maxaccepts {max_accepts} -maxrejects {max_rejects} -id {min_pctid}"
-
-            run_command(usearch_cmd)
-            Dim gast_results_ref = parse_uclust(uclust_filename, ignore_terminal_gaps, ignore_all_gaps, use_full_length, max_gap)
+                Dim mothur_cmd = $"./mothur ""#unique.seqs(fasta={in_filename});"""
+                Call run_command(mothur_cmd)
 
 
-            '#######################################
-            '#
-            '# Calculate consensus taxonomy
-            '#
-            '#######################################
-            ' print() LOG "Assigning taxonomy\n";
-            Dim ref_taxa_ref = load_reftaxa(reftax_filename)
-            assign_taxonomy(names_filename, gast_results_ref, ref_taxa_ref)
+                '#######################################
+                '#
+                '# USearch against the reference database
+                '#    And parse the output For top hits
+                '#
+                '#######################################
+                '# old version
+                '#my $uclust_cmd = "uclust --iddef 3 --input $uniques_filename --lib $ref_filename --uc $uclust_filename --libonly --allhits --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
+
+                If (ref_filename IsNot Nothing) Then
+
+                    usearch_cmd &= " -db $ref_filename "
+                Else
+                    usearch_cmd &= " -db $udb_filename"
+                End If
+
+                '#$usearch_cmd .= " --gapopen 6I/1E --iddef 3 --global --query $uniques_filename --uc $uclust_filename --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
+                usearch_cmd &= $" -gapopen 6I/1E -usearch_global {uniques_filename} -strand plus -uc {uclust_filename} -maxaccepts {max_accepts} -maxrejects {max_rejects} -id {min_pctid}"
+
+                run_command(usearch_cmd)
+                Dim gast_results_ref = parse_uclust(uclust_filename, ignore_terminal_gaps, ignore_all_gaps, use_full_length, max_gap)
+
+
+                '#######################################
+                '#
+                '# Calculate consensus taxonomy
+                '#
+                '#######################################
+                ' print() LOG "Assigning taxonomy\n";
+                Dim ref_taxa_ref = load_reftaxa(reftax_filename)
+                OUT.assign_taxonomy(names_filename, gast_results_ref, ref_taxa_ref, majority, terse, gast_table)
+            End Using
         End Function
 
         ''' <summary>
         ''' get dupes from the names file and calculate consensus taxonomy
         ''' </summary>
-        ''' <param name="names_filename"></param>
-        ''' <param name="gast_results_ref"></param>
+        ''' <param name="names_file"></param>
+        ''' <param name="results_ref"></param>
         ''' <param name="ref_taxa_ref"></param>
-        Private Sub assign_taxonomy(names_filename As String,
-                                    gast_results_ref As Dictionary(Of String, String()),
-                                    ref_taxa_ref As Dictionary(Of String, String()))
+        ''' 
+        <Extension>
+        Private Function assign_taxonomy(OUT As StreamWriter,
+                                    names_file As String,
+                                    results_ref As Dictionary(Of String, String()),
+                                    ref_taxa_ref As Dictionary(Of String, String()),
+                                    majority As Double, terse As Integer,
+                                         gast_table As String) As Dictionary(Of String, String())
 
-        End Sub
+
+            Dim results = results_ref
+            Dim ref_taxa = ref_taxa_ref
+
+            ' print the field header lines, but Not If loading table To the database
+            If (Not gast_table Is Nothing) Then
+
+                If (terse) Then
+
+                    OUT.WriteLine(String.Join(vbTab, "read_id", "taxonomy", "distance", "rank"))
+                Else
+                    OUT.WriteLine(String.Join(vbTab, "read_id", "taxonomy", "distance", "rank", "refssu_count", "vote", "minrank", "taxa_counts", "max_pcts", "na_pcts", "refhvr_ids"))
+                End If
+            End If
+
+            For Each line As String In names_file.ReadAllLines
+
+                ' Parse the names information
+                ' chomp $line;
+                Dim data = Regex.Split(line, "\t/")
+                Dim dupes = data(1).Split(","c)
+                Dim read = data(0)
+
+                Dim taxObjects As Taxonomy() = {}
+                Dim distance As String
+                Dim refs_for As New Dictionary(Of String, String())
+
+                If (Not results.ContainsKey(read)) Then
+                    ' No valid hit in the reference database
+
+                    results(read) = {"Unknown", 1, "NA", 0, 0, "NA", "0;0;0;0;0;0;0;0", "0;0;0;0;0;0;0;0", "100;100;100;100;100;100;100;100"}
+                    refs_for(read) = {"NA"}
+                Else
+
+                    ' Create an array Of taxonomy objects For all the associated refssu_ids.
+                    For i As Integer = 0 To results(read).Length - 1
+
+                        ' %{$results{$read}} Is a hash Of an array Of arrays, so use index $i To Step through Each array, 
+                        ' 0= $ref, 1= $dist, 2= $original_align, 3= $taxonomy_of{$ref} ];
+                        Dim ref = results(read)(i)(0)
+
+                        ' grab all the taxa assigned To that ref In the database, And add To the taxObjects To be used For consensus
+                        For Each t In ref_taxa(ref)
+                            Push(taxObjects, New Taxonomy(t))
+                        Next
+
+                        ' maintain the list Of references hit
+                        Push(refs_for(read), results(read)(i)(0))
+
+                        ' should all be the same distance
+                        distance = results(read)(i)(1)
+                    Next
+
+                    ' Lookup the consensus taxonomy For the array
+                    Dim taxReturn = Taxonomy.consensus(taxObjects, majority)
+
+                    ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
+                    Dim taxon = taxReturn(0).taxstring
+                    Dim rank = taxReturn(0).depth
+                    If (Not taxon) Then taxon = "Unknown"
+
+                    ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
+                    results(read) = {taxon, distance, rank, taxObjects.Length, taxReturn(1).taxstring, taxReturn(2).taxstring, taxReturn(3).taxstring, taxReturn(4).taxstring, taxReturn(5).taxstring}
+                End If
+
+                ' Replace hash With final taxonomy results, For Each copy Of the sequence
+                For Each d In dupes
+
+                    ' @dupes includes the original As well, Not just its copies
+                    If (terse) Then
+
+                        OUT.WriteLine(String.Join(vbTab, d, results(read)(0), results(read)(1), results(read)(2)))
+                    Else
+                        OUT.WriteLine(String.Join(vbTab, d, results(read)), String.Join(",", refs_for(read).Sort))
+                    End If
+                Next
+            Next
+
+            Return results
+        End Function
 
         ''' <summary>
         ''' Get dupes Of the reference sequences And their taxonomy

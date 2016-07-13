@@ -1,13 +1,14 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
-Imports Microsoft.VisualBasic
-Imports System.Runtime.CompilerServices
 
 Partial Module CLI
 

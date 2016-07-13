@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::819c3e6297fbabbd29dad152f64ce633, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Language\UnixBash\FileSystem\Searchs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports System.Text.RegularExpressions
 
 Namespace Language.UnixBash
 
@@ -158,22 +159,34 @@ Namespace Language.UnixBash
         ''' <returns></returns>
         Public Overloads Shared Operator <=(ls As Search, DIR As String) As IEnumerable(Of String)
             Dim l As Boolean = ls.__opts.ContainsKey(SearchOpt.Options.LongName)
+            Dim wc As String() = ls.wildcards.ToArray(Function(x) x.Replace(".", "\.").Replace("*", ".+"))
+            Dim isMatch = Function(s As String) As Boolean
+                              s = s.Replace("\", "/").Split("/"c).Last
+
+                              For Each r As String In wc
+                                  If Regex.Match(s, r, RegexICSng).Success Then
+                                      Return True
+                                  End If
+                              Next
+
+                              Return False
+                          End Function
 
             If ls.__opts.ContainsKey(SearchOpt.Options.Directory) Then
-                Dim res As IEnumerable(Of String) = FileIO.FileSystem.GetDirectories(DIR, ls.SearchType, ls.wildcards)
+                Dim res As IEnumerable(Of String) = FileIO.FileSystem.GetDirectories(DIR, ls.SearchType)
 
                 If l Then
-                    Return res
+                    Return res.Where(isMatch)
                 Else
-                    Return res.ToArray(Function(s) s.BaseName)
+                    Return res.Where(isMatch).ToArray(Function(s) s.BaseName)
                 End If
             Else
-                Dim res As IEnumerable(Of String) = FileIO.FileSystem.GetFiles(DIR, ls.SearchType, ls.wildcards)
+                Dim res As IEnumerable(Of String) = FileIO.FileSystem.GetFiles(DIR, ls.SearchType)
 
                 If l Then
-                    Return res
+                    Return res.Where(isMatch)
                 Else
-                    Return (From path As String In res Select path.Replace("\", "/").Split("/"c).Last).ToArray
+                    Return (From path As String In res Where isMatch(path) Select path.Replace("\", "/").Split("/"c).Last).ToArray
                 End If
             End If
         End Operator
