@@ -99,35 +99,34 @@ Namespace gast
 "
 #End Region
 
+        Public Property usearch As String = App.HOME & "/gast/usearch.exe"
+        Public Property mothur As String = App.HOME & "/gast/mothur.exe"
         Public Property verbose As Integer = 0
 
         <Extension> Public Sub Invoke(args As ARGV)
-            Dim log_filename = "gast.log"
-            Dim in_filename = args.in
-            Dim in_prefix
-            Dim ref_filename = ""
-            Dim udb_filename = ""
+            Dim log_filename As String = "gast.log"
+            Dim in_filename As String = args.in
+            Dim ref_filename As String = ""
+            Dim udb_filename As String = ""
             Dim reftax_filename As String
-            Dim out_filename = args.out
-            Dim terse = 0
+            Dim out_filename As String = args.out
+            Dim terse As Integer = 0
 
             ' Load into a database variables
-            Dim db_host = "newbpcdb2"
-            Dim db_name = "env454"
-            Dim mysqlimport_log = "gast.mysqlimport.log"
-            Dim mysqlimport_cmd = "mysqlimport -C -v -L -h $db_host $db_name "
+            Dim mysqlimport_log As String = "gast.mysqlimport.log"
+            Dim mysqlimport_cmd As String = $"mysqlimport -C -v -L -h {args.db_host} {args.db_name} "
             Dim gast_table
 
             ' USearch variables
-            Dim usearch_cmd = "./usearch6.0"
+            Dim usearch_cmd = gast.usearch.CliPath
             Dim min_pctid = 0.8
             Dim max_accepts = 15
             Dim max_rejects = 200
 
             ' Parse USearch output file variables
-            Dim max_gap = 10
-            Dim ignore_terminal_gaps = 0 ' only ignore For max gap size, still included In the distance calculations
-            Dim ignore_all_gaps = 0
+            Dim max_gap As Integer = 10
+            Dim ignore_terminal_gaps As Integer = 0 ' only ignore For max gap size, still included In the distance calculations
+            Dim ignore_all_gaps As Integer = 0
             Dim save_uclust_file = 0
             Dim use_full_length = 0
 
@@ -160,7 +159,8 @@ Namespace gast
                 out_filename = gast_table & (RandomDouble() * 9999) & ".txt"
             End If
 
-            Using OUT As New StreamWriter(New FileStream(out_filename, FileMode.OpenOrCreate))
+            Using OUT As New StreamWriter(New FileStream(out_filename, FileMode.OpenOrCreate)),
+                LOG As New StreamWriter(New FileStream(log_filename, FileMode.OpenOrCreate))
 
                 ' determine the file prefix used by mothur(unique.seqs)
                 Dim file_prefix = in_filename.TrimFileExt
@@ -176,7 +176,8 @@ Namespace gast
                 '#
                 '#######################################
 
-                Dim mothur_cmd = $"./mothur ""#unique.seqs(fasta={in_filename});"""
+                Dim mothur_cmd As String = gast.mothur.CliPath
+                mothur &= $" ""#unique.seqs(fasta={in_filename});"""
                 Call run_command(mothur_cmd)
 
 
@@ -207,7 +208,7 @@ Namespace gast
                 '# Calculate consensus taxonomy
                 '#
                 '#######################################
-                ' print() LOG "Assigning taxonomy\n";
+                LOG.WriteLine("Assigning taxonomy")
                 Dim ref_taxa_ref = load_reftaxa(reftax_filename)
                 OUT.assign_taxonomy(names_filename, gast_results_ref, ref_taxa_ref, majority, terse, gast_table)
 

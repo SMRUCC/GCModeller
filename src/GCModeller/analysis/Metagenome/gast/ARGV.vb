@@ -39,6 +39,12 @@ Namespace gast
         ''' <returns></returns>
         Public Property out As String
 
+#Region "MySQL imports options, if null, then result data will not imports to mysql"
+
+        Public Property db_host As String
+        Public Property db_name As String
+#End Region
+
         Sub New(args As CommandLine)
             [in] = args - "-in"
             ref = args - "-ref"
