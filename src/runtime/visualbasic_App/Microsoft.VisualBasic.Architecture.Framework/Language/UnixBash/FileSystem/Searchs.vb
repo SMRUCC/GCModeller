@@ -159,21 +159,16 @@ Namespace Language.UnixBash
         ''' <returns></returns>
         Public Overloads Shared Operator <=(ls As Search, DIR As String) As IEnumerable(Of String)
             Dim l As Boolean = ls.__opts.ContainsKey(SearchOpt.Options.LongName)
-            Dim wc As String() = ls.wildcards.ToArray(Function(x) x.Replace(".", "\.").Replace("*", ".+"))
-            Dim isMatch = Function(s As String) As Boolean
-                              s = s.Replace("\", "/").Split("/"c).Last
-
-                              For Each r As String In wc
-                                  If Regex.Match(s, r, RegexICSng).Success Then
-                                      Return True
-                                  End If
-                              Next
-
-                              Return False
-                          End Function
+            Dim wc As String() =
+                ls.wildcards.ToArray(Function(x) x.Replace(".", "\.").Replace("*", ".+"))
+            Dim isMatch As Func(Of String, Boolean) =
+                AddressOf New wildcards With {
+                    .regexp = wc
+                }.IsMatch
 
             If ls.__opts.ContainsKey(SearchOpt.Options.Directory) Then
-                Dim res As IEnumerable(Of String) = FileIO.FileSystem.GetDirectories(DIR, ls.SearchType)
+                Dim res As IEnumerable(Of String) =
+                    FileIO.FileSystem.GetDirectories(DIR, ls.SearchType)
 
                 If l Then
                     Return res.Where(isMatch)
@@ -181,12 +176,16 @@ Namespace Language.UnixBash
                     Return res.Where(isMatch).ToArray(Function(s) s.BaseName)
                 End If
             Else
-                Dim res As IEnumerable(Of String) = FileIO.FileSystem.GetFiles(DIR, ls.SearchType)
+                Dim res As IEnumerable(Of String) =
+                    FileIO.FileSystem.GetFiles(DIR, ls.SearchType)
 
                 If l Then
                     Return res.Where(isMatch)
                 Else
-                    Return (From path As String In res Where isMatch(path) Select path.Replace("\", "/").Split("/"c).Last).ToArray
+                    Return From path As String
+                           In res
+                           Where isMatch(path)
+                           Select path.Replace("\", "/").Split("/"c).Last
                 End If
             End If
         End Operator
@@ -199,6 +198,41 @@ Namespace Language.UnixBash
             Throw New NotSupportedException
         End Operator
     End Class
+
+    ''' <summary>
+    ''' Using regular expression to find a match on the file name.
+    ''' </summary>
+    Public Structure wildcards
+
+        Dim regexp As String()
+
+        ''' <summary>
+        ''' Windows系统上面文件路径不区分大小写，但是Linux、Mac系统却区分大小写
+        ''' 所以使用这个来保持对Windows文件系统的兼容性
+        ''' </summary>
+        Shared ReadOnly opt As RegexOptions =
+            If(App.Platform = PlatformID.MacOSX OrElse
+            App.Platform = PlatformID.Unix,
+            RegexOptions.Singleline,
+            RegexICSng)
+
+        ''' <summary>
+        ''' Linux/Mac系统不支持Windows系统的通配符，所以在这里是用正则表达式来保持代码的兼容性
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        Public Function IsMatch(path As String) As Boolean
+            Dim name As String = path.Replace("\", "/").Split("/"c).Last
+
+            For Each r As String In regexp
+                If Regex.Match(name, r, opt).Success Then
+                    Return True
+                End If
+            Next
+
+            Return False
+        End Function
+    End Structure
 
     Public Structure SearchOpt
 
