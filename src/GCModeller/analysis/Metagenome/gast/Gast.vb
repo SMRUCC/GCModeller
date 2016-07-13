@@ -256,10 +256,8 @@ Namespace gast
             Dim ref_taxa = ref_taxa_ref
 
             ' print the field header lines, but Not If loading table To the database
-            If (Not gast_table Is Nothing) Then
-
+            If (gast_table Is Nothing) Then
                 If (terse) Then
-
                     OUT.WriteLine(String.Join(vbTab, "read_id", "taxonomy", "distance", "rank"))
                 Else
                     OUT.WriteLine(String.Join(vbTab, "read_id", "taxonomy", "distance", "rank", "refssu_count", "vote", "minrank", "taxa_counts", "max_pcts", "na_pcts", "refhvr_ids"))
@@ -270,7 +268,7 @@ Namespace gast
 
                 ' Parse the names information
                 ' chomp $line;
-                Dim data = Regex.Split(line, "\t/")
+                Dim data = Regex.Split(line, "\t")
                 Dim dupes = data(1).Split(","c)
                 Dim read = data(0)
 
@@ -310,7 +308,10 @@ Namespace gast
                     ' 0=taxObj, 1=winning vote, 2=minrank, 3=rankCounts, 4=maxPcts, 5=naPcts;
                     Dim taxon = taxReturn(0).taxstring
                     Dim rank = taxReturn(0).depth
-                    If (Not taxon) Then taxon = "Unknown"
+
+                    If (taxon Is Nothing) Then
+                        taxon = "Unknown"
+                    End If
 
                     ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
                     results(read) = {taxon, distance, rank, taxObjects.Length, taxReturn(1).taxstring, taxReturn(2).taxstring, taxReturn(3).taxstring, taxReturn(4).taxstring, taxReturn(5).taxstring}
@@ -348,7 +349,7 @@ Namespace gast
                 Dim copies As String() = {}
 
                 ' foreach instance Of that taxa
-                For i As Integer = 1 To data(2)
+                For i As Integer = 1 To data(2).ParseInteger
 
                     ' add that taxonomy To an array
                     Push(copies, data(1))
@@ -392,8 +393,8 @@ Namespace gast
                     Dim data = Regex.Split(line, "\s+")
                     Dim ref = data(9)
                     Dim tax = data(9)
-                    ref = Regex.Match(ref, "\|.*$").Value
-                    tax = Regex.Match(tax, "^.*\|").Value
+                    ref = Regex.Match(ref, "\|.*$", RegexICMul).Value
+                    tax = Regex.Match(tax, "^.*\|", RegexICMul).Value
 
                     ' store the alignment for each read / ref
                     uc_aligns(data(8))(ref) = data(7)
@@ -408,7 +409,7 @@ Namespace gast
             '
             For Each read As String In uc_aligns.Keys
 
-                Dim found_hit = 0
+                Dim found_hit As Boolean
 
                 ' For Each read, start With the max PctID
                 For Each pctid In refs_at_pctid(read).Keys.Sort
@@ -432,7 +433,7 @@ Namespace gast
                             align = align.Match("[0-9]*[I]$")
                         End If
 
-                        found_hit = 1
+                        found_hit = True
 
                         ' has internal gaps
                         If ((use_full_length) OrElse (Not ignore_all_gaps)) Then
@@ -453,7 +454,7 @@ Namespace gast
                                     If (gap > max_gap) Then
 
                                         If (verbose) Then printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
-                                        found_hit = 0
+                                        found_hit = False
                                         Exit Do
                                     End If
                                 End If
