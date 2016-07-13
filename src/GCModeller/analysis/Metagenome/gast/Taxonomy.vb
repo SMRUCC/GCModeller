@@ -113,6 +113,10 @@ Namespace gast
         Sub New(data As String())
             Dim assigned As New Pointer
 
+            If data.Length < 8 Then
+                ReDim Preserve data(8)
+            End If
+
             domain = data(++assigned)
             phylum = data(++assigned)
             [class] = data(++assigned)
@@ -274,7 +278,7 @@ Namespace gast
                 For i As Integer = 0 To 7
 
                     ' If no value For that depth, add it
-                    If t.GetDepth - 1 < i Then t(i) = "NA"
+                    If t.GetDepth < i Then t(i) = "NA"
                 Next
             Next
 
@@ -292,6 +296,9 @@ Namespace gast
 
                 ' Step through the taxonomies And count them
                 For Each t As Taxonomy In array
+                    If Not tallies.ContainsKey(t(i)) Then
+                        Call tallies.Add(t(i), 0)
+                    End If
                     tallies(t(i)) += 1
                 Next
 
@@ -342,16 +349,16 @@ Namespace gast
                 Pop(taxReturn) ' If resolved to an Unassigned rank, remove it. -1表示最后一个元素
             End If
 
-            taxReturn(1) = New Taxonomy(conVote + 0.5) ' winning majority
+            taxReturn.Set(1, New Taxonomy(conVote + 0.5)) ' winning majority
 
             If (minRankIndex >= 0) Then
                 minRank = ranks(minRankIndex)
             End If
 
-            taxReturn(2) = New Taxonomy(minRank.ToString) ' lowest rank With valid assignment
-            taxReturn(3) = New Taxonomy(rankCounts.ToArray(Function(x) x.ToString)) ' number Of different taxa at Each rank
-            taxReturn(4) = New Taxonomy(maxPcts.ToArray(Function(x) x.ToString)) ' percentage Of the most popular taxon (!= "NA")
-            taxReturn(5) = New Taxonomy(naPcts.ToArray(Function(x) x.ToString)) ' percentage that are unassigned ("NA")
+            taxReturn.Set(2, New Taxonomy(minRank)) ' lowest rank With valid assignment
+            taxReturn.Set(3, New Taxonomy(rankCounts.ToArray(Function(x) x.ToString))) ' number Of different taxa at Each rank
+            taxReturn.Set(4, New Taxonomy(maxPcts.ToArray(Function(x) x.ToString))) ' percentage Of the most popular taxon (!= "NA")
+            taxReturn.Set(5, New Taxonomy(naPcts.ToArray(Function(x) x.ToString))) ' percentage that are unassigned ("NA")
 
             Return taxReturn
         End Function

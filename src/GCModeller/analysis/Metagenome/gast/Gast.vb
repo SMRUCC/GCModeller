@@ -132,7 +132,7 @@ Namespace gast
             ' Parse USearch output file variables
             Dim max_gap As Integer = 10
             Dim ignore_terminal_gaps As Boolean = False  ' only ignore For max gap size, still included In the distance calculations
-            Dim ignore_all_gaps As Boolean = False
+            Dim ignore_all_gaps As Boolean = True
             Dim save_uclust_file As Boolean = True
             Dim use_full_length As Boolean = args.full
 
@@ -224,7 +224,7 @@ Namespace gast
                 '# Load the file into the database
                 '#
                 '#######################################
-                If (gast_table IsNot Nothing) Then
+                If (Not gast_table.IsBlank) Then
                     mysqlimport_cmd &= $"{out_filename} >> {mysqlimport_log}"
                     Call LOG.run_command(mysqlimport_cmd)
                     Call LOG.run_command($"rm {out_filename}")
@@ -246,17 +246,17 @@ Namespace gast
         <Extension>
         Public Function assign_taxonomy(OUT As StreamWriter,
                                          names_file As String,
-                                         results_ref As Dictionary(Of String, String()),
+                                         results_ref As Dictionary(Of String, String()()),
                                          ref_taxa_ref As Dictionary(Of String, String()),
                                          majority As Double,
                                          terse As Boolean,
-                                         gast_table As String) As Dictionary(Of String, String())
+                                         gast_table As String) As Dictionary(Of String, String()())
 
             Dim results = results_ref
             Dim ref_taxa = ref_taxa_ref
 
             ' print the field header lines, but Not If loading table To the database
-            If (gast_table Is Nothing) Then
+            If (gast_table.IsBlank) Then
                 If (terse) Then
                     OUT.WriteLine(String.Join(vbTab, "read_id", "taxonomy", "distance", "rank"))
                 Else
@@ -278,7 +278,7 @@ Namespace gast
                 If (Not results.ContainsKey(read)) Then
                     ' No valid hit in the reference database
 
-                    results(read) = {"Unknown", 1, "NA", 0, 0, "NA", "0;0;0;0;0;0;0;0", "0;0;0;0;0;0;0;0", "100;100;100;100;100;100;100;100"}
+                    results(read) = {New String() {"Unknown", "1", "NA", "0", "0", "NA", "0;0;0;0;0;0;0;0", "0;0;0;0;0;0;0;0", "100;100;100;100;100;100;100;100"}}
                     refs_for(read) = {"NA"}
                 Else
                     Dim distance As String = ""
@@ -296,6 +296,9 @@ Namespace gast
                         Next
 
                         ' maintain the list Of references hit
+                        If Not refs_for.ContainsKey(read) Then
+                            Call refs_for.Add(read, {})
+                        End If
                         Push(refs_for(read), results(read)(i)(0))
 
                         ' should all be the same distance
@@ -314,7 +317,7 @@ Namespace gast
                     End If
 
                     ' (taxonomy, distance, rank, refssu_count, vote, minrank, taxa_counts, max_pcts, na_pcts)
-                    results(read) = {taxon, distance, rank, taxObjects.Length, taxReturn(1).taxstring, taxReturn(2).taxstring, taxReturn(3).taxstring, taxReturn(4).taxstring, taxReturn(5).taxstring}
+                    results(read) = {New String() {taxon, distance, rank, taxObjects.Length, taxReturn(1).taxstring, taxReturn(2).taxstring, taxReturn(3).taxstring, taxReturn(4).taxstring, taxReturn(5).taxstring}}
                 End If
 
                 ' Replace hash With final taxonomy results, For Each copy Of the sequence
@@ -393,11 +396,11 @@ Namespace gast
                                      ignore_terminal_gaps As Boolean,
                                      ignore_all_gaps As Boolean,
                                      use_full_length As Boolean,
-                                     max_gap As Integer) As Dictionary(Of String, String())
+                                     max_gap As Integer) As Dictionary(Of String, String()())
 
             Dim uc_aligns As New Dictionary(Of String, Dictionary(Of String, String))
-            Dim refs_at_pctid As New Dictionary(Of String, Dictionary(Of String, String()))
-            Dim results As New Dictionary(Of String, String())
+            Dim refs_at_pctid As New Dictionary(Of String, Dictionary(Of Double, String()))
+            Dim results As New Dictionary(Of String, String()())
 
             ' read In the data
             For Each line As String In uc_file.ReadAllLines
@@ -415,10 +418,21 @@ Namespace gast
                     tax = Regex.Replace(tax, "^.*\|", "", RegexICMul)
 
                     ' store the alignment for each read / ref
+                    If Not uc_aligns.ContainsKey(data(8)) Then
+                        Call uc_aligns.Add(data(8), New Dictionary(Of String, String))
+                    End If
                     uc_aligns(data(8))(ref) = data(7)
 
                     ' create a look up For refs Of a given pctID For Each read
-                    Push(refs_at_pctid(data(8))(data(3)), ref)
+                    If Not refs_at_pctid.ContainsKey(data(8)) Then
+                        Call refs_at_pctid.Add(data(8), New Dictionary(Of Double, String()))
+                    End If
+
+                    Dim p As Double = Val(data(3))
+                    If Not refs_at_pctid(data(8)).ContainsKey(p) Then
+                        Call refs_at_pctid(data(8)).Add(p, {})
+                    End If
+                    Push(refs_at_pctid(data(8))(p), ref)
                 End If
             Next
 
@@ -486,13 +500,16 @@ Namespace gast
                         '
                         ' convert from percent identity To distance
                         '
-                        Dim dist As String = (Int((10 * (100 - pctid)) + 0.5)) / 1000
+                        Dim dist As String = (((10 * (100 - pctid)) + 0.5)) / 1000
 
                         '
                         ' print out the data
                         '
                         If (verbose) Then
-                            printf({read, ref, pctid, dist, original_align}.JoinBy(vbTab) & "\n")
+                            printf({read, ref, CStr(pctid), dist, original_align}.JoinBy(vbTab) & "\n")
+                        End If
+                        If Not results.ContainsKey(read) Then
+                            Call results.Add(read, {})
                         End If
                         Push(results(read), {ref, dist, original_align})
                     Next
