@@ -101,7 +101,7 @@ Namespace gast
 
         Public Property usearch As String = App.HOME & "/gast/usearch.exe"
         Public Property mothur As String = App.HOME & "/gast/mothur.exe"
-        Public Property verbose As Integer = 0
+        Public Property verbose As Boolean = True
 
         ''' <summary>
         ''' reads a fasta file of trimmed 16S sequences, compares each sequence to
@@ -139,11 +139,12 @@ Namespace gast
             ' Taxonomy variables
             Dim majority As Double = args.maj
 
-            If ((in_filename Is Nothing) OrElse ((ref_filename Is Nothing) AndAlso (udb_filename Is Nothing))) Then
+            If ((Not in_filename.FileExists) OrElse
+                ((Not ref_filename.FileExists) AndAlso (Not udb_filename.FileExists))) Then
                 Throw New Exception("Incorrect number of arguments.")
             End If
 
-            If (((out_filename Is Nothing) AndAlso (gast_table Is Nothing)) OrElse ((out_filename Is Nothing) AndAlso (gast_table Is Nothing))) Then
+            If (((out_filename IsNot Nothing) AndAlso (gast_table IsNot Nothing)) OrElse ((out_filename Is Nothing) AndAlso (gast_table Is Nothing))) Then
                 Throw New Exception("Please specify either an output file or a database table.")
             End If
 
@@ -152,11 +153,11 @@ Namespace gast
                 Throw New Exception($"Unable to locate input fasta file: {in_filename}.")
             End If
 
-            If ((ref_filename Is Nothing) AndAlso (Not ref_filename.FileExists)) Then
+            If ((ref_filename IsNot Nothing) AndAlso (Not ref_filename.FileExists)) Then
                 Throw New Exception($"Unable to locate reference fasta file: {ref_filename}.")
             End If
 
-            If ((udb_filename Is Nothing) AndAlso (Not udb_filename.FileExists)) Then
+            If ((udb_filename IsNot Nothing) AndAlso (Not udb_filename.FileExists)) Then
                 Throw New Exception($"Unable to locate reference udb file: {udb_filename}.")
             End If
 
@@ -184,7 +185,7 @@ Namespace gast
 
                 Dim mothur_cmd As String = gast.mothur.CliPath
                 mothur &= $" ""#unique.seqs(fasta={in_filename});"""
-                Call run_command(mothur_cmd)
+                Call LOG.run_command(mothur_cmd)
 
 
                 '#######################################
@@ -197,15 +198,15 @@ Namespace gast
                 '#my $uclust_cmd = "uclust --iddef 3 --input $uniques_filename --lib $ref_filename --uc $uclust_filename --libonly --allhits --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
 
                 If (ref_filename IsNot Nothing) Then
-                    usearch_cmd &= " -db $ref_filename "
+                    usearch_cmd &= $" -db {ref_filename} "
                 Else
-                    usearch_cmd &= " -db $udb_filename"
+                    usearch_cmd &= $" -db {udb_filename}"
                 End If
 
                 '#$usearch_cmd .= " --gapopen 6I/1E --iddef 3 --global --query $uniques_filename --uc $uclust_filename --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
                 usearch_cmd &= $" -gapopen 6I/1E -usearch_global {uniques_filename} -strand plus -uc {uclust_filename} -maxaccepts {max_accepts} -maxrejects {max_rejects} -id {min_pctid}"
 
-                run_command(usearch_cmd)
+                Call LOG.run_command(usearch_cmd)
                 Dim gast_results_ref = parse_uclust(uclust_filename, ignore_terminal_gaps, ignore_all_gaps, use_full_length, max_gap)
 
 
@@ -223,15 +224,14 @@ Namespace gast
                 '# Load the file into the database
                 '#
                 '#######################################
-                If (gast_table) Then
-
-                    mysqlimport_cmd &= "$out_filename >> $mysqlimport_log"
-                    run_command(mysqlimport_cmd)
-                    run_command("rm $out_filename")
+                If (gast_table IsNot Nothing) Then
+                    mysqlimport_cmd &= $"{out_filename} >> {mysqlimport_log}"
+                    Call LOG.run_command(mysqlimport_cmd)
+                    Call LOG.run_command($"rm {out_filename}")
                 End If
 
                 If (Not save_uclust_file) Then
-                    run_command("rm $uclust_filename")
+                    Call LOG.run_command($"rm {uclust_filename}")
                 End If
             End Using
         End Sub
@@ -245,12 +245,12 @@ Namespace gast
         ''' 
         <Extension>
         Private Function assign_taxonomy(OUT As StreamWriter,
-                                    names_file As String,
-                                    results_ref As Dictionary(Of String, String()),
-                                    ref_taxa_ref As Dictionary(Of String, String()),
-                                    majority As Double, terse As Integer,
+                                         names_file As String,
+                                         results_ref As Dictionary(Of String, String()),
+                                         ref_taxa_ref As Dictionary(Of String, String()),
+                                         majority As Double,
+                                         terse As Boolean,
                                          gast_table As String) As Dictionary(Of String, String())
-
 
             Dim results = results_ref
             Dim ref_taxa = ref_taxa_ref
@@ -371,9 +371,9 @@ Namespace gast
         ''' <param name="uc_file"></param>
         ''' <returns></returns>
         Public Function parse_uclust(uc_file As String,
-                                     ignore_terminal_gaps As Integer,
-                                     ignore_all_gaps As Integer,
-                                     use_full_length As Integer,
+                                     ignore_terminal_gaps As Boolean,
+                                     ignore_all_gaps As Boolean,
+                                     use_full_length As Boolean,
                                      max_gap As Integer) As Dictionary(Of String, String())
 
             Dim uc_aligns As New Dictionary(Of String, Dictionary(Of String, String))
