@@ -27,6 +27,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Perl
 
 'package Taxonomy;
 
@@ -232,7 +233,7 @@ Public Class Taxonomy : Inherits ClassObject
         If (majority <= 1) Then majority = majority * 100
 
         ' Set up variables To store the results
-        Dim newTax As Taxonomy  ' consensus taxon
+        Dim newTax As String() = {}  ' consensus taxon
         Dim rankCounts As Integer  ' number of different taxa for each rank
         Dim maxPcts As Double ' percentage of most popular taxon for each rank
         Dim naPcts As Double  ' percentage of each rank that has no taxonomy assigned
@@ -255,6 +256,42 @@ Public Class Taxonomy : Inherits ClassObject
         Dim done As Integer = 0
 
         ' For each taxonomic rank
+        For i As Integer = 0 To 7
+
+            ' Initializes hashes With the counts Of Each tax assignment
+            Dim tallies As New Dictionary(Of String, Integer) ' For Each tax value -- how many objects have this taxonomy
+            Dim rankCnt = 0 ' How many different taxa values are there For that rank
+            Dim maxCnt = 0 ' what was the size Of the most common taxon
+            Dim naCnt = 0 ' how many are unassigned 
+            Dim topPct = 0 ' used To determine If we are done With the taxonomy Or Not
+
+            ' Step through the taxonomies And count them
+            For Each t As Taxonomy In array
+                tallies(t(i)) += 1
+            Next
+
+            ' For Each unique tax assignment
+            For Each k In tallies.Keys
+
+                If k <> "NA" Then
+
+                    rankCnt += 1
+                    minRankIndex = i
+                    If tallies(k) > maxCnt Then maxCnt = tallies(k)
+                Else
+                        naCnt = tallies(k)
+                    End If
+
+                Dim vote = (tallies(k) / taxCount) * 100
+                If ((k <> "NA") AndAlso (vote > topPct)) Then topPct = vote
+                vote = (100 * (tallies(k) / taxCount) + 0.5)
+                If ((Not done) AndAlso (vote >= majority)) Then
+                    Push(newTax, k)
+                    If k <> "NA" Then conVote = vote
+
+                End If
+        Next
+        Next
     End Function
 End Class
 
