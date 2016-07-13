@@ -67,7 +67,7 @@ Namespace EngineSystem
         ''' <remarks></remarks>
         <Extension> Public Sub Invoke(Of T As FluxObject)(Collection As IEnumerable(Of T))
             Dim LQuery = (From fluxHandle As FluxObject
-                          In Collection.Randomize
+                          In Collection.Shuffles
                           Select fluxHandle.Invoke).ToArray
         End Sub
     End Module

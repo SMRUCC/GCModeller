@@ -1,4 +1,4 @@
-﻿#Region "2a9ebf421424c7a7538b708a2d35c9be, ..\Math\Helpers\Function.vb"
+﻿#Region "Microsoft.VisualBasic::2a9ebf421424c7a7538b708a2d35c9be, ..\VisualBasic_AppFramework\Scripting\Math\Math\Helpers\Function.vb"
 
     ' Author:
     ' 
@@ -115,6 +115,15 @@ Namespace Helpers
             Dim model As Func = FuncParser.TryParse(statement)
             Dim handle As Func(Of Double(), Double) = model.GetExpression(__engine)
             Call Add(model.Name.ToLower, handle)
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name">函数名</param>
+        ''' <param name="expr">函数申明</param>
+        Public Overloads Sub Add(name As String, expr As String)
+
         End Sub
 
         ''' <summary>

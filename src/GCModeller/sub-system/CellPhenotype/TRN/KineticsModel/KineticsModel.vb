@@ -28,11 +28,11 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
+Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 
-Namespace Simulation.ExpressionRegulationNetwork.KineticsModel
+Namespace TRN.KineticsModel
 
     ''' <summary>
     ''' 这个对象表示一个基因，即网络之中的一个节点，只有1和0这两个值的半逻辑表达式，模糊逻辑的原因是逻辑取值是基于一个随机概率的

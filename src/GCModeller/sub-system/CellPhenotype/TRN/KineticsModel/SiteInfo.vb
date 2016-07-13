@@ -28,9 +28,9 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DataMining.Framework.DFL_Driver
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators
+Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators
 
-Namespace Simulation.ExpressionRegulationNetwork.KineticsModel
+Namespace TRN.KineticsModel
 
     ''' <summary>
     ''' This object represents a regulatory motif site in the gene promoter region.

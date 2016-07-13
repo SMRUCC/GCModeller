@@ -50,6 +50,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
                   Category:=APICategories.CLI_MAN,
                   Description:="Sequence operation utilities",
                   Publisher:="xie.guigang@gmail.com")>
+<ExceptionHelp(Documentation:="https://github.com/smrucc/gcmodeller/src/analysis/",
+               EMailLink:="http://gcmodeller.org",
+               Debugging:="http://gcmodeller.org")>
 Public Module Utilities
 
     <ExportAPI("-321",

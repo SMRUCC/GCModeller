@@ -123,7 +123,7 @@ Namespace Settings
         ''' Directory for stores the application log file.(存放应用程序的日志文件的文件系统目录)
         ''' </summary>
         ''' <remarks></remarks>
-        Private ReadOnly _LogDir As String = My.Application.Info.DirectoryPath & "/.logs/"
+        Private ReadOnly _LogDir As String = App.HOME & "/.logs/"
 
         ''' <summary>
         ''' Directory for stores the application log file.(存放应用程序的日志文件的文件系统目录)

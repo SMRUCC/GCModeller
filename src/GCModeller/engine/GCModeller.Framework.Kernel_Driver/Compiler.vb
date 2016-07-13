@@ -1,34 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::9e55b3138f072b7c52a2acd825b56bfc, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Logging
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
@@ -40,7 +40,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Implements ISupportLoggingClient
 
     Protected Friend CompiledModel As TModel
-    Protected Friend _Logging As Logging.LogFile
+    Protected Friend _Logging As LogFile
 
     Public Overridable ReadOnly Property Version As Version
         Get
@@ -57,20 +57,21 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="argvs"><see cref="CommandLine.CommandLine.CLICommandArgvs"></see></param>
+    ''' <param name="args"><see cref="CommandLine.CommandLine.CLICommandArgvs"></see></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public MustOverride Function PreCompile(argvs As CommandLine.CommandLine) As Integer
+    Public MustOverride Function PreCompile(args As CommandLine.CommandLine) As Integer
+
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="argvs">
+    ''' <param name="args">
     ''' Property definition parameters for <see cref="ModelBaseType.ModelProperty"></see>, the override function of 
     ''' this mustOverride method should call method <see cref="WriteProperty"></see> to write the property into the 
     ''' compiled model file.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public MustOverride Function Compile(Optional argvs As CommandLine.CommandLine = Nothing) As TModel
+    Public MustOverride Function Compile(Optional args As CommandLine.CommandLine = Nothing) As TModel
     Protected MustOverride Function Link() As Integer
 
     Public Overridable ReadOnly Property [Return] As TModel
@@ -79,33 +80,53 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         End Get
     End Property
 
+    Const CLI_Usage As String =
+        "-write_property [-name <name>] [-authors <author1; author2; ...>] [-comment <shot_comment>] [-title <title>] [-emails <address1; address2; ...>] [-publications <pubmed1; pubmed2; ...>] [-urls <url1; url2; ...>]"
+
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="argvs"></param>
-    ''' <param name="Model"></param>
+    ''' <param name="args"></param>
+    ''' <param name="model"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("-write_property", Info:="",
-        Usage:="-write_property [-name <name>] [-authors <author1; author2; ...>] [-comment <shot_comment>] [-title <title>] [-emails <address1; address2; ...>] [-publications <pubmed1; pubmed2; ...>] [-urls <url1; url2; ...>]",
-        Example:="")>
-    Protected Function WriteProperty(argvs As CommandLine.CommandLine, Model As TModel) As TModel
+               Usage:=CLI_Usage,
+               Example:="")>
+    Protected Function WriteProperty(args As CommandLine.CommandLine, model As TModel) As TModel
         Call _Logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
 
-        If Model.ModelProperty Is Nothing Then _
-           Model.ModelProperty = New [Property]
+        If model.ModelProperty Is Nothing Then _
+           model.ModelProperty = New [Property]
 
-        If String.IsNullOrEmpty(Model.ModelProperty.GUID) Then Model.ModelProperty.GUID = Guid.NewGuid.ToString
-        If String.IsNullOrEmpty(Model.ModelProperty.CompiledDate) Then Model.ModelProperty.CompiledDate = Now.ToString
-        If Model.ModelProperty.Reversion = 0 Then Model.ModelProperty.Reversion = 1
-        If Model.ModelProperty.URLs.IsNullOrEmpty Then Model.ModelProperty.URLs = New List(Of String) From {"http://code.google.com/p/genome-in-code/"} Else Call Model.ModelProperty.URLs.Add("http://code.google.com/p/genome-in-code/")
-        If Model.ModelProperty.Authors.IsNullOrEmpty Then Model.ModelProperty.Authors = New List(Of String) From {"SMRUCC.genomics.GCModeller"}
+        If String.IsNullOrEmpty(model.ModelProperty.GUID) Then
+            model.ModelProperty.GUID = Guid.NewGuid.ToString
+        End If
+        If String.IsNullOrEmpty(model.ModelProperty.CompiledDate) Then
+            model.ModelProperty.CompiledDate = Now.ToString
+        End If
+        If model.ModelProperty.Reversion = 0 Then
+            model.ModelProperty.Reversion = 1
+        End If
+        If model.ModelProperty.URLs.IsNullOrEmpty Then
+            model.ModelProperty.URLs = New List(Of String) From {
+                "http://gcmodeller.org/"
+            }
+        Else
+            Call model.ModelProperty.URLs.Add("http://gcmodeller.org/")
+        End If
 
-        If Not argvs Is Nothing Then  '请先使用If判断是否为空，因为不知道本方法的调用顺序，不使用if判断可能会丢失已经在调用之前就写入的属性数据
+        If model.ModelProperty.Authors.IsNullOrEmpty Then
+            model.ModelProperty.Authors = New List(Of String) From {
+                "SMRUCC.genomics.GCModeller"
+            }
+        End If
+
+        If Not args Is Nothing Then  '请先使用If判断是否为空，因为不知道本方法的调用顺序，不使用if判断可能会丢失已经在调用之前就写入的属性数据
 
         End If
 
-        Return Model
+        Return model
     End Function
 
     Public Overrides Function ToString() As String
@@ -145,8 +166,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 #End Region
 
     Public Function WriteLog() As Boolean Implements ISupportLoggingClient.WriteLog
-        Call _Logging.Save()
-        Return True
+        Return _Logging.Save()
     End Function
 End Class
 

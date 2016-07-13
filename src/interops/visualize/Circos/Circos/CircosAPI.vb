@@ -317,7 +317,8 @@ different with the ideogram configuration document was not included in the circo
                          Select hit
                          Group By hit.SubjectIDs Into Group).ToArray
         Dim d As Double = Math.Abs(r1 - rInner) / alignment.Length
-        Dim Colors As String() = CircosColor.AllCircosColors.Randomize
+        Dim Colors As String() =
+            CircosColor.AllCircosColors.Shuffles
         Dim i As Integer = 0
 
         For Each genome In alignment

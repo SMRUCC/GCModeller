@@ -25,49 +25,45 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
 Namespace Kernel
 
+    ''' <summary>
+    ''' Data service
+    ''' </summary>
     Public Class DataAcquisition
-        Dim _dataPackage As New File
-        Dim Kernel As Kernel
+
+        Friend data As New List(Of DataSet)
+
+        Dim kernel As Kernel
+
+        Sub New(k As Kernel)
+            kernel = k
+        End Sub
 
         Public Sub Tick()
-            Dim Row As New RowObject
-
-            Call Row.Add(Kernel.RuntimeTicks)
-            For Each Var As var In Kernel.Vars
-                Row.Add(Var.Value)
-            Next
-
-            _dataPackage.AppendLine(Row)
+            data += New DataSet With {
+                .Identifier = kernel.RuntimeTicks * Kernel.precision,
+                .Properties = kernel.Vars _
+                    .ToDictionary(AddressOf __tag, Function(x) x.Value)
+            }
         End Sub
+
+        Private Shared Function __tag(x As var) As String
+            If Not String.IsNullOrEmpty(x.Title) Then
+                Return x.Title
+            Else
+                Return x.UniqueId
+            End If
+        End Function
 
         Public Sub Save(Path As String)
-            Call _dataPackage.Save(Path, False)
+            Call data.SaveTo(Path, False)
         End Sub
-
-        Public Sub [Set](Kernel As Kernel)
-            Dim Row As New RowObject
-
-            Me.Kernel = Kernel
-            Call Row.Add("Elapsed Time")
-            For Each Var As var In Kernel.Vars
-                If Not String.IsNullOrEmpty(Var.Title) Then
-                    Call Row.Add(String.Format("""{0}""", Var.Title))
-                Else
-                    Call Row.Add(Var.UniqueId)
-                End If
-            Next
-
-            Call _dataPackage.AppendLine(Row)
-        End Sub
-
-        Public Shared Function [Get](e As DataAcquisition) As File
-            Return e._dataPackage
-        End Function
     End Class
 End Namespace
 

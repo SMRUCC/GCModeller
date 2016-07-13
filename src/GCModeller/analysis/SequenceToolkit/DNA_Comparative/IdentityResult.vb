@@ -20,6 +20,10 @@ Public Class IdentityResult
         Return Me.GetJson
     End Function
 
+    Public Shared Function SimpleTag(fa As FastaToken) As String
+        Return fa.Title.Split.First
+    End Function
+
     Public Shared Iterator Function SigmaMatrix(source As FastaFile, Optional round As Integer = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
         Dim nts As NucleicAcid() =
             source.ToArray(Function(x) New NucleicAcid(x), Parallel:=True)

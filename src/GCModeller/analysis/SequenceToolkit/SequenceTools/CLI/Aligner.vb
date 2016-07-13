@@ -28,8 +28,10 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Parallel.Linq
 Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
@@ -211,8 +213,9 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".gwANI.Csv")
         Dim fast As Boolean = args.GetBoolean("/fast")
-        Dim result = gwANIExtensions.Evaluate([in], fast)
-        Return result.SaveTo(out)
+
+        Call gwANIExtensions.Evaluate([in], out, fast)
+        Return 0
     End Function
 
     <ExportAPI("/Sigma",
@@ -223,8 +226,18 @@ Partial Module Utilities
         Dim fasta As New FastaFile([in])
         Dim simple As Boolean = args.GetBoolean("/simple")
         Dim round As Integer = args.GetValue("/round", -1)
-        Dim result = IdentityResult.SigmaMatrix(fasta, round, simple).ToArray
-        Return result.SaveTo(out).CLICode
+        Dim keys As String() =
+            If(simple,
+            fasta.ToArray(AddressOf IdentityResult.SimpleTag),
+            fasta.ToArray(Function(x) x.Title))
+
+        Using writer As New WriteStream(Of IdentityResult)(out, metaKeys:=keys)
+            For Each x As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
+                Call writer.Flush(x)
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module
 

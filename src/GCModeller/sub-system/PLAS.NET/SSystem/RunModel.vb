@@ -25,17 +25,24 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 Public Module RunModel
 
+    ''' <summary>
+    ''' Run model from commandline.
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     Public Delegate Function IRunModel(args As CommandLine) As Integer
 
-    Public ReadOnly Property RunMethods As IReadOnlyDictionary(Of String, Func(Of CommandLine, Integer)) =
-        New HashDictionary(Of Func(Of CommandLine, Integer)) From {
+    Public ReadOnly Property RunMethods As IReadOnlyDictionary(Of String, IRunModel) =
+        New HashDictionary(Of IRunModel) From {
  _
             {"script", AddressOf RunScript},
             {"model", AddressOf RunModel},
@@ -43,29 +50,28 @@ Public Module RunModel
     }
 
     Public Function RunScript(args As CommandLine) As Integer
-        Return RunModel(Script.ScriptCompiler.Compile(Path:=args("-i")), args:=args)
+        Return Script.ScriptCompiler.Compile(path:=args("-i")).RunModel(args:=args)
     End Function
 
     Public Function RunModel(args As CommandLine) As Integer
-        Return RunModel(Script.Model.Load(args("-i")), args:=args)
+        Return Script.Model.Load(args("-i")).RunModel(args:=args)
     End Function
 
     Public Function RunSBML(args As CommandLine) As Integer
-        Return RunModel(Model:=SBML.Compile(args("-i")), args:=args)
+        Return SBML.Compile(args("-i")).RunModel(args:=args)
     End Function
 
+    ' /precise 0.1
+
+    <Extension>
     Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
-        Dim CSV = Kernel.Kernel.Run(Model)
-        Dim Out As String = args("-o")
-
-        Call CSV.Save(Path:=Out)
-
-        If String.Equals(args("-chart"), "T") Then
-            Using Wrapper As DataFrame = DataFrame.CreateObject(CSV)
-                ' Call Wrapper.ShowDialog()
-            End Using
-        End If
-        Return 0
+        Dim p As Double = args.GetValue("/precise", 0.1)
+        Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
+        Dim out As String = args.GetValue("-o", args("-i").TrimFileExt & ".out.Csv")
+        Dim maps As New Dictionary(Of String, String) From {
+            {NameOf(DataSet.Identifier), "#Time"}
+        }
+        Return ds.SaveTo(path:=out, nonParallel:=True, maps:=maps).CLICode
     End Function
 End Module
 

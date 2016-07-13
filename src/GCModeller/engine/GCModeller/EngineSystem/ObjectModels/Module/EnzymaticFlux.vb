@@ -99,7 +99,7 @@ Namespace EngineSystem.ObjectModels.Module
 
             Call _CatalystActivity.Clear()
 
-            For Each Enzyme In _Enzymes.Randomize
+            For Each Enzyme In _Enzymes.Shuffles
 DEBUG:          FluxValue = KineticsModel.GetValue
                 FluxValue = _EnzymeKinetics.GetFluxValue(FluxValue, Enzyme)
 

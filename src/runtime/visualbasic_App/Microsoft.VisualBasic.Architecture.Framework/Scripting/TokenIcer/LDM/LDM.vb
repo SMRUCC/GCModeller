@@ -1,4 +1,4 @@
-﻿#Region "ffe288d821708ff3ded8749a6a3ecd04, ..\Microsoft.VisualBasic.Architecture.Framework\Scripting\TokenIcer\LDM\LDM.vb"
+﻿#Region "Microsoft.VisualBasic::ffe288d821708ff3ded8749a6a3ecd04, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Scripting\TokenIcer\LDM\LDM.vb"
 
     ' Author:
     ' 
@@ -129,7 +129,7 @@ Namespace Scripting.TokenIcer
 
         Public Overrides Function ToString() As String
             If UNDEFINED Then
-                Return "UNDEFINED"
+                Return "UNDEFINED --> " & TokenValue
             End If
             Return $"[{TokenName}]" & vbTab & TokenValue
         End Function

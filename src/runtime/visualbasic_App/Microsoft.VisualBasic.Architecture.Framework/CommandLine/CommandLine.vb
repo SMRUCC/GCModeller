@@ -1,4 +1,4 @@
-﻿#Region "7178e0c61bb93c4017537d1ebbba1410, ..\Microsoft.VisualBasic.Architecture.Framework\CommandLine\CommandLine.vb"
+﻿#Region "Microsoft.VisualBasic::7178e0c61bb93c4017537d1ebbba1410, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\CommandLine\CommandLine.vb"
 
     ' Author:
     ' 
@@ -80,6 +80,12 @@ Namespace CommandLine
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property Tokens As String()
+
+        Public ReadOnly Property ParameterList As NamedValue(Of String)()
+            Get
+                Return __lstParameter.ToArray
+            End Get
+        End Property
 
         ''' <summary>
         ''' The parameters in the commandline without the first token of the command name.

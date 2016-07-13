@@ -1,0 +1,130 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.DataVisualization.Network.Canvas
+</name>
+</assembly>
+<members>
+<member name="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer3D.#ctor(System.Func{System.Drawing.Graphics},System.Func{System.Drawing.Rectangle},Microsoft.VisualBasic.DataVisualization.Network.Layouts.Interfaces.IForceDirected)">
+ <summary>
+ 
+ </summary>
+ <param name="canvas"></param>
+ <param name="regionProvider"></param>
+ <param name="iForceDirected"><see cref="T:Microsoft.VisualBasic.DataVisualization.Network.Layouts.ForceDirected3D"/></param>
+</member>
+<member name="T:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Input3D">
+ <summary>
+ Mouse input device in 3D space
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.DataVisualization.Network.Canvas.SVGExtensions">
+ <summary>
+ <see cref="T:Microsoft.VisualBasic.DataVisualization.Network.Graph.NetworkGraph"/> to svg doc
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.SVGExtensions.ToSVG(Microsoft.VisualBasic.DataVisualization.Network.Graph.NetworkGraph,System.Drawing.Size,Microsoft.VisualBasic.Imaging.SVG.CSS.DirectedForceGraph)">
+ <summary>
+ 
+ </summary>
+ <param name="graph"></param>
+ <param name="style">Default value is <see cref="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.SVGExtensions.DefaultStyle"/></param>
+ <param name="size">The export canvas size</param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.DataVisualization.Network.Canvas.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DataVisualization.Network.Canvas.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DataVisualization.Network.Canvas.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.space3D">
+ <summary>
+ Render and layout engine works in 3D mode?
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.net">
+ <summary>
+ The network data model for the visualization 
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.fdgPhysics">
+ <summary>
+ Layout provider engine
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.timer">
+ <summary>
+ The graphics updates thread.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.fdgRenderer">
+ <summary>
+ The graphics rendering provider
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.paper">
+ <summary>
+ GDI+ interface for the canvas control.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.WriteLayout">
+ <summary>
+ Write the node layout position into its extensions data, for generates the svg graphics.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.__graphicsProvider">
+ <summary>
+ Gets the graphics source
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.__regionProvider">
+ <summary>
+ gets the graphics region for the projections: <see cref="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.GraphToScreen(Microsoft.VisualBasic.DataVisualization.Network.Layouts.FDGVector2,System.Drawing.Rectangle)"/> and <see cref="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.ScreenToGraph(System.Drawing.Point)"/>
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.#ctor(System.Func{System.Drawing.Graphics},System.Func{System.Drawing.Rectangle},Microsoft.VisualBasic.DataVisualization.Network.Layouts.Interfaces.IForceDirected)">
+ <summary>
+ 这个构造函数会生成一些静态数据的缓存
+ </summary>
+ <param name="canvas"></param>
+ <param name="regionProvider"></param>
+ <param name="iForceDirected"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.GraphToScreen(Microsoft.VisualBasic.DataVisualization.Network.Layouts.FDGVector2,System.Drawing.Rectangle)">
+ <summary>
+ Projects the data model to our screen for display.
+ </summary>
+ <param name="iPos"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.ScreenToGraph(System.Drawing.Point)">
+ <summary>
+ Projects the client graphics data to the data model. 
+ </summary>
+ <param name="iScreenPos"></param>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.widthHash">
+ <summary>
+ The edge drawing width cache
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Renderer.radiushash">
+ <summary>
+ The node drawing radius cache
+ </summary>
+</member>
+</members>
+</doc>

@@ -207,7 +207,7 @@ Public Module DomainAnalysis
     End Function
 
     Private Function __createResult(blast_output As BlastPlus.v228, query As FASTA.FastaFile, time_out As Integer, num_threads As Integer) As PfamString.PfamString()
-        Dim data = LQuerySchedule.LQuery(blast_output.Queries, AddressOf ToPfamString)
+        Dim data = LQuerySchedule.LQuery(blast_output.Queries, AddressOf ToPfamString, 20000)
 
         If query.IsNullOrEmpty Then
             Return data
@@ -230,7 +230,7 @@ Public Module DomainAnalysis
 
                               Return __createStructureRegion(PfamString, FastaObject)
                           End Function
-        data = LQuerySchedule.LQuery(Cache, QueryHandle)
+        data = LQuerySchedule.LQuery(Cache, QueryHandle, 20000)
         Return data
     End Function
 

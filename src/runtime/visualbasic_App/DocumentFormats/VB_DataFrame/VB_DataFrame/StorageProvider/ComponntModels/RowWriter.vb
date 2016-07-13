@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a81d6e7cc9cdaf83a8a341e916a47632, ..\VB_DataFrame\StorageProvider\ComponntModels\RowWriter.vb"
+﻿#Region "Microsoft.VisualBasic::9ace8073a8cc82b8b3cdd1edb4e404a4, ..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\VB_DataFrame\StorageProvider\ComponntModels\RowWriter.vb"
 
     ' Author:
     ' 
@@ -56,6 +56,7 @@ Namespace StorageProvider.ComponentModels
                                                     Select field
             Me.MetaRow = SchemaProvider.MetaAttributes
             Me._metaBlank = metaBlank
+            Me.HaveMeta = Not MetaRow Is Nothing
 
             If Me.MetaRow Is Nothing Then
                 __buildRow = AddressOf __buildRowNullMeta
@@ -64,8 +65,14 @@ Namespace StorageProvider.ComponentModels
             End If
         End Sub
 
-        Public Function GetRowNames() As DocumentStream.RowObject
-            Return New DocumentStream.RowObject(Columns.ToArray(Function(field) field.Name))
+        Public Function GetRowNames(Optional maps As Dictionary(Of String, String) = Nothing) As DocumentStream.RowObject
+            If maps Is Nothing Then
+                Return New DocumentStream.RowObject(Columns.Select(Function(field) field.Name))
+            Else
+                Dim __get As Func(Of StorageProvider, String) =
+                    Function(x) If(maps.ContainsKey(x.Name), maps(x.Name), x.Name)
+                Return New DocumentStream.RowObject(Columns.Select(__get))
+            End If
         End Function
 
         ReadOnly __buildRow As IRowBuilder
@@ -102,7 +109,23 @@ Namespace StorageProvider.ComponentModels
             Return New DocumentStream.RowObject(row)
         End Function
 
-        Dim __cachedIndex As String()
+        Friend __cachedIndex As String()
+
+        Public ReadOnly Property HaveMeta As Boolean
+
+        ''' <summary>
+        ''' Has the meta field indexed?
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsMetaIndexed As Boolean
+            Get
+                If Not HaveMeta Then
+                    Return True
+                Else
+                    Return Not __cachedIndex Is Nothing
+                End If
+            End Get
+        End Property
 
         Public Function CacheIndex(source As IEnumerable(Of Object)) As RowWriter
             If MetaRow Is Nothing Then
@@ -144,7 +167,7 @@ Namespace StorageProvider.ComponentModels
         End Function
 #End Region
 
-        Public Function GetMetaTitles(obj As Object) As String()
+        Public Function GetMetaTitles() As String()
             If MetaRow Is Nothing OrElse MetaRow.BindProperty Is Nothing Then
                 Return New String() {}
             Else

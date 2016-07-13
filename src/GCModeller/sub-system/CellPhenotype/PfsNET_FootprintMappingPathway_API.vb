@@ -77,7 +77,8 @@ Module PfsNET_FootprintMappingPathway_API
     ''' <remarks></remarks>
     ReadOnly PID As Integer = Process.GetCurrentProcess.Id
 
-    <ExportAPI("Set.Handle.PfsNET.Evaluate", Info:="Setups the PfsNET evaluation handle, you can using this method to choosing the R scripting version engine or the VB version engine.")>
+    <ExportAPI("Set.Handle.PfsNET.Evaluate",
+               Info:="Setups the PfsNET evaluation handle, you can using this method to choosing the R scripting version engine or the VB version engine.")>
     Public Sub SetPfsNETHandle(<Parameter("Handle.PfsNET.Evaluation",
                                           "The PfsNET evaluate handle interface, you can choosing the engine handle interface from: " & vbCrLf &
                                           "PfsNET Get.Handle.PfsNET_Evaluate(R_Implements)   or" & vbCrLf &
@@ -86,7 +87,7 @@ Module PfsNET_FootprintMappingPathway_API
     End Sub
 
     Private Function __fileName(key As String) As String
-        Return String.Format("{0}/__{1}___{2}_{3}.txt", My.Computer.FileSystem.SpecialDirectories.Temp, key, PID, Now.ToNormalizedPathString)
+        Return String.Format("{0}/__{1}___{2}_{3}.txt", App.AppSystemTemp, key, PID, Now.ToNormalizedPathString)
     End Function
 
     <ExportAPI("PfsNET.Analyzer.Init()", Info:="Initialize the R version pfsnet analysis engine for the program.")>
@@ -161,8 +162,8 @@ Module PfsNET_FootprintMappingPathway_API
                           Function(x) DirectCast(x, ComponentModel.PathwayBrief))
         Dim LQuery = (From item As DataStructure.PFSNetResultOut
                       In Result
-                      Let p1 = SubNETCsvObject.CreateObject(item.Phenotype1, item.DataTag & ".Class1", Pathways, 1)
-                      Let p2 = SubNETCsvObject.CreateObject(item.Phenotype2, item.DataTag & ".Class2", Pathways, 2)
+                      Let p1 = SubNetTable.CreateObject(item.Phenotype1, item.DataTag & ".Class1", Pathways, 1)
+                      Let p2 = SubNetTable.CreateObject(item.Phenotype2, item.DataTag & ".Class2", Pathways, 2)
                       Select {p1, p2}.MatrixToList).ToArray.MatrixToVector
         Dim KEGGCategory = KEGGPhenotypes.PhenotypeAssociations(LQuery, KEGG.Archives.Csv.Pathway.CreateObjects(Model.KEGG_Pathways))
         Return KEGGCategory

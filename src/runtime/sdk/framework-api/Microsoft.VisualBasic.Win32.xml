@@ -1,0 +1,304 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.Win32
+</name>
+</assembly>
+<members>
+<member name="M:Microsoft.VisualBasic.Win32.Gdi32.Escape(System.Int64,System.Int64,System.Int64,System.String@,System.Object)">
+ <summary>
+ The Escape function allows applications to access capabilities of a particular device not directly available through GDI. Escape calls made by an application are translated and sent to the driver 
+ </summary>
+ <param name="hdc">Identifies the device context.</param>
+ <param name="nEscape">Specifies the escape function to be performed. This parameter must be one of the predefined escape values. Use the ExtEscape function if your application defines a private escape value.</param>
+ <param name="nCount">Specifies the number of bytes of data pointed to by the lpvInData parameter.</param>
+ <param name="lpInData">Points to the input structure required for the specified escape.</param>
+ <param name="lpOutData">
+ Points to the structure that receives output from this escape. This parameter should be NULL if no data is returned
+ 
+ If the function succeeds, the return value is greater than zero, except with the QUERYESCSUPPORT printer escape, which checks for implementation only. If the escape is not implemented, the return value is zero. 
+ 
+ If the function fails, the return value is an error. To get extended error information, call GetLastError. 
+ </param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Win32.Kernel32.Sleep(System.Int64)">
+ <summary>
+ Sleep pauses program execution for a certain amount of time. This is more accurate than using a do-nothing loop, waiting for a certain amount of time to pass. The function does not return a value. 
+ </summary>
+ <param name="dwMilliseconds">The number of milliseconds to halt program execution for. </param>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Win32.ComDlg32.CommDlgExtendedError">
+ <summary>
+ CommDlgExtendedError returns the error code from the last common dialog box function. This function does not return error codes for any other API function; for that, use GetLastError instead. 
+ </summary>
+ <returns>
+ The function's return value is undefined if the last common
+ dialog function call was successful. If an error with a common dialog function did occur, the return value is exactly one of the
+ following common dialog error flags: 
+ </returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_DIALOGFAILURE">
+ <summary>
+ The function could not open the dialog box. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_FINDRESFAILURE">
+ <summary>
+ The function failed to find the desired resource. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_GENERALCODES">
+ <summary>
+ The error involved a general common dialog box property. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_INITIALIZATION">
+ <summary>
+ The function failed during initialization (probably insufficient memory). 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_LOADRESFAILURE">
+ <summary>
+ The function failed to load the desired resource. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_LOADSTRFAILURE">
+ <summary>
+ The function failed to load the desired string. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_LOCKRESFAILURE">
+ <summary>
+ The function failed to lock the desired resource. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_MEMALLOCFAILURE">
+ <summary>
+ The function failed to allocate sufficient memory. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_MEMLOCKFAILURE">
+ <summary>
+ The function failed to lock the desired memory. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_NOHINSTANCE">
+ <summary>
+ The function was not provided with a valid instance handle (if one was required). 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_NOHOOK">
+ <summary>
+ The function was not provided with a valid hook function handle (if one was required). 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_NOTEMPLATE">
+ <summary>
+ The function was not provided with a valid template (if one was required). 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_REGISTERMSGFAIL">
+ <summary>
+ The function failed to successfully register a window message. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CDERR_STRUCTSIZE">
+ <summary>
+ The function was provided with an invalid structure size. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CFERR_CHOOSEFONTCODES">
+ <summary>
+ The error involved the Choose Font common dialog box. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CFERR_MAXLESSTHANMIN">
+ <summary>
+ The function was provided with a maximum font size value smaller than the provided minimum font size. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.CFERR_NOFONTS">
+ <summary>
+ The function could not find any existing fonts. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.FNERR_BUFFERTOOSMALL">
+ <summary>
+ The function was provided with a filename buffer which was too small. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.FNERR_FILENAMECODES">
+ <summary>
+ The error involved the Open File or Save File common dialog box. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.FNERR_INVALIDFILENAME">
+ <summary>
+ The function was provided with or received an invalid filename. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.FNERR_SUBCLASSFAILURE">
+ <summary>
+ The function had insufficient memory to subclass the list box. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.FRERR_BUFFERLENGTHZERO">
+ <summary>
+ The function was provided with an invalid buffer. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.FRERR_FINDREPLACECODES">
+ <summary>
+ The error involved the Find or Replace common dialog box. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_CREATEICFAILURE">
+ <summary>
+ The function failed to create an information context. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_DEFAULTDIFFERENT">
+ <summary>
+ The function was told that the information provided described the default printer, but the default printer's actual settings were
+ different. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_DNDMMISMATCH">
+ <summary>
+ The data in the two data structures describe different printers (i.e., they hold conflicting information). 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_GETDEVMODEFAIL">
+ <summary>
+ The printer driver failed to initialize the DEVMODE structure. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_INITFAILURE">
+ <summary>
+ The function failed during initialization. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_LOADDRVFAILURE">
+ <summary>
+ The function failed to load the desired device driver. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_NODEFAULTPRN">
+ <summary>
+ The function could not find a default printer. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_NODEVICES">
+ <summary>
+ The function could not find any printers. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_PARSEFAILURE">
+ <summary>
+ The function failed to parse the printer-related strings in WIN.INI. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_PRINTERCODES">
+ <summary>
+ The error involved the Print common dialog box. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_PRINTERNOTFOUND">
+ <summary>
+ The function could not find information in WIN.INI about the requested printer. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_RETDEFFAILURE">
+ <summary>
+ The handles to the data structures provided were nonzero even though the function was asked to return information about
+ the default printer. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Win32.ComDlg32.PDERR_SETUPFAILURE">
+ <summary>
+ The function failed to load the desired resources. 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Win32.TypeDef">
+ <summary>
+ Win32 API type definitions
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Win32.Shell32.CommandLineToArgv(System.String@,System.Int16@)">
+ <summary>
+ UPGRADE_ISSUE: ???????? ?????????:“ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?keyword="82EBB1AE-1FCB-4FEF-9E6C-8736A316F8A7"”
+ </summary>
+ <param name="lpCmdLine"></param>
+ <param name="pNumArgs"></param>
+ <returns></returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Win32.WinMM.Int2_strTime(System.Int32)">
+ <summary>
+ 将数字转化为mm:ss的时间格式
+ </summary>
+ <param name="intTime"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Win32.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Win32.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Win32.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

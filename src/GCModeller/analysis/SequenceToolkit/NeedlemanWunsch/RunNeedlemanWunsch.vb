@@ -30,13 +30,12 @@ Imports System
 Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
-''' Application of the Needleman-Wunsch Algorithm
+''' Application of the ``Needleman-Wunsch Algorithm``
 ''' Bioinformatics 1, WS 15/16
 ''' Dr. Kay Nieselt and Alexander Seitz
 ''' 
 ''' * Benjamin Schroeder
 ''' * Jonas Ditz
-''' 
 ''' </summary>
 Public Module RunNeedlemanWunsch
 

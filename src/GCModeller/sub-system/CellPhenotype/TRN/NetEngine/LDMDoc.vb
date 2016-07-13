@@ -28,7 +28,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace Simulation.ExpressionRegulationNetwork
+Namespace TRN
 
     ''' <summary>
     ''' 模型文件的XML文件对象

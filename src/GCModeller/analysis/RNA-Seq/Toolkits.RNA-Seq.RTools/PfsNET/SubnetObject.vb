@@ -1,36 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::82c00387107feeb7a5e726b13cccea27, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\SubnetObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.PFSNet
 
 Namespace PfsNET
+
     ''' <summary>
     ''' 输出结果的XML文件
     ''' </summary>
@@ -55,29 +58,32 @@ Namespace PfsNET
         Public Const LIST_ITEM As String = "[^,^(]+?=list\(\d+,(FALSE|TRUE),.+?,list\(\)\)\)"
 
         Public Shared Function TryParse(strData As String) As PfsNET
-            Dim UniqueId As String = Regex.Match(strData, ".+?=list\(\d+,(FALSE|TRUE),").Value
-            strData = strData.Replace(UniqueId, "")
+            Dim uId As String = Regex.Match(strData, ".+?=list\(\d+,(FALSE|TRUE),").Value
+            strData = strData.Replace(uId, "")
 
-            Dim strTemp As String = Regex.Match(UniqueId, "list\(\d+,(FALSE|TRUE),", RegexOptions.IgnoreCase).Value
-            UniqueId = Regex.Split(UniqueId, "=").First.Replace("`", "").Trim.Split.Last
+            Dim strTemp As String = Regex.Match(uId, "list\(\d+,(FALSE|TRUE),", RegexOptions.IgnoreCase).Value
+            uId = Regex.Split(uId, "=").First.Replace("`", "").Trim.Split.Last
 
             Dim n As Integer = Val(Regex.Match(strTemp, "\d+").Value)
-            Dim f As Boolean = CType(Regex.Match(strTemp, "TRUE|FALSE", RegexOptions.IgnoreCase).Value, Boolean)
+            Dim f As Boolean = Regex.Match(strTemp, "TRUE|FALSE", RegexOptions.IgnoreCase).Value.getBoolean
             strData = strData.Replace(strTemp, "")
             strTemp = Regex.Match(strData, "c\(\d+(,\d+)*\)(,c\(\d+(,\d+)*\))*,").Value
             strData = strData.Replace(strTemp, "")
 
-            Dim Vectors As Vector() = (From strLine As String
-                                           In (From m As Match In Regex.Matches(strTemp, "c\(\d+(,\d+)*\)", RegexOptions.IgnoreCase) Select m.Value).ToArray
-                                       Select New Vector With {.Elements = (From m As Match In Regex.Matches(strLine, "-?\d+(\.\d+)?") Select Val(m.Value)).ToArray}).ToArray
+            Dim Vectors As Vector() =
+                LinqAPI.Exec(Of Vector) <= From strLine As String
+                                           In Regex.Matches(strTemp, "c\(\d+(,\d+)*\)", RegexOptions.IgnoreCase).ToArray
+                                           Select New Vector With {
+                                               .x = Regex.Matches(strLine, "-?\d+(\.\d+)?").ToArray(AddressOf Val)
+                                           }
             Dim subnet As NetDetails = NetDetails.TryParse(strData)
 
             Return New PfsNET With {
-                    .Identifier = UniqueId,
+                    .Identifier = uId,
                     .n = n,
                     .Flag = f,
                     .Vectors = Vectors,
-                    .subnet = subnet
+                    .SubNET = subnet
                 }
         End Function
 
@@ -86,28 +92,35 @@ Namespace PfsNET
         End Function
 
         Public Function ToPFSNet() As DataStructure.PFSNetGraph
-            Dim PFSNet As DataStructure.PFSNetGraph = New DataStructure.PFSNetGraph With {
-                    .Id = Me.Identifier,
-                    .masked = Me.Flag,
-                    .pvalue = Me.SubNET.Pvalue,
-                    .statistics = Me.SubNET.statistics
+            Dim PFSNet As New DataStructure.PFSNetGraph With {
+                .Id = Me.Identifier,
+                .masked = Me.Flag,
+                .pvalue = Me.SubNET.Pvalue,
+                .statistics = Me.SubNET.statistics
+            }
+
+            PFSNet.Nodes =
+            LinqAPI.Exec(Of DataStructure.PFSNetGraphNode) <=
+ _
+                From i As Integer
+                In SubNET.Nodes.Sequence
+                Let node = New DataStructure.PFSNetGraphNode With {
+                    .Name = Me.SubNET.Nodes(i),
+                    .weight = Me.SubNET.weight.x(i),
+                    .weight2 = Me.SubNET.weight2.x(i)
                 }
-            PFSNet.Nodes = (From i As Integer In Me.SubNET.Nodes.Sequence
-                            Let node = New DataStructure.PFSNetGraphNode With {
-                                    .Name = Me.SubNET.Nodes(i),
-                                    .weight = Me.SubNET.weight.Elements(i),
-                                    .weight2 = Me.SubNET.weight2.Elements(i)
-                                }
-                            Select node).ToArray
+                Select node
+
             Return PFSNet
         End Function
     End Class
 
     Public Structure Vector
-        <XmlAttribute> Public Property Elements As Double()
+
+        <XmlAttribute> Public Property x As Double()
 
         Public Overrides Function ToString() As String
-            Return String.Join(", ", Elements)
+            Return Me.GetJson
         End Function
     End Structure
 
@@ -124,7 +137,7 @@ Namespace PfsNET
             Dim strTemp As String = Regex.Match(strData, "list\(c\(-?\d+(\.\d+)?(,-?\d+(\.\d+)?)*\),", RegexOptions.IgnoreCase).Value
             strData = strData.Replace(strTemp, "")
             Dim Subnet As NetDetails = New NetDetails
-            Subnet.Vector = New Vector With {.Elements = (From n As Match In Regex.Matches(strTemp, "-?\d+(\.\d+)?") Select Val(n.Value)).ToArray}
+            Subnet.Vector = New Vector With {.x = (From n As Match In Regex.Matches(strTemp, "-?\d+(\.\d+)?") Select Val(n.Value)).ToArray}
             strTemp = Regex.Match(strData, "list\(statistics=-?\d+(\.\d+)?,p.value=-?\d+(\.\d+)?\),").Value
             Subnet.statistics = Val(Regex.Match(strTemp, "statistics=-?\d+(\.\d+)?").Value.Split(CChar("=")).Last.Trim)
             Subnet.Pvalue = Val(Regex.Match(strTemp, "p.value=-?\d+(\.\d+)?").Value.Split(CChar("=")).Last.Trim)
@@ -134,10 +147,10 @@ Namespace PfsNET
             strData = strData.Replace(strTemp, "")
             strTemp = Regex.Match(strData, "weight=c\(-?\d+(\.\d+)?(,-?\d+(\.\d+)?)*\),").Value
             strData = strData.Replace(strTemp, "")
-            Subnet.weight = New Vector With {.Elements = (From m As Match In Regex.Matches(strTemp, "-?\d+(\.\d+)?") Select Val(m.Value)).ToArray}
+            Subnet.weight = New Vector With {.x = (From m As Match In Regex.Matches(strTemp, "-?\d+(\.\d+)?") Select Val(m.Value)).ToArray}
 
             strTemp = Regex.Match(strData, "weight2=c\(-?\d+(\.\d+)?(,-?\d+(\.\d+)?)*\)").Value.Split(CChar("=")).Last
-            Subnet.weight2 = New Vector With {.Elements = (From m As Match In Regex.Matches(strTemp, "-?\d+(\.\d+)?") Select Val(m.Value)).ToArray}
+            Subnet.weight2 = New Vector With {.x = (From m As Match In Regex.Matches(strTemp, "-?\d+(\.\d+)?") Select Val(m.Value)).ToArray}
 
             Return Subnet
         End Function

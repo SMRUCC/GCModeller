@@ -1,0 +1,24 @@
+RXN x1=beta1*(lamda1*(1+alpha1*(x4^n1)/(1+x4^n1))-x1)
+RXN x2=x1-x2
+RXN x3=beta3*(lamda3*(1+alpha2*((x4/a)^n2)/(1+(x4/a)^n2))*(1/(1+x2^n3))-x3)
+RXN x4=beta4*(x3-x4)
+
+CONST beta1 30
+CONST beta3 30
+CONST beta4 1
+CONST lamda1 2
+CONST lamda3 2
+CONST alpha1 20
+CONST alpha2 20
+CONST alpha3 1
+CONST a 1
+CONST n1 4
+CONST n2 5
+CONST n3 1
+
+INIT x1=-100
+INIT x2=-100000
+INIT x3=0
+INIT x4=10
+
+FINALTIME 4.5

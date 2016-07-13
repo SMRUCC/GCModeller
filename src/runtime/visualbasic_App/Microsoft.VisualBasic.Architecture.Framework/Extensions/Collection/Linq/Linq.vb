@@ -1,4 +1,4 @@
-﻿#Region "cb7fd08a23a089fb500219d44f495755, ..\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\Linq\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::cb7fd08a23a089fb500219d44f495755, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\Linq\Linq.vb"
 
     ' Author:
     ' 
@@ -418,13 +418,19 @@ Namespace Linq
             End If
         End Function
 
-        Public Function ToArray(source As IEnumerable) As Object()
+        ''' <summary>
+        ''' Convert the iterator source <see cref="IEnumerable"/> to an object array.
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ToVector(source As IEnumerable) As Object()
             Dim LQuery As Object() = (From x As Object In source Select x).ToArray
             Return LQuery
         End Function
 
         Public Function ToArray(Of T)(source As IEnumerable) As T()
-            Return ToArray(source).ToArray(Function(x) If(x Is Nothing, Nothing, DirectCast(x, T)))
+            Return ToVector(source).ToArray(Function(x) If(x Is Nothing, Nothing, DirectCast(x, T)))
         End Function
 
         <Extension>

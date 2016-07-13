@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1df5e0c495a4ccdf77f31538482c30e, ..\VB_DataFrame\DocumentStream\File.vb"
+﻿#Region "Microsoft.VisualBasic::7a0af505e2e29cc4f33b5afd8c3aa23a, ..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\VB_DataFrame\DocumentStream\File.vb"
 
     ' Author:
     ' 
@@ -395,9 +395,9 @@ Namespace DocumentStream
 
             Dim CsvFile As File = New File
             CsvFile += New RowObject({If(FirstLineTitle, $"Item values for '{First.Column(ColumnIndex)}'", "Item values"), "Counts"})
-            CsvFile += (From token As KeyValuePair(Of String, Integer)
-                        In TokensGroup.AsParallel
-                        Select New RowObject(New String() {token.Key, CStr(token.Value)})).ToArray
+            CsvFile += From token As KeyValuePair(Of String, Integer)
+                       In TokensGroup.AsParallel
+                       Select New RowObject({token.Key, CStr(token.Value)})
             Return CsvFile
         End Function
 

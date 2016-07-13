@@ -1,4 +1,4 @@
-﻿#Region "d40a763ec63994703f7ee739b55ccac0, ..\Microsoft.VisualBasic.Architecture.Framework\TestProject\__DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::d40a763ec63994703f7ee739b55ccac0, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\TestProject\__DEBUG_MAIN.vb"
 
     ' Author:
     ' 
@@ -63,6 +63,9 @@ Module __DEBUG_MAIN
 
 
     Function Main(args As String()) As Integer
+
+        Call New Shell(PS1.Fedora12, AddressOf System.Console.WriteLine).Run()
+
 
         Dim iii = SoftwareToolkits.LicenseMgr.Template
         iii.RootDIR = "G:\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework"

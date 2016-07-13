@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::789f7803eb705a6e6e9f2cee679bc657, ..\GCModeller\analysis\PFSNet\DataStructure.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace DataStructure
 
@@ -68,16 +70,29 @@ Namespace DataStructure
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadData(path As String) As DataFrameRow()
-            Dim LQuery = (From line As String In IO.File.ReadAllLines(path)
-                          Let Tokens As String() = Strings.Split(line, vbTab)
-                          Select New DataFrameRow With
-                                 {
-                                     .Name = Tokens.First, .ExperimentValues = (From s As String In Tokens Select Val(s)).ToArray}).ToArray
+            Dim LQuery As DataFrameRow() =
+                LinqAPI.Exec(Of DataFrameRow) <= From line As String
+                                                 In IO.File.ReadAllLines(path)
+                                                 Let Tokens As String() = Strings.Split(line, vbTab)
+                                                 Select New DataFrameRow With {
+                                                     .Name = Tokens.First,
+                                                     .ExperimentValues = (From s As String
+                                                                          In Tokens
+                                                                          Select Val(s)).ToArray
+                                                 }
             Return LQuery
         End Function
 
         Public Shared Function TakeSamples(data As DataFrameRow(), sampleVector As Integer(), reversed As Boolean) As DataFrameRow()
-            Dim LQuery = (From item In data.AsParallel Select New DataFrameRow With {.Name = item.Name, .ExperimentValues = item.ExperimentValues.Takes(sampleVector, reversedSelect:=reversed)}).ToArray
+            Dim LQuery As DataFrameRow() =
+                LinqAPI.Exec(Of DataFrameRow) <= From x As DataFrameRow
+                                                 In data.AsParallel
+                                                 Let samples As Double() =
+                                                     x.ExperimentValues.Takes(sampleVector, reversedSelect:=reversed)
+                                                 Select New DataFrameRow With {
+                                                     .Name = x.Name,
+                                                     .ExperimentValues = samples
+                                                 }
             Return LQuery
         End Function
 
@@ -94,8 +109,17 @@ Namespace DataStructure
             Return New KeyValuePair(Of String(), Double()())((From row In data Select row.Name).ToArray, LQuery)
         End Function
 
-        Public Shared Function InternalCreateDataFrameFromCache(names As String(), cols As Double()()) As DataFrameRow()
-            Dim LQuery = (From i As Integer In names.Sequence Select New DataFrameRow With {.Name = names(i), .ExperimentValues = (From col In cols Select col(i)).ToArray}).ToArray
+        Public Shared Function CreateDataFrameFromCache(names As String(), cols As Double()()) As DataFrameRow()
+            Dim LQuery As DataFrameRow() =
+                LinqAPI.Exec(Of DataFrameRow) <= From i As SeqValue(Of String)
+                                                 In names.SeqIterator
+                                                 Let samples As Double() = (From col As Double()
+                                                                            In cols
+                                                                            Select col(i.i)).ToArray
+                                                 Select New DataFrameRow With {
+                                                     .Name = i.obj,
+                                                     .ExperimentValues = samples
+                                                 }
             Return LQuery
         End Function
     End Class
@@ -120,7 +144,15 @@ Namespace DataStructure
         End Function
 
         Public Shared Function LoadData(path As String) As GraphEdge()
-            Dim LQuery = (From line As String In IO.File.ReadAllLines(path) Let tokens As String() = Strings.Split(line, vbTab) Select New GraphEdge With {.PathwayID = tokens(0), .g1 = tokens(1), .g2 = tokens(2)}).ToArray
+            Dim LQuery As GraphEdge() =
+                LinqAPI.Exec(Of GraphEdge) <= From line As String
+                                              In IO.File.ReadAllLines(path)
+                                              Let tokens As String() = Strings.Split(line, vbTab)
+                                              Select New GraphEdge With {
+                                                  .PathwayID = tokens(0),
+                                                  .g1 = tokens(1),
+                                                  .g2 = tokens(2)
+                                              }
             Return LQuery
         End Function
     End Class
@@ -198,7 +230,7 @@ Namespace DataStructure
     ''' <remarks></remarks>
     Public Class PFSNetGraph
 
-        Dim _InternalNodesDict As Dictionary(Of String, PFSNetGraphNode) = New Dictionary(Of String, PFSNetGraphNode)
+        Dim __nodes As New Dictionary(Of String, PFSNetGraphNode)
 
         ''' <summary>
         ''' The nodes in the PfsNET sub network.(网络之中的基因节点)
@@ -208,10 +240,10 @@ Namespace DataStructure
         ''' <remarks></remarks>
         Public Property Nodes As PFSNetGraphNode()
             Get
-                Return _InternalNodesDict.Values.ToArray
+                Return __nodes.Values.ToArray
             End Get
             Set(value As PFSNetGraphNode())
-                _InternalNodesDict = value.ToDictionary(Function(n) n.Name)
+                __nodes = value.ToDictionary(Function(n) n.Name)
             End Set
         End Property
 
@@ -249,8 +281,8 @@ Namespace DataStructure
         ''' <remarks></remarks>
         Default Public ReadOnly Property Node(Name As String) As PFSNetGraphNode
             Get
-                If _InternalNodesDict.ContainsKey(Name) Then
-                    Return _InternalNodesDict(Name)
+                If __nodes.ContainsKey(Name) Then
+                    Return __nodes(Name)
                 Else
                     Return Nothing
                 End If

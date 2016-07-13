@@ -33,6 +33,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Script
 
+    ''' <summary>
+    ''' S-system equation.
+    ''' </summary>
     Public Class SEquation
 
         ''' <summary>

@@ -29,35 +29,40 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 
 <[PackageNamespace]("Cellphenotype.DynamicsNetwork", Publisher:="xie.guigang@gcmodeller.org")>
-Module DataVisualization
+Public Module DataVisualization
 
     Public Class Edge : Inherits NetworkEdge
         Public Property InteractValue As Double
     End Class
 
     <ExportAPI("Export.Dynamics", Info:="Export a dynamics cell system network from thje simulation data.")>
-    Public Function ExportDynamics(Of T As NetworkEdge)(data As IEnumerable(Of ExprSamples),
-                                                        Network As T(),
-                                                        <Parameter("Read.Index")>
-                                                        ReadIndex As Integer) As Edge()
+    Public Function ExportDynamics(Of T As NetworkEdge)(
+                                   data As IEnumerable(Of ExprSamples),
+                                Network As T(),
+                              <Parameter("Read.Index")>
+                              ReadIndex As Integer) As Edge()
 
-        Dim dict = data.ToDictionary(Function(obj) obj.locusId,
-                                     Function(obj) obj.Values)
-        Dim LQuery = (From node As T In Network
-                      Let [from] = dict(node.FromNode)(ReadIndex)
-                      Let [to] = dict(node.ToNode)(ReadIndex)
-                      Where from <> 0 AndAlso [to] <> 0
-                      Select New Edge With {
-                          .FromNode = node.FromNode,
-                          .ToNode = node.ToNode,
-                          .InteractionType = node.InteractionType,
-                          .Confidence = node.Confidence,
-                          .InteractValue = Math.Min([from], [to]) * node.Confidence}).ToArray
+        Dim dict As Dictionary(Of String, Double()) =
+            data.ToDictionary(Function(x) x.locusId, Function(x) x.Values)
+        Dim LQuery As Edge() =
+            LinqAPI.Exec(Of Edge) <= From node As T
+                                     In Network
+                                     Let [from] As Double = dict(node.FromNode)(ReadIndex)
+                                     Let [to] As Double = dict(node.ToNode)(ReadIndex)
+                                     Where from <> 0 AndAlso [to] <> 0
+                                     Select New Edge With {
+                                         .FromNode = node.FromNode,
+                                         .ToNode = node.ToNode,
+                                         .InteractionType = node.InteractionType,
+                                         .Confidence = node.Confidence,
+                                         .InteractValue = Math.Min([from], [to]) * node.Confidence
+                                     }
         Return LQuery
     End Function
 

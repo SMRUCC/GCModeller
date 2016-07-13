@@ -138,7 +138,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\docs\</OutputPath>
+    <OutputPath>..\..\..\..\manual\bin\</OutputPath>
     <DocumentationFile>localblast.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -184,6 +184,7 @@
   <ItemGroup>
     <Compile Include="CLI\BBH.vb" />
     <Compile Include="CLI\Blastn.vb" />
+    <Compile Include="CLI\FastaTools.vb" />
     <Compile Include="CLI\VennDiagram\ExportBestHit.vb" />
     <Compile Include="CLI\VennDiagram\LocalBLAST.vb" />
     <Compile Include="CLI\VennDiagram\LogFile.vb" />

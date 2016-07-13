@@ -1,27 +1,27 @@
-﻿#Region "3b5386704fe54be25c4ac2f5fd88955a, ..\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e199d040d951bcd677a5aa85c482cb98, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -37,6 +37,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -1521,21 +1522,29 @@ Public Module Extensions
     ''' 函数只返回有重复的数据
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <typeparam name="Tag"></typeparam>
+    ''' <typeparam name="TTag"></typeparam>
     ''' <param name="source"></param>
     ''' <param name="getKey"></param>
     ''' <returns></returns>
-    <Extension> Public Function CheckDuplicated(Of T, Tag)(source As IEnumerable(Of T), getKey As Func(Of T, Tag)) As GroupResult(Of T, Tag)()
-        Dim Groups = From obj As T
+    <Extension> Public Function CheckDuplicated(Of T, TTag)(source As IEnumerable(Of T),
+                                                            getKey As Func(Of T, TTag)) _
+                                                                   As GroupResult(Of T, TTag)()
+        Dim Groups = From x As T
                      In source
-                     Select obj
-                     Group obj By objTag = getKey(obj) Into Group '
-        Dim KnowDuplicates = (From obj In Groups.AsParallel
-                              Where obj.Group.Count > 1
-                              Select New GroupResult(Of T, Tag) With {
-                                  .Tag = obj.objTag,
-                                  .Group = obj.Group.ToArray}).ToArray
-        Return KnowDuplicates
+                     Select x
+                     Group x By tag = getKey(x) Into Group '
+        Dim duplicates As GroupResult(Of T, TTag)() =
+            LinqAPI.Exec(Of GroupResult(Of T, TTag)) <=
+ _
+                From g
+                In Groups.AsParallel
+                Where g.Group.Count > 1
+                Select New GroupResult(Of T, TTag) With {
+                    .Tag = g.tag,
+                    .Group = g.Group.ToArray
+                }
+
+        Return duplicates
     End Function
 
     ''' <summary>
@@ -1599,7 +1608,6 @@ Public Module Extensions
         End If
     End Function
 
-#If FRAMEWORD_CORE Then
     ''' <summary>
     ''' Return a collection with randomize element position in <paramref name="source">the original collection</paramref>.
     ''' (从原有序序列中获取一个随机元素的序列)
@@ -1609,31 +1617,21 @@ Public Module Extensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
-    <ExportAPI("Elements.Randomize")>
-    <Extension> Public Function Randomize(Of T)(source As IEnumerable(Of T)) As T()
-#Else
-    ''' <summary>
-    ''' Return a collection with randomize element position in <paramref name="Collection">the original collection</paramref>.(从原有序序列中获取一个随机元素的序列)
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="Collection"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <Extension> Public Function Randomize(Of T)(source As IEnumerable(Of T)) As T()
-#End If
+    <ExportAPI("Shuffles")>
+    <Extension> Public Function Shuffles(Of T)(source As IEnumerable(Of T)) As T()
         Call VBMath.Randomize()
 
         Dim tmp As New List(Of T)(source)
         Dim buf As T() = New T(tmp.Count - 1) {}
         Dim Seeds As Integer = (Rnd() * SecurityString.ToLong(SecurityString.GetMd5Hash(Now.ToString))) / CLng(Integer.MaxValue) * 2
         Dim Rand As New Random(Seed:=Seeds)
-        Dim Length As Integer = tmp.Count - 1
+        Dim l As Integer = tmp.Count - 1
 
         For i As Integer = 0 To buf.Length - 1
-            Dim index As Integer = Rand.Next(minValue:=0, maxValue:=Length)
+            Dim index As Integer = Rand.Next(minValue:=0, maxValue:=l)
             buf(i) = tmp(index)
             Call tmp.RemoveAt(index)
-            Length -= 1
+            l -= 1
         Next
 
         Return buf
@@ -1641,8 +1639,8 @@ Public Module Extensions
 
     <ExportAPI("Sequence.Random")>
     <Extension> Public Function SeqRandom(n As Integer) As Integer()
-        Dim Original As Integer() = n.Sequence
-        Dim Random As Integer() = Original.Randomize
+        Dim source As Integer() = n.Sequence
+        Dim Random As Integer() = source.Shuffles
         Return Random
     End Function
 
@@ -1650,20 +1648,28 @@ Public Module Extensions
     ''' <summary>
     ''' Get a specific item value from the target collction data using its UniqueID property，
     ''' (请注意，请尽量不要使用本方法，因为这个方法的效率有些低，对于获取<see cref="sIdEnumerable">
-    ''' </see>类型的集合之中的某一个对象，请尽量先转换为字典对象，在使用该字典对象进行查找以提高代码效率，使用本方法的优点是可以选择忽略<paramref name="UniqueId">
+    ''' </see>类型的集合之中的某一个对象，请尽量先转换为字典对象，在使用该字典对象进行查找以提高代码效率，使用本方法的优点是可以选择忽略<paramref name="uid">
     ''' </paramref>参数之中的大小写，以及对集合之中的存在相同的Key的这种情况的容忍)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
-    ''' <param name="UniqueId"></param>
+    ''' <param name="uid"></param>
     ''' <param name="IgnoreCase"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Get.Item")>
-    <Extension> Public Function GetItem(Of T As sIdEnumerable)(source As IEnumerable(Of T),
-                                                               UniqueId As String,
-                                                               Optional IgnoreCase As StringComparison = StringComparison.Ordinal) As T
-        Dim find As T = (From x As T In source Where String.Equals(UniqueId, x.Identifier, IgnoreCase) Select x).FirstOrDefault
+    <Extension> Public Function GetById(Of T As sIdEnumerable)(
+                                      source As IEnumerable(Of T),
+                                         uid As String,
+                         Optional IgnoreCase As StringComparison = StringComparison.Ordinal) _
+                                             As T
+
+        Dim find As T = LinqAPI.DefaultFirst(Of T) <=
+            From x As T
+            In source
+            Where String.Equals(uid, x.Identifier, IgnoreCase)
+            Select x
+
         Return find
     End Function
 #End If
@@ -1993,9 +1999,9 @@ Public Module Extensions
     End Function
 
     <Extension> Public Function Takes(Of T)(source As T(), count As Integer) As T()
-        Dim ChunkBuffer As T() = New T(count - 1) {}
-        Call Array.ConstrainedCopy(source, Scan0, ChunkBuffer, Scan0, count)
-        Return ChunkBuffer
+        Dim bufs As T() = New T(count - 1) {}
+        Call Array.ConstrainedCopy(source, Scan0, bufs, Scan0, count)
+        Return bufs
     End Function
 
     ''' <summary>
@@ -2020,8 +2026,10 @@ Public Module Extensions
     ''' <param name="remoteDuplicates">当这个参数为False的时候，出现重复的键名会抛出错误，当为True的时候，有重复的键名存在的话，可能会丢失一部分的数据</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function ToDictionary(Of TKey, TValue)(source As IEnumerable(Of KeyValuePair(Of TKey, TValue)),
-                                                              Optional remoteDuplicates As Boolean = False) As Dictionary(Of TKey, TValue)
+    <Extension> Public Function ToDictionary(Of TKey, TValue)(
+                                source As IEnumerable(Of KeyValuePair(Of TKey, TValue)),
+                       Optional remoteDuplicates As Boolean = False) As Dictionary(Of TKey, TValue)
+
         If remoteDuplicates Then
             Dim hash As Dictionary(Of TKey, TValue) = New Dictionary(Of TKey, TValue)
 
@@ -2036,7 +2044,7 @@ Public Module Extensions
             Return hash
         Else
             Dim Dictionary As Dictionary(Of TKey, TValue) =
-                source.ToDictionary(Function(obj) obj.Key, Function(obj) obj.Value)
+                source.ToDictionary(Function(x) x.Key, Function(x) x.Value)
             Return Dictionary
         End If
     End Function
@@ -2156,7 +2164,7 @@ Public Module Extensions
         End If
     End Function
 
-    <Extension> Public Function GetLength(Of T)(collect As Generic.IEnumerable(Of T)) As Integer
+    <Extension> Public Function GetLength(Of T)(collect As IEnumerable(Of T)) As Integer
         If collect Is Nothing Then
             Return 0
         Else
@@ -2165,35 +2173,37 @@ Public Module Extensions
     End Function
 
 #If FRAMEWORD_CORE Then
+
     ''' <summary>
     ''' 执行一个命令行语句，并返回一个IO重定向对象，以获取被执行的目标命令的标准输出
     ''' </summary>
-    ''' <param name="CommandLine"></param>
+    ''' <param name="CLI"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
     <ExportAPI("Shell")>
-    <Extension> Public Function Shell(CommandLine As String) As Microsoft.VisualBasic.CommandLine.IORedirect
-        Return CType(CommandLine, Microsoft.VisualBasic.CommandLine.IORedirect)
+    <Extension> Public Function Shell(CLI As String) As IIORedirectAbstract
+        Return CType(CLI, IORedirect)
     End Function
 #End If
 
     ''' <summary>
     ''' 获取一个实数集合中所有元素的积
     ''' </summary>
-    ''' <param name="Elements"></param>
+    ''' <param name="source"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
     <ExportAPI("PI")>
-    <Extension> Public Function π(Elements As Generic.IEnumerable(Of Double)) As Double
-        If Elements.IsNullOrEmpty Then
+    <Extension> Public Function π(source As IEnumerable(Of Double)) As Double
+        If source.IsNullOrEmpty Then
             Return 0
         End If
 
         Dim result As Double = 1
-        For i As Integer = 0 To Elements.Count - 1
-            result *= Elements(i)
+
+        For Each x As Double In source
+            result *= x
         Next
 
         Return result
@@ -2211,12 +2221,12 @@ Public Module Extensions
     ''' <param name="Image"></param>
     ''' <param name="FilledColor"></param>
     ''' <remarks></remarks>
-    <Extension> Public Sub FillBlank(ByRef Image As System.Drawing.Image, FilledColor As System.Drawing.Brush)
+    <Extension> Public Sub FillBlank(ByRef Image As Image, FilledColor As Brush)
         If Image Is Nothing Then
             Return
         End If
         Using gr As Graphics = Graphics.FromImage(Image)
-            Dim R As System.Drawing.Rectangle = New Rectangle(New Point, Image.Size)
+            Dim R As New Rectangle(New Point, Image.Size)
             Call gr.FillRectangle(FilledColor, R)
         End Using
     End Sub
@@ -2231,7 +2241,7 @@ Public Module Extensions
     ''' <param name="List"></param>
     ''' <param name="collection"></param>
     ''' <remarks></remarks>
-    <Extension> Public Sub Removes(Of T)(ByRef List As List(Of T), collection As Generic.IEnumerable(Of T))
+    <Extension> Public Sub Removes(Of T)(ByRef List As List(Of T), collection As IEnumerable(Of T))
         For Each obj In collection
             Call List.Remove(obj)
         Next

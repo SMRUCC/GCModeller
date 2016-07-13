@@ -112,7 +112,7 @@ Namespace EngineSystem.ObjectModels
         ''' <remarks></remarks>
         Public Sub InvokeEvents()
             Dim LQuery = (From cellEvent As [Module].FluxObject
-                          In _lstEventDelegate.Randomize
+                          In _lstEventDelegate.Shuffles
                           Select cellEvent.Invoke(___attachedEvents:=_innerAttachedEventHandle)).ToArray
         End Sub
 

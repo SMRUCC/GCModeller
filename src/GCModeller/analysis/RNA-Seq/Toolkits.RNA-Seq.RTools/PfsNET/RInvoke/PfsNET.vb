@@ -29,6 +29,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNet
 Imports RDotNet.Extensions
@@ -46,9 +47,16 @@ Namespace PfsNET
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageNamespace("PfsNET.R.Invoke", Description:="PFSNet computes signifiance of subnetworks generated through a process that selects genes in a pathway based on fuzzy scoring and a majority voting procedure.",
-                        Cites:="Lim, K. and L. Wong (2014). ""Finding consistent disease subnetworks Using PFSNet."" Bioinformatics 30(2): 189-196.
-<p> MOTIVATION: Microarray data analysis is often applied to characterize disease populations by identifying individual genes linked to the disease. In recent years, efforts have shifted to focus on sets of genes known to perform related biological functions (i.e. in the same pathways). Evaluating gene sets reduces the need to correct for false positives in multiple hypothesis testing. However, pathways are often large, and genes in the same pathway that do not contribute to the disease can cause a method to miss the pathway. In addition, large pathways may not give much insight to the cause of the disease. Moreover, when such a method is applied independently to two datasets of the same disease phenotypes, the two resulting lists of significant pathways often have low agreement. RESULTS: We present a powerful method, PFSNet, that identifies smaller parts of pathways (which we call subnetworks), and show that significant subnetworks (and the genes therein) discovered by PFSNet are up to 51% (64%) more consistent across independent datasets of the same disease phenotypes, even for datasets based on different platforms, than previously published methods. We further show that those methods which initially declared some large pathways to be insignificant would declare subnetworks detected by PFSNet in those large pathways to be significant, if they were given those subnetworks as input instead of the entire large pathways. AVAILABILITY: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/
+    <PackageNamespace("PfsNET.R.Invoke",
+                      Description:="PFSNet computes signifiance of subnetworks generated through a process that selects genes in a pathway based on fuzzy scoring and a majority voting procedure.",
+                      Cites:="Lim, K. and L. Wong (2014). ""Finding consistent disease subnetworks Using PFSNet."" Bioinformatics 30(2): 189-196.
+<p> MOTIVATION: Microarray data analysis is often applied to characterize disease populations by identifying individual genes linked to the disease. 
+                In recent years, efforts have shifted to focus on sets of genes known to perform related biological functions (i.e. in the same pathways). 
+                Evaluating gene sets reduces the need to correct for false positives in multiple hypothesis testing. However, pathways are often large, 
+                and genes in the same pathway that do not contribute to the disease can cause a method to miss the pathway. 
+                In addition, large pathways may not give much insight to the cause of the disease. Moreover, when such a method is applied independently 
+                to two datasets of the same disease phenotypes, the two resulting lists of significant pathways often have low agreement. 
+                RESULTS: We present a powerful method, PFSNet, that identifies smaller parts of pathways (which we call subnetworks), and show that significant subnetworks (and the genes therein) discovered by PFSNet are up to 51% (64%) more consistent across independent datasets of the same disease phenotypes, even for datasets based on different platforms, than previously published methods. We further show that those methods which initially declared some large pathways to be insignificant would declare subnetworks detected by PFSNet in those large pathways to be significant, if they were given those subnetworks as input instead of the entire large pathways. AVAILABILITY: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/
 
 ",
                         Publisher:="Kevin Lim and Limsoon Wong",
@@ -73,27 +81,27 @@ Namespace PfsNET
             Call New RScriptInvoke(Encoding.ASCII.GetString(My.Resources.onLoad)).PrintSTDOUT()
 
             If Not String.IsNullOrEmpty(java_class) Then
-                Call Console.WriteLine("Try to start the Java VMs...")
-
                 Dim JavaClassPath As String
+
+                Call "Try to start the Java VMs...".__DEBUG_ECHO
 
                 If FileIO.FileSystem.FileExists(java_class) Then
                     JavaClassPath = FileIO.FileSystem.GetFileInfo(java_class).FullName
-                    Call Console.WriteLine("Java class file path found at location ""{0}""!", JavaClassPath)
+                    Call $"Java class file path found at location ""{JavaClassPath.ToFileURL}""!".__DEBUG_ECHO
                 Else
                     Throw New Exception("Required java class file is not found!")
                 End If
 
-                Call Console.WriteLine("[DEBUG] call library('rJava')")
+                Call "call library('rJava')".__DEBUG_ECHO
                 Call New RScriptInvoke("library(rJava)").PrintSTDOUT()
-                Call Console.WriteLine("[DEBUG] call .jinit()")
+                Call "call .jinit()".__DEBUG_ECHO
                 Call New RScriptInvoke(".jinit()").PrintSTDOUT()
-                Call Console.WriteLine("[DEBUG] call .jaddClassPath() for the user specific Java class file...")
+                Call "call .jaddClassPath() for the user specific Java class file...".__DEBUG_ECHO
                 Call New RScriptInvoke(String.Format(".jaddClassPath(""{0}"")", JavaClassPath.Replace("\", "/"))).PrintSTDOUT()
-                Call Console.WriteLine("[DEBUG] R create pfsnet function delegate.... ")
+                Call "R create pfsnet function delegate.... ".__DEBUG_ECHO
                 Call New RScriptInvoke(Encoding.ASCII.GetString(My.Resources.pfsnet)).PrintSTDOUT()
             Else '调用非Java版本
-                Call Console.WriteLine("[DEBUG] Java filter class is not assigned, using the non-java edition!")
+                Call "Java filter class is not assigned, using the non-java edition!".Warning
                 Call New RScriptInvoke(Encoding.ASCII.GetString(My.Resources.pfsnet_not_rJava)).PrintSTDOUT()
             End If
 
@@ -105,7 +113,7 @@ Namespace PfsNET
                                 Optional b As String = "0.5",
                                 Optional t1 As String = "0.95",
                                 Optional t2 As String = "0.85",
-                                Optional n As String = "1000") As RDotNET.SymbolicExpression
+                                Optional n As String = "1000") As RDotNet.SymbolicExpression
 
             Call Console.WriteLine()
 
@@ -119,7 +127,8 @@ Namespace PfsNET
             Try
                 Call Script.RScript.SaveTo("./PfsNET.txt")
             Catch ex As Exception
-
+                Call App.LogException(ex)
+                Call ex.PrintException
             End Try
 
             Return Expr
@@ -155,10 +164,18 @@ Namespace PfsNET
             file2 = FileIO.FileSystem.GetFileInfo(file2).FullName
             file3 = FileIO.FileSystem.GetFileInfo(file3).FullName
 
-            Dim Script = New PfsNETScript(b, t1, t2, n) With {.File1 = file1, .File2 = file2, .File3 = file3}
+            Dim script As New PfsNETScript(b, t1, t2, n) With {
+                .File1 = file1,
+                .File2 = file2,
+                .File3 = file3
+            }
 
-            STDOutput = RServer.WriteLine(Script)
-            STDOutput = (From strLine As String In STDOutput Select strLine.Replace(vbCr, "").Replace(vbLf, "")).ToArray
+            STDOutput = RServer.WriteLine(script)
+            STDOutput = LinqAPI.Exec(Of String) <=
+ _
+                From strLine As String
+                In STDOutput
+                Select strLine.Replace(vbCr, "").Replace(vbLf, "")
 
             For Each Line As String In STDOutput
                 Call Console.WriteLine(Line)
@@ -166,11 +183,10 @@ Namespace PfsNET
 
             Call Console.WriteLine()
 
-            'Call FileIO.FileSystem.DeleteFile(file1, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
-            'Call FileIO.FileSystem.DeleteFile(file2, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
-            'Call FileIO.FileSystem.DeleteFile(file3, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
             Try
-                Call IO.File.WriteAllLines(My.Application.Info.DirectoryPath & "/pfsnet_debug.log", STDOutput, encoding:=Encoding.ASCII)
+                Dim log As String = Now.ToString.NormalizePathString
+                log = Settings.Session.LogDIR & $"/pfsnet_debug.{log}.log"
+                STDOutput.FlushAllLines(log, encoding:=Encoding.ASCII)
             Catch ex As Exception
 
             End Try

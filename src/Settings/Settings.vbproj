@@ -165,7 +165,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\docs\</OutputPath>
+    <OutputPath>..\..\manual\bin\</OutputPath>
     <DefineConstants>ENABLE_API_EXPORT=1</DefineConstants>
     <DocumentationFile>Settings.xml</DocumentationFile>
     <Optimize>true</Optimize>

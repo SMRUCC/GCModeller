@@ -1,4 +1,4 @@
-﻿#Region "ec240826c20e533620defc129b57953f, ..\Microsoft.VisualBasic.Architecture.Framework\Language\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::ec240826c20e533620defc129b57953f, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Language\Linq.vb"
 
     ' Author:
     ' 
@@ -104,7 +104,7 @@ Namespace Language
             Dim partTokens As Integer
 
             Public Overloads Shared Operator <=(helper As LQueryHelper(Of T, out), source As IEnumerable(Of T)) As out()
-                Return LQuerySchedule.LQuery(source, helper.task, 20000000, helper.partTokens).ToArray
+                Return LQuerySchedule.LQuery(source, helper.task, helper.partTokens).ToArray
             End Operator
 
             Public Overloads Shared Operator >=(helper As LQueryHelper(Of T, out), source As IEnumerable(Of T)) As out()

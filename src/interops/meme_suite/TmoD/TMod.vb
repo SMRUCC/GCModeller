@@ -208,7 +208,7 @@ Public Module TMod
     End Sub
 
     <Extension> Private Function __subSample(source As IEnumerable(Of FASTA.FastaToken), n As Integer) As FASTA.FastaFile
-        Dim data As FASTA.FastaToken() = source.Randomize
+        Dim data As FASTA.FastaToken() = source.Shuffles
         Return New FASTA.FastaFile(data.Take(n))
     End Function
 

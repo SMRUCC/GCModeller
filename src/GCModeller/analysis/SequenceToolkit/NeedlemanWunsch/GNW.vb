@@ -46,15 +46,12 @@ Public Class NeedlemanWunsch(Of T)
     ReadOnly __empty As T
 
     ''' <summary>
-    '''     
-    '''	 * this function is called for the first time with two empty stacks
-    '''	 * and the end indices of the matrix
-    '''	 * 
-    '''	 * the function computes a traceback over the matrix, it calls itself recursively
-    '''	 * for each sequence, it pushes the aligned character (a,c,g,t or -)
-    '''	 * on a stack (use java.util.Stack with the function push()) 
-    '''	 * 
-    '''	 
+    '''	this function is called for the first time with two empty stacks
+    '''	and the end indices of the matrix
+    '''	
+    '''	the function computes a traceback over the matrix, it calls itself recursively
+    '''	for each sequence, it pushes the aligned character (a,c,g,t or -)
+    '''	on a stack (use java.util.Stack with the function push()) 
     ''' </summary>
     ''' <param name="s1"></param>
     ''' <param name="s2"></param>
@@ -113,23 +110,21 @@ Public Class NeedlemanWunsch(Of T)
     ''' <summary>
     ''' computes the matrix for the Needleman-Wunsch Algorithm
     ''' </summary>
+    ''' <remarks>	
+    ''' this function computes the NW-algorithm with linear gap-costs
+    '''  - first make yourself familiar with this function and the functions used to compute the resulting alignment!
+    '''  
+    '''  - modify the functions used in this class such that the NW algorithm is modular
+    '''    i.e. the following criteria should be fulfilled: 
+    '''        - it should be easy to replace the linear gap cost function with an affine gap cost function
+    '''        - the initialization step, fill and traceback should be modular, to allow
+    '''          to switch between different algorithms later (NW, SW, OverlapAlignment etc.)
+    '''    
+    '''  - you are allowed to change the class structure, if you think that it is necessary!
+    '''    (make sure to use object oriented programming concepts, i.e. use objects to abstract your code 
+    '''   	-> don't do everything in a single class)    	 
+    ''' </remarks>
     Public Sub compute()
-
-        '    	
-        '    	 * this function computes the NW-algorithm with linear gap-costs
-        '    	 * - first make yourself familiar with this function and the functions used to compute the resulting alignment!
-        '    	 * 
-        '    	 * - modify the functions used in this class such that the NW algorithm is modular
-        '    	 *   i.e. the following criteria should be fulfilled: 
-        '    	 *   	- it should be easy to replace the linear gap cost function with an affine gap cost function
-        '    	 *      - the initialization step, fill and traceback should be modular, to allow
-        '    	 *        to switch between different algorithms later (NW, SW, OverlapAlignment etc.)
-        '    	 * 
-        '    	 * - you are allowed to change the class structure, if you think that it is necessary!
-        '    	 *   (make sure to use object oriented programming concepts, i.e. use objects to abstract your code 
-        '    	 *   	-> don't do everything in a single class)
-        '    	 * 
-        '    	 
 
         ' Set the number of rows and columns
         Dim rows As Integer = Me.Sequence2.Length + 1 ' number of rows

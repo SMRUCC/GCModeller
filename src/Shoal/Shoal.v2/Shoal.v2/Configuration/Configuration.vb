@@ -23,10 +23,10 @@ Namespace Configuration
             Return str
         End Function
 
-        Public Overloads Function Prints(data As IEnumerable(Of ProfileItem)) As String
-            Dim str As String = MyBase.Prints(data)
-            Call Console.WriteLine(str)
-            Return str
-        End Function
+        'Public Overloads Function Prints(data As IEnumerable(Of ProfileItem)) As String
+        '    Dim str As String = MyBase.Prints(data)
+        '    Call Console.WriteLine(str)
+        '    Return str
+        'End Function
     End Class
 End Namespace

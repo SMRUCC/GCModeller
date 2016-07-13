@@ -1,0 +1,50 @@
+﻿---
+title: IOExtensions
+---
+
+# IOExtensions
+_namespace: [Microsoft.VisualBasic](N-Microsoft.VisualBasic.html)_
+
+
+
+
+
+### Methods
+
+#### FlushAllLines``1
+```csharp
+Microsoft.VisualBasic.IOExtensions.FlushAllLines``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Text.Encoding)
+```
+Write all object into a text file by using its @"T:System.Object" method.
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|data|-|
+|SaveTo|-|
+|encoding|-|
+
+
+#### FlushStream
+```csharp
+Microsoft.VisualBasic.IOExtensions.FlushStream(System.Collections.Generic.IEnumerable{System.Byte},System.String)
+```
+Save the binary data into the filesystem.(保存二进制数据包值文件系统)
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|buf|The binary bytes data of the target package's data.(目标二进制数据)|
+|path|The saved file path of the target binary data chunk.(目标二进制数据包所要进行保存的文件名路径)|
+
+
+#### ReadBinary
+```csharp
+Microsoft.VisualBasic.IOExtensions.ReadBinary(System.String)
+```
+@"M:System.IO.File.ReadAllBytes(System.String)", if the file is not exists on the filesystem, then a empty array will be return.
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|path|-|
+
+
+

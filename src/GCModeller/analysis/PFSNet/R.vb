@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::1825b2249f2af0cea845838da5943d39, ..\GCModeller\analysis\PFSNet\R.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
 
@@ -35,10 +36,15 @@ Namespace R
     Module Base
 
         ''' <summary>
-        ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
+        ''' The generic function quantile produces sample quantiles corresponding to the given probabilities. 
+        ''' The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
         ''' </summary>
-        ''' <param name="x">numeric vector whose sample quantiles are wanted, or an object of a class for which a method has been defined (see also ‘details’). NA and NaN values are not allowed in numeric vectors unless na.rm is TRUE.</param>
-        ''' <param name="probs">numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)</param>
+        ''' <param name="x">
+        ''' numeric vector whose sample quantiles are wanted, or an object of a class for which a method has been defined (see also ‘details’). 
+        ''' NA and NaN values are not allowed in numeric vectors unless na.rm is TRUE.</param>
+        ''' <param name="probs">
+        ''' numeric vector of probabilities with values in [0,1]. (Values up to 2e-14 outside that range are accepted and moved to the nearby endpoint.)
+        ''' </param>
         ''' <remarks></remarks>
         Public Function Quantile(x As Double(), probs As Double) As Double
             'Dim groupedList = (From n As Double In x Select n Group n By n Into Group).ToArray
@@ -79,7 +85,7 @@ Namespace R
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Sample(Of T)(x As T(), size As Integer) As T()
-            Dim rndCollection = x.Randomize
+            Dim rndCollection = x.Shuffles
             Return rndCollection.Take(size).ToArray
         End Function
 
@@ -88,15 +94,24 @@ Namespace R
         End Function
 
         Public Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As DataFrameRow()
-            Dim LQuery = (From item In {d1, d2}.MatrixAsIterator Select item Group By item.Name Into Group).ToArray
-            Dim ChunkBuffer As DataFrameRow() = (From item In LQuery
-                                                 Let expr As Double() = (From data As DataFrameRow
-                                                                         In item.Group
-                                                                         Select data.ExperimentValues).MatrixToVector
-                                                 Select New DataFrameRow With {
-                                                     .Name = item.Name,
-                                                     .ExperimentValues = expr}).ToArray
-            Return ChunkBuffer
+            Dim LQuery = From x As DataFrameRow
+                         In d1.JoinAsIterator(d2)
+                         Select x
+                         Group By x.Name Into Group
+            Dim bufs As DataFrameRow() =
+                LinqAPI.Exec(Of DataFrameRow) <=
+ _
+                    From g
+                    In LQuery
+                    Let expr As IEnumerable(Of IEnumerable(Of Double)) = (
+                        From x As DataFrameRow
+                        In g.Group
+                        Select x.ExperimentValues)
+                    Select New DataFrameRow With {
+                        .Name = g.Name,
+                        .ExperimentValues = expr
+                    }
+            Return bufs
         End Function
 
         Public Function rep(q As Boolean, n As Integer) As Double()

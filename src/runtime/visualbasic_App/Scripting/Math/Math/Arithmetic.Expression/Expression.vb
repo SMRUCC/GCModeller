@@ -1,4 +1,4 @@
-﻿#Region "8a09d9bf3316a28ef5d6968b8433d911, ..\Math\Arithmetic.Expression\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::e995481e5007dac931f9a46bbbf0b108, ..\VisualBasic_AppFramework\Scripting\Math\Math\Arithmetic.Expression\Expression.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,20 @@ Public Class Expression
     Public ReadOnly Property Constant As Helpers.Constants
     Public ReadOnly Property Variables As Variable
     Public ReadOnly Property Functions As [Function]
+
+    ''' <summary>
+    ''' Gets constant or variable value, but only sets variable value.
+    ''' </summary>
+    ''' <param name="var"></param>
+    ''' <returns></returns>
+    Default Public Property value(var As String) As Double
+        Get
+            Return GetValue(var)
+        End Get
+        Set(value As Double)
+            Call Variables.Set(var, value)
+        End Set
+    End Property
 
     ''' <summary>
     ''' The default expression evaluation engine.
@@ -100,4 +114,3 @@ Public Class Expression
         Call Constant.Add(Name, val)
     End Sub
 End Class
-

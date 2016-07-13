@@ -104,7 +104,7 @@ Namespace VennDiagram.ModelAPI
         ''' Assign random colors to the venn diagram partitions
         ''' </summary>
         Public Sub RandomColors()
-            Dim colors As String() = RSystem.RColors.Randomize
+            Dim colors As String() = RSystem.RColors.Shuffles
 
             For i As Integer = 0 To partitions.Length - 1
                 partitions(i).Color = colors(i)

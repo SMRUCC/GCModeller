@@ -1,4 +1,4 @@
-﻿#Region "03164b7ecca89647179e2f743c123972, ..\Microsoft.VisualBasic.Architecture.Framework\Parallel\Threads\LQuerySchedule\TaskPartitions.vb"
+﻿#Region "Microsoft.VisualBasic::03164b7ecca89647179e2f743c123972, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Parallel\Threads\LQuerySchedule\TaskPartitions.vb"
 
     ' Author:
     ' 
@@ -129,6 +129,20 @@ Namespace Parallel.Linq
                     .task = task,
                     .where = where
                 }.InvokeWhere
+            Next
+        End Function
+
+        Public Iterator Function Partitions(Of T)(source As IEnumerable(Of T),
+                                                  parts As Integer,
+                                                  [where] As Func(Of T, Boolean)) As IEnumerable(Of Func(Of T()))
+
+            Dim buf As IEnumerable(Of T()) = source.SplitIterator(parts)
+
+            For Each part As T() In buf
+                Yield Function() LinqAPI.Exec(Of T) <= From x As T
+                                                       In part
+                                                       Where where(x) = True
+                                                       Select x
             Next
         End Function
 

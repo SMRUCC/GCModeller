@@ -143,7 +143,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Mirror.Fuzzy.Batch",
-               Usage:="/Mirror.Fuzzy.Batch /in <in.fasta> [/out <out.DIR> /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads <-1>]")>
+               Usage:="/Mirror.Fuzzy.Batch /in <in.fasta/DIR> [/out <out.DIR> /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads <-1>]")>
     Public Function FuzzyMirrorsBatch(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim cut As Double = args.GetValue("/cut", 0.6)
@@ -151,7 +151,8 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}/")
-        Dim nt As New FastaFile([in])
+        Dim nt As IEnumerable(Of FastaToken) =
+            StreamIterator.SeqSource([in], "*.fasta", "*.fsa", "*.fa", "*.fna", "*.fas")
         Dim CLI As New List(Of String)
         Dim n As Integer = args.GetValue("/num_threads", -1)
 

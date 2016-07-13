@@ -30,8 +30,12 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNet
 Imports SMRUCC.genomics.Analysis
@@ -98,51 +102,56 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <summary>
         ''' 生成文件3
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>返回所保存的文件的路径</returns>
         ''' <remarks></remarks>
-        ''' 
         <ExportAPI("relationship.from_pathways")>
         Public Function PathwayGeneRelationship(pathways As IEnumerable(Of ComponentModel.PathwayBrief),
                                                 Optional pathwayIds As IEnumerable(Of String) = Nothing,
                                                 Optional saveto As String = "") As String
-            Dim Chunkbuffer As List(Of String) = New List(Of String)
+            Dim bufs As New List(Of String)
 
             Dim strPathwayIds As String()
+
             If Not pathwayIds.IsNullOrEmpty Then
-                strPathwayIds = (From item In pathwayIds Let value As String = item.ToString.ToUpper Select value).ToArray
+                strPathwayIds = LinqAPI.Exec(Of String) <= From id As String
+                                                           In pathwayIds
+                                                           Let value As String = id.ToString.ToUpper
+                                                           Select value
             Else
                 strPathwayIds = (From item In pathways Select item.EntryId).ToArray
             End If
 
-            For Each PathwayInfo In pathways
-                If Array.IndexOf(strPathwayIds, PathwayInfo.EntryId) = -1 OrElse PathwayInfo.GetPathwayGenes.IsNullOrEmpty Then
+            For Each PathwayInfo As ComponentModel.PathwayBrief In pathways
+                If Array.IndexOf(strPathwayIds, PathwayInfo.EntryId) = -1 OrElse
+                    PathwayInfo.GetPathwayGenes.IsNullOrEmpty Then
+
                     Continue For
                 End If
 
                 Dim Combo As Comb(Of String) = Comb(Of String).CreateObject(PathwayInfo.GetPathwayGenes)
+
                 For Each Line In Combo.CombList
-                    Call Chunkbuffer.AddRange((From pair As KeyValuePair(Of String, String) In Line
-                                               Let strPair As String() = (From strId As String
-                                                                          In New String() {pair.Key, pair.Value}
-                                                                          Select strId
-                                                                          Order By strId Ascending).ToArray
-                                               Select String.Join(vbTab, PathwayInfo.EntryId, strPair(0), strPair(1))).ToArray)
+                    bufs += From pair As KeyValuePair(Of String, String)
+                            In Line
+                            Let strPair As String() = (From strId As String
+                                                       In New String() {pair.Key, pair.Value}
+                                                       Select strId
+                                                       Order By strId Ascending).ToArray
+                            Select String.Join(vbTab, PathwayInfo.EntryId, strPair(0), strPair(1))
                 Next
             Next
 
-            '  Dim RemovedLines As String() = (From strLine As String In Chunkbuffer Where (From GeneId As String In _RemovedList Where InStr(strLine, GeneId) > 0 Select 1).ToArray.Count > 0 Select strLine).ToArray
-            '  For Each strLine As String In RemovedLines
-            'Call Chunkbuffer.Remove(strLine)
-            '  Next
+            Dim file As String = (From strLine As String In bufs Select strLine Distinct).JoinBy(vbLf)
 
             saveto = __getPath(saveto, "pathway_relationship")
-
-            Call IO.File.WriteAllLines(path:=saveto, contents:=(From strLine As String In Chunkbuffer Select strLine Distinct).ToArray, encoding:=Encoding.ASCII)
+            file.SaveTo(saveto, encoding:=Encoding.ASCII)
 
             If FileIO.FileSystem.FileExists(saveto) Then
-                Call Console.WriteLine("Gene releationship network was saved at ""{0}""", saveto)
+                Call Console.WriteLine($"Gene releationship network was saved at ""{saveto.ToFileURL}""")
             Else
-                Throw New Exception("Gene releationship network file saved failured!")
+                Dim ex As New Exception("Gene releationship network file saved failured!")
+                ex = New Exception(file, ex)
+                Throw ex
             End If
 
             Return saveto
@@ -193,13 +202,15 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
 
         <ExportAPI("get.gene_idlist")>
         Public Function GetRegulationGeneIdlist(regulations As PfsNETModuleAPI.Regulation()) As String()
-            Dim ChunkBuffer As List(Of String) = New List(Of String)
-            For Each Line In regulations
-                Call ChunkBuffer.AddRange(Line.SequenceId)
-            Next
-            Call ChunkBuffer.AddRange((From Line In regulations Select Line.TF).ToArray)
+            Dim gIds As List(Of String) =
+                regulations.Select(Function(r) r.TF).ToList +
+                regulations.Select(Function(x) x.SequenceId)
 
-            Return (From strId As String In ChunkBuffer Select strId Order By strId Ascending Distinct).ToArray
+            Return LinqAPI.Exec(Of String) <= From strId As String
+                                              In gIds
+                                              Select strId
+                                              Order By strId Ascending
+                                              Distinct
         End Function
 
         Public Class Regulation
@@ -217,26 +228,39 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("pathway_genelist.create_from")>
-        Public Function CreateList(pathwaydata As Generic.IEnumerable(Of SMRUCC.genomics.ComponentModel.PathwayBrief), Optional pathwayIds As Object() = Nothing) _
-            As String()
-
+        Public Function CreateList(pathwaydata As IEnumerable(Of ComponentModel.PathwayBrief), Optional pathwayIds As IEnumerable(Of String) = Nothing) As String()
             Dim strPathwayIds As String()
+
             If Not pathwayIds.IsNullOrEmpty Then
-                strPathwayIds = (From item In pathwayIds Let value As String = item.ToString.ToUpper Select value).ToArray
+                strPathwayIds = LinqAPI.Exec(Of String) <=
+                    From pId As String
+                    In pathwayIds
+                    Let value As String = pId.ToString.ToUpper
+                    Select value
             Else
                 strPathwayIds = (From item In pathwaydata Select item.EntryId).ToArray
             End If
 
-            Dim ChunkBuffer As List(Of String) = New List(Of String)
+            Dim gIds As New List(Of String)
 
-            For Each brief In (From item In pathwaydata Where Array.IndexOf(strPathwayIds, item.EntryId) > -1 Select item).ToArray
+            For Each brief As ComponentModel.PathwayBrief
+                In From pwy As ComponentModel.PathwayBrief
+                   In pathwaydata
+                   Where Array.IndexOf(strPathwayIds, pwy.EntryId) > -1
+                   Select pwy
+
                 Dim PathwayGenes As String() = brief.GetPathwayGenes
+
                 If Not PathwayGenes.IsNullOrEmpty Then
-                    Call ChunkBuffer.AddRange(brief.GetPathwayGenes)
+                    gIds += brief.GetPathwayGenes
                 End If
             Next
 
-            Return (From strId As String In ChunkBuffer Select strId Distinct Order By strId Ascending).ToArray
+            Return LinqAPI.Exec(Of String) <= From strId As String
+                                              In gIds
+                                              Select strId
+                                              Distinct
+                                              Order By strId Ascending
         End Function
 
         ' Dim _RemovedList As String()
@@ -258,24 +282,35 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                                      Optional Experiments As IEnumerable(Of String) = Nothing,
                                      Optional saveTxt As String = "",
                                      Optional DEBUG As Boolean = False) As String
-            Dim Experiment_IdList As String()
+
+            Dim expIds As String()
 
             If Experiments.IsNullOrEmpty Then
-                Experiment_IdList = Chipdata.LstExperiments
+                expIds = Chipdata.LstExperiments
             Else
-                Experiment_IdList = (From item As Object In Experiments Let value As String = item.ToString Select value).ToArray
+                expIds = LinqAPI.Exec(Of String) <=
+                    From eId As String
+                    In Experiments
+                    Let value As String = eId.ToString
+                    Select value
             End If
 
-            Dim Chunkbuffer =
-                (From strId As String
-                 In (From item In lstLocus Let strValue As String = item.ToString Select strValue).ToArray
-                 Select GeneId = strId, DataChunk = New List(Of Double)).ToList
+            lstLocus = From item In lstLocus Let strValue As String = item.ToString Select strValue
 
-            For Each ExperimentId As String In Experiment_IdList
-                Call Chipdata.SetColumnAuto(ExperimentId)
+            Dim exprs As List(Of NamedValue(Of List(Of Double))) =
+                LinqAPI.MakeList(Of NamedValue(Of List(Of Double))) <=
+                    From strId As String
+                    In lstLocus
+                    Select New NamedValue(Of List(Of Double)) With {
+                        .Name = strId,
+                        .x = New List(Of Double)
+                    }
 
-                For Each item In Chunkbuffer
-                    Call item.DataChunk.Add(Chipdata.GetValue(locusTag:=item.GeneId, DEBUGInfo:=DEBUG))
+            For Each experimentId As String In expIds
+                Call Chipdata.SetColumnAuto(experimentId)
+
+                For Each item In exprs
+                    Call item.x.Add(Chipdata.GetValue(locusTag:=item.Name, DEBUGInfo:=DEBUG))
                 Next
             Next
 
@@ -290,13 +325,15 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
 
             saveTxt = __getPath(saveTxt, "expression_matrix")
 
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
-            For Each strLine In Chunkbuffer
-                Call sBuilder.AppendLine(String.Join(vbTab, strLine.GeneId, String.Join(vbTab, strLine.DataChunk.ToArray)))
-            Next
-            Call sBuilder.Remove(sBuilder.Length - 2, 2)
+            Dim sb As New StringBuilder(1024)
 
-            Call FileIO.FileSystem.WriteAllText(saveTxt, sBuilder.ToString, False, encoding:=System.Text.Encoding.ASCII)
+            For Each strLine In exprs
+                Call sb.AppendLine(String.Join(vbTab, strLine.Name, String.Join(vbTab, strLine.x.ToArray)))
+            Next
+
+            Call sb.Remove(sb.Length - 2, 2)
+            Call sb.SaveTo(saveTxt, encoding:=Encoding.ASCII)
+
             If FileIO.FileSystem.FileExists(saveTxt) Then
                 Call Console.WriteLine("Expression matrix was saved at ""{0}""", saveTxt)
             Else
@@ -389,17 +426,17 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("generate.csv_result")>
-        Public Function ParseCsv([Imports] As String, PathwayBriefs As String) As SubNETCsvObject()
+        Public Function ParseCsv([Imports] As String, PathwayBriefs As String) As TabularArchives.SubNetTable()
             Dim DictPathwayBriefs As Dictionary(Of String, ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief)
+                New Dictionary(Of String, ComponentModel.PathwayBrief)
             For Each item In PathwayBriefs.LoadCsv(Of PathwayBrief)(False)
                 Call DictPathwayBriefs.Add(item.EntryId, item)
             Next
 
             Dim XmlFiles = FileIO.FileSystem.GetFiles([Imports], FileIO.SearchOption.SearchTopLevelOnly, "*.xml").ToArray
-            Dim ChunkBuffer As List(Of SubNETCsvObject) = New List(Of SubNETCsvObject)
+            Dim ChunkBuffer As List(Of TabularArchives.SubNetTable) = New List(Of TabularArchives.SubNetTable)
             For Each File As String In XmlFiles
-                Call ChunkBuffer.AddRange(SubNETCsvObject.CreateObject(File, DictPathwayBriefs))
+                Call ChunkBuffer.AddRange(TabularArchives.SubNetTable.CreateObject(File, DictPathwayBriefs))
             Next
 
             Return ChunkBuffer.ToArray
@@ -413,40 +450,35 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("export.csv_result", Info:="export the pfsnet data log file into the csv data file.")>
-        Public Function ParseCsv([imports] As String, PathwayBriefs As Generic.IEnumerable(Of SMRUCC.genomics.ComponentModel.PathwayBrief)) As SubNETCsvObject()
-            Dim DictPathwayBriefs As Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief) =
-                New Dictionary(Of String, SMRUCC.genomics.ComponentModel.PathwayBrief)
+        Public Function ParseCsv([imports] As String, PathwayBriefs As IEnumerable(Of ComponentModel.PathwayBrief)) As TabularArchives.SubNetTable()
+            Dim DictPathwayBriefs As New Dictionary(Of String, ComponentModel.PathwayBrief)
 
             For Each item In PathwayBriefs
                 Call DictPathwayBriefs.Add(item.EntryId, item)
             Next
 
-            Dim OriginalDataFiles = FileIO.FileSystem.GetFiles([imports], FileIO.SearchOption.SearchTopLevelOnly, "*.txt").ToArray
-            Dim ChunkBuffer As List(Of SubNETCsvObject) = New List(Of SubNETCsvObject)
-            Dim LQuery = (From File As String In OriginalDataFiles.AsParallel
-                          Let pName As String = File.Replace("\", "/").Split(CChar("/")).Last.ToLower.Replace(".txt", "")
-                          Let dataParsed = SubnetParser.TryParse(IO.File.ReadAllLines(File))
-                          Let p1 As String = pName & ".Class1"
-                          Let p2 As String = pName & ".Class2"
-                          Select {SubNETCsvObject.CreateObject(dataParsed.Key, p1, DictPathwayBriefs), SubNETCsvObject.CreateObject(dataParsed.Value, p2, DictPathwayBriefs)}).ToArray.MatrixToList
-
-            For Each Line In LQuery
-                If Not Line.IsNullOrEmpty Then
-                    Call ChunkBuffer.AddRange(Line)
-                End If
-            Next
-
-            Return ChunkBuffer.ToArray
+            Dim dataFiles As IEnumerable(Of String) = ls - l - wildcards("*.txt") <= [imports]
+            Dim LQuery As TabularArchives.SubNetTable() =
+                LinqAPI.Exec(Of TabularArchives.SubNetTable) <= From File As String
+                                                                In dataFiles.AsParallel
+                                                                Let pName As String = File.BaseName.ToLower
+                                                                Let dataParsed = SubnetParser.TryParse(IO.File.ReadAllLines(File))
+                                                                Let p1 As String = pName & ".Class1"
+                                                                Let p2 As String = pName & ".Class2"
+                                                                Let a = TabularArchives.SubNetTable.CreateObject(dataParsed.Key, p1, DictPathwayBriefs)
+                                                                Let b = TabularArchives.SubNetTable.CreateObject(dataParsed.Value, p2, DictPathwayBriefs)
+                                                                Select {a, b}.MatrixAsIterator
+            Return LQuery
         End Function
 
         <ExportAPI("Write.Csv.PfsNET")>
-        Public Function SaveCsvResult(data As IEnumerable(Of SubNETCsvObject), saveto As String) As Boolean
+        Public Function SaveCsvResult(data As IEnumerable(Of TabularArchives.SubNetTable), saveto As String) As Boolean
             Return data.SaveTo(saveto, False)
         End Function
 
         <ExportAPI("Read.Csv.PfsNET")>
-        Public Function ReadPfsnet(path As String) As SubNETCsvObject()
-            Return path.LoadCsv(Of SubNETCsvObject)(False).ToArray
+        Public Function ReadPfsnet(path As String) As TabularArchives.SubNetTable()
+            Return path.LoadCsv(Of TabularArchives.SubNetTable)(False).ToArray
         End Function
 
         ''' <summary>
@@ -459,36 +491,38 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' 
         <ExportAPI("write.pfsnet")>
         Public Function SavePfsNET(data As PFSNetResultOut, saveCsv As String) As Boolean
-            Call data.GetXml.SaveTo(saveCsv)
-            Call IO.File.WriteAllLines(saveCsv & ".txt", data.STD_OUTPUT)
-
-            Return True
+            data.STD_OUTPUT.FlushAllLines(saveCsv & ".txt")
+            Return data.GetXml.SaveTo(saveCsv)
         End Function
 
         <ExportAPI("write.pfsnet_collection", Info:="parameter export is the directory of the pfsnet data will be saved.")>
-        Public Function SavePFSNet(data As IEnumerable(Of PFSNetResultOut), export As String) As Boolean
-            For i As Integer = 0 To data.Count - 1
-                Dim net = data(i)
-                Dim File As String = String.Format("{0}/{1}.xml", export, If(String.IsNullOrEmpty(net.DataTag), i, net.DataTag))
-                Call SavePfsNET(net, File)
+        Public Function SavePFSNet(data As IEnumerable(Of PFSNetResultOut), EXPORT As String) As Boolean
+            For Each i As SeqValue(Of PFSNetResultOut) In data.SeqIterator
+                Dim net As PFSNetResultOut = i.obj
+                Dim name As String = If(String.IsNullOrEmpty(net.DataTag), i.i, net.DataTag)
+                Dim path As String = $"{EXPORT}/{name}.xml"
+
+                Call SavePfsNET(net, path)
             Next
+
             Return True
         End Function
 
         <ExportAPI("batch_script.generate")>
         Public Function BatchScript(phenlist As String, scriptfile As String, saveto As String, shell As String) As Integer
-            Dim ComboList = Microsoft.VisualBasic.ComponentModel.Comb(Of String).CreateObject(IO.File.ReadAllLines(phenlist))
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
+            Dim clist As Comb(Of String) =
+                Comb(Of String).CreateObject(IO.File.ReadAllLines(phenlist))
+            Dim sBuilder As New StringBuilder(1024)
             Dim parentDir As String = FileIO.FileSystem.GetParentPath(saveto)
 
-            For Each Comb In ComboList.CombList
+            For Each Comb In clist.CombList
                 For Each item In Comb
                     Dim saveFile As String = String.Format("{0}/PfsNET.OUT/{1}_____{2}.xml", parentDir, item.Key, item.Value)
                     Call sBuilder.AppendLine(String.Format("start /b {0} ""{1}"" p1 ""{2}"" p2 ""{3}"" save ""{4}""", shell, scriptfile, item.Key, item.Value, saveFile))
                 Next
             Next
 
-            Return sBuilder.ToString.SaveTo(saveto, Encoding.ASCII)
+            Return sBuilder.SaveTo(saveto, Encoding.ASCII)
         End Function
 
         ''' <summary>
@@ -506,7 +540,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Associate the kegg pathways pfsnet calculation result with the kegg pathways phenotypes to see which route that the mutated gene can affected the specific phenotype.
         ''' </summary>
         ''' <param name="pfsnet"></param>
         ''' <param name="KEGGPathways"></param>
@@ -514,14 +548,14 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         ''' <remarks></remarks>
         <ExportAPI("kegg.pathways.associate_phenotypes",
             Info:="associate the kegg pathways pfsnet calculation result with the kegg pathways phenotypes to see which route that the mutated gene can affected the specific phenotype.")>
-        Public Function KEGGPathwaysPhenotypeAnalysis(pfsnet As IEnumerable(Of SubNETCsvObject),
+        Public Function KEGGPathwaysPhenotypeAnalysis(pfsnet As IEnumerable(Of TabularArchives.SubNetTable),
                                                       KEGGPathways As IEnumerable(Of KEGG.Archives.Csv.Pathway)) As KEGGPhenotypes()
             Dim ChunkBuffer = KEGGPhenotypes.PhenotypeAssociations(Result:=pfsnet.ToArray, KEGGPathways:=KEGGPathways.ToArray)
             Return ChunkBuffer
         End Function
 
         <ExportAPI("write.csv.kegg_phenotypes")>
-        Public Function WriteKEGGPhenotypes(data As Generic.IEnumerable(Of KEGGPhenotypes), saveto As String) As Boolean
+        Public Function WriteKEGGPhenotypes(data As IEnumerable(Of KEGGPhenotypes), saveto As String) As Boolean
             Return data.SaveTo(saveto, False)
         End Function
 
