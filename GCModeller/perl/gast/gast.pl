@@ -202,6 +202,8 @@ while ((scalar @ARGV > 0) && ($ARGV[0] =~ /^-/))
 	}
 }
 
+# script debug
+$ignore_all_gaps = 1;
 
 #######################################
 #
