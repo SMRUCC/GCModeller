@@ -99,60 +99,9 @@ Namespace gast
 "
 #End Region
 
-        ''' <summary>
-        ''' gast -in input_fasta -ref reference_uniques_fasta -rtax reference_dupes_taxonomy [-mp min_pct_id] [-m majority] -out output_file
-        ''' </summary>
-        Public Structure ARGV
-
-            ''' <summary>
-            ''' input_fasta
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property [in] As String
-            ''' <summary>
-            ''' reference_uniques_fasta
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property ref As String
-            ''' <summary>
-            ''' reference_dupes_taxonomy 
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property rtax As String
-            ''' <summary>
-            ''' [min_pct_id] 
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property mp As String
-            ''' <summary>
-            ''' [majority] 
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property m As String
-            ''' <summary>
-            ''' output_file
-            ''' </summary>
-            ''' <returns></returns>
-            Public Property out As String
-
-            Sub New(args As CommandLine)
-                [in] = args - "-in"
-                ref = args - "-ref"
-                rtax = args - "-rtax"
-                mp = args - "-mp"
-                m = args - "-m"
-                out = args - "-out"
-            End Sub
-
-            Public Overrides Function ToString() As String
-                Return Me.GetJson
-            End Function
-        End Structure
-
         Public Property verbose As Integer = 0
 
-        <Extension>
-        Public Function Invoke(args As ARGV)
+        <Extension> Public Sub Invoke(args As ARGV)
             Dim log_filename = "gast.log"
             Dim in_filename = args.in
             Dim in_prefix
@@ -241,7 +190,6 @@ Namespace gast
                 '#my $uclust_cmd = "uclust --iddef 3 --input $uniques_filename --lib $ref_filename --uc $uclust_filename --libonly --allhits --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
 
                 If (ref_filename IsNot Nothing) Then
-
                     usearch_cmd &= " -db $ref_filename "
                 Else
                     usearch_cmd &= " -db $udb_filename"
@@ -262,8 +210,24 @@ Namespace gast
                 ' print() LOG "Assigning taxonomy\n";
                 Dim ref_taxa_ref = load_reftaxa(reftax_filename)
                 OUT.assign_taxonomy(names_filename, gast_results_ref, ref_taxa_ref, majority, terse, gast_table)
+
+                '#######################################
+                '#
+                '# Load the file into the database
+                '#
+                '#######################################
+                If (gast_table) Then
+
+                    mysqlimport_cmd &= "$out_filename >> $mysqlimport_log"
+                    run_command(mysqlimport_cmd)
+                    run_command("rm $out_filename")
+                End If
+
+                If (Not save_uclust_file) Then
+                    run_command("rm $uclust_filename")
+                End If
             End Using
-        End Function
+        End Sub
 
         ''' <summary>
         ''' get dupes from the names file and calculate consensus taxonomy
@@ -304,7 +268,6 @@ Namespace gast
                 Dim read = data(0)
 
                 Dim taxObjects As Taxonomy() = {}
-                Dim distance As String
                 Dim refs_for As New Dictionary(Of String, String())
 
                 If (Not results.ContainsKey(read)) Then
@@ -313,6 +276,7 @@ Namespace gast
                     results(read) = {"Unknown", 1, "NA", 0, 0, "NA", "0;0;0;0;0;0;0;0", "0;0;0;0;0;0;0;0", "100;100;100;100;100;100;100;100"}
                     refs_for(read) = {"NA"}
                 Else
+                    Dim distance As String = ""
 
                     ' Create an array Of taxonomy objects For all the associated refssu_ids.
                     For i As Integer = 0 To results(read).Length - 1
@@ -390,9 +354,9 @@ Namespace gast
             Return taxa
         End Function
 
-        Public Function Invoke(args As CommandLine)
-            Return New ARGV(args).Invoke
-        End Function
+        Public Sub Invoke(args As CommandLine)
+            Call New ARGV(args).Invoke
+        End Sub
 
         ''' <summary>
         ''' Parse the USearch results And grab the top hit

@@ -96,6 +96,7 @@
     <Compile Include="BEBaC\CrudeClustering.vb" />
     <Compile Include="BEBaC\Model.vb" />
     <Compile Include="BEBaC\PosteriorProbability.vb" />
+    <Compile Include="gast\ARGV.vb" />
     <Compile Include="gast\Gast.vb" />
     <Compile Include="gast\subs.vb" />
     <Compile Include="gast\Taxonomy.vb" />
