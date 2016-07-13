@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Array
 
 Namespace Language.Perl
 
@@ -50,8 +51,8 @@ Namespace Language.Perl
             Dim source As T() = LIST.ToArray
             Dim tmp As T() = New T(array.Length + source.Length - 1) {}
 
-            Call System.Array.ConstrainedCopy(array, Scan0, tmp, Scan0, array.Length)
-            Call System.Array.ConstrainedCopy(source, Scan0, tmp, array.Length, source.Length)
+            Call ConstrainedCopy(array, Scan0, tmp, Scan0, array.Length)
+            Call ConstrainedCopy(source, Scan0, tmp, array.Length, source.Length)
 
             array = tmp
         End Sub
@@ -80,6 +81,10 @@ Namespace Language.Perl
 
             Dim last As T = array(array.Length - 1)
             ReDim Preserve array(array.Length - 1)
+        End Function
+
+        Public Function system(CLI As String) As Integer
+            Return Interaction.Shell(CLI, AppWinStyle.NormalFocus, True)
         End Function
     End Module
 End Namespace

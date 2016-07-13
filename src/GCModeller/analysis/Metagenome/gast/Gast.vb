@@ -39,8 +39,11 @@
 'use Taxonomy;
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Language.Perl
+Imports Microsoft.VisualBasic.Terminal
 
 Namespace gast
 
@@ -145,9 +148,10 @@ Namespace gast
             End Function
         End Structure
 
+        Public Property verbose As Integer = 0
+
         <Extension>
         Public Function Invoke(args As ARGV)
-            Dim verbose = 0
             Dim log_filename = "gast.log"
             Dim in_filename = args.in
             Dim in_prefix
@@ -213,10 +217,158 @@ Namespace gast
             Dim uniques_filename = file_prefix & ".unique." & file_suffix
             Dim names_filename = file_prefix & ".names"
             Dim uclust_filename = uniques_filename & ".uc"
+
+            '#######################################
+            '#
+            '# Run the uniques Using mothur
+            '#
+            '#######################################
+
+            Dim mothur_cmd = $"./mothur ""#unique.seqs(fasta={in_filename});"""
+            Call run_command(mothur_cmd)
+
+
+            '#######################################
+            '#
+            '# USearch against the reference database
+            '#    And parse the output For top hits
+            '#
+            '#######################################
+            '# old version
+            '#my $uclust_cmd = "uclust --iddef 3 --input $uniques_filename --lib $ref_filename --uc $uclust_filename --libonly --allhits --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
+
+            If (ref_filename IsNot Nothing) Then
+
+                usearch_cmd &= " -db $ref_filename "
+            Else
+                usearch_cmd &= " -db $udb_filename"
+            End If
+
+            '#$usearch_cmd .= " --gapopen 6I/1E --iddef 3 --global --query $uniques_filename --uc $uclust_filename --maxaccepts $max_accepts --maxrejects $max_rejects --id $min_pctid";
+            usearch_cmd &= $" -gapopen 6I/1E -usearch_global {uniques_filename} -strand plus -uc {uclust_filename} -maxaccepts {max_accepts} -maxrejects {max_rejects} -id {min_pctid}"
+
+            run_command(usearch_cmd)
+            Dim gast_results_ref = parse_uclust(uclust_filename)
         End Function
 
         Public Function Invoke(args As CommandLine)
             Return New ARGV(args).Invoke
+        End Function
+
+        ''' <summary>
+        ''' Parse the USearch results And grab the top hit
+        ''' </summary>
+        ''' <param name="uc_file"></param>
+        ''' <returns></returns>
+        Public Function parse_uclust(uc_file As String)
+            Dim uc_aligns As New Dictionary(Of String, Dictionary(Of String, String))
+            Dim refs_at_pctid As New Dictionary(Of String, Dictionary(Of String, String()))
+            Dim results
+
+            ' read In the data
+            For Each line As String In uc_file.ReadAllLines
+
+                If (Not line.Match("^H").IsBlank) Then
+
+                    ' It has a valid hie
+                    ' chomp $line; 
+
+                    '  0=Type, 1=ClusterNr, 2=SeqLength, 3=PctId, 4=Strand, 5=QueryStart, 6=SeedStart, 7=Alignment, 8=Sequence ID, 9= Reference ID
+                    Dim data = Regex.Split(line, "\s+")
+                    Dim ref = data(9)
+                    Dim tax = data(9)
+                    ref = Regex.Match(ref, "\|.*$").Value
+                    tax = Regex.Match(tax, "^.*\|").Value
+
+                    ' store the alignment for each read / ref
+                    uc_aligns(data(8))(ref) = data(7)
+
+                    ' create a look up For refs Of a given pctID For Each read
+                    Push(refs_at_pctid(data(8))(data(3)), ref)
+                End If
+            Next
+
+            '
+            ' For Each read
+            '
+            For Each read As String In uc_aligns.Keys
+
+                Dim found_hit = 0
+
+                ' For Each read, start With the max PctID
+                For Each pctid In refs_at_pctid(read).Keys.Sort
+
+                    For Each ref In refs_at_pctid(read)(pctid)
+
+                        '
+                        ' Check the alignment For large gaps And/Or remove terminal gaps
+                        ' 
+                        Dim original_align = uc_aligns(read)(ref)
+                        Dim align = original_align ' Use this To remove terminal gaps
+
+                        If ((ignore_terminal_gaps) OrElse (ignore_all_gaps)) Then
+
+                            align = align.Match("^[0-9]*[DI]")
+                            align = align.Match("[0-9]*[DI]$")
+
+                        ElseIf (use_full_length) Then
+
+                            align = align.Match("^[0-9]*[I]")
+                            align = align.Match("[0-9]*[I]$")
+                        End If
+
+                        found_hit = 1
+
+                        ' has internal gaps
+                        If ((use_full_length) OrElse (Not ignore_all_gaps)) Then
+
+                            Do While Not align.Match("[DI]").IsBlank
+
+                                align = align.Match("^[0-9]*[M]")  ' leading remove matches 
+                                align = align.Match("^[ID]") ' remove singleton indels
+
+                                If align.Match("^[0-9]*[ID]") Then
+
+                                    Dim gap = align
+                                    align = align.Match("^[0-9]*[ID]")  ' remove gap from aligment
+                                    gap = gap.Match($"[ID]{align}")     ' remove alignment from gap
+
+                                    ' If too large a gap, tends To be indicative Of chimera Or other non-matches
+                                    ' Then skip To the Next ref
+                                    If (gap > max_gap) Then
+
+                                        If (verbose) Then printf($"Skip {ref} of {read()} at {pctid} pctid for {gap} gap.  \n")
+                                        found_hit = 0
+                                        last
+                                    End If
+                                End If
+                            Loop
+                            If (Not found_hit) Then Continue For   ' don't print this one out.
+                        End If
+
+                        '
+                        ' convert from percent identity To distance
+                        '
+                        Dim dist As String = (Int((10 * (100 - pctid)) + 0.5)) / 1000
+
+                        '
+                        ' print out the data
+                        '
+                        If (verbose) Then
+                            printf({read, ref, pctid, dist, original_align}.JoinBy(vbTab) & "\n")
+                        End If
+                        Push(results(read), {ref, dist, original_align})
+                    Next
+
+                    ' Don't go to lower PctIDs if found a hit at this PctID.
+                    If (found_hit) Then
+                        last
+                    End If
+                Next
+
+            Next
+
+            Return results
         End Function
     End Module
 End Namespace
