@@ -84,11 +84,24 @@ Namespace gast
             Call Me.New(__data(line))
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="line"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' $newString =~ s/;$//;
+        ''' 这个语法应该是正则表达式替换匹配字符串为空白字符串
+        ''' </remarks>
         Private Shared Function __data(line As String) As String()
+            If line Is Nothing Then
+                line = "Unknown"
+            End If
+
             Dim data As String() = line.Split(";"c)
 
             ' Remove trailing NAs And replace internal blanks With "Unassigned"
-            For i As Integer = 0 To data.Length
+            For i As Integer = 0 To data.Length - 1
                 If data(i).IsBlank OrElse data(i) = "NA" Then
                     data(i) = "Unassigned"
                 End If
@@ -265,7 +278,7 @@ Namespace gast
                 Next
             Next
 
-            Dim done As Integer = 0
+            Dim done As Boolean = False
 
             ' For each taxonomic rank
             For i As Integer = 0 To 7
@@ -303,7 +316,7 @@ Namespace gast
                     End If
                 Next
 
-                If topPct < majority Then done = 1
+                If topPct < majority Then done = True
 
                 ' If ($#newTax < $i) {push (@newTax, "NA");}
                 Push(rankCounts, rankCnt)
@@ -323,7 +336,11 @@ Namespace gast
 
             ' If (! $taxReturn[0]) {$taxReturn[0] = "NA";}
             If taxReturn(0) Is Nothing Then taxReturn(0) = New Taxonomy("Unknown") ' # 20081126 - empty tax should be 'Unknown'
-            If taxReturn(-1)?.taxstring = "Unassigned" Then Pop(taxReturn) ' If resolved to an Unassigned rank, remove it.
+
+            ' if ($taxReturn[-1] eq "Unassigned") {pop @taxReturn;} # If resolved to an Unassigned rank, remove it.
+            If taxReturn.Last.taxstring = "Unassigned" Then
+                Pop(taxReturn) ' If resolved to an Unassigned rank, remove it. -1表示最后一个元素
+            End If
 
             taxReturn(1) = New Taxonomy(conVote + 0.5) ' winning majority
 
