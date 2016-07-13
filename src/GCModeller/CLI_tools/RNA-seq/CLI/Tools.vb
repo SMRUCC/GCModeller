@@ -1,9 +1,12 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
+Imports Microsoft.VisualBasic
 
 Partial Module CLI
 
@@ -34,5 +37,28 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim EXPORT As String = [in].TrimFileExt & ".EXPORT/"
         Return [in].ExportSILVA(EXPORT).CLICode
+    End Function
+
+    <ExportAPI("/Co.Vector", Usage:="/Co.Vector /in <co.Csv/DIR> [/min 0.01 /max 0.05 /out <out.csv>]")>
+    Public Function CorrelatesVector(args As CommandLine) As Integer
+        Dim [in] As String = args - "/in"
+        Dim min As Double = args.GetValue("/min", 0.01)
+        Dim max As Double = args.GetValue("/max", 0.05)
+
+        If [in].FileExists Then
+            Dim file As DocumentStream.File = DocumentStream.File.Load([in])
+            Dim out As String = [in].TrimFileExt & $"-{min},{max}.Csv"
+            Dim rows As New List(Of String)
+
+            For Each row In file.Skip(1)
+
+            Next
+
+            Return rows.SaveTo(out)
+        Else ' DIR
+            For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+
+            Next
+        End If
     End Function
 End Module
