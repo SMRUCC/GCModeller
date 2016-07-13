@@ -96,9 +96,10 @@
     <Compile Include="BEBaC\CrudeClustering.vb" />
     <Compile Include="BEBaC\Model.vb" />
     <Compile Include="BEBaC\PosteriorProbability.vb" />
-    <Compile Include="Gast.vb" />
-    <Compile Include="Taxonomy.vb" />
-    <Compile Include="GastTools.vb" />
+    <Compile Include="gast\Gast.vb" />
+    <Compile Include="gast\subs.vb" />
+    <Compile Include="gast\Taxonomy.vb" />
+    <Compile Include="gast\GastTools.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
