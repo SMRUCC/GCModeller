@@ -28,6 +28,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Perl
+Imports Microsoft.VisualBasic.Linq
 
 'package Taxonomy;
 
@@ -237,7 +238,7 @@ Public Class Taxonomy : Inherits ClassObject
     ''' Return the consensus tax Object, As well As stats On the agreement
     ''' </summary>
     ''' <returns></returns>
-    Public Shared Function consemsus(array As Taxonomy(), majority As Double)
+    Public Shared Function consemsus(array As Taxonomy(), majority As Double) As Taxonomy()
         ' Correct For percentages 1-100
         If (majority <= 1) Then majority = majority * 100
 
@@ -313,12 +314,26 @@ Public Class Taxonomy : Inherits ClassObject
         Dim taxReturn As Taxonomy() = {}
 
         If newTax.Length = 0 Then
-
             Push(taxReturn, New Taxonomy("Unknown")) ' If no consensus at all, Call it Unknown
         Else
             Push(taxReturn, New Taxonomy(newTax)) ' taxonomy Object For consensus
         End If
 
+        ' If (! $taxReturn[0]) {$taxReturn[0] = "NA";}
+        If taxReturn(0) Is Nothing Then taxReturn(0) = New Taxonomy("Unknown") ' # 20081126 - empty tax should be 'Unknown'
+        If taxReturn(-1)?.taxstring = "Unassigned" Then pop(taxReturn) ' If resolved to an Unassigned rank, remove it.
+
+        taxReturn(1) = New Taxonomy(conVote + 0.5) ' winning majority
+
+        If (minRankIndex >= 0) Then
+            minRank = ranks(minRankIndex)
+        End If
+
+        taxReturn(2) = New Taxonomy(minRank.ToString) ' lowest rank With valid assignment
+        taxReturn(3) = New Taxonomy(rankCounts.ToArray(Function(x) x.ToString)) ' number Of different taxa at Each rank
+        taxReturn(4) = New Taxonomy(maxPcts.ToArray(Function(x) x.ToString)) ' percentage Of the most popular taxon (!= "NA")
+        taxReturn(5) = New Taxonomy(naPcts.ToArray(Function(x) x.ToString)) ' percentage that are unassigned ("NA")
+        Return taxReturn
     End Function
 End Class
 
