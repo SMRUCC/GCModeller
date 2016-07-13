@@ -38,13 +38,13 @@
 '#use Lib "/class/stamps-software/bin";
 'use Taxonomy;
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Language.Perl
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
-Imports System.IO
 
 Namespace gast
 
@@ -103,6 +103,12 @@ Namespace gast
         Public Property mothur As String = App.HOME & "/gast/mothur.exe"
         Public Property verbose As Integer = 0
 
+        ''' <summary>
+        ''' reads a fasta file of trimmed 16S sequences, compares each sequence to
+        ''' a set of similarly trimmed ( Or full-length ) 16S reference sequences 
+        ''' And assigns taxonomy
+        ''' </summary>
+        ''' <param name="args"></param>
         <Extension> Public Sub Invoke(args As ARGV)
             Dim log_filename As String = "gast.log"
             Dim in_filename As String = args.in
