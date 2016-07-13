@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Gast
@@ -34,5 +35,23 @@ Public Module Gast
         End Using
 
         Return True
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="[in]">file path of *.names</param>
+    ''' <returns></returns>
+    Public Iterator Function NamesClusterOut([in] As String) As IEnumerable(Of NamedValue(Of String()))
+        Dim lines As String() = [in].ReadAllLines
+
+        For Each line As String In lines
+            Dim tokens As String() = Strings.Split(line, vbTab)
+
+            Yield New NamedValue(Of String()) With {
+                .Name = tokens(Scan0),
+                .x = tokens(1).Split(","c)
+            }
+        Next
     End Function
 End Module
