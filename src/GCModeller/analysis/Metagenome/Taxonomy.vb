@@ -78,15 +78,24 @@ Public Class Taxonomy : Inherits ClassObject
     ''' </summary>
     ''' <param name="line"></param>
     Sub New(line As String)
-        Dim data As String() = line.Split(";"c)
-        ' Remove trailing NAs And replace internal blanks With "Unassigned"
-        Dim assigned As New Pointer
+        Call Me.New(__data(line))
+    End Sub
 
+    Private Shared Function __data(line As String) As String()
+        Dim data As String() = line.Split(";"c)
+
+        ' Remove trailing NAs And replace internal blanks With "Unassigned"
         For i As Integer = 0 To data.Length
             If data(i).IsBlank OrElse data(i) = "NA" Then
                 data(i) = "Unassigned"
             End If
         Next
+
+        Return data
+    End Function
+
+    Sub New(data As String())
+        Dim assigned As New Pointer
 
         domain = data(++assigned)
         phylum = data(++assigned)
@@ -234,9 +243,9 @@ Public Class Taxonomy : Inherits ClassObject
 
         ' Set up variables To store the results
         Dim newTax As String() = {}  ' consensus taxon
-        Dim rankCounts As Integer  ' number of different taxa for each rank
-        Dim maxPcts As Double ' percentage of most popular taxon for each rank
-        Dim naPcts As Double  ' percentage of each rank that has no taxonomy assigned
+        Dim rankCounts As Integer() = {}  ' number of different taxa for each rank
+        Dim maxPcts As Double() = {} ' percentage of most popular taxon for each rank
+        Dim naPcts As Double() = {}  ' percentage of each rank that has no taxonomy assigned
         Dim conVote As Integer = 0
         Dim taxCount As Integer = array.Length
         Dim minRankIndex As Integer = -1
@@ -279,19 +288,37 @@ Public Class Taxonomy : Inherits ClassObject
                     minRankIndex = i
                     If tallies(k) > maxCnt Then maxCnt = tallies(k)
                 Else
-                        naCnt = tallies(k)
-                    End If
+                    naCnt = tallies(k)
+                End If
 
                 Dim vote = (tallies(k) / taxCount) * 100
                 If ((k <> "NA") AndAlso (vote > topPct)) Then topPct = vote
-                vote = (100 * (tallies(k) / taxCount) + 0.5)
+                ' vote = (100 * (tallies(k) / taxCount) + 0.5)
                 If ((Not done) AndAlso (vote >= majority)) Then
                     Push(newTax, k)
                     If k <> "NA" Then conVote = vote
-
                 End If
+            Next
+
+            If topPct < majority Then done = 1
+
+            ' If ($#newTax < $i) {push (@newTax, "NA");}
+            Push(rankCounts, rankCnt)
+            If (taxCount > 0) Then
+                Push(maxPcts, (100 * (maxCnt / taxCount) + 0.5))
+                Push(naPcts, (100 * (naCnt / taxCount) + 0.5))
+            End If
         Next
-        Next
+
+        Dim taxReturn As Taxonomy() = {}
+
+        If newTax.Length = 0 Then
+
+            Push(taxReturn, New Taxonomy("Unknown")) ' If no consensus at all, Call it Unknown
+        Else
+            Push(taxReturn, New Taxonomy(newTax)) ' taxonomy Object For consensus
+        End If
+
     End Function
 End Class
 
