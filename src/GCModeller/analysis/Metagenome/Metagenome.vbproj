@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BEBaC\gks227.pdf" />
+    <None Include="usearch\Bioinformatics-2010-Edgar-2460-1.pdf" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
