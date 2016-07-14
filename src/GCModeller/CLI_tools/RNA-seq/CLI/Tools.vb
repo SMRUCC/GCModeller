@@ -33,14 +33,6 @@ Partial Module CLI
         Dim ptes = Crude.MarginalLikelihood
     End Function
 
-    <ExportAPI("/Export.SSU.Refs",
-               Usage:="/Export.SSU.Refs /in <ssu.fasta> [/out <out.DIR>]")>
-    Public Function ExportSSURefs(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim EXPORT As String = [in].TrimFileExt & ".EXPORT/"
-        Return [in].ExportSILVA(EXPORT).CLICode
-    End Function
-
     <ExportAPI("/Co.Vector", Usage:="/Co.Vector /in <co.Csv/DIR> [/min 0.01 /max 0.05 /out <out.csv>]")>
     Public Function CorrelatesVector(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
