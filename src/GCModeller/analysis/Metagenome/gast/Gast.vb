@@ -111,7 +111,7 @@ Namespace gast
         ''' <param name="args"></param>
         <Extension> Public Sub Invoke(args As ARGV)
             Dim log_filename As String = "gast.log"
-            Dim in_filename As String = args.in
+            Dim in_filename As String = args.in.Replace("\", "/")
             Dim ref_filename As String = args.ref
             Dim udb_filename As String = args.udb
             Dim reftax_filename As String = args.rtax
@@ -500,7 +500,7 @@ Namespace gast
                         '
                         ' convert from percent identity To distance
                         '
-                        Dim dist As String = (((10 * (100 - pctid)) + 0.5)) / 1000
+                        Dim dist As String = (Int((10 * (100 - pctid)) + 0.5)) / 1000
 
                         '
                         ' print out the data
