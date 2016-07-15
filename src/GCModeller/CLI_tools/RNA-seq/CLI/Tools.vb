@@ -175,16 +175,12 @@ Partial Module CLI
 
             For Each fa As FastaToken In nt.ReadStream
                 Dim title As String = fa.Title
-                Dim gi As String() =
-                    Regex.Matches(title, "gi\|\d+", RegexICSng) _
-                         .ToArray(Function(s) s.Split("|"c).Last)
-                Dim result = From id As String
-                             In gi
-                             Select New NamedValue With {
-                                 .Name = id,
-                                 .Title = title
-                             }
-                Call writer.Flush(result.ToArray, False)
+                Dim gi As String = title.Match("gi\|\d+", RegexICSng).Split("|"c).Last  ' 由于bowetie程序建库的时候只取最开始的值，所以在这里只需要第一个match就行了
+                Dim result As New NamedValue With {
+                    .Name = gi,
+                    .Title = title
+                }
+                Call writer.Flush(result)
             Next
         End Using
 
