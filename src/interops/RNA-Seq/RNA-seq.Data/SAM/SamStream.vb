@@ -146,16 +146,21 @@ Namespace SAM
         Private Shared Function ReadHeaders(ByRef Fs As FileStream, encoding As System.Text.Encoding, ByRef LeftArray As String(), CHUNK_SIZE As Integer) As SAMHeader()
             Dim bytsBuf As Byte()
 
-            If Fs.Length - Fs.Position > CHUNK_SIZE Then
-                bytsBuf = New Byte(CHUNK_SIZE - 1) {}
-                Call Fs.Read(bytsBuf, 0, CHUNK_SIZE)
+            If Fs.Length < 1024 * 1024 * 128 Then
+                bytsBuf = New Byte(Fs.Length - 1) {}
+                Call Fs.Read(bytsBuf, 0, Fs.Length)
             Else
-                bytsBuf = New Byte(Fs.Length - Fs.Position - 1) {}
-                Call Fs.Read(bytsBuf, 0, Fs.Length - Fs.Position)
+                If Fs.Length - Fs.Position > CHUNK_SIZE Then
+                    bytsBuf = New Byte(CHUNK_SIZE - 1) {}
+                    Call Fs.Read(bytsBuf, 0, CHUNK_SIZE)
+                Else
+                    bytsBuf = New Byte(Fs.Length - Fs.Position - 1) {}
+                    Call Fs.Read(bytsBuf, 0, Fs.Length - Fs.Position)
+                End If
             End If
 
-            Dim s_Data As String = encoding.GetString(bytsBuf).Replace(vbLf, "")
-            Dim Tokens As String() = s_Data.Split(CChar(vbCr))
+            Dim s_Data As String = encoding.GetString(bytsBuf)
+            Dim Tokens As String() = s_Data.lTokens
             Dim i As Integer
             Dim s As String = Tokens(i)
             Dim Headers As New List(Of String)

@@ -4,11 +4,15 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 Partial Module CLI
 
@@ -90,6 +94,28 @@ Partial Module CLI
 
     <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/out <out.Csv>]")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Maps.Csv")
+        Dim reader As New SamStream([in])
+        Dim result As New List(Of SimpleSegment)
 
+        For Each readMaps In reader.ReadBlock
+            result += New SimpleSegment With {
+                .ID = readMaps.RNAME,
+                .Start = readMaps.POS,
+                .Strand = readMaps.Strand.GetBriefCode,
+                .SequenceData = readMaps.QUAL,
+                .Complement = readMaps.QNAME,
+                .Ends =readMaps .FLAG 
+            }
+        Next
+
+        Dim maps As New Dictionary(Of String, String) From {
+ _
+            {NameOf(SimpleSegment.Complement), NameOf(AlignmentReads.QNAME)},
+            {NameOf(SimpleSegment.Ends), NameOf(AlignmentReads.FLAG)}
+        }
+
+        Return result.SaveTo(out, maps:=maps)
     End Function
 End Module
