@@ -36,6 +36,26 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Public Module TextDoc
 
     ''' <summary>
+    ''' Enumerate all of the chars in the target text file.
+    ''' </summary>
+    ''' <param name="path"></param>
+    ''' <param name="encoding"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ForEachChar(path As String, Optional encoding As Encodings = Encodings.Default) As IEnumerable(Of Char)
+        Using file As New FileStream(path, FileMode.Open)
+            Using reader As New IO.BinaryReader(file, encoding.GetEncodings)
+                Dim bs As Stream = reader.BaseStream
+                Dim l As Long = bs.Length
+
+                Do While bs.Position < l
+                    Yield reader.ReadChar
+                Loop
+            End Using
+        End Using
+    End Function
+
+    ''' <summary>
     ''' Open text file writer, this function will auto handle all things.
     ''' </summary>
     ''' <param name="path"></param>
