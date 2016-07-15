@@ -70,7 +70,7 @@ Partial Module CLI
 
         Call "".SaveTo(outNt)
 
-        Using writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate))
+        Using writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate), Encoding.ASCII)
 
             Call writer.WriteLine("> " & [in].BaseName)
 
@@ -87,6 +87,8 @@ Partial Module CLI
                     .Strand = "+"
                 }
                 i = nx + il
+
+                ' Call Console.Write(".")
             Next
 
             Call contigs.SaveTo(outContigs)
