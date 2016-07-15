@@ -127,12 +127,22 @@ Namespace SequenceModel.NucleotideModels : Partial Class SegmentReader
                             Starts = 1
                         End If
                         If WARNING Then
-                            Call Console.WriteLine(READER_WARNING_MESSAGE, vbCrLf, Len(Me.SequenceData), vbCrLf, Starts, vbCrLf, Length)
+                            Call String.Format(READER_WARNING_MESSAGE,
+                                               vbCrLf,
+                                               Len(Me.SequenceData),
+                                               vbCrLf,
+                                               Starts,
+                                               vbCrLf,
+                                               Length).Warning
                         End If
-                        Return New NucleicAcid With {.SequenceData = Mid(Me.SequenceData, Starts, Length)} '为线状分子，则仅将剩余部分截取，并给出警告
+                        Return New NucleicAcid With {
+                            .SequenceData = Mid(Me.SequenceData, Starts, Length)
+                        } '为线状分子，则仅将剩余部分截取，并给出警告
                     End If
                 Else
-                    Return New NucleicAcid With {.SequenceData = Mid(Me.SequenceData, Starts, Length)}
+                    Return New NucleicAcid With {
+                        .SequenceData = Mid(Me.SequenceData, Starts, Length)
+                    }
                 End If
             End Function
 #End Region

@@ -1,10 +1,12 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module CLI
 
@@ -49,6 +51,34 @@ Partial Module CLI
                 Next
             End If
         End Using
+
+        Return 0
+    End Function
+
+    Const Interval As String = "NNNNNNNNNN"
+
+    <ExportAPI("/Contacts", Usage:="/Contacts /in <in.fasta> [/out <out.DIR>]")>
+    Public Function Contacts(args As CommandLine) As Integer
+        Dim [in] As String = args - "/in"
+        Dim i As Integer = 1
+        Dim contigs As New List(Of Contig)
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Contigs/")
+        Dim outNt As String = out & "/nt.fasta"
+        Dim outContigs As String = out & "/contigs.csv"
+
+        Call "".SaveTo(outNt)
+
+        Dim writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate))
+
+        Call writer.WriteLine("> " & [in].BaseName)
+
+        For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+            Call writer.Write(fa.SequenceData)
+            Call writer.Write(Interval)
+
+            Dim nx As Integer = i + fa.Length
+            contigs += New Contig With {. }
+        Next
 
         Return 0
     End Function
