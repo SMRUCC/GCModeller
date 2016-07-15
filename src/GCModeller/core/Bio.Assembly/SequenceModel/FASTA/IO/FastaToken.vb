@@ -26,12 +26,13 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
 Namespace SequenceModel.FASTA
 
@@ -286,7 +287,8 @@ Namespace SequenceModel.FASTA
             Dim fa As New FastaToken
 
             fa.Attributes = Mid(lines(Scan0), 2).Split(CChar("|"))
-            fa.SequenceData = String.Join("", lines.Skip(1).ToArray)  'Linux mono does not support <Extension> attribute!
+            fa.Attributes = fa.Attributes.ToArray(Function(s) s.Replace(StreamIterator.SOH, ""))
+            fa.SequenceData = String.Join("", lines.Skip(1).ToArray)  ' Linux mono does not support <Extension> attribute!
 
             Return fa
         End Function

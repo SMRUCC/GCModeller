@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -136,10 +137,10 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Associate.GI",
-               Usage:="/Associate.GI /in <list.Csv.DIR> /ref <nt.fasta> /out <out.DIR>")>
+               Usage:="/Associate.GI /in <list.Csv.DIR> /gi <nt.gi.csv> [/out <out.DIR>]")>
     Public Function AssociateGI(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim ref As String = args("/ref")
+        Dim ref As String = args("/gi")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & "." & ref.BaseName & "/")
         Dim hash = __buildHash(ref)
 
@@ -161,6 +162,35 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Export.GI", Usage:="/Export.GI /in <ncbi:nt.fasta> [/out <out.csv>]")>
+    Public Function ExportGI(args As CommandLine) As Integer
+        Dim [in] As String = args - "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".gi.Csv")
+        Dim nt As New StreamIterator([in])
+
+        Using writer As New WriteStream(Of NamedValue)(out)
+
+            writer.BaseStream.AutoFlush = True
+            writer.BaseStream.NewLine = vbLf
+
+            For Each fa As FastaToken In nt.ReadStream
+                Dim title As String = fa.Title
+                Dim gi As String() =
+                    Regex.Matches(title, "gi\|\d+", RegexICSng) _
+                         .ToArray(Function(s) s.Split("|"c).Last)
+                Dim result = From id As String
+                             In gi
+                             Select New NamedValue With {
+                                 .Name = id,
+                                 .Title = title
+                             }
+                Call writer.Flush(result.ToArray, False)
+            Next
+        End Using
+
+        Return 0
+    End Function
+
     Public Class NamedValue
         Public Property Name As String
         Public Property x As String
@@ -172,26 +202,14 @@ Partial Module CLI
     ''' </summary>
     ''' <returns></returns>
     Private Function __buildHash(nt As String) As Dictionary(Of String, String)
-        Dim source As New StreamIterator(nt)
-        Dim pairs = From x As FastaToken
-                    In source.ReadStream
-                    Let title As String = x.Title
-                    Let gi As String() = Regex.Matches(title, "gi\|\d+", RegexICSng).ToArray
-                    Select gi,
-                        title
+        Dim source As IEnumerable(Of NamedValue) = nt.LoadCsv(Of NamedValue)
         Dim Groups = From p
-                     In (From x
-                         In pairs
-                         Let data = (From o As String
-                                     In x.gi
-                                     Select o,
-                                         x.title)
-                         Select data).MatrixAsIterator
+                     In source
                      Select p
-                     Group By gi = p.o Into Group
+                     Group By gi = p.Name Into Group
         Return Groups.ToDictionary(
-            Function(x) x.gi.Split("|"c).Last,
+            Function(x) x.gi,
             Function(x) x.Group.Select(
-            Function(o) o.title).JoinBy("; "))
+            Function(o) o.Title).JoinBy("; "))
     End Function
 End Module
