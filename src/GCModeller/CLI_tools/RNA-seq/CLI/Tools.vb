@@ -87,4 +87,9 @@ Partial Module CLI
 
         Return rows.SaveTo(out)
     End Function
+
+    <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/out <out.Csv>]")>
+    Public Function ExportSAMMaps(args As CommandLine) As Integer
+
+    End Function
 End Module
