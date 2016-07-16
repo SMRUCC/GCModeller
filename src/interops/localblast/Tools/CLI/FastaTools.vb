@@ -5,7 +5,9 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -93,6 +95,21 @@ Partial Module CLI
 
             Call contigs.SaveTo(outContigs)
         End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Taxonomy.efetch", Usage:="/Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]")>
+    Public Function FetchTaxnData(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy.efetch/")
+        Dim reader As New StreamIterator([in])
+        Dim i As New Pointer
+
+        For Each result In reader.ReadStream.efetch
+            Dim out As String = $"{EXPORT}/part{++i}.Xml"
+            Call result.SaveAsXml(out)
+        Next
 
         Return 0
     End Function
