@@ -30,6 +30,7 @@ Currently the R language hybrids programming environment just provides some ``bi
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pXOCGX01-lightbox.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/phenotypic-bTree-lightbox.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pxocgx01_blastx-lightbox.png)
+![XC_1184 protein structure drawing](./GCModeller/Data/pdb_Draw/XC_1184.png)
 
 ##Feature tools
 
