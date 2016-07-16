@@ -1,9 +1,11 @@
 # NCBI_taxonomy_tree
 
 The NCBI Taxonomy database is a curated set of names and classifications for all of the organisms that are represented in GenBank (http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/).
-It can be accessed via http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi or it can be downloaded from ftp://ftp.ncbi.nih.gov/pub/taxonomy/ in the form of 2 files : nodes.dmp for the structure of the tree and names.dmp for the names of the different nodes.
+It can be accessed via http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi or it can be downloaded from ftp://ftp.ncbi.nih.gov/pub/taxonomy/ in the form of 2 files : ``nodes.dmp`` for the structure of the tree and ``names.dmp`` for the names of the different nodes.
 
-Here I make available my in-memory mapping of the NCBI taxonomy : a Python 2.7 class that maps the names.dmp and nodes.dmp files in a Python dictionnary which can be used to retrieve lineages, descendants, etc ...
+Here I make available my in-memory mapping of the NCBI taxonomy : a VisualBasic.NET class that maps the ``names.dmp`` and ``nodes.dmp`` files in a dictionnary which can be used to retrieve lineages, descendants, etc ...
+
+> The source code was translated from the python script: https://github.com/frallain/NCBI_taxonomy_tree
 
 The object is built this way :
 
