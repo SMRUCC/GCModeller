@@ -42,7 +42,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Public Module StringHelpers
 
     <Extension>
-    Public Function S(chs As IEnumerable(Of Char)) As String
+    Public Function CharString(chs As IEnumerable(Of Char)) As String
         Return New String(chs.ToArray)
     End Function
 

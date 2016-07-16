@@ -91,11 +91,16 @@ Namespace Assembly.NCBI
 
                 If dic.ContainsKey(taxid) Then ': # 18204/1308852
                     Dim x = dic(taxid)
-                    x.rank = lineTokens(2).slice(1, -1).S
+                    x.rank = lineTokens(2).slice(1, -1).CharString
                     x.parent = parent_taxid
                     dic(taxid) = x ' dic(taxid).Replace(rank = line[2][1:             -1], parent=parent_taxid)
                 Else ':           # 1290648/1308852
-                    dic(taxid) = New Node With {.name = taxid2name(taxid), .rank = lineTokens(2).slice(1, -1).S, .parent = parent_taxid, .children = New List(Of Integer)}
+                    dic(taxid) = New Node With {
+                        .name = taxid2name(taxid),
+                        .rank = lineTokens(2).slice(1, -1).CharString,
+                        .parent = parent_taxid,
+                        .children = New List(Of Integer)
+                    }
                     '    del taxid2name(taxid)
                 End If
 
