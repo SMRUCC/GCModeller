@@ -1,8 +1,21 @@
-﻿Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic
+﻿Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Python
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.NCBI
+
+    Public Class Node
+        Public Property taxid As Integer
+        Public Property name As String
+        Public Property rank As String
+        Public Property parent As String
+        Public Property children As List(Of Integer)
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
 
     ''' <summary>
     ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
@@ -34,7 +47,7 @@ Namespace Assembly.NCBI
 
         Shared ReadOnly stdranks As IReadOnlyCollection(Of String) = {"species", "genus", "family", "order", "class", "phylum", "superkingdom"}
 
-        Public ReadOnly Property dic As New Dictionary(Of Integer, String)
+        Public ReadOnly Property dic As New Dictionary(Of Integer, Node)
 
         ''' <summary>
         ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
@@ -77,28 +90,283 @@ Namespace Assembly.NCBI
                 Dim parent_taxid = CInt(lineTokens(1))
 
                 If dic.ContainsKey(taxid) Then ': # 18204/1308852
-                    '   dic(taxid) = dic(taxid).Replace(rank = line[2][1:             -1], parent=parent_taxid)
+                    Dim x = dic(taxid)
+                    x.rank = lineTokens(2).slice(1, -1).S
+                    x.parent = parent_taxid
+                    dic(taxid) = x ' dic(taxid).Replace(rank = line[2][1:             -1], parent=parent_taxid)
                 Else ':           # 1290648/1308852
-                    '     dic(taxid) = Node(name = taxid2name[taxid], rank = line[2][1:           -1], parent=parent_taxid, children=[])
+                    dic(taxid) = New Node With {.name = taxid2name(taxid), .rank = lineTokens(2).slice(1, -1).S, .parent = parent_taxid, .children = New List(Of Integer)}
                     '    del taxid2name(taxid)
                 End If
 
                 Try ':         # 1290648/1308852
-                    '   self.dic[parent_taxid].children.append(taxid)
+                    dic(parent_taxid).children.Add(taxid)
                 Catch ex As Exception
                     '   except KeyError:         # 18204/1308852
-                    '       self.dic[parent_taxid] = Node(name = taxid2name[parent_taxid], rank = None, parent = None, children = [taxid])
+                    dic(parent_taxid) = New Node With {.name = taxid2name(parent_taxid), .rank = Nothing, .parent = Nothing, .children = New List(Of Integer)({taxid})}
                     '     del taxid2name[parent_taxid]
                 End Try
             Next
 
             ' Log.debug("nodes.dmp parsed")
             '# To avoid infinite Loop
-            '  root_children = self.dic[1].children
-            '  root_children.remove(1)
-            '  dic[1] = self.dic[1]._replace(parent=None, children=root_children)
+            Dim root_children = dic(1).children
+            root_children.Remove(1)
+            Dim xx = dic(1)
+            xx.parent = Nothing
+            xx.children = root_children
+            dic(1) = xx 'dic(1)._replace(parent = None, children = root_children)
             '  Log.info("NcbiTaxonomyTree built")
         End Sub
+
+        Public Function getParent(taxids As IEnumerable(Of Integer))
+            '"""
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> tree.getParent([28384, 131567])
+            '    {28384: 1, 131567: 1}
+            '"""
+            Dim result As New Dictionary(Of Integer, String)
+            For Each taxid In taxids
+                result(taxid) = dic(taxid).parent
+            Next
+            Return result
+        End Function
+
+        Public Function getRank(taxids As IEnumerable(Of Integer))
+            '"""
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> tree.getRank([28384, 131567])
+            '    {28384: 'no rank', 131567: 'no rank'}
+            '"""
+            Dim result As New Dictionary(Of Integer, String)
+            For Each taxid In taxids
+                result(taxid) = dic(taxid).rank
+            Next
+            Return result
+        End Function
+
+        Public Function getChildren(taxids As IEnumerable(Of Integer))
+            '"""
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> tree.getChildren([28384, 131567])
+            '    {28384: [2387, 2673, 31896, 36549, 81077], 131567: [2, 2157, 2759]}
+            '"""
+            Dim result As New Dictionary(Of Integer, List(Of Integer))
+            For Each taxid In taxids
+                result(taxid) = dic(taxid).children
+            Next
+            Return result
+        End Function
+
+        Public Function getName(taxids As IEnumerable(Of Integer))
+            '"""
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> tree.getName([28384, 131567])
+            '    {28384: 'other sequences', 131567: 'cellular organisms'}
+            '"""
+            Dim result As New Dictionary(Of Integer, String)
+            For Each taxid In taxids
+                result(taxid) = dic(taxid).name
+            Next
+
+            Return result
+        End Function
+
+        Public Function getAscendantsWithRanksAndNames(taxids As IEnumerable(Of Integer), Optional only_std_ranks As Boolean = False)
+            '""" 
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> tree.getAscendantsWithRanksAndNames([1,562]) # doctest: +NORMALIZE_WHITESPACE
+            '    {1: [Node(taxid=1, rank='no rank', name='root')],
+            '     562: [Node(taxid=562, rank='species', name='Escherichia coli'),
+            '      Node(taxid=561, rank='genus', name='Escherichia'),
+            '      Node(taxid=543, rank='family', name='Enterobacteriaceae'),
+            '      Node(taxid=91347, rank='order', name='Enterobacteriales'),
+            '      Node(taxid=1236, rank='class', name='Gammaproteobacteria'),
+            '      Node(taxid=1224, rank='phylum', name='Proteobacteria'),
+            '      Node(taxid=2, rank='superkingdom', name='Bacteria'),
+            '      Node(taxid=131567, rank='no rank', name='cellular organisms'),
+            '      Node(taxid=1, rank='no rank', name='root')]}
+            '    >>> tree.getAscendantsWithRanksAndNames([562], only_std_ranks=True) # doctest: +NORMALIZE_WHITESPACE
+            '    {562: [Node(taxid=562, rank='species', name='Escherichia coli'),
+            '      Node(taxid=561, rank='genus', name='Escherichia'),
+            '      Node(taxid=543, rank='family', name='Enterobacteriaceae'),
+            '      Node(taxid=91347, rank='order', name='Enterobacteriales'),
+            '      Node(taxid=1236, rank='class', name='Gammaproteobacteria'),
+            '      Node(taxid=1224, rank='phylum', name='Proteobacteria'),
+            '      Node(taxid=2, rank='superkingdom', name='Bacteria')]}
+            '"""
+            Dim _getAscendantsWithRanksAndNames =
+                Function(taxid) ', only_std_ranks)
+                    '  Node = NamedTuple('Node', ['taxid', 'rank', 'name'])
+                    Dim lineage = {New Node With {.taxid = taxid,
+                                                                      .rank = dic(taxid).rank,
+                             .name = dic(taxid).name}}
+                    Do While dic(taxid).parent IsNot Nothing
+                        taxid = dic(taxid).parent
+                        lineage.Append(New Node With {.taxid = taxid,
+                                      .rank = dic(taxid).rank,
+                                       .name = dic(taxid).name})
+                    Loop
+                    If only_std_ranks Then
+                        Dim std_lineage = LinqAPI.MakeList(Of Node) <= From lvl In lineage Where stdranks.Contains(lvl.rank)
+                        Dim lastlevel = 0
+                        If lineage(lastlevel).rank = "no rank" Then
+                            std_lineage.Insert(0, lineage(lastlevel))
+                        End If
+                        lineage = std_lineage
+                    End If
+                    Return lineage
+                End Function
+
+            Dim result As New Dictionary(Of Integer, Node())
+
+            For Each taxid In taxids
+                result(taxid) = _getAscendantsWithRanksAndNames(taxid)
+            Next
+            Return result
+        End Function
+
+        Public Function _getDescendants(taxid) As IEnumerable(Of Integer)
+            '""" 
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> tree._getDescendants(208962) # doctest: +NORMALIZE_WHITESPACE
+            '    [208962, 502347, 550692, 550693, 909209, 910238, 1115511, 1440052]
+            '"""
+            Dim children = dic(taxid).children
+            Dim result
+
+            If Not children.IsNullOrEmpty Then
+                result = From child In children Select _getDescendants(child)
+                result.insert(0, taxid)
+            Else
+                result = taxid
+            End If
+            Return result
+        End Function
+        Public Function getDescendants(taxids)
+            '""" Returns all the descendant taxids from a branch/clade 
+            '    of a list of taxids : all nodes (leaves or not) of the 
+            '    tree are returned including the original one.
+
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> taxid2descendants = tree.getDescendants([208962,566])
+            '    >>> taxid2descendants == {566: [566, 1115515], 208962: [208962, 502347, 550692, 550693, 909209, 910238, 1115511, 1440052]}
+            '    True
+            '"""
+            Dim result = {}
+            For Each taxid In taxids
+                result(taxid) = flatten(_getDescendants(taxid))
+            Next
+            Return result
+        End Function
+        Public Function getDescendantsWithRanksAndNames(taxids)
+            '""" Returns the ordered list of the descendants with their respective ranks and names for a LIST of taxids.
+
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> taxid2descendants = tree.getDescendantsWithRanksAndNames([566]) # doctest: +NORMALIZE_WHITESPACE
+            '    >>> taxid2descendants[566][1].taxid 
+            '    1115515
+            '    >>> taxid2descendants[566][1].rank 
+            '    'no rank'
+            '    >>> taxid2descendants[566][1].name 
+            '    'Escherichia vulneris NBRC 102420'
+            '"""
+            '    Node = namedtuple('Node', ['taxid', 'rank', 'name'])
+            Dim result = {}
+            For Each taxid In taxids
+                result(taxid) = From descendant In _getDescendants(taxid) Select New Node With {.taxid = descendant,
+                           .rank = dic(descendant).rank,
+                           .name = dic(descendant).name}
+
+            Next
+            Return result
+        End Function
+
+        Public Function getLeaves(taxid As Integer) As IEnumerable
+            '""" Returns all the descendant taxids that are leaves of the tree from 
+            '    a branch/clade determined by ONE taxid.
+
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> taxids_leaves_entire_tree = tree.getLeaves(1)
+            '    >>> len(taxids_leaves_entire_tree)
+            '    1184218
+            '    >>> taxids_leaves_escherichia_genus = tree.getLeaves(561)
+            '    >>> len(taxids_leaves_escherichia_genus)
+            '    3382
+            '"""
+
+            Dim result = _getLeaves(taxid)
+
+            If result Is Nothing Then  '    # In case of the taxid has no child
+                result = [result]
+            Else
+                result = flatten(result)
+            End If
+            Return result
+        End Function
+
+        Private Function _getLeaves(taxid As Integer) As IEnumerable
+            Dim children = dic(taxid).children
+            Dim out = From child In children Where children IsNot Nothing Select _getLeaves(child) 'Else taxid
+            Return out
+        End Function
+
+        Public Function getLeavesWithRanksAndNames(taxid)
+            '""" Returns all the descendant taxids that are leaves of the tree from 
+            '    a branch/clade determined by ONE taxid.
+
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> taxids_leaves_entire_tree = tree.getLeavesWithRanksAndNames(561)
+            '    >>> taxids_leaves_entire_tree[0]
+            '    Node(taxid=1266749, rank='no rank', name='Escherichia coli B1C1')
+            '"""
+            '   Node = namedtuple('Node', ['taxid', 'rank', 'name'])                            
+            Dim result = From leaf In getLeaves(taxid) Select New Node With {.taxid = leaf,
+                   .rank = dic(leaf).rank,
+               .name = dic(leaf).name}
+
+            Return result
+        End Function
+        Public Function getTaxidsAtRank(rank)
+            '""" Returns all the taxids that are at a specified rank : 
+            '    standard ranks : species, genus, family, order, class, phylum,
+            '        superkingdom.
+            '    non-standard ranks : forma, varietas, subspecies, species group, 
+            '        subtribe, tribe, subclass, kingdom.
+
+            '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
+            '    >>> tree.getTaxidsAtRank('superkingdom')
+            '    [2, 2157, 2759, 10239, 12884]
+            '""" 
+            Return From node In dic.Values Where node.rank = rank Select node
+        End Function
+        Public Function preorderTraversal(taxid As Integer, only_leaves As Boolean)
+            '""" Prefix (Preorder) visit of the tree
+            '    https://en.wikipedia.org/wiki/Tree_traversal
+            '"""
+
+            Dim _preorderTraversal
+
+            If only_leaves Then
+                _preorderTraversal = Function()
+                                         Dim children = dic(taxid).children
+                                         Dim result = From child In children Select _preorderTraversal(child) 'for] if children else taxid
+                                         Return result
+                                     End Function
+            Else
+                _preorderTraversal = Function()
+                                         Dim children = dic(taxid).children
+                                         Dim result
+                                         If children IsNot Nothing Then
+                                             result = From child In children Select _preorderTraversal(child) ', taxid )
+                                         Else
+                                             result = taxid
+                                         End If
+                                         Return result
+                                     End Function
+            End If
+            Return _preorderTraversal(taxid)
+        End Function
 
         ''' <summary>
         ''' ```
