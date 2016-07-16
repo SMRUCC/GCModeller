@@ -10,13 +10,19 @@ GCModeller Virtual Cell System
 > + Github: https://github.com/smrucc/GCModeller
 > + SDK docs: http://docs.gcmodeller.org
 
-GCModeller is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for GCModeller on the large amount biological data analysis.
 
-The GCModeller platform is original writen in VisualBasic.NET, a feature bioinformatics analysis environment that .NET language hybrids programming with R language was included, which its SDK is available at repository:
+Supported platform: ``Microsoft Windows``, ``GNU Linux``, ``MAC``
+Development: Microsoft VisualStudio 2015 | VisualBasic.NET | .NET Framework 4.6 (or mono 4.4)
+Runtime environment: [VisualBasic App](https://www.nuget.org/packages/VB_AppFramework/) v1.0.40
+
+
+``GCModeller`` is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for ``GCModeller`` on the large amount biological data analysis.
+
+The ``GCModeller`` platform is original writen in ``VisualBasic.NET`` language, a feature bioinformatics analysis environment that .NET language hybrids programming with R language was included, which its SDK is available at repository:
 https://github.com/SMRUCC/R.Bioinformatics
-Currently the R language hybrids programming environment just provides some bioconductor API for the analysis in GCModeller.
+Currently the R language hybrids programming environment just provides some ``bioconductor`` API for the analysis in ``GCModeller``.
 
-GCModeller is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits.
+``GCModeller`` is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits. And some common bioinformatics problem utils tools and common biological database I/O tools is also available in GCModeller for the .NET language programming.
 
 #### Gallery
 
@@ -46,7 +52,7 @@ http://gcmodeller.org
 
 
 ##For developers
-Here are some released library of the GCModeller is published on nuget, then you can install these library in VisualStudio from **Package Manager Console**:
+Here are some released library of the ``GCModeller`` is published on nuget, then you can install these library in ``VisualStudio`` from **Package Manager Console**:
 
 Install Microsoft VisualBasic Runtime environment library for GCModeller:
 https://github.com/xieguigang/VisualBasic_AppFramework
