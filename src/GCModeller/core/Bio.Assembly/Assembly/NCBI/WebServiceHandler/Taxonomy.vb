@@ -80,15 +80,17 @@ Namespace Assembly.NCBI.Entrez
         <XmlElement> Public Property TSeq As TSeq()
     End Class
 
-    Public Class TSeq : Inherits ClassObject
-
-        Public Property TSeq_seqtype As StringValue
+    Public Class SeqBrief : Inherits ClassObject
         Public Property TSeq_gi As String
         Public Property TSeq_accver As String
         Public Property TSeq_taxid As String
         Public Property TSeq_orgname As String
         Public Property TSeq_defline As String
         Public Property TSeq_length As String
+    End Class
+
+    Public Class TSeq : Inherits SeqBrief
+        Public Property TSeq_seqtype As StringValue
         Public Property TSeq_sequence As String
     End Class
 End Namespace

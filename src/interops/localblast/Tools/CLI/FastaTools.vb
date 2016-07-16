@@ -1,11 +1,15 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -109,8 +113,26 @@ Partial Module CLI
         For Each result In reader.ReadStream.efetch
             Dim out As String = $"{EXPORT}/part{++i}.Xml"
             Call result.SaveAsXml(out)
+            Call Console.Write("|")
+            Call Thread.Sleep(1500)
         Next
 
-        Return 0
+        Return App.SelfFolk($"{GetType(CLI).API(NameOf(MergeFetchTaxonData))} /in {EXPORT.CliPath}").Run
+    End Function
+
+    <ExportAPI("/Taxonomy.efetch.Merge", Usage:="/Taxonomy.efetch.Merge /in <in.DIR> [/out <out.Csv>]")>
+    Public Function MergeFetchTaxonData(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in] & "/Taxonomy.efetch.Merge.Csv")
+
+        Using writer As New WriteStream(Of SeqBrief)(out)
+            For Each file As String In ls - l - r - wildcards("*.Xml") <= [in]
+                Dim xml = file.LoadXml(Of TSeqSet)
+                Dim info = xml.TSeq.ToArray(Function(x) DirectCast(x, SeqBrief))
+                Call writer.Flush(info)
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module
