@@ -324,6 +324,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
+    <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
     <Compile Include="Assembly\Uniprot\UniprotFasta.vb" />
     <Compile Include="Assembly\Uniprot\IdMapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\Entry.vb" />
