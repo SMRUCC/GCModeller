@@ -322,6 +322,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureParser.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureKeys.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\NcbiTaxonomyTree.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
