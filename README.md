@@ -10,11 +10,9 @@ GCModeller Virtual Cell System
 > + Github: https://github.com/smrucc/GCModeller
 > + SDK docs: http://docs.gcmodeller.org
 
-
-Supported platform: ``Microsoft Windows``, ``GNU Linux``, ``MAC``
-Development: Microsoft VisualStudio 2015 | VisualBasic.NET | .NET Framework 4.6 (or mono 4.4)
-Runtime environment: [VisualBasic App](https://www.nuget.org/packages/VB_AppFramework/) v1.0.40
-
+**Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC`` <br />
+**Development:** Microsoft VisualStudio 2015 | VisualBasic.NET | .NET Framework 4.6 (or mono 4.4)<br />
+**Runtime environment:** [VisualBasic App](https://www.nuget.org/packages/VB_AppFramework/) v1.0.40
 
 ``GCModeller`` is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for ``GCModeller`` on the large amount biological data analysis.
 
