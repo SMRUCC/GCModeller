@@ -1,4 +1,5 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.IO
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -6,11 +7,13 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
+<PackageNamespace("NCBI_tools.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gcmodeller.org")>
 Module CLI
 
     <ExportAPI("/Build_gi2taxi",
@@ -53,13 +56,13 @@ Module CLI
         Dim tax As String = args("/tax")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".NCBI.Taxonomy/")
         Dim ref As String = args("/gi")
+        Dim gi2taxi As String = args("/gi2taxi")
+        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.LoadArchive(gi2taxi)
         Dim taxTree As New NcbiTaxonomyTree(tax)
-        Dim gi2taxi As String = ""
         Dim hash As Dictionary(Of String, String) =
             If(ref.FileExists,
             TaxiValue.BuildHash(ref.LoadCsv(Of TaxiValue)),
             New Dictionary(Of String, String))
-        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.LoadArchive(gi2taxi)
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
             Dim data As IEnumerable(Of TaxiValue) = file.LoadCsv(Of TaxiValue)
@@ -79,7 +82,7 @@ Module CLI
             For Each x In LQuery
                 If taxiHash.ContainsKey(x.gi) Then
                     x.x.taxid = taxiHash(x.gi)
-                    x.x.TaxonomyTree = TaxonNode.Taxonomy(taxTree.GetAscendantsWithRanksAndNames({CInt(x.x.taxid)}).Values.First)
+                    x.x.TaxonomyTree = TaxonNode.Taxonomy(taxTree.GetAscendantsWithRanksAndNames({CInt(x.x.taxid)}, True).Values.First)
                 End If
             Next
 
@@ -89,5 +92,33 @@ Module CLI
         Next
 
         Return 0
+    End Function
+
+    <ExportAPI("/Nt.Taxonomy",
+               Usage:="/Nt.Taxonomy /in <nt.fasta> /gi2taxi <gi2taxi.bin> /tax <ncbi_taxonomy:names,nodes> [/out <out.fasta>]")>
+    Public Function NtTaxonomy(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim gi2taxi As String = args("/gi2taxi")
+        Dim tax As String = args("/tax")
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Taxonomy.fasta")
+        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.LoadArchive(gi2taxi)
+        Dim taxTree As New NcbiTaxonomyTree(tax)
+
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+                Dim gi As String = Regex.Match(fa.Title, "gi\|\d+", RegexICSng).Value
+
+                If Not String.IsNullOrEmpty(gi) AndAlso taxiHash.ContainsKey(gi) Then
+                    Dim taxi As Integer = taxiHash(gi)
+                    Dim tree = taxTree.GetAscendantsWithRanksAndNames({taxi}, True)
+                    Dim taxonomy As String = TaxonNode.Taxonomy(tree.First.Value)
+                    Dim title As String = $"gi_{gi}.{taxi} {taxonomy}"
+                    fa = New FastaToken({title}, fa.SequenceData)
+                    Call writer.WriteLine(fa.GenerateDocument(120))
+                End If
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module

@@ -109,6 +109,8 @@ Namespace Assembly.NCBI
                 Dim bl As Long = bs.Length
                 Dim ns As Integer()
 
+                Call "Start to load gi2taxi database into memory....".__DEBUG_ECHO
+
                 Do While bs.Position < bl
                     buf = reader.ReadBytes(bufSize)
                     ns = buf.SplitIterator(RawStream.INT32).ToArray(
@@ -116,7 +118,11 @@ Namespace Assembly.NCBI
                     For Each p As Integer() In ns.SplitIterator(2)
                         hash(p(0)) = p(1)
                     Next
+
+                    Call Console.Write("load next buffer")
                 Loop
+
+                Call "JOB DONE!".__DEBUG_ECHO
 
                 Return hash
             End Using
