@@ -5,7 +5,7 @@ Imports SMRUCC.genomics.Data.RCSB.PDB
 
 Public Class Canvas
 
-    Dim __driver As New UpdateThread(30, AddressOf __update)
+    Dim __driver As New UpdateThread(45, AddressOf __update)
     Dim _model As ChainModel
     Dim _viewDistance As Integer = -40
 
@@ -13,6 +13,8 @@ Public Class Canvas
         Dim pdb As PDB = PDB.Load(path)
         _model = New ChainModel(pdb)
         Call Me.Invalidate()
+
+        '    AutoRotate = True
     End Sub
 
     Dim usrCursor As Point
@@ -28,24 +30,49 @@ Public Class Canvas
         End If
     End Sub
 
-    Dim rotate As Double
+    Dim rotateX As Double
+    Dim rotateY As Double
+    Dim _autoRotation As Boolean = False
+
+    Public Property AutoRotate As Boolean
+        Get
+            Return _autoRotation
+        End Get
+        Set(value As Boolean)
+            _autoRotation = value
+            Call __driver.Start()
+        End Set
+    End Property
 
     Private Sub Canvas_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
         If Not _control Then
             Return
+        ElseIf AutoRotate Then
+            Return
         End If
 
-        rotate += (-usrCursor.X + e.X) / 10000
-        Call _model.Rotate(rotate)
+        rotateX += (-usrCursor.X + e.X) / 10000
+        rotateY += (-usrCursor.Y + e.Y) / 10000
+        '   Call _model.RotateX(rotateX)
+        ' Call _model.RotateY(rotateY)
+        Call _model.Rotate(rotateX)
     End Sub
 
     Private Sub Canvas_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
         _control = False
-        Call __driver.Stop()
+
+        If Not AutoRotate Then
+            Call __driver.Stop()
+        End If
     End Sub
 
     Private Sub __update()
         Call Invoke(Sub() Call Me.Invalidate())
+
+        If AutoRotate Then
+            rotateX += 0.25
+            Call _model.Rotate(rotateX)
+        End If
     End Sub
 
     Private Sub Canvas_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint

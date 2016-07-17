@@ -38,9 +38,23 @@ Public Class ChainModel
                                        Select New AA(x, AAColors)
     End Sub
 
-    Public Sub Rotate(x As Double)
-        For Each aa As AA In Chian
+    Public Sub RotateX(x As Double)
+        For Each aa As AA In __chain
             aa.Point = aa.Point.RotateX(x)
+        Next
+    End Sub
+
+    Public Sub RotateY(y As Double)
+        For Each aa As AA In __chain
+            aa.Point = aa.Point.RotateY(y)
+        Next
+    End Sub
+
+    Public Sub Rotate(a As Double)
+        For Each aa As AA In __chain
+            aa.Point = aa.Point.RotateX(a)
+            aa.Point = aa.Point.RotateY(a)
+            aa.Point = aa.Point.RotateZ(a)
         Next
     End Sub
 
