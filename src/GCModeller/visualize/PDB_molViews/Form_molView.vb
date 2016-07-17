@@ -15,4 +15,12 @@ Public Class Form_molView
         }
         Call Controls.Add(Canvas)
     End Sub
+
+    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
+        Using file As New OpenFileDialog
+            If file.ShowDialog = DialogResult.OK Then
+                Call Canvas.LoadModel(file.FileName)
+            End If
+        End Using
+    End Sub
 End Class
