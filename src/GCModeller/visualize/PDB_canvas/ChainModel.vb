@@ -45,14 +45,18 @@ Public Class ChainModel
     ''' <param name="clientSize"></param>
     ''' <param name="vd">View distance</param>
     Public Sub UpdateGraph(ByRef g As Graphics, clientSize As Size, vd As Integer)
+        '  Dim rect As New Rectangle(New Point, clientSize)
+        '   Dim offset As New Point(clientSize.Width / 2, clientSize.Height / 2)
+
         For Each p As AA In Chian
             Dim pt3D As Point3D =
                 p.Point.Project(clientSize.Width,
                                 clientSize.Height,
                                 256, vd)
             Dim pt As New Point(pt3D.X, pt3D.Y)
-            pt = GraphToScreen(pt, New Rectangle(New Point, clientSize))
+            '  pt = GraphToScreen(pt, rect)
 
+            '   Call pt.Offset(pt)
             Call g.FillPie(p.Color.Brush, New Rectangle(pt, New Size(10, 10)), 0, 360)
         Next
     End Sub
