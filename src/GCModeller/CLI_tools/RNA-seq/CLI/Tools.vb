@@ -145,7 +145,8 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim ref As String = args("/gi")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & "." & ref.BaseName & "/")
-        Dim hash As Dictionary(Of String, String) = __buildHash(ref)
+        Dim hash As Dictionary(Of String, String) =
+            TaxiValue.BuildHash(ref.LoadCsv(Of TaxiValue))
 
         For Each file As String In ls - l - wildcards("*.Csv") <= [in]
             Dim inputs = file.LoadCsv(Of TaxiValue)
@@ -163,103 +164,5 @@ Partial Module CLI
         Next
 
         Return 0
-    End Function
-
-    <ExportAPI("/Associate.Taxonomy",
-               Usage:="/Associate.Taxonomy /in <in.DIR> /tax <ncbi_taxonomy:names,nodes> [/gi <nt.gi.csv> /out <out.DIR>]")>
-    Public Function AssociateTaxonomy(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim tax As String = args("/tax")
-        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".NCBI.Taxonomy/")
-        Dim ref As String = args("/gi")
-        Dim taxTree As New NcbiTaxonomyTree(tax)
-        Dim hash As Dictionary(Of String, String) =
-            If(ref.FileExists,
-            __buildHash(ref),
-            New Dictionary(Of String, String))
-
-        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
-            Dim data As IEnumerable(Of TaxiValue) = file.LoadCsv(Of TaxiValue)
-            Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
-            Dim LQuery = (From x As TaxiValue
-                          In data
-                          Let gi As String = Regex.Match(x.Name, "gi\|\d+", RegexICSng).Value.Split("|"c).Last
-                          Select gi,
-                              x).ToArray
-
-            For Each x In LQuery
-                If hash.ContainsKey(x.gi) Then
-                    x.x.Title = hash(x.gi)
-                End If
-            Next
-
-            Dim gis As String() = LinqAPI.Exec(Of String) <=
-                From x
-                In LQuery
-                Where Not String.IsNullOrEmpty(x.gi)
-                Select x.gi
-            Dim taxis = TaxonomyWebAPI.efetch(gis)
-
-            Call taxis.GetJson.SaveTo(EXPORT & "/" & file.BaseName & ".json")
-
-            Dim taxiHash = (From x As TSeq
-                            In taxis.TSeq
-                            Select x
-                            Group By x.TSeq_gi Into Group) _
-                                    .ToDictionary(Function(x) x.TSeq_gi,
-                                                  Function(x) x.Group.First)
-            For Each x In LQuery
-                If taxiHash.ContainsKey(x.gi) Then
-                    x.x.taxid = taxiHash(x.gi).TSeq_taxid
-                    x.x.TaxonomyTree = TaxonNode.Taxonomy(taxTree.GetAscendantsWithRanksAndNames({CInt(x.x.taxid)}).Values.First)
-                End If
-            Next
-
-            data = LQuery.ToArray(Function(x) x.x)
-            Call data.SaveTo(out)
-        Next
-
-        Return 0
-    End Function
-
-    <ExportAPI("/Export.GI", Usage:="/Export.GI /in <ncbi:nt.fasta> [/out <out.csv>]")>
-    Public Function ExportGI(args As CommandLine) As Integer
-        Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".gi.Csv")
-        Dim nt As New StreamIterator([in])
-
-        Using writer As New WriteStream(Of TaxiValue)(out)
-
-            writer.BaseStream.AutoFlush = True
-            writer.BaseStream.NewLine = vbLf
-
-            For Each fa As FastaToken In nt.ReadStream
-                Dim title As String = fa.Title
-                Dim gi As String = title.Match("gi\|\d+", RegexICSng).Split("|"c).Last  ' 由于bowetie程序建库的时候只取最开始的值，所以在这里只需要第一个match就行了
-                Dim result As New TaxiValue With {
-                    .Name = gi,
-                    .Title = title
-                }
-                Call writer.Flush(result)
-            Next
-        End Using
-
-        Return 0
-    End Function
-
-    ''' <summary>
-    ''' {gi, title}
-    ''' </summary>
-    ''' <returns></returns>
-    Private Function __buildHash(nt As String) As Dictionary(Of String, String)
-        Dim source As IEnumerable(Of TaxiValue) = nt.LoadCsv(Of TaxiValue)
-        Dim Groups = From p
-                     In source
-                     Select p
-                     Group By gi = p.Name Into Group
-        Return Groups.ToDictionary(
-            Function(x) x.gi,
-            Function(x) x.Group.Select(
-            Function(o) o.Title).JoinBy("; "))
     End Function
 End Module

@@ -9,6 +9,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.NCBI
 
     Public Class TaxiValue
+
         Public Property Name As String
         ''' <summary>
         ''' Other tag value
@@ -21,6 +22,21 @@ Namespace Assembly.NCBI
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
+        End Function
+
+        ''' <summary>
+        ''' {gi, title}
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function BuildHash(source As IEnumerable(Of TaxiValue)) As Dictionary(Of String, String)
+            Dim Groups = From p
+                         In source
+                         Select p
+                         Group By gi = p.Name Into Group
+            Return Groups.ToDictionary(
+                Function(x) x.gi,
+                Function(x) x.Group.Select(
+                Function(o) o.Title).JoinBy("; "))
         End Function
     End Class
 
