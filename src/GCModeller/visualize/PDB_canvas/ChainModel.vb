@@ -32,6 +32,12 @@ Public Class ChainModel
         Next
     End Sub
 
+    Public Shared Function GraphToScreen(iPos As Point, rect As Rectangle) As Point
+        Dim x As Integer = CInt(Math.Truncate(iPos.X + (CSng(rect.Right - rect.Left) / 2.0F)))
+        Dim y As Integer = CInt(Math.Truncate(iPos.Y + (CSng(rect.Bottom - rect.Top) / 2.0F)))
+        Return New Point(x, y)
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -45,6 +51,7 @@ Public Class ChainModel
                                 clientSize.Height,
                                 256, vd)
             Dim pt As New Point(pt3D.X, pt3D.Y)
+            pt = GraphToScreen(pt, New Rectangle(New Point, clientSize))
 
             Call g.FillPie(p.Color.Brush, New Rectangle(pt, New Size(10, 10)), 0, 360)
         Next

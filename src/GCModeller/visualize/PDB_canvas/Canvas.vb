@@ -53,4 +53,13 @@ Public Class Canvas
             Call _model.UpdateGraph(e.Graphics, ClientSize, _viewDistance)
         End If
     End Sub
+
+    Private Sub Canvas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub Canvas_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
+        _viewDistance += e.Delta / 300
+        Call __update()
+    End Sub
 End Class
