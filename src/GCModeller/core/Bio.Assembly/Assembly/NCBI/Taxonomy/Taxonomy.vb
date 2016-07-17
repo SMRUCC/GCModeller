@@ -104,22 +104,19 @@ Namespace Assembly.NCBI
         Public Function LoadArchive(bin As String, Optional bufSize As Integer = 128 * 1024 * 1024 * 2 * RawStream.INT32) As Dictionary(Of Integer, Integer)
             Using reader As New BinaryReader(New FileStream(bin, FileMode.Open))
                 Dim hash As New Dictionary(Of Integer, Integer)
-                Dim buf As Byte()
                 Dim bs As Stream = reader.BaseStream
                 Dim bl As Long = bs.Length
-                Dim ns As Integer()
 
                 Call "Start to load gi2taxi database into memory....".__DEBUG_ECHO
 
                 Do While bs.Position < bl
-                    buf = reader.ReadBytes(bufSize)
-                    ns = buf.SplitIterator(RawStream.INT32).ToArray(
-                        Function(b) BitConverter.ToInt32(b, Scan0))
-                    For Each p As Integer() In ns.SplitIterator(2)
-                        hash(p(0)) = p(1)
-                    Next
+                    Dim k = reader.ReadBytes(RawStream.INT32)
+                    Dim v = reader.ReadBytes(RawStream.INT32)
 
-                    Call Console.Write("load next buffer")
+                    If k.Length <> 4 OrElse v.Length <> 4 Then
+                    Else
+                        hash(BitConverter.ToInt32(k, Scan0)) = BitConverter.ToInt32(v, Scan0)
+                    End If
                 Loop
 
                 Call "JOB DONE!".__DEBUG_ECHO

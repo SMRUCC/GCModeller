@@ -25,6 +25,16 @@ Namespace Assembly.NCBI
             tree = tree.Reverse.ToArray
             Return String.Join(",", tree.ToArray(Function(x) x.name))
         End Function
+
+        Public Shared Function ToHash(tree As TaxonNode()) As Dictionary(Of String, String)
+            Return (From x As TaxonNode
+                    In tree
+                    Where Not String.IsNullOrEmpty(x.rank)
+                    Select x
+                    Group x By x.rank Into Group) _
+                         .ToDictionary(Function(x) x.rank,
+                                       Function(x) x.Group.First.name)
+        End Function
     End Class
 
     ''' <summary>
@@ -64,7 +74,7 @@ Namespace Assembly.NCBI
         ''' + phylum
         ''' + superkingdom
         ''' </summary>
-        Private Shared ReadOnly stdranks As New List(Of String) From {
+        Friend Shared ReadOnly stdranks As New List(Of String) From {
             "species",
             "genus",
             "family",
@@ -73,6 +83,14 @@ Namespace Assembly.NCBI
             "phylum",
             "superkingdom"
         }
+
+        Public Const species As String = NameOf(species),
+            genus As String = NameOf(genus),
+            family As String = NameOf(family),
+            order As String = NameOf(order),
+            [class] As String = NameOf([class]),
+            phylum As String = NameOf(phylum),
+            superkingdom As String = NameOf(superkingdom)
 
         Public ReadOnly Property Taxonomy As New Dictionary(Of Integer, TaxonNode)
 
