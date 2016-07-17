@@ -247,18 +247,6 @@ Partial Module CLI
         Return 0
     End Function
 
-    Public Class TaxiValue
-        Public Property Name As String
-        Public Property x As String
-        Public Property Title As String
-        Public Property taxid As String
-        Public Property TaxonomyTree As String
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
-
     ''' <summary>
     ''' {gi, title}
     ''' </summary>

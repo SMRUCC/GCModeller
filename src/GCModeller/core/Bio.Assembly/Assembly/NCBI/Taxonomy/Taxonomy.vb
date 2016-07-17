@@ -4,8 +4,25 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.NCBI
+
+    Public Class TaxiValue
+        Public Property Name As String
+        ''' <summary>
+        ''' Other tag value
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property x As String
+        Public Property Title As String
+        Public Property taxid As String
+        Public Property TaxonomyTree As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
 
     Public Class TaxonValue : Inherits ClassObject
 

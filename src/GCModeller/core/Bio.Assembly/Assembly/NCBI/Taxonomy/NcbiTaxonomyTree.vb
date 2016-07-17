@@ -6,6 +6,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.NCBI
 
+    ''' <summary>
+    ''' The tree node calculation model for <see cref="NcbiTaxonomyTree"/>
+    ''' </summary>
     Public Class TaxonNode
 
         Public Property taxid As Integer
