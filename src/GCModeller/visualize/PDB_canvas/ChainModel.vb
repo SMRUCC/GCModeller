@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Data.RCSB.PDB
 
 ''' <summary>
@@ -8,6 +9,22 @@ Imports SMRUCC.genomics.Data.RCSB.PDB
 Public Class ChainModel
 
     Public Property Chian As AA()
+
+    Sub New(PDB As PDB)
+        Dim aas As String() =
+            LinqAPI.Exec(Of String) <= From AA As AminoAcid
+                                       In PDB.AminoAcidSequenceData
+                                       Select AA.AA_ID
+                                       Distinct
+        Dim AAColors = (From cl In RenderingColor.InitCOGColors(aas)
+                        Select ID = cl.Key,
+                            br = New Pen(New SolidBrush(cl.Value), penWidth)) _
+                           .ToDictionary(Function(item) item.ID,
+                                         Function(item) item.br)
+        Chian = LinqAPI.Exec(Of AA) <= From x As AminoAcid
+                                       In PDB.AminoAcidSequenceData
+                                       Select New AA(x, AAColors)
+    End Sub
 
     ''' <summary>
     ''' 
