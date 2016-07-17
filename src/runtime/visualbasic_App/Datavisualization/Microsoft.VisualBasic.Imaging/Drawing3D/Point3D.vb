@@ -86,6 +86,14 @@ Namespace Drawing3D
             Return New Point3D(Xn, Yn, Me.Z)
         End Function
 
+        ''' <summary>
+        ''' 将3D投影为2D，所以只需要取结果之中的<see cref="X"/>和<see cref="Y"/>就行了
+        ''' </summary>
+        ''' <param name="viewWidth"></param>
+        ''' <param name="viewHeight"></param>
+        ''' <param name="fov">256默认值</param>
+        ''' <param name="viewDistance"></param>
+        ''' <returns></returns>
         Public Function Project(viewWidth As Integer, viewHeight As Integer, fov As Integer, viewDistance As Integer) As Point3D
             Dim factor As Double, Xn As Double, Yn As Double
             factor = fov / (viewDistance + Me.Z)
