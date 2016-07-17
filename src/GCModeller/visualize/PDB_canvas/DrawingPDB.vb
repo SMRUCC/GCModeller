@@ -36,6 +36,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.RCSB.PDB
 Imports SMRUCC.genomics.Visualize
 
+''' <summary>
+''' Visualize the protein 3D structure from the PDB file.
+''' </summary>
 <[PackageNamespace]("Drawing.Protein.3D.PDB",
                     Description:="Visualize the protein 3D structure from the PDB file.",
                     Publisher:="amethyst.asuka@gcmodeller.org", Url:="http://gcmodeller.org")>
@@ -45,13 +48,20 @@ Public Module DrawingPDB
     <DataFrameColumn("Scale.Factor")> Public ScaleFactor As Double = 20
     <DataFrameColumn("Pen.Width")> Public penWidth As Integer = 10
 
+    ''' <summary>
+    ''' Drawing a protein structure from its pdb data.
+    ''' </summary>
+    ''' <param name="PDB"></param>
+    ''' <param name="hideAtoms"></param>
+    ''' <param name="DisplayAAID"></param>
+    ''' <returns></returns>
     <ExportAPI("Drawing.Invoke", Info:="Drawing a protein structure from its pdb data.")>
     <Extension>
     Public Function MolDrawing(PDB As PDB, Optional hideAtoms As Boolean = True, Optional DisplayAAID As Boolean = True) As Image
         Dim Device As GDIPlusDeviceHandle = (New Size(3000, 3000)).CreateGDIDevice
         Dim offset As Point = Device.Center
-        Dim AASequence = PDB.AminoAcidSequenceData
-        Dim PreAA = AASequence.First
+        Dim AASequence As AminoAcid() = PDB.AminoAcidSequenceData
+        Dim PreAA As AminoAcid = AASequence.First
         Dim PrePoint As Point
         Dim aas As String() = (From AA In AASequence Select AA.AA_ID Distinct).ToArray
         Dim AAColors = (From cl In RenderingColor.InitCOGColors(aas)
@@ -61,7 +71,7 @@ Public Module DrawingPDB
                                          Function(item) item.br)
         Dim AAFont As New Font(FontFace.MicrosoftYaHei, 10)
 
-        Call __drawingOfAA(PreAA, PrePoint, offset, Device, DisplayAAID, AAFont, hideAtoms)
+        Call __drawingOfAA(PreAA, PrePoint, offset, Device, DisplayAAID, AAFont, hideAtoms) ' 绘制第一个碳原子
 
         For Each Point As AminoAcid In AASequence
             Dim pt2d As Point
@@ -82,6 +92,7 @@ Public Module DrawingPDB
         Return Device.ImageResource
     End Function
 
+    <Extension>
     Private Sub __drawingOfAA(AA As AminoAcid, ByRef pt2d As Point, offset As Point, Device As GDIPlusDeviceHandle, DisplayAAID As Boolean, AAFont As Font, hideAtoms As Boolean)
         Dim Carbon As Keywords.AtomUnit = AA.Carbon
         Dim pt3d As Drawing3D.Point3D = New Drawing3D.Point3D(Carbon.Location.X * ScaleFactor, Carbon.Location.Y * ScaleFactor, Carbon.Location.Z * ScaleFactor)
