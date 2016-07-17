@@ -9,7 +9,13 @@ Public Class ChainModel
 
     Public Property Chian As AA()
 
-    Public Sub UpdateGraph(ByRef g As Graphics)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <param name="clientSize"></param>
+    ''' <param name="vd">View distance</param>
+    Public Sub UpdateGraph(ByRef g As Graphics, clientSize As Size, vd As Integer)
 
     End Sub
 End Class
