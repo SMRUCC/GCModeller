@@ -7,7 +7,7 @@ Public Class Canvas
 
     Dim __driver As New UpdateThread(30, AddressOf __update)
     Dim _model As ChainModel
-    Dim _viewDistance As Integer = 10
+    Dim _viewDistance As Integer = -40
 
     Public Sub LoadModel(path As String)
         Dim pdb As PDB = PDB.Load(path)
@@ -35,7 +35,7 @@ Public Class Canvas
             Return
         End If
 
-        rotate += (-usrCursor.X + e.X) / 1000
+        rotate += (-usrCursor.X + e.X) / 10000
         Call _model.Rotate(rotate)
     End Sub
 

@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Data.RCSB.PDB
@@ -9,6 +10,17 @@ Imports SMRUCC.genomics.Data.RCSB.PDB
 Public Class ChainModel
 
     Public Property Chian As AA()
+        Get
+            Return __chain
+        End Get
+        Set(value As AA())
+            __first = value(Scan0)
+            __chain = value
+        End Set
+    End Property
+
+    Dim __first As AA
+    Dim __chain As AA()
 
     Sub New(PDB As PDB)
         Dim aas As String() =
@@ -45,21 +57,32 @@ Public Class ChainModel
     ''' <param name="clientSize"></param>
     ''' <param name="vd">View distance</param>
     Public Sub UpdateGraph(ByRef g As Graphics, clientSize As Size, vd As Integer)
-        '  Dim rect As New Rectangle(New Point, clientSize)
-        '   Dim offset As New Point(clientSize.Width / 2, clientSize.Height / 2)
+        Dim pre As Point = __draw(g, __first, clientSize, vd)
 
-        For Each p As AA In Chian
-            Dim pt3D As Point3D =
-                p.Point.Project(clientSize.Width,
-                                clientSize.Height,
-                                256, vd)
-            Dim pt As New Point(pt3D.X, pt3D.Y)
-            '  pt = GraphToScreen(pt, rect)
+#If DEBUG Then
+        Call g.DrawString($"View Distance: {vd}", New Font(FontFace.SegoeUI, 12), Brushes.Red, New Point(5, 10))
+#End If
 
-            '   Call pt.Offset(pt)
-            Call g.FillPie(p.Color.Brush, New Rectangle(pt, New Size(10, 10)), 0, 360)
+        For Each p As AA In Chian.Skip(1)
+            Dim cur = __draw(g, p, clientSize, vd)
+            Call g.DrawLine(p.Color, cur, pre)
+            pre = cur
         Next
     End Sub
+
+    Private Function __draw(g As Graphics, aa As AA, clientSize As Size, vd As Integer) As Point
+        Dim pt3D As Point3D =
+              aa.Point.Project(clientSize.Width,
+                               clientSize.Height,
+                               256, vd)
+        Dim pt As New Point(pt3D.X, pt3D.Y)
+        '  pt = GraphToScreen(pt, rect)
+
+        '   Call pt.Offset(pt)
+        Call g.FillPie(aa.Color.Brush, New Rectangle(pt, New Size(10, 10)), 0, 360)
+
+        Return pt
+    End Function
 End Class
 
 ''' <summary>

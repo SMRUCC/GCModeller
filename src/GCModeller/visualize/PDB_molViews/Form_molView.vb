@@ -14,6 +14,7 @@ Public Class Form_molView
             .Dock = DockStyle.Fill
         }
         Call Controls.Add(Canvas)
+        Canvas.BringToFront()
     End Sub
 
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
