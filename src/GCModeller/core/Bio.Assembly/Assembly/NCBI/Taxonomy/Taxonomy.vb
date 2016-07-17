@@ -1,5 +1,9 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Protocols
 
 Namespace Assembly.NCBI
 
@@ -27,5 +31,62 @@ Namespace Assembly.NCBI
     ''' </summary>
     Public Module Taxonomy
 
+        <Extension>
+        Public Function giTaxiHash(dmp As String) As Dictionary(Of Integer, Integer)
+            Dim hash As New Dictionary(Of Integer, Integer)
+
+            For Each line As String In dmp.IterateAllLines
+                Dim tokens As String() = line.Split(tab)
+                Dim ns = tokens.ToArray(Function(s) CInt(s))
+                Dim k As Integer = ns(0), v As Integer = ns(1)
+
+                hash(k) = v
+            Next
+
+            Return hash
+        End Function
+
+        Const tab As Char = CChar(vbTab)
+
+        ''' <summary>
+        ''' 将文本数据库转换为二进制数据库已减少文件体积和加快文件的加载速度
+        ''' </summary>
+        ''' <param name="dmp"></param>
+        ''' <param name="bin"></param>
+        ''' <returns></returns>
+        Public Function Archive(dmp As String, bin As String) As Boolean
+            Using writer = bin.OpenWriter
+                For Each line As String In dmp.IterateAllLines
+                    Dim tokens As String() = line.Split(tab)
+                    Dim byts As Byte() = tokens _
+                        .Select(Function(s) CInt(s)) _
+                        .ToArray(AddressOf BitConverter.GetBytes).MatrixToVector
+                    Call writer.BaseStream.Write(byts, Scan0, byts.Length)
+                Next
+            End Using
+
+            Return True
+        End Function
+
+        Public Function LoadArchive(bin As String, Optional bufSize As Integer = 128 * 1024 * 1024 * 2 * RawStream.INT32) As Dictionary(Of Integer, Integer)
+            Using reader As New BinaryReader(New FileStream(bin, FileMode.Open))
+                Dim hash As New Dictionary(Of Integer, Integer)
+                Dim buf As Byte()
+                Dim bs As Stream = reader.BaseStream
+                Dim bl As Long = bs.Length
+                Dim ns As Integer()
+
+                Do While bs.Position < bl
+                    buf = reader.ReadBytes(bufSize)
+                    ns = buf.SplitIterator(RawStream.INT32).ToArray(
+                        Function(b) BitConverter.ToInt32(b, Scan0))
+                    For Each p As Integer() In ns.SplitIterator(2)
+                        hash(p(0)) = p(1)
+                    Next
+                Loop
+
+                Return hash
+            End Using
+        End Function
     End Module
 End Namespace
