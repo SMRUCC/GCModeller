@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.NCBI
 
     Public Class TaxonNode
+
         Public Property taxid As Integer
         Public Property name As String
         Public Property rank As String
@@ -15,6 +16,11 @@ Namespace Assembly.NCBI
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
+        End Function
+
+        Public Shared Function Taxonomy(tree As TaxonNode()) As String
+            tree = tree.Reverse.ToArray
+            Return String.Join(",", tree.ToArray(Function(x) x.name))
         End Function
     End Class
 
@@ -68,6 +74,22 @@ Namespace Assembly.NCBI
         Public ReadOnly Property Taxonomy As New Dictionary(Of Integer, TaxonNode)
 
         Const sciNdeli As String = "scientific name"
+
+        ''' <summary>
+        ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
+        ''' ``names.dmp`` files 
+        ''' 
+        ''' ```json
+        ''' { Taxid    namedtuple('Node', ['name', 'rank', 'parent', 'children'] }
+        ''' ```
+        ''' 
+        ''' + https://www.biostars.org/p/13452/
+        ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+        ''' 
+        ''' </summary>
+        Sub New(DIR)
+            Call Me.New(DIR & "/nodes.dmp", DIR & "/names.dmp")
+        End Sub
 
         ''' <summary>
         ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
@@ -155,6 +177,11 @@ Namespace Assembly.NCBI
             Call "NcbiTaxonomyTree built".__DEBUG_ECHO
         End Sub
 
+        ''' <summary>
+        ''' Returns parent id
+        ''' </summary>
+        ''' <param name="taxids"></param>
+        ''' <returns></returns>
         Public Function GetParent(ParamArray taxids As Integer()) As Dictionary(Of Integer, String)
             '"""
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
@@ -215,6 +242,12 @@ Namespace Assembly.NCBI
             Return result
         End Function
 
+        ''' <summary>
+        ''' 使用这个函数得到物种的具体分类，返回来的数据是从小到大排列的
+        ''' </summary>
+        ''' <param name="taxids"></param>
+        ''' <param name="only_std_ranks"></param>
+        ''' <returns></returns>
         Public Function GetAscendantsWithRanksAndNames(taxids As IEnumerable(Of Integer), Optional only_std_ranks As Boolean = False) As Dictionary(Of Integer, TaxonNode())
             '""" 
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")

@@ -16,7 +16,7 @@ Namespace Assembly.NCBI.Entrez
     ''' have not found any web service which makes this, and I wouldn't like to do this 
     ''' manually.
     ''' </summary>
-    Public Module TaxonomyWeb
+    Public Module TaxonomyWebAPI
 
         Public Const API As String = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={0}&rettype={1}&retmode=xml"
 
@@ -35,8 +35,21 @@ Namespace Assembly.NCBI.Entrez
         End Function
 
         <Extension>
-        Public Function efetch(gi As IEnumerable(Of String), Optional rettype As String = "fasta") As TSeqSet
-            Return String.Join(",", gi.ToArray).efetch(rettype)
+        Public Function efetch(gi As IEnumerable(Of String), Optional rettype As String = "fasta", Optional parts As Boolean = False) As TSeqSet
+            If Not parts Then
+                Return String.Join(",", gi.ToArray).efetch(rettype)
+            Else
+                Dim out As New List(Of TSeq)
+
+                For Each buf In gi.SplitIterator(128)
+                    out += String.Join(",", gi.ToArray).efetch(rettype).TSeq
+                    Call Console.Write(".")
+                Next
+
+                Return New TSeqSet With {
+                    .TSeq = out
+                }
+            End If
         End Function
 
         <Extension>
