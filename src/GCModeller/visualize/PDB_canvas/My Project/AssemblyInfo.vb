@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("NCBI_tools for processing NCBI bioinformatics data")>
-<Assembly: AssemblyDescription("NCBI_tools for processing NCBI bioinformatics data")>
-<Assembly: AssemblyCompany("SMRUCC")>
-<Assembly: AssemblyProduct("GCModeller")>
-<Assembly: AssemblyCopyright("Copyright © GPL3 2016")>
-<Assembly: AssemblyTrademark("GCModeller")>
+<Assembly: AssemblyTitle("PDB_canvas")> 
+<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyProduct("PDB_canvas")> 
+<Assembly: AssemblyCopyright("Copyright ©  2016")> 
+<Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("f57a5c4a-5e94-4c3a-ac9f-23afd554cf7f")>
+<Assembly: Guid("dcb98a75-8084-4fc0-a2e5-4128ebaa7925")> 
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("1.0.0.0")> 
+<Assembly: AssemblyFileVersion("1.0.0.0")> 
