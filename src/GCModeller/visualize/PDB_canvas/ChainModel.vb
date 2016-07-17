@@ -26,6 +26,12 @@ Public Class ChainModel
                                        Select New AA(x, AAColors)
     End Sub
 
+    Public Sub Rotate(x As Double)
+        For Each aa As AA In Chian
+            aa.Point = aa.Point.RotateX(x)
+        Next
+    End Sub
+
     ''' <summary>
     ''' 
     ''' </summary>

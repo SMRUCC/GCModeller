@@ -29,6 +29,7 @@ Partial Class Canvas
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
+        Me.DoubleBuffered = True
         Me.Name = "Canvas"
         Me.Size = New System.Drawing.Size(778, 547)
         Me.ResumeLayout(False)
