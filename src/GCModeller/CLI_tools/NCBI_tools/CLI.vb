@@ -57,7 +57,7 @@ Module CLI
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".NCBI.Taxonomy/")
         Dim ref As String = args("/gi")
         Dim gi2taxi As String = args("/gi2taxi")
-        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.LoadArchive(gi2taxi)
+        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
         Dim taxTree As New NcbiTaxonomyTree(tax)
         Dim hash As Dictionary(Of String, String) =
             If(ref.FileExists,
@@ -69,7 +69,7 @@ Module CLI
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
             Dim LQuery = (From x As TaxiValue
                           In data
-                          Let gi As String = Regex.Match(x.Name, "gi\|\d+", RegexICSng).Value.Split("|"c).Last
+                          Let gi As Integer = CInt(Val(Regex.Split(Regex.Match(x.Name, "gi(_|\|)\d+", RegexICSng).Value, "_|\|").Last))
                           Select gi,
                               x).ToArray
 
@@ -83,6 +83,8 @@ Module CLI
                 If taxiHash.ContainsKey(x.gi) Then
                     x.x.taxid = taxiHash(x.gi)
                     x.x.TaxonomyTree = TaxonNode.Taxonomy(taxTree.GetAscendantsWithRanksAndNames({CInt(x.x.taxid)}, True).Values.First)
+                Else
+                    Call x.gi.ToString.Warning
                 End If
             Next
 

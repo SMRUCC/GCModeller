@@ -153,7 +153,7 @@ Partial Module CLI
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
             For Each x In inputs
-                Dim gi As String = Regex.Match(x.Name, "gi\|\d+", RegexICSng).Value
+                Dim gi As String = Regex.Match(x.Name, "gi(_|\|)\d+", RegexICSng).Value
                 gi = gi.Split("|"c).Last
                 If hash.ContainsKey(gi) Then
                     x.Title = hash(gi)
