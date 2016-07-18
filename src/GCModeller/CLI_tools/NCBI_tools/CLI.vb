@@ -103,10 +103,12 @@ Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Taxonomy.fasta")
         Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
         Dim taxTree As New NcbiTaxonomyTree(tax)
+        Dim notFoundTax As String = out.TrimFileExt & ".notFound.txt"
 
         Using notFound As StreamWriter = (out.TrimFileExt & ".NotFound.fasta").OpenWriter,
             writer As StreamWriter = out.OpenWriter(Encodings.ASCII),
-            table As New WriteStream(Of TaxiSummary)(out.TrimFileExt & ".Csv")
+            table As New WriteStream(Of TaxiSummary)(out.TrimFileExt & ".Csv"),
+            taxNotFoun = notFoundTax.OpenWriter
 
             For Each fa As FastaToken In New StreamIterator([in]).ReadStream
                 Dim gi As Integer = CInt(Val(Regex.Match(fa.Title, "gi\|\d+", RegexICSng).Value.Split("|"c).Last))
@@ -125,7 +127,7 @@ Module CLI
                         .Name = fa.Title.Split.First,
                         .gi = gi,
                         .taxid = taxi,
-                        .title = Mid(fa.Title, 128),
+                        .title = Mid(fa.Title, 1, 128),
                         .sequence = fa.SequenceData,
                         .class = hash.TryGetValue(NcbiTaxonomyTree.class),
                         .family = hash.TryGetValue(NcbiTaxonomyTree.family),
@@ -141,10 +143,13 @@ Module CLI
 #If DEBUG Then
                     VBDebugger.Mute = False
 #End If
+                    If hash.Count = 0 Then
+                        Call taxNotFoun.WriteLine({CStr(gi), CStr(taxi), fa.Title}.JoinBy(vbTab))
+                    End If
 
                     Call table.Flush(x)
 
-                    Dim title As String = $"gi_{gi}.{taxi} {taxonomy}"
+                    Dim title As String = $"gi_{gi} {taxi} {x.Taxonomy}"
                     fa = New FastaToken({title}, fa.SequenceData)
                     Call writer.WriteLine(fa.GenerateDocument(120))
                 Else

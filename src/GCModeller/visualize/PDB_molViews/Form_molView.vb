@@ -15,6 +15,9 @@ Public Class Form_molView
         }
         Call Controls.Add(Canvas)
         Canvas.BringToFront()
+#If DEBUG Then
+        Canvas.LoadModel("G:\GCModeller\GCModeller\Data\pdb_Draw\XC_1184_pdb.txt")
+#End If
     End Sub
 
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click

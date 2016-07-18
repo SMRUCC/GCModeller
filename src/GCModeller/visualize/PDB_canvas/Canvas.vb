@@ -5,7 +5,9 @@ Imports SMRUCC.genomics.Data.RCSB.PDB
 
 Public Class Canvas
 
-    Dim __driver As New UpdateThread(45, AddressOf __update)
+    Dim __driver As New UpdateThread(45, AddressOf __update) With {
+        .ErrHandle = AddressOf App.LogException
+    }
     Dim _model As ChainModel
     Dim _viewDistance As Integer = -40
 
@@ -14,7 +16,7 @@ Public Class Canvas
         _model = New ChainModel(pdb)
         Call Me.Invalidate()
 
-        '    AutoRotate = True
+        AutoRotate = True
     End Sub
 
     Dim usrCursor As Point
@@ -51,8 +53,8 @@ Public Class Canvas
             Return
         End If
 
-        rotateX += (-usrCursor.X + e.X) / 10000
-        rotateY += (-usrCursor.Y + e.Y) / 10000
+        rotateX += (-usrCursor.X + e.X) / 1000000
+        rotateY += (-usrCursor.Y + e.Y) / 1000000
         '   Call _model.RotateX(rotateX)
         ' Call _model.RotateY(rotateY)
         Call _model.Rotate(rotateX)
@@ -70,7 +72,7 @@ Public Class Canvas
         Call Invoke(Sub() Call Me.Invalidate())
 
         If AutoRotate Then
-            rotateX += 0.25
+            rotateX += 0.001
             Call _model.Rotate(rotateX)
         End If
     End Sub
@@ -81,12 +83,12 @@ Public Class Canvas
         End If
     End Sub
 
-    Private Sub Canvas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
-
     Private Sub Canvas_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
         _viewDistance += e.Delta / 300
         Call __update()
+    End Sub
+
+    Private Sub Canvas_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
+        Call __driver.Dispose()
     End Sub
 End Class
