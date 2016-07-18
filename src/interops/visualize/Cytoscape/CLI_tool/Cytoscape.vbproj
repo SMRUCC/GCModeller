@@ -211,6 +211,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Viewer\ViewerCanvas.Designer.vb">
+      <DependentUpon>ViewerCanvas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Viewer\ViewerCanvas.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -218,6 +224,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Viewer\ViewerCanvas.resx">
+      <DependentUpon>ViewerCanvas.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -243,6 +252,10 @@
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\NetworkCanvas\NetworkCanvas.vbproj">
+      <Project>{ef70bed6-8795-4523-a260-c1abed9405aa}</Project>
+      <Name>NetworkCanvas</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
