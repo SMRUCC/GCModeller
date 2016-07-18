@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Cytoscape model generator and visualization tools utils")>
 <Assembly: AssemblyCompany("https://github.com/xieguigang/GCModeller.Cytoscape")>
 <Assembly: AssemblyProduct("GCModeller")>
-<Assembly: AssemblyCopyright("Copyright ©  2015")>
+<Assembly: AssemblyCopyright("Copyright © GPL3 2015")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
