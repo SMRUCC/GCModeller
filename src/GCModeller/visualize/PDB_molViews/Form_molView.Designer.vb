@@ -27,6 +27,7 @@ Partial Class Form_molView
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AutoRotationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -41,7 +42,7 @@ Partial Class Form_molView
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.AutoRotationToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -63,6 +64,15 @@ Partial Class Form_molView
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
         Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.HelpToolStripMenuItem.Text = "Help"
+        '
+        'AutoRotationToolStripMenuItem
+        '
+        Me.AutoRotationToolStripMenuItem.Checked = True
+        Me.AutoRotationToolStripMenuItem.CheckOnClick = True
+        Me.AutoRotationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AutoRotationToolStripMenuItem.Name = "AutoRotationToolStripMenuItem"
+        Me.AutoRotationToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AutoRotationToolStripMenuItem.Text = "Auto Rotation"
         '
         'Form_molView
         '
@@ -88,4 +98,5 @@ Partial Class Form_molView
     Friend WithEvents OpenToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AutoRotationToolStripMenuItem As ToolStripMenuItem
 End Class

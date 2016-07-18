@@ -27,4 +27,10 @@ Public Class Form_molView
             End If
         End Using
     End Sub
+
+    Private Sub AutoRotationToolStripMenuItem_CheckedChanged(sender As Object, e As EventArgs) Handles AutoRotationToolStripMenuItem.CheckedChanged
+        If Not Canvas Is Nothing Then
+            Canvas.AutoRotate = AutoRotationToolStripMenuItem.Checked
+        End If
+    End Sub
 End Class

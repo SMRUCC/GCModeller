@@ -1,6 +1,8 @@
 ﻿Imports System.Drawing
 Imports System.Windows.Forms
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Parallel.Tasks
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.RCSB.PDB
 
 Public Class Canvas
@@ -46,18 +48,30 @@ Public Class Canvas
         End Set
     End Property
 
+    Dim currentPoint As Point
+
     Private Sub Canvas_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
+#If DEBUG Then
+        Call __update()
+        currentPoint = e.Location
+#End If
+
         If Not _control Then
             Return
         ElseIf AutoRotate Then
             Return
         End If
 
-        rotateX += (-usrCursor.X + e.X) / 1000000
-        rotateY += (-usrCursor.Y + e.Y) / 1000000
-        '   Call _model.RotateX(rotateX)
-        ' Call _model.RotateY(rotateY)
-        Call _model.Rotate(rotateX)
+        If Math.Abs(usrCursor.X - e.X) > 20 Then
+            rotateX += (-usrCursor.X + e.X) / 100000
+            Call _model.RotateX(rotateX)
+        Else
+            rotateY += (-usrCursor.Y + e.Y) / 100000
+            Call _model.RotateY(rotateY)
+        End If
+        '  
+        ' 
+        '  Call _model.Rotate(rotateX)
     End Sub
 
     Private Sub Canvas_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
@@ -81,10 +95,12 @@ Public Class Canvas
         If _model IsNot Nothing Then
             Call _model.UpdateGraph(e.Graphics, ClientSize, _viewDistance)
         End If
+
+        Call e.Graphics.DrawString($"{currentPoint.GetJson}; rX={rotateX},rY={rotateY}", New Font(FontFace.MicrosoftYaHei, 12), Brushes.Red, New Point(5, 30))
     End Sub
 
     Private Sub Canvas_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
-        _viewDistance += e.Delta / 300
+        _viewDistance += e.Delta / 200
         Call __update()
     End Sub
 
