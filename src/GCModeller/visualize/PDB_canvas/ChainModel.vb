@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.RCSB.PDB
 
 ''' <summary>
@@ -40,6 +41,10 @@ Public Class ChainModel
                                        Select New AA(x, AAColors)
     End Sub
 
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+
     Public Sub RotateX(x As Double)
         For Each aa As AA In __chain
             aa.Point = aa.Point.RotateX(x)
@@ -75,6 +80,8 @@ Public Class ChainModel
     Public Sub UpdateGraph(ByRef g As Graphics, clientSize As Size, vd As Integer)
         Dim pre As Point = __draw(g, __first, clientSize, vd)
 
+#Const DEBUG = 1
+
 #If DEBUG Then
         Call g.DrawString($"View Distance: {vd}", New Font(FontFace.SegoeUI, 12), Brushes.Red, New Point(5, 10))
 #End If
@@ -87,14 +94,12 @@ Public Class ChainModel
     End Sub
 
     Private Function __draw(g As Graphics, aa As AA, clientSize As Size, vd As Integer) As Point
-        Dim pt3D As Point3D =
-              aa.Point.Project(clientSize.Width,
-                               clientSize.Height,
-                               256, vd)
-        Dim pt As New Point(pt3D.X, pt3D.Y)
-        '  pt = GraphToScreen(pt, rect)
+        Dim pt3D As Point3D = aa.Point.Project(
+            clientSize.Width,
+            clientSize.Height,
+            256, vd)
 
-        '   Call pt.Offset(pt)
+        Dim pt As New Point(pt3D.X, pt3D.Y)
         Call g.FillPie(aa.Color.Brush, New Rectangle(pt, New Size(10, 10)), 0, 360)
 
         Return pt
@@ -115,4 +120,8 @@ Public Class AA
         Color = AAColors(aa.AA_ID)
         Point = New Point3D(ap.X, ap.Y, ap.Z)
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return Point.GetJson
+    End Function
 End Class

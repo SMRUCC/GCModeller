@@ -51,10 +51,7 @@ Public Class Canvas
     Dim currentPoint As Point
 
     Private Sub Canvas_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-#If DEBUG Then
-        Call __update()
         currentPoint = e.Location
-#End If
 
         If Not _control Then
             Return
@@ -86,7 +83,7 @@ Public Class Canvas
         Call Invoke(Sub() Call Me.Invalidate())
 
         If AutoRotate Then
-            rotateX += 0.001
+            rotateX += 0.0005
             Call _model.Rotate(rotateX)
         End If
     End Sub
@@ -96,7 +93,7 @@ Public Class Canvas
             Call _model.UpdateGraph(e.Graphics, ClientSize, _viewDistance)
         End If
 
-        Call e.Graphics.DrawString($"{currentPoint.GetJson}; rX={rotateX},rY={rotateY}", New Font(FontFace.MicrosoftYaHei, 12), Brushes.Red, New Point(5, 30))
+        Call e.Graphics.DrawString($"{currentPoint.GetJson}; rX={rotateX},rY={rotateY}", New Font(FontFace.MicrosoftYaHei, 12), Brushes.Red, New Point(5, 33))
     End Sub
 
     Private Sub Canvas_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
