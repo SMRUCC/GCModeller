@@ -2,6 +2,8 @@
 ## Eclipse
 #################
 
+tools/Installer/bootLoader/Resources/
+
 *.pydevproject
 .project
 .metadata

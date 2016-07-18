@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0C9117EF-8332-4B09-B194-FEF968481394}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Installer.Program</StartupObject>
+    <RootNamespace>Installer</RootNamespace>
+    <AssemblyName>Installer</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\bootLoader\Resources\</OutputPath>
+    <DocumentationFile>Installer.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Installer.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a">
+      <HintPath>..\packages\VB_AppFramework.1.0.40\x64\Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommandLink.designer.vb">
+      <DependentUpon>CommandLink.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CommandLink.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormBase.Designer.vb">
+      <DependentUpon>FormBase.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormBase.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLicense.Designer.vb">
+      <DependentUpon>FormLicense.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormLicense.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormComplete.Designer.vb">
+      <DependentUpon>FormComplete.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormComplete.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReleaseFiles.Designer.vb">
+      <DependentUpon>FormReleaseFiles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormReleaseFiles.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConfig.Designer.vb">
+      <DependentUpon>FormConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInit.Designer.vb">
+      <DependentUpon>FormInit.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CommandLink.resx">
+      <DependentUpon>CommandLink.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBase.resx">
+      <DependentUpon>FormBase.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormComplete.resx">
+      <DependentUpon>FormComplete.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormInit.resx">
+      <DependentUpon>FormInit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLicense.resx">
+      <DependentUpon>FormLicense.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowHovered.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChevronLess.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChevronLessHovered.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChevronLessPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChevronMore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChevronMoreHovered.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChevronMorePressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Security.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SecurityError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SecurityQuestion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SecuritySuccess.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SecurityWarning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallInformation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallQuestion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallSecurity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallSecurityError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallSecurityQuestion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallSecuritySucess.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallSecurityWarning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallWarning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Warning.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
