@@ -101,7 +101,7 @@ Module CLI
         Dim gi2taxi As String = args("/gi2taxi")
         Dim tax As String = args("/tax")
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Taxonomy.fasta")
-        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.giTaxiHash(gi2taxi)
+        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
         Dim taxTree As New NcbiTaxonomyTree(tax)
 
         Using notFound As StreamWriter = (out.TrimFileExt & ".NotFound.fasta").OpenWriter,
@@ -116,6 +116,10 @@ Module CLI
                     Dim tree = taxTree.GetAscendantsWithRanksAndNames({taxi}, True)
                     Dim taxonomy As String = TaxonNode.Taxonomy(tree.First.Value)
                     Dim hash = TaxonNode.ToHash(tree.First.Value)
+
+#If DEBUG Then
+                    VBDebugger.Mute = True
+#End If
 
                     Dim x As New TaxiSummary With {
                         .Name = fa.Title.Split.First,
@@ -133,6 +137,10 @@ Module CLI
                     }
 
                     x.Taxonomy = $"k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}"
+
+#If DEBUG Then
+                    VBDebugger.Mute = False
+#End If
 
                     Call table.Flush(x)
 

@@ -64,8 +64,21 @@ Namespace Assembly.NCBI
     ''' </summary>
     Public Module Taxonomy
 
+        ''' <summary>
+        ''' Probably you should do the match in the bash first by using script"
+        ''' 
+        ''' ```bash
+        ''' grep ">" nt-18S.fasta | cut -f2 -d'|' | sort | uniq >gi.txt
+        ''' tabtk_subset /biostack/database/taxonomy/gi_taxid_nucl.dmp gi.txt 1 0 >gi_match.txt 
+        ''' ```
+        ''' 
+        ''' Then using the generated ``gi_match.txt`` as the inputs for parameter <paramref name="dmp"/>, 
+        ''' this operation will save your time, no needs to load the entire database.
+        ''' </summary>
+        ''' <param name="dmp"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function giTaxiHash(dmp As String) As Dictionary(Of Integer, Integer)
+        Public Function Hash_gi2Taxi(dmp As String) As Dictionary(Of Integer, Integer)
             Dim hash As New Dictionary(Of Integer, Integer)
 
             For Each line As String In dmp.IterateAllLines

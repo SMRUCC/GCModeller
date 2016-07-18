@@ -295,7 +295,12 @@ Namespace Assembly.NCBI
             Dim result As New Dictionary(Of Integer, TaxonNode())
 
             For Each taxid In taxids
-                result(taxid) = __ascendantsWithRanksAndNames(taxid, only_std_ranks)
+                If Not Taxonomy.ContainsKey(taxid) Then
+                    result(taxid) = {}
+                    Call taxid.__DEBUG_ECHO
+                Else
+                    result(taxid) = __ascendantsWithRanksAndNames(taxid, only_std_ranks)
+                End If
             Next
             Return result
         End Function
