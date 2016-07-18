@@ -1,0 +1,230 @@
+[ {
+  "format_version" : "1.0",
+  "generated_by" : "cytoscape-3.3.0",
+  "target_cytoscapejs_version" : "~2.1",
+  "title" : "MetaCyc",
+  "style" : [ {
+    "selector" : "node",
+    "css" : {
+      "color" : "rgb(0,51,51)",
+      "border-color" : "rgb(51,51,51)",
+      "height" : 50.0,
+      "shape" : "ellipse",
+      "font-size" : 8,
+      "background-opacity" : 0.8627450980392157,
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "border-opacity" : 1.0,
+      "width" : 50.0,
+      "text-valign" : "center",
+      "text-halign" : "center",
+      "border-width" : 0.0,
+      "background-color" : "rgb(255,255,255)",
+      "text-opacity" : 1.0,
+      "content" : "data(name)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts > 22]",
+    "css" : {
+      "width" : 1.0
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 22]",
+    "css" : {
+      "width" : 129.30619841355545
+    }
+  }, {
+    "selector" : "node[EnzymeCounts > 0][EnzymeCounts < 22]",
+    "css" : {
+      "width" : "mapData(EnzymeCounts,0,22,20.092298302283655,129.30619841355545)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 0]",
+    "css" : {
+      "width" : 20.092298302283655
+    }
+  }, {
+    "selector" : "node[EnzymeCounts < 0]",
+    "css" : {
+      "width" : 1.0
+    }
+  }, {
+    "selector" : "node[EnzymeCounts > 22]",
+    "css" : {
+      "height" : 1.0
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 22]",
+    "css" : {
+      "height" : 129.30619841355545
+    }
+  }, {
+    "selector" : "node[EnzymeCounts > 0][EnzymeCounts < 22]",
+    "css" : {
+      "height" : "mapData(EnzymeCounts,0,22,20.092298302283655,129.30619841355545)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 0]",
+    "css" : {
+      "height" : 20.092298302283655
+    }
+  }, {
+    "selector" : "node[EnzymeCounts < 0]",
+    "css" : {
+      "height" : 1.0
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 0]",
+    "css" : {
+      "background-color" : "rgb(0,0,0)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 1]",
+    "css" : {
+      "background-color" : "rgb(51,51,51)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 2]",
+    "css" : {
+      "background-color" : "rgb(0,255,153)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 3]",
+    "css" : {
+      "background-color" : "rgb(255,153,153)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 4]",
+    "css" : {
+      "background-color" : "rgb(153,153,0)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 5]",
+    "css" : {
+      "background-color" : "rgb(0,51,51)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 6]",
+    "css" : {
+      "background-color" : "rgb(102,204,255)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 7]",
+    "css" : {
+      "background-color" : "rgb(153,0,153)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 8]",
+    "css" : {
+      "background-color" : "rgb(255,102,102)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 9]",
+    "css" : {
+      "background-color" : "rgb(51,51,0)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 10]",
+    "css" : {
+      "background-color" : "rgb(204,51,255)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 11]",
+    "css" : {
+      "background-color" : "rgb(204,0,102)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 12]",
+    "css" : {
+      "background-color" : "rgb(0,153,204)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 13]",
+    "css" : {
+      "background-color" : "rgb(0,51,153)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 14]",
+    "css" : {
+      "background-color" : "rgb(51,255,51)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 15]",
+    "css" : {
+      "background-color" : "rgb(153,204,0)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 16]",
+    "css" : {
+      "background-color" : "rgb(153,153,0)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 17]",
+    "css" : {
+      "background-color" : "rgb(255,255,51)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 20]",
+    "css" : {
+      "background-color" : "rgb(255,102,0)"
+    }
+  }, {
+    "selector" : "node[EnzymeCounts = 22]",
+    "css" : {
+      "background-color" : "rgb(255,0,51)"
+    }
+  }, {
+    "selector" : "node:selected",
+    "css" : {
+      "background-color" : "rgb(255,0,102)"
+    }
+  }, {
+    "selector" : "edge",
+    "css" : {
+      "target-arrow-color" : "rgb(51,51,51)",
+      "line-style" : "solid",
+      "color" : "rgb(0,102,102)",
+      "line-color" : "rgb(51,51,51)",
+      "source-arrow-shape" : "none",
+      "opacity" : 1.0,
+      "target-arrow-shape" : "triangle",
+      "font-size" : 6,
+      "source-arrow-color" : "rgb(0,0,0)",
+      "font-family" : "SansSerif.plain",
+      "font-weight" : "normal",
+      "width" : 2.0,
+      "text-opacity" : 1.0,
+      "content" : "data(interaction)"
+    }
+  }, {
+    "selector" : "edge[interaction = 'pp']",
+    "css" : {
+      "line-style" : "dotted"
+    }
+  }, {
+    "selector" : "edge[interaction = 'Contains']",
+    "css" : {
+      "line-style" : "dotted"
+    }
+  }, {
+    "selector" : "edge[interaction = 'interact_with']",
+    "css" : {
+      "line-style" : "dashed"
+    }
+  }, {
+    "selector" : "edge[interaction = 'INCOMING']",
+    "css" : {
+      "line-style" : "dotted"
+    }
+  }, {
+    "selector" : "edge[interaction = 'OUTGOING']",
+    "css" : {
+      "line-style" : "dotted"
+    }
+  }, {
+    "selector" : "edge:selected",
+    "css" : {
+      "line-color" : "rgb(255,0,0)"
+    }
+  } ]
+} ]
