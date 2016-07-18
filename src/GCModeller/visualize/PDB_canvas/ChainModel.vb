@@ -16,11 +16,13 @@ Public Class ChainModel
         Set(value As AA())
             __first = value(Scan0)
             __chain = value
+            __central = value.Select(Function(x) x.Point).Center
         End Set
     End Property
 
     Dim __first As AA
     Dim __chain As AA()
+    Dim __central As Point3D
 
     Sub New(PDB As PDB)
         Dim aas As String() =
