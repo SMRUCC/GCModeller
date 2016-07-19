@@ -24,6 +24,31 @@ Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 Partial Module CLI
 
+    <ExportAPI("/Format.GI", Usage:="/Format.GI /in <txt> /gi <regex> /format <gi|{gi}> /out <out.txt>")>
+    Public Function FormatGI(args As CommandLine) As Integer
+        Dim [in] As String = args.GetFullFilePath("/in")
+        Dim gi As String = args("/gi")
+        Dim format As String = args("/format")
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Format_gi." & [in].Split("."c).Last)
+        Dim regex As New Regex(gi, RegexICSng)
+
+        Using write = out.OpenWriter(Encodings.ASCII)
+            write.NewLine = vbLf
+
+            For Each line As String In [in].IterateAllLines
+                Dim ms = regex.Matches(line).ToArray
+
+                For Each s As String In ms
+                    line = line.Replace(s, format.Replace("{gi}", Regex.Match(s, "\d+").Value))
+                Next
+
+                Call write.WriteLine(line)
+            Next
+        End Using
+
+        Return 0
+    End Function
+
     <ExportAPI("/fq2fa", Usage:="/fq2fa /in <fastaq> [/out <fasta>]")>
     Public Function Fq2fa(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -134,6 +159,13 @@ Partial Module CLI
                    .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count))
         Dim statOut As String = out.TrimFileExt & ".stat.Csv"
 
+        Call (From x As NamedValue(Of Integer)
+              In stat
+              Where Not String.Equals(x.Name, "*")
+              Select gi = Regex.Match(x.Name, "\d+").Value,
+                  x.Name) _
+                  .ToArray(Function(x) x.gi & vbTab & x.Name) _
+                  .SaveTo(statOut.TrimFileExt & ".gi_Maps.tsv")
         Call New NamedValue(Of Integer)([in].BaseName, result.Count).Join(stat).SaveTo(statOut)
 
         Return result.SaveTo(out, maps:=maps)

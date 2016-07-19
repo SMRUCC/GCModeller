@@ -108,8 +108,8 @@ Partial Module Utilities
                Usage:="/Merge /in <fasta.DIR> [/out <out.fasta> /trim /unique /ext <*.fasta> /brief]",
                Info:="Only search for 1 level folder, dit not search receve.")>
     Public Function Merge(args As CommandLine.CommandLine) As Integer
-        Dim inDIR As String = args("/in")
-        Dim out As String = args.GetValue("/out", inDIR & ".fasta")
+        Dim inDIR As String = args.GetFullDIRPath("/in")
+        Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
         Dim ext As String = args("/ext")
         Dim fasta As FASTA.FastaFile
         Dim raw As Boolean = Not args.GetBoolean("/brief")

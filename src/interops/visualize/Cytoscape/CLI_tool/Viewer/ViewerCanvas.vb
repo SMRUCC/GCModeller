@@ -16,4 +16,12 @@ Public Class ViewerCanvas
         Controls.Add(canvas)
         canvas.BringToFront()
     End Sub
+
+    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
+        Using file As New OpenFileDialog With {
+            .Filter = "cyjs(*.json)|*.json"
+        }
+
+        End Using
+    End Sub
 End Class

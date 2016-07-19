@@ -65,6 +65,19 @@ Namespace Assembly.NCBI
     Public Module Taxonomy
 
         ''' <summary>
+        ''' 根绝文件的拓展名来识别
+        ''' </summary>
+        ''' <param name="dmp"></param>
+        ''' <returns></returns>
+        Public Function AcquireAuto(dmp As String) As Dictionary(Of Integer, Integer)
+            If String.Equals(dmp.Split("."c).Last, "bin", StringComparison.OrdinalIgnoreCase) Then
+                Return Taxonomy.LoadArchive(bin:=dmp)
+            Else
+                Return Taxonomy.Hash_gi2Taxi(dmp)
+            End If
+        End Function
+
+        ''' <summary>
         ''' Probably you should do the match in the bash first by using script"
         ''' 
         ''' ```bash

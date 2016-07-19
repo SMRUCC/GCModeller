@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -164,13 +165,89 @@ Module CLI
         End Using
     End Function
 
-    Public Class TaxiSummary : Inherits ClassObject
+    <ExportAPI("/Assign.Taxonomy",
+               Usage:="/Assign.Taxonomy /in <in.DIR> /gi <regexp> /index <fieldName> /tax <NCBI nodes/names.dmp> /gi2taxi <gi2taxi.txt/bin> [/out <out.DIR>]")>
+    Public Function AssignTaxonomy(args As CommandLine) As Integer
+        Dim [in] As String = args.GetFullDIRPath("/in")
+        Dim regexp As String = args("/gi")
+        Dim index As String = args("/index")
+        Dim tax As String = args("/tax")
+        Dim gi2taxi As String = args("/gi2taxi")
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy/")
+        Dim tree As New NcbiTaxonomyTree(tax)
+        Dim giTaxidhash As Dictionary(Of Integer, Integer) =
+            Taxonomy.AcquireAuto(gi2taxi)
+        Dim getGI = Taxono.Parser_gi(regexp)
+
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+            Dim data = Taxono.Load(file, index)
+            Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
+
+            For Each x In data
+                Dim gi As Integer = getGI(x)
+
+                If giTaxidhash.ContainsKey(gi) Then
+                    Dim taxid As Integer = giTaxidhash(gi)
+                    x.taxid = taxid
+                    Dim nodes = tree.GetAscendantsWithRanksAndNames({taxid}, True)
+                    Dim hash = TaxonNode.ToHash(nodes.First.Value)
+
+                    With x
+                        .class = hash.TryGetValue(NcbiTaxonomyTree.class)
+                        .family = hash.TryGetValue(NcbiTaxonomyTree.family)
+                        .genus = hash.TryGetValue(NcbiTaxonomyTree.genus)
+                        .order = hash.TryGetValue(NcbiTaxonomyTree.order)
+                        .phylum = hash.TryGetValue(NcbiTaxonomyTree.phylum)
+                        .species = hash.TryGetValue(NcbiTaxonomyTree.species)
+                        .superkingdom = hash.TryGetValue(NcbiTaxonomyTree.superkingdom)
+                    End With
+
+                    x.Taxonomy = $"k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}"
+                End If
+            Next
+
+            Call Taxono.Save(out, data, index)
+        Next
+
+        Return 0
+    End Function
+
+    Public Class Taxono : Inherits ITaxon
+
+        Public Property Tag As String
+        <Meta> Public Property Values As Dictionary(Of String, String)
+
+        Public Shared Function Load(path As String, index As String) As IEnumerable(Of Taxono)
+            Dim maps As New Dictionary(Of String, String) From {{index, NameOf(Taxono.Tag)}}
+            Return path.LoadCsv(Of Taxono)(maps:=maps)
+        End Function
+
+        Public Shared Function Save(path As String, result As IEnumerable(Of Taxono), index As String) As Boolean
+            Dim maps As New Dictionary(Of String, String) From {{NameOf(Taxono.Tag), index}}
+            Return result.SaveTo(path, maps:=maps)
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
+        Public Shared Function Parser_gi(regexp As String) As Func(Of Taxono, Integer)
+            Dim rg As New Regex(regexp, RegexICSng)
+            Return Function(x) CInt(Val(Regex.Match(rg.Match(x.Tag).Value, "\d+").Value))
+        End Function
+    End Class
+
+    Public Class TaxiSummary : Inherits ITaxon
 
         Public Property Name As String
         Public Property gi As String
-        Public Property taxid As String
+
         Public Property title As String
         Public Property sequence As String
+    End Class
+
+    Public Class ITaxon
+        Public Property taxid As String
 
         Public Property species As String
         Public Property genus As String
