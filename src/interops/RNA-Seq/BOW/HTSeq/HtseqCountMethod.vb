@@ -38,7 +38,6 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.SAM
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 ''' <summary>
 ''' Counting reads in features with htseq-count, Given a file with aligned sequencing reads and a list of genomic features, a common task is to count how many reads map 

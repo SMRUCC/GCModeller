@@ -16,11 +16,13 @@ Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 Partial Module CLI
 
@@ -125,15 +127,23 @@ Partial Module CLI
         Return rows.SaveTo(out)
     End Function
 
-    <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/out <out.Csv>]")>
+    <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /out <out.Csv>]")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Maps.Csv")
         Dim reader As New SamStream([in])
         Dim result As New List(Of SimpleSegment)
+        Dim NNNNcontig As String = args("/contigs")
+        Dim genome As GenomeContextProvider(Of GeneBrief) = Nothing
+
+        If NNNNcontig.FileExists Then
+            Dim contigs = NNNNcontig.LoadCsv(Of SimpleSegment)
+            Dim genes = contigs.ToArray(Function(x) x.ToPTTGene)
+            genome = New GenomeContextProvider(Of GeneBrief)(genes)
+        End If
 
         For Each readMaps In reader.ReadBlock
-            result += New SimpleSegment With {
+            Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,
                 .Strand = readMaps.Strand.GetBriefCode,
@@ -141,6 +151,21 @@ Partial Module CLI
                 .Complement = readMaps.QNAME,
                 .Ends = readMaps.FLAG
             }
+
+            If reads.ID <> "*" AndAlso genome IsNot Nothing Then
+                Dim loci As New NucleotideLocation(readMaps.POS, readMaps.POS + reads.SequenceData.Length, False)
+                Dim contig = genome.GetAroundRelated(loci,, 10)
+                If Not contig.IsNullOrEmpty Then
+                    reads.ID = contig.First.Gene.Synonym.Split.First
+                    If contig.Length > 1 Then
+                        Call reads.GetJson.__DEBUG_ECHO
+                    End If
+                Else
+                    Call (reads.ID & " " & loci.ToString & " not found!!!").__DEBUG_ECHO
+                End If
+            End If
+
+            result += reads
         Next
 
         Dim maps As New Dictionary(Of String, String) From {

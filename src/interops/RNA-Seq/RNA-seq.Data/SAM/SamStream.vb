@@ -28,7 +28,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
+Imports SMRUCC.genomics.SequenceModel.SAM
 
 Namespace SAM
 

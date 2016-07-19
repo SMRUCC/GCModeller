@@ -1,35 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::3690a0c62fedccb96feb9bb091e8fa91, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace SAM.DocumentElements
+Namespace SAM
 
     ''' <summary>
     ''' 比对区域
@@ -345,26 +346,27 @@ Namespace SAM.DocumentElements
         ''' </remarks>
         Sub New(str As String)
             Dim Tokens As String() = Strings.Split(str, vbTab)
-            Dim n As Integer = Tokens.Count
-            Dim p As Integer = 0
-            Dim InternalGetValue As Func(Of String) = Function() If(p < n, Tokens(p.MoveNext), "")
+            Dim n As Integer = Tokens.Length
+            Dim p As New Pointer
+            Dim __getValue As Func(Of String) = Function() If(p < n, Tokens(++p), "")
 
-            QNAME = InternalGetValue()
-            FLAG = CInt(Val(InternalGetValue()))
-            RNAME = InternalGetValue()
-            POS = CInt(Val(InternalGetValue()))
-            MAPQ = CInt(Val(InternalGetValue()))
-            CIGAR = InternalGetValue()
-            RNEXT = InternalGetValue()
-            PNEXT = CInt(Val(InternalGetValue()))
-            TLEN = CInt(Val(InternalGetValue()))
-            SequenceData = InternalGetValue()
-            QUAL = InternalGetValue()
+            QNAME = __getValue()
+            FLAG = CInt(Val(__getValue()))
+            RNAME = __getValue()
+            POS = CInt(Val(__getValue()))
+            MAPQ = CInt(Val(__getValue()))
+            CIGAR = __getValue()
+            RNEXT = __getValue()
+            PNEXT = CInt(Val(__getValue()))
+            TLEN = CInt(Val(__getValue()))
+            SequenceData = __getValue()
+            QUAL = __getValue()
 
             Try
-                Dim LQuery = From s As String In Tokens.Skip(p)
+                Dim LQuery = From s As String
+                             In Tokens.Skip(p)
                              Let TokenValue = s.Split(CChar(":"))
-                             Where TokenValue.Count >= 3
+                             Where TokenValue.Length >= 3
                              Select TAG = TokenValue(0),
                                  TYPE = TokenValue(1),
                                  VALUE = TokenValue(2) '

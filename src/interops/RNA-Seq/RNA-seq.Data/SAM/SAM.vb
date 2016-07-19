@@ -30,12 +30,12 @@ Imports System.IO
 Imports System.Text
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Terminal.Utility
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Terminal.Utility
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.SAM
 
 Namespace SAM
 
@@ -151,7 +151,7 @@ Namespace SAM
         ''' 对当前的这个Mapping之中的Reads进行装配
         ''' </summary>
         Public Sub Assembling(ByRef Forwards As Contig()， ByRef Reversed As Contig(), Optional TrimError As Boolean = True)
-            Dim AlignmentReads As DocumentElements.AlignmentReads() = Me.AlignmentsReads.ToArray
+            Dim AlignmentReads As AlignmentReads() = Me.AlignmentsReads.ToArray
 
             If TrimError Then
                 AlignmentReads = (From ReadMapping In AlignmentReads.AsParallel

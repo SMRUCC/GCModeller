@@ -28,7 +28,7 @@
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-Namespace SAM.DocumentElements
+Namespace SAM
 
     ''' <summary>
     ''' 
