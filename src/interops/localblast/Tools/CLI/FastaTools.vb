@@ -62,7 +62,7 @@ Partial Module CLI
         Return 0
     End Function
 
-    Const Interval As String = "NNNNNNNNNN"
+    Const Interval As String = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
 
     <ExportAPI("/Contacts", Usage:="/Contacts /in <in.fasta> [/out <out.DIR>]")>
     Public Function Contacts(args As CommandLine) As Integer
