@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.ContextModel
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
+Imports SMRUCC.genomics.SequenceModel.SAM
 
 <[Namespace]("TSSs.Analysis.ReadsView")>
 Public Module Reads
