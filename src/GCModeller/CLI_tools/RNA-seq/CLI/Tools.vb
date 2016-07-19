@@ -127,7 +127,7 @@ Partial Module CLI
         Return rows.SaveTo(out)
     End Function
 
-    <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /out <out.Csv>]")>
+    <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv>]")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Maps.Csv")
@@ -182,6 +182,20 @@ Partial Module CLI
             {NameOf(SimpleSegment.Ends), NameOf(AlignmentReads.FLAG)},
             {NameOf(SimpleSegment.SequenceData), NameOf(AlignmentReads.QUAL)}
         }
+
+        If tagsHash Is Nothing Then
+            Dim ref As String = args("/raw")
+            If ref.FileExists Then
+                Dim rawRef As New FastaFile(ref)
+                tagsHash = (From x As FastaToken
+                            In rawRef
+                            Select x,
+                                sid = x.Title.Split.First
+                            Group By sid Into Group) _
+                                    .ToDictionary(Function(x) x.sid,
+                                                  Function(x) x.Group.First.x.Title.Replace(x.sid, "").Trim)
+            End If
+        End If
 
         Dim getValue As Func(Of String, String) =
             If(tagsHash Is Nothing,
