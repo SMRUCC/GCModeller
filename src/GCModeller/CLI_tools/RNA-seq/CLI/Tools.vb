@@ -135,11 +135,19 @@ Partial Module CLI
         Dim result As New List(Of SimpleSegment)
         Dim NNNNcontig As String = args("/contigs")
         Dim genome As GenomeContextProvider(Of GeneBrief) = Nothing
+        Dim tagsHash As Dictionary(Of String, String) = Nothing
 
         If NNNNcontig.FileExists Then
             Dim contigs = NNNNcontig.LoadCsv(Of SimpleSegment)
             Dim genes = contigs.ToArray(Function(x) x.ToPTTGene)
             genome = New GenomeContextProvider(Of GeneBrief)(genes)
+            tagsHash = (From x As SimpleSegment
+                        In contigs
+                        Select x.ID.Split.First,
+                            x
+                        Group By First Into Group) _
+                                .ToDictionary(Function(x) x.First,
+                                              Function(x) x.Group.First.x.ID.Replace(x.First, "").Trim)
         End If
 
         For Each readMaps In reader.ReadBlock
@@ -175,13 +183,16 @@ Partial Module CLI
             {NameOf(SimpleSegment.SequenceData), NameOf(AlignmentReads.QUAL)}
         }
 
-
+        Dim getValue As Func(Of String, String) =
+            If(tagsHash Is Nothing,
+            Function(s) "",
+            Function(s) If(tagsHash.ContainsKey(s), tagsHash(s), ""))
         Dim stat As NamedValue(Of Integer)() =
             LinqAPI.Exec(Of NamedValue(Of Integer)) <= (From x As SimpleSegment
                                                         In result
                                                         Select x
                                                         Group x By x.ID Into Count) _
-                   .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count))
+                   .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count) With {.Description = getValue(x.ID)})
         Dim statOut As String = out.TrimFileExt & ".stat.Csv"
 
         Call (From x As NamedValue(Of Integer)
