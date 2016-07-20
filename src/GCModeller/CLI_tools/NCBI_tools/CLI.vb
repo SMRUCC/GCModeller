@@ -2,6 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
@@ -58,7 +59,7 @@ Module CLI
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".NCBI.Taxonomy/")
         Dim ref As String = args("/gi")
         Dim gi2taxi As String = args("/gi2taxi")
-        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
+        Dim taxiHash As BucketDictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
         Dim taxTree As New NcbiTaxonomyTree(tax)
         Dim hash As Dictionary(Of String, String) =
             If(ref.FileExists,
@@ -104,7 +105,7 @@ Module CLI
         Dim gi2taxi As String = args("/gi2taxi")
         Dim tax As String = args("/tax")
         Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Taxonomy.fasta")
-        Dim taxiHash As Dictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
+        Dim taxiHash As BucketDictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
         Dim taxTree As New NcbiTaxonomyTree(tax)
         Dim notFoundTax As String = out.TrimFileExt & ".notFound.txt"
 
@@ -175,7 +176,7 @@ Module CLI
         Dim gi2taxi As String = args("/gi2taxi")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy/")
         Dim tree As New NcbiTaxonomyTree(tax)
-        Dim giTaxidhash As Dictionary(Of Integer, Integer) =
+        Dim giTaxidhash As BucketDictionary(Of Integer, Integer) =
             Taxonomy.AcquireAuto(gi2taxi)
         Dim getGI = Taxono.Parser_gi(regexp)
 
@@ -203,6 +204,56 @@ Module CLI
                     End With
 
                     x.Taxonomy = $"k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}"
+                End If
+            Next
+
+            Call Taxono.Save(out, data, index)
+        Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Assign.Taxonomy.SSU",
+               Usage:="/Assign.Taxonomy.SSU /in <in.DIR> /index <fieldName> /ref <SSU-ref.fasta> [/out <out.DIR>]")>
+    Public Function AssignTaxonomy2(args As CommandLine) As Integer
+        Dim [in] As String = args.GetFullDIRPath("/in")
+        Dim index As String = args("/index")
+        Dim tax As String = args("/ref")
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy/")
+        Dim taxHash = (From x As FastaToken
+                       In New FastaFile(tax)
+                       Select sid = x.Title.Split.First,
+                           x.Title
+                       Group By sid Into Group) _
+                               .ToDictionary(Function(x) x.sid,
+                                             Function(x) x.Group.First.Title.Replace(x.sid, "").Trim)
+
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+            Dim data = Taxono.Load(file, index)
+            Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
+
+            For Each x As Taxono In data
+                If taxHash.ContainsKey(x.Tag) Then
+                    Dim tokens As String() = taxHash(x.Tag).Split(";"c)
+                    Dim hash As New Dictionary(Of String, String) From {{"species", tokens(6)},
+            {"genus", tokens(5)},
+            {"family", tokens(4)},
+            {"order", tokens(3)},
+            {"class", tokens(2)},
+            {"phylum", tokens(1)},
+            {"superkingdom", tokens(0)}}
+
+                    With x
+                        .class = hash.TryGetValue(NcbiTaxonomyTree.class)
+                        .family = hash.TryGetValue(NcbiTaxonomyTree.family)
+                        .genus = hash.TryGetValue(NcbiTaxonomyTree.genus)
+                        .order = hash.TryGetValue(NcbiTaxonomyTree.order)
+                        .phylum = hash.TryGetValue(NcbiTaxonomyTree.phylum)
+                        .species = hash.TryGetValue(NcbiTaxonomyTree.species)
+                        .superkingdom = hash.TryGetValue(NcbiTaxonomyTree.superkingdom)
+                    End With
+
+                    x.Taxonomy = taxHash(x.Tag)
                 End If
             Next
 

@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -69,7 +70,7 @@ Namespace Assembly.NCBI
         ''' </summary>
         ''' <param name="dmp"></param>
         ''' <returns></returns>
-        Public Function AcquireAuto(dmp As String) As Dictionary(Of Integer, Integer)
+        Public Function AcquireAuto(dmp As String) As BucketDictionary(Of Integer, Integer)
             If String.Equals(dmp.Split("."c).Last, "bin", StringComparison.OrdinalIgnoreCase) Then
                 Return Taxonomy.LoadArchive(bin:=dmp)
             Else
@@ -91,18 +92,20 @@ Namespace Assembly.NCBI
         ''' <param name="dmp"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Hash_gi2Taxi(dmp As String) As Dictionary(Of Integer, Integer)
-            Dim hash As New Dictionary(Of Integer, Integer)
+        Public Function Hash_gi2Taxi(dmp As String) As BucketDictionary(Of Integer, Integer)
+            Dim hash As BucketDictionary(Of Integer, Integer) =
+                dmp.__gi2Taxid.CreateBuckets(Function(x) x(Scan0), Function(x) x(1))
+            Return hash
+        End Function
 
+        <Extension>
+        Private Iterator Function __gi2Taxid(dmp As String) As IEnumerable(Of Integer())
             For Each line As String In dmp.IterateAllLines
                 Dim tokens As String() = line.Split(tab)
                 Dim ns = tokens.ToArray(Function(s) CInt(s))
-                Dim k As Integer = ns(0), v As Integer = ns(1)
 
-                hash(k) = v
+                Yield ns
             Next
-
-            Return hash
         End Function
 
         Const tab As Char = CChar(vbTab)
@@ -127,28 +130,31 @@ Namespace Assembly.NCBI
             Return True
         End Function
 
-        Public Function LoadArchive(bin As String, Optional bufSize As Integer = 128 * 1024 * 1024 * 2 * RawStream.INT32) As Dictionary(Of Integer, Integer)
+        Public Function LoadArchive(bin As String, Optional bufSize As Integer = 128 * 1024 * 1024 * 2 * RawStream.INT32) As BucketDictionary(Of Integer, Integer)
             Using reader As New BinaryReader(New FileStream(bin, FileMode.Open))
-                Dim hash As New Dictionary(Of Integer, Integer)
-                Dim bs As Stream = reader.BaseStream
-                Dim bl As Long = bs.Length
+                Dim hash As BucketDictionary(Of Integer, Integer)
 
                 Call "Start to load gi2taxi database into memory....".__DEBUG_ECHO
-
-                Do While bs.Position < bl
-                    Dim k = reader.ReadBytes(RawStream.INT32)
-                    Dim v = reader.ReadBytes(RawStream.INT32)
-
-                    If k.Length <> 4 OrElse v.Length <> 4 Then
-                    Else
-                        hash(BitConverter.ToInt32(k, Scan0)) = BitConverter.ToInt32(v, Scan0)
-                    End If
-                Loop
-
+                hash = reader.__loadArchive.CreateBuckets(Function(x) x(Scan0), Function(x) x(1))
                 Call "JOB DONE!".__DEBUG_ECHO
-
                 Return hash
             End Using
+        End Function
+
+        <Extension>
+        Private Iterator Function __loadArchive(reader As BinaryReader) As IEnumerable(Of Integer())
+            Dim bs As Stream = reader.BaseStream
+            Dim bl As Long = bs.Length
+
+            Do While bs.Position < bl
+                Dim k = reader.ReadBytes(RawStream.INT32)
+                Dim v = reader.ReadBytes(RawStream.INT32)
+
+                If k.Length <> 4 OrElse v.Length <> 4 Then
+                Else
+                    Yield {BitConverter.ToInt32(k, Scan0), BitConverter.ToInt32(v, Scan0)}
+                End If
+            Loop
         End Function
     End Module
 End Namespace
