@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::67605fd50af799ecd160fafb60502fae, ..\GCModeller\CLI_tools\KEGG\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -37,6 +37,7 @@ Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 <Cite(Title:="KAAS: an automatic genome annotation and pathway reconstruction server", PubMed:=17526522,
       DOI:="10.1093/nar/gkm321",
@@ -123,7 +124,7 @@ Module CLI
 
         For Each seq In query
             Dim path As String = $"{out}/{seq.Title.NormalizePathString(False)}.csv"
-            Dim result = KEGG.Blastn.Submit(seq)
+            Dim result = KEGG_tools.Blastn.Submit(seq)
             Call result.SaveTo(path)
         Next
 
@@ -455,6 +456,18 @@ Module CLI
 
         Dim Merge = (From fa As String In lstFiles Where fa.FileExists Select New FASTA.FastaToken(fa)).ToArray
         Call New FASTA.FastaFile(Merge).Save(out & ".fasta")
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Download.Pathway.Maps",
+               Usage:="/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
+    Public Function DownloadPathwayMaps(args As CommandLine.CommandLine) As Integer
+        Dim sp As String = args("/sp")
+        Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
+        Dim all = LinkDB.Pathways.AllEntries(sp).ToArray
+
+        Call LinkDB.Pathways.Downloads(sp, EXPORT).ToArray
 
         Return 0
     End Function

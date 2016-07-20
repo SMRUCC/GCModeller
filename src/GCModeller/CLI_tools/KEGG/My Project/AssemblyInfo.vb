@@ -8,9 +8,9 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("KEGG DBGET webservices online search tool")> 
-<Assembly: AssemblyDescription("KEGG DBGET webservices online search tool")> 
-<Assembly: AssemblyCompany("GPL3 licensed")>
+<Assembly: AssemblyTitle("tools utilis for KEGG database DBGET API")>
+<Assembly: AssemblyDescription("tools utilis for KEGG database DBGET API")>
+<Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gmail.com 2014")>
 <Assembly: AssemblyTrademark("SMRUCC")>
