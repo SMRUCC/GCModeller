@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03060" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The protein export is the active transport of proteins from the cytoplasm to the exterior of the cell, or to the periplasmic compartment in Gram-negative bacteria. The sec dependent pathway is the general protein export system that transports newly synthesized proteins into or across the cell membrane. The translocation channel is formed from a conserved trimeric membrane protein complex, called the Sec61/SecY complex. The twin-arginine translocation (Tat) pathway is another protein transport system that transports folded proteins in bacteria, archaea, and chloroplasts. Many Tat systems comprise three functionally different membrane proteins, TatA, TatB, and TatC, but TatA and TatE seem to have overlapping functions, with TatA having by far the more important role.&lt;br&gt;</Description>
+  <Name>Protein export - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="eco03060" Value="Protein export&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0027" Value="lspA; prolipoprotein signal peptidase (signal peptidase II) (EC:3.4.23.36); K03101 signal peptidase" />
+    <hashEntry Key="eco:b0097" Value="secM; regulator of secA translation; K13301 secretion monitor" />
+    <hashEntry Key="eco:b0098" Value="secA; preprotein translocase subunit, ATPase; K03070 preprotein translocase subunit SecA" />
+    <hashEntry Key="eco:b0407" Value="yajC; SecYEG protein translocase auxillary subunit; K03210 preprotein translocase subunit YajC" />
+    <hashEntry Key="eco:b0408" Value="secD; SecYEG protein translocase auxillary subunit; K03072 preprotein translocase subunit SecD" />
+    <hashEntry Key="eco:b0409" Value="secF; SecYEG protein translocase auxillary subunit; K03074 preprotein translocase subunit SecF" />
+    <hashEntry Key="eco:b0455" Value="ffs; 4.5S sRNA component of Signal Recognition Particle (SRP); K01983 SRP RNA" />
+    <hashEntry Key="eco:b0627" Value="tatE; TatABCE protein translocation system subunit; K03425 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b2568" Value="lepB; leader peptidase (signal peptidase I) (EC:3.4.21.89); K03100 signal peptidase I [EC:3.4.21.89]" />
+    <hashEntry Key="eco:b2610" Value="ffh; Signal Recognition Particle (SRP) component with 4.5S RNA (ffs); K03106 signal recognition part" />
+    <hashEntry Key="eco:b3175" Value="secG; preprotein translocase membrane subunit; K03075 preprotein translocase subunit SecG" />
+    <hashEntry Key="eco:b3300" Value="secY; preprotein translocase membrane subunit; K03076 preprotein translocase subunit SecY" />
+    <hashEntry Key="eco:b3464" Value="ftsY; Signal Recognition Particle (SRP) receptor; K03110 fused signal recognition particle receptor" />
+    <hashEntry Key="eco:b3609" Value="secB; protein export chaperone; K03071 preprotein translocase subunit SecB" />
+    <hashEntry Key="eco:b3705" Value="yidC; membrane protein insertase; K03217 YidC/Oxa1 family membrane protein insertase" />
+    <hashEntry Key="eco:b3836" Value="tatA; TatABCE protein translocation system subunit; K03116 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b3838" Value="tatB; TatABCE protein translocation system subunit; K03117 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b3839" Value="tatC; TatABCE protein translocation system subunit; K03118 sec-independent protein translocase prote" />
+    <hashEntry Key="eco:b3981" Value="secE; preprotein translocase membrane subunit; K03073 preprotein translocase subunit SecE" />
+  </Genes>
+</KEGG.PathwayBrief>

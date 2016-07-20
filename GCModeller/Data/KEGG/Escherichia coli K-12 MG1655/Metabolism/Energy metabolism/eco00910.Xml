@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00910" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The biological process of the nitrogen cycle is a complex interplay among many microorganisms catalyzing different reactions, where nitrogen is found in various oxidation states ranging from +5 in nitrate to -3 in ammonia. The core nitrogen cycle involves four reduction pathways and two oxidation pathways. Nitrogen fixation [MD:M00175] is the process of reducing atmospheric molecular nitrogen to ammonia, a biologically useful reduced form incorporated into amino acids and other vital compounds. The ability of fixing atmospheric nitrogen by the nitrogenase enzyme complex is present in restricted prokaryotes (diazotrophs). The other reduction pathways are assimilatory nitrate reduction [MD:M00531] and dissimilatory nitrate reduction [MD:M00530] both for conversion to ammonia, and denitrification [MD:M00529]. Denitrification is a respiration in which nitrate or nitrite is reduced as a terminal electron acceptor under low oxygen or anoxic conditions, producing gaseous nitrogen compounds (N2, NO and N2O) to the atmosphere. The two oxidation pathways are nitrification [MD:M00528] and anaerobic ammonium oxidation (anammox). Nitrification is the oxidation of ammonia (NH3) with oxygen into nitrite followed by the oxidation of nitrite into nitrate. The first step is performed by ammonia-oxidizing microorganisms (e.g., Nitrosomonas and Nitrosococcus) and the second step by nitrite-oxidizing microorganisms (e.g., Nitrobacter). Anammox is a biochemical process of oxidizing ammonium (NH4+) into dinitrogen gas (N2) using nitrite as an electron acceptor. It occurs in the anammoxosome, a membrane bound compartment inside the cytoplasm, of anammox bacteria (e.g., Planctomycetes).&lt;br&gt;</Description>
+  <Name>Nitrogen metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00530" Value="Dissimilatory nitrate reduction, nitrate =&gt; ammonia [PATH:eco00910]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00058" Value="Formate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00088" Value="Nitrite" />
+    <hashEntry Key="C00169" Value="Carbamoyl phosphate" />
+    <hashEntry Key="C00192" Value="Hydroxylamine" />
+    <hashEntry Key="C00244" Value="Nitrate" />
+    <hashEntry Key="C00288" Value="HCO3-" />
+    <hashEntry Key="C00488" Value="Formamide" />
+    <hashEntry Key="C00533" Value="Nitric oxide" />
+    <hashEntry Key="C00697" Value="Nitrogen" />
+    <hashEntry Key="C00726" Value="Nitrile" />
+    <hashEntry Key="C00887" Value="Nitrous oxide" />
+    <hashEntry Key="C01417" Value="Cyanate" />
+    <hashEntry Key="C01563" Value="Carbamate" />
+    <hashEntry Key="C05361" Value="Hydrazine" />
+    <hashEntry Key="C06058" Value="Nitroalkane" />
+  </Compound>
+  <PathwayMap Key="eco00910" Value="Nitrogen metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0126" Value="can; carbonic anhydrase (EC:4.2.1.1); K01673 carbonic anhydrase [EC:4.2.1.1]" />
+    <hashEntry Key="eco:b0323" Value="yahI; carbamate kinase-like protein; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b0339" Value="cynT; carbonic anhydrase (EC:4.2.1.1); K01673 carbonic anhydrase [EC:4.2.1.1]" />
+    <hashEntry Key="eco:b0340" Value="cynS; cyanate aminohydrolase (EC:4.2.1.104); K01725 cyanate lyase [EC:4.2.1.104]" />
+    <hashEntry Key="eco:b0521" Value="ybcF; putative carbonate kinase; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b0873" Value="hcp; hybrid-cluster [4Fe-2S-2O] protein in anaerobic terminal reductases; K05601 hydroxylamine reduc" />
+    <hashEntry Key="eco:b1223" Value="narK; nitrate/nitrite transporter; K02575 MFS transporter, NNP family, nitrate/nitrite transporter" />
+    <hashEntry Key="eco:b1224" Value="narG; nitrate reductase 1, alpha subunit (EC:1.7.99.4); K00370 nitrate reductase / nitrite oxidoredu" />
+    <hashEntry Key="eco:b1225" Value="narH; nitrate reductase 1, beta (Fe-S) subunit (EC:1.7.99.4); K00371 nitrate reductase / nitrite oxi" />
+    <hashEntry Key="eco:b1226" Value="narJ; molybdenum-cofactor-assembly chaperone subunit (delta subunit) of nitrate reductase 1 (EC:1.7." />
+    <hashEntry Key="eco:b1227" Value="narI; nitrate reductase 1, gamma (cytochrome b(NR)) subunit (EC:1.7.99.4); K00374 nitrate reductase" />
+    <hashEntry Key="eco:b1465" Value="narV; nitrate reductase 2 (NRZ), gamma subunit (EC:1.7.99.4); K00374 nitrate reductase gamma subunit" />
+    <hashEntry Key="eco:b1466" Value="narW; nitrate reductase 2 (NRZ), delta subunit (assembly subunit) (EC:1.7.99.4); K00373 nitrate redu" />
+    <hashEntry Key="eco:b1467" Value="narY; nitrate reductase 2 (NRZ), beta subunit (EC:1.7.99.4); K00371 nitrate reductase / nitrite oxid" />
+    <hashEntry Key="eco:b1468" Value="narZ; nitrate reductase 2 (NRZ), alpha subunit (EC:1.7.99.4); K00370 nitrate reductase / nitrite oxi" />
+    <hashEntry Key="eco:b1469" Value="narU; nitrate/nitrite transporter; K02575 MFS transporter, NNP family, nitrate/nitrite transporter" />
+    <hashEntry Key="eco:b1761" Value="gdhA; glutamate dehydrogenase, NADP-specific (EC:1.4.1.4); K00262 glutamate dehydrogenase (NADP+) [E" />
+    <hashEntry Key="eco:b2203" Value="napB; nitrate reductase, small, cytochrome C550 subunit, periplasmic; K02568 cytochrome c-type prote" />
+    <hashEntry Key="eco:b2206" Value="napA; nitrate reductase, periplasmic, large subunit (EC:1.7.99.4); K02567 periplasmic nitrate reduct" />
+    <hashEntry Key="eco:b2874" Value="yqeA; putative amino acid kinase; K00926 carbamate kinase [EC:2.7.2.2]" />
+    <hashEntry Key="eco:b3212" Value="gltB; glutamate synthase, large subunit (EC:1.4.1.13); K00265 glutamate synthase (NADPH/NADH) large" />
+    <hashEntry Key="eco:b3213" Value="gltD; glutamate synthase, 4Fe-4S protein, small subunit (EC:1.4.1.13); K00266 glutamate synthase (NA" />
+    <hashEntry Key="eco:b3365" Value="nirB; nitrite reductase, large subunit, NAD(P)H-binding (EC:1.7.1.4); K00362 nitrite reductase (NADH" />
+    <hashEntry Key="eco:b3366" Value="nirD; nitrite reductase, NAD(P)H-binding, small subunit (EC:1.7.1.4); K00363 nitrite reductase (NADH" />
+    <hashEntry Key="eco:b3870" Value="glnA; glutamine synthetase (EC:6.3.1.2); K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="eco:b4070" Value="nrfA; nitrite reductase, formate-dependent, cytochrome; K03385 nitrite reductase (cytochrome c-552)" />
+  </Genes>
+</KEGG.PathwayBrief>

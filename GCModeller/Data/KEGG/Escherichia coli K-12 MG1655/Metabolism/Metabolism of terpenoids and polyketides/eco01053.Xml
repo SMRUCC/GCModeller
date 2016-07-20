@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco01053" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Biosynthesis of siderophore group nonribosomal peptides - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00196" Value="2,3-Dihydroxybenzoate" />
+    <hashEntry Key="C00251" Value="Chorismate" />
+    <hashEntry Key="C00805" Value="Salicylate" />
+    <hashEntry Key="C00885" Value="Isochorismate" />
+    <hashEntry Key="C04171" Value="(2S,3S)-2,3-Dihydro-2,3-dihydroxybenzoate" />
+    <hashEntry Key="C05821" Value="Enterochelin" />
+    <hashEntry Key="C06769" Value="Vibriobactin" />
+    <hashEntry Key="C12037" Value="Pyochelin" />
+    <hashEntry Key="C12038" Value="Yersiniabactin" />
+    <hashEntry Key="C12216" Value="Mycobactin S" />
+    <hashEntry Key="C12219" Value="Corynebactin" />
+    <hashEntry Key="C12220" Value="Myxochelin A" />
+    <hashEntry Key="C12221" Value="Myxochelin B" />
+  </Compound>
+  <PathwayMap Key="eco01053" Value="Biosynthesis of siderophore group nonribosomal peptides&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0583" Value="entD; phosphopantetheinyltransferase component of enterobactin synthase multienzyme complex (EC:2.7." />
+    <hashEntry Key="eco:b0586" Value="entF; enterobactin synthase multienzyme complex component, ATP-dependent (EC:2.7.7.-); K02364 entero" />
+    <hashEntry Key="eco:b0593" Value="entC; isochorismate synthase 1 (EC:5.4.4.2); K02361 isochorismate synthase [EC:5.4.4.2]" />
+    <hashEntry Key="eco:b0594" Value="entE; 2,3-dihydroxybenzoate-AMP ligase component of enterobactin synthase multienzyme complex (EC:2." />
+    <hashEntry Key="eco:b0595" Value="entB; isochorismatase (EC:3.3.2.1); K01252 bifunctional isochorismate lyase / aryl carrier protein [" />
+    <hashEntry Key="eco:b0596" Value="entA; 2,3-dihydro-2,3-dihydroxybenzoate dehydrogenase (EC:1.3.1.28); K00216 2,3-dihydro-2,3-dihydrox" />
+    <hashEntry Key="eco:b2265" Value="menF; isochorismate synthase 2 (EC:5.4.4.2); K02552 menaquinone-specific isochorismate synthase [EC:" />
+  </Genes>
+</KEGG.PathwayBrief>

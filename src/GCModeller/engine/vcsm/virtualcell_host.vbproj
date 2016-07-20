@@ -266,11 +266,11 @@
     </ProjectReference>
     <ProjectReference Include="..\GCMarkupLanguage\GCMarkupLanguage.vbproj">
       <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
-      <Name>DocumentFormat.GCMarkupLanguage</Name>
+      <Name>GCMarkupLanguage</Name>
     </ProjectReference>
     <ProjectReference Include="..\GCTabular\GCTabular.vbproj">
       <Project>{804eb81c-493a-49ef-95a9-dbf800fa4a08}</Project>
-      <Name>DocumentFormat.CsvTabular</Name>
+      <Name>GCTabular</Name>
     </ProjectReference>
     <ProjectReference Include="..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
       <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>

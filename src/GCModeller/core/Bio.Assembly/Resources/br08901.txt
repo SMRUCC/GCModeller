@@ -160,8 +160,10 @@ C    00261  Monobactam biosynthesis
 C    00331  Clavulanic acid biosynthesis
 C    00521  Streptomycin biosynthesis
 C    00524  Butirosin and neomycin biosynthesis
+C    00525  Acarbose and validamycin biosynthesis
 C    00231  Puromycin biosynthesis
 C    00401  Novobiocin biosynthesis
+C    00404  Staurosporine biosynthesis
 C    00254  Aflatoxin biosynthesis
 B  Xenobiotics biodegradation and metabolism
 C    00362  Benzoate degradation
@@ -241,9 +243,11 @@ C    04012  ErbB signaling pathway
 C    04310  Wnt signaling pathway
 C    04330  Notch signaling pathway
 C    04340  Hedgehog signaling pathway
+C    04341  Hedgehog signaling pathway - fly
 C    04350  TGF-beta signaling pathway
 C    04390  Hippo signaling pathway
 C    04391  Hippo signaling pathway - fly
+C    04392  Hippo signaling pathway -multiple species
 C    04370  VEGF signaling pathway
 C    04630  Jak-STAT signaling pathway
 C    04064  NF-kappa B signaling pathway
@@ -285,6 +289,8 @@ C    04112  Cell cycle - Caulobacter
 C    04113  Meiosis - yeast
 C    04114  Oocyte meiosis
 C    04210  Apoptosis
+C    04214  Apoptosis - fly
+C    04215  Apoptosis - multiple species
 C    04115  p53 signaling pathway
 B  Cellular community
 C    04510  Focal adhesion
@@ -372,7 +378,7 @@ C    04320  Dorso-ventral axis formation
 C    04360  Axon guidance
 C    04380  Osteoclast differentiation
 B  Aging
-C    04211  Longevity regulating pathway - mammal
+C    04211  Longevity regulating pathway
 C    04212  Longevity regulating pathway - worm
 C    04213  Longevity regulating pathway - multiple species
 B  Environmental adaptation
@@ -467,10 +473,13 @@ C    05145  Toxoplasmosis
 C    05140  Leishmaniasis
 C    05142  Chagas disease (American trypanosomiasis)
 C    05143  African trypanosomiasis
-B  Drug resistance
+B  Antimicrobial resistance
 C    01501  beta-Lactam resistance
 C    01502  Vancomycin resistance
 C    01503  Cationic antimicrobial peptide (CAMP) resistance
+B  Antineoplastic resistance
+C    01521  EGFR tyrosine kinase inhibitor resistance
+C    01524  Platinum drug resistance
 #
 A<b>Drug Development</b>
 B  Chronology: Antiinfectives
@@ -562,5 +571,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: February 3, 2016
+#Last updated: July 11, 2016
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>

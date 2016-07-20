@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco01212" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Fatty acid metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00082" Value="Fatty acid biosynthesis, initiation [PATH:eco01212]" />
+    <hashEntry Key="eco_M00083" Value="Fatty acid biosynthesis, elongation [PATH:eco01212]" />
+    <hashEntry Key="eco_M00086" Value="beta-Oxidation, acyl-CoA synthesis [PATH:eco01212]" />
+    <hashEntry Key="eco_M00087" Value="beta-Oxidation [PATH:eco01212]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="eco01212" Value="Fatty acid metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0180" Value="fabZ; (3R)-hydroxymyristol acyl carrier protein dehydratase (EC:4.2.1.-); K02372 3-hydroxyacyl-[acyl" />
+    <hashEntry Key="eco:b0185" Value="accA; acetyl-CoA carboxylase, carboxytransferase, alpha subunit (EC:6.4.1.2); K01962 acetyl-CoA carb" />
+    <hashEntry Key="eco:b0221" Value="fadE; acyl coenzyme A dehydrogenase (EC:1.3.99.-); K06445 acyl-CoA dehydrogenase [EC:1.3.99.-]" />
+    <hashEntry Key="eco:b0954" Value="fabA; beta-hydroxydecanoyl thioester dehydrase (EC:4.2.1.59 5.3.3.14); K01716 3-hydroxyacyl-[acyl-ca" />
+    <hashEntry Key="eco:b1091" Value="fabH; 3-oxoacyl-[acyl-carrier-protein] synthase III (EC:2.3.1.41); K00648 3-oxoacyl-[acyl-carrier-pr" />
+    <hashEntry Key="eco:b1092" Value="fabD; malonyl-CoA-[acyl-carrier-protein] transacylase (EC:2.3.1.39); K00645 [acyl-carrier-protein] S" />
+    <hashEntry Key="eco:b1093" Value="fabG; 3-oxoacyl-[acyl-carrier-protein] reductase (EC:1.1.1.100); K00059 3-oxoacyl-[acyl-carrier prot" />
+    <hashEntry Key="eco:b1095" Value="fabF; 3-oxoacyl-[acyl-carrier-protein] synthase II (EC:2.3.1.41); K09458 3-oxoacyl-[acyl-carrier-pro" />
+    <hashEntry Key="eco:b1288" Value="fabI; enoyl-[acyl-carrier-protein] reductase, NADH-dependent (EC:1.3.1.9); K00208 enoyl-[acyl-carrie" />
+    <hashEntry Key="eco:b1393" Value="paaF; 2,3-dehydroadipyl-CoA hydratase (EC:4.2.1.17); K01692 enoyl-CoA hydratase [EC:4.2.1.17]" />
+    <hashEntry Key="eco:b1805" Value="fadD; acyl-CoA synthetase (long-chain-fatty-acid--CoA ligase) (EC:6.2.1.3); K01897 long-chain acyl-C" />
+    <hashEntry Key="eco:b2224" Value="atoB; acetyl-CoA acetyltransferase (EC:2.3.1.9); K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b2316" Value="accD; acetyl-CoA carboxylase, beta (carboxyltransferase) subunit (EC:6.4.1.2); K01963 acetyl-CoA car" />
+    <hashEntry Key="eco:b2323" Value="fabB; 3-oxoacyl-[acyl-carrier-protein] synthase I (EC:2.3.1.41); K00647 3-oxoacyl-[acyl-carrier-prot" />
+    <hashEntry Key="eco:b2341" Value="fadJ; fused enoyl-CoA hydratase and epimerase and isomerase/3-hydroxyacyl-CoA dehydrogenase (EC:1.1." />
+    <hashEntry Key="eco:b2342" Value="fadI; beta-ketoacyl-CoA thiolase, anaerobic, subunit (EC:2.3.1.16); K00632 acetyl-CoA acyltransferas" />
+    <hashEntry Key="eco:b2844" Value="yqeF; short chain acyltransferase; K00626 acetyl-CoA C-acetyltransferase [EC:2.3.1.9]" />
+    <hashEntry Key="eco:b3255" Value="accB; acetyl CoA carboxylase, BCCP subunit; K02160 acetyl-CoA carboxylase biotin carboxyl carrier pr" />
+    <hashEntry Key="eco:b3256" Value="accC; acetyl-CoA carboxylase, biotin carboxylase subunit (EC:6.3.4.14); K01961 acetyl-CoA carboxylas" />
+    <hashEntry Key="eco:b3845" Value="fadA; 3-ketoacyl-CoA thiolase (thiolase I) (EC:2.3.1.16); K00632 acetyl-CoA acyltransferase [EC:2.3." />
+    <hashEntry Key="eco:b3846" Value="fadB; fused 3-hydroxybutyryl-CoA epimerase/delta(3)-cis-delta(2)-trans-enoyl-CoA isomerase/enoyl-CoA" />
+  </Genes>
+</KEGG.PathwayBrief>

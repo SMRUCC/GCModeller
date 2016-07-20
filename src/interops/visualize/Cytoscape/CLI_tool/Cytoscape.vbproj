@@ -263,7 +263,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>LANS.SystemsBiology.NCBI.Extensions</Name>
+      <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
@@ -283,7 +283,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\ProteinTools.Interactions.vbproj">
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
-      <Name>AnalysisTools.ProteinTools.Interactions</Name>
+      <Name>ProteinTools.Interactions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\sub-system\FBA_DP\FBA_DP.vbproj">
       <Project>{E6979C9A-76BC-4562-A31F-F0DC7F2ABFA2}</Project>

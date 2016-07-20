@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco02040" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Flagellar assembly - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="eco02040" Value="Flagellar assembly&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b1070" Value="flgN; export chaperone for FlgK and FlgL; K02399 flagella synthesis protein FlgN" />
+    <hashEntry Key="eco:b1071" Value="flgM; anti-sigma factor for FliA (sigma 28); K02398 negative regulator of flagellin synthesis FlgM" />
+    <hashEntry Key="eco:b1072" Value="flgA; assembly protein for flagellar basal-body periplasmic P ring; K02386 flagella basal body P-rin" />
+    <hashEntry Key="eco:b1073" Value="flgB; flagellar component of cell-proximal portion of basal-body rod; K02387 flagellar basal-body ro" />
+    <hashEntry Key="eco:b1074" Value="flgC; flagellar component of cell-proximal portion of basal-body rod; K02388 flagellar basal-body ro" />
+    <hashEntry Key="eco:b1075" Value="flgD; flagellar hook assembly protein; K02389 flagellar basal-body rod modification protein FlgD" />
+    <hashEntry Key="eco:b1076" Value="flgE; flagellar hook protein; K02390 flagellar hook protein FlgE" />
+    <hashEntry Key="eco:b1077" Value="flgF; flagellar component of cell-proximal portion of basal-body rod; K02391 flagellar basal-body ro" />
+    <hashEntry Key="eco:b1078" Value="flgG; flagellar component of cell-distal portion of basal-body rod; K02392 flagellar basal-body rod" />
+    <hashEntry Key="eco:b1079" Value="flgH; flagellar protein of basal-body outer-membrane L ring; K02393 flagellar L-ring protein precurs" />
+    <hashEntry Key="eco:b1080" Value="flgI; putative flagellar basal body protein; K02394 flagellar P-ring protein precursor FlgI" />
+    <hashEntry Key="eco:b1082" Value="flgK; flagellar hook-filament junction protein 1; K02396 flagellar hook-associated protein 1 FlgK" />
+    <hashEntry Key="eco:b1083" Value="flgL; flagellar hook-filament junction protein; K02397 flagellar hook-associated protein 3 FlgL" />
+    <hashEntry Key="eco:b1879" Value="flhA; putative flagellar export pore protein; K02400 flagellar biosynthesis protein FlhA" />
+    <hashEntry Key="eco:b1880" Value="flhB; flagellin export apparatus, substrate specificity protein; K02401 flagellar biosynthetic prote" />
+    <hashEntry Key="eco:b1889" Value="motB; protein that enables flagellar motor rotation; K02557 chemotaxis protein MotB" />
+    <hashEntry Key="eco:b1890" Value="motA; proton conductor component of flagella motor; K02556 chemotaxis protein MotA" />
+    <hashEntry Key="eco:b1891" Value="flhC; flagellar class II regulon transcriptional activator, with FlhD; K02402 flagellar transcriptio" />
+    <hashEntry Key="eco:b1892" Value="flhD; flagellar class II regulon transcriptional activator, with FlhC; K02403 flagellar transcriptio" />
+    <hashEntry Key="eco:b1923" Value="fliC; flagellar filament structural protein (flagellin); K02406 flagellin" />
+    <hashEntry Key="eco:b1924" Value="fliD; flagellar filament capping protein; K02407 flagellar hook-associated protein 2" />
+    <hashEntry Key="eco:b1925" Value="fliS; flagellar protein potentiates polymerization; K02422 flagellar protein FliS" />
+    <hashEntry Key="eco:b1926" Value="fliT; putative flagellar synthesis and assembly chaperone; K02423 flagellar protein FliT" />
+    <hashEntry Key="eco:b1937" Value="fliE; flagellar basal-body component; K02408 flagellar hook-basal body complex protein FliE" />
+    <hashEntry Key="eco:b1938" Value="fliF; flagellar basal-body MS-ring and collar protein; K02409 flagellar M-ring protein FliF" />
+    <hashEntry Key="eco:b1939" Value="fliG; flagellar motor switching and energizing component; K02410 flagellar motor switch protein FliG" />
+    <hashEntry Key="eco:b1940" Value="fliH; negative regulator of FliI ATPase activity; K02411 flagellar assembly protein FliH" />
+    <hashEntry Key="eco:b1941" Value="fliI; flagellum-specific ATP synthase (EC:3.6.3.14); K02412 flagellum-specific ATP synthase [EC:3.6." />
+    <hashEntry Key="eco:b1942" Value="fliJ; flagellar protein; K02413 flagellar FliJ protein" />
+    <hashEntry Key="eco:b1943" Value="fliK; flagellar hook-length control protein; K02414 flagellar hook-length control protein FliK" />
+    <hashEntry Key="eco:b1945" Value="fliM; flagellar motor switching and energizing component; K02416 flagellar motor switch protein FliM" />
+    <hashEntry Key="eco:b1946" Value="fliN; flagellar motor switching and energizing component; K02417 flagellar motor switch protein FliN" />
+    <hashEntry Key="eco:b1947" Value="fliO; flagellar biosynthesis protein; K02418 flagellar protein FliO/FliZ" />
+    <hashEntry Key="eco:b1948" Value="fliP; flagellar biosynthesis protein; K02419 flagellar biosynthetic protein FliP" />
+    <hashEntry Key="eco:b1949" Value="fliQ; flagellar biosynthesis protein; K02420 flagellar biosynthetic protein FliQ" />
+    <hashEntry Key="eco:b1950" Value="fliR; flagellar export pore protein; K02421 flagellar biosynthetic protein FliR" />
+  </Genes>
+</KEGG.PathwayBrief>

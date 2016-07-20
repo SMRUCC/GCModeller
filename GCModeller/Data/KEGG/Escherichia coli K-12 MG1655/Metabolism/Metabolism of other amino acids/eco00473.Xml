@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00473" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>D-Alanine metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00133" Value="D-Alanine" />
+    <hashEntry Key="C00993" Value="D-Alanyl-D-alanine" />
+    <hashEntry Key="C04260" Value="O-D-Alanyl-poly(ribitol phosphate)" />
+    <hashEntry Key="C04457" Value="D-Alanyl-alanyl-poly(glycerolphosphate)" />
+  </Compound>
+  <PathwayMap Key="eco00473" Value="D-Alanine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0092" Value="ddlB; D-alanine:D-alanine ligase (EC:6.3.2.4); K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="eco:b0381" Value="ddlA; D-alanine-D-alanine ligase A (EC:6.3.2.4); K01921 D-alanine-D-alanine ligase [EC:6.3.2.4]" />
+    <hashEntry Key="eco:b1190" Value="dadX; alanine racemase, catabolic, PLP-binding (EC:5.1.1.1); K01775 alanine racemase [EC:5.1.1.1]" />
+    <hashEntry Key="eco:b4053" Value="alr; alanine racemase, biosynthetic, PLP-binding (EC:5.1.1.1); K01775 alanine racemase [EC:5.1.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

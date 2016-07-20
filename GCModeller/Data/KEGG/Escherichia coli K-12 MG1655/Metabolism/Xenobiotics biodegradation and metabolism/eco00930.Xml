@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00930" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Caprolactam degradation - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00414" Value="Cyclohexanone" />
+    <hashEntry Key="C00571" Value="Cyclohexylamine" />
+    <hashEntry Key="C00854" Value="Cyclohexanol" />
+    <hashEntry Key="C01147" Value="2-Hydroxycyclohexan-1-one" />
+    <hashEntry Key="C01255" Value="N-(6-Aminohexanoyl)-6-aminohexanoate" />
+    <hashEntry Key="C01880" Value="epsilon-Caprolactone" />
+    <hashEntry Key="C02232" Value="3-Oxoadipyl-CoA" />
+    <hashEntry Key="C02378" Value="6-Aminohexanoate" />
+    <hashEntry Key="C02824" Value="Cyclohexylsulfamate" />
+    <hashEntry Key="C03241" Value="6-Hydroxyhexan-6-olide" />
+    <hashEntry Key="C03739" Value="trans-1,2-Cyclohexanediol" />
+    <hashEntry Key="C04277" Value="1,8-Diazacyclotetradecane-2,9-dione" />
+    <hashEntry Key="C06102" Value="Adipate semialdehyde" />
+    <hashEntry Key="C06103" Value="6-Hydroxyhexanoic acid" />
+    <hashEntry Key="C06104" Value="Adipate" />
+    <hashEntry Key="C06105" Value="Cyclohexane-1,2-dione" />
+    <hashEntry Key="C06593" Value="epsilon-Caprolactam" />
+    <hashEntry Key="C11249" Value="Cyclohexane" />
+    <hashEntry Key="C11519" Value="N-Cyclohexylformamide" />
+    <hashEntry Key="C11520" Value="Cyclohexyl isocyanide" />
+    <hashEntry Key="C12313" Value="cis-1,2-Cyclohexanediol" />
+    <hashEntry Key="C14143" Value="Adipyl-CoA" />
+    <hashEntry Key="C14144" Value="5-Carboxy-2-pentenoyl-CoA" />
+    <hashEntry Key="C14145" Value="(3S)-3-Hydroxyadipyl-CoA" />
+    <hashEntry Key="C20988" Value="[N-(6-Aminohexanoyl)]n" />
+    <hashEntry Key="C20990" Value="6-Aminohexanoate cyclic oligomer" />
+  </Compound>
+  <PathwayMap Key="eco00930" Value="Caprolactam degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b1393" Value="paaF; 2,3-dehydroadipyl-CoA hydratase (EC:4.2.1.17); K01692 enoyl-CoA hydratase [EC:4.2.1.17]" />
+    <hashEntry Key="eco:b2341" Value="fadJ; fused enoyl-CoA hydratase and epimerase and isomerase/3-hydroxyacyl-CoA dehydrogenase (EC:1.1." />
+    <hashEntry Key="eco:b3846" Value="fadB; fused 3-hydroxybutyryl-CoA epimerase/delta(3)-cis-delta(2)-trans-enoyl-CoA isomerase/enoyl-CoA" />
+  </Genes>
+</KEGG.PathwayBrief>

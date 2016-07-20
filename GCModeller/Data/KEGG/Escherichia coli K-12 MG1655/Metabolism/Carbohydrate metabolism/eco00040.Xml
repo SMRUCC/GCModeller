@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00040" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Pentose and glucuronate interconversions - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00061" Value="D-Glucuronate degradation, D-glucuronate =&gt; pyruvate + D-glyceraldehyde 3P [PATH:eco00040]" />
+    <hashEntry Key="eco_M00631" Value="D-Galacturonate degradation (bacteria), D-galacturonate =&gt; pyruvate + D-glyceraldehyde 3P [PATH:eco00040]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00029" Value="UDP-glucose" />
+    <hashEntry Key="C00103" Value="D-Glucose 1-phosphate" />
+    <hashEntry Key="C00111" Value="Glycerone phosphate" />
+    <hashEntry Key="C00116" Value="Glycerol" />
+    <hashEntry Key="C00167" Value="UDP-glucuronate" />
+    <hashEntry Key="C00181" Value="D-Xylose" />
+    <hashEntry Key="C00191" Value="D-Glucuronate" />
+    <hashEntry Key="C00199" Value="D-Ribulose 5-phosphate" />
+    <hashEntry Key="C00204" Value="2-Dehydro-3-deoxy-D-gluconate" />
+    <hashEntry Key="C00231" Value="D-Xylulose 5-phosphate" />
+    <hashEntry Key="C00259" Value="L-Arabinose" />
+    <hashEntry Key="C00266" Value="Glycolaldehyde" />
+    <hashEntry Key="C00309" Value="D-Ribulose" />
+    <hashEntry Key="C00310" Value="D-Xylulose" />
+    <hashEntry Key="C00312" Value="L-Xylulose" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00379" Value="Xylitol" />
+    <hashEntry Key="C00433" Value="2,5-Dioxopentanoate" />
+    <hashEntry Key="C00470" Value="Pectate" />
+    <hashEntry Key="C00474" Value="Ribitol" />
+    <hashEntry Key="C00476" Value="D-Lyxose" />
+    <hashEntry Key="C00502" Value="D-Xylonate" />
+    <hashEntry Key="C00508" Value="L-Ribulose" />
+    <hashEntry Key="C00514" Value="D-Mannonate" />
+    <hashEntry Key="C00532" Value="L-Arabitol" />
+    <hashEntry Key="C00558" Value="D-Tagaturonate" />
+    <hashEntry Key="C00618" Value="3-Dehydro-L-gulonate" />
+    <hashEntry Key="C00714" Value="Pectin" />
+    <hashEntry Key="C00789" Value="CDP-ribitol" />
+    <hashEntry Key="C00800" Value="L-Gulonate" />
+    <hashEntry Key="C00817" Value="D-Altronate" />
+    <hashEntry Key="C00905" Value="D-Fructuronate" />
+    <hashEntry Key="C01068" Value="D-Ribitol 5-phosphate" />
+    <hashEntry Key="C01101" Value="L-Ribulose 5-phosphate" />
+    <hashEntry Key="C01508" Value="L-Lyxose" />
+    <hashEntry Key="C01904" Value="D-Arabitol" />
+    <hashEntry Key="C02266" Value="D-Xylonolactone" />
+    <hashEntry Key="C02273" Value="Digalacturonate" />
+    <hashEntry Key="C02426" Value="L-Glyceraldehyde" />
+    <hashEntry Key="C03033" Value="beta-D-Glucuronoside" />
+    <hashEntry Key="C03291" Value="L-Xylulose 5-phosphate" />
+    <hashEntry Key="C03826" Value="2-Dehydro-3-deoxy-D-xylonate" />
+    <hashEntry Key="C04053" Value="5-Dehydro-4-deoxy-D-glucuronate" />
+    <hashEntry Key="C04349" Value="(4S)-4,6-Dihydroxy-2,5-dioxohexanoate" />
+    <hashEntry Key="C04575" Value="(4R,5S)-4,5,6-Trihydroxy-2,3-dioxohexanoate" />
+    <hashEntry Key="C05385" Value="D-Glucuronate 1-phosphate" />
+    <hashEntry Key="C05411" Value="L-Xylonate" />
+    <hashEntry Key="C05412" Value="L-Lyxonate" />
+    <hashEntry Key="C06118" Value="4-(4-Deoxy-alpha-D-gluc-4-enuronosyl)-D-galacturonate" />
+    <hashEntry Key="C06441" Value="L-Xylulose 1-phosphate" />
+    <hashEntry Key="C14899" Value="3-Dehydro-L-gulonate 6-phosphate" />
+    <hashEntry Key="C15930" Value="L-Galactonate" />
+    <hashEntry Key="C20680" Value="2-Dehydro-3-deoxy-L-galactonate" />
+  </Compound>
+  <PathwayMap Key="eco00040" Value="Pentose and glucuronate interconversions&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0061" Value="araD; L-ribulose-5-phosphate 4-epimerase (EC:5.1.3.4); K01786 L-ribulose-5-phosphate 4-epimerase [EC" />
+    <hashEntry Key="eco:b0062" Value="araA; L-arabinose isomerase (EC:5.3.1.4); K01804 L-arabinose isomerase [EC:5.3.1.4]" />
+    <hashEntry Key="eco:b0063" Value="araB; L-ribulokinase (EC:2.7.1.16); K00853 L-ribulokinase [EC:2.7.1.16]" />
+    <hashEntry Key="eco:b0772" Value="ybhC; acyl-CoA thioesterase, lipoprotein; K01051 pectinesterase [EC:3.1.1.11]" />
+    <hashEntry Key="eco:b1236" Value="galU; glucose-1-phosphate uridylyltransferase (EC:2.7.7.9); K00963 UTP--glucose-1-phosphate uridylyl" />
+    <hashEntry Key="eco:b1521" Value="uxaB; altronate oxidoreductase, NAD-dependent (EC:1.1.1.58); K00041 tagaturonate reductase [EC:1.1.1" />
+    <hashEntry Key="eco:b1580" Value="rspB; putative Zn-dependent NAD(P)-binding oxidoreductase; K08322 L-gulonate 5-dehydrogenase [EC:1.1" />
+    <hashEntry Key="eco:b1581" Value="rspA; bifunctional D-altronate/D-mannonate dehydratase; K08323 mannonate dehydratase [EC:4.2.1.8]" />
+    <hashEntry Key="eco:b1617" Value="uidA; beta-D-glucuronidase (EC:3.2.1.31); K01195 beta-glucuronidase [EC:3.2.1.31]" />
+    <hashEntry Key="eco:b2028" Value="ugd; UDP-glucose 6-dehydrogenase (EC:1.1.1.22); K00012 UDPglucose 6-dehydrogenase [EC:1.1.1.22]" />
+    <hashEntry Key="eco:b2042" Value="wcaN; putative regulatory subunit for GalU; K00963 UTP--glucose-1-phosphate uridylyltransferase [EC:" />
+    <hashEntry Key="eco:b2842" Value="kduD; hexuronate dehydrogenase; hexuronate utilization in high osmolarity (EC:1.1.1.125); K00065 2-d" />
+    <hashEntry Key="eco:b2843" Value="kduI; hexuronate isomerase; hexuronate utilization in high osmolarity; K01815 4-deoxy-L-threo-5-hexo" />
+    <hashEntry Key="eco:b3091" Value="uxaA; altronate hydrolase (EC:4.2.1.7); K01685 altronate hydrolase [EC:4.2.1.7]" />
+    <hashEntry Key="eco:b3092" Value="uxaC; uronate isomerase (EC:5.3.1.12); K01812 glucuronate isomerase [EC:5.3.1.12]" />
+    <hashEntry Key="eco:b3386" Value="rpe; D-ribulose-5-phosphate 3-epimerase (EC:5.1.3.1); K01783 ribulose-phosphate 3-epimerase [EC:5.1." />
+    <hashEntry Key="eco:b3564" Value="xylB; xylulokinase (EC:2.7.1.17); K00854 xylulokinase [EC:2.7.1.17]" />
+    <hashEntry Key="eco:b3565" Value="xylA; D-xylose isomerase (EC:5.3.1.5); K01805 xylose isomerase [EC:5.3.1.5]" />
+    <hashEntry Key="eco:b3575" Value="yiaK; 2,3-diketo-L-gulonate reductase, NADH-dependent (EC:1.1.1.-); K08092 3-dehydro-L-gulonate 2-de" />
+    <hashEntry Key="eco:b3580" Value="lyxK; L-xylulose kinase (EC:2.7.1.53); K00880 L-xylulokinase [EC:2.7.1.53]" />
+    <hashEntry Key="eco:b3581" Value="sgbH; 3-keto-L-gulonate 6-phosphate decarboxylase (EC:4.1.2.-); K03081 3-dehydro-L-gulonate-6-phosph" />
+    <hashEntry Key="eco:b3582" Value="sgbU; putative L-xylulose 5-phosphate 3-epimerase; K03082 hexulose-6-phosphate isomerase [EC:5.-.-.-" />
+    <hashEntry Key="eco:b3583" Value="sgbE; L-ribulose-5-phosphate 4-epimerase (EC:5.1.3.4); K03080 L-ribulose-5-phosphate 4-epimerase [EC" />
+    <hashEntry Key="eco:b3902" Value="rhaD; rhamnulose-1-phosphate aldolase (EC:4.1.2.19); K01629 rhamnulose-1-phosphate aldolase [EC:4.1." />
+    <hashEntry Key="eco:b3904" Value="rhaB; rhamnulokinase (EC:2.7.1.5); K00848 rhamnulokinase [EC:2.7.1.5]" />
+    <hashEntry Key="eco:b4322" Value="uxuA; mannonate hydrolase (EC:4.2.1.8); K01686 mannonate dehydratase [EC:4.2.1.8]" />
+    <hashEntry Key="eco:b4323" Value="uxuB; D-mannonate oxidoreductase, NAD-dependent (EC:1.1.1.57); K00040 fructuronate reductase [EC:1.1" />
+  </Genes>
+</KEGG.PathwayBrief>
