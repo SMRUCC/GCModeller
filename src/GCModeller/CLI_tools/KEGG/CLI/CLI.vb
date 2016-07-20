@@ -25,19 +25,21 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports System.Text
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.Assembly.KEGG
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <Cite(Title:="KAAS: an automatic genome annotation and pathway reconstruction server", PubMed:=17526522,
       DOI:="10.1093/nar/gkm321",
@@ -225,7 +227,7 @@ Module CLI
                                        Group By entry.SpeciesId Into Group) _
                                                .ToDictionary(Function(obj) obj.SpeciesId,
                                                              Function(obj) obj.Group.First)).ToArray
-        Dim File As DocumentStream.File = New DocumentStream.File
+        Dim File As New DocumentStream.File
         Dim MatrixBuilder As New DocumentStream.File
 
         Call File.AppendLine({"sp.Class", "sp.Kingdom", "sp.Phylum", "sp.KEGGId"})
@@ -242,7 +244,7 @@ Module CLI
         '    Call MatrixBuilder.Last.Add("Class." & cls)
         'Next
 
-        For Each sp As DBGET.bGetObject.Organism.Organism In {OrganismList.Eukaryotes, OrganismList.Prokaryote}.MatrixAsIterator
+        For Each sp As DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.ToList + OrganismList.Prokaryote
             Call File.Add(New String() {sp.Class, sp.Kingdom, sp.Phylum, sp.KEGGId})
             Call MatrixBuilder.AppendLine({sp.Class, sp.KEGGId})
 
@@ -340,7 +342,7 @@ Module CLI
             Dim entry As String = Entries(i)
 
             Try
-                Dim orthology = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(entry)
+                Dim orthology = bGetObject.SSDB.API.Query(entry)
 
                 Call LocalMySQL.Update(orthology)
                 Call orthology.GetXml.SaveTo(stateFile)
@@ -393,7 +395,7 @@ Module CLI
     Public Function Download16SRNA(args As CommandLine.CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory & "/")
         Dim fasta As FASTA.FastaFile = Download16S_rRNA(outDIR)
-        Return fasta.Save($"{outDIR}/16S_rRNA.fasta", System.Text.Encoding.ASCII).CLICode
+        Return fasta.Save($"{outDIR}/16S_rRNA.fasta", Encoding.ASCII).CLICode
     End Function
 
     <ExportAPI("/Fasta.By.Sp",
@@ -410,8 +412,8 @@ Module CLI
             Let tag As String = fa.Attributes(Scan0).Split(":"c).First.ToLower
             Where splist.IndexOf(tag) > -1
             Select fa '
-        fasta = New FASTA.FastaFile(LQuery)
-        Return fasta.Save(out, Encoding.ASCII)
+
+        Return New FASTA.FastaFile(LQuery).Save(out, Encoding.ASCII)
     End Function
 
     <ExportAPI("Download.Sequence", Usage:="Download.Sequence /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
@@ -454,10 +456,13 @@ Module CLI
             End If
         Next
 
-        Dim Merge = (From fa As String In lstFiles Where fa.FileExists Select New FASTA.FastaToken(fa)).ToArray
-        Call New FASTA.FastaFile(Merge).Save(out & ".fasta")
+        Dim result = LinqAPI.Exec(Of FastaToken) <=
+            From fa As String
+            In lstFiles
+            Where fa.FileExists
+            Select New FastaToken(fa)
 
-        Return 0
+        Return New FastaFile(result).Save(out & ".fasta")
     End Function
 
     <ExportAPI("/Download.Pathway.Maps",
