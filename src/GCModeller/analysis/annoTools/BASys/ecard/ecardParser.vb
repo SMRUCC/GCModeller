@@ -17,6 +17,8 @@ Public Module ecardParser
 
     Const BlastOutput As String = "Annotation::BlastOutput"
 
+    ReadOnly __keys As String() = EcardValue.Schema.Keys.ToArray
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -40,6 +42,8 @@ Public Module ecardParser
             Dim isBlastOutput As Boolean = False
             Dim out As StringBuilder = Nothing
             Dim isEnd As Boolean = False
+            Dim value As New StringBuilder
+            Dim lastKey As String = ""
 
             For Each line As String In If(
                 String.IsNullOrEmpty(part(Scan0)),
@@ -59,7 +63,7 @@ Public Module ecardParser
                 Else
                     Dim tagValue = line.GetTagValue(vbTab, True)
 
-                    If tagValue.x = BlastOutput Then
+                    If tagValue.x = BlastOutput Then  ' 当前的这个节点是否是blast输出
                         isBlastOutput = True
                     End If
                     If tagValue.Name = "VALUE" AndAlso isBlastOutput Then
@@ -67,7 +71,18 @@ Public Module ecardParser
                         out = New StringBuilder
                         out.AppendLine(tagValue.x)
                     Else
-                        tmp += tagValue
+                        If Array.IndexOf(__keys, tagValue.Name) = -1 Then
+                            Call value.AppendLine(line)
+                        Else
+                            If Not String.IsNullOrEmpty(lastKey) Then
+                                tmp += New NamedValue(Of String) With {
+                                    .Name = lastKey,
+                                    .x = value.ToString
+                                }
+                            End If
+                            lastKey = tagValue.Name
+                            value.Clear()
+                        End If
                     End If
                 End If
             Next
