@@ -64,6 +64,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ecard\Ecard.vb" />
+    <Compile Include="Project.vb" />
     <Compile Include="ecard\ecardParser.vb" />
     <Compile Include="Summary\TableBrief.vb" />
     <Compile Include="Summary\Summary.vb" />
