@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.AnnotationTools.Reports
+Imports SMRUCC.genomics.Analysis.Annotations.Reports
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
@@ -142,6 +142,12 @@ Namespace RegpreciseRegulations
             Return Reports.GenomeAnnotations.CompileResult(OrthologousDict, paralogs.ToArray, QueryFasta, SourceMeta)
         End Function
 
+        Const MEME As String =
+"Imports Tools.Tmod
+
+Call _init()
+Call MEME.Invoke_Batch {Source}, {Export}, 0.001, 100, zoops, -dna"
+
         ''' <summary>
         ''' Build the pwm matrix model for the regulations sites in the regprecise database.
         ''' (构建meme的pwm模型并且保存于GCModeller的数据库之中)
@@ -153,7 +159,7 @@ Namespace RegpreciseRegulations
             Dim Export As String = Settings.Session.SettingsFile.RepositoryRoot & "/Regprecise/MEME/Matrix/"  'MEME 程序输出的文件夹，里面应该包含着meme.txt文件
 
             If rebuildMatrix Then
-                Dim Script As String = My.Resources.MEME.Replace("{Source}", sites.CliPath).Replace("{Export}", Export)
+                Dim Script As String = MEME.Replace("{Source}", sites.CliPath).Replace("{Export}", Export)
                 Call Settings.Session.FolkShoalThread(Script, Settings.Session.SettingsFile.RepositoryRoot & "/Regprecise/MEME/meme.log")
             End If
 

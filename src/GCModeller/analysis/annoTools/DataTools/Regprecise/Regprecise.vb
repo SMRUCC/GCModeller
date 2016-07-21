@@ -165,7 +165,7 @@ Namespace RegpreciseRegulations
                                    Select spcode = item.HitName.Split(":"c).First,
                                           bbh = item Group By spcode Into Group).ToArray.ToDictionary(Function(item) item.spcode, Function(item) (From bh In item.Group Select bh.bbh).ToArray)
 
-            Return AnnotationTools.Reports.GenomeAnnotations.CompileResult(OrthologousDict, Paralogs, Fasta, Me.InternalGetAnnotationSourceMeta)
+            Return Reports.GenomeAnnotations.CompileResult(OrthologousDict, Paralogs, Fasta, Me.InternalGetAnnotationSourceMeta)
         End Function
 
         ''' <summary>
@@ -184,7 +184,7 @@ Namespace RegpreciseRegulations
                                    Select spcode = item.HitName.Split(":"c).First,
                                           bbh = item
                                    Group By spcode Into Group).ToArray.ToDictionary(Function(item) item.spcode, Function(item) (From bh In item.Group Select bh.bbh).ToArray)
-            Return AnnotationTools.Reports.GenomeAnnotations.CompileResult(OrthologousDict, Paralogs, ProteinsFasta, InternalGetAnnotationSourceMeta)
+            Return Reports.GenomeAnnotations.CompileResult(OrthologousDict, Paralogs, ProteinsFasta, InternalGetAnnotationSourceMeta)
         End Function
 
         ''' <summary>

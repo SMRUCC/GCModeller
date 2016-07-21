@@ -319,7 +319,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "annoTools", "annoTools", "{
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BASys", "GCModeller\analysis\annoTools\BASys\BASys.vbproj", "{6FA98FE3-4504-4D7A-A454-C5E8CF46EB21}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AnnotationTools", "GCModeller\analysis\annoTools\DataTools\AnnotationTools.vbproj", "{74B33A15-1D34-4D11-81A1-2538C45B7A80}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MySqlTools", "GCModeller\analysis\annoTools\DataMySql\MySqlTools.vbproj", "{74B33A15-1D34-4D11-81A1-2538C45B7A80}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataTools", "GCModeller\analysis\annoTools\DataTools\DataTools.vbproj", "{7E6DF33F-FEB0-447F-B656-A51ACD00E888}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -358,9 +360,14 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6dcd35db-32b8-4fac-bfe7-9943ebbc0797}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6dda9162-c232-4dad-9a79-06b9caa47374}*SharedItemsImports = 4
+		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{7e6df33f-feb0-447f-b656-a51acd00e888}*SharedItemsImports = 4
+		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{7e6df33f-feb0-447f-b656-a51acd00e888}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{804eb81c-493a-49ef-95a9-dbf800fa4a08}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
@@ -3284,6 +3291,30 @@ Global
 		{74B33A15-1D34-4D11-81A1-2538C45B7A80}.Release|x64.Build.0 = Release|x64
 		{74B33A15-1D34-4D11-81A1-2538C45B7A80}.Release|x86.ActiveCfg = Release|x86
 		{74B33A15-1D34-4D11-81A1-2538C45B7A80}.Release|x86.Build.0 = Release|x86
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Debug|x64.Build.0 = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Debug|x86.Build.0 = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.docs|x64.ActiveCfg = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.docs|x64.Build.0 = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.docs|x86.ActiveCfg = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.docs|x86.Build.0 = Debug|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Publish|x64.ActiveCfg = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Publish|x64.Build.0 = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Publish|x86.ActiveCfg = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Publish|x86.Build.0 = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Release|x64.Build.0 = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3441,5 +3472,6 @@ Global
 		{57FC55EF-AC10-42FF-B5CC-9D5D53586A35} = {9801F010-9C5D-449B-A93D-39D7A059B392}
 		{6FA98FE3-4504-4D7A-A454-C5E8CF46EB21} = {57FC55EF-AC10-42FF-B5CC-9D5D53586A35}
 		{74B33A15-1D34-4D11-81A1-2538C45B7A80} = {57FC55EF-AC10-42FF-B5CC-9D5D53586A35}
+		{7E6DF33F-FEB0-447F-B656-A51ACD00E888} = {57FC55EF-AC10-42FF-B5CC-9D5D53586A35}
 	EndGlobalSection
 EndGlobal

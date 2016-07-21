@@ -27,7 +27,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.AnnotationTools.Reports
+Imports SMRUCC.genomics.Analysis.Annotations.Reports
 
 <[PackageNamespace]("Annotation.Reports", Publisher:="xie.guigang@gmail.com")>
 Public Module ShellScriptAPI

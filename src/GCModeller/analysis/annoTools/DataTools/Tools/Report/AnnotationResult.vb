@@ -28,7 +28,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DocumentFormat.Word
 Imports Microsoft.VisualBasic.Imaging
-Imports SMRUCC.genomics.Analysis.AnnotationTools.Reports.DocumentElements
+Imports SMRUCC.genomics.Analysis.Annotations.Reports.DocumentElements
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

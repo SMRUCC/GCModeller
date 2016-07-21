@@ -255,6 +255,10 @@
       <Project>{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}</Project>
       <Name>ReportBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\annoTools\DataTools\DataTools.vbproj">
+      <Project>{7e6df33f-feb0-447f-b656-a51acd00e888}</Project>
+      <Name>DataTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

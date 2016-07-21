@@ -273,6 +273,10 @@
       <Project>{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}</Project>
       <Name>RQL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\annoTools\DataTools\DataTools.vbproj">
+      <Project>{7e6df33f-feb0-447f-b656-a51acd00e888}</Project>
+      <Name>DataTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

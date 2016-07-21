@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Analysis.AnnotationTools.Reports
+Imports SMRUCC.genomics.Analysis.Annotations.Reports
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH

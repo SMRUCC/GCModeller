@@ -28,7 +28,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DataSetHandler
-Imports SMRUCC.genomics.Analysis.AnnotationTools.RegpreciseRegulations
+Imports SMRUCC.genomics.Analysis.Annotations.RegpreciseRegulations
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data.Regprecise

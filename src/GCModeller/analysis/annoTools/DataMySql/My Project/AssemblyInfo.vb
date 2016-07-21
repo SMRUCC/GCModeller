@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("DataTools")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("DataTools")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("Comparative Genomics Annotation Tools for the GCModeller database services components")> 
+<Assembly: AssemblyDescription("Comparative Genomics Annotation Tools")> 
+<Assembly: AssemblyCompany("蓝思生物信息工程师工作站")> 
+<Assembly: AssemblyProduct("AnnotationTools")> 
+<Assembly: AssemblyCopyright("Copyright © LANS Corp. 2015")> 
+<Assembly: AssemblyTrademark("GCModeller")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("6468898a-8dac-4075-806c-60cbbf6a3858")> 
+<Assembly: Guid("db32d50b-b44e-4ea5-b543-88540d124ec0")> 
 
 ' Version information for an assembly consists of the following four values:
 '

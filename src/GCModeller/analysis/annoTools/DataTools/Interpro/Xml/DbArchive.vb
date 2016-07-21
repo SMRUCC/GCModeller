@@ -35,16 +35,6 @@ Namespace Interpro.Xml
     <XmlType("interprodb")>
     Public Class DbArchive : Inherits ITextFile
 
-        <XmlIgnore> <ScriptIgnore>
-        Public Shadows Property FilePath As String
-            Get
-                Return MyBase.FilePath
-            End Get
-            Set(value As String)
-                MyBase.FilePath = value
-            End Set
-        End Property
-
         Public Property release As DbInfo()
         <XmlElement> Public Property interpro As Interpro()
 

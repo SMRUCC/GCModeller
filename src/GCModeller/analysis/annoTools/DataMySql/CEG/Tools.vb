@@ -48,7 +48,7 @@ Namespace CEG
 
         <ExportAPI("CEG.Install")>
         Public Function InstallDatabase(<Parameter("Dir.CEG")> CEG As String, <Parameter("CEG.Installed")> Installed As String) As Boolean
-            Return AnnotationTools.CEG.CEGAssembly.InstallDatabase(CEG, Installed)
+            Return CEGAssembly.InstallDatabase(CEG, Installed)
         End Function
 
         ''' <summary>

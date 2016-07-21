@@ -33,8 +33,8 @@ Partial Module CLI
     <ExportAPI("--Interpro.Build", Usage:="--Interpro.Build /xml <interpro.xml>")>
     Public Function BuildFamilies(args As CommandLine.CommandLine) As Integer
         Dim DbPath As String = args("/xml")
-        Dim DbXml = SMRUCC.genomics.Analysis.AnnotationTools.Interpro.Xml.LoadDb(DbPath)
-        Dim Families = SMRUCC.genomics.Analysis.AnnotationTools.Interpro.Xml.BuildFamilies(DbXml)
+        Dim DbXml = SMRUCC.genomics.Analysis.Annotations.Interpro.Xml.LoadDb(DbPath)
+        Dim Families = SMRUCC.genomics.Analysis.Annotations.Interpro.Xml.BuildFamilies(DbXml)
         Call Families.SaveTo(DbXml.FilePath.TrimFileExt & ".Families.csv")
 
         Return 0
