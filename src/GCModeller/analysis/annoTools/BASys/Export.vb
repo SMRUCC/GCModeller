@@ -1,13 +1,40 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
 Public Module Export
 
     <Extension>
-    Public Function ExportPTT(proj As Project) As PTT
+    Public Function ExportPTT(proj As Project, Optional title As String = "") As PTT
+        Dim genes As GeneBrief() = LinqAPI.Exec(Of GeneBrief) <=
+ _
+            From x As TableBrief
+            In proj.Briefs
+            Let loci As NucleotideLocation =
+                New NucleotideLocation(
+                x.Start,
+                x.End,
+                x.Strand.GetStrands)
+            Select New GeneBrief With {
+                .COG = x.COG,
+                .Length = loci.Length,
+                .Gene = x.Gene,
+                .Location = loci,
+                .PID = x.Accession.Match("\d+"),
+                .Product = x.Function,
+                .Synonym = x.Accession,
+                .Code = "-"
+            }
 
+        Return New PTT(
+            genes,
+            If(String.IsNullOrEmpty(title),
+            proj.Summary.chrId,
+            title),
+            CInt(proj.Summary.Length))
     End Function
 
     <Extension>
