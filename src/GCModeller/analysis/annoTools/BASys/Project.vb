@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -11,7 +12,7 @@ Public Class Project : Inherits ClassObject
 
     Public Function Write(EXPORT As String) As Boolean
         Call Summary.GetJson.SaveTo(EXPORT & "/" & NameOf(Summary) & ".json")
-        Call Briefs.GetJson.SaveTo(EXPORT & "/" & NameOf(Briefs) & ".json")
+        Call Briefs.SaveTo(EXPORT & "/" & NameOf(Briefs) & ".Csv")
         Call Ecards.GetJson.SaveTo(EXPORT & "/" & NameOf(Ecards) & ".json")
 
         Return True
