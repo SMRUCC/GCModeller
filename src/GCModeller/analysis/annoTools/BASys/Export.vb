@@ -4,6 +4,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Export
 
@@ -40,6 +41,31 @@ Public Module Export
     <Extension>
     Public Function ExportGFF(proj As Project) As GFF
 
+    End Function
+
+    ''' <summary>
+    ''' Export annotated protein fasta sequence.
+    ''' </summary>
+    ''' <param name="proj"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ExportFaa(proj As Project) As FastaFile
+        Dim aa As IEnumerable(Of FastaToken) = From x As Ecard
+                                               In proj.Ecards
+                                               Let fa As FastaToken = x.GetProt
+                                               Where Not fa Is Nothing
+                                               Select fa
+        Return New FastaFile(aa)
+    End Function
+
+    <Extension>
+    Public Function ExportFna(proj As Project) As FastaFile
+        Dim nt As IEnumerable(Of FastaToken) = From x As Ecard
+                                               In proj.Ecards
+                                               Let fa As FastaToken = x.GetProt
+                                               Where Not fa Is Nothing
+                                               Select fa
+        Return New FastaFile(nt)
     End Function
 
     <Extension>

@@ -3,12 +3,53 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class Ecard : Inherits ClassObject
 
     Public Property Name As NamedValue(Of String)
     Public Property Values As EcardValue()
     Public Property Keys As String()
+
+    ''' <summary>
+    ''' Gets the protein's aa sequence.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetProt() As FastaToken
+        For Each x In Values
+            If x.NAME.TextEquals("translated sequence") Then
+                Return New FastaToken({Name.Name, Func}, x.VALUE.scalar)
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' Gets the gene's nt sequence
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetNt() As FastaToken
+        For Each x In Values
+            If x.NAME.TextEquals("Gene sequence") Then
+                Return New FastaToken({x.NAME}, x.VALUE.scalar)
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
+    Public ReadOnly Property Func As String
+        Get
+            For Each x In Values
+                If x.NAME.TextEquals("Specific Function") Then
+                    Return x.VALUE.scalar
+                End If
+            Next
+
+            Return Nothing
+        End Get
+    End Property
 
     Public Overrides Function ToString() As String
         Return Name.GetJson
