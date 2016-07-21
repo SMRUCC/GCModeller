@@ -50,7 +50,9 @@ Public Class Summary : Inherits ClassObject
         html = Regex.Match(html, "<table>.+?</table>", RegexICSng).Value
         Dim rows = html.GetRowsHTML
         Dim schema =
-            DataFrameColumnAttribute.LoadMapping(Of Summary)(, True)
+            DataFrameColumnAttribute.LoadMapping(Of Summary)(, True) _
+            .ToDictionary(Function(x) x.Value.Column.Name,
+                          Function(x) x.Value)
         Dim summary As New Summary
 
         For Each row As String In rows
@@ -58,6 +60,8 @@ Public Class Summary : Inherits ClassObject
             Dim key As String = cols(Scan0)
             Dim value As String = cols(1)
 
+            key = key.TrimEnd(":"c)
+            Call schema(key).SetValue(summary, value)
         Next
 
         Return summary

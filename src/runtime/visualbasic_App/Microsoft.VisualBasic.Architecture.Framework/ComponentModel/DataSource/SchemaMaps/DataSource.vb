@@ -132,7 +132,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         End Function
 
         ''' <summary>
-        ''' 没有名称属性的映射使用属性名来表述
+        ''' 没有名称属性的映射使用属性名来表述，请注意，字典的Key是属性的名称
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <returns></returns>
@@ -203,18 +203,27 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
             Else
                 For Each x In From pInfo As PropertyInfo
                               In props
-                              Let attr = New DataFrameColumnAttribute
+                              Let attr = __attrsAll(pInfo)
                               Select New KeyValuePair(Of DataFrameColumnAttribute, PropertyInfo)(attr, pInfo)
                     Yield x
                 Next
             End If
         End Function
 
+        Private Shared Function __attrsAll(pp As PropertyInfo) As DataFrameColumnAttribute
+            Dim attrs As Object() = __attrs(pp)
+            If attrs.IsNullOrEmpty Then
+                Return New DataFrameColumnAttribute
+            Else
+                Return DirectCast(attrs(Scan0), DataFrameColumnAttribute)
+            End If
+        End Function
+
         Private Shared Function __attrs(pp As PropertyInfo) As Object()
             Dim df As New List(Of DataFrameColumnAttribute)(
                 pp.GetCustomAttributes(GetType(DataFrameColumnAttribute), True))
-            Return df + pp.GetCustomAttributes(GetType(Field), True) _
-                .Select(Function(x) DirectCast(x, DataFrameColumnAttribute))
+            Return df ' + pp.GetCustomAttributes(GetType(Field), True) _
+            ' .Select(Function(x) DirectCast(x, DataFrameColumnAttribute))
         End Function
     End Class
 
