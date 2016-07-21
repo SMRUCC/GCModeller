@@ -1,0 +1,232 @@
+
+Imports System.IO
+
+Public Module ParsePlink2
+
+    ' plinkBed, the file name of plink bed file
+    ' NumSample, Number of Samples in Plink
+    ' NumSNP, Number of SNPs in plink
+    ' distMat, distance matrix NumSample * NumSample
+    ' E, environment vector with length = NumSample
+    ' result, 12 * NSNP, including
+    ' 1:5		#0, #1, #2, #NA MAF of G
+    ' 6:10		#0, #1, #2, #NA MAF of GE
+    ' 11		SM
+    ' 12		SI
+    Public Sub parsePlink2(plinkBed As String, ByRef NumSample As Integer, ByRef NumSNP As Integer, distMat As Double(), ByRef E As Integer, result As Double())
+        Dim NSam As Integer = NumSample
+        Dim NSNP As Integer = NumSNP
+        Dim Gmap As Integer() = New Integer(4 * 256 - 1) {}
+        Dim G As Integer() = New Integer(NSam - 1) {}
+        ' int *GE = (int *) malloc (NSam * sizeof(int));
+        Dim buffer As Integer
+        ' note: 1 byte
+        Dim tmp As Integer
+        Dim sampleOffSet As Integer = NSam Mod 4
+        Dim i As Integer
+        Dim j As Integer
+        Dim k As Integer
+        Dim iResult As Integer
+        Dim GDiff As Integer
+        Dim dExp As Double = 0
+        Dim rowResult As Integer = 12
+
+        'initialize the result to all 0s
+
+        For i = 0 To NSNP - 1
+            For j = 0 To rowResult - 1
+                result(i * rowResult + j) = 0
+            Next
+        Next
+
+        ' minus mean from dExp
+        For i = 0 To NSam - 2
+            For j = i + 1 To NSam - 1
+                dExp += distMat(i * NSam + j)
+            Next
+        Next
+
+        dExp = dExp / (CDbl(NSam) * (NSam - 1) / 2)
+
+        For i = 0 To NSam - 2
+            For j = i + 1 To NSam - 1
+                distMat(i * NSam + j) = distMat(i * NSam + j) - dExp
+                distMat(j * NSam + i) = distMat(j * NSam + i) - dExp
+            Next
+        Next
+
+        ' creat a map for a single byte to 4 genotype in the same order with plink.fam file
+        ' counts are the number of Allele A1 in bim file
+        For i = 0 To 255
+            buffer = CByte(i)
+            k = i * 4
+            For j = 0 To 3
+                tmp = (buffer >> (j * 2)) And 3
+                Select Case tmp
+                    Case 0
+                        Gmap(k + j) = 2
+                        Exit Select
+                    Case 2
+                        Gmap(k + j) = 1
+                        Exit Select
+                    Case 3
+                        Gmap(k + j) = 0
+                        Exit Select
+                    Case Else
+                        Gmap(k + j) = -9
+                        Exit Select
+                End Select
+            Next
+        Next
+
+
+        Dim ptr_plink As New FileStream(plinkBed, FileMode.Open)
+        If ptr_plink Is Nothing Then
+            Console.Write("Unable to open file!")
+        End If
+        ptr_plink.Seek(3, SeekOrigin.Begin)
+
+        For j = 0 To NSNP - 1
+            ' fseek(ptr_plink, 3 + (NSam/4+1) * j, SEEK_SET);
+            iResult = j * rowResult
+            i = 0
+            While i < NSam - 3
+                buffer = ptr_plink.ReadByte
+                ' tmp = tmp * 4
+                tmp = (buffer << 2)
+                For k = 0 To 3
+                    G(i + k) = Gmap(tmp + k)
+                    Select Case G(i + k)
+                        Case 0
+                            result(iResult) = result(iResult) + 1
+                            Exit Select
+                        Case 1
+                            result(iResult + 1) = result(iResult + 1) + 1
+                            Exit Select
+                        Case 2
+                            result(iResult + 2) = result(iResult + 2) + 1
+                            Exit Select
+                        Case Else
+                            result(iResult + 3) = result(iResult + 3) + 1
+                            Exit Select
+
+                            ' switch(E[i+k]){
+                            ' 	case 0:
+                            ' 		GE[i+k] = (G[i+k] == -9 ? -9 : 0);
+                            ' 		break;
+                            ' 	case 1:
+                            ' 		GE[i+k] = G[i+k];
+                            ' 		break;
+                            ' 	default:
+                            ' 		GE[i+k] = -9;
+                            ' }
+                            '
+                            ' switch(GE[i+k]){
+                            ' 	case 0:
+                            ' 		result[iResult + 5] = result[iResult + 5] + 1;
+                            ' 		break;
+                            ' 	case 1:
+                            ' 		result[iResult + 6] = result[iResult + 6] + 1;
+                            ' 		break;
+                            ' 	case 2:
+                            ' 		result[iResult + 7] = result[iResult + 7] + 1;
+                            ' 		break;
+                            ' 	default:
+                            ' 		result[iResult + 8] = result[iResult + 8] + 1;
+                            ' }
+                    End Select
+                Next
+                i = i + 4
+            End While
+            If sampleOffSet > 0 Then
+                buffer = ptr_plink.ReadByte
+                ' tmp = tmp * 4
+                tmp = (buffer << 2)
+                For k = 0 To sampleOffSet - 1
+                    G(i + k) = Gmap(tmp + k)
+                    Select Case G(i + k)
+                        Case 0
+                            result(iResult) = result(iResult) + 1
+                            Exit Select
+                        Case 1
+                            result(iResult + 1) = result(iResult + 1) + 1
+                            Exit Select
+                        Case 2
+                            result(iResult + 2) = result(iResult + 2) + 1
+                            Exit Select
+                        Case Else
+                            result(iResult + 3) = result(iResult + 3) + 1
+                            Exit Select
+
+                            ' switch(E[i+k]){
+                            ' 	case 0:
+                            ' 		GE[i+k] = (G[i+k] == -9 ? -9 : 0);
+                            ' 		break;
+                            ' 	case 1:
+                            ' 		GE[i+k] = G[i+k];
+                            ' 		break;
+                            ' 	default:
+                            ' 		GE[i+k] = -9;
+                            ' }
+                            '
+                            ' switch(GE[i+k]){
+                            ' 	case 0:
+                            ' 		result[iResult + 5] = result[iResult + 5] + 1;
+                            ' 		break;
+                            ' 	case 1:
+                            ' 		result[iResult + 6] = result[iResult + 6] + 1;
+                            ' 		break;
+                            ' 	case 2:
+                            ' 		result[iResult + 7] = result[iResult + 7] + 1;
+                            ' 		break;
+                            ' 	default:
+                            ' 		result[iResult + 8] = result[iResult + 8] + 1;
+                            ' }
+                    End Select
+                Next
+            End If
+
+            result(iResult + 4) = (result(iResult + 1) + result(iResult + 2) + result(iResult + 2)) / (NSam + NSam - result(iResult + 3) - result(iResult + 3))
+            ' result[iResult + 9] = (result[iResult + 6] + result[iResult + 7] + result[iResult + 7]) / (NSam + NSam - result[iResult + 8] - result[iResult + 8]);
+
+            For i = 0 To NSam - 2
+                For k = i + 1 To NSam - 1
+                    If (G(i) <> -9) AndAlso (G(k) <> -9) Then
+                        GDiff = Math.Abs(G(i) - G(k))
+                        ' if(GDiff > 0){
+                        ' 	result[iResult + 10] += distMat[i*NSam + k];
+                        ' 	if(GDiff > 1)
+                        ' 		result[iResult + 10] += distMat[i*NSam + k];
+                        ' }
+                        Select Case GDiff
+                            Case 0
+                            Case 2
+                                result(iResult + 10) += distMat(i * NSam + k)
+                            Case Else
+                                result(iResult + 10) += distMat(i * NSam + k)
+                        End Select
+
+                        ' if((GE[i] != -9) && (GE[k] != -9)){
+                        ' 	GDiff = abs(GE[i] - GE[k]);
+                        ' 	// if(GDiff > 0){
+                        ' 	// 	result[iResult + 11] += distMat[i*NSam + k];
+                        ' 	// 	if(GDiff > 1)
+                        ' 	// 		result[iResult + 11] += distMat[i*NSam + k];
+                        ' 	// }
+                        ' 	switch(GDiff){
+                        ' 		case 0:
+                        ' 			break;
+                        ' 		case 2:
+                        ' 			result[iResult + 11] += distMat[i*NSam + k];
+                        ' 		default:
+                        ' 			result[iResult + 11] += distMat[i*NSam + k];
+                        ' 	}
+                        ' }
+
+                    End If
+                Next
+            Next
+        Next
+    End Sub
+End Module
+
