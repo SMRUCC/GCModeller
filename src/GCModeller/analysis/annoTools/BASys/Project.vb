@@ -11,9 +11,14 @@ Public Class Project : Inherits ClassObject
     Public Property Ecards As Ecard()
 
     Public Function Write(EXPORT As String) As Boolean
+        Dim i As Pointer = 0
+
         Call Summary.GetJson.SaveTo(EXPORT & "/" & NameOf(Summary) & ".json")
         Call Briefs.SaveTo(EXPORT & "/" & NameOf(Briefs) & ".Csv")
-        Call Ecards.GetJson.SaveTo(EXPORT & "/" & NameOf(Ecards) & ".json")
+
+        For Each block In Ecards.SplitIterator(999)
+            Call block.WriteLargeJson(EXPORT & $"/{NameOf(Ecards)}-{++i}.json")
+        Next
 
         Return True
     End Function
