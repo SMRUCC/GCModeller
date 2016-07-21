@@ -46,7 +46,7 @@ Partial Module CLI
     Public Function ExportBaSys(args As CommandLine) As Integer
         Dim [in] As String = args.GetFullDIRPath("/in")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & ".Basys.EXPORT/")
-        Dim proj As Project = Project.Parser([in], True)
+        Dim proj As Project = Project.Parser([in])
         Return proj.Write(EXPORT:=out)
     End Function
 End Module

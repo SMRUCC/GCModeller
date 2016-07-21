@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic
+﻿Imports System.Text
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -23,6 +24,8 @@ Public Class Project : Inherits ClassObject
 
         Call Me.ExportPTT.Save(EXPORT & $"/{Summary.chrId}.PTT")
         Call Me.ExportCOG.SaveTo(EXPORT & $"/{Summary.chrId}.MyvaCOG.Csv")
+        Call Me.ExportFaa.Save(EXPORT & $"/{Summary.chrId}.faa", Encoding.ASCII)
+        Call Me.ExportFna.Save(EXPORT & $"/{Summary.chrId}.fna", Encoding.ASCII)
 
         Return True
     End Function
