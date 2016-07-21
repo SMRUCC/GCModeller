@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class Project : Inherits ClassObject
@@ -16,7 +17,7 @@ Public Class Project : Inherits ClassObject
         Call Summary.GetJson.SaveTo(EXPORT & "/" & NameOf(Summary) & ".json")
         Call Briefs.SaveTo(EXPORT & "/" & NameOf(Briefs) & ".Csv")
 
-        For Each block In Ecards.SplitIterator(999)
+        For Each block In Ecards.SafeQuery.SplitIterator(999)
             Call block.WriteLargeJson(EXPORT & $"/{NameOf(Ecards)}-{++i}.json")
         Next
 
