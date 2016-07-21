@@ -72,7 +72,7 @@ Public Module ecardParser
                         out.AppendLine(tagValue.x)
                     Else
                         If Array.IndexOf(__keys, tagValue.Name) = -1 Then
-                            Call value.AppendLine(line)
+                            Call value.Append(vbCrLf & line)
                         Else
                             If Not String.IsNullOrEmpty(lastKey) Then
                                 tmp += New NamedValue(Of String) With {
@@ -82,6 +82,7 @@ Public Module ecardParser
                             End If
                             lastKey = tagValue.Name
                             value.Clear()
+                            value.Append(tagValue.x)
                         End If
                     End If
                 End If
@@ -91,6 +92,13 @@ Public Module ecardParser
                 tmp += New NamedValue(Of String) With {
                     .Name = "VALUE",
                     .x = out.ToString
+                }
+            End If
+
+            If Not String.IsNullOrEmpty(lastKey) Then
+                tmp += New NamedValue(Of String) With {
+                    .x = value.ToString,
+                    .Name = lastKey
                 }
             End If
 

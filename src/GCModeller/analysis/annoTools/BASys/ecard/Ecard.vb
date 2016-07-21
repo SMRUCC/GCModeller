@@ -41,8 +41,8 @@ Public Class EcardValue
     Public Property EVIDENCE As String
     Public Property SOURCE As String
     Public Property PARAMETER As String
-    Public Property VALUE As String
-    Public Property CATEGORY As String
+    Public Property VALUE As Value
+    Public Property CATEGORY As String()
     Public Property AUTHORS As String
     Public Property TITLE As String
     Public Property JOURNAL As String
@@ -63,34 +63,79 @@ Public Class EcardValue
         Return Me.GetJson
     End Function
 
-    Public Shared ReadOnly Property Schema As Dictionary(Of String, Action(Of EcardValue, String))
+    Public Shared ReadOnly Property Schema As Dictionary(Of String, PropertyInfo)
         Get
-            Return New Dictionary(Of String, Action(Of EcardValue, String))(__schema)
+            Return New Dictionary(Of String, PropertyInfo)(__schema)
         End Get
     End Property
 
-    Shared ReadOnly __schema As Dictionary(Of String, Action(Of EcardValue, String))
-
-    Private Shared Function __getSchema() As Dictionary(Of String, Action(Of EcardValue, String))
-        Dim type As Type = GetType(EcardValue)
-        Dim ps = type.Schema(PropertyAccessibilityControls.ReadWrite)
-        Dim result = ps.ToDictionary(
-            Function(x) x.Key.Replace("_", " "),
-            Function(x) __setValue(x.Value))
-        Return result
-    End Function
+    Shared ReadOnly __schema As Dictionary(Of String, PropertyInfo) =
+        GetType(EcardValue).Schema(PropertyAccessibilityControls.ReadWrite) _
+        .ToDictionary(
+        Function(x) x.Key.Replace("_", " "),
+        Function(x) x.Value)
 
     Private Shared Function __setValue(x As PropertyInfo) As Action(Of EcardValue, String)
         Return Sub(o, value) Call x.SetValue(o, value)
     End Function
 
-    Friend Shared Function [New](token As Dictionary(Of String, String()), Schema As Dictionary(Of String, Action(Of EcardValue, String))) As EcardValue
+    Friend Shared Function [New](token As Dictionary(Of String, String()), Schema As Dictionary(Of String, PropertyInfo)) As EcardValue
         Dim value As New EcardValue
 
         For Each x In token
+            If x.Key = NameOf(EcardValue.VALUE) Then
+                value.VALUE = New Value(x.Value, value.TYPE)
+            Else
+                Dim pp As PropertyInfo = Schema(x.Key)
 
+                If pp.PropertyType.Equals(GetType(String)) Then
+                    If x.Value.Length = 1 Then
+                        Call pp.SetValue(value, x.Value(Scan0))
+                    Else
+                        Throw New Exception(x.Key)
+                    End If
+                Else
+                    Call pp.SetValue(value, x.Value)
+                End If
+            End If
         Next
 
         Return value
     End Function
 End Class
+
+''' <summary>
+''' <see cref="EcardValue"/> -> <see cref="EcardValue.VALUE"/>
+''' </summary>
+Public Structure Value
+
+    ''' <summary>
+    ''' simplescalar, SimpleText
+    ''' </summary>
+    Public scalar As String
+    ''' <summary>
+    ''' simplehash
+    ''' </summary>
+    Public hash As Dictionary(Of String, String)
+    ''' <summary>
+    ''' SimpleArray
+    ''' </summary>
+    Public array As String()
+
+    Sub New(values As String(), type As String)
+        If type.TextEquals("simplehash") Then
+            hash = values.Select(
+                Function(s) s.GetTagValue(vbTab)).ToDictionary(
+                Function(x) x.Name,
+                Function(x) x.x)
+        ElseIf type.TextEquals("SimpleArray") Then
+            array = values
+        Else
+            scalar = String.Join(vbLf, values)
+        End If
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+End Structure
