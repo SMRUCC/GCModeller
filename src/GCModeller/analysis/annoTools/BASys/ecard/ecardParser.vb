@@ -106,6 +106,7 @@ Public Module ecardParser
                          In tmp
                          Select x
                          Group x By x.Name Into Group '
+
             Yield Groups.ToDictionary(Function(x) x.Name,
                                       Function(x) x.Group.ToArray(
                                       Function(o) o.x))

@@ -20,6 +20,10 @@ Public Class Project : Inherits ClassObject
     Public Shared Function Parser(DIR As String) As Project
         Dim details As String = DIR & "/basys_text_final/"
         Dim loads As IEnumerable(Of String) = ls - l - r - wildcards("*.ecard") <= details
+        Dim proj As New Project With {
+            .Summary = Summary.IndexParser(DIR & "/index.html"),
+            .Briefs = TableBrief.TableParser(DIR & "/table.html")
+        }
         Dim ecards As Ecard() =
             LinqAPI.Exec(Of Ecard) <=
  _
@@ -27,10 +31,8 @@ Public Class Project : Inherits ClassObject
             In loads.AsParallel
             Select Ecard.Parser(file)
 
-        Return New Project With {
-            .Summary = Summary.IndexParser(DIR & "/index.html"),
-            .Briefs = TableBrief.TableParser(DIR & "/table.html"),
-            .Ecards = ecards.ToArray
-        }
+        proj.Ecards = ecards.ToArray
+
+        Return proj
     End Function
 End Class
