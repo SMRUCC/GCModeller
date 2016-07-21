@@ -123,6 +123,23 @@ Partial Module Utilities
         Return 0
     End Function
 
+    <ExportAPI("/Mirrors.Nt.Trim", Usage:="/Mirrors.Nt.Trim /in <mirrors.Csv> [/out <out.Csv>]")>
+    Public Function TrimNtMirrors(args As CommandLine.CommandLine) As Integer
+        Dim [in] As String = args.GetFullFilePath("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & NameOf(TrimNtMirrors) & ".Csv")
+        Dim data As IEnumerable(Of PalindromeLoci) = [in].LoadCsv(Of PalindromeLoci)
+        Dim invalids As Char() = ISequenceModel.AA_CHARS_ALL
+        Dim result As PalindromeLoci() = LinqAPI.Exec(Of PalindromeLoci) <=
+            From x As PalindromeLoci
+            In data
+            Where x.Loci.IndexOfAny(invalids) = -1 AndAlso
+                x.Palindrome.IndexOfAny(invalids) = -1 AndAlso
+                x.MirrorSite.IndexOfAny(invalids) = -1
+            Select x
+
+        Return result.SaveTo(out).CLICode
+    End Function
+
     <ExportAPI("/Mirror.Fuzzy",
                Usage:="/Mirror.Fuzzy /in <in.fasta> [/out <out.csv> /cut 0.6 /max-dist 6 /min 3 /max 20]")>
     <ParameterInfo("/in", False, AcceptTypes:={GetType(FastaToken)})>
