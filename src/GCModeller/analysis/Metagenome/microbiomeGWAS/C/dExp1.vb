@@ -1,8 +1,12 @@
 Public Module DExp1
 
-    ' Xv is the input matrix, Dim*Dim dimension
-    ' result is a vector with length = len, corresponding to the 7 definitions and dmean
-
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="[Dim]"></param>
+    ''' <param name="Xv">Xv is the input matrix, Dim*Dim dimension</param>
+    ''' <param name="len"></param>
+    ''' <param name="result">result is a vector with length = len, corresponding to the 7 definitions and dmean</param>
     Public Sub dExp1(ByRef [Dim] As Integer, Xv As Double(), ByRef len As Integer, ByRef result As Double())
         Dim N As Integer = [Dim]
         ' int n = *len;

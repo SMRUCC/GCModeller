@@ -1,9 +1,14 @@
 Public Module DExp2
 
-    ' Xv is the input dist matrix, Dim*Dim dimension
-    ' result is a vector with length = len, corresponding to the 7 definitions and dmean
-    ' simIdxV is a Dim * nCol matrix, each column is a simulation index vector
-
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="[Dim]"></param>
+    ''' <param name="Xv">Xv is the input dist matrix, Dim*Dim dimension</param>
+    ''' <param name="nCol"></param>
+    ''' <param name="simIdxV">simIdxV is a Dim * nCol matrix, each column is a simulation index vector</param>
+    ''' <param name="len"></param>
+    ''' <param name="result">result is a vector with length = len, corresponding to the 7 definitions and dmean</param>
     Public Sub dExp2(ByRef [Dim] As Integer, Xv As Double(), ByRef nCol As Integer, simIdxV As Integer(), ByRef len As Integer, ByRef result As Double())
         Dim N__1 As Integer = [Dim]
         Dim nSim As Integer = nCol

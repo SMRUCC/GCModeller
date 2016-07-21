@@ -13,6 +13,23 @@ Public Module ParsePlink
     ' 6:10		#0, #1, #2, #NA MAF of GE
     ' 11		SM
     ' 12		SI
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="plinkBed">plinkBed, the file name of plink bed file</param>
+    ''' <param name="NumSample">NumSample, Number of Samples in Plink</param>
+    ''' <param name="NumSNP">NumSNP, Number of SNPs in plink</param>
+    ''' <param name="distMat">distMat, distance matrix NumSample * NumSample</param>
+    ''' <param name="E">E, environment vector with length = NumSample</param>
+    ''' <param name="result">result, 12 * NSNP, including
+    ''' 
+    ''' ```
+    ''' 1:5		#0, #1, #2, #NA MAF of G
+    ''' 6:10	#0, #1, #2, #NA MAF of GE
+    ''' 11		SM
+    ''' 12		SI
+    ''' ```
+    ''' </param>
     Public Sub parsePlink(plinkBed As String, ByRef NumSample As Integer, ByRef NumSNP As Integer, distMat As Double(), E As Integer(), result As Double())
         Dim NSam As Integer = NumSample
         Dim NSNP As Integer = NumSNP
