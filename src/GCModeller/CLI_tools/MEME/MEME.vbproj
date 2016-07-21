@@ -295,10 +295,6 @@
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
       <Name>ProteinTools.Interactions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Annotation\AnnotationTools.vbproj">
-      <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
-      <Name>AnnotationTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
