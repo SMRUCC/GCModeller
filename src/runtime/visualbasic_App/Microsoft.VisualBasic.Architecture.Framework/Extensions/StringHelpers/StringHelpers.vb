@@ -481,6 +481,10 @@ Public Module StringHelpers
                 Call list.Add(line)
             End If
         Next
+
+        If list.Count > 0 Then
+            Yield list.ToArray
+        End If
     End Function
 
     ''' <summary>

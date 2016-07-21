@@ -64,6 +64,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ecard\ecardParser.vb" />
     <Compile Include="Summary\TableBrief.vb" />
     <Compile Include="Summary\Summary.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -102,6 +103,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj">
       <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
       <Name>+VB_DataFrame.Extensions</Name>
@@ -114,7 +119,12 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
