@@ -42,7 +42,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.Basys",
-               Usage:="/Export.Basys /in <in.DIR> /out <out.DIR>")>
+               Usage:="/Export.Basys /in <in.DIR> [/out <out.DIR>]")>
     Public Function ExportBaSys(args As CommandLine) As Integer
         Dim [in] As String = args.GetFullDIRPath("/in")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & ".Basys.EXPORT/")

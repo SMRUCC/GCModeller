@@ -21,4 +21,8 @@ Public Class TableBrief
     Public Overrides Function ToString() As String
         Return Me.GetJson
     End Function
+
+    Public Shared Function TableParser(path As String) As TableBrief()
+        Dim html As String = path.GET
+    End Function
 End Class

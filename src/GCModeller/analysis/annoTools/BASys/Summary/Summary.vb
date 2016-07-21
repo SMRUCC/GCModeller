@@ -35,4 +35,8 @@ Public Class Summary : Inherits ClassObject
     Public Overrides Function ToString() As String
         Return Me.GetJson
     End Function
+
+    Public Shared Function IndexParser(path As String) As Summary
+        Dim html As String = path.GET
+    End Function
 End Class

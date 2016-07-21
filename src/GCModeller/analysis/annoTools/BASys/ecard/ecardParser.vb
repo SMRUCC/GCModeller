@@ -28,10 +28,11 @@ Public Module ecardParser
         Dim lines As String() = content.lTokens
         Dim tokens As IEnumerable(Of String()) = lines.Skip(4).Split("//")
 
-        lines = lines.Take(4).Where(Function(s) Not s.IsBlank).ToArray
+        Dim tagLines As String() = lines.Take(4).Where(
+            Function(s) Not s.IsBlank).ToArray
         tag.Value = New NamedValue(Of String) With {
-            .Name = Mid(lines(Scan0), 12).Trim,
-            .x = Mid(lines(1), 20).Trim
+            .Name = Strings.Split(tagLines(Scan0), vbTab).Last,
+            .x = Strings.Split(tagLines(1), vbTab).Last
         }
 
         For Each part As String() In tokens
@@ -40,19 +41,23 @@ Public Module ecardParser
             Dim out As StringBuilder = Nothing
             Dim isEnd As Boolean = False
 
-            For Each line As String In part
-                If isBlastOutput Then
+            For Each line As String In If(
+                String.IsNullOrEmpty(part(Scan0)),
+                part.Skip(1),
+                DirectCast(part, IEnumerable(Of String)))
+
+                If isBlastOutput And out IsNot Nothing Then
                     If String.IsNullOrEmpty(line) AndAlso isEnd Then
                         isBlastOutput = False
                     Else
                         out.AppendLine(line)
                     End If
 
-                    If Regex.Match(line, "").Success Then
+                    If Regex.Match(line, "Matrix: BLOSUM\d+").Success Then
                         isEnd = True
                     End If
                 Else
-                    Dim tagValue = line.GetTagValue(, True)
+                    Dim tagValue = line.GetTagValue(vbTab, True)
 
                     If tagValue.x = BlastOutput Then
                         isBlastOutput = True
