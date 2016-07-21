@@ -32,7 +32,7 @@ Public Class Ecard : Inherits ClassObject
     Public Function GetNt() As FastaToken
         For Each x In Values
             If x.NAME.TextEquals("Gene sequence") Then
-                Return New FastaToken({x.NAME}, x.VALUE.scalar)
+                Return New FastaToken({Name.Name}, x.VALUE.scalar)
             End If
         Next
 

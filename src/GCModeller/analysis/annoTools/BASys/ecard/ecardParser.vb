@@ -9,9 +9,15 @@ Imports Microsoft.VisualBasic.Linq
 Public Module ecardParser
 
     Public Function ParseFile(path As String, Optional ByRef tag As NamedValue(Of String) = Nothing) As IEnumerable(Of Dictionary(Of String, String()))
-        Dim out As New Value(Of NamedValue(Of String))
-        Dim tokens = path.ReadAllText.Parsing(out)
-        tag = out.Value
+        Dim tokens = path.ReadAllText.Parsing
+        Dim tagLines As String() = path.IterateAllLines.Take(4).Where(
+            Function(s) Not s.IsBlank).ToArray
+
+        tag = New NamedValue(Of String) With {
+            .Name = Strings.Split(tagLines(Scan0), vbTab).Last,
+            .x = Strings.Split(tagLines(1), vbTab).Last
+        }
+
         Return tokens
     End Function
 
@@ -23,19 +29,15 @@ Public Module ecardParser
     ''' 
     ''' </summary>
     ''' <param name="content"></param>
-    ''' <param name="tag"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 请注意，迭代器函数并不会马上就执行的，所以byref或者任何想要修改参数对象里面的属性的方法在这里都已经失效了
+    ''' 所以tag数据被放到了<see cref="ParseFile"/>函数之中来完成
+    ''' </remarks>
     <Extension>
-    Public Iterator Function Parsing(content As String, tag As Value(Of NamedValue(Of String))) As IEnumerable(Of Dictionary(Of String, String()))
+    Public Iterator Function Parsing(content As String) As IEnumerable(Of Dictionary(Of String, String()))
         Dim lines As String() = content.lTokens
         Dim tokens As IEnumerable(Of String()) = lines.Skip(4).Split("//")
-
-        Dim tagLines As String() = lines.Take(4).Where(
-            Function(s) Not s.IsBlank).ToArray
-        tag.Value = New NamedValue(Of String) With {
-            .Name = Strings.Split(tagLines(Scan0), vbTab).Last,
-            .x = Strings.Split(tagLines(1), vbTab).Last
-        }
 
         For Each part As String() In tokens
             Dim tmp As New List(Of NamedValue(Of String))

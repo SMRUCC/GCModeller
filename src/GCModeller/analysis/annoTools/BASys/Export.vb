@@ -62,7 +62,7 @@ Public Module Export
     Public Function ExportFna(proj As Project) As FastaFile
         Dim nt As IEnumerable(Of FastaToken) = From x As Ecard
                                                In proj.Ecards
-                                               Let fa As FastaToken = x.GetProt
+                                               Let fa As FastaToken = x.GetNt
                                                Where Not fa Is Nothing
                                                Select fa
         Return New FastaFile(nt)
