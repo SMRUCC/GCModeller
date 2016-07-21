@@ -2,21 +2,37 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 
 Public Module ecardParser
 
-    Public Function ParseFile(path As String) As IEnumerable(Of Dictionary(Of String, String()))
-        Return path.ReadAllText.Parsing
+    Public Function ParseFile(path As String, Optional ByRef tag As NamedValue(Of String) = Nothing) As IEnumerable(Of Dictionary(Of String, String()))
+        Dim out As New Value(Of NamedValue(Of String))
+        Dim tokens = path.ReadAllText.Parsing(out)
+        tag = out.Value
+        Return tokens
     End Function
 
     Const BlastOutput As String = "Annotation::BlastOutput"
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="content"></param>
+    ''' <param name="tag"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Iterator Function Parsing(content As String) As IEnumerable(Of Dictionary(Of String, String()))
+    Public Iterator Function Parsing(content As String, tag As Value(Of NamedValue(Of String))) As IEnumerable(Of Dictionary(Of String, String()))
         Dim lines As String() = content.lTokens
-        Dim tokens As IEnumerable(Of String()) = lines.Split("//")
+        Dim tokens As IEnumerable(Of String()) = lines.Skip(4).Split("//")
+
+        lines = lines.Take(4).Where(Function(s) Not s.IsBlank).ToArray
+        tag.Value = New NamedValue(Of String) With {
+            .Name = Mid(lines(Scan0), 12).Trim,
+            .x = Mid(lines(1), 20).Trim
+        }
 
         For Each part As String() In tokens
             Dim tmp As New List(Of NamedValue(Of String))
