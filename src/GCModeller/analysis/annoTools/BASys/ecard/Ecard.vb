@@ -18,7 +18,7 @@ Public Class Ecard : Inherits ClassObject
     Public Function GetProt() As FastaToken
         For Each x In Values
             If x.NAME.TextEquals("translated sequence") Then
-                Return New FastaToken({Name.Name, Func}, x.VALUE.scalar)
+                Return New FastaToken({Name.Name}, x.VALUE.scalar)
             End If
         Next
 
