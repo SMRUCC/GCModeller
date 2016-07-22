@@ -69,7 +69,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
+    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
     <DefineConstants>TRACE,DISABLE_BUG_UNKNOWN</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>

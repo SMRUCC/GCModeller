@@ -95,7 +95,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DebugSymbols>true</DebugSymbols>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
+    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
