@@ -165,21 +165,24 @@ Partial Module CLI
 
     <ExportAPI("/Export.gb",
                Info:="Export the *.fna, *.faa, *.ptt file from the gbk file.",
-               Usage:="/Export.gb /gb <genbank.gb> [/out <outDIR>]")>
+               Usage:="/Export.gb /gb <genbank.gb> [/out <outDIR> /simple]")>
+    <ParameterInfo("/simple", True, AcceptTypes:={GetType(Boolean)},
+                   Description:="Fasta sequence short title, which is just only contains locus_tag")>
     Public Function ExportPTTDb(args As CommandLine.CommandLine) As Integer
         Dim gb As String = args("/gb")
         Dim out As String = args.GetValue("/out", args("/gb").TrimFileExt)
+        Dim simple As Boolean = args.GetBoolean("/simple")
 
         For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
-            Call x.__exportTo(out)
+            Call x.__exportTo(out, simple)
         Next
 
         Return 0
     End Function
 
-    <Extension> Private Sub __exportTo(gb As GBFF.File, out As String)
+    <Extension> Private Sub __exportTo(gb As GBFF.File, out As String, simple As Boolean)
         Dim PTT As TabularFormat.PTT = gb.GbffToORF_PTT
-        Dim Faa As New FastaFile(gb.ExportProteins)
+        Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaToken = gb.Origin.ToFasta
         Dim GFF As TabularFormat.GFF = gb.ToGff
         Dim name As String = gb.Source.SpeciesName  ' 

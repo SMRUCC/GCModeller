@@ -158,13 +158,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ToFasta() As FastaToken
-            Dim attrs As String() = {"GBK_ORIGIN", "Length=" & Len(SequenceData)}
+            Dim attrs As String() = {Title & " " & Len(SequenceData) & "bp"}
             Return New FastaToken(attrs, SequenceData)
         End Function
 
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
             Get
-                Return "GBK_ORIGIN"
+                Return MyBase.gbRaw.Definition.Value
             End Get
         End Property
 
