@@ -27,7 +27,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DataMining.Framework.DFL_Driver
+Imports Microsoft.VisualBasic.DataMining.DFL_Driver
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configs
 
 Namespace TRN.KineticsModel.Regulators

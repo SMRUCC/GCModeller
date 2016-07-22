@@ -26,8 +26,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DataMining.Framework.ComponentModel
-Imports Microsoft.VisualBasic.DataMining.Framework.KMeans.CompleteLinkage
+Imports Microsoft.VisualBasic.DataMining.ComponentModel
+Imports Microsoft.VisualBasic.DataMining.KMeans.CompleteLinkage
 Imports Microsoft.VisualBasic.Language
 
 Namespace BEBaC

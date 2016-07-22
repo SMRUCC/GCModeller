@@ -29,6 +29,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
 
 ''' <summary>
@@ -112,16 +113,16 @@ Public Class FBAIterator : Implements IObjectModel_Driver
 
                     If c <> 0 Then
                         Dim changes As Double = rxn.Flux * c
-                        val.Value += changes
+                        val.value += changes
 
                         If Not mcur.ContainsKey(x.Key) Then
                             Call mcur.Add(x.Key, New Value(Of Double))
                         End If
 
-                        mcur(x.Key).Value += changes
+                        mcur(x.Key).value += changes
 
-                        If val.Value <= 0 Then
-                            val.Value = 0
+                        If val.value <= 0 Then
+                            val.value = 0
                         End If
                     End If
                 Next
@@ -130,7 +131,7 @@ Public Class FBAIterator : Implements IObjectModel_Driver
             Next
 
             For Each x In mcur
-                Call __metaboliteStat(x.Key).Properties.Add(i, x.Value.Value)
+                Call __metaboliteStat(x.Key).Properties.Add(i, x.Value.value)
             Next
 
             Call Console.Write(".")
@@ -194,7 +195,7 @@ Public Class FBAIterator : Implements IObjectModel_Driver
 
         For Each x In left
             Dim da As Double = x.n   ' 最大速率下的变化值,  da
-            Dim A As Double = __metabolites(x.sId).Value    ' da = A - A'  => A' = A - da
+            Dim A As Double = __metabolites(x.sId).value    ' da = A - A'  => A' = A - da
             Dim A1 As Double = A - da
 
             If A1 < 0 Then  '  下一个状态已经出现负数了，说明当前的这个代谢物已经到达了上线了，则执行约束

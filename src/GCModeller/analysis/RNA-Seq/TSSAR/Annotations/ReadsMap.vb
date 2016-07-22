@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.Java.IO.Properties.Reflector
@@ -108,7 +109,7 @@ Public Module ReadsMap
 
         For Each ReadCoverage In LQuery
             For Each Loci In ReadCoverage
-                HistoneGram(Loci).Value += 1
+                HistoneGram(Loci).value += 1
             Next
         Next
 
@@ -123,7 +124,7 @@ Public Module ReadsMap
 
         'Call Gr.Gr_Device.DrawImage(res, 0, CSng(Gr.Height - res.Height))
 
-        Dim Max = (From point In HistoneGram.Values Select point.Value).ToArray.Max
+        Dim Max = (From point In HistoneGram.Values Select point.value).ToArray.Max
         Dim d As Integer = Gr.Height - 2 * Config.Margin
         Dim LinePen As New Pen(Color.Black)
         Dim x As Integer = Config.Margin
@@ -134,7 +135,7 @@ Public Module ReadsMap
         Dim Level As Integer
 
         For Each Point In HistoneGram
-            Call Gr.Graphics.DrawLine(LinePen, New Point(x, bottom), New Point(x, bottom - bottom * (Point.Value.Value / d)))
+            Call Gr.Graphics.DrawLine(LinePen, New Point(x, bottom), New Point(x, bottom - bottom * (Point.Value.value / d)))
             x += 1
 
             If ModelHash.ContainsKey(Point.Key) Then
@@ -222,7 +223,7 @@ Public Module ReadsMap
 
         For Each ReadCoverage As Long() In LQuery
             For Each Loci In ReadCoverage
-                HistoneGram(Loci).Value += 1
+                HistoneGram(Loci).value += 1
             Next
         Next
 
@@ -301,7 +302,7 @@ Public Module ReadsMap
                      In LociSequence
                      Select i,
                          hisData = HistoneGram(i)
-        Return LQuery.ToDictionary(Function(x) x.i, Function(x) x.hisData.Value)
+        Return LQuery.ToDictionary(Function(x) x.i, Function(x) x.hisData.value)
     End Function
 
     Private Function GetLocation(GeneObject As TabularFormat.ComponentModels.GeneBrief) As NucleotideLocation
