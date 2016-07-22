@@ -32,9 +32,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.DataMining.Framework
-Imports Microsoft.VisualBasic.DataMining.Framework.KMeans
-Imports Microsoft.VisualBasic.DataMining.Framework.KMeans.CompleteLinkage
+Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.DataMining.KMeans.CompleteLinkage
 Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language

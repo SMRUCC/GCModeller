@@ -27,7 +27,7 @@
 
 Imports System.Drawing
 Imports SMRUCC.genomics.InteractionModel
-Imports Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis
+Imports Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis
 Imports Microsoft.VisualBasic
 
 Namespace GeneticClock

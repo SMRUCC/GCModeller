@@ -27,8 +27,8 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm
-Imports Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Entities
+Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm
+Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Entities
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData

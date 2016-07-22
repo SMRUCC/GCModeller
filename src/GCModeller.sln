@@ -327,6 +327,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Metagenome", "GCModeller\an
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "microbiomeGWAS", "GCModeller\analysis\Metagenome\microbiomeGWAS\microbiomeGWAS.vbproj", "{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.DataMining.Model.Network", "runtime\visualbasic_App\Microsoft.VisualBasic.DataMining.Model.Network\Microsoft.VisualBasic.DataMining.Model.Network.vbproj", "{3A114030-D9FD-4913-8E85-A78C032E9000}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -3343,6 +3345,30 @@ Global
 		{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}.Release|x64.Build.0 = Release|x64
 		{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}.Release|x86.ActiveCfg = Release|Any CPU
 		{DA7A7B6B-B27D-4B76-AC56-CF8C47917656}.Release|x86.Build.0 = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Debug|x64.Build.0 = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Debug|x86.Build.0 = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.docs|x64.ActiveCfg = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.docs|x64.Build.0 = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.docs|x86.ActiveCfg = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.docs|x86.Build.0 = Debug|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Publish|x64.ActiveCfg = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Publish|x64.Build.0 = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Publish|x86.ActiveCfg = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Publish|x86.Build.0 = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Release|x64.ActiveCfg = Release|x64
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Release|x64.Build.0 = Release|x64
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Release|x86.ActiveCfg = Release|Any CPU
+		{3A114030-D9FD-4913-8E85-A78C032E9000}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3503,5 +3529,6 @@ Global
 		{DE94544C-FAF5-4D59-B7F5-65C916B45BCE} = {9801F010-9C5D-449B-A93D-39D7A059B392}
 		{AB10B480-33B1-476C-8237-23E15CE635BD} = {DE94544C-FAF5-4D59-B7F5-65C916B45BCE}
 		{DA7A7B6B-B27D-4B76-AC56-CF8C47917656} = {DE94544C-FAF5-4D59-B7F5-65C916B45BCE}
+		{3A114030-D9FD-4913-8E85-A78C032E9000} = {EDD061D2-B00F-4D9D-9794-8AC797E42032}
 	EndGlobalSection
 EndGlobal

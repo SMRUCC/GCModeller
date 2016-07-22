@@ -28,7 +28,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.DataMining.Framework.KMeans.CompleteLinkage
+Imports Microsoft.VisualBasic.DataMining.KMeans.CompleteLinkage
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Linq
 

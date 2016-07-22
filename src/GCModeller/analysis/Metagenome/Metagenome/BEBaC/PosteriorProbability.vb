@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.DataMining.Framework.DirichletDistribution
+Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.DataMining.DirichletDistribution
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.DataMining.Framework
 
 Namespace BEBaC
 

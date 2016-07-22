@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports RDotNET.SymbolicExpressionExtension
-Imports RDotNET.Extensions.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.DataMining.Framework
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.SymbolicExpressionExtension
 
 ''' <summary>
 ''' wavelets: A package of functions for computing wavelet filters, wavelet transforms and multiresolution analyses.

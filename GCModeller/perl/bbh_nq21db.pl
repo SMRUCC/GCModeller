@@ -43,7 +43,7 @@ while (my $faa = readdir(DIR)) {
 	}
 	
 	system("$blast/makeblastdb -in \"$faa\" -dbtype prot");
-	system("$blast/blastp -query \"$faa\" -db \"$db\" -out \"$out/$name.vs__db.txt\" -evalue 1e-3 -num_threads 2 &");
-	system("$blast/blastp -db \"$faa\" -query \"$db\" -out \"$out/db.vs__$name.txt\" -evalue 1e-3 -num_threads 2");
+	system("$blast/blastp -query \"$faa\" -db \"$db\" -out \"$out/$name.vs__db.txt\" -evalue 1e-5 -num_threads 2 &");
+	system("$blast/blastp -db \"$faa\" -query \"$db\" -out \"$out/db.vs__$name.txt\" -evalue 1e-5 -num_threads 2");
 }
 closedir DIR;  
