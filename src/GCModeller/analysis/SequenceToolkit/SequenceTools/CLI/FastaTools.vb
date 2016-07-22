@@ -105,11 +105,11 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Merge",
-               Usage:="/Merge /in <fasta.DIR> [/out <out.fasta> /trim /ext <*.fasta> /brief]",
+               Usage:="/Merge /in <fasta.DIR> [/out <out.fasta> /trim /unique /ext <*.fasta> /brief]",
                Info:="Only search for 1 level folder, dit not search receve.")>
     Public Function Merge(args As CommandLine.CommandLine) As Integer
-        Dim inDIR As String = args("/in")
-        Dim out As String = args.GetValue("/out", inDIR & ".fasta")
+        Dim inDIR As String = args.GetFullDIRPath("/in")
+        Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
         Dim ext As String = args("/ext")
         Dim fasta As FASTA.FastaFile
         Dim raw As Boolean = Not args.GetBoolean("/brief")
@@ -119,6 +119,19 @@ Partial Module Utilities
         Else
             fasta = FastaExportMethods.Merge(inDIR, ext, args.GetBoolean("/trim"), raw)
         End If
+
+        If args.GetBoolean("/unique") Then
+            Dim Groups = From f As FastaToken
+                         In fasta
+                         Let sid As String = f.Title.Split.First
+                         Select sid,
+                             f
+                         Group By sid Into Group
+            Dim uniques As IEnumerable(Of FastaToken) =
+                Groups.Select(Function(x) x.Group.First.f)
+            fasta = New FastaFile(uniques)
+        End If
+
         Return fasta.Save(out).CLICode
     End Function
 

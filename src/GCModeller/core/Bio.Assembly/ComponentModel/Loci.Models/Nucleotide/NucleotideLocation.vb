@@ -180,8 +180,7 @@ Namespace ComponentModel.Loci
         ''' <param name="[end]"><see cref="Location"/>: Gets or set the right stop value of the segment on the target sequence.(目标片段的右端终止区域，与链的方向无关)</param>
         ''' <param name="Strand">链的方向</param>
         Public Sub New(start As Integer, [end] As Integer, Strand As Strands)
-            MyBase.Left = start
-            MyBase.Right = [end]
+            Call MyBase.New(start, [end])
             Me.Strand = Strand
         End Sub
 

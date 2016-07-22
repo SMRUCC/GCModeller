@@ -71,7 +71,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadFromResource() As Pathway()
-            Dim TempFile As String = Environment.GetFolderPath(Environment.SpecialFolder.InternetCache) & "/KEGG_PATHWAYS.txt"
+            Dim TempFile As String = App.AppSystemTemp & "/KEGG_PATHWAYS.txt"
             Call IO.File.WriteAllText(TempFile, My.Resources.br08901, encoding:=System.Text.Encoding.ASCII)
             Return LoadData(TempFile)
         End Function

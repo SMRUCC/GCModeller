@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03430" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>DNA mismatch repair (MMR) is a highly conserved biological pathway that plays a key role in maintaining genomic stability. MMR corrects DNA mismatches generated during DNA replication, thereby preventing mutations from becoming permanent in dividing cells. MMR also suppresses homologous recombination and was recently shown to play a role in DNA damage signaling. Defects in MMR are associated with genome-wide instability, predisposition to certain types of cancer including HNPCC, resistance to certain chemotherapeutic agents, and abnormalities in meiosis and sterility in mammalian systems.&lt;br&gt; The Escherichia coli MMR pathway has been extensively studied and is well characterized. In E. coli, the mismatch-activated MutS-MutL-ATP complex licenses MutH to incise the nearest unmethylated GATC sequence. UvrD and an exonuclease generate a gap. This gap is filled by pol III and DNA ligase. The GATC sites are then methylated by Dam. Several human MMR proteins have been identified based on their homology to E. coli MMR proteins. These include human homologs of MutS and MutL. Although E. coli MutS and MutL proteins are homodimers, human MutS and MutL homologs are heterodimers. The role of hemimethylated dGATC sites as a signal for strand discrimination is not conserved from E. coli to human. Human MMR is presumed to be nick-directed in vivo, and is thought to discriminate daughter and template strands using a strand-specific nick.&lt;br&gt;</Description>
+  <Name>Mismatch repair - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00260" Value="DNA polymerase III complex, bacteria [PATH:eco03430]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="eco03430" Value="Mismatch repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0184" Value="dnaE; DNA polymerase III alpha subunit (EC:2.7.7.7); K02337 DNA polymerase III subunit alpha [EC:2.7" />
+    <hashEntry Key="eco:b0215" Value="dnaQ; DNA polymerase III epsilon subunit (EC:2.7.7.7); K02342 DNA polymerase III subunit epsilon [EC" />
+    <hashEntry Key="eco:b0422" Value="xseB; exonuclease VII small subunit (EC:3.1.11.6); K03602 exodeoxyribonuclease VII small subunit [EC" />
+    <hashEntry Key="eco:b0470" Value="dnaX; DNA polymerase III/DNA elongation factor III, tau and gamma subunits (EC:2.7.7.7); K02343 DNA" />
+    <hashEntry Key="eco:b0640" Value="holA; DNA polymerase III, delta subunit (EC:2.7.7.7); K02340 DNA polymerase III subunit delta [EC:2." />
+    <hashEntry Key="eco:b1099" Value="holB; DNA polymerase III, delta prime subunit (EC:2.7.7.7); K02341 DNA polymerase III subunit delta&amp;#39;" />
+    <hashEntry Key="eco:b1842" Value="holE; DNA polymerase III, theta subunit (EC:2.7.7.7); K02345 DNA polymerase III subunit theta [EC:2." />
+    <hashEntry Key="eco:b1844" Value="exoX; exodeoxyribonuclease 10; DNA exonuclease X (EC:3.1.11.-); K10857 exodeoxyribonuclease X [EC:3." />
+    <hashEntry Key="eco:b2011" Value="sbcB; exodeoxyribonuclease I; exonuclease I (EC:3.1.11.1); K01141 exodeoxyribonuclease I [EC:3.1.11." />
+    <hashEntry Key="eco:b2411" Value="ligA; DNA ligase, NAD(+)-dependent (EC:6.5.1.2); K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="eco:b2509" Value="xseA; exonuclease VII, large subunit (EC:3.1.11.6); K03601 exodeoxyribonuclease VII large subunit [E" />
+    <hashEntry Key="eco:b2733" Value="mutS; methyl-directed mismatch repair protein; K03555 DNA mismatch repair protein MutS" />
+    <hashEntry Key="eco:b2831" Value="mutH; methyl-directed mismatch repair protein; K03573 DNA mismatch repair protein MutH" />
+    <hashEntry Key="eco:b2892" Value="recJ; ssDNA exonuclease, 5&amp;#39; --&amp;gt; 3&amp;#39;-specific (EC:3.1.-.-); K07462 single-stranded-DNA-specific exonuc" />
+    <hashEntry Key="eco:b3387" Value="dam; DNA adenine methyltransferase (EC:2.1.1.72); K06223 DNA adenine methylase [EC:2.1.1.72]" />
+    <hashEntry Key="eco:b3647" Value="ligB; DNA ligase, NAD(+)-dependent; K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="eco:b3701" Value="dnaN; DNA polymerase III, beta subunit (EC:2.7.7.7); K02338 DNA polymerase III subunit beta [EC:2.7." />
+    <hashEntry Key="eco:b3813" Value="uvrD; DNA-dependent ATPase I and helicase II (EC:3.6.1.-); K03657 DNA helicase II / ATP-dependent DN" />
+    <hashEntry Key="eco:b4059" Value="ssb; single-stranded DNA-binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="eco:b4170" Value="mutL; methyl-directed mismatch repair protein; K03572 DNA mismatch repair protein MutL" />
+    <hashEntry Key="eco:b4259" Value="holC; DNA polymerase III, chi subunit (EC:2.7.7.7); K02339 DNA polymerase III subunit chi [EC:2.7.7." />
+    <hashEntry Key="eco:b4372" Value="holD; DNA polymerase III, psi subunit (EC:2.7.7.7); K02344 DNA polymerase III subunit psi [EC:2.7.7." />
+  </Genes>
+</KEGG.PathwayBrief>

@@ -48,6 +48,7 @@ Namespace SequenceModel.NucleotideModels
         Public Property Start As Integer
         Public Property Ends As Integer
 #End Region
+
         ''' <summary>
         ''' 当前的这个位点的序列数据
         ''' </summary>

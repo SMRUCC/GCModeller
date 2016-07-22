@@ -61,6 +61,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
     Public Class File : Inherits ITextFile
 
         Public Property Comment As Keywords.COMMENT
+        ''' <summary>
+        ''' This GenBank keyword section stores the sequence data for this database.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Origin As Keywords.ORIGIN
         Public Property Features As Keywords.FEATURES.FEATURES
         ''' <summary>

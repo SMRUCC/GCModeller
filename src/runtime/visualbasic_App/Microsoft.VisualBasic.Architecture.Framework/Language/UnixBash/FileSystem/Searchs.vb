@@ -1,27 +1,27 @@
-﻿#Region "Microsoft.VisualBasic::819c3e6297fbabbd29dad152f64ce633, ..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\Language\UnixBash\FileSystem\Searchs.vb"
+﻿#Region "Microsoft.VisualBasic::67257a8dcb7bfb41ad0a12d5fa68330b, ..\Microsoft.VisualBasic.Architecture.Framework\Language\UnixBash\FileSystem\Searchs.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -160,9 +160,15 @@ Namespace Language.UnixBash
         Public Overloads Shared Operator <=(ls As Search, DIR As String) As IEnumerable(Of String)
             Dim l As Boolean = ls.__opts.ContainsKey(SearchOpt.Options.LongName)
             Dim wc As String() =
-                ls.wildcards.ToArray(Function(x) x.Replace(".", "\.").Replace("*", ".+"))
+                ls.wildcards.ToArray(Function(x) x.Replace(".", "\."))
+            For i As Integer = 0 To wc.Length - 1
+                If wc(i).Last <> "*"c Then
+                    wc(i) = wc(i) & "$"
+                End If
+                wc(i) = wc(i).Replace("*", ".+")
+            Next
             Dim isMatch As Func(Of String, Boolean) =
-                AddressOf New wildcards With {
+                AddressOf New wildcardsCompatible With {
                     .regexp = wc
                 }.IsMatch
 
@@ -202,7 +208,7 @@ Namespace Language.UnixBash
     ''' <summary>
     ''' Using regular expression to find a match on the file name.
     ''' </summary>
-    Public Structure wildcards
+    Public Structure wildcardsCompatible
 
         Dim regexp As String()
 

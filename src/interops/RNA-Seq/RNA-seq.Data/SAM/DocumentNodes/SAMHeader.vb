@@ -27,7 +27,7 @@
 
 Imports System.ComponentModel
 
-Namespace SAM.DocumentElements
+Namespace SAM
 
     ''' <summary>
     ''' 实际上就相当于一个字典来的

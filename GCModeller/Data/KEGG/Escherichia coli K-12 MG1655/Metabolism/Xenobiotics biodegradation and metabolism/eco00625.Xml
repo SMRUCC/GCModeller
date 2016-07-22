@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00625" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Chloroalkane and chloroalkene degradation - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00011" Value="CO2" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00048" Value="Glyoxylate" />
+    <hashEntry Key="C00058" Value="Formate" />
+    <hashEntry Key="C00067" Value="Formaldehyde" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00160" Value="Glycolate" />
+    <hashEntry Key="C00209" Value="Oxalate" />
+    <hashEntry Key="C00222" Value="3-Oxopropanoate" />
+    <hashEntry Key="C00237" Value="CO" />
+    <hashEntry Key="C01380" Value="Ethylene glycol" />
+    <hashEntry Key="C01548" Value="Acetylene" />
+    <hashEntry Key="C02271" Value="Dichloromethane" />
+    <hashEntry Key="C06547" Value="Ethylene" />
+    <hashEntry Key="C06548" Value="Ethylene oxide" />
+    <hashEntry Key="C06609" Value="trans-1,3-Dichloropropene" />
+    <hashEntry Key="C06610" Value="cis-1,3-Dichloropropene" />
+    <hashEntry Key="C06611" Value="trans-3-Chloro-2-propene-1-ol" />
+    <hashEntry Key="C06612" Value="cis-3-Chloro-2-propene-1-ol" />
+    <hashEntry Key="C06613" Value="trans-3-Chloroallyl aldehyde" />
+    <hashEntry Key="C06614" Value="trans-3-Chloroacrylic acid" />
+    <hashEntry Key="C06615" Value="cis-3-Chloroacrylic acid" />
+    <hashEntry Key="C06752" Value="1,2-Dichloroethane" />
+    <hashEntry Key="C06753" Value="2-Chloroethanol" />
+    <hashEntry Key="C06754" Value="Chloroacetaldehyde" />
+    <hashEntry Key="C06755" Value="Chloroacetic acid" />
+    <hashEntry Key="C06789" Value="Tetrachloroethene" />
+    <hashEntry Key="C06790" Value="Trichloroethene" />
+    <hashEntry Key="C06791" Value="trans-1,2-Dichloroethene" />
+    <hashEntry Key="C06792" Value="cis-1,2-Dichloroethene" />
+    <hashEntry Key="C06793" Value="Vinyl chloride" />
+    <hashEntry Key="C07490" Value="Trichloroethanol" />
+    <hashEntry Key="C11148" Value="TCE epoxide" />
+    <hashEntry Key="C11149" Value="Dichloroacetate" />
+    <hashEntry Key="C11150" Value="Trichloroacetate" />
+    <hashEntry Key="C14866" Value="Chloral" />
+    <hashEntry Key="C16348" Value="cis-3-Chloroallyl aldehyde" />
+    <hashEntry Key="C18246" Value="1,1,1-Trichloroethane" />
+    <hashEntry Key="C18247" Value="1,1-Dichloroethane" />
+    <hashEntry Key="C18248" Value="Chloroethane" />
+  </Compound>
+  <PathwayMap Key="eco00625" Value="Chloroalkane and chloroalkene degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0356" Value="frmA; alcohol dehydrogenase class III/glutathione-dependent formaldehyde dehydrogenase (EC:1.1.1.1 1" />
+    <hashEntry Key="eco:b1241" Value="adhE; fused acetaldehyde-CoA dehydrogenase/iron-dependent alcohol dehydrogenase/pyruvate-formate lya" />
+    <hashEntry Key="eco:b1478" Value="adhP; ethanol-active dehydrogenase/acetaldehyde-active reductase (EC:1.1.1.1); K13953 alcohol dehydr" />
+    <hashEntry Key="eco:b3589" Value="yiaY; putative Fe-containing alcohol dehydrogenase, Pfam00465 family; K13954 alcohol dehydrogenase [" />
+  </Genes>
+</KEGG.PathwayBrief>

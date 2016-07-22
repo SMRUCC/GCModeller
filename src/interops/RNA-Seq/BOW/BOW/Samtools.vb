@@ -30,7 +30,6 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.SAM
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 ''' <summary>
 ''' SAMtools is a set of utilities for interacting with and post-processing short DNA sequence read alignments 

@@ -146,7 +146,7 @@ Namespace SequenceModel.NucleotideModels
                 Call Console.WriteLine("[DEBUG] {0}  ==> {1}, length {2} is a negative or ZERO value!", Left, Right, Length)
                 Return ""
             End If
-            Return _reader.GetSegmentSequenceValue(Left - 1, Length, True)
+            Return _reader.GetSegmentSequenceValue(If(Left = 1, 1, Left - 1), Length, True)
         End Function
 
         ''' <summary>

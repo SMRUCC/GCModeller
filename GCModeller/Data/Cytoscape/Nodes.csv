@@ -1,0 +1,341 @@
+UniqueId,ReactionCounts,EnzymeCounts,CommonName,SuperPathway,GeneObjects
+PWY-6519,11,5,7-keto-8-aminopelargonate biosynthesis I,False,XOC_0409; XOC_1175; XOC_2362; XOC_3947; XOC_4512
+PWY-6784,4,12,superpathway of cellulose and hemicellulose degradation (cellulolosome),True,XOC_0050; XOC_0051; XOC_0053; XOC_0356; XOC_0642; XOC_0644; XOC_0790; XOC_0986; XOC_0987; XOC_3371; XOC_3870; XOC_4580
+DTDPRHAMSYN-PWY,4,4,dTDP-L-rhamnose biosynthesis I,False,XOC_3843; XOC_3844; XOC_3845; XOC_3846
+GLUTSYN-PWY,1,2,glutamate biosynthesis I,False,XOC_0134; XOC_0135
+PWY0-1477,1,1,ethanolamine utilization,False,XOC_2763
+GALACTUROCAT-PWY,4,3,D-galacturonate degradation I,False,XOC_0170; XOC_4465; XOC_4583
+P121-PWY,2,1,adenine and adenosine salvage I,False,XOC_2110
+PWY-6277,7,6,superpathway of 5-aminoimidazole ribonucleotide biosynthesis,True,XOC_1105; XOC_1303; XOC_1451; XOC_1454; XOC_3809; XOC_4173
+KDOSYN-PWY,2,1,KDO transfer to lipid IV<sub>A</sub> I,False,XOC_3727
+RIBOSYN2-PWY,9,5,flavin biosynthesis I (bacteria and plants),False,XOC_0811; XOC_0813; XOC_0814; XOC_0815; XOC_3463
+PWY-5973,5,5,<i>cis</i>-vaccenate biosynthesis,False,XOC_0409; XOC_1175; XOC_1177; XOC_2362; XOC_3947
+PWY-5084,3,4,2-oxoglutarate decarboxylation to succinyl-CoA,False,XOC_1751; XOC_1753; XOC_2904; XOC_3925
+PWY-6507,4,5,5-dehydro-4-deoxy-D-glucuronate degradation,False,XOC_0170; XOC_0256; XOC_0257; XOC_1175; XOC_2611
+HSERMETANA-PWY,2,6,methionine biosynthesis III,False,XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_4351
+PWY-6896,2,1,thiamin salvage I,False,XOC_0818
+GLUTATHIONESYN-PWY,2,3,glutathione biosynthesis,False,XOC_0780; XOC_0784; XOC_3308
+PWY0-1182,3,5,trehalose degradation II (trehalase),False,XOC_0659; XOC_2608; XOC_3255; XOC_3326; XOC_3425
+TRPCAT-PWY,3,3,tryptophan degradation I (via anthranilate),False,XOC_0494; XOC_1831; XOC_2718
+REDCITCYC,9,9,TCA cycle III (helicobacter),False,XOC_0592; XOC_1121; XOC_1763; XOC_2270; XOC_2273; XOC_2602; XOC_3019; XOC_3645; XOC_4547
+PWY0-1329,2,7,succinate to cytochrome <i>bo</i> oxidase electron transfer,False,XOC_2600; XOC_2602; XOC_2604; XOC_3454; XOC_3455; XOC_3456; XOC_3457
+GALACTCAT-PWY,3,3,D-galactonate degradation,False,XOC_2150; XOC_2152; XOC_2153
+PWY0-981,1,1,taurine degradation IV,False,XOC_0897
+PWY-6944,15,6,androstenedione degradation,False,XOC_2238; XOC_2267; XOC_2424; XOC_3609; XOC_3717; XOC_4550
+PWY0-1507,3,4,biotin biosynthesis from 7-keto-8-aminopelargonate,False,XOC_2015; XOC_3253; XOC_3884; XOC_4511
+PWY-5499,9,3,vitamin B<sub>6</sub> degradation,False,XOC_0770; XOC_1175; XOC_4629
+GLUGLNSYN-PWY,1,2,glutamate biosynthesis IV,False,XOC_0134; XOC_0135
+PWY-5921,2,2,L-glutamine biosynthesis II (tRNA-dependent),False,XOC_1064; XOC_1606
+PWY-6018,1,4,seed germination protein turnover,False,XOC_0676; XOC_0707; XOC_3817; XOC_4287
+PWY-5057,3,8,valine degradation II,False,XOC_0048; XOC_0288; XOC_0289; XOC_0982; XOC_1516; XOC_1517; XOC_1619; XOC_3714
+PWY-5941,5,2,glycogen degradation II,False,XOC_4230; XOC_4414
+PWY-5669,2,3,phosphatidylethanolamine biosynthesis I,False,XOC_2656; XOC_2964; XOC_3827
+NAD-BIOSYNTHESIS-II,3,3,NAD salvage pathway II,False,XOC_0425; XOC_4184; XOC_4644
+PWY-5269,3,6,cardiolipin biosynthesis II,False,XOC_0016; XOC_0205; XOC_0282; XOC_0388; XOC_2184; XOC_2583
+PWY0-1337,3,4,oleate &beta;-oxidation,False,XOC_2241; XOC_3193; XOC_3194; XOC_3473
+METSYN-PWY,2,12,homoserine and methionine biosynthesis,True,XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_2197; XOC_2959; XOC_3216; XOC_3217; XOC_3218; XOC_3870; XOC_4351
+PWY-5481,1,1,pyruvate fermentation to lactate,False,XOC_0160
+PWY-6190,8,3,"2,4-dichlorotoluene degradation",False,XOC_0564; XOC_0747; XOC_1470
+PWY-5651,5,5,tryptophan degradation to 2-amino-3-carboxymuconate semialdehyde,False,XOC_0494; XOC_1830; XOC_1831; XOC_1833; XOC_2718
+PWY-101,4,1,photosynthesis light reactions,False,XOC_3021
+PWY0-1415,5,5,superpathway of heme biosynthesis from uroporphyrinogen-III,True,XOC_0065; XOC_0432; XOC_1387; XOC_3657; XOC_4481
+PWY-6163,6,6,chorismate biosynthesis from 3-dehydroquinate,False,XOC_0354; XOC_1390; XOC_2876; XOC_2961; XOC_4156; XOC_4333
+GLUTAMATE-DEG1-PWY,1,1,glutamate degradation I,False,XOC_1981
+OANTIGEN-PWY,3,8,<i>O</i>-antigen building blocks biosynthesis (<i>E. coli</i>),True,XOC_0762; XOC_2948; XOC_3843; XOC_3844; XOC_3845; XOC_3846; XOC_3901; XOC_3910
+PWY-5849,1,1,menaquinol-6 biosynthesis,False,XOC_0704
+VALSYN-PWY,4,5,valine biosynthesis,False,XOC_0982; XOC_3713; XOC_3714; XOC_3715; XOC_4569
+PWY1-3,3,2,polyhydroxybutyrate biosynthesis,False,XOC_2654; XOC_3155
+PWY-5041,4,8,<i>S</i>-adenosyl-L-methionine cycle II,False,XOC_0870; XOC_0878; XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_4351
+PPGPPMET-PWY,6,3,ppGpp biosynthesis,False,XOC_1113; XOC_2427; XOC_3650
+PWY-7147,2,1,7-keto-8-aminopelargonate biosynthesis II,False,XOC_4512
+PWY0-1479,10,8,tRNA processing,False,XOC_1678; XOC_1792; XOC_1796; XOC_2086; XOC_2115; XOC_2565; XOC_3654; XOC_4688
+PWY-7187,7,5,pyrimidine deoxyribonucleotides <i>de novo</i> biosynthesis II,False,XOC_0909; XOC_1749; XOC_2982; XOC_4231; XOC_4308
+PWY-5386,3,4,methylglyoxal degradation I,False,XOC_0827; XOC_1142; XOC_3106; XOC_3896
+PWY0-541,1,2,cyclopropane fatty acid (CFA) biosynthesis,False,XOC_3119; XOC_3122
+CITRULLINE-DEG-PWY,2,1,citrulline degradation,False,XOC_2751
+PWY-5521,4,2,L-ascorbate biosynthesis III,False,XOC_0770; XOC_3952
+HEME-BIOSYNTHESIS-II,4,3,heme biosynthesis from uroporphyrinogen-III I,False,XOC_0432; XOC_1387; XOC_4481
+KETOGLUCONMET-PWY,5,1,ketogluconate metabolism,False,XOC_4615
+ASPARAGINESYN-PWY,1,2,asparagine biosynthesis II,False,XOC_2999; XOC_3054
+PWY-5530,3,4,sorbitol biosynthesis II,False,XOC_0624; XOC_0939; XOC_0940; XOC_2160
+PWY-3982,3,2,uracil degradation II (reductive),False,XOC_2698; XOC_2761
+VALDEG-PWY,8,7,valine degradation I,False,XOC_0491; XOC_0982; XOC_2241; XOC_3192; XOC_3193; XOC_3194; XOC_3195
+PWY-7174,4,6,<i>S</i>-methyl-5-thio-&alpha;-D-ribose 1-phosphate degradation II,False,XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_1852
+PWY-6505,3,6,tryptophan degradation XII (Geobacillus),True,XOC_0494; XOC_0933; XOC_1831; XOC_1833; XOC_2718; XOC_3385
+NONMEVIPP-PWY,9,8,methylerythritol phosphate pathway,False,XOC_0076; XOC_1002; XOC_1883; XOC_2183; XOC_2791; XOC_2792; XOC_3076; XOC_3460
+PWY-6932,5,1,selenate reduction,False,XOC_3569
+PWY0-166,15,8,superpathway of pyrimidine deoxyribonucleotides <i>de novo</i> biosynthesis (E. coli),True,XOC_0454; XOC_0455; XOC_0909; XOC_1749; XOC_2427; XOC_2982; XOC_4231; XOC_4308
+PWY-4621,1,1,arsenate detoxification II (glutaredoxin),False,XOC_3777
+PWY-2161,5,3,folate polyglutamylation,False,XOC_0806; XOC_1102; XOC_4210
+PWY-7176,3,4,UTP and CTP biosynthesis,False,XOC_2427; XOC_2694; XOC_2797; XOC_3072
+TRPSYN-PWY,6,7,tryptophan biosynthesis,False,XOC_2950; XOC_2952; XOC_2954; XOC_4204; XOC_4205; XOC_4208; XOC_4211
+ALANINE-VALINESYN-PWY,3,3,alanine biosynthesis I,False,XOC_0982; XOC_2247; XOC_3958
+PEPTIDOGLYCANSYN-PWY,6,15,peptidoglycan biosynthesis I (<I>meso</I>-diaminopimelate containing),True,XOC_0337; XOC_0838; XOC_0839; XOC_0840; XOC_0841; XOC_0843; XOC_0844; XOC_0845; XOC_1299; XOC_1306; XOC_1447; XOC_1508; XOC_2189; XOC_2574; XOC_3228
+LPSSYN-PWY,4,13,superpathway of lipopolysaccharide biosynthesis,True,XOC_0850; XOC_1110; XOC_1443; XOC_1444; XOC_2587; XOC_2588; XOC_2796; XOC_3080; XOC_3082; XOC_3083; XOC_3727; XOC_3728; XOC_4122
+GLUCONEO-PWY,13,15,gluconeogenesis I,False,XOC_0154; XOC_0216; XOC_0280; XOC_0872; XOC_1069; XOC_1100; XOC_1243; XOC_1554; XOC_2172; XOC_2661; XOC_2794; XOC_2940; XOC_3585; XOC_3589; XOC_3592
+PWY-7183,2,1,uracil and uridine salvage I,False,XOC_1945
+PWY-5966,2,7,fatty acid biosynthesis initiation II,False,XOC_0329; XOC_0417; XOC_0437; XOC_1172; XOC_1882; XOC_2363; XOC_3890
+THISYN-PWY,3,6,superpathway of thiamin diphosphate biosynthesis I,True,XOC_0818; XOC_1472; XOC_1883; XOC_2141; XOC_3672; XOC_3712
+P381-PWY,14,9,adenosylcobalamin biosynthesis II (late cobalt incorporation),True,XOC_0920; XOC_1100; XOC_2454; XOC_3392; XOC_3394; XOC_3396; XOC_3397; XOC_3580; XOC_4222
+PWY-6675,5,2,sulfur oxidation IV (intracellular sulfur),False,XOC_3570; XOC_3573
+PWY0-321,9,7,phenylacetate degradation I (aerobic),False,XOC_2238; XOC_2241; XOC_2424; XOC_3193; XOC_3194; XOC_4546; XOC_4550
+PWY-6147,5,4,6-hydroxymethyl-dihydropterin diphosphate biosynthesis I,False,XOC_0214; XOC_0551; XOC_0746; XOC_2168
+PWY-5782,4,2,2-keto-L-gulonate biosynthesis,False,XOC_0770; XOC_3952
+PWY-6518,7,1,glycocholate metabolism (bacteria),False,XOC_0081
+GLUTORN-PWY,5,5,ornithine biosynthesis,False,XOC_2745; XOC_2746; XOC_2747; XOC_2748; XOC_3688
+PWY-5189,4,4,tetrapyrrole biosynthesis II (from glycine),False,XOC_0312; XOC_0682; XOC_1089; XOC_4340
+SER-GLYSYN-PWY,2,5,superpathway of serine and glycine biosynthesis I,True,XOC_0060; XOC_0806; XOC_2232; XOC_2878; XOC_4210
+PYRUVDEHYD-PWY,3,5,pyruvate decarboxylation to acetyl CoA,False,XOC_0320; XOC_0492; XOC_1751; XOC_3925; XOC_4044
+PWY-5162,3,2,2-oxopentenoate degradation,False,XOC_0933; XOC_3385
+SERDEG-PWY,1,1,L-serine degradation,False,XOC_3215
+TYRFUMCAT-PWY,5,5,tyrosine degradation I,False,XOC_0499; XOC_0504; XOC_3551; XOC_3877; XOC_3878
+PWY-6605,2,2,adenine and adenosine salvage II,False,XOC_2110; XOC_3647
+PWY66-368,3,3,ketolysis,False,XOC_2657; XOC_3155; XOC_4547
+PWY-6893,2,2,thiamin diphosphate biosynthesis II (Bacillus),False,XOC_0818; XOC_3672
+PWY-5418,1,1,phenol degradation I (aerobic),False,XOC_4098
+PWY-7159,10,4,chlorophyllide <i>a</i> biosynthesis III,False,XOC_0331; XOC_0432; XOC_1387; XOC_2814
+PWY-6890,2,2,4-amino-2-methyl-5-diphosphomethylpyrimidine biosynthesis,False,XOC_2141; XOC_3712
+PWY-6012,2,1,acyl carrier protein metabolism,False,XOC_2872
+PWY-881,2,2,trehalose biosynthesis II,False,XOC_3487; XOC_3489
+PWY-5508,9,7,"adenosylcobalamin biosynthesis from cobyrinate <i>a,c</i>-diamide II",False,XOC_0920; XOC_1100; XOC_3392; XOC_3394; XOC_3396; XOC_3397; XOC_4222
+PWY-5668,3,6,cardiolipin biosynthesis I,False,XOC_0016; XOC_0205; XOC_0282; XOC_0388; XOC_2184; XOC_2583
+P21-PWY,3,2,pentose phosphate pathway (partial),False,XOC_3624; XOC_4214
+ILEUSYN-PWY,5,7,isoleucine biosynthesis I (from threonine),False,XOC_0982; XOC_3713; XOC_3714; XOC_3715; XOC_3716; XOC_4521; XOC_4569
+PWY-5028,5,6,histidine degradation II,False,XOC_0964; XOC_2885; XOC_2886; XOC_2887; XOC_2888; XOC_2889
+GLYCOLYSIS,11,15,glycolysis I,False,XOC_0154; XOC_0216; XOC_0280; XOC_1100; XOC_1243; XOC_1554; XOC_2172; XOC_2661; XOC_2794; XOC_2940; XOC_3585; XOC_3587; XOC_3589; XOC_3592; XOC_3700
+PWY-1882,3,8,superpathway of C1 compounds oxidation to CO<sub>2</sub>,True,XOC_0372; XOC_0794; XOC_0796; XOC_0797; XOC_1793; XOC_1992; XOC_2681; XOC_4010
+PWY-5340,2,2,sulfate activation for sulfonation,False,XOC_3568; XOC_3569
+GLYCOLYSIS-E-D,4,20,superpathway of glycolysis and Entner-Doudoroff,True,XOC_0154; XOC_0216; XOC_0280; XOC_0442; XOC_1100; XOC_1243; XOC_1554; XOC_2172; XOC_2607; XOC_2609; XOC_2610; XOC_2611; XOC_2661; XOC_2794; XOC_2940; XOC_3585; XOC_3587; XOC_3589; XOC_3592; XOC_3700
+PWY-6910,2,1,hydroxymethylpyrimidine salvage,False,XOC_2141
+PWY0-1313,1,1,acetate conversion to acetyl-CoA,False,XOC_0366
+GLUCUROCAT-PWY,5,3,&beta;-D-glucuronide and D-glucuronate degradation,False,XOC_0170; XOC_4465; XOC_4583
+NADSYN-PWY,2,8,NAD biosynthesis II (from tryptophan),True,XOC_0494; XOC_1669; XOC_1830; XOC_1831; XOC_1833; XOC_2718; XOC_2913; XOC_3501
+ASPARAGINE-BIOSYNTHESIS,1,2,asparagine biosynthesis I,False,XOC_2999; XOC_3054
+PWY0-1305,1,1,glutamate dependent acid resistance,False,XOC_2171
+PWY0-662,1,1,PRPP biosynthesis I,False,XOC_1005
+PWY-5686,6,7,UMP biosynthesis,False,XOC_1497; XOC_2190; XOC_2251; XOC_2253; XOC_2761; XOC_4220; XOC_4643
+PWY-3282,2,4,superpathway of ammonia assimilation (plants),True,XOC_0134; XOC_0135; XOC_0293; XOC_1999
+PWY-1722,4,1,formaldehyde oxidation V (tetrahydrofolate pathway),False,XOC_2681
+PWY-6964,2,4,ammonia assimilation cycle II,False,XOC_0134; XOC_0135; XOC_0293; XOC_1999
+TCA,10,14,TCA cycle I (prokaryotic),False,XOC_0592; XOC_1069; XOC_1121; XOC_1753; XOC_1763; XOC_2270; XOC_2273; XOC_2600; XOC_2602; XOC_2604; XOC_3019; XOC_3503; XOC_3504; XOC_3645
+PWY-7089,1,2,taxiphyllin bioactivation,False,XOC_0552; XOC_3039
+ASPARTATESYN-PWY,1,2,aspartate biosynthesis,False,XOC_0156; XOC_3762
+PWY-6284,3,14,superpathway of unsaturated fatty acids biosynthesis (<i>E. coli</i>),True,XOC_0329; XOC_0409; XOC_0417; XOC_0437; XOC_1172; XOC_1175; XOC_1177; XOC_1882; XOC_2362; XOC_2363; XOC_3081; XOC_3889; XOC_3890; XOC_3947
+PWY-5964,1,1,guanylyl molybdenum cofactor biosynthesis,False,XOC_2449
+PWY0-1264,4,3,biotin-carboxyl carrier protein assembly,False,XOC_4159; XOC_4313; XOC_4589
+PWY0-162,2,11,superpathway of pyrimidine ribonucleotides <i>de novo</i> biosynthesis,True,XOC_1497; XOC_2190; XOC_2251; XOC_2253; XOC_2427; XOC_2694; XOC_2761; XOC_2797; XOC_3072; XOC_4220; XOC_4643
+PWY-5676,5,4,acetyl-CoA fermentation to butyrate II,False,XOC_1788; XOC_1811; XOC_3155; XOC_3839
+PWY-5509,8,7,"adenosylcobalamin biosynthesis from cobyrinate <i>a,c</i>-diamide I",False,XOC_0920; XOC_1100; XOC_3392; XOC_3394; XOC_3396; XOC_3397; XOC_4222
+PWY-6019,2,3,pseudouridine degradation,False,XOC_1088; XOC_3336; XOC_4663
+PWY-7097,2,2,vanillin and vanillate degradation I,False,XOC_4549; XOC_4559
+GLYCOGENSYNTH-PWY,3,4,glycogen biosynthesis I (from ADP-D-Glucose),False,XOC_0251; XOC_3845; XOC_4416; XOC_4417
+PWY0-1335,2,12,NADH to cytochrome <i>bo</i> oxidase electron transfer,False,XOC_0607; XOC_2677; XOC_2924; XOC_2925; XOC_2928; XOC_2930; XOC_2934; XOC_2936; XOC_3454; XOC_3455; XOC_3456; XOC_3457
+CHLOROPHYLL-SYN,10,4,chlorophyllide <i>a</i> biosynthesis I,False,XOC_0331; XOC_0432; XOC_1387; XOC_2814
+12DICHLORETHDEG-PWY,4,1,"1,2-dichloroethane degradation",False,XOC_0331
+PWY0-1221,4,4,putrescine degradation II,False,XOC_0933; XOC_1995; XOC_1996; XOC_1997
+PWY-6788,3,8,cellulose degradation II (fungi),False,XOC_0050; XOC_0051; XOC_0053; XOC_0552; XOC_0642; XOC_0644; XOC_0790; XOC_3039
+MENAQUINONESYN-PWY,1,1,menaquinol-8 biosynthesis,False,XOC_0704
+PWY-5155,1,1,&beta;-alanine biosynthesis III,False,XOC_2171
+PWY-6897,4,3,thiamin salvage II,True,XOC_0818; XOC_2141; XOC_3672
+PWY-6717,2,5,"(1,4)-&beta;-xylan degradation",False,XOC_0986; XOC_0987; XOC_3371; XOC_4575; XOC_4580
+PWY0-1334,2,15,NADH to cytochrome <i>bd</i> oxidase electron transfer,False,XOC_0607; XOC_1426; XOC_1427; XOC_2677; XOC_2733; XOC_2734; XOC_2924; XOC_2925; XOC_2928; XOC_2930; XOC_2934; XOC_2936; XOC_3457; XOC_4006; XOC_4007
+PWY-4081,3,3,glutathione redox reactions I,False,XOC_0120; XOC_1702; XOC_3022
+PWY-6502,4,1,oxidized GTP and dGTP detoxification,False,XOC_2658
+ARO-PWY,2,10,chorismate biosynthesis I,True,XOC_0354; XOC_0620; XOC_1062; XOC_1389; XOC_1390; XOC_2796; XOC_2876; XOC_2961; XOC_4156; XOC_4333
+PWY-5785,1,1,"di-<i>trans</i>,poly-<i>cis</i>-undecaprenyl phosphate biosynthesis",False,XOC_3074
+PWY-6385,7,13,peptidoglycan biosynthesis III (mycobacteria),True,XOC_0337; XOC_0838; XOC_0839; XOC_0840; XOC_0841; XOC_0843; XOC_0844; XOC_0845; XOC_1447; XOC_1508; XOC_2189; XOC_2574; XOC_3314
+PHENYLALANINE-DEG1-PWY,3,2,phenylalanine degradation I (aerobic),False,XOC_0260; XOC_2560
+PWY0-1299,1,1,arginine dependent acid resistance,False,XOC_4241
+PROSYN-PWY,4,4,proline biosynthesis I,False,XOC_1485; XOC_2740; XOC_2741; XOC_4292
+PWY-6164,2,4,3-dehydroquinate biosynthesis I,False,XOC_0620; XOC_1062; XOC_1389; XOC_2796
+PWYQT-4429,2,3,CO<sub>2</sub> fixation into oxaloacetate (anapleurotic),False,XOC_0872; XOC_1807; XOC_1834
+PWY-5505,5,4,glutamate and glutamine biosynthesis,True,XOC_0134; XOC_0135; XOC_0293; XOC_1999
+BRANCHED-CHAIN-AA-SYN-PWY,3,10,"superpathway of leucine, valine, and isoleucine biosynthesis",True,XOC_0982; XOC_3713; XOC_3714; XOC_3715; XOC_3716; XOC_3717; XOC_3720; XOC_3721; XOC_4521; XOC_4569
+COA-PWY,4,3,coenzyme A biosynthesis,False,XOC_1941; XOC_3515; XOC_4232
+HOMOCYSDEGR-PWY,2,4,cysteine biosynthesis/homocysteine degradation,False,XOC_2071; XOC_3581; XOC_3871; XOC_3893
+PWY-5347,3,14,superpathway of methionine biosynthesis (transsulfuration),True,XOC_0156; XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_2197; XOC_2959; XOC_3216; XOC_3217; XOC_3218; XOC_3762; XOC_3870; XOC_4351
+PWY-6895,5,7,superpathway of thiamin diphosphate biosynthesis II,True,XOC_0818; XOC_1472; XOC_1883; XOC_1906; XOC_2141; XOC_3672; XOC_3712
+PWY-6134,1,1,tyrosine biosynthesis IV,False,XOC_0260
+PWY-5653,4,3,NAD biosynthesis from 2-amino-3-carboxymuconate semialdehyde,False,XOC_1669; XOC_2913; XOC_3501
+PWY0-501,2,2,lipoate biosynthesis and incorporation I,False,XOC_0726; XOC_0727
+GALACT-GLUCUROCAT-PWY,2,3,superpathway of hexuronide and hexuronate degradation,True,XOC_0170; XOC_4465; XOC_4583
+ILEUDEG-PWY,6,7,isoleucine degradation I,False,XOC_0491; XOC_0982; XOC_2238; XOC_2241; XOC_3155; XOC_3193; XOC_3194
+GLYSYN-PWY,1,2,glycine biosynthesis I,False,XOC_0806; XOC_4210
+PWY-5920,2,7,superpathway of heme biosynthesis from glycine,True,XOC_0312; XOC_0432; XOC_0682; XOC_1089; XOC_1387; XOC_4340; XOC_4481
+PWY-6292,2,6,cysteine biosynthesis III (mammalia),True,XOC_0870; XOC_0878; XOC_2071; XOC_3581; XOC_3871; XOC_3893
+PWY-6282,9,6,palmitoleate biosynthesis I,False,XOC_0409; XOC_0437; XOC_1175; XOC_2362; XOC_3890; XOC_3947
+PWY-6118,2,1,glycerol-3-phosphate shuttle,False,XOC_0318
+PWY-4041,5,5,&gamma;-glutamyl cycle,True,XOC_0780; XOC_0784; XOC_1944; XOC_3308; XOC_3817
+PWY0-163,9,4,pyrimidine ribonucleotides salvage,False,XOC_0700; XOC_1945; XOC_2427; XOC_2694
+PWY-6038,5,1,citrate degradation,False,XOC_2061
+PWY-3722,2,2,glycine betaine biosynthesis II (Gram-positive bacteria),False,XOC_0770; XOC_0771
+PWY-6125,9,7,guanosine nucleotides <i>de novo</i> biosynthesis,False,XOC_0454; XOC_0455; XOC_2427; XOC_2679; XOC_2680; XOC_3652; XOC_4487
+SO4ASSIM-PWY,3,6,sulfate reduction I (assimilatory),True,XOC_3568; XOC_3569; XOC_3570; XOC_3571; XOC_3572; XOC_3573
+HISDEG-PWY,4,4,histidine degradation I,False,XOC_2886; XOC_2887; XOC_2889; XOC_4304
+P163-PWY,10,6,lysine fermentation to acetate and butyrate,False,XOC_1303; XOC_1788; XOC_2121; XOC_3155; XOC_3735; XOC_3839
+PWY-6387,8,9,UDP-<i>N</i>-acetylmuramoyl-pentapeptide biosynthesis III (<i>meso</i>-DAP-containing),False,XOC_0337; XOC_0839; XOC_0840; XOC_0844; XOC_0845; XOC_1447; XOC_1508; XOC_2189; XOC_2574
+PWY-6901,10,22,xylose degradation IV,True,XOC_0160; XOC_0216; XOC_0280; XOC_0442; XOC_0738; XOC_0827; XOC_0954; XOC_1100; XOC_1243; XOC_1554; XOC_2160; XOC_2161; XOC_2607; XOC_2609; XOC_2794; XOC_3587; XOC_3589; XOC_3592; XOC_3624; XOC_3668; XOC_4214; XOC_4474
+PWY-5143,1,2,fatty acid activation,False,XOC_2267; XOC_3609
+PWY-5043,2,3,purine nucleosides salvage II (plant),True,XOC_2110; XOC_3171; XOC_3647
+GLYCOCAT-PWY,7,8,glycogen degradation I,False,XOC_0250; XOC_2608; XOC_3255; XOC_3326; XOC_3526; XOC_4230; XOC_4411; XOC_4414
+PWY-6987,3,2,lipoate biosynthesis and incorporation III (Bacillus),False,XOC_0726; XOC_0727
+PWY-5913,11,17,TCA cycle VI (obligate autotrophs),False,XOC_0134; XOC_0135; XOC_0156; XOC_0592; XOC_0872; XOC_1121; XOC_1763; XOC_2270; XOC_2273; XOC_2600; XOC_2602; XOC_2604; XOC_3019; XOC_3503; XOC_3504; XOC_3645; XOC_3762
+PWY-6805,8,8,cellulose degradation I (cellulosome),False,XOC_0050; XOC_0051; XOC_0053; XOC_0356; XOC_0642; XOC_0644; XOC_0790; XOC_3870
+PYRIDNUCSAL-PWY,8,5,NAD salvage pathway I,False,XOC_1669; XOC_2776; XOC_3501; XOC_3781; XOC_4184
+DISSULFRED-PWY,5,4,sulfate reduction IV (dissimilatory),False,XOC_3569; XOC_3570; XOC_3572; XOC_3573
+HOMOSER-THRESYN-PWY,2,2,threonine biosynthesis from homoserine,False,XOC_2198; XOC_2208
+THRDLCTCAT-PWY,3,1,threonine degradation III (to methylglyoxal),False,XOC_1095
+HOMOSERSYN-PWY,3,4,homoserine biosynthesis,False,XOC_2197; XOC_2959; XOC_3216; XOC_3217
+PWY4FS-7,3,5,phosphatidylglycerol biosynthesis I (plastidic),True,XOC_0318; XOC_2184; XOC_2583; XOC_3075; XOC_4636
+PWY-3781,4,17,aerobic respiration (cytochrome c),False,XOC_0533; XOC_0534; XOC_0537; XOC_0607; XOC_2037; XOC_2038; XOC_2039; XOC_2600; XOC_2602; XOC_2604; XOC_2677; XOC_2924; XOC_2925; XOC_2928; XOC_2930; XOC_2934; XOC_2936
+P281-PWY,7,1,3-phenylpropionate degradation,False,XOC_0306
+NAGLIPASYN-PWY,6,6,lipid IV<sub>A</sub> biosynthesis,False,XOC_0850; XOC_1110; XOC_2588; XOC_3080; XOC_3082; XOC_3083
+P1-PWY,17,11,purine and pyrimidine metabolism,False,XOC_0909; XOC_1749; XOC_1945; XOC_2110; XOC_2694; XOC_3072; XOC_3171; XOC_3652; XOC_3699; XOC_4308; XOC_4651
+ANARESP1-PWY,13,14,respiration (anaerobic),False,XOC_0216; XOC_0320; XOC_0592; XOC_0872; XOC_1121; XOC_1763; XOC_2270; XOC_2273; XOC_2602; XOC_2794; XOC_2934; XOC_3019; XOC_3587; XOC_3645
+PWY-5918,2,9,superpathay of heme biosynthesis from glutamate,True,XOC_0312; XOC_0432; XOC_0682; XOC_0998; XOC_1387; XOC_1606; XOC_3674; XOC_4340; XOC_4481
+AMMASSIM-PWY,2,4,ammonia assimilation cycle III,True,XOC_0134; XOC_0135; XOC_0293; XOC_1999
+PWY-5667,4,3,CDP-diacylglycerol biosynthesis I,False,XOC_0318; XOC_3075; XOC_4636
+PWY-6121,5,5,5-aminoimidazole ribonucleotide biosynthesis I,False,XOC_1105; XOC_1451; XOC_1454; XOC_3809; XOC_4173
+PWY-4921,1,1,protein citrullination,False,XOC_2697
+OXIDATIVEPENT-PWY,4,4,pentose phosphate pathway (oxidative branch),False,XOC_0442; XOC_0738; XOC_2607; XOC_2609
+PWY0-1061,2,4,superpathway of alanine biosynthesis,True,XOC_0982; XOC_1472; XOC_2247; XOC_3958
+PWY-5194,4,2,siroheme biosynthesis,False,XOC_2454; XOC_3580
+PWY-6599,2,1,guanine and guanosine salvage II,False,XOC_3171
+XYLCAT-PWY,2,3,xylose degradation I,False,XOC_2160; XOC_2161; XOC_4474
+GLNSYN-PWY,1,2,glutamine biosynthesis I,False,XOC_0293; XOC_1999
+UDPNAGSYN-PWY,4,4,UDP-<i>N</i>-acetyl-D-glucosamine biosynthesis I,False,XOC_0762; XOC_2948; XOC_3901; XOC_3910
+PWY-5659,4,3,GDP-mannose biosynthesis,False,XOC_2172; XOC_3842; XOC_4230
+GLUTAMINDEG-PWY,1,6,glutamine degradation I,False,XOC_0134; XOC_0135; XOC_2251; XOC_2253; XOC_2999; XOC_3054
+THREONINE-DEG2-PWY,2,2,threonine degradation II,False,XOC_1089; XOC_1095
+PWY-6790,2,1,L-arabinan degradation,False,XOC_3426
+PWY0-862,6,11,<i>cis</i>-dodecenoyl biosynthesis,False,XOC_0329; XOC_0409; XOC_0417; XOC_1172; XOC_1175; XOC_1882; XOC_2362; XOC_2363; XOC_3081; XOC_3889; XOC_3947
+NAD-BIOSYNTHESIS-III,2,2,NAD biosynthesis III,False,XOC_0730; XOC_0731
+P2-PWY,2,1,2'-(5'-phosphoribosyl)-3'-dephospho-CoA biosynthesis I (citrate lyase),False,XOC_2066
+PWY-4261,2,3,glycerol degradation I,False,XOC_0318; XOC_4553; XOC_4554
+PWY-7082,4,3,ammonia oxidation IV (autotrophic ammonia oxidizers),False,XOC_2037; XOC_2038; XOC_2039
+KDO-LIPASYN-PWY,2,2,(KDO)<sub>2</sub>-lipid A biosynthesis I,False,XOC_3728; XOC_4122
+TYRSYN,3,3,tyrosine biosynthesis I,False,XOC_0156; XOC_1743; XOC_2877
+PWY-5436,2,2,threonine degradation IV,False,XOC_0933; XOC_4210
+PWY0-1325,2,2,superpathway of asparagine biosynthesis,True,XOC_2999; XOC_3054
+PWY-6543,2,1,4-aminobenzoate biosynthesis,False,XOC_1178
+LEUSYN-PWY,6,4,leucine biosynthesis,False,XOC_0982; XOC_3717; XOC_3720; XOC_3721
+ASPARTATE-DEG1-PWY,1,2,aspartate degradation I,False,XOC_0156; XOC_3762
+PWY-4381,3,9,fatty acid biosynthesis initiation I,False,XOC_0329; XOC_0417; XOC_1172; XOC_1174; XOC_1882; XOC_2363; XOC_3086; XOC_4157; XOC_4159
+BETSYN-PWY,2,2,glycine betaine biosynthesis I (Gram-negative bacteria),False,XOC_0770; XOC_0771
+PWY-6464,2,1,polyvinyl alcohol degradation,False,XOC_0353
+NONOXIPENT-PWY,5,4,pentose phosphate pathway (non-oxidative branch),False,XOC_0954; XOC_3624; XOC_3668; XOC_4214
+PWY-6124,5,5,inosine-5'-phosphate biosynthesis II,False,XOC_1758; XOC_2910; XOC_2911; XOC_4172; XOC_4216
+GLUDEG-II-PWY,4,9,glutamate degradation VII (to butanoate),True,XOC_0366; XOC_1788; XOC_1811; XOC_2238; XOC_2241; XOC_2424; XOC_3155; XOC_3193; XOC_3194
+HOMOSER-METSYN-PWY,5,8,methionine biosynthesis I,False,XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_3218; XOC_3870; XOC_4351
+PWY-7003,11,12,glycerol degradation to butanol,False,XOC_0216; XOC_0280; XOC_1100; XOC_1243; XOC_1554; XOC_2794; XOC_2940; XOC_3155; XOC_3587; XOC_3589; XOC_3592; XOC_3839
+GLUCOSE1PMETAB-PWY,6,6,glucose and glucose-1-phosphate degradation,False,XOC_0624; XOC_0939; XOC_2608; XOC_3255; XOC_3326; XOC_4230
+PROTOCATECHUATE-ORTHO-CLEAVAGE-PWY,4,8,protocatechuate degradation II (ortho-cleavage pathway),False,XOC_0929; XOC_1120; XOC_2275; XOC_4541; XOC_4542; XOC_4543; XOC_4544; XOC_4545
+PWY0-1317,2,1,L-lactaldehyde degradation (aerobic),False,XOC_0160
+PWY-5345,5,20,superpathway of methionine biosynthesis (by sulfhydrylation),True,XOC_0156; XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_2197; XOC_2728; XOC_2959; XOC_3216; XOC_3217; XOC_3219; XOC_3568; XOC_3569; XOC_3570; XOC_3571; XOC_3572; XOC_3573; XOC_3762; XOC_4351
+PWY-5989,5,7,stearate biosynthesis II (bacteria and plants),False,XOC_0409; XOC_0417; XOC_0437; XOC_1175; XOC_2362; XOC_3890; XOC_3947
+PWY-4984,5,6,urea cycle,False,XOC_2251; XOC_2253; XOC_2744; XOC_2750; XOC_2751; XOC_4304
+PWY-2301,2,1,<i>myo</i>-inositol biosynthesis,False,XOC_2117
+TRESYN-PWY,2,2,trehalose biosynthesis I,False,XOC_3487; XOC_3489
+PWY-6028,2,0,acetoin degradation,False,
+PWY-1881,1,1,formate oxidation to CO<sub>2</sub>,False,XOC_1992
+GLUTSYNIII-PWY,1,2,glutamate biosynthesis III,False,XOC_0134; XOC_0135
+FERMENTATION-PWY,16,15,mixed acid fermentation,False,XOC_0592; XOC_0827; XOC_0872; XOC_0933; XOC_1121; XOC_1303; XOC_1763; XOC_2270; XOC_2273; XOC_2602; XOC_2934; XOC_3019; XOC_3587; XOC_3645; XOC_3735
+PWY-6613,2,2,"tetrahydrofolate salvage from 5,10-methenyltetrahydrofolate",False,XOC_1451; XOC_2681
+HEMESYN2-PWY,4,5,heme biosynthesis from uroporphyrinogen-III II,False,XOC_0065; XOC_0432; XOC_1387; XOC_3657; XOC_4481
+PWY-6268,1,2,adenosylcobalamin salvage from cobalamin,False,XOC_0920; XOC_3397
+PWY-6122,5,6,5-aminoimidazole ribonucleotide biosynthesis II,False,XOC_1105; XOC_1303; XOC_1451; XOC_1454; XOC_3809; XOC_4173
+PWY0-181,5,1,pyrimidine deoxyribonucleotides salvage,False,XOC_4651
+PYRIDNUCSYN-PWY,6,4,NAD biosynthesis I (from aspartate),False,XOC_1669; XOC_2602; XOC_2913; XOC_3501
+GLUT-REDOX-PWY,2,1,glutathione redox reactions II,False,XOC_1702
+PWY-6963,2,4,ammonia assimilation cycle I,False,XOC_0134; XOC_0135; XOC_0293; XOC_1999
+PWY-841,6,14,purine nucleotides <i>de novo</i> biosynthesis II,True,XOC_1105; XOC_1213; XOC_1451; XOC_1454; XOC_1758; XOC_2679; XOC_2680; XOC_2910; XOC_2911; XOC_3809; XOC_4172; XOC_4173; XOC_4216; XOC_4487
+PWY-6612,3,8,superpathway of tetrahydrofolate biosynthesis,True,XOC_0214; XOC_0551; XOC_0746; XOC_0911; XOC_1102; XOC_1178; XOC_2168; XOC_2780
+TREHALOSESYN-PWY,2,2,trehalose biosynthesis III,False,XOC_3487; XOC_3489
+THIOREDOX-PWY,2,1,thioredoxin pathway,False,XOC_2411
+PWY-6443,7,1,"benzoate biosynthesis I (CoA-dependent, &beta;-oxidative)",False,XOC_0306
+PWY0-1275,2,1,lipoate biosynthesis and incorporation II,False,XOC_0727
+PWY-6578,2,1,7-keto-8-aminopelargonate biosynthesis III,False,XOC_4512
+PWY-6614,3,3,tetrahydrofolate biosynthesis,False,XOC_0911; XOC_1102; XOC_2780
+FASYN-ELONG-PWY,5,10,fatty acid elongation -- saturated,False,XOC_0329; XOC_0409; XOC_0417; XOC_1172; XOC_1175; XOC_1882; XOC_2362; XOC_2363; XOC_3081; XOC_3947
+PWY-6894,2,2,thiamin diphosphate biosynthesis I (E. coli),False,XOC_0818; XOC_3672
+METHIONINE-DEG1-PWY,3,2,methionine degradation I (to homocysteine),False,XOC_0870; XOC_0878
+GALDEG-PWY,2,1,galactose degradation II,False,XOC_0862
+PWY-5360,1,2,superpathway of tetrathionate reduction (<i>Salmonella typhimurium</i>),False,XOC_3570; XOC_3573
+PWY-6620,2,1,guanine and guanosine salvage I,False,XOC_3171
+PLPSAL-PWY,5,2,pyridoxal 5'-phosphate salvage pathway,False,XOC_1391; XOC_1742
+PWY0-1466,2,2,trehalose degradation VI (periplasmic),False,XOC_0659; XOC_3425
+PWY-2201,12,13,folate transformations I,False,XOC_0806; XOC_0857; XOC_1274; XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_2681; XOC_3666; XOC_4210; XOC_4356; XOC_4360
+PWY-5298,3,2,lysine degradation VI,False,XOC_1952; XOC_2193
+NADPHOS-DEPHOS-PWY,3,5,NAD phosphorylation and dephosphorylation,False,XOC_0971; XOC_0977; XOC_0978; XOC_1824; XOC_4644
+TRNA-CHARGING-PWY,20,22,tRNA charging,False,XOC_0524; XOC_0946; XOC_1606; XOC_1666; XOC_1839; XOC_1858; XOC_1862; XOC_1863; XOC_2213; XOC_2262; XOC_2754; XOC_2770; XOC_2873; XOC_3108; XOC_3364; XOC_3462; XOC_3820; XOC_3829; XOC_4234; XOC_4300; XOC_4492; XOC_4494
+BSUBPOLYAMSYN-PWY,2,2,spermidine biosynthesis I,False,XOC_4201; XOC_4242
+PWY-5314,2,0,lysine degradation VIII,False,
+HISTSYN-PWY,10,10,histidine biosynthesis,False,XOC_2215; XOC_2216; XOC_2217; XOC_2218; XOC_2219; XOC_2220; XOC_2222; XOC_3680; XOC_3681; XOC_3682
+DETOX1-PWY,2,8,superoxide radicals degradation,False,XOC_0298; XOC_0299; XOC_1265; XOC_2116; XOC_2312; XOC_2909; XOC_4290; XOC_4325
+PWY-5647,7,2,2-nitrobenzoate degradation I,False,XOC_0933; XOC_1833
+ALADEG-PWY,2,2,alanine degradation I,False,XOC_1701; XOC_3958
+PWY-1622,13,13,formaldehyde assimilation I (serine pathway),False,XOC_0216; XOC_0280; XOC_0806; XOC_0872; XOC_1100; XOC_1243; XOC_1554; XOC_2794; XOC_2960; XOC_3504; XOC_4210; XOC_4629; XOC_4672
+ARGSYNBSUB-PWY,9,9,arginine biosynthesis II (acetyl cycle),False,XOC_2251; XOC_2253; XOC_2744; XOC_2745; XOC_2746; XOC_2747; XOC_2750; XOC_2751; XOC_3688
+PWY-6892,6,2,thiazole biosynthesis I (E. coli),False,XOC_1472; XOC_1883
+PWY3O-210,1,1,glutamate degradation IX (via 4-aminobutyrate),False,XOC_2171
+KDO-NAGLIPASYN-PWY,7,13,superpathway of (KDO)<SUB>2</SUB>-lipid A biosynthesis,True,XOC_0850; XOC_1110; XOC_1443; XOC_1444; XOC_2587; XOC_2588; XOC_2796; XOC_3080; XOC_3082; XOC_3083; XOC_3727; XOC_3728; XOC_4122
+ENTNER-DOUDOROFF-PWY,2,2,Entner-Doudoroff pathway I,False,XOC_2610; XOC_2611
+GLUAMCAT-PWY,2,1,<i>N</i>-acetylglucosamine degradation I,False,XOC_0763
+PWY-6151,5,7,<i>S</i>-adenosyl-L-methionine cycle I,True,XOC_0878; XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_4351
+PANTO-PWY,4,4,phosphopantothenate biosynthesis I,False,XOC_2169; XOC_2170; XOC_4094; XOC_4312
+SAM-PWY,1,1,S-adenosyl-L-methionine biosynthesis,False,XOC_0878
+COBALSYN-PWY,6,6,adenosylcobalamin salvage from cobinamide I,False,XOC_0920; XOC_1100; XOC_3392; XOC_3394; XOC_3396; XOC_3397
+PWY-6517,4,1,<i>N</i>-acetylglucosamine degradation II,True,XOC_0763
+PWY-6952,2,4,glycerophosphodiester degradation,False,XOC_0318; XOC_1077; XOC_1199; XOC_4681
+ARGSYN-PWY,5,10,arginine biosynthesis I,True,XOC_2251; XOC_2253; XOC_2744; XOC_2745; XOC_2746; XOC_2747; XOC_2748; XOC_2750; XOC_2751; XOC_3688
+PWY-6126,8,15,adenosine nucleotides <i>de novo</i> biosynthesis,False,XOC_0454; XOC_0455; XOC_1213; XOC_1758; XOC_2349; XOC_2427; XOC_3699; XOC_3914; XOC_3915; XOC_3916; XOC_3917; XOC_3918; XOC_3919; XOC_3920; XOC_3921
+PWY-4341,1,2,glutamate biosynthesis V,False,XOC_0134; XOC_0135
+PENTOSE-P-PWY,2,8,pentose phosphate pathway,True,XOC_0442; XOC_0738; XOC_0954; XOC_2607; XOC_2609; XOC_3624; XOC_3668; XOC_4214
+PWY-7184,9,7,pyrimidine deoxyribonucleotides <i>de novo</i> biosynthesis I,False,XOC_0454; XOC_0455; XOC_0909; XOC_1749; XOC_2427; XOC_4231; XOC_4308
+PYRUVOX-PWY,1,1,pyruvate oxidation pathway,False,XOC_0320
+PWY-6708,8,6,ubiquinol-8 biosynthesis (prokaryotic),False,XOC_0340; XOC_0704; XOC_0922; XOC_0923; XOC_2125; XOC_2774
+PWY-5188,6,6,tetrapyrrole biosynthesis I (from glutamate),False,XOC_0312; XOC_0682; XOC_0998; XOC_1606; XOC_3674; XOC_4340
+PWY-6891,7,3,thiazole biosynthesis II (Bacillus),False,XOC_1472; XOC_1883; XOC_1906
+LACTOSEUTIL-PWY,3,3,lactose degradation II,False,XOC_2832; XOC_3201; XOC_3273
+PWY-3001,4,15,isoleucine biosynthesis I,True,XOC_0156; XOC_0982; XOC_2197; XOC_2198; XOC_2208; XOC_2959; XOC_3216; XOC_3217; XOC_3713; XOC_3714; XOC_3715; XOC_3716; XOC_3762; XOC_4521; XOC_4569
+THRESYN-PWY,3,8,threonine biosynthesis,True,XOC_0156; XOC_2197; XOC_2198; XOC_2208; XOC_2959; XOC_3216; XOC_3217; XOC_3762
+PWY-5988,1,4,wound-induced proteolysis I,False,XOC_0676; XOC_0707; XOC_3817; XOC_4287
+PWY-5507,14,9,adenosylcobalamin biosynthesis I (early cobalt insertion),True,XOC_0920; XOC_1100; XOC_2454; XOC_3392; XOC_3394; XOC_3396; XOC_3397; XOC_3580; XOC_4222
+CENTFERM-PWY,7,8,pyruvate fermentation to butanoate,False,XOC_1788; XOC_1811; XOC_2238; XOC_2241; XOC_2424; XOC_3155; XOC_3193; XOC_3194
+PWY-1269,4,4,CMP-KDO biosynthesis I,False,XOC_1443; XOC_1444; XOC_2587; XOC_2796
+ANAGLYCOLYSIS-PWY,10,16,glycolysis III (glucokinase),False,XOC_0216; XOC_0280; XOC_1100; XOC_1243; XOC_1554; XOC_2172; XOC_2608; XOC_2794; XOC_2940; XOC_3255; XOC_3326; XOC_3585; XOC_3587; XOC_3589; XOC_3592; XOC_3700
+PWY0-1319,4,3,CDP-diacylglycerol biosynthesis II,False,XOC_0318; XOC_3075; XOC_4636
+CYSTSYN-PWY,2,3,cysteine biosynthesis I,False,XOC_2071; XOC_3581; XOC_3893
+PWY-6755,6,4,<i>S</i>-methyl-5-thio-&alpha;-D-ribose 1-phosphate degradation I,False,XOC_1852; XOC_2226; XOC_2228; XOC_2718
+PWY-5148,1,1,acyl-CoA hydrolysis,False,XOC_0900
+PWY-6317,6,2,galactose degradation I (Leloir pathway),False,XOC_3425; XOC_3948
+FAO-PWY,7,17,fatty acid &beta;-oxidation I,False,XOC_0306; XOC_0417; XOC_1885; XOC_2238; XOC_2241; XOC_2267; XOC_2423; XOC_2424; XOC_3003; XOC_3189; XOC_3193; XOC_3194; XOC_3195; XOC_3235; XOC_3609; XOC_4546; XOC_4591
+1CMET2-PWY,12,17,formylTHF biosynthesis I,False,XOC_0806; XOC_0857; XOC_0909; XOC_0911; XOC_1102; XOC_1274; XOC_1749; XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_2681; XOC_3666; XOC_4210; XOC_4356; XOC_4360
+PWY0-1021,1,1,alanine biosynthesis III,False,XOC_1472
+PWY4FS-8,3,5,phosphatidylglycerol biosynthesis II (non-plastidic),True,XOC_0318; XOC_2184; XOC_2583; XOC_3075; XOC_4636
+PWY-5970,1,1,fatty acids biosynthesis (yeast),False,XOC_0417
+PHOSLIPSYN-PWY,4,12,phospholipid biosynthesis I,True,XOC_0016; XOC_0205; XOC_0282; XOC_0318; XOC_0388; XOC_2184; XOC_2583; XOC_2656; XOC_2964; XOC_3075; XOC_3827; XOC_4636
+PWY0-381,2,6,glycerol and glycerophosphodiester degradation,True,XOC_0318; XOC_1077; XOC_1199; XOC_4553; XOC_4554; XOC_4681
+PWY-5655,2,7,tryptophan degradation IX,True,XOC_0494; XOC_0933; XOC_1830; XOC_1831; XOC_1833; XOC_2718; XOC_3385
+CHOLINE-BETAINE-ANA-PWY,2,2,choline degradation I,False,XOC_0770; XOC_0771
+PWY0-1353,2,10,succinate to cytochrome <i>bd</i> oxidase electron transfer,False,XOC_1426; XOC_1427; XOC_2600; XOC_2602; XOC_2604; XOC_2733; XOC_2734; XOC_3457; XOC_4006; XOC_4007
+PWY-7185,7,3,UTP and CTP dephosphorylation I,False,XOC_0425; XOC_2797; XOC_4644
+GLYCLEAV-PWY,3,2,glycine cleavage,False,XOC_2877; XOC_3246
+PANTOSYN-PWY,3,8,pantothenate and coenzyme A biosynthesis I,True,XOC_1941; XOC_2169; XOC_2170; XOC_2171; XOC_3515; XOC_4094; XOC_4232; XOC_4312
+ARG-GLU-PWY,2,1,arginine degradation VII (arginase 3 pathway),False,XOC_4304
+ASPARAGINE-DEG1-PWY,1,1,asparagine degradation I,False,XOC_0985
+PWY-6700,4,4,queuosine biosynthesis,False,XOC_0589; XOC_1956; XOC_1957; XOC_2091
+PWY-6336,5,1,protocatechuate degradation III (<I>para</I>-cleavage pathway),False,XOC_0933
+PYRIDOXSYN-PWY,8,6,pyridoxal 5'-phosphate biosynthesis I,False,XOC_0014; XOC_1391; XOC_1883; XOC_2232; XOC_2878; XOC_3592
+PWY-5344,2,7,homocysteine biosynthesis,False,XOC_1782; XOC_1783; XOC_1784; XOC_1785; XOC_1786; XOC_2728; XOC_3219
+PWY0-845,2,7,superpathway of pyridoxal 5'-phosphate biosynthesis and salvage,True,XOC_0014; XOC_1391; XOC_1742; XOC_1883; XOC_2232; XOC_2878; XOC_3592
+BIOTIN-BIOSYNTHESIS-PWY,2,9,biotin biosynthesis I,True,XOC_0409; XOC_1175; XOC_2015; XOC_2362; XOC_3253; XOC_3884; XOC_3947; XOC_4511; XOC_4512
+PWY0-1314,1,1,fructose degradation,False,XOC_1974
+BGALACT-PWY,1,2,lactose degradation III,False,XOC_3201; XOC_3273
+PWY-1801,3,6,formaldehyde oxidation II (glutathione-dependent),False,XOC_0372; XOC_0794; XOC_0796; XOC_0797; XOC_1793; XOC_4010
+SERSYN-PWY,3,3,serine biosynthesis,False,XOC_0060; XOC_2232; XOC_2878
+GLYSYN-THR-PWY,1,1,glycine biosynthesis IV,False,XOC_4210
+SULFATE-CYS-PWY,3,12,superpathway of sulfate assimilation and cysteine biosynthesis,True,XOC_0060; XOC_2071; XOC_2232; XOC_2878; XOC_3568; XOC_3569; XOC_3570; XOC_3571; XOC_3572; XOC_3573; XOC_3581; XOC_3893
+PWY-2661,3,5,trehalose biosynthesis V,False,XOC_0249; XOC_0250; XOC_4411; XOC_4413; XOC_4415
+GLUTAMINEFUM-PWY,1,2,glutamine degradation II,False,XOC_0134; XOC_0135
+AST-PWY,5,2,arginine degradation II (AST pathway),False,XOC_0933; XOC_3688

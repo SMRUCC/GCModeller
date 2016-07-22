@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00621" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Dioxin degradation - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00090" Value="Catechol" />
+    <hashEntry Key="C00108" Value="Anthranilate" />
+    <hashEntry Key="C00180" Value="Benzoate" />
+    <hashEntry Key="C00596" Value="2-Hydroxy-2,4-pentadienoate" />
+    <hashEntry Key="C00805" Value="Salicylate" />
+    <hashEntry Key="C01273" Value="2-Hydroxy-6-oxo-6-phenylhexa-2,4-dienoate" />
+    <hashEntry Key="C02370" Value="4-Chlorobenzoate" />
+    <hashEntry Key="C02501" Value="2-Hydroxymuconate" />
+    <hashEntry Key="C02526" Value="Biphenyl-2,3-diol" />
+    <hashEntry Key="C03453" Value="gamma-Oxalocrotonate" />
+    <hashEntry Key="C03569" Value="2,2',3-Trihydroxybiphenyl" />
+    <hashEntry Key="C03589" Value="4-Hydroxy-2-oxopentanoate" />
+    <hashEntry Key="C06584" Value="4-Chlorobiphenyl" />
+    <hashEntry Key="C06585" Value="cis-2,3-Dihydro-2,3-dihydroxy-4'-chlorobiphenyl" />
+    <hashEntry Key="C06586" Value="2,3-Dihydroxy-4'-chlorobiphenyl" />
+    <hashEntry Key="C06587" Value="2-Hydroxy-6-oxo-6-(4'-chlorophenyl)-hexa-2,4-dienoate" />
+    <hashEntry Key="C06588" Value="Biphenyl" />
+    <hashEntry Key="C06589" Value="cis-2,3-Dihydro-2,3-dihydroxybiphenyl" />
+    <hashEntry Key="C07557" Value="2,3,7,8-Tetrachlorodibenzodioxin" />
+    <hashEntry Key="C07729" Value="Dibenzofuran" />
+    <hashEntry Key="C07731" Value="2-Hydroxy-6-oxo-6-(2-hydroxyphenyl)-hexa-2,4-dienoate" />
+    <hashEntry Key="C07732" Value="Dibenzo-p-dioxin" />
+    <hashEntry Key="C07733" Value="2,2',3-Trihydroxydiphenylether" />
+    <hashEntry Key="C07734" Value="2-Hydroxy-6-oxo-6-(2-hydroxyphenoxy)-hexa-2,4-dienoate" />
+    <hashEntry Key="C08060" Value="Carbazole" />
+    <hashEntry Key="C08061" Value="2'-Aminobiphenyl-2,3-diol" />
+    <hashEntry Key="C08062" Value="2-Hydroxy-6-oxo-(2'-aminophenyl)-hexa-2,4-dienoate" />
+    <hashEntry Key="C11057" Value="3,4,3',4'-Tetrachlorobiphenyl" />
+    <hashEntry Key="C14573" Value="3,3',4,4',5-Pentachlorobiphenyl" />
+    <hashEntry Key="C18099" Value="1,2,3,7,8-Pentachlorodibenzodioxin" />
+    <hashEntry Key="C18100" Value="1,2,3,4,7,8-Hexachlorodibenzodioxin" />
+    <hashEntry Key="C18101" Value="1,2,3,6,7,8-Hexachlorodibenzodioxin" />
+    <hashEntry Key="C18102" Value="1,2,3,7,8,9-Hexachlorodibenzodioxin" />
+    <hashEntry Key="C18103" Value="1,2,3,4,6,7,8-Heptachlorodibenzodioxin" />
+    <hashEntry Key="C18104" Value="2,3,7,8-Tetrachlorodibenzofuran" />
+    <hashEntry Key="C18105" Value="1,2,3,7,8-Pentachlorodibenzofuran" />
+    <hashEntry Key="C18106" Value="2,3,4,7,8-Pentachlorodibenzofuran" />
+    <hashEntry Key="C18107" Value="1,2,3,4,7,8-Hexachlorodibenzofuran" />
+    <hashEntry Key="C18108" Value="1,2,3,7,8,9-Hexachlorodibenzofuran" />
+    <hashEntry Key="C18109" Value="1,2,3,6,7,8-Hexachlorodibenzofuran" />
+    <hashEntry Key="C18110" Value="2,3,4,6,7,8-Hexachlorodibenzofuran" />
+    <hashEntry Key="C18111" Value="1,2,3,4,6,7,8-Heptachlorodibenzofuran" />
+    <hashEntry Key="C18112" Value="1,2,3,4,7,8,9-Heptachlorodibenzofuran" />
+    <hashEntry Key="C18113" Value="1,2,3,4,6,7,8,9-Octachlorodibenzofuran" />
+    <hashEntry Key="C18114" Value="3,4,4',5-Tetrachlorobiphenyl" />
+    <hashEntry Key="C18115" Value="3,4,5,3',4',5'-Hexachlorobiphenyl" />
+    <hashEntry Key="C18116" Value="2,3,4,3',4'-Pentachlorobiphenyl" />
+    <hashEntry Key="C18117" Value="2,3,4,4',5-Pentachlorobiphenyl" />
+    <hashEntry Key="C18118" Value="2,3',4,4',5-Pentachlorobiphenyl" />
+    <hashEntry Key="C18119" Value="2,3',4,4',5'-Pentachlorobiphenyl" />
+    <hashEntry Key="C18120" Value="2,3,3',4,4',5-Hexachlorobiphenyl" />
+    <hashEntry Key="C18121" Value="2,3,3',4,4',5'-Hexachlorobiphenyl" />
+    <hashEntry Key="C18122" Value="2,3',4,4',5,5'-Hexachlorobiphenyl" />
+    <hashEntry Key="C18123" Value="2,3,3',4,4',5,5'-Heptachlorobiphenyl" />
+    <hashEntry Key="C18180" Value="1,2,3,4,6,7,8,9-Octachlorodibenzo-p-dioxin" />
+  </Compound>
+  <PathwayMap Key="eco00621" Value="Dioxin degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0350" Value="mhpD; 2-keto-4-pentenoate hydratase (EC:4.2.1.80); K02554 2-keto-4-pentenoate hydratase [EC:4.2.1.80" />
+    <hashEntry Key="eco:b0351" Value="mhpF; acetaldehyde-CoA dehydrogenase II, NAD-binding (EC:1.2.1.10); K04073 acetaldehyde dehydrogenas" />
+    <hashEntry Key="eco:b0352" Value="mhpE; 4-hyroxy-2-oxovalerate/4-hydroxy-2-oxopentanoic acid aldolase, class I (EC:4.1.3.-); K01666 4-" />
+    <hashEntry Key="eco:b1461" Value="pptA; 4-oxalocrotonate tautomerase (EC:5.3.2.-); K01821 4-oxalocrotonate tautomerase [EC:5.3.2.6]" />
+  </Genes>
+</KEGG.PathwayBrief>

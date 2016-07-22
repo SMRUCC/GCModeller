@@ -55,6 +55,8 @@ Namespace SequenceModel.FASTA
             End If
         End Function
 
+        Public Const SOH As Char = Chr(1)
+
         ''' <summary>
         ''' Loops on each block of data
         ''' </summary>

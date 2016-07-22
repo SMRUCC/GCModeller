@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::9cb8b34f069898d2e1cbe1b695505cc8, ..\GCModeller\core\Bio.Assembly\Test.Project\DEBUG_MAIN.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -37,6 +37,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module DEBUG_MAIN
 
@@ -56,6 +57,21 @@ Module DEBUG_MAIN
     End Sub
 
     Sub Main()
+
+        Dim tax As New NCBI.NcbiTaxonomyTree("G:\temp\NCBI_taxonomy_tree-master\nodes.dmp", "G:\temp\NCBI_taxonomy_tree-master\names.dmp")
+
+        Call tax.GetParent({28384, 131567}).GetJson.__DEBUG_ECHO
+        Call tax.GetRank({28384, 131567}).GetJson.__DEBUG_ECHO
+        Call tax.GetChildren({28384, 131567}).GetJson.__DEBUG_ECHO
+        Call tax.GetName({28384, 131567}).GetJson.__DEBUG_ECHO
+        Call tax.GetAscendantsWithRanksAndNames({1, 562}).getjson.__DEBUG_ECHO
+        Call tax.GetAscendantsWithRanksAndNames({562}, True).GetJson.__DEBUG_ECHO
+        Call tax.GetDescendants(208962, 566).getjson.__DEBUG_ECHO
+        Call tax.GetDescendantsWithRanksAndNames(566).GetJson.__DEBUG_ECHO
+        ' Call tax.GetLeaves(1).Length.__DEBUG_ECHO
+        Call tax.GetLeaves(561).Length.__DEBUG_ECHO
+        Call tax.GetLeavesWithRanksAndNames(561) '.GetJson.__DEBUG_ECHO
+        Call tax.GetTaxidsAtRank("superkingdom").GetJson.__DEBUG_ECHO
 
         Dim ptt As PTT = TabularFormat.PTT.Load("G:\Xanthomonas_campestris_8004_uid15\CP000050.ptt")
         Dim loci As New NucleotideLocation(3769223, 3769149, Strands.Reverse)

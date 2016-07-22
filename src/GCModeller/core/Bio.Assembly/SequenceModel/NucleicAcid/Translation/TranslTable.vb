@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::82193be998216db3e2ebaa38bef383f1, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Language
 
 Namespace SequenceModel.NucleotideModels.Translation
 
@@ -55,26 +56,26 @@ Namespace SequenceModel.NucleotideModels.Translation
     ''' 
     ''' The following genetic codes are described here:
     ''' 
-    ''' •1. The Standard Code
-    ''' •2. The Vertebrate Mitochondrial Code
-    ''' •3. The Yeast Mitochondrial Code
-    ''' •4. The Mold, Protozoan, And Coelenterate Mitochondrial Code And the Mycoplasma/Spiroplasma Code
-    ''' •5. The Invertebrate Mitochondrial Code
-    ''' •6. The Ciliate, Dasycladacean And Hexamita Nuclear Code
-    ''' •9. The Echinoderm And Flatworm Mitochondrial Code
-    ''' •10. The Euplotid Nuclear Code
-    ''' •11. The Bacterial, Archaeal And Plant Plastid Code
-    ''' •12. The Alternative Yeast Nuclear Code
-    ''' •13. The Ascidian Mitochondrial Code
-    ''' •14. The Alternative Flatworm Mitochondrial Code
-    ''' •16. Chlorophycean Mitochondrial Code
-    ''' •21. Trematode Mitochondrial Code
-    ''' •22. Scenedesmus obliquus Mitochondrial Code
-    ''' •23. Thraustochytrium Mitochondrial Code
-    ''' •24. Pterobranchia Mitochondrial Code
-    ''' •25. Candidate Division SR1 And Gracilibacteria Code
+    ''' 1. The Standard Code
+    ''' 2. The Vertebrate Mitochondrial Code
+    ''' 3. The Yeast Mitochondrial Code
+    ''' 4. The Mold, Protozoan, And Coelenterate Mitochondrial Code And the Mycoplasma/Spiroplasma Code
+    ''' 5. The Invertebrate Mitochondrial Code
+    ''' 6. The Ciliate, Dasycladacean And Hexamita Nuclear Code
+    ''' 9. The Echinoderm And Flatworm Mitochondrial Code
+    ''' 10. The Euplotid Nuclear Code
+    ''' 11. The Bacterial, Archaeal And Plant Plastid Code
+    ''' 12. The Alternative Yeast Nuclear Code
+    ''' 13. The Ascidian Mitochondrial Code
+    ''' 14. The Alternative Flatworm Mitochondrial Code
+    ''' 16. Chlorophycean Mitochondrial Code
+    ''' 21. Trematode Mitochondrial Code
+    ''' 22. Scenedesmus obliquus Mitochondrial Code
+    ''' 23. Thraustochytrium Mitochondrial Code
+    ''' 24. Pterobranchia Mitochondrial Code
+    ''' 25. Candidate Division SR1 And Gracilibacteria Code
     ''' 
-    ''' http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25
+    ''' > http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25
     ''' </summary>
     Public Class TranslTable : Implements Generic.IEnumerable(Of KeyValuePair(Of Integer, AminoAcid))
 
@@ -112,7 +113,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         Private Sub __initProfiles(transl_table As Dictionary(Of Codon, AminoAcid))
             _StopCodons = (From codon In transl_table Where codon.Key.IsStopCodon Select codon.Key.TranslHash).ToArray
             _InitCodons = (From codon In transl_table Where codon.Key.IsInitCodon Select codon.Key.TranslHash).ToArray
-            _CodenTable = (From codon As KeyValuePair(Of Codon, AminoAcid) In transl_table
+            _CodenTable = (From codon As KeyValuePair(Of Codon, AminoAcid)
+                           In transl_table
                            Where Not codon.Key.IsStopCodon
                            Select codon) _
                                .ToDictionary(Function(codon) codon.Key.TranslHash,
@@ -306,13 +308,15 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <remarks></remarks>
         Public Function ToCodonCollection(SequenceData As NucleicAcid) As Codon()
             Dim Codons = SequenceData.ToArray.CreateSlideWindows(3, offset:=3)
-            Dim AA = (From Codon In Codons
-                      Let aac As Codon = New Codon With {
-                            .X = Codon.Elements(0),
-                            .Y = Codon.Elements(1),
-                            .Z = Codon.Elements(2)
-                          }
-                      Select aac).ToArray
+            Dim AA As Codon() =
+                LinqAPI.Exec(Of Codon) <= From Codon As SlideWindowHandle(Of DNA)
+                                          In Codons
+                                          Let aac As Codon = New Codon With {
+                                              .X = Codon.Elements(0),
+                                              .Y = Codon.Elements(1),
+                                              .Z = Codon.Elements(2)
+                                          }
+                                          Select aac
             AA = (From codon As Codon
                   In AA
                   Where Array.IndexOf(StopCodons, codon.TranslHash) = -1 ' 由于使用无参数的构造函数构造出来的密码子对象是没有启动和终止的信息的，所以使用当前的翻译表的终止密码表来判断

@@ -40,7 +40,6 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
 Imports SMRUCC.genomics.SequenceModel.SAM
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap
 

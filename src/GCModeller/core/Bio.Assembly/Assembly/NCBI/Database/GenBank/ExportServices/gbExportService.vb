@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::231fdbc7f76a37954b78f2f294f0edb0, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -37,6 +37,8 @@ Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 
 Namespace Assembly.NCBI.GenBank
 
@@ -318,40 +320,52 @@ Namespace Assembly.NCBI.GenBank
             Return ExportList.Count
         End Function
 
+        ''' <summary>
+        ''' Exports CDS feature
+        ''' </summary>
+        ''' <param name="gbk"></param>
+        ''' <returns></returns>
         <Extension> Public Function ExportGeneAnno(gbk As GBFF.File) As GeneDumpInfo()
-            Dim dumps As GeneDumpInfo() = (From FeatureData As Feature
-                                           In gbk.Features._innerList.AsParallel
-                                           Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                                           Select GeneDumpInfo.DumpEXPORT(New CDS(FeatureData))).ToArray
+            Dim dumps As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+ _
+                From feature As Feature
+                In gbk.Features._innerList.AsParallel
+                Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
+                Select GeneDumpInfo.DumpEXPORT(New CDS(feature))
+
             Return dumps
         End Function
 
         <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneDumpInfo()
-            Dim LQuery = (From GeneObject In PTT.GeneObjects.AsParallel
-                          Select New GeneDumpInfo With {
-                              .CDS = "",
-                              .COG = GeneObject.COG,
-                              .CommonName = GeneObject.Gene,
-                              .EC_Number = "-",
-                              .Function = GeneObject.Product,
-                              .GC_Content = 0,
-                              .GeneName = GeneObject.Gene,
-                              .GI = "-",
-                              .GO = "-",
-                              .InterPro = {},
-                              .Left = GeneObject.Location.Left,
-                              .Length = GeneObject.Location.FragmentSize,
-                              .Location = GeneObject.Location,
-                              .LocusID = GeneObject.Synonym,
-                              .ProteinId = GeneObject.Synonym,
-                              .Right = GeneObject.Location.Right,
-                              .Species = "",
-                              .SpeciesAccessionID = "",
-                              .Strand = GeneObject.Location.Strand.ToString,
-                              .Translation = "",
-                              .Transl_Table = "",
-                              .UniprotSwissProt = "",
-                              .UniprotTrEMBL = ""}).ToArray
+            Dim LQuery As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+ _
+                From gene As GeneBrief
+                In PTT.GeneObjects.AsParallel
+                Select New GeneDumpInfo With {
+                    .CDS = "",
+                    .COG = gene.COG,
+                    .CommonName = gene.Gene,
+                    .EC_Number = "-",
+                    .Function = gene.Product,
+                    .GC_Content = 0,
+                    .GeneName = gene.Gene,
+                    .GI = "-",
+                    .GO = "-",
+                    .InterPro = {},
+                    .Left = gene.Location.Left,
+                    .Length = gene.Location.FragmentSize,
+                    .Location = gene.Location,
+                    .LocusID = gene.Synonym,
+                    .ProteinId = gene.Synonym,
+                    .Right = gene.Location.Right,
+                    .Species = "",
+                    .SpeciesAccessionID = "",
+                    .Strand = gene.Location.Strand.ToString,
+                    .Translation = "",
+                    .Transl_Table = "",
+                    .UniprotSwissProt = "",
+                    .UniprotTrEMBL = ""
+                }
             Return LQuery
         End Function
 
@@ -386,37 +400,34 @@ Namespace Assembly.NCBI.GenBank
             Call FlushMemory()
             Call $"There is ""{Source.Length}"" plasmid source will be export...".__DEBUG_ECHO
 
-            For Each GBKFF As GBFF.File In Source
-                Dim GenesTempChunk As GeneDumpInfo() = (From FeatureData As Feature
-                                                        In GBKFF.Features._innerList.AsParallel
-                                                        Where String.Equals(FeatureData.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                                                        Select GeneDumpInfo.DumpEXPORT(New CDS(FeatureData))).ToArray
-                Dim Entry = NCBI.GenBank.CsvExports.Plasmid.Build(GBKFF)
+            For Each gb As GBFF.File In Source
+                Dim cds As GeneDumpInfo() = gb.ExportGeneAnno
+                Dim Entry = NCBI.GenBank.CsvExports.Plasmid.Build(gb)
 
-                Call ExportList.Add(Entry, GBKFF.Origin.SequenceData)
-                Call buf.AddRange(GenesTempChunk)
+                Call ExportList.Add(Entry, gb.Origin.SequenceData)
+                Call buf.AddRange(cds)
 
                 '导出Fasta序列
                 Dim FastaDump As FASTA.FastaFile =
                     If(FastaWithAnnotation,
-                    __exportWithAnnotation(GenesTempChunk),
-                    __exportNoAnnotation(GenesTempChunk))
+                    __exportWithAnnotation(cds),
+                    __exportNoAnnotation(cds))
 
                 If FastaDump.Count > 0 Then
-                    Call FastaDump.Save(String.Format("{0}/plasmid_cds/{1}.fasta", FastaExport, GBKFF.Accession.AccessionId))
+                    Call FastaDump.Save(String.Format("{0}/plasmid_cds/{1}.fasta", FastaExport, gb.Accession.AccessionId))
                     Call FastaFile.AddRange(FastaDump)
                 End If
 
                 Dim Plasmid As New FASTA.FastaToken With {
                         .Attributes = New String() {Entry.AccessionID & "_" & Entry.PlasmidID.Replace("-", "_")},
-                        .SequenceData = GBKFF.Origin.SequenceData.ToUpper
+                        .SequenceData = gb.Origin.SequenceData.ToUpper
                 }
 
                 Call PlasmidList.Add(Plasmid)
-                Call Plasmid.SaveTo(String.Format("{0}/plasmids/{1}.fasta", FastaExport, GBKFF.Accession.AccessionId))
+                Call Plasmid.SaveTo(String.Format("{0}/plasmids/{1}.fasta", FastaExport, gb.Accession.AccessionId))
 
-                Dim Reader As New SequenceModel.NucleotideModels.SegmentReader(GBKFF.Origin.SequenceData, False)
-                Dim GeneFastaDump = CType((From GeneObject In GBKFF.Features._innerList.AsParallel
+                Dim Reader As New SegmentReader(gb.Origin.SequenceData, False)
+                Dim GeneFastaDump = CType((From GeneObject In gb.Features._innerList.AsParallel
                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                            Let loc = GeneObject.Location.ContiguousRegion
                                            Let Sequence As String = Reader.GetSegmentSequence(loc.Left, loc.Right)
@@ -427,7 +438,7 @@ Namespace Assembly.NCBI.GenBank
 
                 If GeneFastaDump.Count > 0 Then
                     Call GeneSequenceList.AddRange(GeneFastaDump.ToArray)
-                    Call GeneFastaDump.Save(String.Format("{0}/plasmid_genes/{1}.fasta", FastaExport, GBKFF.Accession.AccessionId))
+                    Call GeneFastaDump.Save(String.Format("{0}/plasmid_genes/{1}.fasta", FastaExport, gb.Accession.AccessionId))
                     Call GeneFastaDump.FlushData()
                 End If
             Next

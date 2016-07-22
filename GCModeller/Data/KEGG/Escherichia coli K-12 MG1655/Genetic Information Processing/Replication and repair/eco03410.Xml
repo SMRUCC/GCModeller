@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03410" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Base excision repair (BER) is the predominant DNA damage repair pathway for the processing of small base lesions, derived from oxidation and alkylation damages. BER is normally defined as DNA repair initiated by lesion-specific DNA glycosylases and completed by either of the two sub-pathways: short-patch BER where only one nucleotide is replaced and long-patch BER where 2-13 nucleotides are replaced. Each sub-pathway of BER relies on the formation of protein complexes that assemble at the site of the DNA lesion and facilitate repair in a coordinated fashion. This process of complex formation appears to provide an increase in specificity and efficiency to the BER pathway, thereby facilitating the maintenance of genome integrity by preventing the accumulation of highly toxic repair intermediates.&lt;br&gt;</Description>
+  <Name>Base excision repair - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="eco03410" Value="Base excision repair&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0714" Value="nei; endonuclease VIII/5-formyluracil/5-hydroxymethyluracil DNA glycosylase (EC:3.2.-.-); K05522 end" />
+    <hashEntry Key="eco:b1633" Value="nth; DNA glycosylase and apyrimidinic (AP) lyase (endonuclease III) (EC:4.2.99.18); K10773 endonucle" />
+    <hashEntry Key="eco:b1749" Value="xthA; exonuclease III (EC:3.1.11.2); K01142 exodeoxyribonuclease III [EC:3.1.11.2]" />
+    <hashEntry Key="eco:b2068" Value="alkA; 3-methyl-adenine DNA glycosylase II (EC:3.2.2.21); K01247 DNA-3-methyladenine glycosylase II [" />
+    <hashEntry Key="eco:b2159" Value="nfo; endonuclease IV with intrinsic 3&amp;#39;-5&amp;#39; exonuclease activity (EC:3.1.21.2); K01151 deoxyribonuclea" />
+    <hashEntry Key="eco:b2411" Value="ligA; DNA ligase, NAD(+)-dependent (EC:6.5.1.2); K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="eco:b2580" Value="ung; uracil-DNA-glycosylase (EC:3.2.2.-); K03648 uracil-DNA glycosylase [EC:3.2.2.27]" />
+    <hashEntry Key="eco:b2892" Value="recJ; ssDNA exonuclease, 5&amp;#39; --&amp;gt; 3&amp;#39;-specific (EC:3.1.-.-); K07462 single-stranded-DNA-specific exonuc" />
+    <hashEntry Key="eco:b2961" Value="mutY; adenine DNA glycosylase (EC:3.2.2.-); K03575 A/G-specific adenine glycosylase [EC:3.2.2.-]" />
+    <hashEntry Key="eco:b3068" Value="mug; G/U mismatch-specific DNA glycosylase; xanthine DNA glycosylase (EC:3.2.2.-); K03649 TDG/mug DN" />
+    <hashEntry Key="eco:b3549" Value="tag; 3-methyl-adenine DNA glycosylase I, constitutive (EC:3.2.2.20); K01246 DNA-3-methyladenine glyc" />
+    <hashEntry Key="eco:b3635" Value="mutM; formamidopyrimidine/5-formyluracil/5-hydroxymethyluracil DNA glycosylase (EC:3.2.2.23); K10563" />
+    <hashEntry Key="eco:b3647" Value="ligB; DNA ligase, NAD(+)-dependent; K01972 DNA ligase (NAD+) [EC:6.5.1.2]" />
+    <hashEntry Key="eco:b3863" Value="polA; fused DNA polymerase I 5&amp;#39;-&amp;gt;3&amp;#39; polymerase/3&amp;#39;-&amp;gt;5&amp;#39; exonuclease/5&amp;#39;-&amp;gt;3&amp;#39; exonuclease (EC:2.7.7.7); K" />
+  </Genes>
+</KEGG.PathwayBrief>

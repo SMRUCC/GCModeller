@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00130" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Ubiquinone (UQ), also called coenzyme Q, and plastoquinone (PQ) are electron carriers in oxidative phosphorylation and photosynthesis, respectively. The quinoid nucleus of ubiquinone is derived from the shikimate pathway; 4-hydroxybenzoate is directly formed from chorismate in bacteria, while it can be formed from either chorismate or tyrosine in yeast. The following biosynthesis of terpenoid moiety involves reactions of prenylation, decarboxylation, and three hydroxylations alternating with three methylations. The order of these reactions are somewhat different between bacteria and yeast. Phylloquinone (vitamin K1), menaquinone (vitamin K2), and tocopherol (vitamin E) are fat-soluble vitamins. Phylloquinone is a compound present in all photosynthetic plants serving as a cofactor for photosystem I-mediated electron transport. Menaquinone is an obligatory component of the electron-transfer pathway in bacteria.&lt;br&gt;</Description>
+  <Name>Ubiquinone and other terpenoid-quinone biosynthesis - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00116" Value="Menaquinone biosynthesis, chorismate =&gt; menaquinone [PATH:eco00130]" />
+    <hashEntry Key="eco_M00117" Value="Ubiquinone biosynthesis, prokaryotes, chorismate =&gt; ubiquinone [PATH:eco00130]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00156" Value="4-Hydroxybenzoate" />
+    <hashEntry Key="C00223" Value="p-Coumaroyl-CoA" />
+    <hashEntry Key="C00251" Value="Chorismate" />
+    <hashEntry Key="C00341" Value="Geranyl diphosphate" />
+    <hashEntry Key="C00353" Value="Geranylgeranyl diphosphate" />
+    <hashEntry Key="C00399" Value="Ubiquinone" />
+    <hashEntry Key="C00423" Value="trans-Cinnamate" />
+    <hashEntry Key="C00544" Value="Homogentisate" />
+    <hashEntry Key="C00811" Value="4-Coumarate" />
+    <hashEntry Key="C00828" Value="Menaquinone" />
+    <hashEntry Key="C00885" Value="Isochorismate" />
+    <hashEntry Key="C01179" Value="3-(4-Hydroxyphenyl)pyruvate" />
+    <hashEntry Key="C01230" Value="all-trans-Hexaprenyl diphosphate" />
+    <hashEntry Key="C01967" Value="Ubiquinone-9" />
+    <hashEntry Key="C02059" Value="Phylloquinone" />
+    <hashEntry Key="C02477" Value="alpha-Tocopherol" />
+    <hashEntry Key="C02483" Value="gamma-Tocopherol" />
+    <hashEntry Key="C02730" Value="2-Succinylbenzoate" />
+    <hashEntry Key="C02949" Value="4-Hydroxybenzoyl-CoA" />
+    <hashEntry Key="C03160" Value="2-Succinylbenzoyl-CoA" />
+    <hashEntry Key="C03313" Value="Phylloquinol" />
+    <hashEntry Key="C03657" Value="1,4-Dihydroxy-2-naphthoate" />
+    <hashEntry Key="C03672" Value="3-(4-Hydroxyphenyl)lactate" />
+    <hashEntry Key="C03885" Value="3-Nonaprenyl-4-hydroxybenzoate" />
+    <hashEntry Key="C03993" Value="4-(beta-D-Glucosyloxy)benzoate" />
+    <hashEntry Key="C04145" Value="all-trans-Nonaprenyl diphosphate" />
+    <hashEntry Key="C04146" Value="all-trans-Octaprenyl diphosphate" />
+    <hashEntry Key="C05200" Value="3-Hexaprenyl-4,5-dihydroxybenzoate" />
+    <hashEntry Key="C05313" Value="3-Hexaprenyl-4-hydroxy-5-methoxybenzoate" />
+    <hashEntry Key="C05427" Value="Phytyl diphosphate" />
+    <hashEntry Key="C05802" Value="2-Hexaprenyl-6-methoxyphenol" />
+    <hashEntry Key="C05803" Value="2-Hexaprenyl-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C05804" Value="2-Hexaprenyl-3-methyl-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C05805" Value="2-Hexaprenyl-3-methyl-5-hydroxy-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C05807" Value="2-Polyprenylphenol" />
+    <hashEntry Key="C05809" Value="3-Octaprenyl-4-hydroxybenzoate" />
+    <hashEntry Key="C05810" Value="2-Octaprenylphenol" />
+    <hashEntry Key="C05811" Value="2-Octaprenyl-6-hydroxyphenol" />
+    <hashEntry Key="C05812" Value="2-Octaprenyl-6-methoxyphenol" />
+    <hashEntry Key="C05813" Value="2-Octaprenyl-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C05814" Value="2-Octaprenyl-3-methyl-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C05815" Value="2-Octaprenyl-3-methyl-5-hydroxy-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C05817" Value="(1R,6R)-6-Hydroxy-2-succinylcyclohexa-2,4-diene-1-carboxylate" />
+    <hashEntry Key="C05818" Value="2-Demethylmenaquinone" />
+    <hashEntry Key="C05819" Value="Menaquinol" />
+    <hashEntry Key="C05847" Value="all-trans-Polyprenyl diphosphate" />
+    <hashEntry Key="C05848" Value="4-Hydroxy-3-polyprenylbenzoate" />
+    <hashEntry Key="C05849" Value="Vitamin K1 epoxide" />
+    <hashEntry Key="C06986" Value="Spirodilactone" />
+    <hashEntry Key="C10793" Value="Geranylhydroquinone" />
+    <hashEntry Key="C13309" Value="2-Phytyl-1,4-naphthoquinone" />
+    <hashEntry Key="C13425" Value="3-Hexaprenyl-4-hydroxybenzoate" />
+    <hashEntry Key="C14151" Value="delta-Tocopherol" />
+    <hashEntry Key="C14152" Value="beta-Tocopherol" />
+    <hashEntry Key="C14153" Value="alpha-Tocotrienol" />
+    <hashEntry Key="C14154" Value="beta-Tocotrienol" />
+    <hashEntry Key="C14155" Value="gamma-Tocotrienol" />
+    <hashEntry Key="C14156" Value="delta-Tocotrienol" />
+    <hashEntry Key="C15547" Value="1,4-Dihydroxy-2-naphthoyl-CoA" />
+    <hashEntry Key="C15882" Value="2-Methyl-6-phytylquinol" />
+    <hashEntry Key="C15883" Value="2,3-Dimethyl-5-phytylquinol" />
+    <hashEntry Key="C16519" Value="2-Succinyl-5-enolpyruvyl-6-hydroxy-3-cyclohexene-1-carboxylate" />
+    <hashEntry Key="C16695" Value="Plastoquinol-9" />
+    <hashEntry Key="C16999" Value="Futalosine" />
+    <hashEntry Key="C17010" Value="Dehypoxanthine futalosine" />
+    <hashEntry Key="C17017" Value="Cyclic dehypoxanthine futalosine" />
+    <hashEntry Key="C17018" Value="1,4-Dihydroxy-6-naphthoate" />
+    <hashEntry Key="C17412" Value="Shikonin" />
+    <hashEntry Key="C17432" Value="all-trans-Decaprenyl diphosphate" />
+    <hashEntry Key="C17551" Value="2-Polyprenyl-6-hydroxyphenol" />
+    <hashEntry Key="C17552" Value="2-Polyprenyl-6-methoxyphenol" />
+    <hashEntry Key="C17554" Value="3-Polyprenyl-4,5-dihydroxybenzoate" />
+    <hashEntry Key="C17559" Value="3-Polyprenyl-4-hydroxy-5-methoxybenzoate" />
+    <hashEntry Key="C17560" Value="2-Polyprenyl-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C17561" Value="2-Polyprenyl-3-methyl-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C17562" Value="2-Polyprenyl-3-methyl-5-hydroxy-6-methoxy-1,4-benzoquinone" />
+    <hashEntry Key="C17568" Value="Ubiquinone-6" />
+    <hashEntry Key="C17569" Value="Ubiquinone-8" />
+    <hashEntry Key="C17570" Value="2-Methyl-6-solanyl-1,4-benzoquinol" />
+    <hashEntry Key="C18131" Value="Geranyl-hydroxybenzoate" />
+    <hashEntry Key="C18132" Value="3''-Hydroxy-geranylhydroquinone" />
+    <hashEntry Key="C18133" Value="Deoxyshikonin" />
+    <hashEntry Key="C18134" Value="Dihydroechinofuran" />
+    <hashEntry Key="C18135" Value="Dihydroshikonofuran" />
+    <hashEntry Key="C20265" Value="2,3-Epoxymenaquinone" />
+    <hashEntry Key="C20737" Value="6-Geranylgeranyl-2-methylbenzene-1,4-diol" />
+    <hashEntry Key="C20738" Value="6-Geranylgeranyl-2,3-dimethylbenzene-1,4-diol" />
+    <hashEntry Key="C20772" Value="3-[(1-Carboxyvinyl)oxy]benzoate" />
+    <hashEntry Key="C20773" Value="6-Amino-6-deoxyfutalosine" />
+  </Compound>
+  <PathwayMap Key="eco00130" Value="Ubiquinone and other terpenoid-quinone biosynthesis&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0593" Value="entC; isochorismate synthase 1 (EC:5.4.4.2); K02361 isochorismate synthase [EC:5.4.4.2]" />
+    <hashEntry Key="eco:b0662" Value="ubiF; 2-octaprenyl-3-methyl-6-methoxy-1,4-benzoquinol oxygenase (EC:1.14.13.-); K03184 2-octaprenyl-" />
+    <hashEntry Key="eco:b1004" Value="wrbA; NAD(P)H:quinone oxidoreductase; K03809 NAD(P)H dehydrogenase (quinone) [EC:1.6.5.2]" />
+    <hashEntry Key="eco:b1686" Value="menI; 1,4-dihydroxy-2-naphthoyl-CoA hydrolase (EC:3.1.2.28); K19222 1,4-dihydroxy-2-naphthoyl-CoA hy" />
+    <hashEntry Key="eco:b2232" Value="ubiG; bifunctional 3-demethylubiquinone-9 3-methyltransferase/2-octaprenyl-6-hydroxy phenol methylas" />
+    <hashEntry Key="eco:b2260" Value="menE; O-succinylbenzoate-CoA ligase (EC:6.2.1.26); K01911 O-succinylbenzoic acid--CoA ligase [EC:6.2" />
+    <hashEntry Key="eco:b2261" Value="menC; O-succinylbenzoyl-CoA synthase (EC:4.2.1.-); K02549 O-succinylbenzoate synthase [EC:4.2.1.113]" />
+    <hashEntry Key="eco:b2262" Value="menB; dihydroxynaphthoic acid synthetase (EC:4.1.3.36); K01661 naphthoate synthase [EC:4.1.3.36]" />
+    <hashEntry Key="eco:b2263" Value="menH; 2-succinyl-6-hydroxy-2,4-cyclohexadiene-1-carboxylate synthase; K08680 2-succinyl-6-hydroxy-2," />
+    <hashEntry Key="eco:b2264" Value="menD; 2-succinyl-5-enolpyruvyl-6-hydroxy-3-cyclohexene-1-carboxylate synthase; SEPHCHC synthase (EC:" />
+    <hashEntry Key="eco:b2265" Value="menF; isochorismate synthase 2 (EC:5.4.4.2); K02552 menaquinone-specific isochorismate synthase [EC:" />
+    <hashEntry Key="eco:b2311" Value="ubiX; 3-octaprenyl-4-hydroxybenzoate carboxy-lyase (EC:4.1.1.-); K03186 flavin prenyltransferase [EC" />
+    <hashEntry Key="eco:b2906" Value="ubiI; 2-octaprenylphenol hydroxylase, FAD-dependent; K18800 2-octaprenylphenol hydroxylase [EC:1.14." />
+    <hashEntry Key="eco:b2907" Value="ubiH; 2-octaprenyl-6-methoxyphenol hydroxylase, FAD/NAD(P)-binding (EC:1.14.13.-); K03185 2-octapren" />
+    <hashEntry Key="eco:b3833" Value="ubiE; bifunctional 2-octaprenyl-6-methoxy-1,4-benzoquinone methylase/S-adenosylmethionine:2-DMK meth" />
+    <hashEntry Key="eco:b3843" Value="ubiD; 3-octaprenyl-4-hydroxybenzoate decarboxylase (EC:4.1.1.-); K03182 4-hydroxy-3-polyprenylbenzoa" />
+    <hashEntry Key="eco:b3930" Value="menA; 1,4-dihydroxy-2-naphthoate octaprenyltransferase (EC:2.5.1.-); K02548 1,4-dihydroxy-2-naphthoa" />
+    <hashEntry Key="eco:b4039" Value="ubiC; chorismate--pyruvate lyase (EC:4.1.3.-); K03181 chorismate--pyruvate lyase [EC:4.1.3.40]" />
+    <hashEntry Key="eco:b4040" Value="ubiA; p-hydroxybenzoate octaprenyltransferase (EC:2.5.1.-); K03179 4-hydroxybenzoate polyprenyltrans" />
+    <hashEntry Key="eco:b4211" Value="qorB; NAD(P)H:quinone oxidoreductase; K19267 NAD(P)H dehydrogenase (quinone) [EC:1.6.5.2]" />
+  </Genes>
+</KEGG.PathwayBrief>

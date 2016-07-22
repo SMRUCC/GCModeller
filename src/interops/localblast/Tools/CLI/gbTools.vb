@@ -165,21 +165,38 @@ Partial Module CLI
 
     <ExportAPI("/Export.gb",
                Info:="Export the *.fna, *.faa, *.ptt file from the gbk file.",
-               Usage:="/Export.gb /gb <genbank.gb> [/out <outDIR>]")>
+               Usage:="/Export.gb /gb <genbank.gb/DIR> [/out <outDIR> /simple /batch]")>
+    <ParameterInfo("/simple", True, AcceptTypes:={GetType(Boolean)},
+                   Description:="Fasta sequence short title, which is just only contains locus_tag")>
     Public Function ExportPTTDb(args As CommandLine.CommandLine) As Integer
         Dim gb As String = args("/gb")
-        Dim out As String = args.GetValue("/out", args("/gb").TrimFileExt)
+        Dim batch As Boolean = args.GetBoolean("/batch")
+        Dim simple As Boolean = args.GetBoolean("/simple")
 
-        For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
-            Call x.__exportTo(out)
-        Next
+        If batch Then
+            Dim EXPORT As String = args.GetValue("/out", gb.TrimDIR & ".EXPORT")
+
+            For Each file As String In ls - l - r - wildcards("*.gb", "*.gbff", "*.gbk") <= gb
+                Dim out As String = file.TrimFileExt
+
+                For Each x As GBFF.File In GBFF.File.LoadDatabase(file)
+                    Call x.__exportTo(out, simple)
+                Next
+            Next
+        Else
+            Dim out As String = args.GetValue("/out", args("/gb").TrimFileExt)
+
+            For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
+                Call x.__exportTo(out, simple)
+            Next
+        End If
 
         Return 0
     End Function
 
-    <Extension> Private Sub __exportTo(gb As GBFF.File, out As String)
+    <Extension> Private Sub __exportTo(gb As GBFF.File, out As String, simple As Boolean)
         Dim PTT As TabularFormat.PTT = gb.GbffToORF_PTT
-        Dim Faa As New FastaFile(gb.ExportProteins)
+        Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaToken = gb.Origin.ToFasta
         Dim GFF As TabularFormat.GFF = gb.ToGff
         Dim name As String = gb.Source.SpeciesName  ' 

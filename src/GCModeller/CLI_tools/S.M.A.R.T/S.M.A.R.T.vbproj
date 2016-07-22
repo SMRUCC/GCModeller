@@ -202,7 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLI\MPAlignment.vb" />
-    <Compile Include="DrawingPDB.vb" />
     <Compile Include="ShellScriptAPI.vb" />
     <Compile Include="DomainVisualize.vb" />
     <Compile Include="DomainArchitecture\DomainQuery.vb" />

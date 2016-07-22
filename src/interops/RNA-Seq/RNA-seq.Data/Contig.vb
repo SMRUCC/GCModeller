@@ -30,7 +30,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
+Imports SMRUCC.genomics.SequenceModel.SAM
 
 Public Class Contig : Inherits NucleotideModels.Contig
     Implements IAbstractFastaToken

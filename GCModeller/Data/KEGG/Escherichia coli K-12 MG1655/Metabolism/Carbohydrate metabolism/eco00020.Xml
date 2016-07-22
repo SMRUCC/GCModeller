@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00020" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The citrate cycle (TCA cycle, Krebs cycle) is an important aerobic pathway for the final steps of the oxidation of carbohydrates and fatty acids. The cycle starts with acetyl-CoA, the activated form of acetate, derived from glycolysis and pyruvate oxidation for carbohydrates and from beta oxidation of fatty acids. The two-carbon acetyl group in acetyl-CoA is transferred to the four-carbon compound of oxaloacetate to form the six-carbon compound of citrate. In a series of reactions two carbons in citrate are oxidized to CO2 and the reaction pathway supplies NADH for use in the oxidative phosphorylation and other metabolic processes. The pathway also supplies important precursor metabolites including 2-oxoglutarate. At the end of the cycle the remaining four-carbon part is transformed back to oxaloacetate. According to the genome sequence data, many organisms seem to lack genes for the full cycle [MD:M00009], but contain genes for specific segments [MD:M00010 M00011].&lt;br&gt;</Description>
+  <Name>Citrate cycle (TCA cycle) - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00003" Value="Gluconeogenesis, oxaloacetate =&gt; fructose-6P [PATH:eco00020]" />
+    <hashEntry Key="eco_M00009" Value="Citrate cycle (TCA cycle, Krebs cycle) [PATH:eco00020]" />
+    <hashEntry Key="eco_M00010" Value="Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate [PATH:eco00020]" />
+    <hashEntry Key="eco_M00011" Value="Citrate cycle, second carbon oxidation, 2-oxoglutarate =&gt; oxaloacetate [PATH:eco00020]" />
+    <hashEntry Key="eco_M00307" Value="Pyruvate oxidation, pyruvate =&gt; acetyl-CoA [PATH:eco00020]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00068" Value="Thiamin diphosphate" />
+    <hashEntry Key="C00074" Value="Phosphoenolpyruvate" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00149" Value="(S)-Malate" />
+    <hashEntry Key="C00158" Value="Citrate" />
+    <hashEntry Key="C00311" Value="Isocitrate" />
+    <hashEntry Key="C00417" Value="cis-Aconitate" />
+    <hashEntry Key="C05125" Value="2-(alpha-Hydroxyethyl)thiamine diphosphate" />
+    <hashEntry Key="C05379" Value="Oxalosuccinate" />
+    <hashEntry Key="C05381" Value="3-Carboxy-1-hydroxypropyl-ThPP" />
+    <hashEntry Key="C15972" Value="Enzyme N6-(lipoyl)lysine" />
+    <hashEntry Key="C15973" Value="Enzyme N6-(dihydrolipoyl)lysine" />
+    <hashEntry Key="C16254" Value="[Dihydrolipoyllysine-residue succinyltransferase] S-succinyldihydrolipoyllysine" />
+    <hashEntry Key="C16255" Value="[Dihydrolipoyllysine-residue acetyltransferase] S-acetyldihydrolipoyllysine" />
+  </Compound>
+  <PathwayMap Key="eco00020" Value="Citrate cycle (TCA cycle)&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0114" Value="aceE; pyruvate dehydrogenase, decarboxylase component E1, thiamine triphosphate-binding (EC:1.2.4.1)" />
+    <hashEntry Key="eco:b0115" Value="aceF; pyruvate dehydrogenase, dihydrolipoyltransacetylase component E2 (EC:2.3.1.12); K00627 pyruvat" />
+    <hashEntry Key="eco:b0116" Value="lpd; lipoamide dehydrogenase, E3 component is part of three enzyme complexes (EC:1.8.1.4); K00382 di" />
+    <hashEntry Key="eco:b0118" Value="acnB; bifunctional aconitate hydratase 2/2-methylisocitrate dehydratase (EC:4.2.1.3 4.2.1.99); K0168" />
+    <hashEntry Key="eco:b0720" Value="gltA; citrate synthase (EC:2.3.3.1); K01647 citrate synthase [EC:2.3.3.1]" />
+    <hashEntry Key="eco:b0721" Value="sdhC; succinate dehydrogenase, membrane subunit, binds cytochrome b556; K00241 succinate dehydrogena" />
+    <hashEntry Key="eco:b0722" Value="sdhD; succinate dehydrogenase, membrane subunit, binds cytochrome b556; K00242 succinate dehydrogena" />
+    <hashEntry Key="eco:b0723" Value="sdhA; succinate dehydrogenase, flavoprotein subunit (EC:1.3.99.1); K00239 succinate dehydrogenase /" />
+    <hashEntry Key="eco:b0724" Value="sdhB; succinate dehydrogenase, FeS subunit (EC:1.3.99.1); K00240 succinate dehydrogenase / fumarate" />
+    <hashEntry Key="eco:b0726" Value="sucA; 2-oxoglutarate decarboxylase, thiamine triphosphate-binding (EC:1.2.4.2); K00164 2-oxoglutarat" />
+    <hashEntry Key="eco:b0727" Value="sucB; dihydrolipoyltranssuccinase (EC:2.3.1.61); K00658 2-oxoglutarate dehydrogenase E2 component (d" />
+    <hashEntry Key="eco:b0728" Value="sucC; succinyl-CoA synthetase, beta subunit (EC:6.2.1.5); K01903 succinyl-CoA synthetase beta subuni" />
+    <hashEntry Key="eco:b0729" Value="sucD; succinyl-CoA synthetase, NAD(P)-binding, alpha subunit (EC:6.2.1.5); K01902 succinyl-CoA synth" />
+    <hashEntry Key="eco:b0771" Value="ybhJ; putative hydratase; K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="eco:b1136" Value="icd; e14 prophage; isocitrate dehydrogenase, specific for NADP+ (EC:1.1.1.42); K00031 isocitrate deh" />
+    <hashEntry Key="eco:b1276" Value="acnA; aconitate hydratase 1 (EC:4.2.1.3); K01681 aconitate hydratase [EC:4.2.1.3]" />
+    <hashEntry Key="eco:b1378" Value="pfo; pyruvate-flavodoxin oxidoreductase; K03737 pyruvate-ferredoxin/flavodoxin oxidoreductase [EC:1." />
+    <hashEntry Key="eco:b1611" Value="fumC; fumarate hydratase (fumarase C),aerobic Class II (EC:4.2.1.2); K01679 fumarate hydratase, clas" />
+    <hashEntry Key="eco:b1612" Value="fumA; fumarate hydratase (fumarase A), aerobic Class I (EC:4.2.1.2); K01676 fumarate hydratase, clas" />
+    <hashEntry Key="eco:b2210" Value="mqo; malate dehydrogenase, FAD/NAD(P)-binding domain (EC:1.1.5.4); K00116 malate dehydrogenase (quin" />
+    <hashEntry Key="eco:b3236" Value="mdh; malate dehydrogenase, NAD(P)-binding (EC:1.1.1.37); K00024 malate dehydrogenase [EC:1.1.1.37]" />
+    <hashEntry Key="eco:b3403" Value="pck; phosphoenolpyruvate carboxykinase (EC:4.1.1.49); K01610 phosphoenolpyruvate carboxykinase (ATP)" />
+    <hashEntry Key="eco:b4122" Value="fumB; anaerobic class I fumarate hydratase (fumarase B) (EC:4.2.1.2); K01676 fumarate hydratase, cla" />
+    <hashEntry Key="eco:b4151" Value="frdD; fumarate reductase (anaerobic), membrane anchor subunit; K00247 fumarate reductase subunit D" />
+    <hashEntry Key="eco:b4152" Value="frdC; fumarate reductase (anaerobic), membrane anchor subunit; K00246 fumarate reductase subunit C" />
+    <hashEntry Key="eco:b4153" Value="frdB; fumarate reductase (anaerobic), Fe-S subunit (EC:1.3.99.1); K00245 fumarate reductase iron-sul" />
+    <hashEntry Key="eco:b4154" Value="frdA; fumarate reductase (anaerobic) catalytic and NAD/flavoprotein subunit (EC:1.3.99.1); K00244 fu" />
+  </Genes>
+</KEGG.PathwayBrief>

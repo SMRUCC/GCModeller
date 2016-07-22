@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::a43ff5593095935df86df030f2b2274b, ..\interops\RNA-Seq\RNA-seq.Data\SAM\SAM.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,11 +30,12 @@ Imports System.IO
 Imports System.Text
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal.Utility
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.SAM
 
 Namespace SAM
 
@@ -88,16 +89,6 @@ Namespace SAM
         ''' <returns></returns>
         Public Property AlignmentsReads As AlignmentReads()
 
-        <XmlIgnore> <ScriptIgnore>
-        Public Shadows Property FilePath As String
-            Get
-                Return MyBase.FilePath
-            End Get
-            Set(value As String)
-                MyBase.FilePath = value
-            End Set
-        End Property
-
 #Region "SAM Parser"
 
         ''' <summary>
@@ -141,10 +132,14 @@ Namespace SAM
         ''' </summary>
         ''' <returns></returns>
         Public Function TrimUnmappedReads() As SAM
-            Dim mapped As AlignmentReads() = (From Reads As AlignmentReads
-                                              In Me.AlignmentsReads.AsParallel
-                                              Where Reads.IsUnmappedReads  '这个符号表示没有被Mapping到
-                                              Select Reads).ToArray
+            Dim mapped As AlignmentReads() =
+                LinqAPI.Exec(Of AlignmentReads) <=
+ _
+                    From reads As AlignmentReads
+                    In Me.AlignmentsReads.AsParallel
+                    Where reads.IsUnmappedReads  ' 这个符号表示没有被Mapping到
+                    Select reads
+
             Return New SAM With {
                 .Head = Head,
                 .AlignmentsReads = mapped,
@@ -156,11 +151,12 @@ Namespace SAM
         ''' 对当前的这个Mapping之中的Reads进行装配
         ''' </summary>
         Public Sub Assembling(ByRef Forwards As Contig()， ByRef Reversed As Contig(), Optional TrimError As Boolean = True)
-            Dim AlignmentReads As DocumentElements.AlignmentReads() = Me.AlignmentsReads.ToArray
+            Dim AlignmentReads As AlignmentReads() = Me.AlignmentsReads.ToArray
 
             If TrimError Then
                 AlignmentReads = (From ReadMapping In AlignmentReads.AsParallel
-                                  Where Not ReadMapping.IsUnmappedReads AndAlso Not ReadMapping.LowQuality
+                                  Where Not ReadMapping.IsUnmappedReads AndAlso
+                                      Not ReadMapping.LowQuality
                                   Select ReadMapping).ToArray  '筛选出前面三个碱基没有包含错误，并且片段长度大于等于18的Reads
             End If
 

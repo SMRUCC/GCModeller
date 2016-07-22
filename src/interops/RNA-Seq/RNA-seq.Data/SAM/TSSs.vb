@@ -32,7 +32,6 @@ Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.SAM
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
 
 <[Namespace]("TSSs.Analysis")>
 Module SAM_TSSs

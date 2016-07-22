@@ -44,7 +44,8 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         Implements IEnumerable(Of Char)
 
         ''' <summary>
-        ''' The sequence data that stores in this GenBank database, which can be a genomics DNA sequence, protein sequence or RNA sequence.(序列数据，类型可以包括基因组DNA序列，蛋白质序列或者RNA序列)
+        ''' The sequence data that stores in this GenBank database, which can be a genomics DNA sequence, protein sequence or RNA sequence.
+        ''' (序列数据，类型可以包括基因组DNA序列，蛋白质序列或者RNA序列)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -58,13 +59,24 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
                     __sequenceParser = New SegmentReader(value)
                 Catch ex As Exception
                     __sequenceParser = New SegmentReader(NucleicAcid.CopyNT(value))
-                    Call $"[WARN] The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N...".__DEBUG_ECHO
+                    Call InvalidWarns.Warning
                 End Try
             End Set
         End Property
 
+        ''' <summary>
+        ''' The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N... 
+        ''' for <see cref="SequenceData"/>
+        ''' </summary>
+        Const InvalidWarns As String = "The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N..."
+
         Dim __sequenceParser As SegmentReader
 
+        ''' <summary>
+        ''' ``<see cref="SequenceData"/> -> index``
+        ''' </summary>
+        ''' <param name="index"></param>
+        ''' <returns></returns>
         Default Public ReadOnly Property [Char](index As Long) As Char
             Get
                 Return SequenceData(index)
@@ -146,13 +158,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ToFasta() As FastaToken
-            Dim attrs As String() = {"GBK_ORIGIN", "Length=" & Len(SequenceData)}
+            Dim attrs As String() = {Title & " " & Len(SequenceData) & "bp"}
             Return New FastaToken(attrs, SequenceData)
         End Function
 
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
             Get
-                Return "GBK_ORIGIN"
+                Return MyBase.gbRaw.Definition.Value
             End Get
         End Property
 

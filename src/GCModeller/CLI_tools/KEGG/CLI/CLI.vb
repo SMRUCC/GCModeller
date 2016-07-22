@@ -1,42 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::67605fd50af799ecd160fafb60502fae, ..\GCModeller\CLI_tools\KEGG\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports System.Text
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.Assembly.KEGG
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <Cite(Title:="KAAS: an automatic genome annotation and pathway reconstruction server", PubMed:=17526522,
       DOI:="10.1093/nar/gkm321",
@@ -123,7 +126,7 @@ Module CLI
 
         For Each seq In query
             Dim path As String = $"{out}/{seq.Title.NormalizePathString(False)}.csv"
-            Dim result = KEGG.Blastn.Submit(seq)
+            Dim result = KEGG_tools.Blastn.Submit(seq)
             Call result.SaveTo(path)
         Next
 
@@ -224,7 +227,7 @@ Module CLI
                                        Group By entry.SpeciesId Into Group) _
                                                .ToDictionary(Function(obj) obj.SpeciesId,
                                                              Function(obj) obj.Group.First)).ToArray
-        Dim File As DocumentStream.File = New DocumentStream.File
+        Dim File As New DocumentStream.File
         Dim MatrixBuilder As New DocumentStream.File
 
         Call File.AppendLine({"sp.Class", "sp.Kingdom", "sp.Phylum", "sp.KEGGId"})
@@ -241,7 +244,7 @@ Module CLI
         '    Call MatrixBuilder.Last.Add("Class." & cls)
         'Next
 
-        For Each sp As DBGET.bGetObject.Organism.Organism In {OrganismList.Eukaryotes, OrganismList.Prokaryote}.MatrixAsIterator
+        For Each sp As DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.ToList + OrganismList.Prokaryote
             Call File.Add(New String() {sp.Class, sp.Kingdom, sp.Phylum, sp.KEGGId})
             Call MatrixBuilder.AppendLine({sp.Class, sp.KEGGId})
 
@@ -339,7 +342,7 @@ Module CLI
             Dim entry As String = Entries(i)
 
             Try
-                Dim orthology = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(entry)
+                Dim orthology = bGetObject.SSDB.API.Query(entry)
 
                 Call LocalMySQL.Update(orthology)
                 Call orthology.GetXml.SaveTo(stateFile)
@@ -392,7 +395,7 @@ Module CLI
     Public Function Download16SRNA(args As CommandLine.CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory & "/")
         Dim fasta As FASTA.FastaFile = Download16S_rRNA(outDIR)
-        Return fasta.Save($"{outDIR}/16S_rRNA.fasta", System.Text.Encoding.ASCII).CLICode
+        Return fasta.Save($"{outDIR}/16S_rRNA.fasta", Encoding.ASCII).CLICode
     End Function
 
     <ExportAPI("/Fasta.By.Sp",
@@ -409,8 +412,8 @@ Module CLI
             Let tag As String = fa.Attributes(Scan0).Split(":"c).First.ToLower
             Where splist.IndexOf(tag) > -1
             Select fa '
-        fasta = New FASTA.FastaFile(LQuery)
-        Return fasta.Save(out, Encoding.ASCII)
+
+        Return New FASTA.FastaFile(LQuery).Save(out, Encoding.ASCII)
     End Function
 
     <ExportAPI("Download.Sequence", Usage:="Download.Sequence /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
@@ -453,8 +456,23 @@ Module CLI
             End If
         Next
 
-        Dim Merge = (From fa As String In lstFiles Where fa.FileExists Select New FASTA.FastaToken(fa)).ToArray
-        Call New FASTA.FastaFile(Merge).Save(out & ".fasta")
+        Dim result = LinqAPI.Exec(Of FastaToken) <=
+            From fa As String
+            In lstFiles
+            Where fa.FileExists
+            Select New FastaToken(fa)
+
+        Return New FastaFile(result).Save(out & ".fasta")
+    End Function
+
+    <ExportAPI("/Download.Pathway.Maps",
+               Usage:="/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
+    Public Function DownloadPathwayMaps(args As CommandLine.CommandLine) As Integer
+        Dim sp As String = args("/sp")
+        Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
+        Dim all = LinkDB.Pathways.AllEntries(sp).ToArray
+
+        Call LinkDB.Pathways.Downloads(sp, EXPORT).ToArray
 
         Return 0
     End Function

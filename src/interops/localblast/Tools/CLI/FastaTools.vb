@@ -1,10 +1,19 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Threading
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module CLI
 
@@ -51,5 +60,79 @@ Partial Module CLI
         End Using
 
         Return 0
+    End Function
+
+    Const Interval As String = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+
+    <ExportAPI("/Contacts", Usage:="/Contacts /in <in.fasta> [/out <out.DIR>]")>
+    Public Function Contacts(args As CommandLine) As Integer
+        Dim [in] As String = args - "/in"
+        Dim i As Integer = 1
+        Dim contigs As New List(Of SimpleSegment)
+        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Contigs/")
+        Dim outNt As String = out & "/nt.fasta"
+        Dim outContigs As String = out & "/contigs.csv"
+        Dim il As Integer = Interval.Length
+
+        Call "".SaveTo(outNt)
+
+        Using writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate), Encoding.ASCII)
+
+            Call writer.WriteLine("> " & [in].BaseName)
+
+            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+                Call writer.Write(fa.SequenceData)
+                Call writer.Write(Interval)
+
+                Dim nx As Integer = i + fa.Length
+
+                contigs += New SimpleSegment With {
+                    .Start = i,
+                    .Ends = nx,
+                    .ID = fa.ToString,
+                    .Strand = "+"
+                }
+                i = nx + il
+
+                ' Call Console.Write(".")
+            Next
+
+            Call contigs.SaveTo(outContigs)
+        End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Taxonomy.efetch", Usage:="/Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]")>
+    Public Function FetchTaxnData(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy.efetch/")
+        Dim reader As New StreamIterator([in])
+        Dim i As New Pointer
+
+        For Each result In reader.ReadStream.efetch
+            Dim out As String = $"{EXPORT}/part{++i}.Xml"
+            Call result.SaveAsXml(out)
+            Call Console.Write("|")
+            Call Thread.Sleep(1500)
+        Next
+
+        Return App.SelfFolk($"{GetType(CLI).API(NameOf(MergeFetchTaxonData))} /in {EXPORT.CliPath}").Run
+    End Function
+
+    <ExportAPI("/Taxonomy.efetch.Merge", Usage:="/Taxonomy.efetch.Merge /in <in.DIR> [/out <out.Csv>]")>
+    Public Function MergeFetchTaxonData(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in] & "/Taxonomy.efetch.Merge.Csv")
+
+        Using writer As New WriteStream(Of SeqBrief)(out)
+            For Each file As String In ls - l - r - wildcards("*.Xml") <= [in]
+                Dim xml = file.LoadXml(Of TSeqSet)
+                Dim info = xml.TSeq.ToArray(Function(x) DirectCast(x, SeqBrief))
+                Call writer.Flush(info)
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module

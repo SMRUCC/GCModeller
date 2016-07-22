@@ -80,10 +80,10 @@ Namespace SequenceModel.NucleotideModels
         ''' 
         <ExportAPI("CompositionVector")>
         Public Function GetCompositionVector(Sequence As Char()) As Integer()
-            Dim A As Integer = (From ch In Sequence Where ch = "A"c Select 1).ToArray.Count
-            Dim T As Integer = (From ch In Sequence Where ch = "T"c Select 1).ToArray.Count
-            Dim G As Integer = (From ch In Sequence Where ch = "G"c Select 1).ToArray.Count
-            Dim C As Integer = (From ch In Sequence Where ch = "C"c Select 1).ToArray.Count
+            Dim A As Integer = (From ch In Sequence Where ch = "A"c Select 1).Count
+            Dim T As Integer = (From ch In Sequence Where ch = "T"c Select 1).Count
+            Dim G As Integer = (From ch In Sequence Where ch = "G"c Select 1).Count
+            Dim C As Integer = (From ch In Sequence Where ch = "C"c Select 1).Count
 
             Return New Integer() {A, T, G, C}
         End Function
@@ -152,7 +152,8 @@ Namespace SequenceModel.NucleotideModels
         Private Function __contentCommon(SequenceModel As I_PolymerSequenceModel,
                                          SlideWindowSize As Integer,
                                          Steps As Integer,
-                                         Circular As Boolean, base As Char()) As Double()
+                                         Circular As Boolean,
+                                         base As Char()) As Double()
             If Circular Then
                 Return __circular(SequenceModel, SlideWindowSize, Steps, base)
             Else
@@ -222,14 +223,14 @@ Namespace SequenceModel.NucleotideModels
         <ExportAPI("GCSkew", Info:="Calculation the GC skew of a specific nucleotide acid sequence.")>
         Public Function GCSkew(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Dim SequenceData As String = SequenceModel.SequenceData.ToUpper
-            Dim ChunkBuffer As List(Of Double) = New List(Of Double)
+            Dim bufs As New List(Of Double)
 
             If Circular Then
                 For i As Integer = 1 To SequenceData.Length - SlideWindowSize Step Steps
                     Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
                     Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
                     Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
-                    Call ChunkBuffer.Add((G - C) / (G + C))
+                    Call bufs.Add((G - C) / (G + C))
                 Next
                 For i As Integer = SequenceData.Length - SlideWindowSize + 1 To SequenceData.Length Step Steps
                     Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
@@ -237,19 +238,19 @@ Namespace SequenceModel.NucleotideModels
                     Segment &= Mid(SequenceData, 1, l)
                     Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
                     Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
-                    Call ChunkBuffer.Add((G - C) / (G + C))
+                    Call bufs.Add((G - C) / (G + C))
                 Next
             Else
                 For i As Integer = 1 To SequenceData.Length Step Steps
                     Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
                     Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
                     Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
-                    Call ChunkBuffer.Add((G - C) / (G + C))
+                    Call bufs.Add((G - C) / (G + C))
                 Next
             End If
 
-            ChunkBuffer = (From n As Double In ChunkBuffer Select __NAHandle(n, SlideWindowSize)).ToList '碱基之间是有顺序的，故而不适用并行化拓展
-            Return ChunkBuffer.ToArray
+            bufs = (From n As Double In bufs Select __NAHandle(n, SlideWindowSize)).ToList '碱基之间是有顺序的，故而不适用并行化拓展
+            Return bufs.ToArray
         End Function
 
         Private Function __NAHandle(n As Double, SlideWindowSize As Integer) As Double

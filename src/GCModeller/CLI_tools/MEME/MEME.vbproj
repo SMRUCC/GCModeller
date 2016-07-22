@@ -31,7 +31,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\GCModeller-x64\</OutputPath>
+    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
     <DocumentationFile>MEME.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
@@ -255,6 +255,10 @@
       <Project>{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}</Project>
       <Name>ReportBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\annoTools\DataTools\DataTools.vbproj">
+      <Project>{7e6df33f-feb0-447f-b656-a51acd00e888}</Project>
+      <Name>DataTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
@@ -294,10 +298,6 @@
     <ProjectReference Include="..\..\analysis\ProteinTools\ProteinTools.Interactions\ProteinTools.Interactions.vbproj">
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
       <Name>ProteinTools.Interactions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Annotation\AnnotationTools.vbproj">
-      <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
-      <Name>AnnotationTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03020" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>RNA polymerase - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00183" Value="RNA polymerase, bacteria [PATH:eco03020]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="eco03020" Value="RNA polymerase&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b3295" Value="rpoA; RNA polymerase, alpha subunit (EC:2.7.7.6); K03040 DNA-directed RNA polymerase subunit alpha [" />
+    <hashEntry Key="eco:b3649" Value="rpoZ; RNA polymerase, omega subunit (EC:2.7.7.6); K03060 DNA-directed RNA polymerase subunit omega [" />
+    <hashEntry Key="eco:b3987" Value="rpoB; RNA polymerase, beta subunit (EC:2.7.7.6); K03043 DNA-directed RNA polymerase subunit beta [EC" />
+    <hashEntry Key="eco:b3988" Value="rpoC; RNA polymerase, beta prime subunit (EC:2.7.7.6); K03046 DNA-directed RNA polymerase subunit be" />
+  </Genes>
+</KEGG.PathwayBrief>

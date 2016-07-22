@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco01040" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Biosynthesis of unsaturated fatty acids - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound>
+    <hashEntry Key="C00154" Value="Palmitoyl-CoA" />
+    <hashEntry Key="C00219" Value="Arachidonate" />
+    <hashEntry Key="C00249" Value="Hexadecanoic acid" />
+    <hashEntry Key="C00412" Value="Stearoyl-CoA" />
+    <hashEntry Key="C00510" Value="Oleoyl-CoA" />
+    <hashEntry Key="C00712" Value="(9Z)-Octadecenoic acid" />
+    <hashEntry Key="C01203" Value="Oleoyl-[acyl-carrier protein]" />
+    <hashEntry Key="C01530" Value="Octadecanoic acid" />
+    <hashEntry Key="C01595" Value="Linoleate" />
+    <hashEntry Key="C02041" Value="Eicosanoyl-CoA" />
+    <hashEntry Key="C02050" Value="Linoleoyl-CoA" />
+    <hashEntry Key="C02249" Value="Arachidonyl-CoA" />
+    <hashEntry Key="C03035" Value="gamma-Linolenoyl-CoA" />
+    <hashEntry Key="C03242" Value="(8Z,11Z,14Z)-Icosatrienoic acid" />
+    <hashEntry Key="C03595" Value="8,11,14-Eicosatrienoyl-CoA" />
+    <hashEntry Key="C04088" Value="Octadecanoyl-[acyl-carrier protein]" />
+    <hashEntry Key="C05764" Value="Hexadecanoyl-[acp]" />
+    <hashEntry Key="C06425" Value="Icosanoic acid" />
+    <hashEntry Key="C06426" Value="(6Z,9Z,12Z)-Octadecatrienoic acid" />
+    <hashEntry Key="C06427" Value="(9Z,12Z,15Z)-Octadecatrienoic acid" />
+    <hashEntry Key="C06428" Value="(5Z,8Z,11Z,14Z,17Z)-Icosapentaenoic acid" />
+    <hashEntry Key="C06429" Value="(4Z,7Z,10Z,13Z,16Z,19Z)-Docosahexaenoic acid" />
+    <hashEntry Key="C08281" Value="Docosanoic acid" />
+    <hashEntry Key="C08316" Value="Erucic acid" />
+    <hashEntry Key="C08320" Value="Tetracosanoic acid" />
+    <hashEntry Key="C08323" Value="(15Z)-Tetracosenoic acid" />
+    <hashEntry Key="C16160" Value="Linoleoyl-[acyl-carrier protein]" />
+    <hashEntry Key="C16161" Value="alpha-Linolenoyl-ACP" />
+    <hashEntry Key="C16162" Value="(9Z,12Z,15Z)-Octadecatrienoyl-CoA" />
+    <hashEntry Key="C16163" Value="(6Z,9Z,12Z,15Z)-Octadecatetraenoyl-CoA" />
+    <hashEntry Key="C16164" Value="(8Z,11Z,14Z,17Z)-Icosatetraenoyl-CoA" />
+    <hashEntry Key="C16165" Value="(5Z,8Z,11Z,14Z,17Z)-Icosapentaenoyl-CoA" />
+    <hashEntry Key="C16166" Value="(7Z,10Z,13Z,16Z,19Z)-Docosapentaenoyl-CoA" />
+    <hashEntry Key="C16167" Value="(9Z,12Z,15Z,18Z,21Z)-Tetracosapentaenoyl-CoA" />
+    <hashEntry Key="C16168" Value="(6Z,9Z,12Z,15Z,18Z,21Z)-Tetracosahexaenoyl-CoA" />
+    <hashEntry Key="C16169" Value="(4Z,7Z,10Z,13Z,16Z,19Z)-Docosahexaenoyl-CoA" />
+    <hashEntry Key="C16170" Value="(7Z,10Z,13Z,16Z)-Docosatetraenoyl-CoA" />
+    <hashEntry Key="C16171" Value="(9Z,12Z,15Z,18Z)-Tetracosatetraenoyl-CoA" />
+    <hashEntry Key="C16172" Value="(6Z,9Z,12Z,15Z,18Z)-Tetracosapentaenoyl-CoA" />
+    <hashEntry Key="C16173" Value="(4Z,7Z,10Z,13Z,16Z)-Docosapentaenoyl-CoA" />
+    <hashEntry Key="C16179" Value="(11Z,14Z,17Z)-Icosatrienoyl-CoA" />
+    <hashEntry Key="C16180" Value="(11Z,14Z)-Icosadienoyl-CoA" />
+    <hashEntry Key="C16513" Value="(7Z,10Z,13Z,16Z,19Z)-Docosa-7,10,13,16,19-pentaenoic acid" />
+    <hashEntry Key="C16522" Value="Icosatrienoic acid" />
+    <hashEntry Key="C16525" Value="Icosadienoic acid" />
+    <hashEntry Key="C16526" Value="Icosenoic acid" />
+    <hashEntry Key="C16527" Value="7,10,13,16-Docosatetraenoic acid" />
+    <hashEntry Key="C16528" Value="Docosanoyl-CoA" />
+    <hashEntry Key="C16529" Value="Tetracosanoyl-CoA" />
+    <hashEntry Key="C16530" Value="Icosenoyl-CoA" />
+    <hashEntry Key="C16531" Value="Docosenoyl-CoA" />
+    <hashEntry Key="C16532" Value="Tetracosenoyl-CoA" />
+    <hashEntry Key="C16533" Value="13,16-Docosadienoic acid" />
+    <hashEntry Key="C16645" Value="(13Z,16Z)-Docosadi-13,16-enoyl-CoA" />
+  </Compound>
+  <PathwayMap Key="eco01040" Value="Biosynthesis of unsaturated fatty acids&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0452" Value="tesB; acyl-CoA thioesterase 2 (EC:3.1.2.-); K10805 acyl-CoA thioesterase II [EC:3.1.2.-]" />
+    <hashEntry Key="eco:b0494" Value="tesA; multifunctional acyl-CoA thioesterase 1; protease I; lysophospholipase L1 (EC:3.1.1.5 3.1.2.-)" />
+    <hashEntry Key="eco:b1093" Value="fabG; 3-oxoacyl-[acyl-carrier-protein] reductase (EC:1.1.1.100); K00059 3-oxoacyl-[acyl-carrier prot" />
+    <hashEntry Key="eco:b1253" Value="yciA; acyl-CoA esterase; K10806 acyl-CoA thioesterase YciA [EC:3.1.2.-]" />
+    <hashEntry Key="eco:b2341" Value="fadJ; fused enoyl-CoA hydratase and epimerase and isomerase/3-hydroxyacyl-CoA dehydrogenase (EC:1.1." />
+    <hashEntry Key="eco:b3846" Value="fadB; fused 3-hydroxybutyryl-CoA epimerase/delta(3)-cis-delta(2)-trans-enoyl-CoA isomerase/enoyl-CoA" />
+  </Genes>
+</KEGG.PathwayBrief>

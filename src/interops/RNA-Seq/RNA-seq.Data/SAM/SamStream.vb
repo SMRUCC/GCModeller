@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::5bedf2bd9de3c1ce64c13bcea488cc60, ..\interops\RNA-Seq\RNA-seq.Data\SAM\SamStream.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.SequenceModel.SAM.DocumentElements
+Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.SequenceModel.SAM
 
 Namespace SAM
 
@@ -129,27 +130,37 @@ Namespace SAM
         ''' <param name="source"></param>
         ''' <returns></returns>
         Private Shared Function __parsingSAMReads(source As String()) As AlignmentReads()
-            Dim ChunkBuffer As AlignmentReads() = (From s As String
-                                                   In source.AsParallel
-                                                   Where Not String.IsNullOrEmpty(s)
-                                                   Select New AlignmentReads(s)).ToArray
+            Dim bufs As AlignmentReads() =
+                LinqAPI.Exec(Of AlignmentReads) <=
+ _
+                From s As String
+                In source.AsParallel
+                Where Not String.IsNullOrEmpty(s)
+                Select New AlignmentReads(s)
+
             Call Console.Write(".")
-            Return ChunkBuffer
+
+            Return bufs
         End Function
 
         Private Shared Function ReadHeaders(ByRef Fs As FileStream, encoding As System.Text.Encoding, ByRef LeftArray As String(), CHUNK_SIZE As Integer) As SAMHeader()
-            Dim ChunkBuffer As Byte()
+            Dim bytsBuf As Byte()
 
-            If Fs.Length - Fs.Position > CHUNK_SIZE Then
-                ChunkBuffer = New Byte(CHUNK_SIZE - 1) {}
-                Call Fs.Read(ChunkBuffer, 0, CHUNK_SIZE)
+            If Fs.Length < 1024 * 1024 * 128 Then
+                bytsBuf = New Byte(Fs.Length - 1) {}
+                Call Fs.Read(bytsBuf, 0, Fs.Length)
             Else
-                ChunkBuffer = New Byte(Fs.Length - Fs.Position - 1) {}
-                Call Fs.Read(ChunkBuffer, 0, Fs.Length - Fs.Position)
+                If Fs.Length - Fs.Position > CHUNK_SIZE Then
+                    bytsBuf = New Byte(CHUNK_SIZE - 1) {}
+                    Call Fs.Read(bytsBuf, 0, CHUNK_SIZE)
+                Else
+                    bytsBuf = New Byte(Fs.Length - Fs.Position - 1) {}
+                    Call Fs.Read(bytsBuf, 0, Fs.Length - Fs.Position)
+                End If
             End If
 
-            Dim s_Data As String = encoding.GetString(ChunkBuffer).Replace(vbLf, "")
-            Dim Tokens As String() = s_Data.Split(CChar(vbCr))
+            Dim s_Data As String = encoding.GetString(bytsBuf)
+            Dim Tokens As String() = s_Data.lTokens
             Dim i As Integer
             Dim s As String = Tokens(i)
             Dim Headers As New List(Of String)

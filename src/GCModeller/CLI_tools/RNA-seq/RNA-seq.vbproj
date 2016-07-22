@@ -185,6 +185,7 @@
   <ItemGroup>
     <Compile Include="CLI\Expressions.vb" />
     <Compile Include="CLI\CLI.vb" />
+    <Compile Include="CLI\gast.vb" />
     <Compile Include="CLI\Tools.vb" />
     <Compile Include="CLI\WGCNA.vb" />
     <Compile Include="Program.vb" />
@@ -233,7 +234,7 @@
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Metagenome\Metagenome.vbproj">
+    <ProjectReference Include="..\..\analysis\Metagenome\Metagenome\Metagenome.vbproj">
       <Project>{ab10b480-33b1-476c-8237-23e15ce635bd}</Project>
       <Name>Metagenome</Name>
     </ProjectReference>

@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 
-Namespace SAM.DocumentElements
+Namespace SAM
 
     ''' <summary>
     ''' Bitwise flags in .bam/.sam files

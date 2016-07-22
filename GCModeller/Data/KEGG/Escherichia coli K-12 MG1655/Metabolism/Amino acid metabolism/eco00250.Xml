@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00250" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Alanine, aspartate and glutamate metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00027" Value="GABA (gamma-Aminobutyrate) shunt [PATH:eco00250]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00014" Value="Ammonia" />
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00026" Value="2-Oxoglutarate" />
+    <hashEntry Key="C00036" Value="Oxaloacetate" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00152" Value="L-Asparagine" />
+    <hashEntry Key="C00158" Value="Citrate" />
+    <hashEntry Key="C00169" Value="Carbamoyl phosphate" />
+    <hashEntry Key="C00232" Value="Succinate semialdehyde" />
+    <hashEntry Key="C00334" Value="4-Aminobutanoate" />
+    <hashEntry Key="C00352" Value="D-Glucosamine 6-phosphate" />
+    <hashEntry Key="C00402" Value="D-Aspartate" />
+    <hashEntry Key="C00438" Value="N-Carbamoyl-L-aspartate" />
+    <hashEntry Key="C00940" Value="2-Oxoglutaramate" />
+    <hashEntry Key="C01042" Value="N-Acetyl-L-aspartate" />
+    <hashEntry Key="C02362" Value="2-Oxosuccinamate" />
+    <hashEntry Key="C03090" Value="5-Phosphoribosylamine" />
+    <hashEntry Key="C03406" Value="N-(L-Arginino)succinate" />
+    <hashEntry Key="C03794" Value="N6-(1,2-Dicarboxyethyl)-AMP" />
+    <hashEntry Key="C03912" Value="(S)-1-Pyrroline-5-carboxylate" />
+    <hashEntry Key="C12270" Value="N-Acetylaspartylglutamate" />
+    <hashEntry Key="C20775" Value="beta-Citryl-L-glutamate" />
+    <hashEntry Key="C20776" Value="N-Acetylaspartylglutamylglutamate" />
+  </Compound>
+  <PathwayMap Key="eco00250" Value="Alanine, aspartate and glutamate metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0032" Value="carA; carbamoyl phosphate synthetase small subunit, glutamine amidotransferase (EC:6.3.5.5); K01956" />
+    <hashEntry Key="eco:b0033" Value="carB; carbamoyl-phosphate synthase large subunit (EC:6.3.5.5); K01955 carbamoyl-phosphate synthase l" />
+    <hashEntry Key="eco:b0485" Value="glsA; glutaminase 1; K01425 glutaminase [EC:3.5.1.2]" />
+    <hashEntry Key="eco:b0674" Value="asnB; asparagine synthetase B (EC:6.3.5.4); K01953 asparagine synthase (glutamine-hydrolysing) [EC:6" />
+    <hashEntry Key="eco:b0928" Value="aspC; aspartate aminotransferase, PLP-dependent (EC:2.6.1.1); K00813 aspartate aminotransferase [EC:" />
+    <hashEntry Key="eco:b1014" Value="putA; fused DNA-binding transcriptional regulator/proline dehydrogenase/pyrroline-5-carboxylate dehy" />
+    <hashEntry Key="eco:b1131" Value="purB; adenylosuccinate lyase (EC:4.3.2.2); K01756 adenylosuccinate lyase [EC:4.3.2.2]" />
+    <hashEntry Key="eco:b1302" Value="puuE; 4-aminobutyrate aminotransferase, PLP-dependent (EC:2.6.1.19); K00823 4-aminobutyrate aminotra" />
+    <hashEntry Key="eco:b1493" Value="gadB; glutamate decarboxylase B, PLP-dependent (EC:4.1.1.15); K01580 glutamate decarboxylase [EC:4.1" />
+    <hashEntry Key="eco:b1524" Value="glsB; glutaminase 2; K01425 glutaminase [EC:3.5.1.2]" />
+    <hashEntry Key="eco:b1525" Value="sad; succinate semialdehyde dehydrogenase, NAD(P)+-dependent (EC:1.2.1.24); K08324 succinate-semiald" />
+    <hashEntry Key="eco:b1761" Value="gdhA; glutamate dehydrogenase, NADP-specific (EC:1.4.1.4); K00262 glutamate dehydrogenase (NADP+) [E" />
+    <hashEntry Key="eco:b1767" Value="ansA; cytoplasmic L-asparaginase 1 (EC:3.5.1.1); K01424 L-asparaginase [EC:3.5.1.1]" />
+    <hashEntry Key="eco:b2290" Value="alaA; valine-pyruvate aminotransferase 2; K14260 alanine-synthesizing transaminase [EC:2.6.1.66 2.6." />
+    <hashEntry Key="eco:b2312" Value="purF; amidophosphoribosyltransferase (EC:2.4.2.14); K00764 amidophosphoribosyltransferase [EC:2.4.2." />
+    <hashEntry Key="eco:b2574" Value="nadB; quinolinate synthase, L-aspartate oxidase (B protein) subunit (EC:1.4.3.16); K00278 L-aspartat" />
+    <hashEntry Key="eco:b2661" Value="gabD; succinate-semialdehyde dehydrogenase I, NADP-dependent (EC:1.2.1.16); K00135 succinate-semiald" />
+    <hashEntry Key="eco:b2662" Value="gabT; 4-aminobutyrate aminotransferase, PLP-dependent (EC:2.6.1.19); K07250 4-aminobutyrate aminotra" />
+    <hashEntry Key="eco:b2957" Value="ansB; periplasmic L-asparaginase 2 (EC:3.5.1.1); K01424 L-asparaginase [EC:3.5.1.1]" />
+    <hashEntry Key="eco:b3172" Value="argG; argininosuccinate synthetase (EC:6.3.4.5); K01940 argininosuccinate synthase [EC:6.3.4.5]" />
+    <hashEntry Key="eco:b3212" Value="gltB; glutamate synthase, large subunit (EC:1.4.1.13); K00265 glutamate synthase (NADPH/NADH) large" />
+    <hashEntry Key="eco:b3213" Value="gltD; glutamate synthase, 4Fe-4S protein, small subunit (EC:1.4.1.13); K00266 glutamate synthase (NA" />
+    <hashEntry Key="eco:b3517" Value="gadA; glutamate decarboxylase A, PLP-dependent (EC:4.1.1.15); K01580 glutamate decarboxylase [EC:4.1" />
+    <hashEntry Key="eco:b3729" Value="glmS; L-glutamine:D-fructose-6-phosphate aminotransferase (EC:2.6.1.16); K00820 glucosamine--fructos" />
+    <hashEntry Key="eco:b3744" Value="asnA; asparagine synthetase A (EC:6.3.1.1); K01914 aspartate--ammonia ligase [EC:6.3.1.1]" />
+    <hashEntry Key="eco:b3870" Value="glnA; glutamine synthetase (EC:6.3.1.2); K01915 glutamine synthetase [EC:6.3.1.2]" />
+    <hashEntry Key="eco:b3960" Value="argH; argininosuccinate lyase (EC:4.3.2.1); K01755 argininosuccinate lyase [EC:4.3.2.1]" />
+    <hashEntry Key="eco:b4139" Value="aspA; aspartate ammonia-lyase (EC:4.3.1.1); K01744 aspartate ammonia-lyase [EC:4.3.1.1]" />
+    <hashEntry Key="eco:b4177" Value="purA; adenylosuccinate synthetase (EC:6.3.4.4); K01939 adenylosuccinate synthase [EC:6.3.4.4]" />
+    <hashEntry Key="eco:b4244" Value="pyrI; aspartate carbamoyltransferase, regulatory subunit; K00610 aspartate carbamoyltransferase regu" />
+    <hashEntry Key="eco:b4245" Value="pyrB; aspartate carbamoyltransferase, catalytic subunit (EC:2.1.3.2); K00609 aspartate carbamoyltran" />
+  </Genes>
+</KEGG.PathwayBrief>

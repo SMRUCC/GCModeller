@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco03440" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Homologous recombination (HR) is essential for the accurate repair of DNA double-strand breaks (DSBs), potentially lethal lesions. HR takes place in the late S-G2 phase of the cell cycle and involves the generation of a single-stranded region of DNA, followed by strand invasion, formation of a Holliday junction, DNA synthesis using the intact strand as a template, branch migration and resolution. It is investigated that RecA/Rad51 family proteins play a central role. The breast cancer susceptibility protein Brca2 and the RecQ helicase BLM (Bloom syndrome mutated) are tumor suppressors that maintain genome integrity, at least in part, through HR.&lt;br&gt;</Description>
+  <Name>Homologous recombination - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00260" Value="DNA polymerase III complex, bacteria [PATH:eco03440]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="eco03440" Value="Homologous recombination&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0184" Value="dnaE; DNA polymerase III alpha subunit (EC:2.7.7.7); K02337 DNA polymerase III subunit alpha [EC:2.7" />
+    <hashEntry Key="eco:b0215" Value="dnaQ; DNA polymerase III epsilon subunit (EC:2.7.7.7); K02342 DNA polymerase III subunit epsilon [EC" />
+    <hashEntry Key="eco:b0467" Value="priC; primosomal replication protein N&amp;#39;&amp;#39;; K04067 primosomal replication protein N&amp;#39;&amp;#39;" />
+    <hashEntry Key="eco:b0470" Value="dnaX; DNA polymerase III/DNA elongation factor III, tau and gamma subunits (EC:2.7.7.7); K02343 DNA" />
+    <hashEntry Key="eco:b0472" Value="recR; gap repair protein; K06187 recombination protein RecR" />
+    <hashEntry Key="eco:b0640" Value="holA; DNA polymerase III, delta subunit (EC:2.7.7.7); K02340 DNA polymerase III subunit delta [EC:2." />
+    <hashEntry Key="eco:b1099" Value="holB; DNA polymerase III, delta prime subunit (EC:2.7.7.7); K02341 DNA polymerase III subunit delta&amp;#39;" />
+    <hashEntry Key="eco:b1842" Value="holE; DNA polymerase III, theta subunit (EC:2.7.7.7); K02345 DNA polymerase III subunit theta [EC:2." />
+    <hashEntry Key="eco:b1860" Value="ruvB; ATP-dependent DNA helicase, component of RuvABC resolvasome (EC:3.1.22.4); K03551 holliday jun" />
+    <hashEntry Key="eco:b1861" Value="ruvA; component of RuvABC resolvasome, regulatory subunit (EC:3.1.22.4); K03550 holliday junction DN" />
+    <hashEntry Key="eco:b1863" Value="ruvC; component of RuvABC resolvasome, endonuclease (EC:3.1.22.4); K01159 crossover junction endodeo" />
+    <hashEntry Key="eco:b2565" Value="recO; gap repair protein; K03584 DNA repair protein RecO (recombination protein O)" />
+    <hashEntry Key="eco:b2699" Value="recA; DNA recombination and repair protein; ssDNA-dependent ATPase; synaptase; ssDNA and dsDNA bindi" />
+    <hashEntry Key="eco:b2819" Value="recD; exonuclease V (RecBCD complex), alpha chain (EC:3.1.11.5); K03581 exodeoxyribonuclease V alpha" />
+    <hashEntry Key="eco:b2820" Value="recB; exonuclease V (RecBCD complex), beta subunit (EC:3.1.11.5); K03582 exodeoxyribonuclease V beta" />
+    <hashEntry Key="eco:b2822" Value="recC; exonuclease V (RecBCD complex), gamma chain (EC:3.1.11.5); K03583 exodeoxyribonuclease V gamma" />
+    <hashEntry Key="eco:b2892" Value="recJ; ssDNA exonuclease, 5&amp;#39; --&amp;gt; 3&amp;#39;-specific (EC:3.1.-.-); K07462 single-stranded-DNA-specific exonuc" />
+    <hashEntry Key="eco:b3652" Value="recG; ATP-dependent DNA helicase (EC:3.6.1.-); K03655 ATP-dependent DNA helicase RecG [EC:3.6.4.12]" />
+    <hashEntry Key="eco:b3700" Value="recF; gap repair protein; K03629 DNA replication and repair protein RecF" />
+    <hashEntry Key="eco:b3701" Value="dnaN; DNA polymerase III, beta subunit (EC:2.7.7.7); K02338 DNA polymerase III subunit beta [EC:2.7." />
+    <hashEntry Key="eco:b3863" Value="polA; fused DNA polymerase I 5&amp;#39;-&amp;gt;3&amp;#39; polymerase/3&amp;#39;-&amp;gt;5&amp;#39; exonuclease/5&amp;#39;-&amp;gt;3&amp;#39; exonuclease (EC:2.7.7.7); K" />
+    <hashEntry Key="eco:b3935" Value="priA; Primosome factor n&amp;#39; (replication factor Y); K04066 primosomal protein N&amp;#39; (replication factor Y" />
+    <hashEntry Key="eco:b4059" Value="ssb; single-stranded DNA-binding protein; K03111 single-strand DNA-binding protein" />
+    <hashEntry Key="eco:b4201" Value="priB; primosomal protein N; K02686 primosomal replication protein N" />
+    <hashEntry Key="eco:b4259" Value="holC; DNA polymerase III, chi subunit (EC:2.7.7.7); K02339 DNA polymerase III subunit chi [EC:2.7.7." />
+    <hashEntry Key="eco:b4362" Value="dnaT; DNA biosynthesis protein (primosomal protein I); K02317 DNA replication protein DnaT" />
+    <hashEntry Key="eco:b4372" Value="holD; DNA polymerase III, psi subunit (EC:2.7.7.7); K02344 DNA polymerase III subunit psi [EC:2.7.7." />
+  </Genes>
+</KEGG.PathwayBrief>

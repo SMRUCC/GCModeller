@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco01220" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Microorganisms are known to be capable of degrading diverse chemical substances including man-made chemicals in the environment that are mostly aromatic compounds. This diagram illustrates combination patterns of reaction modules for biodegradation of aromatic compounds, consisting of three main types of ring dihydroxylation modules, followed by meta- or ortho-cleavage modules, together with an optional preprocessing module for converting methyl group to carboxyl group on the aromatic ring.&lt;br&gt;</Description>
+  <Name>Degradation of aromatic compounds - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00545" Value="Trans-cinnamate degradation, trans-cinnamate =&gt; acetyl-CoA [PATH:eco01220]" />
+  </Modules>
+  <Compound />
+  <PathwayMap Key="eco01220" Value="Degradation of aromatic compounds&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0347" Value="mhpA; 3-(3-hydroxyphenyl)propionate hydroxylase (EC:1.14.13.-); K05712 3-(3-hydroxy-phenyl)propionat" />
+    <hashEntry Key="eco:b0348" Value="mhpB; 2,3-dihydroxyphenylpropionate 1,2-dioxygenase (EC:1.13.11.-); K05713 2,3-dihydroxyphenylpropio" />
+    <hashEntry Key="eco:b0349" Value="mhpC; 2-hydroxy-6-ketonona-2,4-dienedioic acid hydrolase (EC:3.7.1.-); K05714 2-hydroxy-6-oxonona-2," />
+    <hashEntry Key="eco:b0350" Value="mhpD; 2-keto-4-pentenoate hydratase (EC:4.2.1.80); K02554 2-keto-4-pentenoate hydratase [EC:4.2.1.80" />
+    <hashEntry Key="eco:b0351" Value="mhpF; acetaldehyde-CoA dehydrogenase II, NAD-binding (EC:1.2.1.10); K04073 acetaldehyde dehydrogenas" />
+    <hashEntry Key="eco:b0352" Value="mhpE; 4-hyroxy-2-oxovalerate/4-hydroxy-2-oxopentanoic acid aldolase, class I (EC:4.1.3.-); K01666 4-" />
+    <hashEntry Key="eco:b0356" Value="frmA; alcohol dehydrogenase class III/glutathione-dependent formaldehyde dehydrogenase (EC:1.1.1.1 1" />
+    <hashEntry Key="eco:b1241" Value="adhE; fused acetaldehyde-CoA dehydrogenase/iron-dependent alcohol dehydrogenase/pyruvate-formate lya" />
+    <hashEntry Key="eco:b1461" Value="pptA; 4-oxalocrotonate tautomerase (EC:5.3.2.-); K01821 4-oxalocrotonate tautomerase [EC:5.3.2.6]" />
+    <hashEntry Key="eco:b1478" Value="adhP; ethanol-active dehydrogenase/acetaldehyde-active reductase (EC:1.1.1.1); K13953 alcohol dehydr" />
+    <hashEntry Key="eco:b2538" Value="hcaE; 3-phenylpropionate dioxygenase, large (alpha) subunit (EC:1.14.12.19); K05708 3-phenylpropiona" />
+    <hashEntry Key="eco:b2539" Value="hcaF; 3-phenylpropionate dioxygenase, small (beta) subunit (EC:1.14.12.19); K05709 3-phenylpropionat" />
+    <hashEntry Key="eco:b2540" Value="hcaC; 3-phenylpropionate dioxygenase, ferredoxin subunit; K05710 3-phenylpropionate/trans-cinnamate" />
+    <hashEntry Key="eco:b2541" Value="hcaB; 2,3-dihydroxy-2,3-dihydrophenylpropionate dehydrogenase (EC:1.3.1.-); K05711 2,3-dihydroxy-2,3" />
+    <hashEntry Key="eco:b2542" Value="hcaD; phenylpropionate dioxygenase, ferredoxin reductase subunit (EC:1.18.1.3); K00529 3-phenylpropi" />
+    <hashEntry Key="eco:b3589" Value="yiaY; putative Fe-containing alcohol dehydrogenase, Pfam00465 family; K13954 alcohol dehydrogenase [" />
+  </Genes>
+</KEGG.PathwayBrief>

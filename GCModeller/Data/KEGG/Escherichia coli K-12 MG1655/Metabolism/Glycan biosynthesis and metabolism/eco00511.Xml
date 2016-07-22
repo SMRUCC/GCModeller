@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00511" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Other glycan degradation - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Compound />
+  <PathwayMap Key="eco00511" Value="Other glycan degradation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0344" Value="lacZ; beta-D-galactosidase (EC:3.2.1.23); K01190 beta-galactosidase [EC:3.2.1.23]" />
+    <hashEntry Key="eco:b3076" Value="ebgA; evolved beta-D-galactosidase, alpha subunit (EC:3.2.1.23); K12111 evolved beta-galactosidase s" />
+    <hashEntry Key="eco:b3077" Value="ebgC; evolved beta-D-galactosidase, beta subunit; cupin superfamily; K12112 evolved beta-galactosida" />
+  </Genes>
+</KEGG.PathwayBrief>

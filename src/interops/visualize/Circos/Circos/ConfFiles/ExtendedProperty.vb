@@ -27,8 +27,15 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations
+
+    ''' <summary>
+    ''' Alias for <see cref="SimpleConfig"/>
+    ''' </summary>
+    Public Class CircosAttribute : Inherits SimpleConfig
+    End Class
 
     Public Module ExtendedProperty
 

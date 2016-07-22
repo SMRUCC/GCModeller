@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00190" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Oxidative phosphorylation - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00144" Value="NADH:quinone oxidoreductase, prokaryotes [PATH:eco00190]" />
+    <hashEntry Key="eco_M00149" Value="Succinate dehydrogenase, prokaryotes [PATH:eco00190]" />
+    <hashEntry Key="eco_M00150" Value="Fumarate reductase, prokaryotes [PATH:eco00190]" />
+    <hashEntry Key="eco_M00153" Value="Cytochrome d ubiquinol oxidase [PATH:eco00190]" />
+    <hashEntry Key="eco_M00157" Value="F-type ATPase, prokaryotes and chloroplasts [PATH:eco00190]" />
+    <hashEntry Key="eco_M00417" Value="Cytochrome o ubiquinol oxidase [PATH:eco00190]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00001" Value="H2O" />
+    <hashEntry Key="C00002" Value="ATP" />
+    <hashEntry Key="C00003" Value="NAD+" />
+    <hashEntry Key="C00004" Value="NADH" />
+    <hashEntry Key="C00007" Value="Oxygen" />
+    <hashEntry Key="C00008" Value="ADP" />
+    <hashEntry Key="C00009" Value="Orthophosphate" />
+    <hashEntry Key="C00013" Value="Diphosphate" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00061" Value="FMN" />
+    <hashEntry Key="C00080" Value="H+" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00390" Value="Ubiquinol" />
+    <hashEntry Key="C00399" Value="Ubiquinone" />
+    <hashEntry Key="C00524" Value="Cytochrome c" />
+    <hashEntry Key="C00536" Value="Triphosphate" />
+  </Compound>
+  <PathwayMap Key="eco00190" Value="Oxidative phosphorylation&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0428" Value="cyoE; protoheme IX farnesyltransferase (EC:2.5.1.-); K02301 protoheme IX farnesyltransferase [EC:2.5" />
+    <hashEntry Key="eco:b0429" Value="cyoD; cytochrome o ubiquinol oxidase subunit IV (EC:1.10.3.-); K02300 cytochrome o ubiquinol oxidase" />
+    <hashEntry Key="eco:b0430" Value="cyoC; cytochrome o ubiquinol oxidase subunit III (EC:1.10.3.-); K02299 cytochrome o ubiquinol oxidas" />
+    <hashEntry Key="eco:b0431" Value="cyoB; cytochrome o ubiquinol oxidase subunit I (EC:1.10.3.-); K02298 cytochrome o ubiquinol oxidase" />
+    <hashEntry Key="eco:b0432" Value="cyoA; cytochrome o ubiquinol oxidase subunit II (EC:1.10.3.-); K02297 cytochrome o ubiquinol oxidase" />
+    <hashEntry Key="eco:b0721" Value="sdhC; succinate dehydrogenase, membrane subunit, binds cytochrome b556; K00241 succinate dehydrogena" />
+    <hashEntry Key="eco:b0722" Value="sdhD; succinate dehydrogenase, membrane subunit, binds cytochrome b556; K00242 succinate dehydrogena" />
+    <hashEntry Key="eco:b0723" Value="sdhA; succinate dehydrogenase, flavoprotein subunit (EC:1.3.99.1); K00239 succinate dehydrogenase /" />
+    <hashEntry Key="eco:b0724" Value="sdhB; succinate dehydrogenase, FeS subunit (EC:1.3.99.1); K00240 succinate dehydrogenase / fumarate" />
+    <hashEntry Key="eco:b0733" Value="cydA; cytochrome d terminal oxidase, subunit I (EC:1.9.3.-); K00425 cytochrome d ubiquinol oxidase s" />
+    <hashEntry Key="eco:b0734" Value="cydB; cytochrome d terminal oxidase, subunit II (EC:1.9.3.-); K00426 cytochrome d ubiquinol oxidase" />
+    <hashEntry Key="eco:b0978" Value="cbdA; cytochrome bd-II oxidase, subunit I (EC:1.10.3.-); K00425 cytochrome d ubiquinol oxidase subun" />
+    <hashEntry Key="eco:b0979" Value="cbdB; cytochrome bd-II oxidase, subunit II (EC:1.10.3.-); K00426 cytochrome d ubiquinol oxidase subu" />
+    <hashEntry Key="eco:b1109" Value="ndh; respiratory NADH dehydrogenase 2/cupric reductase (EC:1.16.1.- 1.6.99.3); K03885 NADH dehydroge" />
+    <hashEntry Key="eco:b2276" Value="nuoN; NADH:ubiquinone oxidoreductase, membrane subunit N; K00343 NADH-quinone oxidoreductase subunit" />
+    <hashEntry Key="eco:b2277" Value="nuoM; NADH:ubiquinone oxidoreductase, membrane subunit M; K00342 NADH-quinone oxidoreductase subunit" />
+    <hashEntry Key="eco:b2278" Value="nuoL; NADH:ubiquinone oxidoreductase, membrane subunit L; K00341 NADH-quinone oxidoreductase subunit" />
+    <hashEntry Key="eco:b2279" Value="nuoK; NADH:ubiquinone oxidoreductase, membrane subunit K; K00340 NADH-quinone oxidoreductase subunit" />
+    <hashEntry Key="eco:b2280" Value="nuoJ; NADH:ubiquinone oxidoreductase, membrane subunit J; K00339 NADH-quinone oxidoreductase subunit" />
+    <hashEntry Key="eco:b2281" Value="nuoI; NADH:ubiquinone oxidoreductase, chain I (EC:1.6.5.3); K00338 NADH-quinone oxidoreductase subun" />
+    <hashEntry Key="eco:b2282" Value="nuoH; NADH:ubiquinone oxidoreductase, membrane subunit H; K00337 NADH-quinone oxidoreductase subunit" />
+    <hashEntry Key="eco:b2283" Value="nuoG; NADH:ubiquinone oxidoreductase, chain G (EC:1.6.5.3); K00336 NADH-quinone oxidoreductase subun" />
+    <hashEntry Key="eco:b2284" Value="nuoF; NADH:ubiquinone oxidoreductase, chain F (EC:1.6.5.3); K00335 NADH-quinone oxidoreductase subun" />
+    <hashEntry Key="eco:b2285" Value="nuoE; NADH:ubiquinone oxidoreductase, chain E (EC:1.6.5.3); K00334 NADH-quinone oxidoreductase subun" />
+    <hashEntry Key="eco:b2286" Value="nuoC; NADH:ubiquinone oxidoreductase, fused CD subunit (EC:1.6.5.3); K13378 NADH-quinone oxidoreduct" />
+    <hashEntry Key="eco:b2287" Value="nuoB; NADH:ubiquinone oxidoreductase, chain B (EC:1.6.5.3); K00331 NADH-quinone oxidoreductase subun" />
+    <hashEntry Key="eco:b2288" Value="nuoA; NADH:ubiquinone oxidoreductase, membrane subunit A; K00330 NADH-quinone oxidoreductase subunit" />
+    <hashEntry Key="eco:b2501" Value="ppk; polyphosphate kinase, component of RNA degradosome (EC:2.7.4.1); K00937 polyphosphate kinase [E" />
+    <hashEntry Key="eco:b3731" Value="atpC; F1 sector of membrane-bound ATP synthase, epsilon subunit (EC:3.6.3.14); K02114 F-type H+-tran" />
+    <hashEntry Key="eco:b3732" Value="atpD; F1 sector of membrane-bound ATP synthase, beta subunit (EC:3.6.3.14); K02112 F-type H+-transpo" />
+    <hashEntry Key="eco:b3733" Value="atpG; F1 sector of membrane-bound ATP synthase, gamma subunit (EC:3.6.3.14); K02115 F-type H+-transp" />
+    <hashEntry Key="eco:b3734" Value="atpA; F1 sector of membrane-bound ATP synthase, alpha subunit (EC:3.6.3.14); K02111 F-type H+-transp" />
+    <hashEntry Key="eco:b3735" Value="atpH; F1 sector of membrane-bound ATP synthase, delta subunit (EC:3.6.3.14); K02113 F-type H+-transp" />
+    <hashEntry Key="eco:b3736" Value="atpF; F0 sector of membrane-bound ATP synthase, subunit b (EC:3.6.3.14); K02109 F-type H+-transporti" />
+    <hashEntry Key="eco:b3737" Value="atpE; F0 sector of membrane-bound ATP synthase, subunit c (EC:3.6.3.14); K02110 F-type H+-transporti" />
+    <hashEntry Key="eco:b3738" Value="atpB; F0 sector of membrane-bound ATP synthase, subunit a (EC:3.6.3.14); K02108 F-type H+-transporti" />
+    <hashEntry Key="eco:b4151" Value="frdD; fumarate reductase (anaerobic), membrane anchor subunit; K00247 fumarate reductase subunit D" />
+    <hashEntry Key="eco:b4152" Value="frdC; fumarate reductase (anaerobic), membrane anchor subunit; K00246 fumarate reductase subunit C" />
+    <hashEntry Key="eco:b4153" Value="frdB; fumarate reductase (anaerobic), Fe-S subunit (EC:1.3.99.1); K00245 fumarate reductase iron-sul" />
+    <hashEntry Key="eco:b4154" Value="frdA; fumarate reductase (anaerobic) catalytic and NAD/flavoprotein subunit (EC:1.3.99.1); K00244 fu" />
+    <hashEntry Key="eco:b4226" Value="ppa; inorganic pyrophosphatase (EC:3.6.1.1); K01507 inorganic pyrophosphatase [EC:3.6.1.1]" />
+  </Genes>
+</KEGG.PathwayBrief>

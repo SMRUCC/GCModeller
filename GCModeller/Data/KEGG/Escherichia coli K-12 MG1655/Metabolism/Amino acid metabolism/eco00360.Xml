@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00360" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description />
+  <Name>Phenylalanine metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00545" Value="Trans-cinnamate degradation, trans-cinnamate =&gt; acetyl-CoA [PATH:eco00360]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00022" Value="Pyruvate" />
+    <hashEntry Key="C00024" Value="Acetyl-CoA" />
+    <hashEntry Key="C00042" Value="Succinate" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00082" Value="L-Tyrosine" />
+    <hashEntry Key="C00083" Value="Malonyl-CoA" />
+    <hashEntry Key="C00084" Value="Acetaldehyde" />
+    <hashEntry Key="C00091" Value="Succinyl-CoA" />
+    <hashEntry Key="C00122" Value="Fumarate" />
+    <hashEntry Key="C00156" Value="4-Hydroxybenzoate" />
+    <hashEntry Key="C00166" Value="Phenylpyruvate" />
+    <hashEntry Key="C00180" Value="Benzoate" />
+    <hashEntry Key="C00223" Value="p-Coumaroyl-CoA" />
+    <hashEntry Key="C00323" Value="Caffeoyl-CoA" />
+    <hashEntry Key="C00406" Value="Feruloyl-CoA" />
+    <hashEntry Key="C00423" Value="trans-Cinnamate" />
+    <hashEntry Key="C00512" Value="S-Benzoate coenzyme A" />
+    <hashEntry Key="C00582" Value="Phenylacetyl-CoA" />
+    <hashEntry Key="C00596" Value="2-Hydroxy-2,4-pentadienoate" />
+    <hashEntry Key="C00601" Value="Phenylacetaldehyde" />
+    <hashEntry Key="C00630" Value="2-Methylpropanoyl-CoA" />
+    <hashEntry Key="C00642" Value="4-Hydroxyphenylacetate" />
+    <hashEntry Key="C00755" Value="4-Hydroxy-3-methoxy-benzaldehyde" />
+    <hashEntry Key="C00805" Value="Salicylate" />
+    <hashEntry Key="C00811" Value="4-Coumarate" />
+    <hashEntry Key="C01198" Value="3-(2-Hydroxyphenyl)propanoate" />
+    <hashEntry Key="C01575" Value="Ephedrine" />
+    <hashEntry Key="C01586" Value="Hippurate" />
+    <hashEntry Key="C01772" Value="trans-2-Hydroxycinnamate" />
+    <hashEntry Key="C02137" Value="alpha-Oxo-benzeneacetic acid" />
+    <hashEntry Key="C02232" Value="3-Oxoadipyl-CoA" />
+    <hashEntry Key="C02265" Value="D-Phenylalanine" />
+    <hashEntry Key="C02505" Value="2-Phenylacetamide" />
+    <hashEntry Key="C02763" Value="2-Hydroxy-3-phenylpropenoate" />
+    <hashEntry Key="C02765" Value="(+)-Pseudoephedrine" />
+    <hashEntry Key="C03519" Value="N-Acetyl-L-phenylalanine" />
+    <hashEntry Key="C03589" Value="4-Hydroxy-2-oxopentanoate" />
+    <hashEntry Key="C04044" Value="3-(2,3-Dihydroxyphenyl)propanoate" />
+    <hashEntry Key="C04148" Value="Phenylacetylglutamine" />
+    <hashEntry Key="C04351" Value="(R)-2-Methylimino-1-phenylpropan-1-ol" />
+    <hashEntry Key="C04479" Value="2-Hydroxy-6-oxonona-2,4-diene-1,9-dioate" />
+    <hashEntry Key="C05332" Value="Phenethylamine" />
+    <hashEntry Key="C05593" Value="3-Hydroxyphenylacetate" />
+    <hashEntry Key="C05598" Value="Phenylacetylglycine" />
+    <hashEntry Key="C05607" Value="Phenyllactate" />
+    <hashEntry Key="C05620" Value="N-Acetyl-D-phenylalanine" />
+    <hashEntry Key="C05629" Value="Phenylpropanoate" />
+    <hashEntry Key="C05852" Value="2-Hydroxyphenylacetate" />
+    <hashEntry Key="C05853" Value="Phenylethyl alcohol" />
+    <hashEntry Key="C06207" Value="2,6-Dihydroxyphenylacetate" />
+    <hashEntry Key="C06866" Value="Capsaicin" />
+    <hashEntry Key="C07086" Value="Phenylacetic acid" />
+    <hashEntry Key="C07303" Value="4-Hydroxy-3-methoxyphenyl-beta-hydroxypropanoyl-CoA" />
+    <hashEntry Key="C08300" Value="D-Cathine" />
+    <hashEntry Key="C08301" Value="D-Cathinone" />
+    <hashEntry Key="C11457" Value="3-(3-Hydroxyphenyl)propanoic acid" />
+    <hashEntry Key="C11588" Value="cis-3-(Carboxy-ethyl)-3,5-cyclo-hexadiene-1,2-diol" />
+    <hashEntry Key="C12621" Value="trans-3-Hydroxycinnamate" />
+    <hashEntry Key="C12622" Value="cis-3-(3-Carboxyethenyl)-3,5-cyclohexadiene-1,2-diol" />
+    <hashEntry Key="C12623" Value="trans-2,3-Dihydroxycinnamate" />
+    <hashEntry Key="C12624" Value="2-Hydroxy-6-ketononatrienedioate" />
+    <hashEntry Key="C14144" Value="5-Carboxy-2-pentenoyl-CoA" />
+    <hashEntry Key="C14145" Value="(3S)-3-Hydroxyadipyl-CoA" />
+    <hashEntry Key="C15524" Value="Phenylglyoxylyl-CoA" />
+    <hashEntry Key="C16666" Value="Vanillylamine" />
+    <hashEntry Key="C16719" Value="(-)-Norephedrine" />
+    <hashEntry Key="C17268" Value="Pyruvophenone" />
+    <hashEntry Key="C18202" Value="8-Methyl-6-nonenoic acid" />
+    <hashEntry Key="C19945" Value="3-Oxo-5,6-dehydrosuberyl-CoA" />
+    <hashEntry Key="C19946" Value="3-Oxo-5,6-dehydrosuberyl-CoA semialdehyde" />
+    <hashEntry Key="C19975" Value="2-Oxepin-2(3H)-ylideneacetyl-CoA" />
+    <hashEntry Key="C20062" Value="2-(1,2-Epoxy-1,2-dihydrophenyl)acetyl-CoA" />
+  </Compound>
+  <PathwayMap Key="eco00360" Value="Phenylalanine metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0347" Value="mhpA; 3-(3-hydroxyphenyl)propionate hydroxylase (EC:1.14.13.-); K05712 3-(3-hydroxy-phenyl)propionat" />
+    <hashEntry Key="eco:b0348" Value="mhpB; 2,3-dihydroxyphenylpropionate 1,2-dioxygenase (EC:1.13.11.-); K05713 2,3-dihydroxyphenylpropio" />
+    <hashEntry Key="eco:b0349" Value="mhpC; 2-hydroxy-6-ketonona-2,4-dienedioic acid hydrolase (EC:3.7.1.-); K05714 2-hydroxy-6-oxonona-2," />
+    <hashEntry Key="eco:b0350" Value="mhpD; 2-keto-4-pentenoate hydratase (EC:4.2.1.80); K02554 2-keto-4-pentenoate hydratase [EC:4.2.1.80" />
+    <hashEntry Key="eco:b0351" Value="mhpF; acetaldehyde-CoA dehydrogenase II, NAD-binding (EC:1.2.1.10); K04073 acetaldehyde dehydrogenas" />
+    <hashEntry Key="eco:b0352" Value="mhpE; 4-hyroxy-2-oxovalerate/4-hydroxy-2-oxopentanoic acid aldolase, class I (EC:4.1.3.-); K01666 4-" />
+    <hashEntry Key="eco:b0928" Value="aspC; aspartate aminotransferase, PLP-dependent (EC:2.6.1.1); K00813 aspartate aminotransferase [EC:" />
+    <hashEntry Key="eco:b1189" Value="dadA; D-amino acid dehydrogenase (EC:1.4.99.1); K00285 D-amino-acid dehydrogenase [EC:1.4.5.1]" />
+    <hashEntry Key="eco:b1385" Value="feaB; phenylacetaldehyde dehydrogenase (EC:1.2.1.39); K00146 phenylacetaldehyde dehydrogenase [EC:1." />
+    <hashEntry Key="eco:b1386" Value="tynA; tyramine oxidase, copper-requiring (EC:1.4.3.21); K00276 primary-amine oxidase [EC:1.4.3.21]" />
+    <hashEntry Key="eco:b1387" Value="paaZ; fused oxepin-CoA hydrolase/3-oxo-5,6-dehydrosuberyl-CoA semialdehyde dehydrogenase; K02618 oxe" />
+    <hashEntry Key="eco:b1388" Value="paaA; ring 1,2-phenylacetyl-CoA epoxidase subunit; K02609 ring-1,2-phenylacetyl-CoA epoxidase subuni" />
+    <hashEntry Key="eco:b1389" Value="paaB; putative ring 1,2-phenylacetyl-CoA epoxidase subunit; K02610 ring-1,2-phenylacetyl-CoA epoxida" />
+    <hashEntry Key="eco:b1390" Value="paaC; ring 1,2-phenylacetyl-CoA epoxidase subunit; K02611 ring-1,2-phenylacetyl-CoA epoxidase subuni" />
+    <hashEntry Key="eco:b1391" Value="paaD; ring 1,2-phenylacetyl-CoA epoxidase subunit; K02612 ring-1,2-phenylacetyl-CoA epoxidase subuni" />
+    <hashEntry Key="eco:b1392" Value="paaE; ring 1,2-phenylacetyl-CoA epoxidase, NAD(P)H oxidoreductase component; K02613 ring-1,2-phenyla" />
+    <hashEntry Key="eco:b1393" Value="paaF; 2,3-dehydroadipyl-CoA hydratase (EC:4.2.1.17); K01692 enoyl-CoA hydratase [EC:4.2.1.17]" />
+    <hashEntry Key="eco:b1394" Value="paaG; 1,2-epoxyphenylacetyl-CoA isomerase, oxepin-CoA-forming (EC:4.2.1.17); K15866 2-(1,2-epoxy-1,2" />
+    <hashEntry Key="eco:b1395" Value="paaH; 3-hydroxyadipyl-CoA dehydrogenase, NAD+-dependent (EC:1.1.1.157); K00074 3-hydroxybutyryl-CoA" />
+    <hashEntry Key="eco:b1396" Value="paaI; hydroxyphenylacetyl-CoA thioesterase; K02614 acyl-CoA thioesterase [EC:3.1.2.-]" />
+    <hashEntry Key="eco:b1397" Value="paaJ; 3-oxoadipyl-CoA/3-oxo-5,6-dehydrosuberyl-CoA thiolase; K02615 3-oxo-5,6-didehydrosuberyl-CoA/3" />
+    <hashEntry Key="eco:b1398" Value="paaK; phenylacetyl-CoA ligase (EC:6.2.1.30); K01912 phenylacetate-CoA ligase [EC:6.2.1.30]" />
+    <hashEntry Key="eco:b2021" Value="hisC; histidinol-phosphate aminotransferase (EC:2.6.1.9); K00817 histidinol-phosphate aminotransfera" />
+    <hashEntry Key="eco:b2538" Value="hcaE; 3-phenylpropionate dioxygenase, large (alpha) subunit (EC:1.14.12.19); K05708 3-phenylpropiona" />
+    <hashEntry Key="eco:b2539" Value="hcaF; 3-phenylpropionate dioxygenase, small (beta) subunit (EC:1.14.12.19); K05709 3-phenylpropionat" />
+    <hashEntry Key="eco:b2540" Value="hcaC; 3-phenylpropionate dioxygenase, ferredoxin subunit; K05710 3-phenylpropionate/trans-cinnamate" />
+    <hashEntry Key="eco:b2541" Value="hcaB; 2,3-dihydroxy-2,3-dihydrophenylpropionate dehydrogenase (EC:1.3.1.-); K05711 2,3-dihydroxy-2,3" />
+    <hashEntry Key="eco:b2542" Value="hcaD; phenylpropionate dioxygenase, ferredoxin reductase subunit (EC:1.18.1.3); K00529 3-phenylpropi" />
+    <hashEntry Key="eco:b3942" Value="katG; catalase-peroxidase HPI, heme b-containing (EC:1.11.1.6); K03782 catalase-peroxidase [EC:1.11." />
+    <hashEntry Key="eco:b4054" Value="tyrB; tyrosine aminotransferase, tyrosine-repressible, PLP-dependent (EC:2.6.1.57); K00832 aromatic-" />
+  </Genes>
+</KEGG.PathwayBrief>

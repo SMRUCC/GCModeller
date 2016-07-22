@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco02010" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>The ATP-binding cassette (ABC) transporters form one of the largest known protein families, and are widespread in bacteria, archaea, and eukaryotes. They couple ATP hydrolysis to active transport of a wide variety of substrates such as ions, sugars, lipids, sterols, peptides, proteins, and drugs. The structure of a prokaryotic ABC transporter usually consists of three components; typically two integral membrane proteins each having six transmembrane segments, two peripheral proteins that bind and hydrolyze ATP, and a periplasmic (or lipoprotein) substrate-binding protein. Many of the genes for the three components form operons as in fact observed in many bacterial and archaeal genomes. On the other hand, in a typical eukaryotic ABC transporter, the membrane spanning protein and the ATP-binding protein are fused, forming a multi-domain protein with the membrane-spanning domain (MSD) and the nucleotide-binding domain (NBD).&lt;br&gt;</Description>
+  <Name>ABC transporters - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00185" Value="Sulfate transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00189" Value="Molybdate transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00191" Value="Thiamine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00194" Value="Maltose/maltodextrin transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00198" Value="Putative sn-glycerol-phosphate transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00208" Value="Glycine betaine/proline transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00209" Value="Osmoprotectant transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00210" Value="Phospholipid transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00212" Value="Ribose transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00213" Value="L-Arabinose transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00214" Value="Methyl-galactoside transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00215" Value="D-Xylose transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00217" Value="D-Allose transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00219" Value="AI-2 transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00222" Value="Phosphate transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00225" Value="Lysine/arginine/ornithine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00226" Value="Histidine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00227" Value="Glutamine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00229" Value="Arginine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00230" Value="Glutamate/aspartate transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00234" Value="Cystine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00237" Value="Branched-chain amino acid transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00238" Value="D-Methionine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00239" Value="Peptides/nickel transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00240" Value="Iron complex transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00241" Value="Vitamin B12 transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00242" Value="Zinc transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00255" Value="Lipoprotein-releasing system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00256" Value="Cell division transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00259" Value="Heme transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00299" Value="Spermidine/putrescine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00300" Value="Putrescine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00320" Value="Lipopolysaccharide export system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00324" Value="Dipeptide transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00348" Value="Glutathione transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00349" Value="Microcin C transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00435" Value="Taurine transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00436" Value="Sulfonate transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00439" Value="Oligopeptide transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00440" Value="Nickel transport system [PATH:eco02010]" />
+    <hashEntry Key="eco_M00739" Value="Cationic peptide transport system [PATH:eco02010]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00009" Value="Orthophosphate" />
+    <hashEntry Key="C00025" Value="L-Glutamate" />
+    <hashEntry Key="C00031" Value="D-Glucose" />
+    <hashEntry Key="C00032" Value="Heme" />
+    <hashEntry Key="C00034" Value="Manganese" />
+    <hashEntry Key="C00037" Value="Glycine" />
+    <hashEntry Key="C00038" Value="Zinc cation" />
+    <hashEntry Key="C00041" Value="L-Alanine" />
+    <hashEntry Key="C00045" Value="Amino acid" />
+    <hashEntry Key="C00047" Value="L-Lysine" />
+    <hashEntry Key="C00049" Value="L-Aspartate" />
+    <hashEntry Key="C00051" Value="Glutathione" />
+    <hashEntry Key="C00059" Value="Sulfate" />
+    <hashEntry Key="C00062" Value="L-Arginine" />
+    <hashEntry Key="C00064" Value="L-Glutamine" />
+    <hashEntry Key="C00065" Value="L-Serine" />
+    <hashEntry Key="C00070" Value="Copper" />
+    <hashEntry Key="C00077" Value="L-Ornithine" />
+    <hashEntry Key="C00079" Value="L-Phenylalanine" />
+    <hashEntry Key="C00086" Value="Urea" />
+    <hashEntry Key="C00088" Value="Nitrite" />
+    <hashEntry Key="C00089" Value="Sucrose" />
+    <hashEntry Key="C00093" Value="sn-Glycerol 3-phosphate" />
+    <hashEntry Key="C00095" Value="D-Fructose" />
+    <hashEntry Key="C00098" Value="Oligopeptide" />
+    <hashEntry Key="C00107" Value="Dipeptide" />
+    <hashEntry Key="C00114" Value="Choline" />
+    <hashEntry Key="C00116" Value="Glycerol" />
+    <hashEntry Key="C00120" Value="Biotin" />
+    <hashEntry Key="C00121" Value="D-Ribose" />
+    <hashEntry Key="C00123" Value="L-Leucine" />
+    <hashEntry Key="C00134" Value="Putrescine" />
+    <hashEntry Key="C00135" Value="L-Histidine" />
+    <hashEntry Key="C00137" Value="myo-Inositol" />
+    <hashEntry Key="C00140" Value="N-Acetyl-D-glucosamine" />
+    <hashEntry Key="C00148" Value="L-Proline" />
+    <hashEntry Key="C00151" Value="L-Amino acid" />
+    <hashEntry Key="C00159" Value="D-Mannose" />
+    <hashEntry Key="C00175" Value="Cobalt ion" />
+    <hashEntry Key="C00181" Value="D-Xylose" />
+    <hashEntry Key="C00183" Value="L-Valine" />
+    <hashEntry Key="C00185" Value="Cellobiose" />
+    <hashEntry Key="C00188" Value="L-Threonine" />
+    <hashEntry Key="C00208" Value="Maltose" />
+    <hashEntry Key="C00243" Value="Lactose" />
+    <hashEntry Key="C00244" Value="Nitrate" />
+    <hashEntry Key="C00245" Value="Taurine" />
+    <hashEntry Key="C00259" Value="L-Arabinose" />
+    <hashEntry Key="C00288" Value="HCO3-" />
+    <hashEntry Key="C00291" Value="Nickel" />
+    <hashEntry Key="C00315" Value="Spermidine" />
+    <hashEntry Key="C00320" Value="Thiosulfate" />
+    <hashEntry Key="C00333" Value="D-Galacturonate" />
+    <hashEntry Key="C00338" Value="Lipopolysaccharide" />
+    <hashEntry Key="C00378" Value="Thiamine" />
+    <hashEntry Key="C00379" Value="Xylitol" />
+    <hashEntry Key="C00392" Value="Mannitol" />
+    <hashEntry Key="C00407" Value="L-Isoleucine" />
+    <hashEntry Key="C00430" Value="5-Aminolevulinate" />
+    <hashEntry Key="C00470" Value="Pectate" />
+    <hashEntry Key="C00487" Value="Carnitine" />
+    <hashEntry Key="C00491" Value="L-Cystine" />
+    <hashEntry Key="C00492" Value="Raffinose" />
+    <hashEntry Key="C00503" Value="Erythritol" />
+    <hashEntry Key="C00719" Value="Betaine" />
+    <hashEntry Key="C00753" Value="Tungsten" />
+    <hashEntry Key="C00794" Value="D-Sorbitol" />
+    <hashEntry Key="C00855" Value="D-Methionine" />
+    <hashEntry Key="C00865" Value="Phospholipid" />
+    <hashEntry Key="C00919" Value="Choline sulfate" />
+    <hashEntry Key="C00973" Value="Cyclomaltodextrin" />
+    <hashEntry Key="C01083" Value="alpha,alpha-Trehalose" />
+    <hashEntry Key="C01153" Value="Orthophosphoric monoester" />
+    <hashEntry Key="C01177" Value="Inositol 1-phosphate" />
+    <hashEntry Key="C01181" Value="4-Trimethylammoniobutanoate" />
+    <hashEntry Key="C01279" Value="4-Amino-5-hydroxymethyl-2-methylpyrimidine" />
+    <hashEntry Key="C01330" Value="Sodium cation" />
+    <hashEntry Key="C01417" Value="Cyanate" />
+    <hashEntry Key="C01487" Value="D-Allose" />
+    <hashEntry Key="C01606" Value="Phthalate" />
+    <hashEntry Key="C01630" Value="Xylobiose" />
+    <hashEntry Key="C01667" Value="Bacitracin" />
+    <hashEntry Key="C01674" Value="Chitobiose" />
+    <hashEntry Key="C01682" Value="Nopaline" />
+    <hashEntry Key="C01684" Value="D-Rhamnose" />
+    <hashEntry Key="C01834" Value="Lipoprotein" />
+    <hashEntry Key="C01835" Value="Maltotriose" />
+    <hashEntry Key="C01935" Value="Maltodextrin" />
+    <hashEntry Key="C01946" Value="Oleandomycin" />
+    <hashEntry Key="C02160" Value="Isomaltotriose" />
+    <hashEntry Key="C02273" Value="Digalacturonate" />
+    <hashEntry Key="C03557" Value="2-Aminoethylphosphonate" />
+    <hashEntry Key="C03611" Value="Galactose oligosaccharide" />
+    <hashEntry Key="C03619" Value="Methyl beta-D-galactoside" />
+    <hashEntry Key="C04114" Value="(E)-4-(Trimethylammonio)but-2-enoate" />
+    <hashEntry Key="C04137" Value="D-Octopine" />
+    <hashEntry Key="C05349" Value="Ciprofloxacin" />
+    <hashEntry Key="C05402" Value="Melibiose" />
+    <hashEntry Key="C05776" Value="Vitamin B12" />
+    <hashEntry Key="C06227" Value="Fe(III)hydroxamate" />
+    <hashEntry Key="C06228" Value="Ferrichrome" />
+    <hashEntry Key="C06229" Value="Fe(III)dicitrate" />
+    <hashEntry Key="C06230" Value="Fe-enterobactin" />
+    <hashEntry Key="C06232" Value="Molybdate" />
+    <hashEntry Key="C06687" Value="Norfloxacin" />
+    <hashEntry Key="C06704" Value="Iron chelate" />
+    <hashEntry Key="C06705" Value="Capsular polysaccharide" />
+    <hashEntry Key="C06706" Value="Lipo-oligosaccharide" />
+    <hashEntry Key="C06707" Value="Teichoic acid" />
+    <hashEntry Key="C06767" Value="Hemine" />
+    <hashEntry Key="C07662" Value="Sparfloxacin" />
+    <hashEntry Key="C07663" Value="Moxifloxacin" />
+    <hashEntry Key="C11612" Value="Polymyxin B" />
+    <hashEntry Key="C13768" Value="Colistin sulfate" />
+    <hashEntry Key="C14818" Value="Fe2+" />
+    <hashEntry Key="C14819" Value="Fe3+" />
+    <hashEntry Key="C15521" Value="Alkanesulfonate" />
+    <hashEntry Key="C16059" Value="Defensin beta-1" />
+    <hashEntry Key="C16421" Value="AI-2" />
+    <hashEntry Key="C16692" Value="Mannopine" />
+    <hashEntry Key="C19609" Value="Nickel(2+)" />
+    <hashEntry Key="C19872" Value="N-Formyl-4-amino-5-aminomethyl-2-methylpyrimidine" />
+    <hashEntry Key="C20570" Value="alpha-1,5-L-Arabinobiose" />
+    <hashEntry Key="C20571" Value="alpha-1,5-L-Arabinotriose" />
+    <hashEntry Key="C20572" Value="alpha-1,5-L-Arabinotetraose" />
+    <hashEntry Key="C20573" Value="Aldotetraouronic acidD02224 Protamine sulfate (JP17/USP/INN)G00457 Maltotetraose" />
+  </Compound>
+  <PathwayMap Key="eco02010" Value="ABC transporters&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0066" Value="thiQ; thiamine, thiamine pyrophosphate ABC transporter ATPase; ThiBPQ thiamine, thiamine pyrophospha" />
+    <hashEntry Key="eco:b0067" Value="thiP; thiamine, thiamine pyrophosphate ABC transporter permease; ThiBPQ thiamine, thiamine pyrophosp" />
+    <hashEntry Key="eco:b0068" Value="thiB; thiamine-, thiamine pyrophosphate-, thiamine monophosphate-binding ABC transporter periplasmic" />
+    <hashEntry Key="eco:b0151" Value="fhuC; iron-hydroxamate transporter subunit; K02013 iron complex transport system ATP-binding protein" />
+    <hashEntry Key="eco:b0152" Value="fhuD; iron-hydroxamate transporter subunit; K02016 iron complex transport system substrate-binding p" />
+    <hashEntry Key="eco:b0153" Value="fhuB; fused iron-hydroxamate transporter subunits of ABC superfamily: membrane components; K02015 ir" />
+    <hashEntry Key="eco:b0158" Value="btuF; vitamin B12 transporter subunit: periplasmic-binding component of ABC superfamily; K06858 vita" />
+    <hashEntry Key="eco:b0197" Value="metQ; DL-methionine transporter subunit; K02073 D-methionine transport system substrate-binding prot" />
+    <hashEntry Key="eco:b0198" Value="metI; DL-methionine transporter subunit; K02072 D-methionine transport system permease protein" />
+    <hashEntry Key="eco:b0199" Value="metN; DL-methionine transporter subunit; K02071 D-methionine transport system ATP-binding protein" />
+    <hashEntry Key="eco:b0262" Value="afuC; CP4-6 prophage; putative ferric transporter subunit; K02010 iron(III) transport system ATP-bin" />
+    <hashEntry Key="eco:b0365" Value="tauA; taurine transporter subunit; K15551 taurine transport system substrate-binding protein" />
+    <hashEntry Key="eco:b0366" Value="tauB; taurine transporter subunit; K10831 taurine transport system ATP-binding protein [EC:3.6.3.36]" />
+    <hashEntry Key="eco:b0367" Value="tauC; taurine transporter subunit; K15552 taurine transport system permease protein" />
+    <hashEntry Key="eco:b0588" Value="fepC; iron-enterobactin transporter subunit; K02013 iron complex transport system ATP-binding protei" />
+    <hashEntry Key="eco:b0589" Value="fepG; iron-enterobactin transporter subunit; K02015 iron complex transport system permease protein" />
+    <hashEntry Key="eco:b0590" Value="fepD; iron-enterobactin transporter subunit; K02015 iron complex transport system permease protein" />
+    <hashEntry Key="eco:b0592" Value="fepB; iron-enterobactin transporter subunit; K02016 iron complex transport system substrate-binding" />
+    <hashEntry Key="eco:b0652" Value="gltL; glutamate, aspartate ABC transporter ATP-binding subunit; K10004 glutamate/aspartate transport" />
+    <hashEntry Key="eco:b0653" Value="gltK; glutamate, aspartate ABC transporter permease subunit; K10002 glutamate/aspartate transport sy" />
+    <hashEntry Key="eco:b0654" Value="gltJ; glutamate, aspartate ABC transporter permease subunit; K10003 glutamate/aspartate transport sy" />
+    <hashEntry Key="eco:b0655" Value="gltI; glutamate, aspartate binding protein, periplasmic; part of GltJKLI ABC transporter; K10001 glu" />
+    <hashEntry Key="eco:b0760" Value="modF; fused molybdate transporter subunits of ABC superfamily: ATP-binding components; K05776 molybd" />
+    <hashEntry Key="eco:b0763" Value="modA; molybdate transporter subunit; K02020 molybdate transport system substrate-binding protein" />
+    <hashEntry Key="eco:b0764" Value="modB; molybdate transporter subunit; K02018 molybdate transport system permease protein" />
+    <hashEntry Key="eco:b0765" Value="modC; molybdate transporter subunit (EC:3.6.3.29); K02017 molybdate transport system ATP-binding pro" />
+    <hashEntry Key="eco:b0809" Value="glnQ; glutamine transporter subunit; K10038 glutamine transport system ATP-binding protein [EC:3.6.3" />
+    <hashEntry Key="eco:b0810" Value="glnP; glutamine transporter subunit; K10037 glutamine transport system permease protein" />
+    <hashEntry Key="eco:b0811" Value="glnH; glutamine transporter subunit; K10036 glutamine transport system substrate-binding protein" />
+    <hashEntry Key="eco:b0829" Value="gsiA; glutathione transporter ATP-binding protein, ABC superfamily; K13892 glutathione transport sys" />
+    <hashEntry Key="eco:b0830" Value="gsiB; glutathione periplasmic binding protein, ABC superfamily transporter; K13889 glutathione trans" />
+    <hashEntry Key="eco:b0831" Value="gsiC; glutathione transporter, permease component, ABC superfamily; K13890 glutathione transport sys" />
+    <hashEntry Key="eco:b0832" Value="gsiD; glutathione transporter, permease component, ABC superfamily; K13891 glutathione transport sys" />
+    <hashEntry Key="eco:b0854" Value="potF; putrescine transporter subunit: periplasmic-binding component of ABC superfamily; K11073 putre" />
+    <hashEntry Key="eco:b0855" Value="potG; putrescine transporter subunit: ATP-binding component of ABC superfamily; K11076 putrescine tr" />
+    <hashEntry Key="eco:b0856" Value="potH; putrescine transporter subunit: membrane component of ABC superfamily; K11075 putrescine trans" />
+    <hashEntry Key="eco:b0857" Value="potI; putrescine transporter subunit: membrane component of ABC superfamily; K11074 putrescine trans" />
+    <hashEntry Key="eco:b0860" Value="artJ; arginine binding protein, periplasmic; K09996 arginine transport system substrate-binding prot" />
+    <hashEntry Key="eco:b0861" Value="artM; arginine transporter subunit; K09998 arginine transport system permease protein" />
+    <hashEntry Key="eco:b0862" Value="artQ; arginine transporter subunit; K09999 arginine transport system permease protein" />
+    <hashEntry Key="eco:b0863" Value="artI; arginine transporter subunit; K09997 arginine transport system substrate-binding protein" />
+    <hashEntry Key="eco:b0864" Value="artP; arginine transporter subunit; K10000 arginine transport system ATP-binding protein [EC:3.6.3.-" />
+    <hashEntry Key="eco:b0879" Value="macB; fused macrolide transporter subunits of ABC superfamily: ATP-binding component/membrane compon" />
+    <hashEntry Key="eco:b0886" Value="cydC; fused glutathione, cysteine exporter subunits of ABC superfamily: membrane component/ATP-bindi" />
+    <hashEntry Key="eco:b0887" Value="cydD; fused glutathione, cysteine exporter subunits of ABC superfamily: membrane component/ATP-bindi" />
+    <hashEntry Key="eco:b0914" Value="msbA; fused lipid transporter subunits of ABC superfamily: membrane component/ATP-binding component;" />
+    <hashEntry Key="eco:b0933" Value="ssuB; alkanesulfonate transporter subunit; K15555 sulfonate transport system ATP-binding protein [EC" />
+    <hashEntry Key="eco:b0934" Value="ssuC; putative alkanesulfonate transporter subunit; K15554 sulfonate transport system permease prote" />
+    <hashEntry Key="eco:b0936" Value="ssuA; aliphatic sulfonate binding protein, SsuABC ABC transporter; K15553 sulfonate transport system" />
+    <hashEntry Key="eco:b1116" Value="lolC; lipoprotein-releasing system transmembrane protein; K09808 lipoprotein-releasing system permea" />
+    <hashEntry Key="eco:b1117" Value="lolD; outer membrane-specific lipoprotein transporter subunit; K09810 lipoprotein-releasing system A" />
+    <hashEntry Key="eco:b1118" Value="lolE; lipoprotein-releasing system transmembrane protein; K09808 lipoprotein-releasing system permea" />
+    <hashEntry Key="eco:b1123" Value="potD; polyamine transporter subunit; K11069 spermidine/putrescine transport system substrate-binding" />
+    <hashEntry Key="eco:b1124" Value="potC; polyamine transporter subunit; K11070 spermidine/putrescine transport system permease protein" />
+    <hashEntry Key="eco:b1125" Value="potB; polyamine transporter subunit; K11071 spermidine/putrescine transport system permease protein" />
+    <hashEntry Key="eco:b1126" Value="potA; polyamine transporter subunit; K11072 spermidine/putrescine transport system ATP-binding prote" />
+    <hashEntry Key="eco:b1243" Value="oppA; oligopeptide transporter subunit; K15580 oligopeptide transport system substrate-binding prote" />
+    <hashEntry Key="eco:b1244" Value="oppB; oligopeptide transporter subunit; K15581 oligopeptide transport system permease protein" />
+    <hashEntry Key="eco:b1245" Value="oppC; oligopeptide transporter subunit; K15582 oligopeptide transport system permease protein" />
+    <hashEntry Key="eco:b1246" Value="oppD; oligopeptide transporter subunit; K15583 oligopeptide transport system ATP-binding protein" />
+    <hashEntry Key="eco:b1247" Value="oppF; oligopeptide transporter subunit; K10823 oligopeptide transport system ATP-binding protein" />
+    <hashEntry Key="eco:b1290" Value="sapF; antimicrobial peptide transport ABC system ATP-binding protein; K19230 cationic peptide transp" />
+    <hashEntry Key="eco:b1291" Value="sapD; antimicrobial peptide transport ABC system ATP-binding protein; K19229 cationic peptide transp" />
+    <hashEntry Key="eco:b1292" Value="sapC; antimicrobial peptide transport ABC transporter permease; K19228 cationic peptide transport sy" />
+    <hashEntry Key="eco:b1293" Value="sapB; antimicrobial peptide transport ABC transporter permease; K19227 cationic peptide transport sy" />
+    <hashEntry Key="eco:b1294" Value="sapA; antimicrobial peptide transport ABC transporter periplasmic binding protein; K19226 cationic p" />
+    <hashEntry Key="eco:b1329" Value="mppA; murein tripeptide (L-ala-gamma-D-glutamyl-meso-DAP) transporter subunit; K15580 oligopeptide t" />
+    <hashEntry Key="eco:b1496" Value="yddA; putative multidrug transporter subunit of ABC superfamily, membrane component/ATP-binding comp" />
+    <hashEntry Key="eco:b1513" Value="lsrA; autoinducer 2 import ATP-binding protein; K10558 AI-2 transport system ATP-binding protein" />
+    <hashEntry Key="eco:b1514" Value="lsrC; autoinducer 2 import system permease protein; K10556 AI-2 transport system permease protein" />
+    <hashEntry Key="eco:b1515" Value="lsrD; autoinducer 2 import system permease protein; K10557 AI-2 transport system permease protein" />
+    <hashEntry Key="eco:b1516" Value="lsrB; autoinducer 2-binding protein; K10555 AI-2 transport system substrate-binding protein" />
+    <hashEntry Key="eco:b1709" Value="btuD; vitamin B12 transporter subunit : ATP-binding component of ABC superfamily (EC:3.6.3.33); K060" />
+    <hashEntry Key="eco:b1711" Value="btuC; vitamin B12 transporter subunit: membrane component of ABC superfamily; K06073 vitamin B12 tra" />
+    <hashEntry Key="eco:b1857" Value="znuA; zinc transporter subunit: periplasmic-binding component of ABC superfamily; K09815 zinc transp" />
+    <hashEntry Key="eco:b1858" Value="znuC; zinc transporter subunit: ATP-binding component of ABC superfamily; K09817 zinc transport syst" />
+    <hashEntry Key="eco:b1859" Value="znuB; zinc transporter subunit: membrane component of ABC superfamily; K09816 zinc transport system" />
+    <hashEntry Key="eco:b1900" Value="araG; fused L-arabinose transporter subunits of ABC superfamily: ATP-binding components; K10539 L-ar" />
+    <hashEntry Key="eco:b1901" Value="araF; L-arabinose transporter subunit; K10537 L-arabinose transport system substrate-binding protein" />
+    <hashEntry Key="eco:b1917" Value="yecC; putative ABC superfamily transporter ATP-binding subunit; K10010 cystine transport system ATP-" />
+    <hashEntry Key="eco:b1918" Value="yecS; ABC family putative inner membrane permease; K10009 cystine transport system permease protein" />
+    <hashEntry Key="eco:b1920" Value="fliY; cystine transporter subunit; K02424 cystine transport system substrate-binding protein" />
+    <hashEntry Key="eco:b2128" Value="yehW; inner membrane putative ABC superfamily transporter permease; K05846 osmoprotectant transport" />
+    <hashEntry Key="eco:b2129" Value="yehX; putative ABC superfamily transporter ATP-binding subunit; K05847 osmoprotectant transport syst" />
+    <hashEntry Key="eco:b2130" Value="yehY; inner membrane putative ABC superfamily transporter permease; K05846 osmoprotectant transport" />
+    <hashEntry Key="eco:b2131" Value="osmF; putative ABC superfamily transporter periplasmic-binding protein; K05845 osmoprotectant transp" />
+    <hashEntry Key="eco:b2148" Value="mglC; methyl-galactoside transporter subunit; K10541 methyl-galactoside transport system permease pr" />
+    <hashEntry Key="eco:b2149" Value="mglA; fused methyl-galactoside transporter subunits of ABC superfamily: ATP-binding components; K105" />
+    <hashEntry Key="eco:b2150" Value="mglB; methyl-galactoside transporter subunit; K10540 methyl-galactoside transport system substrate-b" />
+    <hashEntry Key="eco:b2177" Value="yejA; microcin C transporter YejABEF, periplasmic binding protein; ABC family; K13893 microcin C tra" />
+    <hashEntry Key="eco:b2178" Value="yejB; microcin C transporter YejABEF, permease subunit; ABC family; K13894 microcin C transport syst" />
+    <hashEntry Key="eco:b2179" Value="yejE; microcin C transporter YejABEF, permease subunit; ABC family; K13895 microcin C transport syst" />
+    <hashEntry Key="eco:b2180" Value="yejF; microcin C transporter, ATP-binding subunit; ABC family; K13896 microcin C transport system AT" />
+    <hashEntry Key="eco:b2198" Value="ccmD; cytochrome c biogenesis protein; K02196 heme exporter protein D" />
+    <hashEntry Key="eco:b2199" Value="ccmC; heme exporter subunit; K02195 heme exporter protein C" />
+    <hashEntry Key="eco:b2200" Value="ccmB; heme exporter subunit; K02194 heme exporter protein B" />
+    <hashEntry Key="eco:b2201" Value="ccmA; heme exporter subunit; K02193 heme exporter protein A [EC:3.6.3.41]" />
+    <hashEntry Key="eco:b2211" Value="yojI; microcin J25 efflux pump, TolC-dependent; fused ABC transporter permease and ATP-binding compo" />
+    <hashEntry Key="eco:b2306" Value="hisP; histidine/lysine/arginine/ornithine transporter subunit; K10017 histidine transport system ATP" />
+    <hashEntry Key="eco:b2307" Value="hisM; histidine/lysine/arginine/ornithine transporter subunit; K10015 histidine transport system per" />
+    <hashEntry Key="eco:b2308" Value="hisQ; histidine/lysine/arginine/ornithine transporter permease subunit; K10016 histidine transport s" />
+    <hashEntry Key="eco:b2309" Value="hisJ; histidine/lysine/arginine/ornithine transporter subunit; K10014 histidine transport system sub" />
+    <hashEntry Key="eco:b2310" Value="argT; lysine/arginine/ornithine transporter subunit; K10013 lysine/arginine/ornithine transport syst" />
+    <hashEntry Key="eco:b2422" Value="cysA; sulfate/thiosulfate transporter subunit (EC:3.6.3.25); K02045 sulfate transport system ATP-bin" />
+    <hashEntry Key="eco:b2423" Value="cysW; sulfate/thiosulfate ABC transporter subunit; K02047 sulfate transport system permease protein" />
+    <hashEntry Key="eco:b2424" Value="cysU; sulfate/thiosulfate ABC transporter permease; K02046 sulfate transport system permease protein" />
+    <hashEntry Key="eco:b2425" Value="cysP; thiosulfate-binding protein; K02048 sulfate transport system substrate-binding protein" />
+    <hashEntry Key="eco:b2677" Value="proV; glycine betaine transporter subunit; K02000 glycine betaine/proline transport system ATP-bindi" />
+    <hashEntry Key="eco:b2678" Value="proW; glycine betaine transporter subunit; K02001 glycine betaine/proline transport system permease" />
+    <hashEntry Key="eco:b2679" Value="proX; glycine betaine transporter subunit; K02002 glycine betaine/proline transport system substrate" />
+    <hashEntry Key="eco:b3191" Value="mlaB; ABC transporter maintaining OM lipid asymmetry, cytoplasmic STAS component; K07122 phospholipi" />
+    <hashEntry Key="eco:b3192" Value="mlaC; ABC transporter maintaining OM lipid asymmetry, periplasmic binding protein; K07323 phospholip" />
+    <hashEntry Key="eco:b3193" Value="mlaD; ABC transporter maintaining OM lipid asymmetry, anchored periplasmic binding protein; K02067 p" />
+    <hashEntry Key="eco:b3194" Value="mlaE; ABC transporter maintaining OM lipid asymmetry, inner membrane permease protein; K02066 phosph" />
+    <hashEntry Key="eco:b3195" Value="mlaF; ABC transporter maintaining OM lipid asymmetry, ATP-binding protein; K02065 phospholipid/chole" />
+    <hashEntry Key="eco:b3201" Value="lptB; lipopolysaccharide export ABC transporter ATP-binding protein of the LptBFGC export complex; K" />
+    <hashEntry Key="eco:b3269" Value="yhdX; putative amino-acid transporter subunit; K09970 general L-amino acid transport system permease" />
+    <hashEntry Key="eco:b3270" Value="yhdY; putative amino-acid transporter subunit; K09971 general L-amino acid transport system permease" />
+    <hashEntry Key="eco:b3271" Value="yhdZ; putative amino-acid transporter subunit; K09972 general L-amino acid transport system ATP-bind" />
+    <hashEntry Key="eco:b3450" Value="ugpC; glycerol-3-phosphate transporter subunit; K05816 sn-glycerol 3-phosphate transport system ATP-" />
+    <hashEntry Key="eco:b3451" Value="ugpE; glycerol-3-phosphate transporter subunit; K05815 sn-glycerol 3-phosphate transport system perm" />
+    <hashEntry Key="eco:b3452" Value="ugpA; glycerol-3-phosphate transporter subunit; K05814 sn-glycerol 3-phosphate transport system perm" />
+    <hashEntry Key="eco:b3453" Value="ugpB; glycerol-3-phosphate transporter subunit; K05813 sn-glycerol 3-phosphate transport system subs" />
+    <hashEntry Key="eco:b3454" Value="livF; leucine/isoleucine/valine transporter subunit; K01996 branched-chain amino acid transport syst" />
+    <hashEntry Key="eco:b3455" Value="livG; leucine/isoleucine/valine transporter subunit; K01995 branched-chain amino acid transport syst" />
+    <hashEntry Key="eco:b3456" Value="livM; leucine/isoleucine/valine transporter subunit; K01998 branched-chain amino acid transport syst" />
+    <hashEntry Key="eco:b3457" Value="livH; leucine/isoleucine/valine transporter subunit; K01997 branched-chain amino acid transport syst" />
+    <hashEntry Key="eco:b3458" Value="livK; leucine transporter subunit; K01999 branched-chain amino acid transport system substrate-bindi" />
+    <hashEntry Key="eco:b3460" Value="livJ; leucine/isoleucine/valine transporter subunit; K01999 branched-chain amino acid transport syst" />
+    <hashEntry Key="eco:b3462" Value="ftsX; inner membrane putative ABC superfamily transporter permease; K09811 cell division transport s" />
+    <hashEntry Key="eco:b3463" Value="ftsE; putative ABC superfamily transporter ATP-binding subunit; K09812 cell division transport syste" />
+    <hashEntry Key="eco:b3476" Value="nikA; nickel-binding, heme-binding periplasmic protein; K15584 nickel transport system substrate-bin" />
+    <hashEntry Key="eco:b3477" Value="nikB; nickel transporter subunit; K15585 nickel transport system permease protein" />
+    <hashEntry Key="eco:b3478" Value="nikC; nickel transporter subunit; K15586 nickel transport system permease protein" />
+    <hashEntry Key="eco:b3479" Value="nikD; nickel transporter subunit; K15587 nickel transport system ATP-binding protein [EC:3.6.3.24]" />
+    <hashEntry Key="eco:b3480" Value="nikE; nickel transporter subunit; K10824 nickel transport system ATP-binding protein [EC:3.6.3.24]" />
+    <hashEntry Key="eco:b3540" Value="dppF; dipeptide transporter; K12372 dipeptide transport system ATP-binding protein" />
+    <hashEntry Key="eco:b3541" Value="dppD; dipeptide/heme transporter; K12371 dipeptide transport system ATP-binding protein" />
+    <hashEntry Key="eco:b3542" Value="dppC; dipeptide/heme transporter; K12370 dipeptide transport system permease protein" />
+    <hashEntry Key="eco:b3543" Value="dppB; dipeptide/heme transporter; K12369 dipeptide transport system permease protein" />
+    <hashEntry Key="eco:b3544" Value="dppA; dipeptide transporter; K12368 dipeptide transport system substrate-binding protein" />
+    <hashEntry Key="eco:b3566" Value="xylF; D-xylose transporter subunit; K10543 D-xylose transport system substrate-binding protein" />
+    <hashEntry Key="eco:b3567" Value="xylG; fused D-xylose transporter subunits of ABC superfamily: ATP-binding components; K10545 D-xylos" />
+    <hashEntry Key="eco:b3568" Value="xylH; D-xylose ABC transporter permease subunit; K10544 D-xylose transport system permease protein" />
+    <hashEntry Key="eco:b3661" Value="nlpA; cytoplasmic membrane lipoprotein-28; K02073 D-methionine transport system substrate-binding pr" />
+    <hashEntry Key="eco:b3725" Value="pstB; phosphate transporter subunit (EC:3.6.3.27); K02036 phosphate transport system ATP-binding pro" />
+    <hashEntry Key="eco:b3726" Value="pstA; phosphate transporter subunit; K02038 phosphate transport system permease protein" />
+    <hashEntry Key="eco:b3727" Value="pstC; phosphate transporter subunit; K02037 phosphate transport system permease protein" />
+    <hashEntry Key="eco:b3728" Value="pstS; periplasmic phosphate binding protein, high-affinity; K02040 phosphate transport system substr" />
+    <hashEntry Key="eco:b3748" Value="rbsD; putative cytoplasmic sugar-binding protein; K06726 D-ribose pyranase [EC:5.4.99.62]" />
+    <hashEntry Key="eco:b3749" Value="rbsA; fused D-ribose transporter subunits of ABC superfamily: ATP-binding components; K10441 ribose" />
+    <hashEntry Key="eco:b3750" Value="rbsC; D-ribose transporter subunit; K10440 ribose transport system permease protein" />
+    <hashEntry Key="eco:b3751" Value="rbsB; D-ribose transporter subunit; K10439 ribose transport system substrate-binding protein" />
+    <hashEntry Key="eco:b3917" Value="sbp; sulfate transporter subunit; K02048 sulfate transport system substrate-binding protein" />
+    <hashEntry Key="eco:b4032" Value="malG; maltose transporter subunit; K10110 maltose/maltodextrin transport system permease protein" />
+    <hashEntry Key="eco:b4033" Value="malF; maltose transporter subunit; K10109 maltose/maltodextrin transport system permease protein" />
+    <hashEntry Key="eco:b4034" Value="malE; maltose transporter subunit; K10108 maltose/maltodextrin transport system substrate-binding pr" />
+    <hashEntry Key="eco:b4035" Value="malK; fused maltose transport subunit, ATP-binding component of ABC superfamily/regulatory protein;" />
+    <hashEntry Key="eco:b4086" Value="alsC; D-allose transporter subunit; K10550 D-allose transport system permease protein" />
+    <hashEntry Key="eco:b4087" Value="alsA; fused D-allose transporter subunits of ABC superfamily: ATP-binding components; K10551 D-allos" />
+    <hashEntry Key="eco:b4088" Value="alsB; D-allose transporter subunit; K10549 D-allose transport system substrate-binding protein" />
+    <hashEntry Key="eco:b4105" Value="phnD; phosphonate ABC transporter periplasmic binding protein; K02044 phosphonate transport system s" />
+    <hashEntry Key="eco:b4106" Value="phnC; phosphonate ABC transporter ATP-binding subunit; K02041 phosphonate transport system ATP-bindi" />
+    <hashEntry Key="eco:b4261" Value="lptF; lipopolysaccharide export ABC permease of the LptBFGC export complex; K07091 lipopolysaccharid" />
+    <hashEntry Key="eco:b4262" Value="lptG; lipopolysaccharide export ABC permease of the LptBFGC export complex; K11720 lipopolysaccharid" />
+    <hashEntry Key="eco:b4287" Value="fecE; iron-dicitrate transporter subunit; K02013 iron complex transport system ATP-binding protein [" />
+    <hashEntry Key="eco:b4288" Value="fecD; iron-dicitrate transporter subunit; K02015 iron complex transport system permease protein" />
+    <hashEntry Key="eco:b4289" Value="fecC; iron-dicitrate transporter subunit; K02015 iron complex transport system permease protein" />
+    <hashEntry Key="eco:b4290" Value="fecB; iron-dicitrate transporter subunit; K02016 iron complex transport system substrate-binding pro" />
+    <hashEntry Key="eco:b4460" Value="araH; fused L-arabinose transporter subunits of ABC superfamily: membrane components; K10538 L-arabi" />
+  </Genes>
+</KEGG.PathwayBrief>

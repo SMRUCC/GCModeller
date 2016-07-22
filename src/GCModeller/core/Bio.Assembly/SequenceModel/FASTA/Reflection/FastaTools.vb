@@ -93,15 +93,19 @@ Namespace SequenceModel.FASTA.Reflection
                                                Select FastaFile.Read(file)
 
             If Trim Then
-                Dim setValue = New SetValue(Of FastaToken)().GetSet(NameOf(FastaToken.Attributes))
+                Dim setValue =
+                    New SetValue(Of FastaToken)().GetSet(NameOf(FastaToken.Attributes))
 
-                mergeFa = (From fa As FastaToken
-                           In mergeFa.AsParallel
-                           Let attrs As String() = New String() {fa.Attributes.First.Split.First}
-                           Select setValue(fa, attrs)).ToList
-                mergeFa = (From fa As FastaToken
-                           In mergeFa.AsParallel
-                           Select fa.FastaTrimCorrupt).ToList
+                mergeFa = LinqAPI.Exec(Of FastaToken) <=
+                    From fa As FastaToken
+                    In mergeFa.AsParallel
+                    Let attrs As String() = New String() {fa.Attributes.First.Split.First}
+                    Select setValue(fa, attrs)
+
+                mergeFa = LinqAPI.Exec(Of FastaToken) <=
+                    From fa As FastaToken
+                    In mergeFa.AsParallel
+                    Select fa.FastaTrimCorrupt
             Else
                 If Not rawTitle Then
                     For Each fa As FastaToken In mergeFa

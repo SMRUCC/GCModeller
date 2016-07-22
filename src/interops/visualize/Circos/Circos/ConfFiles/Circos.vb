@@ -26,16 +26,13 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 
 Namespace Configurations
-
-    Public Class CircosAttribute : Inherits SimpleConfig
-    End Class
 
     ''' <summary>
     ''' ``circos.conf``

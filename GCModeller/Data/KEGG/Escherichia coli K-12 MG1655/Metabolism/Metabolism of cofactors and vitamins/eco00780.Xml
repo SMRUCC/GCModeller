@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-16"?>
+<KEGG.PathwayBrief xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryId="eco00780" xmlns="http://www.genome.jp/kegg/pathway.html">
+  <Description>Biotin (vitamin H or vitamin B7) is the essential cofactor of biotin-dependent carboxylases, such as pyruvate carboxylase and acetyl-CoA carboxylase. Mammals cannot synthesize biotin, while in bacteria, fungi, and plants it is synthesized from pimelate thioester through different pathways. In E. coli and many organisms, pimelate thioester is derived from malonyl-ACP. The pathway starts with the methylation to malonyl-ACP methyl ester, followed by the fatty acid chain elongation cycle to form pimeloyl-ACP methyl ester, which is then demethylated to form pimeloyl-ACP [MD:M00572]. Pimeloyl-ACP is converted to biotin through the final four steps in the biotin bicyclic ring assembly, which are conserved among biotin-producing organisms [MD:M00123]. In B. subtilis, biotin is derived from pimeloyl-ACP formed by oxidative cleavage of long-chain acyl-ACPs [MD:M00573]. Some bacteria synthesize biotin from pimeloyl-CoA derived from pimelate [MD:M00577]. Biotin is covalently attached to biotin-dependent carboxylase by biotin protein ligase, also known as holocarboxylase synthase in mammals, to form an active holocarboxylase. After degradation of the biotinylated carboxylase into biocytin, it is further degraded by biotinidase to release free biotin, which is recycled in holocarboxylase synthesis. Biotin is catabolized by beta-oxidation of the valeric acid side chain or oxidation of sulfur in the heterocyclic ring.&lt;br&gt;</Description>
+  <Name>Biotin metabolism - Escherichia coli K-12 MG1655&lt;br&gt;</Name>
+  <Modules>
+    <hashEntry Key="eco_M00123" Value="Biotin biosynthesis, pimeloyl-ACP/CoA =&gt; biotin [PATH:eco00780]" />
+    <hashEntry Key="eco_M00572" Value="Pimeloyl-ACP biosynthesis, BioC-BioH pathway, malonyl-ACP =&gt; pimeloyl-ACP [PATH:eco00780]" />
+  </Modules>
+  <Compound>
+    <hashEntry Key="C00047" Value="L-Lysine" />
+    <hashEntry Key="C00086" Value="Urea" />
+    <hashEntry Key="C00120" Value="Biotin" />
+    <hashEntry Key="C01037" Value="7,8-Diaminononanoate" />
+    <hashEntry Key="C01063" Value="6-Carboxyhexanoyl-CoA" />
+    <hashEntry Key="C01092" Value="8-Amino-7-oxononanoate" />
+    <hashEntry Key="C01209" Value="Malonyl-[acyl-carrier protein]" />
+    <hashEntry Key="C01894" Value="Biotinyl-CoA" />
+    <hashEntry Key="C01909" Value="Dethiobiotin" />
+    <hashEntry Key="C02656" Value="Pimelate" />
+    <hashEntry Key="C05552" Value="Biocytin" />
+    <hashEntry Key="C05921" Value="Biotinyl-5'-AMP" />
+    <hashEntry Key="C06250" Value="Holo-[carboxylase]" />
+    <hashEntry Key="C19673" Value="Malonyl-[acp] methyl ester" />
+    <hashEntry Key="C19845" Value="Pimeloyl-[acyl-carrier protein]" />
+    <hashEntry Key="C19846" Value="Pimeloyl-[acyl-carrier protein] methyl ester" />
+    <hashEntry Key="C20372" Value="3-Ketoglutaryl-[acp] methyl ester" />
+    <hashEntry Key="C20373" Value="3-Hydroxyglutaryl-[acp] methyl ester" />
+    <hashEntry Key="C20374" Value="Enoylglutaryl-[acp] methyl ester" />
+    <hashEntry Key="C20375" Value="Glutaryl-[acp] methyl ester" />
+    <hashEntry Key="C20376" Value="3-Ketopimeloyl-[acp] methyl ester" />
+    <hashEntry Key="C20377" Value="3-Hydroxypimeloyl-[acp] methyl ester" />
+    <hashEntry Key="C20378" Value="Enoylpimeloyl-[acp] methyl ester" />
+    <hashEntry Key="C20384" Value="Bisnorbiotin" />
+    <hashEntry Key="C20385" Value="Tetranorbiotin" />
+    <hashEntry Key="C20386" Value="Biotin sulfoxide" />
+    <hashEntry Key="C20387" Value="Biotin sulfone" />
+    <hashEntry Key="C20683" Value="Long-chain acyl-[acyl-carrier protein]" />
+  </Compound>
+  <PathwayMap Key="eco00780" Value="Biotin metabolism&lt;center&gt;" />
+  <Genes>
+    <hashEntry Key="eco:b0180" Value="fabZ; (3R)-hydroxymyristol acyl carrier protein dehydratase (EC:4.2.1.-); K02372 3-hydroxyacyl-[acyl" />
+    <hashEntry Key="eco:b0774" Value="bioA; 7,8-diaminopelargonic acid synthase, PLP-dependent (EC:2.6.1.62); K00833 adenosylmethionine---" />
+    <hashEntry Key="eco:b0775" Value="bioB; biotin synthase (EC:2.8.1.6); K01012 biotin synthase [EC:2.8.1.6]" />
+    <hashEntry Key="eco:b0776" Value="bioF; 8-amino-7-oxononanoate synthase (EC:2.3.1.47); K00652 8-amino-7-oxononanoate synthase [EC:2.3." />
+    <hashEntry Key="eco:b0777" Value="bioC; malonyl-ACP O-methyltransferase, SAM-dependent; K02169 malonyl-CoA O-methyltransferase [EC:2.1" />
+    <hashEntry Key="eco:b0778" Value="bioD; dethiobiotin synthetase (EC:6.3.3.3); K01935 dethiobiotin synthetase [EC:6.3.3.3]" />
+    <hashEntry Key="eco:b1093" Value="fabG; 3-oxoacyl-[acyl-carrier-protein] reductase (EC:1.1.1.100); K00059 3-oxoacyl-[acyl-carrier prot" />
+    <hashEntry Key="eco:b1095" Value="fabF; 3-oxoacyl-[acyl-carrier-protein] synthase II (EC:2.3.1.41); K09458 3-oxoacyl-[acyl-carrier-pro" />
+    <hashEntry Key="eco:b1288" Value="fabI; enoyl-[acyl-carrier-protein] reductase, NADH-dependent (EC:1.3.1.9); K00208 enoyl-[acyl-carrie" />
+    <hashEntry Key="eco:b1593" Value="ynfK; putative dethiobiotin synthetase; K01935 dethiobiotin synthetase [EC:6.3.3.3]" />
+    <hashEntry Key="eco:b2323" Value="fabB; 3-oxoacyl-[acyl-carrier-protein] synthase I (EC:2.3.1.41); K00647 3-oxoacyl-[acyl-carrier-prot" />
+    <hashEntry Key="eco:b3412" Value="bioH; pimeloyl-ACP methyl ester carboxylesterase; K02170 pimeloyl-[acyl-carrier protein] methyl este" />
+    <hashEntry Key="eco:b3551" Value="bisC; biotin sulfoxide reductase (EC:1.-.-.-); K08351 biotin/methionine sulfoxide reductase [EC:1.-." />
+    <hashEntry Key="eco:b3973" Value="birA; bifunctional biotin-[acetylCoA carboxylase] holoenzyme synthetase/DNA-binding transcriptional" />
+  </Genes>
+</KEGG.PathwayBrief>
