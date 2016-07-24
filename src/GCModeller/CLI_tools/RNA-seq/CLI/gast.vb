@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -120,6 +121,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".stat.Csv")
         Dim gastOut As String = args("/gast")
         Dim result As Names() = ParseNames([in]).FillTaxonomy(gastOut).ToArray
+        Call BIOM.Imports(result, 1000).GetJson.SaveTo(out.TrimSuffix & ".Megan.biom")
+        Call MeganImports.Out(result).Save(out.TrimSuffix & ".Megan.Csv", Encodings.ASCII)
         Return result.SaveTo(out).CLICode
     End Function
 End Module

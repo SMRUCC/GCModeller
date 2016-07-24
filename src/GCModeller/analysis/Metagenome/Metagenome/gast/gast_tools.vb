@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI
@@ -148,11 +149,32 @@ Namespace gast
                     .NumOfSeqs = members.Length,
                     .Unique = uid
                 }
+
+            'Dim tags As String() = LinqAPI.Exec(Of String) <=
+            '    From s As String
+            '    In LQuery.Select(Function(x) x.members).MatrixAsIterator
+            '    Select Regex.Replace(s, "_\d+", "")
+            '    Distinct
+
+            For Each x As Names In LQuery
+                Dim myTags = From s As String
+                             In x.members
+                             Select sid = Regex.Replace(s, "\d+", "")
+                             Group By sid Into Count
+
+                x.Composition = myTags.ToDictionary(
+                    Function(s) s.sid,
+                    Function(s) CStr((s.Count * 100) / x.NumOfSeqs))
+            Next
+
             Return New Names With {
-                .Unique = "Total",
+                .Unique = TagTotal,
                 .NumOfSeqs = LQuery.Sum(Function(x) x.NumOfSeqs)
             } + LQuery
         End Function
+
+        Public Const TagTotal As String = "Total"
+        Public Const TagNoAssign As String = "Not-Assign"
 
         <Extension>
         Public Iterator Function FillTaxonomy(source As IEnumerable(Of Names), gast_out As String) As IEnumerable(Of Names)
@@ -170,7 +192,7 @@ Namespace gast
                 Dim taxi As gastOUT = hash(x.Unique)
                 x.taxonomy = taxi.taxonomy
                 x.distance = taxi.distance
-                x.ref = taxi.refhvr_ids
+                x.refs = taxi.refhvr_ids
 
                 If taxi.refhvr_ids = "NA" Then
                     notAssigned += x.NumOfSeqs
@@ -182,9 +204,9 @@ Namespace gast
             Yield New Names With {
                 .distance = -1,
                 .NumOfSeqs = notAssigned,
-                .ref = "N/A",
+                .refs = "N/A",
                 .taxonomy = "null",
-                .Unique = "Not-Assign"
+                .Unique = TagNoAssign
             }
         End Function
     End Module
@@ -199,7 +221,8 @@ Namespace gast
         Public Property NumOfSeqs As Integer
         Public Property taxonomy As String
         Public Property distance As Double
-        Public Property ref As String
+        Public Property refs As String
+        <Meta> Public Property Composition As Dictionary(Of String, String)
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
