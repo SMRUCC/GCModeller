@@ -157,10 +157,14 @@ Namespace gast
         <Extension>
         Public Iterator Function FillTaxonomy(source As IEnumerable(Of Names), gast_out As String) As IEnumerable(Of Names)
             Dim hash As New Dictionary(Of gastOUT)(gast_out.Imports(Of gastOUT)(vbTab))
+            Dim notAssigned As Integer
 
             For Each x As Names In source
                 If Not hash.ContainsKey(x.Unique) Then
+                    Yield x
                     Continue For
+                Else
+
                 End If
 
                 Dim taxi As gastOUT = hash(x.Unique)
@@ -168,8 +172,20 @@ Namespace gast
                 x.distance = taxi.distance
                 x.ref = taxi.refhvr_ids
 
+                If taxi.refhvr_ids = "NA" Then
+                    notAssigned += x.NumOfSeqs
+                End If
+
                 Yield x
             Next
+
+            Yield New Names With {
+                .distance = -1,
+                .NumOfSeqs = notAssigned,
+                .ref = "N/A",
+                .taxonomy = "null",
+                .Unique = "Not-Assign"
+            }
         End Function
     End Module
 
