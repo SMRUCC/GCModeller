@@ -106,7 +106,7 @@ Namespace gast
                         Continue For
                     End If
 
-                    Dim taxonomy As String = TaxonNode.Taxonomy(nodes)
+                    Dim taxonomy As String = TaxonNode.Taxonomy(nodes, ";")
 
                     seq = New FastaToken({title}, seq.SequenceData)
                     title = {title, taxonomy, "1"}.JoinBy(vbTab)

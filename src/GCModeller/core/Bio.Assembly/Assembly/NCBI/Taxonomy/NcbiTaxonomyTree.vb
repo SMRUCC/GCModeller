@@ -21,9 +21,9 @@ Namespace Assembly.NCBI
             Return Me.GetJson
         End Function
 
-        Public Shared Function Taxonomy(tree As TaxonNode()) As String
+        Public Shared Function Taxonomy(tree As TaxonNode(), Optional delimiter As String = ",") As String
             tree = tree.Reverse.ToArray
-            Return String.Join(",", tree.ToArray(Function(x) x.name))
+            Return String.Join(delimiter, tree.ToArray(Function(x) x.name))
         End Function
 
         Public Shared Function ToHash(tree As TaxonNode()) As Dictionary(Of String, String)
