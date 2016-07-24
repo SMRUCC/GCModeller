@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 
 Public Class BIOM : Inherits ClassObject
@@ -18,6 +20,35 @@ Public Class BIOM : Inherits ClassObject
 
     Public Shared Function [Imports](source As IEnumerable(Of Names)) As BIOM
         Dim array As Names() = source.ToArray
+        Dim rows As row() = LinqAPI.Exec(Of row) <=
+            From x As Names
+            In array
+            Where Not x.taxonomy.IsBlank
+            Select New row With {
+                .id = x.Unique,
+                .metadata = New meta With {
+                    .taxonomy = x.taxonomy.Split(";"c)
+                }
+            }
+        Dim names As column() = LinqAPI.Exec(Of column) <=
+            From sid As String
+            In array.Select(Function(x) x.Composition.Keys).MatrixAsIterator.Distinct
+            Select New column With {
+                .id = sid
+            }
+        Dim data As New List(Of Integer())
+        Dim nameIndex =
+            names.SeqIterator.ToDictionary(
+            Function(x) x.obj.id,
+            Function(x) x.i)
+
+        For Each x As SeqValue(Of Names) In array.SeqIterator
+            Dim n As Integer = x.obj.NumOfSeqs
+
+            For Each cpi In x.obj.Composition
+                data += {x.i, nameIndex(cpi.Key), CInt(n * Val(cpi.Value) / 100) + 1}
+            Next
+        Next
 
         Return New BIOM With {
             .id = Guid.NewGuid.ToString,
@@ -28,7 +59,10 @@ Public Class BIOM : Inherits ClassObject
             .date = Now.ToString,
             .matrix_type = "sparse",
             .matrix_element_type = "int",
-            .shape = {array.Length, 4}
+            .shape = {array.Length, 4},
+            .data = data,
+            .rows = rows,
+            .columns = names
         }
     End Function
 End Class
