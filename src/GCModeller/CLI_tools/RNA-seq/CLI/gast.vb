@@ -120,6 +120,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".stat.Csv")
         Dim gastOut As String = args("/gast")
         Dim result As Names() = ParseNames([in]).FillTaxonomy(gastOut).ToArray
+        '    Dim megan = MeganImports.Imports(result).ToArray
+        Call MeganImports.Out(result).Save(out.TrimSuffix & ".Megan.Csv", Encodings.ASCII)
         Return result.SaveTo(out).CLICode
     End Function
 End Module
