@@ -29,7 +29,12 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -129,5 +134,94 @@ Namespace gast
 
             Return CInt(Val(gi))
         End Function
+
+        Public Function ParseNames(path As String) As Names()
+            Dim lines As IEnumerable(Of String) = path.IterateAllLines
+            Dim LQuery = LinqAPI.MakeList(Of Names) <=
+                From line As String
+                In lines
+                Let tokens As String() = Strings.Split(line, vbTab)
+                Let uid As String = tokens(Scan0)
+                Let members As String() = tokens(1).Split(","c)
+                Select New Names With {
+                    .members = members,
+                    .NumOfSeqs = members.Length,
+                    .Unique = uid
+                }
+            Return New Names With {
+                .Unique = "Total",
+                .NumOfSeqs = LQuery.Sum(Function(x) x.NumOfSeqs)
+            } + LQuery
+        End Function
+
+        <Extension>
+        Public Iterator Function FillTaxonomy(source As IEnumerable(Of Names), gast_out As String) As IEnumerable(Of Names)
+            Dim hash As New Dictionary(Of gastOUT)(gast_out.Imports(Of gastOUT)(vbTab))
+            Dim notAssigned As Integer
+
+            For Each x As Names In source
+                If Not hash.ContainsKey(x.Unique) Then
+                    Yield x
+                    Continue For
+                Else
+
+                End If
+
+                Dim taxi As gastOUT = hash(x.Unique)
+                x.taxonomy = taxi.taxonomy
+                x.distance = taxi.distance
+                x.ref = taxi.refhvr_ids
+
+                If taxi.refhvr_ids = "NA" Then
+                    notAssigned += x.NumOfSeqs
+                End If
+
+                Yield x
+            Next
+
+            Yield New Names With {
+                .distance = -1,
+                .NumOfSeqs = notAssigned,
+                .ref = "N/A",
+                .taxonomy = "null",
+                .Unique = "Not-Assign"
+            }
+        End Function
     End Module
+
+    ''' <summary>
+    ''' *.names
+    ''' </summary>
+    Public Class Names : Implements sIdEnumerable
+
+        Public Property Unique As String Implements sIdEnumerable.Identifier
+        <Ignored> Public Property members As String()
+        Public Property NumOfSeqs As Integer
+        Public Property taxonomy As String
+        Public Property distance As Double
+        Public Property ref As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    Public Class gastOUT : Implements sIdEnumerable
+
+        Public Property read_id As String Implements sIdEnumerable.Identifier
+        Public Property taxonomy As String
+        Public Property distance As Double
+        Public Property rank As String
+        Public Property refssu_count As String
+        Public Property vote As String
+        Public Property minrank As String
+        Public Property taxa_counts As String
+        Public Property max_pcts As String
+        Public Property na_pcts As String
+        Public Property refhvr_ids As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
 End Namespace

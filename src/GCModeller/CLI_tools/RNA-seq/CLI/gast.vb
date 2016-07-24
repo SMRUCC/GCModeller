@@ -112,4 +112,14 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gast.refs.fasta")
         Return gast_tools.ExportNt([in], gi2taxid, taxonomy, out)
     End Function
+
+    <ExportAPI("/gast.stat.names",
+               Usage:="/gast.stat.names /in <*.names> /gast <gast.out> [/out <out.Csv>]")>
+    Public Function StateNames(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".stat.Csv")
+        Dim gastOut As String = args("/gast")
+        Dim result As Names() = ParseNames([in]).FillTaxonomy(gastOut).ToArray
+        Return result.SaveTo(out).CLICode
+    End Function
 End Module
