@@ -132,7 +132,7 @@ Partial Module CLI
             Next
         Next
 
-        Call genes.Values.SaveTo(out.TrimFileExt & ".genes_RPKM.csv")
+        Call genes.Values.SaveTo(out.TrimSuffix & ".genes_RPKM.csv")
 
         Dim model As String = args("/model")
 
@@ -142,7 +142,7 @@ Partial Module CLI
             Dim intSets = sbml.KEGGReactions(KEGGs)
             Dim LQuery As RPKMStat() = (From x As Elements.Reaction In intSets Where MAT.ContainsKey(x.id) Select MAT(x.id)).ToArray
             Dim maps = intSets.ToArray(Function(x) New KeyValuePair(x.id, x.Notes.Text))
-            Dim outMaps As String = out.TrimFileExt & ".KEGG_Maps.Xml"
+            Dim outMaps As String = out.TrimSuffix & ".KEGG_Maps.Xml"
             Call maps.SaveAsXml(outMaps)
             Return LQuery.SaveTo(out).CLICode
         Else
@@ -158,7 +158,7 @@ Partial Module CLI
         Dim pheno As String = args("/pheno")
         Dim footprint As String = args("/footprints")
         Dim spcc As Boolean = args.GetBoolean("/spcc")
-        Dim out As String = args.GetValue("/out", pheno.TrimFileExt & "." & __out(spcc, False, footprint))
+        Dim out As String = args.GetValue("/out", pheno.TrimSuffix & "." & __out(spcc, False, footprint))
 
         Dim RPKMs = genes.LoadCsv(Of RPKMStat)
         Dim phenos = pheno.LoadCsv(Of RPKMStat)

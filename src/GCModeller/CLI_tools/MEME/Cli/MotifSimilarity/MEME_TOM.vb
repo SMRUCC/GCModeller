@@ -83,7 +83,7 @@ Partial Module CLI
                Usage:="/TomTOM.Similarity /in <TOM_OUT.DIR> [/out <out.Csv>]")>
     Public Function MEMEPlantSimilarity(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & $".{NameOf(MEMEPlantSimilarity)}.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".{NameOf(MEMEPlantSimilarity)}.Csv")
         Dim init As MotifMatch() = LoadsSimilarity([in], False, blocks:=True)
         Return init.SaveTo(out)
     End Function

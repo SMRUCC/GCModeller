@@ -45,7 +45,7 @@ Partial Module CLI
         Dim locus As String = args("/locus")
         Dim locus_map As String = args.GetValue("/locus_map", "Gene")
         Dim ispathway As String = args.GetBoolean("/pathway")
-        Dim out As String = args.GetValue("/out", locus.TrimFileExt & $"-{inDIR.BaseName}.csv")
+        Dim out As String = args.GetValue("/out", locus.TrimSuffix & $"-{inDIR.BaseName}.csv")
         Dim modsCls As ModuleClassAPI =
             If(ispathway,
             ModuleClassAPI.FromPathway(inDIR),
@@ -72,7 +72,7 @@ Partial Module CLI
                Usage:="/Gets.prot_motif /query <query.txt/genome.PTT> [/PTT /sp <kegg-sp> /out <out.json> /update]")>
     Public Function GetsProteinMotifs(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & ".prot_motifs.json")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & ".prot_motifs.json")
         Dim TEMP As String = out & ".temp/"
 
         ' If out.FileExists AndAlso Not args.GetBoolean("/update") Then

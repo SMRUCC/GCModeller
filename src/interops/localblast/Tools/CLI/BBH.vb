@@ -55,7 +55,7 @@ Partial Module CLI
     Public Function BlastpBBHQuery(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/query")
         Dim subject As String = args("/hit")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & subject.BaseName & ".BBH_OUT/")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & subject.BaseName & ".BBH_OUT/")
         Dim localBlast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
         Dim blastp As INVOKE_BLAST_HANDLE = localBlast.CreateInvokeHandle
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
@@ -73,7 +73,7 @@ Partial Module CLI
     Public Function SelectsMeta(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim bbh As String = args("/bbh")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & bbh.BaseName & ".meta.Xml")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & bbh.BaseName & ".meta.Xml")
         Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
         Dim bbhs As IEnumerable(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
         Dim uids As IEnumerable(Of String) = (From x As BBHIndex In bbhs Select {x.HitName, x.QueryName}).MatrixAsIterator.Distinct
@@ -104,7 +104,7 @@ Partial Module CLI
             BBHParser.GetDirreBhAll2(qsbh.ToArray, ssbh.ToArray, identities, coverage),
             BBHParser.GetBBHTop(qsbh.ToArray, ssbh.ToArray, identities, coverage))
         Dim out As String =
-            args.GetValue("/out", qvs.TrimFileExt & $"{If(all, "-all", "")},{identities},{coverage}.bbh.csv")
+            args.GetValue("/out", qvs.TrimSuffix & $"{If(all, "-all", "")},{identities},{coverage}.bbh.csv")
         Return bbh.SaveTo(out).CLICode
     End Function
 
@@ -137,7 +137,7 @@ Partial Module CLI
     Public Function BBHExportFile(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & "_bbh.csv")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "_bbh.csv")
         Dim evalue As Double = args.GetValue("/evalue", 0.001)
         Dim coverage As Double = args.GetValue("/coverage", 0.85)
         Dim identities As Double = args.GetValue("/identities", 0.3)
@@ -151,7 +151,7 @@ Partial Module CLI
     Public Function SBHTrim(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim evalue As Double = args.GetDouble("/evalue")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & "." & args("/evalue") & ".Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "." & args("/evalue") & ".Csv")
         Dim readStream As New DocumentStream.Linq.DataStream(inFile)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
@@ -255,7 +255,7 @@ Partial Module CLI
                Usage:="/venn.sbh.thread /in <blastp.txt> [/out <out.sbh.csv> /coverage <0.6> /identities <0.3> /overrides]")>
     Public Function SBHThread(args As CommandLine.CommandLine) As Integer
         Dim blastp As String = args("/in")
-        Dim out As String = args.GetValue("/out", blastp.TrimFileExt & ".sbh.csv")
+        Dim out As String = args.GetValue("/out", blastp.TrimSuffix & ".sbh.csv")
         Dim coverage As Double = args.GetValue("/coverage", 0.6)
         Dim identities As Double = args.GetValue("/identities", 0.3)
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
@@ -312,7 +312,7 @@ Partial Module CLI
     Public Function LocusSelects(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/locus")
         Dim bh As String = args("/bh")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & $"-{bh.BaseName}.selects.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{bh.BaseName}.selects.Csv")
         Dim bbh As IEnumerable(Of BBHIndex) = bh.LoadCsv(Of BBHIndex)
         Dim locus As List(Of String) = [in].ReadAllLines.ToList
         Dim LQuery = (From x In bbh.AsParallel Where locus.IndexOf(x.QueryName) > -1 Select x).ToArray

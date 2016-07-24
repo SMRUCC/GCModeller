@@ -80,7 +80,7 @@ Partial Module CLI
     Public Function CORN(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim mastDIR As String = args("/mast")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & mastDIR.BaseName & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & mastDIR.BaseName & ".Csv")
         Dim operons As IEnumerable(Of RegPreciseOperon) = [in].LoadCsv(Of RegPreciseOperon)
         Dim result As New List(Of RegPreciseOperon)
         Dim PTT As PTT = TabularFormat.PTT.Load(args - "/PTT")
@@ -156,7 +156,7 @@ Partial Module CLI
     Public Function SelectRegulatorsBBH(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim DbDIR As String = args("/db")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Regulators.bbh.csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Regulators.bbh.csv")
         Dim inBBH = inFile.LoadCsv(Of BBH.BiDirectionalBesthit)
         Dim dict = (From x As BBH.BiDirectionalBesthit
                     In inBBH
@@ -254,7 +254,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.MatrixToList
-        Return LQuery.SaveTo(args("/mast").TrimFileExt & ".csv").CLICode
+        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
     End Function
 
 
@@ -399,7 +399,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.MatrixToList
-        Return LQuery.SaveTo(args("/mast").TrimFileExt & ".csv").CLICode
+        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
     End Function
 
     Private Function __compile(hit As XmlOutput.MAST.Segment, MEMEMotifs As Dictionary(Of String, Motif), offset As Integer) As MastSites()
@@ -578,7 +578,7 @@ Partial Module CLI
             Next
         End If
 
-        Dim save As String = args.GetValue("/save", args("/bbh").TrimFileExt & ".Regprecise.bbh_mappings.csv")
+        Dim save As String = args.GetValue("/save", args("/bbh").TrimSuffix & ".Regprecise.bbh_mappings.csv")
         Return result.SaveTo(save).CLICode
     End Function
 
@@ -606,7 +606,7 @@ Partial Module CLI
         Dim cut As Double = args.GetValue("/cutoff", 0.6)
         Dim corrs As Correlation2 = Correlation2.LoadAuto(args("/sp"))
         Dim virtualFootprints = RegpreciseSummary.GenerateRegulations(bbh, mastSites, corrs, cut)
-        Dim out As String = args.GetValue("/out", args("/mast").TrimFileExt & ".VirtualFootprints.csv")
+        Dim out As String = args.GetValue("/out", args("/mast").TrimSuffix & ".VirtualFootprints.csv")
         Dim opr As String = args("/DOOR")
 
         If opr.FileExists Then
@@ -636,7 +636,7 @@ Partial Module CLI
         Dim brief As Boolean = args.GetBoolean("/brief")
 
         If String.IsNullOrEmpty(out) Then
-            out = args("/motifs").TrimFileExt & ".virtualFootprints.csv"
+            out = args("/motifs").TrimSuffix & ".virtualFootprints.csv"
         End If
 
         Return virtualFootprints.SaveTo(out).CLICode
@@ -705,7 +705,7 @@ Partial Module CLI
             Next
         Next
 
-        Return Csv.Save(args("/footprint").TrimFileExt & ".TCS_Pie.csv", Encoding:=System.Text.Encoding.ASCII)
+        Return Csv.Save(args("/footprint").TrimSuffix & ".TCS_Pie.csv", Encoding:=System.Text.Encoding.ASCII)
     End Function
 
     ''' <summary>
@@ -717,7 +717,7 @@ Partial Module CLI
     <ParameterInfo("/in", False, Description:="The RegPrecise formated title fasta file.")>
     Public Function KEGGFamilyDump(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim outFile As String = args.GetValue("/out", inFile.TrimFileExt & "_KEGG.csv")
+        Dim outFile As String = args.GetValue("/out", inFile.TrimSuffix & "_KEGG.csv")
         Dim inFasta = SequenceModel.FASTA.FastaFile.Read(inFile)
         Dim Regulators = FastaReaders.Regulator.LoadDocument(inFasta)
         Return Regulators.SaveTo(outFile).CLICode
@@ -727,7 +727,7 @@ Partial Module CLI
     Public Function BuildFamilyDb(args As CommandLine) As Integer
         Dim prot As String = args("/prot")
         Dim pfam As String = args("/pfam")
-        Dim out As String = args.GetValue("/out", prot.TrimFileExt & ".Xml")
+        Dim out As String = args.GetValue("/out", prot.TrimSuffix & ".Xml")
         Dim inFasta = SequenceModel.FASTA.FastaFile.Read(prot)
         Dim Regulators As FastaReaders.Regulator() = FastaReaders.Regulator.LoadDocument(inFasta)
         Dim FamilyGroups = (From reg In (From x As FastaReaders.Regulator In Regulators

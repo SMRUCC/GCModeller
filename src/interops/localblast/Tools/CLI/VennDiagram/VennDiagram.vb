@@ -39,7 +39,7 @@ Partial Module CLI
                Usage:="/SSBH2BH_LDM /in <ssbh.csv> [/xml /coverage 0.8 /identities 0.3 /out <out.xml>]")>
     Public Function KEGGSSOrtholog2Bh(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".BestHit.Xml")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".BestHit.Xml")
         Dim isXml As Boolean = args.GetBoolean("/xml")
         Dim Xml As HitCollection
         Dim coverage As Double = args.GetValue("/coverage", 0.8)
@@ -71,7 +71,7 @@ Partial Module CLI
     Public Function BestHitFiltering(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sp As String = args("/sp")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & sp.BaseName & ".Xml")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & sp.BaseName & ".Xml")
         Dim bbh As BestHit = [in].LoadXml(Of BestHit)
         Dim lstSP As String() = (From s As String In sp.ReadAllLines Select s.Split(CChar(vbTab)).First).ToArray
         For Each x In bbh.hits
@@ -86,7 +86,7 @@ Partial Module CLI
     <ExportAPI("/Venn.Single", Usage:="/Venn.Single /in <besthits.Xml> [/out <out.csv>]")>
     Public Function VennSingle(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".venn.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".venn.Csv")
         Dim besthit As BestHit = [in].LoadXml(Of BestHit)
         Dim df As DocumentStream.File = VennDataModel.DeltaMove({besthit})
         Return df.Save(out, Encodings.ASCII).CLICode

@@ -76,7 +76,7 @@ Partial Module CLI
     Public Function RfamRegulatory(args As CommandLine.CommandLine) As Integer
         Dim queryMappings As String = args("/query")
         Dim mast As String = args("/mast")
-        Dim out As String = args.GetValue("/out", queryMappings.TrimFileExt & ".Rfam.Regulatory.Csv")
+        Dim out As String = args.GetValue("/out", queryMappings.TrimSuffix & ".Rfam.Regulatory.Csv")
         Dim query = queryMappings.LoadCsv(Of Rfamily)
         Dim mastSites = mast.LoadCsv(Of MastSites)
         Dim regulations = SMRUCC.genomics.Data.Xfam.Rfam.RfamRegulatory.AnalysisRegulatory(query.ToArray, mastSites.ToArray)
@@ -86,18 +86,18 @@ Partial Module CLI
     <ExportAPI("/Load.cmscan", Usage:="/Load.cmscan /in <stdout.txt> [/out <out.Xml>]")>
     Public Function LoadDoc(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Xml")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Xml")
         Dim Xml As cmscan.ScanSites = [in].LoadCmScan
-        Call Xml.QueryHits.hits.Join(Xml.QueryHits.uncertainHits).SaveTo(out.TrimFileExt & ".hits.Csv")
+        Call Xml.QueryHits.hits.Join(Xml.QueryHits.uncertainHits).SaveTo(out.TrimSuffix & ".hits.Csv")
         Return Xml.SaveAsXml(out).CLICode
     End Function
 
     <ExportAPI("/Load.cmsearch", Usage:="/Load.cmsearch /in <stdio.txt> /out <out.Xml>")>
     Public Function LoadCMSearch(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Xml")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Xml")
         Dim Xml As cmsearch.SearchSites = [in].LoadCMSearch
-        Call Xml.GetDataFrame.SaveTo(out.TrimFileExt & ".hits.Csv")
+        Call Xml.GetDataFrame.SaveTo(out.TrimSuffix & ".hits.Csv")
         Return Xml.SaveAsXml(out).CLICode
     End Function
 
@@ -107,7 +107,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
         Dim dist As Integer = args.GetValue("/dist", 500)
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & PTT.BaseName & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & PTT.BaseName & ".Csv")
         Dim genome As PTT = TabularFormat.PTT.Load(PTT)
         Dim sites As IEnumerable(Of HitDataRow) = [in].LoadCsv(Of HitDataRow)
         Dim result As New List(Of HitDataRow)
@@ -140,7 +140,7 @@ Partial Module CLI
         Dim [in] As String = args("/nt")
         Dim sites As String = args("/sites")
         Dim out As String =
-            args.GetValue("/out", sites.TrimFileExt & $".{[in].BaseName}.fasta")
+            args.GetValue("/out", sites.TrimSuffix & $".{[in].BaseName}.fasta")
         Dim fa As New FASTA.FastaToken([in])
         Dim parser As New SegmentReader(fa, LinearMolecule:=False)
         Dim seqs As New List(Of Bac_sRNA.org.Sequence)
@@ -167,7 +167,7 @@ Partial Module CLI
     Public Function RFamRegulons(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim regulons As String = args - "/regulons"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & regulons.BaseName & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & regulons.BaseName & ".Csv")
         Dim rfams As IEnumerable(Of HitDataRow) = [in].LoadCsv(Of HitDataRow)
         Dim operons As IEnumerable(Of RegPreciseOperon) = regulons.LoadCsv(Of RegPreciseOperon)
         Dim LQuery = (From x As HitDataRow

@@ -40,7 +40,7 @@ Partial Module CLI
     Public Function GetSites(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sites As String = args("/sites")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & $"-{sites.BaseName}.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{sites.BaseName}.csv")
         Dim bbh As IEnumerable(Of BBHIndex) = [in].LoadCsv(Of BBHIndex)
         Dim motifLogs As IEnumerable(Of MotifLog) = sites.LoadCsv(Of MotifLog)
         Dim Xmls As IEnumerable(Of String) = FileIO.FileSystem.GetFiles(GCModeller.FileSystem.GetRepositoryRoot & "/RegpreciseDownloads/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")

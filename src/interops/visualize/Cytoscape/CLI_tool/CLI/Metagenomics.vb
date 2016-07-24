@@ -41,7 +41,7 @@ Partial Module CLI
     Public Function BBHTrimIdentities(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim identities As Double = args.GetValue("/identities", 0.3)
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & $".identities.{identities}.csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".identities.{identities}.csv")
 
         Using IO As New DocumentStream.Linq.WriteStream(Of BBH)(out)
             Dim reader As New DocumentStream.Linq.DataStream(inFile)
@@ -56,7 +56,7 @@ Partial Module CLI
     <ExportAPI("/BBH.Simple", Usage:="/BBH.Simple /in <sbh.csv> [/evalue <evalue: 1e-5> /out <out.bbh.csv>]")>
     Public Function SimpleBBH(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out ", inFile.TrimFileExt & ".bbh.simple.Csv")
+        Dim out As String = args.GetValue("/out ", inFile.TrimSuffix & ".bbh.simple.Csv")
         Dim evalue As Double = args.GetValue("/evalue", 0.00001)
         Dim lstSBH As New List(Of LocalBLAST.Application.BBH.BestHit)
 
@@ -81,7 +81,7 @@ Partial Module CLI
     <ExportAPI("/BLAST.Network", Usage:="/BLAST.Network /in <inFile> [/out <outDIR> /type <default:blast_out; values: blast_out, sbh, bbh> /dict <dict.xml>]")>
     Public Function GenerateBlastNetwork(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt)
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix)
         Dim type As String = args.GetValue("/type", "blast_out").ToLower
         Dim method As BuildFromSource
 
@@ -122,7 +122,7 @@ Partial Module CLI
     <ExportAPI("/MAT2NET", Usage:="/MAT2NET /in <mat.csv> [/out <net.csv> /cutoff 0]")>
     Public Function MatrixToNetwork(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".network.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network.Csv")
         Dim Csv = DocumentFormat.Csv.DocumentStream.File.Load(Path:=inFile)
         Dim ids As String() = Csv.First.Skip(1).ToArray
         Dim net As New List(Of DataVisualization.Network.FileStream.NetworkEdge)

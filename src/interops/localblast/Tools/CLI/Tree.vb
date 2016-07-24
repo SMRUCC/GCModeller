@@ -45,7 +45,7 @@ Partial Module CLI
         Dim GetFasta = (From id As String In AllLocus Where query.ContainsKey(id) Select query(id)).ToList
         Call GetFasta.Add((From id As String In AllLocus Where subject.ContainsKey(id) Select subject(id)).ToArray)
 
-        Dim out As String = args("/hits").TrimFileExt & ".fasta"
+        Dim out As String = args("/hits").TrimSuffix & ".fasta"
         Return New FastaFile(GetFasta).Save(out).CLICode
     End Function
 
@@ -53,7 +53,7 @@ Partial Module CLI
     Public Function IdentitiesMAT(args As CommandLine.CommandLine) As Integer
         Dim hit As String = args("/hit")
         Dim cut As Double = args.GetValue("/cut", 0.65)
-        Dim out As String = args.GetValue("/out", hit.TrimFileExt & $"_cut={cut}.csv")
+        Dim out As String = args.GetValue("/out", hit.TrimSuffix & $"_cut={cut}.csv")
         Dim hits = hit.LoadCsv(Of BBH.BBHIndex)
         Dim Grep As TextGrepMethod = TextGrepScriptEngine.Compile("tokens ' ' first").Method
         For Each x As BBH.BBHIndex In hits

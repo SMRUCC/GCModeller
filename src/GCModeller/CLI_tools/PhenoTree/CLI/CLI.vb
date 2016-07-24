@@ -51,7 +51,7 @@ Public Module CLI
                Usage:="/Cluster.Genes.Phenotype /sites <motifSites.csv> [/out <out.tree_cluster.csv> /parallel]")>
     Public Function GenePhenoClusters(args As CommandLine) As Integer
         Dim sites As String = args - "/sites"
-        Dim out As String = args.GetValue("/out", sites.TrimFileExt & $".{NameOf(GenePhenoClusters)}.tree.csv")
+        Dim out As String = args.GetValue("/out", sites.TrimSuffix & $".{NameOf(GenePhenoClusters)}.tree.csv")
         Dim motifSites As IEnumerable(Of MotifLog) = sites.LoadCsv(Of MotifLog)
         Dim promoters = (From x As MotifLog
                          In motifSites.AsParallel
@@ -106,7 +106,7 @@ Public Module CLI
     Public Function PartitioningCOGs(args As CommandLine) As Integer
         Dim inFile As String = args - "/cluster"
         Dim depth As Integer = args.GetValue("/depth", -1)
-        Dim EXPORT As String = args.GetValue("/out", inFile.TrimFileExt & $".depth={depth}/")
+        Dim EXPORT As String = args.GetValue("/out", inFile.TrimSuffix & $".depth={depth}/")
         Dim partitions As List(Of Partition) = inFile.LoadCsv(Of EntityLDM).Partitioning(depth)
         Dim myva As String = args <= "/myva"
         Dim COGs As MyvaCOG() = myva.LoadCsv(Of MyvaCOG)

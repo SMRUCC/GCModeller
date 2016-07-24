@@ -60,7 +60,7 @@ Partial Module Utilities
     <ParameterInfo("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
     Public Function ConvertsAuto(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Locis.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Locis.Csv")
         Dim df As DocumentStream.File = DocumentStream.File.Load([in])
         Dim result As SimpleSegment() = df.ConvertsAuto
         Return result.SaveTo(out).CLICode
@@ -72,7 +72,7 @@ Partial Module Utilities
     <ParameterInfo("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
     Public Function ConvertMirrors(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".SimpleSegments.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".SimpleSegments.Csv")
         Dim data As PalindromeLoci() = [in].LoadCsv(Of PalindromeLoci)
         Dim sites As SimpleSegment() = data.ToArray(AddressOf MirrorsLoci)
 
@@ -90,7 +90,7 @@ Partial Module Utilities
                    Description:="-1 means group sequence by string equals compared, and value of 0-1 means using string fuzzy compare.")>
     Public Function MirrorGroups(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim outDIR As String = args.GetValue("/out", [in].TrimFileExt)
+        Dim outDIR As String = args.GetValue("/out", [in].TrimSuffix)
         Dim data As PalindromeLoci() = [in].LoadCsv(Of PalindromeLoci)
         Dim cut As Double = args.GetValue("/fuzzy", -1.0R)
         Dim batch As Boolean = args.GetBoolean("/batch")
@@ -184,7 +184,7 @@ Partial Module Utilities
         Dim PTT As String = args("/PTT")
         Dim strand As String = args.GetValue("/strand", "+")
         Dim stranded As Boolean = args.GetBoolean("/stranded")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & PTT.BaseName & "." & strand & ".csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & PTT.BaseName & "." & strand & ".csv")
         Dim context As PTT = TabularFormat.PTT.Load(PTT)
         Dim genome As New GenomeContextProvider(Of GeneBrief)(context)  ' 构建基因组的上下文模型
         Dim lStrand As Strands = strand.GetStrand
@@ -199,7 +199,7 @@ Partial Module Utilities
 
         If trans Then
             Call $"Reversed strand location will be transformed by genome size!".__DEBUG_ECHO
-            out = out.TrimFileExt & ".trans.Csv"
+            out = out.TrimSuffix & ".trans.Csv"
         End If
 
         Dim gsize As Integer = context.Size

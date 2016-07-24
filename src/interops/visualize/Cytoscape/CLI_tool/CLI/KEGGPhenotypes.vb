@@ -60,7 +60,7 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim modsDIR As String = args("/mods")
         Dim isPathway As Boolean = args.GetBoolean("/pathway")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".PhenotypeRegulates.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".PhenotypeRegulates.Csv")
         Dim footprints As PredictedRegulationFootprint() =
             inFile.LoadCsv(Of PredictedRegulationFootprint).__distinctCommon
         Dim loadMods As ModuleClassAPI =
@@ -98,7 +98,7 @@ Partial Module CLI
                                                   Function(prop) prop.Value.Value / l)
         })
 
-        Call sets.SaveTo(out.TrimFileExt & ".resultSet.Csv")
+        Call sets.SaveTo(out.TrimSuffix & ".resultSet.Csv")
 
         ' 树形聚类
         Dim saveResult = sets.TreeCluster
@@ -108,7 +108,7 @@ Partial Module CLI
     <ExportAPI("/net.model", Usage:="/net.model /model <kegg.xmlModel.xml> [/out <outDIR> /not-trim]")>
     Public Function BuildModelNet(args As CommandLine.CommandLine) As Integer
         Dim model As String = args("/model")
-        Dim out As String = args.GetValue("/out", model.TrimFileExt & ".NET/")
+        Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
         Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
         Dim notTrim As Boolean = args.GetBoolean("/not-trim")
         Return ExportPathwayGraphFile(bmods, out, notTrim).CLICode
@@ -117,7 +117,7 @@ Partial Module CLI
     <ExportAPI("/net.pathway", Usage:="/net.pathway /model <kegg.pathway.xml> [/out <outDIR> /trim]")>
     Public Function PathwayNet(args As CommandLine.CommandLine) As Integer
         Dim model As String = args("/model")
-        Dim out As String = args.GetValue("/out", model.TrimFileExt & ".NET/")
+        Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
         Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
         Dim trim As Boolean = args.GetBoolean("/trim")
         Return ExportPathwayGraphFile(bmods, out, trim).CLICode

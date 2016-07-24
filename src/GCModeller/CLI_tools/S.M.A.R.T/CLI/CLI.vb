@@ -159,7 +159,7 @@ Public Module CLI
         Dim inFile As String = args("/in")
         Dim blastOut = LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(inFile)
         Dim PfamString = Pfam.CreatePfamString(blastOut, disableUltralarge:=True)
-        Return PfamString.SaveTo(inFile.TrimFileExt & ".Pfam-String.Csv")
+        Return PfamString.SaveTo(inFile.TrimSuffix & ".Pfam-String.Csv")
     End Function
 
 End Module

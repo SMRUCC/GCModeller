@@ -101,7 +101,7 @@ Partial Module CLI
         Dim bbh As String = args("/bbh")
         Dim genome As String = args("/genome")
         Dim door As String = args("/door")
-        Dim out As String = args.GetValue("/out", $"{bbh.TrimFileExt}.{IO.Path.GetFileNameWithoutExtension(genome)}.Regulons.Xml")
+        Dim out As String = args.GetValue("/out", $"{bbh.TrimSuffix}.{IO.Path.GetFileNameWithoutExtension(genome)}.Regulons.Xml")
         Dim genomeGET = RegulonAPI.Reconstruct(bbh, genome, door)
         Return genomeGET.GetXml.SaveTo(out)
     End Function
@@ -116,7 +116,7 @@ Partial Module CLI
         Dim bbh As String = args("/bbh")
         Dim genome As String = args("/genome")
         Dim DOOR As String = args("/door")
-        Dim out As String = args.GetValue("/out", bbh.TrimFileExt & ".Regulons/")
+        Dim out As String = args.GetValue("/out", bbh.TrimSuffix & ".Regulons/")
         Dim bbhValues = bbh.LoadCsv(Of BiDirectionalBesthit)
         Dim genomes = FileIO.FileSystem.GetFiles(genome, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
         Dim doorOperon As SMRUCC.genomics.Assembly.DOOR.DOOR
@@ -200,7 +200,7 @@ Partial Module CLI
         Dim result = RegulonDef.Export(refDIR, inDIR)
         Call result.SaveTo(out)
         result = (From x In result Where InStr(x.Hit, x.Family, CompareMethod.Text) > 0 Select x).ToArray
-        out = out.TrimFileExt & ".2.Csv"
+        out = out.TrimSuffix & ".2.Csv"
         Return result.SaveTo(out).CLICode
     End Function
 End Module

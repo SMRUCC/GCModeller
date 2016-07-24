@@ -65,7 +65,7 @@ Partial Module CLI
              Group x By x.rg Into Group) _
                   .ToDictionary(Function(x) x.rg,
                                 Function(x) x.Group.ToArray(Function(o) o.opr))
-        Dim out As String = args.GetValue("/out", rfam.TrimFileExt & $".{[in].BaseName}.Csv")
+        Dim out As String = args.GetValue("/out", rfam.TrimSuffix & $".{[in].BaseName}.Csv")
         Dim result As New List(Of RfamRegulon)
 
         For Each x As HitDataRow In rfamSites
@@ -86,7 +86,7 @@ Partial Module CLI
     Public Function siRNAMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim hits As String = args("/hits")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & $".{hits.BaseName}.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".{hits.BaseName}.csv")
         Dim inSites As IEnumerable(Of HitDataRow) =
             [in].LoadCsv(Of HitDataRow)
         Dim blastnHits As IEnumerable(Of BestHit) = hits.LoadCsv(Of BestHit)

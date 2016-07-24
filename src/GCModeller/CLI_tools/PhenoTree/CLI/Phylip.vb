@@ -47,7 +47,7 @@ Partial Module CLI
         Dim limits As Integer = args.GetInt32("/limits")
         Dim query As String = args - "/query"
         Dim gendist As Gendist = source.ExportGendistMatrixFromBesthitMeta(query, Limits:=limits)
-        Call gendist.MATRaw.Save(out.TrimFileExt & ".csv", Encodings.ASCII)
+        Call gendist.MATRaw.Save(out.TrimSuffix & ".csv", Encodings.ASCII)
         Call gendist.GenerateDocument.SaveTo(out, Encodings.ASCII.GetEncodings)
         Return 0
     End Function

@@ -170,15 +170,26 @@ Namespace Fastaq
                 LinqAPI.Exec(Of FASTA.FastaToken) <= From fq As SeqValue(Of Fastaq)
                                                      In Me.SeqIterator.AsParallel
                                                      Let read As Fastaq = fq.obj
+                                                     Let attrs As String() = __trim(__attrs(fq.i, read))
                                                      Select fasta = New FASTA.FastaToken With {
                                                          .SequenceData = read.SequenceData,
-                                                         .Attributes = __attrs(fq.i, read)
+                                                         .Attributes = attrs
                                                      }
                                                      Order By fasta.Attributes.First Ascending
 
             Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
 
             Return New FASTA.FastaFile(LQuery)
+        End Function
+
+        Private Shared Function __trim(attrs As String()) As String()
+            Dim last As String = attrs.Last
+
+            If last.First = "@"c Then
+                attrs(attrs.Length - 1) = Mid(last, 2).Trim
+            End If
+
+            Return attrs
         End Function
     End Class
 End Namespace

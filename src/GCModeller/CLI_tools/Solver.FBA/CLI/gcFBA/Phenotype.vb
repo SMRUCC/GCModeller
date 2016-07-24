@@ -61,7 +61,7 @@ Partial Module CLI
         Dim regs As String = args("/reg")
         Dim obj As String = args("/obj")
         Dim modify As String = args("/modify")
-        Dim out As String = args.GetValue("/out", inModel.TrimFileExt & ".rFBA/")
+        Dim out As String = args.GetValue("/out", inModel.TrimSuffix & ".rFBA/")
         Dim model As XmlFile = XmlFile.Load(inModel)
         Dim footprints As List(Of RegulatesFootprints) = regs.LoadCsv(Of RegulatesFootprints)
         Dim objectives As FBA_OUTPUT.ObjectiveFunction =
@@ -201,7 +201,7 @@ Partial Module CLI
         Dim regs As String = args("/reg")
         Dim obj As String = args("/obj")
         Dim modify As String = args("/modify")
-        Dim out As String = args.GetValue("/out", inModel.TrimFileExt & ".rFBA/")
+        Dim out As String = args.GetValue("/out", inModel.TrimSuffix & ".rFBA/")
         Dim model As XmlFile = XmlFile.Load(inModel)
         Dim footprints = regs.LoadCsv(Of RegulatesFootprints)
         Dim objectives As FBA_OUTPUT.ObjectiveFunction = __getObjectives(obj, args.GetValue("/obj-type", "lst"))
@@ -329,7 +329,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
         Dim inDIR As String = args("/in")
         Dim spcc As Boolean = args.GetBoolean("/spcc")
         Dim footprintFile As String = args("/footprints")
-        Dim out As String = args.GetValue("/out", args("/func").TrimFileExt & "." & __out(spcc, False, footprintFile))
+        Dim out As String = args.GetValue("/out", args("/func").TrimSuffix & "." & __out(spcc, False, footprintFile))
         Dim DIR As New rFBADump(inDIR)
         Dim footprints = footprintFile.LoadCsv(Of RegulatesFootprints)  ' footprints的作用是用来筛选出调控因子
         Dim flxus As List(Of RPKMStat) = args("/func").LoadCsv(Of RPKMStat)
@@ -369,7 +369,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
     <ExportAPI("/Flux.KEGG.Filter", Usage:="/Flux.KEGG.Filter /in <flux.csv> /model <MetaCyc.sbml> [/out <out.csv>]")>
     Public Function KEGGFilter(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".KEGG.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".KEGG.Csv")
         Dim model As XmlFile = XmlFile.Load(args("/model"))
         Dim fluxs As List(Of PhenoOUT) = inFile.LoadCsv(Of PhenoOUT)
         Dim KEGGs = LoadReactions(GCModeller.FileSystem.KEGG.Directories.GetReactions)
@@ -377,7 +377,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
         Dim fluxHash = fluxs.ToDictionary
         Dim LQuery As PhenoOUT() = (From x In intSets Where fluxHash.ContainsKey(x.id) Select fluxHash(x.id)).ToArray
         Dim maps = intSets.ToArray(Function(x) New KeyValuePair(x.id, x.Notes.Text))
-        Dim outMaps As String = out.TrimFileExt & ".KEGG_Maps.Xml"
+        Dim outMaps As String = out.TrimSuffix & ".KEGG_Maps.Xml"
         Call maps.SaveAsXml(outMaps)
         Return LQuery.SaveTo(out).CLICode
     End Function

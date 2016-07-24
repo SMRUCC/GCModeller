@@ -31,7 +31,7 @@ Partial Module CLI
         Dim [in] As String = args.GetFullFilePath("/in")
         Dim gi As String = args("/gi")
         Dim format As String = args("/format")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Format_gi." & [in].Split("."c).Last)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Format_gi." & [in].Split("."c).Last)
         Dim regex As New Regex(gi, RegexICSng)
 
         Using write = out.OpenWriter(Encodings.ASCII)
@@ -54,7 +54,7 @@ Partial Module CLI
     <ExportAPI("/fq2fa", Usage:="/fq2fa /in <fastaq> [/out <fasta>]")>
     Public Function Fq2fa(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".fasta")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
         Dim fastaq As FastaqFile = FastaqFile.Load([in])
         Dim fasta As FastaFile = fastaq.ToFasta
         Return fasta.Save(out, Encodings.ASCII)
@@ -64,7 +64,7 @@ Partial Module CLI
     Public Function Clustering(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim kmax As Integer = args.GetInt32("/kmax")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ",kmax=" & kmax & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ",kmax=" & kmax & ".Csv")
         Dim fq As FastaqFile = FastaqFile.Load([in])
         Dim vectors = fq.Transform
         Dim Crude = vectors.InitializePartitions(kmax)
@@ -130,7 +130,7 @@ Partial Module CLI
     <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv>]")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Maps.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
         Dim reader As New SamStream([in])
         Dim result As New List(Of SimpleSegment)
         Dim NNNNcontig As String = args("/contigs")
@@ -207,7 +207,7 @@ Partial Module CLI
                                                         Select x
                                                         Group x By x.ID Into Count) _
                    .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count) With {.Description = getValue(x.ID)})
-        Dim statOut As String = out.TrimFileExt & ".stat.Csv"
+        Dim statOut As String = out.TrimSuffix & ".stat.Csv"
 
         Call (From x As NamedValue(Of Integer)
               In stat
@@ -215,7 +215,7 @@ Partial Module CLI
               Select gi = Regex.Match(x.Name, "\d+").Value,
                   x.Name) _
                   .ToArray(Function(x) x.gi & vbTab & x.Name) _
-                  .SaveTo(statOut.TrimFileExt & ".gi_Maps.tsv")
+                  .SaveTo(statOut.TrimSuffix & ".gi_Maps.tsv")
         Call New NamedValue(Of Integer)([in].BaseName, result.Count).Join(stat).SaveTo(statOut)
 
         Return result.SaveTo(out, maps:=maps)

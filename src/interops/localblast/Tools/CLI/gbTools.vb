@@ -64,7 +64,7 @@ Partial Module CLI
     <ExportAPI("/Export.gpff", Usage:="/Export.gpff /in <genome.gpff> /gff <genome.gff> [/out <out.PTT>]")>
     Public Function EXPORTgpff(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".PTT")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".PTT")
         Dim PTT As PTT = __EXPORTgpff([in], args - "/gff")
         Return PTT.Save(out)
     End Function
@@ -100,7 +100,7 @@ Partial Module CLI
         Call $"Found {gpffs.Count} *.gpff and {gffs.Count} *.gff files....".__DEBUG_ECHO
 
         For Each pair In PathMatch.Pairs(gpffs, gffs, AddressOf __trimName)
-            Dim out As String = pair.Pair1.TrimFileExt & ".PTT"
+            Dim out As String = pair.Pair1.TrimSuffix & ".PTT"
 
             Try
                 Call __EXPORTgpff(pair.Pair1, pair.Pair2).Save(out)
@@ -157,7 +157,7 @@ Partial Module CLI
     <ExportAPI("/Export.BlastX", Usage:="/Export.BlastX /in <blastx.txt> [/out <out.csv>]")>
     Public Function ExportBlastX(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".blastx.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".blastx.csv")
         Dim blastx As BlastPlus.BlastX.v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
         Dim result = blastx.BlastXHits
         Return result.SaveTo(out)
@@ -177,14 +177,14 @@ Partial Module CLI
             Dim EXPORT As String = args.GetValue("/out", gb.TrimDIR & ".EXPORT")
 
             For Each file As String In ls - l - r - wildcards("*.gb", "*.gbff", "*.gbk") <= gb
-                Dim out As String = file.TrimFileExt
+                Dim out As String = file.TrimSuffix
 
                 For Each x As GBFF.File In GBFF.File.LoadDatabase(file)
                     Call x.__exportTo(out, simple)
                 Next
             Next
         Else
-            Dim out As String = args.GetValue("/out", args("/gb").TrimFileExt)
+            Dim out As String = args.GetValue("/out", args("/gb").TrimSuffix)
 
             For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
                 Call x.__exportTo(out, simple)
@@ -219,7 +219,7 @@ Partial Module CLI
     Public Function AddLocusTag(args As CommandLine.CommandLine) As Integer
         Dim gbFile As String = args("/gb")
         Dim prefix As String = args("/prefix")
-        Dim out As String = args.GetValue("/out", gbFile.TrimFileExt & $".{prefix}.gb")
+        Dim out As String = args.GetValue("/out", gbFile.TrimSuffix & $".{prefix}.gb")
         Dim gb As GBFF.File = GBFF.File.Load(gbFile)
         Dim LQuery = (From x As GBFF.Keywords.FEATURES.Feature
                       In gb.Features
@@ -254,7 +254,7 @@ Partial Module CLI
     Public Function AddNames(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/anno")
         Dim gbFile As String = args("/gb")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & "-" & gbFile.BaseName & ".gb")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "-" & gbFile.BaseName & ".gb")
         Dim tag As String = args.GetValue("/tag", "name")
         Dim annos As IEnumerable(Of NameAnno) = inFile.LoadCsv(Of NameAnno)
         Dim gb As GBFF.File = GBFF.File.Load(gbFile)

@@ -45,7 +45,7 @@ Partial Module CLI
              Usage:="--site.stat /in <footprints.csv> [/out <out.csv>]")>
     Public Function SiteStat(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim outFile As String = args.GetValue("/out", inFile.TrimFileExt & ".siteStat.csv")
+        Dim outFile As String = args.GetValue("/out", inFile.TrimSuffix & ".siteStat.csv")
         Dim raw = inFile.LoadCsv(Of PredictedRegulationFootprint)
 
         Dim Total As Integer = raw.Count
@@ -122,7 +122,7 @@ Partial Module CLI
                    If the fields is blank, then your should specify the /mods parameter.")>
     Public Function ModuleRegulates(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt)
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix)
         Dim regulations = inFile.LoadCsv(Of PredictedRegulationFootprint)
         Dim modsDIR As String = args("/mods")
 

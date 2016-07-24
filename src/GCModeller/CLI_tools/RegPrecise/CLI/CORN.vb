@@ -58,7 +58,7 @@ Partial Module CLI
     Public Function CORN(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sites As String = args("/sites")
-        Dim out As String = args.GetValue("/out", sites.TrimFileExt & ".CORN.Csv")
+        Dim out As String = args.GetValue("/out", sites.TrimSuffix & ".CORN.Csv")
         Dim motifSites As IEnumerable(Of MotifLog) = sites.LoadCsv(Of MotifLog)
         Dim ref As String = args("/ref")
         Dim refName As String = ref.BaseName
@@ -211,7 +211,7 @@ Partial Module CLI
         Dim hit As String = args("/hit")
         Dim sites As String = args("/sites")
         Dim hitSites As String = args("/hit-sites")
-        Dim out As String = args.GetValue("/out", sites.TrimFileExt & $"-{hitSites.BaseName}.CORN.Csv")
+        Dim out As String = args.GetValue("/out", sites.TrimSuffix & $"-{hitSites.BaseName}.CORN.Csv")
         Dim motifSites As IEnumerable(Of MotifLog) = sites.LoadCsv(Of MotifLog)
         Dim ref As String = args("/ref")
         Dim nul As Boolean = args.GetBoolean("/null-regprecise")
@@ -419,7 +419,7 @@ Partial Module CLI
                                 o.tag,
                                 o.Taxonomy).ToArray
 
-            Call supports.SaveTo(out.TrimFileExt & ".supports.Csv")
+            Call supports.SaveTo(out.TrimSuffix & ".supports.Csv")
             Call list.SaveTo(out)
         Next
 

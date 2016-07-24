@@ -47,7 +47,7 @@ Partial Module CLI
         Dim blastp As v228 = BlastPlus.ParsingSizeAuto([in])
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.3)
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".paralogs.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".paralogs.csv")
         Dim paralogs As BestHit() = Paralog.ExportParalog(blastp, coverage, identities)
         Return paralogs.SaveTo(out).CLICode
     End Function
@@ -110,7 +110,7 @@ Partial Module CLI
     <ExportAPI("/MAT.evalue", Usage:="/MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]")>
     Public Function EvalueMatrix(args As CommandLine.CommandLine) As Integer
         Dim sbh As List(Of BestHit) = args("/in").LoadCsv(Of BestHit)
-        Dim out As String = args.GetValue("/out", args("/in").TrimFileExt & ".Evalue.Csv")
+        Dim out As String = args.GetValue("/out", args("/in").TrimSuffix & ".Evalue.Csv")
         Dim contigs = (From x As BestHit
                        In sbh
                        Select x
@@ -143,7 +143,7 @@ Partial Module CLI
                    Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
     Public Function ExportBBHLarge(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".bbh.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".bbh.Csv")
         Dim idetities As Double = args.GetValue("/identities", 0.15)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
 
@@ -195,7 +195,7 @@ Partial Module CLI
         End If
 
         Dim overviews As BestHit() = blastOut.ExportOverview.GetExcelData
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & "Overviews.csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "Overviews.csv")
 
         Return overviews.SaveTo(out).CLICode
     End Function

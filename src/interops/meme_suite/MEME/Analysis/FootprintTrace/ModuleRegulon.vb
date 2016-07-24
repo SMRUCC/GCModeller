@@ -128,7 +128,7 @@ Namespace Analysis.FootprintTraceAPI
                            Select x
                            Order By x.SubjectLength Descending).First
 
-            Call bestHSP.Visual.CorpBlank.SaveAs(out.TrimFileExt & ".png", ImageFormats.Png)
+            Call bestHSP.Visual.CorpBlank.SaveAs(out.TrimSuffix & ".png", ImageFormats.Png)
 
             regulon.tom = out.BaseName
 

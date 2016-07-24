@@ -54,7 +54,7 @@ Module Program
     Private Function ExecuteFile(file As String, args As CommandLine) As Integer
         Dim model As DrawingModel = ModelAPI.GetDrawsModel(file)
         Dim res As Drawing.Image = model.Visualize
-        Dim png As String = file.TrimFileExt & ".png"
+        Dim png As String = file.TrimSuffix & ".png"
         Return res.SaveAs(png, ImageFormats.Png).CLICode
     End Function
 End Module

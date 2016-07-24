@@ -49,7 +49,7 @@ Module CLI
                    If /rfam parameter is not specific, then the program will using the system database if it is exists, and the database is already be formatted as the installation of the database is includes this formation process.")>
     Public Function RfamAlignment(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
-        Dim outDIR As String = args.GetValue("/out", query.TrimFileExt)
+        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix)
         Dim rFam As String = args("/rfam")
 
         If String.IsNullOrEmpty(rFam) Then
@@ -70,9 +70,9 @@ Module CLI
     <ExportAPI("/Rfam.SeedsDb.Dump", Usage:="/Rfam.SeedsDb.Dump /in <rfam.seed> [/out <rfam.csv>]")>
     Public Function DumpSeedsDb(args As CommandLine.CommandLine) As Integer
         Dim inDb As String = args("/in")
-        Dim out As String = args.GetValue("/out", inDb.TrimFileExt & ".Csv")
+        Dim out As String = args.GetValue("/out", inDb.TrimSuffix & ".Csv")
         Dim loads As Dictionary(Of String, Rfam.Stockholm) = Rfam.API.ReadDb(inDb)
-        Dim outDIR As String = out.TrimFileExt
+        Dim outDIR As String = out.TrimSuffix
 
         For Each Rfam As KeyValuePair(Of String, Rfam.Stockholm) In loads
             Dim path As String = outDIR & $"/{Rfam.Key}.fasta"
@@ -85,7 +85,7 @@ Module CLI
     <ExportAPI("/Export.Blastn", Usage:="/Export.Blastn /in <blastout.txt> [/out <blastn.Csv>]")>
     Public Function ExportBlastn(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".csv")
         Return __exportCommon(inFile, out)
     End Function
 
@@ -115,7 +115,7 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
     End Function
 
     Private Function __batchExportOpr(inFile As String) As Integer
-        Dim out As String = inFile.TrimFileExt & ".csv"
+        Dim out As String = inFile.TrimSuffix & ".csv"
         Return __exportCommon(inFile, out)
     End Function
 

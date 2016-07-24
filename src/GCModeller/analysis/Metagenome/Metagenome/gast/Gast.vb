@@ -197,7 +197,7 @@ Namespace gast
                 LOG As New StreamWriter(New FileStream(log_filename, FileMode.OpenOrCreate))
 
                 ' determine the file prefix used by mothur(unique.seqs)
-                Dim file_prefix = in_filename.TrimFileExt
+                Dim file_prefix = in_filename.TrimSuffix
                 Dim file_suffix = in_filename.Split("."c).Last
 
                 Dim uniques_filename = file_prefix & ".unique." & file_suffix

@@ -62,7 +62,7 @@ Partial Module CLI
         Dim setValue = New SetValue(Of Pfam.PfamString.PfamString) <=
             NameOf(Pfam.PfamString.PfamString.Description)
         Dim out = LQuery.ToArray(Function(x) setValue(x.predictsX, CStr(x.score)))
-        Return out.SaveTo(args("/pfam").TrimFileExt & ".Interactions.csv")
+        Return out.SaveTo(args("/pfam").TrimSuffix & ".Interactions.csv")
     End Function
 
     Private Function __getScore(predict As Pfam.PfamString.PfamString,
@@ -177,7 +177,7 @@ Partial Module CLI
         Dim list = (From fm As Family.FileSystem.Family
                     In Categories.AsParallel
                     Select __getCategory(fm, LoadFasta)).ToArray
-        Return list.GetXml.SaveTo(args("/pfam").TrimFileExt & ".PfamMPAln.xml").CLICode
+        Return list.GetXml.SaveTo(args("/pfam").TrimSuffix & ".PfamMPAln.xml").CLICode
     End Function
 
     Private Function __getCategory(fm As Family.FileSystem.Family, loadFasta As Dictionary(Of String, SequenceModel.FASTA.FastaToken)()) As Category
@@ -205,7 +205,7 @@ Partial Module CLI
         Dim SRChain As SRChain() = SR.FromAlign(aln, pCut)
         Dim sig = SRChain.ToArray(Function(x) Signature.CreateObject(x.lstSR, ""))
         Dim fa As New SequenceModel.FASTA.FastaFile(sig)
-        Return fa.Save(args("/in").TrimFileExt & "Signatures.fasta")
+        Return fa.Save(args("/in").TrimSuffix & "Signatures.fasta")
     End Function
 
     ''' <summary>
@@ -290,7 +290,7 @@ Partial Module CLI
             Call list.Add(Category.CreateObject(fm, rp, alignments))
         Next
 
-        Return list.ToArray.GetXml.SaveTo(args("/pfam").TrimFileExt & ".PfamMPAln.xml").CLICode
+        Return list.ToArray.GetXml.SaveTo(args("/pfam").TrimSuffix & ".PfamMPAln.xml").CLICode
     End Function
 
     Public Class Category : Inherits Family.FileSystem.Family
@@ -408,7 +408,7 @@ Partial Module CLI
         Dim align = clustal.MultipleAlignment(input)
         Dim SRChain As SRChain() = SR.FromAlign(align, 0.85)
         Dim Name As String = IO.Path.GetFileNameWithoutExtension(args("/in"))
-        Dim file As String = args("/in").TrimFileExt & ".Pfam-String.csv"
+        Dim file As String = args("/in").TrimSuffix & ".Pfam-String.csv"
         ' Call SRChain.SaveTo(args("/in").TrimFileExt & ".Blocks.csv")
         Call SRChain.ToArray(Function(x) x.ToPfamString()).SaveTo(file)
         Return 0

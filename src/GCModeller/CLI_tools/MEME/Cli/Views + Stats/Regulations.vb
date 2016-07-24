@@ -45,7 +45,7 @@ Partial Module CLI
         Dim Pathways = FileIO.FileSystem.GetFiles(args("/pathway"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
             .ToArray(Function(file) file.LoadXml(Of bGetObject.Pathway))
         Dim PathwayBrites = BriteHEntry.Pathway.LoadFromResource.ToDictionary(Function(entry) entry.EntryId)
-        Dim outDIR As String = args.GetValue("/out", args("-footprints").TrimFileExt)
+        Dim outDIR As String = args.GetValue("/out", args("-footprints").TrimSuffix)
         Dim modRegulators As Dictionary(Of String, List(Of String)) =
             New Dictionary(Of String, List(Of String))
 

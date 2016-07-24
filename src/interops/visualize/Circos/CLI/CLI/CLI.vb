@@ -60,12 +60,12 @@ Public Module CLI
 
         If ref.FileExists Then
             Dim refFa As FastaToken = New FastaToken(ref)
-            Dim out As String = args.GetValue("/out", mla.TrimFileExt & "-" & ref.BaseName & ".NTVariations.txt")
+            Dim out As String = args.GetValue("/out", mla.TrimSuffix & "-" & ref.BaseName & ".NTVariations.txt")
             Dim vec = refFa.NTVariations(source, cut)
             Return vec.FlushAllLines(out).CLICode
         Else
             Dim idx As Integer = Scripting.CastInteger(ref)
-            Dim out As String = args.GetValue("/out", mla.TrimFileExt & "." & idx & ".NTVariations.txt")
+            Dim out As String = args.GetValue("/out", mla.TrimSuffix & "." & idx & ".NTVariations.txt")
             Dim vec = NTVariations(source, idx, cut)
             Return vec.FlushAllLines(out).CLICode
         End If
@@ -74,7 +74,7 @@ Public Module CLI
     <ExportAPI("--AT.Percent", Usage:="--AT.Percent /in <in.fasta> [/win_size <200> /step <25> /out <out.txt>]")>
     Public Function ATContent(args As CommandLine.CommandLine) As Integer
         Dim inFasta As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFasta.TrimFileExt & ".ATPercent.txt")
+        Dim out As String = args.GetValue("/out", inFasta.TrimSuffix & ".ATPercent.txt")
         Dim winSize As Integer = args.GetValue("/win_size", 200)
         Dim steps As Integer = args.GetValue("/step", 25)
         Dim lst As FastaFile = FastaFile.Read(inFasta)
@@ -107,7 +107,7 @@ Public Module CLI
         Dim inFasta = FastaFile.Read(args("/in"))
         Dim winSize As Integer = args.GetValue("/win_size", 200)
         Dim steps As Integer = args.GetValue("/step", 25)
-        Dim out As String = args.GetValue("/out", inFasta.FilePath.TrimFileExt & ".GCSkew.txt")
+        Dim out As String = args.GetValue("/out", inFasta.FilePath.TrimSuffix & ".GCSkew.txt")
 
         If inFasta.NumberOfFasta = 1 Then
             Return __propertyVector(AddressOf NucleicAcidStaticsProperty.GCSkew, inFasta.First, out, winSize, steps)
@@ -131,7 +131,7 @@ Public Module CLI
     <ExportAPI("/MGA2Myva", Usage:="/MGA2Myva /in <mga_cog.csv> [/out <myva_cog.csv> /map <genome.gb>]")>
     Public Function MGA2Myva(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".MyvaCOG.csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".MyvaCOG.csv")
         Dim doc As MGACOG() = MGACOG.LoadDoc(inFile)
         Dim setName = New SetValue(Of MGACOG) <= NameOf(MGACOG.QueryName)
         doc = (From x In doc Let n As String = x.QueryName.Split("|"c)(6) Select setName(x, n)).ToArray

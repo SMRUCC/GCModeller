@@ -101,7 +101,7 @@ Partial Module CLI
     Public Function GroupN(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim locusMap As String = args.GetValue("/locus_map", "locus")
-        Dim out As Int = args.OpenHandle("/out", inFile.TrimFileExt & "-Groups.n.csv")
+        Dim out As Int = args.OpenHandle("/out", inFile.TrimSuffix & "-Groups.n.csv")
         Dim ds = DocumentStream.EntityObject.LoadDataSet(inFile, locusMap)
         Dim st = (From x In ds Select x Group x By x.Identifier Into Count).ToArray
         Return st > out

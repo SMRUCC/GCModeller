@@ -21,9 +21,9 @@ Namespace Assembly.NCBI
             Return Me.GetJson
         End Function
 
-        Public Shared Function Taxonomy(tree As TaxonNode()) As String
+        Public Shared Function Taxonomy(tree As TaxonNode(), Optional delimiter As String = ",") As String
             tree = tree.Reverse.ToArray
-            Return String.Join(",", tree.ToArray(Function(x) x.name))
+            Return String.Join(delimiter, tree.ToArray(Function(x) x.name))
         End Function
 
         Public Shared Function ToHash(tree As TaxonNode()) As Dictionary(Of String, String)
@@ -261,6 +261,20 @@ Namespace Assembly.NCBI
             Next
 
             Return result
+        End Function
+
+        ''' <summary>
+        ''' 使用这个函数得到物种的具体分类，返回来的数据是从小到大排列的
+        ''' </summary>
+        ''' <param name="taxid"></param>
+        ''' <param name="only_std_ranks"></param>
+        ''' <returns></returns>
+        Public Function GetAscendantsWithRanksAndNames(taxid As Integer, Optional only_std_ranks As Boolean = False) As TaxonNode()
+            If Not Taxonomy.ContainsKey(taxid) Then
+                Return {}
+            Else
+                Return __ascendantsWithRanksAndNames(taxid, only_std_ranks)
+            End If
         End Function
 
         ''' <summary>

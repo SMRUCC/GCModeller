@@ -41,7 +41,7 @@ Partial Module CLI
     <ExportAPI("/Views", Usage:="/Views /in <inTSSs.csv> /genome <genome.fasta> [/out <outDIR> /TSS-len 5 /upstram 150]")>
     Public Function Views(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Views/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Views/")
         Dim TSSsLen As Integer = args.GetValue("/TSS-len", 5)
         Dim upstreamLen As Integer = args.GetValue("/upstream", 150)
         Dim genome As New FASTA.FastaToken(args("/genome"))
@@ -59,7 +59,7 @@ Partial Module CLI
     Public Function TSSsNTFreq(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim readsFile As String = args("/reads")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".TSSs.NTFreq.csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".TSSs.NTFreq.csv")
         Dim inData = inFile.LoadCsv(Of Transcript)
         Dim RawReads = ReadsCount.LoadDb(readsFile).ToDictionary(Function(x) x.Index)
         Dim source = (From x In inData Where Not String.IsNullOrEmpty(x.Synonym) Select x).ToArray

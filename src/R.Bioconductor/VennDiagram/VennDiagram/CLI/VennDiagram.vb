@@ -84,7 +84,7 @@ Public Module CLI
         End If
 
         Call RScript.SaveTo(EXPORT, Encodings.ASCII.GetEncodings)
-        Call VennDiagram.SaveAsXml(EXPORT.TrimFileExt & ".Xml")
+        Call VennDiagram.SaveAsXml(EXPORT.TrimSuffix & ".Xml")
         Call RSystem.Source(EXPORT)
 
         Printf("The venn diagram r script were saved at location:\n '%s'", EXPORT)
@@ -111,7 +111,7 @@ Public Module CLI
             Return __run(path, path.BaseName, Nothing, $"{App.Desktop}/{path.BaseName}_venn.tiff", Nothing)
         Else
             Dim venn As VennDiagram = path.LoadXml(Of VennDiagram)
-            Dim EXPORT As String = venn.saveTiff.TrimFileExt & ".r"
+            Dim EXPORT As String = venn.saveTiff.TrimSuffix & ".r"
 
             Call TryInit()
             Call venn.RScript.SaveTo(EXPORT, Encodings.ASCII.GetEncodings)

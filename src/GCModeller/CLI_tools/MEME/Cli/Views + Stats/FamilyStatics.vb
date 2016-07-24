@@ -84,7 +84,7 @@ Partial Module CLI
                 mm.Value.Length,
                 modDetails(mm.Key).GetPathwayGenes.Length}.ToCsvRow)
 
-        Call doc.Save(input.TrimFileExt & ".modFamilies.csv", LazySaved:=False)
+        Call doc.Save(input.TrimSuffix & ".modFamilies.csv", LazySaved:=False)
 
         Dim AllFamilies As String() = (From site In LQuery Select site.Family Distinct).ToArray
         Dim AllTypes As String() = (From entry In modBrites Select entry.Value.Class Distinct).ToArray
@@ -116,7 +116,7 @@ Partial Module CLI
             Dim row = type.Join(AllFamilies.ToArray(Function(fName) If(typeDescrib.ContainsKey(fName), CStr(typeDescrib(fName)), "0")))
             doc += row
         Next
-        Call doc.Save(input.TrimFileExt & ".modFamilies.TypeStat.csv", LazySaved:=False)
+        Call doc.Save(input.TrimSuffix & ".modFamilies.TypeStat.csv", LazySaved:=False)
 
         Dim FamilyMods = (From site In LQuery
                           Select site
@@ -126,7 +126,7 @@ Partial Module CLI
         doc = New DocumentStream.File + {"Family", "Modules"} +
             FamilyMods.ToArray(
                 Function(fm) New String() {fm.Key, fm.Value.Distinct.JoinBy("; ")}.ToCsvRow)
-        Call doc.Save(input.TrimFileExt & ".FamilyMods.csv", LazySaved:=False)
+        Call doc.Save(input.TrimSuffix & ".FamilyMods.csv", LazySaved:=False)
 
         Dim ffff = VectorMapper(FamilyMods.ToArray(Function(f) f.Value.Distinct.ToArray.As(Of IEnumerable(Of String))))
         Dim colors = RSystem.ColorMaps(ffff.Sequence)
@@ -141,7 +141,7 @@ Partial Module CLI
             .Title = "FamilyStatics"
         }
 
-        Call venn.SaveTo(input.TrimFileExt & ".Families.venn.R")
+        Call venn.SaveTo(input.TrimSuffix & ".Families.venn.R")
 
         ' 代谢途径 - 调控位点家族， 边属性为基因
 

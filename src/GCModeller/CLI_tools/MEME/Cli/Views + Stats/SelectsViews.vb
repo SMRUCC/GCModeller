@@ -36,7 +36,7 @@ Partial Module CLI
     Public Function Selectes(args As CommandLine.CommandLine) As Integer
         Dim trace As String = args("/trace")
         Dim memeDIR As String = args("/meme")
-        Dim out As String = args.GetValue("/out", trace.TrimFileExt & "-" & memeDIR.BaseName)
+        Dim out As String = args.GetValue("/out", trace.TrimSuffix & "-" & memeDIR.BaseName)
         Dim named As String = If(args.GetBoolean("/named"), memeDIR.BaseName & "-", "")
         Dim result As AnnotationModel() = trace.LoadXml(Of FootprintTrace).Select(memeDIR)
 

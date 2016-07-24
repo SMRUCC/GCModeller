@@ -27,7 +27,6 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports SMRUCC.genomics.Analysis.AnnotationTools
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Data.Regprecise
@@ -44,7 +43,7 @@ Partial Module CLI
         Dim model As String = args("/model")
         Dim DOOR As String = args("/DOOR")
         Dim maps As String = args("/maps")
-        Dim out As String = args.GetValue("/out", model.TrimFileExt & ".ModuleRegulons/")  ' 主要是需要存放TOMTOM全局比对的图片数据
+        Dim out As String = args.GetValue("/out", model.TrimSuffix & ".ModuleRegulons/")  ' 主要是需要存放TOMTOM全局比对的图片数据
         Dim LDM = AnnotationModel.LoadMEMEOUT(meme)
         Dim footprints = model.LoadXml(Of FootprintTrace)
         Dim opr = DOOR_API.Load(DOOR)

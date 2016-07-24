@@ -46,7 +46,7 @@ Partial Module CLI
     <ExportAPI("/Export.Blastn", Usage:="/Export.Blastn /in <in.txt> [/out <out.csv>]")>
     Public Function ExportBlastn(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Csv")
 
         Using IO As New __writeIO(out)  ' 打开文件流句柄
             Dim IOHandle As Action(Of BlastPlus.Query()) = AddressOf IO.InvokeWrite  ' 获取写文件的IO句柄函数指针
@@ -158,7 +158,7 @@ Partial Module CLI
         Dim query As String = args("/query")
         Dim DbDIR As String = args("/db")
         Dim evalue As Double = args.GetValue("/evalue", 0.00001)
-        Dim outDIR As String = args.GetValue("/out", query.TrimFileExt & ".Blastn/")
+        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & ".Blastn/")
         Dim penalty As Integer = args.GetValue("/penalty", -1)
         Dim reward As Integer = args.GetValue("/reward", -1)
         Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast) With {
@@ -220,7 +220,7 @@ Partial Module CLI
                Usage:="/Export.blastnMaps /in <blastn.txt> [/out <out.csv>]")>
     Public Function ExportBlastnMaps(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Csv")
         Dim blastn As v228 = BlastPlus.TryParseUltraLarge([in])
         Dim maps As BlastnMapping() = MapsAPI.Export(blastn)
         Return maps.SaveTo(out)
@@ -262,7 +262,7 @@ Partial Module CLI
     Public Function ChromosomesBlastnResult(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/reads")
         Dim maps As String = args("/maps")
-        Dim out As String = args.GetValue("/out", maps.TrimFileExt & "-" & [in].BaseName & "/")
+        Dim out As String = args.GetValue("/out", maps.TrimSuffix & "-" & [in].BaseName & "/")
         Dim fasta As IEnumerable(Of FastaToken)
         Dim mappings As IEnumerable(Of BlastnMapping)
 

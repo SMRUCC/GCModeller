@@ -76,11 +76,11 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim aln As New FASTA.FastaFile(inFile)
         Dim level As Integer = args.GetValue("/level", 5)
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Signature.Xml")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Signature.Xml")
         Dim ppiCategory = Category.FromAlign(aln, level:=level, cutoff:=1,
                                                        name:=IO.Path.GetFileNameWithoutExtension(inFile))
         Call ppiCategory.GetXml.SaveTo(out)
-        Call ppiCategory.GetSignatureFasta.Save(out.TrimFileExt & ".fasta")
+        Call ppiCategory.GetSignatureFasta.Save(out.TrimSuffix & ".fasta")
         Return 0
     End Function
 
@@ -124,7 +124,7 @@ Partial Module CLI
     Public Function KEGGFamilys(args As CommandLine.CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim pfam As String = args("/pfam")
-        Dim out As String = args.GetValue("/out", pfam.TrimFileExt & ".Family.Csv")
+        Dim out As String = args.GetValue("/out", pfam.TrimSuffix & ".Family.Csv")
         Dim pfamHash = pfam.LoadCsv(Of PfamString).ToDictionary(Function(x) x.ProteinId.Split(":"c).Last)
         Dim orthologs = FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
         Dim Familys = (From file As String In orthologs.AsParallel

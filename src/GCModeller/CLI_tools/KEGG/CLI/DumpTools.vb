@@ -56,7 +56,7 @@ Partial Module CLI
         Dim tbl = buffer.ToArray(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.Get(1)})
         Dim brite = BriteHEntry.Pathway.LoadDictionary
         Dim LQuery = (From prot In tbl Select __queryKO(prot.Key, prot.Value, brite)).ToArray.MatrixToList
-        Return LQuery.SaveTo(input.TrimFileExt & ".KO.csv")
+        Return LQuery.SaveTo(input.TrimSuffix & ".KO.csv")
     End Function
 
     <ExportAPI("/Query.KO", Usage:="/Query.KO /in <blastnhits.csv> [/out <out.csv> /evalue 1e-5 /batch]")>
@@ -74,7 +74,7 @@ Partial Module CLI
                 Call __queryKO2(file, outFile, evalue)
             Next
         Else
-            Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".PathwayInfo.Csv")
+            Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".PathwayInfo.Csv")
             Call __queryKO2(inFile, out, evalue)
         End If
 
@@ -161,7 +161,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     Public Function GetSource(args As CommandLine.CommandLine) As Integer
         Dim source As New FastaFile(args("/source"))
         Dim ref As New FastaFile(args("/ref"))
-        Dim out As String = args.GetValue("/out", args("/source").TrimFileExt & $".{IO.Path.GetFileNameWithoutExtension(args("/ref"))}.fasta")
+        Dim out As String = args.GetValue("/out", args("/source").TrimSuffix & $".{IO.Path.GetFileNameWithoutExtension(args("/ref"))}.fasta")
         Dim sourceKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
             source.ToArray(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
         Dim refKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
