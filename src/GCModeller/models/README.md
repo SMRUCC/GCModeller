@@ -2,6 +2,6 @@ Common data models represents the biological objects, by using ``SBML`` or ``bio
 
 Supports ``BIOM`` models for metagenomics analysis
 
-|||
-|-|-|
+|BIOM|SBML|
+|----|----|
 |![](images/biom-format.png)|![](images/sbml-logo-70.png)|
