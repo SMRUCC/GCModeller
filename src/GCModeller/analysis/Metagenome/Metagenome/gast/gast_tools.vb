@@ -115,10 +115,13 @@ Namespace gast
         End Function
 
         Private Function __gi(ByRef title As String) As Integer
-            title = title.Split.First
-            title = title.NormalizePathString()
+            Dim gi As String = Regex.Match(title, "gi\|\S+", RegexICSng).Value
 
-            Dim gi As String = Regex.Match(title, "gi(\||_)\d+", RegexICSng).Value
+            title = gi
+            title = title.NormalizePathString().Trim("_"c)
+            gi = Regex.Match(title, "gi(\||_)\d+", RegexICSng).Value
+            gi = Regex.Match(gi, "\d+").Value
+
             Return CInt(Val(gi))
         End Function
     End Module

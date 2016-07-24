@@ -99,10 +99,10 @@
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="MeganImports.vb" />
     <Compile Include="gast\ARGV.vb" />
-    <Compile Include="gast\Gast.vb" />
+    <Compile Include="gast\gast.vb" />
     <Compile Include="gast\subs.vb" />
     <Compile Include="gast\Taxonomy.vb" />
-    <Compile Include="gast\GastTools.vb" />
+    <Compile Include="gast\gast_tools.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
