@@ -74,6 +74,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -96,6 +97,7 @@
     <Compile Include="BEBaC\CrudeClustering.vb" />
     <Compile Include="BEBaC\Model.vb" />
     <Compile Include="BEBaC\PosteriorProbability.vb" />
+    <Compile Include="MeganImports.vb" />
     <Compile Include="gast\ARGV.vb" />
     <Compile Include="gast\Gast.vb" />
     <Compile Include="gast\subs.vb" />
@@ -139,6 +141,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.vbproj">
+      <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
+      <Name>RNA-seq.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
