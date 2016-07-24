@@ -63,7 +63,7 @@ Partial Module CLI
         Dim func As [Function] = [Function].Default
         Dim inFile As String = args - "/cluster"
         Dim cog As String = args - "/cogs"
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & $"-{cog.BaseName}.bTree/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $"-{cog.BaseName}.bTree/")
         Dim clusters = inFile.LoadCsv(Of EntityLDM)
         Dim bTree As Network = clusters.bTreeNET
         Dim state = COGFunc.GetClass(cog.LoadCsv(Of MyvaCOG), func)
@@ -100,7 +100,7 @@ Partial Module CLI
     Public Function MotifCluster(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim name As String = args("/LDM")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & "." & IO.Path.GetFileNameWithoutExtension(name) & ".Csv")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(name) & ".Csv")
         Dim source As AnnotationModel()
 
         If query.FileExists Then
@@ -360,7 +360,7 @@ Partial Module CLI
                Info:="This method is not recommended.")>
     Public Function TreeCluster(args As CommandLine.CommandLine) As Integer
         Dim inMAT As String = args("/in")
-        Dim out As String = args.GetValue("/out", inMAT.TrimFileExt & ".Tree.Csv")
+        Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".Tree.Csv")
         Dim map As String = args("/Locus.Map")
         Dim maps As Dictionary(Of String, String) = Nothing
 
@@ -377,7 +377,7 @@ Partial Module CLI
                Usage:="/Tree.Cluster.rFBA /in <in.flux.pheno_OUT.Csv> [/out <out.cluster.csv>]")>
     Public Function rFBATreeCluster(args As CommandLine.CommandLine) As Integer
         Dim inMAT As String = args("/in")
-        Dim out As String = args.GetValue("/out", inMAT.TrimFileExt & ".Cluster.Csv")
+        Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".Cluster.Csv")
         Dim MAT = inMAT.LoadCsv(Of RPKMStat)(fast:=True)
         Dim inEntity = MAT.ToArray(
             Function(x) New EntityLDM With {
@@ -394,7 +394,7 @@ Partial Module CLI
         Dim inMAT As String = args("/in")
         Dim upFile As String = args("/up")
         Dim downFile As String = args("/down")
-        Dim out As String = args.GetValue("/out", inMAT.TrimFileExt & ".TreeNET/")
+        Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
         Dim net As Network = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
@@ -504,7 +504,7 @@ Partial Module CLI
     Public Function BuildTreeNetTF(args As CommandLine.CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim maps As String = args("/maps")
-        Dim out As String = args.GetValue("/out", inMAT.TrimFileExt & ".TreeNET/")
+        Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
         Dim net As Network = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
@@ -596,7 +596,7 @@ Partial Module CLI
     Public Function BuildTreeNET_KEGGPathways(args As CommandLine.CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim mods As String = args("/mods")
-        Dim out As String = args.GetValue("/out", inMAT.TrimFileExt & ".TreeNET/")
+        Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
         Dim net As Network = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
@@ -655,7 +655,7 @@ Partial Module CLI
     Public Function BuildTreeNET_KEGGModules(args As CommandLine.CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim mods As String = args("/mods")
-        Dim out As String = args.GetValue("/out", inMAT.TrimFileExt & ".TreeNET/")
+        Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
         Dim net As Network = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
@@ -724,7 +724,7 @@ Partial Module CLI
     <ExportAPI("/Build.Tree.NET.Merged_Regulons", Usage:="/Build.Tree.NET.Merged_Regulons /in <cluster.csv> /family <family_Hits.Csv> [/out <outDIR> /brief]")>
     Public Function BuildTreeNET_MergeRegulons(args As CommandLine.CommandLine) As Integer
         Dim inMAT As String = args("/in")
-        Dim out As String = args.GetValue("/out", inMAT.TrimFileExt & ".TreeNET/")
+        Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
         Dim net As Network = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
@@ -780,7 +780,7 @@ Partial Module CLI
     <ExportAPI("/Build.Tree.NET", Usage:="/Build.Tree.NET /in <cluster.csv> [/out <outDIR> /brief /FamilyInfo <regulons.DIR>]")>
     Public Function BuildTreeNET(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Tree.NET/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Tree.NET/")
         Dim inData = inFile.LoadCsv(Of EntityLDM)
         Dim net As Network = inData.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")

@@ -27,7 +27,6 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports SMRUCC.genomics.Analysis.AnnotationTools
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Data.Regprecise

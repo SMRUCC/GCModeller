@@ -204,7 +204,7 @@ Partial Module CLI
         Dim model As String = args("/model")
         Dim out As String
         If Not String.IsNullOrEmpty(model) Then
-            out = model.TrimFileExt & ".ReactionNET/"
+            out = model.TrimSuffix & ".ReactionNET/"
             Dim bMods As XmlModel = model.LoadXml(Of XmlModel)
             Dim net As FileStream.Network = ModelNET(bMods, source)
             Return net.Save(out, Encodings.ASCII.GetEncodings).CLICode

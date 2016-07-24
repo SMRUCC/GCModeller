@@ -52,7 +52,7 @@ Partial Module CLI
         End If
 
         Dim cytoscape = CytoscapeGraphView.Serialization.Export(__getNodes(footprints), footprints.ToArray)
-        Dim path As String = input.TrimFileExt & ".Cytoscape.Xml"
+        Dim path As String = input.TrimSuffix & ".Cytoscape.Xml"
         Return cytoscape.Save(path)
     End Function
 
@@ -90,7 +90,7 @@ Partial Module CLI
         Dim footprints = inFile.LoadCsv(Of PredictedRegulationFootprint)
         Dim cut As Double = args.GetValue("/cut", 0.45)
         Dim net As FileStream.Network = footprints.BuildNetwork(cut)
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & $".regulates-TF_NET,cut={cut}/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".regulates-TF_NET,cut={cut}/")
         Return net.Save(out, Encodings.ASCII).CLICode
     End Function
 End Module
