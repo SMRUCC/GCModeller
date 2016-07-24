@@ -18,12 +18,20 @@ Public Class BIOM : Inherits ClassObject
     Public Property rows As row()
     Public Property columns As column()
 
-    Public Shared Function [Imports](source As IEnumerable(Of Names)) As BIOM
-        Dim array As Names() = source.ToArray
+    Public Shared Function [Imports](source As IEnumerable(Of Names), Optional takes As Integer = 100, Optional cut As Integer = 50) As BIOM
+        Dim array As Names() = LinqAPI.Exec(Of Names) <=
+            From x As Names
+            In source
+            Where x.NumOfSeqs >= cut
+            Select x
+            Order By x.NumOfSeqs Descending
+
+        array = array.Take(takes).ToArray
+
         Dim rows As row() = LinqAPI.Exec(Of row) <=
             From x As Names
             In array
-            Where Not x.taxonomy.IsBlank
+            Where Not x.taxonomy.IsBlank AndAlso x.Composition IsNot Nothing
             Select New row With {
                 .id = x.Unique,
                 .metadata = New meta With {
@@ -32,7 +40,11 @@ Public Class BIOM : Inherits ClassObject
             }
         Dim names As column() = LinqAPI.Exec(Of column) <=
             From sid As String
-            In array.Select(Function(x) x.Composition.Keys).MatrixAsIterator.Distinct
+            In array _
+                .Where(Function(x) x.Composition IsNot Nothing) _
+                .Select(Function(x) x.Composition.Keys) _
+                .MatrixAsIterator _
+                .Distinct
             Select New column With {
                 .id = sid
             }
@@ -42,7 +54,7 @@ Public Class BIOM : Inherits ClassObject
             Function(x) x.obj.id,
             Function(x) x.i)
 
-        For Each x As SeqValue(Of Names) In array.SeqIterator
+        For Each x As SeqValue(Of Names) In array.Where(Function(xx) xx.Composition IsNot Nothing).SeqIterator
             Dim n As Integer = x.obj.NumOfSeqs
 
             For Each cpi In x.obj.Composition
