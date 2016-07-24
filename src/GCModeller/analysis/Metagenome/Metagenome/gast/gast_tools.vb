@@ -209,6 +209,11 @@ Namespace gast
                 .Unique = TagNoAssign
             }
         End Function
+
+        <Extension>
+        Public Function RefPercentage(source As IEnumerable(Of Names)) As Dictionary(Of String, String)
+
+        End Function
     End Module
 
     ''' <summary>
