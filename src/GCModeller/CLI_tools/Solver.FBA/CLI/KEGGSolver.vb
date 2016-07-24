@@ -39,7 +39,7 @@ Partial Module CLI
     Public Function KEGGSolver(args As CommandLine.CommandLine) As Integer
         Dim inModel As String = args("/in")
         Dim objs As String = args("/objs")
-        Dim out As String = args.GetValue("/out", inModel.TrimFileExt & ", " & IO.Path.GetFileNameWithoutExtension(objs) & "/")
+        Dim out As String = args.GetValue("/out", inModel.TrimSuffix & ", " & IO.Path.GetFileNameWithoutExtension(objs) & "/")
         Dim model As XmlModel = inModel.LoadXml(Of XmlModel)
         Dim locus As String() = IO.File.ReadAllLines(objs)
         Dim FBAModel As New Models.KEGGXml(model)

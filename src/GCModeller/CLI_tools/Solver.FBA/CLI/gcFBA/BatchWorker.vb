@@ -41,7 +41,7 @@ Partial Module CLI
     Public Function PhenotypeAnalysisBatch(args As CommandLine.CommandLine) As Integer
         Dim model As String = args("/model")
         Dim phenos As String = args("/phenotypes").Replace("\", "/")
-        Dim out As String = args.GetValue("/out", model.TrimFileExt & "-" & phenos.Split("/"c).Last)
+        Dim out As String = args.GetValue("/out", model.TrimSuffix & "-" & phenos.Split("/"c).Last)
         Dim footprints As String = args("/footprints")
         Dim obj As String = args.GetValue("/obj-type", "pathway")
         Dim params As String = args("/params")
@@ -54,7 +54,7 @@ Partial Module CLI
         Dim files = (From file As String
                      In FileIO.FileSystem.GetFiles(phenoROOT, FileIO.SearchOption.SearchAllSubDirectories, "*.xml")
                      Select file,
-                         cat = file.TrimFileExt.Replace(phenoROOT, "")).ToArray
+                         cat = file.TrimSuffix.Replace(phenoROOT, "")).ToArray
         Dim CLI = (From x
                    In files
                    Select __CLIBuilder(model, x.file, out & "/" & x.cat, footprints, obj, params, stat, samples, modifier))

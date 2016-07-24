@@ -47,7 +47,7 @@ Partial Module CLI
                Usage:="/Motif.Density /in <pfam-string.csv> [/out <out.csv>]")>
     Public Function MotifDensity(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-motifs-density.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-motifs-density.csv")
         Dim pfamString As PfamString() = (From x As PfamString In [in].LoadCsv(Of PfamString) Where Not x.PfamString.IsNullOrEmpty Select x).ToArray
         Dim n As Integer = pfamString.Length
         Dim LQuery = (From motif As ProteinModel.DomainObject
@@ -76,8 +76,8 @@ Partial Module CLI
 
         Dim result As Family.API.AnnotationOut() = Family.FamilyAlign(Query, Threshold, MpTh, DbName:=Name, accept:=settings.FamilyAccept)
         Dim path As String = If(String.IsNullOrEmpty(Name),
-            args("/query").TrimFileExt & ".Family.Csv",
-            $"{args("/query").TrimFileExt}__vs.{Name}.Family.Csv")
+            args("/query").TrimSuffix & ".Family.Csv",
+            $"{args("/query").TrimSuffix}__vs.{Name}.Family.Csv")
         Dim out As String = args.GetValue("/out", path)
         Return result.SaveTo(out).CLICode
     End Function

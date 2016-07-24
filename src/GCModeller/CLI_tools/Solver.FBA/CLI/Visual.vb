@@ -43,7 +43,7 @@ Partial Module CLI
                Usage:="/heatmap /x <matrix.csv> [/out <out.tiff> /name <Name> /width <8000> /height <6000>]")>
     Public Function Heatmap(args As CommandLine.CommandLine) As Integer
         Dim inX As String = args("/x")
-        Dim out As String = args.GetValue("/out", inX.TrimFileExt & ".tiff")
+        Dim out As String = args.GetValue("/out", inX.TrimSuffix & ".tiff")
         Dim outDIR As String = out.ParentPath
         Dim nameMap As String = args.GetValue("/name", "Name")
         Dim script As New Heatmap With {
@@ -66,7 +66,7 @@ Partial Module CLI
     Public Function ScaleHeatmap(args As CommandLine.CommandLine) As Integer
         Dim inX As String = args("/x")
         Dim factor As Double = args.GetValue("/factor", 30)
-        Dim out As String = args.GetValue("/out", inX.TrimFileExt & "-" & factor & "__scales.csv")
+        Dim out As String = args.GetValue("/out", inX.TrimSuffix & "-" & factor & "__scales.csv")
         Dim MAT As File = File.Load(inX)
         Dim title As RowObject = MAT.First()
         title(Scan0) = NameOf(RPKMStat.Locus)

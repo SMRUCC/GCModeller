@@ -22,14 +22,14 @@ Module CLI
                Usage:="/Build_gi2taxi /in <gi2taxi.dmp> [/out <out.dat>]")>
     Public Function Build_gi2taxi(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".bin")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".bin")
         Return Taxonomy.Archive([in], out)
     End Function
 
     <ExportAPI("/Export.GI", Usage:="/Export.GI /in <ncbi:nt.fasta> [/out <out.csv>]")>
     Public Function ExportGI(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".gi.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gi.Csv")
         Dim nt As New StreamIterator([in])
 
         Using writer As New WriteStream(Of TaxiValue)(out)
@@ -104,14 +104,14 @@ Module CLI
         Dim [in] As String = args("/in")
         Dim gi2taxi As String = args("/gi2taxi")
         Dim tax As String = args("/tax")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Taxonomy.fasta")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Taxonomy.fasta")
         Dim taxiHash As BucketDictionary(Of Integer, Integer) = Taxonomy.Hash_gi2Taxi(gi2taxi)
         Dim taxTree As New NcbiTaxonomyTree(tax)
-        Dim notFoundTax As String = out.TrimFileExt & ".notFound.txt"
+        Dim notFoundTax As String = out.TrimSuffix & ".notFound.txt"
 
-        Using notFound As StreamWriter = (out.TrimFileExt & ".NotFound.fasta").OpenWriter,
+        Using notFound As StreamWriter = (out.TrimSuffix & ".NotFound.fasta").OpenWriter,
             writer As StreamWriter = out.OpenWriter(Encodings.ASCII),
-            table As New WriteStream(Of TaxiSummary)(out.TrimFileExt & ".Csv"),
+            table As New WriteStream(Of TaxiSummary)(out.TrimSuffix & ".Csv"),
             taxNotFoun = notFoundTax.OpenWriter
 
             For Each fa As FastaToken In New StreamIterator([in]).ReadStream

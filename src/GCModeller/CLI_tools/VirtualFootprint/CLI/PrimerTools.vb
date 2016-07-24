@@ -64,7 +64,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim batch As Boolean = args.GetBoolean("/batch")
         Dim out As String =
-            args.GetValue("/out", If(batch, [in].TrimDIR, [in].TrimFileExt) & ".Primers/")
+            args.GetValue("/out", If(batch, [in].TrimDIR, [in].TrimSuffix) & ".Primers/")
 
         If batch Then
             For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]

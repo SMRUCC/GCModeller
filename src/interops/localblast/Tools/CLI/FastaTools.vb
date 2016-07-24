@@ -26,7 +26,7 @@ Partial Module CLI
     Public Function Filter(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim key As String = args("/key")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & key.NormalizePathString.Replace(" ", "_") & ".fasta")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & key.NormalizePathString.Replace(" ", "_") & ".fasta")
         Dim source As New StreamIterator([in])
         Dim parallel As Boolean = args.GetBoolean("/p")
 
@@ -69,7 +69,7 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim i As Integer = 1
         Dim contigs As New List(Of SimpleSegment)
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Contigs/")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Contigs/")
         Dim outNt As String = out & "/nt.fasta"
         Dim outContigs As String = out & "/contigs.csv"
         Dim il As Integer = Interval.Length

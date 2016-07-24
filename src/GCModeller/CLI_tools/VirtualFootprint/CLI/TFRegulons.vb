@@ -55,7 +55,7 @@ Partial Module CLI
     Public Function TFRegulons(args As CommandLine) As Integer
         Dim [in] As String = args("/bbh")
         Dim footprints As String = args("/footprints")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & $"-{footprints.BaseName}.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{footprints.BaseName}.Csv")
         Dim bbh As IEnumerable(Of String) =
             [in].LoadCsv(Of BBHIndex).Select(Function(x) x.QueryName).Distinct
         Dim regs As Dictionary(Of String, RegulatesFootprints()) = (From x As RegulatesFootprints
@@ -83,7 +83,7 @@ Partial Module CLI
         Dim TFs As String = args("/TF")
         Dim PTT As String = args("/PTT")
         Dim ranges As Integer = args.GetValue("/ranges", 5000)
-        Dim out As String = args.GetValue("/out", TFs.TrimFileExt & "/")
+        Dim out As String = args.GetValue("/out", TFs.TrimSuffix & "/")
         Dim cis As String = args.Assert("/cis")
         Dim unstrand As String = args.Assert("/un-strand")
         Dim genomes As IEnumerable(Of String) = ls - l - r - wildcards("*.PTT") <= PTT
@@ -135,7 +135,7 @@ Partial Module CLI
         Next
 
         Dim out As String =
-            args.GetValue("/out", PTT.TrimFileExt & $"-{If(cis, "cis-", "")}TF.Density.Csv")
+            args.GetValue("/out", PTT.TrimSuffix & $"-{If(cis, "cis-", "")}TF.Density.Csv")
 
         Return result.SaveTo(out).CLICode
     End Function
@@ -195,7 +195,7 @@ Partial Module CLI
     Public Function RegulonSites(args As CommandLine) As Integer
         Dim regulon As String = args("/regulon")
         Dim sites As String = args("/sites")
-        Dim out As String = args.GetValue("/out", regulon.TrimFileExt & "-" & sites.BaseName & "/")
+        Dim out As String = args.GetValue("/out", regulon.TrimSuffix & "-" & sites.BaseName & "/")
         Dim regulons As RegPreciseOperon() = regulon.LoadCsv(Of RegPreciseOperon)
         Dim siteHash = (From x As SimpleSegment
                         In (ls - l - r - wildcards("*.Csv") <= sites) _
@@ -252,7 +252,7 @@ Partial Module CLI
                Usage:="/Density.Mappings /in <density.Csv> [/scale 100 /out <out.PTT>]")>
     Public Function ContextMappings(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Maps.PTT")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.PTT")
         Dim density As IEnumerable(Of Density) =
             LinqAPI.Exec(Of Density) <= From x As Density
                                         In [in].LoadCsv(Of Density)

@@ -91,7 +91,7 @@ Public Module Utilities
         ElseIf Not FileIO.FileSystem.FileExists(InputFasta) Then
             Call $"Fasta file ""{InputFasta}"" is not exisist on your filesystem!".PrintException
         Else
-            Dim outFasta As String = args.GetValue("-o", InputFasta.TrimFileExt & "-complement.fasta")
+            Dim outFasta As String = args.GetValue("-o", InputFasta.TrimSuffix & "-complement.fasta")
             Return FastaFile.LoadNucleotideData(InputFasta).Complement.Save(outFasta)
         End If
 
@@ -111,7 +111,7 @@ Public Module Utilities
         If Not InputFasta.FileExists Then
             Call $"Fasta file ""{InputFasta}"" is not exisist on your filesystem or file empty!".PrintException
         Else
-            Dim OutputFasta As String = args.GetValue("-o", InputFasta.TrimFileExt & "_reverse.fsa")
+            Dim OutputFasta As String = args.GetValue("-o", InputFasta.TrimSuffix & "_reverse.fsa")
             Return FastaFile.Read(InputFasta).Reverse.Save(OutputFasta)
         End If
 
@@ -193,7 +193,7 @@ Public Module Utilities
     <ParameterInfo("/title", True, Description:="The display title on the sequence logo, default is using the fasta file name.")>
     Public Function SequenceLogo(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".logo.png")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".logo.png")
         Dim title As String = args("/title")
         Dim fa As New FastaFile([in])
         Dim logo As Image = SequencePatterns.SequenceLogo.DrawFrequency(fa, title)
@@ -204,7 +204,7 @@ Public Module Utilities
            Usage:="--Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]")>
     Public Function DrawClustalW(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".png")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
         Dim aln As New FASTA.FastaFile(inFile)
         Call ClustalVisual.SetDotSize(args.GetValue("/dot.size", 10))
         Dim res As Image = ClustalVisual.InvokeDrawing(aln)

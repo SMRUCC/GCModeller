@@ -105,7 +105,7 @@ Genome Biol. 2007;8(2):R24.",
                              Select modId = id,
                              Family = familyMatches _
                                 .ToDictionary(AddressOf ParentDirName,
-                                              Function(path) TOMText.LoadDoc(path.TrimFileExt & ".txt"))).ToArray
+                                              Function(path) TOMText.LoadDoc(path.TrimSuffix & ".txt"))).ToArray
             Dim copy As New Serialization.ShadowsCopyOpr(Of TOMText, MotifMatch)
             Dim LQuery As MotifMatch() =
             LinqAPI.Exec(Of MotifMatch) <= From [mod]

@@ -42,7 +42,7 @@ Partial Module CLI
     Public Function TrimStrand(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & PTT.BaseName & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & PTT.BaseName & ".Csv")
         Dim sites As SimpleSegment() = [in].LoadCsv(Of SimpleSegment)
         Dim genome As PTT = TabularFormat.PTT.Load(PTT)
 
@@ -57,7 +57,7 @@ Partial Module CLI
     Public Function MergeSites(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim offset As Integer = args.GetValue("/offset", 10)
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-offsets-" & offset & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-offsets-" & offset & ".Csv")
         Dim sites As SimpleSegment() = [in].LoadCsv(Of SimpleSegment)
         Dim seq As String = args - "/nt"
 

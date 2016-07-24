@@ -36,13 +36,13 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace gast
 
-    Public Module GastTools
+    Public Module gast_tools
 
         <Extension>
         Public Function ExportSILVA([in] As String, EXPORT As String) As Boolean
             Dim reader As New StreamIterator([in])
             Dim out As String = EXPORT & "/" & [in].BaseName & ".fasta"
-            Dim tax As String = out.TrimFileExt & ".tax"
+            Dim tax As String = out.TrimSuffix & ".tax"
 
             Call "".SaveTo(out)
             Call "".SaveTo(tax)
@@ -94,7 +94,7 @@ Namespace gast
             Dim tree As New NcbiTaxonomyTree(taxi_dmp)
 
             Using ref As StreamWriter = out.OpenWriter(Encodings.ASCII,),
-                tax As StreamWriter = (out.TrimFileExt & ".tax").OpenWriter(Encodings.ASCII)
+                tax As StreamWriter = (out.TrimSuffix & ".tax").OpenWriter(Encodings.ASCII)
 
                 For Each seq As FastaToken In New StreamIterator(nt).ReadStream
                     Dim title As String = seq.Title

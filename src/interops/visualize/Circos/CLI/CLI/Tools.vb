@@ -38,7 +38,7 @@ Partial Module CLI
     <ExportAPI("/DOOR.COGs", Usage:="/DOOR.COGs /DOOR <genome.opr> [/out <out.COGs.Csv>]")>
     Public Function DOOR_COGs(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/DOOR")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".COGs.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".COGs.Csv")
         Dim DOOR As DOOR = DOOR_API.Load(inFile)
         Dim COGs As MyvaCOG() = DOOR.Genes.ToArray(
             Function(x) New MyvaCOG With {

@@ -53,7 +53,7 @@ Partial Module CLI
     Public Function DrawMultipleAlignments(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-Comparative/")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-Comparative/")
         Dim meta As BestHit = [in].LoadXml(Of BestHit)
         Dim model As DrawingModel = MetaAPI.FromMetaData(meta, PTT)
     End Function
@@ -62,7 +62,7 @@ Partial Module CLI
                Usage:="--Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]")>
     Public Function DrawClustalW(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".png")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
         Dim aln As New FASTA.FastaFile(inFile)
         Call ClustalVisual.SetDotSize(args.GetValue("/dot.size", 10))
         Dim res As Image = ClustalVisual.InvokeDrawing(aln)
@@ -107,9 +107,9 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
         Dim blastOut As String = args("/blast_out")
         Dim outLog = BlastPlus.Parser.TryParse(blastOut)
         Dim MAT = SelfOverviewsGendist(outLog)
-        Dim path As String = args("/blast_out").TrimFileExt & "Gendist.txt"
+        Dim path As String = args("/blast_out").TrimSuffix & "Gendist.txt"
         Call MAT.GenerateDocument.SaveTo(path)
-        Return MAT.lstID.SaveTo(path.TrimFileExt & ".lstID.csv")
+        Return MAT.lstID.SaveTo(path.TrimSuffix & ".lstID.csv")
     End Function
 
     <ExportAPI("--Gendist.From.SelfMPAlignment", Usage:="--Gendist.From.SelfMPAlignment /aln <mpalignment.csv>")>
@@ -117,9 +117,9 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
         Dim out As String = args("/aln")
         Dim aln = out.LoadCsv(Of MPCsvArchive)
         Dim MAT = Phylip.MPAlignmentAsTree(aln)
-        Dim path As String = out.TrimFileExt & ".MPAln_Gendist.txt"
+        Dim path As String = out.TrimSuffix & ".MPAln_Gendist.txt"
         Call MAT.GenerateDocument.SaveTo(path)
-        Return MAT.lstID.SaveTo(path.TrimFileExt & ".lstID.csv")
+        Return MAT.lstID.SaveTo(path.TrimSuffix & ".lstID.csv")
     End Function
 
     <ExportAPI("--Get.Subset.lstID", Usage:="--Get.Subset.lstID /subset <lstID.txt> /lstID <lstID.csv>")>
@@ -135,7 +135,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
                                                               Select x.Value).FirstOrDefault
                                        Where Not String.IsNullOrEmpty(getID)
                                        Select getID
-        Dim path As String = args("/subset").TrimFileExt & ".lstID.txt"
+        Dim path As String = args("/subset").TrimSuffix & ".lstID.txt"
         Return LQuery.FlushAllLines(path).CLICode
     End Function
 
@@ -147,7 +147,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
     Public Function BBHVisual(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim PTT As String = args("/PTT")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".visualize.png")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".visualize.png")
         Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
         Dim limits As String() = args("/limits").ReadAllLines
         Dim density As String = args("/density")

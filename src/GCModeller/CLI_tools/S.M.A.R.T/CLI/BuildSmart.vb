@@ -80,7 +80,7 @@ READ_CDD_DIR:
         Dim Pfam = New SMRUCC.genomics.Assembly.NCBI.CDD.Database(GCModeller.FileSystem.RepositoryRoot & "/CDD/").DomainInfo.Pfam
         Dim DomainPn = Domains.ToArray(Function(x) Pfam(x))
 
-        Return DomainPn.SaveTo(args("/in").TrimFileExt & "-Domain.Pn.csv")
+        Return DomainPn.SaveTo(args("/in").TrimSuffix & "-Domain.Pn.csv")
     End Function
 
     ''' <summary>
@@ -129,8 +129,8 @@ READ_CDD_DIR:
         Dim Name As String = args("/Name")
         Dim result = SMRUCC.genomics.Analysis.ProteinTools.Family.FamilyAlign(Query, Threshold, MpTh, DbName:=Name)
         Dim path As String = If(String.IsNullOrEmpty(Name),
-            args("/query").TrimFileExt & ".Family.Csv",
-            $"{args("/query").TrimFileExt}__vs.{Name}.Family.Csv")
+            args("/query").TrimSuffix & ".Family.Csv",
+            $"{args("/query").TrimSuffix}__vs.{Name}.Family.Csv")
         Return result.SaveTo(path).CLICode
     End Function
 
@@ -138,7 +138,7 @@ READ_CDD_DIR:
     Public Function FamilyStat(args As CommandLine.CommandLine) As Integer
         Dim input As String = args("/in")
         Dim out = SMRUCC.genomics.Analysis.ProteinTools.Family.FamilyStat(input.LoadCsv(Of AnnotationOut))
-        Return out.Save(input.TrimFileExt & ".FamilyStat.csv", System.Text.Encoding.ASCII)
+        Return out.Save(input.TrimSuffix & ".FamilyStat.csv", System.Text.Encoding.ASCII)
     End Function
 End Module
 

@@ -37,7 +37,7 @@ Partial Module CLI
         Dim DbPath As String = args("/xml")
         Dim DbXml = SMRUCC.genomics.Analysis.Annotations.Interpro.Xml.LoadDb(DbPath)
         Dim Families = SMRUCC.genomics.Analysis.Annotations.Interpro.Xml.BuildFamilies(DbXml)
-        Dim out As String = DbXml.FilePath.TrimFileExt & ".Families.csv"
+        Dim out As String = DbXml.FilePath.TrimSuffix & ".Families.csv"
         Return Families.SaveTo(out)
     End Function
 

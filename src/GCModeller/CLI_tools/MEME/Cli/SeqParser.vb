@@ -64,7 +64,7 @@ Partial Module CLI
         Dim PTT_DIR As String = args - "/PTT"
         Dim type As String = args.GetValue("/locus", "union")
         Dim id As String = args - "/id"
-        Dim out As String = ("/out" <= args) ^ $"{[in].TrimFileExt}-{type}{If(Not String.IsNullOrEmpty(id), $"-{id}", "")}.fasta/"
+        Dim out As String = ("/out" <= args) ^ $"{[in].TrimSuffix}-{type}{If(Not String.IsNullOrEmpty(id), $"-{id}", "")}.fasta/"
         Dim operons As RegPreciseOperon() = [in].LoadCsv(Of RegPreciseOperon)
         Dim PTTDb As New PTTDbLoader(PTT_DIR)
         Dim PTT As PTT = PTTDb.ORF_PTT
@@ -138,7 +138,7 @@ Partial Module CLI
                               In fasta
                               Select fa
                               Order By fa.Attributes.First Ascending)
-        Return fasta.Save((EXPORT.ParentPath & "/" & EXPORT.BaseName).TrimFileExt & ".CRON.fasta")
+        Return fasta.Save((EXPORT.ParentPath & "/" & EXPORT.BaseName).TrimSuffix & ".CRON.fasta")
     End Function
 
     <Extension>
@@ -165,7 +165,7 @@ Partial Module CLI
     Public Function ParserNextIterator(args As CommandLine) As Integer
         Dim inCsv As String = args("/in")
         Dim PTT_DIR As String = args("/PTT")
-        Dim out As String = args.GetValue("/out", inCsv.TrimFileExt & ".Operon-regulons.fa/")
+        Dim out As String = args.GetValue("/out", inCsv.TrimSuffix & ".Operon-regulons.fa/")
         Dim gbFamily As Boolean = args.GetBoolean("/family")
         Dim offset As Integer = args.GetValue("/offset", 50)
         Dim footprints As IEnumerable(Of PredictedRegulationFootprint) =
@@ -236,7 +236,7 @@ Partial Module CLI
         Dim PTT As String = args("/ptt")
         Dim door As String = args("/door")
         Dim sites As String = args("/sites")
-        Dim out As String = args.GetValue("/out", sites.TrimFileExt & ".fa/")
+        Dim out As String = args.GetValue("/out", sites.TrimSuffix & ".fa/")
         Dim mastSites = sites.LoadCsv(Of MastSites)
         Dim LQuery = (From x As MastSites In mastSites
                       Where Not String.IsNullOrEmpty(x.Gene)
@@ -275,7 +275,7 @@ Partial Module CLI
         Dim PTT As String = args("/PTT")
         Dim DOOR As String = args("/DOOR")
         Dim factor As Double = args.GetValue("/factor", 1.0R)
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & $".Log2Seq-{factor}.fa/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".Log2Seq-{factor}.fa/")
         Dim map As Dictionary(Of String, String) = New Dictionary(Of String, String) From {{GetLocusMapName(inFile), NameOf(ResultData.locus_tag)}}
         Dim data As IEnumerable(Of ResultData) = inFile.LoadCsv(Of ResultData)(maps:=map)
         Dim DEGs As String() = (From x As ResultData
@@ -295,7 +295,7 @@ Partial Module CLI
         Dim locus As String = args("/locus")
         Dim PTT As String = args("/ptt")
         Dim door As String = args("/door")
-        Dim out As String = args.GetValue("/out", locus.TrimFileExt & ".fa")
+        Dim out As String = args.GetValue("/out", locus.TrimSuffix & ".fa")
         Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
         Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         Call GenePromoterParser.ParsingList(Parser, door, locus.ReadAllLines, out)
@@ -324,7 +324,7 @@ Partial Module CLI
     <ExportAPI("/Parser.Regulon.Merged", Usage:="/Parser.Regulon.Merged /in <merged.Csv> /out <fasta.outDIR> /PTT <genomePTT.DIR> [/DOOR <genome.opr>]")>
     Public Function RegulonParser3(args As CommandLine) As Integer
         Dim inCsv As String = args("/in")
-        Dim out As String = args.GetValue("/out", inCsv.TrimFileExt & ".MEME.fa/")
+        Dim out As String = args.GetValue("/out", inCsv.TrimSuffix & ".MEME.fa/")
         Dim PTT As String = args("/PTT")
         Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
         Dim DOOR As String = args("/door")

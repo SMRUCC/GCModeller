@@ -45,9 +45,9 @@ Partial Module CLI
         Dim locus As String = args("/locus")
         Dim out As String
         If Not locus.FileExists Then
-            out = args.GetValue("/out", inFile.TrimFileExt & ".COG.Stat.Csv")
+            out = args.GetValue("/out", inFile.TrimSuffix & ".COG.Stat.Csv")
         Else
-            out = args.GetValue("/out", inFile.TrimFileExt & "." & IO.Path.GetFileNameWithoutExtension(locus) & ".COG.Stat.Csv")
+            out = args.GetValue("/out", inFile.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(locus) & ".COG.Stat.Csv")
         End If
         Dim myvaCogs = inFile.LoadCsv(Of MyvaCOG)
 
@@ -76,7 +76,7 @@ Partial Module CLI
                Usage:="/EXPORT.COGs.from.DOOR /in <DOOR.opr> [/out <out.csv>]")>
     Public Function ExportDOORCogs(args As CommandLine.CommandLine) As Integer
         Dim opr As String = args("/in")
-        Dim out As String = args.GetValue("/out", opr.TrimFileExt & ".COGs.csv")
+        Dim out As String = args.GetValue("/out", opr.TrimSuffix & ".COGs.csv")
         Dim DOOR As DOOR = DOOR_API.Load(opr)
 
         Return (LinqAPI.MakeList(Of MyvaCOG) _

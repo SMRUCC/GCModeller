@@ -55,7 +55,7 @@ Partial Module CLI
         Dim inSites As String = args("/in")
         Dim correlation As String = args("/correlation")
         Dim DOOR As String = args("/DOOR")
-        Dim out As String = args.GetValue("/out", inSites.TrimFileExt & ".VirtualFootprints.Csv")
+        Dim out As String = args.GetValue("/out", inSites.TrimSuffix & ".VirtualFootprints.Csv")
         Dim mastSites = inSites.LoadCsv(Of MastSites)
         Dim result = RegpreciseSummary.SiteToRegulation(mastSites, correlation, DOOR)
         Dim cut As Double = args.GetValue("/cut", 0.65)
@@ -94,7 +94,7 @@ Partial Module CLI
     <ExportAPI("/seq.logo", Usage:="/seq.logo /in <meme.txt> [/out <outDIR>]")>
     Public Function SequenceLogoTask(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Logo/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Logo/")
         Return SequenceLogoAPI.BatchDrawing(inFile, out)
     End Function
 
@@ -369,7 +369,7 @@ Partial Module CLI
         End If
 
         Dim novelSites = ResultSet.ToArray(Function([set]) [set].novels).MatrixToList.TrimNull
-        Call novelSites.SaveTo(out.TrimFileExt & ".novels.csv")
+        Call novelSites.SaveTo(out.TrimSuffix & ".novels.csv")
         Return chunkBuffer.SaveTo(out).CLICode
     End Function
 

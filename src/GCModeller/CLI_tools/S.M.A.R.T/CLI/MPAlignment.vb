@@ -55,7 +55,7 @@ Partial Module CLI
                       Where query.ContainsKey(hit.QueryName) AndAlso
                           subject.ContainsKey(hit.HitName)
                       Select Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(query(hit.QueryName), subject(hit.HitName), MP)).ToArray
-        Dim out As String = args.GetValue("/out", args("/sbh").TrimFileExt & ".MPAlignment.csv")
+        Dim out As String = args.GetValue("/out", args("/sbh").TrimSuffix & ".MPAlignment.csv")
         Return AlignmentOutput2Csv(LQuery).SaveTo(out).CLICode
     End Function
 
@@ -188,10 +188,10 @@ Partial Module CLI
 
         If Not String.IsNullOrEmpty(idFile) Then
             lstId = IO.File.ReadAllLines(idFile)
-            path = idFile.TrimFileExt & ".SelfAlign.csv"
+            path = idFile.TrimSuffix & ".SelfAlign.csv"
             GoTo GET_ID
         Else
-            path = args("/aln").TrimFileExt & ".SelfAlign.csv"
+            path = args("/aln").TrimSuffix & ".SelfAlign.csv"
         End If
 
         Dim aln = args("/aln").LoadCsv(Of Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive)

@@ -52,7 +52,7 @@ Partial Module CLI
     Public Function ProteinMotifsEXPORT(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim PTT As PTT = TabularFormat.PTT.Load(args - "/PTT")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".PfamString.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".PfamString.Csv")
         Dim motifs As Protein() = [in].ReadAllText.LoadObject(Of Protein())
         Dim lenHash As Dictionary(Of String, Integer) = PTT.GeneObjects.ToDictionary(Function(x) x.Synonym, Function(x) x.Length)
         Dim PfamString As PfamString() = motifs.ToPfamString(lenHash, 0.00001).ToArray
@@ -123,7 +123,7 @@ Partial Module CLI
     Public Function FamilyHits(args As CommandLine.CommandLine) As Integer
         Dim inBBH As String = args("/bbh")
         Dim inDIR As String = args.GetValue("/regprecise", GCModeller.FileSystem.RegPrecise.Directories.RegPreciseRegulations)
-        Dim out As String = args.GetValue("/out", inBBH.TrimFileExt & ".FamilyHits/")
+        Dim out As String = args.GetValue("/out", inBBH.TrimSuffix & ".FamilyHits/")
         Dim bbh As IEnumerable(Of BBH.BBHIndex) = inBBH.LoadCsv(Of BBH.BBHIndex)
         Dim hitsHash = (From x As BBH.BBHIndex In bbh
                         Where x.Matched
@@ -217,7 +217,7 @@ Partial Module CLI
     Public Function EffectorFillNames(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim compounds As String = args - "/compounds"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & compounds.BaseName & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & compounds.BaseName & ".Csv")
         Dim effectors As IEnumerable(Of Effectors) = [in].LoadCsv(Of Effectors)
         Dim maps As New CompoundsMapping(DataFiles.Compounds.LoadCompoundsData(compounds))
         Dim LQuery = (From x As Effectors

@@ -88,10 +88,10 @@ Module CLI
         Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim LQuery = (From x In query Where subject.ContainsKey(x.Key) Select __diff(x.Value, subject(x.Key))).ToArray.MatrixToList
-        Dim path As String = args("/query").TrimFileExt & $".diff__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
+        Dim path As String = args("/query").TrimSuffix & $".diff__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
         Dim exclude = (From x In query Where Not subject.ContainsKey(x.Key) Select x.Value).ToArray.MatrixToList
         Call LQuery.SaveTo(path)
-        path = args("/query").TrimFileExt & $".excludes__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
+        path = args("/query").TrimSuffix & $".excludes__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
         Return exclude.SaveTo(path).CLICode
     End Function
 
@@ -112,7 +112,7 @@ Module CLI
                       Let intr = Interacts(x.Value, subject(x.Key))
                       Select intr
                       Order By intr.Length Descending).ToArray
-        Dim path As String = args("/query").TrimFileExt & $".Intersect.Max.{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
+        Dim path As String = args("/query").TrimSuffix & $".Intersect.Max.{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
         Return LQuery.First.SaveTo(path).CLICode
     End Function
 
@@ -142,7 +142,7 @@ Module CLI
         Dim locus As String = args("/locus")
         Dim correlations As String = args("/correlations")
         Dim cut As Double = args.GetValue("/cut", 0.65)
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & "-" & locus & $"-{cut}/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "-" & locus & $"-{cut}/")
         Dim mastSites = inFile.LoadCsv(Of MastSites)
         Dim weights = Correlation2.LoadAuto(correlations)
         Dim list As String() = locus.Split(","c)

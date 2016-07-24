@@ -62,7 +62,7 @@ Partial Module CLI
                Usage:="/MotifHits.Regulation /hits <motifHits.Csv> /source <meme.txt.DIR> /PTT <genome.PTT> /correlates <sp/DIR> /bbh <bbhh.csv> [/out <out.footprints.Csv>]")>
     Public Function HitsRegulation(args As CommandLine.CommandLine) As Integer
         Dim hitFile As String = args("/hits")
-        Dim out As String = args.GetValue("/out", hitFile.TrimFileExt & ".VirtualFootprints.Csv")
+        Dim out As String = args.GetValue("/out", hitFile.TrimSuffix & ".VirtualFootprints.Csv")
         Dim PTTFile As String = args("/PTT")
         Dim Correlates As String = args("/correlates")
         Dim bbh As String = args("/bbh")
@@ -229,7 +229,7 @@ Partial Module CLI
     Public Function SiteHitsToFootprints(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/sites")
         Dim bbh As String = args("/bbh")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".VirtualFootprints.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".VirtualFootprints.Csv")
         Dim sites As IEnumerable(Of MotifSiteHit) = [in].LoadCsv(Of MotifSiteHit)
         Dim bbhIndex As IEnumerable(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
         Dim hitHash As Boolean = Not args.GetBoolean("/queryHash")
@@ -254,7 +254,7 @@ Partial Module CLI
     Public Function HitContext(args As CommandLine.CommandLine) As Integer
         Dim footprint As String = args("/footprints")
         Dim genome As String = args("/PTT")
-        Dim out As String = args.GetValue("/out", footprint.TrimFileExt & "-" & genome.BaseName & ".Xml")
+        Dim out As String = args.GetValue("/out", footprint.TrimSuffix & "-" & genome.BaseName & ".Xml")
         Dim RegPrecise As String = args.GetValue("/regprecise", GCModeller.FileSystem.Regulations)
         Dim result = MotifMatchMast.AssignContext(footprint.LoadXml(Of FootprintTrace), PTT.Load(genome), RegPrecise.LoadXml(Of Regulations))
         Return result.SaveAsXml(out).CLICode
@@ -291,7 +291,7 @@ Partial Module CLI
         Dim DOOR As String = args("/door")
         Dim maps As String = args("/maps")
         Dim cut As Double = Math.Abs(args.GetValue("/cuts", 0.65))
-        Dim out As String = args.GetValue("/out", footprintXml.TrimFileExt & "-" & DOOR.BaseName & $"{cut}.Csv")
+        Dim out As String = args.GetValue("/out", footprintXml.TrimSuffix & "-" & DOOR.BaseName & $"{cut}.Csv")
         Dim oprDOOR As DOOR = DOOR_API.Load(DOOR)
         Dim coors As Correlation2 = Correlation2.LoadAuto(coor)
         Dim source = ToFootprints(footprintXml.LoadXml(Of FootprintTrace),
@@ -324,7 +324,7 @@ Partial Module CLI
 
         If Not batch Then
             Dim mast As String = args - "/mast"
-            Dim out As String = args.GetValue("/out", mast.TrimFileExt & "-" & NameOf(SiteMASTScan) & ".csv")
+            Dim out As String = args.GetValue("/out", mast.TrimSuffix & "-" & NameOf(SiteMASTScan) & ".csv")
             Dim result As New List(Of SimpleSegment)(mast.LoadXml(Of XmlOutput.MAST.MAST).MASTSites)
             Return result > out
         Else
@@ -377,7 +377,7 @@ Partial Module CLI
 
         If Not batch Then
             Dim meme As String = args("/meme")
-            Dim out As String = args.GetValue("/out", meme.TrimFileExt & "-" & nt.BaseName & ".csv")
+            Dim out As String = args.GetValue("/out", meme.TrimSuffix & "-" & nt.BaseName & ".csv")
             Dim result As List(Of SimpleSegment) = SiteRegexCommon(meme, scanner)
 
             Return result > out
@@ -454,7 +454,7 @@ Partial Module CLI
             loci.LoadCsv(Of SimpleSegment).ToList(Function(x) New MotifLog(x)))
 
         Dim out As String =
-            args.GetValue("/out", loci.TrimFileExt & If(String.IsNullOrEmpty(motifs), "", "-" & motifs.BaseName) & ".Csv")
+            args.GetValue("/out", loci.TrimSuffix & If(String.IsNullOrEmpty(motifs), "", "-" & motifs.BaseName) & ".Csv")
         Dim gffFile As String = args("/gff")
 
         If gffFile.FileExists Then

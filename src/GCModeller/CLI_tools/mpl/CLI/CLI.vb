@@ -67,7 +67,7 @@ Module CLI
             Return -100
         End If
 
-        Dim out As String = args.GetValue("/out", $"{query.TrimFileExt}.vs__.{IO.Path.GetFileNameWithoutExtension(alignDb)}.txt")
+        Dim out As String = args.GetValue("/out", $"{query.TrimSuffix}.vs__.{IO.Path.GetFileNameWithoutExtension(alignDb)}.txt")
         Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
         Call localblast.FormatDb(alignDb, localblast.MolTypeProtein).Start(WaitForExit:=True)
         Call localblast.Blastp(query, alignDb, out, Settings.SettingsFile.GetMplParam.Evalue).Start(WaitForExit:=True)
@@ -88,7 +88,7 @@ Module CLI
                    Description:="The output Excel .csv data file path For the dumped pfam-String data Of your annotated protein. If this parameter Is empty, Then the file will saved On the same location With your blastp input file.")>
     Public Function DumpPfamString(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/In")
-        Dim outFile As String = args.GetValue("/out", inFile.TrimFileExt & ".Pfam-String.Csv")
+        Dim outFile As String = args.GetValue("/out", inFile.TrimSuffix & ".Pfam-String.Csv")
         Dim Settings = xMPAlignment.Settings.Session.Initialize.GetMplParam
         Dim BlastOut = BlastPlus.Parser.ParsingSizeAuto(inFile)
         Dim PfamString = Pfam.CreatePfamString(
@@ -117,7 +117,7 @@ Module CLI
         Dim identities As Double = args.GetValue("/identities", 0.15)
         Dim blastOut = BlastPlus.Parser.TryParse(inFile)
         Dim allHits = blastOut.ExportAllBestHist(coverage:=coverage, identities_cutoff:=identities)
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".sbh.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
         Return allHits.SaveTo(out).CLICode
     End Function
 
@@ -145,7 +145,7 @@ Default is not, default checks right side and left side.")>
                        Group By proteinId Into Group) _
                             .ToDictionary(Function(x) x.proteinId,
                                           Function(x) x.Group.First.x)
-        Dim out As String = args.GetValue("/out", queryFile.TrimFileExt & $"_vs_{subjectFile.BaseName}.Csv")
+        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & $"_vs_{subjectFile.BaseName}.Csv")
         Dim mpCutoff As Double = args.GetValue("/mp", 0.65)
         Dim sbh As Dictionary(Of String, String()) = __getSBHhash(args("/hits"), query, subject.Values, args.GetBoolean("/flip-bbh"))
         Dim equals As New DomainEquals(mpCutoff, args.GetBoolean("/parts"))
@@ -257,7 +257,7 @@ Default is not, default checks right side and left side.")>
     Public Function ViewAlignment(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/blast")
         Dim name As String = args("/name")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & "_" & name.NormalizePathString & ".png")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "_" & name.NormalizePathString & ".png")
         Dim blast = BlastPlus.Parser.TryParse(inFile)
         Dim res As Image = BlastVisualize.InvokeDrawing(blast, name)
         If res Is Nothing Then
@@ -273,7 +273,7 @@ Default is not, default checks right side and left side.")>
     Public Function SelectPfams(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim hits As String = args - "/hits"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & hits.BaseName & ".csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & hits.BaseName & ".csv")
         Dim pfamString As List(Of PfamString) = [in].LoadCsv(Of PfamString)
         Dim hhits As List(Of BBHIndex) = hits.LoadCsv(Of BBHIndex)
         Dim names As String() = If(args.GetBoolean("/hit_name"),

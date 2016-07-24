@@ -24,8 +24,8 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim EXPORT As String =
             If(args.GetBoolean("/no-suffix"),
-            [in].TrimFileExt,
-            [in].TrimFileExt & ".EXPORT/")
+            [in].TrimSuffix,
+            [in].TrimSuffix & ".EXPORT/")
         EXPORT = args.GetValue("/out", EXPORT)
         Return [in].ExportSILVA(EXPORT).CLICode
     End Function
@@ -55,7 +55,7 @@ Partial Module CLI
         Dim inSam As String = args("/maps")
         Dim i As Integer = 1
         Dim contigs As New List(Of SimpleSegment)
-        Dim out As String = args.GetValue("/out", [inSam].TrimFileExt & ".Contigs/")
+        Dim out As String = args.GetValue("/out", [inSam].TrimSuffix & ".Contigs/")
         Dim outNt As String = out & "/nt.fasta"
         Dim outContigs As String = out & "/contigs.csv"
         Dim il As Integer = Interval.Length
@@ -101,5 +101,15 @@ Partial Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/Imports.gast.Refs.NCBI_nt",
+               Usage:="/Imports.gast.Refs.NCBI_nt /in <in.nt> /gi2taxid <dmp/txt/bin> /taxonomy <nodes/names.dmp_DIR> [/out <out.fasta>]")>
+    Public Function ImportsRefFromNt(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim gi2taxid As String = args("/gi2taxid")
+        Dim taxonomy As String = args("/taxonomy")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gast.refs.fasta")
+        Return gast_tools.ExportNt([in], gi2taxid, taxonomy, out)
     End Function
 End Module

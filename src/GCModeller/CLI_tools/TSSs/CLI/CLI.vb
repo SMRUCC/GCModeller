@@ -165,7 +165,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
     Public Function GenomeContent(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("-in")
         Dim TrimShared = If(Not String.IsNullOrEmpty(args("/trim")), args.GetInt32("/trim"), 30)
-        Dim out As String = args.GetValue("-out", inFile.TrimFileExt & ".genome-context.csv")
+        Dim out As String = args.GetValue("-out", inFile.TrimSuffix & ".genome-context.csv")
         Dim LociData = inFile.LoadCsv(Of Transcript)(False)
         Dim PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(args("-ptt"))
         Dim Forwards = PTT.forwards

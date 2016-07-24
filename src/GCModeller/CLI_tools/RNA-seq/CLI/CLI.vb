@@ -86,7 +86,7 @@ Module CLI
         Dim doorFile As String = args("/door")
         Dim pccDat As String = args("/pcc")
         Dim pccCut As Double = args.GetValue("/pcc-cut", 0.45)
-        Dim out As String = args.GetValue("/out", doorFile.TrimFileExt & $".PCC={pccCut}.opr")
+        Dim out As String = args.GetValue("/out", doorFile.TrimSuffix & $".PCC={pccCut}.opr")
         Dim PCC As PccMatrix = MatrixSerialization.Load(from:=pccDat)
         Dim DOOR = DOOR_API.Load(doorFile)
         Dim corrects As Operon() = CorrectDoorOperon(PCC, DOOR, pccCut)
@@ -126,7 +126,7 @@ Module CLI
     <ExportAPI("/PCC", Usage:="/PCC /expr <expr.matrix.csv> [/out <out.dat>]")>
     Public Function PCC(args As CommandLine.CommandLine) As Integer
         Dim expr As String = args("/expr")
-        Dim out As String = args.GetValue("/out", expr.TrimFileExt & ".PCC.dat")
+        Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".PCC.dat")
         Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(DocumentStream.File.Load(expr))
         Return MatrixSerialization.SaveBin(MAT, out).CLICode
     End Function
@@ -134,7 +134,7 @@ Module CLI
     <ExportAPI("/SPCC", Usage:="/SPCC /expr <expr.matrix.csv> [/out <out.dat>]")>
     Public Function SPCC(args As CommandLine.CommandLine) As Integer
         Dim expr As String = args("/expr")
-        Dim out As String = args.GetValue("/out", expr.TrimFileExt & ".SPCC.dat")
+        Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".SPCC.dat")
         Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(DocumentStream.File.Load(expr))
         Return MatrixSerialization.SaveBin(MAT, out).CLICode
     End Function
@@ -148,7 +148,7 @@ Module CLI
     Public Function HTSeqCount(args As CommandLine.CommandLine) As Integer
         Dim inSAM As String = args("/in")
         Dim gffFile As String = args("/gff")
-        Dim out As String = args.GetValue("/out", inSAM.TrimFileExt & ".Ht-seq.txt")
+        Dim out As String = args.GetValue("/out", inSAM.TrimSuffix & ".Ht-seq.txt")
         Dim Mode As String = args.GetValue("/mode", "intersection_nonempty")
         Dim RPKM As Boolean = args.GetBoolean("/RPKM")
         Dim sfeature As String = args.GetValue("/feature", "CDS")
@@ -166,7 +166,7 @@ Module CLI
     Public Function sIdMapping(args As CommandLine.CommandLine) As Integer
         Dim gffFile As String = args("/gff")
         Dim raw As String = args("/raw")
-        Dim out As String = args.GetValue("/out", raw.TrimFileExt & ".locus_tag.txt")
+        Dim out As String = args.GetValue("/out", raw.TrimSuffix & ".locus_tag.txt")
         Dim counts = CountResult.Load(raw)
         Dim gff As GFF = GFF.LoadDocument(gffFile)
         Dim mappings = gff.ProtId2Locus
@@ -188,7 +188,7 @@ Module CLI
     Public Function RPKM(args As CommandLine.CommandLine) As Integer
         Dim inRaw As String = args("/raw")
         Dim gffFile As String = args("/gff")
-        Dim out As String = args.GetValue("/out", inRaw.TrimFileExt & ".RPKM.csv")
+        Dim out As String = args.GetValue("/out", inRaw.TrimSuffix & ".RPKM.csv")
         Dim dataExpr0 = CountResult.Load(inRaw)
         Dim gff As GFF = GFF.LoadDocument(gffFile)
         dataExpr0 = dataExpr0.RPKM(gff)
@@ -223,7 +223,7 @@ Module CLI
     Public Function DEGs(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim logFold As Double = args.GetValue("/log_fold", 2.0R)
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & $".logFold={logFold}.csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".logFold={logFold}.csv")
         Dim diff = inFile.LoadCsv(Of RTools.DESeq2.ResultData)
         diff = (From x In diff Where Math.Abs(x.log2FoldChange) >= logFold Select x).ToList
         Return diff.SaveTo(out).CLICode
@@ -233,7 +233,7 @@ Module CLI
     Public Function DEGsUpDown(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim samples As String = args("/sample.table")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".DEGs.UpDowns/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".DEGs.UpDowns/")
         Dim inDiff = inFile.LoadCsv(Of DESeq2.ResultData)
         Dim sampleTable = samples.LoadCsv(Of DESeq2.SampleTable)
         Dim conditions = (From x As DESeq2.SampleTable

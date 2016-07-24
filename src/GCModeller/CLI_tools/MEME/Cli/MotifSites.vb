@@ -54,7 +54,7 @@ Partial Module CLI
                 Call __EXPORT(text, out)
             Next
         Else
-            Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & NameOf(ExportTestMotifs))
+            Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & NameOf(ExportTestMotifs))
             Call __EXPORT([in], out)
         End If
 

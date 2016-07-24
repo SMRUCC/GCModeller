@@ -121,7 +121,7 @@ Module CLI
     <ExportAPI("/blastn", Usage:="/blastn /query <query.fasta> [/out <outDIR>]", Info:="Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
     Public Function Blastn(args As CommandLine.CommandLine) As Integer
         Dim queryFile As String = args("/query")
-        Dim out As String = args.GetValue("/out", queryFile.TrimFileExt)
+        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix)
         Dim query As New FASTA.FastaFile(queryFile)
 
         For Each seq In query
@@ -403,7 +403,7 @@ Module CLI
     Public Function GetFastaBySp(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sp As String = args("/sp")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & sp.BaseName & ".fasta")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & sp.BaseName & ".fasta")
         Dim fasta As New FASTA.FastaFile([in])
         Dim splist As List(Of String) = sp.ReadAllLines.ToList(Function(s) s.ToLower)
         Dim LQuery As IEnumerable(Of FASTA.FastaToken) =

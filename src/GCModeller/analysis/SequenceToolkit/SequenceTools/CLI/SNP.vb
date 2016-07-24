@@ -46,14 +46,14 @@ Partial Module Utilities
         Dim monomorphic As Boolean = args.GetBoolean("/monomorphic")
         Dim nt As New FastaFile([in])
         Dim ref As Integer = args.GetInt32("/ref")
-        Dim json As String = [in].TrimFileExt & ".SNPs.args.json"
+        Dim json As String = [in].TrimSuffix & ".SNPs.args.json"
         Return nt.ScanSNPs(ref, pure, monomorphic).GetJson.SaveTo(json)
     End Function
 
     <ExportAPI("/Time.Diffs", Usage:="/Time.Diffs /in <aln.fasta> [/out <out.csv>]")>
     Public Function TimeDiffs(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".time_variation.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".time_variation.csv")
         Dim result = New FastaFile([in]).GetSeqs.GroupByDate
         Dim T = result.ToCsvDoc.Transpose
         Return T.Save(out, Encoding.ASCII)

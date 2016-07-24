@@ -67,7 +67,7 @@ Public Module RunModel
     Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
         Dim p As Double = args.GetValue("/precise", 0.1)
         Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
-        Dim out As String = args.GetValue("-o", args("-i").TrimFileExt & ".out.Csv")
+        Dim out As String = args.GetValue("-o", args("-i").TrimSuffix & ".out.Csv")
         Dim maps As New Dictionary(Of String, String) From {
             {NameOf(DataSet.Identifier), "#Time"}
         }

@@ -92,7 +92,7 @@ Partial Module Utilities
     <ParameterInfo("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     Public Function SearchPalindromeFasta(args As CommandLine.CommandLine) As Integer
         Dim nt As FastaToken = FastaToken.Load(args("/nt"))
-        Dim Out As String = args.GetValue("/out", args("/nt").TrimFileExt & ".csv")
+        Dim Out As String = args.GetValue("/out", args("/nt").TrimSuffix & ".csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearchs(nt, Min, Max)
@@ -126,7 +126,7 @@ Partial Module Utilities
     <ExportAPI("/Mirrors.Nt.Trim", Usage:="/Mirrors.Nt.Trim /in <mirrors.Csv> [/out <out.Csv>]")>
     Public Function TrimNtMirrors(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args.GetFullFilePath("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "." & NameOf(TrimNtMirrors) & ".Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & NameOf(TrimNtMirrors) & ".Csv")
         Dim data As IEnumerable(Of PalindromeLoci) = [in].LoadCsv(Of PalindromeLoci)
         Dim invalids As Char() = ISequenceModel.AA_CHARS_ALL
         Dim result As PalindromeLoci() = LinqAPI.Exec(Of PalindromeLoci) <=
@@ -150,7 +150,7 @@ Partial Module Utilities
         Dim maxDist As Integer = args.GetValue("/max-dist", 6)
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}.Csv")
         Dim nt As New FastaToken([in])
         Dim search As New FuzzyMirrors(nt, min, max, maxDist, cut)
         Call search.InvokeSearch()
@@ -167,7 +167,7 @@ Partial Module Utilities
         Dim maxDist As Integer = args.GetValue("/max-dist", 6)
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}/")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}/")
         Dim nt As IEnumerable(Of FastaToken) =
             StreamIterator.SeqSource([in], "*.fasta", "*.fsa", "*.fa", "*.fna", "*.fas")
         Dim CLI As New List(Of String)
@@ -193,7 +193,7 @@ Partial Module Utilities
     <ParameterInfo("/nt", False, AcceptTypes:={GetType(FastaFile)})>
     Public Function MirrorBatch(args As CommandLine.CommandLine) As Integer
         Dim NT As New FastaFile(args - "/nt")
-        Dim out As String = args.GetValue("/out", args("/nt").TrimFileExt & "-Mirror/")
+        Dim out As String = args.GetValue("/out", args("/nt").TrimSuffix & "-Mirror/")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim n As Integer = args.GetValue("/num_threads", -1)
@@ -237,7 +237,7 @@ Partial Module Utilities
                    AcceptTypes:={GetType(FastaToken)})>
     Public Function SearchMirrotFasta(args As CommandLine.CommandLine) As Integer
         Dim Nt = FastaToken.Load(args("/nt"))
-        Dim Out As String = args.GetValue("/out", args("/nt").TrimFileExt & ".csv")
+        Dim Out As String = args.GetValue("/out", args("/nt").TrimSuffix & ".csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.MirrorSearchs(Nt, Min, Max)
@@ -337,7 +337,7 @@ Partial Module Utilities
                Usage:="--Palindrome.Imperfects /in <in.fasta> [/out <out.csv> /min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /partitions <-1>]")>
     Public Function ImperfectPalindrome(args As CommandLine.CommandLine) As Integer
         Dim input As String = args("/in")
-        Dim out As String = args.GetValue("/out", input.TrimFileExt & ".csv")
+        Dim out As String = args.GetValue("/out", input.TrimSuffix & ".csv")
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim inFasta As FastaToken
@@ -419,7 +419,7 @@ Partial Module Utilities
     Public Function FilteringMatches(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim min As Integer = args.GetInt32("/min")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-min." & min & ".csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-min." & min & ".csv")
 
         If FileIO.FileSystem.GetFileInfo([in]).Length > 1024 * 1024 * 16 Then
             ' 大文件
@@ -478,7 +478,7 @@ Partial Module Utilities
                Usage:="--Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 /max-dist <35 (bp)>]")>
     Public Function Hairpinks(args As CommandLine.CommandLine) As Integer
         Dim input As String = args("/in")
-        Dim out As String = args.GetValue("/out", input.TrimFileExt & ".hairpink.csv")
+        Dim out As String = args.GetValue("/out", input.TrimSuffix & ".hairpink.csv")
         Dim min As Integer = args.GetValue("/min", 6)
         Dim max As Integer = args.GetValue("/max", 7)
         Dim cutoff As Integer = args.GetValue("/cutoff", 3)

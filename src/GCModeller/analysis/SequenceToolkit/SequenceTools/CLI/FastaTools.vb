@@ -53,7 +53,7 @@ Partial Module Utilities
     Public Function SelectByLocus(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim fa As String = args("/fa")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-" & fa.BaseName & ".fasta")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & ".fasta")
         Dim fasta As IEnumerable(Of String) =
             ls - l - r - wildcards("*.faa", "*.fasta", "*.fsa", "*.fa") <= fa
         Dim locus As String() = [in].ReadAllLines
@@ -82,7 +82,7 @@ Partial Module Utilities
                Info:="Convert the sequence data in a excel annotation file into a fasta sequence file.")>
     Public Function ToFasta(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Fasta")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Fasta")
         Dim attrs As String = args("/attrs")
         Dim lstAttrs As String() = If(String.IsNullOrEmpty(attrs), {"gene", "locus_tag", "gi", "location", "product"}, attrs.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
@@ -211,7 +211,7 @@ Partial Module Utilities
         Dim Segments = Regions.ToArray(Function(region) __fillSegment(region, Reader, Complement, reversed))
         Dim briefDump As Boolean = args.GetBoolean("/brief-dump")
         Dim dumpMethod As attrDump = [If](Of attrDump)(briefDump, AddressOf __attrBrief, AddressOf __attrFull)
-        Dim input As String = args("/regions").TrimFileExt
+        Dim input As String = args("/regions").TrimSuffix
 
         Segments.SaveTo(input & ".sequenceData.csv")
 
@@ -289,7 +289,7 @@ Partial Module Utilities
         Dim Input As String = args("/in")
         Dim UpperCase As Boolean = Not String.Equals("l", args.GetValue("/case", "u"), StringComparison.OrdinalIgnoreCase)
         Dim break As Integer = args.GetValue("/break", -1)
-        Dim out As String = args.GetValue("/out", Input.TrimFileExt & "-Trim.fasta")
+        Dim out As String = args.GetValue("/out", Input.TrimSuffix & "-Trim.fasta")
         Dim Fasta As FastaFile = FastaFile.Read(Input)
         Dim brief As Boolean = args.GetBoolean("/brief")
 
@@ -326,14 +326,14 @@ Partial Module Utilities
                                                     Where String.Equals(id, x.Title.Split.First, StringComparison.OrdinalIgnoreCase)
                                                     Select x).FirstOrDefault).ToArray
         fa = New FASTA.FastaFile(LQuery)
-        Dim path As String = args("/lstID").TrimFileExt & ".subset.fasta"
+        Dim path As String = args("/lstID").TrimSuffix & ".subset.fasta"
         Return fa.Save(path).CLICode
     End Function
 
     <ExportAPI("/Split", Usage:="/Split /in <in.fasta> [/n <4096> /out <outDIR>]")>
     Public Function Split(args As CommandLine.CommandLine) As Integer
         Dim inFa As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFa.TrimFileExt & "/")
+        Dim out As String = args.GetValue("/out", inFa.TrimSuffix & "/")
         Dim n As Long = args.GetValue("/n", 4096L)
         Dim stream As New FASTA.StreamIterator(inFa)
         Dim i As Integer = 0
@@ -369,7 +369,7 @@ Partial Module Utilities
     <ExportAPI("/Distinct", Usage:="/Distinct /in <in.fasta> [/out <out.fasta>]")>
     Public Function Distinct(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Distinct.fasta")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Distinct.fasta")
         Dim fasta As New FASTA.FastaFile([in])
         Dim uids = (From fa As FastaToken In fasta
                     Let id As String = fa.Attributes.First.Split(":"c).Last,
@@ -392,7 +392,7 @@ Partial Module Utilities
         Dim [in] As String = args("/fna")
         Dim sites As String = args("/gff")
         Dim out As String =
-            args.GetValue("/out", [in].TrimFileExt & "-" & sites.BaseName & ".fasta")
+            args.GetValue("/out", [in].TrimSuffix & "-" & sites.BaseName & ".fasta")
         Dim fna = FastaToken.LoadNucleotideData([in])
         Dim gff As GFF = TabularFormat.GFF.LoadDocument(sites)
         Dim nt As New SegmentReader(fna)

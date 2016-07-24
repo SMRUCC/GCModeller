@@ -85,7 +85,7 @@ Partial Module CLI
         Dim inQuery As String = args("/query")
         Dim inSubject As String = args("/subject")
         Dim method As String = args.GetValue("/method", "pcc")
-        Dim out As String = args.GetValue("/out", inQuery.TrimFileExt & "-" & IO.Path.GetFileNameWithoutExtension(inSubject) & "." & method)
+        Dim out As String = args.GetValue("/out", inQuery.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(inSubject) & "." & method)
         Dim query = inQuery.LoadXml(Of AnnotationModel)
         Dim subject = inSubject.LoadXml(Of AnnotationModel)
         Dim result = SWTom.Compare(query, subject, method)
@@ -97,7 +97,7 @@ Partial Module CLI
                    Description:="If this parameter is true, then only the XML result will be export.")>
     Public Function SWTomQuery(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt)
+        Dim out As String = args.GetValue("/out", query.TrimSuffix)
         Dim method As String = args.GetValue("/method", "pcc")
         Dim bitsLevel As Double = args.GetValue("/bits.level", 1.6)
         Dim minW As Integer = args.GetValue("/minW", 6)
@@ -156,7 +156,7 @@ Partial Module CLI
     Public Function SWTomComparesBatch(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim outDIR As String = args.GetValue("/out", query.TrimFileExt & "." & IO.Path.GetFileNameWithoutExtension(subject))
+        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(subject))
         Dim subjects = subject.LoadSourceEntryList({"*.txt"})
         Dim params As New Parameters
         Dim results As New List(Of Output)
@@ -189,7 +189,7 @@ Partial Module CLI
     Public Function SWTomCompares(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim outDIR As String = args.GetValue("/out", query.TrimFileExt & "." & IO.Path.GetFileNameWithoutExtension(subject))
+        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(subject))
         Dim queryLDM = AnnotationModel.LoadDocument(query)
         Dim subjectLDM = AnnotationModel.LoadDocument(subject)
         Dim params As New Parameters
@@ -270,7 +270,7 @@ Partial Module CLI
     Public Function SiteScan(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & "-" & IO.Path.GetFileNameWithoutExtension(subject))
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subject))
         Dim profiles = Parameters.SiteScanProfile
         Dim reuslt = SiteScanner.Scan(query.LoadXml(Of AnnotationModel), New FastaToken(subject), profiles)
         Return TomReport.WriteHTML(reuslt, outDIR:=out).CLICode
@@ -279,7 +279,7 @@ Partial Module CLI
     <ExportAPI("/MEME.LDMs", Usage:="/MEME.LDMs /in <meme.txt> [/out <outDIR>]")>
     Public Function MEME2LDM(args As CommandLine.CommandLine) As Integer
         Dim inMEME As String = args("/in")
-        Dim outDIR As String = args.GetValue("/out", inMEME.TrimFileExt & ".LDMs/")
+        Dim outDIR As String = args.GetValue("/out", inMEME.TrimSuffix & ".LDMs/")
         Dim LDMs = AnnotationModel.LoadDocument(inMEME)
 
         For Each x As AnnotationModel In LDMs
@@ -295,7 +295,7 @@ Partial Module CLI
     Public Function CompareMotif(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subj As String = args("/sub")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & "." & subj.BaseName & ".Compares/")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & subj.BaseName & ".Compares/")
         Dim queryLDM As AnnotationModel = query.LoadXml(Of AnnotationModel)
         Dim subLDM As AnnotationModel = subj.LoadXml(Of AnnotationModel)
         Dim swTOM_OUT As Output = SWTom.Compare(queryLDM, subLDM, cutoff:=0.4, tomThreshold:=0.4, bitsLevel:=2)
@@ -314,7 +314,7 @@ Partial Module CLI
                Usage:="/EXPORT.MotifDraws /in <virtualFootprints.csv> /MEME <meme.txt.DIR> /KEGG <KEGG_Modules/Pathways.DIR> [/pathway /out <outDIR>]")>
     Public Function ExportMotifDraw(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".MotifDraws/")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".MotifDraws/")
         Dim cbUids = (From x As PredictedRegulationFootprint
                       In inFile.LoadCsv(Of PredictedRegulationFootprint)
                       Where Not InStr(x.MotifTrace, "@") > 0

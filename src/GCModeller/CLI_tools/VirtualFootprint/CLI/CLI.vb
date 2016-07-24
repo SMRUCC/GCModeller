@@ -57,7 +57,7 @@ Module CLI
     <ExportAPI("/Trim.Regulons", Usage:="/Trim.Regulons /in <regulons.csv> /pcc <pccDIR/sp_code> [/out <out.csv> /cut 0.65]")>
     Public Function TrimRegulon(args As CommandLine.CommandLine) As Integer
         Dim inRegulons As String = args("/in")
-        Dim out As String = args.GetValue("/out", inRegulons.TrimFileExt & ".Trim.Csv")
+        Dim out As String = args.GetValue("/out", inRegulons.TrimSuffix & ".Trim.Csv")
         Dim pcc As String = args("/pcc")
         Dim PccDb As Correlation2
         Dim cut As Double = args.GetValue("/cut", 0.65)
@@ -88,7 +88,7 @@ Module CLI
     <ExportAPI("/Write.Network", Usage:="/Write.Network /in <regulons.csv> [/out <netDIR>]")>
     Public Function SaveNetwork(args As CommandLine.CommandLine) As Integer
         Dim inRegulons As String = args("/in")
-        Dim out As String = args.GetValue("/out", inRegulons.TrimFileExt & ".net/")
+        Dim out As String = args.GetValue("/out", inRegulons.TrimSuffix & ".net/")
         Dim regulons = inRegulons.LoadCsv(Of RegPreciseRegulon)
         Dim net = RegPreciseRegulon.ToNetwork(regulons)
         Return net.Save(out, Encodings.ASCII).CLICode
@@ -97,7 +97,7 @@ Module CLI
     <ExportAPI("/Motif.From.MAL", Usage:="/Motif.From.MAL /in <clustal.fasta> /out <outDIR>")>
     Public Function MotifFromMAL(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Motif/")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Motif/")
         Dim motif As MotifPWM = FromMla(FASTA.FastaFile.LoadNucleotideData([in]))
         Call motif.SaveAsXml(out & "/Motif.Xml")
 

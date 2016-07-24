@@ -76,7 +76,7 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Palindrome.Workflow/")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Palindrome.Workflow/")
         Dim isBatch As Boolean = args.GetBoolean("/batch") ' 批量和单独的模式相比，差异只是在保存结果的时候的位置
         Dim nt As New FASTA.FastaToken([in])
         Dim minAp As Integer = args.GetValue("/min-appears", 2)

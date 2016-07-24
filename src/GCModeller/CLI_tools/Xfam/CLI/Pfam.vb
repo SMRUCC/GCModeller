@@ -45,7 +45,7 @@ Partial Module CLI
     <ExportAPI("/Export.Pfam.UltraLarge", Usage:="/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
     Public Function ExportUltraLarge(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".Export.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Export.Csv")
         Dim evalue As Double = args.GetValue("/evalue", DomainParser.Evalue1En5)
         Dim coverage As Double = args.GetValue("/coverage", 0.85)
         Dim offset As Double = args.GetValue("/offset", 0.1)
@@ -69,7 +69,7 @@ Partial Module CLI
                Usage:="/Export.hmmscan /in <input_hmmscan.txt> [/evalue 1e-5 /out <pfam.csv>]")>
     Public Function ExportHMMScan(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".pfam.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")
         Dim doc As hmmscan = hmmscanParser.LoadDoc([in])
         Dim result As ScanTable() = doc.GetTable
         Dim prots = From x As ScanTable
@@ -88,7 +88,7 @@ Partial Module CLI
                            Let l As Integer = x.Group.First.len
                            Select locus.__getPfam(domains, l)).ToArray
 
-        Call pfamStrings.SaveTo(out.TrimFileExt & ".pfam-string.Csv")
+        Call pfamStrings.SaveTo(out.TrimSuffix & ".pfam-string.Csv")
         Return result.SaveTo(out).CLICode
     End Function
 
@@ -97,7 +97,7 @@ Partial Module CLI
                Usage:="/Export.hmmsearch /in <input_hmmsearch.txt> [/prot <query.fasta> /out <pfam.csv>]")>
     Public Function ExportHMMSearch(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".pfam.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")
         Dim doc As hmmsearch = hmmsearchParser.LoadDoc([in])
         Dim pro As Dictionary(Of String, AlignmentHit()) = doc.GetProfiles
         Dim pfams As New List(Of PfamString)

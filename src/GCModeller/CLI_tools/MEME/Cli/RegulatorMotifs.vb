@@ -71,7 +71,7 @@ Partial Module CLI
     Public Function TestRegulatorMotifs(args As CommandLine.CommandLine) As Integer
         Dim inFamilyHits = args("/hits")
         Dim inMotifs As String = args("/motifs")
-        Dim out As String = args.GetValue("/out", inMotifs.TrimFileExt & ".Test.Csv")
+        Dim out As String = args.GetValue("/out", inMotifs.TrimSuffix & ".Test.Csv")
         Dim FamilyHits = inFamilyHits.LoadCsv(Of FamilyHit)
         Dim Motifs = inMotifs.LoadCsv(Of MotifHit)
         Motifs = HitTest(Motifs, FamilyHits).ToList
@@ -87,7 +87,7 @@ Partial Module CLI
     Public Function RegulatorMotifs(args As CommandLine.CommandLine) As Integer
         Dim inBBH As String = args("/bbh")
         Dim inDIR As String = args("/regprecise")
-        Dim out As String = args.GetValue("/out", inBBH.TrimFileExt & ".Motifs.fa")
+        Dim out As String = args.GetValue("/out", inBBH.TrimSuffix & ".Motifs.fa")
         Dim bbh = inBBH.LoadCsv(Of BBH.BBHIndex)
         Dim hitsHash = (From x As BBH.BBHIndex
                         In bbh

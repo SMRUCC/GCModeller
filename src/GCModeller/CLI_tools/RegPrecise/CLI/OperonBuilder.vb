@@ -54,7 +54,7 @@ Partial Module CLI
     Public Function MergeDOOR(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim opr As String = args - "/DOOR"
-        Dim out As String = ("/out" <= args) ^ $"{[in].TrimFileExt}-{opr.BaseName}.opr"
+        Dim out As String = ("/out" <= args) ^ $"{[in].TrimSuffix}-{opr.BaseName}.opr"
         Dim operons As List(Of RegPreciseOperon) = (From x As RegPreciseOperon
                                                     In [in].LoadCsv(Of RegPreciseOperon)
                                                     Select x
@@ -93,7 +93,7 @@ Partial Module CLI
                        x.obj.ToArray(Function(xx) xx.Operon).MatrixAsIterator.Distinct.ToArray,
                        TF = x.obj.ToArray(Function(xx) xx.Regulators).MatrixAsIterator.Distinct.ToArray).ToArray
 
-        Call ooo.SaveTo(out.TrimFileExt & ".Csv")
+        Call ooo.SaveTo(out.TrimSuffix & ".Csv")
 
         Return 0
     End Function
@@ -144,7 +144,7 @@ Partial Module CLI
     Public Function OperonBuilder(args As CommandLine) As Integer
         Dim bbh As String = args - "/bbh"
         Dim PTT As PTT = TabularFormat.PTT.Load(args - "/PTT")
-        Dim out As String = ("/out" <= args) ^ (bbh.TrimFileExt & "-" & PTT.FilePath.BaseName & ".Operons.Csv")
+        Dim out As String = ("/out" <= args) ^ (bbh.TrimSuffix & "-" & PTT.FilePath.BaseName & ".Operons.Csv")
         Dim reg As String = ("/regprecise" <= args) ^ (GCModeller.FileSystem.RegPrecise.RegPreciseRegulations)
         Dim tfBBH As String = args - "/TF-bbh"
         Dim RegPrecise As TranscriptionFactors = reg.LoadXml(Of TranscriptionFactors)

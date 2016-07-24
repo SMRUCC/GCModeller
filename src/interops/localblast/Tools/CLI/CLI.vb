@@ -65,7 +65,7 @@ Module CLI
     <ExportAPI("--Xml2Excel", Usage:="--Xml2Excel /in <in.xml> [/out <out.csv>]")>
     Public Function XmlToExcel(args As CommandLine.CommandLine) As Integer
         Dim inXml As String = args("/in")
-        Dim out As String = args.GetValue("/out", inXml.TrimFileExt & ".Csv")
+        Dim out As String = args.GetValue("/out", inXml.TrimSuffix & ".Csv")
         Dim blastOut = inXml.LoadXml(Of XmlFile.BlastOutput)
         Dim hits = blastOut.ExportOverview.GetExcelData
         Return hits.SaveTo(out).CLICode
@@ -257,7 +257,7 @@ Module CLI
             blast = Settings.SettingsFile.BlastBin
         End If
 
-        Dim out As String = query.TrimFileExt & ".BlastSelf.txt"
+        Dim out As String = query.TrimSuffix & ".BlastSelf.txt"
         Dim localblast As New Programs.BLASTPlus(blast)
 
         Call localblast.FormatDb(query, localblast.MolTypeProtein).Start(WaitForExit:=True)
@@ -266,7 +266,7 @@ Module CLI
         Dim outLog As BlastPlus.v228 = BlastPlus.Parser.TryParse(out)
         Dim hits As BestHit() = outLog.ExportOverview.GetExcelData
 
-        out = args.GetValue("/out", out.TrimFileExt & ".Csv")
+        out = args.GetValue("/out", out.TrimSuffix & ".Csv")
 
         Return hits.SaveTo(out).CLICode
     End Function
@@ -274,7 +274,7 @@ Module CLI
     <ExportAPI("/export.prot", Usage:="/export.prot /gb <genome.gbk> [/out <out.fasta>]")>
     Public Function ExportProt(args As CommandLine.CommandLine) As Integer
         Dim gb As String = args("/gb")
-        Dim out As String = args.GetValue("/out", gb.TrimFileExt & "_prot.fasta")
+        Dim out As String = args.GetValue("/out", gb.TrimSuffix & "_prot.fasta")
         Dim gbk As GBFF.File = GBFF.File.Load(gb)
         Dim prot As FASTA.FastaFile = gbk.ExportProteins_Short
         Return prot.Save(out).CLICode

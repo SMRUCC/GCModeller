@@ -44,7 +44,7 @@ Public Module API
     <ExportAPI("/Reads.Count", Usage:="/Reads.Count /in <mappings.csv> /ref <ref.fasta> [/out <out.csv>]")>
     Public Function Count(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".ReadsCount.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".ReadsCount.Csv")
         Dim ref As New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(args("/ref"))
         Dim mappings As New DocumentStream.Linq.DataStream(inFile)  ' 读取测序数据的mapping结果
         Dim readsCount As ___readsCount = New ___readsCount(ref)

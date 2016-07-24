@@ -49,7 +49,7 @@ Partial Module CLI
         Dim threshold As Double = args.GetValue("/threshold", 0.3)
         Dim motifs As AnnotationModel() = AnnotationModel.LoadDocument(queryFile)
         Dim subjectLDM = subjectFile.LoadXml(Of AnnotationModel)
-        Dim out As String = args.GetValue("/out", queryFile.TrimFileExt & "-" & IO.Path.GetFileNameWithoutExtension(subjectFile))
+        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subjectFile))
 
         For Each motif As AnnotationModel In motifs
             Call __LDMTom(motif, subjectLDM, method, cost, threshold, out, $"{motif.ToString}-{subjectLDM.ToString}")
@@ -83,7 +83,7 @@ Partial Module CLI
         Dim method As String = args.GetValue("/method", "sw")
         Dim cost As Double = args.GetValue("/cost", 0.7)
         Dim threshold As Double = args.GetValue("/threshold", 0.65)
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & "-" & IO.Path.GetFileNameWithoutExtension(subject) & "." & method)
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subject) & "." & method)
 
         Call __LDMTom(queryLDM, subjectLDM, method, cost, threshold, out, "TOMQuery")
 
@@ -160,7 +160,7 @@ Partial Module CLI
         Dim cost As Double = args.GetValue("/cost", 0.7)
         Dim threshold As Double = args.GetValue("/threshold", 0.65)
         Dim isMEME As Boolean = args.GetBoolean("/meme")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt)
+        Dim out As String = args.GetValue("/out", query.TrimSuffix)
 
         If isMEME Then
             Call __memeTOMQuery(query, out, threshold, cost, method)

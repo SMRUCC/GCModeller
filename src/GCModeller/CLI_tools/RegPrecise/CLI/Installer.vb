@@ -98,7 +98,7 @@ Partial Module CLI
         Dim xmls As IEnumerable(Of String) = ls - l - r - wildcards("*.xml") << args + "/imports"
         Dim fasta As String = args <= "/fasta"
         Dim prot As New FastaFile(fasta)
-        Dim out As String = ("/out" <= args) ^ $"{fasta.TrimFileExt}-regulators.fasta"
+        Dim out As String = ("/out" <= args) ^ $"{fasta.TrimSuffix}-regulators.fasta"
 
         Call $" >>>> {out.ToFileURL} fro {xmls.Count} genomes....".__DEBUG_ECHO
         Call $"Create hash for {fasta.ToFileURL}".__DEBUG_ECHO
@@ -122,7 +122,7 @@ Partial Module CLI
 
         If args.GetBoolean("/locus-out") Then
             Dim outLocus As String() = prot.ToArray(Function(x) x.Attributes(Scan0))
-            Call outLocus.FlushAllLines(out.TrimFileExt & "-locus_tags.txt")
+            Call outLocus.FlushAllLines(out.TrimSuffix & "-locus_tags.txt")
         End If
 
         Return prot > out
@@ -133,7 +133,7 @@ Partial Module CLI
     Public Function SelectTFPfams(args As CommandLine) As Integer
         Dim [in] As String = args - "/pfam-string"
         Dim xmls As IEnumerable(Of String) = ls - l - r - wildcards("*.xml") << args + "/imports"
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & "-TF.Pfam-String.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-TF.Pfam-String.Csv")
         Dim pfamHash As Dictionary(Of String, PfamString) = (From x As PfamString
                                                              In [in].LoadCsv(Of PfamString)
                                                              Select uid = x.ProteinId.Split(":"c).Last,
@@ -162,7 +162,7 @@ Partial Module CLI
     Public Function SelectTFBBH(args As CommandLine) As Integer
         Dim [in] As String = args("/bbh")
         Dim [imports] As String = args("/imports")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".RegPrecise.TF.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".RegPrecise.TF.Csv")
         Dim bbh As IEnumerable(Of BBHIndex) = [in].LoadCsv(Of BBHIndex)
         Dim xmls As IEnumerable(Of String) = ls - l - r - wildcards("*.xml") << args + "/imports"
         Dim bbhHash As Dictionary(Of String, BBHIndex()) =

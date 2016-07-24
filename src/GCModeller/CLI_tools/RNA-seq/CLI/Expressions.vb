@@ -38,7 +38,7 @@ Partial Module CLI
     Public Function StatChanges(args As CommandLine.CommandLine) As Integer
         Dim inFile As String = args("/deseq")
         Dim sample As String = args("/sample")
-        Dim out As String = args.GetValue("/out", inFile.TrimFileExt & ".stat_changes.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".stat_changes.Csv")
         Dim levels As Integer = args.GetValue("/levels", 1000)
         Dim diff As Double = args.GetValue("/diff", 0.5)
         Dim result = SleepIdentified.IdentifyChanges(inFile.LoadCsv(Of ResultData), sample.LoadCsv(Of SampleTable), diff, levels)
@@ -52,7 +52,7 @@ Partial Module CLI
                    Example:="colR1/xcb1|colR2/xcb2")>
     Public Function Log2(args As CommandLine.CommandLine) As Integer
         Dim inRPKM As String = args("/in")
-        Dim out As String = args.GetValue("/out", inRPKM.TrimFileExt & ".log2.csv")
+        Dim out As String = args.GetValue("/out", inRPKM.TrimSuffix & ".log2.csv")
         Dim samples As Experiment() = Experiment.GetSamples(args("/cond"))
         Dim MAT As MatrixFrame = MatrixFrame.Load(DocumentStream.File.Load(inRPKM))
         Dim log2s As DocumentStream.File = MAT.Log2(samples)
@@ -64,7 +64,7 @@ Partial Module CLI
         Dim inFile As String = args("/log2")
         Dim data As String = args("/data")
         Dim locus_map As String = args.GetValue("/locus_map", "locus")
-        Dim out As Int = args.OpenHandle("/out", inFile.TrimFileExt & $".selects-{data.BaseName}.out.csv")
+        Dim out As Int = args.OpenHandle("/out", inFile.TrimSuffix & $".selects-{data.BaseName}.out.csv")
         Dim log2 = DocumentStream.DataSet.LoadDataSet(inFile, "LocusId")
         Dim factor As Double = args.GetValue("/factor", 1.0R)
         Dim dataSets = (From x As DocumentStream.EntityObject

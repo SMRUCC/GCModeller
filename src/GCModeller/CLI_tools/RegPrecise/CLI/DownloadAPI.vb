@@ -49,7 +49,7 @@ Public Module CLI
     Public Function FetchRepostiory(args As CommandLine) As Integer
         Dim [in] As String = args("/imports")
         Dim genbank As String = args("/genbank")
-        Dim out As String = [in].TrimFileExt & ".Fasta/"
+        Dim out As String = [in].TrimSuffix & ".Fasta/"
         Dim repository As New Genbank(genbank)
         Dim trim As Boolean = Not args.GetBoolean("/full")
 
@@ -58,7 +58,7 @@ Public Module CLI
             Dim query As QuerySource = genome.CreateKEGGQuery
             Dim entry As GenbankIndex = repository.Query(query)
 
-            Call query.GetDoc.SaveTo(path.TrimFileExt & ".txt")
+            Call query.GetDoc.SaveTo(path.TrimSuffix & ".txt")
 
             If Not entry Is Nothing Then
                 Dim gb As GBFF.File = entry.Gbk(genbank)

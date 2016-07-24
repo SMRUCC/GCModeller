@@ -55,7 +55,7 @@ Partial Module Utilities
     Public Function NW(args As CommandLine.CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & "-" & subject.BaseName & ".txt")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & subject.BaseName & ".txt")
         Call RunNeedlemanWunsch.RunAlign(New FASTA.FastaToken(query), New FASTA.FastaToken(subject), False, out)
         Return 0
     End Function
@@ -65,7 +65,7 @@ Partial Module Utilities
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim blosum As String = args("/blosum")
-        Dim out As String = args.GetValue("/out", query.TrimFileExt & "-" & IO.Path.GetFileNameWithoutExtension(subject) & ".xml")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subject) & ".xml")
         Dim queryFa As New FASTA.FastaToken(query)
         Dim subjectFa As New FASTA.FastaToken(subject)
         Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SequenceTools.Blosum.LoadMatrix(blosum))
@@ -204,14 +204,14 @@ Partial Module Utilities
 
         Dim out = aln.Mid(leftOffset, rightOffset)
         Dim outFile As String =
-            args.GetValue("/out", aln.FilePath.TrimFileExt & $"{leftOffset}-{rightOffset}.fasta")
+            args.GetValue("/out", aln.FilePath.TrimSuffix & $"{leftOffset}-{rightOffset}.fasta")
         Return out.Save(-1, outFile, Encodings.ASCII).CLICode
     End Function
 
     <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
     Public Function gwANI(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".gwANI.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
         Dim fast As Boolean = args.GetBoolean("/fast")
 
         Call gwANIExtensions.Evaluate([in], out, fast)
@@ -222,7 +222,7 @@ Partial Module Utilities
                Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
     Public Function Sigma(args As CommandLine.CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimFileExt & ".Sigma.Csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Sigma.Csv")
         Dim fasta As New FastaFile([in])
         Dim simple As Boolean = args.GetBoolean("/simple")
         Dim round As Integer = args.GetValue("/round", -1)
