@@ -135,4 +135,14 @@ Partial Module CLI
         Dim result = data.EXPORT
         Return result.GetJson.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/Rank.Statics",
+               Usage:="/Rank.Statics /in <relative.table.csv> [/out <EXPORT_DIR>]")>
+    Public Function RankStatics(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim EXPORT As String =
+            args.GetValue("/out", [in].TrimSuffix & ".EXPORT/")
+        Dim source As RelativeSample() = [in].LoadCsv(Of RelativeSample)
+        Return source.ExportByRanks(EXPORT)
+    End Function
 End Module
