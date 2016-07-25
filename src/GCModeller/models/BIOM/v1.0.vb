@@ -2,11 +2,58 @@
 
 Namespace v10
 
+    ''' <summary>
+    ''' ``&lt;string>`` Table type (a controlled vocabulary) acceptable values
+    ''' </summary>
+    Public Class types
+
+        Public Const OTU_table As String = "OTU table"
+        Public Const Pathway_table As String = "Pathway table"
+        Public Const Function_table As String = "Function table"
+        Public Const Ortholog_table As String = "Ortholog table"
+        Public Const Gene_table As String = "Gene table"
+        Public Const Metabolite_table As String = "Metabolite table"
+        Public Const Taxon_table As String = "Taxon table"
+    End Class
+
+    ''' <summary>
+    ''' ##### The biom file format: Version 1.0
+    ''' 
+    ''' The ``biom`` format is based on ``JSON`` to provide the overall structure for the format. 
+    ''' JSON is a widely supported format with native parsers available within many programming 
+    ''' languages.
+    ''' </summary>
     Public Class Json
 
+        ''' <summary>
+        ''' ``&lt;string or null>`` a field that can be used to id a table (or null)
+        ''' </summary>
+        ''' <returns></returns>
         Public Property id As String
+        ''' <summary>
+        ''' ``&lt;string>`` The name and version of the current biom format
+        ''' </summary>
+        ''' <returns></returns>
         Public Property format As String
+        ''' <summary>
+        ''' ``&lt;url>`` A string with a static URL providing format details
+        ''' </summary>
+        ''' <returns></returns>
         Public Property format_url As String
+        ''' <summary>
+        ''' ``&lt;string>`` Table type (a controlled vocabulary)
+        ''' Acceptable values : 
+        ''' 
+        ''' + "OTU table"
+        ''' + "Pathway table"
+        ''' + "Function table"
+        ''' + "Ortholog table"
+        ''' + "Gene table"
+        ''' + "Metabolite table"
+        ''' + "Taxon table"
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
         Public Property type As String
         Public Property generated_by As String = "GCModeller"
         Public Property [date] As Date
