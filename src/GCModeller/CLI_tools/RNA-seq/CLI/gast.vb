@@ -125,4 +125,14 @@ Partial Module CLI
         Call MeganImports.Out(result).Save(out.TrimSuffix & ".Megan.Csv", Encodings.ASCII)
         Return result.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/Export.Megan.BIOM",
+               Usage:="/Export.Megan.BIOM /in <relative.table.csv> [/out <out.json.biom>]")>
+    Public Function ExportToMegan(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom")
+        Dim data As RelativeSample() = [in].LoadCsv(Of RelativeSample)()
+        Dim result = data.EXPORT
+        Return result.GetJson.SaveTo(out).CLICode
+    End Function
 End Module

@@ -1,11 +1,15 @@
-﻿Imports Microsoft.VisualBasic
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Model.BIOM.v10
 
 Public Module BIOM
 
+    <Extension>
     Public Function [Imports](source As IEnumerable(Of Names), Optional takes As Integer = 100, Optional cut As Integer = 50) As Json
         Dim array As Names() = LinqAPI.Exec(Of Names) <=
             From x As Names
@@ -64,5 +68,30 @@ Public Module BIOM
             .columns = names
         }
     End Function
+
+    <Extension>
+    Public Function EXPORT(table As IEnumerable(Of RelativeSample)) As Json
+        Dim array As Names() = LinqAPI.Exec(Of Names) <=
+            From x As RelativeSample
+            In table
+            Select New Names With {
+                .NumOfSeqs = 100,
+                .Composition = x.Samples.ToDictionary(Function(xx) xx.Key, Function(xx) CStr(xx.Value * 100)),
+                .taxonomy = x.Taxonomy,
+                .Unique = x.OTU
+            }
+        Return array.Imports(array.Length + 10, 0)
+    End Function
+
+    Public Class RelativeSample
+        <Column("#OTU_num")> Public Property OTU As String
+        Public Property Taxonomy As String
+        <Meta(GetType(Double))>
+        Public Property Samples As Dictionary(Of String, Double)
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
 End Module
 
