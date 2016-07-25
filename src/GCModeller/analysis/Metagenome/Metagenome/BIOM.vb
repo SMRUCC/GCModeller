@@ -55,7 +55,7 @@ Public Module BIOM
             .format_url = "http://biom-format.org",
             .type = "OTU table",
             .generated_by = "GCModeller",
-            .date = Now.ToString,
+            .date = Now,
             .matrix_type = "sparse",
             .matrix_element_type = "int",
             .shape = {array.Length, 4},
