@@ -1,30 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::b4a8bab147c08535666632307c94c8b2, ..\Metagenome\gast\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Perl
@@ -74,7 +75,7 @@ Namespace gast
     ''' </summary>
     Public Class Taxonomy : Inherits ClassObject
 
-        Shared ReadOnly ranks As String() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
+        Friend Shared ReadOnly ranks As String() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
 
         ''' <summary>
         ''' Create a new taxonomy object
@@ -186,6 +187,16 @@ Namespace gast
         Public Function taxstring() As String
             Dim array As String() = {domain, phylum, [class], order, family, genus, species, strain}
             Return array.JoinBy(";")
+        End Function
+
+        Public Function GetTree(rankLv As Integer) As String
+            Dim ls As New List(Of String)
+
+            For i As Integer = 0 To rankLv
+                ls += Me(i)
+            Next
+
+            Return String.Join(";", ls.ToArray)
         End Function
 
         ''' <summary>
