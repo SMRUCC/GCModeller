@@ -258,6 +258,10 @@
       <Project>{2b903b81-95f4-455f-b892-d2ac36167453}</Project>
       <Name>BOW</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\models\BIOM\BIOM.vbproj">
+      <Project>{EE17BE25-17E3-48F5-BEF2-A7D540AE09E1}</Project>
+      <Name>BIOM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
