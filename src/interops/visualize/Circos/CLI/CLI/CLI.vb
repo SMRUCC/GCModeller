@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize
+Imports Microsoft.VisualBasic.CommandLine
 
 <PackageNamespace("Circos.CLI",
                   Category:=APICategories.CLI_MAN,

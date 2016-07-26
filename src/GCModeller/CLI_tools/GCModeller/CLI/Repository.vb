@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Model_Repository
@@ -38,7 +39,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("-imports", Usage:="-imports <genbank_file/genbank_directory>")>
-    Public Function [Imports](argvs As CommandLine.CommandLine) As Integer
+    Public Function [Imports](argvs As CommandLine) As Integer
         Return RQL.API.ImportsGBK(argvs.Parameters.First).CLICode
     End Function
 

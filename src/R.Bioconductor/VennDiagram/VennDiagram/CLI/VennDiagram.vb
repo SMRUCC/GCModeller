@@ -3,9 +3,10 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports RDotNET.Extensions.VisualBasic.RSystem
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
+Imports RDotNet.Extensions.VisualBasic.RSystem
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI
+Imports Microsoft.VisualBasic.CommandLine
 
 <PackageNamespace("VennTools.CLI", Category:=APICategories.CLI_MAN,
                   Description:="Tools for creating venn diagram model for the R program and venn diagram visualize drawing.",
@@ -51,7 +52,7 @@ Public Module CLI
         Dim RBin As String = args("-rbin")
 
         If Not inds.FileExists Then '-i开关参数无效
-            Printf("Could not found the source file!")
+            printf("Could not found the source file!")
             Return -1
         Else
             out = UnixPath(out, True)
@@ -87,7 +88,7 @@ Public Module CLI
         Call VennDiagram.SaveAsXml(EXPORT.TrimSuffix & ".Xml")
         Call RSystem.Source(EXPORT)
 
-        Printf("The venn diagram r script were saved at location:\n '%s'", EXPORT)
+        printf("The venn diagram r script were saved at location:\n '%s'", EXPORT)
 
         Call Process.Start(out)
 

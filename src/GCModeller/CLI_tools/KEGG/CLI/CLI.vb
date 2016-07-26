@@ -27,6 +27,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
@@ -169,7 +170,7 @@ Module CLI
     <ExportAPI("-query",
                Usage:="-query -keyword <keyword> -o <out_dir>",
                Info:="Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.")>
-    Public Function QueryGenes(argvs As CommandLine.CommandLine) As Integer
+    Public Function QueryGenes(argvs As CommandLine) As Integer
         Dim Out As String = argvs("-o")
         Dim Keyword As String = argvs("-keyword")
         Dim ChunkBuffer As List(Of WebServices.QueryEntry) = New List(Of WebServices.QueryEntry)
@@ -216,7 +217,7 @@ Module CLI
     ''' <remarks></remarks>
     <ExportAPI("-Table.Create", Usage:="-table.create -i <input_dir> -o <out_csv>")>
     <ParameterInfo("-i", Description:="This parameter specific the source directory input of the download data.")>
-    Public Function CreateTABLE(argvs As CommandLine.CommandLine) As Integer
+    Public Function CreateTABLE(argvs As CommandLine) As Integer
         Dim Inputs As String() = FileIO.FileSystem.GetFiles(argvs("-i"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray
         Dim GeneData = (From path As String
                         In Inputs.AsParallel
@@ -274,7 +275,7 @@ Module CLI
     End Function
 
     <ExportAPI("-query.orthology", Usage:="-query.orthology -keyword <gene_name> -o <output_csv>")>
-    Public Function QueryOrthology(argvs As CommandLine.CommandLine) As Integer
+    Public Function QueryOrthology(argvs As CommandLine) As Integer
         Dim EntryList = DBGET.bGetObject.SSDB.API.HandleQuery(argvs("-keyword"))
         Dim GeneEntries As List(Of QueryEntry) = New List(Of QueryEntry)
 
@@ -366,14 +367,14 @@ Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("-query.ref.map", Usage:="-query.ref.map -id <id> -o <out_dir>")>
-    Public Function DownloadReferenceMap(argvs As CommandLine.CommandLine) As Integer
+    Public Function DownloadReferenceMap(argvs As CommandLine) As Integer
         Dim Map As ReferenceMapData = ReferenceMapData.Download(ID:=argvs("-id"))
         Call Map.GetXml.SaveTo(argvs("-o"))
         Return True
     End Function
 
     <ExportAPI("-ref.map.download", Usage:="-ref.map.download -o <out_dir>")>
-    Public Function DownloadReferenceMapDatabase(argvs As CommandLine.CommandLine) As Integer
+    Public Function DownloadReferenceMapDatabase(argvs As CommandLine) As Integer
         Dim OutDir As String = argvs("-o")
         Dim IDList = DBGET.BriteHEntry.Pathway.LoadFromResource
         Dim DownloadLQuery = (From ID As DBGET.BriteHEntry.Pathway
@@ -385,7 +386,7 @@ Module CLI
     End Function
 
     <ExportAPI("-function.association.analysis", Usage:="-function.association.analysis -i <matrix_csv>")>
-    Public Function FunctionAnalysis(argvs As CommandLine.CommandLine) As Integer
+    Public Function FunctionAnalysis(argvs As CommandLine) As Integer
         Dim MAT = DocumentStream.File.FastLoad(argvs("-i"))
         Call PathwayAssociationAnalysis.Analysis(MAT)
         Return 0
