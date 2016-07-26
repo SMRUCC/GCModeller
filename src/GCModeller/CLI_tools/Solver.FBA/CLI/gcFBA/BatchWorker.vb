@@ -33,7 +33,7 @@ Partial Module CLI
     ' /Analysis.Phenotype /in <MetaCyc.Sbml> /reg <footprints.csv> /obj <list/path/module-xml> [/obj-type <lst/pathway/module> /params <rfba.parameters.xml> /stat <stat.Csv> /sample <sampleTable.csv> /modify <locus_modify.csv> /out <outDIR>]
 
     ''' <summary>
-    ''' Batch task schedule for <see cref="CLI.rFBABatch(CommandLine.CommandLine)"/>
+    ''' Batch task schedule for <see cref="CLI.rFBABatch(CommandLine)"/>
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
