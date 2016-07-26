@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -310,7 +311,36 @@ Module CLI
         Public Property Taxonomy As String
     End Class
 
-    Public Function giMatch(args As CommandLine) As Integer
+    Const tab As Char = vbTab
 
+    <ExportAPI("/gi.Match",
+               Usage:="/gi.Match /in <nt.parts.fasta> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
+    Public Function giMatch(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim gi2taxid As String = args("/gi2taxid")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gi_match.txt")
+        Dim gis As New List(Of String)
+        Dim gi As String
+
+        For Each seq As FastaToken In New StreamIterator([in]).ReadStream
+            gis += Regex.Match(seq.Title, "gi\|\d+", RegexICSng).Value.Split("|"c).Last
+        Next
+
+        Dim hash = (From id As String
+                    In gis
+                    Select id
+                    Group id By id Into Group).ToDictionary(Function(x) x.id, Function(x) "")
+
+        Using match As StreamWriter = out.OpenWriter
+            For Each line As String In gi2taxid.IterateAllLines
+                gi = line.Split(tab).First
+
+                If hash.ContainsKey(gi) Then
+                    Call match.WriteLine(line)
+                End If
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module
