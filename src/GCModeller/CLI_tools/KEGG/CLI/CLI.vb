@@ -27,6 +27,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
@@ -119,7 +120,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
 Module CLI
 
     <ExportAPI("/blastn", Usage:="/blastn /query <query.fasta> [/out <outDIR>]", Info:="Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
-    Public Function Blastn(args As CommandLine.CommandLine) As Integer
+    Public Function Blastn(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim out As String = args.GetValue("/out", queryFile.TrimSuffix)
         Dim query As New FASTA.FastaFile(queryFile)
@@ -137,7 +138,7 @@ Module CLI
                Info:="Downloads the KEGG gene ortholog annotation data from the web server.",
                Usage:="/Download.Ortholog -i <gene_list_file.txt/gbk> -export <exportedDIR> [/gbk /sp <KEGG.sp>]",
                Example:="")>
-    Public Function DownloadOrthologs(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadOrthologs(args As CommandLine) As Integer
         Dim GBK As Boolean = args.GetBoolean("/gbk")
         Dim GeneList As String()
         Dim ExportedDir As String = args("-export")
@@ -159,7 +160,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Imports.SSDB", Usage:="/Imports.SSDB /in <source.DIR> [/out <ssdb.csv>]")>
-    Public Function ImportsDb(args As CommandLine.CommandLine) As Integer
+    Public Function ImportsDb(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Csv")
         Dim ssdb = DBGET.bGetObject.SSDB.API.Transform(inDIR)
@@ -169,7 +170,7 @@ Module CLI
     <ExportAPI("-query",
                Usage:="-query -keyword <keyword> -o <out_dir>",
                Info:="Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.")>
-    Public Function QueryGenes(argvs As CommandLine.CommandLine) As Integer
+    Public Function QueryGenes(argvs As CommandLine) As Integer
         Dim Out As String = argvs("-o")
         Dim Keyword As String = argvs("-keyword")
         Dim ChunkBuffer As List(Of WebServices.QueryEntry) = New List(Of WebServices.QueryEntry)
@@ -216,7 +217,7 @@ Module CLI
     ''' <remarks></remarks>
     <ExportAPI("-Table.Create", Usage:="-table.create -i <input_dir> -o <out_csv>")>
     <ParameterInfo("-i", Description:="This parameter specific the source directory input of the download data.")>
-    Public Function CreateTABLE(argvs As CommandLine.CommandLine) As Integer
+    Public Function CreateTABLE(argvs As CommandLine) As Integer
         Dim Inputs As String() = FileIO.FileSystem.GetFiles(argvs("-i"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray
         Dim GeneData = (From path As String
                         In Inputs.AsParallel
@@ -274,7 +275,7 @@ Module CLI
     End Function
 
     <ExportAPI("-query.orthology", Usage:="-query.orthology -keyword <gene_name> -o <output_csv>")>
-    Public Function QueryOrthology(argvs As CommandLine.CommandLine) As Integer
+    Public Function QueryOrthology(argvs As CommandLine) As Integer
         Dim EntryList = DBGET.bGetObject.SSDB.API.HandleQuery(argvs("-keyword"))
         Dim GeneEntries As List(Of QueryEntry) = New List(Of QueryEntry)
 
@@ -292,7 +293,7 @@ Module CLI
     End Sub
 
     <ExportAPI("/Pull.Seq", Info:="Downloads the missing sequence in the local KEGG database from the KEGG database server.")>
-    Public Function PullSequence(args As CommandLine.CommandLine) As Integer
+    Public Function PullSequence(args As CommandLine) As Integer
         Dim donwloader As New SeuqneceDownloader(MySQLExtensions.GetURI)
         Call donwloader.RunTask()
         Return 0
@@ -304,7 +305,7 @@ Module CLI
     End Sub
 
     <ExportAPI("--Export.KO")>
-    Public Function ExportKO(args As CommandLine.CommandLine) As Integer
+    Public Function ExportKO(args As CommandLine) As Integer
 
     End Function
 
@@ -313,7 +314,7 @@ Module CLI
     ''' </summary>
     ''' <returns></returns>
     <ExportAPI("-Build.KO", Usage:="-Build.KO [/fill-missing]", Info:="Download data from KEGG database to local server.")>
-    Public Function BuildKEGGOrthology(args As CommandLine.CommandLine) As Integer
+    Public Function BuildKEGGOrthology(args As CommandLine) As Integer
         '   If args.GetBoolean("/fill-missing") Then
         Call __fillMissing()
         Return 0
@@ -366,14 +367,14 @@ Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("-query.ref.map", Usage:="-query.ref.map -id <id> -o <out_dir>")>
-    Public Function DownloadReferenceMap(argvs As CommandLine.CommandLine) As Integer
+    Public Function DownloadReferenceMap(argvs As CommandLine) As Integer
         Dim Map As ReferenceMapData = ReferenceMapData.Download(ID:=argvs("-id"))
         Call Map.GetXml.SaveTo(argvs("-o"))
         Return True
     End Function
 
     <ExportAPI("-ref.map.download", Usage:="-ref.map.download -o <out_dir>")>
-    Public Function DownloadReferenceMapDatabase(argvs As CommandLine.CommandLine) As Integer
+    Public Function DownloadReferenceMapDatabase(argvs As CommandLine) As Integer
         Dim OutDir As String = argvs("-o")
         Dim IDList = DBGET.BriteHEntry.Pathway.LoadFromResource
         Dim DownloadLQuery = (From ID As DBGET.BriteHEntry.Pathway
@@ -385,14 +386,14 @@ Module CLI
     End Function
 
     <ExportAPI("-function.association.analysis", Usage:="-function.association.analysis -i <matrix_csv>")>
-    Public Function FunctionAnalysis(argvs As CommandLine.CommandLine) As Integer
+    Public Function FunctionAnalysis(argvs As CommandLine) As Integer
         Dim MAT = DocumentStream.File.FastLoad(argvs("-i"))
         Call PathwayAssociationAnalysis.Analysis(MAT)
         Return 0
     End Function
 
     <ExportAPI("/16S_rRNA", Usage:="/16s_rna [/out <outDIR>]")>
-    Public Function Download16SRNA(args As CommandLine.CommandLine) As Integer
+    Public Function Download16SRNA(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory & "/")
         Dim fasta As FASTA.FastaFile = Download16S_rRNA(outDIR)
         Return fasta.Save($"{outDIR}/16S_rRNA.fasta", Encoding.ASCII).CLICode
@@ -400,7 +401,7 @@ Module CLI
 
     <ExportAPI("/Fasta.By.Sp",
                Usage:="/Fasta.By.Sp /in <KEGG.fasta> /sp <sp.list> [/out <out.fasta>]")>
-    Public Function GetFastaBySp(args As CommandLine.CommandLine) As Integer
+    Public Function GetFastaBySp(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sp As String = args("/sp")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & sp.BaseName & ".fasta")
@@ -417,7 +418,7 @@ Module CLI
     End Function
 
     <ExportAPI("Download.Sequence", Usage:="Download.Sequence /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
-    Public Function DownloadSequence(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadSequence(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim out As String = args.GetValue("/out", query.ParentPath)
         Dim sourceDIR As String = args.GetValue("/source", out)  ' 假若不存在这个参数的输入的话，将路径指向一个空文件夹，减少搜索的时间
@@ -467,7 +468,7 @@ Module CLI
 
     <ExportAPI("/Download.Pathway.Maps",
                Usage:="/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
-    Public Function DownloadPathwayMaps(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
         Dim all = LinkDB.Pathways.AllEntries(sp).ToArray

@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::4f57b822d591fbf51333913b74c319a4, ..\GCModeller\CLI_tools\MEME\Cli\MotifSites.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -38,13 +38,14 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports System.Data.Linq.Mapping
+Imports Microsoft.VisualBasic.CommandLine
 
 Partial Module CLI
 
     <ExportAPI("/Export.MotifSites",
                Info:="Motif iteration step 1",
                Usage:="/Export.MotifSites /in <meme.txt> [/out <outDIR> /batch]")>
-    Public Function ExportTestMotifs(args As CommandLine.CommandLine) As Integer
+    Public Function ExportTestMotifs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim batch As Boolean = args.GetBoolean("/batch")
 
@@ -84,7 +85,7 @@ Partial Module CLI
     <ExportAPI("/Export.Similarity.Hits",
                Info:="Motif iteration step 2",
                Usage:="/Export.Similarity.Hits /in <inDIR> [/out <out.Csv>]")>
-    Public Function LoadSimilarityHits(args As CommandLine.CommandLine) As Integer
+    Public Function LoadSimilarityHits(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimEnd("\"c, "/"c) & ".SimilarityHits.Csv")
         Dim DIRs As IEnumerable(Of String) = ls - l - lsDIR <= [in]
@@ -170,7 +171,7 @@ Partial Module CLI
     <ExportAPI("/Similarity.Union",
                Info:="Motif iteration step 3",
                Usage:="/Similarity.Union /in <preSource.fasta.DIR> /meme <meme.txt.DIR> /hits <similarity_hist.Csv> [/out <out.DIR>]")>
-    Public Function UnionSimilarity(args As CommandLine.CommandLine) As Integer
+    Public Function UnionSimilarity(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim meme As String = args - "/meme"
         Dim hits As String = args - "/hits"

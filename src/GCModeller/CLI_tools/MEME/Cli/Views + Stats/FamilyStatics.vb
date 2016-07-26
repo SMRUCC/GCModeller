@@ -26,6 +26,7 @@
 #End Region
 
 Imports MEME.Analysis
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -48,7 +49,7 @@ Partial Module CLI
 
     <ExportAPI("--family.statics",
                Usage:="--family.statics /sites <motifSites.csv> /mods <directory.kegg_modules>")>
-    Public Function FamilyStatics(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyStatics(args As CommandLine) As Integer
         Dim input As String = args("/sites")
         Dim Sites = input.LoadCsv(Of MotifSite)
         Dim LQuery = (From site As MotifSite

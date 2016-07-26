@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports SMRUCC.genomics.Analysis.RNA_Seq
@@ -38,7 +39,7 @@ Partial Module CLI
 
     <ExportAPI("/Motif.BuildRegulons",
                Usage:="/Motif.BuildRegulons /meme <meme.txt.DIR> /model <FootprintTrace.xml> /DOOR <DOOR.opr> /maps <bbhmappings.csv> /corrs <name/DIR> [/cut <0.65> /out <outDIR>]")>
-    Public Function BuildRegulons(args As CommandLine.CommandLine) As Integer
+    Public Function BuildRegulons(args As CommandLine) As Integer
         Dim meme As String = args("/meme")
         Dim model As String = args("/model")
         Dim DOOR As String = args("/DOOR")

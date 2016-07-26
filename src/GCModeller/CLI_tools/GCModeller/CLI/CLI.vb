@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::c8587a663e3395b1441ea0c2151154af, ..\GCModeller\CLI_tools\GCModeller\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -29,13 +29,14 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.CommandLine
 
 <PackageNamespace("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
 Public Module CLI
 
     <ExportAPI("help", Example:="gc help", Usage:="gc help", Info:="Show help information about this program.")>
     Public Function About() As Integer
-        Printf("gc database administration")
+        printf("gc database administration")
 
         Return 0
     End Function
@@ -48,7 +49,7 @@ Public Module CLI
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("--user.create")>
-    Public Function Register(CommandLine As CommandLine.CommandLine) As Integer
+    Public Function Register(CommandLine As CommandLine) As Integer
         Dim userName As String = CommandLine("-user")
         Dim password As String = CommandLine("-pwd")
         Dim Database As String = CommandLine("-db_name")
@@ -140,7 +141,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("--install.MYSQL", Usage:="--install.MYSQL /user <userName> /pass <password> /repository <host_ipAddress> [/port 3306 /database <GCModeller>]")>
-    Public Function InstallMySQL(args As CommandLine.CommandLine) As Integer
+    Public Function InstallMySQL(args As CommandLine) As Integer
         Dim user As String = args("/user")
         Dim pass As String = args("/pass")
         Dim IPAddress As String = args("/repository")
@@ -162,7 +163,7 @@ Public Module CLI
         Call Settings.Initialize()
     End Sub
 
-    Public Function MultipleAlignment(args As CommandLine.CommandLine) As Integer
+    Public Function MultipleAlignment(args As CommandLine) As Integer
 
     End Function
 End Module

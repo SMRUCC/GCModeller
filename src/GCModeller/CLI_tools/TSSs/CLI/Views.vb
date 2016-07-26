@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools
@@ -39,7 +40,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Views", Usage:="/Views /in <inTSSs.csv> /genome <genome.fasta> [/out <outDIR> /TSS-len 5 /upstram 150]")>
-    Public Function Views(args As CommandLine.CommandLine) As Integer
+    Public Function Views(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Views/")
         Dim TSSsLen As Integer = args.GetValue("/TSS-len", 5)
@@ -56,7 +57,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Views.TSSs.NTFreq", Usage:="/Views.TSSs.NTFreq /in <inTSSs.csv> /reads <reads.dat> [/out <out.csv>]")>
-    Public Function TSSsNTFreq(args As CommandLine.CommandLine) As Integer
+    Public Function TSSsNTFreq(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim readsFile As String = args("/reads")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".TSSs.NTFreq.csv")

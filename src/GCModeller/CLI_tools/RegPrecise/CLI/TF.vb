@@ -27,6 +27,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
@@ -49,7 +50,7 @@ Partial Module CLI
 
     <ExportAPI("/Prot_Motifs.EXPORT.pfamString",
                Usage:="/Prot_Motifs.EXPORT.pfamString /in <motifs.json> /PTT <genome.ptt> [/out <pfam-string.csv>]")>
-    Public Function ProteinMotifsEXPORT(args As CommandLine.CommandLine) As Integer
+    Public Function ProteinMotifsEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim PTT As PTT = TabularFormat.PTT.Load(args - "/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".PfamString.Csv")
@@ -61,7 +62,7 @@ Partial Module CLI
 
     <ExportAPI("/Prot_Motifs.PfamString",
                Usage:="/Prot_Motifs.PfamString /in <RegPrecise.Download_DIR> [/fasta <RegPrecise.fasta> /out <pfam-string.csv>]")>
-    Public Function ProtMotifToPfamString(args As CommandLine.CommandLine) As Integer
+    Public Function ProtMotifToPfamString(args As CommandLine) As Integer
         Dim files As String() = LinqAPI.Exec(Of String) <= From dr As String
                                                            In ls - l - lsDIR << args.OpenHandle("/in")
                                                            Select ls - l - wildcards("*.json") <= dr
@@ -120,7 +121,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Family.Hits",
                Usage:="/Family.Hits /bbh <bbh.csv> [/regprecise <RegPrecise.Xml> /pfamKey <query.pfam-string> /out <out.DIR>]")>
-    Public Function FamilyHits(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyHits(args As CommandLine) As Integer
         Dim inBBH As String = args("/bbh")
         Dim inDIR As String = args.GetValue("/regprecise", GCModeller.FileSystem.RegPrecise.Directories.RegPreciseRegulations)
         Dim out As String = args.GetValue("/out", inBBH.TrimSuffix & ".FamilyHits/")
@@ -187,7 +188,7 @@ Partial Module CLI
 
     <ExportAPI("/Maps.Effector",
                Usage:="/Maps.Effector /imports <RegPrecise.DIR> [/out <out.csv>]")>
-    Public Function Effectors(args As CommandLine.CommandLine) As Integer
+    Public Function Effectors(args As CommandLine) As Integer
         Dim xmls As IEnumerable(Of String) = ls - l - r - wildcards("*.xml") <= args - "/imports"
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/RegPrecise.Effector.Maps.Csv")
         Dim list As New List(Of Effectors)
@@ -214,7 +215,7 @@ Partial Module CLI
 
     <ExportAPI("/Effector.FillNames",
                Usage:="/Effector.FillNames /in <effectors.csv> /compounds <metacyc.compounds> [/out <out.csv>]")>
-    Public Function EffectorFillNames(args As CommandLine.CommandLine) As Integer
+    Public Function EffectorFillNames(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim compounds As String = args - "/compounds"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & compounds.BaseName & ".Csv")

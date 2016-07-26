@@ -27,24 +27,25 @@
 
 Imports System.Drawing
 Imports System.Text
-Imports SMRUCC.genomics.Interops.NBCR
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.GCModeller.Workbench
+Imports SMRUCC.genomics.Interops.NBCR
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
     <ExportAPI("/Copys.DIR", Usage:="/Copys.DIR /in <inDIR> /out <outDIR>")>
-    Public Function BatchCopyDIR(args As CommandLine.CommandLine) As Integer
+    Public Function BatchCopyDIR(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args("/out")
         Dim inDIRS = FileIO.FileSystem.GetDirectories(inDIR)
@@ -63,7 +64,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Copys", Usage:="/Copys /in <inDIR> [/out <outDIR> /file <meme.txt>]")>
-    Public Function BatchCopy(args As CommandLine.CommandLine) As Integer
+    Public Function BatchCopy(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".MEME/")
         Dim file As String = args.GetValue("/file", "meme.txt")
@@ -81,7 +82,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/SWTOM.LDM", Usage:="/SWTOM.LDM /query <ldm.xml> /subject <ldm.xml> [/out <outDIR> /method <pcc/ed/sw; default:=pcc>]")>
-    Public Function SWTomLDM(args As CommandLine.CommandLine) As Integer
+    Public Function SWTomLDM(args As CommandLine) As Integer
         Dim inQuery As String = args("/query")
         Dim inSubject As String = args("/subject")
         Dim method As String = args.GetValue("/method", "pcc")
@@ -95,7 +96,7 @@ Partial Module CLI
     <ExportAPI("/SWTOM.Query", Usage:="/SWTOM.Query /query <meme.txt> [/out <outDIR> /method <pcc> /bits.level 1.6 /minW 6 /no-HTML]")>
     <ParameterInfo("/no-HTML", True,
                    Description:="If this parameter is true, then only the XML result will be export.")>
-    Public Function SWTomQuery(args As CommandLine.CommandLine) As Integer
+    Public Function SWTomQuery(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim out As String = args.GetValue("/out", query.TrimSuffix)
         Dim method As String = args.GetValue("/method", "pcc")
@@ -153,7 +154,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/SWTOM.Compares.Batch", Usage:="/SWTOM.Compares.Batch /query <query.meme.DIR> /subject <subject.meme.DIR> [/out <outDIR> /no-HTML]")>
-    Public Function SWTomComparesBatch(args As CommandLine.CommandLine) As Integer
+    Public Function SWTomComparesBatch(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(subject))
@@ -186,7 +187,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/SWTOM.Compares", Usage:="/SWTOM.Compares /query <query.meme.txt> /subject <subject.meme.txt> [/out <outDIR> /no-HTML]")>
-    Public Function SWTomCompares(args As CommandLine.CommandLine) As Integer
+    Public Function SWTomCompares(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(subject))
@@ -224,7 +225,7 @@ Partial Module CLI
                Usage:="/SWTOM.Query.Batch /query <meme.txt.DIR> [/out <outDIR> /SW-offset 0.6 /method <pcc> /bits.level 1.5 /minW 4 /SW-threshold 0.75 /tom-threshold 0.75 /no-HTML]")>
     <ParameterInfo("/no-HTML", True,
                    Description:="If this parameter is true, then only the XML result will be export.")>
-    Public Function SWTomQueryBatch(args As CommandLine.CommandLine) As Integer
+    Public Function SWTomQueryBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/query")
         Dim out As String = args.GetValue("/out", inDIR & "_SW-TOM.OUT/")
         Dim method As String = args.GetValue("/method", "pcc")
@@ -267,7 +268,7 @@ Partial Module CLI
     End Class
 
     <ExportAPI("/site.scan", Usage:="/site.scan /query <LDM.xml> /subject <subject.fasta> [/out <outDIR>]")>
-    Public Function SiteScan(args As CommandLine.CommandLine) As Integer
+    Public Function SiteScan(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subject))
@@ -277,7 +278,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/MEME.LDMs", Usage:="/MEME.LDMs /in <meme.txt> [/out <outDIR>]")>
-    Public Function MEME2LDM(args As CommandLine.CommandLine) As Integer
+    Public Function MEME2LDM(args As CommandLine) As Integer
         Dim inMEME As String = args("/in")
         Dim outDIR As String = args.GetValue("/out", inMEME.TrimSuffix & ".LDMs/")
         Dim LDMs = AnnotationModel.LoadDocument(inMEME)
@@ -292,7 +293,7 @@ Partial Module CLI
 
     <ExportAPI("/LDM.Compares",
                Usage:="/LDM.Compares /query <query.LDM.Xml> /sub <subject.LDM.Xml> [/out <outDIR>]")>
-    Public Function CompareMotif(args As CommandLine.CommandLine) As Integer
+    Public Function CompareMotif(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subj As String = args("/sub")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & subj.BaseName & ".Compares/")
@@ -312,7 +313,7 @@ Partial Module CLI
     '''
     <ExportAPI("/EXPORT.MotifDraws",
                Usage:="/EXPORT.MotifDraws /in <virtualFootprints.csv> /MEME <meme.txt.DIR> /KEGG <KEGG_Modules/Pathways.DIR> [/pathway /out <outDIR>]")>
-    Public Function ExportMotifDraw(args As CommandLine.CommandLine) As Integer
+    Public Function ExportMotifDraw(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".MotifDraws/")
         Dim cbUids = (From x As PredictedRegulationFootprint

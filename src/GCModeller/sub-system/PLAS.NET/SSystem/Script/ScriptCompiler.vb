@@ -28,6 +28,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions.Regex
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
@@ -95,7 +96,7 @@ Namespace Script
         ''' </summary>
         ''' <param name="args"></param>
         ''' <returns></returns>
-        Public Overrides Function Compile(Optional args As CommandLine.CommandLine = Nothing) As Model
+        Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Model
             Dim checked = CheckConsist(CompiledModel.Vars, CompiledModel.sEquations)
 
             If Not String.IsNullOrEmpty(checked.Name) Then  ' 检测的结果有错误
@@ -140,7 +141,7 @@ Namespace Script
             Return -1
         End Function
 
-        Public Overrides Function PreCompile(ARGV As CommandLine.CommandLine) As Integer
+        Public Overrides Function PreCompile(args As CommandLine) As Integer
             Return -1
         End Function
     End Class

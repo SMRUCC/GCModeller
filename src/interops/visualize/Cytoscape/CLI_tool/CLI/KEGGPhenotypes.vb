@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::23ec4666642cca774eda3af0de3b9415, ..\interops\visualize\Cytoscape\Cytoscape\Cli\Cytoscape\CLI\KEGGPhenotypes.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -56,7 +57,7 @@ Partial Module CLI
     <ExportAPI("/Phenotypes.KEGG",
                Info:="Regulator phenotype relationship cluster from virtual footprints.",
                Usage:="/Phenotypes.KEGG /mods <KEGG_Modules/Pathways.DIR> /in <VirtualFootprints.csv> [/pathway /out <outCluster.csv>]")>
-    Public Function KEGGModulesPhenotypeRegulates(args As CommandLine.CommandLine) As Integer
+    Public Function KEGGModulesPhenotypeRegulates(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim modsDIR As String = args("/mods")
         Dim isPathway As Boolean = args.GetBoolean("/pathway")
@@ -106,7 +107,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/net.model", Usage:="/net.model /model <kegg.xmlModel.xml> [/out <outDIR> /not-trim]")>
-    Public Function BuildModelNet(args As CommandLine.CommandLine) As Integer
+    Public Function BuildModelNet(args As CommandLine) As Integer
         Dim model As String = args("/model")
         Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
         Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
@@ -115,7 +116,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/net.pathway", Usage:="/net.pathway /model <kegg.pathway.xml> [/out <outDIR> /trim]")>
-    Public Function PathwayNet(args As CommandLine.CommandLine) As Integer
+    Public Function PathwayNet(args As CommandLine) As Integer
         Dim model As String = args("/model")
         Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
         Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
@@ -130,7 +131,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/modNET.Simple",
                Usage:="/modNET.Simple /in <mods/pathway_DIR> [/out <outDIR> /pathway]")>
-    Public Function SimpleModesNET(args As CommandLine.CommandLine) As Integer
+    Public Function SimpleModesNET(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim outDIR As String = args.GetValue("/out", inDIR & "-SimpleModsNET/")
         Dim mods = If(args.GetBoolean("/pathway"),

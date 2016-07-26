@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::28747c6c6c71c2268ac52bac6084caf6, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
@@ -50,7 +51,7 @@ Partial Module Utilities
 
     <ExportAPI("/Select.By_Locus",
                Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta.inDIR> [/out <out.fasta>]")>
-    Public Function SelectByLocus(args As CommandLine.CommandLine) As Integer
+    Public Function SelectByLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim fa As String = args("/fa")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & ".fasta")
@@ -80,7 +81,7 @@ Partial Module Utilities
     <ExportAPI("/To_Fasta",
                Usage:="/To_Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]",
                Info:="Convert the sequence data in a excel annotation file into a fasta sequence file.")>
-    Public Function ToFasta(args As CommandLine.CommandLine) As Integer
+    Public Function ToFasta(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Fasta")
         Dim attrs As String = args("/attrs")
@@ -107,7 +108,7 @@ Partial Module Utilities
     <ExportAPI("/Merge",
                Usage:="/Merge /in <fasta.DIR> [/out <out.fasta> /trim /unique /ext <*.fasta> /brief]",
                Info:="Only search for 1 level folder, dit not search receve.")>
-    Public Function Merge(args As CommandLine.CommandLine) As Integer
+    Public Function Merge(args As CommandLine) As Integer
         Dim inDIR As String = args.GetFullDIRPath("/in")
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
         Dim ext As String = args("/ext")
@@ -142,7 +143,7 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("-segment",
                Usage:="-segment /fasta <Fasta_Token> [-loci <loci>] [/left <left> /length <length> /right <right> [/reverse]] [/ptt <ptt> /geneID <gene_id> /dist <distance> /downstream] -o <saved> [-line.break 100]")>
-    Public Function GetSegment(args As CommandLine.CommandLine) As Integer
+    Public Function GetSegment(args As CommandLine) As Integer
         Dim FastaFile As String = args("/fasta")
         Dim Loci As String = args("-loci")
         Dim SaveTo As String = args("-o")
@@ -202,7 +203,7 @@ Partial Module Utilities
                           Description:="If this Boolean switch is set on, then all of the reversed strand segment will be complemenet and reversed.")>
     <ParameterInfo("/brief-dump", True,
                           Description:="If this parameter is set up true, then only the locus_tag of the ORF gene will be dump to the fasta sequence.")>
-    Public Function GetSegments(args As CommandLine.CommandLine) As Integer
+    Public Function GetSegments(args As CommandLine) As Integer
         Dim Regions As List(Of SimpleSegment) = args.GetObject("/regions", AddressOf LoadCsv(Of SimpleSegment))
         Dim Fasta As New FASTA.FastaToken(args("/fasta"))
         Dim Reader As New SegmentReader(Fasta)
@@ -285,7 +286,7 @@ Partial Module Utilities
                    Description:="Adjust the letter case of your sequence, l for lower case and u for upper case. Default value is upper case.")>
     <ParameterInfo("/break", True,
                    Description:="Adjust the sequence break when this program write the fasta sequence, default is -1 which means no break, write all sequence in one line.")>
-    Public Function Trim(args As CommandLine.CommandLine) As Integer
+    Public Function Trim(args As CommandLine) As Integer
         Dim Input As String = args("/in")
         Dim UpperCase As Boolean = Not String.Equals("l", args.GetValue("/case", "u"), StringComparison.OrdinalIgnoreCase)
         Dim break As Integer = args.GetValue("/break", -1)
@@ -315,7 +316,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/subset", Usage:="/subset /lstID <lstID.txt> /fa <source.fasta>")>
-    Public Function SubSet(args As CommandLine.CommandLine) As Integer
+    Public Function SubSet(args As CommandLine) As Integer
         Dim lstID As String() = IO.File.ReadAllLines(args("/lstID"))
         Dim fa As New FASTA.FastaFile(args("/fa"))
         Dim LQuery As FASTA.FastaToken() = (From id As String
@@ -331,7 +332,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Split", Usage:="/Split /in <in.fasta> [/n <4096> /out <outDIR>]")>
-    Public Function Split(args As CommandLine.CommandLine) As Integer
+    Public Function Split(args As CommandLine) As Integer
         Dim inFa As String = args("/in")
         Dim out As String = args.GetValue("/out", inFa.TrimSuffix & "/")
         Dim n As Long = args.GetValue("/n", 4096L)
@@ -349,7 +350,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Get.Locis", Usage:="/Get.Locis /in <locis.csv> /nt <genome.nt.fasta> [/out <outDIR>]")>
-    Public Function GetSimpleSegments(args As CommandLine.CommandLine) As Integer
+    Public Function GetSimpleSegments(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim nt As String = args("/nt")
         Dim out As String = args.GetValue("/out", [in].ParentPath)
@@ -367,7 +368,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Distinct", Usage:="/Distinct /in <in.fasta> [/out <out.fasta>]")>
-    Public Function Distinct(args As CommandLine.CommandLine) As Integer
+    Public Function Distinct(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Distinct.fasta")
         Dim fasta As New FASTA.FastaFile([in])
@@ -388,7 +389,7 @@ Partial Module Utilities
 
     <ExportAPI("/Gff.Sites",
                Usage:="/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
-    Public Function GffSites(args As CommandLine.CommandLine) As Integer
+    Public Function GffSites(args As CommandLine) As Integer
         Dim [in] As String = args("/fna")
         Dim sites As String = args("/gff")
         Dim out As String =

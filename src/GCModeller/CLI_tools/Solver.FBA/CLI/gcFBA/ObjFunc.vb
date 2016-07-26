@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -50,7 +51,7 @@ Partial Module CLI
     <ExportAPI("/phenos.MAT",
                Info:="Merges the objective function result as a Matrix. For calculation the coefficient of the genes with the phenotype objective function.",
                Usage:="/phenos.MAT /in <inDIR> [/out <outcsv>]")>
-    Public Function ObjMAT(args As CommandLine.CommandLine) As Integer
+    Public Function ObjMAT(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & "/" & inDIR.BaseName & "." & NameOf(ObjMAT) & ".csv")
         Dim files = (From path As String
@@ -75,7 +76,7 @@ Partial Module CLI
     <ExportAPI("/phenos.out.MAT",
                Info:="1. Merge flux.csv result as a Matrix, for the calculation of the coefficient of the genes with the metabolism flux.",
                Usage:="/phenos.out.MAT /in <inDIR> /samples <sampleTable.csv> [/out <outcsv> /model <MetaCyc.sbml>]")>
-    Public Function PhenoOUT_MAT(args As CommandLine.CommandLine) As Integer
+    Public Function PhenoOUT_MAT(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & "/" & inDIR.BaseName & "." & NameOf(PhenoOUT_MAT) & ".csv")
         Dim files = (From path As String
@@ -153,7 +154,7 @@ Partial Module CLI
     <ExportAPI("/phenos.out.Coefficient",
                Info:="2. Coefficient of the genes with the metabolism fluxs from the batch analysis result.",
                Usage:="/phenos.out.Coefficient /gene <samplesCopy.RPKM.csv> /pheno <samples.phenos_out.csv> [/footprints <footprints.csv> /out <out.csv> /spcc]")>
-    Public Function PhenosOUTCoefficient(args As CommandLine.CommandLine) As Integer
+    Public Function PhenosOUTCoefficient(args As CommandLine) As Integer
         Dim genes As String = args("/gene")
         Dim pheno As String = args("/pheno")
         Dim footprint As String = args("/footprints")

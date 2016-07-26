@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DataVisualization.Network
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
@@ -42,7 +43,7 @@ Partial Module CLI
                Usage:="--TCS /in <TCS.csv.DIR> /regulations <TCS.virtualfootprints> /out <outForCytoscape.xml> [/Fill-pcc]")>
     <ParameterInfo("/Fill-pcc", True,
                    Description:="If the predicted regulation data did'nt contains pcc correlation value, then you can using this parameter to fill default value 0.6 or just left it default as ZERO")>
-    Public Function TCS(args As CommandLine.CommandLine) As Integer
+    Public Function TCS(args As CommandLine) As Integer
         Dim TCSDir As String = args("/in")
         Dim regulations As String = args("/regulations")
         Dim out As String = args("/out")

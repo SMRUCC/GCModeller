@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -68,7 +69,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Regulator.Motifs.Test", Usage:="/Regulator.Motifs.Test /hits <familyHits.Csv> /motifs <motifHits.Csv> [/out <out.csv>]")>
-    Public Function TestRegulatorMotifs(args As CommandLine.CommandLine) As Integer
+    Public Function TestRegulatorMotifs(args As CommandLine) As Integer
         Dim inFamilyHits = args("/hits")
         Dim inMotifs As String = args("/motifs")
         Dim out As String = args.GetValue("/out", inMotifs.TrimSuffix & ".Test.Csv")
@@ -84,7 +85,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Regulator.Motifs", Usage:="/Regulator.Motifs /bbh <bbh.csv> /regprecise <genome.DIR> [/out <outDIR>]")>
-    Public Function RegulatorMotifs(args As CommandLine.CommandLine) As Integer
+    Public Function RegulatorMotifs(args As CommandLine) As Integer
         Dim inBBH As String = args("/bbh")
         Dim inDIR As String = args("/regprecise")
         Dim out As String = args.GetValue("/out", inBBH.TrimSuffix & ".Motifs.fa")

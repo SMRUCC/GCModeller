@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
@@ -42,7 +43,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlu
 Partial Module CLI
 
     <ExportAPI("/Paralog", Usage:="/Paralog /blastp <blastp.txt> [/coverage 0.5 /identities 0.3 /out <out.csv>]")>
-    Public Function ExportParalog(args As CommandLine.CommandLine) As Integer
+    Public Function ExportParalog(args As CommandLine) As Integer
         Dim [in] As String = args - "/blastp"
         Dim blastp As v228 = BlastPlus.ParsingSizeAuto([in])
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
@@ -108,7 +109,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/MAT.evalue", Usage:="/MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]")>
-    Public Function EvalueMatrix(args As CommandLine.CommandLine) As Integer
+    Public Function EvalueMatrix(args As CommandLine) As Integer
         Dim sbh As List(Of BestHit) = args("/in").LoadCsv(Of BestHit)
         Dim out As String = args.GetValue("/out", args("/in").TrimSuffix & ".Evalue.Csv")
         Dim contigs = (From x As BestHit
@@ -141,7 +142,7 @@ Partial Module CLI
                Usage:="/SBH.Export.Large /in <blast_out.txt> [/trim-kegg /out <bbh.csv> /identities 0.15 /coverage 0.5]")>
     <ParameterInfo("/trim-KEGG", True,
                    Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
-    Public Function ExportBBHLarge(args As CommandLine.CommandLine) As Integer
+    Public Function ExportBBHLarge(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".bbh.Csv")
         Dim idetities As Double = args.GetValue("/identities", 0.15)
@@ -157,7 +158,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--Export.SBH", Usage:="--Export.SBH /in <in.DIR> /prefix <queryName> /out <out.csv> [/txt]")>
-    Public Function ExportSBH(args As CommandLine.CommandLine) As Integer
+    Public Function ExportSBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim query As String = args("/prefix")
         Dim isTxtLog As Boolean = args.GetBoolean("/txt")
@@ -183,7 +184,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--Export.Overviews", Usage:="--Export.Overviews /blast <blastout.txt> [/out <overview.csv>]")>
-    Public Function ExportOverviews(args As CommandLine.CommandLine) As Integer
+    Public Function ExportOverviews(args As CommandLine) As Integer
         Dim inFile As String = args("/blast")
         Dim fileInfo = FileIO.FileSystem.GetFileInfo(inFile)
         Dim blastOut As v228

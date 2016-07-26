@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports SMRUCC.genomics.Data.Xfam.Rfam
@@ -37,7 +38,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--Install.Rfam", Usage:="--Install.Rfam /seed <rfam.seed>")>
-    Public Function InstallRfam(args As CommandLine.CommandLine) As Integer
+    Public Function InstallRfam(args As CommandLine) As Integer
         Dim input As String = args("/seed")
         Dim respo As String = GCModeller.FileSystem.Xfam.Rfam.Rfam
         Dim seedDb As Dictionary(Of String, Stockholm) = ReadDb(input)

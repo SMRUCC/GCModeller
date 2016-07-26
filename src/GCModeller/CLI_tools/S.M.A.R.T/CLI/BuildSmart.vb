@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -68,7 +69,7 @@ READ_CDD_DIR:
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--Export.Domains", Usage:="--Export.Domains /in <pfam-string.csv>")>
-    Public Function ExportRegpreciseDomains(args As CommandLine.CommandLine) As Integer
+    Public Function ExportRegpreciseDomains(args As CommandLine) As Integer
         Dim input = args("/in").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim Domains = (From x As Pfam.PfamString.PfamString
                        In input
@@ -90,7 +91,7 @@ READ_CDD_DIR:
     ''' <returns></returns>
     <ExportAPI("--Family.Domains", Usage:="--Family.Domains /regprecise <regulators.fasta> /pfam <pfam-string.csv>",
                Info:="Build the Family database for the protein family annotation by MPAlignment.")>
-    Public Function FamilyDomains(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyDomains(args As CommandLine) As Integer
         Dim inFile As String = args("/regprecise")
         Dim regprecise = FastaReaders.Regulator.LoadDocument(inFile).ToDictionary(Function(x) x.KEGG)
         Dim pfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
@@ -105,7 +106,7 @@ READ_CDD_DIR:
     ''' <returns></returns>
     ''' 
     <ExportAPI("--manual-Build", Usage:="--manual-Build /pfam-string <pfam-string.csv> /name <familyName>")>
-    Public Function ManualBuild(args As CommandLine.CommandLine) As Integer
+    Public Function ManualBuild(args As CommandLine) As Integer
         Dim PfamString = args("/pfam-string").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim Name As String = args("/name")
         Dim result = New SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem.Database().ManualAdd(Name, PfamString)
@@ -122,7 +123,7 @@ READ_CDD_DIR:
                Info:="Family Annotation by MPAlignment")>
     <ParameterInfo("/Name", True,
                           Description:="The database name of the aligned subject, if this value is empty or not exists in the source, then the entired Family database will be used.")>
-    Public Function FamilyClassify(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyClassify(args As CommandLine) As Integer
         Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim Threshold As Double = args.GetValue("/threshold", 0.65)
         Dim MpTh As Double = args.GetValue("/mp", 0.65)
@@ -135,7 +136,7 @@ READ_CDD_DIR:
     End Function
 
     <ExportAPI("--Family.Stat", Usage:="--Family.Stat /in <anno_out.csv>")>
-    Public Function FamilyStat(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyStat(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim out = SMRUCC.genomics.Analysis.ProteinTools.Family.FamilyStat(input.LoadCsv(Of AnnotationOut))
         Return out.Save(input.TrimSuffix & ".FamilyStat.csv", System.Text.Encoding.ASCII)

@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -38,7 +39,7 @@ Partial Module CLI
 
     <ExportAPI("/bbh.Trim.Indeitites",
                Usage:="/bbh.Trim.Indeitites /in <bbh.csv> [/identities <0.3> /out <out.csv>]")>
-    Public Function BBHTrimIdentities(args As CommandLine.CommandLine) As Integer
+    Public Function BBHTrimIdentities(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim identities As Double = args.GetValue("/identities", 0.3)
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".identities.{identities}.csv")
@@ -54,7 +55,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BBH.Simple", Usage:="/BBH.Simple /in <sbh.csv> [/evalue <evalue: 1e-5> /out <out.bbh.csv>]")>
-    Public Function SimpleBBH(args As CommandLine.CommandLine) As Integer
+    Public Function SimpleBBH(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out ", inFile.TrimSuffix & ".bbh.simple.Csv")
         Dim evalue As Double = args.GetValue("/evalue", 0.00001)
@@ -79,7 +80,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BLAST.Network", Usage:="/BLAST.Network /in <inFile> [/out <outDIR> /type <default:blast_out; values: blast_out, sbh, bbh> /dict <dict.xml>]")>
-    Public Function GenerateBlastNetwork(args As CommandLine.CommandLine) As Integer
+    Public Function GenerateBlastNetwork(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix)
         Dim type As String = args.GetValue("/type", "blast_out").ToLower
@@ -110,7 +111,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BLAST.Network.MetaBuild", Usage:="/BLAST.Network.MetaBuild /in <inDIR> [/out <outDIR> /dict <dict.xml>]")>
-    Public Function MetaBuildBLAST(args As CommandLine.CommandLine) As Integer
+    Public Function MetaBuildBLAST(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".MetaBuild")
         Dim dict As String = args("/dict")
@@ -120,7 +121,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/MAT2NET", Usage:="/MAT2NET /in <mat.csv> [/out <net.csv> /cutoff 0]")>
-    Public Function MatrixToNetwork(args As CommandLine.CommandLine) As Integer
+    Public Function MatrixToNetwork(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network.Csv")
         Dim Csv = DocumentFormat.Csv.DocumentStream.File.Load(Path:=inFile)

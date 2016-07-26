@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
@@ -41,7 +42,7 @@ Partial Module CLI
     <ExportAPI("/heatmap",
                Info:="Draw heatmap from the correlations between the genes and the metabolism flux.",
                Usage:="/heatmap /x <matrix.csv> [/out <out.tiff> /name <Name> /width <8000> /height <6000>]")>
-    Public Function Heatmap(args As CommandLine.CommandLine) As Integer
+    Public Function Heatmap(args As CommandLine) As Integer
         Dim inX As String = args("/x")
         Dim out As String = args.GetValue("/out", inX.TrimSuffix & ".tiff")
         Dim outDIR As String = out.ParentPath
@@ -63,7 +64,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/heatmap.scale", Usage:="/heatmap.scale /x <matrix.csv> [/factor 30 /out <out.csv>]")>
-    Public Function ScaleHeatmap(args As CommandLine.CommandLine) As Integer
+    Public Function ScaleHeatmap(args As CommandLine) As Integer
         Dim inX As String = args("/x")
         Dim factor As Double = args.GetValue("/factor", 30)
         Dim out As String = args.GetValue("/out", inX.TrimSuffix & "-" & factor & "__scales.csv")

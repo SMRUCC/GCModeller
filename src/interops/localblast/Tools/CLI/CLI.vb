@@ -28,6 +28,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -52,7 +53,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 Module CLI
 
     <ExportAPI("/Bash.Venn", Usage:="/Bash.Venn /blast <blastDIR> /inDIR <fasta.DIR> /inRef <inRefAs.DIR> [/out <outDIR> /evalue <evalue:10>]")>
-    Public Function BashShell(args As CommandLine.CommandLine) As Integer
+    Public Function BashShell(args As CommandLine) As Integer
         Dim blastDIR As String = args("/blast")
         Dim inDIR As String = args("/inDIR")
         Dim inRefAs As String = args("/inRef")
@@ -63,7 +64,7 @@ Module CLI
     End Function
 
     <ExportAPI("--Xml2Excel", Usage:="--Xml2Excel /in <in.xml> [/out <out.csv>]")>
-    Public Function XmlToExcel(args As CommandLine.CommandLine) As Integer
+    Public Function XmlToExcel(args As CommandLine) As Integer
         Dim inXml As String = args("/in")
         Dim out As String = args.GetValue("/out", inXml.TrimSuffix & ".Csv")
         Dim blastOut = inXml.LoadXml(Of XmlFile.BlastOutput)
@@ -72,7 +73,7 @@ Module CLI
     End Function
 
     <ExportAPI("--Xml2Excel.Batch", Usage:="--Xml2Excel.Batch /in <inDIR> [/out <outDIR> /Merge]")>
-    Public Function XmlToExcelBatch(args As CommandLine.CommandLine) As Integer
+    Public Function XmlToExcelBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Exports/")
         Dim Merge As Boolean = args.GetBoolean("/merge")
@@ -146,7 +147,7 @@ Module CLI
                Usage:="--bbh.export /in <blast_out.DIR> [/all /out <out.DIR> /single-query <queryName> /coverage <0.5> /identities 0.15]")>
     <ParameterInfo("/all", True,
                    Description:="If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.")>
-    Public Function ExportBBH(args As CommandLine.CommandLine) As Integer
+    Public Function ExportBBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim isAll As Boolean = args.GetBoolean("/all")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
@@ -249,7 +250,7 @@ Module CLI
     End Sub
 
     <ExportAPI("--blast.self", Usage:="--blast.self /query <query.fasta> [/blast <blast_HOME> /out <out.csv>]")>
-    Public Function SelfBlast(args As CommandLine.CommandLine) As Integer
+    Public Function SelfBlast(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim blast As String = args("/blast")
 
@@ -272,7 +273,7 @@ Module CLI
     End Function
 
     <ExportAPI("/export.prot", Usage:="/export.prot /gb <genome.gbk> [/out <out.fasta>]")>
-    Public Function ExportProt(args As CommandLine.CommandLine) As Integer
+    Public Function ExportProt(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
         Dim out As String = args.GetValue("/out", gb.TrimSuffix & "_prot.fasta")
         Dim gbk As GBFF.File = GBFF.File.Load(gb)
@@ -281,7 +282,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Copys", Usage:="/Copys /imports <DIR> [/out <outDIR>]")>
-    Public Function Copys(args As CommandLine.CommandLine) As Integer
+    Public Function Copys(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
         Dim gbs = FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.gbk", "*.gb") _
             .ToArray(Function(s) GBFF.File.LoadDatabase(s), Parallel:=True).MatrixAsIterator

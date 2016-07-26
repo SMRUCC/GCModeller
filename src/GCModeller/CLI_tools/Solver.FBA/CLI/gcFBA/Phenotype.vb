@@ -28,6 +28,7 @@
 Imports System.Drawing
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -56,7 +57,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Analysis.Phenotype",
                Usage:="/Analysis.Phenotype /in <MetaCyc.Sbml> /reg <footprints.csv> /obj <list/path/module-xml> [/obj-type <lst/pathway/module> /params <rfba.parameters.xml> /stat <stat.Csv> /sample <sampleTable.csv> /modify <locus_modify.csv> /out <outDIR>]")>
-    Public Function rFBABatch(args As CommandLine.CommandLine) As Integer
+    Public Function rFBABatch(args As CommandLine) As Integer
         Dim inModel As String = args("/in")
         Dim regs As String = args("/reg")
         Dim obj As String = args("/obj")
@@ -196,7 +197,7 @@ Partial Module CLI
                Usage:="/Solver.rFBA /in <MetaCyc.Sbml> /reg <footprints.csv> /obj <object_function.txt/xml> [/obj-type <lst/pathway/module> /params <rfba.parameters.xml> /stat <stat.Csv> /sample <sampleName> /modify <locus_modify.csv> /out <outDIR>]")>
     <ParameterInfo("/obj-type", True,
                    Description:="The input document type of the objective function, default is a gene_locus list in a text file, alternative format can be KEGG pathway xml and KEGG module xml.")>
-    Public Function AnalysisPhenotype(args As CommandLine.CommandLine) As Integer
+    Public Function AnalysisPhenotype(args As CommandLine) As Integer
         Dim inModel As String = args("/in")
         Dim regs As String = args("/reg")
         Dim obj As String = args("/obj")
@@ -293,7 +294,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
     ''' <returns></returns>
     <ExportAPI("/Flux.Coefficient",
                Usage:="/Flux.Coefficient /in <rFBA.result_dumpDIR> [/footprints <footprints.csv> /out <outCsv> /spcc /KEGG]")>
-    Public Function FluxCoefficient(args As CommandLine.CommandLine) As Integer
+    Public Function FluxCoefficient(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim spcc As Boolean = args.GetBoolean("/spcc")
         Dim footprintFile As String = args("/footprints")
@@ -325,7 +326,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
     ''' <returns></returns>
     <ExportAPI("/Func.Coefficient",
                Usage:="/Func.Coefficient /func <objfunc_matrix.csv> /in <rFBA.result_dumpDIR> [/footprints <footprints.csv> /out <outCsv> /spcc]")>
-    Public Function FuncCoefficient(args As CommandLine.CommandLine) As Integer
+    Public Function FuncCoefficient(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim spcc As Boolean = args.GetBoolean("/spcc")
         Dim footprintFile As String = args("/footprints")
@@ -367,7 +368,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
     End Function
 
     <ExportAPI("/Flux.KEGG.Filter", Usage:="/Flux.KEGG.Filter /in <flux.csv> /model <MetaCyc.sbml> [/out <out.csv>]")>
-    Public Function KEGGFilter(args As CommandLine.CommandLine) As Integer
+    Public Function KEGGFilter(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".KEGG.Csv")
         Dim model As XmlFile = XmlFile.Load(args("/model"))
@@ -385,7 +386,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
     ' 已经有heatmap来代替这个方法了
 
     '<ExportAPI("/Draw.Coefficient", Usage:="/Draw.Coefficient /in <coefficient.csv> /model <metacyc.sbml> /mods <mods.DIR> [/out <outImage.png>]")>
-    'Public Function CoefficientDraw(args As CommandLine.CommandLine) As Integer
+    'Public Function CoefficientDraw(args As CommandLine) As Integer
     '    Dim inModel As String = args("/model")
     '    Dim model As XmlFile = XmlFile.Load(inModel)
     '    Dim mods As String = args("/mods")

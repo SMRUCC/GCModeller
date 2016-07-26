@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports SMRUCC.genomics.Interops
@@ -32,7 +33,7 @@ Imports SMRUCC.genomics.Interops
 Partial Module CLI
 
     <ExportAPI("/Export.Anno", Usage:="/Export.Anno /in <inDIR> [/out <out.Csv>]")>
-    Public Function ExportAnno(args As CommandLine.CommandLine) As Integer
+    Public Function ExportAnno(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".CARMEN.Csv")
         Dim rxnDefs As CARMEN.Reaction() = CARMEN.Merge(inDIR, False)

@@ -28,6 +28,7 @@
 Imports System.Drawing
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.HTMLWriter
@@ -41,7 +42,7 @@ Partial Module CLI
 
     <ExportAPI("/TomTOM",
                Usage:="/TomTOM /query <meme.txt> /subject <LDM.xml> [/out <outDIR> /method <pcc/ed; default:=pcc> /cost <0.7> /threshold <0.3>]")>
-    Public Function TomTOMMethod(args As CommandLine.CommandLine) As Integer
+    Public Function TomTOMMethod(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim subjectFile As String = args("/subject")
         Dim method As String = args.GetValue("/method", "pcc")
@@ -75,7 +76,7 @@ Partial Module CLI
 
     <ExportAPI("/TomTom.LDM",
                Usage:="/TomTom.LDM /query <ldm.xml> /subject <ldm.xml> [/out <outDIR> /method <pcc/ed/sw; default:=sw> /cost <0.7> /threshold <0.65>]")>
-    Public Function LDMTomTom(args As CommandLine.CommandLine) As Integer
+    Public Function LDMTomTom(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim queryLDM = query.LoadXml(Of AnnotationModel)
@@ -92,7 +93,7 @@ Partial Module CLI
 
     <ExportAPI("/Tom.Query.Batch",
                Usage:="/Tom.Query.Batch /query <inDIR> [/out <outDIR> /method <pcc/ed; default:=pcc> /cost 0.7 /threshold <0.65>]")>
-    Public Function TomQueryBatch(args As CommandLine.CommandLine) As Integer
+    Public Function TomQueryBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/query")
         Dim method As String = args.GetValue("/method", "pcc")
         Dim cost As Double = args.GetValue("/cost", 0.7)
@@ -154,7 +155,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Tom.Query",
                Usage:="/Tom.Query /query <ldm.xml/meme.txt> [/out <outDIR> /method <pcc/ed; default:=pcc> /cost <0.7> /threshold <0.65> /meme]")>
-    Public Function TomQuery(args As CommandLine.CommandLine) As Integer
+    Public Function TomQuery(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim method As String = args.GetValue("/method", "pcc")
         Dim cost As Double = args.GetValue("/cost", 0.7)

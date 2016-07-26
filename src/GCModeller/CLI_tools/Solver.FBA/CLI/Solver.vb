@@ -26,6 +26,7 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
@@ -63,7 +64,7 @@ Partial Module CLI
         Description:="Optional, this switch specific the id list that of the gene will be knock out in the simulation, this switch option only works in the advanced fba model file." & vbCrLf &
                      "value string format: each id can be seperated by the comma character and the id value can be both of the genbank id or a metacyc unique-id value.",
         Example:="XC_1184,XC_3631")>
-    Public Function Solve(args As CommandLine.CommandLine) As Integer
+    Public Function Solve(args As CommandLine) As Integer
         Dim Model As I_FBAC2(Of speciesReference)
         Dim Input As String = args("-i")
         Dim Output As String = args("-o")

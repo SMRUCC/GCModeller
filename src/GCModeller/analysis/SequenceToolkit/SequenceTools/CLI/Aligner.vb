@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
@@ -52,7 +53,7 @@ Partial Module Utilities
     <ParameterInfo("/query", False, AcceptTypes:={GetType(FastaToken)})>
     <ParameterInfo("/subject", False, AcceptTypes:={GetType(FastaToken)})>
     <ParameterInfo("/out", True, AcceptTypes:={GetType(String)})>
-    Public Function NW(args As CommandLine.CommandLine) As Integer
+    Public Function NW(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & subject.BaseName & ".txt")
@@ -61,7 +62,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/align", Usage:="/align /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
-    Public Function Align2(args As CommandLine.CommandLine) As Integer
+    Public Function Align2(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim blosum As String = args("/blosum")
@@ -76,7 +77,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("--align", Usage:="--align /query <query.fasta> /subject <subject.fasta> [/out <out.DIR> /cost <0.7>]")>
-    Public Function Align(args As CommandLine.CommandLine) As Integer
+    Public Function Align(args As CommandLine) As Integer
         Dim cost As Double = args.GetValue(Of Double)("/cost", 0.7)
         Dim query = FASTA.FastaFile.Read(args("/query"))
         Dim subject = FASTA.FastaFile.Read(args("/subject"))
@@ -119,7 +120,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("--align.Self", Usage:="--align.Self /query <query.fasta> /out <out.DIR> [/cost 0.75]")>
-    Public Function AlignSelf(args As CommandLine.CommandLine) As Integer
+    Public Function AlignSelf(args As CommandLine) As Integer
         Dim query As New FASTA.FastaFile(args("/query"))
         Dim outDIR As String = args("/out")
         Dim cost As Double = args.GetValue("/cost", 0.75)
@@ -183,7 +184,7 @@ Partial Module Utilities
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Clustal.Cut", Usage:="/Clustal.Cut /in <in.fasta> [/left 0.1 /right 0.1 /out <out.fasta>]")>
-    Public Function CutMlAlignment(args As CommandLine.CommandLine) As Integer
+    Public Function CutMlAlignment(args As CommandLine) As Integer
         Dim aln As New Patterns.Clustal.Clustal(args("/in"))
         Dim left As Double = args.GetValue("/left", 0.1)
         Dim right As Double = args.GetValue("/right", 0.1)
@@ -209,7 +210,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
-    Public Function gwANI(args As CommandLine.CommandLine) As Integer
+    Public Function gwANI(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
         Dim fast As Boolean = args.GetBoolean("/fast")
@@ -220,7 +221,7 @@ Partial Module Utilities
 
     <ExportAPI("/Sigma",
                Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
-    Public Function Sigma(args As CommandLine.CommandLine) As Integer
+    Public Function Sigma(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Sigma.Csv")
         Dim fasta As New FastaFile([in])

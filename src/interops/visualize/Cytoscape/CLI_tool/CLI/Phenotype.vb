@@ -28,6 +28,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -59,7 +60,7 @@ Partial Module CLI
     End Sub
 
     <ExportAPI("/Build.Tree.NET.COGs", Usage:="/Build.Tree.NET.COGs /cluster <cluster.csv> /COGs <myvacog.csv> [/out <outDIR>]")>
-    Public Function BuildTreeNETCOGs(args As CommandLine.CommandLine) As Integer
+    Public Function BuildTreeNETCOGs(args As CommandLine) As Integer
         Dim func As [Function] = [Function].Default
         Dim inFile As String = args - "/cluster"
         Dim cog As String = args - "/cogs"
@@ -97,7 +98,7 @@ Partial Module CLI
     <ExportAPI("/Motif.Cluster", Usage:="/Motif.Cluster /query <meme.txt/MEME_OUT.DIR> /LDM <LDM-name/xml.path> [/clusters <3> /out <outCsv>]")>
     <ParameterInfo("/clusters", True,
                    Description:="If the expects clusters number is greater than the maps number, then the maps number divid 2 is used.")>
-    Public Function MotifCluster(args As CommandLine.CommandLine) As Integer
+    Public Function MotifCluster(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim name As String = args("/LDM")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(name) & ".Csv")
@@ -153,7 +154,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Motif.Cluster.MAT", Usage:="/Motif.Cluster.MAT /query <meme_OUT.DIR> [/LDM <ldm-DIR> /clusters 5 /out <outDIR>]")>
-    Public Function ClusterMatrix(args As CommandLine.CommandLine) As Integer
+    Public Function ClusterMatrix(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim LDM As String = args("/LDM")
         Dim nClusters As Integer = args.GetValue("/clusters", 5)
@@ -224,7 +225,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Motif.Cluster.Fast.Sites", Usage:="/Motif.Cluster.Fast.Sites /in <meme.txt.DIR> [/out <outDIR> /LDM <ldm-DIR>]")>
-    Public Function MotifClusterSites(args As CommandLine.CommandLine) As Integer
+    Public Function MotifClusterSites(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR)
         Dim loads = (From file As String
@@ -309,7 +310,7 @@ Partial Module CLI
     <ParameterInfo("/maxw", True,
                    Description:="If this parameter value is not set, then no motif in the query will be filterd, or all of the width greater then the width value will be removed.
                    If a filterd is necessary, value of 52 nt is recommended as the max width of the motif in the RegPrecise database is 52.")>
-    Public Function FastCluster(args As CommandLine.CommandLine) As Integer
+    Public Function FastCluster(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim LDM As String = args("/LDM")
         Dim out As String = args.GetValue("/out", query & ".TreeCluster.Csv")
@@ -358,7 +359,7 @@ Partial Module CLI
     <ExportAPI("/Tree.Cluster",
                Usage:="/Tree.Cluster /in <in.MAT.csv> [/out <out.cluster.csv> /Locus.Map <Name>]",
                Info:="This method is not recommended.")>
-    Public Function TreeCluster(args As CommandLine.CommandLine) As Integer
+    Public Function TreeCluster(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".Tree.Csv")
         Dim map As String = args("/Locus.Map")
@@ -375,7 +376,7 @@ Partial Module CLI
 
     <ExportAPI("/Tree.Cluster.rFBA",
                Usage:="/Tree.Cluster.rFBA /in <in.flux.pheno_OUT.Csv> [/out <out.cluster.csv>]")>
-    Public Function rFBATreeCluster(args As CommandLine.CommandLine) As Integer
+    Public Function rFBATreeCluster(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".Cluster.Csv")
         Dim MAT = inMAT.LoadCsv(Of RPKMStat)(fast:=True)
@@ -390,7 +391,7 @@ Partial Module CLI
 
     <ExportAPI("/Build.Tree.NET.DEGs",
                Usage:="/Build.Tree.NET.DEGs /in <cluster.csv> /up <locus.txt> /down <locus.txt> [/out <outDIR> /brief]")>
-    Public Function BuildTreeNET_DEGs(args As CommandLine.CommandLine) As Integer
+    Public Function BuildTreeNET_DEGs(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim upFile As String = args("/up")
         Dim downFile As String = args("/down")
@@ -501,7 +502,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Build.Tree.NET.TF",
                Usage:="/Build.Tree.NET.TF /in <cluster.csv> /maps <TF.Regprecise.maps.Csv> /map <keyvaluepair.xml> /mods <kegg_modules.DIR> [/out <outDIR> /brief /cuts 0.8]")>
-    Public Function BuildTreeNetTF(args As CommandLine.CommandLine) As Integer
+    Public Function BuildTreeNetTF(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim maps As String = args("/maps")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
@@ -593,7 +594,7 @@ Partial Module CLI
 
     <ExportAPI("/Build.Tree.NET.KEGG_Pathways",
                Usage:="/Build.Tree.NET.KEGG_Pathways /in <cluster.csv> /mods <pathways.XML.DIR> [/out <outDIR> /brief /trim]")>
-    Public Function BuildTreeNET_KEGGPathways(args As CommandLine.CommandLine) As Integer
+    Public Function BuildTreeNET_KEGGPathways(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim mods As String = args("/mods")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
@@ -652,7 +653,7 @@ Partial Module CLI
 
     <ExportAPI("/Build.Tree.NET.KEGG_Modules",
                Usage:="/Build.Tree.NET.KEGG_Modules /in <cluster.csv> /mods <modules.XML.DIR> [/out <outDIR> /brief /trim]")>
-    Public Function BuildTreeNET_KEGGModules(args As CommandLine.CommandLine) As Integer
+    Public Function BuildTreeNET_KEGGModules(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim mods As String = args("/mods")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
@@ -722,7 +723,7 @@ Partial Module CLI
     End Sub
 
     <ExportAPI("/Build.Tree.NET.Merged_Regulons", Usage:="/Build.Tree.NET.Merged_Regulons /in <cluster.csv> /family <family_Hits.Csv> [/out <outDIR> /brief]")>
-    Public Function BuildTreeNET_MergeRegulons(args As CommandLine.CommandLine) As Integer
+    Public Function BuildTreeNET_MergeRegulons(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
@@ -778,7 +779,7 @@ Partial Module CLI
     End Class
 
     <ExportAPI("/Build.Tree.NET", Usage:="/Build.Tree.NET /in <cluster.csv> [/out <outDIR> /brief /FamilyInfo <regulons.DIR>]")>
-    Public Function BuildTreeNET(args As CommandLine.CommandLine) As Integer
+    Public Function BuildTreeNET(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Tree.NET/")
         Dim inData = inFile.LoadCsv(Of EntityLDM)

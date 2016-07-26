@@ -27,6 +27,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -43,7 +44,7 @@ Imports SMRUCC.genomics.SequenceModel
 Partial Module CLI
 
     <ExportAPI("/Export.Pfam.UltraLarge", Usage:="/Export.Pfam.UltraLarge /in <blastOUT.txt> [/out <out.csv> /evalue <0.00001> /coverage <0.85> /offset <0.1>]")>
-    Public Function ExportUltraLarge(args As CommandLine.CommandLine) As Integer
+    Public Function ExportUltraLarge(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Export.Csv")
         Dim evalue As Double = args.GetValue("/evalue", DomainParser.Evalue1En5)
@@ -67,7 +68,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.hmmscan",
                Usage:="/Export.hmmscan /in <input_hmmscan.txt> [/evalue 1e-5 /out <pfam.csv>]")>
-    Public Function ExportHMMScan(args As CommandLine.CommandLine) As Integer
+    Public Function ExportHMMScan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")
         Dim doc As hmmscan = hmmscanParser.LoadDoc([in])
@@ -95,7 +96,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.hmmsearch",
                Usage:="/Export.hmmsearch /in <input_hmmsearch.txt> [/prot <query.fasta> /out <pfam.csv>]")>
-    Public Function ExportHMMSearch(args As CommandLine.CommandLine) As Integer
+    Public Function ExportHMMSearch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pfam.Csv")
         Dim doc As hmmsearch = hmmsearchParser.LoadDoc([in])

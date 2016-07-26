@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops
@@ -33,7 +34,7 @@ Imports SMRUCC.genomics.Interops
 Module CLI
 
     <ExportAPI("--Reconstruct.KEGG.Online", Usage:="--Reconstruct.KEGG.Online /sp <organism> [/pathway <KEGG.pathwayId> /out <outDIR>]")>
-    Public Function Reconstruct(args As CommandLine.CommandLine) As Integer
+    Public Function Reconstruct(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim pathway As String = args("/pathway")
         Dim out As String = args.GetValue("/out", __getOutDIR(sp, pathway))
@@ -80,7 +81,7 @@ Module CLI
     <ExportAPI("--lstId.Downloads",
                Info:="Download the Avaliable organism name And available pathways' name.",
                Usage:="--lstId.Downloads [/o <out.DIR>]")>
-    Public Function DownloadList(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadList(args As CommandLine) As Integer
         Dim out As String = args.GetValue("/o", App.CurrentDirectory)
         Call CARMEN.LoadList()
         Call CARMEN.lstOrganisms.SaveTo(out & "/Organisms.txt")

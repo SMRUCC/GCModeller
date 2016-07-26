@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
@@ -61,7 +62,7 @@ Partial Module CLI
                    Description:="Is the /data matrix if comes from the DESeq analysis result output?
                    If is true, then the expression value will be extract from the original matrix file and save a new file named DESeq.dataExpr0.Csv in the out directory,
                    and last using this extracted data as the source of the WGCNA R script.")>
-    Public Function FromWGCNA(args As CommandLine.CommandLine) As Integer
+    Public Function FromWGCNA(args As CommandLine) As Integer
         Dim dataExpr As String = args("/data")
         Dim annoCsv As String = args("/anno")
         Dim outDIR As String = args.GetValue("/out", "./")
@@ -98,7 +99,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Group.n", Usage:="/Group.n /in <dataset.csv> [/locus_map <locus> /out <out.csv>]")>
-    Public Function GroupN(args As CommandLine.CommandLine) As Integer
+    Public Function GroupN(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim locusMap As String = args.GetValue("/locus_map", "locus")
         Dim out As Int = args.OpenHandle("/out", inFile.TrimSuffix & "-Groups.n.csv")

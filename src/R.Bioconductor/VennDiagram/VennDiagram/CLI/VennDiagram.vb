@@ -3,9 +3,10 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports RDotNET.Extensions.VisualBasic.RSystem
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
+Imports RDotNet.Extensions.VisualBasic.RSystem
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI
+Imports Microsoft.VisualBasic.CommandLine
 
 <PackageNamespace("VennTools.CLI", Category:=APICategories.CLI_MAN,
                   Description:="Tools for creating venn diagram model for the R program and venn diagram visualize drawing.",
@@ -43,7 +44,7 @@ Public Module CLI
                      "system, you can ignore this switch value, but you should install the R program in your linux/MAC first if you wish to\n " &
                      "get the venn diagram directly from this program.",
         Example:="C:\\R\\bin\\")>
-    Public Function VennDiagramA(args As CommandLine.CommandLine) As Integer
+    Public Function VennDiagramA(args As CommandLine) As Integer
         Dim inds As String = args("-i")
         Dim title As String = args.GetValue("-t", inds.BaseName)
         Dim partitionsOption As String = args("-s")
@@ -51,7 +52,7 @@ Public Module CLI
         Dim RBin As String = args("-rbin")
 
         If Not inds.FileExists Then '-i开关参数无效
-            Printf("Could not found the source file!")
+            printf("Could not found the source file!")
             Return -1
         Else
             out = UnixPath(out, True)
@@ -87,7 +88,7 @@ Public Module CLI
         Call VennDiagram.SaveAsXml(EXPORT.TrimSuffix & ".Xml")
         Call RSystem.Source(EXPORT)
 
-        Printf("The venn diagram r script were saved at location:\n '%s'", EXPORT)
+        printf("The venn diagram r script were saved at location:\n '%s'", EXPORT)
 
         Call Process.Start(out)
 
@@ -105,7 +106,7 @@ Public Module CLI
     ''' <param name="path"></param>
     ''' <param name="args">null</param>
     ''' <returns></returns>
-    Public Function DrawFile(path As String, args As CommandLine.CommandLine) As Integer
+    Public Function DrawFile(path As String, args As CommandLine) As Integer
         Dim ext As String = path.Split("."c).Last
         If String.Equals(ext, "csv", StringComparison.OrdinalIgnoreCase) Then
             Return __run(path, path.BaseName, Nothing, $"{App.Desktop}/{path.BaseName}_venn.tiff", Nothing)

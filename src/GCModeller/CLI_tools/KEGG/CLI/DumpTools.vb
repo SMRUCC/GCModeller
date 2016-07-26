@@ -1,45 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::446041f7149d09108a5beac5a915a505, ..\GCModeller\CLI_tools\KEGG\CLI\DumpTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
     <ExportAPI("--Dump.Db", Info:="", Usage:="--Dump.Db /KEGG.Pathways <DIR> /KEGG.Modules <DIR> /KEGG.Reactions <DIR> /sp <sp.Code> /out <out.Xml>")>
-    Public Function DumpDb(args As CommandLine.CommandLine) As Integer
+    Public Function DumpDb(args As CommandLine) As Integer
         Dim Pathways As String = args("/KEGG.Pathways")
         Dim Modules As String = args("/KEGG.Modules")
         Dim Reactions As String = args("/KEGG.Reactions")
@@ -50,7 +51,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--Get.KO", Usage:="--Get.KO /in <KASS-query.txt>")>
-    Public Function GetKOAnnotation(args As CommandLine.CommandLine) As Integer
+    Public Function GetKOAnnotation(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim buffer = IO.File.ReadAllLines(input).ToArray(Function(x) Strings.Split(x, vbTab))
         Dim tbl = buffer.ToArray(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.Get(1)})
@@ -60,7 +61,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Query.KO", Usage:="/Query.KO /in <blastnhits.csv> [/out <out.csv> /evalue 1e-5 /batch]")>
-    Public Function QueryKOAnno(args As CommandLine.CommandLine) As Integer
+    Public Function QueryKOAnno(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim batch As Boolean = args.GetBoolean("/batch")
         Dim evalue As Double = args.GetValue("/evalue", 0.00001)
@@ -158,7 +159,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     <ExportAPI("--part.from",
                Usage:="--part.from /source <source.fasta> /ref <referenceFrom.fasta> [/out <out.fasta> /brief]",
                Info:="source and ref should be in KEGG annotation format.")>
-    Public Function GetSource(args As CommandLine.CommandLine) As Integer
+    Public Function GetSource(args As CommandLine) As Integer
         Dim source As New FastaFile(args("/source"))
         Dim ref As New FastaFile(args("/ref"))
         Dim out As String = args.GetValue("/out", args("/source").TrimSuffix & $".{IO.Path.GetFileNameWithoutExtension(args("/ref"))}.fasta")
@@ -184,13 +185,13 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     End Function
 
     <ExportAPI("/Pathways.Downloads.All", Usage:="/Pathways.Downloads.All [/out <outDIR>]")>
-    Public Function DownloadsAllPathways(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadsAllPathways(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", GCModeller.FileSystem.KEGG.GetPathways)
         Return bGetObject.Pathway.DownloadAll(outDIR)
     End Function
 
     <ExportAPI("/Dump.sp", Usage:="/Dump.sp [/res sp.html /out <out.csv>]")>
-    Public Function DumpOrganisms(args As CommandLine.CommandLine) As Integer
+    Public Function DumpOrganisms(args As CommandLine) As Integer
         Dim res As String = args.GetValue("/res", "http://www.kegg.jp/kegg/catalog/org_list.html")
         Dim result As KEGGOrganism = EntryAPI.FromResource(res)
         Dim table As List(Of Prokaryote) = result.Prokaryote.ToList + result.Eukaryotes.ToArray(Function(x) New Prokaryote(x))

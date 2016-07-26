@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 Imports SMRUCC.genomics.Interops
+Imports Microsoft.VisualBasic.CommandLine
 
 Partial Module CLI
 
@@ -51,7 +52,7 @@ Partial Module CLI
     <ParameterInfo("-export",
         Description:="The save file path for the venn diagram drawing data csv file.",
         Example:="~/Documents/8004_venn.csv")>
-    Public Function bLogAnalysis(args As CommandLine.CommandLine) As Integer
+    Public Function bLogAnalysis(args As CommandLine) As Integer
         Dim CsvFile As String = args("-export")
         Dim LogsDir As String = args("-d")
 
@@ -109,7 +110,7 @@ Partial Module CLI
                      "   usage:   match <regular_expression>\n" &
                      "   Example: match .+[-]\d{5}",
         Example:="'tokens | 5';'match .+[-].+'")>
-    Public Function Grep(args As CommandLine.CommandLine) As Integer
+    Public Function Grep(args As CommandLine) As Integer
         Dim GrepScriptQuery As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args("-q"))
         Dim GrepScriptHit As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args("-h"))
         Dim XmlFile As String = args("-i")
