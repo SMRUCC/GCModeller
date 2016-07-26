@@ -26,6 +26,7 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
