@@ -45,7 +45,7 @@ Partial Module CLI
 
     <ExportAPI("/Motif.Density",
                Usage:="/Motif.Density /in <pfam-string.csv> [/out <out.csv>]")>
-    Public Function MotifDensity(args As CommandLine.CommandLine) As Integer
+    Public Function MotifDensity(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-motifs-density.csv")
         Dim pfamString As PfamString() = (From x As PfamString In [in].LoadCsv(Of PfamString) Where Not x.PfamString.IsNullOrEmpty Select x).ToArray
@@ -66,7 +66,7 @@ Partial Module CLI
                Info:="Protein family annotation by using MPAlignment algorithm.")>
     <ParameterInfo("/Name", True,
                    Description:="The database name of the aligned subject, if this value is empty or not exists in the source, then the entired Family database will be used.")>
-    Public Function FamilyClassified(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyClassified(args As CommandLine) As Integer
         Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim Threshold As Double = args.GetValue("/threshold", 0.5)
         Dim MpTh As Double = args.GetValue("/mp", 0.6)
@@ -89,13 +89,13 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--align.Function",
                Info:="Protein function annotation by using MPAlignment algorithm.")>
-    Public Function AlignFunction(args As CommandLine.CommandLine) As Integer
+    Public Function AlignFunction(args As CommandLine) As Integer
 
     End Function
 
     <ExportAPI("--align.PPI",
                Info:="Protein-Protein interaction network annotation by using MPAlignment algorithm.")>
-    Public Function MplPPI(args As CommandLine.CommandLine) As Integer
+    Public Function MplPPI(args As CommandLine) As Integer
 
     End Function
 
@@ -106,7 +106,7 @@ Partial Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("--align.PPI_test", Usage:="--align.PPI_test /query <contacts.fasta> /db <ppi_signature.Xml> [/mp <cutoff:=0.9> /out <outDIR>]")>
-    Public Function StructureAlign(args As CommandLine.CommandLine) As Integer
+    Public Function StructureAlign(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim DbXml As String = args("/db")
         Dim query = SequenceModel.FASTA.FastaToken.Load(queryFile)

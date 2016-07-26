@@ -43,7 +43,7 @@ Public Module CLI
                      "system, you can ignore this switch value, but you should install the R program in your linux/MAC first if you wish to\n " &
                      "get the venn diagram directly from this program.",
         Example:="C:\\R\\bin\\")>
-    Public Function VennDiagramA(args As CommandLine.CommandLine) As Integer
+    Public Function VennDiagramA(args As CommandLine) As Integer
         Dim inds As String = args("-i")
         Dim title As String = args.GetValue("-t", inds.BaseName)
         Dim partitionsOption As String = args("-s")
@@ -105,7 +105,7 @@ Public Module CLI
     ''' <param name="path"></param>
     ''' <param name="args">null</param>
     ''' <returns></returns>
-    Public Function DrawFile(path As String, args As CommandLine.CommandLine) As Integer
+    Public Function DrawFile(path As String, args As CommandLine) As Integer
         Dim ext As String = path.Split("."c).Last
         If String.Equals(ext, "csv", StringComparison.OrdinalIgnoreCase) Then
             Return __run(path, path.BaseName, Nothing, $"{App.Desktop}/{path.BaseName}_venn.tiff", Nothing)

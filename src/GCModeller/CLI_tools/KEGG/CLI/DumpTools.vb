@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Partial Module CLI
 
     <ExportAPI("--Dump.Db", Info:="", Usage:="--Dump.Db /KEGG.Pathways <DIR> /KEGG.Modules <DIR> /KEGG.Reactions <DIR> /sp <sp.Code> /out <out.Xml>")>
-    Public Function DumpDb(args As CommandLine.CommandLine) As Integer
+    Public Function DumpDb(args As CommandLine) As Integer
         Dim Pathways As String = args("/KEGG.Pathways")
         Dim Modules As String = args("/KEGG.Modules")
         Dim Reactions As String = args("/KEGG.Reactions")
@@ -50,7 +50,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--Get.KO", Usage:="--Get.KO /in <KASS-query.txt>")>
-    Public Function GetKOAnnotation(args As CommandLine.CommandLine) As Integer
+    Public Function GetKOAnnotation(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim buffer = IO.File.ReadAllLines(input).ToArray(Function(x) Strings.Split(x, vbTab))
         Dim tbl = buffer.ToArray(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.Get(1)})
@@ -60,7 +60,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Query.KO", Usage:="/Query.KO /in <blastnhits.csv> [/out <out.csv> /evalue 1e-5 /batch]")>
-    Public Function QueryKOAnno(args As CommandLine.CommandLine) As Integer
+    Public Function QueryKOAnno(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim batch As Boolean = args.GetBoolean("/batch")
         Dim evalue As Double = args.GetValue("/evalue", 0.00001)
@@ -158,7 +158,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     <ExportAPI("--part.from",
                Usage:="--part.from /source <source.fasta> /ref <referenceFrom.fasta> [/out <out.fasta> /brief]",
                Info:="source and ref should be in KEGG annotation format.")>
-    Public Function GetSource(args As CommandLine.CommandLine) As Integer
+    Public Function GetSource(args As CommandLine) As Integer
         Dim source As New FastaFile(args("/source"))
         Dim ref As New FastaFile(args("/ref"))
         Dim out As String = args.GetValue("/out", args("/source").TrimSuffix & $".{IO.Path.GetFileNameWithoutExtension(args("/ref"))}.fasta")
@@ -184,13 +184,13 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     End Function
 
     <ExportAPI("/Pathways.Downloads.All", Usage:="/Pathways.Downloads.All [/out <outDIR>]")>
-    Public Function DownloadsAllPathways(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadsAllPathways(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", GCModeller.FileSystem.KEGG.GetPathways)
         Return bGetObject.Pathway.DownloadAll(outDIR)
     End Function
 
     <ExportAPI("/Dump.sp", Usage:="/Dump.sp [/res sp.html /out <out.csv>]")>
-    Public Function DumpOrganisms(args As CommandLine.CommandLine) As Integer
+    Public Function DumpOrganisms(args As CommandLine) As Integer
         Dim res As String = args.GetValue("/res", "http://www.kegg.jp/kegg/catalog/org_list.html")
         Dim result As KEGGOrganism = EntryAPI.FromResource(res)
         Dim table As List(Of Prokaryote) = result.Prokaryote.ToList + result.Eukaryotes.ToArray(Function(x) New Prokaryote(x))

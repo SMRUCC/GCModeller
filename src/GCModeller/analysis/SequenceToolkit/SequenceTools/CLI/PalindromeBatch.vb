@@ -41,7 +41,7 @@ Partial Module Utilities
     <ExportAPI("/Palindrome.BatchTask",
                Usage:="/Palindrome.BatchTask /in <in.DIR> [/num_threads 4 /min 3 /max 20 /min-appears 2 /cutoff <0.6> /Palindrome /max-dist <1000 (bp)> /partitions <-1> /out <out.DIR>]")>
     <ParameterInfo("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
-    Public Function PalindromeBatchTask(args As CommandLine.CommandLine) As Integer
+    Public Function PalindromeBatchTask(args As CommandLine) As Integer
         Dim inDIR As String = args - "/in"
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
@@ -72,7 +72,7 @@ Partial Module Utilities
     <ParameterInfo("/in", False,
                    Description:="This is a single sequence fasta file.")>
     <ParameterInfo("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
-    Public Function PalindromeWorkflow(args As CommandLine.CommandLine) As Integer
+    Public Function PalindromeWorkflow(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)

@@ -58,7 +58,7 @@ Partial Module CLI
     <ParameterInfo("-program", False,
         Description:="The program type name for the NCBI local blast executable assembly.",
         Example:="blast+")>
-    Public Function BLASTA(args As CommandLine.CommandLine) As Integer
+    Public Function BLASTA(args As CommandLine) As Integer
         Dim FileDir As String = args("-i")
         Dim LogDir As String = args("-ld")
         Dim XmlLDir As String = args("-xld")

@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
 Partial Module CLI
 
     <ExportAPI("--CExpr.WGCNA", Usage:="--CExpr.WGCNA /mods <CytoscapeNodes.txt> /genome <genome.DIR|*.PTT;*.fna> /out <DIR.out>")>
-    Public Function WGCNAModsCExpr(args As CommandLine.CommandLine) As Integer
+    Public Function WGCNAModsCExpr(args As CommandLine) As Integer
         Dim mods = WGCNA.ModsView(WGCNA.LoadModules(args("/mods")))
         Dim gb As New GenBank.TabularFormat.PTTDbLoader(args("/genome"))
         Dim geneParser As New GenePromoterParser(gb)

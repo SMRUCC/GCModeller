@@ -47,7 +47,7 @@ Module CLI
     <ParameterInfo("/formatdb", True,
                    Description:="If the /rfam directory parameter is specific and the database is not formatted, then this value should be TRUE for local blast. 
                    If /rfam parameter is not specific, then the program will using the system database if it is exists, and the database is already be formatted as the installation of the database is includes this formation process.")>
-    Public Function RfamAlignment(args As CommandLine.CommandLine) As Integer
+    Public Function RfamAlignment(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim outDIR As String = args.GetValue("/out", query.TrimSuffix)
         Dim rFam As String = args("/rfam")
@@ -68,7 +68,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Rfam.SeedsDb.Dump", Usage:="/Rfam.SeedsDb.Dump /in <rfam.seed> [/out <rfam.csv>]")>
-    Public Function DumpSeedsDb(args As CommandLine.CommandLine) As Integer
+    Public Function DumpSeedsDb(args As CommandLine) As Integer
         Dim inDb As String = args("/in")
         Dim out As String = args.GetValue("/out", inDb.TrimSuffix & ".Csv")
         Dim loads As Dictionary(Of String, Rfam.Stockholm) = Rfam.API.ReadDb(inDb)
@@ -83,7 +83,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Export.Blastn", Usage:="/Export.Blastn /in <blastout.txt> [/out <blastn.Csv>]")>
-    Public Function ExportBlastn(args As CommandLine.CommandLine) As Integer
+    Public Function ExportBlastn(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".csv")
         Return __exportCommon(inFile, out)
@@ -120,7 +120,7 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
     End Function
 
     <ExportAPI("/Export.Blastn.Batch", Usage:="/Export.Blastn.Batch /in <blastout.DIR> [/out outDIR /large /num_threads <-1> /no_parallel]")>
-    Public Function ExportBlastns(args As CommandLine.CommandLine) As Integer
+    Public Function ExportBlastns(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/" & FileIO.FileSystem.GetDirectoryInfo(inDIR).Name)
         Dim large As Boolean = args.GetBoolean("/large")

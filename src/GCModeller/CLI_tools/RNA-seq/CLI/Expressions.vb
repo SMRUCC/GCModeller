@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
 Partial Module CLI
 
     <ExportAPI("/Stat.Changes", Usage:="/Stat.Changes /deseq <deseq.result.csv> /sample <sampletable.csv> [/out <out.csv> /levels <1000> /diff <0.5>]")>
-    Public Function StatChanges(args As CommandLine.CommandLine) As Integer
+    Public Function StatChanges(args As CommandLine) As Integer
         Dim inFile As String = args("/deseq")
         Dim sample As String = args("/sample")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".stat_changes.Csv")
@@ -50,7 +50,7 @@ Partial Module CLI
     <ParameterInfo("/cond", False,
                    Description:="Syntax format as:  <experiment1>/<experiment2>|<experiment3>/<experiment4>|.....",
                    Example:="colR1/xcb1|colR2/xcb2")>
-    Public Function Log2(args As CommandLine.CommandLine) As Integer
+    Public Function Log2(args As CommandLine) As Integer
         Dim inRPKM As String = args("/in")
         Dim out As String = args.GetValue("/out", inRPKM.TrimSuffix & ".log2.csv")
         Dim samples As Experiment() = Experiment.GetSamples(args("/cond"))
@@ -60,7 +60,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/log2.selects", Usage:="/log2.selects /log2 <rpkm.log2.csv> /data <dataset.csv> [/locus_map <locus> /factor 1 /out <out.dataset.csv>]")>
-    Public Function Log2Selects(args As CommandLine.CommandLine) As Integer
+    Public Function Log2Selects(args As CommandLine) As Integer
         Dim inFile As String = args("/log2")
         Dim data As String = args("/data")
         Dim locus_map As String = args.GetValue("/locus_map", "locus")
@@ -85,7 +85,7 @@ Partial Module CLI
 
     <ExportAPI("/DataFrame.RPKMs", Info:="Merges the RPKM csv data files.",
                Usage:="/DataFrame.RPKMs /in <in.DIR> [/trim /out <out.csv>]")>
-    Public Function MergeRPKMs(args As CommandLine.CommandLine) As Integer
+    Public Function MergeRPKMs(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim trim As Boolean = args.GetBoolean("/trim")
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & $".RPKMs{If(trim, "-TRIM", "")}.Csv")

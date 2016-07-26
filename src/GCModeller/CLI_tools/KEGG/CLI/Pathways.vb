@@ -32,7 +32,7 @@ Partial Module CLI
 
     <ExportAPI("/Compile.Model", Info:="KEGG pathway model compiler",
                Usage:="/Compile.Model /pathway <pathwayDIR> /mods <modulesDIR> /sp <sp_code> [/out <out.Xml>]")>
-    Public Function Compile(args As CommandLine.CommandLine) As Integer
+    Public Function Compile(args As CommandLine) As Integer
         Dim pwyDIR As String = args("/pathway")
         Dim modDIR As String = args("/mods")
         Dim sp As String = args("/sp")

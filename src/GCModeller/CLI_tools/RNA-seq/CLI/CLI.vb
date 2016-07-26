@@ -82,7 +82,7 @@ Module CLI
     End Sub
 
     <ExportAPI("/DOOR.Corrects", Usage:="/DOOR.Corrects /DOOR <genome.opr> /pcc <pcc.dat> [/out <out.opr> /pcc-cut <0.45>]")>
-    Public Function DOORCorrects(args As CommandLine.CommandLine) As Integer
+    Public Function DOORCorrects(args As CommandLine) As Integer
         Dim doorFile As String = args("/door")
         Dim pccDat As String = args("/pcc")
         Dim pccCut As Double = args.GetValue("/pcc-cut", 0.45)
@@ -124,7 +124,7 @@ Module CLI
     End Function
 
     <ExportAPI("/PCC", Usage:="/PCC /expr <expr.matrix.csv> [/out <out.dat>]")>
-    Public Function PCC(args As CommandLine.CommandLine) As Integer
+    Public Function PCC(args As CommandLine) As Integer
         Dim expr As String = args("/expr")
         Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".PCC.dat")
         Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(DocumentStream.File.Load(expr))
@@ -132,7 +132,7 @@ Module CLI
     End Function
 
     <ExportAPI("/SPCC", Usage:="/SPCC /expr <expr.matrix.csv> [/out <out.dat>]")>
-    Public Function SPCC(args As CommandLine.CommandLine) As Integer
+    Public Function SPCC(args As CommandLine) As Integer
         Dim expr As String = args("/expr")
         Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".SPCC.dat")
         Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(DocumentStream.File.Load(expr))
@@ -145,7 +145,7 @@ Module CLI
                    Description:="The value of this parameter specific the counter of the function will be used, the available counter values are: union, intersection_strict and intersection_nonempty")>
     <ParameterInfo("/feature", True,
                    Description:="[NOTE: value is case sensitive!!!] Value of the gff features can be one of the: tRNA, CDS, exon, gene, tmRNA, rRNA, region")>
-    Public Function HTSeqCount(args As CommandLine.CommandLine) As Integer
+    Public Function HTSeqCount(args As CommandLine) As Integer
         Dim inSAM As String = args("/in")
         Dim gffFile As String = args("/gff")
         Dim out As String = args.GetValue("/out", inSAM.TrimSuffix & ".Ht-seq.txt")
@@ -163,7 +163,7 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/sid.map", Usage:="/sid.map /gff <genome.gff> /raw <htseq-count.txt> [/out <out.txt>]")>
-    Public Function sIdMapping(args As CommandLine.CommandLine) As Integer
+    Public Function sIdMapping(args As CommandLine) As Integer
         Dim gffFile As String = args("/gff")
         Dim raw As String = args("/raw")
         Dim out As String = args.GetValue("/out", raw.TrimSuffix & ".locus_tag.txt")
@@ -185,7 +185,7 @@ Module CLI
     End Function
 
     <ExportAPI("/RPKM", Usage:="/RPKM /raw <raw_count.txt> /gff <genome.gff> [/out <expr.out.csv>]")>
-    Public Function RPKM(args As CommandLine.CommandLine) As Integer
+    Public Function RPKM(args As CommandLine) As Integer
         Dim inRaw As String = args("/raw")
         Dim gffFile As String = args("/gff")
         Dim out As String = args.GetValue("/out", inRaw.TrimSuffix & ".RPKM.csv")
@@ -200,7 +200,7 @@ Module CLI
                Usage:="/Data.Frame /in <in.DIR> /ptt <genome.ptt> [/out out.csv]")>
     <ParameterInfo("/in", False,
                    Description:="A directory location which it contains the Ht-Seq raw count text files.")>
-    Public Function Df(args As CommandLine.CommandLine) As Integer
+    Public Function Df(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & "/DESeq2_dataExpr0.csv")
         Dim ptt As String = args("/ptt")
@@ -210,7 +210,7 @@ Module CLI
     End Function
 
     <ExportAPI("/DESeq2", Usage:="/DESeq2 /sample.table <sampleTable.csv> /raw <raw.txt.DIR> /ptt <genome.ptt> [/design <design, default: ~condition>]")>
-    Public Function DESeq2(args As CommandLine.CommandLine) As Integer
+    Public Function DESeq2(args As CommandLine) As Integer
         Dim rawDIR As String = args("/raw")
         Dim PTT As String = args("/ptt")
         Dim design As String = args.GetValue("/design", "~condition")
@@ -220,7 +220,7 @@ Module CLI
     End Function
 
     <ExportAPI("/DEGs", Usage:="/DEGs /in <diff.csv> [/out <degs.csv> /log_fold 2]")>
-    Public Function DEGs(args As CommandLine.CommandLine) As Integer
+    Public Function DEGs(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim logFold As Double = args.GetValue("/log_fold", 2.0R)
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".logFold={logFold}.csv")
@@ -230,7 +230,7 @@ Module CLI
     End Function
 
     <ExportAPI("/DEGs.UpDown", Usage:="/DEGs.UpDown /in <diff.csv> /sample.table <sampleTable.Csv> [/out <outDIR>]")>
-    Public Function DEGsUpDown(args As CommandLine.CommandLine) As Integer
+    Public Function DEGsUpDown(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim samples As String = args("/sample.table")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".DEGs.UpDowns/")

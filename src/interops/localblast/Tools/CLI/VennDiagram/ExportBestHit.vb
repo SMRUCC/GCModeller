@@ -35,7 +35,7 @@ Partial Module CLI
                Info:="",
                Usage:="-export_besthit -i <input_csv_file> -o <output_saved_csv>",
                Example:="")>
-    Public Function ExportBestHit(args As CommandLine.CommandLine) As Integer
+    Public Function ExportBestHit(args As CommandLine) As Integer
         Dim Input As String = args("-i"), Output As String = args("-o")
         Dim File As DocumentStream.File = DocumentStream.File.Load(Input)
         File = GetDiReBh(File)
@@ -56,7 +56,7 @@ Partial Module CLI
         Description:="Each file path in the filelist should be separated by a ""|"" character.",
         Usage:="-i ""file_path1|file_path2|file_path3|...""",
         Example:="")>
-    Public Function MergeBestHits(args As CommandLine.CommandLine) As Integer
+    Public Function MergeBestHits(args As CommandLine) As Integer
         Dim FilePathList = args("-i").Split(CChar("|"))
         Dim Idx As Integer = Val(args("-osidx"))
         Dim Output As String = args("-o")
@@ -83,7 +83,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("-copy", Info:="", Usage:="-copy -i <index_file> -os <output_saved> [-osidx <id_column_index> -os_skip_first <T/F>]", Example:="")>
-    Public Function Copy(args As CommandLine.CommandLine) As Integer
+    Public Function Copy(args As CommandLine) As Integer
         Dim Idx As Integer = Val(args("-osidx"))
         Dim Output As String = args("-os")
         Dim OriginalIdSequence As String = args("-i")

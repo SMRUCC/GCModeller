@@ -119,7 +119,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
 Module CLI
 
     <ExportAPI("/blastn", Usage:="/blastn /query <query.fasta> [/out <outDIR>]", Info:="Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
-    Public Function Blastn(args As CommandLine.CommandLine) As Integer
+    Public Function Blastn(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim out As String = args.GetValue("/out", queryFile.TrimSuffix)
         Dim query As New FASTA.FastaFile(queryFile)
@@ -137,7 +137,7 @@ Module CLI
                Info:="Downloads the KEGG gene ortholog annotation data from the web server.",
                Usage:="/Download.Ortholog -i <gene_list_file.txt/gbk> -export <exportedDIR> [/gbk /sp <KEGG.sp>]",
                Example:="")>
-    Public Function DownloadOrthologs(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadOrthologs(args As CommandLine) As Integer
         Dim GBK As Boolean = args.GetBoolean("/gbk")
         Dim GeneList As String()
         Dim ExportedDir As String = args("-export")
@@ -159,7 +159,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Imports.SSDB", Usage:="/Imports.SSDB /in <source.DIR> [/out <ssdb.csv>]")>
-    Public Function ImportsDb(args As CommandLine.CommandLine) As Integer
+    Public Function ImportsDb(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Csv")
         Dim ssdb = DBGET.bGetObject.SSDB.API.Transform(inDIR)
@@ -292,7 +292,7 @@ Module CLI
     End Sub
 
     <ExportAPI("/Pull.Seq", Info:="Downloads the missing sequence in the local KEGG database from the KEGG database server.")>
-    Public Function PullSequence(args As CommandLine.CommandLine) As Integer
+    Public Function PullSequence(args As CommandLine) As Integer
         Dim donwloader As New SeuqneceDownloader(MySQLExtensions.GetURI)
         Call donwloader.RunTask()
         Return 0
@@ -304,7 +304,7 @@ Module CLI
     End Sub
 
     <ExportAPI("--Export.KO")>
-    Public Function ExportKO(args As CommandLine.CommandLine) As Integer
+    Public Function ExportKO(args As CommandLine) As Integer
 
     End Function
 
@@ -313,7 +313,7 @@ Module CLI
     ''' </summary>
     ''' <returns></returns>
     <ExportAPI("-Build.KO", Usage:="-Build.KO [/fill-missing]", Info:="Download data from KEGG database to local server.")>
-    Public Function BuildKEGGOrthology(args As CommandLine.CommandLine) As Integer
+    Public Function BuildKEGGOrthology(args As CommandLine) As Integer
         '   If args.GetBoolean("/fill-missing") Then
         Call __fillMissing()
         Return 0
@@ -392,7 +392,7 @@ Module CLI
     End Function
 
     <ExportAPI("/16S_rRNA", Usage:="/16s_rna [/out <outDIR>]")>
-    Public Function Download16SRNA(args As CommandLine.CommandLine) As Integer
+    Public Function Download16SRNA(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory & "/")
         Dim fasta As FASTA.FastaFile = Download16S_rRNA(outDIR)
         Return fasta.Save($"{outDIR}/16S_rRNA.fasta", Encoding.ASCII).CLICode
@@ -400,7 +400,7 @@ Module CLI
 
     <ExportAPI("/Fasta.By.Sp",
                Usage:="/Fasta.By.Sp /in <KEGG.fasta> /sp <sp.list> [/out <out.fasta>]")>
-    Public Function GetFastaBySp(args As CommandLine.CommandLine) As Integer
+    Public Function GetFastaBySp(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sp As String = args("/sp")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & sp.BaseName & ".fasta")
@@ -417,7 +417,7 @@ Module CLI
     End Function
 
     <ExportAPI("Download.Sequence", Usage:="Download.Sequence /query <querySource.txt> [/out <outDIR> /source <existsDIR>]")>
-    Public Function DownloadSequence(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadSequence(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim out As String = args.GetValue("/out", query.ParentPath)
         Dim sourceDIR As String = args.GetValue("/source", out)  ' 假若不存在这个参数的输入的话，将路径指向一个空文件夹，减少搜索的时间
@@ -467,7 +467,7 @@ Module CLI
 
     <ExportAPI("/Download.Pathway.Maps",
                Usage:="/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
-    Public Function DownloadPathwayMaps(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
         Dim all = LinkDB.Pathways.AllEntries(sp).ToArray

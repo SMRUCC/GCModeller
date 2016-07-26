@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape
 Partial Module CLI
 
     <ExportAPI("--graph.regulates", Usage:="--graph.regulates /footprint <footprints.csv> [/trim]")>
-    Public Function SimpleRegulation(args As CommandLine.CommandLine) As Integer
+    Public Function SimpleRegulation(args As CommandLine) As Integer
         Dim input As String = args("/footprint")
         Dim footprints = input.LoadCsv(Of PredictedRegulationFootprint)
         Dim Trim As Boolean = args.GetBoolean("/trim")
@@ -85,7 +85,7 @@ Partial Module CLI
     <ExportAPI("/NetModel.TF_regulates",
                Info:="Builds the regulation network between the TF.",
                Usage:="/NetModel.TF_regulates /in <footprints.csv> [/out <outDIR> /cut 0.45]")>
-    Public Function TFNet(args As CommandLine.CommandLine) As Integer
+    Public Function TFNet(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim footprints = inFile.LoadCsv(Of PredictedRegulationFootprint)
         Dim cut As Double = args.GetValue("/cut", 0.45)

@@ -51,7 +51,7 @@ Partial Module CLI
 
     <ExportAPI("/mast.Regulations",
                Usage:="/mast.Regulations /in <mastSites.Csv> /correlation <sp_name/DIR> /DOOR <DOOR.opr> [/out <footprint.csv> /cut <0.65>]")>
-    Public Function MastRegulations(args As CommandLine.CommandLine) As Integer
+    Public Function MastRegulations(args As CommandLine) As Integer
         Dim inSites As String = args("/in")
         Dim correlation As String = args("/correlation")
         Dim DOOR As String = args("/DOOR")
@@ -68,7 +68,7 @@ Partial Module CLI
                Usage:="/MEME.Batch /in <inDIR> [/out <outDIR> /evalue <1> /nmotifs <30> /mod <zoops> /maxw <100>]")>
     <ParameterInfo("/in", False, Description:="A directory path which contains the fasta sequence for the meme motifs analysis.")>
     <ParameterInfo("/out", True, Description:="A directory path which outputs the meme.txt data to that directory.")>
-    Public Function MEMEBatch(args As CommandLine.CommandLine) As Integer
+    Public Function MEMEBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".MEME_OUT/")
         Dim evalue As String = args.GetValue("/evalue", "1")
@@ -85,14 +85,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--logo.Batch", Usage:="--logo.Batch -in <inDIR> [/out <outDIR>]")>
-    Public Function LogoBatch(args As CommandLine.CommandLine) As Integer
+    Public Function LogoBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("-in")
         Dim out As String = args.GetValue("/out", inDIR)
         Return SequenceLogoAPI.BatchDrawingFromDirectory(inDIR).CLICode
     End Function
 
     <ExportAPI("/seq.logo", Usage:="/seq.logo /in <meme.txt> [/out <outDIR>]")>
-    Public Function SequenceLogoTask(args As CommandLine.CommandLine) As Integer
+    Public Function SequenceLogoTask(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Logo/")
         Return SequenceLogoAPI.BatchDrawing(inFile, out)
@@ -106,7 +106,7 @@ Partial Module CLI
     <ExportAPI("MotifScan",
                Info:="Scan for the motif site by using fragment similarity.",
                Usage:="MotifScan -nt <nt.fasta> /motif <motifLDM.xml/LDM_Name/FamilyName> [/delta <default:80> /delta2 <default:70> /offSet <default:5> /out <saved.csv>]")>
-    Public Function MotifScan(args As CommandLine.CommandLine) As Integer
+    Public Function MotifScan(args As CommandLine) As Integer
         Dim Nt As String = args("-nt")
         Dim Motif As String = args("/motif")
         Dim Delta As Double = args.GetValue(Of Double)("/delta", 80)
@@ -164,7 +164,7 @@ Partial Module CLI
                Usage:="--site.Match /meme <meme.text> /mast <mast.xml> /out <out.csv> [/ptt <genome.ptt> /len <150,200,250,300,350,400,450,500>]")>
     <ParameterInfo("/len", True,
                    Description:="If not specific this parameter, then the function will trying to parsing the length value from the meme text automatically.")>
-    Public Function SiteMatch(args As CommandLine.CommandLine) As Integer
+    Public Function SiteMatch(args As CommandLine) As Integer
         Dim Motifs As Motif() =
             args.GetObject(
             "/meme",
@@ -189,7 +189,7 @@ Partial Module CLI
     '''' <param name="args"></param>
     '''' <returns></returns>
     '<ExportAPI("--site.Novel", Usage:="--site.Novel /meme <DIR.meme.text> /mast <DIR.mast.xml> /out <out.csv> [/ptt <genome.ptt>]")>
-    'Public Function SitesNovel(args As CommandLine.CommandLine) As Integer
+    'Public Function SitesNovel(args As CommandLine) As Integer
     '    Dim MEMESrc As String = FileIO.FileSystem.GetDirectoryInfo(args("/meme")).FullName
     '    Dim Motifs As String() = FileIO.FileSystem.GetFiles(MEMESrc, FileIO.SearchOption.SearchAllSubDirectories, "meme.txt").ToArray
     '    Dim MastSrc As String = FileIO.FileSystem.GetDirectoryInfo(args("/mast")).FullName
@@ -223,7 +223,7 @@ Partial Module CLI
     <ExportAPI("--site.Matches.text",
                Usage:="--site.Matches.text /meme <DIR.meme.text> /mast <DIR.mast.xml> /out <out.csv> [/ptt <genome.ptt> /fasta <original.fasta.DIR>]",
                Info:="Using this function for processing the meme text output from the tmod toolbox.")>
-    Public Function SiteMatchesText(args As CommandLine.CommandLine) As Integer
+    Public Function SiteMatchesText(args As CommandLine) As Integer
         Dim MEMESrc As String = FileIO.FileSystem.GetDirectoryInfo(args("/meme")).FullName
         Dim Motifs As String() = FileIO.FileSystem.GetFiles(MEMESrc, FileIO.SearchOption.SearchAllSubDirectories, "*.txt").ToArray
         Dim MastSrc As String = FileIO.FileSystem.GetDirectoryInfo(args("/mast")).FullName
@@ -380,7 +380,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--site.Matches",
                Usage:="--site.Matches /meme <DIR.meme.text> /mast <DIR.mast.xml> /out <out.csv> [/ptt <genome.ptt>]")>
-    Public Function SiteMatches(args As CommandLine.CommandLine) As Integer
+    Public Function SiteMatches(args As CommandLine) As Integer
         Dim MEMESrc As String = FileIO.FileSystem.GetDirectoryInfo(args("/meme")).FullName
         Dim Motifs As String() = FileIO.FileSystem.GetFiles(MEMESrc, FileIO.SearchOption.SearchAllSubDirectories, "meme.txt").ToArray
         Dim MastSrc As String = FileIO.FileSystem.GetDirectoryInfo(args("/mast")).FullName
@@ -410,7 +410,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/RfamSites", Usage:="/RfamSites /source <sourceDIR> [/out <out.fastaDIR>]")>
-    Public Function RfamSites(args As CommandLine.CommandLine) As Integer
+    Public Function RfamSites(args As CommandLine) As Integer
         Dim inDIR As String = args("/source")
         Dim out As String = args.GetValue("/out", inDIR & ".Rfam.Sites")
         Dim loadFile = From file As String

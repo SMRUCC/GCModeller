@@ -61,7 +61,7 @@ Public Module CLI
     End Sub
 
     <ExportAPI("/Export", Info:="", Usage:="export -i <fba_model> -o <r_script>", Example:="export -i /home/xieguigang/ecoli.xml -o /home/xieguigang/ecoli.r")>
-    Public Function Export(args As CommandLine.CommandLine) As Integer
+    Public Function Export(args As CommandLine) As Integer
         'Dim FBA As SMRUCC.genomics.ModelSolvers.FBA.FBA_RScript_Builder = CommandLine("-i").LoadXml(Of SMRUCC.genomics.ModelSolvers.FBA.FBA_RScript_Builder)()
         'Call FileIO.FileSystem.WriteAllText(CommandLine("-o"), FBA.RScript, append:=False, encoding:=System.Text.Encoding.ASCII)
         'Return 0
@@ -74,7 +74,7 @@ Public Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Imports", Usage:="/Imports /in <sbml.xml>")>
-    Public Function ImportsRxns(args As CommandLine.CommandLine) As Integer
+    Public Function ImportsRxns(args As CommandLine) As Integer
         Dim inXml As String = args("/in")
         Dim readSource As String = GCModeller.FileSystem.KEGG.GetReactions
         Dim outDIR As String = readSource & "/Imports/"

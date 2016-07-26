@@ -26,12 +26,16 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.MiST2
 
 <PackageNamespace("Protein.Interactions.Tools", Category:=APICategories.CLI_MAN,
                   Description:="Tools for analysis the protein interaction relationship.",
@@ -40,15 +44,15 @@ Imports SMRUCC.genomics.Assembly
 Public Module CLI
 
     <ExportAPI("--interact.TCS", Usage:="--interact.TCS /door <door.opr> /MiST2 <mist2.xml> /swiss <tcs.csv.DIR> /out <out.DIR>")>
-    Public Function TCSParser(args As CommandLine.CommandLine) As Integer
-        Dim MiST2 = args("/mist2").LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)  ' 主要是从这个模块之中获取TCS的基因定义
-        Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(args("/door"))
+    Public Function TCSParser(args As CommandLine) As Integer
+        Dim MiST2 = args("/mist2").LoadXml(Of MiST2)  ' 主要是从这个模块之中获取TCS的基因定义
+        Dim DOOR As DOOR = DOOR_API.Load(args("/door"))
         Dim cTkDIR As String = args("/swiss")
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory)
         Dim CrossTalks = FileIO.FileSystem.GetFiles(cTkDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
             .ToArray(Function(csv) csv.LoadCsv(Of CrossTalks)).MatrixToList
 
-        For Each rep As MiST2.Replicon In MiST2.MajorModules
+        For Each rep As Replicon In MiST2.MajorModules
 
             Dim lstHisk As String() = rep.TwoComponent.get_HisKinase
             Dim lstRR As String() = rep.TwoComponent.GetRR
@@ -60,7 +64,7 @@ Public Module CLI
 
                     Dim p As Double = CrossTalks.CrossTalk(HisK, RR)
 
-                    If Door.SameOperon(HisK, RR) Then  ' 同源的？？？
+                    If DOOR.SameOperon(HisK, RR) Then  ' 同源的？？？
                         If Not p > 0 Then
                             p = 1
                         End If

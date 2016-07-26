@@ -45,7 +45,7 @@ Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 Module CLI
 
     <ExportAPI("/Pfam.Sub", Usage:="/Pfam.Sub /index <bbh_index.csv> /pfam <pfam-string> [/out <sub-out.csv>]")>
-    Public Function SubPfam(args As CommandLine.CommandLine) As Integer
+    Public Function SubPfam(args As CommandLine) As Integer
         Dim inFile As String = args("/index")
         Dim pfam As String = args("/pfam")
         Dim out As String = args.GetValue("/out", inFile.Trim & ".Pfam-String.Csv")
@@ -58,7 +58,7 @@ Module CLI
     <ExportAPI("/Pfam.Align",
                Info:="Align your proteins with selected protein domain structure database by using blast+ program.",
                Usage:="/Pfam.Align /query <query.fasta> [/db <name/path> /out <blastOut.txt>]")>
-    Public Function AlignPfam(args As CommandLine.CommandLine) As Integer
+    Public Function AlignPfam(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim alignDb As String = args("/db")
         alignDb = GCModeller.FileSystem.GetPfamDb(alignDb)
@@ -86,7 +86,7 @@ Module CLI
                    Description:="The blastp output For the protein alignment, which the aligned database can be selected from Pfam-A Or NCBI CDD. And blast+ program Is recommended For used For the domain alignment.")>
     <ParameterInfo("/out", True,
                    Description:="The output Excel .csv data file path For the dumped pfam-String data Of your annotated protein. If this parameter Is empty, Then the file will saved On the same location With your blastp input file.")>
-    Public Function DumpPfamString(args As CommandLine.CommandLine) As Integer
+    Public Function DumpPfamString(args As CommandLine) As Integer
         Dim inFile As String = args("/In")
         Dim outFile As String = args.GetValue("/out", inFile.TrimSuffix & ".Pfam-String.Csv")
         Dim Settings = xMPAlignment.Settings.Session.Initialize.GetMplParam
@@ -111,7 +111,7 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--blast.allhits", Usage:="--blast.allhits /blast <blastp.txt> [/out <sbh.csv> /coverage <0.5> /identities 0.15]")>
-    Public Function ExportAppSBH(args As CommandLine.CommandLine) As Integer
+    Public Function ExportAppSBH(args As CommandLine) As Integer
         Dim inFile As String = args("/blast")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
@@ -135,7 +135,7 @@ Module CLI
                    Description:="Does the domain motif equals function determine the domain positioning equals just if one side in the high scoring then thoese two domain its position is equals? 
 Default is not, default checks right side and left side.")>
     <ParameterInfo("/flip-bbh", True, Description:="Swap the direction of the query_name/hit_name in the hits?")>
-    Public Function MPAlignment(args As CommandLine.CommandLine) As Integer
+    Public Function MPAlignment(args As CommandLine) As Integer
         Dim queryFile As String = args("/query")
         Dim subjectFile As String = args("/subject")
         Dim query = queryFile.LoadCsv(Of PfamString)
@@ -183,7 +183,7 @@ Default is not, default checks right side and left side.")>
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--align.Family_test", Usage:="--align.Family_test /query <pfam-string> /name <dbName/Path> [/threshold <0.65> /mpCut <0.65> /accept <10>]")>
-    Public Function FamilyAlignmentTest(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyAlignmentTest(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim name As String = args("/name")
         Dim queryPfam = Pfam.PfamString.CLIParser(query)
@@ -205,7 +205,7 @@ Default is not, default checks right side and left side.")>
     <ExportAPI("--align.String",
                Usage:="--align.String /query <pfam-string> /subject <pfam-string> [/mp <cutoff:=0.65> /out <outDIR> /parts]",
                Info:="MPAlignment test, pfam-string value must be in format as  <locusId>:<length>:<pfam-string>")>
-    Public Function MPAlignment2(args As CommandLine.CommandLine) As Integer
+    Public Function MPAlignment2(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim mpCutoff As Double = args.GetValue("/mp", 0.65)
@@ -254,7 +254,7 @@ Default is not, default checks right side and left side.")>
     End Function
 
     <ExportAPI("--View.Alignment", Usage:="--View.Alignment /blast <blastp.txt> /name <queryName> [/out <out.png>]")>
-    Public Function ViewAlignment(args As CommandLine.CommandLine) As Integer
+    Public Function ViewAlignment(args As CommandLine) As Integer
         Dim inFile As String = args("/blast")
         Dim name As String = args("/name")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "_" & name.NormalizePathString & ".png")
@@ -270,7 +270,7 @@ Default is not, default checks right side and left side.")>
 
     <ExportAPI("/Select.Pfam-String",
                Usage:="/Select.Pfam-String /in <pfam-string.csv> /hits <bbh/sbh.csv> [/hit_name /out <out.csv>]")>
-    Public Function SelectPfams(args As CommandLine.CommandLine) As Integer
+    Public Function SelectPfams(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim hits As String = args - "/hits"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & hits.BaseName & ".csv")

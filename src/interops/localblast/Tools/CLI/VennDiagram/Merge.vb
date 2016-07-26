@@ -53,7 +53,7 @@ Partial Module CLI
     <ParameterInfo("-o",
         Description:="The save file name for the output result, the program willl save the merge result in the csv format",
         Example:="~/Desktop/8004_venn.csv")>
-    Public Function Merge(args As CommandLine.CommandLine) As Integer
+    Public Function Merge(args As CommandLine) As Integer
         Dim Directory As String = args("-d")
         Dim SavedFile As String = args("-o")
 

@@ -47,7 +47,7 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Merge.Regulons", Usage:="/Merge.Regulons /in <regulons.bbh.inDIR> [/out <out.csv>]")>
-    Public Function MergeRegulonsExport(args As CommandLine.CommandLine) As Integer
+    Public Function MergeRegulonsExport(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".RegulonsMerged.Csv")
         Dim Merges As RegPreciseRegulon() = RegPreciseRegulon.Merges(inDIR)
@@ -55,7 +55,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Trim.Regulons", Usage:="/Trim.Regulons /in <regulons.csv> /pcc <pccDIR/sp_code> [/out <out.csv> /cut 0.65]")>
-    Public Function TrimRegulon(args As CommandLine.CommandLine) As Integer
+    Public Function TrimRegulon(args As CommandLine) As Integer
         Dim inRegulons As String = args("/in")
         Dim out As String = args.GetValue("/out", inRegulons.TrimSuffix & ".Trim.Csv")
         Dim pcc As String = args("/pcc")
@@ -86,7 +86,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Write.Network", Usage:="/Write.Network /in <regulons.csv> [/out <netDIR>]")>
-    Public Function SaveNetwork(args As CommandLine.CommandLine) As Integer
+    Public Function SaveNetwork(args As CommandLine) As Integer
         Dim inRegulons As String = args("/in")
         Dim out As String = args.GetValue("/out", inRegulons.TrimSuffix & ".net/")
         Dim regulons = inRegulons.LoadCsv(Of RegPreciseRegulon)
@@ -95,7 +95,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Motif.From.MAL", Usage:="/Motif.From.MAL /in <clustal.fasta> /out <outDIR>")>
-    Public Function MotifFromMAL(args As CommandLine.CommandLine) As Integer
+    Public Function MotifFromMAL(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Motif/")
         Dim motif As MotifPWM = FromMla(FASTA.FastaFile.LoadNucleotideData([in]))

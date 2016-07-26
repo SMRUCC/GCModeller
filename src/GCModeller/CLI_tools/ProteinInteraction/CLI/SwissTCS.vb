@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -38,14 +39,14 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Partial Module CLI
 
     <ExportAPI("--SwissTCS.Downloads", Usage:="--SwissTCS.Downloads /out <out.DIR>")>
-    Public Function DownloadEntireDb(args As CommandLine.CommandLine) As Integer
+    Public Function DownloadEntireDb(args As CommandLine) As Integer
         Dim out As String = args("/out")
         Call SwissRegulon.Download(out)
         Return 0
     End Function
 
     <ExportAPI("--ProtFasta.Downloads", Usage:="--ProtFasta.Downloads /in <sp.DIR>")>
-    Public Function ProtFastaDownloads(args As CommandLine.CommandLine) As Integer
+    Public Function ProtFastaDownloads(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Call __downloads(inDIR)
         Return 0
@@ -65,7 +66,7 @@ Partial Module CLI
     End Sub
 
     <ExportAPI("--ProtFasta.Downloads.Batch", Usage:="--ProtFasta.Downloads.Batch /in <sp.DIR.Source>")>
-    Public Function ProtFastaDownloadsBatch(args As CommandLine.CommandLine) As Integer
+    Public Function ProtFastaDownloadsBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim lstDIR As String() = FileIO.FileSystem.GetDirectories(inDIR, FileIO.SearchOption.SearchTopLevelOnly).ToArray
 
@@ -82,7 +83,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--Merge.Pfam", Usage:="--Merge.Pfam /in <in.DIR>")>
-    Public Function MergePfam(args As CommandLine.CommandLine) As Integer
+    Public Function MergePfam(args As CommandLine) As Integer
         Dim Input As String = args("/in")
         Dim Temp As String = Input & "/Pfam/"
         Dim source As String() = FileIO.FileSystem.GetDirectories(Input, FileIO.SearchOption.SearchTopLevelOnly).ToArray
@@ -120,7 +121,7 @@ Partial Module CLI
     End Sub
 
     <ExportAPI("--Contacts", Usage:="--Contacts /in <in.DIR>")>
-    Public Function Contacts(args As CommandLine.CommandLine) As Integer
+    Public Function Contacts(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim Pfam As String = input & "/Pfam/"
         Dim source As String() = FileIO.FileSystem.GetDirectories(input, FileIO.SearchOption.SearchTopLevelOnly).ToArray
@@ -188,7 +189,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--Profiles.Create", Usage:="--Profiles.Create /MiST2 <MiST2.xml> /pfam <pfam-string.csv> [/out <out.csv>]")>
-    Public Function CreateProfiles(args As CommandLine.CommandLine) As Integer
+    Public Function CreateProfiles(args As CommandLine) As Integer
         Dim MiST2 = args("/mist2").LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)
         Dim Pfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
         Dim Hisk = MiST2.MajorModules.First.TwoComponent.get_HisKinase
@@ -216,7 +217,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--CrossTalks.Probability",
                Usage:="--CrossTalks.Probability /query <pfam-string.csv> /swiss <swissTCS_pfam-string.csv> [/out <out.CrossTalks.csv> /test <queryName>]")>
-    Public Function CrossTalksCal(args As CommandLine.CommandLine) As Integer
+    Public Function CrossTalksCal(args As CommandLine) As Integer
         Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
         Dim SwissTCS = args("/swiss").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
         Dim out As String = args.GetValue("/out", args("/query").TrimSuffix & ".CrossTalks.csv")

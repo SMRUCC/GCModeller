@@ -40,7 +40,7 @@ Partial Module CLI
     <ExportAPI("--pathway.regulates",
                Info:="Associates of the pathway regulation information for the predicted virtual footprint information.",
                Usage:="--pathway.regulates -footprints <virtualfootprint.csv> /pathway <DIR.KEGG.Pathways> [/out <./PathwayRegulations/>]")>
-    Public Function PathwayRegulations(args As CommandLine.CommandLine) As Integer
+    Public Function PathwayRegulations(args As CommandLine) As Integer
         Dim Footprints = args("-footprints").LoadCsv(Of PredictedRegulationFootprint)
         Dim Pathways = FileIO.FileSystem.GetFiles(args("/pathway"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
             .ToArray(Function(file) file.LoadXml(Of bGetObject.Pathway))

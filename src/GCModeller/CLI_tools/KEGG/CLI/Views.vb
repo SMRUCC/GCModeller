@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Partial Module CLI
 
     <ExportAPI("/Views.mod_stat", Usage:="/Views.mod_stat /in <KEGG_Modules/Pathways_DIR> /locus <in.csv> [/locus_map Gene /pathway /out <out.csv>]")>
-    Public Function Stats(args As CommandLine.CommandLine) As Integer
+    Public Function Stats(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim locus As String = args("/locus")
         Dim locus_map As String = args.GetValue("/locus_map", "Gene")
@@ -61,7 +61,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Get.prot_motif", Usage:="/Get.prot_motif /query <sp:locus> [/out out.json]")>
-    Public Function ProteinMotifs(args As CommandLine.CommandLine) As Integer
+    Public Function ProteinMotifs(args As CommandLine) As Integer
         Dim query As String = args - "/query"
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & $"/{query.NormalizePathString}.json")
         Dim prot As Protein = ProtMotifsQuery.Query(query)
@@ -70,7 +70,7 @@ Partial Module CLI
 
     <ExportAPI("/Gets.prot_motif",
                Usage:="/Gets.prot_motif /query <query.txt/genome.PTT> [/PTT /sp <kegg-sp> /out <out.json> /update]")>
-    Public Function GetsProteinMotifs(args As CommandLine.CommandLine) As Integer
+    Public Function GetsProteinMotifs(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & ".prot_motifs.json")
         Dim TEMP As String = out & ".temp/"

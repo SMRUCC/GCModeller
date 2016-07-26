@@ -33,7 +33,7 @@ Partial Module CLI
 
     <ExportAPI("/LDM.Selects",
                Usage:="/LDM.Selects /trace <footprints.xml> /meme <memeDIR> [/out <outDIR> /named]")>
-    Public Function Selectes(args As CommandLine.CommandLine) As Integer
+    Public Function Selectes(args As CommandLine) As Integer
         Dim trace As String = args("/trace")
         Dim memeDIR As String = args("/meme")
         Dim out As String = args.GetValue("/out", trace.TrimSuffix & "-" & memeDIR.BaseName)

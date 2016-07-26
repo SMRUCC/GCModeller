@@ -50,7 +50,7 @@ Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 Partial Module CLI
 
     <ExportAPI("/Draw.Comparative", Usage:="/Draw.Comparative /in <meta.Xml> /PTT <PTT_DIR> [/out <outDIR>]")>
-    Public Function DrawMultipleAlignments(args As CommandLine.CommandLine) As Integer
+    Public Function DrawMultipleAlignments(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-Comparative/")
@@ -60,7 +60,7 @@ Partial Module CLI
 
     <ExportAPI("--Drawing.ClustalW",
                Usage:="--Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]")>
-    Public Function DrawClustalW(args As CommandLine.CommandLine) As Integer
+    Public Function DrawClustalW(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
         Dim aln As New FASTA.FastaFile(inFile)
@@ -72,7 +72,7 @@ Partial Module CLI
     <ExportAPI("--Drawing.ChromosomeMap",
                Info:="Drawing the chromosomes map from the PTT object as the basically genome information source.",
                Usage:="--Drawing.ChromosomeMap /ptt <genome.ptt> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
-    Public Function DrawingChrMap(args As CommandLine.CommandLine) As Integer
+    Public Function DrawingChrMap(args As CommandLine) As Integer
         Dim PTT = args.GetObject("/ptt", AddressOf TabularFormat.PTT.Load)
         Dim confInf As String = args("/conf")
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
@@ -103,7 +103,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
     End Function
 
     <ExportAPI("--Gendist.From.Self.Overviews", Usage:="--Gendist.From.Self.Overviews /blast_out <blast_out.txt>")>
-    Public Function SelfOverviewAsMAT(args As CommandLine.CommandLine) As Integer
+    Public Function SelfOverviewAsMAT(args As CommandLine) As Integer
         Dim blastOut As String = args("/blast_out")
         Dim outLog = BlastPlus.Parser.TryParse(blastOut)
         Dim MAT = SelfOverviewsGendist(outLog)
@@ -113,7 +113,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
     End Function
 
     <ExportAPI("--Gendist.From.SelfMPAlignment", Usage:="--Gendist.From.SelfMPAlignment /aln <mpalignment.csv>")>
-    Public Function SelfMPAlignmentAsMAT(args As CommandLine.CommandLine) As Integer
+    Public Function SelfMPAlignmentAsMAT(args As CommandLine) As Integer
         Dim out As String = args("/aln")
         Dim aln = out.LoadCsv(Of MPCsvArchive)
         Dim MAT = Phylip.MPAlignmentAsTree(aln)
@@ -123,7 +123,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
     End Function
 
     <ExportAPI("--Get.Subset.lstID", Usage:="--Get.Subset.lstID /subset <lstID.txt> /lstID <lstID.csv>")>
-    Public Function GetSubsetID(args As CommandLine.CommandLine) As Integer
+    Public Function GetSubsetID(args As CommandLine) As Integer
         Dim subset As String() = IO.File.ReadAllLines(args("/subset"))
         Dim lstID = args("/lstID").LoadCsv(Of KeyValuePair)
         Dim LQuery As String() =
@@ -144,7 +144,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
     <ParameterInfo("/PTT", False,
                    Description:="A directory which contains all of the information data files for the reference genome, 
                    this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.")>
-    Public Function BBHVisual(args As CommandLine.CommandLine) As Integer
+    Public Function BBHVisual(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim PTT As String = args("/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".visualize.png")

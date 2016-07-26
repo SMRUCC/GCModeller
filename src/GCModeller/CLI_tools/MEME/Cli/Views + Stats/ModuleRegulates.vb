@@ -43,7 +43,7 @@ Partial Module CLI
     <ExportAPI("--site.stat",
              Info:="Statics of the PCC correlation distribution of the regulation",
              Usage:="--site.stat /in <footprints.csv> [/out <out.csv>]")>
-    Public Function SiteStat(args As CommandLine.CommandLine) As Integer
+    Public Function SiteStat(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim outFile As String = args.GetValue("/out", inFile.TrimSuffix & ".siteStat.csv")
         Dim raw = inFile.LoadCsv(Of PredictedRegulationFootprint)
@@ -120,7 +120,7 @@ Partial Module CLI
     <ParameterInfo("/in", False,
                    Description:="The footprints data required of fill out the pathway Class, category and type information before you call this function.
                    If the fields is blank, then your should specify the /mods parameter.")>
-    Public Function ModuleRegulates(args As CommandLine.CommandLine) As Integer
+    Public Function ModuleRegulates(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix)
         Dim regulations = inFile.LoadCsv(Of PredictedRegulationFootprint)

@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Visualize.Circos
 Partial Module CLI
 
     <ExportAPI("/DOOR.COGs", Usage:="/DOOR.COGs /DOOR <genome.opr> [/out <out.COGs.Csv>]")>
-    Public Function DOOR_COGs(args As CommandLine.CommandLine) As Integer
+    Public Function DOOR_COGs(args As CommandLine) As Integer
         Dim inFile As String = args("/DOOR")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".COGs.Csv")
         Dim DOOR As DOOR = DOOR_API.Load(inFile)
@@ -52,7 +52,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Regulons.Dumps", Usage:="/Regulons.Dumps /in <genomes.bbh.DIR> /ptt <genome.ptt> [/out <out.Csv>]")>
-    Public Function DumpNames(args As CommandLine.CommandLine) As Integer
+    Public Function DumpNames(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim ptt As String = args("/ptt")
         Dim out As String = args.GetValue("/out", inDIR & ".Names.Csv")

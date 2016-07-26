@@ -52,7 +52,7 @@ Public Module CLI
 
     <ExportAPI("/NT.Variation",
                Usage:="/NT.Variation /mla <fasta.fa> [/ref <index/fasta.fa, 0> /out <out.txt> /cut 0.75]")>
-    Public Function NTVariation(args As CommandLine.CommandLine) As Integer
+    Public Function NTVariation(args As CommandLine) As Integer
         Dim mla As String = args("/mla")
         Dim ref As String = args("/ref")
         Dim cut As Double = args.GetValue("/cut", 0.75)
@@ -72,7 +72,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("--AT.Percent", Usage:="--AT.Percent /in <in.fasta> [/win_size <200> /step <25> /out <out.txt>]")>
-    Public Function ATContent(args As CommandLine.CommandLine) As Integer
+    Public Function ATContent(args As CommandLine) As Integer
         Dim inFasta As String = args("/in")
         Dim out As String = args.GetValue("/out", inFasta.TrimSuffix & ".ATPercent.txt")
         Dim winSize As Integer = args.GetValue("/win_size", 200)
@@ -103,7 +103,7 @@ Public Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--GC.Skew", Usage:="--GC.Skew /in <in.fasta> [/win_size <200> /step <25> /out <out.txt>]")>
-    Public Function GCSkew(args As CommandLine.CommandLine) As Integer
+    Public Function GCSkew(args As CommandLine) As Integer
         Dim inFasta = FastaFile.Read(args("/in"))
         Dim winSize As Integer = args.GetValue("/win_size", 200)
         Dim steps As Integer = args.GetValue("/step", 25)
@@ -129,7 +129,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/MGA2Myva", Usage:="/MGA2Myva /in <mga_cog.csv> [/out <myva_cog.csv> /map <genome.gb>]")>
-    Public Function MGA2Myva(args As CommandLine.CommandLine) As Integer
+    Public Function MGA2Myva(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".MyvaCOG.csv")
         Dim doc As MGACOG() = MGACOG.LoadDoc(inFile)
@@ -153,7 +153,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/Alignment.Dumps", Usage:="/Alignment.Dumps /in <inDIR> [/out <out.Xml>]")>
-    Public Function AlignmentTableDump(args As CommandLine.CommandLine) As Integer
+    Public Function AlignmentTableDump(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Xml")
         Dim tbl As AlignmentTable = ParserAPI.CreateFromBlastn(inDIR)

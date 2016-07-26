@@ -58,7 +58,7 @@ Module CLI
     <ExportAPI("Motif.Locates",
                Info:="",
                Usage:="Motif.Locates -ptt <bacterial_genome.ptt> -meme <meme.txt> [/out <out.csv>]")>
-    Public Function MotifLocites(args As CommandLine.CommandLine) As Integer
+    Public Function MotifLocites(args As CommandLine) As Integer
         Dim PTTfile As String = args("-ptt")
         Dim MEMEText As String = args("-meme")
         Dim OutCsv As String = args("/out")
@@ -83,7 +83,7 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--hits.diff", Usage:="--hits.diff /query <bbhh.csv> /subject <bbhh.csv> [/reverse]")>
-    Public Function DiffHits(args As CommandLine.CommandLine) As Integer
+    Public Function DiffHits(args As CommandLine) As Integer
         Dim reverse As Boolean = args.GetBoolean("/reverse")
         Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
@@ -104,7 +104,7 @@ Module CLI
     End Function
 
     <ExportAPI("--Intersect.Max", Usage:="--Intersect.Max /query <bbhh.csv> /subject <bbhh.csv>")>
-    Public Function MaxIntersection(args As CommandLine.CommandLine) As Integer
+    Public Function MaxIntersection(args As CommandLine) As Integer
         Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim LQuery = (From x In query
@@ -125,7 +125,7 @@ Module CLI
     End Function
 
     <ExportAPI("--GetFasta", Usage:="--GetFasta /bbh <bbhh.csv> /id <subject_id> /regprecise <regprecise.fasta>")>
-    Public Function GetFasta(args As CommandLine.CommandLine) As Integer
+    Public Function GetFasta(args As CommandLine) As Integer
         Dim bbh = args("/bbh").LoadCsv(Of bbhMappings)
         Dim id As String = args("/id")
         Dim query = (From x In bbh.AsParallel Where String.Equals(id, x.hit_name, StringComparison.OrdinalIgnoreCase) Select x.query_name).ToArray
@@ -137,7 +137,7 @@ Module CLI
 
     <ExportAPI("/Trim.MastSite",
                Usage:="/Trim.MastSite /in <mastSite.Csv> /locus <locus_tag> /correlations <DIR/name> [/out <out.csv> /cut <0.65>]")>
-    Public Function Trim(args As CommandLine.CommandLine) As Integer
+    Public Function Trim(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim locus As String = args("/locus")
         Dim correlations As String = args("/correlations")

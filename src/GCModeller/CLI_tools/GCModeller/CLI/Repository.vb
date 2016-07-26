@@ -32,7 +32,7 @@ Imports SMRUCC.genomics.Data.Model_Repository
 Partial Module CLI
 
     <ExportAPI("/Install.genbank", Usage:="/Install.genbank /imports <all_genbanks.DIR> [/refresh]")>
-    Public Function InstallGenbank(args As CommandLine.CommandLine) As Integer
+    Public Function InstallGenbank(args As CommandLine) As Integer
         Dim [in] As String = args - "/imports"
         Return Installer.Install([in], args.GetBoolean("/refresh")).CLICode
     End Function
@@ -45,7 +45,7 @@ Partial Module CLI
     <ExportAPI("--install-COGs",
                Info:="Install the COGs database into the GCModeller database.",
                Usage:="--install-COGs /COGs <Dir.COGs>")>
-    Public Function InstallCOGs(args As CommandLine.CommandLine) As Integer
+    Public Function InstallCOGs(args As CommandLine) As Integer
         Dim COGsDir As String = args("/COGs")
         Dim protFasta As String = FileIO.FileSystem.GetFiles(COGsDir,
                                                              FileIO.SearchOption.SearchAllSubDirectories,
@@ -67,7 +67,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--install-CDD", Usage:="--install-CDD /cdd <cdd.DIR>")>
-    Public Function InstallCDD(args As CommandLine.CommandLine) As Integer
+    Public Function InstallCDD(args As CommandLine) As Integer
         Dim Repository As String = GCModeller.FileSystem.RepositoryRoot
         Repository &= "/CDD/"
         Dim buildFrom As String = args("/cdd")

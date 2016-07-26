@@ -140,7 +140,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("--install.MYSQL", Usage:="--install.MYSQL /user <userName> /pass <password> /repository <host_ipAddress> [/port 3306 /database <GCModeller>]")>
-    Public Function InstallMySQL(args As CommandLine.CommandLine) As Integer
+    Public Function InstallMySQL(args As CommandLine) As Integer
         Dim user As String = args("/user")
         Dim pass As String = args("/pass")
         Dim IPAddress As String = args("/repository")
@@ -162,7 +162,7 @@ Public Module CLI
         Call Settings.Initialize()
     End Sub
 
-    Public Function MultipleAlignment(args As CommandLine.CommandLine) As Integer
+    Public Function MultipleAlignment(args As CommandLine) As Integer
 
     End Function
 End Module

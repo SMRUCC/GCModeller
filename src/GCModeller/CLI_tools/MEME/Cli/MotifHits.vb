@@ -59,7 +59,7 @@ Partial Module CLI
 
     <ExportAPI("/MotifHits.Regulation",
                Usage:="/MotifHits.Regulation /hits <motifHits.Csv> /source <meme.txt.DIR> /PTT <genome.PTT> /correlates <sp/DIR> /bbh <bbhh.csv> [/out <out.footprints.Csv>]")>
-    Public Function HitsRegulation(args As CommandLine.CommandLine) As Integer
+    Public Function HitsRegulation(args As CommandLine) As Integer
         Dim hitFile As String = args("/hits")
         Dim out As String = args.GetValue("/out", hitFile.TrimSuffix & ".VirtualFootprints.Csv")
         Dim PTTFile As String = args("/PTT")
@@ -201,7 +201,7 @@ Partial Module CLI
     <ExportAPI("/MAST.MotifMatchs.Family",
                Info:="1",
                Usage:="/MAST.MotifMatchs.Family /meme <meme.txt.DIR> /mast <MAST_OUT.DIR> [/out <out.Xml>]")>
-    Public Function MotifMatch(args As CommandLine.CommandLine) As Integer
+    Public Function MotifMatch(args As CommandLine) As Integer
         Dim MEME_OUT As String = args("/meme")
         Dim MAST_OUT As String = args("/mast")
         Dim out As String = args.GetValue("/out", MEME_OUT & ".MotifMatchs.FROM_MAST.Xml")
@@ -213,7 +213,7 @@ Partial Module CLI
     <ExportAPI("/MAST.MotifMatches",
                Info:="",
                Usage:="/MAST.MotifMatches /meme <meme.txt.DIR> /mast <MAST_OUT.DIR> [/out <out.csv>]")>
-    Public Function MotifMatch2(args As CommandLine.CommandLine) As Integer
+    Public Function MotifMatch2(args As CommandLine) As Integer
         Dim MEME_OUT As String = args("/meme")
         Dim MAST_OUT As String = args("/mast")
         Dim out As String = args.GetValue("/out", MEME_OUT & ".MotifMatchs.FROM_MAST.Csv")
@@ -225,7 +225,7 @@ Partial Module CLI
     <ExportAPI("/SiteHits.Footprints",
                Info:="Generates the regulation information.",
                Usage:="/SiteHits.Footprints /sites <MotifSiteHits.Csv> /bbh <bbh.Csv> /meme <meme.txt_DIR> /PTT <genome.PTT> /DOOR <DOOR.opr> [/queryHash /out <out.csv>]")>
-    Public Function SiteHitsToFootprints(args As CommandLine.CommandLine) As Integer
+    Public Function SiteHitsToFootprints(args As CommandLine) As Integer
         Dim [in] As String = args("/sites")
         Dim bbh As String = args("/bbh")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".VirtualFootprints.Csv")
@@ -250,7 +250,7 @@ Partial Module CLI
     <ExportAPI("/Hits.Context",
                Info:="2",
                Usage:="/Hits.Context /footprints <footprints.Xml> /PTT <genome.PTT> [/out <out.Xml> /RegPrecise <RegPrecise.Regulations.Xml>]")>
-    Public Function HitContext(args As CommandLine.CommandLine) As Integer
+    Public Function HitContext(args As CommandLine) As Integer
         Dim footprint As String = args("/footprints")
         Dim genome As String = args("/PTT")
         Dim out As String = args.GetValue("/out", footprint.TrimSuffix & "-" & genome.BaseName & ".Xml")
@@ -284,7 +284,7 @@ Partial Module CLI
                Usage:="/Footprints /footprints <footprints.xml> /coor <name/DIR> /DOOR <genome.opr> /maps <bbhMappings.Csv> [/out <out.csv> /cuts <0.65> /extract]")>
     <ParameterInfo("/extract", True,
                    Description:="Extract the DOOR operon when the regulated gene is the first gene of the operon.")>
-    Public Function ToFootprints(args As CommandLine.CommandLine) As Integer
+    Public Function ToFootprints(args As CommandLine) As Integer
         Dim footprintXml As String = args("/footprints")
         Dim coor As String = args("/coor")
         Dim DOOR As String = args("/door")
@@ -318,7 +318,7 @@ Partial Module CLI
                Usage:="/Site.MAST_Scan /mast <mast.xml/DIR> [/batch /out <out.csv>]")>
     <ParameterInfo("/batch", True,
                    Description:="If this parameter presented in the CLI, then the parameter /mast will be used as a DIR.")>
-    Public Function SiteMASTScan(args As CommandLine.CommandLine) As Integer
+    Public Function SiteMASTScan(args As CommandLine) As Integer
         Dim batch As Boolean = args.GetBoolean("/batch")
 
         If Not batch Then
@@ -347,7 +347,7 @@ Partial Module CLI
 
     <ExportAPI("/Site.MAST_Scan.Batch", Info:="[MAST.Xml] -> [SimpleSegment]",
                Usage:="/Site.MAST_Scan /mast <mast.xml.DIR> [/out <out.csv.DIR> /num_threads <-1>]")>
-    Public Function SiteMASTScanBatch(args As CommandLine.CommandLine) As Integer
+    Public Function SiteMASTScanBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/mast"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & ".SiteMASTScan/")
         Dim DIRs As IEnumerable(Of String) = ls - l - lsDIR <= [in]
@@ -368,7 +368,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Site.RegexScan", Usage:="/Site.RegexScan /meme <meme.txt> /nt <nt.fasta> [/batch /out <out.csv>]")>
-    Public Function SiteRegexScan(args As CommandLine.CommandLine) As Integer
+    Public Function SiteRegexScan(args As CommandLine) As Integer
         Dim batch As Boolean = args.GetBoolean("/batch")
         Dim nt As String = args("/nt")
         Dim ntFa As New FastaToken(nt)
@@ -414,7 +414,7 @@ Partial Module CLI
     <ParameterInfo("/motifs", False, Description:="Regulogs.Xml source directory")>
     <ParameterInfo("/num_threads", True,
                    Description:="Default Is -1, means auto config of the threads number.")>
-    Public Function MotifInfoBatch(args As CommandLine.CommandLine) As Integer
+    Public Function MotifInfoBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim gffs As String = args("/gffs")
         Dim motifs As String = args("/motifs")
@@ -444,7 +444,7 @@ Partial Module CLI
                    Description:="The motif site info data set, type Is simple segment.")>
     <ParameterInfo("/motifs", False,
                    Description:="A directory which contains the motifsitelog data in the xml file format. Regulogs.Xml source directory")>
-    Public Function MotifInfo(args As CommandLine.CommandLine) As Integer
+    Public Function MotifInfo(args As CommandLine) As Integer
         Dim loci As String = args("/loci")
         Dim motifs As String = args("/motifs")
         Dim result As List(Of MotifLog) =

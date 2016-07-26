@@ -38,7 +38,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/gcFBA.Batch",
                Usage:="/gcFBA.Batch /model <model.sbml> /phenotypes <KEGG_modules/pathways.DIR> /footprints <footprints.csv> [/obj-type <pathway/module> /params <rfba.parameters.xml> /stat <RPKM-stat.Csv> /sample <sampleTable.csv> /modify <locus_modify.csv> /out <outDIR> /parallel <2>]")>
-    Public Function PhenotypeAnalysisBatch(args As CommandLine.CommandLine) As Integer
+    Public Function PhenotypeAnalysisBatch(args As CommandLine) As Integer
         Dim model As String = args("/model")
         Dim phenos As String = args("/phenotypes").Replace("\", "/")
         Dim out As String = args.GetValue("/out", model.TrimSuffix & "-" & phenos.Split("/"c).Last)

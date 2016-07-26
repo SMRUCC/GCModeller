@@ -42,7 +42,7 @@ Imports SMRUCC.genomics.ContextModel
 Module CLI
 
     <ExportAPI("/Reads.Visual", Usage:="/Reads.Visual /in <reads.count.csv> [/out <outDIR>]")>
-    Public Function VisualReads(args As CommandLine.CommandLine) As Integer
+    Public Function VisualReads(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim reads = inFile.LoadCsv(Of TSSsTools.ReadsCount)
         Dim res = TSSsTools.ReadsPlot.Plot(reads)
@@ -55,7 +55,7 @@ Module CLI
     <ParameterInfo("/activity", True,
                    Description:="Sets the minimum level of expression (for a UTR region and ncRNA to be considered expressed) in this Replicate based on 
 the average number of reads per nucleotide in this Replicate and the specified transcript sensitivity between 0.0 and 1.0, inclusive.")>
-    Public Function IdentifyUTRs(args As CommandLine.CommandLine) As Integer
+    Public Function IdentifyUTRs(args As CommandLine) As Integer
         Dim PTT As String = args("-ptt")
         Dim Reads = args("-reads")
         Dim Unstrand As Boolean = args.GetBoolean("/unstrand")
@@ -76,7 +76,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
                Usage:="-Identify.siRNA -in <transcripts.csv> /genome.size <nt_total_length> [/reads.shared 5,30 /unstrand /ig.min 1000]",
                Info:="You can manual setup genome.Size in a given length, or just left it blank let the program to detecting automatically but this maybe makes some mistakes..... 
                Only the sites which is testing successfully will be output.")>
-    Public Function siRNAPredictions(args As CommandLine.CommandLine) As Integer
+    Public Function siRNAPredictions(args As CommandLine) As Integer
         Dim Transcripts As String = args("-in")
         Dim genomeSize As Long = args.GetInt64("/genome.size")
         Dim readsShared = args.GetValue(Of String)("/reads.shared", [default]:="5,30")
@@ -118,7 +118,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
                You can manual setup genome.Size in a given length, or just left it blank let the program to detecting automatically but this maybe makes some mistakes..... 
                Only the sites which is testing successfully will be output.")>
     <ParameterInfo("/reads.Len", True, Description:="The nt length of your raw reads in the *.fq sequence file.")>
-    Public Function TestSites(args As CommandLine.CommandLine) As Integer
+    Public Function TestSites(args As CommandLine) As Integer
         Dim Transcripts As String = args("-in")
         Dim genomeSize As Long = args.GetInt64("/genome.size")
         Dim readsShared = args.GetValue(Of Integer)("/reads.shared", [default]:=30)
@@ -162,7 +162,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
              If the /upstream value is True, then only upstream or upstreamoverlaps site will be saved all of others loci sites will be ignored.",
              Usage:="--genome-context -in <in.csv> -ptt <genome.ptt> [/upstream /trim <shared_value:=30> -out <out.csv> /atg [ATG-distance:1000]]")>
     <ParameterInfo("-in", False, Description:="Short reads data file from DocumentFormat.Transcript object type.")>
-    Public Function GenomeContent(args As CommandLine.CommandLine) As Integer
+    Public Function GenomeContent(args As CommandLine) As Integer
         Dim inFile As String = args("-in")
         Dim TrimShared = If(Not String.IsNullOrEmpty(args("/trim")), args.GetInt32("/trim"), 30)
         Dim out As String = args.GetValue("-out", inFile.TrimSuffix & ".genome-context.csv")

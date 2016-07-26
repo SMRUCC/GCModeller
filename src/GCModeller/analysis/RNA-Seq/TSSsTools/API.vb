@@ -25,16 +25,17 @@
 
 #End Region
 
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel
 
 Public Module API
 
     <ExportAPI("/Reads.Db.Dump", Usage:="/Reads.Db.Dump /in <reads.count.csv> [/out <out.dat>]")>
-    Public Function CreateDb(args As CommandLine.CommandLine) As Integer
+    Public Function CreateDb(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile & ".Reads.Count.dat")
         Dim counts = inFile.LoadCsv(Of ReadsCount)
@@ -42,7 +43,7 @@ Public Module API
     End Function
 
     <ExportAPI("/Reads.Count", Usage:="/Reads.Count /in <mappings.csv> /ref <ref.fasta> [/out <out.csv>]")>
-    Public Function Count(args As CommandLine.CommandLine) As Integer
+    Public Function Count(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".ReadsCount.Csv")
         Dim ref As New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(args("/ref"))

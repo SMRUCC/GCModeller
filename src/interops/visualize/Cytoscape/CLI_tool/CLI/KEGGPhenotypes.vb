@@ -56,7 +56,7 @@ Partial Module CLI
     <ExportAPI("/Phenotypes.KEGG",
                Info:="Regulator phenotype relationship cluster from virtual footprints.",
                Usage:="/Phenotypes.KEGG /mods <KEGG_Modules/Pathways.DIR> /in <VirtualFootprints.csv> [/pathway /out <outCluster.csv>]")>
-    Public Function KEGGModulesPhenotypeRegulates(args As CommandLine.CommandLine) As Integer
+    Public Function KEGGModulesPhenotypeRegulates(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim modsDIR As String = args("/mods")
         Dim isPathway As Boolean = args.GetBoolean("/pathway")
@@ -106,7 +106,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/net.model", Usage:="/net.model /model <kegg.xmlModel.xml> [/out <outDIR> /not-trim]")>
-    Public Function BuildModelNet(args As CommandLine.CommandLine) As Integer
+    Public Function BuildModelNet(args As CommandLine) As Integer
         Dim model As String = args("/model")
         Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
         Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
@@ -115,7 +115,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/net.pathway", Usage:="/net.pathway /model <kegg.pathway.xml> [/out <outDIR> /trim]")>
-    Public Function PathwayNet(args As CommandLine.CommandLine) As Integer
+    Public Function PathwayNet(args As CommandLine) As Integer
         Dim model As String = args("/model")
         Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
         Dim bmods As XmlModel = model.LoadXml(Of XmlModel)
@@ -130,7 +130,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/modNET.Simple",
                Usage:="/modNET.Simple /in <mods/pathway_DIR> [/out <outDIR> /pathway]")>
-    Public Function SimpleModesNET(args As CommandLine.CommandLine) As Integer
+    Public Function SimpleModesNET(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim outDIR As String = args.GetValue("/out", inDIR & "-SimpleModsNET/")
         Dim mods = If(args.GetBoolean("/pathway"),

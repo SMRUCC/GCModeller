@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
@@ -50,7 +51,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--predicts.TCS", Usage:="--predicts.TCS /pfam <pfam-string.csv> /prot <prot.fasta> /Db <interaction.xml>")>
-    Public Function Predicts(args As CommandLine.CommandLine) As Integer
+    Public Function Predicts(args As CommandLine) As Integer
         Dim Interactions = args("/db").LoadXml(Of Category())
         Dim predictSource = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim prot = FastaFile.Read(args("/prot")).ToDictionary(Function(x) x.Attributes.First.Split.First.Split(":"c).Last)
@@ -159,7 +160,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--Db.From.Exists", Usage:="--Db.From.Exists /aln <clustal-aln.DIR> /pfam <pfam-string.csv>")>
-    Public Function DbMergeFromExists(args As CommandLine.CommandLine) As Integer
+    Public Function DbMergeFromExists(args As CommandLine) As Integer
         Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim LoadFasta = (From file As String
                          In FileIO.FileSystem.GetFiles(args("/aln"), FileIO.SearchOption.SearchTopLevelOnly, "*.fasta").AsParallel
@@ -199,7 +200,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--signature", Usage:="--signature /in <aln.fasta> [/p-cut <0.95>]")>
-    Public Function SignatureGenerates(args As CommandLine.CommandLine) As Integer
+    Public Function SignatureGenerates(args As CommandLine) As Integer
         Dim aln As New FastaFile(args("/in"))
         Dim pCut As Double = args.GetValue("/p-cut", 0.95)
         Dim SRChain As SRChain() = SR.FromAlign(aln, pCut)
@@ -241,7 +242,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--domain.Interactions", Usage:="--domain.Interactions /pfam <pfam-string.csv> /swissTCS <swissTCS.DIR>")>
-    Public Function DomainInteractions(args As CommandLine.CommandLine) As Integer
+    Public Function DomainInteractions(args As CommandLine) As Integer
         Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim LQuery = (From x As Pfam.PfamString.PfamString
                       In inPfam.AsParallel
@@ -402,7 +403,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--align.LDM", Usage:="--align.LDM /in <source.fasta>")>
-    Public Function GenerateModel(args As CommandLine.CommandLine) As Integer
+    Public Function GenerateModel(args As CommandLine) As Integer
         Dim input = args("/in")
         Dim clustal = ClustalOrg.Clustal.CreateSession
         Dim align = clustal.MultipleAlignment(input)

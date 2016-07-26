@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
@@ -57,10 +58,10 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="args"><see cref="CommandLine.CommandLine.CLICommandArgvs"></see></param>
+    ''' <param name="args"><see cref="CommandLine.CLICommandArgvs"></see></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public MustOverride Function PreCompile(args As CommandLine.CommandLine) As Integer
+    Public MustOverride Function PreCompile(args As CommandLine) As Integer
 
     ''' <summary>
     ''' 
@@ -71,7 +72,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     ''' compiled model file.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public MustOverride Function Compile(Optional args As CommandLine.CommandLine = Nothing) As TModel
+    Public MustOverride Function Compile(Optional args As CommandLine = Nothing) As TModel
     Protected MustOverride Function Link() As Integer
 
     Public Overridable ReadOnly Property [Return] As TModel
@@ -93,7 +94,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     <ExportAPI("-write_property", Info:="",
                Usage:=CLI_Usage,
                Example:="")>
-    Protected Function WriteProperty(args As CommandLine.CommandLine, model As TModel) As TModel
+    Protected Function WriteProperty(args As CommandLine, model As TModel) As TModel
         Call _Logging.WriteLine(vbCrLf & "Write model property into the compiled model file.")
 
         If model.ModelProperty Is Nothing Then _

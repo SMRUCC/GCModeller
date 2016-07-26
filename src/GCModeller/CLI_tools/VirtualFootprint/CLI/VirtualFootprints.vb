@@ -61,7 +61,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Logs.Cast.Footprints",
                Usage:="/Logs.Cast.Footprints /in <motifLogs.Csv> [/out <out.csv>]")>
-    Public Function CastLogAsFootprints(args As CommandLine.CommandLine) As Integer
+    Public Function CastLogAsFootprints(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Footprints.Csv")
         Dim logs As IEnumerable(Of MotifLog) = [in].LoadCsv(Of MotifLog)
@@ -76,7 +76,7 @@ Partial Module CLI
     <ExportAPI("/Export.Footprints.Sites",
                Info:="Exports the motif sites from the virtual footprints sites.",
                Usage:="/Export.Footprints.Sites /in <virtualfootprints> [/TF <locus_tag> /offset <group-offset> /out <outDIR/fasta>]")>
-    Public Function ExportFasta(args As CommandLine.CommandLine) As Integer
+    Public Function ExportFasta(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim TF As String = args("/TF")
         Dim out As String = ("/out" <= args) ^ $"{[in].TrimSuffix}{If(String.IsNullOrEmpty(TF), "", "." & TF)}"
@@ -115,7 +115,7 @@ Partial Module CLI
 
     <ExportAPI("/Test.Footprints.2",
                Usage:="/Test.Footprints.2 /in <virtualfootprints.csv> [/out <out.csv> /n 2]")>
-    Public Function TestFootprints2(args As CommandLine.CommandLine) As Integer
+    Public Function TestFootprints2(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim n As Integer = args.GetValue("/n", 2)
         Dim footprints As IEnumerable(Of RegulatesFootprints) =
@@ -153,7 +153,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Test.Footprints",
                Usage:="/Test.Footprints /in <virtualfootprints.csv> /opr <regulon-operons.csv> [/out <out.csv>]")>
-    Public Function TestFootprints(args As CommandLine.CommandLine) As Integer
+    Public Function TestFootprints(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim opr As String = args <= "/opr"
         Dim out As String = ("/out" <= args) ^ $"{[in].TrimSuffix}-{opr.BaseName}.Tested.csv"
@@ -261,7 +261,7 @@ Partial Module CLI
                    Description:="If this parameter not presented, then using GCModeller repository data as default.")>
     <ParameterInfo("/hitshash", True,
                    Description:="Using hit name as the bbh hash index key? default is using query name.")>
-    Public Function BuildFootprints(args As CommandLine.CommandLine) As Integer
+    Public Function BuildFootprints(args As CommandLine) As Integer
         Dim xmls As IEnumerable(Of String) =
             ls - l - r - wildcards("*.xml") <= ("/sites" <= args) ^ GCModeller.FileSystem.RegPrecise.Directories.Motif_PWM
         Dim motifIn As String = args - "/motifs"
@@ -337,7 +337,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Trim.Regulates", Usage:="/Trim.Regulates /in <virtualfootprint.csv> [/out <out.csv> /cut 0.65]")>
-    Public Function TrimRegulates(args As CommandLine.CommandLine) As Integer
+    Public Function TrimRegulates(args As CommandLine) As Integer
         Dim inRegulates As String = args("/in")
         Dim out As String = args.GetValue("/out", inRegulates.TrimSuffix & ".Trim.Csv")
         Dim cut As Double = args.GetValue("/cut", 0.65)
@@ -357,7 +357,7 @@ Partial Module CLI
 
     <ExportAPI("/Merge.Footprints",
                Usage:="/Merge.Footprints /in <inDIR> [/out <out.csv> /trim]")>
-    Public Function MergeFootprints(args As CommandLine.CommandLine) As Integer
+    Public Function MergeFootprints(args As CommandLine) As Integer
         Dim DIR As String = args("/in")
         Dim out As String = args.GetValue("/out", DIR & "/Mergs.Footprints.Csv")
         Dim result As IEnumerable(Of RegulatesFootprints) =
@@ -378,7 +378,7 @@ Partial Module CLI
 
     <ExportAPI("/Intersect",
                Usage:="/Intersect /s1 <footprints.csv> /s2 <footprints.csv> [/out <out.csv> /strict]")>
-    Public Function Intersection(args As CommandLine.CommandLine) As Integer
+    Public Function Intersection(args As CommandLine) As Integer
         Dim s1 As String = args("/s1")
         Dim s2 As String = args("/s2")
         Dim out As String = args.GetValue("/out", s1.TrimSuffix & "-" & s2.BaseName & ".csv")
@@ -390,7 +390,7 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.Regulons",
                Usage:="/KEGG.Regulons /in <footprints.csv> /mods <KEGG.mods.DIR> [/pathway /out <out.csv>]")>
-    Public Function KEGGRegulons(args As CommandLine.CommandLine) As Integer
+    Public Function KEGGRegulons(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim mods As String = args("/mods")
         Dim isPathway As Boolean = args.GetBoolean("/pathway")
@@ -413,7 +413,7 @@ Partial Module CLI
     <ExportAPI("/scan",
                Info:="Sanning genome sequence with a specific motif meme model.",
                Usage:="/scan /motif <meme.txt> /nt <genome.fasta> [/PTT <genome.ptt> /atg-dist <250> /out <out.csv>]")>
-    Public Function Scanner(args As CommandLine.CommandLine) As Integer
+    Public Function Scanner(args As CommandLine) As Integer
         Dim meme As String = args("/motif")
         Dim ntFa As String = args("/nt")
         Dim PTT As String = args("/ptt")
@@ -466,7 +466,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/MAST_Sites.Screen",
                Usage:="/MAST_Sites.Screen /in <mast_sites.csv> /operons <regprecise.operons.csv> [/out <out.csv>]")>
-    Public Function SiteScreens(args As CommandLine.CommandLine) As Integer
+    Public Function SiteScreens(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim operons As String = args - "/operons"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".{operons.BaseName}.siteScreen.Csv")
@@ -503,7 +503,7 @@ Partial Module CLI
 
     <ExportAPI("/MAST_Sites.Screen2",
                Usage:="/MAST_Sites.Screen2 /in <mast_sites.csv> [/n <2> /offset <30> /out <out.csv>]")>
-    Public Function SiteScreens2(args As CommandLine.CommandLine) As Integer
+    Public Function SiteScreens2(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim sites As IEnumerable(Of MotifLog) = [in].LoadCsv(Of MotifLog)
         Dim ORFs = (From x As MotifLog
@@ -549,7 +549,7 @@ Partial Module CLI
 
     <ExportAPI("/TF.Sites",
                Usage:="/TF.Sites /bbh <bbh.Csv> /RegPrecise <RegPrecise.Xmls.DIR> [/hitHash /out <outDIR>]")>
-    Public Function TFMotifSites(args As CommandLine.CommandLine) As Integer
+    Public Function TFMotifSites(args As CommandLine) As Integer
         Dim [in] As String = args - "/bbh"
         Dim RegDIR As String = args - "/RegPrecise"
         Dim hitHash As Boolean = args.GetBoolean("/HitHash")
@@ -586,7 +586,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Filter.Promoter.Sites", Usage:="/Filter.Promoter.Sites /in <motifLog.Csv> [/out <out.csv>]")>
-    Public Function PromoterSites(args As CommandLine.CommandLine) As Integer
+    Public Function PromoterSites(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".PromoterSites.csv")
         Dim reader As New DataStream([in])
@@ -608,7 +608,7 @@ Partial Module CLI
 
     <ExportAPI("/Filter.PromoterSites.Batch",
                Usage:="/Filter.PromoterSites.Batch /in <motifLogs.DIR> [/num_threads <-1> /out <out.DIR>]")>
-    Public Function PromoterSitesBatch(args As CommandLine.CommandLine) As Integer
+    Public Function PromoterSitesBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & "-PromoterSites/")
         Dim files As IEnumerable(Of String) = ls - l - r - wildcards("*.csv") <= inDIR

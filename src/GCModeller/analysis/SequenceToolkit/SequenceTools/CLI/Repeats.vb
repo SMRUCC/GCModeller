@@ -38,7 +38,7 @@ Partial Module Utilities
                Usage:="Search.Batch /aln <alignment.fasta> [/min 3 /max 20 /min-rep 2 /out <./>]")>
     <ParameterInfo("/aln", False,
                    Description:="The input fasta file should be the output of the clustal multiple alignment fasta output.")>
-    Public Function BatchSearch(args As CommandLine.CommandLine) As Integer
+    Public Function BatchSearch(args As CommandLine) As Integer
         Dim Mla As FastaFile = args.GetObject("/aln", AddressOf FastaFile.Read)
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
@@ -52,7 +52,7 @@ Partial Module Utilities
 
     <ExportAPI("Repeats.Density",
                Usage:="Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]")>
-    Public Function RepeatsDensity(args As CommandLine.CommandLine) As Integer
+    Public Function RepeatsDensity(args As CommandLine) As Integer
         Dim DIR As String = args("/dir")
         Dim size As Integer = args.GetInt32("/size")
         Dim out As String = args.GetValue("/out", DIR & "/Repeats.Density.vector.txt")
@@ -61,7 +61,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("rev-Repeats.Density", Usage:="rev-Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]")>
-    Public Function revRepeatsDensity(args As CommandLine.CommandLine) As Integer
+    Public Function revRepeatsDensity(args As CommandLine) As Integer
         Dim DIR As String = args("/dir")
         Dim size As Integer = args.GetInt32("/size")
         Dim out As String = args.GetValue("/out", DIR & "/rev-Repeats.Density.vector.txt")
@@ -71,7 +71,7 @@ Partial Module Utilities
 
     <ExportAPI("/Write.Seeds",
                Usage:="/Write.Seeds /out <out.dat> [/prot /max <20>]")>
-    Public Function WriteSeeds(args As CommandLine.CommandLine) As Integer
+    Public Function WriteSeeds(args As CommandLine) As Integer
         Dim isProt As Boolean = args.GetBoolean("/prot")
         Dim out As String = args("/out")
         Dim max As Integer = args.GetValue("/max", 20)

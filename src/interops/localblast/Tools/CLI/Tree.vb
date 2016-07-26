@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("--Export.Fasta", Usage:="--Export.Fasta /hits <query-hits.csv> /query <query.fasta> /subject <subject.fasta>")>
-    Public Function ExportFasta(args As CommandLine.CommandLine) As Integer
+    Public Function ExportFasta(args As CommandLine) As Integer
         Dim hist = args("/hits").LoadCsv(Of BBH.BestHit)
         Dim query = New FastaFile(args("/query")).ToDictionary(Function(x) x.Title.Split.First)
         Dim subject = New FastaFile(args("/subject")).ToDictionary(Function(x) x.Title.Split.First)
@@ -50,7 +50,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Identities.Matrix", Usage:="/Identities.Matrix /hit <sbh/bbh.csv> [/out <out.csv> /cut 0.65]")>
-    Public Function IdentitiesMAT(args As CommandLine.CommandLine) As Integer
+    Public Function IdentitiesMAT(args As CommandLine) As Integer
         Dim hit As String = args("/hit")
         Dim cut As Double = args.GetValue("/cut", 0.65)
         Dim out As String = args.GetValue("/out", hit.TrimSuffix & $"_cut={cut}.csv")

@@ -42,7 +42,7 @@ Partial Module Utilities
     <ParameterInfo("/transl_table", True, Description:="Available index value was described at http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25")>
     Public Function Translates(<Parameter("args",
                                           "/transl_table Available index value was described at http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25")>
-                               args As CommandLine.CommandLine) As Integer
+                               args As CommandLine) As Integer
         Dim ORF = FastaFile.LoadNucleotideData(args("/orf"))
         Dim TranslTbl As Integer = args.GetValue(Of Integer)("/transl_table", 1)
         Dim Table = TranslTable.GetTable(TranslTbl)

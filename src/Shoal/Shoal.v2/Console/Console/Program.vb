@@ -79,7 +79,7 @@ Program files and source code was distributed under the GPL3 Licensed to "{3}", 
         Return GetType(CLI).RunCLI(App.CommandLine, AddressOf Program.ExecuteScriptFile, AddressOf Program.ExecuteEmpty)
     End Function
 
-    Private Function ExecuteScriptFile(path As String, args As CommandLine.CommandLine) As Integer
+    Private Function ExecuteScriptFile(path As String, args As CommandLine) As Integer
         Return Program.RunScriptFile(path, args:=args.ToArray)
     End Function
 

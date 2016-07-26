@@ -309,4 +309,8 @@ Module CLI
         Public Property superkingdom As String
         Public Property Taxonomy As String
     End Class
+
+    Public Function giMatch(args As CommandLine) As Integer
+
+    End Function
 End Module

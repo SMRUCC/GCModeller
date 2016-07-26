@@ -45,7 +45,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--MPAlignment", Usage:="--MPAlignment /sbh <sbh.csv> /query <pfam-string.csv> /subject <pfam-string.csv> [/mp <0.65> /out <out.csv>]")>
-    Public Function SBHAlignment(args As CommandLine.CommandLine) As Integer
+    Public Function SBHAlignment(args As CommandLine) As Integer
         Dim sbh = args("/sbh").LoadCsv(Of BBH.BestHit)
         Dim query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
         Dim subject = args("/subject").LoadCsv(Of Pfam.PfamString.PfamString).ToDictionary(Function(x) x.ProteinId)
@@ -60,7 +60,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--align", Usage:="--align /query <query.csv> /subject <subject.csv> [/out <out.DIR> /inst]")>
-    Public Function Align(args As CommandLine.CommandLine) As Integer
+    Public Function Align(args As CommandLine) As Integer
         If args.GetBoolean("/inst") Then
             Return __alignInst(args)
         End If
@@ -98,7 +98,7 @@ Partial Module CLI
         Return 0
     End Function
 
-    Private Function __alignInst(args As CommandLine.CommandLine) As Integer
+    Private Function __alignInst(args As CommandLine) As Integer
         Dim query = Pfam.PfamString.CLIParser(args("/query"))
         Dim subject = Pfam.PfamString.CLIParser(args("/subject"))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
@@ -127,7 +127,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--align.family", Usage:="--align.family /In <In.bbh.csv> /query <query-pfam.csv> /subject <subject-pfam.csv> [/out <out.DIR> /mp <mp-align:0.65> /lev <lev-align:0.65>]")>
-    Public Function FamilyAlign(args As CommandLine.CommandLine) As Integer
+    Public Function FamilyAlign(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
@@ -176,7 +176,7 @@ Partial Module CLI
     <ParameterInfo("/lstID", True, Description:="If this parameter is not empty, then the /aln parameter will be disable")>
     <ParameterInfo("/id", True,
                           Description:="If this parameter is not null, then the record of this query or hits will be used to subset the alignment set.")>
-    Public Function SelfAlign(args As CommandLine.CommandLine) As Integer
+    Public Function SelfAlign(args As CommandLine) As Integer
         Dim id As String = args("/id")
         Dim queryFile As String = args("/query")
         Dim subject = args("/subject").LoadCsv(Of Pfam.PfamString.PfamString)

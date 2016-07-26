@@ -36,7 +36,7 @@ Partial Module CLI
     <ParameterInfo("/objs", False,
                    Description:="This parameter defines the objective function in the FBA solver, is a text file which contains a list of genes locus, 
                    and these genes locus is associated to a enzyme reaction in the FBA model.")>
-    Public Function KEGGSolver(args As CommandLine.CommandLine) As Integer
+    Public Function KEGGSolver(args As CommandLine) As Integer
         Dim inModel As String = args("/in")
         Dim objs As String = args("/objs")
         Dim out As String = args.GetValue("/out", inModel.TrimSuffix & ", " & IO.Path.GetFileNameWithoutExtension(objs) & "/")

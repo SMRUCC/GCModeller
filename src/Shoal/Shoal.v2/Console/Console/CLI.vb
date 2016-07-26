@@ -98,7 +98,7 @@ Module CLI
     <ExportAPI("-scan.plugins", Usage:="-scan.plugins -dir <dir>[ -ext *.*/*.dll/*.exe/*.lib /top_only /clean]",
         Info:="Scanning all of the avaliable shoal plugin modules in the specific directory and install all of them into the shoal registry.",
         Example:="-scan.plugins -dir ./ -ext *.dll")>
-    Public Function ScanPlugins(args As CommandLine.CommandLine) As Integer
+    Public Function ScanPlugins(args As CommandLine) As Integer
         Call RuntimeEnvironment.ScanPlugins(args)
 
         Dim ScriptHost As ScriptEngine = New ScriptEngine(Config.Default.SettingsData)
