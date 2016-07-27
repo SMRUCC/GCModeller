@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Settings.Programs
-date: 7/7/2016 5:42:08 PM
+date: 7/27/2016 7:12:39 PM
 ---
 
 [GCHOST](T-SMRUCC.genomics.Data.Settings.Programs.GCHOST.html)

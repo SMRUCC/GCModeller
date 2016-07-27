@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Xfam.Rfam.Infernal
-date: 7/7/2016 5:42:17 PM
+date: 7/27/2016 7:12:40 PM
 ---
 
 [HitDataRow](T-SMRUCC.genomics.Data.Xfam.Rfam.Infernal.HitDataRow.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
-date: 7/7/2016 5:42:37 PM
+date: 7/27/2016 7:12:41 PM
 ---
 
 [CHUNK_BUFFER_StateEnumerations](T-SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_StateEnumerations.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
-date: 7/7/2016 5:42:37 PM
+date: 7/27/2016 7:12:41 PM
 ---
 
 [Compiler`1](T-SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Compiler`1.html)

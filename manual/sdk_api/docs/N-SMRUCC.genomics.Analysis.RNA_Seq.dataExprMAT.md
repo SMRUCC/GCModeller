@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
-date: 7/7/2016 5:41:05 PM
+date: 7/27/2016 7:12:33 PM
 ---
 
 [API](T-SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT.API.html)

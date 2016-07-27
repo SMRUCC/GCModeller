@@ -108,14 +108,13 @@ Microsoft.VisualBasic.Linq.Extensions.Sequence(System.UInt32)
 
 #### ToArray``1
 ```csharp
-Microsoft.VisualBasic.Linq.Extensions.ToArray``1(System.Int32,System.Func{System.Int32,``0})
+Microsoft.VisualBasic.Linq.Extensions.ToArray``1(System.Collections.IEnumerable)
 ```
-(所生成序列的数值就是生成的数组的元素的个数)
+Convert the iterator source @"T:System.Collections.IEnumerable" to a specific type array.
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|len|-|
-|elementAt|-|
+|source|-|
 
 
 #### ToArray``2
@@ -129,6 +128,17 @@ Microsoft.VisualBasic.Linq.Extensions.ToArray``2(System.Collections.Generic.IEnu
 |source|-|
 |__ctype|第二个参数是index|
 |Parallel|-|
+
+
+#### ToVector
+```csharp
+Microsoft.VisualBasic.Linq.Extensions.ToVector(System.Collections.IEnumerable)
+```
+Convert the iterator source @"T:System.Collections.IEnumerable" to an object array.
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|source|-|
 
 
 

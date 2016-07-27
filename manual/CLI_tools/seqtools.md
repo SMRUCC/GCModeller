@@ -1,7 +1,7 @@
 ---
 title: seqtools
 tags: [maunal, tools]
-date: 7/7/2016 6:51:59 PM
+date: 7/27/2016 6:40:25 PM
 ---
 # GCModeller [version 3.0.2456.4506]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/seqtools.exe
@@ -28,6 +28,7 @@ All of the command that available in this program has been list below:
 |/Mirrors.Context|This function will convert the mirror data to the simple segment object data|
 |/Mirrors.Group||
 |/Mirrors.Group.Batch||
+|/Mirrors.Nt.Trim||
 |/nw|RunNeedlemanWunsch|
 |/Palindrome.BatchTask||
 |/Palindrome.Screen.MaxMatches||
@@ -41,6 +42,7 @@ All of the command that available in this program has been list below:
 |/SNP||
 |/Split||
 |/subset||
+|/Time.Diffs||
 |/To_Fasta|Convert the sequence data in a excel annotation file into a fasta sequence file.|
 |/Write.Seeds||
 |-321|Polypeptide sequence 3 letters to 1 lettes sequence.|
@@ -191,7 +193,7 @@ Example:
 
 ```
   Information:  Only search for 1 level folder, dit not search receve.
-  Usage:        G:\GCModeller\manual\bin\seqtools.exe /Merge /in <fasta.DIR> [/out <out.fasta> /trim /ext <*.fasta> /brief]
+  Usage:        G:\GCModeller\manual\bin\seqtools.exe /Merge /in <fasta.DIR> [/out <out.fasta> /trim /unique /ext <*.fasta> /brief]
   Example:      seqtools /Merge 
 ```
 
@@ -305,7 +307,7 @@ Example:
 
 ```
   Information:  
-  Usage:        G:\GCModeller\manual\bin\seqtools.exe /Mirror.Fuzzy.Batch /in <in.fasta> [/out <out.DIR> /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads <-1>]
+  Usage:        G:\GCModeller\manual\bin\seqtools.exe /Mirror.Fuzzy.Batch /in <in.fasta/DIR> [/out <out.DIR> /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads <-1>]
   Example:      seqtools /Mirror.Fuzzy.Batch 
 ```
 
@@ -375,6 +377,16 @@ Example:
   Information:  
   Usage:        G:\GCModeller\manual\bin\seqtools.exe /Mirrors.Group.Batch /in <mirrors.DIR> [/fuzzy <-1> /out <out.DIR> /num_threads <-1>]
   Example:      seqtools /Mirrors.Group.Batch 
+```
+
+##### Help for command '/Mirrors.Nt.Trim':
+
+**Prototype**: seqtools.Utilities::Int32 TrimNtMirrors(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\seqtools.exe /Mirrors.Nt.Trim /in <mirrors.Csv> [/out <out.Csv>]
+  Example:      seqtools /Mirrors.Nt.Trim 
 ```
 
 ##### Help for command '/nw':
@@ -736,6 +748,16 @@ true
   Information:  
   Usage:        G:\GCModeller\manual\bin\seqtools.exe /subset /lstID <lstID.txt> /fa <source.fasta>
   Example:      seqtools /subset 
+```
+
+##### Help for command '/Time.Diffs':
+
+**Prototype**: seqtools.Utilities::Int32 TimeDiffs(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\seqtools.exe /Time.Diffs /in <aln.fasta> [/out <out.csv>]
+  Example:      seqtools /Time.Diffs 
 ```
 
 ##### Help for command '/To_Fasta':

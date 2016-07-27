@@ -1,7 +1,7 @@
 ---
 title: localblast
 tags: [maunal, tools]
-date: 7/7/2016 6:51:38 PM
+date: 7/27/2016 6:40:19 PM
 ---
 # GCModeller [version 1.0.0.0]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/localblast.exe
@@ -23,6 +23,7 @@ All of the command that available in this program has been list below:
 |/Blastp.BBH.Query||
 |/Chromosomes.Export||
 |/COG.Statics||
+|/Contacts||
 |/Copy.PTT||
 |/Copys||
 |/Export.Blastn||
@@ -36,6 +37,7 @@ All of the command that available in this program has been list below:
 |/Export.gpffs||
 |/Export.Locus||
 |/export.prot||
+|/Fasta.Filters||
 |/Identities.Matrix||
 |/locus.Selects||
 |/MAT.evalue||
@@ -49,6 +51,8 @@ All of the command that available in this program has been list below:
 |/Select.Meta||
 |/SSBH2BH_LDM||
 |/SSDB.Export||
+|/Taxonomy.efetch||
+|/Taxonomy.efetch.Merge||
 |/venn.BBH|2. Build venn table And bbh data from the blastp result out Or sbh data cache.|
 |/venn.BlastAll|Completely paired combos blastp bbh operations for the venn diagram Or network builder.|
 |/venn.cache|1. [SBH_Batch] Creates the sbh cache data for the downstream bbh analysis. 
@@ -196,6 +200,16 @@ All of the command that available in this program has been list below:
   Example:      localblast /COG.Statics 
 ```
 
+##### Help for command '/Contacts':
+
+**Prototype**: NCBI.localblast.CLI::Int32 Contacts(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\localblast.exe /Contacts /in <in.fasta> [/out <out.DIR>]
+  Example:      localblast /Contacts 
+```
+
 ##### Help for command '/Copy.PTT':
 
 **Prototype**: NCBI.localblast.CLI::Int32 CopyPTT(Microsoft.VisualBasic.CommandLine.CommandLine)
@@ -282,8 +296,28 @@ All of the command that available in this program has been list below:
 
 ```
   Information:  Export the *.fna, *.faa, *.ptt file from the gbk file.
-  Usage:        G:\GCModeller\manual\bin\localblast.exe /Export.gb /gb <genbank.gb> [/out <outDIR>]
+  Usage:        G:\GCModeller\manual\bin\localblast.exe /Export.gb /gb <genbank.gb/DIR> [/out <outDIR> /simple /batch]
   Example:      localblast /Export.gb 
+```
+
+
+
+  Parameters information:
+```
+       [/simple]
+    Description:  Fasta sequence short title, which is just only contains locus_tag
+
+    Example:      /simple ""
+
+
+```
+
+#### Accepted Types
+##### /simple
+**Decalre**:  _System.Boolean_
+Example: 
+```json
+true
 ```
 
 ##### Help for command '/Export.gpff':
@@ -324,6 +358,36 @@ All of the command that available in this program has been list below:
   Information:  
   Usage:        G:\GCModeller\manual\bin\localblast.exe /export.prot /gb <genome.gbk> [/out <out.fasta>]
   Example:      localblast /export.prot 
+```
+
+##### Help for command '/Fasta.Filters':
+
+**Prototype**: NCBI.localblast.CLI::Int32 Filter(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\localblast.exe /Fasta.Filters /in <nt.fasta> /key <regex> [/out <out.fasta> /p]
+  Example:      localblast /Fasta.Filters 
+```
+
+
+
+  Parameters information:
+```
+       [/p]
+    Description:  Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option.
+
+    Example:      /p ""
+
+
+```
+
+#### Accepted Types
+##### /p
+**Decalre**:  _System.Boolean_
+Example: 
+```json
+true
 ```
 
 ##### Help for command '/Identities.Matrix':
@@ -488,6 +552,26 @@ All of the command that available in this program has been list below:
   Information:  
   Usage:        G:\GCModeller\manual\bin\localblast.exe /SSDB.Export /in <inDIR> [/coverage 0.8 /identities 0.3 /out <out.Xml>]
   Example:      localblast /SSDB.Export 
+```
+
+##### Help for command '/Taxonomy.efetch':
+
+**Prototype**: NCBI.localblast.CLI::Int32 FetchTaxnData(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\localblast.exe /Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]
+  Example:      localblast /Taxonomy.efetch 
+```
+
+##### Help for command '/Taxonomy.efetch.Merge':
+
+**Prototype**: NCBI.localblast.CLI::Int32 MergeFetchTaxonData(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\localblast.exe /Taxonomy.efetch.Merge /in <in.DIR> [/out <out.Csv>]
+  Example:      localblast /Taxonomy.efetch.Merge 
 ```
 
 ##### Help for command '/venn.BBH':

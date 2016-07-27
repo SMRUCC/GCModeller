@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.PrimerDesigner.Restriction_enzyme
-date: 7/7/2016 5:40:53 PM
+date: 7/27/2016 7:12:32 PM
 ---
 
 [Cut](T-SMRUCC.genomics.Analysis.PrimerDesigner.Restriction_enzyme.Cut.html)

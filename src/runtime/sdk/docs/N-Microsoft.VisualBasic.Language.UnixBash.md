@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Language.UnixBash
-date: 7/7/2016 5:46:26 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [CowsayTricks](T-Microsoft.VisualBasic.Language.UnixBash.CowsayTricks.html)
@@ -12,5 +12,7 @@ date: 7/7/2016 5:46:26 PM
 [GrepRegx](T-Microsoft.VisualBasic.Language.UnixBash.GrepRegx.html)
 [LinuxRunHelper](T-Microsoft.VisualBasic.Language.UnixBash.LinuxRunHelper.html)
 [PathMapper](T-Microsoft.VisualBasic.Language.UnixBash.PathMapper.html)
+[PS1](T-Microsoft.VisualBasic.Language.UnixBash.PS1.html)
 [Search](T-Microsoft.VisualBasic.Language.UnixBash.Search.html)
 [TextAPI](T-Microsoft.VisualBasic.Language.UnixBash.TextAPI.html)
+[wildcardsCompatible](T-Microsoft.VisualBasic.Language.UnixBash.wildcardsCompatible.html)

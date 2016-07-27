@@ -1,0 +1,131 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.Writer">
+ <summary>
+ <see cref="M:Microsoft.VisualBasic.DocumentFormat.Csv.Writer.Dispose"/>的时候会自动保存Csv文件的数据
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DocumentFormat.Csv.Writer.__file">
+ <summary>
+ File handle for the csv data file. 
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.Writer.#ctor(Microsoft.VisualBasic.DocumentFormat.Csv.Class,System.String,Microsoft.VisualBasic.TextEncodings.Encodings)">
+ <summary>
+ 
+ </summary>
+ <param name="cls">Schema maps</param>
+ <param name="DIR">
+ Dump data to this directory. The index file will using ``#.Csv`` as its default name.
+ </param>
+ <param name="encoding">Text document encoding of the csv file.</param>
+</member>
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.Writer.WriteRow(System.Object,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="obj">.NET object for maps to csv data row.</param>
+ <param name="i">Uid reference for the external table.</param>
+</member>
+<member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.Field">
+ <summary>
+ + ``#`` uid;
+ + ``[FiledName]`` This field links to a external file, and id is point to the ``#`` uid field in the external file.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Field.Name">
+ <summary>
+ Field Name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Field.Binding">
+ <summary>
+ 首先DirectCast为<see cref="T:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.IAttributeComponent"/>类型
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Field.InnerClass">
+ <summary>
+ 假若这个为Nothing，则说明当前的域是简单类型
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.Class">
+ <summary>
+ Class object schema
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Class.Fields">
+ <summary>
+ Properties in the class type
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Class.Type">
+ <summary>
+ raw
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Class.Stack">
+ <summary>
+ Property stack
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.Class.GetSchema(System.Type,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="type"></param>
+ <param name="stack">Top stack using identifier ``#``</param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.Schema">
+ <summary>
+ The schema project json file.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DocumentFormat.Csv.Schema.DefaultName">
+ <summary>
+ 默认的主文件的名称
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Schema.Members">
+ <summary>
+ ``{member.Name, fileName}``, ``#`` value means this filed its type is the primitive type. 
+ If not, then the value goes a external file name.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.Schema.Tables">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.DocumentFormat.Csv.Schema.Members"/> As <see cref="T:Microsoft.VisualBasic.Dictionary`1"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DocumentFormat.Csv.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

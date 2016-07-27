@@ -30,9 +30,11 @@ Imports Microsoft.VisualBasic.CommandLine
 
 ''' <summary>
 ''' Formats options for alignment inputs and outputs.
-''' --outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]} MSA output file format (default: fasta)
+''' 
+''' ``--outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}`` MSA output file format (default: ``fasta``)
 ''' </summary>
 Public Enum OutFmts As Integer
+
     ''' <summary>
     ''' 不显示申明这个命令行参数，由系统自动选择
     ''' </summary>

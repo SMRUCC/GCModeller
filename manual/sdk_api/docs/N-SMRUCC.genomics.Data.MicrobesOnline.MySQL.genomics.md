@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.MicrobesOnline.MySQL.genomics
-date: 7/7/2016 5:41:30 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [aaseq](T-SMRUCC.genomics.Data.MicrobesOnline.MySQL.genomics.aaseq.html)

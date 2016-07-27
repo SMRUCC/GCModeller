@@ -6,7 +6,8 @@ title: OutFmts
 _namespace: [SMRUCC.genomics.Interops.ClustalOrg](N-SMRUCC.genomics.Interops.ClustalOrg.html)_
 
 Formats options for alignment inputs and outputs.
- --outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]} MSA output file format (default: fasta)
+ 
+ ``--outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}`` MSA output file format (default: ``fasta``)
 
 
 

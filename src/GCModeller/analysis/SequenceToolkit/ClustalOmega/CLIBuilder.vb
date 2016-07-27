@@ -1,43 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::7f63358c8944044c1b0fa57400448d60, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\CLIBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' Clustal Omega - 1.2.0 (AndreaGiacomo)
 '''
 ''' If you Like Clustal - Omega please cite:
-''' Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, S├╢ding J, Thompson JD, Higgins DG.
-''' Fast, scalable generation of high-quality protein multiple sequence alignments using Clustal Omega.
-''' Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+''' 
+''' > Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, S├╢ding J, Thompson JD, Higgins DG.
+''' > Fast, scalable generation of high-quality protein multiple sequence alignments using Clustal Omega.
+''' > Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+''' 
 ''' If you don't like Clustal-Omega, please let us know why (and cite us anyway).
 '''
-''' Check http :   //www.clustal.org for more information And updates.
+''' Check http://www.clustal.org for more information And updates.
 '''
+''' ```
 ''' Usage: clustalo [-hv] [-i {&lt;file>,-}] [--hmm-In=&lt;file>]... [--dealign] [--profile1=&lt;file>] [--profile2=&lt;file>] 
 ''' [--Is-profile] [-t {Protein, RNA, DNA}] [--infmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}] 
 ''' [--distmat-In=&lt;file>] [--distmat-out=&lt;file>] [--guidetree-In=&lt;file>] [--guidetree-out=&lt;file>] [--full] [--full-iter] 
@@ -46,65 +50,67 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 ''' [--output-order={input-order,tree-order}] [--iterations=&lt;n>] [--max-guidetree-iterations=&lt;n>] [--max-hmm-iterations=&lt;n>] 
 ''' [--maxnumseq=&lt;n>] [--maxseqlen=&lt;l>] [--auto] [--threads=&lt;n>] [-l &lt;file>] [--version] [--Long-version] [--force] 
 ''' [--MAC-RAM=&lt;n>]
-'''
-''' A typical invocation would be: clustalo -i my-in-seqs.fa -o my-out-seqs.fa -v
+''' ```
+''' 
+''' A typical invocation would be: ``clustalo -i my-in-seqs.fa -o my-out-seqs.fa -v``
 ''' </summary>
 Public Class CLIBuilder
 
     ' See below For a list Of all options.
 
 #Region "Sequence Input"
+
     ''' <summary>
-    ''' -i, --in, --infile={&lt;file>,-} 
+    ''' ``-i, --in, --infile={&lt;file>,-}``
     ''' Multiple sequence input file (- for stdin)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--infile", CLITypes.String)> Public Property InFile As String
 
     ''' <summary>
-    ''' --hmm-in=&lt;file>           
+    ''' ``--hmm-in=&lt;file>``           
     ''' HMM input files
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--hmm-in", CLITypes.String)> Public Property HMMIn As String
 
     ''' <summary>
-    ''' --dealign                 
+    ''' ``--dealign``                 
     ''' Dealign input sequences
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--dealign", CLITypes.Boolean)> Public Property Dealign As Boolean
 
     ''' <summary>
-    ''' --profile1, --p1=&lt;file>   
+    ''' ``--profile1, --p1=&lt;file>``   
     ''' Pre-aligned multiple sequence file (aligned columns will be kept fix)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--profile1", CLITypes.String)> Public Property p1 As String
 
     ''' <summary>
-    ''' --profile2, --p2=&lt;file>   
+    ''' ``--profile2, --p2=&lt;file>``   
     ''' Pre-aligned multiple sequence file (aligned columns will be kept fix)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--profile2", CLITypes.String)> Public Property p2 As String
 
     ''' <summary>
-    ''' --Is-profile              
+    ''' ``--Is-profile``              
     ''' disable check if profile, force profile (default no)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--is-profile", CLITypes.Boolean)> Public Property IsProfile As Boolean
 
     ''' <summary>
-    ''' -t, --seqtype={Protein, RNA, DNA} 
+    ''' ``-t, --seqtype={Protein, RNA, DNA}`` 
     ''' Force a sequence type (default: auto)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--seqtype", CLITypes.String)> Public Property SeqType As String
 
     ''' <summary>
-    ''' --infmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]} 
+    ''' ``--infmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}`` 
     ''' Forced sequence input file format (default: auto)
     ''' </summary>
     ''' <returns></returns>
@@ -115,70 +121,70 @@ Public Class CLIBuilder
 #Region "Clustering"
 
     ''' <summary>
-    ''' --distmat-in=&lt;file>       
+    ''' ``--distmat-in=&lt;file>``       
     ''' Pairwise distance matrix input file (skips distance computation)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--distmat-in", CLITypes.String)> Public Property DistmatIn As String
     '  
     ''' <summary>
-    ''' --distmat-out=&lt;file>      
+    ''' ``--distmat-out=&lt;file>``      
     ''' Pairwise distance matrix output file
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--distmat-out", CLITypes.String)> Public Property DistmatOut As String
     '  
     ''' <summary>
-    ''' --guidetree-in=&lt;file>     
+    ''' ``--guidetree-in=&lt;file>``     
     ''' Guide tree input file (skips distance computation And guide-tree clustering step)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--guidetree-in", CLITypes.String)> Public Property GuidetreeIn As String
     '  
     ''' <summary>
-    ''' --guidetree-out=&lt;file>    
+    ''' ``--guidetree-out=&lt;file>``    
     ''' Guide tree output file
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--guidetree-out", CLITypes.String)> Public Property GuidetreeOut As String
     '  
     ''' <summary>
-    ''' --full                    
+    ''' ``--full``                    
     ''' Use full distance matrix for guide-tree calculation (might be slow; mBed Is default)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--full", CLITypes.String)> Public Property Full As String
     '  
     ''' <summary>
-    ''' --full-iter               
+    ''' ``--full-iter``               
     ''' Use full distance matrix for guide-tree calculation during iteration (might be slowish; mBed Is default)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--full-iter", CLITypes.String)> Public Property FullIter As String
     '  
     ''' <summary>
-    ''' --cluster-size=&lt;n>        
+    ''' ``--cluster-size=&lt;n>``        
     ''' soft maximum of sequences in sub-clusters
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--cluster-size", CLITypes.Integer)> Public Property ClusterSize As Integer
     '  
     ''' <summary>
-    ''' --clustering-out=&lt;file>   
+    ''' ``--clustering-out=&lt;file>``   
     ''' Clustering output file
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--clustering-out", CLITypes.String)> Public Property ClusteringOut As String
     '  
     ''' <summary>
-    ''' --use-kimura              
+    ''' ``--use-kimura``              
     ''' use Kimura distance correction for aligned sequences (default no)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--use-kimura", CLITypes.Boolean)> Public Property UseKimura As Boolean
     '  
     ''' <summary>
-    ''' --percent-id              
+    ''' ``--percent-id``              
     ''' convert distances into percent identities (default no)
     ''' </summary>
     ''' <returns></returns>
@@ -189,35 +195,35 @@ Public Class CLIBuilder
 #Region "Alignment Output"
 
     ''' <summary>
-    ''' -o, --out, --outfile={file,-} 
+    ''' ``-o, --out, --outfile={file,-}`` 
     ''' Multiple sequence alignment output file (default stdout)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--outfile", CLITypes.String)> Public Property Out As String
 
     ''' <summary>
-    ''' --outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]} 
+    ''' ``--outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}``
     ''' MSA output file format (default: fasta)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--outfmt", CLITypes.String)> Public Property OutFmt As OutFmts = OutFmts.auto
 
     ''' <summary>
-    ''' --residuenumber, --resno  
+    ''' ``--residuenumber, --resno``  
     ''' in Clustal format print residue numbers (default no)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--residuenumber", CLITypes.Boolean)> Public Property ResidueNumber As Boolean
 
     ''' <summary>
-    ''' --wrap=&lt;n>                
+    ''' ``--wrap=&lt;n>``                
     ''' number of residues before line-wrap in output
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--wrap", CLITypes.Integer)> Public Property Wrap As Integer
 
     ''' <summary>
-    ''' --output-order={input-order,tree-order} 
+    ''' ``--output-order={input-order,tree-order}`` 
     ''' MSA output orderlike in input/guide-tree
     ''' </summary>
     ''' <returns></returns>
@@ -227,21 +233,21 @@ Public Class CLIBuilder
 #Region "Iteration"
 
     ''' <summary>
-    ''' --iterations, --iter=&lt;n>  
+    ''' ``--iterations, --iter=&lt;n>``  
     ''' Number of (combined guide-tree/HMM) iterations
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--iterations", CLITypes.Integer)> Public Property Iterations As Integer
 
     ''' <summary>
-    ''' --max-guidetree-iterations=&lt;n> 
+    ''' ``--max-guidetree-iterations=&lt;n>`` 
     ''' Maximum number guidetree iterations
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--max-guidetree-iterations", CLITypes.Integer)> Public Property MaxGuidetreeIterations As Integer
 
     ''' <summary>
-    ''' --max-hmm-iterations=&lt;n>  
+    ''' ``--max-hmm-iterations=&lt;n>``  
     ''' Maximum number of HMM iterations
     ''' </summary>
     ''' <returns></returns>
@@ -251,14 +257,14 @@ Public Class CLIBuilder
 #Region "Limits (will exit early, if exceeded)"
 
     ''' <summary>
-    ''' --maxnumseq=&lt;n>           
+    ''' ``--maxnumseq=&lt;n>``           
     ''' Maximum allowed number of sequences
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--maxnumseq", CLITypes.Integer)> Public Property MaxNumSeq As Integer
 
     ''' <summary>
-    ''' --maxseqlen=&lt;l>           
+    ''' ``--maxseqlen=&lt;l>``           
     ''' Maximum allowed sequence length
     ''' </summary>
     ''' <returns></returns>
@@ -268,54 +274,57 @@ Public Class CLIBuilder
 #Region "Miscellaneous"
 
     ''' <summary>
-    ''' --auto                    
+    ''' ``--auto``                    
     ''' Set options automatically (might overwrite some of your options)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--auto", CLITypes.Boolean)> Public Property Auto As Boolean
     ''' <summary>
-    ''' --threads=&lt;n>             
+    ''' ``--threads=&lt;n>``             
     ''' Number of processors to use
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--threads", CLITypes.Integer)> Public Property Threads As Integer
     ''' <summary>
-    ''' -l, --log=&lt;file>          
+    ''' ``-l, --log=&lt;file>``          
     ''' Log all non-essential output to this file
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--log", CLITypes.String)> Public Property Log As String
     ''' <summary>
-    ''' -h, --help                
+    ''' ``-h, --help``                
     ''' Print this help And exit
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--help", CLITypes.String)> Public Property Help As String
     ''' <summary>
-    ''' -v, --verbose             
+    ''' ``-v, --verbose``             
     ''' Verbose output (increases if given multiple times)
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--v", CLITypes.String)> Public Property Verbose As String
     ''' <summary>
-    ''' --version                 
+    ''' ``--version``                 
     ''' Print version information And exit
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--version", CLITypes.String)> Public Property Version As String
     ''' <summary>
-    ''' --long-version            
+    ''' ``--long-version``            
     ''' Print long version information And exit
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--long-version", CLITypes.String)> Public Property LongVersion As String
     ''' <summary>
-    ''' --force                   
+    ''' ``--force``                   
     ''' Force file overwriting
     ''' </summary>
     ''' <returns></returns>
     <[Optional]("--force", CLITypes.Boolean)> Public Property Force As Boolean
 #End Region
 
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
 End Class
 

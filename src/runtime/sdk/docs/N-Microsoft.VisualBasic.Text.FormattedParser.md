@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Text.FormattedParser
-date: 7/7/2016 5:46:31 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [DoContinute](T-Microsoft.VisualBasic.Text.FormattedParser.DoContinute.html)

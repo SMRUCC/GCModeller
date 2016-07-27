@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Patterns
-date: 7/7/2016 5:41:02 PM
+date: 7/27/2016 7:12:32 PM
 ---
 
 [PatternExpression](T-SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Patterns.PatternExpression.html)

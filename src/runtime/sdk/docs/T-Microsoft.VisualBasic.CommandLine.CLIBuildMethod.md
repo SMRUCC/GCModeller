@@ -11,11 +11,24 @@ _namespace: [Microsoft.VisualBasic.CommandLine](N-Microsoft.VisualBasic.CommandL
 
 ### Methods
 
+#### __booleanRule
+```csharp
+Microsoft.VisualBasic.CommandLine.CLIBuildMethod.__booleanRule(System.Object,Microsoft.VisualBasic.CommandLine.Reflection.Optional,System.Reflection.PropertyInfo)
+```
+Property value to boolean flag in the CLI
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|value|-|
+|attr|-|
+|prop|-|
+
+
 #### __pathRule
 ```csharp
 Microsoft.VisualBasic.CommandLine.CLIBuildMethod.__pathRule(System.Object,Microsoft.VisualBasic.CommandLine.Reflection.Optional,System.Reflection.PropertyInfo)
 ```
-
+The different between the String and Path is that applying @"M:Microsoft.VisualBasic.Extensions.CliToken(System.String)" or @"M:Microsoft.VisualBasic.Extensions.CliPath(System.String)".
 
 |Parameter Name|Remarks|
 |--------------|-------|
@@ -41,7 +54,7 @@ Microsoft.VisualBasic.CommandLine.CLIBuildMethod.__stringRule(System.Object,Micr
 ```csharp
 Microsoft.VisualBasic.CommandLine.CLIBuildMethod.ClearParameters``1(``0)
 ```
-
+Reset the CLI parameters property in the target class object.
 
 |Parameter Name|Remarks|
 |--------------|-------|
@@ -69,4 +82,20 @@ Generates the command line string value for the invoked target cli program using
 >  @"F:Microsoft.VisualBasic.CommandLine.Reflection.CLITypes.File", 假若字符串为空则不添加，有空格自动添加双引号，相对路径会自动转换为全路径。
 >  
 
+#### SimpleBuilder
+```csharp
+Microsoft.VisualBasic.CommandLine.CLIBuildMethod.SimpleBuilder(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})
+```
+Creates a command line string by using simply fills the name and parameter values
 
+|Parameter Name|Remarks|
+|--------------|-------|
+|name|-|
+|args|-|
+
+
+
+### Properties
+
+#### __getMethods
+Converts the property value to a CLI token

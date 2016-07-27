@@ -115,7 +115,9 @@ Microsoft.VisualBasic.Mathematical
 <member name="M:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression.Evaluate">
  <summary>
  Evaluate the specific simple expression class object.
- (计算一个特定的简单表达式对象的值) 
+ (计算一个特定的简单表达式对象的值，这个简单表达是对象可以被重复利用的，
+ 因为引用了变量或者函数的话<see cref="T:Microsoft.VisualBasic.Mathematical.Types.MetaExpression"/>会使用lambda表达式进行求值，
+ 所以只需要改变引擎之中的环境就行了) 
  </summary>
  <returns>
  Return the value of the specific simple expression object.
@@ -248,6 +250,13 @@ Microsoft.VisualBasic.Mathematical
  Expression Evaluation Engine
  </summary>
  <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Expression.value(System.String)">
+ <summary>
+ Gets constant or variable value, but only sets variable value.
+ </summary>
+ <param name="var"></param>
+ <returns></returns>
 </member>
 <member name="P:Microsoft.VisualBasic.Mathematical.Expression.DefaultEngine">
  <summary>
@@ -1435,6 +1444,13 @@ Microsoft.VisualBasic.Mathematical
  </summary>
  <param name="statement">[function name](args) expression</param>
  <remarks>function [function name] expression</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Function.Add(System.String,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="name">函数名</param>
+ <param name="expr">函数申明</param>
 </member>
 <member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Function.RND(System.Double,System.Double)">
  <summary>
@@ -2720,6 +2736,45 @@ Microsoft.VisualBasic.Mathematical
  <returns>     Number of nonnegligible singular values.
  </returns>
 </member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK">
+ <summary>
+ Implementation of the Greenwald and Khanna algorithm for streaming
+ calculation of epsilon-approximate quantiles.
+ 
+ See: 
+ 
+ > Greenwald and Khanna, "Space-efficient online computation of quantile summaries" in SIGMOD 2001
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.epsilon">
+ <summary>
+ Acceptable % error in percentile estimate
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.count">
+ <summary>
+ Total number of items in stream
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.compact_size">
+ <summary>
+ Threshold to trigger a compaction
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.#ctor(System.Double,System.Int32)">
+ <summary>
+ Implementation of the Greenwald and Khanna algorithm for streaming
+ calculation of epsilon-approximate quantiles.
+ </summary>
+ <param name="epsilon">Acceptable % error in percentile estimate</param>
+ <param name="compact_size">Threshold to trigger a compaction</param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.ScriptEngine.Expression">
+ <summary>
+ The default expression engine.
+ </summary>
+ <returns></returns>
+</member>
 <member name="P:Microsoft.VisualBasic.Mathematical.ScriptEngine.StatementEngine">
  <summary>
  all of the commands are stored at here
@@ -2727,6 +2782,20 @@ Microsoft.VisualBasic.Mathematical
  <remarks>
  .quit for do nothing and end of this program.
  </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ScriptEngine.SetVariable(System.String,System.String)">
+ <summary>
+ Set variable value
+ </summary>
+ <param name="Name"></param>
+ <param name="expr"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ScriptEngine.AddConstant(System.String,System.String)">
+ <summary>
+ Add constant object
+ </summary>
+ <param name="Name"></param>
+ <param name="expr"></param>
 </member>
 <member name="T:Microsoft.VisualBasic.Mathematical.My.Resources.Resources">
 <summary>

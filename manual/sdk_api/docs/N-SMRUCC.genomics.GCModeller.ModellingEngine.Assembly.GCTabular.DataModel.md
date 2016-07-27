@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataModel
-date: 7/7/2016 5:42:42 PM
+date: 7/27/2016 7:12:42 PM
 ---
 
 [AssociatedGene](T-SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataModel.AssociatedGene.html)

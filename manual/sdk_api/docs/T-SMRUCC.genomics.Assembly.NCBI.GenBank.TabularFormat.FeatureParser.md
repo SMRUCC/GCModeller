@@ -26,7 +26,9 @@ Row parsing into column tokens
 ```csharp
 SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.FeatureParser.CreateObject(System.String,System.Int32)
 ```
-
+```
+ Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
+ ```
 
 |Parameter Name|Remarks|
 |--------------|-------|

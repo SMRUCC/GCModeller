@@ -27,9 +27,15 @@ Returns the whole genome sequence which was records in this GenBank database fil
 
 ### Properties
 
+#### Char
+``@"P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.SequenceData" -> index``
 #### GCSkew
 是整条序列的GC偏移
+#### InvalidWarns
+The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N... 
+ for @"P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.SequenceData"
 #### SequenceData
-The sequence data that stores in this GenBank database, which can be a genomics DNA sequence, protein sequence or RNA sequence.(序列数据，类型可以包括基因组DNA序列，蛋白质序列或者RNA序列)
+The sequence data that stores in this GenBank database, which can be a genomics DNA sequence, protein sequence or RNA sequence.
+ (序列数据，类型可以包括基因组DNA序列，蛋白质序列或者RNA序列)
 #### Size
 基因组的大小

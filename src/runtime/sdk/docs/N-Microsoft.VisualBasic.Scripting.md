@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Scripting
-date: 7/7/2016 5:46:29 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [Actives](T-Microsoft.VisualBasic.Scripting.Actives.html)

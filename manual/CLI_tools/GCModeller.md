@@ -1,7 +1,7 @@
 ---
 title: GCModeller
 tags: [maunal, tools]
-date: 7/7/2016 6:51:34 PM
+date: 7/27/2016 6:40:18 PM
 ---
 # GCModeller [version 1.0.2.3]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/GCModeller.exe
@@ -13,6 +13,7 @@ All of the command that available in this program has been list below:
 |Function API|Info|
 |------------|----|
 |/Draw.Comparative||
+|/Export.Basys||
 |/init.manuals||
 |/Install.genbank||
 |/Located.AppData||
@@ -42,6 +43,16 @@ All of the command that available in this program has been list below:
   Information:  
   Usage:        G:\GCModeller\manual\bin\GCModeller.exe /Draw.Comparative /in <meta.Xml> /PTT <PTT_DIR> [/out <outDIR>]
   Example:      GCModeller /Draw.Comparative 
+```
+
+##### Help for command '/Export.Basys':
+
+**Prototype**: xGCModeller.CLI::Int32 ExportBaSys(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\GCModeller.exe /Export.Basys /in <in.DIR> [/out <out.DIR>]
+  Example:      GCModeller /Export.Basys 
 ```
 
 ##### Help for command '/init.manuals':

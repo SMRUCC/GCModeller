@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.SequenceModel
-date: 7/7/2016 5:42:36 PM
+date: 7/27/2016 7:12:41 PM
 ---
 
 [CompositionVector](T-SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.SequenceModel.CompositionVector.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.MMFProtocol.MapStream
-date: 7/7/2016 5:46:43 PM
+date: 7/27/2016 7:34:08 PM
 ---
 
 [MMFStream](T-Microsoft.VisualBasic.MMFProtocol.MapStream.MMFStream.html)

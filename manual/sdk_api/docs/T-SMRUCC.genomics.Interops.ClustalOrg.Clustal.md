@@ -9,12 +9,14 @@ Clustal Omega(多序列比对工具)
  Clustal Omega - 1.2.0 (AndreaGiacomo)
 
  If you Like Clustal - Omega please cite:
- Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, Sding J, Thompson JD, Higgins DG.
- Fast, scalable generation Of high-quality protein multiple sequence alignments Using Clustal Omega.
- Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+ 
+ > Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, Sding J, Thompson JD, Higgins DG.
+ > Fast, scalable generation Of high-quality protein multiple sequence alignments Using Clustal Omega.
+ > Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+ 
  If you don't like Clustal-Omega, please let us know why (and cite us anyway).
 
- Check http : //www.clustal.org for more information And updates.
+ Check http://www.clustal.org for more information And updates.
 
 
 

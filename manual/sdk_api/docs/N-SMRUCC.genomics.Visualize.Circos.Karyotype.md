@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.Circos.Karyotype
-date: 7/7/2016 5:43:35 PM
+date: 7/27/2016 7:12:46 PM
 ---
 
 [Band](T-SMRUCC.genomics.Visualize.Circos.Karyotype.Band.html)

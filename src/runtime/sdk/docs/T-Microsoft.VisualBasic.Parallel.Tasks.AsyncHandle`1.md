@@ -11,6 +11,17 @@ Represents the status of an asynchronous operation.(背景线程加载数据)
 
 ### Methods
 
+#### #ctor
+```csharp
+Microsoft.VisualBasic.Parallel.Tasks.AsyncHandle`1.#ctor(System.Func{`0})
+```
+Creates a new background task from a function handle.
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|Task|-|
+
+
 #### GetValue
 ```csharp
 Microsoft.VisualBasic.Parallel.Tasks.AsyncHandle`1.GetValue

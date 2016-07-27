@@ -27,7 +27,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.DataFrame.__reviewColumn
 ```csharp
 Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.DataFrame.ChangeMapping(System.Collections.Generic.Dictionary{System.String,System.String})
 ```
-
+``Csv.Field -> @"P:System.Reflection.MemberInfo.Name"``
 
 |Parameter Name|Remarks|
 |--------------|-------|

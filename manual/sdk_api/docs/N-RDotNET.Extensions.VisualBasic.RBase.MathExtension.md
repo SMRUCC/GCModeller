@@ -1,6 +1,6 @@
 ﻿---
 title: RDotNET.Extensions.VisualBasic.RBase.MathExtension
-date: 7/7/2016 5:40:25 PM
+date: 7/27/2016 7:12:30 PM
 ---
 
 [Normal](T-RDotNET.Extensions.VisualBasic.RBase.MathExtension.Normal.html)

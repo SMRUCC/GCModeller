@@ -1,0 +1,84 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS
+</name>
+</assembly>
+<members>
+<member name="M:SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS.DExp1.dExp1(System.Int32@,System.Double[],System.Int32@,System.Double[]@)">
+ <summary>
+ 
+ </summary>
+ <param name="[Dim]"></param>
+ <param name="Xv">Xv is the input matrix, Dim*Dim dimension</param>
+ <param name="len"></param>
+ <param name="result">result is a vector with length = len, corresponding to the 7 definitions and dmean</param>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS.DExp2.dExp2(System.Int32@,System.Double[],System.Int32@,System.Int32[],System.Int32@,System.Double[]@)">
+ <summary>
+ 
+ </summary>
+ <param name="[Dim]"></param>
+ <param name="Xv">Xv is the input dist matrix, Dim*Dim dimension</param>
+ <param name="nCol"></param>
+ <param name="simIdxV">simIdxV is a Dim * nCol matrix, each column is a simulation index vector</param>
+ <param name="len"></param>
+ <param name="result">result is a vector with length = len, corresponding to the 7 definitions and dmean</param>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS.ParsePlink.parsePlink(System.String,System.Int32@,System.Int32@,System.Double[],System.Int32[],System.Double[])">
+ <summary>
+ 
+ </summary>
+ <param name="plinkBed">plinkBed, the file name of plink bed file</param>
+ <param name="NumSample">NumSample, Number of Samples in Plink</param>
+ <param name="NumSNP">NumSNP, Number of SNPs in plink</param>
+ <param name="distMat">distMat, distance matrix NumSample * NumSample</param>
+ <param name="E">E, environment vector with length = NumSample</param>
+ <param name="result">result, 12 * NSNP, including
+ 
+ ```
+ 1:5		#0, #1, #2, #NA MAF of G
+ 6:10	#0, #1, #2, #NA MAF of GE
+ 11		SM
+ 12		SI
+ ```
+ </param>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS.ParsePlink2.parsePlink2(System.String,System.Int32@,System.Int32@,System.Double[],System.Int32@,System.Double[])">
+ <summary>
+ 
+ </summary>
+ <param name="plinkBed">plinkBed, the file name of plink bed file</param>
+ <param name="NumSample">NumSample, Number of Samples in Plink</param>
+ <param name="NumSNP">NumSNP, Number of SNPs in plink</param>
+ <param name="distMat">distMat, distance matrix NumSample * NumSample</param>
+ <param name="E">E, environment vector with length = NumSample</param>
+ <param name="result">result, 12 * NSNP, including
+ 
+ ```
+ 1:5		#0, #1, #2, #NA MAF of G
+ 6:10	#0, #1, #2, #NA MAF of GE
+ 11		SM
+ 12		SI
+ ```
+ </param>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

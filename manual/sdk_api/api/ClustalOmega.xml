@@ -11,13 +11,16 @@ ClustalOmega
  Clustal Omega - 1.2.0 (AndreaGiacomo)
 
  If you Like Clustal - Omega please cite:
- Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, S├╢ding J, Thompson JD, Higgins DG.
- Fast, scalable generation of high-quality protein multiple sequence alignments using Clustal Omega.
- Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+ 
+ > Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, S├╢ding J, Thompson JD, Higgins DG.
+ > Fast, scalable generation of high-quality protein multiple sequence alignments using Clustal Omega.
+ > Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+ 
  If you don't like Clustal-Omega, please let us know why (and cite us anyway).
 
- Check http :   //www.clustal.org for more information And updates.
+ Check http://www.clustal.org for more information And updates.
 
+ ```
  Usage: clustalo [-hv] [-i {&lt;file>,-}] [--hmm-In=&lt;file>]... [--dealign] [--profile1=&lt;file>] [--profile2=&lt;file>] 
  [--Is-profile] [-t {Protein, RNA, DNA}] [--infmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}] 
  [--distmat-In=&lt;file>] [--distmat-out=&lt;file>] [--guidetree-In=&lt;file>] [--guidetree-out=&lt;file>] [--full] [--full-iter] 
@@ -26,258 +29,259 @@ ClustalOmega
  [--output-order={input-order,tree-order}] [--iterations=&lt;n>] [--max-guidetree-iterations=&lt;n>] [--max-hmm-iterations=&lt;n>] 
  [--maxnumseq=&lt;n>] [--maxseqlen=&lt;l>] [--auto] [--threads=&lt;n>] [-l &lt;file>] [--version] [--Long-version] [--force] 
  [--MAC-RAM=&lt;n>]
-
- A typical invocation would be: clustalo -i my-in-seqs.fa -o my-out-seqs.fa -v
+ ```
+ 
+ A typical invocation would be: ``clustalo -i my-in-seqs.fa -o my-out-seqs.fa -v``
  </summary>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.InFile">
  <summary>
- -i, --in, --infile={&lt;file>,-} 
+ ``-i, --in, --infile={&lt;file>,-}``
  Multiple sequence input file (- for stdin)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.HMMIn">
  <summary>
- --hmm-in=&lt;file>           
+ ``--hmm-in=&lt;file>``           
  HMM input files
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Dealign">
  <summary>
- --dealign                 
+ ``--dealign``                 
  Dealign input sequences
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.p1">
  <summary>
- --profile1, --p1=&lt;file>   
+ ``--profile1, --p1=&lt;file>``   
  Pre-aligned multiple sequence file (aligned columns will be kept fix)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.p2">
  <summary>
- --profile2, --p2=&lt;file>   
+ ``--profile2, --p2=&lt;file>``   
  Pre-aligned multiple sequence file (aligned columns will be kept fix)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.IsProfile">
  <summary>
- --Is-profile              
+ ``--Is-profile``              
  disable check if profile, force profile (default no)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.SeqType">
  <summary>
- -t, --seqtype={Protein, RNA, DNA} 
+ ``-t, --seqtype={Protein, RNA, DNA}`` 
  Force a sequence type (default: auto)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.InFmt">
  <summary>
- --infmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]} 
+ ``--infmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}`` 
  Forced sequence input file format (default: auto)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.DistmatIn">
  <summary>
- --distmat-in=&lt;file>       
+ ``--distmat-in=&lt;file>``       
  Pairwise distance matrix input file (skips distance computation)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.DistmatOut">
  <summary>
- --distmat-out=&lt;file>      
+ ``--distmat-out=&lt;file>``      
  Pairwise distance matrix output file
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.GuidetreeIn">
  <summary>
- --guidetree-in=&lt;file>     
+ ``--guidetree-in=&lt;file>``     
  Guide tree input file (skips distance computation And guide-tree clustering step)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.GuidetreeOut">
  <summary>
- --guidetree-out=&lt;file>    
+ ``--guidetree-out=&lt;file>``    
  Guide tree output file
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Full">
  <summary>
- --full                    
+ ``--full``                    
  Use full distance matrix for guide-tree calculation (might be slow; mBed Is default)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.FullIter">
  <summary>
- --full-iter               
+ ``--full-iter``               
  Use full distance matrix for guide-tree calculation during iteration (might be slowish; mBed Is default)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.ClusterSize">
  <summary>
- --cluster-size=&lt;n>        
+ ``--cluster-size=&lt;n>``        
  soft maximum of sequences in sub-clusters
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.ClusteringOut">
  <summary>
- --clustering-out=&lt;file>   
+ ``--clustering-out=&lt;file>``   
  Clustering output file
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.UseKimura">
  <summary>
- --use-kimura              
+ ``--use-kimura``              
  use Kimura distance correction for aligned sequences (default no)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.PercentId">
  <summary>
- --percent-id              
+ ``--percent-id``              
  convert distances into percent identities (default no)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Out">
  <summary>
- -o, --out, --outfile={file,-} 
+ ``-o, --out, --outfile={file,-}`` 
  Multiple sequence alignment output file (default stdout)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.OutFmt">
  <summary>
- --outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]} 
+ ``--outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}``
  MSA output file format (default: fasta)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.ResidueNumber">
  <summary>
- --residuenumber, --resno  
+ ``--residuenumber, --resno``  
  in Clustal format print residue numbers (default no)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Wrap">
  <summary>
- --wrap=&lt;n>                
+ ``--wrap=&lt;n>``                
  number of residues before line-wrap in output
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.OutputOrder">
  <summary>
- --output-order={input-order,tree-order} 
+ ``--output-order={input-order,tree-order}`` 
  MSA output orderlike in input/guide-tree
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Iterations">
  <summary>
- --iterations, --iter=&lt;n>  
+ ``--iterations, --iter=&lt;n>``  
  Number of (combined guide-tree/HMM) iterations
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.MaxGuidetreeIterations">
  <summary>
- --max-guidetree-iterations=&lt;n> 
+ ``--max-guidetree-iterations=&lt;n>`` 
  Maximum number guidetree iterations
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.MaxHMMIterations">
  <summary>
- --max-hmm-iterations=&lt;n>  
+ ``--max-hmm-iterations=&lt;n>``  
  Maximum number of HMM iterations
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.MaxNumSeq">
  <summary>
- --maxnumseq=&lt;n>           
+ ``--maxnumseq=&lt;n>``           
  Maximum allowed number of sequences
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.MaxSeqLen">
  <summary>
- --maxseqlen=&lt;l>           
+ ``--maxseqlen=&lt;l>``           
  Maximum allowed sequence length
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Auto">
  <summary>
- --auto                    
+ ``--auto``                    
  Set options automatically (might overwrite some of your options)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Threads">
  <summary>
- --threads=&lt;n>             
+ ``--threads=&lt;n>``             
  Number of processors to use
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Log">
  <summary>
- -l, --log=&lt;file>          
+ ``-l, --log=&lt;file>``          
  Log all non-essential output to this file
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Help">
  <summary>
- -h, --help                
+ ``-h, --help``                
  Print this help And exit
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Verbose">
  <summary>
- -v, --verbose             
+ ``-v, --verbose``             
  Verbose output (increases if given multiple times)
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Version">
  <summary>
- --version                 
+ ``--version``                 
  Print version information And exit
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.LongVersion">
  <summary>
- --long-version            
+ ``--long-version``            
  Print long version information And exit
  </summary>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.Force">
  <summary>
- --force                   
+ ``--force``                   
  Force file overwriting
  </summary>
  <returns></returns>
@@ -285,7 +289,8 @@ ClustalOmega
 <member name="T:SMRUCC.genomics.Interops.ClustalOrg.OutFmts">
  <summary>
  Formats options for alignment inputs and outputs.
- --outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]} MSA output file format (default: fasta)
+ 
+ ``--outfmt={a2m=fa[sta],clu[stal],msf,phy[lip],selex,st[ockholm],vie[nna]}`` MSA output file format (default: ``fasta``)
  </summary>
 </member>
 <member name="F:SMRUCC.genomics.Interops.ClustalOrg.OutFmts.auto">
@@ -343,12 +348,14 @@ ClustalOmega
  Clustal Omega - 1.2.0 (AndreaGiacomo)
 
  If you Like Clustal - Omega please cite:
- Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, Sding J, Thompson JD, Higgins DG.
- Fast, scalable generation Of high-quality protein multiple sequence alignments Using Clustal Omega.
- Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+ 
+ > Sievers F, Wilm A, Dineen D, Gibson TJ, Karplus K, Li W, Lopez R, McWilliam H, Remmert M, Sding J, Thompson JD, Higgins DG.
+ > Fast, scalable generation Of high-quality protein multiple sequence alignments Using Clustal Omega.
+ > Mol Syst Biol. 2011 Oct 11;7:539. doi: 10.1038/msb.2011.75. PMID: 21988835.
+ 
  If you don't like Clustal-Omega, please let us know why (and cite us anyway).
 
- Check http : //www.clustal.org for more information And updates.
+ Check http://www.clustal.org for more information And updates.
  </summary>
  <remarks></remarks>
  

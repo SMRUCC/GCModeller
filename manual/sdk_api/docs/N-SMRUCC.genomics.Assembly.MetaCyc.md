@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.MetaCyc
-date: 7/7/2016 5:41:15 PM
+date: 7/27/2016 7:12:34 PM
 ---
 
 [Extensions](T-SMRUCC.genomics.Assembly.MetaCyc.Extensions.html)

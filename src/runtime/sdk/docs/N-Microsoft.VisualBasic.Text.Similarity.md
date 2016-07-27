@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Text.Similarity
-date: 7/7/2016 5:46:32 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [BipartiteMatcher](T-Microsoft.VisualBasic.Text.Similarity.BipartiteMatcher.html)

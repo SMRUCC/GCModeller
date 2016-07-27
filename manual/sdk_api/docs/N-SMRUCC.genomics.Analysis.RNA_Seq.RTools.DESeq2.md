@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
-date: 7/7/2016 5:40:55 PM
+date: 7/27/2016 7:12:32 PM
 ---
 
 [DESeq](T-SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2.DESeq.html)

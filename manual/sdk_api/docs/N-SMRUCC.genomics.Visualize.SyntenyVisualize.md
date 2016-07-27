@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.SyntenyVisualize
-date: 7/7/2016 5:43:43 PM
+date: 7/27/2016 7:12:47 PM
 ---
 
 [Bézier](T-SMRUCC.genomics.Visualize.SyntenyVisualize.Bézier.html)

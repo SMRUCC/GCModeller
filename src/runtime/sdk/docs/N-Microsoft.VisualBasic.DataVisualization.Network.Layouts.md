@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DataVisualization.Network.Layouts
-date: 7/7/2016 5:46:52 PM
+date: 7/27/2016 7:34:08 PM
 ---
 
 [AbstractRenderer](T-Microsoft.VisualBasic.DataVisualization.Network.Layouts.AbstractRenderer.html)

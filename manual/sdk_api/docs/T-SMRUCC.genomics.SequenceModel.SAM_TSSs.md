@@ -26,8 +26,8 @@ SMRUCC.genomics.SequenceModel.SAM_TSSs.TrimForTSSs(SMRUCC.genomics.SequenceModel
 |Parameter Name|Remarks|
 |--------------|-------|
 |doc|
- 会将文档里面的@"F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x200",
- @"F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x4"的Reads进行剔除
+ 会将文档里面的@"F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x200",
+ @"F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x4"的Reads进行剔除
  |
 
 

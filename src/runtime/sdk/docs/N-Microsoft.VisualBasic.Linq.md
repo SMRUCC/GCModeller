@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Linq
-date: 7/7/2016 5:46:22 PM
+date: 7/27/2016 7:34:06 PM
 ---
 
 [Extensions](T-Microsoft.VisualBasic.Linq.Extensions.html)

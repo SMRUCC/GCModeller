@@ -5,7 +5,7 @@ title: PriorityClass
 # PriorityClass
 _namespace: [Microsoft.VisualBasic.Win32](N-Microsoft.VisualBasic.Win32.html)_
 
-
+Process priority class helper.
 
 
 
@@ -21,7 +21,7 @@ Microsoft.VisualBasic.Win32.PriorityClass.GetCurrentProcess
 ```csharp
 Microsoft.VisualBasic.Win32.PriorityClass.PriorityClass(System.Int32)
 ```
-
+Set Priority Class for current process.
 
 |Parameter Name|Remarks|
 |--------------|-------|

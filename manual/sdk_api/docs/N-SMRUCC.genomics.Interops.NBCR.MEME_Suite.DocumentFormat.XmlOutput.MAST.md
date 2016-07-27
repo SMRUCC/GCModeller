@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
-date: 7/7/2016 5:42:57 PM
+date: 7/27/2016 7:12:43 PM
 ---
 
 [Correlation](T-SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.Correlation.html)

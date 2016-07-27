@@ -39,7 +39,7 @@ The Sequence Alignment/Map (SAM) format is a generic nucleotide alignment format
 
 #### Assembling
 ```csharp
-SMRUCC.genomics.SequenceModel.SAM.SAM.Assembling(System.Collections.Generic.Dictionary{System.Int32,Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads}},System.Boolean)
+SMRUCC.genomics.SequenceModel.SAM.SAM.Assembling(System.Collections.Generic.Dictionary{System.Int32,Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads}},System.Boolean)
 ```
 
 

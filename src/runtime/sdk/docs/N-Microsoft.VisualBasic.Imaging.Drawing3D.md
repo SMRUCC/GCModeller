@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Imaging.Drawing3D
-date: 7/7/2016 5:47:01 PM
+date: 7/27/2016 7:34:08 PM
 ---
 
 [GDIDevice](T-Microsoft.VisualBasic.Imaging.Drawing3D.GDIDevice.html)

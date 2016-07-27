@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Net.Persistent.Application
-date: 7/7/2016 5:46:37 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [MessagePushServer](T-Microsoft.VisualBasic.Net.Persistent.Application.MessagePushServer.html)

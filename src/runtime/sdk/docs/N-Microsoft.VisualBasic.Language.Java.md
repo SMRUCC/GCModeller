@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Language.Java
-date: 7/7/2016 5:46:24 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [JavaMath](T-Microsoft.VisualBasic.Language.Java.JavaMath.html)

@@ -36,7 +36,7 @@ SMRUCC.genomics.Analysis.SSystem.Script.ScriptCompiler.Compile(System.String,Sys
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|Path|The file path of the target compile script.(目标脚本的文件路径)|
+|path|The file path of the target compile script.(目标脚本的文件路径)|
 |AutoFix|
  Optional，when error occur in the procedure of the script compiled, then if TRUE, the program was 
  trying to fix the error automatically, if FALSE, then the program throw an exception and then 

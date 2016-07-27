@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.RegulonDB.Views
-date: 7/7/2016 5:42:07 PM
+date: 7/27/2016 7:12:39 PM
 ---
 
 [AttenuatorsPrediction](T-SMRUCC.genomics.Data.RegulonDB.Views.AttenuatorsPrediction.html)

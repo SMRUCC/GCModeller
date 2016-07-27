@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NBCR.MEME_Suite.TMoD.Settings.Programs
-date: 7/7/2016 5:42:58 PM
+date: 7/27/2016 7:12:44 PM
 ---
 
 [GCHOST](T-SMRUCC.genomics.Interops.NBCR.MEME_Suite.TMoD.Settings.Programs.GCHOST.html)

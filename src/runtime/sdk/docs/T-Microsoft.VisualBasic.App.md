@@ -12,6 +12,12 @@ Provides information about, and means to manipulate, the current environment App
 
 ### Methods
 
+#### __CLI
+```csharp
+Microsoft.VisualBasic.App.__CLI
+```
+Makes compatibility with git bash: @"F:Microsoft.VisualBasic.App.gitBash" = ``C:/Program Files/Git``
+
 #### __completeCLI
 ```csharp
 Microsoft.VisualBasic.App.__completeCLI(System.Int32)
@@ -189,6 +195,18 @@ Folk this program itself for the large amount data batch processing.
 
 _returns: 返回任务的执行的总时长_
 
+#### Shell
+```csharp
+Microsoft.VisualBasic.App.Shell(System.String,System.String)
+```
+请注意，这个函数只能够运行.NET程序, 假若是在Linux系统之上，还需要安装mono运行时环境
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|app|-|
+|cli|-|
+
+
 #### StartGC
 ```csharp
 Microsoft.VisualBasic.App.StartGC(System.Boolean)
@@ -246,6 +264,9 @@ The temp directory in the application local data.
 Error default log fie location from function @"M:Microsoft.VisualBasic.App.LogException(System.Exception,System.String)".(存放自动存储的错误日志的文件夹)
 #### PID
 Get the @"T:System.Diagnostics.Process" id(PID) of the current program process.
+#### Platform
+Gets a @"T:System.PlatformID" enumeration value that identifies the operating system
+ platform.
 #### Process
 Gets a new @"T:System.Diagnostics.Process" component and associates it with the currently active process.
 #### ProductProgramData

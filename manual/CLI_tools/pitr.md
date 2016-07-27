@@ -1,7 +1,7 @@
 ---
 title: pitr
 tags: [maunal, tools]
-date: 7/7/2016 6:51:47 PM
+date: 7/27/2016 6:40:22 PM
 ---
 # ProteinInteraction [version 1.0.0.0]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/pitr.exe

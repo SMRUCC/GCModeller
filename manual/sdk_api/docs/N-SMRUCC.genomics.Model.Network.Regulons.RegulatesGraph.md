@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Model.Network.Regulons.RegulatesGraph
-date: 7/7/2016 5:43:25 PM
+date: 7/27/2016 7:12:46 PM
 ---
 
 [Entity](T-SMRUCC.genomics.Model.Network.Regulons.RegulatesGraph.Entity.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.FileIO.SymLinker.JunctionPoint
-date: 7/7/2016 5:46:23 PM
+date: 7/27/2016 7:34:06 PM
 ---
 
 [REPARSE_DATA_BUFFER](T-Microsoft.VisualBasic.FileIO.SymLinker.JunctionPoint.REPARSE_DATA_BUFFER.html)

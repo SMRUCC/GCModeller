@@ -83,5 +83,7 @@ The definition value for this organism's GenBank data.
 This GenBank data is the WGS(Whole genome shotgun) type data.
 #### Locus
 The brief entry information of this genbank data.
+#### Origin
+This GenBank keyword section stores the sequence data for this database.
 #### SourceFeature
 Gets the original source brief entry information of this genome.(获取这个基因组的摘要信息)

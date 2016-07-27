@@ -1,0 +1,63 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.Webservices.Github
+</name>
+</assembly>
+<members>
+<member name="M:Microsoft.VisualBasic.Webservices.Github.API.Users.GetUser(System.String)">
+ <summary>
+ Get a single user
+ </summary>
+ <param name="username"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Webservices.Github.API.Search.Users(System.Collections.Specialized.NameValueCollection,Microsoft.VisualBasic.Webservices.Github.API.Search.UserSorts,Microsoft.VisualBasic.Webservices.Github.API.Search.UserSortOrders)">
+ <summary>
+ [Search users]
+
+ Find users via various criteria. (This method returns up To 100 results per page.)
+ </summary>
+ <param name="q">The search terms.</param>
+ <param name="sort">
+ The sort field. Can be <see cref="F:Microsoft.VisualBasic.Webservices.Github.API.Search.UserSorts.followers"/>, <see cref="F:Microsoft.VisualBasic.Webservices.Github.API.Search.UserSorts.repositories"></see>, 
+ or <see cref="F:Microsoft.VisualBasic.Webservices.Github.API.Search.UserSorts.joined"></see>. Default: results are sorted by best match.
+ </param>
+ <param name="[order]">
+ The sort order if sort parameter is provided. One of <see cref="F:Microsoft.VisualBasic.Webservices.Github.API.Search.UserSortOrders.asc"/> or 
+ <see cref="F:Microsoft.VisualBasic.Webservices.Github.API.Search.UserSortOrders.desc"/>. Default: <see cref="F:Microsoft.VisualBasic.Webservices.Github.API.Search.UserSortOrders.desc"/>
+ </param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Webservices.Github.QueryBuilder.Build``1(``0)">
+ <summary>
+ 假若有非法字符，则需要使用<see cref="T:Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.Field"/>来标记出来
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="args"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Webservices.Github.QueryBuilder.Term">
+ <summary>
+ 当使用<see cref="T:Microsoft.VisualBasic.Webservices.Github.QueryBuilder.Term"/>标记的时候，表明这个属性为必须的参数并且没有名称
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Webservices.Github.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Webservices.Github.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Webservices.Github.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

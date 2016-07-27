@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Regprecise
-date: 7/7/2016 5:41:56 PM
+date: 7/27/2016 7:12:38 PM
 ---
 
 [BacteriaGenome](T-SMRUCC.genomics.Data.Regprecise.BacteriaGenome.html)

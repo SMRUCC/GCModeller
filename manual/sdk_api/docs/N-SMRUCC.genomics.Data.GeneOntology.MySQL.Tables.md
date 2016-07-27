@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.GeneOntology.MySQL.Tables
-date: 7/7/2016 5:41:27 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [assoc_rel](T-SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.assoc_rel.html)

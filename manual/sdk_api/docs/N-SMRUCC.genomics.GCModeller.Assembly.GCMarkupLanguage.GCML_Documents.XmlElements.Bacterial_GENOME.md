@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
-date: 7/7/2016 5:42:35 PM
+date: 7/27/2016 7:12:41 PM
 ---
 
 [BacterialGenome](T-SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.BacterialGenome.html)

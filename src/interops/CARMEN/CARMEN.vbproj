@@ -244,9 +244,6 @@
     <None Include="KGML-Reconstruction2\shortcuts.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\CARMEN.html" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\CARMEN.html" />
   </ItemGroup>
   <Import Project="..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />

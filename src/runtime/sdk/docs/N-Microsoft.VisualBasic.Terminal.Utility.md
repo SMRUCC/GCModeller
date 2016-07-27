@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Terminal.Utility
-date: 7/7/2016 5:46:21 PM
+date: 7/27/2016 7:34:06 PM
 ---
 
 [CBusyIndicator](T-Microsoft.VisualBasic.Terminal.Utility.CBusyIndicator.html)

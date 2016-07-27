@@ -1,0 +1,53 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.Webservices.Google
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.Webservices.Google.GoogleTranslation">
+ <summary>
+ Using Google Translation without Developer Account
+ invalid media, 10 Dec 2014
+ http://www.codeproject.com/Tips/851790/Using-Google-Translation-without-Developer-Account?msg=4960428#xx4960428xx
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Webservices.Google.GoogleTranslation.Translate(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="mystring"></param>
+ <returns></returns>
+ <remarks>
+ '**********************************************************************************************
+ '* This program extract the result of English to Arabic word translated in google, 
+ '* no need to get AppID '* or license just to translate. 
+ '* You can change the language according to you needs.
+ '* Be sure you are connected to internet when running the program                                       
+ '* NOTE : This is my interpretation of conversion. 
+ '* This is subject to change because of google rendering'* implementation of html       
+ '* Copyright 2014 - Elmer Garcia                                                                        
+ '* Email me : elmerrgarcia@gmail.com
+ '************************************************************************************************
+ </remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Webservices.Google.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Webservices.Google.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Webservices.Google.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+</members>
+</doc>

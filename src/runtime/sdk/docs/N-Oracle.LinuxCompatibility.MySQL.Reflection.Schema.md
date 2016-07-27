@@ -1,6 +1,6 @@
 ﻿---
 title: Oracle.LinuxCompatibility.MySQL.Reflection.Schema
-date: 7/7/2016 5:47:28 PM
+date: 7/27/2016 7:34:09 PM
 ---
 
 [Field](T-Oracle.LinuxCompatibility.MySQL.Reflection.Schema.Field.html)

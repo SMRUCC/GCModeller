@@ -5,7 +5,7 @@ title: CARMEN
 # CARMEN
 _namespace: [SMRUCC.genomics.Interops.CARMEN](N-SMRUCC.genomics.Interops.CARMEN.html)_
 
-
+Mapping between the kegg database and the target bacteria genome.
 
 
 

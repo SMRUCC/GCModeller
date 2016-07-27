@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
-date: 7/7/2016 5:42:36 PM
+date: 7/27/2016 7:12:41 PM
 ---
 
 [BacterialModel](T-SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.BacterialModel.html)

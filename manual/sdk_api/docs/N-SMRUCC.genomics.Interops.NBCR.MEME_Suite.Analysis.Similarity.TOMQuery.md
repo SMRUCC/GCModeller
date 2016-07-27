@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
-date: 7/7/2016 5:43:01 PM
+date: 7/27/2016 7:12:44 PM
 ---
 
 [Encoder](T-SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.Encoder.html)

@@ -6,7 +6,7 @@ Microsoft.VisualBasic.DataMining.Framework
 </name>
 </assembly>
 <members>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.BinaryEncodingServices.EncodingTransaction(System.String[])">
+<member name="M:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.BinaryEncodingServices.EncodingTransaction(System.String[])">
  <summary>
  ±àÂëÒ»¸öÊÂÎñ
  </summary>
@@ -14,7 +14,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.BinaryEncodingServices.DecodesTransaction(System.String)">
+<member name="M:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.BinaryEncodingServices.DecodesTransaction(System.String)">
  <summary>
  ½âÂëÒ»¸öÊÂÎñ
  </summary>
@@ -22,88 +22,88 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices">
+<member name="T:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices">
  <summary>
  ½«ÊÂ¼þ½øÐÐ±àÂëÎªµ¥¸ö×Ö·û
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices.#ctor(System.String[],System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices.#ctor(System.String[],System.Int32[])">
  <summary>
  ±àÂëÔ­Àí£¬Õâ¸öº¯ÊýÊÇÎª¶àÖµ½øÐÐ±àÂëµÄ£¬¼´<paramref name="items"></paramref>Ö®ÖÐµÄÃ¿Ò»¸öÔªËØÎªÈÎÒâÊµÊý½øÐÐÕ¹¿ª£¬È»ºó¶ÔÕ¹¿ªµÄÊý¾Ý½øÐÐ±àÂë´¦Àí
  </summary>
  <param name="Items">Value²¿·ÖÎªËùÓÐ¿ÉÄÜµÄÈ¡Öµ£¬Çë×¢Òâ£¬ValueÖ®ÖÐ²»ÄÜ¹»ÓÐÖØ¸´Öµ</param>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices.MapRecovered(System.String)">
+<member name="M:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices.MapRecovered(System.String)">
  <summary>
  ÔÚ½øÐÐ¹ØÁª·ÖÎöÍê±ÏÖ®ºó£¬ÔÙÓ³Éä»ØÈ¥
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices.TransactionEncoding(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Transaction})">
+<member name="M:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices.TransactionEncoding(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Transaction})">
  <summary>
  
  </summary>
- <param name="data">Õâ¸öµÄË³ÐòÓëÊýÄ¿±ØÐëÒªÓë<see cref="F:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices._CodeMappings"></see>»òÕß<see cref="F:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices._originals"></see>ÏàÒ»ÖÂ</param>
+ <param name="data">Õâ¸öµÄË³ÐòÓëÊýÄ¿±ØÐëÒªÓë<see cref="F:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices._CodeMappings"></see>»òÕß<see cref="F:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices._originals"></see>ÏàÒ»ÖÂ</param>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Transaction.Values">
+<member name="P:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Transaction.Values">
  <summary>
- Õâ¸öµÄË³ÐòÓëÊýÄ¿±ØÐëÒªÓë<see cref="P:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices.CodeMappings"></see>»òÕß<see cref="F:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.EncodingServices._originals"></see>ÏàÒ»ÖÂ
+ Õâ¸öµÄË³ÐòÓëÊýÄ¿±ØÐëÒªÓë<see cref="P:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices.CodeMappings"></see>»òÕß<see cref="F:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.EncodingServices._originals"></see>ÏàÒ»ÖÂ
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Entities.Rule">
+<member name="T:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Entities.Rule">
  <summary>
- ÊÂ¼þ¹ØÁª¹æÔò
+ �¼���������
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Entities.Rule.Confidence">
+<member name="P:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Entities.Rule.Confidence">
  <summary>
- µ±Ç°µÄÕâ¸öÊÂ¼þ¹ØÁª¹æÔòµÄÖÃÐÅ¶ÈµÄ¸ßµÍ
+ ��ǰ������¼�������������Ŷȵĸߵ�
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Apriori">
+<member name="T:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Apriori">
  <summary>
  
  </summary>
  <remarks></remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.AprioriAlgorithm.Apriori.SorterSortTokens(System.String)">
+<member name="M:Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Apriori.SorterSortTokens(System.String)">
  <summary>
- ½«×Ö·û´®Ö®ÖÐµÄ×Ö·û½øÐÐÅÅÐò²Ù×÷
+ ���ַ���֮�е��ַ������������
  </summary>
  <param name="token"></param>
  <returns></returns>
  <remarks></remarks>
  
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.BezierPointList">
+<member name="P:Microsoft.VisualBasic.DataMining.BezierCurve.BezierPointList">
  <summary>
  store the list of points in the bezier curve
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.InitPointsList">
+<member name="P:Microsoft.VisualBasic.DataMining.BezierCurve.InitPointsList">
  <summary>
  store the list of initial points
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.Iterations">
+<member name="P:Microsoft.VisualBasic.DataMining.BezierCurve.Iterations">
  <summary>
  store the number of iterations
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.ReCalculate(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.BezierCurve.ReCalculate(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Int32)">
  <summary>
  recreate the bezier curve.
  </summary>
@@ -113,7 +113,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="iteration">number of iteration of the algorithm</param>
  <returns>the list of points in the curve</returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.CreateBezier(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF)">
+<member name="M:Microsoft.VisualBasic.DataMining.BezierCurve.CreateBezier(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF)">
  <summary>
  create a bezier curve
  </summary>
@@ -121,7 +121,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="ctrl2">second initial point</param>
  <param name="ctrl3">third initial point</param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.PopulateBezierPoints(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.BezierCurve.PopulateBezierPoints(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Int32)">
  <summary>
  Recursivly call to construct the bezier curve with control points
  </summary>
@@ -130,7 +130,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="ctrl3">third control point of bezier curve segment</param>
  <param name="currentIteration">the current interation of a branch</param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.MidPoint(System.Drawing.PointF,System.Drawing.PointF)">
+<member name="M:Microsoft.VisualBasic.DataMining.BezierCurve.MidPoint(System.Drawing.PointF,System.Drawing.PointF)">
  <summary>
  Find mid point
  </summary>
@@ -138,17 +138,17 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="controlPoint2">second control point</param>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.BezierSmoothInterpolation(System.Double[],System.Int32,System.Int32,System.Boolean)">
+<member name="M:Microsoft.VisualBasic.DataMining.BezierCurve.BezierSmoothInterpolation(System.Double[],System.Int32,System.Int32,System.Boolean)">
  <summary>
  
  </summary>
  <param name="data"></param>
- <param name="Parallel">²¢ÐÐ°æ±¾µÄ</param>
- <param name="WindowSize">Êý¾Ý²ÉÑùµÄ´°¿Ú´óÐ¡£¬Ä¬ÈÏ´óÐ¡ÊÇ<paramref name="data"></paramref>µÄ°Ù·ÖÖ®1</param>
+ <param name="Parallel">���а汾��</param>
+ <param name="WindowSize">���ݲ����Ĵ��ڴ�С��Ĭ�ϴ�С��<paramref name="data"></paramref>�İٷ�֮1</param>
  <returns></returns>
- <remarks>ÏÈ¶ÔÊý¾Ý½øÐÐ²ÉÑù£¬È»ºó²åÖµ£¬×îºó·µ»Ø²åÖµºóµÄÆ½»¬ÇúÏßÊý¾ÝÒÔÓÃÓÚÏÂÒ»²½·ÖÎö</remarks>
+ <remarks>�ȶ����ݽ��в�����Ȼ���ֵ����󷵻ز�ֵ���ƽ������������������һ������</remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.BezierCurve.__interpolation(System.Double[],System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.BezierCurve.__interpolation(System.Double[],System.Int32)">
  <summary>
  
  </summary>
@@ -157,7 +157,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.DirichletDistribution">
+<member name="T:Microsoft.VisualBasic.DataMining.DirichletDistribution">
  <summary>
  Dirichlet distribution
  
@@ -170,14 +170,14 @@ Microsoft.VisualBasic.DataMining.Framework
  categorical distribution and multinomial distribution.
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.DirichletDistribution.lgamma(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.DirichletDistribution.lgamma(System.Double)">
  <summary>
  see http://www.machinedlearnings.com/2011/06/faster-lda.html
  </summary>
  <param name="x"></param>
  <returns></returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm">
+<member name="T:Microsoft.VisualBasic.DataMining.TFftAlgorithm">
  <summary>
  Quick Fourier Transformation. 
  Some ideas to make the Discrete Fourier Transformation a bit quicker and implemented a lean version of the DFT algorithm.
@@ -203,7 +203,7 @@ Microsoft.VisualBasic.DataMining.Framework
  (FFT产生对波形的频率的采样，一个频率采样是一个复数集合，虚数部分记录了相位，实数部分则记录了振幅。我们必须计算声贝的大小从而产生一个比较不错的分析数据)
  </remarks>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm.a">
+<member name="F:Microsoft.VisualBasic.DataMining.TFftAlgorithm.a">
  <summary>
  The real value is the cosinus part
  </summary>
@@ -219,49 +219,49 @@ Microsoft.VisualBasic.DataMining.Framework
  SampleTagger and y is the nth magnitude in range [0,fft_size/2]
  </remarks>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm.b">
+<member name="F:Microsoft.VisualBasic.DataMining.TFftAlgorithm.b">
  <summary>
  The imag value is the sinus part
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm.#ctor(System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.TFftAlgorithm.#ctor(System.Int32)">
  <summary>
- 使用本构造函数所创建的FFT对象，需要在后续的代码之中手动设置<see cref="F:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm.y"></see>的值
+ 使用本构造函数所创建的FFT对象，需要在后续的代码之中手动设置<see cref="F:Microsoft.VisualBasic.DataMining.TFftAlgorithm.y"></see>的值
  </summary>
- <param name="order"><see cref="F:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm.y"></see>的值的数目</param>
+ <param name="order"><see cref="F:Microsoft.VisualBasic.DataMining.TFftAlgorithm.y"></see>的值的数目</param>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm.FourierTransformation">
+<member name="M:Microsoft.VisualBasic.DataMining.TFftAlgorithm.FourierTransformation">
  <summary>
  Fourier transformation calculation of the Fourier components
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.TFftAlgorithm.InvDFT">
+<member name="M:Microsoft.VisualBasic.DataMining.TFftAlgorithm.InvDFT">
  <summary>
  invers Fourier transformation, rebuild the signal in real numbers
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.Clustering.SimpleCluster.offset">
+<member name="P:Microsoft.VisualBasic.DataMining.Clustering.SimpleCluster.offset">
  <summary>
- 1 - 右偏移，即<see cref="P:Microsoft.VisualBasic.DataMining.Framework.Clustering.SimpleCluster.Items"></see>里面的对象大部分都大于<see cref="P:Microsoft.VisualBasic.DataMining.Framework.Clustering.SimpleCluster.Kernel"></see>
+ 1 - 右偏移，即<see cref="P:Microsoft.VisualBasic.DataMining.Clustering.SimpleCluster.Items"></see>里面的对象大部分都大于<see cref="P:Microsoft.VisualBasic.DataMining.Clustering.SimpleCluster.Kernel"></see>
  0 - 不偏移，则比较有可能为一个核
- -1 - 左偏移，即大部分对象都小于<see cref="P:Microsoft.VisualBasic.DataMining.Framework.Clustering.SimpleCluster.Kernel"></see>
+ -1 - 左偏移，即大部分对象都小于<see cref="P:Microsoft.VisualBasic.DataMining.Clustering.SimpleCluster.Kernel"></see>
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Clustering.SimpleCluster.Split">
+<member name="M:Microsoft.VisualBasic.DataMining.Clustering.SimpleCluster.Split">
  <summary>
  核分裂
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Clustering.Clustering.Clustering(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.Clustering.Clustering.Clustering(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
  <summary>
  
  </summary>
@@ -271,12 +271,12 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks></remarks>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.DynamicProgramming.LCS_Length">
+<member name="T:Microsoft.VisualBasic.DataMining.DynamicProgramming.LCS_Length">
  <summary>
  Longest Common Subsequence
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.FourierTransform">
+<member name="T:Microsoft.VisualBasic.DataMining.FourierTransform">
  <summary>
  Fourier transformation.
  </summary>
@@ -285,22 +285,22 @@ Microsoft.VisualBasic.DataMining.Framework
  Discrete and Fast Fourier Transformation.</remarks>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.FourierTransform.Direction">
+<member name="T:Microsoft.VisualBasic.DataMining.FourierTransform.Direction">
  <summary>
  Fourier transformation direction.
  </summary>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.FourierTransform.Direction.Forward">
+<member name="F:Microsoft.VisualBasic.DataMining.FourierTransform.Direction.Forward">
  <summary>
  Forward direction of Fourier transformation.
  </summary>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.FourierTransform.Direction.Backward">
+<member name="F:Microsoft.VisualBasic.DataMining.FourierTransform.Direction.Backward">
  <summary>
  Backward direction of Fourier transformation.
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.FourierTransform.DFT(System.Numerics.Complex[],Microsoft.VisualBasic.DataMining.Framework.FourierTransform.Direction)">
+<member name="M:Microsoft.VisualBasic.DataMining.FourierTransform.DFT(System.Numerics.Complex[],Microsoft.VisualBasic.DataMining.FourierTransform.Direction)">
  <summary>
  One dimensional Discrete Fourier Transform.
  </summary>
@@ -309,7 +309,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="direction__1">Transformation direction.</param>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.FourierTransform.DFT2(System.Numerics.Complex[0:,0:],Microsoft.VisualBasic.DataMining.Framework.FourierTransform.Direction)">
+<member name="M:Microsoft.VisualBasic.DataMining.FourierTransform.DFT2(System.Numerics.Complex[0:,0:],Microsoft.VisualBasic.DataMining.FourierTransform.Direction)">
  <summary>
  Two dimensional Discrete Fourier Transform.
  </summary>
@@ -318,7 +318,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="direction__1">Transformation direction.</param>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.FourierTransform.FFT(System.Numerics.Complex[],Microsoft.VisualBasic.DataMining.Framework.FourierTransform.Direction)">
+<member name="M:Microsoft.VisualBasic.DataMining.FourierTransform.FFT(System.Numerics.Complex[],Microsoft.VisualBasic.DataMining.FourierTransform.Direction)">
  <summary>
  One dimensional Fast Fourier Transform.
  </summary>
@@ -332,7 +332,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <exception cref="T:System.ArgumentException">Incorrect data length.</exception>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.FourierTransform.FFT2(System.Numerics.Complex[0:,0:],Microsoft.VisualBasic.DataMining.Framework.FourierTransform.Direction)">
+<member name="M:Microsoft.VisualBasic.DataMining.FourierTransform.FFT2(System.Numerics.Complex[0:,0:],Microsoft.VisualBasic.DataMining.FourierTransform.Direction)">
  <summary>
  Two dimensional Fast Fourier Transform.
  </summary>
@@ -347,25 +347,25 @@ Microsoft.VisualBasic.DataMining.Framework
  <exception cref="T:System.ArgumentException">Incorrect data length.</exception>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement">
+<member name="T:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement">
  <summary>
- This object represents the factor which decides the node state changes.(决定<see cref="T:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.dflNode"></see>的状态的因素)
+ This object represents the factor which decides the node state changes.(决定<see cref="T:Microsoft.VisualBasic.DataMining.DFL_Driver.dflNode"></see>的状态的因素)
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement._Weight">
+<member name="F:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement._Weight">
  <summary>
- <see cref="F:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement._Weight"></see>越大,则<see cref="F:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement._ABS_Weight"></see>越小，即事件发生的阈值越小
+ <see cref="F:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement._Weight"></see>越大,则<see cref="F:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement._ABS_Weight"></see>越小，即事件发生的阈值越小
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement._ABS_Weight">
+<member name="F:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement._ABS_Weight">
  <summary>
-  1 - <see cref="M:System.Math.Abs(System.Decimal)"></see>(<see cref="F:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement._Weight"></see>)
+  1 - <see cref="M:System.Math.Abs(System.Decimal)"></see>(<see cref="F:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement._Weight"></see>)
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement.Weight">
+<member name="P:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement.Weight">
  <summary>
  Weight = [-1,1]. (可以带有符号，介于-1到1之间)
  </summary>
@@ -373,7 +373,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement.FunctionalState">
+<member name="P:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement.FunctionalState">
  <summary>
  Does this factor effects on the node states changes? value zero is no effects.
  (当前的这个因素是否会影响目标节点的状态值的改变，0表示不影响)
@@ -382,43 +382,43 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement.Internal_getEventProbabilities">
+<member name="M:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement.Internal_getEventProbabilities">
  <summary>
  计算公式为 (1-w)， 即本函数返回的值越低，则事件越容易发生，请注意使用 rnd >= Internal_getEventProbabilities() 来描述事件发生
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement.get_InteractionQuantity">
+<member name="M:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement.get_InteractionQuantity">
  <summary>
- 假若事件发生的话，这个函数决定了<see cref="P:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement.FunctionalState"></see>所返回的计算值
+ 假若事件发生的话，这个函数决定了<see cref="P:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement.FunctionalState"></see>所返回的计算值
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement.ShadowCopy(Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement,Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.dflNode)">
+<member name="M:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement.ShadowCopy(Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement,Microsoft.VisualBasic.DataMining.DFL_Driver.dflNode)">
  <summary>
- <see cref="T:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.dflNode"></see>对象初始化的时候所使用的方法
+ <see cref="T:Microsoft.VisualBasic.DataMining.DFL_Driver.dflNode"></see>对象初始化的时候所使用的方法
  </summary>
  <param name="data"></param>
  <param name="Target"></param>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.dflNode">
+<member name="T:Microsoft.VisualBasic.DataMining.DFL_Driver.dflNode">
  <summary>
  A node in the fuzzy logic network.(模糊逻辑网络之中的一个节点)
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.dflNode.get_FactorsCollectionWeight">
+<member name="M:Microsoft.VisualBasic.DataMining.DFL_Driver.dflNode.get_FactorsCollectionWeight">
  <summary>
  获取当前节点上面的调控因子的数量的总和
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Extensions.ValueGroups(System.Collections.Generic.IEnumerable{System.Double},System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.Extensions.ValueGroups(System.Collections.Generic.IEnumerable{System.Double},System.Int32)">
  <summary>
  Grouping the numeric values by using the kmeans cluserting operations.
  (对一组数字进行聚类操作，其实在这里就是将这组数值生成Entity数据对象，然后将数值本身作为自动生成的Entity对象的一个唯一属性)
@@ -427,7 +427,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="nd"></param>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Extensions.Kmeans(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.Framework.KMeans.EntityLDM},System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.Extensions.Kmeans(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.KMeans.EntityLDM},System.Int32)">
  <summary>
  Performance the clustering operation on the entity data model.
  </summary>
@@ -435,7 +435,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="n"></param>
  <returns></returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.KMeans.CompleteLinkage.Clustering">
+<member name="T:Microsoft.VisualBasic.DataMining.KMeans.CompleteLinkage.Clustering">
  <summary>
  
  </summary>
@@ -443,77 +443,77 @@ Microsoft.VisualBasic.DataMining.Framework
  https://github.com/halfjew22/Clustering/blob/master/src/com/lustig/model/Clustering.java
  </remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.KMeans.EntityLDM">
+<member name="T:Microsoft.VisualBasic.DataMining.KMeans.EntityLDM">
  <summary>
  存储在Csv文件里面的数据模型
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.KMeans.Entity">
+<member name="T:Microsoft.VisualBasic.DataMining.KMeans.Entity">
  <summary>
  计算所使用的对象实例实体模型
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Entity.Load(System.String,System.String)">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.Entity.Load(System.String,System.String)">
  <summary>
 
  </summary>
  <param name="path">Csv文件之中除了第一列是名称标识符，其他的都必须是该实体对象的属性</param>
  <returns></returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansCluster`1">
+<member name="T:Microsoft.VisualBasic.DataMining.KMeans.KMeansCluster`1">
  <summary>
  A class containing a group of data with similar characteristics (cluster), KMeans Cluster
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansCluster`1.ClusterSum">
+<member name="P:Microsoft.VisualBasic.DataMining.KMeans.KMeansCluster`1.ClusterSum">
  <summary>
  The sum of all the data in the cluster
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansCluster`1.ClusterMean">
+<member name="P:Microsoft.VisualBasic.DataMining.KMeans.KMeansCluster`1.ClusterMean">
  <summary>
  The mean of all the data in the cluster
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansCluster`1.Add(`0)">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansCluster`1.Add(`0)">
  <summary>
  Adds a single dimension array data to the cluster
  </summary>
  <param name="data">A 1-dimensional array containing data that will be added to the cluster</param>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansCluster`1.Item(System.Int32)">
+<member name="P:Microsoft.VisualBasic.DataMining.KMeans.KMeansCluster`1.Item(System.Int32)">
  <summary>
  Returns the one dimensional array data located at the index
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansCluster`1.refresh">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansCluster`1.refresh">
  <summary>
  Will keep the center member variable, but clear the list of points
  within the cluster.
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.KMeans.ClusterCollection`1">
+<member name="T:Microsoft.VisualBasic.DataMining.KMeans.ClusterCollection`1">
  <summary>
  A collection of Cluster objects or Clusters
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.ClusterCollection`1.Add(Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansCluster{`0})">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.ClusterCollection`1.Add(Microsoft.VisualBasic.DataMining.KMeans.KMeansCluster{`0})">
  <summary>
  Adds a Cluster to the collection of Clusters
  </summary>
  <param name="cluster">A Cluster to be added to the collection of clusters</param>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.KMeans.ClusterCollection`1.Item(System.Int32)">
+<member name="P:Microsoft.VisualBasic.DataMining.KMeans.ClusterCollection`1.Item(System.Int32)">
  <summary>
  Returns the Cluster at this index
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansAlgorithm">
+<member name="T:Microsoft.VisualBasic.DataMining.KMeans.KMeansAlgorithm">
  <summary>
  This class implement a KMeans clustering algorithm.(请注意，实体对象的属性必须要长度一致)
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansAlgorithm.EuclideanDistance(System.Double[],System.Double[])">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansAlgorithm.EuclideanDistance(System.Double[],System.Double[])">
  <summary>
  Calculates the Euclidean Distance Measure between two data points
  </summary>
@@ -521,7 +521,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="Y">An array with the values of an object or datapoint</param>
  <returns>Returns the Euclidean Distance Measure Between Points X and Points Y</returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansAlgorithm.ManhattanDistance(System.Double[],System.Double[])">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansAlgorithm.ManhattanDistance(System.Double[],System.Double[])">
  <summary>
  Calculates the Manhattan Distance Measure between two data points
  </summary>
@@ -529,7 +529,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="Y">An array with the values of an object or datapoint</param>
  <returns>Returns the Manhattan Distance Measure Between Points X and Points Y</returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansAlgorithm.ClusterMean(System.Double[0:,0:])">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansAlgorithm.ClusterMean(System.Double[0:,0:])">
  <summary>
  Calculates The Mean Of A Cluster OR The Cluster Center
  </summary>
@@ -540,7 +540,7 @@ Microsoft.VisualBasic.DataMining.Framework
  Returns an Array Defining A Data Point Representing The Cluster Mean or Centroid
  </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansAlgorithm.ClusterDataSet``1(System.Int32,System.Collections.Generic.IEnumerable{``0})">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansAlgorithm.ClusterDataSet``1(System.Int32,System.Collections.Generic.IEnumerable{``0})">
  <summary>
  Seperates a dataset into clusters or groups with similar characteristics
  </summary>
@@ -548,7 +548,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="source">An array containing data that will be clustered</param>
  <returns>A collection of clusters of data</returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansAlgorithm.ClusterDataSet``1(Microsoft.VisualBasic.DataMining.Framework.KMeans.ClusterCollection{``0},System.Collections.Generic.IEnumerable{``0})">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansAlgorithm.ClusterDataSet``1(Microsoft.VisualBasic.DataMining.KMeans.ClusterCollection{``0},System.Collections.Generic.IEnumerable{``0})">
  <summary>
  Seperates a dataset into clusters or groups with similar characteristics
  </summary>
@@ -556,55 +556,14 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="source">An array containing data to b eclustered</param>
  <returns>A collection of clusters of data</returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.KMeansAlgorithm.ToFloatMatrix(System.Data.DataTable)">
+<member name="M:Microsoft.VisualBasic.DataMining.KMeans.KMeansAlgorithm.ToFloatMatrix(System.Data.DataTable)">
  <summary>
  Converts a System.Data.DataTable to a 2-dimensional array
  </summary>
  <param name="table">A System.Data.DataTable containing data to cluster</param>
  <returns>A 2-dimensional array containing data to cluster</returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Tree.Partitioning(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.Framework.KMeans.EntityLDM},System.Int32)">
- <summary>
- 
- </summary>
- <param name="cluster"></param>
- <param name="depth">将会以最短的聚类作为数据分区的深度</param>
- <returns></returns>
-</member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Tree.TreeCluster(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.Framework.KMeans.EntityLDM},System.Boolean)">
- <summary>
- 树形聚类
- </summary>
- <param name="resultSet"></param>
- <returns></returns>
-
-</member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Tree.__firstCluster``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
- <summary>
- 两条线程并行化进行二叉树聚类
- </summary>
- <typeparam name="T"></typeparam>
- <param name="source"></param>
- <param name="[stop]"></param>
- <returns></returns>
-</member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Tree.bTreeNET(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.Framework.KMeans.EntityLDM})">
- <summary>
- Create network model for visualize the binary tree clustering result.
- </summary>
- <param name="source"></param>
- <returns></returns>
-</member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.KMeans.Tree.__buildNET(Microsoft.VisualBasic.DataMining.Framework.KMeans.Tree.__edgePath[],Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node,System.Int32,Microsoft.VisualBasic.List{Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node}@)">
- <summary>
- 从某一个分支点下来
- </summary>
- <param name="array"></param>
- <param name="depth"></param>
- <param name="nodes"></param>
- <returns></returns>
-</member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.MarginalLikelihoodAnalysis">
+<member name="T:Microsoft.VisualBasic.DataMining.MarginalLikelihoodAnalysis">
  <summary>
  @author Marc Suchard
  @author Alexei Drummond
@@ -612,7 +571,7 @@ Microsoft.VisualBasic.DataMining.Framework
  Source translated from ``model_P.c`` (a component of BAli-Phy by Benjamin Redelings and Marc Suchard
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MarginalLikelihoodAnalysis.#ctor(System.Collections.Generic.IList{System.Double},System.Int32,System.String,System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.MarginalLikelihoodAnalysis.#ctor(System.Collections.Generic.IList{System.Double},System.Int32,System.String,System.Int32)">
  <summary>
  Constructor
  </summary>
@@ -621,28 +580,28 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="analysisType"> </param>
  <param name="bootstrapLength"> a value of zero will turn off bootstrapping </param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MarginalLikelihoodAnalysis.logMarginalLikelihoodArithmetic(System.Collections.Generic.IList{System.Nullable{System.Double}})">
+<member name="M:Microsoft.VisualBasic.DataMining.MarginalLikelihoodAnalysis.logMarginalLikelihoodArithmetic(System.Collections.Generic.IList{System.Nullable{System.Double}})">
  <summary>
  Calculates the log marginal likelihood of a model using the arithmetic mean estimator
  </summary>
  <param name="v"> a posterior sample of logLikelihoods </param>
  <returns> the log marginal likelihood </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MarginalLikelihoodAnalysis.logMarginalLikelihoodHarmonic(System.Collections.Generic.IList{System.Double})">
+<member name="M:Microsoft.VisualBasic.DataMining.MarginalLikelihoodAnalysis.logMarginalLikelihoodHarmonic(System.Collections.Generic.IList{System.Double})">
  <summary>
  Calculates the log marginal likelihood of a model using Newton and Raftery's harmonic mean estimator
  </summary>
  <param name="v"> a posterior sample of logLikelihoods </param>
  <returns> the log marginal likelihood </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MarginalLikelihoodAnalysis.logMarginalLikelihoodAICM(System.Collections.Generic.IList{System.Double})">
+<member name="M:Microsoft.VisualBasic.DataMining.MarginalLikelihoodAnalysis.logMarginalLikelihoodAICM(System.Collections.Generic.IList{System.Double})">
  <summary>
  Calculates the AICM of a model using method-of-moments from Raftery et al. (2007)
  </summary>
  <param name="v"> a posterior sample of logLikelihoods </param>
  <returns> the AICM (lower values are better) </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MarginalLikelihoodAnalysis.logMarginalLikelihoodSmoothed(System.Collections.Generic.IList{System.Double},System.Double,System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.MarginalLikelihoodAnalysis.logMarginalLikelihoodSmoothed(System.Collections.Generic.IList{System.Double},System.Double,System.Double)">
  <summary>
  Calculates the log marginal likelihood of a model using Newton and Raftery's smoothed estimator
  </summary>
@@ -651,12 +610,12 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="Pdata"> current estimate of the log marginal likelihood </param>
  <returns> the log marginal likelihood </returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.MathGamma">
+<member name="T:Microsoft.VisualBasic.DataMining.MathGamma">
  <summary>
  gamma function (Γ) from mathematics
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MathGamma.lngamma(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.MathGamma.lngamma(System.Double)">
  <summary>
  Spouge approximation (suitable for large arguments)
  </summary>
@@ -664,14 +623,14 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MathGamma.Γ(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.MathGamma.Γ(System.Double)">
  <summary>
  gamma function ``Γ`` from mathematics
  </summary>
  <param name="x"></param>
  <returns></returns>
  <remarks>
- Alias for <see cref="M:Microsoft.VisualBasic.DataMining.Framework.MathGamma.gamma(System.Double)"/>
+ Alias for <see cref="M:Microsoft.VisualBasic.DataMining.MathGamma.gamma(System.Double)"/>
  
  Test:
  
@@ -685,7 +644,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.MathGamma.gamma(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.MathGamma.gamma(System.Double)">
  <summary>
  Γ
  </summary>
@@ -693,17 +652,12 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Models.NetworkModelAPI">
- <summary>
- 网络可视化工具
- </summary>
-</member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.TrainingUtils">
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.TrainingUtils">
  <summary>
  Tools for training the neuron network
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.TrainingUtils.Corrects(System.Double[],System.Double[],System.Double[],System.Boolean)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.TrainingUtils.Corrects(System.Double[],System.Double[],System.Double[],System.Boolean)">
  <summary>
  
  </summary>
@@ -711,41 +665,48 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="convertedResults">The error outputs</param>
  <param name="expectedResults">The corrects output</param>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.DataSet">
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.DataSet">
  <summary>
  The training dataset
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.DataSet.Values">
+<member name="P:Microsoft.VisualBasic.DataMining.NeuralNetwork.DataSet.Values">
  <summary>
  Neuron network input parameters
  </summary>
  <returns></returns>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.DataSet.Targets">
+<member name="P:Microsoft.VisualBasic.DataMining.NeuralNetwork.DataSet.Targets">
  <summary>
  The network expected output values
  </summary>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.DataSet.#ctor(System.Double[],System.Double[])">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.DataSet.#ctor(System.Double[],System.Double[])">
  <summary>
  
  </summary>
  <param name="values__1">Neuron network input parameters</param>
  <param name="targets__2">The network expected output values</param>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.TrainingType.Epoch">
+<member name="F:Microsoft.VisualBasic.DataMining.NeuralNetwork.TrainingType.Epoch">
  <summary>
- <see cref="F:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Helpers.MaxEpochs"/>
+ <see cref="F:Microsoft.VisualBasic.DataMining.NeuralNetwork.Helpers.MaxEpochs"/>
  </summary>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.TrainingType.MinimumError">
+<member name="F:Microsoft.VisualBasic.DataMining.NeuralNetwork.TrainingType.MinimumError">
  <summary>
- <see cref="F:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Helpers.MinimumError"/>
+ <see cref="F:Microsoft.VisualBasic.DataMining.NeuralNetwork.Helpers.MinimumError"/>
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Network.#ctor(System.Int32,System.Int32,System.Int32,System.Double,System.Double,Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.IActivationFunction)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.Encoder`1.Decode(System.Double)">
+ <summary>
+ 
+ </summary>
+ <param name="out">神经网络的输出值</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.Network.#ctor(System.Int32,System.Int32,System.Int32,System.Double,System.Double,Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.IActivationFunction)">
  <summary>
  
  </summary>
@@ -755,20 +716,21 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="learnRate__1"></param>
  <param name="momentum__2"></param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Network.Compute(System.Double[])">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.Network.Compute(System.Double[])">
  <summary>
- Compute result output for the neuron network <paramref name="inputs"/>
+ Compute result output for the neuron network <paramref name="inputs"/>.
+ (请注意ANN的输出值是在0-1之间的，所以还需要进行额外的编码和解码)
  </summary>
  <param name="inputs"></param>
  <returns></returns>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Neuron.IFunc">
+<member name="P:Microsoft.VisualBasic.DataMining.NeuralNetwork.Neuron.IFunc">
  <summary>
  The active function
  </summary>
  <returns></returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction">
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction">
  <summary>
  Bipolar sigmoid activation function.
  </summary>
@@ -793,7 +755,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Alpha">
+<member name="P:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Alpha">
  <summary>
  Sigmoid's alpha value.
  </summary>
@@ -807,20 +769,20 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.#ctor">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.#ctor">
  <summary>
- Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction"/> class.
+ Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction"/> class.
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.#ctor(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.#ctor(System.Double)">
  <summary>
- Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction"/> class.
+ Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction"/> class.
  </summary>
  
  <param name="alpha">Sigmoid's alpha value.</param>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Function(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Function(System.Double)">
  <summary>
  Calculates function value.
  </summary>
@@ -832,7 +794,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Derivative(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Derivative(System.Double)">
  <summary>
  Calculates function derivative.
  </summary>
@@ -844,7 +806,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks>The method calculates function derivative at point <paramref name="x"/>.</remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Derivative2(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Derivative2(System.Double)">
  <summary>
  Calculates function derivative.
  </summary>
@@ -855,7 +817,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns>Function derivative, <i>f'(x)</i>.</returns>
 
  <remarks><para>The method calculates the same derivative value as the
- <see cref="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Derivative(System.Double)"/> method, but it takes not the input <b>x</b> value
+ <see cref="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Derivative(System.Double)"/> method, but it takes not the input <b>x</b> value
  itself, but the function value, which was calculated previously with
  the help of "Function" method.</para>
  
@@ -864,7 +826,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Clone">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.BipolarSigmoidFunction.Clone">
  <summary>
  Creates a new object that is a copy of the current instance.
  </summary>
@@ -874,7 +836,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </returns>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.IActivationFunction">
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.IActivationFunction">
  <summary>
  Activation function interface.
  </summary>
@@ -885,7 +847,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.IActivationFunction.Function(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.IActivationFunction.Function(System.Double)">
  <summary>
  Calculates function value.
  </summary>
@@ -897,7 +859,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.IActivationFunction.Derivative(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.IActivationFunction.Derivative(System.Double)">
  <summary>
  Calculates function derivative.
  </summary>
@@ -909,7 +871,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks>The method calculates function derivative at point <paramref name="x"/>.</remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.IActivationFunction.Derivative2(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.IActivationFunction.Derivative2(System.Double)">
  <summary>
  Calculates function derivative.
  </summary>
@@ -920,7 +882,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns>Function derivative, <i>f'(x)</i>.</returns>
  
  <remarks><para>The method calculates the same derivative value as the
- <see cref="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.IActivationFunction.Derivative(System.Double)"/> method, but it takes not the input <b>x</b> value
+ <see cref="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.IActivationFunction.Derivative(System.Double)"/> method, but it takes not the input <b>x</b> value
  itself, but the function value, which was calculated previously with
  the help of "Function" method.</para>
  
@@ -929,7 +891,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction">
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction">
  <summary>
  Sigmoid activation function.
  </summary>
@@ -954,7 +916,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.Alpha">
+<member name="P:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.Alpha">
  <summary>
  Sigmoid's alpha value.
  </summary>
@@ -968,20 +930,20 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.#ctor">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.#ctor">
  <summary>
- Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction"/> class.
+ Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction"/> class.
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.#ctor(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.#ctor(System.Double)">
  <summary>
- Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction"/> class.
+ Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction"/> class.
  </summary>
  
  <param name="alpha">Sigmoid's alpha value.</param>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.Function(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.Function(System.Double)">
  <summary>
  Calculates function value.
  </summary>
@@ -993,7 +955,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.Derivative(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.Derivative(System.Double)">
  <summary>
  Calculates function derivative.
  </summary>
@@ -1005,7 +967,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks>The method calculates function derivative at point <paramref name="x"/>.</remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.Derivative2(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.Derivative2(System.Double)">
  <summary>
  Calculates function derivative.
  </summary>
@@ -1016,7 +978,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns>Function derivative, <i>f'(x)</i>.</returns>
  
  <remarks><para>The method calculates the same derivative value as the
- <see cref="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.Derivative(System.Double)"/> method, but it takes not the input <b>x</b> value
+ <see cref="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.Derivative(System.Double)"/> method, but it takes not the input <b>x</b> value
  itself, but the function value, which was calculated previously with
  the help of "Function" method.</para>
  
@@ -1025,7 +987,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.SigmoidFunction.Clone">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.SigmoidFunction.Clone">
  <summary>
  Creates a new object that is a copy of the current instance.
  </summary>
@@ -1035,7 +997,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </returns>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.ThresholdFunction">
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.ThresholdFunction">
  <summary>
  Threshold activation function.
  </summary>
@@ -1054,12 +1016,12 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.ThresholdFunction.#ctor">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.ThresholdFunction.#ctor">
  <summary>
- Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.ThresholdFunction"/> class.
+ Initializes a new instance of the <see cref="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.ThresholdFunction"/> class.
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.ThresholdFunction.Function(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.ThresholdFunction.Function(System.Double)">
  <summary>
  Calculates function value.
  </summary>
@@ -1071,7 +1033,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks>The method calculates function value at point <paramref name="x"/>.</remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.ThresholdFunction.Derivative(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.ThresholdFunction.Derivative(System.Double)">
  <summary>
  Calculates function derivative (not supported).
  </summary>
@@ -1084,7 +1046,7 @@ Microsoft.VisualBasic.DataMining.Framework
  calculate derivative of the function.</note></para></remarks>
 
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.ThresholdFunction.Derivative2(System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.ThresholdFunction.Derivative2(System.Double)">
  <summary>
  Calculates function derivative (not supported).
  </summary>
@@ -1097,7 +1059,7 @@ Microsoft.VisualBasic.DataMining.Framework
  calculate derivative of the function.</note></para></remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.IFuncs.ThresholdFunction.Clone">
+<member name="M:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.ThresholdFunction.Clone">
  <summary>
  Creates a new object that is a copy of the current instance.
  </summary>
@@ -1107,18 +1069,23 @@ Microsoft.VisualBasic.DataMining.Framework
  </returns>
  
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Synapse">
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.IFuncs.Sigmoid">
+ <summary>
+ https://github.com/trentsartain/Neural-Network/blob/master/NeuralNetwork/NeuralNetwork/Network/Sigmoid.cs
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.DataMining.NeuralNetwork.Synapse">
  <summary>
  （神经元的）突触 a connection between two nerve cells
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.NeuralNetwork.Synapse.Weight">
+<member name="P:Microsoft.VisualBasic.DataMining.NeuralNetwork.Synapse.Weight">
  <summary>
  两个神经元之间的连接强度
  </summary>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis.PeriodAnalysis.Analysis(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis.SerialsVarialble},System.String,System.UInt32)">
+<member name="M:Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis.PeriodAnalysis.Analysis(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis.SerialsVarialble},System.String,System.UInt32)">
  <summary>
  
  </summary>
@@ -1128,7 +1095,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <remarks></remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis.PeriodAnalysis.Analysis(Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis.SerialsVarialble,System.UInt32)">
+<member name="M:Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis.PeriodAnalysis.Analysis(Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis.SerialsVarialble,System.UInt32)">
  <summary>
  返回的数据是周期变化数据，故而假若需要计算频率变化的话，还需要求倒数
  </summary>
@@ -1136,7 +1103,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="WindowSize"></param>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Serials.PeriodAnalysis.PeriodAnalysis.LoadDataFromCsv(System.String)">
+<member name="M:Microsoft.VisualBasic.DataMining.Serials.PeriodAnalysis.PeriodAnalysis.LoadDataFromCsv(System.String)">
  <summary>
  
  </summary>
@@ -1144,69 +1111,69 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.Action">
+<member name="T:Microsoft.VisualBasic.DataMining.QLearning.Action">
  <summary>
  One specific environment state have some possible actions,
  but there is just one best action on the current environment state based on the accumulate q-values
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.Action.EnvirState">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.Action.EnvirState">
  <summary>
  The environment variables state as inputs for the machine.
  </summary>
  <returns></returns>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.Action.Qvalues">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.Action.Qvalues">
  <summary>
  Actions for the current state.
  </summary>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.Action.ToString">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.Action.ToString">
  <summary>
  Environment -> actions' Q-values
  </summary>
  <returns></returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel.QModel">
+<member name="T:Microsoft.VisualBasic.DataMining.QLearning.DataModel.QModel">
  <summary>
- Data model of the <see cref="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1"/>, you can using this object to stores the trained QL_AI into a file.
+ Data model of the <see cref="T:Microsoft.VisualBasic.DataMining.QLearning.QTable`1"/>, you can using this object to stores the trained QL_AI into a file.
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel.IndexCurve">
+<member name="T:Microsoft.VisualBasic.DataMining.QLearning.DataModel.IndexCurve">
  <summary>
  属性是时间
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.QState`1">
+<member name="T:Microsoft.VisualBasic.DataMining.QLearning.QState`1">
  <summary>
  
  </summary>
  <typeparam name="T">Status object</typeparam>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QState`1.State">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QState`1.State">
  <summary>
- 假若操作不会涉及到数据修改，请使用这个属性来减少性能的损失，<see cref="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QState`1.Current"/>属性返回的值和本属性是一样的，
- 只不过<see cref="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QState`1.Current"/>属性是从<see cref="M:System.ICloneable.Clone"/>方法得到的数据，所以性能方面会有损失
+ 假若操作不会涉及到数据修改，请使用这个属性来减少性能的损失，<see cref="P:Microsoft.VisualBasic.DataMining.QLearning.QState`1.Current"/>属性返回的值和本属性是一样的，
+ 只不过<see cref="P:Microsoft.VisualBasic.DataMining.QLearning.QState`1.Current"/>属性是从<see cref="M:System.ICloneable.Clone"/>方法得到的数据，所以性能方面会有损失
  </summary>
  <returns></returns>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QState`1.Current">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QState`1.Current">
  <summary>
  map before the action is taken, clone object: <see cref="M:System.ICloneable.Clone"/>
  </summary>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QState`1.GetNextState(System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QState`1.GetNextState(System.Int32)">
  <summary>
- Gets the <see cref="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QState`1.Current"/> states.
+ Gets the <see cref="P:Microsoft.VisualBasic.DataMining.QLearning.QState`1.Current"/> states.
  Returns the map state which results from an initial map state after an
  action is applied. In case the action is invalid, the returned map is the
  same as the initial one (no move). </summary>
  <param name="action"> taken by the avatar ('@') </param>
  <returns> resulting map after the action is taken </returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1">
+<member name="T:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1">
  <summary>
  Q Learning sample class <br/>
  <b>The goal of this code sample is for the character @ to reach the goal area G</b> <br/>
@@ -1216,42 +1183,42 @@ Microsoft.VisualBasic.DataMining.Framework
  @author A.Liapis (Original author), A. Hartzen (2013 modifications) 
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1.ActionRange">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1.ActionRange">
  <summary>
- The size of the <see cref="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1"/>
+ The size of the <see cref="T:Microsoft.VisualBasic.DataMining.QLearning.QTable`1"/>
  </summary>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1.__run(System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1.__run(System.Int32)">
  <summary>
  Takes a action for the agent.
  </summary>
  <param name="i">Iteration counts.</param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1.__reset(System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1.__reset(System.Int32)">
  <summary>
- If the <see cref="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1.GoalReached"/> then reset and continute learning.
+ If the <see cref="P:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1.GoalReached"/> then reset and continute learning.
  </summary>
  <param name="i">机器学习的当前的迭代次数</param>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1.GoalRewards">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1.GoalRewards">
  <summary>
  目标达成所得到的奖励
  </summary>
  <returns></returns>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1.GoalPenalty">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1.GoalPenalty">
  <summary>
  目标没有达成的罚分
  </summary>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QLearning`1.__finishLearn">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QLearning`1.__finishLearn">
  <summary>
  You can save you q table by overrides at here.
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1">
+<member name="T:Microsoft.VisualBasic.DataMining.QLearning.QTable`1">
  <summary>
  The heart of the Q-learning algorithm, the QTable contains the table
  which maps states, actions and their Q values. This class has elaborate
@@ -1261,26 +1228,26 @@ Microsoft.VisualBasic.DataMining.Framework
  @author A.Liapis (Original author), A. Hartzen (2013 modifications); xie.guigang@gcmodeller.org (2016 modifications)
  </summary>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.__randomGenerator">
+<member name="F:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.__randomGenerator">
  <summary>
  for creating random numbers
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.Table">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.Table">
  <summary>
  the table variable stores the Q-table, where the state is saved
  directly as the actual map. Each map state has an array of Q values
  for all the actions available for that state.
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.ActionRange">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.ActionRange">
  <summary>
  the actionRange variable determines the number of actions available
  at any map state, and therefore the number of Q values in each entry
  of the Q-table.
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.ExplorationChance">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.ExplorationChance">
  <summary>
  for e-greedy Q-learning, when taking an action a random number is
  checked against the explorationChance variable: if the number is
@@ -1290,7 +1257,7 @@ Microsoft.VisualBasic.DataMining.Framework
  training goes on.
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.GammaValue">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.GammaValue">
  <summary>
  the discount factor is saved as the gammaValue variable. The
  discount factor determines the importance of future rewards.
@@ -1299,7 +1266,7 @@ Microsoft.VisualBasic.DataMining.Framework
  try to maximize the long-term reward even if it is many moves away.
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.LearningRate">
+<member name="P:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.LearningRate">
  <summary>
  the learningRate determines how new information affects accumulated
  information from previous instances. If the learningRate is 1, then
@@ -1309,26 +1276,26 @@ Microsoft.VisualBasic.DataMining.Framework
  training goes on.
  </summary>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1._prevState">
+<member name="F:Microsoft.VisualBasic.DataMining.QLearning.QTable`1._prevState">
  <summary>
  Since in Q-learning the updates to the Q values are made ONE STEP
  LATE, the state of the world when the action resulting in the reward
  was made must be stored.
  </summary>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1._prevAction">
+<member name="F:Microsoft.VisualBasic.DataMining.QLearning.QTable`1._prevAction">
  <summary>
  Since in Q-learning the updates to the Q values are made ONE STEP
  LATE, the index of the action which resulted in the reward must be
  stored.
  </summary>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.#ctor(System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.#ctor(System.Int32)">
  <summary>
  Q table constructor, initiates variables. </summary>
  <param name="actionRange"> number of actions available at any map state </param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.NextAction(`0)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.NextAction(`0)">
  <summary>
  For this example, the getNextAction function uses an e-greedy
  approach, having exploration happen if the exploration chance
@@ -1338,7 +1305,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="map"> current map (state) </param>
  <returns> the action to be taken by the calling program </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.__getBestAction(`0)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.__getBestAction(`0)">
  <summary>
  The getBestAction function uses a greedy approach for finding
  the best action to take. Note that if all Q values for the current
@@ -1351,7 +1318,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="map"> current map (state) </param>
  <returns> the action with the highest Q value </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.__explore">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.__explore">
  <summary>
  The explore function is called for e-greedy algorithms.
  It can choose an action at random from all available,
@@ -1361,7 +1328,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns> index of action to take </returns>
  <remarks>在这里得到可能的下一步的动作的在动作列表里面编号值， Index</remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.UpdateQvalue(System.Int32,`0)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.UpdateQvalue(System.Int32,`0)">
  <summary>
  The updateQvalue is the heart of the Q-learning algorithm. Based on
  the reward gained by taking the action prevAction while being in the
@@ -1374,14 +1341,14 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="map"> current map state (for finding the best action of the
  current map state) </param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.__getMapString(`0)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.__getMapString(`0)">
  <summary>
  This helper function is used for entering the map state into the
  HashMap </summary>
  <param name="map"> </param>
  <returns> String used as a key for the HashMap </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.__getActionsQValues(`0)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.__getActionsQValues(`0)">
  <summary>
  The getActionsQValues function returns an array of Q values for
  all the actions available at any state. Note that if the current
@@ -1392,14 +1359,14 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="map"> current map (state) </param>
  <returns> an array of Q values for all the actions available at any state </returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.QLearning.QTable`1.GetValues(`0)">
+<member name="M:Microsoft.VisualBasic.DataMining.QLearning.QTable`1.GetValues(`0)">
  <summary>
  Helper function to find the Q-values of a given map state.
  </summary>
  <param name="map"> current map (state) </param>
  <returns> the Q-values stored of the Qtable entry of the map state, otherwise null if it is not found </returns>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Statistics">
+<member name="T:Microsoft.VisualBasic.DataMining.Statistics">
  <summary>
  Set of statistics functions.
  </summary>
@@ -1408,7 +1375,7 @@ Microsoft.VisualBasic.DataMining.Framework
  in statistics.</remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.Mean(System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.Statistics.Mean(System.Int32[])">
  <summary>
  Calculate mean value.
  </summary>
@@ -1434,7 +1401,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.StdDev(System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.Statistics.StdDev(System.Int32[])">
  <summary>
  Calculate standard deviation.
  </summary>
@@ -1458,7 +1425,7 @@ Microsoft.VisualBasic.DataMining.Framework
  ```
  </remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.StdDev(System.Int32[],System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.Statistics.StdDev(System.Int32[],System.Double)">
  <summary>
  Calculate standard deviation.
  </summary>
@@ -1473,13 +1440,13 @@ Microsoft.VisualBasic.DataMining.Framework
  array values are treated as "probabilities" (total amount of
  hits).</para>
  
- <para>The method is an equevalent to the <see cref="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.StdDev(System.Int32[])"/> method,
+ <para>The method is an equevalent to the <see cref="M:Microsoft.VisualBasic.DataMining.Statistics.StdDev(System.Int32[])"/> method,
  but it relieas on the passed mean value, which is previously calculated
- using <see cref="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.Mean(System.Int32[])"/> method.</para>
+ using <see cref="M:Microsoft.VisualBasic.DataMining.Statistics.Mean(System.Int32[])"/> method.</para>
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.Median(System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.Statistics.Median(System.Int32[])">
  <summary>
  Calculate median value.
  </summary>
@@ -1510,7 +1477,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.GetRange(System.Int32[],System.Double)">
+<member name="M:Microsoft.VisualBasic.DataMining.Statistics.GetRange(System.Int32[],System.Double)">
  <summary>
  Get range around median containing specified percentage of values.
  </summary>
@@ -1542,7 +1509,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.Entropy(System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.Statistics.Entropy(System.Int32[])">
  <summary>
  Calculate entropy value.
  </summary>
@@ -1582,7 +1549,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Statistics.Mode(System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.Statistics.Mode(System.Int32[])">
  <summary>
  Calculate mode value.
  </summary>
@@ -1611,7 +1578,7 @@ Microsoft.VisualBasic.DataMining.Framework
  </remarks>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.SVD.SVDecomposition(System.Double[0:,0:],System.Double[]@,System.Double[0:,0:]@)">
+<member name="M:Microsoft.VisualBasic.DataMining.SVD.SVDecomposition(System.Double[0:,0:],System.Double[]@,System.Double[0:,0:]@)">
  <summary>
  Singular Value Decomposition
  </summary>
@@ -1619,7 +1586,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <param name="w"></param>
  <param name="v"></param>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.WaveletTransform">
+<member name="T:Microsoft.VisualBasic.DataMining.WaveletTransform">
  <summary>
  小波变换工具
  </summary>
@@ -1686,31 +1653,31 @@ Microsoft.VisualBasic.DataMining.Framework
  
  </remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.WaveletTransform.FWT(System.Double[]@)">
+<member name="M:Microsoft.VisualBasic.DataMining.WaveletTransform.FWT(System.Double[]@)">
  <summary>
    Discrete Haar Wavelet Transform
  </summary>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.WaveletTransform.FWT(System.Double[0:,0:]@,System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.WaveletTransform.FWT(System.Double[0:,0:]@,System.Int32)">
  <summary>
    Discrete Haar Wavelet 2D Transform
  </summary>
  <param name="iterations">Iteration must be Integer from 1 to</param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.WaveletTransform.IWT(System.Double[]@)">
+<member name="M:Microsoft.VisualBasic.DataMining.WaveletTransform.IWT(System.Double[]@)">
  <summary>
    Inverse Haar Wavelet Transform
  </summary>
  
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.WaveletTransform.IWT(System.Double[0:,0:]@,System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.WaveletTransform.IWT(System.Double[0:,0:]@,System.Int32)">
  <summary>
    Inverse Haar Wavelet 2D Transform
  </summary>
  <param name="iterations">Iteration must be Integer from 1 to</param>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.ValueMapping.ModalNumber(System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.ValueMapping.ModalNumber(System.Int32[])">
  <summary>
  Gets the modal number of the ranking mapping data set.(求取众数)
  </summary>
@@ -1721,38 +1688,38 @@ Microsoft.VisualBasic.DataMining.Framework
  当存在相同的分组元素数目的时候，会取最大的元素值作为众数
  </remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNode">
+<member name="T:Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNode">
  <summary>
  贝叶斯信念网络中的一个节点
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNode.Parents">
+<member name="F:Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNode.Parents">
  <summary>
  本节点的父节点
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNode.CP_Table">
+<member name="F:Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNode.CP_Table">
  <summary>
  CP Table，用于把各节点和它的直接父节点相关联起来的一个概率表
  </summary>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNetwork">
+<member name="T:Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNetwork">
  <summary>
  贝叶斯信念网络
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNetwork.SetNodes(System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNetwork.SetNodes(System.Int32[])">
  <summary>
  
  </summary>
  <param name="Array">Array的元素个数必须与节点的数目相等</param>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BeliefNetwork.CreateFrom(System.String)">
+<member name="M:Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNetwork.CreateFrom(System.String)">
  <summary>
  
  </summary>
@@ -1760,7 +1727,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Kernel.BayesianBeliefNetwork.BElim.GetBelief(System.Int32[],System.Int32[])">
+<member name="M:Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BElim.GetBelief(System.Int32[],System.Int32[])">
  <summary>
  计算条件概率: P(x|conditions)，对于计算对象x和计算条件condition二者的元素必须要错开。对于错开部分的空的元素请使用-1来填充
  </summary>
@@ -1769,12 +1736,12 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Kernel.GeneticAlgorithm.BinaryNeuron">
+<member name="T:Microsoft.VisualBasic.DataMining.Kernel.GeneticAlgorithm.BinaryNeuron">
  <summary>
  Most cells do math operations... they are all controlled by this class.
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.Kernel.GeneticAlgorithm.DifferenceInfo.DifferenceCount">
+<member name="P:Microsoft.VisualBasic.DataMining.Kernel.GeneticAlgorithm.DifferenceInfo.DifferenceCount">
  <summary>
  Gets the number of values that didn't had a valid result.
  Note that this property doesn't care about how different the
@@ -1783,7 +1750,7 @@ Microsoft.VisualBasic.DataMining.Framework
  as all misses and non-returning calls as double misses.
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Kernel.GeneticAlgorithm.INeuron">
+<member name="T:Microsoft.VisualBasic.DataMining.Kernel.GeneticAlgorithm.INeuron">
  <summary>
  This interface represents everything we need from a neuron in this
  Genetic Algorithm sample. We need it to execute and give a result
@@ -1794,13 +1761,13 @@ Microsoft.VisualBasic.DataMining.Framework
  case, they are the winners independently on how complex they are).
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Kernel.GeneticAlgorithm.InputNeuron">
+<member name="T:Microsoft.VisualBasic.DataMining.Kernel.GeneticAlgorithm.InputNeuron">
  <summary>
  The math neurons actually never see the real input value, they only get a value
  from another neuron. This neuron provides the user input value to those neurons.
  </summary>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Kernel.GeneticAlgorithm.IntNeuron">
+<member name="T:Microsoft.VisualBasic.DataMining.Kernel.GeneticAlgorithm.IntNeuron">
  <summary>
  When doing math operations, we may want to sum, multiply or divide an input value 
  (or a value already calculated on top of it) by a numeric "constant". Such constant
@@ -1808,7 +1775,7 @@ Microsoft.VisualBasic.DataMining.Framework
  It is "constant" for its generation, yet it can reproduce with different values.
  </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.Kernel.Classifier.Neuron.OutputFunction">
+<member name="P:Microsoft.VisualBasic.DataMining.Kernel.Classifier.Neuron.OutputFunction">
  <summary>
  Weights, Entity, OutputValue
  </summary>
@@ -1816,7 +1783,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Kernel.Classifier.Neuron.Entity.CastTo(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)">
+<member name="M:Microsoft.VisualBasic.DataMining.Kernel.Classifier.Neuron.Entity.CastTo(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)">
  <summary>
  
  </summary>
@@ -1824,19 +1791,19 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.Kernel.Classifier.Bayesian">
+<member name="T:Microsoft.VisualBasic.DataMining.Kernel.Classifier.Bayesian">
  <summary>
  朴素贝叶斯分类器
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:Microsoft.VisualBasic.DataMining.Framework.Kernel.Classifier.Bayesian.Entities">
+<member name="F:Microsoft.VisualBasic.DataMining.Kernel.Classifier.Bayesian.Entities">
  <summary>
  原始的数据集合
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Kernel.Classifier.Bayesian.P(Microsoft.VisualBasic.DataMining.Framework.ComponentModel.Entity,System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.Kernel.Classifier.Bayesian.P(Microsoft.VisualBasic.DataMining.ComponentModel.Entity,System.Int32)">
  <summary>
  P(X|Y=y)
  </summary>
@@ -1845,7 +1812,7 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.Kernel.Classifier.Bayesian.P(System.Int32[],System.Int32)">
+<member name="M:Microsoft.VisualBasic.DataMining.Kernel.Classifier.Bayesian.P(System.Int32[],System.Int32)">
  <summary>
  P(X|Y=y)
  </summary>
@@ -1854,19 +1821,19 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.ComponentModel.EntityBase`1">
+<member name="T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityBase`1">
  <summary>
 
  </summary>
  <typeparam name="T">只允许数值类型</typeparam>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.ComponentModel.Entity">
+<member name="T:Microsoft.VisualBasic.DataMining.ComponentModel.Entity">
  <summary>
  {Properties} -> Class
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DataMining.Framework.ComponentModel.Entity.CastTo(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)">
+<member name="M:Microsoft.VisualBasic.DataMining.ComponentModel.Entity.CastTo(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)">
  <summary>
 
  </summary>
@@ -1874,23 +1841,23 @@ Microsoft.VisualBasic.DataMining.Framework
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.ComponentModel.Vector">
+<member name="T:Microsoft.VisualBasic.DataMining.ComponentModel.Vector">
  <summary>
  用于表示一个对象实体的属性值的一个向量
  </summary>
  <remarks></remarks>
 </member>
-<member name="T:Microsoft.VisualBasic.DataMining.Framework.My.Resources.Resources">
+<member name="T:Microsoft.VisualBasic.DataMining.My.Resources.Resources">
 <summary>
   A strongly-typed resource class, for looking up localized strings, etc.
 </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.My.Resources.Resources.ResourceManager">
+<member name="P:Microsoft.VisualBasic.DataMining.My.Resources.Resources.ResourceManager">
 <summary>
   Returns the cached ResourceManager instance used by this class.
 </summary>
 </member>
-<member name="P:Microsoft.VisualBasic.DataMining.Framework.My.Resources.Resources.Culture">
+<member name="P:Microsoft.VisualBasic.DataMining.My.Resources.Resources.Culture">
 <summary>
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.

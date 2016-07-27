@@ -60,7 +60,7 @@ Returns the PDF value at x for the specified Poisson distribution.
 
 #### __setBoundary
 ```csharp
-SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.Transcriptome.UTRs.IdentifyUTRs.__setBoundary(SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.DocumentFormat.Transcript,System.Collections.Generic.SortedDictionary{System.String,Microsoft.VisualBasic.ComponentModel.Value{System.Int32}},System.Collections.Generic.SortedDictionary{System.String,Microsoft.VisualBasic.ComponentModel.Value{System.Int32}})
+SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.Transcriptome.UTRs.IdentifyUTRs.__setBoundary(SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.DocumentFormat.Transcript,System.Collections.Generic.SortedDictionary{System.String,Microsoft.VisualBasic.Language.Value{System.Int32}},System.Collections.Generic.SortedDictionary{System.String,Microsoft.VisualBasic.Language.Value{System.Int32}})
 ```
 设置左右端起始和终止的位点，非ATG和TGA
 

@@ -13,7 +13,7 @@ _namespace: [SMRUCC.genomics.SequenceModel](N-SMRUCC.genomics.SequenceModel.html
 
 #### AssemblingForward
 ```csharp
-SMRUCC.genomics.SequenceModel.Contig.AssemblingForward(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads},System.Boolean)
+SMRUCC.genomics.SequenceModel.Contig.AssemblingForward(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads},System.Boolean)
 ```
 所装配出来的位置和方向有关
 
@@ -25,7 +25,7 @@ SMRUCC.genomics.SequenceModel.Contig.AssemblingForward(Microsoft.VisualBasic.Lis
 
 #### AssemblingReversed
 ```csharp
-SMRUCC.genomics.SequenceModel.Contig.AssemblingReversed(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads},System.Boolean)
+SMRUCC.genomics.SequenceModel.Contig.AssemblingReversed(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads},System.Boolean)
 ```
 不明白在bitwiseFLAG里面已经标注了Reverse方向了，为什么还是有些Reads会是正向的
  bwa标注出来的位置和ncbi上面的blast的位置好像不一致？？？

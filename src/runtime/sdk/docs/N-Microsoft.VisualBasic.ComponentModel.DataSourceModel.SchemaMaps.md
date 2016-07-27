@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-date: 7/7/2016 5:46:13 PM
+date: 7/27/2016 7:34:06 PM
 ---
 
 [BindProperty`1](T-Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.BindProperty`1.html)

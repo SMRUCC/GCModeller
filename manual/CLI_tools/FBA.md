@@ -1,7 +1,7 @@
 ---
 title: FBA
 tags: [maunal, tools]
-date: 7/7/2016 6:51:31 PM
+date: 7/27/2016 6:40:17 PM
 ---
 # GCModeller [version 1.1.24.3]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/FBA.exe

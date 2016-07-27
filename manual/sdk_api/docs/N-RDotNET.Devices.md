@@ -1,6 +1,6 @@
 ﻿---
 title: RDotNET.Devices
-date: 7/7/2016 5:40:31 PM
+date: 7/27/2016 7:12:30 PM
 ---
 
 [CharacterDeviceAdapter](T-RDotNET.Devices.CharacterDeviceAdapter.html)

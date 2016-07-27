@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-date: 7/7/2016 5:41:08 PM
+date: 7/27/2016 7:12:33 PM
 ---
 
 [BriteHText](T-SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.BriteHText.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.ClustalOrg
-date: 7/7/2016 5:40:20 PM
+date: 7/27/2016 7:12:30 PM
 ---
 
 [CLIBuilder](T-SMRUCC.genomics.Interops.ClustalOrg.CLIBuilder.html)

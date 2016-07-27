@@ -6,6 +6,14 @@ SMRUCC.genomics.Analysis.SequenceTools.SNP
 </name>
 </assembly>
 <members>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.DiffVariation.GetSeqs(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.FASTA.FastaToken})">
+ <summary>
+ 必须是经过对齐了的，第一条序列为参考序列
+ </summary>
+ <param name="aln"></param>
+ <returns></returns>
+ 
+</member>
 <member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs.SNPsAlignment.DetectSNPs(System.String@,System.Int32,System.Int32,SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs.SNPsAln@)">
  <summary>
  Detection of the SNP sites based on a set of fasta sequence.

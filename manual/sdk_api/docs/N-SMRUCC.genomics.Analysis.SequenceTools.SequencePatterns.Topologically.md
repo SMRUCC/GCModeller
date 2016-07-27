@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
-date: 7/7/2016 5:41:03 PM
+date: 7/27/2016 7:12:33 PM
 ---
 
 [Imperfect](T-SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Imperfect.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Win32.GetLastErrorAPI
-date: 7/7/2016 5:46:41 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
-[LastErrors](T-Microsoft.VisualBasic.Win32.GetLastErrorAPI.LastErrors.html)
+[ErrorCodes](T-Microsoft.VisualBasic.Win32.GetLastErrorAPI.ErrorCodes.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-date: 7/7/2016 5:41:09 PM
+date: 7/27/2016 7:12:33 PM
 ---
 
 [bGetObject](T-SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.bGetObject.html)

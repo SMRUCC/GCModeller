@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI
-date: 7/7/2016 5:42:59 PM
+date: 7/27/2016 7:12:44 PM
 ---
 
 [ModuleRegulon](T-SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI.ModuleRegulon.html)

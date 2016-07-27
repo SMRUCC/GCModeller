@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics
-date: 7/7/2016 5:41:21 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [BioAssemblyExtensions](T-SMRUCC.genomics.BioAssemblyExtensions.html)

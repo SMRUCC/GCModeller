@@ -37,14 +37,9 @@ Microsoft.VisualBasic.Logging.LogFile.Save(System.String,System.Text.Encoding)
 
 #### SaveLog
 ```csharp
-Microsoft.VisualBasic.Logging.LogFile.SaveLog(System.Boolean)
+Microsoft.VisualBasic.Logging.LogFile.SaveLog
 ```
-在进行保存的时候会清空内存之中的现有日志数据
-
-|Parameter Name|Remarks|
-|--------------|-------|
-|appendToLogFile|Append this log data into the target log file if the file is exists on the filesystem, default option is override the exists file.|
-
+会自动拓展已经存在的日志数据
 
 #### SystemInfo
 ```csharp

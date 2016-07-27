@@ -326,9 +326,9 @@ Removes the last \ and / character in a directory path string.
 |DIR|-|
 
 
-#### TrimFileExt
+#### TrimSuffix
 ```csharp
-Microsoft.VisualBasic.ProgramPathSearchTool.TrimFileExt(System.String)
+Microsoft.VisualBasic.ProgramPathSearchTool.TrimSuffix(System.String)
 ```
 Removes the file extension name from the file path.(去除掉文件的拓展名)
 

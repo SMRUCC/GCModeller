@@ -257,6 +257,22 @@ Convert the string value into the boolean value, this is useful to the text form
 |str|-|
 
 
+#### GetById``1
+```csharp
+Microsoft.VisualBasic.Extensions.GetById``1(System.Collections.Generic.IEnumerable{``0},System.String,System.StringComparison)
+```
+Get a specific item value from the target collction data using its UniqueID property，
+ (请注意，请尽量不要使用本方法，因为这个方法的效率有些低，对于获取@"T:Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable"[
+ ]类型的集合之中的某一个对象，请尽量先转换为字典对象，在使用该字典对象进行查找以提高代码效率，使用本方法的优点是可以选择忽略**uid"[
+ **参数之中的大小写，以及对集合之中的存在相同的Key的这种情况的容忍)
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|source|-|
+|uid|-|
+|IgnoreCase|-|
+
+
 #### GetElementCounts``1
 ```csharp
 Microsoft.VisualBasic.Extensions.GetElementCounts``1(System.Collections.Generic.IEnumerable{``0})
@@ -272,18 +288,14 @@ Gets the element counts in the target data collection, if the collection object 
 
 #### GetItem``1
 ```csharp
-Microsoft.VisualBasic.Extensions.GetItem``1(System.Collections.Generic.IEnumerable{``0},System.String,System.StringComparison)
+Microsoft.VisualBasic.Extensions.GetItem``1(System.Collections.Generic.IEnumerable{``0},System.Int32)
 ```
-Get a specific item value from the target collction data using its UniqueID property，
- (请注意，请尽量不要使用本方法，因为这个方法的效率有些低，对于获取@"T:Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable"[
- ]类型的集合之中的某一个对象，请尽量先转换为字典对象，在使用该字典对象进行查找以提高代码效率，使用本方法的优点是可以选择忽略**UniqueId"[
- **参数之中的大小写，以及对集合之中的存在相同的Key的这种情况的容忍)
+这个是一个安全的方法，假若下标越界或者目标数据源为空的话，则会返回空值
 
 |Parameter Name|Remarks|
 |--------------|-------|
 |source|-|
-|UniqueId|-|
-|IgnoreCase|-|
+|index|-|
 
 
 #### GetLength``1
@@ -561,18 +573,6 @@ Microsoft.VisualBasic.Extensions.RandomDouble
 Gets a random number in the region of [0,1]. (获取一个[0,1]区间之中的随机数，请注意：因为为了尽量做到随机化，这个函数会不断的初始化随机种子，
  故而性能较低，不可以在大量重复调用，或者在批量调用的时候请使用并行化拓展的LINQ)
 
-#### Randomize``1
-```csharp
-Microsoft.VisualBasic.Extensions.Randomize``1(System.Collections.Generic.IEnumerable{``0})
-```
-Return a collection with randomize element position in **source[the original collection]**.
- (从原有序序列中获取一个随机元素的序列)
-
-|Parameter Name|Remarks|
-|--------------|-------|
-|source|-|
-
-
 #### RegexParseDouble
 ```csharp
 Microsoft.VisualBasic.Extensions.RegexParseDouble(System.String)
@@ -675,6 +675,18 @@ Microsoft.VisualBasic.Extensions.Shell(System.String)
 |Parameter Name|Remarks|
 |--------------|-------|
 |CLI|-|
+
+
+#### Shuffles``1
+```csharp
+Microsoft.VisualBasic.Extensions.Shuffles``1(System.Collections.Generic.IEnumerable{``0})
+```
+Return a collection with randomize element position in **source[the original collection]**.
+ (从原有序序列中获取一个随机元素的序列)
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|source|-|
 
 
 #### Split``1

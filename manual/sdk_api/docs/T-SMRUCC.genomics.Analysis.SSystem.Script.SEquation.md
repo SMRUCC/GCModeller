@@ -5,7 +5,7 @@ title: SEquation
 # SEquation
 _namespace: [SMRUCC.genomics.Analysis.SSystem.Script](N-SMRUCC.genomics.Analysis.SSystem.Script.html)_
 
-
+S-system equation.
 
 
 

@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DataVisualization.Network.Layouts.LayoutUpdater
-date: 7/7/2016 5:46:53 PM
+date: 7/27/2016 7:34:08 PM
 ---
 
 [__layoutGenerator](T-Microsoft.VisualBasic.DataVisualization.Network.Layouts.LayoutUpdater.__layoutGenerator.html)

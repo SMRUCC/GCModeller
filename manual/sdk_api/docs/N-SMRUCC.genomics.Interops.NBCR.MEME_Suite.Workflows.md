@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows
-date: 7/7/2016 5:43:06 PM
+date: 7/27/2016 7:12:45 PM
 ---
 
 [MAST_OUT](T-SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.MAST_OUT.html)

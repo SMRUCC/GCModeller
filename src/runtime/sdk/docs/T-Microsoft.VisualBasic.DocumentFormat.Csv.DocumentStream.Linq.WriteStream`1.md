@@ -39,7 +39,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq.WriteStream`1.Ctype
 
 #### Flush
 ```csharp
-Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq.WriteStream`1.Flush(System.Collections.Generic.IEnumerable{`0})
+Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq.WriteStream`1.Flush(System.Collections.Generic.IEnumerable{`0},System.Boolean)
 ```
 Serialize the object data source into the csv document.
  (将对象的数据源写入Csv文件之中）

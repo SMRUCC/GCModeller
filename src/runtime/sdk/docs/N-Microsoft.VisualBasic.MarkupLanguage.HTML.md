@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.MarkupLanguage.HTML
-date: 7/7/2016 5:47:01 PM
+date: 7/27/2016 7:34:08 PM
 ---
 
 [DocFormatter](T-Microsoft.VisualBasic.MarkupLanguage.HTML.DocFormatter.html)

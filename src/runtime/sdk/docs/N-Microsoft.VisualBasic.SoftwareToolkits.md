@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.SoftwareToolkits
-date: 7/7/2016 5:46:39 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [ApplicationDetails](T-Microsoft.VisualBasic.SoftwareToolkits.ApplicationDetails.html)

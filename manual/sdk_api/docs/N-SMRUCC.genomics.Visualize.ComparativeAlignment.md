@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.ComparativeAlignment
-date: 7/7/2016 5:43:45 PM
+date: 7/27/2016 7:12:47 PM
 ---
 
 [ComparativeAlignment](T-SMRUCC.genomics.Visualize.ComparativeAlignment.ComparativeAlignment.html)

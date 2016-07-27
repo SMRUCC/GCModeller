@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Reactome.LocalMySQL.Tables.gk_current_dn
-date: 7/7/2016 5:41:55 PM
+date: 7/27/2016 7:12:38 PM
 ---
 
 [id_to_externalidentifier](T-SMRUCC.genomics.Data.Reactome.LocalMySQL.Tables.gk_current_dn.id_to_externalidentifier.html)

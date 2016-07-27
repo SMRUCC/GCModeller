@@ -55,4 +55,16 @@ Microsoft.VisualBasic.Serialization.JSON.JsonContract.LoadObject``1(System.Strin
 ```
 JSON反序列化
 
+#### WriteLargeJson``1
+```csharp
+Microsoft.VisualBasic.Serialization.JSON.JsonContract.WriteLargeJson``1(``0,System.String)
+```
+将目标对象保存为json文件
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|obj|-|
+|path|-|
+
+
 

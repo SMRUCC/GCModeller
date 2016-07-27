@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Mathematical.Helpers
-date: 7/7/2016 5:47:05 PM
+date: 7/27/2016 7:34:09 PM
 ---
 
 [Arithmetic](T-Microsoft.VisualBasic.Mathematical.Helpers.Arithmetic.html)

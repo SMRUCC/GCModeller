@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.SequenceModel.FASTA
-date: 7/7/2016 5:41:24 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [FastaFile](T-SMRUCC.genomics.SequenceModel.FASTA.FastaFile.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.RNA_Seq.RTools.BaSAR
-date: 7/7/2016 5:40:55 PM
+date: 7/27/2016 7:12:32 PM
 ---
 
 [LocalResult](T-SMRUCC.genomics.Analysis.RNA_Seq.RTools.BaSAR.LocalResult.html)

@@ -13,7 +13,7 @@ The dynamics reflection operations on Csv data source services.
 
 #### __save
 ```csharp
-Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.__save(System.Collections.IEnumerable,System.Type,System.Boolean,System.String)
+Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.__save(System.Collections.IEnumerable,System.Type,System.Boolean,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)
 ```
 Save the specifc type object collection into the csv data file.(将目标对象数据的集合转换为Csv文件已进行数据保存操作)
 
@@ -76,7 +76,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Lo
 
 #### Save
 ```csharp
-Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save(System.Collections.Generic.IEnumerable{System.Object},System.Boolean)
+Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save(System.Collections.Generic.IEnumerable{System.Object},System.Boolean,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)
 ```
 Save the specifc type object collection into the csv data file.(将目标对象数据的集合转换为Csv文件已进行数据保存操作)
 
@@ -89,7 +89,7 @@ Save the specifc type object collection into the csv data file.(将目标对象�
 
 #### Save``1
 ```csharp
-Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.String)
+Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)
 ```
 Save the specifc type object collection into the csv data file.
  (将目标对象数据的集合转换为Csv文件已进行数据保存操作，非并行化的以保持数据原有的顺序)

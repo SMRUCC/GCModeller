@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Net.Abstract
-date: 7/7/2016 5:46:36 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [DataRequestHandler](T-Microsoft.VisualBasic.Net.Abstract.DataRequestHandler.html)

@@ -32,6 +32,9 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Terminal.xConsole
 Imports Microsoft.VisualBasic.MarkupLanguage.HTML
 
+''' <summary>
+''' Comparative Analysis and Reconstruction of MEtabolic Networks
+''' </summary>
 <PackageNamespace("CARMEN.WebHandler",
                   Description:="Comparative Analysis and Reconstruction of MEtabolic Networks<br />
                   KGML-based model reconstruction of metabolic pathways<br /><br />             
@@ -45,7 +48,13 @@ Additionally, a SVG (Scalable Vector Graphics) representation of the metabolic r
                   Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module WebHandler
 
+    ''' <summary>
+    ''' https://carmen.cebitec.uni-bielefeld.de/cgi-bin/execute.cgi
+    ''' </summary>
     Const URL As String = "https://carmen.cebitec.uni-bielefeld.de/cgi-bin/execute.cgi"
+    ''' <summary>
+    ''' https://carmen.cebitec.uni-bielefeld.de/cgi-bin/results.cgi
+    ''' </summary>
     Const EXEC_Reconstruct As String = "https://carmen.cebitec.uni-bielefeld.de/cgi-bin/results.cgi"
 
     Public ReadOnly Property lstOrganisms As String()
@@ -60,9 +69,12 @@ Public Module WebHandler
             .name = Regex.Match(x, "<select name="".+?""").Value,
             .lst = Regex.Matches(x, "<option value="".+?"">.+?</option>").ToArray}) _
             .ToDictionary(Function(x) Regex.Match(x.name, """.+?""").Value.GetString,
-                          Function(x) x.lst.ToArray(Function(s) HtmlElement.SingleNodeParser(s)))
+                          Function(x) x.lst.ToArray(
+                          Function(s) HtmlElement.SingleNodeParser(s)))
         _lstOrganisms = Session("organism").ToArray(Function(x) x("value").Value)
-        _lstPathways = Session("pathways").ToDictionary(Function(x) x("value").Value, elementSelector:=Function(x) x.HtmlElements(Scan0).InnerText)
+        _lstPathways = Session("pathways").ToDictionary(
+            Function(x) x("value").Value,
+            Function(x) x.HtmlElements(Scan0).InnerText)
 
         Return True
     End Function
@@ -74,13 +86,22 @@ Public Module WebHandler
 
     <ExportAPI("Reconstruct")>
     Public Function Reconstruct(sp As String, pathway As String, outDIR As String) As Boolean
-        Dim reqparm As Specialized.NameValueCollection = New Dictionary(Of String, String) From {{OP_organism, sp}, {OP_pathways, pathway}}.BuildReqparm
+        Dim reqparm As Specialized.NameValueCollection =
+            New Dictionary(Of String, String) From {
+                {OP_organism, sp},
+                {OP_pathways, pathway}
+        }.BuildReqparm
+
         Dim result As String = EXEC_Reconstruct.PostRequest(reqparm)
+
         result = Regex.Match(result, "<meta http-equiv=""refresh"".+?>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).Value
+
         Call $"{sp}:{pathway}  ==> {result}".__DEBUG_ECHO
+
         result = Regex.Match(result, "URL=.+", RegexOptions.IgnoreCase).Value
         result = Mid(result, 5)
         result = Mid(result, 1, Len(result) - 2)
+
         Dim url As String = "https://carmen.cebitec.uni-bielefeld.de/cgi-bin/" & result
         Dim Spinner As New Spinner(txt:="^b[Working {0}]^! Server Running ^gReconstruction^!....")
         Call Spinner.RunTask(75)
@@ -93,7 +114,8 @@ Public Module WebHandler
 
     Public Sub DownloadResult(url As String, outDIR As String)
         Dim WebPage As String = url.GET
-        Dim Downloads As String() = Regex.Matches(WebPage, "href=""/out/CARMEN.+?""", RegexOptions.IgnoreCase).ToArray(Function(href) href.Get_href)
+        Dim Downloads As String() = Regex.Matches(WebPage, "href=""/out/CARMEN.+?""", RegexOptions.IgnoreCase) _
+            .ToArray(Function(href) href.Get_href)
 
         For Each file As String In Downloads
             Dim path As String = outDIR & "/" & FileIO.FileSystem.GetFileInfo(file).Name

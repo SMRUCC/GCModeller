@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Language.C.CString
-date: 7/7/2016 5:46:25 PM
+date: 7/27/2016 7:34:07 PM
 ---
 
 [__tokensHelper](T-Microsoft.VisualBasic.Language.C.CString.__tokensHelper.html)

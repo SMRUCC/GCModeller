@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-date: 7/7/2016 5:42:49 PM
+date: 7/27/2016 7:12:43 PM
 ---
 
 [Csv](T-SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer.Csv.html)

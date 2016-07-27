@@ -59,7 +59,7 @@ SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.GeneInteractions.ExportP
 
 #### PfsNETNetwork
 ```csharp
-SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.GeneInteractions.PfsNETNetwork(SMRUCC.genomics.Assembly.KEGG.Archives.Xml.XmlModel,System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject},System.String)
+SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.GeneInteractions.PfsNETNetwork(SMRUCC.genomics.Assembly.KEGG.Archives.Xml.XmlModel,System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable},System.String)
 ```
 从模型之中导出网络数据并按照模块编号分别保存到文件系统之中
 
@@ -72,7 +72,7 @@ SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.GeneInteractions.PfsNETN
 
 #### PfsNETNetwork_assemble_keggpathways
 ```csharp
-SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.GeneInteractions.PfsNETNetwork_assemble_keggpathways(SMRUCC.genomics.Assembly.KEGG.Archives.Xml.XmlModel,System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject},System.String)
+SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.GeneInteractions.PfsNETNetwork_assemble_keggpathways(SMRUCC.genomics.Assembly.KEGG.Archives.Xml.XmlModel,System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable},System.String)
 ```
 按照代谢途径来可视化pfsnet的计算数据
 

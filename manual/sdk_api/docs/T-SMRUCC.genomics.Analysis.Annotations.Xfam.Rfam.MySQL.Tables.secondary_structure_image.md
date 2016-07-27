@@ -1,0 +1,12 @@
+﻿---
+title: secondary_structure_image
+---
+
+# secondary_structure_image
+_namespace: [SMRUCC.genomics.Analysis.Annotations.Xfam.Rfam.MySQL.Tables](N-SMRUCC.genomics.Analysis.Annotations.Xfam.Rfam.MySQL.Tables.html)_
+
+
+
+
+
+

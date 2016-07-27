@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan
-date: 7/7/2016 5:41:00 PM
+date: 7/27/2016 7:12:32 PM
 ---
 
 [AAIndex](T-SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan.AAIndex.html)
