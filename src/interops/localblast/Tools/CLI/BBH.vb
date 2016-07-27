@@ -142,10 +142,23 @@ Partial Module CLI
         Dim evalue As Double = args.GetValue("/evalue", 0.001)
         Dim coverage As Double = args.GetValue("/coverage", 0.85)
         Dim identities As Double = args.GetValue("/identities", 0.3)
-        Dim queryOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(query)
-        Dim subjectOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(subject)
-        Dim bbh = BBHParser.GetDirreBhAll2(queryOUT.ExportAllBestHist(coverage, identities), subjectOUT.ExportAllBestHist(coverage, identities))
+        Dim sbhq = __sbhHelper(query, coverage, identities:=identities)
+        Dim sbhs = __sbhHelper(subject, coverage, identities)
+        Dim bbh = BBHParser.GetDirreBhAll2(sbhq, sbhs)
         Return bbh.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 主要是为了节省内存的需要
+    ''' </summary>
+    ''' <param name="out"></param>
+    ''' <param name="coverage"></param>
+    ''' <param name="identities"></param>
+    ''' <returns></returns>
+    Private Function __sbhHelper(out As String, coverage As Double, identities As Double) As BestHit()
+        Dim queryOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(out)
+        Dim sbh = queryOUT.ExportAllBestHist(coverage, identities)
+        Return sbh
     End Function
 
     <ExportAPI("/SBH.Trim", Usage:="/SBH.Trim /in <sbh.csv> /evalue <evalue> [/identities 0.15 /coverage 0.5 /out <out.csv>]")>
