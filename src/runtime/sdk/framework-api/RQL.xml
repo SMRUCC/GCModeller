@@ -1,0 +1,252 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+RQL
+</name>
+</assembly>
+<members>
+<member name="T:RQL.API.Repository`1">
+ <summary>
+ RQL Client API.
+ </summary>
+ <remarks>
+ 数据对象在申明创建之后并没有立即执行，而是在调用迭代器之后才会执行查询
+ </remarks>
+</member>
+<member name="M:RQL.API.Repository`1.#ctor(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="source">
+ URL, examples as:  http://Linq.gcmodeller.org/kegg/ssdb
+ 
+ Where, the remote server http://Linq.gcmodeller.org implements the RQL services.
+ And the repository resource name on the server is "/kegg/ssdb"
+ </param>
+</member>
+<member name="M:RQL.API.Repository`1.Where(System.String)">
+ <summary>
+ 在这里会打开一个新的查询
+ </summary>
+ <param name="assertions">断言</param>
+ <returns></returns>
+</member>
+<member name="T:RQL.Linq.LinqEntry">
+ <summary>
+ 类型信息是所查询的对象的类型信息
+ </summary>
+</member>
+<member name="P:RQL.Linq.LinqEntry.uid">
+ <summary>
+ 唯一标识当前的这个查询的哈希值
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RQL.Linq.LinqEntry.Linq">
+ <summary>
+ 除了使用上面的uid进行url查询，也可以使用这个地址来使用socket查询，具体的协议已经封装在<see cref="T:Microsoft.VisualBasic.ComputingServices.TaskHost.ILinq`1"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:RQL.Linq.LinqAPI">
+ <summary>
+ 对外部提供Linq查询服务的WebApp
+ </summary>
+</member>
+<member name="F:RQL.Linq.LinqAPI.__uidMaps">
+ <summary>
+ {hashCode.tolower, linq_uid}
+ </summary>
+</member>
+<member name="M:RQL.Linq.LinqAPI.OpenQuery(System.String,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="url">数据源的引用位置</param>
+ <param name="args">查询参数</param>
+ <returns></returns>
+</member>
+<member name="F:RQL.Linq.LinqAPI.uid">
+ <summary>
+ Linq数据源的MD5哈希值
+ </summary>
+</member>
+<member name="M:RQL.Linq.LinqAPI.MoveNext(System.Collections.Generic.Dictionary{System.String,System.String})">
+ <summary>
+ 
+ </summary>
+ <param name="args">uid,n</param>
+ <returns></returns>
+</member>
+<member name="M:RQL.Linq.LinqAPI.Free(System.Collections.Generic.Dictionary{System.String,System.String})">
+ <summary>
+ 释放掉一个Linq查询的资源
+ </summary>
+ <param name="args"></param>
+ <returns></returns>
+</member>
+<member name="T:RQL.Linq.Repository">
+ <summary>
+ Repository database
+ </summary>
+</member>
+<member name="P:RQL.Linq.Repository.Models">
+ <summary>
+ {lower_case.url, type_info}
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RQL.Linq.Repository.GetRepository(System.String,System.String)">
+ <summary>
+
+ </summary>
+ <param name="url">大小写不敏感，不需要额外的处理</param>
+ <returns></returns>
+</member>
+<member name="M:RQL.Linq.Repository.GetType(System.String)">
+ <summary>
+ 获取得到的是集合之中的元素的类型
+ </summary>
+ <param name="url"></param>
+ <returns></returns>
+</member>
+<member name="T:RQL.RESTProvider">
+ <summary>
+ 在线查询服务提供模块，在这个模块之中只负责进行url参数的解析工作
+ </summary>
+</member>
+<member name="M:RQL.RESTProvider.#ctor(System.Int32,RQL.Linq.Repository)">
+ <summary>
+
+ </summary>
+ <param name="portal"></param>
+ <param name="repo">需要在这里将url转换为Long以进行protocol的绑定操作</param>
+</member>
+<member name="M:RQL.RESTProvider.handleGETRequest(SMRUCC.HTTPInternal.Core.HttpProcessor)">
+ <summary>
+ http://linq.gcmodeller.org/kegg/pathways?where=test_expr(pathway)
+ 测试条件里面的对象实例的标识符使用资源url里面的最后一个标识符为变量名
+ 测试条件表达式使用VisualBasic的语法
+ 测试条件必须以where起头开始
+ </summary>
+ <param name="p"></param>
+ <return>返回一个网络终点IpEndPoint</return>
+</member>
+<member name="T:RQL.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:RQL.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:RQL.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:RQL.StorageTek.API">
+ <summary>
+ 系统自有的存储API
+ </summary>
+</member>
+<member name="P:RQL.StorageTek.API.InternalAPIs">
+ <summary>
+ 系统自带的存储API
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RQL.StorageTek.API.XmlList(System.String,System.Type)">
+ <summary>
+ 
+ </summary>
+ <param name="url"></param>
+ <param name="type">单个元素的类型</param>
+ <returns></returns>
+</member>
+<member name="M:RQL.StorageTek.API.DIRJson(System.String,System.Type)">
+ <summary>
+ 实体对象单独保存在一个json文件之中
+ </summary>
+ <param name="url"></param>
+ <param name="type"></param>
+ <returns></returns>
+</member>
+<member name="T:RQL.StorageTek.EntityProvider">
+ <summary>
+ 实体对象，实际上这个模块最主要的功能就是提供数据源的读取方法
+ </summary>
+</member>
+<member name="P:RQL.StorageTek.EntityProvider.Tek">
+ <summary>
+ 存储的方法
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RQL.StorageTek.EntityProvider.MapFileIO">
+ <summary>
+ 映射的实际的存储位置
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RQL.StorageTek.EntityProvider.__internalRepository">
+ <summary>
+ 系统的自有的数据源方法
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RQL.StorageTek.LinqSource.Source(System.String,Microsoft.VisualBasic.Linq.Framework.Provider.GetLinqResource)">
+ <summary>
+ 生成Linq数据源
+ </summary>
+ <param name="res"></param>
+ <param name="handle"></param>
+ <returns></returns>
+</member>
+<member name="T:RQL.StorageTek.StorageTeks">
+ <summary>
+ Entity storage technology.(实体对象所存储的方法)
+ </summary>
+</member>
+<member name="F:RQL.StorageTek.StorageTeks.Linq">
+ <summary>
+ 使用的是Linq数据源
+ </summary>
+</member>
+<member name="F:RQL.StorageTek.StorageTeks.DIR">
+ <summary>
+ Individual files in a directory.(以单独的文件的形式保存在一个文件夹之中)
+ </summary>
+</member>
+<member name="F:RQL.StorageTek.StorageTeks.Tabular">
+ <summary>
+ Csv rows.(Csv文件的行映射为某一个实体对象)(需要外部插件)
+ </summary>
+</member>
+<member name="F:RQL.StorageTek.StorageTeks.Xml">
+ <summary>
+ Xml文件之中的List之中的某一个对象映射为某一个实体对象
+ </summary>
+</member>
+<member name="F:RQL.StorageTek.StorageTeks.Json">
+ <summary>
+ Json文件之中的list之中的某一个对象映射为某一个实体对象
+ </summary>
+</member>
+<member name="F:RQL.StorageTek.StorageTeks.SQL">
+ <summary>
+ 实体对象是存储在MySQL数据库的某一张表之中的.(需要外部插件)
+ </summary>
+</member>
+<member name="F:RQL.StorageTek.StorageTeks.Binary">
+ <summary>
+ 二进制类型的数据源
+ </summary>
+ <remarks>例如图片，声音，视频等</remarks>
+</member>
+</members>
+</doc>

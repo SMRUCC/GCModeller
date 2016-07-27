@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Scripting.MetaData
-date: 7/27/2016 7:34:07 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [APICategories](T-Microsoft.VisualBasic.Scripting.MetaData.APICategories.html)

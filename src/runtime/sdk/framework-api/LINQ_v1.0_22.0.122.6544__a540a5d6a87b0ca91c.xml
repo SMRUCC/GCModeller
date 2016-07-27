@@ -1,0 +1,640 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+LINQ_v1.0_22.0.122.6544__a540a5d6a87b0ca91c
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.Linq.CLI">
+ <summary>
+ 框架程序自带的注册模块以及一些配置的管理终端
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.CLI.InstallPlugins(Microsoft.VisualBasic.CommandLine.CommandLine)">
+ <summary>
+ 扫描应用程序文件夹之中可能的插件信息
+ </summary>
+ <param name="args"></param>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.DynamicCode.ICodeProvider.Code">
+ <summary>
+ Closure token code
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.DynamicCode.IProjectProvider.Projects">
+ <summary>
+ Data projects code
+ </summary>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.Linq.Framework.DynamicCode.LinqClosure.obj">
+ <summary>
+ 名字复杂一些，避免在进行动态编译的时候的命名冲突
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.DynamicCode.Linq">
+ <summary>
+ Example
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.DynamicCode.Linq.Project(System.Object)">
+ <summary>
+ From X As &lt;Type> In $source Let a = &lt;Expression> let b = &lt;Expression> Where &lt;Expression> Let c = &lt;Expression> Select X,a,b,c
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.DynamicCode.LinqValue">
+ <summary>
+ From x in $source let value as LinqValue = Project(x) Where value.IsTrue Select value.value
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.DynamicCode.LinqValue.Projects">
+ <summary>
+ Linq表达式在Select语句之中所产生的数据投影
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.DynamicCode.DynamicCompiler">
+ <summary>
+ 编译整个Linq语句的动态代码编译器
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.DynamicCode.DynamicCompiler.DefaultCompiler">
+ <summary>
+ 使用Linq的注册表数据创建一个默认的编译器
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.DynamicCode.DynamicCompiler.Compile(System.String,System.String@)">
+ <summary>
+ 编译Linq代码
+ </summary>
+ <param name="LinqClosure"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI.APIProvider">
+ <summary>
+ 只需要记住命名空间和对应的Assembly的引用就行了
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI.APIProvider.__nsList">
+ <summary>
+ {lower_ns, imports_ns}
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI.APIProvider.GetType(System.String)">
+ <summary>
+ 命名空间的大小写不敏感
+ </summary>
+ <param name="ns"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI.ImportsAPI">
+ <summary>
+ 导入API以方便进行面向对象的查询操作，只导入静态函数
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI.ImportsNs">
+ <summary>
+ 导入的命名空间
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI.ImportsNs.Modules">
+ <summary>
+ {namespace, typeinfo}
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry">
+ <summary>
+ item in the type registry table
+ </summary>
+ <remarks>方法和类型是分开的</remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry.name">
+ <summary>
+ 类型的简称或者别称，即本属性为LINQEntity自定义属性中的构造函数的参数
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry.TypeId">
+ <summary>
+ Full type name for the target LINQ entity type. Assembly!typeFullName (目标LINQEntity集合中的类型全称)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks>Assembly!typeFullName</remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry.Repository">
+ <summary>
+ 数据源的读取方法
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry.Func">
+ <summary>
+ 函数名称
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry.#ctor(Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry)">
+ <summary>
+ Copy base values
+ </summary>
+ <param name="base"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry.GetType">
+ <summary>
+ 得到集合之中的元素的类型
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry">
+ <summary>
+ Type registry table for loading the external LINQ entity assembly module.
+ (起始这个模块就是相当于一个类型缓存而已，因为程序可以直接读取dll文件里面的内容，但是直接读取的方法会造成性能下降，所以需要使用这个对象来缓存所需要的类型数据) 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry.SDK">
+ <summary>
+ .NET SDK directory
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry.LoadAssembly(System.String)">
+ <summary>
+ 返回包含有该类型的目标模块的文件路径
+ </summary>
+ <param name="name">LINQ Entity集合中的元素的简称或者别称，即Item中的Name属性</param>
+ <returns>If the key is not exists in this object, than the function will return a empty string.</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry.GetHandle(System.String)">
+ <summary>
+ 查找不成功会返回空值
+ </summary>
+ <param name="name"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry.Find(System.String)">
+ <summary>
+ Return a registry item in the table using its specific name property.
+ (返回注册表中的一个指定名称的项目)
+ </summary>
+ <param name="name">大小写不敏感的</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry.Register(System.String)">
+ <summary>
+ Registry the external LINQ entity assembly module in the LINQFramework
+ </summary>
+ <param name="assmPath">DLL file path</param>
+ <returns></returns>
+ <remarks>查询出目标元素的类型定义并获取信息</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry.InstallCurrent">
+ <summary>
+ 扫描安装应用程序文件夹之中的所有插件
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.Provider.GetLinqResource">
+ <summary>
+ Get a Collection of the target LINQ entity from file object.(从文件对象获取目标LINQ实体对象的集合)
+ </summary>
+ <param name="uri">File path or resource from url</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.RegistryReader.GetResource(System.String)">
+ <summary>
+ 数据源的示例函数
+ </summary>
+ <param name="uri"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.RegistryReader.GetHandle(Microsoft.VisualBasic.Linq.Framework.Provider.TypeEntry)">
+ <summary>
+ 获取数据源的读取接口
+ </summary>
+ <param name="provider"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.DelegateProvider.#ctor(System.Reflection.MethodInfo)">
+ <summary>
+ 函数句柄
+ </summary>
+ <param name="h"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.DelegateProvider.GetLinqResource(System.String)">
+ <summary>
+ 实现数据源的读取接口
+ </summary>
+ <param name="uri"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.Provider.LinqEntity">
+ <summary>
+ LINQ entity type
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.LinqEntity.#ctor(System.String,System.Type)">
+ <summary>
+ 方法应该申明在模块之中，或者Class之中应该是共享的静态方法
+ </summary>
+ <param name="type">类型的简称</param>
+ <param name="ref">实际引用的类型位置</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Framework.Provider.LinqEntity.GetEntityType(System.Type)">
+ <summary>
+ 获取目标类型上的自定义属性中的LINQEntity类型对象中的EntityType属性值
+ </summary>
+ <param name="type"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.ObjectModel.ParallelLinq">
+ <summary>
+ 并行LINQ查询表达式的对象模型
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Framework.ObjectModel.Linq">
+ <summary>
+ LINQ查询表达式的对象模型
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.LDM.Statements.TokenIcer.Tokens">
+ <summary>
+ Tokens is an enumeration of all possible token values.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.LDM.Statements.TokenIcer.Parser.GetTokens(System.String)">
+ <summary>
+ Default Constructor
+ </summary>
+ <remarks>
+ The constructor initalizes memory and adds all of the tokens to the token dictionary.
+ </remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement">
+ <summary>
+ A linq statement object model.
+ </summary>
+ <remarks>
+ From [Object [As TypeId]] 
+ In [Collection] 
+ Let [Declaration1, Declaration2, ...]
+ Where [Condition Test] 
+ Select [Object/Object Constrctor] 
+ [Distinct] 
+ [Order Statement]</remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.var">
+ <summary>
+ An object element in the target query collection.(目标待查询集合之中的一个元素)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.source">
+ <summary>
+ Target query collection expression, this can be a file path or a database connection string.
+ (目标待查询集合，值可以为一个文件路径或者数据库连接字符串)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.PreDeclare">
+ <summary>
+ A read only object collection which were construct by the LET statement token in the LINQ statement.
+ (使用Let语句所构造出来的只读对象类型的对象申明集合)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.Where">
+ <summary>
+ Where test condition for the query.(查询所使用的Where条件测试语句)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.SelectClosure">
+ <summary>
+ A expression for return the query result.(用于生成查询数据返回的语句)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.TypeId">
+ <summary>
+ 获取目标LINQCollection待查询集合中的元素对象的类型标识符，以进行外部模块的动态加载
+ 与RegistryItem中的Name属性值相对应
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.Text">
+ <summary>
+ Original statement text of this linq expression
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement.TryParse(System.String,Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry)">
+ <summary>
+ Try to parsing a linq query script into a statement object model and compile the model into a assembly dynamic.
+ (尝试着从所输入的命令语句中解析出一个LINQ查询命令对象，并完成动态编译过程)
+ </summary>
+ <param name="source"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.SelectClosure.Projects">
+ <summary>
+ 通过Select表达式所产生的数据投影
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.SelectClosure.#ctor(Microsoft.VisualBasic.Linq.LDM.Statements.ClosureTokens[],Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement)">
+ <summary>
+ 
+ </summary>
+ <param name="tokens">使用逗号分隔数据投影</param>
+ <param name="parent"></param>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.LetClosure">
+ <summary>
+ Object declared using a LET expression.(使用Let语句所声明的只读对象)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.LetClosure.Name">
+ <summary>
+ Variable name
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.LetClosure.Type">
+ <summary>
+ Optional
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.LetClosure.#ctor(Microsoft.VisualBasic.Linq.LDM.Statements.ClosureTokens,Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement,Microsoft.VisualBasic.Linq.Framework.Provider.TypeRegistry)">
+ <summary>
+ Let var = expression
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.UriRef">
+ <summary>
+ 从字符串引用
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.Reference">
+ <summary>
+ 引用运行时环境之中的某一个变量或者执行表达式
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.Reference.GetRepository(Microsoft.VisualBasic.Linq.Framework.Provider.GetLinqResource,Microsoft.VisualBasic.Linq.Script.DynamicsRuntime)">
+ <summary>
+ 
+ </summary>
+ <param name="handle">
+ 由于引用类型的数据源是runtime里面的一个变量，所以这个从url获取数据的方法在这里是没有用途的，这个只是为了保持接口的统一性
+ </param>
+ <param name="runtime"></param>
+ <returns></returns>
+ <remarks>这里是不是也需要进行动态编译？</remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.SourceTypes.FileURI">
+ <summary>
+ 目标集合类型为一个数据文件
+ </summary>
+ <remarks>只有一个元素，并且为字符串类型</remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.SourceTypes.Reference">
+ <summary>
+ 目标集合类型为一个内存对象的引用
+ </summary>
+ <remarks>为表达式，含有多个Token</remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.InClosure">
+ <summary>
+ 表示目标对象的数据集合的文件路径或者内存对象的引用
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.FromClosure">
+ <summary>
+ The init variable.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.FromClosure.Name">
+ <summary>
+ 变量的名称
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.FromClosure.TypeId">
+ <summary>
+ 变量的类型标识符
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.WhereClosure.CreateLinqWhere(System.String,System.Type,Microsoft.VisualBasic.Linq.Framework.DynamicCode.DynamicCompiler)">
+ <summary>
+ 编译Linq之中的Where条件测试函数
+ </summary>
+ <param name="Expr">必须是符合VisualBasic语法的逻辑表达式</param>
+ <param name="type"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.WhereClosure.__test.Test(System.Object)">
+ <summary>
+ <see cref="T:Microsoft.VisualBasic.Linq.LDM.Statements.Tokens.WhereClosure.ITest"/>
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.SDK_PATH">
+ <summary>
+ .NET Framework的Reference Assembly文件夹的位置
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Linq.SDK_PATH._pathList">
+ <summary>
+ 从高版本到低版本排列，从x64到x86排列
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.SDK_PATH.AvaliableSDK">
+ <summary>
+ .NET Framework的Reference Assembly文件夹的位置
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Script.DynamicsRuntime">
+ <summary>
+ LINQ脚本数据源查询运行时环境
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Script.DynamicsRuntime.Evaluate(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="script"></param>
+ <returns>
+ If the Return statement is presents, then the variable of the returns will be return from the function, and this is a Function in VisualBasic 
+ If not, then viod value will be returns, and this is a Sub in VisualBasic
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Script.DynamicsRuntime.SetObject(System.String,System.Collections.IEnumerable)">
+ <summary>
+ 
+ </summary>
+ <param name="name"></param>
+ <param name="source"></param>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Script.DynamicsRuntime.Source(System.String)">
+ <summary>
+ 执行一个LINQ查询脚本文件
+ </summary>
+ <param name="path">LINQ脚本文件的文件路径</param>
+ <returns></returns>
+ <remarks>
+ 脚本要求：
+ Imports Namespace
+ var result = &lt;Linq>
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Script.DynamicsRuntime.EXEC(Microsoft.VisualBasic.Linq.LDM.Statements.LinqStatement)">
+ <summary>
+ Execute a compiled LINQ statement object model to query a object-orientale database.
+ </summary>
+ <param name="statement"></param>
+ <returns></returns>
+ <remarks>
+ Dim List As List(Of Object) = New List(Of Object)
+ 
+ For Each [Object] In LINQ.GetCollection(Statement)
+    Call SetObject([Object])
+    If True = Test() Then
+        List.Add(SelectConstruct())
+    End If
+ Next
+ Return List.ToArray
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Script.DynamicsRuntime.EXEC(System.String)">
+ <summary>
+ 执行单条查询表达式
+ </summary>
+ <param name="linq"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Script.Tokens.Linq">
+ <summary>
+ Value assignment statement for assign the value the a variable in the LINQ script runtime.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.Script.Tokens.Linq.Name">
+ <summary>
+ Variable name
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Script.Tokens.Imports.GetEnumerator">
+ <summary>
+ 枚举所有导入的命名空间
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.Script.Script">
+ <summary>
+ 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Linq.Program.Main">
+ <summary>
+ DO_NOTHING
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Linq.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.My.Resources.Resources.gpl">
+<summary>
+  Looks up a localized string similar to                     GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU General Public License is a free, copyleft license for
+software and other kinds of works.
+
+  The licenses for most software and other practical works are designed
+to take away yo [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Linq.My.Resources.Resources.license">
+<summary>
+  Looks up a localized string similar to This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+</members>
+</doc>

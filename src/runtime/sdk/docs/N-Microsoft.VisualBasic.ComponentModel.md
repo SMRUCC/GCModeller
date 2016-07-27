@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.ComponentModel
-date: 7/27/2016 7:34:06 PM
+date: 7/27/2016 8:07:50 PM
 ---
 
 [BufferedStream](T-Microsoft.VisualBasic.ComponentModel.BufferedStream.html)

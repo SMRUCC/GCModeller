@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Terminal.xConsole
-date: 7/27/2016 7:34:06 PM
+date: 7/27/2016 8:07:50 PM
 ---
 
 [Comparer](T-Microsoft.VisualBasic.Terminal.xConsole.Comparer.html)

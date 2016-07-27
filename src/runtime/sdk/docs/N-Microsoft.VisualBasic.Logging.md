@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Logging
-date: 7/27/2016 7:34:08 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [EventLog](T-Microsoft.VisualBasic.Logging.EventLog.html)

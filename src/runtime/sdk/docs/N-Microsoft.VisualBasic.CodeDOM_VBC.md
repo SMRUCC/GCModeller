@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.CodeDOM_VBC
-date: 7/27/2016 7:34:07 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [CodeDOMExpressions](T-Microsoft.VisualBasic.CodeDOM_VBC.CodeDOMExpressions.html)
