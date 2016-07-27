@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Parallel.Linq
@@ -145,4 +146,40 @@ Partial Module CLI
         Dim source As RelativeSample() = [in].LoadCsv(Of RelativeSample)
         Return source.ExportByRanks(EXPORT)
     End Function
+
+    <ExportAPI("/Statics.Labels",
+               Usage:="/Statics.Labels /in <in.csv> [/label <Label> /name <Name> /value <value> /out <out.csv>]")>
+    Public Function MergeLabels(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".labels.Csv")
+        Dim label As String = args.GetValue("/label", NameOf(LabelData.label))
+        Dim iname As String = args.GetValue("/name", NameOf(LabelData.Name))
+        Dim value As String = args.GetValue("/value", NameOf(LabelData.value))
+        Dim maps As New Dictionary(Of String, String) From {
+            {label, NameOf(LabelData.label)},
+            {iname, NameOf(LabelData.Name)},
+            {value, NameOf(LabelData.value)}
+        }
+        Dim inData As LabelData() = [in].LoadCsv(Of LabelData)(maps:=maps)
+        Dim Groups = From x As LabelData
+                     In inData
+                     Select x
+                     Group x By x.Name Into Group
+        Dim result As DataSet() = LinqAPI.Exec(Of DataSet) <=
+            From x
+            In Groups
+            Select New DataSet With {
+                .Identifier = x.Name,
+                .Properties = x.Group.ToDictionary(
+                    Function(xx) xx.label,
+                    Function(xx) xx.value)
+            }
+        Return result.SaveTo(out).CLICode
+    End Function
+
+    Public Class LabelData
+        Public Property label As String
+        Public Property Name As String
+        Public Property value As Double
+    End Class
 End Module

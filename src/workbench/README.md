@@ -2,6 +2,8 @@
 
 This is the GUI data workbench project of the GCModeller, as the GCModeller is a set of CLI program tools, and lacks of the data representation ability. in this project I trying to visualization all kinds of the data in GCModeller based on the d3js on .NET winform.
 
+![](./workbench.png)
+
 project dependence on:
 
 VisualBasic App Framework:
