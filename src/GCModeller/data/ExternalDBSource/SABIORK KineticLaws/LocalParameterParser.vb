@@ -63,7 +63,7 @@ Namespace SabiorkKineticLaws
             Dim KcatValue As Double = If(Kcat.IsNullOrEmpty, 0, Val(Kcat.First.Value2))
             Dim SubstrateId As String = Regex.Match(Km.Key, "SPC.+").Value
             Dim CatalystSubstrate = DataModel.CompoundSpecies.GetItem(SubstrateId)
-            Dim KineticLaw As EnzymeCatalystKineticLaw = New EnzymeCatalystKineticLaw With {
+            Dim KineticLaw As New EnzymeCatalystKineticLaw With {
                 .Metabolite = CatalystSubstrate.Id,
                 .Enzyme = Enzyme.Id,
                 .Km = Val(Km.Value2),
@@ -76,7 +76,8 @@ Namespace SabiorkKineticLaws
                 .PubMed = GetIdentifier(DataModel.Identifiers, "pubmed"),
                 .Uniprot = GetIdentifier(Enzyme.Identifiers, "uniprot"),
                 .KEGGReactionId = GetIdentifier(DataModel.Identifiers, "kegg.reaction"),
-                .KEGGCompoundId = GetIdentifier(CatalystSubstrate.Identifiers, "kegg.compound")}
+                .KEGGCompoundId = GetIdentifier(CatalystSubstrate.Identifiers, "kegg.compound")
+            }
             Return KineticLaw
         End Function
 
