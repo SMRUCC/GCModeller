@@ -150,14 +150,22 @@ Partial Module CLI
             result += reads
         Next
 
-        Dim rawRef As New FastaFile(ref)
-        Dim tagsHash = (From x As FastaToken
+
+        Dim tagsHash As Dictionary(Of String, String)
+
+        If ref.FileExists Then
+            Dim rawRef As New FastaFile(ref)
+
+            tagsHash = (From x As FastaToken
                         In rawRef
                         Select x,
                             sid = x.Title.Split.First
                         Group By sid Into Group) _
                                 .ToDictionary(Function(x) x.sid,
                                               Function(x) x.Group.First.x.Title.Replace(x.sid, "").Trim)
+        Else
+            tagsHash = New Dictionary(Of String, String)
+        End If
 
         Dim getValue As Func(Of String, String) =
             If(tagsHash Is Nothing,
