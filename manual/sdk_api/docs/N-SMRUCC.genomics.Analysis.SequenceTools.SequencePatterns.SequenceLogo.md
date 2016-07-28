@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
-date: 7/7/2016 5:41:02 PM
+date: 7/27/2016 7:12:33 PM
 ---
 
 [Alphabet](T-SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo.Alphabet.html)

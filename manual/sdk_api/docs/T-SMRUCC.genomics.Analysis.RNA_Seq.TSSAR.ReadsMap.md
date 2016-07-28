@@ -13,7 +13,7 @@ _namespace: [SMRUCC.genomics.Analysis.RNA_Seq.TSSAR](N-SMRUCC.genomics.Analysis.
 
 #### Left
 ```csharp
-SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.ReadsMap.Left(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads)
+SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.ReadsMap.Left(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads)
 ```
 获取目标Read片段的最左端的碱基位点的位置
 

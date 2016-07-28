@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.MMFProtocol.Pipeline
-date: 7/7/2016 5:46:42 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [API](T-Microsoft.VisualBasic.MMFProtocol.Pipeline.API.html)

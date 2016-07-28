@@ -5,7 +5,8 @@ title: DataImports
 # DataImports
 _namespace: [Microsoft.VisualBasic.DocumentFormat.Csv](N-Microsoft.VisualBasic.DocumentFormat.Csv.html)_
 
-Module provides the csv data imports operation of the csv document creates from a text file.(模块提供了从文本文档之中导入数据的方法)
+Module provides the csv data imports operation of the csv document creates from a text file.
+ (模块提供了从文本文档之中导入数据的方法)
 
 
 
@@ -32,6 +33,19 @@ Imports the data in a well formatted text file using a specific delimiter, defau
 |Parameter Name|Remarks|
 |--------------|-------|
 |txtPath|The file path for the data imports text file.(将要进行数据导入的文本文件)|
+
+
+#### Imports``1
+```csharp
+Microsoft.VisualBasic.DocumentFormat.Csv.DataImports.Imports``1(System.String,System.String,System.Text.Encoding)
+```
+Imports data source by using specific delimiter
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|path|-|
+|delimiter|-|
+|encoding|-|
 
 
 #### MatchDataType

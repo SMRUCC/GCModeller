@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DocumentFormat.Word.RichTextFormatDocument
-date: 7/7/2016 5:46:59 PM
+date: 7/27/2016 8:07:52 PM
 ---
 
 [Font](T-Microsoft.VisualBasic.DocumentFormat.Word.RichTextFormatDocument.Font.html)

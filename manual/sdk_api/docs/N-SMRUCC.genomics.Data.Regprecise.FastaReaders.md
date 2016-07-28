@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Regprecise.FastaReaders
-date: 7/7/2016 5:41:58 PM
+date: 7/27/2016 7:12:38 PM
 ---
 
 [Regulator](T-SMRUCC.genomics.Data.Regprecise.FastaReaders.Regulator.html)

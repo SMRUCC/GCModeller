@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Text.Xml
-date: 7/7/2016 5:46:31 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [XmlDeclaration](T-Microsoft.VisualBasic.Text.Xml.XmlDeclaration.html)

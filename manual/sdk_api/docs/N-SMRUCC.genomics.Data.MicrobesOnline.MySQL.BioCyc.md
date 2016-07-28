@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.MicrobesOnline.MySQL.BioCyc
-date: 7/7/2016 5:41:29 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [bindplayer](T-SMRUCC.genomics.Data.MicrobesOnline.MySQL.BioCyc.bindplayer.html)

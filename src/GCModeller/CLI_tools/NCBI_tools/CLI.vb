@@ -234,8 +234,10 @@ Module CLI
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
             For Each x As Taxono In data
-                If taxHash.ContainsKey(x.Tag) Then
-                    Dim tokens As String() = taxHash(x.Tag).Split(";"c)
+                Dim key As String = x.Tag.Split.First
+
+                If taxHash.ContainsKey(key) Then
+                    Dim tokens As String() = taxHash(key).Split(";"c)
                     Dim hash As New Dictionary(Of String, String) From {{"species", tokens(6)},
             {"genus", tokens(5)},
             {"family", tokens(4)},
@@ -254,7 +256,7 @@ Module CLI
                         .superkingdom = hash.TryGetValue(NcbiTaxonomyTree.superkingdom)
                     End With
 
-                    x.Taxonomy = taxHash(x.Tag)
+                    x.Taxonomy = taxHash(key)
                 End If
             Next
 

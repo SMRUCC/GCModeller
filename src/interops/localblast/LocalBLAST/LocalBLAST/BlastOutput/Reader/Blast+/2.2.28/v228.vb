@@ -63,17 +63,17 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Public Overrides Function Grep(Query As TextGrepMethod, Hits As TextGrepMethod) As IBlastOutput
             If Not Query Is Nothing Then
-                For i As Integer = 0 To Queries.Count - 1
+                For i As Integer = 0 To Queries.Length - 1
                     Queries(i).QueryName = Query(Queries(i).QueryName)
                 Next
             End If
             If Not Hits Is Nothing Then
-                For i As Integer = 0 To Queries.Count - 1
+                For i As Integer = 0 To Queries.Length - 1
                     Dim HitList = Queries(i).SubjectHits
                     If HitList.IsNullOrEmpty Then
                         Continue For
                     End If
-                    For j As Integer = 0 To HitList.Count - 1
+                    For j As Integer = 0 To HitList.Length - 1
                         HitList(j).Name = Hits(HitList(j).Name)
                     Next
                 Next

@@ -11,6 +11,19 @@ _namespace: [Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream](N-Microsof
 
 ### Methods
 
+#### __lazyInner
+```csharp
+Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.StreamIO.__lazyInner(System.String,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject[],System.Text.Encoding)
+```
+Save document data in rows blocks
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|filepath|-|
+|rowBuffer|-|
+|encoding|-|
+
+
 #### __lazySaved
 ```csharp
 Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.StreamIO.__lazySaved(System.String,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Text.Encoding)

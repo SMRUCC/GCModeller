@@ -27,7 +27,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv
 </member>
 <member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.DataFrame.ChangeMapping(System.Collections.Generic.Dictionary{System.String,System.String})">
  <summary>
- 
+ ``Csv.Field -> <see cref="P:System.Reflection.MemberInfo.Name"/>``
  </summary>
  <param name="MappingData">{oldFieldName, newFieldName}</param>
  <remarks></remarks>
@@ -599,6 +599,15 @@ Microsoft.VisualBasic.DocumentFormat.Csv
  <param name="encoding"></param>
  <remarks></remarks>
 </member>
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.StreamIO.__lazyInner(System.String,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject[],System.Text.Encoding)">
+ <summary>
+ Save document data in rows blocks
+ </summary>
+ <param name="filepath"></param>
+ <param name="rowBuffer"></param>
+ <param name="encoding"></param>
+ <returns></returns>
+</member>
 <member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Tokenizer">
  <summary>
  RowObject parsers
@@ -828,7 +837,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv
  </summary>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq.WriteStream`1.Flush(System.Collections.Generic.IEnumerable{`0})">
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq.WriteStream`1.Flush(System.Collections.Generic.IEnumerable{`0},System.Boolean)">
  <summary>
  Serialize the object data source into the csv document.
  (将对象的数据源写入Csv文件之中）
@@ -852,9 +861,31 @@ Microsoft.VisualBasic.DocumentFormat.Csv
  <param name="_ctype"></param>
  <returns></returns>
 </member>
+<member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.ExcelReader">
+ <summary>
+ Excel reader by using ADO.NET
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DocumentFormat.Csv.ExcelReader._fileName">
+ <summary>
+ Excel file path
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.DocumentFormat.Csv.ExcelReader._cnnExcel">
+ <summary>
+ ADO.NET connection string to the excel file <see cref="F:Microsoft.VisualBasic.DocumentFormat.Csv.ExcelReader._fileName"/>
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.ExcelReader.GetWorksheetList">
+ <summary>
+ Gets a list of work sheet name in the target excel file.
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Microsoft.VisualBasic.DocumentFormat.Csv.DataImports">
  <summary>
- Module provides the csv data imports operation of the csv document creates from a text file.(模块提供了从文本文档之中导入数据的方法)
+ Module provides the csv data imports operation of the csv document creates from a text file.
+ (模块提供了从文本文档之中导入数据的方法)
  </summary>
  <remarks></remarks>
  
@@ -873,6 +904,16 @@ Microsoft.VisualBasic.DocumentFormat.Csv
  <returns></returns>
  <remarks></remarks>
  
+</member>
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.DataImports.Imports``1(System.String,System.String,System.Text.Encoding)">
+ <summary>
+ Imports data source by using specific delimiter
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="path"></param>
+ <param name="delimiter"></param>
+ <param name="encoding"></param>
+ <returns></returns>
 </member>
 <member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.DataImports.RowParsing(System.String,System.String)">
  <summary>
@@ -988,6 +1029,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv
  <param name="Path">The csv document file path.(目标Csv数据文件的文件路径)</param>
  <param name="explicit"></param>
  <param name="encoding"></param>
+ <param name="maps">``Csv.Field -> <see cref="P:System.Reflection.MemberInfo.Name"/>``</param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -1000,7 +1042,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv
  <param name="explicit"></param>
  <returns></returns>
 </member>
-<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.Extensions.SaveTo``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Text.Encoding,System.String)">
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.Extensions.SaveTo``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Text.Encoding,System.String,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.String})">
  <summary>
  Save the object collection data dump into a csv file.(将一个对象数组之中的对象保存至一个Csv文件之中，请注意，这个方法仅仅会保存简单的基本数据类型的属性值)
  </summary>
@@ -1011,6 +1053,7 @@ Microsoft.VisualBasic.DocumentFormat.Csv
  if not then only save the property with the <see cref="T:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.ColumnAttribute"></see>
  </param>
  <param name="encoding"></param>
+ <param name="maps">{meta_define -> custom}</param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -1490,7 +1533,7 @@ meta.foundation-mq-xxlarge {
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save(System.Collections.Generic.IEnumerable{System.Object},System.Boolean)">
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save(System.Collections.Generic.IEnumerable{System.Object},System.Boolean,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
  <summary>
  Save the specifc type object collection into the csv data file.(将目标对象数据的集合转换为Csv文件已进行数据保存操作)
  </summary>
@@ -1499,7 +1542,7 @@ meta.foundation-mq-xxlarge {
  <returns></returns>
  <remarks>查找所有具备读属性的属性值</remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.__save(System.Collections.IEnumerable,System.Type,System.Boolean,System.String)">
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.__save(System.Collections.IEnumerable,System.Type,System.Boolean,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
  <summary>
  Save the specifc type object collection into the csv data file.(将目标对象数据的集合转换为Csv文件已进行数据保存操作)
  </summary>
@@ -1508,7 +1551,7 @@ meta.foundation-mq-xxlarge {
  <returns></returns>
  <remarks>查找所有具备读属性的属性值</remarks>
 </member>
-<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.String)">
+<member name="M:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector.Save``1(System.Collections.Generic.IEnumerable{``0},System.Boolean,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
  <summary>
  Save the specifc type object collection into the csv data file.
  (将目标对象数据的集合转换为Csv文件已进行数据保存操作，非并行化的以保持数据原有的顺序)

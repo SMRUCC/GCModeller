@@ -6,6 +6,11 @@ SMRUCC.genomics.Interops.CARMEN
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Interops.CARMEN.CARMEN">
+ <summary>
+ Mapping between the kegg database and the target bacteria genome.
+ </summary>
+</member>
 <member name="M:SMRUCC.genomics.Interops.CARMEN.CARMEN.Merge(System.String,System.Boolean)">
  <summary>
  
@@ -177,6 +182,21 @@ C00575 [rest of string was truncated]&quot;;.
 <summary>
   Looks up a localized resource of type System.Byte[].
 </summary>
+</member>
+<member name="T:SMRUCC.genomics.Interops.CARMEN.WebHandler">
+ <summary>
+ Comparative Analysis and Reconstruction of MEtabolic Networks
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Interops.CARMEN.WebHandler.URL">
+ <summary>
+ https://carmen.cebitec.uni-bielefeld.de/cgi-bin/execute.cgi
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Interops.CARMEN.WebHandler.EXEC_Reconstruct">
+ <summary>
+ https://carmen.cebitec.uni-bielefeld.de/cgi-bin/results.cgi
+ </summary>
 </member>
 <member name="T:SMRUCC.genomics.Interops.CARMEN.PerlInvoke">
  <summary>

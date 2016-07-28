@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.GeneticClock.ColorRender
-date: 7/7/2016 5:43:46 PM
+date: 7/27/2016 7:12:48 PM
 ---
 
 [ColorProfile](T-SMRUCC.genomics.Visualize.GeneticClock.ColorRender.ColorProfile.html)

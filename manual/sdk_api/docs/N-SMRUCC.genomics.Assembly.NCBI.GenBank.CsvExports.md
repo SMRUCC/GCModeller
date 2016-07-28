@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
-date: 7/7/2016 5:41:18 PM
+date: 7/27/2016 7:12:34 PM
 ---
 
 [gbEntryBrief](T-SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.gbEntryBrief.html)

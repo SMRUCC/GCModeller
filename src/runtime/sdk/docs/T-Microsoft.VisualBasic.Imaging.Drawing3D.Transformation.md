@@ -13,14 +13,15 @@ _namespace: [Microsoft.VisualBasic.Imaging.Drawing3D](N-Microsoft.VisualBasic.Im
 
 #### SpaceToGrid
 ```csharp
-Microsoft.VisualBasic.Imaging.Drawing3D.Transformation.SpaceToGrid(Microsoft.VisualBasic.Imaging.Drawing3D.Point3D,System.Double)
+Microsoft.VisualBasic.Imaging.Drawing3D.Transformation.SpaceToGrid(Microsoft.VisualBasic.Imaging.Drawing3D.Point3D,System.Double,System.Drawing.Point)
 ```
-Transform point 3D into point 2D
+Project of the 3D point to 2D point
 
 |Parameter Name|Remarks|
 |--------------|-------|
 |pt3D|-|
 |xRotate|-|
+|offset|-|
 
 
 

@@ -46,7 +46,7 @@ Load the mapping property, if the custom attribute @"T:Microsoft.VisualBasic.Com
 ```csharp
 Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute.LoadMapping``1(System.String[],System.Boolean)
 ```
-没有名称属性的映射使用属性名来表述
+没有名称属性的映射使用属性名来表述，请注意，字典的Key是属性的名称
 
 
 ### Properties

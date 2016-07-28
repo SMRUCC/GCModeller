@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.Circos.Colors
-date: 7/7/2016 5:43:32 PM
+date: 7/27/2016 7:12:46 PM
 ---
 
 [CircosColor](T-SMRUCC.genomics.Visualize.Circos.Colors.CircosColor.html)

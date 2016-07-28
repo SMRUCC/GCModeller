@@ -6,7 +6,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
 </name>
 </assembly>
 <members>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configs.SiteSpecificDynamicsRegulations">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configs.SiteSpecificDynamicsRegulations">
  <summary>
  这个参数值调整调控事件的发生概率阈值的高低，则阈值越低，即调控事件越容易发生
  </summary>
@@ -14,7 +14,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configs.BasalThreshold">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configs.BasalThreshold">
  <summary>
  本底表达水平，数值越高，则表达量越高
  </summary>
@@ -22,7 +22,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configs.OCS_NONE_Effector">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configs.OCS_NONE_Effector">
  <summary>
  没有在模型之中找到代谢物的合成的代谢途径，则可能为第二信使或者其他未知的原因，则在模型之中以很低的概率产生调控效应，这个参数配置产生火星的概率的高低
  </summary>
@@ -30,7 +30,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configs.OCS_Default_EffectValue">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configs.OCS_Default_EffectValue">
  <summary>
  默认的调控值
  </summary>
@@ -38,14 +38,14 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.SiteInfo">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.SiteInfo">
  <summary>
  This object represents a regulatory motif site in the gene promoter region.
  (启动子区的一个调控位点)
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.SiteInfo.Position">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.SiteInfo.Position">
  <summary>
  The position id value of the current regulatory site or the ATG distance of this site to the target gene.
  (调控位点的编号或者说是当前的这个调控位点距离ATG的距离)
@@ -54,7 +54,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.SiteInfo.Regulators">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.SiteInfo.Regulators">
  <summary>
  该位点之上的调控因子
  </summary>
@@ -62,13 +62,13 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.TCS">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.TCS">
  <summary>
  需要HisK
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.TCS.CrossTalks">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.TCS.CrossTalks">
  <summary>
  Key部分的值为HisK，Value为CrossTalk的计算得分，同源的TCS部件之家的CrossTalk的得分为1，CrossTalk的运算为加法运算
  </summary>
@@ -76,15 +76,15 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.TCS.CrossTalkEffect">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.TCS.CrossTalkEffect">
  <summary>
- 对<see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.TCS.CrossTalks"></see>的加法计算结果，用于表示双组分反应调控蛋白的调控事件的发生的可能性的高低
+ 对<see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.TCS.CrossTalks"></see>的加法计算结果，用于表示双组分反应调控蛋白的调控事件的发生的可能性的高低
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.TCS.RegulationFunctional">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.TCS.RegulationFunctional">
  <summary>
  计算原理与OCS的一致
  </summary>
@@ -92,13 +92,13 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.OCS">
  <summary>
  需要Effector
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS.EffectorPathways">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.OCS.EffectorPathways">
  <summary>
  这些代谢途径都是和Effector的合成相关的，在每一个对象之中，其Value值为该代谢途径之中的所有的基因，而Key的值则表示为该代谢途径的编号，每一个对象都做加法运算，而每一个对象内部的基因对象之间都做AND逻辑运算
  </summary>
@@ -106,15 +106,15 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS.Effector">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.OCS.Effector">
  <summary>
- 对<see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS.EffectorPathways"></see>的计算结果，值用来表述概率事件的发生的可能性的高低，值越低则越难发生
+ 对<see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.OCS.EffectorPathways"></see>的计算结果，值用来表述概率事件的发生的可能性的高低，值越低则越难发生
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS.Internal_getPathwayEffector(Microsoft.VisualBasic.ComponentModel.Collection.Generic.KeyValuePairData{SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression[]})">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.OCS.Internal_getPathwayEffector(Microsoft.VisualBasic.ComponentModel.Collection.Generic.KeyValuePairData{SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression[]})">
  <summary>
  所有的基因为AND运算
  </summary>
@@ -122,44 +122,44 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.OCS.RegulationFunctional">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.OCS.RegulationFunctional">
  <summary>
- 继承的对象和基本对象之间的实现是有差异的，基本对象直接使用state&lt;&gt;0来表述，因为<see cref="P:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement.FunctionalState"></see>已经包含有模糊逻辑判断了，只要返回非零值，就表示事件发生了，而本属性则是从头计算
+ 继承的对象和基本对象之间的实现是有差异的，基本对象直接使用state&lt;&gt;0来表述，因为<see cref="P:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement.FunctionalState"></see>已经包含有模糊逻辑判断了，只要返回非零值，就表示事件发生了，而本属性则是从头计算
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression">
  <summary>
- 表示调控因子与调控的基因之间的关系，<see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.Weight"></see>用于表示调控的Effect出现的事件概率值的高低，
+ 表示调控因子与调控的基因之间的关系，<see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.Weight"></see>用于表示调控的Effect出现的事件概率值的高低，
  当然，对于本类型的对象，你也可以将其当作为一个调控因子，并且这种类型的调控因子为自由类型的调控因子，即不需要任何外部的附加条件既
  可以产生调控功能的调控因子
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.Weight">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.Weight">
  <summary>
- <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.Weight"></see>的值有符号，其中符号表示调控效应：激活或者抑制，为了方便计算，这里取绝对值，
- <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.Weight"></see>值越大，则<see cref="F:Microsoft.VisualBasic.DataMining.Framework.DFL_Driver.I_FactorElement._ABS_Weight"></see>变量的值越小，即该调控事件越容易发生
+ <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.Weight"></see>的值有符号，其中符号表示调控效应：激活或者抑制，为了方便计算，这里取绝对值，
+ <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.Weight"></see>值越大，则<see cref="F:Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement._ABS_Weight"></see>变量的值越小，即该调控事件越容易发生
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.Repression">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.Repression">
  <summary>
- <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.Weight"></see>的符号，调控的效应，当为真的时候，为抑制作用，当为假的时候，为激活作用，Pcc符合随机事件发生的条件的时候，目标对象将会被设置为假
+ <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.Weight"></see>的符号，调控的效应，当为真的时候，为抑制作用，当为假的时候，为激活作用，Pcc符合随机事件发生的条件的时候，目标对象将会被设置为假
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.set_TargetSite(SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.SiteInfo)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.set_TargetSite(SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.SiteInfo)">
  <summary>
  调控因子所调控的实际对象是一个调控位点
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.Quantity">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.Quantity">
  <summary>
  数量越多，则权重越大，则概率事件的阈值就越低，即该调控事件越容易发生
  </summary>
@@ -167,7 +167,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression.RegulationFunctional">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression.RegulationFunctional">
  <summary>
  返回调控的效果，TRUE表示激活，FALSE表示抑制；根据Pcc权重计算出来调控因子对目标基因的表达调控的可能性
  </summary>
@@ -175,13 +175,13 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression">
  <summary>
  这个对象表示一个基因，即网络之中的一个节点，只有1和0这两个值的半逻辑表达式，模糊逻辑的原因是逻辑取值是基于一个随机概率的
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.RegulatorySites">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.RegulatorySites">
  <summary>
  这个关系是根据footprint结果得出来的
  </summary>
@@ -189,31 +189,31 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression._value">
+<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression._value">
  <summary>
- 每一次调用<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.Evaluate"></see>方法进行迭代计算，都会更新这个值，这个值由<see cref="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput">蒙特卡洛网络输入</see>进行初始化
+ 每一次调用<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.Evaluate"></see>方法进行迭代计算，都会更新这个值，这个值由<see cref="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput">蒙特卡洛网络输入</see>进行初始化
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression._factor">
+<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression._factor">
  <summary>
- 每一次调用<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.Evaluate"></see>方法进行迭代计算，都会更新这个值，这个值由<see cref="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput">蒙特卡洛网络输入</see>进行初始化
+ 每一次调用<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.Evaluate"></see>方法进行迭代计算，都会更新这个值，这个值由<see cref="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput">蒙特卡洛网络输入</see>进行初始化
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression._InternalQuantityValue">
+<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression._InternalQuantityValue">
  <summary>
  当前的这个基因所表达的mRNA分子的数量
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression._LengthDelta">
+<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression._LengthDelta">
  <summary>
  由长度映射而得来的单次增长量
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression._RegulationValue">
+<member name="F:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression._RegulationValue">
  <summary>
   0 -- 无调控作用
   1 -- 正调控作用
@@ -221,7 +221,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.RegulationValue">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.RegulationValue">
  <summary>
  当前的这个基因所受到的表达调控作用的表述
  </summary>
@@ -229,7 +229,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.#ctor(System.Boolean,System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.#ctor(System.Boolean,System.Int32)">
  <summary>
  
  </summary>
@@ -237,7 +237,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <param name="d">通过核酸链长度的映射得到的增长值</param>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.set_Mutation(System.Double)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.set_Mutation(System.Double)">
  <summary>
  0 - 缺失突变，该基因的调控事件不会发生
  1 - 正常表达
@@ -247,13 +247,13 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <param name="factor"></param>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.InternalFactorDecays">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.InternalFactorDecays">
  <summary>
  无论是否有调控作用，都会有降解发生
  </summary>
  <remarks>无论链的长短，降解的速度都要一致的，即都以0.01的速度降解</remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.Regulators_SiteSpecificDynamicsRegulations(SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.Regulators.RegulationExpression[])">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.Regulators_SiteSpecificDynamicsRegulations(SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators.RegulationExpression[])">
  <summary>
  函数返回是否被激活其表达过程
  </summary>
@@ -261,7 +261,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.InternalGetMostPossibleAppearState(System.Boolean[])">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.InternalGetMostPossibleAppearState(System.Boolean[])">
  <summary>
  Gets the most possible node regulation state in current time point.(获取当前时间点之下的最有可能的节点的调控状态值)
  </summary>
@@ -269,7 +269,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.Regulators_DynamicsRegulation">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.Regulators_DynamicsRegulation">
  <summary>
  有多个调控因子的时候的表达的计算公式
  </summary>
@@ -282,7 +282,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  2. 在Promoter区之内，假若任意一个位点被抑制，则整个基因的表达过程被抑制(单纯的分子动力学行为)
  </remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression.Handle">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression.Handle">
  <summary>
  Handle value of this node object in the network.
  </summary>
@@ -290,7 +290,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork">
  <summary>
  使用逻辑值来模拟计算基因表达调控网络
  </summary>
@@ -304,14 +304,14 @@ SMRUCC.genomics.Analysis.CellPhenotype
  
  </remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.__innerTicks(System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.__innerTicks(System.Int32)">
  <summary>
  返回调控网络之中处于表达状态的基因的数目
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.SetMutationFactor(System.String,System.Double)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.SetMutationFactor(System.String,System.Double)">
  <summary>
  
  </summary>
@@ -325,14 +325,14 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.GetGeneObjects">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.GetGeneObjects">
  <summary>
  Gets the genes unique id collection.(获取本网络模型对象之中的基因的编号列表)
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.GetRegulator(System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.KineticsModel.BinaryExpression},System.String)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.GetRegulator(System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression},System.String)">
  <summary>
  DEBUG
  </summary>
@@ -341,14 +341,14 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.AnalysisMonteCarloTopLevelInput(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints})">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.AnalysisMonteCarloTopLevelInput(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints})">
  <summary>
  Monte Carlo experiment input analysis.(分析出最顶层的调控因子作为蒙特卡洛实验的输入之一)
  </summary>
  <returns></returns>
  <remarks>由于有一些调控因子是找不到任何调控因子的，即该调控因子是位于网络的最上层，则这个调控因子的表达量就使用默认的输入值作为恒定值作为蒙特卡洛实验的输入值</remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.AllRegulatorInputs(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints})">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.AllRegulatorInputs(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints})">
  <summary>
  将所有的调控因子都作为蒙特卡洛实验的输入
  </summary>
@@ -356,14 +356,14 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.SetKernelLoops(System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.SetKernelLoops(System.Int32)">
  <summary>
  Setup the internal kernel cycles number of this binary cellular gene expression regulation network model.(对本计算模型设置内核循环的数目。)
  </summary>
  <param name="KelCycles">The kernel cycle vaslue that will be setup as the runtime parameter of the model simulation.</param>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork.NonRegulationHandles">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork.NonRegulationHandles">
  <summary>
  Gets all of the gene nodes handles collection in this expression regulation network.(获取在网络结构之上没有受到任何调控作用的基因网络节点)
  </summary>
@@ -371,7 +371,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration.SiteSpecificDynamicsRegulations">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configuration.SiteSpecificDynamicsRegulations">
  <summary>
  这个参数值调整调控事件的发生概率阈值的高低，则阈值越低，即调控事件越容易发生
  </summary>
@@ -380,7 +380,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <remarks></remarks>
  
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration.BasalThreshold">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configuration.BasalThreshold">
  <summary>
  本底表达水平，数值越高，则表达量越高
  </summary>
@@ -389,7 +389,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <remarks></remarks>
  
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration.OCS_NONE_Effector">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configuration.OCS_NONE_Effector">
  <summary>
  没有在模型之中找到代谢物的合成的代谢途径，则可能为第二信使或者其他未知的原因，则在模型之中以很低的概率产生调控效应，这个参数配置产生活性的概率的高低
  </summary>
@@ -397,7 +397,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration.OCS_Default_EffectValue">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configuration.OCS_Default_EffectValue">
  <summary>
  默认的调控值
  </summary>
@@ -406,7 +406,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration.LoadConfiguration(System.String)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configuration.LoadConfiguration(System.String)">
  <summary>
  从文件之中读取配置数据
  </summary>
@@ -414,14 +414,14 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.Configuration.DefaultValue">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configuration.DefaultValue">
  <summary>
  Get the default configuration data for the DFL network simulator.
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.EngineAPI.CreateObject(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput},System.Collections.Generic.Dictionary{System.String,System.Int32})">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.TRN.EngineAPI.CreateObject(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput},System.Collections.Generic.Dictionary{System.String,System.Int32})">
  <summary>
  从<see cref="T:SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints">调控网络预测数据</see>之中根据调控关系创建一个逻辑网络（本方法适用于初始化最简单的调控网络模型）
  </summary>
@@ -432,28 +432,28 @@ SMRUCC.genomics.Analysis.CellPhenotype
  由于有一些调控因子是找不到任何调控因子的，即该调控因子是位于网络的最上层，则这个调控因子的表达量就使用默认的输入值作为恒定值作为蒙特卡洛实验的输入值
  </remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkModel">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkModel">
  <summary>
  模型文件的XML文件对象
  </summary>
  <remarks></remarks>
  
 </member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput">
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput">
  <summary>
  网络计算的蒙特卡洛输入
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput.Level">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput.Level">
  <summary>
- The initialize expression level for the target <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput.locusId">gene</see>.(初始的表达水平)
+ The initialize expression level for the target <see cref="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput.locusId">gene</see>.(初始的表达水平)
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput.NoneRegulation">
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput.NoneRegulation">
  <summary>
  这个基因是不受任何调控作用的
  </summary>
@@ -631,7 +631,7 @@ $Result &gt; {3}/{4}.xml.
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateDynamicNetwork(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput})">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateDynamicNetwork(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput})">
  <summary>
  简要版本是没有长度映射的
  </summary>
@@ -650,7 +650,7 @@ $Result &gt; {3}/{4}.xml.
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.MonteCarloExperiment(SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork,System.Int32,System.String)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.MonteCarloExperiment(SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork,System.Int32,System.String)">
  <summary>
  
  </summary>
@@ -695,7 +695,7 @@ $Result &gt; {3}/{4}.xml.
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateMutationInit(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput},Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateMutationInit(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput},Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32)">
  <summary>
  将野生型的蒙特卡洛实验数据之中的后半部分的稳定状态的数据转换为网络输入
  </summary>

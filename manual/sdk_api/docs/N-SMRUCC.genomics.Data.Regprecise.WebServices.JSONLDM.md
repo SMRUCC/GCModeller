@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM
-date: 7/7/2016 5:41:58 PM
+date: 7/27/2016 7:12:38 PM
 ---
 
 [gene](T-SMRUCC.genomics.Data.Regprecise.WebServices.JSONLDM.gene.html)

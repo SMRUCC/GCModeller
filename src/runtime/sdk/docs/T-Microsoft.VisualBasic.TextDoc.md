@@ -11,6 +11,18 @@ _namespace: [Microsoft.VisualBasic](N-Microsoft.VisualBasic.html)_
 
 ### Methods
 
+#### ForEachChar
+```csharp
+Microsoft.VisualBasic.TextDoc.ForEachChar(System.String,Microsoft.VisualBasic.TextEncodings.Encodings)
+```
+Enumerate all of the chars in the target text file.
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|path|-|
+|encoding|-|
+
+
 #### IsTextFile
 ```csharp
 Microsoft.VisualBasic.TextDoc.IsTextFile(System.String,System.Int32)
@@ -35,6 +47,18 @@ Microsoft.VisualBasic.TextDoc.IterateAllLines(System.String)
 |Parameter Name|Remarks|
 |--------------|-------|
 |path|-|
+
+
+#### OpenWriter
+```csharp
+Microsoft.VisualBasic.TextDoc.OpenWriter(System.String,Microsoft.VisualBasic.TextEncodings.Encodings,System.String)
+```
+Open text file writer, this function will auto handle all things.
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|path|-|
+|encoding|-|
 
 
 #### ReadAllLines

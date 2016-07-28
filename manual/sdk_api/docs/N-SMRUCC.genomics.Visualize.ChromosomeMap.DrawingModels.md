@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
-date: 7/7/2016 5:43:44 PM
+date: 7/27/2016 7:12:47 PM
 ---
 
 [ChromesomeDrawingModel](T-SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.ChromesomeDrawingModel.html)

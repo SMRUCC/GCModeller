@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Regtransbase.StructureObjects.Dictionaries
-date: 7/7/2016 5:42:03 PM
+date: 7/27/2016 7:12:38 PM
 ---
 
 [Dictionary](T-SMRUCC.genomics.Data.Regtransbase.StructureObjects.Dictionaries.Dictionary.html)

@@ -14,15 +14,14 @@ Mathematics function calculation engine
 
 #### Add
 ```csharp
-Microsoft.VisualBasic.Mathematical.Helpers.Function.Add(System.String)
+Microsoft.VisualBasic.Mathematical.Helpers.Function.Add(System.String,System.String)
 ```
-Parsing the use function definition from the user input value on the console 
- and then add it to the function dictionary.
- (从终端上面输入的用户函数的申明语句中解析出表达式，然后将其加入到用户字典中)
+
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|statement|[function name](args) expression|
+|name|函数名|
+|expr|函数申明|
 
 > function [function name] expression
 

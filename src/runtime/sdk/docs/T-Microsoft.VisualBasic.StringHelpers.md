@@ -61,7 +61,7 @@ Microsoft.VisualBasic.StringHelpers.GetString(System.String,System.Char)
 
 #### GetTagValue
 ```csharp
-Microsoft.VisualBasic.StringHelpers.GetTagValue(System.String,System.String)
+Microsoft.VisualBasic.StringHelpers.GetTagValue(System.String,System.String,System.Boolean)
 ```
 tagName{**delimiter**}value
 
@@ -69,6 +69,8 @@ tagName{**delimiter**}value
 |--------------|-------|
 |s|-|
 |delimiter|-|
+|trim|Needs Removes all leading and trailing white-space characters from 
+ the current @"T:System.String" object.|
 
 
 #### InStrAny
@@ -211,6 +213,21 @@ Returns a reversed version of String s.
 |--------------|-------|
 |s|-|
 
+
+#### sFormat
+```csharp
+Microsoft.VisualBasic.StringHelpers.sFormat(System.String,System.Object[])
+```
+Replaces the format item in a specified string with the string representation
+ of a corresponding object in a specified array.
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|s|A composite format string.|
+|args|An object array that contains zero or more objects to format.|
+
+_returns: A copy of format in which the format items have been replaced by the string representation
+ of the corresponding objects in args._
 
 #### Split
 ```csharp

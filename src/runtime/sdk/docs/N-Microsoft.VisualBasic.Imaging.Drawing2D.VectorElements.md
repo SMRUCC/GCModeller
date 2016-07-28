@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Imaging.Drawing2D.VectorElements
-date: 7/7/2016 5:47:00 PM
+date: 7/27/2016 8:07:52 PM
 ---
 
 [Arrow](T-Microsoft.VisualBasic.Imaging.Drawing2D.VectorElements.Arrow.html)

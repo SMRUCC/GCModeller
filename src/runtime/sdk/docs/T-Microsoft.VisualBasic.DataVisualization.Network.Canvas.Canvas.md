@@ -5,7 +5,7 @@ title: Canvas
 # Canvas
 _namespace: [Microsoft.VisualBasic.DataVisualization.Network.Canvas](N-Microsoft.VisualBasic.DataVisualization.Network.Canvas.html)_
 
-
+Controls for view the network model.
 
 
 
@@ -24,6 +24,8 @@ Write the node layout position into its extensions data, for generates the svg g
 Layout provider engine
 #### fdgRenderer
 The graphics rendering provider
+#### Graph
+
 #### net
 The network data model for the visualization
 #### paper

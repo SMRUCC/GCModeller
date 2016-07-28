@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.MiST2
-date: 7/7/2016 5:41:16 PM
+date: 7/27/2016 7:12:34 PM
 ---
 
 [Domain](T-SMRUCC.genomics.Assembly.MiST2.Domain.html)

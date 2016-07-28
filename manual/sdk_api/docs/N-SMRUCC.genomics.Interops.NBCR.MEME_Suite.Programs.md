@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs
-date: 7/7/2016 5:43:04 PM
+date: 7/27/2016 7:12:44 PM
 ---
 
 [MAST](T-SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs.MAST.html)

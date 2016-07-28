@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DataVisualization.Network.FileStream
-date: 7/7/2016 5:46:53 PM
+date: 7/27/2016 8:07:52 PM
 ---
 
 [NameOf](T-Microsoft.VisualBasic.DataVisualization.Network.FileStream.NameOf.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
-date: 7/7/2016 5:43:07 PM
+date: 7/27/2016 7:12:45 PM
 ---
 
 [HitSegment](T-SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel.HitSegment.html)

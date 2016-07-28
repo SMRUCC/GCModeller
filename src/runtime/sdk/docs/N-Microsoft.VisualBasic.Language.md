@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Language
-date: 7/7/2016 5:46:25 PM
+date: 7/27/2016 8:07:50 PM
 ---
 
 [Class`1](T-Microsoft.VisualBasic.Language.Class`1.html)
@@ -12,3 +12,6 @@ date: 7/7/2016 5:46:25 PM
 [Int](T-Microsoft.VisualBasic.Language.Int.html)
 [LinqAPI](T-Microsoft.VisualBasic.Language.LinqAPI.html)
 [Numeric](T-Microsoft.VisualBasic.Language.Numeric.html)
+[Pointer](T-Microsoft.VisualBasic.Language.Pointer.html)
+[Value](T-Microsoft.VisualBasic.Language.Value.html)
+[Value`1](T-Microsoft.VisualBasic.Language.Value`1.html)

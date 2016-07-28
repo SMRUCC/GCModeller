@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
-date: 7/7/2016 5:41:08 PM
+date: 7/27/2016 7:12:33 PM
 ---
 
 [EC_Mapping](T-SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes.EC_Mapping.html)

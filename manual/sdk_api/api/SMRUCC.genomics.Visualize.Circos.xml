@@ -173,6 +173,11 @@ SMRUCC.genomics.Visualize.Circos
  <remarks></remarks>
  
 </member>
+<member name="T:SMRUCC.genomics.Visualize.Circos.Configurations.CircosAttribute">
+ <summary>
+ Alias for <see cref="T:Microsoft.VisualBasic.ComponentModel.Settings.SimpleConfig"/>
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots.Links">
  <summary>
  Links are defined in ``&lt;link>`` blocks enclosed in a ``&lt;links>`` block. 

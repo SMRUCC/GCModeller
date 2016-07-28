@@ -71,7 +71,7 @@ SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CommandLineTools(Sys
 
 #### CreateDynamicNetwork
 ```csharp
-SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateDynamicNetwork(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput})
+SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateDynamicNetwork(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput})
 ```
 简要版本是没有长度映射的
 
@@ -106,7 +106,7 @@ SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateExpressionMatr
 
 #### CreateMutationInit
 ```csharp
-SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateMutationInit(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.NetworkInput},Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32)
+SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateMutationInit(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput},Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32)
 ```
 将野生型的蒙特卡洛实验数据之中的后半部分的稳定状态的数据转换为网络输入
 
@@ -131,7 +131,7 @@ SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.ExportTCSCrossTalksC
 
 #### MonteCarloExperiment
 ```csharp
-SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.MonteCarloExperiment(SMRUCC.genomics.Analysis.CellPhenotype.Simulation.ExpressionRegulationNetwork.BinaryNetwork,System.Int32,System.String)
+SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.MonteCarloExperiment(SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork,System.Int32,System.String)
 ```
 
 

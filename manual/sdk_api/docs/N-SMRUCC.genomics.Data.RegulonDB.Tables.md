@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.RegulonDB.Tables
-date: 7/7/2016 5:42:04 PM
+date: 7/27/2016 7:12:38 PM
 ---
 
 [alignment](T-SMRUCC.genomics.Data.RegulonDB.Tables.alignment.html)

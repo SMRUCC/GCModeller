@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
-date: 7/7/2016 5:42:49 PM
+date: 7/27/2016 7:12:42 PM
 ---
 
 [DataModel](T-SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL.DataModel.html)

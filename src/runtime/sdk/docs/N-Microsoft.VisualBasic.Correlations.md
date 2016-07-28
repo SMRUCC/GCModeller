@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Correlations
-date: 7/7/2016 5:46:41 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [ICorrelation](T-Microsoft.VisualBasic.Correlations.ICorrelation.html)

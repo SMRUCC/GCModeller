@@ -333,7 +333,7 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh08
  <summary>
  
  </summary>
- <param name="argvs"><see cref="P:Microsoft.VisualBasic.CommandLine.CommandLine.CLICommandArgvs"></see></param>
+ <param name="args"><see cref="P:Microsoft.VisualBasic.CommandLine.CommandLine.CLICommandArgvs"></see></param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -341,7 +341,7 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh08
  <summary>
  
  </summary>
- <param name="argvs">
+ <param name="args">
  Property definition parameters for <see cref="P:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM.ModelBaseType.ModelProperty"></see>, the override function of 
  this mustOverride method should call method <see cref="M:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Compiler`1.WriteProperty(Microsoft.VisualBasic.CommandLine.CommandLine,`0)"></see> to write the property into the 
  compiled model file.</param>
@@ -352,8 +352,8 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh08
  <summary>
  
  </summary>
- <param name="argvs"></param>
- <param name="Model"></param>
+ <param name="args"></param>
+ <param name="model"></param>
  <returns></returns>
  <remarks></remarks>
 </member>

@@ -12,7 +12,7 @@ SMRUCC.genomics.Analysis.RNA-Seq.TSSAR
  </summary>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.ReadsMap.Left(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.ReadsMap.Left(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads)">
  <summary>
  获取目标Read片段的最左端的碱基位点的位置
  </summary>
@@ -182,7 +182,7 @@ SMRUCC.genomics.Analysis.RNA-Seq.TSSAR
  Mainly for debugging purpose. Default setting is --clean.</param>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Perl.Located(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads},SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Perl.Located(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads},SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT)">
  <summary>
  
  </summary>

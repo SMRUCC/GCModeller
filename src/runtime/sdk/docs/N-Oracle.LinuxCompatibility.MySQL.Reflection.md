@@ -1,6 +1,6 @@
 ﻿---
 title: Oracle.LinuxCompatibility.MySQL.Reflection
-date: 7/7/2016 5:47:28 PM
+date: 7/27/2016 8:07:53 PM
 ---
 
 [DataTable`1](T-Oracle.LinuxCompatibility.MySQL.Reflection.DataTable`1.html)

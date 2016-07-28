@@ -26,7 +26,7 @@ Set up the simulation kernel.
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|e|-|
+|k|-|
 
 
 

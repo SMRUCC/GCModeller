@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.ProteinTools.Family
-date: 7/7/2016 5:40:53 PM
+date: 7/27/2016 7:12:32 PM
 ---
 
 [API](T-SMRUCC.genomics.Analysis.ProteinTools.Family.API.html)

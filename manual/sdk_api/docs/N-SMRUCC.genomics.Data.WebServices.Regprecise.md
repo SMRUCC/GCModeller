@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.WebServices.Regprecise
-date: 7/7/2016 5:42:09 PM
+date: 7/27/2016 7:12:39 PM
 ---
 
 [ORMapperFactory](T-SMRUCC.genomics.Data.WebServices.Regprecise.ORMapperFactory.html)

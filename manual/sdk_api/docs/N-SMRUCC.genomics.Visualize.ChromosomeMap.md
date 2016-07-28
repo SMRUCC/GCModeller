@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.ChromosomeMap
-date: 7/7/2016 5:43:45 PM
+date: 7/27/2016 7:12:47 PM
 ---
 
 [ChromesomeMapAPI](T-SMRUCC.genomics.Visualize.ChromosomeMap.ChromesomeMapAPI.html)

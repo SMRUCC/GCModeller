@@ -116,32 +116,35 @@ library(flashClust);
 # The following setting is important, do not [rest of string was truncated]&quot;;.
 </summary>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNET">
+<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable">
  <summary>
- 输出结果的XML文件
+ 从pfsnet的R输出之中直接解析出来的pfsnet的计算结果
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNET.Class">
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable.PhenotypePair">
  <summary>
- 1表示第一种类别，2表示第二种类型，只有这两种值
+ 使用结果文件名来表示
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes.Percentage">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable.CreateObject(System.String,System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.ComponentModel.PathwayBrief})">
  <summary>
- Sigma(<see cref="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject.weight2"></see>)
+ 
  </summary>
- <value></value>
+ <param name="PfsNETResult">结果文件的XML文件名</param>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes.CalculationWeights(SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes[])">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable.CreateObject(SMRUCC.genomics.Analysis.PFSNet.DataStructure.PFSNetGraph[],System.String,System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.ComponentModel.PathwayBrief},System.String)">
  <summary>
- 计算同一种分类的
+ 
  </summary>
+ <param name="ResultSet">集合之中的数据必须都是同一个表型类别之下的</param>
+ <param name="PhenotypeName"></param>
+ <param name="PathwayBrief"></param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -153,35 +156,32 @@ library(flashClust);
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject">
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes.Percentage">
  <summary>
- 从pfsnet的R输出之中直接解析出来的pfsnet的计算结果
- </summary>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject.PhenotypePair">
- <summary>
- 使用结果文件名来表示
+ Sigma(<see cref="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable.weight2"></see>)
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject.CreateObject(System.String,System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.ComponentModel.PathwayBrief})">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes.__weights(SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes[])">
  <summary>
- 
+ 计算同一种分类的
  </summary>
- <param name="PfsNETResult">结果文件的XML文件名</param>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject.CreateObject(SMRUCC.genomics.Analysis.PFSNet.DataStructure.PFSNetGraph[],System.String,System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.ComponentModel.PathwayBrief},System.String)">
+<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNET">
  <summary>
- 
+ 输出结果的XML文件
  </summary>
- <param name="ResultSet">集合之中的数据必须都是同一个表型类别之下的</param>
- <param name="PhenotypeName"></param>
- <param name="PathwayBrief"></param>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNET.Class">
+ <summary>
+ 1表示第一种类别，2表示第二种类型，只有这两种值
+ </summary>
+ <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -234,11 +234,10 @@ library(flashClust);
  <summary>
  生成文件3
  </summary>
- <returns></returns>
+ <returns>返回所保存的文件的路径</returns>
  <remarks></remarks>
- 
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.CreateList(System.Collections.Generic.IEnumerable{SMRUCC.genomics.ComponentModel.PathwayBrief},System.Object[])">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.CreateList(System.Collections.Generic.IEnumerable{SMRUCC.genomics.ComponentModel.PathwayBrief},System.Collections.Generic.IEnumerable{System.String})">
  <summary>
  生成与特定表型相关的代谢途径中的所有的基因列表，生成文件1,2所需要的
  </summary>
@@ -307,9 +306,9 @@ library(flashClust);
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.KEGGPathwaysPhenotypeAnalysis(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.KEGG.Archives.Csv.Pathway})">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.KEGGPathwaysPhenotypeAnalysis(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.KEGG.Archives.Csv.Pathway})">
  <summary>
- 
+ Associate the kegg pathways pfsnet calculation result with the kegg pathways phenotypes to see which route that the mutated gene can affected the specific phenotype.
  </summary>
  <param name="pfsnet"></param>
  <param name="KEGGPathways"></param>

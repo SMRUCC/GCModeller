@@ -23,6 +23,12 @@ Microsoft.VisualBasic.ComponentModel.Settings.SimpleConfig.GenerateConfiguration
 
 > 类型实体之中的简单属性，只要具备可读属性即可被解析出来
 
+#### ToString
+```csharp
+Microsoft.VisualBasic.ComponentModel.Settings.SimpleConfig.ToString
+```
+Display @"P:Microsoft.VisualBasic.ComponentModel.Settings.SimpleConfig.Name"
+
 #### TryParse``2
 ```csharp
 Microsoft.VisualBasic.ComponentModel.Settings.SimpleConfig.TryParse``2(System.Boolean,System.Boolean)

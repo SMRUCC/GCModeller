@@ -86,7 +86,7 @@ SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.HtseqCountBatchParallel(Sy
 
 #### IntersectionNonempty
 ```csharp
-SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionNonempty(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])
+SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionNonempty(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])
 ```
 当Feature重叠在一起的时候，在内部的都计数，没有重叠的时候，可以计数
 
@@ -98,7 +98,7 @@ SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionNonempty(SMRUC
 
 #### IntersectionStrict
 ```csharp
-SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionStrict(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])
+SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionStrict(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])
 ```
 Read只可以出现在Feature的内部
 
@@ -134,7 +134,7 @@ SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.TrimGFF(SMRUCC.genomics.As
 
 #### Union
 ```csharp
-SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.Union(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])
+SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.Union(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])
 ```
 只要有接触的都进行计数
 

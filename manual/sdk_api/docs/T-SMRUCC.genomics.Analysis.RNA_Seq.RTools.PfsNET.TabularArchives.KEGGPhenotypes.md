@@ -11,9 +11,9 @@ _namespace: [SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives](N-S
 
 ### Methods
 
-#### CalculationWeights
+#### __weights
 ```csharp
-SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes.CalculationWeights(SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes[])
+SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes.__weights(SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes[])
 ```
 计算同一种分类的
 
@@ -21,4 +21,4 @@ SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.KEGGPhenotypes.Ca
 ### Properties
 
 #### Percentage
-Sigma(@"P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject.weight2")
+Sigma(@"P:SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable.weight2")

@@ -127,7 +127,71 @@ Partial Module CLI
         Return rows.SaveTo(out)
     End Function
 
-    <ExportAPI("/Export.SAM.Maps", Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv>]")>
+    <ExportAPI("/Export.SAM.Maps.By_Samples",
+               Usage:="/Export.SAM.Maps.By_Samples /in <in.sam> /tag <sampleTag_regex> [/ref <ref.fasta> /out <out.Csv>]")>
+    Public Function ExportSAMMapsBySamples(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim tagRegex As New Regex(args("/tag"), RegexICSng)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
+        Dim reader As New SamStream([in])
+        Dim result As New List(Of SimpleSegment)
+        Dim ref As String = args("/ref")
+
+        For Each readMaps As AlignmentReads In reader.ReadBlock
+            Dim reads As New SimpleSegment With {
+                .ID = readMaps.RNAME,
+                .Start = readMaps.POS,
+                .Strand = readMaps.Strand.GetBriefCode,
+                .SequenceData = readMaps.QUAL,
+                .Complement = tagRegex.Match(readMaps.QNAME).Value.Trim("_"c),
+                .Ends = readMaps.FLAG
+            }
+
+            result += reads
+        Next
+
+
+        Dim tagsHash As Dictionary(Of String, String)
+
+        If ref.FileExists Then
+            Dim rawRef As New FastaFile(ref)
+
+            tagsHash = (From x As FastaToken
+                        In rawRef
+                        Select x,
+                            sid = x.Title.Split.First
+                        Group By sid Into Group) _
+                                .ToDictionary(Function(x) x.sid,
+                                              Function(x) x.Group.First.x.Title.Replace(x.sid, "").Trim)
+        Else
+            tagsHash = New Dictionary(Of String, String)
+        End If
+
+        Dim getValue As Func(Of String, String) =
+            If(tagsHash Is Nothing,
+            Function(s) "",
+            Function(s) If(tagsHash.ContainsKey(s), tagsHash(s), ""))
+        Dim mapGroup = From x As SimpleSegment
+                       In result
+                       Select x
+                       Group x By x.ID Into Group
+        Dim stats = From g In mapGroup
+                    Let samples As Dictionary(Of String, Integer) = (
+                        From x As SimpleSegment
+                        In g.Group
+                        Select x
+                        Group x By x.Complement Into Group) _
+                             .ToDictionary(Function(x) x.Complement,
+                                           Function(x) x.Group.Count)
+                    Select refName = g.ID,
+                        samples,
+                        title = getValue(g.ID)
+        Dim output = stats.ToArray
+        Return output.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Export.SAM.Maps",
+               Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv>]")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
@@ -150,7 +214,7 @@ Partial Module CLI
                                               Function(x) x.Group.First.x.ID.Replace(x.First, "").Trim)
         End If
 
-        For Each readMaps In reader.ReadBlock
+        For Each readMaps As AlignmentReads In reader.ReadBlock
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,
@@ -206,7 +270,9 @@ Partial Module CLI
                                                         In result
                                                         Select x
                                                         Group x By x.ID Into Count) _
-                   .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count) With {.Description = getValue(x.ID)})
+                   .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count) With {
+                        .Description = getValue(x.ID)
+                   })
         Dim statOut As String = out.TrimSuffix & ".stat.Csv"
 
         Call (From x As NamedValue(Of Integer)

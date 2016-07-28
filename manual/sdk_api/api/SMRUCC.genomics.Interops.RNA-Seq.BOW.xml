@@ -288,7 +288,7 @@ SMRUCC.genomics.Interops.RNA-Seq.BOW
  </remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.HtseqCount(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads},SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF,System.String,System.Boolean,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.FeatureKeys.Features)">
+<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.HtseqCount(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads},SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF,System.String,System.Boolean,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.FeatureKeys.Features)">
  <summary>
  (函数只是得到了原始计数，还需要与序列的长度相除才可以得到RPKM) 
  Anders, S., Pyl, P. T., &amp; Huber, W. (2015). HTSeq--a Python framework to work with high-throughput sequencing data. Bioinformatics, 31(2), 166-169. doi: 10.1093/bioinformatics/btu638
@@ -366,7 +366,7 @@ SMRUCC.genomics.Interops.RNA-Seq.BOW
  <param name="csource"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.Union(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])">
+<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.Union(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])">
  <summary>
  只要有接触的都进行计数
  </summary>
@@ -375,7 +375,7 @@ SMRUCC.genomics.Interops.RNA-Seq.BOW
  <returns></returns>
  
 </member>
-<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionStrict(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])">
+<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionStrict(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])">
  <summary>
  Read只可以出现在Feature的内部
  </summary>
@@ -384,7 +384,7 @@ SMRUCC.genomics.Interops.RNA-Seq.BOW
  <returns></returns>
  
 </member>
-<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionNonempty(SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])">
+<member name="M:SMRUCC.genomics.Interops.RNA_Seq.BOW.HtseqCountMethod.IntersectionNonempty(SMRUCC.genomics.SequenceModel.SAM.AlignmentReads,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[],SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Feature[])">
  <summary>
  当Feature重叠在一起的时候，在内部的都计数，没有重叠的时候，可以计数
  </summary>

@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Scripting.TokenIcer
-date: 7/7/2016 5:46:30 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [Func`1](T-Microsoft.VisualBasic.Scripting.TokenIcer.Func`1.html)

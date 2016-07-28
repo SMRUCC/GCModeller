@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
-date: 7/7/2016 5:41:26 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [Codon](T-SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.Codon.html)

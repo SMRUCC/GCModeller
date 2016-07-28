@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-date: 7/7/2016 5:41:19 PM
+date: 7/27/2016 7:12:34 PM
 ---
 
 [DbAPI](T-SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.DbAPI.html)

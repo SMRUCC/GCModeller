@@ -1,7 +1,7 @@
 ---
 title: RNA-seq
 tags: [maunal, tools]
-date: 7/7/2016 6:51:55 PM
+date: 7/27/2016 6:40:24 PM
 ---
 # GCModeller [version 1.0.0.0]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/RNA-seq.exe
@@ -12,27 +12,50 @@ All of the command that available in this program has been list below:
 
 |Function API|Info|
 |------------|----|
+|/Associate.GI||
 |/Clustering||
+|/Co.Vector||
+|/Contacts.Ref||
 |/Data.Frame|Generates the data input for the DESeq2 R package.|
 |/DataFrame.RPKMs|Merges the RPKM csv data files.|
 |/DEGs||
 |/DEGs.UpDown||
 |/DESeq2||
 |/DOOR.Corrects||
+|/Export.Megan.BIOM||
+|/Export.SAM.Maps||
+|/Export.SSU.Refs||
+|/Export.SSU.Refs.Batch||
+|/Format.GI||
 |/fq2fa||
+|/gast||
+|/gast.stat.names||
 |/Group.n||
 |/HT-seq|Count raw reads for DESeq2 analysis.|
+|/Imports.gast.Refs.NCBI_nt||
 |/log2.selects||
 |/PCC||
+|/Rank.Statics||
 |/RPKM||
 |/RPKM.Log2||
 |/sid.map||
 |/SPCC||
 |/Stat.Changes||
+|/Statics.Labels||
 |/WGCNA|Generates the cytoscape network model from WGCNA analysis.|
 
 ## Commands
 --------------------------
+##### Help for command '/Associate.GI':
+
+**Prototype**: RNA_seq.CLI::Int32 AssociateGI(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Associate.GI /in <list.Csv.DIR> /gi <nt.gi.csv> [/out <out.DIR>]
+  Example:      RNA-seq /Associate.GI 
+```
+
 ##### Help for command '/Clustering':
 
 **Prototype**: RNA_seq.CLI::Int32 Clustering(Microsoft.VisualBasic.CommandLine.CommandLine)
@@ -41,6 +64,26 @@ All of the command that available in this program has been list below:
   Information:  
   Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Clustering /in <fq> /kmax <int> [/out <out.Csv>]
   Example:      RNA-seq /Clustering 
+```
+
+##### Help for command '/Co.Vector':
+
+**Prototype**: RNA_seq.CLI::Int32 CorrelatesVector(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Co.Vector /in <co.Csv/DIR> [/min 0.01 /max 0.05 /out <out.csv>]
+  Example:      RNA-seq /Co.Vector 
+```
+
+##### Help for command '/Contacts.Ref':
+
+**Prototype**: RNA_seq.CLI::Int32 Contacts(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Contacts.Ref /in <in.fasta> /maps <maps.sam> [/out <out.DIR>]
+  Example:      RNA-seq /Contacts.Ref 
 ```
 
 ##### Help for command '/Data.Frame':
@@ -117,6 +160,56 @@ All of the command that available in this program has been list below:
   Example:      RNA-seq /DOOR.Corrects 
 ```
 
+##### Help for command '/Export.Megan.BIOM':
+
+**Prototype**: RNA_seq.CLI::Int32 ExportToMegan(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Export.Megan.BIOM /in <relative.table.csv> [/out <out.json.biom>]
+  Example:      RNA-seq /Export.Megan.BIOM 
+```
+
+##### Help for command '/Export.SAM.Maps':
+
+**Prototype**: RNA_seq.CLI::Int32 ExportSAMMaps(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv>]
+  Example:      RNA-seq /Export.SAM.Maps 
+```
+
+##### Help for command '/Export.SSU.Refs':
+
+**Prototype**: RNA_seq.CLI::Int32 ExportSSURefs(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Export.SSU.Refs /in <ssu.fasta> [/out <out.DIR> /no-suffix]
+  Example:      RNA-seq /Export.SSU.Refs 
+```
+
+##### Help for command '/Export.SSU.Refs.Batch':
+
+**Prototype**: RNA_seq.CLI::Int32 ExportSSUBatch(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Export.SSU.Refs /in <ssu.fasta.DIR> [/out <out.DIR>]
+  Example:      RNA-seq /Export.SSU.Refs.Batch 
+```
+
+##### Help for command '/Format.GI':
+
+**Prototype**: RNA_seq.CLI::Int32 FormatGI(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Format.GI /in <txt> /gi <regex> /format <gi|{gi}> /out <out.txt>
+  Example:      RNA-seq /Format.GI 
+```
+
 ##### Help for command '/fq2fa':
 
 **Prototype**: RNA_seq.CLI::Int32 Fq2fa(Microsoft.VisualBasic.CommandLine.CommandLine)
@@ -125,6 +218,26 @@ All of the command that available in this program has been list below:
   Information:  
   Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /fq2fa /in <fastaq> [/out <fasta>]
   Example:      RNA-seq /fq2fa 
+```
+
+##### Help for command '/gast':
+
+**Prototype**: RNA_seq.CLI::Int32 gastInvoke(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe 
+  Example:      RNA-seq /gast 
+```
+
+##### Help for command '/gast.stat.names':
+
+**Prototype**: RNA_seq.CLI::Int32 StateNames(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /gast.stat.names /in <*.names> /gast <gast.out> [/out <out.Csv>]
+  Example:      RNA-seq /gast.stat.names 
 ```
 
 ##### Help for command '/Group.n':
@@ -167,6 +280,16 @@ All of the command that available in this program has been list below:
 #### Accepted Types
 ##### /Mode
 ##### /feature
+##### Help for command '/Imports.gast.Refs.NCBI_nt':
+
+**Prototype**: RNA_seq.CLI::Int32 ImportsRefFromNt(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Imports.gast.Refs.NCBI_nt /in <in.nt> /gi2taxid <dmp/txt/bin> /taxonomy <nodes/names.dmp_DIR> [/out <out.fasta>]
+  Example:      RNA-seq /Imports.gast.Refs.NCBI_nt 
+```
+
 ##### Help for command '/log2.selects':
 
 **Prototype**: RNA_seq.CLI::Int32 Log2Selects(Microsoft.VisualBasic.CommandLine.CommandLine)
@@ -185,6 +308,16 @@ All of the command that available in this program has been list below:
   Information:  
   Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /PCC /expr <expr.matrix.csv> [/out <out.dat>]
   Example:      RNA-seq /PCC 
+```
+
+##### Help for command '/Rank.Statics':
+
+**Prototype**: RNA_seq.CLI::Int32 RankStatics(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Rank.Statics /in <relative.table.csv> [/out <EXPORT_DIR>]
+  Example:      RNA-seq /Rank.Statics 
 ```
 
 ##### Help for command '/RPKM':
@@ -249,6 +382,16 @@ All of the command that available in this program has been list below:
   Information:  
   Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Stat.Changes /deseq <deseq.result.csv> /sample <sampletable.csv> [/out <out.csv> /levels <1000> /diff <0.5>]
   Example:      RNA-seq /Stat.Changes 
+```
+
+##### Help for command '/Statics.Labels':
+
+**Prototype**: RNA_seq.CLI::Int32 MergeLabels(Microsoft.VisualBasic.CommandLine.CommandLine)
+
+```
+  Information:  
+  Usage:        G:\GCModeller\manual\bin\RNA-seq.exe /Statics.Labels /in <in.csv> [/label <Label> /name <Name> /value <value> /out <out.csv>]
+  Example:      RNA-seq /Statics.Labels 
 ```
 
 ##### Help for command '/WGCNA':

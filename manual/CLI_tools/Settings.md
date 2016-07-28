@@ -1,7 +1,7 @@
 ---
 title: Settings
 tags: [maunal, tools]
-date: 7/7/2016 6:52:02 PM
+date: 7/27/2016 6:40:25 PM
 ---
 # Settings [version 1.0.0.0]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/Settings.exe

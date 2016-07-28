@@ -13,7 +13,7 @@ _namespace: [SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET](N-SMRUCC.genomics.A
 
 #### CreateList
 ```csharp
-SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.CreateList(System.Collections.Generic.IEnumerable{SMRUCC.genomics.ComponentModel.PathwayBrief},System.Object[])
+SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.CreateList(System.Collections.Generic.IEnumerable{SMRUCC.genomics.ComponentModel.PathwayBrief},System.Collections.Generic.IEnumerable{System.String})
 ```
 生成与特定表型相关的代谢途径中的所有的基因列表，生成文件1,2所需要的
 
@@ -50,9 +50,9 @@ SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.Evaluate(System.S
 
 #### KEGGPathwaysPhenotypeAnalysis
 ```csharp
-SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.KEGGPathwaysPhenotypeAnalysis(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNETCsvObject},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.KEGG.Archives.Csv.Pathway})
+SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.KEGGPathwaysPhenotypeAnalysis(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives.SubNetTable},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.KEGG.Archives.Csv.Pathway})
 ```
-
+Associate the kegg pathways pfsnet calculation result with the kegg pathways phenotypes to see which route that the mutated gene can affected the specific phenotype.
 
 |Parameter Name|Remarks|
 |--------------|-------|
@@ -88,6 +88,7 @@ SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.ParseCsv(System.S
 SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.PfsNETModuleAPI.PathwayGeneRelationship(System.Collections.Generic.IEnumerable{SMRUCC.genomics.ComponentModel.PathwayBrief},System.Collections.Generic.IEnumerable{System.String},System.String)
 ```
 生成文件3
+_returns: 返回所保存的文件的路径_
 
 #### SavePfsNET
 ```csharp

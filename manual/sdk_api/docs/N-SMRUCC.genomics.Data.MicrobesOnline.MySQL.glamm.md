@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.MicrobesOnline.MySQL.glamm
-date: 7/7/2016 5:41:39 PM
+date: 7/27/2016 7:12:36 PM
 ---
 
 [amrxn](T-SMRUCC.genomics.Data.MicrobesOnline.MySQL.glamm.amrxn.html)

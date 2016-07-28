@@ -67,12 +67,12 @@ Microsoft.VisualBasic.ComponentModel.DataSourceModel.PropertyValue`1.SetValue(`0
 ```csharp
 Microsoft.VisualBasic.ComponentModel.DataSourceModel.PropertyValue`1.ToString
 ```
-@"P:Microsoft.VisualBasic.ComponentModel.DataSourceModel.PropertyValue`1.Value" -> @"M:Microsoft.VisualBasic.Serialization.JSON.JsonContract.GetJson(System.Object,System.Type,System.Boolean)"
+@"P:Microsoft.VisualBasic.ComponentModel.DataSourceModel.PropertyValue`1.value" -> @"M:Microsoft.VisualBasic.Serialization.JSON.JsonContract.GetJson(System.Object,System.Type,System.Boolean)"
 
 
 ### Properties
 
 #### obj
 The instance object for this extension property
-#### Value
+#### value
 The Extension property value.

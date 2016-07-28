@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.SequenceModel.Patterns
-date: 7/7/2016 5:41:26 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [PatternModel](T-SMRUCC.genomics.SequenceModel.Patterns.PatternModel.html)

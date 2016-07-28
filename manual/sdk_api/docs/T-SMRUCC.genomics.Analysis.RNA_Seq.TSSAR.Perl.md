@@ -135,7 +135,7 @@ SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Perl.Invoke(System.String,System.String,S
 
 #### Located
 ```csharp
-SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Perl.Located(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads},SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT)
+SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Perl.Located(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads},SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT)
 ```
 
 

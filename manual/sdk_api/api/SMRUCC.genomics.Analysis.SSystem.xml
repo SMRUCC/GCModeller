@@ -12,6 +12,13 @@ SMRUCC.genomics.Analysis.SSystem
  </summary>
  <returns></returns>
 </member>
+<member name="T:SMRUCC.genomics.Analysis.SSystem.RunModel.IRunModel">
+ <summary>
+ Run model from commandline.
+ </summary>
+ <param name="args"></param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.SSystem.My.Resources.Resources">
 <summary>
   A strongly-typed resource class, for looking up localized strings, etc.
@@ -28,7 +35,7 @@ SMRUCC.genomics.Analysis.SSystem
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SSystem.SBML.GenerateSystem(SMRUCC.genomics.Analysis.SSystem.Script.Model)">
+<member name="M:SMRUCC.genomics.Analysis.SSystem.SBML.__generateSystem(SMRUCC.genomics.Analysis.SSystem.Script.Model)">
  <summary>
  Generate the equation group of the target modelling system.(生成目标模型系统的方程组)
  </summary>
@@ -123,7 +130,7 @@ SMRUCC.genomics.Analysis.SSystem
  <summary>
  
  </summary>
- <param name="Path">The file path of the target compile script.(目标脚本的文件路径)</param>
+ <param name="path">The file path of the target compile script.(目标脚本的文件路径)</param>
  <param name="AutoFix">
  Optional，when error occur in the procedure of the script compiled, then if TRUE, the program was 
  trying to fix the error automatically, if FALSE, then the program throw an exception and then 
@@ -134,6 +141,11 @@ SMRUCC.genomics.Analysis.SSystem
  </param>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.SSystem.Script.SEquation">
+ <summary>
+ S-system equation.
+ </summary>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.SSystem.Script.SEquation.x">
  <summary>
@@ -198,6 +210,11 @@ SMRUCC.genomics.Analysis.SSystem
  CONST
  </summary>
 </member>
+<member name="T:SMRUCC.genomics.Analysis.SSystem.Kernel.DataAcquisition">
+ <summary>
+ Data service
+ </summary>
+</member>
 <member name="P:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Expression">
  <summary>
  使用代谢底物的UniqueID属性值作为数值替代的表达式
@@ -223,7 +240,7 @@ SMRUCC.genomics.Analysis.SSystem
  Set up the simulation kernel.
  (设置模拟核心)
  </summary>
- <param name="e"></param>
+ <param name="k"></param>
  <remarks></remarks>
 </member>
 <member name="T:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Function">
@@ -306,7 +323,7 @@ SMRUCC.genomics.Analysis.SSystem
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.DataAcquisition">
+<member name="F:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.dataSvr">
  <summary>
  Data collecting
  </summary>
@@ -337,11 +354,11 @@ SMRUCC.genomics.Analysis.SSystem
 </member>
 <member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.__innerTicks(System.Int32)">
  <summary>
- The kernel loop.(内核循环)
+ The kernel loop.(内核循环, 会在这里更新数学表达式计算引擎的环境变量)
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run(System.String)">
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run(System.String,System.Double)">
  <summary>
  The file path of the compiled xml model. 
  </summary>
@@ -349,7 +366,7 @@ SMRUCC.genomics.Analysis.SSystem
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run(SMRUCC.genomics.Analysis.SSystem.Script.Model)">
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run(SMRUCC.genomics.Analysis.SSystem.Script.Model,System.Double)">
  <summary>
  Run a compiled model.(运行一个已经编译好的模型文件)
  </summary>

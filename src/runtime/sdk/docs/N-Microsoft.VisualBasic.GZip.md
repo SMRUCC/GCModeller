@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.GZip
-date: 7/7/2016 5:46:44 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [ArchiveAction](T-Microsoft.VisualBasic.GZip.ArchiveAction.html)

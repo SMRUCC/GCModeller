@@ -156,6 +156,28 @@ Microsoft.VisualBasic.CommandLine.CommandLine.GetFloat(System.String)
 ```
 Gets the Single-precision floating point number Of the specified field.
 
+#### GetFullDIRPath
+```csharp
+Microsoft.VisualBasic.CommandLine.CommandLine.GetFullDIRPath(System.String)
+```
+
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|name|parameter name|
+
+
+#### GetFullFilePath
+```csharp
+Microsoft.VisualBasic.CommandLine.CommandLine.GetFullFilePath(System.String)
+```
+
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|name|parameter name|
+
+
 #### GetGuid
 ```csharp
 Microsoft.VisualBasic.CommandLine.CommandLine.GetGuid(System.String)

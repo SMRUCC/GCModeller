@@ -117,12 +117,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
     <OutputPath>bin\docs\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Analysis.RegulationSignature.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <OutputPath>..\..\..\..\manual\sdk_api\bin\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Analysis.RegulationSignature.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
     <OutputPath>bin\x86\docs\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Analysis.RegulationSignature.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

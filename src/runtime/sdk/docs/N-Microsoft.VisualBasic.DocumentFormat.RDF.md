@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DocumentFormat.RDF
-date: 7/7/2016 5:46:58 PM
+date: 7/27/2016 8:07:52 PM
 ---
 
 [DataTypes](T-Microsoft.VisualBasic.DocumentFormat.RDF.DataTypes.html)

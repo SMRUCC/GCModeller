@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataVisualization
-date: 7/7/2016 5:42:41 PM
+date: 7/27/2016 7:12:42 PM
 ---
 
 [DynamicMap](T-SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataVisualization.DynamicMap.html)

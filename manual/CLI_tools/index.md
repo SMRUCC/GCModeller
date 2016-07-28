@@ -1,7 +1,7 @@
 ---
 title: GCModeller CLI Tools
 tags: [manual, tools]
-date: 7/7/2016 6:52:20 PM
+date: 7/27/2016 6:40:32 PM
 ---
 
 All of the available GCModeller CLI tools are listed below:
@@ -13,10 +13,11 @@ All of the available GCModeller CLI tools are listed below:
 + [FBA](./FBA.html)
 + [gcc](./gcc.html)
 + [GCModeller](./GCModeller.html)
-+ [KEGG](./KEGG.html)
++ [KEGG_tools](./KEGG_tools.html)
 + [localblast](./localblast.html)
 + [MEME](./MEME.html)
 + [mpl](./mpl.html)
++ [NCBI_tools](./NCBI_tools.html)
 + [PhenoTree](./PhenoTree.html)
 + [pitr](./pitr.html)
 + [PLAS](./PLAS.html)

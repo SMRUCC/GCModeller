@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-date: 7/7/2016 5:46:57 PM
+date: 7/27/2016 8:07:52 PM
 ---
 
 [CollectionAttribute](T-Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.CollectionAttribute.html)

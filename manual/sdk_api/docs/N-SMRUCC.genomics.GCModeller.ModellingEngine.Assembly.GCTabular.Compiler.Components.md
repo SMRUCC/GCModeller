@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
-date: 7/7/2016 5:42:38 PM
+date: 7/27/2016 7:12:41 PM
 ---
 
 [AnalysisTransmembraneFlux](T-SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components.AnalysisTransmembraneFlux.html)

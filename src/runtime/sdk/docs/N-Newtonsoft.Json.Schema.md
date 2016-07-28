@@ -1,6 +1,6 @@
 ﻿---
 title: Newtonsoft.Json.Schema
-date: 7/7/2016 5:47:16 PM
+date: 7/27/2016 8:07:53 PM
 ---
 
 [Extensions](T-Newtonsoft.Json.Schema.Extensions.html)

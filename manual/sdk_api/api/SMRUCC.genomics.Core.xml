@@ -5102,6 +5102,13 @@ SMRUCC.genomics.Core
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.ExportGeneAnno(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File)">
+ <summary>
+ Exports CDS feature
+ </summary>
+ <param name="gbk"></param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.BatchExportPlasmid(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File},SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.GeneDumpInfo[]@,SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.Plasmid[]@,System.String,System.Boolean)">
  <summary>
 
@@ -5515,11 +5522,25 @@ SMRUCC.genomics.Core
 </member>
 <member name="P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.SequenceData">
  <summary>
- The sequence data that stores in this GenBank database, which can be a genomics DNA sequence, protein sequence or RNA sequence.(序列数据，类型可以包括基因组DNA序列，蛋白质序列或者RNA序列)
+ The sequence data that stores in this GenBank database, which can be a genomics DNA sequence, protein sequence or RNA sequence.
+ (序列数据，类型可以包括基因组DNA序列，蛋白质序列或者RNA序列)
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.InvalidWarns">
+ <summary>
+ The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N... 
+ for <see cref="P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.SequenceData"/>
+ </summary>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.Char(System.Int64)">
+ <summary>
+ ``<see cref="P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.SequenceData"/> -> index``
+ </summary>
+ <param name="index"></param>
+ <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN.Size">
  <summary>
@@ -5568,6 +5589,12 @@ SMRUCC.genomics.Core
  </summary>
  <remarks></remarks>
 
+</member>
+<member name="P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Origin">
+ <summary>
+ This GenBank keyword section stores the sequence data for this database.
+ </summary>
+ <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Accession">
  <summary>
@@ -5686,7 +5713,9 @@ SMRUCC.genomics.Core
 </member>
 <member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.FeatureParser.CreateObject(System.String,System.Int32)">
  <summary>
- 
+ ```
+ Fields are: &lt;seqname> &lt;source> &lt;feature> &lt;start> &lt;end> &lt;score> &lt;strand> &lt;frame> [attributes] [comments]
+ ```
  </summary>
  <param name="s_Data"></param>
  <param name="version">gff1, gff2, gff3之间的差异是由于本属性值的列的读取方式的差异而产生的</param>
@@ -6423,15 +6452,258 @@ SMRUCC.genomics.Core
  <remarks></remarks>
 
 </member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Protein">
+<member name="T:SMRUCC.genomics.Assembly.NCBI.TaxonNode">
  <summary>
- NCBI genbank title format fasta parser
+ The tree node calculation model for <see cref="T:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree"/>
  </summary>
 </member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Gene">
+<member name="T:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree">
  <summary>
- NCBI genbank title format fasta parser
+ Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
+ ``names.dmp`` files 
+ 
+ ```json
+ { Taxid   : namedtuple('Node', ['name', 'rank', 'parent', 'children'] }
+ ```
+ 
+ + https://www.biostars.org/p/13452/
+ + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+
  </summary>
+ <remarks>
+ https://github.com/frallain/NCBI_taxonomy_tree
+ 
+ #### NCBI_taxonomy_tree
+
+ The NCBI Taxonomy database Is a curated Set Of names And classifications For all Of the organisms that are 
+ represented In GenBank (http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/). It can be accessed 
+ via http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi Or it can be downloaded from 
+ ftp://ftp.ncbi.nih.gov/pub/taxonomy/ in the form of 2 files : ``nodes.dmp`` for the structure of the tree 
+ And ``names.dmp`` for the names of the different nodes.
+
+ Here I make available my In-memory mapping Of the NCBI taxonomy : a Python 2.7 Class that maps the ``names.dmp`` 
+ And ``nodes.dmp`` files In a Python dictionnary which can be used To retrieve lineages, descendants, etc ...
+ </remarks>
+</member>
+<member name="F:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.stdranks">
+ <summary>
+ + species
+ + genus
+ + family
+ + order
+ + class
+ + phylum
+ + superkingdom
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.#ctor(System.Object)">
+ <summary>
+ Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
+ ``names.dmp`` files 
+ 
+ ```json
+ { Taxid    namedtuple('Node', ['name', 'rank', 'parent', 'children'] }
+ ```
+ 
+ + https://www.biostars.org/p/13452/
+ + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+ 
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.#ctor(System.String,System.String)">
+ <summary>
+ Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
+ ``names.dmp`` files 
+ 
+ ```json
+ { Taxid    namedtuple('Node', ['name', 'rank', 'parent', 'children'] }
+ ```
+ 
+ + https://www.biostars.org/p/13452/
+ + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+ 
+ </summary>
+ <param name="nodes_filename"></param>
+ <param name="names_filename"></param>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetParent(System.Int32[])">
+ <summary>
+ Returns parent id
+ </summary>
+ <param name="taxids"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(System.Int32,System.Boolean)">
+ <summary>
+ 使用这个函数得到物种的具体分类，返回来的数据是从小到大排列的
+ </summary>
+ <param name="taxid"></param>
+ <param name="only_std_ranks"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(System.Collections.Generic.IEnumerable{System.Int32},System.Boolean)">
+ <summary>
+ 使用这个函数得到物种的具体分类，返回来的数据是从小到大排列的
+ </summary>
+ <param name="taxids"></param>
+ <param name="only_std_ranks"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetDescendants(System.Int32[])">
+ <summary>
+ Returns all the descendant taxids from a branch/clade 
+ of a list of taxids : all nodes (leaves or not) of the 
+ tree are returned including the original one.
+ </summary>
+ <param name="taxids"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetDescendantsWithRanksAndNames(System.Int32[])">
+ <summary>
+ Returns the ordered list of the descendants with their respective ranks and names for a LIST of taxids.
+ </summary>
+ <param name="taxids"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetLeaves(System.Int32)">
+ <summary>
+ Returns all the descendant taxids that are leaves of the tree from 
+ a branch/clade determined by ONE taxid.
+ </summary>
+ <param name="taxid"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetLeavesWithRanksAndNames(System.Int32)">
+ <summary>
+ Returns all the descendant taxids that are leaves of the tree from 
+ a branch/clade determined by ONE taxid.
+ </summary>
+ <param name="taxid"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetTaxidsAtRank(System.String)">
+ <summary>
+ Returns all the taxids that are at a specified rank: 
+ 
+ + standard ranks: 
+   ``species, genus, family, order, class, phylum, superkingdom.``
+ + non-standard ranks: 
+   ``forma, varietas, subspecies, species group, subtribe, tribe, subclass, kingdom.``
+   
+ </summary>
+ <param name="rank"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.preorderTraversal(System.Int32,System.Boolean)">
+ <summary>
+ Prefix (Preorder) visit of the tree: https://en.wikipedia.org/wiki/Tree_traversal
+ </summary>
+ <param name="taxid"></param>
+ <param name="only_leaves"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.flatten(System.Collections.IEnumerable)">
+ <summary>
+ ```
+ >>> flatten([1 , [2, 2], [2, [3, 3, 3]]]) 
+ [1, 2, 2, 2, 3, 3, 3]
+ ```
+ </summary>
+ <param name="seq"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.TaxonomyWeb">
+ <summary>
+ The Taxonomy Database is a curated classification and nomenclature for all of the organisms in the 
+ public sequence databases. This currently represents about 10% of the described species of life 
+ on the planet.
+ </summary>
+ <remarks>
+ **Disclaimer**: The NCBI taxonomy database is not an authoritative source for nomenclature or classification - 
+ please consult the relevant scientific literature for the most reliable information.
+ </remarks>
+</member>
+<member name="F:SMRUCC.genomics.Assembly.NCBI.TaxonomyWeb.TaxonomyWebURL">
+ <summary>
+ http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi
+ </summary>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.NCBI.TaxiValue.x">
+ <summary>
+ Other tag value
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.TaxiValue.BuildHash(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.NCBI.TaxiValue})">
+ <summary>
+ {gi, title}
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.NCBI.TaxonValue.Rank">
+ <summary>
+ Class level
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.NCBI.TaxonValue.sp">
+ <summary>
+ ``gi -> gbff.head``
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.Taxonomy">
+ <summary>
+ Build Taxonomy tree from NCBI genbank data.
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.AcquireAuto(System.String)">
+ <summary>
+ 根绝文件的拓展名来识别
+ </summary>
+ <param name="dmp"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Hash_gi2Taxi(System.String)">
+ <summary>
+ Probably you should do the match in the bash first by using script"
+ 
+ ```bash
+ grep ">" nt-18S.fasta | cut -f2 -d'|' | sort | uniq >gi.txt
+ tabtk_subset /biostack/database/taxonomy/gi_taxid_nucl.dmp gi.txt 1 0 >gi_match.txt 
+ ```
+ 
+ Then using the generated ``gi_match.txt`` as the inputs for parameter <paramref name="dmp"/>, 
+ this operation will save your time, no needs to load the entire database.
+ </summary>
+ <param name="dmp"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Archive(System.String,System.String)">
+ <summary>
+ 将文本数据库转换为二进制数据库已减少文件体积和加快文件的加载速度
+ </summary>
+ <param name="dmp"></param>
+ <param name="bin"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.Entrez.TaxonomyWebAPI">
+ <summary>
+ ##### Automatically Getting The Ncbi Taxonomy Id From The Genbank Identifier
+ 
+ The question is whether, given a (long) list of Genbank identifiers, is possible to 
+ get the ncbi taxonomy identifier for each one. I know it may seem very easy, but I 
+ have not found any web service which makes this, and I wouldn't like to do this 
+ manually.
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Entrez.TaxonomyWebAPI.efetch(System.String,System.String)">
+ <summary>
+ NCBI efetch can use an accession number instead of a gi. and the XML/Fasta returned by efetch contains the taxonomy-ID:
+ </summary>
+ <param name="gi"></param>
+ <returns></returns>
+ 
 </member>
 <member name="T:SMRUCC.genomics.Assembly.NCBI.Entrez.ComponentModels.I_QueryEntry">
  <summary>
@@ -6483,6 +6755,16 @@ SMRUCC.genomics.Core
  查询某一个蛋白质或者基因对象所返回的结果数据下载入口点
  </summary>
  <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Protein">
+ <summary>
+ NCBI genbank title format fasta parser
+ </summary>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Gene">
+ <summary>
+ NCBI genbank title format fasta parser
+ </summary>
 </member>
 <member name="T:SMRUCC.genomics.Assembly.Uniprot.UniprotFasta">
  <summary>
@@ -7918,11 +8200,25 @@ to take away yo [rest of string was truncated]&quot;;.
  </summary>
  <returns></returns>
 </member>
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.__loops(Microsoft.VisualBasic.List{System.String})">
+ <summary>
+ Loops on each block of data
+ </summary>
+ <param name="stream"></param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.Split(System.Int32)">
  <summary>
  子集里面的序列元素的数目
  </summary>
  <param name="size"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.SeqSource(System.String,System.String[])">
+ <summary>
+ 
+ </summary>
+ <param name="handle">File path or directory.</param>
  <returns></returns>
 </member>
 <member name="T:SMRUCC.genomics.SequenceModel.FASTA.Reflection.FastaExportMethods">
@@ -8796,26 +9092,26 @@ to take away yo [rest of string was truncated]&quot;;.
  
  The following genetic codes are described here:
  
- •1. The Standard Code
- •2. The Vertebrate Mitochondrial Code
- •3. The Yeast Mitochondrial Code
- •4. The Mold, Protozoan, And Coelenterate Mitochondrial Code And the Mycoplasma/Spiroplasma Code
- •5. The Invertebrate Mitochondrial Code
- •6. The Ciliate, Dasycladacean And Hexamita Nuclear Code
- •9. The Echinoderm And Flatworm Mitochondrial Code
- •10. The Euplotid Nuclear Code
- •11. The Bacterial, Archaeal And Plant Plastid Code
- •12. The Alternative Yeast Nuclear Code
- •13. The Ascidian Mitochondrial Code
- •14. The Alternative Flatworm Mitochondrial Code
- •16. Chlorophycean Mitochondrial Code
- •21. Trematode Mitochondrial Code
- •22. Scenedesmus obliquus Mitochondrial Code
- •23. Thraustochytrium Mitochondrial Code
- •24. Pterobranchia Mitochondrial Code
- •25. Candidate Division SR1 And Gracilibacteria Code
+ 1. The Standard Code
+ 2. The Vertebrate Mitochondrial Code
+ 3. The Yeast Mitochondrial Code
+ 4. The Mold, Protozoan, And Coelenterate Mitochondrial Code And the Mycoplasma/Spiroplasma Code
+ 5. The Invertebrate Mitochondrial Code
+ 6. The Ciliate, Dasycladacean And Hexamita Nuclear Code
+ 9. The Echinoderm And Flatworm Mitochondrial Code
+ 10. The Euplotid Nuclear Code
+ 11. The Bacterial, Archaeal And Plant Plastid Code
+ 12. The Alternative Yeast Nuclear Code
+ 13. The Ascidian Mitochondrial Code
+ 14. The Alternative Flatworm Mitochondrial Code
+ 16. Chlorophycean Mitochondrial Code
+ 21. Trematode Mitochondrial Code
+ 22. Scenedesmus obliquus Mitochondrial Code
+ 23. Thraustochytrium Mitochondrial Code
+ 24. Pterobranchia Mitochondrial Code
+ 25. Candidate Division SR1 And Gracilibacteria Code
  
- http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25
+ > http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencodes#SG25
  </summary>
 </member>
 <member name="P:SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.TranslTable.CodenTable">

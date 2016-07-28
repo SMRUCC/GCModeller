@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-date: 7/7/2016 5:43:34 PM
+date: 7/27/2016 7:12:46 PM
 ---
 
 [Connector](T-SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots.Connector.html)

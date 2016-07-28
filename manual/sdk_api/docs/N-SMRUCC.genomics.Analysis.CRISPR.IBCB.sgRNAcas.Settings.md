@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.Settings
-date: 7/7/2016 5:40:46 PM
+date: 7/27/2016 7:12:31 PM
 ---
 
 [File](T-SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.Settings.File.html)

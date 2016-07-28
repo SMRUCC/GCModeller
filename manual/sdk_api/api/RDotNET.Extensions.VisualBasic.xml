@@ -27,6 +27,41 @@ RDotNET.Extensions.VisualBasic
  推荐使用这个对象来执行R脚本
  </summary>
 </member>
+<member name="P:RDotNET.Extensions.VisualBasic.RScriptInvoke.Call">
+ <summary>
+ The R script
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:RDotNET.Extensions.VisualBasic.RScriptInvoke.STD_OUT">
+ <summary>
+ R output from the script <see cref="P:RDotNET.Extensions.VisualBasic.RScriptInvoke.Call"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:RDotNET.Extensions.VisualBasic.RScriptInvoke.#ctor(System.String)">
+ <summary>
+ Creates a R call from the script text
+ </summary>
+ <param name="script"></param>
+</member>
+<member name="M:RDotNET.Extensions.VisualBasic.RScriptInvoke.#ctor(RDotNET.Extensions.VisualBasic.IRProvider)">
+ <summary>
+ Creates a R call from the script builder
+ </summary>
+ <param name="script"></param>
+</member>
+<member name="M:RDotNET.Extensions.VisualBasic.RScriptInvoke.PrintSTDOUT">
+ <summary>
+ Display the output on the system console.
+ </summary>
+</member>
+<member name="M:RDotNET.Extensions.VisualBasic.RScriptInvoke.ToString">
+ <summary>
+ <see cref="P:RDotNET.Extensions.VisualBasic.RScriptInvoke.Call"/>
+ </summary>
+ <returns></returns>
+</member>
 <member name="M:RDotNET.Extensions.VisualBasic.RScriptInvoke.Invoke``1(System.Func{System.String[],``0})">
  <summary>
  
@@ -37,7 +72,7 @@ RDotNET.Extensions.VisualBasic
 </member>
 <member name="M:RDotNET.Extensions.VisualBasic.RScriptInvoke.Invoke``1">
  <summary>
- 
+ The R script <see cref="P:RDotNET.Extensions.VisualBasic.RScriptInvoke.Call"/> should output a S4Object.
  </summary>
  <typeparam name="T">在R之中的类型必须是S4Object对象</typeparam>
  <returns></returns>

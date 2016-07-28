@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Model.Biopax.Level3.Schema
-date: 7/7/2016 5:43:22 PM
+date: 7/27/2016 7:12:46 PM
 ---
 
 [Class](T-SMRUCC.genomics.Model.Biopax.Level3.Schema.Class.html)

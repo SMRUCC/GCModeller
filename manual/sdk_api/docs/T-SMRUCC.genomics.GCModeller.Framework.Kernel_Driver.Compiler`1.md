@@ -19,7 +19,7 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Compiler`1.Compile(Microsoft.
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|argvs|
+|args|
  Property definition parameters for @"P:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM.ModelBaseType.ModelProperty", the override function of 
  this mustOverride method should call method @"M:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Compiler`1.WriteProperty(Microsoft.VisualBasic.CommandLine.CommandLine,`0)" to write the property into the 
  compiled model file.|
@@ -33,7 +33,7 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Compiler`1.PreCompile(Microso
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|argvs|@"P:Microsoft.VisualBasic.CommandLine.CommandLine.CLICommandArgvs"|
+|args|@"P:Microsoft.VisualBasic.CommandLine.CommandLine.CLICommandArgvs"|
 
 
 #### WriteProperty
@@ -44,8 +44,8 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Compiler`1.WriteProperty(Micr
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|argvs|-|
-|Model|-|
+|args|-|
+|model|-|
 
 
 

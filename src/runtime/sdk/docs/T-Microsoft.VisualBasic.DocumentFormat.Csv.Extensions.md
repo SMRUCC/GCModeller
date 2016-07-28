@@ -70,6 +70,7 @@ Load a csv data file document using a specific object type.(将某一个Csv数�
 |Path|The csv document file path.(目标Csv数据文件的文件路径)|
 |explicit|-|
 |encoding|-|
+|maps|``Csv.Field -> @"P:System.Reflection.MemberInfo.Name"``|
 
 
 #### LoadDblVector
@@ -109,7 +110,7 @@ Save the data collection vector as a csv document.
 
 #### SaveTo``1
 ```csharp
-Microsoft.VisualBasic.DocumentFormat.Csv.Extensions.SaveTo``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Text.Encoding,System.String)
+Microsoft.VisualBasic.DocumentFormat.Csv.Extensions.SaveTo``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Text.Encoding,System.String,System.Boolean,System.Collections.Generic.Dictionary{System.String,System.String})
 ```
 Save the object collection data dump into a csv file.(将一个对象数组之中的对象保存至一个Csv文件之中，请注意，这个方法仅仅会保存简单的基本数据类型的属性值)
 
@@ -121,6 +122,7 @@ Save the object collection data dump into a csv file.(将一个对象数组之�
  if not then only save the property with the @"T:Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.ColumnAttribute"
  |
 |encoding|-|
+|maps|{meta_define -> custom}|
 
 
 #### ToCsvDoc``1

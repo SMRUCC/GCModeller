@@ -67,6 +67,25 @@ Output the string to the console using a specific formation.(按照指定的格�
 |args|Formation parameters.(格式化参数)|
 
 
+#### Read``1
+```csharp
+Microsoft.VisualBasic.Terminal.STDIO.Read``1(System.String,Microsoft.VisualBasic.Terminal.STDIO.TryParseDelegate{``0},``0)
+```
+Read Method with Generics & Delegate
+ 
+ In a console application there is often the need to ask (and validate) some data from users. 
+ For this reason I have created a function that make use of generics and delegates to 
+ speed up programming.
+ 
+ > http://www.codeproject.com/Tips/1108772/Read-Method-with-Generics-Delegate
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|msg|-|
+|parser|-|
+|_default|-|
+
+
 #### scanf
 ```csharp
 Microsoft.VisualBasic.Terminal.STDIO.scanf(System.String@,System.ConsoleColor)

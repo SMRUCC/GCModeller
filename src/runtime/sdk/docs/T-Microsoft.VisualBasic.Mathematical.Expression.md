@@ -53,3 +53,5 @@ Microsoft.VisualBasic.Mathematical.Expression.GetValue(System.String)
 
 #### DefaultEngine
 The default expression evaluation engine.
+#### value
+Gets constant or variable value, but only sets variable value.

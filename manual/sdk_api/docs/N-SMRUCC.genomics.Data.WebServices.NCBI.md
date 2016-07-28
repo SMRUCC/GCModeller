@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.WebServices.NCBI
-date: 7/7/2016 5:42:13 PM
+date: 7/27/2016 7:12:39 PM
 ---
 
 [AssayColumnsType](T-SMRUCC.genomics.Data.WebServices.NCBI.AssayColumnsType.html)

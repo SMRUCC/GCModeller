@@ -6,7 +6,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
 </name>
 </assembly>
 <members>
-<member name="M:SMRUCC.genomics.SequenceModel.Contig.AssemblingForward(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads},System.Boolean)">
+<member name="M:SMRUCC.genomics.SequenceModel.Contig.AssemblingForward(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads},System.Boolean)">
  <summary>
  所装配出来的位置和方向有关
  </summary>
@@ -14,7 +14,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <param name="Reversed">实际的方向</param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.Contig.AssemblingReversed(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads},System.Boolean)">
+<member name="M:SMRUCC.genomics.SequenceModel.Contig.AssemblingReversed(Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads},System.Boolean)">
  <summary>
  不明白在bitwiseFLAG里面已经标注了Reverse方向了，为什么还是有些Reads会是正向的
  bwa标注出来的位置和ncbi上面的blast的位置好像不一致？？？
@@ -187,7 +187,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
-<member name="T:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads">
+<member name="T:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads">
  <summary>
  比对区域
  
@@ -212,7 +212,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  </summary>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.QNAME">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.QNAME">
  <summary>
  Query template NAME.(Query template NAME. Reads/segments having identical QNAME are regarded to
  come from the same template. A QNAME '*' indicates the information is unavailable.)
@@ -221,7 +221,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.FLAG">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.FLAG">
  <summary>
  bitwise FLAG
  
@@ -303,13 +303,13 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  
  </remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.Strand">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.Strand">
  <summary>
  获取当前的这条reads在基因组之上的方向
  </summary>
  <returns></returns>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.RNAME">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.RNAME">
  <summary>
  Reference sequence NAME
  
@@ -323,7 +323,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.POS">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.POS">
  <summary>
  1-based leftmost mapping POSition.(本Mapping在参考基因组之中的最左端的位置)
  
@@ -335,7 +335,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.MAPQ">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.MAPQ">
  <summary>
  MAPping Quality
  
@@ -346,7 +346,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.CIGAR">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.CIGAR">
  <summary>
  CIGAR string
  
@@ -372,7 +372,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.RNEXT">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.RNEXT">
  <summary>
  Ref. name of the mate/next segment.
  
@@ -380,16 +380,16 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  the next segment Is the first segment in the template. If @SQ header lines are present, RNEXT
  (if Not `*' or `=') must be present in one of the SQ-SN tag. This field is set as `*' when the
  information Is unavailable, And set as `=' if RNEXT is identical RNAME. If not `=' and the next
- segment in the template has one primary mapping (see also bit <see cref="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x100">0x100</see> in FLAG), this field Is
+ segment in the template has one primary mapping (see also bit <see cref="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x100">0x100</see> in FLAG), this field Is
  identical to RNAME of the next segment. If the next segment has multiple primary mappings,
  no assumptions can be made about RNEXT And PNEXT. If RNEXT Is `*', no assumptions can
- be made On PNEXT And bit <see cref="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x20">0x20</see>.
+ be made On PNEXT And bit <see cref="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x20">0x20</see>.
  </summary>
  <value></value>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.PNEXT">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.PNEXT">
  <summary>
  Position of the mate/next segment
  
@@ -401,7 +401,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.TLEN">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.TLEN">
  <summary>
  observed Template LENgth
  
@@ -415,7 +415,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.QUAL">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.QUAL">
  <summary>
  ASCII of Phred-scaled base QUALity+33
  
@@ -428,7 +428,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.OptionalHash">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.OptionalHash">
  <summary>
  最后面的可选的字段数据
  
@@ -447,7 +447,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  </summary>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.#ctor(System.String)">
+<member name="M:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.#ctor(System.String)">
  <summary>
  
  </summary>
@@ -456,7 +456,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  不可用的片段信息会使用0或者*来表示
  </remarks>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads.RangeAt(System.Int64,System.Int64)">
+<member name="M:SMRUCC.genomics.SequenceModel.SAM.AlignmentReads.RangeAt(System.Int64,System.Int64)">
  <summary>
  查看这个Read是否在该范围之内，由于只是对片段区域内的每一个碱基上面的Reads频数进行计数，所以这里只需要二者只要有重叠就可以了
  </summary>
@@ -464,7 +464,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <param name="RangeEnds"></param>
  <returns></returns>
 </member>
-<member name="T:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS">
+<member name="T:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS">
  <summary>
  Bitwise flags in .bam/.sam files
  </summary>
@@ -580,19 +580,19 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  
  </remarks>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x1">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x1">
  <summary>
  template having multiple segments in sequencing
  If 0x1 is unset, no assumptions can be made about 0x2, 0x8, 0x20, 0x40 and 0x80.
  (假若1标注没有被设置，则不会进行对2,8,32,64,128的标注进行假设???????)
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x2">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x2">
  <summary>
  Each segment properly aligned according To the aligner
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x4">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x4">
  <summary>
  segment unmapped
  
@@ -601,32 +601,32 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
 ’‘’ And the bit 0x20 of the next segment in the template.
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x8">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x8">
  <summary>
  Next segment In the template unmapped
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x10">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x10">
  <summary>
  SEQ being reverse complemented
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x20">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x20">
  <summary>
  SEQ Of the Next segment In the template being reversed
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x40">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x40">
  <summary>
  the first segment In the template
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x80">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x80">
  <summary>
  the last segment In the template
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x100">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x100">
  <summary>
  secondary alignment
  
@@ -635,27 +635,27 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  (256标注表示这个比对不会被使用于特定的分析之中当工具)
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x200">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x200">
  <summary>
  Not passing quality controls
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x400">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x400">
  <summary>
  PCR Or optical duplicate
  </summary>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS_API.BitFLAG">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS_API.BitFLAG">
  <summary>
  标记静态缓存
  </summary>
 </member>
-<member name="P:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS_API.Descriptions">
+<member name="P:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS_API.Descriptions">
  <summary>
  标记描述的静态缓存
  </summary>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS_API.ComputeBitFLAGS(System.Int32)">
+<member name="M:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS_API.ComputeBitFLAGS(System.Int32)">
  <summary>
   Bit    Description
   0x1    template having multiple segments in sequencing
@@ -676,68 +676,68 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  <returns></returns>
  
 </member>
-<member name="T:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS">
+<member name="T:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS">
  <summary>
  
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.M">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.M">
  <summary>
  alignment match (can be a sequence match Or mismatch)
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.I">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.I">
  <summary>
  insertion To the reference
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.D">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.D">
  <summary>
  deletion from the reference
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.N">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.N">
  <summary>
  skipped region from the reference
  
  For mRNA -To -genome alignment, an N operation represents an intron. For other types Of alignments, the interpretation of N Is Not defined.
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.S">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.S">
  <summary>
  soft clipping (clipped sequences present In SEQ)
  
  S may only have H operations between them And the ends Of the CIGAR String.
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.H">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.H">
  <summary>
  hard clipping (clipped sequences Not present In SEQ)
  
  H can only be present As the first And/Or last operation.
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.P">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.P">
  <summary>
  padding (silent deletion from padded reference)
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.EQ">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.EQ">
  <summary>
  sequence match
  </summary>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.CIGAR_OPERATIONS.X">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.CIGAR_OPERATIONS.X">
  <summary>
  sequence mismatch
  </summary>
 </member>
-<member name="T:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.SAMHeader">
+<member name="T:SMRUCC.genomics.SequenceModel.SAM.SAMHeader">
  <summary>
  实际上就相当于一个字典来的
  </summary>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.SAMHeader.#ctor(System.String)">
+<member name="M:SMRUCC.genomics.SequenceModel.SAM.SAMHeader.#ctor(System.String)">
  <summary>
  
  </summary>
@@ -750,31 +750,31 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  (每一行都是从@符号开始，后面跟随者两个字母的数据类型码，使用TAB进行分割除了@CO行，每一个域都以键值对的形式出现:  TAG:Value)
  </param>
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.SAMHeader.TAGS.HD">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.SAMHeader.TAGS.HD">
  <summary>
  The header line. The first line if present.
  </summary>
  
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.SAMHeader.TAGS.SQ">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.SAMHeader.TAGS.SQ">
  <summary>
  Reference sequence dictionary. The order of @SQ lines defines the alignment sorting order.
  </summary>
  
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.SAMHeader.TAGS.RG">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.SAMHeader.TAGS.RG">
  <summary>
  Read group. Unordered multiple @RG lines are allowed.
  </summary>
  
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.SAMHeader.TAGS.PG">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.SAMHeader.TAGS.PG">
  <summary>
  Program.
  </summary>
  
 </member>
-<member name="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.SAMHeader.TAGS.CO">
+<member name="F:SMRUCC.genomics.SequenceModel.SAM.SAMHeader.TAGS.CO">
  <summary>
  One-line text comment. Unordered multiple @CO lines are allowed.
  </summary>
@@ -842,7 +842,7 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  对当前的这个Mapping之中的Reads进行装配
  </summary>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.SAM.SAM.Assembling(System.Collections.Generic.Dictionary{System.Int32,Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.DocumentElements.AlignmentReads}},System.Boolean)">
+<member name="M:SMRUCC.genomics.SequenceModel.SAM.SAM.Assembling(System.Collections.Generic.Dictionary{System.Int32,Microsoft.VisualBasic.List{SMRUCC.genomics.SequenceModel.SAM.AlignmentReads}},System.Boolean)">
  <summary>
  
  </summary>
@@ -888,8 +888,8 @@ SMRUCC.genomics.SequenceModel.RNA-seq.Data
  将一些标签去除一应用于下游的TSS分析
  </summary>
  <param name="doc">
- 会将文档里面的<see cref="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x200"/>,
- <see cref="F:SMRUCC.genomics.SequenceModel.SAM.DocumentElements.BitFLAGS.Bit0x4"/>的Reads进行剔除
+ 会将文档里面的<see cref="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x200"/>,
+ <see cref="F:SMRUCC.genomics.SequenceModel.SAM.BitFLAGS.Bit0x4"/>的Reads进行剔除
  </param>
  <returns></returns>
  

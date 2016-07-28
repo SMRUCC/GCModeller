@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.ComponentModel
-date: 7/7/2016 5:46:16 PM
+date: 7/27/2016 8:07:50 PM
 ---
 
 [BufferedStream](T-Microsoft.VisualBasic.ComponentModel.BufferedStream.html)
@@ -22,4 +22,3 @@ date: 7/7/2016 5:46:16 PM
 [SingletonHolder`1](T-Microsoft.VisualBasic.ComponentModel.SingletonHolder`1.html)
 [TimeInterval](T-Microsoft.VisualBasic.ComponentModel.TimeInterval.html)
 [TripleKeyValuesPair](T-Microsoft.VisualBasic.ComponentModel.TripleKeyValuesPair.html)
-[Value`1](T-Microsoft.VisualBasic.ComponentModel.Value`1.html)

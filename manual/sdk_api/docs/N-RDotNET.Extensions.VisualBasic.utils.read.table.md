@@ -1,6 +1,6 @@
 ﻿---
 title: RDotNET.Extensions.VisualBasic.utils.read.table
-date: 7/7/2016 5:40:24 PM
+date: 7/27/2016 7:12:30 PM
 ---
 
 [readcsv](T-RDotNET.Extensions.VisualBasic.utils.read.table.readcsv.html)

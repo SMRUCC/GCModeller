@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.Visualize.Phylip
-date: 7/7/2016 5:40:21 PM
+date: 7/27/2016 7:12:30 PM
 ---
 
 [CRISPRPhylogeneticTree](T-SMRUCC.genomics.Interops.Visualize.Phylip.CRISPRPhylogeneticTree.html)

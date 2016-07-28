@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Assembly.DOMINE.Tables
-date: 7/7/2016 5:41:07 PM
+date: 7/27/2016 7:12:33 PM
 ---
 
 [Go](T-SMRUCC.genomics.Assembly.DOMINE.Tables.Go.html)

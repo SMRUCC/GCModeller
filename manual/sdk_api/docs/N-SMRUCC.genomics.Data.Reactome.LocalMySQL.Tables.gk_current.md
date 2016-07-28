@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Data.Reactome.LocalMySQL.Tables.gk_current
-date: 7/7/2016 5:41:43 PM
+date: 7/27/2016 7:12:37 PM
 ---
 
 [_attributevaluebeforechange](T-SMRUCC.genomics.Data.Reactome.LocalMySQL.Tables.gk_current._attributevaluebeforechange.html)

@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Analysis.ProteinTools.Interactions
-date: 7/7/2016 5:40:54 PM
+date: 7/27/2016 7:12:32 PM
 ---
 
 [BeliefNetwork](T-SMRUCC.genomics.Analysis.ProteinTools.Interactions.BeliefNetwork.html)

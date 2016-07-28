@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Serialization
-date: 7/7/2016 5:46:30 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [__StringTypeCaster](T-Microsoft.VisualBasic.Serialization.__StringTypeCaster.html)

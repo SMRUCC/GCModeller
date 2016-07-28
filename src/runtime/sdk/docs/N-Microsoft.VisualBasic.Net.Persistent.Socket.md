@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.Net.Persistent.Socket
-date: 7/7/2016 5:46:38 PM
+date: 7/27/2016 8:07:51 PM
 ---
 
 [PersistentClient](T-Microsoft.VisualBasic.Net.Persistent.Socket.PersistentClient.html)

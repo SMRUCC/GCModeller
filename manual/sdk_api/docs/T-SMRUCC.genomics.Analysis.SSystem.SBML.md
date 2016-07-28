@@ -11,9 +11,9 @@ _namespace: [SMRUCC.genomics.Analysis.SSystem](N-SMRUCC.genomics.Analysis.SSyste
 
 ### Methods
 
-#### GenerateSystem
+#### __generateSystem
 ```csharp
-SMRUCC.genomics.Analysis.SSystem.SBML.GenerateSystem(SMRUCC.genomics.Analysis.SSystem.Script.Model)
+SMRUCC.genomics.Analysis.SSystem.SBML.__generateSystem(SMRUCC.genomics.Analysis.SSystem.Script.Model)
 ```
 Generate the equation group of the target modelling system.(生成目标模型系统的方程组)
 

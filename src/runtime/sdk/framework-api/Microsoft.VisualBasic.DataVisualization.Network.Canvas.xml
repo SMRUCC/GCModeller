@@ -49,6 +49,18 @@ Microsoft.VisualBasic.DataVisualization.Network.Canvas
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="T:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas">
+ <summary>
+ Controls for view the network model.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.Graph(System.Boolean)">
+ <summary>
+ 
+ </summary>
+ <param name="space">Is 3D network viewer canvas</param>
+ <returns></returns>
+</member>
 <member name="F:Microsoft.VisualBasic.DataVisualization.Network.Canvas.Canvas.space3D">
  <summary>
  Render and layout engine works in 3D mode?

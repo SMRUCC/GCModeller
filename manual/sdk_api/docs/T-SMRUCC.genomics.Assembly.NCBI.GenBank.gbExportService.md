@@ -62,6 +62,17 @@ SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.Distinct(System.Collection
 |data|-|
 
 
+#### ExportGeneAnno
+```csharp
+SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.ExportGeneAnno(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File)
+```
+Exports CDS feature
+
+|Parameter Name|Remarks|
+|--------------|-------|
+|gbk|-|
+
+
 #### ExportGeneNtFasta
 ```csharp
 SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService.ExportGeneNtFasta(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File,System.Boolean)

@@ -35,6 +35,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
+''' <summary>
+''' Mapping between the kegg database and the target bacteria genome.
+''' </summary>
 <[PackageNamespace]("Annotations.CarmenMapping",
                     Description:="Mapping between the kegg database and the target bacteria genome.",
                     Cites:="Schneider, J., et al. (2010). ""CARMEN - Comparative Analysis And in silico Reconstruction of organism-specific MEtabolic Networks."" Genet Mol Res 9(3): 1660-1672.

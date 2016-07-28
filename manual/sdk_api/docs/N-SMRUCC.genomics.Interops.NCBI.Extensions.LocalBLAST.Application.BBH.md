@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-date: 7/7/2016 5:43:12 PM
+date: 7/27/2016 7:12:45 PM
 ---
 
 [BBHIndex](T-SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHIndex.html)

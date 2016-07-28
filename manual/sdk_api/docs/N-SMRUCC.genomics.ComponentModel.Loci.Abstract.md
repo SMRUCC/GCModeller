@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.ComponentModel.Loci.Abstract
-date: 7/7/2016 5:41:23 PM
+date: 7/27/2016 7:12:35 PM
 ---
 
 [ILocationComponent](T-SMRUCC.genomics.ComponentModel.Loci.Abstract.ILocationComponent.html)

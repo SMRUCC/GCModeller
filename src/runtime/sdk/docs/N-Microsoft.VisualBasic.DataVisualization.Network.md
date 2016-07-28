@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DataVisualization.Network
-date: 7/7/2016 5:46:54 PM
+date: 7/27/2016 8:07:52 PM
 ---
 
 [NetworkAPI](T-Microsoft.VisualBasic.DataVisualization.Network.NetworkAPI.html)

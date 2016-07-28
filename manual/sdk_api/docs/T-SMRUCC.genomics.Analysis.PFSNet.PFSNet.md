@@ -16,10 +16,12 @@ Implements the pfsnet algorithm to calculates the significant and consist cellul
 ```csharp
 SMRUCC.genomics.Analysis.PFSNet.PFSNet.computegenelist(SMRUCC.genomics.Analysis.PFSNet.DataStructure.DataFrameRow[],System.Double)
 ```
-list.mask<-apply(w,1,function(x){
+```R
+ list.mask<-apply(w,1,function(x){
  sum(x,na.rm=T)/sum(!is.na(x)) >= beta
  })
  list(gl=rownames(w)[list.mask])
+ ```
  
  apply函数是对行进行统计的
  
@@ -35,9 +37,11 @@ list.mask<-apply(w,1,function(x){
 ```csharp
 SMRUCC.genomics.Analysis.PFSNet.PFSNet.computew1(SMRUCC.genomics.Analysis.PFSNet.DataStructure.DataFrameRow[],System.Double,System.Double)
 ```
-ranks<-apply(expr,2,function(x){
+```R
+ ranks<-apply(expr,2,function(x){
  rank(x)/length(x)
  })
+ ```
  
  apply函数之中的MARGIN参数的含义：
  MARGIN
@@ -85,19 +89,20 @@ SMRUCC.genomics.Analysis.PFSNet.PFSNet.InternalVg(SMRUCC.genomics.Analysis.PFSNe
 #### OriginalRAlgorithm
 The original pfsnet algorithm implemented in language R.
  
-require(igraph)
-#require(rJava)
+ ```R
+ require(igraph)
+ #require(rJava)
 
-loaddata<-function(file){
-a<-read.table(file,row.names=1)
-a
-}
+ loaddata<-function(file){
+ a<-read.table(file,row.names=1)
+ a
+ }
 
-computew1<-function(expr,theta1,theta2){
-ranks<-apply(expr,2,function(x){
-rank(x)/length(x)
-})
-apply(ranks,2,function(x){
+ computew1<-function(expr,theta1,theta2){
+ ranks<-apply(expr,2,function(x){
+ rank(x)/length(x)
+ })
+ apply(ranks,2,function(x){
 q2<-quantile(x,theta2,na.rm=T)
 q1<-quantile(x,theta1,na.rm=T)
 m<-median(x)
@@ -113,8 +118,9 @@ else if(y>=q2)
 else
 0
 })
-})
-}
+ })
+ }
 
-pfsnet.computegenelist<-function(w,beta){
+ pfsnet.computegenelist<-function(w,beta){
 # within [rest of string was truncated]";.
+```

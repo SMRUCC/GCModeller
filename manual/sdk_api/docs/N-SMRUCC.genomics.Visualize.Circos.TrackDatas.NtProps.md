@@ -1,6 +1,6 @@
 ﻿---
 title: SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
-date: 7/7/2016 5:43:36 PM
+date: 7/27/2016 7:12:47 PM
 ---
 
 [GCProps](T-SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps.GCProps.html)

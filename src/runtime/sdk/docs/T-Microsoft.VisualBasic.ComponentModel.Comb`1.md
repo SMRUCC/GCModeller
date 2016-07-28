@@ -20,7 +20,7 @@ Creates the completely combination of the elements in the target input collectio
 
 |Parameter Name|Remarks|
 |--------------|-------|
-|Collection|-|
+|source|-|
 
 
 

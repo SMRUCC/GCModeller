@@ -1,7 +1,7 @@
 ---
 title: Shoal
 tags: [maunal, tools]
-date: 7/7/2016 6:52:04 PM
+date: 7/27/2016 6:40:26 PM
 ---
 # ShoalShell [version 1.2.258.2033]
 **Module AssemblyName**: file:///G:/GCModeller/manual/bin/Shoal.exe

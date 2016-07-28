@@ -1,6 +1,6 @@
 ﻿---
 title: RDotNet.Extensions.Bioinformatics.declares.bnlearn
-date: 7/7/2016 5:40:21 PM
+date: 7/27/2016 7:12:30 PM
 ---
 
 [alarm](T-RDotNet.Extensions.Bioinformatics.declares.bnlearn.alarm.html)

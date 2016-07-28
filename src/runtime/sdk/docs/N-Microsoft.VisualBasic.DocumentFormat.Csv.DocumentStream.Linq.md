@@ -1,6 +1,6 @@
 ﻿---
 title: Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
-date: 7/7/2016 5:46:55 PM
+date: 7/27/2016 8:07:52 PM
 ---
 
 [BatchQueue](T-Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq.BatchQueue.html)

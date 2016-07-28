@@ -43,21 +43,22 @@ Microsoft.VisualBasic.Win32.WindowsServices.RegisterURLProtocol(System.String,Sy
 ```
 (**** Please notice, that the application has To have admin privileges To be able To write the needed stuff into registry. ****)
  
- Everyone knows HTTP-URLs. Windows Shell also enables to define own URL protocols. 
- Some programs (like Visual Studio Help ms-help:// ... or Steam steam:// ...) take advantage of this feature. 
+ Everyone knows HTTP-URLs. Windows Shell also enables to define own ``URL protocols``. 
+ Some programs (like Visual Studio Help ``ms-help://`` ... or Steam ``steam://`` ...) take advantage of this feature. 
  By creating some registry entries one is able to set up a self-made URL protocol. 
  This allows to access your applications by URL (originating from every software).
  
- Please notice, that the application has To have admin privileges To be able To write the needed stuff into registry. 
- You can test your application very easy by opening Windows Explorer And typing "yoururlprotocol://testdata" 
+ Please notice, that **the application has To have admin privileges To be able To write the needed stuff into registry**. 
+ You can test your application very easy by opening Windows Explorer And typing ``yoururlprotocol://testdata`` 
  into the path/address field.
  
- Registers an user defined URL protocol for the usage with
- the Windows Shell, the Internet Explorer and Office.
+ Registers an user defined URL protocol for the usage with the Windows Shell, the Internet Explorer and Office.
  
  Example for an URL of an user defined URL protocol:
  
+ ```
  rainbird://RemoteControl/OpenFridge/GetBeer
+ ```
 
 |Parameter Name|Remarks|
 |--------------|-------|

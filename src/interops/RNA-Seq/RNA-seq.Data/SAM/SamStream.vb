@@ -42,7 +42,7 @@ Namespace SAM
         Public ReadOnly Property Head As SAMHeader()
 
         ReadOnly _encoding As System.Text.Encoding
-        ReadOnly Fs As FileStream
+        ReadOnly fs As FileStream
 
         Dim Tokens As String() = Nothing
         Dim LastLine As String
@@ -54,12 +54,12 @@ Namespace SAM
         Sub New(handle As String, Optional encoding As System.Text.Encoding = Nothing)
             _FileName = handle
             _encoding = If(encoding Is Nothing, System.Text.Encoding.UTF8, encoding)
-            Fs = New FileStream(handle, FileMode.Open, FileAccess.Read)
+            fs = New FileStream(handle, FileMode.Open, FileAccess.Read)
 
             Call $"Open file stream from handle {FileName.ToFileURL}...".__DEBUG_ECHO
             Call $"File stream encoding is specific as {_encoding.ToString}".__DEBUG_ECHO
 
-            Head = ReadHeaders(Fs, _encoding, Tokens, SAM.CHUNK_SIZE)
+            Head = ReadHeaders(fs, _encoding, Tokens, SAM.CHUNK_SIZE)
             LastLine = Tokens.Last
         End Sub
 
@@ -79,14 +79,16 @@ Namespace SAM
                 Yield reads
             Next
 
-            Do While Fs.Position < Fs.Length
+            Do While fs.Position < fs.Length
                 readsBuffer = __parserInner(chunkSize)
 
                 For Each reads As AlignmentReads In readsBuffer
                     Yield reads
                 Next
 #If DEBUG Then
-                Call $"*{Fs.Position} --> {Fs.Length}   ({Math.Round(100 * Fs.Position / Fs.Length, 2)}%)".__DEBUG_ECHO
+                Call $"*{fs.Position} --> {fs.Length}   ({Math.Round(100 * fs.Position / fs.Length, 2)}%)".__DEBUG_ECHO
+#Else
+              
 #End If
             Loop
 
@@ -98,20 +100,19 @@ Namespace SAM
         End Function
 
         Private Function __parserInner(chunkSize As Integer) As AlignmentReads()
-            Dim ChunkBuffer As Byte()
+            Dim bytBuffer As Byte()
 
-            If Fs.Length - Fs.Position > chunkSize Then
-                ChunkBuffer = New Byte(chunkSize - 1) {}
-                Call Fs.Read(ChunkBuffer, 0, chunkSize)
+            If fs.Length - fs.Position > chunkSize Then
+                bytBuffer = New Byte(chunkSize - 1) {}
+                Call fs.Read(bytBuffer, 0, chunkSize)
             Else
-                ChunkBuffer = New Byte(Fs.Length - Fs.Position - 1) {}
-                Call Fs.Read(ChunkBuffer, 0, Fs.Length - Fs.Position)
+                bytBuffer = New Byte(fs.Length - fs.Position - 1) {}
+                Call fs.Read(bytBuffer, 0, fs.Length - fs.Position)
             End If
 
-            Dim s_Data As String =
-                LastLine & _encoding.GetString(ChunkBuffer).Replace(vbLf, "")
+            Dim s_Data As String = LastLine & _encoding.GetString(bytBuffer)
 
-            Tokens = s_Data.Split(CChar(vbCr))
+            Tokens = s_Data.lTokens
             LastLine = Tokens.Last
 
             Dim TokenCopy As String() = New String(Tokens.Length - 2) {}
