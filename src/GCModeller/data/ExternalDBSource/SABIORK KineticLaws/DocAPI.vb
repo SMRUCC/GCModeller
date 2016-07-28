@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.IEnumerations
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
@@ -44,17 +45,22 @@ Namespace SabiorkKineticLaws
 
         <ExportAPI("GET.Identifier")>
         Public Function GetIdentifier(strData As String(), Keyword As String) As String
-            Dim LQuery = (From strItem As String In strData Where InStr(strItem, Keyword) Select strItem.Split(CChar("/")).Last).ToArray
-            If LQuery.IsNullOrEmpty Then
-                Return ""
-            Else
-                Return LQuery.First
-            End If
+            Dim LQuery As String = LinqAPI.DefaultFirst(Of String) <=
+                From strItem As String
+                In strData
+                Where InStr(strItem, Keyword)
+                Select strItem.Split(CChar("/")).Last
+
+            Return LQuery
         End Function
 
         <ExportAPI("GET.Identifiers")>
         Public Function GetIdentifiers(strData As String(), Keyword As String) As String()
-            Dim LQuery = (From strItem As String In strData Where InStr(strItem, Keyword) Select strItem.Split(CChar("/")).Last).ToArray
+            Dim LQuery As String() = LinqAPI.Exec(Of String) <=
+                From strItem As String
+                In strData
+                Where InStr(strItem, Keyword)
+                Select strItem.Split(CChar("/")).Last
             Return LQuery
         End Function
 

@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::d38c15205a998db84bcf02fce71dc2f2, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\SBMLParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Namespace SabiorkKineticLaws.SBMLParser
 
@@ -79,13 +80,22 @@ Namespace SabiorkKineticLaws.SBMLParser
             Return KineticRecord
         End Function
 
-        Private Shared Function TryParseLocalParameters(strData As String) As Microsoft.VisualBasic.ComponentModel.TripleKeyValuesPair()
-            Dim TempChunk As String() = (From m As Match In Regex.Matches(strData, "<localParameter.+?/>", RegexOptions.Multiline) Select m.Value).ToArray
-            Dim LQuery = (From strItem As String In TempChunk
-                          Let strId As String = GetStringValue(Regex.Match(strItem, "id="".+?""").Value)
-                          Let strName As String = GetStringValue(Regex.Match(strItem, "name="".+?""").Value)
-                          Let strValue As String = GetStringValue(Regex.Match(strItem, "value="".+?""").Value)
-                          Select New TripleKeyValuesPair With {.Key = strId, .Value1 = strName, .Value2 = strValue}).ToArray
+        Private Shared Function TryParseLocalParameters(strData As String) As TripleKeyValuesPair()
+            Dim temps As String() = Regex.Matches(strData, "<localParameter.+?/>", RegexOptions.Multiline).ToArray
+            Dim LQuery As TripleKeyValuesPair() =
+                LinqAPI.Exec(Of TripleKeyValuesPair) <=
+ _
+                From s As String
+                In temps
+                Let strId As String = GetStringValue(Regex.Match(s, "id="".+?""").Value)
+                Let strName As String = GetStringValue(Regex.Match(s, "name="".+?""").Value)
+                Let strValue As String = GetStringValue(Regex.Match(s, "value="".+?""").Value)
+                Select New TripleKeyValuesPair With {
+                    .Key = strId,
+                    .Value1 = strName,
+                    .Value2 = strValue
+                }
+
             Return LQuery
         End Function
 
@@ -123,19 +133,30 @@ Namespace SabiorkKineticLaws.SBMLParser
         End Function
 
         Private Shared Function TryParseListOfSpecies(strData As String) As CompoundSpecie()
-            Dim sBuilder = New StringBuilder(strData)
-            Dim TempChunk As List(Of String) = (From m As Match In Regex.Matches(strData, "<species .+?/>", RegexOptions.Multiline) Select m.Value).ToList
-            For Each strItem As String In TempChunk
+            Dim sBuilder As New StringBuilder(strData)
+            Dim tmps As List(Of String) = LinqAPI.MakeList(Of String) <=
+                From m As Match
+                In Regex.Matches(strData, "<species .+?/>", RegexOptions.Multiline)
+                Select m.Value
+
+            For Each strItem As String In tmps
                 Call sBuilder.Replace(strItem, "")
             Next
-            Call TempChunk.AddRange((From m As Match In Regex.Matches(sBuilder.ToString, "<species .+?</species>", RegexOptions.Singleline) Select m.Value).ToArray)
-            Dim LQuery = (From strItem As String In TempChunk Select CompoundSpecie.TryParse(strItem)).ToArray
+
+            tmps += From m As Match
+                    In Regex.Matches(sBuilder.ToString, "<species .+?</species>", RegexOptions.Singleline)
+                    Select m.Value
+
+            Dim LQuery As CompoundSpecie() = LinqAPI.Exec(Of CompoundSpecie) <=
+                From strItem As String
+                In tmps
+                Select CompoundSpecie.TryParse(strItem)
             Return LQuery
         End Function
 
         Private Shared Function TryParseListOfReactions(strData As String) As kineticLawModel
-            Dim TempChunk As String() = (From m As Match In Regex.Matches(strData, "<reaction.+?</reaction>", RegexOptions.Singleline) Select m.Value).ToArray
-            Return kineticLawModel.TryParse(TempChunk.First)
+            Dim tmps As String() = Regex.Matches(strData, "<reaction.+?</reaction>", RegexOptions.Singleline).ToArray
+            Return kineticLawModel.TryParse(tmps.First)
         End Function
 
         Protected Friend Shared Function GetStringValue(strData As String) As String
