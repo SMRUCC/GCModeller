@@ -50,8 +50,7 @@ Namespace Text
     ''' <remarks></remarks>
     Public NotInheritable Class TextGrepScriptEngine
 
-        Public Shared ReadOnly Property MethodsHash As IReadOnlyDictionary(Of String, TextGrepMethodToken) =
-            New SortedDictionary(Of String, TextGrepMethodToken) From {
+        Public Shared ReadOnly Property MethodsHash As New SortedDictionary(Of String, TextGrepMethodToken) From {
  _
             {"tokens", AddressOf TextGrepScriptEngine.Tokens},
             {"match", AddressOf TextGrepScriptEngine.Match},
