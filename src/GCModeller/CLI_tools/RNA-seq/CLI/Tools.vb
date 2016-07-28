@@ -128,7 +128,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.SAM.Maps.By_Samples",
-               Usage:="/Export.SAM.Maps.By_Samples /in <in.sam> /tag <sampleTag_regex> /ref <ref.fasta> [/out <out.Csv>]")>
+               Usage:="/Export.SAM.Maps.By_Samples /in <in.sam> /tag <sampleTag_regex> [/ref <ref.fasta> /out <out.Csv>]")>
     Public Function ExportSAMMapsBySamples(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim tagRegex As New Regex(args("/tag"), RegexICSng)
@@ -143,7 +143,7 @@ Partial Module CLI
                 .Start = readMaps.POS,
                 .Strand = readMaps.Strand.GetBriefCode,
                 .SequenceData = readMaps.QUAL,
-                .Complement = tagRegex.Match(readMaps.QNAME).Value,
+                .Complement = tagRegex.Match(readMaps.QNAME).Value.Trim("_"c),
                 .Ends = readMaps.FLAG
             }
 
