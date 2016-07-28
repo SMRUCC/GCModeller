@@ -134,7 +134,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/bbh.Export",
-               Usage:="/bbh.Export /query <query.blastp_out> /subject <subject.blast_out> [/out <bbh.csv> /evalue 1e-3 /coverage 0.85 /identities 0.3]")>
+               Usage:="/bbh.Export /query <query.blastp_out> /subject <subject.blast_out> [/trim /out <bbh.csv> /evalue 1e-3 /coverage 0.85 /identities 0.3]")>
     Public Function BBHExportFile(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
@@ -142,8 +142,9 @@ Partial Module CLI
         Dim evalue As Double = args.GetValue("/evalue", 0.001)
         Dim coverage As Double = args.GetValue("/coverage", 0.85)
         Dim identities As Double = args.GetValue("/identities", 0.3)
-        Dim sbhq = __sbhHelper(query, coverage, identities:=identities)
-        Dim sbhs = __sbhHelper(subject, coverage, identities)
+        Dim trim As Boolean = args.GetBoolean("/trim")
+        Dim sbhq = __sbhHelper(query, coverage, identities:=identities, trim:=trim)
+        Dim sbhs = __sbhHelper(subject, coverage, identities, trim)
         Dim bbh = BBHParser.GetDirreBhAll2(sbhq, sbhs)
         Return bbh.SaveTo(out).CLICode
     End Function
@@ -155,8 +156,15 @@ Partial Module CLI
     ''' <param name="coverage"></param>
     ''' <param name="identities"></param>
     ''' <returns></returns>
-    Private Function __sbhHelper(out As String, coverage As Double, identities As Double) As BestHit()
+    Private Function __sbhHelper(out As String, coverage As Double, identities As Double, trim As Boolean) As BestHit()
         Dim queryOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(out)
+
+        If trim Then
+            Dim script As TextGrepMethod =
+                TextGrepScriptEngine.Compile("tokens ' ' first").Method
+            Call queryOUT.Grep(script, script)
+        End If
+
         Dim sbh = queryOUT.ExportAllBestHist(coverage, identities)
         Return sbh
     End Function

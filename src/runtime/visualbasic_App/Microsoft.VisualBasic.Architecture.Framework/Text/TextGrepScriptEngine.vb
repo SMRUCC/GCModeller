@@ -76,7 +76,8 @@ Namespace Text
         <ExportAPI("compile", Info:="", Usage:="script_tokens1;script_tokens2;....", Example:="")>
         Public Shared Function Compile(scriptText As String) As TextGrepScriptEngine
             Dim Script As String() = TryParse(scriptText, TokenDelimited:=";", InnerDelimited:="'"c)
-            Dim OperationLQueryBuilder = (From sToken As String In Script
+            Dim OperationLQueryBuilder = (From sToken As String
+                                          In Script
                                           Let tokens As String() = TryParse(sToken, TokenDelimited:=" ", InnerDelimited:="'"c)
                                           Let EntryPoint As String = sToken.Split.First.ToLower
                                           Where MethodsHash.ContainsKey(EntryPoint)
