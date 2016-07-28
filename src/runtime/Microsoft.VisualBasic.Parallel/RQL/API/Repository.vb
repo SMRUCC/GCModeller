@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Serialization.JSON
-Imports RQL.Linq
+Imports Microsoft.VisualBasic.RQL.Linq
 
 Namespace API
 

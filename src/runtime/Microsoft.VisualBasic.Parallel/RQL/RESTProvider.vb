@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.ComputingServices.TaskHost
 Imports Microsoft.VisualBasic.Linq.Framework.Provider
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports RQL.Linq
+Imports Microsoft.VisualBasic.RQL.Linq
 Imports SMRUCC.HTTPInternal.Core
 
 ''' <summary>
