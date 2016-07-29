@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace RBase.Vectors
 
@@ -11,23 +12,25 @@ Namespace RBase.Vectors
         ''' <remarks></remarks>
         Public ReadOnly Property [Dim] As Integer
             Get
-                Return Elements.Count
+                Return Elements.Length
             End Get
         End Property
 
         Public Property Elements As T()
 
-        Default Public Overloads Property ElementWhere(Conditions As BooleanVector) As T()
+        Default Public Overloads Property ElementWhere(conditions As BooleanVector) As T()
             Get
-                Dim LQuery = (From i As SeqValue(Of Boolean)
-                          In Conditions.SeqIterator
-                              Where i.obj = True
-                              Select _Elements(i.i)).ToArray
+                Dim LQuery As T() = LinqAPI.Exec(Of T) <=
+                    From i As SeqValue(Of Boolean)
+                    In conditions.SeqIterator
+                    Where i.obj = True
+                    Select _Elements(i.i)
+
                 Return LQuery
             End Get
             Set(value As T())
-                For i As Integer = 0 To Conditions.Count - 1
-                    If Conditions._Elements(i) Then
+                For i As Integer = 0 To conditions.Count - 1
+                    If conditions._Elements(i) Then
                         _Elements(i) = value(i)
                     End If
                 Next

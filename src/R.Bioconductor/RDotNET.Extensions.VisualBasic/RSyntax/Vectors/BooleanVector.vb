@@ -1,4 +1,6 @@
 ﻿
+Imports Microsoft.VisualBasic.Linq
+
 Namespace RBase.Vectors
 
     Public Class BooleanVector : Inherits GenericVector(Of Boolean)
@@ -9,16 +11,16 @@ Namespace RBase.Vectors
             End Get
         End Property
 
-        Sub New(Elements As Generic.IEnumerable(Of Boolean))
+        Sub New(Elements As IEnumerable(Of Boolean))
             Me.Elements = Elements.ToArray
         End Sub
 
         Public Shared Operator &(x As Boolean, y As BooleanVector) As BooleanVector
-            Return New BooleanVector((From b As Boolean In y Select b AndAlso x).ToArray)
+            Return New BooleanVector(From b As Boolean In y Select b AndAlso x)
         End Operator
 
         Public Shared Operator &(x As BooleanVector, y As BooleanVector) As BooleanVector
-            Return New BooleanVector((From i As Integer In x.Sequence Select x.Elements(i) AndAlso y.Elements(i)).ToArray)
+            Return New BooleanVector(From i As SeqValue(Of Boolean) In x.SeqIterator Select i.obj AndAlso y.Elements(i))
         End Operator
 
         Public Shared Operator Not(x As BooleanVector) As BooleanVector
