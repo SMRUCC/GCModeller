@@ -4,13 +4,25 @@ use warnings;
 use File::Basename;
 use File::Spec;
 
+# MEME batch analysis invoke script
+# xie.guigang@gcmodeller.org
+
 # Get command line arguments
 my $directory = $ARGV[0];
-my $meme      = '/home/meme/bin/meme'; 
+my $meme      = $ARGV[2]; 
 my $dir       = "";
 my $ext       = "";
 my $file      = "";
 my $out       = $ARGV[1];
+
+if (!$directory) {
+	print "Usage:  perl ./MEME.pl <fasta source DIR> <meme_output> [~/meme/bin/meme]\n";
+	return -2;
+}
+
+if (!$meme) {
+	$meme = "~/meme/bin/meme";
+}
 
 mkdir $out;
 print "MEME output root is $out\n\n";
