@@ -135,7 +135,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Build.Operons",
+    <ExportAPI("/Build.Operons", Info:="If the /regprecise parameter is not presented, then you should install the regprecise in the GCModeller database repostiory first.",
                Usage:="/Build.Operons /bbh <bbh.csv> /PTT <genome.PTT> /TF-bbh <bbh.csv> [/tfHit_hash /out <out.csv> /regprecise <regprecise.Xml>]")>
     <ParameterInfo("/bbh", True,
                    Description:="The bbh result between the annotated genome And RegPrecise database. 
