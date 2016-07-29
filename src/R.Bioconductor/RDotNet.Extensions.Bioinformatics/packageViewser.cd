@@ -1,105 +1,316 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.alarm">
-    <Position X="4.25" Y="7.5" Width="1.75" />
+    <Position X="4.25" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>Declares\bnlearn\alarm.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnlearnBase">
-    <Position X="4.25" Y="5.5" Width="1.5" />
+    <Position X="15.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Declares\bnlearn\bnlearnBase.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.getVennPartitions">
-    <Position X="3.75" Y="2.5" Width="2" />
+    <Position X="6.75" Y="19.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAAABAAAAAAIA=</HashCode>
       <FileName>Declares\VennDiagram\getVennPartitions.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.makeTruthTable">
-    <Position X="6.5" Y="2.5" Width="1.5" />
+    <Position X="9.5" Y="19.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>Declares\VennDiagram\makeTruthTable.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.vennBase">
-    <Position X="3.5" Y="0.5" Width="1.5" />
+    <Position X="5" Y="17.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Declares\VennDiagram\vennBase.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagram">
-    <Position X="0.5" Y="2.5" Width="2.5" />
+  <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.vennDiagramPlot">
+    <Position X="0.5" Y="19.5" Width="5.5" />
     <TypeIdentifier>
-      <HashCode>gACAgALACQACBARAQAQAACACBAAQAAAADWBgBAIACCQ=</HashCode>
+      <HashCode>gACAgALACQACBARAQAQAACACBgAQAAAADWhgBAIACCQ=</HashCode>
       <FileName>Declares\VennDiagram\vennDiagram.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.My.MySettings" Collapsed="true">
-    <Position X="10.75" Y="1.5" Width="1.5" />
+    <Position X="33.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.BnlearnInference" Collapsed="true">
-    <Position X="9" Y="0.5" Width="1.5" />
+  <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.BnlearnInference">
+    <Position X="0.75" Y="10.5" Width="5" />
     <TypeIdentifier>
       <HashCode>AEAAAAgAAAAAAAAEAAAIAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
       <FileName>Wrappers\BnLearn\BnlearnInference.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.BnlearnModelling(Of TNodeType)" Collapsed="true">
-    <Position X="10.75" Y="0.5" Width="1.5" />
+  <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.BnlearnModelling(Of TNodeType)">
+    <Position X="6.5" Y="10.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAgAAAgAAAAAAAAABIAAAAAAAAAAAAAAAEQAAAAAAAA=</HashCode>
       <FileName>Wrappers\BnLearn\BnlearnModelling.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.ConditionalProbability" Collapsed="true">
-    <Position X="12.5" Y="0.5" Width="1.5" />
+    <Position X="33.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AoAAAAAAAAAAAAAEAAAAAACAAAAAAAAAAAQAAAAAAAA=</HashCode>
       <FileName>Wrappers\BnLearn\ConditionalProbability.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.NetworkParameters" Collapsed="true">
-    <Position X="12.5" Y="1.5" Width="1.5" />
+  <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.NetworkParameters">
+    <Position X="11" Y="10.5" Width="5.25" />
     <TypeIdentifier>
-      <HashCode>AAAAgAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAQA=</HashCode>
+      <HashCode>AAAAgAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>Wrappers\BnLearn\NetworkParameters.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.Heatmap" Collapsed="true">
-    <Position X="9" Y="1.5" Width="1.5" />
+    <Position X="31.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAIAAAAAECQAAAABAMGCAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Wrappers\Heatmap.vb</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.setArc">
+    <Position X="1.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAgACAAAAAAAAAAQAAAABAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\ArcOperations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.dropArc">
+    <Position X="6.75" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAACAAAAAAAAAAQAAAABAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\ArcOperations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.reverseArc">
+    <Position X="20.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAgACAAAAAAAAAAQAAAABAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\ArcOperations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.setEdge">
+    <Position X="23.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAgACAAAAAAAAAAQAAAABAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\ArcOperations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.dropEdge">
+    <Position X="26.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAACAAAAAAAAAAQAAAABAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\ArcOperations.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFit">
+    <Position X="28.75" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAACAAAAAAAAAAAAAAABQAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.customFit" Collapsed="true">
+    <Position X="35" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnNet" Collapsed="true">
+    <Position X="31.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFit.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitPlot">
+    <Position X="13" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgEAAAEAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Declares\bnlearn\bnFitPlots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitQqplot">
+    <Position X="9.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFitPlots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitHistogram">
+    <Position X="11.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFitPlots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitxyplot">
+    <Position X="14" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFitPlots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitBarchart">
+    <Position X="16.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFitPlots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.bnFitDotplot">
+    <Position X="18.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\bnlearn\bnFitPlots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.igraph.graph_from_edgelist">
+    <Position X="12.5" Y="15.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Declares\igraph\graph_from_edgelist.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.igraph.from_edgelist">
+    <Position X="12.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\igraph\graph_from_edgelist.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.igraph.igraph">
+    <Position X="15.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\igraph\igraph.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.igraph.make_empty_graph">
+    <Position X="15" Y="15.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Declares\igraph\make_empty_graph.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.igraph.empty_graph">
+    <Position X="15" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\igraph\make_empty_graph.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.igraph.make_lattice">
+    <Position X="17.5" Y="15.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAEAgAAAABAEAAAAAAAAACAAAAIA=</HashCode>
+      <FileName>Declares\igraph\make_lattice.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.igraph.lattice">
+    <Position X="17.75" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\igraph\make_lattice.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.plot3D.plot3D" Collapsed="true">
+    <Position X="36.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\plot3D\plot3D.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.plot3D.plots" Collapsed="true">
+    <Position X="31.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\plot3D\plots.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn" Collapsed="true">
+    <Position X="36.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBCAIAMQwAIAQAAABAAAJRAgCIAcACARDCo6BAAAAAI=</HashCode>
+      <FileName>Declares\VennDiagram\drawQuadVenn.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Partition" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="35" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAQAAAAAgAAIAEAAgAAAAAA=</HashCode>
+      <FileName>Declares\VennDiagram\VennDiagram\Partition.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram" Collapsed="true">
+    <Position X="33.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAIACoAACAAAEAEAAQAAAAAAAAAAgQAAgAAAAAAAAA=</HashCode>
+      <FileName>Declares\VennDiagram\VennDiagram\VennDiagram.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.bnlearn.bnlearn">
+    <Position X="7.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Wrappers\BnLearn\bnlearn.vb</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="RDotNet.Extensions.Bioinformatics.bnlearn.INetworkNodeValue" Collapsed="true">
-    <Position X="9" Y="4" Width="1.5" />
+    <Position X="31.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAA=</HashCode>
       <FileName>Wrappers\BnLearn\NodeAbstract.vb</FileName>
     </TypeIdentifier>
   </Interface>
   <Module Name="RDotNet.Extensions.Bioinformatics.My.Resources.Resources" Collapsed="true">
-    <Position X="10.75" Y="2.75" Width="1.5" />
+    <Position X="36.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="RDotNet.Extensions.Bioinformatics.My.MySettingsProperty" Collapsed="true">
-    <Position X="9" Y="2.75" Width="1.5" />
+    <Position X="35" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.sparcc.API" Collapsed="true">
+    <Position X="31.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\r-sparcc\API.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Extensions" Collapsed="true">
+    <Position X="33.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\VennDiagram\VennDiagram\Extensions.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.RModelAPI" Collapsed="true">
+    <Position X="31.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Declares\VennDiagram\VennDiagram\RModelAPI.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Font Name="Segoe UI" Size="9" />

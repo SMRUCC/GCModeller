@@ -3,13 +3,14 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.BinaryTree
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports RDotNET.Extensions.Bioinformatics
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.gplots
-Imports RDotNET.Extensions.VisualBasic.grDevices
-Imports RDotNET.Extensions.VisualBasic.utils.read.table
+Imports RDotNet.Extensions.Bioinformatics
+Imports RDotNet.Extensions.VisualBasic
+Imports RDotNet.Extensions.VisualBasic.gplots
+Imports RDotNet.Extensions.VisualBasic.grDevices
+Imports RDotNet.Extensions.VisualBasic.utils.read.table
 Imports SMRUCC.R.CRAN.Bioconductor.Web
 Imports SMRUCC.R.CRAN.Bioconductor.Web.Packages
 Imports Element = System.Xml.XmlElement
@@ -60,6 +61,10 @@ dev.off()
                             </R>
 
     Sub Main()
+
+        Call RDotNet.Extensions.VisualBasic.TryInit()
+
+        Dim afsfdddddd = sparcc.API.sparcc("G:\GCModeller\GCModeller\R\r-sparcc\example\fake_data.txt", 1)
 
 
         Dim vv As New VennDiagram.vennDiagramPlot
