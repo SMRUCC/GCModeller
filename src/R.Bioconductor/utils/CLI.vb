@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Serialization
-Imports RDotNET.Extensions.Bioinformatics
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports RDotNet.Extensions.Bioinformatics
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.gplots
 Imports RDotNET.Extensions.VisualBasic.grDevices
@@ -20,7 +20,7 @@ Module CLI
                    This value should be an R expression.")>
     Public Function heatmap(args As CommandLine.CommandLine) As Integer
         Dim inSet As String = args("/in")
-        Dim out As String = args.GetValue("/out", inSet.TrimFileExt & ".heatmap.tiff")
+        Dim out As String = args.GetValue("/out", inSet.TrimSuffix & ".heatmap.tiff")
         Dim outDIR As String = out.ParentPath
         Dim colors As String = args("/colors")
         Dim width As Integer = args.GetValue("/width", 4000)
@@ -55,7 +55,7 @@ Module CLI
                Usage:="/heatmap.partitions /in <heatmap_out.json> [/out <outDIR>]")>
     Public Function heatmapPartitions(args As CommandLine.CommandLine) As Integer
         Dim injs As String = args("/in")
-        Dim out As String = args.GetValue("/out", injs.TrimFileExt & ".Meta/")
+        Dim out As String = args.GetValue("/out", injs.TrimSuffix & ".Meta/")
         Dim heatmap = JsonContract.LoadJsonFile(Of heatmap2OUT)(injs)
         Dim locusTree = heatmap.GetRowDendrogram()
         Dim phenosTree = heatmap.GetColDendrogram()

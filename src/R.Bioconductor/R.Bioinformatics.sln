@@ -32,6 +32,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UI", "..\runtime\visualbasi
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\runtime\visualbasic_App\UXFramework\ChromeUI\ChromeUI\UI\UI.projitems*{62626d99-02d6-47e7-80ee-5739a73fc62f}*SharedItemsImports = 4
 		..\runtime\visualbasic_App\UXFramework\ChromeUI\ChromeUI\UI\UI.projitems*{ee3a460d-a754-4da3-a4d5-47ba79955d8a}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
