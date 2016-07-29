@@ -77,15 +77,15 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Rpt.Taxname = GetValue(innerBuffer, "Taxname: ")
             Rpt.Taxid = GetValue(innerBuffer, "Taxid: ")
             Rpt.GeneticCode = GetValue(innerBuffer, "Genetic Code: ")
-            Rpt.Publications = GetValue(innerBuffer, "Publications: ").Split(CChar("; "))
-            Rpt.ProteinCount = GetValue(innerBuffer, "Protein count: ")
-            Rpt.CDSCount = GetValue(innerBuffer, "CDS count: ")
-            Rpt.PseudoCDSCount = GetValue(innerBuffer, "Pseudo CDS count: ")
-            Rpt.RNACount = GetValue(innerBuffer, "RNA count: ")
-            Rpt.NumberOfGenes = GetValue(innerBuffer, "Gene count: ")
-            Rpt.PseudoGeneCount = GetValue(innerBuffer, "Pseudo gene count: ")
-            Rpt.Others = GetValue(innerBuffer, "Others: ")
-            Rpt.Total = GetValue(innerBuffer, "Total: ")
+            Rpt.Publications = Strings.Split(GetValue(innerBuffer, "Publications: "), "; ")
+            Rpt.ProteinCount = GetValue(innerBuffer, "Protein count: ").ParseInteger
+            Rpt.CDSCount = GetValue(innerBuffer, "CDS count: ").ParseInteger
+            Rpt.PseudoCDSCount = GetValue(innerBuffer, "Pseudo CDS count: ").ParseInteger
+            Rpt.RNACount = GetValue(innerBuffer, "RNA count: ").ParseInteger
+            Rpt.NumberOfGenes = GetValue(innerBuffer, "Gene count: ").ParseInteger
+            Rpt.PseudoGeneCount = GetValue(innerBuffer, "Pseudo gene count: ").ParseInteger
+            Rpt.Others = GetValue(innerBuffer, "Others: ").ParseInteger
+            Rpt.Total = GetValue(innerBuffer, "Total: ").ParseInteger
 
             Return Rpt
         End Function

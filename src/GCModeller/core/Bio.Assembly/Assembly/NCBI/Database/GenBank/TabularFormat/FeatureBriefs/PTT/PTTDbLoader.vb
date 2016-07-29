@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::2af2f4c6ca7ac6d0469cda156d121dff, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.ContextModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.NCBI.GenBank.TabularFormat
 
@@ -126,8 +127,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Call MyBase.New("", DbAPI.PTTs)
         End Sub
 
-        Sub New(entry As PTTEntry)
+        Sub New(entry As PTTEntry, Optional simplify As Boolean = False)
             Call MyBase.New(entry.DIR, DbAPI.PTTs)
+
+            Dim strict As Boolean = Not simplify
 
             _lstFile = entry
             _RptGenomeBrief = Rpt.Load(Of Rpt)(_lstFile.rpt)
@@ -135,27 +138,29 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             For Each genEntry As GeneBrief In ORF_PTT().GeneObjects
                 Call _genomeContext.Add(genEntry.Synonym, genEntry)
             Next
-            For Each genEntry As GeneBrief In RNARnt.GeneObjects
-                Call _genomeContext.Add(genEntry.Synonym, genEntry)
-            Next
+            If Not RNARnt() Is Nothing Then
+                For Each genEntry As GeneBrief In RNARnt()?.GeneObjects.SafeQuery
+                    Call _genomeContext.Add(genEntry.Synonym, genEntry)
+                Next
+            End If
 
             Dim FastaFile As FASTA.FastaFile
-            FastaFile = FASTA.FastaFile.Read(_lstFile.faa)
+            FastaFile = FASTA.FastaFile.Read(_lstFile.faa, strict)
             Proteins = (From prot As FASTA.FastaToken
-                        In FastaFile
-                        Let uniqueId As String = GetLocusId(prot.Attributes(1))
+                        In FastaFile.SafeQuery
+                        Let uniqueId As String = GetLocusId(prot.Attributes.Get(1), prot.Attributes.First)
                         Select FastaObjects.Fasta.CreateObject(uniqueId, prot)) _
-                            .ToDictionary(Function(x As FastaObjects.Fasta) x.UniqueId)
+                            .ToDictionary(Function(x) x.UniqueId)
 
-            FastaFile = FASTA.FastaFile.Read(_lstFile.ffn)
+            FastaFile = FASTA.FastaFile.Read(_lstFile.ffn, strict)
             GeneFastas = (From genFa As FASTA.FastaToken
-                          In FastaFile
-                          Let UniqueId As String = GetGeneUniqueId(genFa.Attributes(4))
+                          In FastaFile.SafeQuery
+                          Let UniqueId As String = GetGeneUniqueId(genFa.Attributes.Get(4), genFa.Attributes.First)
                           Select FastaObjects.Fasta.CreateObject(UniqueId, genFa)) _
                              .ToDictionary(Function(x As FastaObjects.Fasta) x.UniqueId)
-            FastaFile = FASTA.FastaFile.Read(_lstFile.frn)
+            FastaFile = FASTA.FastaFile.Read(_lstFile.frn, strict)
             For Each genFa As FastaObjects.Fasta In (From fa As FASTA.FastaToken
-                                                     In FastaFile
+                                                     In FastaFile.SafeQuery
                                                      Let UniqueId As String = Regex.Match(fa.Title, "locus_tag=[^]]+").Value.Split(CChar("=")).Last
                                                      Select FastaObjects.Fasta.CreateObject(UniqueId, fa))
                 Call GeneFastas.Add(genFa.UniqueId, genFa)
@@ -166,8 +171,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' 请注意，通过这个构造函数只能够读取一个数据库的数据，假若一个文件夹里面同时包含有了基因组数据和质粒的数据，则不推荐使用这个函数进行构造加载
         ''' </summary>
         ''' <param name="DIR"></param>
-        Sub New(DIR As String)
-            Call Me.New(DbAPI.GetEntryList(DIR).First)
+        ''' <param name="simplify">数据库是精简版的，有些文件是缺失的</param>
+        Sub New(DIR As String, Optional simplify As Boolean = False)
+            Call Me.New(DbAPI.GetEntryList(DIR).First, simplify)
         End Sub
 
         ''' <summary>
@@ -176,18 +182,35 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <param name="Location"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function GetGeneUniqueId(Location As String) As String
-            Location = Location.Split.First
-            Dim Points = (From m As Match In Regex.Matches(Location, "\d+") Let n = CInt(Val(m.Value)) Select n Order By n Ascending).ToArray
-            Dim LQuery = (From genEntry In _genomeContext
-                          Where genEntry.Value.Location.Left = Points.First AndAlso
-                              genEntry.Value.Location.Right = Points.Last
-                          Select genEntry.Key).FirstOrDefault
+        Private Function GetGeneUniqueId(Location As String, [default] As String) As String
+            If Location Is Nothing Then
+                Return [default]
+            Else
+                Location = Location.Split.First
+            End If
+
+            Dim Points As Integer() = LinqAPI.Exec(Of Integer) <=
+                From m As Match
+                In Regex.Matches(Location, "\d+")
+                Let n As Integer = CInt(Val(m.Value))
+                Select n
+                Order By n Ascending
+            Dim LQuery As String = LinqAPI.DefaultFirst(Of String)([default]) <=
+                From g In _genomeContext
+                Where g.Value.Location.Left = Points.First AndAlso
+                    g.Value.Location.Right = Points.Last
+                Select g.Key
+
             Return LQuery
         End Function
 
-        Private Function GetLocusId(Pid As String) As String
-            Dim LQuery = (From genEntry In _genomeContext Where String.Equals(Pid, genEntry.Value.PID) Select genEntry.Key).FirstOrDefault
+        Private Function GetLocusId(Pid As String, [default] As String) As String
+            Dim LQuery As String = LinqAPI.DefaultFirst(Of String)([default]) <=
+                From g As KeyValuePair(Of String, GeneBrief)
+                In _genomeContext
+                Where String.Equals(Pid, g.Value.PID)
+                Select g.Key
+
             Return LQuery
         End Function
 

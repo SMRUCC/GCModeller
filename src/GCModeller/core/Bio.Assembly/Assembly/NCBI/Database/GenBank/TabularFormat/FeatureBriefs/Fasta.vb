@@ -43,7 +43,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
         Protected Sub New()
         End Sub
 
-        Public Shared Function CreateObject(UniqueId As String, Fasta As SequenceModel.FASTA.FastaToken) As Fasta
+        Public Shared Function CreateObject(UniqueId As String, Fasta As FastaToken) As Fasta
             Return New Fasta With {
                 ._UniqueId = UniqueId,
                 .Attributes = Fasta.Attributes,

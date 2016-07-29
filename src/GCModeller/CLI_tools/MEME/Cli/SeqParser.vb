@@ -66,11 +66,11 @@ Partial Module CLI
         Dim id As String = args - "/id"
         Dim out As String = ("/out" <= args) ^ $"{[in].TrimSuffix}-{type}{If(Not String.IsNullOrEmpty(id), $"-{id}", "")}.fasta/"
         Dim operons As RegPreciseOperon() = [in].LoadCsv(Of RegPreciseOperon)
-        Dim PTTDb As New PTTDbLoader(PTT_DIR)
+        Dim PTTDb As New PTTDbLoader(PTT_DIR, True)
         Dim PTT As PTT = PTTDb.ORF_PTT
         Dim fa As FastaToken = PTTDb.GenomeFasta
         Dim opr As String = args("/door")
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Dim Parser As New GenePromoterParser(fa, PTTDb.ORF_PTT)
 
         If args.GetBoolean("/corn") Then
             Return __cornParser(operons, Parser, PTT, out)

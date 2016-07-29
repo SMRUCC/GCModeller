@@ -221,34 +221,47 @@ Namespace SequenceModel.FASTA
         ''' (从一条序列的FASTA文件之中加载一条核酸序列，当含有非法字符的时候，会返回空文件)
         ''' </summary>
         ''' <param name="path"></param>
-        ''' <param name="Explicit">当拥有空格数据的时候，假若参数为真，则会返回空文件，反之不会做任何处理</param>
+        ''' <param name="strict">当拥有空格数据的时候，假若参数为真，则会返回空文件，反之不会做任何处理</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Load.NT")>
-        Public Shared Function LoadNucleotideData(path As String, Optional Explicit As Boolean = False) As FastaToken
-            Dim FastaObjectData As FASTA.FastaToken = Load(path)
+        Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaToken
+            Dim nt As FastaToken = FastaToken.Load(path)
 
-            If FastaObjectData Is Nothing Then
+            If nt Is Nothing Then
                 Return Nothing
             Else
-                FastaObjectData.SequenceData = FastaObjectData.SequenceData.ToUpper.Replace("N", "-") '处理空格数据
+                nt.SequenceData = nt.SequenceData.ToUpper.Replace("N", "-") '处理空格数据
             End If
 
-            If FastaObjectData.IsProtSource Then   '判断是否为蛋白质序列
+            If nt.IsProtSource Then   '判断是否为蛋白质序列
                 Call $" ""{path.ToFileURL}"" is a protein sequence!".__DEBUG_ECHO
-                Return Nothing
+
+                If strict Then
+                    Return Nothing
+                Else
+                    Call "Replace these invalid character as NT gaps.".Warning
+
+                    Dim sb As New StringBuilder(nt.SequenceData)
+
+                    For Each protCh As Char In ISequenceModel.AA_CHARS_ALL
+                        Call sb.Replace(protCh, "-")
+                    Next
+
+                    nt.SequenceData = sb.ToString
+                End If
             End If
 
-            If FastaObjectData.HaveGaps Then
+            If nt.HaveGaps Then
                 Call $" ""{path.ToFileURL}"" has gaps in the sequence data!".__DEBUG_ECHO
 
-                If Explicit Then
+                If strict Then
                     Return Nothing
                 End If
             End If
 
-            Return FastaObjectData
+            Return nt
         End Function
 
         ''' <summary>
