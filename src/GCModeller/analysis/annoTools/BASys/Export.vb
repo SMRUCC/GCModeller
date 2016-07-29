@@ -50,21 +50,25 @@ Public Module Export
     ''' <returns></returns>
     <Extension>
     Public Function ExportFaa(proj As Project) As FastaFile
-        Dim aa As IEnumerable(Of FastaToken) = From x As Ecard
-                                               In proj.Ecards
-                                               Let fa As FastaToken = x.GetProt
-                                               Where Not fa Is Nothing
-                                               Select fa
+        Dim aa As IEnumerable(Of FastaToken) =
+            From x As Ecard
+            In proj.Ecards
+            Let fa As FastaToken = x.GetProt
+            Where Not fa Is Nothing
+            Select fa
+
         Return New FastaFile(aa)
     End Function
 
     <Extension>
-    Public Function ExportFna(proj As Project) As FastaFile
-        Dim nt As IEnumerable(Of FastaToken) = From x As Ecard
-                                               In proj.Ecards
-                                               Let fa As FastaToken = x.GetNt
-                                               Where Not fa Is Nothing
-                                               Select fa
+    Public Function ExportFfn(proj As Project) As FastaFile
+        Dim nt As IEnumerable(Of FastaToken) =
+            From x As Ecard
+            In proj.Ecards
+            Let fa As FastaToken = x.GetNt
+            Where Not fa Is Nothing
+            Select fa
+
         Return New FastaFile(nt)
     End Function
 

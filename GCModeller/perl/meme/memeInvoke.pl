@@ -6,7 +6,7 @@ use File::Spec;
 
 # Get command line arguments
 my $directory = $ARGV[0];
-my $meme      = '~/meme/bin/meme'; 
+my $meme      = '/home/meme/bin/meme'; 
 my $dir       = "";
 my $ext       = "";
 my $file      = "";
@@ -57,14 +57,14 @@ while (my $bpDir = readdir(DIR)) {
        my $bplen  = basename $dir;
        my $outbp  = "$out/$bplen/";
        my $outDir = "$outbp/$matrix/";      
-       my $args   = "$file -dna -maxsize 1000000000 -maxw 50 -mod zoops -nmotifs 100 -evt 10 -o \"$outDir\"";
+       my $args   = "$file -dna -maxsize 1000000000 -maxw 50 -mod zoops -nmotifs 100 -evt 10 -oc \"$outDir\"";
           $args   = "$meme $args &";
   
        mkdir $outbp;
      
        print "$args\n\n";
        system($args);
-	   sleep(1);
+	   sleep(2);
     }
     closedir(faDIR);  
 }
