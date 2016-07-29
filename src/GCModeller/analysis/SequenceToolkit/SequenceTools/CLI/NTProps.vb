@@ -174,6 +174,52 @@ Partial Module Utilities
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
+    <ExportAPI("/Mirrors.Context.Batch",
+               Info:="This function will convert the mirror data to the simple segment object data",
+               Usage:="/Mirrors.Context.Batch /in <mirrors.csv.DIR> /PTT <genome.ptt.DIR> [/trans /strand <+/-> /out <out.csv> /stranded /dist <500bp> /num_threads -1]")>
+    <ParameterInfo("/trans", True,
+                   Description:="Enable this option will using genome_size minus loci location for the location correction, only works in reversed strand.")>
+    Public Function MirrorContextBatch(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim PTT_DIR As String = args("/PTT")
+        Dim trans As Boolean = args.GetBoolean("/trans")
+        Dim strand As String = args.GetValue("/strand", "+")
+        Dim dist As Integer = args.GetValue("/dist", 500)
+        Dim stranded As Boolean = args.GetBoolean("/stranded")
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".genomics_context_" & dist & "/")
+        Dim cliTask As Func(Of String, String, String) =
+            Function(mirror, PTT)
+                Dim sTrans As String = If(trans, "/trans", "")
+                Dim sstranded As String = If(stranded, "/stranded", "")
+                Dim out As String = EXPORT & "/" & mirror.BaseName & ".Csv"
+                Return $"{GetType(Utilities).API(NameOf(MirrorContext))} /in {mirror.CliPath} /PTT {PTT.CliPath} {sTrans} /strand {strand} /out {out.CliPath} {sstranded} /dist {dist}"
+            End Function
+
+        Dim mirrors As String() = LinqAPI.Exec(Of String) <= (ls - l - r - wildcards("*.Csv") <= [in])
+        Dim PTTs As String() = LinqAPI.Exec(Of String) <= (ls - l - r - wildcards("*.PTT") <= PTT_DIR)
+        Dim CLI As New List(Of String)
+
+        For Each mirror As String In mirrors
+            Dim mName As String = mirror.BaseName
+
+            For Each PTT As String In PTTs
+                Dim pName As String = PTT.BaseName.NormalizePathString
+                If InStr(mName, pName) > 0 Then
+                    CLI += cliTask(mirror, PTT)
+                    Continue For
+                End If
+            Next
+        Next
+
+        Dim n As Integer = args.GetValue("/num_threads", -1)
+        Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
+    End Function
+
+    ''' <summary>
+    ''' 过滤得到基因组上下文之中的上游回文位点
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Mirrors.Context",
                Info:="This function will convert the mirror data to the simple segment object data",
                Usage:="/Mirrors.Context /in <mirrors.csv> /PTT <genome.ptt> [/trans /strand <+/-> /out <out.csv> /stranded /dist <500bp>]")>
