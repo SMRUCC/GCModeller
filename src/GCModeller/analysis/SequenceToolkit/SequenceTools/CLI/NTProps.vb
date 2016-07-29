@@ -196,7 +196,7 @@ Partial Module Utilities
             End Function
 
         Dim mirrors As String() = LinqAPI.Exec(Of String) <= (ls - l - r - wildcards("*.Csv") <= [in])
-        Dim PTTs As String() = LinqAPI.Exec(Of String) <= (ls - l - r - wildcards("*.PTT") <= PTT_DIR)
+        Dim PTTs As String() = LinqAPI.Exec(Of String) <= (ls - l - r - wildcards("*.ptt") <= PTT_DIR)
         Dim CLI As New List(Of String)
 
         For Each mirror As String In mirrors
