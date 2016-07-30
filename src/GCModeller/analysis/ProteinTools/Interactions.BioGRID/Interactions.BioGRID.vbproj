@@ -185,6 +185,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="TabularFiles\ALL.vb" />
+    <Compile Include="TabularFiles\OSPREY_DATASET.vb" />
     <Compile Include="TabularFiles\IDENTIFIERS.vb" />
   </ItemGroup>
   <ItemGroup>

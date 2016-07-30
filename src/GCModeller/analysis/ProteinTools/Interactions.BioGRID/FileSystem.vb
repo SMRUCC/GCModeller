@@ -89,5 +89,22 @@ Public Module FileSystem
 
         Return source.Skip(lines)
     End Function
+
+    <Extension>
+    Public Iterator Function LoadOspreyDataset(path As String) As IEnumerable(Of OSPREY_DATASET)
+        For Each line As String In path.IterateAllLines.Skip(1)
+            Dim tokens As String() = line.Split(Text.ASCII.TAB)
+
+            Yield New OSPREY_DATASET With {
+                .GeneA = tokens(0),
+                .GeneB = tokens(1),
+                .ScreenNameA = tokens(2),
+                .ScreenNameB = tokens(3),
+                .ExperimentalSystem = tokens(4),
+                .Source = tokens(5),
+                .PubmedID = tokens(6)
+            }
+        Next
+    End Function
 End Module
 
