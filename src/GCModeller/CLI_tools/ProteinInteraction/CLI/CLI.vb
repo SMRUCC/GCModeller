@@ -111,7 +111,7 @@ Public Module CLI
 
             Return result.SaveTo(out).CLICode
         Else
-            Dim net = linksDetail.LoadFile(links)
+            Dim net As linksDetail() = linksDetail.LoadFile(links).ToArray
             Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".STRING_selects/")
 
             For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]

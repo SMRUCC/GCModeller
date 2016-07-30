@@ -57,7 +57,7 @@ Namespace StringDB.Tsv
 
         Public Shared Iterator Function LoadFile(path As String) As IEnumerable(Of linksDetail)
             For Each line As String In path.IterateAllLines.Skip(1)
-                Dim tokens As String() = line.Split(Text.ASCII.TAB)
+                Dim tokens As String() = line.Split(" "c)
 
                 Yield New linksDetail With {
                     .protein1 = tokens(0),
@@ -103,6 +103,7 @@ Namespace StringDB.Tsv
                 Group x By x.protein2 Into Group) _
                      .ToDictionary(Function(x) x.protein2,
                                    Function(x) x.Group.ToArray)
+            Dim revMaps = maps.ToDictionary(Function(x) x.Value, Function(x) x.Key)
 
             For Each x As EntityObject In source
                 Dim key As String = x.Identifier
@@ -128,6 +129,10 @@ Namespace StringDB.Tsv
                         copy.Properties.Add(NameOf(part.coexpression), part.coexpression)
                         copy.Properties.Add("Part To", part.protein2)
 
+                        If revMaps.ContainsKey(part.protein2) Then
+                            copy.Properties.Add("(NCBI)Part To", revMaps(part.protein2))
+                        End If
+
                         Yield copy
                     Next
                 End If
@@ -144,6 +149,10 @@ Namespace StringDB.Tsv
                         copy.Properties.Add(NameOf(part.combined_score), part.combined_score)
                         copy.Properties.Add(NameOf(part.coexpression), part.coexpression)
                         copy.Properties.Add("Part From", part.protein1)
+
+                        If revMaps.ContainsKey(part.protein1) Then
+                            copy.Properties.Add("(NCBI)Part From", revMaps(part.protein1))
+                        End If
 
                         Yield copy
                     Next
@@ -165,7 +174,11 @@ Namespace StringDB.Tsv
         End Function
 
         Public Shared Function BuildMapsFromFile(path As String, Optional tsv As Boolean = True) As Dictionary(Of String, String)
-            Return BuildMaps(path.Imports(Of entrez_gene_id_vs_string)(tsv))
+            If tsv Then
+                Return BuildMaps(path.Imports(Of entrez_gene_id_vs_string)(vbTab))
+            Else
+                Return BuildMaps(path.LoadCsv(Of entrez_gene_id_vs_string))
+            End If
         End Function
 
         Public Shared Function BuildMaps(source As IEnumerable(Of entrez_gene_id_vs_string)) As Dictionary(Of String, String)
