@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.BioGRID
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
@@ -124,6 +125,15 @@ Public Module CLI
         End If
 
         Return 0
+    End Function
+
+    <ExportAPI("/BioGRID.Id.types", Usage:="/BioGRID.Id.types /in <BIOGRID-IDENTIFIERS.tsv> [/out <out.txt>]")>
+    Public Function BioGridIdTypes(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Types.txt")
+        Dim source As IEnumerable(Of IDENTIFIERS) = LoadIdentifiers([in])
+        Dim types As String() = source.AllIdentifierTypes
+        Return types.SaveTo(out).CLICode
     End Function
 End Module
 

@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
 
 ''' <summary>
@@ -32,6 +33,12 @@ Imports Microsoft.VisualBasic
 ''' </summary>
 Public Module API
 
+    ''' <summary>
+    ''' For debugs, no more functionals
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    <Extension>
     Public Function AllIdentifierTypes(source As IEnumerable(Of IDENTIFIERS)) As String()
         Dim out As New Dictionary(Of String, String)
 
