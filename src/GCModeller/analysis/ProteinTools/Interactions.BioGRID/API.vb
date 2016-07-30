@@ -25,10 +25,23 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic
+
 ''' <summary>
 ''' 
 ''' </summary>
-Public Class API
+Public Module API
 
-End Class
+    Public Function AllIdentifierTypes(source As IEnumerable(Of IDENTIFIERS)) As String()
+        Dim out As New Dictionary(Of String, String)
+
+        For Each x As IDENTIFIERS In source
+            If Not out.ContainsKey(x.IDENTIFIER_TYPE) Then
+                Call out.Add(x.IDENTIFIER_TYPE, Nothing)
+            End If
+        Next
+
+        Return out.Keys.ToArray
+    End Function
+End Module
 
