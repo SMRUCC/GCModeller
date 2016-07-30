@@ -83,8 +83,11 @@ Public Module API
 
         For Each x As EntityObject In source
             Dim key As String = x.Identifier
+            Dim a = False, b = False
 
             If FromHash.ContainsKey(key) Then
+                a = True
+
                 For Each part As ALLmitab In FromHash(key)
                     Dim copy As EntityObject = x.Copy
 
@@ -105,6 +108,8 @@ Public Module API
                 Next
             End If
             If ToHash.ContainsKey(key) Then
+                b = True
+
                 For Each part As ALLmitab In ToHash(key)
                     Dim copy As EntityObject = x.Copy
 
@@ -123,6 +128,11 @@ Public Module API
 
                     Yield copy
                 Next
+            End If
+
+            If Not (a OrElse b) Then
+                Yield x  ' 空白的，没有找到互作关系的
+                Call Console.Write(".")
             End If
         Next
     End Function
