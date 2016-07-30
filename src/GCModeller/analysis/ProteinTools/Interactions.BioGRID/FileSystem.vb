@@ -26,6 +26,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 
 Public Module FileSystem
@@ -54,6 +55,39 @@ Public Module FileSystem
                 .Confidence = tokens(14)
             }
         Next
+    End Function
+
+    <Extension>
+    Public Iterator Function LoadIdentifiers(path As String) As IEnumerable(Of IDENTIFIERS)
+        For Each line As String In path.IterateAllLines.SkipHeader
+            Dim tokens As String() = line.Split(Text.ASCII.TAB)
+
+            Yield New IDENTIFIERS With {
+                .BIOGRID_ID = tokens(0),
+                .IDENTIFIER_VALUE = tokens(1),
+                .IDENTIFIER_TYPE = tokens(2),
+                .ORGANISM_OFFICIAL_NAME = tokens(3)
+            }
+        Next
+    End Function
+
+    <Extension>
+    Private Function SkipHeader(source As IEnumerable(Of String)) As IEnumerable(Of String)
+        Dim n As Integer, lines As Integer
+
+        For Each line As String In source
+            If Regex.Match(line, "-+").Value = line Then
+                n += 1
+            End If
+
+            If n = 3 Then
+                Exit For
+            End If
+
+            lines += 1
+        Next
+
+        Return source.Skip(lines)
     End Function
 End Module
 
