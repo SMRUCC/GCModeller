@@ -29,6 +29,8 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
@@ -36,6 +38,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.MiST2
+Imports SMRUCC.genomics.Data.StringDB.Tsv
 
 <PackageNamespace("Protein.Interactions.Tools", Category:=APICategories.CLI_MAN,
                   Description:="Tools for analysis the protein interaction relationship.",
@@ -82,6 +85,43 @@ Public Module CLI
                 End If
             Next
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/STRING.selects",
+               Usage:="/STRING.selects /in <in.DIR/*.Csv> /key <GeneId> /links <links.txt> /maps <maps_id.tsv> [/out <out.DIR/*.Csv>]")>
+    Public Function STRINGSelects(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim links As String = args("/links")
+        Dim maps As String = args("/maps")
+        Dim key As String = args.GetValue("/key", "GeneId")
+        Dim mapsKey As New Dictionary(Of String, String) From {
+            {key, NameOf(EntityObject.Identifier)}
+        }
+        Dim mapNames As Dictionary(Of String, String) =
+            entrez_gene_id_vs_string.BuildMapsFromFile(maps)
+
+        If [in].FileExists Then
+            Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".STRING.Csv")
+            Dim result As EntityObject() = linksDetail.Selects(
+                [in].LoadCsv(Of EntityObject)(maps:=mapsKey),
+                linksDetail.LoadFile(links),
+                mapNames).ToArray
+
+            Return result.SaveTo(out).CLICode
+        Else
+            Dim net As linksDetail() = linksDetail.LoadFile(links).ToArray
+            Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".STRING_selects/")
+
+            For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+                Dim result As EntityObject() = file.LoadCsv(Of EntityObject)(maps:=mapsKey)
+                Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
+
+                result = linksDetail.Selects(result, net, mapNames).ToArray
+                result.SaveTo(out)
+            Next
+        End If
 
         Return 0
     End Function

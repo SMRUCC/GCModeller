@@ -1,0 +1,100 @@
+{  
+  "Sys_set": [
+    {
+      "sysid": {
+        "bsid": 890522,
+        "version": 1
+      },
+      "source": {
+        "source": {
+          "db": "KEGG",
+          "tag": {
+            "id": 2
+          }
+        }
+      },
+      "externalaccn": "M00258",
+      "recordurl": "http://www.kegg.jp/module/M00258",
+      "names": [
+        "Putative ABC transport system"
+      ],
+      "description": "Structural complex; Environmental information processing; ABC-2 type and other transport systems",
+      "interactors": [
+        {
+          "label": "genes and proteins",
+          "entities": [
+            {
+              "seid": 1,
+              "name": [
+                "ABC.CD.P"
+              ],
+              "entity": {
+                "mol": {
+                  "gene": [
+                    {
+                      "other": {
+                        "db": "KEGG",
+                        "tag": {
+                          "str": "K02004"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "seid": 2,
+              "name": [
+                "ABC.CD.A"
+              ],
+              "entity": {
+                "mol": {
+                  "gene": [
+                    {
+                      "other": {
+                        "db": "KEGG",
+                        "tag": {
+                          "str": "K02003"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "thumbnail": [
+        {
+          "image": {
+            "encodedimage": {
+              "encodedimage": "
+              UjBsR09EbGhQQUF0QVBZQUFGOWZYMlJrWkg1K2ZvbUppWXlNakk2T2pvK1BqNUNRa0pPVGs1dWJt NXljbkoyZG5aNmVucCtmbjZDZwpvS0dob2FLaW9xT2pvNlNrcEtXbHBhYW1wcWVucDZpb3FLbXBx
+              YXFxcXF1cnE2eXNySzJ0cmE2dXJxK3ZyN0N3c0xHeHNiS3lzck96CnM3UzB0TGEydHJlM3Q3aTR1 TG01dWJxNnVydTd1NzI5dmI2K3ZyKy92OEhCd2NMQ3dzUER3OFRFeE1YRnhjbkp5Y3JLeXN2THk4
+              M04KemMvUHo5RFEwTkhSMGRQVDA5VFUxTlhWMWRqWTJObloyZHJhMnR2YjI5emMzTjNkM2Q3ZTN1 RGc0T0hoNGVMaTR1UGo0K1RrNU9YbAo1ZWJtNXVmbjUram82T25wNmVycTZ1dnI2K3pzN08zdDdl
+              N3U3dS92Ny9EdzhQSHg4Zkx5OHZQejgvVDA5UFgxOWZiMjl2ZjM5L2o0CitQbjUrZnY3Ky96OC9Q MzkvZjcrL3YvLy93QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB
+              QUFBQUEKQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUNINQpCQUFBQUFBQUxBQUFBQUE4QUMwQUFBZitnR0NDZzRT
+              RmhvZUlpWXFMakkyT2o1Q1JrcE9VbFphWG1KbWFqeWdTRlorZ29hS2pwS1dtCkVGT0xFVU5TcmE2 dnNMR3lzN1FVUllzV1VwdVNIa2E0VWJ1UkhiNktGc0RCajhPL3lNbkVpY2FHWDF0WjFOWFcxOWpa
+              V1Y2SHlzWEgKaEVJSUV1VGw1dWZvNlFzaDNjNkkwSVU0Smx6MFhGMWU5MTVmWFYvNytsMzh2SEQ1 SXJBZUZ5UVgyaTBybENNRklTcEtuQmd4MHVKSgpqUmRWa0xDUVFvV0ZyeHhIQ2pISm9QQ2JvWWFF
+              ZUN6NEFPUUNDUTQyUXBEUVFHSkVpUkVZaGdoUUlaS2tJVy9Qd0ExQ09ZZ0hnQnBXCkxGU3hjQVhF RGFZVEpsU3BBRUhCaVo0bGc1NTBPS2dIQXdrOE1Iem9ZQ0RDa2d3ZVNKendRT0VEZ1FmK1dIKzZP
+              d1NQRUZGQlZab3MKT1pJRUJoTVZLNUF3ZVVIRnlnc2tZS1k4aVZzSTZEdWhndTVtR3BuMThja1Z1 NTc0YkR6WFVOMmhEbktJSGsyNnRPblRMaUpVcGdzWgpUSTRES1dMSFZwRkNCZUFVSzFiVTFvM2I5
+              Z3Jhc2xOc2FMRGFjK3NjbUFkMTBkTEZDcFloWFpZUUFhTmxpTDRoV2FZRTJWSkljL0ZDCm55TnpG ZlRqd3dnZEhpS1lTREhCaFFnSUxXQkE2S0NpZzRjdmhDakxYV2gzUEJnZUFkQ3dWQlFWZElGQ0N4
+              Wk1FWlVVRmpDeFFRVDQKRGFJZlovd041UjhQQTJCUVJBVXlaSkRCQlU5d3lJRUhNVXpnQXd3UGND UGhab1E0eHRwV2hEVGhndzQ3NklBQkR3bFVFQVFQRmh5aAp4QVU0ekxEQkRveTEyQmw0eC9sOWg4
+              bUVSbFlZR1UrYk5NSGlJQzRhWndnT0hrQ2g1WlpjZHVubGx6MVE4QjBoNFlHUnhBTVdwS25tCm1t eTI2YVlFTG93NVNKbk1JRklsa25VMmNpZVpyZVc1bjBsK0tyTG5JQldrRW1naXZhaGl3UWVNTnVy
+              b281QkdLdW1rQlNpeGlCUkUKWktycHBweDI2dW1ub0JLUmhJcUhsbXJxcWFpbXFpb3lnUUFBT3c9 PQo=
+              ",
+              "type": "gif"
+            }
+          }
+        }
+      ],
+      "category": [
+        "conserved biosystem",
+        "structural_complex"
+      ]
+    }
+  ]
+}
+

@@ -378,6 +378,7 @@
     <Compile Include="SABIORK KineticLaws\LocalParameterParser.vb" />
     <Compile Include="SABIORK KineticLaws\Dumps\TabularDump.vb" />
     <Compile Include="SABIORK KineticLaws\SABIORK.vb" />
+    <Compile Include="string-db\Tsv.vb" />
     <Compile Include="string-db\StrPNet\Assembler.vb" />
     <Compile Include="string-db\SimpleCsv.vb" />
     <Compile Include="string-db\StrPNet\LDM\Interaction.vb" />
