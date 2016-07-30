@@ -55,16 +55,36 @@ Namespace StringDB.Tsv
             Return Me.GetJson
         End Function
 
+        Public Shared Iterator Function LoadFile(path As String) As IEnumerable(Of linksDetail)
+            For Each line As String In path.IterateAllLines.Skip(1)
+                Dim tokens As String() = line.Split(Text.ASCII.TAB)
+
+                Yield New linksDetail With {
+                    .protein1 = tokens(0),
+                    .protein2 = tokens(1),
+                    .neighborhood = tokens(2),
+                    .fusion = tokens(3),
+                    .cooccurence = tokens(4),
+                    .coexpression = tokens(5),
+                    .experimental = tokens(6),
+                    .database = tokens(7),
+                    .textmining = tokens(8),
+                    .combined_score = tokens(9)
+                }
+            Next
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="source"></param>
         ''' <param name="maps"></param>
         ''' <returns></returns>
-        Public Iterator Function Selects(source As IEnumerable(Of EntityObject),
-                                         links As IEnumerable(Of linksDetail),
-                                Optional maps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of EntityObject)
-
+        Public Shared Iterator Function Selects(
+                                        source As IEnumerable(Of EntityObject),
+                                        links As IEnumerable(Of linksDetail),
+                               Optional maps As Dictionary(Of String, String) = Nothing) _
+                                             As IEnumerable(Of EntityObject)
             If maps Is Nothing Then
                 maps = New Dictionary(Of String, String)
             End If
