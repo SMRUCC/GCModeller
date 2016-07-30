@@ -26,12 +26,34 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 
 Public Module FileSystem
 
     <Extension>
     Public Iterator Function LoadAllmiTab(path As String) As IEnumerable(Of ALLmitab)
+        For Each line As String In path.IterateAllLines.Skip(1)
+            Dim tokens As String() = line.Split(Text.ASCII.TAB)
+            Dim i As Pointer = 0
 
+            Yield New ALLmitab With {
+                .A = tokens(0),
+                .B = tokens(1),
+                .AltA = tokens(2),
+                .AltB = tokens(3),
+                .AliasA = tokens(4),
+                .AliasB = tokens(5),
+                .IDM = tokens(6),
+                .Author = tokens(7),
+                .Publication = tokens(8),
+                .TaxidA = tokens(9),
+                .TaxidB = tokens(10),
+                .InteractType = tokens(11),
+                .Database = tokens(12),
+                .uid = tokens(13),
+                .Confidence = tokens(14)
+            }
+        Next
     End Function
 End Module
 
