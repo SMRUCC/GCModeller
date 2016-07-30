@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace StringDB.Tsv
@@ -21,6 +22,7 @@ Namespace StringDB.Tsv
         Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of Actions)
             For Each line As String In path.IterateAllLines.Skip(1)
                 Dim tokens As String() = line.Split(Text.ASCII.TAB)
+
                 Yield New Actions With {
                     .item_id_a = tokens(0),
                     .item_id_b = tokens(1),
@@ -59,8 +61,74 @@ Namespace StringDB.Tsv
         ''' <param name="source"></param>
         ''' <param name="maps"></param>
         ''' <returns></returns>
-        Public Iterator Function Selects(source As IEnumerable(Of EntityObject), maps As Dictionary(Of String, String), links As IEnumerable(Of linksDetail)) As IEnumerable(Of EntityObject)
+        Public Iterator Function Selects(source As IEnumerable(Of EntityObject),
+                                         links As IEnumerable(Of linksDetail),
+                                Optional maps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of EntityObject)
 
+            If maps Is Nothing Then
+                maps = New Dictionary(Of String, String)
+            End If
+
+            Dim FromHash As Dictionary(Of String, linksDetail()) = (
+                From x As linksDetail
+                In links
+                Select x
+                Group x By x.protein1 Into Group) _
+                     .ToDictionary(Function(x) x.protein1,
+                                   Function(x) x.Group.ToArray)
+            Dim ToHash As Dictionary(Of String, linksDetail()) = (
+                From x As linksDetail
+                In FromHash.Values.MatrixAsIterator
+                Select x
+                Group x By x.protein2 Into Group) _
+                     .ToDictionary(Function(x) x.protein2,
+                                   Function(x) x.Group.ToArray)
+
+            For Each x As EntityObject In source
+                Dim key As String = x.Identifier
+                Dim STRINGmap As String
+
+                If maps.ContainsKey(x.Identifier) Then
+                    STRINGmap = maps(x.Identifier)
+                Else
+                    STRINGmap = x.Identifier
+                End If
+
+                If FromHash.ContainsKey(STRINGmap) Then
+                    For Each part As linksDetail In FromHash(STRINGmap)
+                        Dim copy As EntityObject = x.Copy
+
+                        copy.Properties.Add(NameOf(part.textmining), part.textmining)
+                        copy.Properties.Add(NameOf(part.neighborhood), part.neighborhood)
+                        copy.Properties.Add(NameOf(part.fusion), part.fusion)
+                        copy.Properties.Add(NameOf(part.experimental), part.experimental)
+                        copy.Properties.Add(NameOf(part.database), part.database)
+                        copy.Properties.Add(NameOf(part.cooccurence), part.cooccurence)
+                        copy.Properties.Add(NameOf(part.combined_score), part.combined_score)
+                        copy.Properties.Add(NameOf(part.coexpression), part.coexpression)
+                        copy.Properties.Add("Part To", part.protein2)
+
+                        Yield copy
+                    Next
+                End If
+                If ToHash.ContainsKey(STRINGmap) Then
+                    For Each part As linksDetail In ToHash(STRINGmap)
+                        Dim copy As EntityObject = x.Copy
+
+                        copy.Properties.Add(NameOf(part.textmining), part.textmining)
+                        copy.Properties.Add(NameOf(part.neighborhood), part.neighborhood)
+                        copy.Properties.Add(NameOf(part.fusion), part.fusion)
+                        copy.Properties.Add(NameOf(part.experimental), part.experimental)
+                        copy.Properties.Add(NameOf(part.database), part.database)
+                        copy.Properties.Add(NameOf(part.cooccurence), part.cooccurence)
+                        copy.Properties.Add(NameOf(part.combined_score), part.combined_score)
+                        copy.Properties.Add(NameOf(part.coexpression), part.coexpression)
+                        copy.Properties.Add("Part From", part.protein1)
+
+                        Yield copy
+                    Next
+                End If
+            Next
         End Function
     End Class
 
