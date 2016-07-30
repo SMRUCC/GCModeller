@@ -27,6 +27,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
@@ -51,6 +53,88 @@ Public Module API
         Next
 
         Return out.Keys.ToArray
+    End Function
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    Public Iterator Function Selects(source As IEnumerable(Of EntityObject), links As IEnumerable(Of ALLmitab)) As IEnumerable(Of EntityObject)
+        Dim FromHash As Dictionary(Of String, ALLmitab()) = (
+            From x As ALLmitab
+            In links
+            Select x,
+                sid = x.A.Split(":"c).Last
+            Group By sid Into Group) _
+                 .ToDictionary(Function(x) x.sid,
+                               Function(x) x.Group.ToArray(
+                               Function(o) o.x))
+        Dim ToHash As Dictionary(Of String, ALLmitab()) = (
+            From x As ALLmitab
+            In FromHash.Values.MatrixAsIterator
+            Select x,
+                sid = x.B.Split(":"c).Last
+            Group By sid Into Group) _
+                 .ToDictionary(Function(x) x.sid,
+                               Function(x) x.Group.ToArray(
+                               Function(o) o.x))
+
+        For Each x As EntityObject In source
+            Dim key As String = x.Identifier
+            Dim a = False, b = False
+
+            If FromHash.ContainsKey(key) Then
+                a = True
+
+                For Each part As ALLmitab In FromHash(key)
+                    Dim copy As EntityObject = x.Copy
+
+                    copy.Properties.Add(NameOf(part.AliasA), part.AliasA)
+                    copy.Properties.Add(NameOf(part.AliasB), part.AliasB)
+                    copy.Properties.Add(NameOf(part.AltA), part.AltA)
+                    copy.Properties.Add(NameOf(part.AltB), part.AltB)
+                    copy.Properties.Add(NameOf(part.Database), part.Database)
+                    copy.Properties.Add(NameOf(part.Author), part.Author)
+                    copy.Properties.Add(NameOf(part.B), part.B)
+                    copy.Properties.Add(NameOf(part.Confidence), part.Confidence)
+                    copy.Properties.Add(NameOf(part.IDM), part.IDM)
+                    copy.Properties.Add(NameOf(part.InteractType), part.InteractType)
+                    copy.Properties.Add(NameOf(part.Publication), part.Publication)
+                    copy.Properties.Add(NameOf(part.uid), part.uid)
+
+                    Yield copy
+                Next
+            End If
+            If ToHash.ContainsKey(key) Then
+                b = True
+
+                For Each part As ALLmitab In ToHash(key)
+                    Dim copy As EntityObject = x.Copy
+
+                    copy.Properties.Add(NameOf(part.AliasA), part.AliasA)
+                    copy.Properties.Add(NameOf(part.AliasB), part.AliasB)
+                    copy.Properties.Add(NameOf(part.AltA), part.AltA)
+                    copy.Properties.Add(NameOf(part.AltB), part.AltB)
+                    copy.Properties.Add(NameOf(part.Database), part.Database)
+                    copy.Properties.Add(NameOf(part.Author), part.Author)
+                    copy.Properties.Add(NameOf(part.B), part.B)
+                    copy.Properties.Add(NameOf(part.Confidence), part.Confidence)
+                    copy.Properties.Add(NameOf(part.IDM), part.IDM)
+                    copy.Properties.Add(NameOf(part.InteractType), part.InteractType)
+                    copy.Properties.Add(NameOf(part.Publication), part.Publication)
+                    copy.Properties.Add(NameOf(part.uid), part.uid)
+
+                    Yield copy
+                Next
+            End If
+
+            If Not (a OrElse b) Then
+                Yield x  ' 空白的，没有找到互作关系的
+                Call Console.Write(".")
+            End If
+        Next
     End Function
 End Module
 

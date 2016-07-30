@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.BioGRID
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
@@ -120,6 +121,39 @@ Public Module CLI
                 Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
                 result = linksDetail.Selects(result, net, mapNames).ToArray
+                result.SaveTo(out)
+            Next
+        End If
+
+        Return 0
+    End Function
+
+    <ExportAPI("/BioGRID.selects",
+               Usage:="/BioGRID.selects /in <in.DIR/*.Csv> /key <GeneId> /links <BioGRID-links.mitab.txt> [/out <out.DIR/*.Csv>]")>
+    Public Function BioGRIDSelects(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim links As String = args("/links")
+        Dim key As String = args.GetValue("/key", "GeneId")
+        Dim mapsKey As New Dictionary(Of String, String) From {
+            {key, NameOf(EntityObject.Identifier)}
+        }
+
+        If [in].FileExists Then
+            Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".BioGRID.Csv")
+            Dim result As EntityObject() = BioGRID.API.Selects(
+                [in].LoadCsv(Of EntityObject)(maps:=mapsKey),
+                BioGRID.LoadAllmiTab(links)).ToArray
+
+            Return result.SaveTo(out).CLICode
+        Else
+            Dim net As ALLmitab() = BioGRID.LoadAllmiTab(links).ToArray
+            Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".BioGRID_selects/")
+
+            For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+                Dim result As EntityObject() = file.LoadCsv(Of EntityObject)(maps:=mapsKey)
+                Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
+
+                result = BioGRID.API.Selects(result, net).ToArray
                 result.SaveTo(out)
             Next
         End If
