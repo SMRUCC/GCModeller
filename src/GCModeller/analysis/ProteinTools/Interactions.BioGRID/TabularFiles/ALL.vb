@@ -1,31 +1,122 @@
 ﻿#Region "Microsoft.VisualBasic::d67ac0886df3283e7a97c4a1921f059e, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\TabularFiles\ALL.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Serialization.JSON
+
+''' <summary>
+''' ``BIOGRID-ALL-3.4.138.mitab.zip``
+''' 
+''' This zip archive contains a Single file formatted In PSI MITAB level 2.5 compatible 
+''' Tab Delimited Text file format containing all interaction And associated annotation 
+''' data from the BIOGRID For all species And experimental systems. 
+''' </summary>
+Public Class ALLmitab
+
+    ''' <summary>
+    ''' #ID Interactor A
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("#ID Interactor A")> Public Property A As String
+    ''' <summary>
+    ''' ID Interactor B
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("ID Interactor B")> Public Property B As String
+    ''' <summary>
+    ''' Alt IDs Interactor A
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Alt IDs Interactor A")> Public Property AltA As String
+    ''' <summary>
+    ''' Alt IDs Interactor B
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Alt IDs Interactor B")> Public Property AltB As String
+    ''' <summary>
+    ''' Aliases Interactor A
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Aliases Interactor A")> Public Property AliasA As String
+    ''' <summary>
+    ''' Aliases Interactor B
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Aliases Interactor B")> Public Property AliasB As String
+    ''' <summary>
+    ''' Interaction Detection Method
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Interaction Detection Method")> Public Property IDM As String
+    ''' <summary>
+    ''' Publication 1St Author
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Publication 1St Author")> Public Property Author As String
+    ''' <summary>
+    ''' Publication Identifiers
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Publication Identifiers")> Public Property Publication As String
+    ''' <summary>
+    ''' Taxid Interactor A
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Taxid Interactor A")> Public Property TaxidA As String
+    ''' <summary>
+    ''' Taxid Interactor B
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Taxid Interactor B")> Public Property TaxidB As String
+    ''' <summary>
+    ''' Interaction Types
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Interaction Types")> Public Property InteractType As String
+    ''' <summary>
+    ''' Source Database
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Source Database")> Public Property Database As String
+    ''' <summary>
+    ''' Interaction Identifiers
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Interaction Identifiers")> Public Property uid As String
+    ''' <summary>
+    ''' Confidence Values
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Confidence Values")> Public Property Confidence As String
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+End Class
 
 ''' <summary>
 ''' BIOGRID-ALL-3.4.131.tab2.zip
@@ -46,6 +137,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 ''' associated annotation data from the BIOGRID separated into seperate distinct files based On Experimental System. 
 ''' </summary>
 Public Class ALL
+
     <Column("#BioGRID Interaction ID")> Public Property uid As String
     <Column("Entrez Gene Interactor A")> Public Property ezgA As String
     <Column("Entrez Gene Interactor B")> Public Property ezgB As String
