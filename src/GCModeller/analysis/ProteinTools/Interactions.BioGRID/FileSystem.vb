@@ -76,7 +76,8 @@ Public Module FileSystem
         Dim n As Integer, lines As Integer
 
         For Each line As String In source
-            If Regex.Match(line, "-+").Value = line Then
+            If Not String.IsNullOrEmpty(line) AndAlso
+                Regex.Match(line, "-+").Value = line Then
                 n += 1
             End If
 
@@ -87,7 +88,7 @@ Public Module FileSystem
             lines += 1
         Next
 
-        Return source.Skip(lines)
+        Return source.Skip(lines + 3)
     End Function
 
     <Extension>

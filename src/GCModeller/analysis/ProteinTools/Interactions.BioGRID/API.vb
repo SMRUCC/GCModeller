@@ -27,6 +27,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' 
@@ -45,6 +46,7 @@ Public Module API
         For Each x As IDENTIFIERS In source
             If Not out.ContainsKey(x.IDENTIFIER_TYPE) Then
                 Call out.Add(x.IDENTIFIER_TYPE, Nothing)
+                Call $"&{x.IDENTIFIER_TYPE} --> {x.GetJson}".__DEBUG_ECHO
             End If
         Next
 
