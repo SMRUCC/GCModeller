@@ -103,7 +103,8 @@ Namespace StringDB.Tsv
                 Group x By x.protein2 Into Group) _
                      .ToDictionary(Function(x) x.protein2,
                                    Function(x) x.Group.ToArray)
-            Dim revMaps = maps.ToDictionary(Function(x) x.Value, Function(x) x.Key)
+            Dim revMaps As Dictionary(Of String, String) =
+                maps.ToDictionary(Function(x) x.Value, Function(x) x.Key)
 
             For Each x As EntityObject In source
                 Dim key As String = x.Identifier
