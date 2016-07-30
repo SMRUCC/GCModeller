@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74ad1ac11017d5e8292e2b50df9b0262, ..\Metagenome\BEBaC\PosteriorProbability.vb"
+﻿#Region "Microsoft.VisualBasic::505aa001b3bb4aa5e4a16c650a546903, ..\Metagenome\Metagenome\BEBaC\PosteriorProbability.vb"
 
     ' Author:
     ' 

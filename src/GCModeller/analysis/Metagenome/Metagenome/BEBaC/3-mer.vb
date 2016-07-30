@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4240dcb2fbb624c294668af16e00ef7, ..\Metagenome\BEBaC\3-mer.vb"
+﻿#Region "Microsoft.VisualBasic::d4240dcb2fbb624c294668af16e00ef7, ..\Metagenome\Metagenome\BEBaC\3-mer.vb"
 
     ' Author:
     ' 
