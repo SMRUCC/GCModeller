@@ -25,10 +25,32 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Serialization.JSON
+
 ''' <summary>
 ''' 
 ''' </summary>
-Public Class API
+Public Module API
 
-End Class
+    ''' <summary>
+    ''' For debugs, no more functionals
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function AllIdentifierTypes(source As IEnumerable(Of IDENTIFIERS)) As String()
+        Dim out As New Dictionary(Of String, String)
+
+        For Each x As IDENTIFIERS In source
+            If Not out.ContainsKey(x.IDENTIFIER_TYPE) Then
+                Call out.Add(x.IDENTIFIER_TYPE, Nothing)
+                Call $"&{x.IDENTIFIER_TYPE} --> {x.GetJson}".__DEBUG_ECHO
+            End If
+        Next
+
+        Return out.Keys.ToArray
+    End Function
+End Module
 
