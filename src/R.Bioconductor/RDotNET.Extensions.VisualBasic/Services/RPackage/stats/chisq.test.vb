@@ -21,8 +21,7 @@ Namespace stats
             Dim R As String = $"chisq.test({x},y={y},correct={correct})"
             Dim out = RServer.Evaluate(R).AsList.ToArray
             Dim i As New Pointer
-
-            Return New chisqTestResult With {
+            Dim result As New chisqTestResult With {
                 .statistic = out(++i).AsNumeric.ToArray.First,
                 .parameter = out(++i).AsInteger.ToArray.First,
                 .pvalue = out(++i).AsNumeric.ToArray.First,
@@ -33,6 +32,8 @@ Namespace stats
                 .residuals = out(++i).AsNumeric.ToArray,
                 .stdres = out(++i).AsNumeric.ToArray
             }
+
+            Return result
         End Function
     End Module
 
