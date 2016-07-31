@@ -379,9 +379,14 @@ Partial Module CLI
             Dim noSelects As DocumentStream.File = rev.JoinColumns
 
             Call selects.Save(out, Encodings.ASCII)
-            Call selects.Save(out.TrimSuffix & "-NonSelected.Csv", Encodings.ASCII)
+            Call noSelects.Save(out.TrimSuffix & "-NonSelected.Csv", Encodings.ASCII)
         Next
 
         Return 0
+    End Function
+
+    <ExportAPI("/chisq.test", Usage:="/chisq.test /in <in.DIR> /out [<out.DIR>]")>
+    Public Function chisqTest(args As CommandLine) As Integer
+
     End Function
 End Module
