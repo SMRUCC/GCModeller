@@ -19,7 +19,7 @@ Public Module Genotype
         Dim row As New RowObject From {"types"}
         row.AddRange(source.First.Skip(1))
 
-        Dim total As Integer() = New Integer(source.First.Skip(1).Count - 1) {}
+        Dim total As Integer() = New Integer(source.First.Skip(1).Count) {}
 
         For Each line In source.Skip(1)
             Dim ns As Integer() = line.Skip(1).ToArray(Function(s) CInt(Val(s)))
@@ -36,6 +36,8 @@ Public Module Genotype
         out.AppendLine()
         row = New RowObject From {"total"}
         row.AddRange(total.ToArray(Function(x) x.ToString))
+        out.AppendLine(row)
+        out.AppendLine()
 
         Dim nn As New List(Of Integer())
 
@@ -76,7 +78,7 @@ Public Module Genotype
     <Extension>
     Public Function TransViews(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
         Dim out As New DocumentStream.File
-        Dim array = source.ToArray()
+        Dim array As GenotypeDetails() = source.ToArray()
         Dim allTag As String() = array.ToArray(Function(x) x.Population.Split(":"c).Last)
         Dim all = Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).MatrixAsIterator
         Dim head As New RowObject From {"types"}
@@ -90,12 +92,10 @@ Public Module Genotype
         For Each tag As KeyValuePair(Of Char, Char) In all
             Dim row As New RowObject({$"{tag.Key}/{tag.Value}"})
 
-            For Each s As String In allTag
-                For Each sample In array
-                    Dim genotype = sample(tag.Key, tag.Value)
+            For Each sample In array
+                Dim genotype = sample(tag.Key, tag.Value)
 
-                    row += $"{genotype.Count} ({genotype.Frequency * 100})"
-                Next
+                row += $"{genotype.Count} ({genotype.Frequency * 100})"
             Next
 
             out += row
