@@ -317,9 +317,38 @@ Partial Module CLI
     <ExportAPI("/Genotype", Usage:="/Genotype /in <raw.csv> [/out <out.Csv>]")>
     Public Function Genotype(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".genotype.Csv")
-        Dim data = [in].LoadCsv(Of GenotypeDetails)
-        Dim result = data.Stattics
-        Return result.Save(out, Encodings.ASCII)
+
+        If [in].FileExists Then
+            Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".genotype.Csv")
+            Dim data = [in].LoadCsv(Of GenotypeDetails)
+            Dim result = data.TransViews
+            Return result.Save(out, Encodings.ASCII)
+        Else
+            Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".genotype/")
+
+            For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+                Dim data = file.LoadCsv(Of GenotypeDetails)
+                Dim result = data.TransViews
+                Dim out As String = EXPORT & file.BaseName & ".Csv"
+                Call result.Save(out, Encodings.ASCII)
+            Next
+
+            Return 0
+        End If
+    End Function
+
+    <ExportAPI("/Genotype.Statics", Usage:="/Genotype.Statics /in <in.DIR> [/out <EXPORT>]")>
+    Public Function GenotypeStatics(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim EXOIRT As String = args.GetValue("/out", [in].TrimDIR & ".Statics.EXPORT/")
+
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+            Dim data As DocumentStream.File = DocumentStream.File.Load(file)
+            Dim out As String = EXOIRT & "/" & file.BaseName & ".Csv"
+            Dim result = data.Statics
+            Call result.Save(out, Encodings.ASCII)
+        Next
+
+        Return 0
     End Function
 End Module

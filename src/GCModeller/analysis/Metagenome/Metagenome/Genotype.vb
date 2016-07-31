@@ -11,11 +11,74 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Public Module Genotype
 
     <Extension>
-    Public Function Stattics(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
+    Public Function Statics(source As DocumentStream.File) As DocumentStream.File
         Dim out As New DocumentStream.File
-        Dim array = source.ToDictionary(Function(x) x.Population.Split(":"c).Last)
-        Dim allTag As String() = array.Keys.ToArray
-        Dim all =Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).MatrixAsIterator
+        out.AppendRange(source.Select(Function(x) New RowObject(x.ToArray)))
+        out.AppendLine()
+
+        Dim row As New RowObject From {"types"}
+        row.AddRange(source.First.Skip(1))
+
+        Dim total As Integer() = New Integer(source.First.Skip(1).Count - 1) {}
+
+        For Each line In source.Skip(1)
+            Dim ns As Integer() = line.Skip(1).ToArray(Function(s) CInt(Val(s)))
+
+            For Each x In ns.SeqIterator
+                total(x.i) += x.obj
+            Next
+
+            row = New RowObject From {line.First}
+            row.AddRange(ns.ToArray(Function(n) n.ToString))
+            out.AppendLine(row)
+        Next
+
+        out.AppendLine()
+        row = New RowObject From {"total"}
+        row.AddRange(total.ToArray(Function(x) x.ToString))
+
+        Dim nn As New List(Of Integer())
+
+        ' no
+        For Each line In source.Skip(1)
+            Dim ns As Integer() = line.Skip(1).ToArray(Function(s) CInt(Val(s)))
+
+            row = New RowObject From {"no-" & line.First}
+            ns = ns.SeqIterator.ToArray(Function(x) total(x.i) - x.obj)
+            row.AddRange(ns.ToArray(Function(x) x.ToString))
+            out.AppendLine(row)
+            nn += ns
+        Next
+
+        out.AppendLine()
+
+        For Each line In source.Skip(1).SeqIterator
+            Dim ns As Integer() = line.obj.Skip(1).ToArray(Function(s) CInt(Val(s))) 'A/A
+            Dim no As Integer() = nn(line.i)  ' no-A/A
+
+            row = New RowObject From {line.obj.First}
+            row.AddRange(ns.ToArray(Function(x) x.ToString))
+            out.AppendLine(row)
+            row = New RowObject From {"no-" & line.obj.First}
+            row.AddRange(no.ToArray(Function(x) x.ToString))
+            out.AppendLine(row)
+            out.AppendLine()
+        Next
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' 进行数据视图的转换
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function TransViews(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
+        Dim out As New DocumentStream.File
+        Dim array = source.ToArray()
+        Dim allTag As String() = array.ToArray(Function(x) x.Population.Split(":"c).Last)
+        Dim all = Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).MatrixAsIterator
         Dim head As New RowObject From {"types"}
 
         For Each tag As String In allTag
@@ -28,10 +91,11 @@ Public Module Genotype
             Dim row As New RowObject({$"{tag.Key}/{tag.Value}"})
 
             For Each s As String In allTag
-                Dim sample = array(s)
-                Dim genotype = sample(tag.Key, tag.Value)
+                For Each sample In array
+                    Dim genotype = sample(tag.Key, tag.Value)
 
-                row += $"{genotype.Count} ({genotype.Frequency * 100})"
+                    row += $"{genotype.Count} ({genotype.Frequency * 100})"
+                Next
             Next
 
             out += row
