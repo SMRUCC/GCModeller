@@ -313,4 +313,13 @@ Partial Module CLI
 
         Return 0
     End Function
+
+    <ExportAPI("/Genotype", Usage:="/Genotype /in <raw.csv> [/out <out.Csv>]")>
+    Public Function Genotype(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".genotype.Csv")
+        Dim data = [in].LoadCsv(Of GenotypeDetails)
+        Dim result = data.Stattics
+        Return result.Save(out, Encodings.ASCII)
+    End Function
 End Module

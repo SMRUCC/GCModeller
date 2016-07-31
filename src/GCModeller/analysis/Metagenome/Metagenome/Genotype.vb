@@ -5,12 +5,39 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 
 Public Module Genotype
 
     <Extension>
     Public Function Stattics(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
+        Dim out As New DocumentStream.File
+        Dim array = source.ToDictionary(Function(x) x.Population.Split(":"c).Last)
+        Dim allTag As String() = array.Keys.ToArray
+        Dim all =Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).MatrixAsIterator
+        Dim head As New RowObject From {"types"}
 
+        For Each tag As String In allTag
+            head += tag
+        Next
+
+        out += head
+
+        For Each tag As KeyValuePair(Of Char, Char) In all
+            Dim row As New RowObject({$"{tag.Key}/{tag.Value}"})
+
+            For Each s As String In allTag
+                Dim sample = array(s)
+                Dim genotype = sample(tag.Key, tag.Value)
+
+                row += $"{genotype.Count} ({genotype.Frequency * 100})"
+            Next
+
+            out += row
+        Next
+
+        Return out
     End Function
 
     ''' <summary>
@@ -39,7 +66,7 @@ Public Module Genotype
         Return fs.ToArray(AddressOf FrequencyParser)
     End Function
 
-    Const Genotype As String = "[ATGC]\|[ATGC] \d\.\d+ \(\d+\)"
+    Const Genotype As String = "[ATGC]\|[ATGC]: \d\.\d+ \(\d+\)"
 
     Public Function Genotypes(field As String) As Frequency()
         Dim fs As String() = Regex.Matches(field, Genotype, RegexICSng).ToArray
@@ -79,6 +106,18 @@ Public Class GenotypeDetails
         Set(value As String)
             _Genotypes = Genotype.Genotypes(value)
         End Set
+    End Property
+
+    Default Public Overloads ReadOnly Property [GetGenotype](type As Char, base As Char) As Frequency
+        Get
+            For Each x In Genotypes
+                If x.type = type AndAlso x.base = base Then
+                    Return x
+                End If
+            Next
+
+            Return New Frequency
+        End Get
     End Property
 
     Public ReadOnly Property Frequency As Frequency()
