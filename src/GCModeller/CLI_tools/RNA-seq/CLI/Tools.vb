@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -428,10 +429,37 @@ Partial Module CLI
                 Call row.Apply(Function(s) CInt(Val(s)), skip:=1)
             Next
 
-            Call data.PushAsTable(tbl)
+            Dim columns As String()() = data.Columns.Skip(1).ToArray
+            Dim nonZEROs As New List(Of String())
 
-            Dim reuslt = stats.chisqTest(tbl)
-            Call reuslt.GetJson.__DEBUG_ECHO
+            For i As Integer = 0 To columns.First.Length - 1
+                Dim noZERO As String = LinqAPI.DefaultFirst(Of String) <=
+                    From col As String()
+                    In columns
+                    Let s As String = col(i)
+                    Where s <> "0" AndAlso s <> "0.0"
+                    Select s
+                If Not String.IsNullOrEmpty(noZERO) Then
+                    nonZEROs += columns.ToArray(Function(x) x(i))
+                End If
+            Next
+
+            nonZEROs = nonZEROs.MatrixTranspose.ToList
+
+            Dim first = nonZEROs.First
+            nonZEROs = nonZEROs.Skip(1).ToList
+            Dim pvalues As New RowObject From {"p-value", "null"}
+
+            For i As Integer = 0 To nonZEROs.Count - 1
+                Dim jdt As DocumentStream.File = {first, nonZEROs(i)}.JoinColumns
+                Call jdt.PushAsTable(tbl)
+                Dim reuslt = stats.chisqTest(tbl)
+                pvalues.Add(reuslt.pvalue)
+            Next
+
+            data += pvalues
+
+            Call data.Save(out, Encodings.ASCII)
         Next
 
         Return 0
