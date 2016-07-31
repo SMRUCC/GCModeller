@@ -403,6 +403,8 @@ Partial Module CLI
 
             Call data.PushAsTable(tbl)
 
+            Dim reuslt = stats.chisqTest(tbl)
+            Call reuslt.GetJson.__DEBUG_ECHO
         Next
 
         Return 0
