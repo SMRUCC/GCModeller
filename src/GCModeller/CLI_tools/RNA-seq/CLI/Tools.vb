@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports RDotNET.Extensions.VisualBasic
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
@@ -385,8 +386,25 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/chisq.test", Usage:="/chisq.test /in <in.DIR> /out [<out.DIR>]")>
-    Public Function chisqTest(args As CommandLine) As Integer
+    Const tbl As String = "chisq.test.Table"
 
+    <ExportAPI("/chisq.test", Usage:="/chisq.test /in <in.DIR> [/out <out.DIR>]")>
+    Public Function chisqTest(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimSuffix & ".chisq.test/")
+
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+            Dim out As String = EXPORT & file.BaseName & ".Csv"
+            Dim data As DocumentStream.File = DocumentStream.File.Load(file)
+
+            For Each row In data.Skip(1)
+                Call row.Apply(Function(s) CInt(Val(s)), skip:=1)
+            Next
+
+            Call data.PushAsTable(tbl)
+
+        Next
+
+        Return 0
     End Function
 End Module

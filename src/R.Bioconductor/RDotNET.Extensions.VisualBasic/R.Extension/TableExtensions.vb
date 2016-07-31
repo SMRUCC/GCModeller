@@ -14,7 +14,7 @@ Public Module TableExtensions
     ''' If the first column is the rows name, and you don't want these names, then you should set this as TRUE to skips this data.
     ''' </param>
     <Extension>
-    Public Sub ColumnsAsTable(table As DocumentStream.File, tableName As String, Optional skipFirst As Boolean = True)
+    Public Sub PushAsTable(table As DocumentStream.File, tableName As String, Optional skipFirst As Boolean = True)
         Dim MAT As New List(Of String)
         Dim ncol As Integer
 
@@ -31,7 +31,7 @@ Public Module TableExtensions
         Next
 
         Dim R As New StringBuilder()
-        Dim colNames As String = c(table.First.Skip(If(skipFirst, 1, 0)))
+        Dim colNames As String = c(table.First.Skip(If(skipFirst, 1, 0)).ToArray)
 
         R.AppendLine($"{tableName} <- matrix(c({MAT.JoinBy(",")}),ncol={ncol},byrow=TRUE);")
         R.AppendLine($"colnames({tableName}) <- {colNames}")
