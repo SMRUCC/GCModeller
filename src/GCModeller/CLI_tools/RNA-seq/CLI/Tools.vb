@@ -351,4 +351,37 @@ Partial Module CLI
 
         Return 0
     End Function
+
+    <ExportAPI("/Select.Subs",
+               Usage:="/Select.Subs /in <in.DIR> /cols <list','> [/out <out.DIR>]")>
+    Public Function SelectSubs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim cols As String() = args("/cols").Split(","c)
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".SubSets/")
+
+        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+            Dim data As DocumentStream.File = DocumentStream.File.Load(file)
+            Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
+            Dim columns As New List(Of String())
+            Dim rev As New List(Of String())
+
+            columns += data.Columns.First
+
+            For Each col As String() In data.Columns
+                If Array.IndexOf(cols, col(Scan0)) > -1 Then
+                    columns += col
+                Else
+                    rev += col
+                End If
+            Next
+
+            Dim selects As DocumentStream.File = columns.JoinColumns
+            Dim noSelects As DocumentStream.File = rev.JoinColumns
+
+            Call selects.Save(out, Encodings.ASCII)
+            Call selects.Save(out.TrimSuffix & "-NonSelected.Csv", Encodings.ASCII)
+        Next
+
+        Return 0
+    End Function
 End Module
