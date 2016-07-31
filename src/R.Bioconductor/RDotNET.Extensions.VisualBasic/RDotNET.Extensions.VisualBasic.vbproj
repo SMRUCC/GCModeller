@@ -169,6 +169,7 @@
   <ItemGroup>
     <Content Include="Services\ScriptBuilder\Helpers\README.txt" />
     <Content Include="RSyntax\README.txt" />
+    <Compile Include="R.Extension\TableExtensions.vb" />
     <Compile Include="R.Extension\RInit.vb" />
     <Compile Include="R.Extension\RScriptInvoke.vb" />
     <Compile Include="Services\Abstract\IRToken.vb" />
