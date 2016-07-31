@@ -169,6 +169,7 @@
   <ItemGroup>
     <Content Include="Services\ScriptBuilder\Helpers\README.txt" />
     <Content Include="RSyntax\README.txt" />
+    <Compile Include="R.Extension\TableExtensions.vb" />
     <Compile Include="R.Extension\RInit.vb" />
     <Compile Include="R.Extension\RScriptInvoke.vb" />
     <Compile Include="Services\Abstract\IRToken.vb" />
@@ -192,6 +193,7 @@
     <Compile Include="Services\RPackage\Graphics\grDevices\images.vb" />
     <Compile Include="Services\RPackage\Graphics\gplots\heatmap2.vb" />
     <Compile Include="Services\RPackage\base\Control.vb" />
+    <Compile Include="Services\RPackage\stats\chisq.test.vb" />
     <Compile Include="Services\RPackage\stats\dist.vb" />
     <Compile Include="Services\RPackage\stats\heatmap_plot.vb" />
     <Compile Include="Services\RPackage\stats\heatmap.vb" />
