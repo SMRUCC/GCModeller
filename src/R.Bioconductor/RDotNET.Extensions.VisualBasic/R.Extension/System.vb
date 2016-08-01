@@ -229,14 +229,14 @@ Public Module RSystem
     ''' <param name="By">number: increment of the sequence</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Seq([From] As Integer, [To] As Integer, Optional By As Double = 1) As Integer()
-        Dim Vector(([To] - From) / By) As Integer
-        Vector(Scan0) = [From]
-        For i As Integer = 1 To Vector.Count - 1
-            Vector(i) = Vector(i - 1) + By
+    Public Function seq([From] As Integer, [To] As Integer, Optional By As Double = 1) As Integer()
+        Dim seqs(([To] - From) / By) As Integer
+        seqs(Scan0) = [From]
+        For i As Integer = 1 To seqs.Length - 1
+            seqs(i) = seqs(i - 1) + By
         Next
 
-        Return Vector
+        Return seqs
     End Function
 
     ''' <summary>

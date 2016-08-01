@@ -75,8 +75,13 @@ Public Module RScripts
         Return file.Replace("\"c, "/"c)
     End Function
 
+    Public Function c(ParamArray b As Boolean()) As String
+        Dim cx As String = String.Join(", ", b.ToArray(AddressOf R))
+        Return $"c({cx})"
+    End Function
+
     ''' <summary>
-    ''' c(....)
+    ''' c(....).(请注意，这个会为每一个字符串元素添加双引号)
     ''' </summary>
     ''' <param name="x"></param>
     ''' <returns></returns>
@@ -86,7 +91,7 @@ Public Module RScripts
     End Function
 
     ''' <summary>
-    ''' c(....)
+    ''' c(....).(这个不会添加双引号)
     ''' </summary>
     ''' <param name="x"></param>
     ''' <returns></returns>
