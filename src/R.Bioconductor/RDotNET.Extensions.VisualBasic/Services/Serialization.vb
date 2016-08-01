@@ -20,16 +20,19 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Public Module Serialization
 
     ''' <summary>
-    ''' Deserialize the R object into a specific .NET object. <see cref="RDotNET.SymbolicExpression"></see>  =====> "T"
+    ''' Deserialize the R object into a specific .NET object. <see cref="RDotNET.SymbolicExpression"></see> --> "T"
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="RData"></param>
     ''' <returns></returns>
     ''' <remarks>
     ''' 反序列化的规则：
+    ''' 
     ''' 1. S4对象里面的Slot为对象类型之中的属性
     ''' 2. 任何对象属性都会被表示为数组
     ''' </remarks>
+    ''' 
+    <Extension>
     Public Function LoadFromStream(Of T As Class)(RData As RDotNET.SymbolicExpression) As T
         Dim value As Object = __loadFromStream(RData, GetType(T), 1)
         Return DirectCast(value, T)
@@ -44,7 +47,7 @@ Public Module Serialization
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("RStream.Load")>
-    Public Function LoadRStream(<Scripting.MetaData.Parameter("R.S4Object")> RData As RDotNET.SymbolicExpression, Type As Type) As Object
+    Public Function LoadRStream(<Parameter("R.S4Object")> RData As RDotNET.SymbolicExpression, Type As Type) As Object
         Dim value As Object = __loadFromStream(RData, Type, 1)
         Return value
     End Function
