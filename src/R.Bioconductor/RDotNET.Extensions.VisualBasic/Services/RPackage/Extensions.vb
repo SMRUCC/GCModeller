@@ -15,6 +15,16 @@ Public Module RScripts
     Public Const [FALSE] As String = "FALSE"
 
     ''' <summary>
+    ''' 将VB.NET之中逻辑值<see cref="System.Boolean"/>转换为R语言之中的逻辑值
+    ''' </summary>
+    ''' <param name="bool"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function R(bool As Boolean) As String
+        Return If(bool, [TRUE], [FALSE])
+    End Function
+
+    ''' <summary>
     ''' Retrieve or set the dimension of an object.
     ''' </summary>
     ''' <param name="x">

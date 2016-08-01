@@ -167,6 +167,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Declares\adegenet\genind.vb" />
     <Compile Include="Declares\bnlearn\bnlearnBase.vb" />
     <Compile Include="Declares\bnlearn\ArcOperations.vb" />
     <Compile Include="Declares\bnlearn\bnFit.vb" />
