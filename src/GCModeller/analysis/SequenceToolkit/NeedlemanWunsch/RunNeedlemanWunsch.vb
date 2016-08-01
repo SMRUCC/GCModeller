@@ -41,7 +41,7 @@ Public Module RunNeedlemanWunsch
 
     ''' <summary>
     ''' Run the Needleman-Wunsch Algorithm </summary>
-    ''' <param name="args"> commandline arguments </param>
+    ''' <param name="fasta1"> commandline arguments </param>
     ''' <exception cref="Exception"> </exception>
     Public Sub RunAlign(fasta1 As FASTA.FastaToken, fasta2 As FASTA.FastaToken, [single] As Boolean, outfile As String)
         Dim nw As New NeedlemanWunsch(fasta1.SequenceData, fasta2.SequenceData)

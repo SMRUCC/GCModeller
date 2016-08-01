@@ -35,8 +35,11 @@
                                 Optional quietly As Boolean = False,
                                 Optional warnConflicts As Boolean = True,
                                 Optional characterOnly As Boolean = False) As Boolean
-            Dim Rscript As String = $"require({package},lib.loc={libloc},quietly={quietly.R},warn.conflicts={warnConflicts.R},character.only={characterOnly.R})"
-            Return RServer.Evaluate(Rscript).AsLogical.First
+            Return $"require({package},
+                        lib.loc        = {libloc},
+                        quietly        = {quietly.λ},
+                        warn.conflicts = {warnConflicts.λ},
+                        character.only = {characterOnly.λ})".ζ.AsBoolean
         End Function
 
         ''' <summary>

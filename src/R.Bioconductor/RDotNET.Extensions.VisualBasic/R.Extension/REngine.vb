@@ -12,6 +12,11 @@ Imports RDotNET
 ''' </summary>
 Public Module RExtensionInvoke
 
+    <Extension>
+    Public Function AsBoolean(sym As SymbolicExpression) As Boolean
+        Return sym.AsLogical.First
+    End Function
+
     ''' <summary>
     ''' This function equals to the function &lt;library> in R system.
     ''' </summary>
