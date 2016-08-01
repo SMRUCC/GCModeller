@@ -61,6 +61,16 @@ Public Module RExtensionInvoke
     End Function
 
     ''' <summary>
+    ''' Evaluates a R statement in the given string.
+    ''' </summary>
+    ''' <param name="R"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ζ(R As String) As SymbolicExpression
+        Return RServer.Evaluate(R)
+    End Function
+
+    ''' <summary>
     ''' Quite the R system.
     ''' </summary>
     <Extension> Public Sub q(REngine As REngine)

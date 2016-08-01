@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.SymbolicExpressionExtension
 
 ''' <summary>
@@ -62,16 +63,16 @@ Public Module Serialization
     ''' <remarks></remarks>
     Private Function InternalLoadS4Object(RData As RDotNET.SymbolicExpression, type As System.Type, DebugLevel As Integer) As Object
         Dim mappings As Dictionary(Of BindProperty(Of SchemaMaps.DataFrameColumnAttribute)) =
-            LoadMapping(type)
+            LoadMapping(type, mapsAll:=True)
         Dim obj As Object = Activator.CreateInstance(type)
 
         Call $"{type.FullName}  ---> R.S4Object (""{String.Join("; ", RData.GetAttributeNames)}"")".__DEBUG_ECHO
 
-        For Each Slot In mappings.Values
-            Dim RSlot As RDotNET.SymbolicExpression = RData.GetAttribute(Slot.Identity)
-            Dim value As Object = __loadFromStream(RSlot, Slot.Type, DebugLevel)
+        For Each slot As BindProperty(Of SchemaMaps.DataFrameColumnAttribute) In mappings.Values
+            Dim RSlot As RDotNET.SymbolicExpression = RData.GetAttribute(slot.Field.Name)
+            Dim value As Object = __loadFromStream(RSlot, slot.Type, DebugLevel)
 
-            Call __valueMapping(value, Slot.Property, obj:=obj)
+            Call __valueMapping(value, slot.Property, obj:=obj)
         Next
 
         Return obj
@@ -79,27 +80,26 @@ Public Module Serialization
 
     ''' <summary>
     ''' 
-    ''' </summary>
+    ''' </summary> 
     ''' <param name="value"></param>
     ''' <param name="pInfo"></param>
     ''' <param name="obj">对象实例</param>
-    ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __valueMapping(value As Object, pInfo As PropertyInfo, ByRef obj As Object) As Boolean
-        Dim pTypeInfo As System.Type = pInfo.PropertyType
+    Private Sub __valueMapping(value As Object, pInfo As PropertyInfo, ByRef obj As Object)
+        If Not value Is Nothing Then
+            Dim type As Type = pInfo.PropertyType
 
-        If pTypeInfo.HasElementType Then
-            Call __mappingCollectionType(value, pInfo, obj, pTypeInfo)
-        Else
-            Call __rVectorToNETProperty(
-                pTypeInfo:=value.GetType,
-                value:=value,
-                obj:=obj,
-                pInfo:=pInfo)
+            If type.HasElementType Then
+                Call __mappingCollectionType(value, pInfo, obj, type)
+            Else
+                Call __rVectorToNETProperty(
+                    pTypeInfo:=value.GetType,
+                    value:=value,
+                    obj:=obj,
+                    pInfo:=pInfo)
+            End If
         End If
-
-        Return True
-    End Function
+    End Sub
 
     ''' <summary>
     ''' All of the object in R is a vector, so that we needs this function to convert the R vector to a property value.
@@ -155,10 +155,14 @@ Public Module Serialization
     ''' 
     <Extension>
     Private Function __loadFromStream(RData As RDotNET.SymbolicExpression, TypeInfo As System.Type, DebugLevel As Integer) As Object
-
+        If RData Is Nothing Then
+            Return Nothing
+        Else
 #If DEBUG Then
-        Call Console.WriteLine(New String("."c, DebugLevel) & ">   " & RData.Type.ToString)
+            Call Console.WriteLine(New String("."c, DebugLevel) & ">   " & RData.Type.ToString)
 #End If
+        End If
+
         Select Case RData.Type
 
             Case Internals.SymbolicExpressionType.S4
@@ -176,6 +180,11 @@ Public Module Serialization
                 Return RData.AsNumeric.ToArray
             Case Internals.SymbolicExpressionType.List
                 Return __createMatrix(RData, TypeInfo, DebugLevel + 1)
+            Case Internals.SymbolicExpressionType.LanguageObject
+                Dim lang As Language = RData.AsLanguage
+                Dim calls As Symbol() = lang.FunctionCall.ToArray
+                Dim result = calls.ToArray(Function(x) x.PrintName)
+                Return result
 
             Case Else
                 'Throw New NotImplementedException(RData.Type.ToString)

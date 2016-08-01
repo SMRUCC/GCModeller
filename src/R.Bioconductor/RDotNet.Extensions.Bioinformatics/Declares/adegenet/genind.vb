@@ -1,6 +1,8 @@
-﻿Imports RDotNet.Extensions.VisualBasic.API.base
+﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Language
 Imports RDotNet.Extensions.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports RDotNet.Extensions.VisualBasic.API.base
+Imports RDotNet.Extensions.VisualBasic.API.utils
 
 Namespace adegenet
 
@@ -15,7 +17,7 @@ Namespace adegenet
     ''' To the @tab slot. Note that As In other S4 classes, slots are accessed 
     ''' Using @ instead Of \$.
     ''' </summary>
-    Public Class genind
+    Public Class genind : Inherits ClassObject
 
         ''' <summary>
         ''' matrix integers containing genotypes data for individuals (in rows) for 
@@ -28,23 +30,23 @@ Namespace adegenet
         ''' In all cases, rows And columns are given generic names.
         ''' </summary>
         ''' <returns></returns>
-        Public Property tab As String()
+        Public Property tab As Double()
 
         ''' <summary>
         ''' locus factor for the columns of tab
         ''' </summary>
         ''' <returns></returns>
-        Public Property locFac As String()
+        <Field("loc.fac")> Public Property locFac As Integer()
         ''' <summary>
         ''' integer vector giving the number of alleles per locus
         ''' </summary>
         ''' <returns></returns>
-        Public Property locNAll As Integer()
+        <Field("loc.n.all")> Public Property locNAll As Integer()
         ''' <summary>
         ''' list having one component per locus, each containing a character vector of alleles names
         ''' </summary>
         ''' <returns></returns>
-        <Field("all.names")> Public Property allNames As String()
+        <Field("all.names")> Public Property allNames As String()()
         ''' <summary>
         ''' an integer indicating the degree of ploidy of the genotypes. Beware: 2 is not an integer, but as.integer(2) is.
         ''' </summary>
@@ -60,7 +62,7 @@ Namespace adegenet
         ''' the matched call
         ''' </summary>
         ''' <returns></returns>
-        Public Property [call] As String
+        Public Property [call] As String()
         ''' <summary>
         ''' (optional) data frame giving levels of population stratification for each individual
         ''' </summary>
@@ -75,12 +77,12 @@ Namespace adegenet
         ''' (optional) factor giving the population of each individual
         ''' </summary>
         ''' <returns></returns>
-        Public Property pop As String()
+        Public Property pop As Integer()
         ''' <summary>
         ''' (optional) a list containing other information
         ''' </summary>
         ''' <returns></returns>
-        Public Property other As String()
+        Public Property other As Double()()
 
         ''' <summary>
         ''' ###### Microsatellites genotypes of 237 cats from 17 colonies of Nancy (France)
@@ -93,15 +95,16 @@ Namespace adegenet
         ''' nancycats is a genind object with spatial coordinates of the colonies as a supplementary components (@xy).
         ''' 
         ''' Dominique Pontier (UMR CNRS 5558, University Lyon1, France)
-        ''' Devillard, S.; Jombart, T. & Pontier, D. Disentangling spatial and genetic structure of stray cat (Felis catus L.) colonies in urban habitat using: not all colonies are equal. submitted to Molecular Ecology
+        ''' 
+        ''' > Devillard, S.; Jombart, T. &amp; Pontier, D. Disentangling spatial and genetic structure of stray cat (Felis catus L.) colonies in urban habitat using: not all colonies are equal. submitted to Molecular Ecology
         ''' </remarks>
         Public Shared Function nancycats() As genind
-            If require("adegenet") Then
-                Dim out = RServer.Evaluate("nancycats")
+            If require("adegenet") AndAlso data("nancycats") IsNot Nothing Then
+                Dim out As SymbolicExpression = RServer.Evaluate("nancycats")
                 Dim obj As genind = out.LoadFromStream(Of genind)
                 Return obj
             Else
-                Throw New Exception
+                Throw New Exception(RServer.ToString)
             End If
         End Function
     End Class

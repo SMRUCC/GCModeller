@@ -1,5 +1,5 @@
-﻿
-Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.Linq
+
 ''' <summary>
 ''' 推荐使用这个对象来执行R脚本
 ''' </summary>
