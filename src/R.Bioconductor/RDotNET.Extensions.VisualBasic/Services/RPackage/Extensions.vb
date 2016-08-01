@@ -20,7 +20,7 @@ Public Module RScripts
     ''' <param name="bool"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function R(bool As Boolean) As String
+    Public Function λ(bool As Boolean) As String
         Return If(bool, [TRUE], [FALSE])
     End Function
 
@@ -76,7 +76,7 @@ Public Module RScripts
     End Function
 
     Public Function c(ParamArray b As Boolean()) As String
-        Dim cx As String = String.Join(", ", b.ToArray(AddressOf R))
+        Dim cx As String = String.Join(", ", b.ToArray(AddressOf λ))
         Return $"c({cx})"
     End Function
 

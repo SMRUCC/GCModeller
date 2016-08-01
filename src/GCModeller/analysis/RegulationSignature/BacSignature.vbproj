@@ -163,10 +163,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="GeneID.vb" />
-    <Compile Include="GeneObject.vb" />
-    <Compile Include="SignatureBuilder.vb" />
-    <Compile Include="ToolsAPI.vb" />
+    <Compile Include="Regulation\GeneID.vb" />
+    <Compile Include="Regulation\GeneObject.vb" />
+    <Compile Include="Regulation\SignatureBuilder.vb" />
+    <Compile Include="Regulation\ToolsAPI.vb" />
+    <Compile Include="Sites\GCWindows.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -186,7 +187,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="SignatureBuilder.pptx" />
+    <None Include="Regulation\SignatureBuilder.pptx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
@@ -214,6 +215,7 @@
       <Name>RegulonDatabase</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

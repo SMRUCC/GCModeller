@@ -35,7 +35,7 @@ Public Module Serialization
     ''' </remarks>
     ''' 
     <Extension>
-    Public Function LoadFromStream(Of T As Class)(RData As RDotNET.SymbolicExpression) As T
+    Public Function S4Object(Of T As Class)(RData As RDotNET.SymbolicExpression) As T
         Dim value As Object = __loadFromStream(RData, GetType(T), 1)
         Return DirectCast(value, T)
     End Function

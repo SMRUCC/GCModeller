@@ -51,7 +51,7 @@ Public Class Summary : Inherits ClassObject
         Dim rows = html.GetRowsHTML
         Dim schema =
             DataFrameColumnAttribute.LoadMapping(Of Summary)(, True) _
-            .ToDictionary(Function(x) x.Value.Column.Name,
+            .ToDictionary(Function(x) x.Value.Field.Name,
                           Function(x) x.Value)
         Dim summary As New Summary
 

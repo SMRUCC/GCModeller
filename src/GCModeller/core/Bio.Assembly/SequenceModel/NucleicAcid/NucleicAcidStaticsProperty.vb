@@ -216,40 +216,40 @@ Namespace SequenceModel.NucleotideModels
         ''' Calculation the GC skew of a specific nucleotide acid sequence.(对核酸链分子计算GC偏移量，请注意，当某一个滑窗区段内的GC是相等的话，则会出现正无穷)
         ''' </summary>
         ''' <param name="SequenceModel">Target sequence object should be a nucleotide acid sequence.(目标对象必须为核酸链分子)</param>
-        ''' <param name="Circular"></param>
+        ''' <param name="isCircular"></param>
         ''' <returns>返回的矩阵是每一个核苷酸碱基上面的GC偏移量</returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("GCSkew", Info:="Calculation the GC skew of a specific nucleotide acid sequence.")>
-        Public Function GCSkew(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
+        Public Function GCSkew(SequenceModel As I_PolymerSequenceModel, slideWindowSize As Integer, steps As Integer, isCircular As Boolean) As Double()
             Dim SequenceData As String = SequenceModel.SequenceData.ToUpper
             Dim bufs As New List(Of Double)
 
-            If Circular Then
-                For i As Integer = 1 To SequenceData.Length - SlideWindowSize Step Steps
-                    Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
+            If isCircular Then
+                For i As Integer = 1 To SequenceData.Length - slideWindowSize Step steps
+                    Dim Segment As String = Mid(SequenceData, i, slideWindowSize)
                     Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
                     Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
                     Call bufs.Add((G - C) / (G + C))
                 Next
-                For i As Integer = SequenceData.Length - SlideWindowSize + 1 To SequenceData.Length Step Steps
-                    Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
-                    Dim l = SlideWindowSize - Len(Segment)
+                For i As Integer = SequenceData.Length - slideWindowSize + 1 To SequenceData.Length Step steps
+                    Dim Segment As String = Mid(SequenceData, i, slideWindowSize)
+                    Dim l = slideWindowSize - Len(Segment)
                     Segment &= Mid(SequenceData, 1, l)
                     Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
                     Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
                     Call bufs.Add((G - C) / (G + C))
                 Next
             Else
-                For i As Integer = 1 To SequenceData.Length Step Steps
-                    Dim Segment As String = Mid(SequenceData, i, SlideWindowSize)
+                For i As Integer = 1 To SequenceData.Length Step steps
+                    Dim Segment As String = Mid(SequenceData, i, slideWindowSize)
                     Dim G = (From ch In Segment Where ch = "G"c Select 1).ToArray.Length
                     Dim C = (From ch In Segment Where ch = "C"c Select 1).ToArray.Length
                     Call bufs.Add((G - C) / (G + C))
                 Next
             End If
 
-            bufs = (From n As Double In bufs Select __NAHandle(n, SlideWindowSize)).ToList '碱基之间是有顺序的，故而不适用并行化拓展
+            bufs = (From n As Double In bufs Select __NAHandle(n, slideWindowSize)).ToList '碱基之间是有顺序的，故而不适用并行化拓展
             Return bufs.ToArray
         End Function
 
