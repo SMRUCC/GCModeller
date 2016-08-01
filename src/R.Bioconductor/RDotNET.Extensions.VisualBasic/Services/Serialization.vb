@@ -1,11 +1,12 @@
 ﻿Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
-Imports RDotNET.SymbolicExpressionExtension
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports RDotNET.SymbolicExpressionExtension
 
 ''' <summary>
 ''' Convert the R object into a .NET object from the specific type schema information.
@@ -90,7 +91,11 @@ Public Module Serialization
         If pTypeInfo.HasElementType Then
             Call __mappingCollectionType(value, pInfo, obj, pTypeInfo)
         Else
-            Call __rVectorToNETProperty(pTypeInfo:=value.GetType, value:=value, obj:=obj, pInfo:=pInfo)
+            Call __rVectorToNETProperty(
+                pTypeInfo:=value.GetType,
+                value:=value,
+                obj:=obj,
+                pInfo:=pInfo)
         End If
 
         Return True
@@ -131,7 +136,7 @@ Public Module Serialization
     Private Sub __mappingCollectionType(value As Object, pInfo As PropertyInfo, ByRef obj As Object, pTypeInfo As System.Type)
         Dim type As Type = pTypeInfo.GetElementType
         Dim source As Object() = (From val As Object In DirectCast(value, IEnumerable) Select val).ToArray
-        Dim list As Array = Array.CreateInstance(type, source.Count)
+        Dim list As Array = Array.CreateInstance(type, source.Length)
 
         For i As Integer = 0 To source.Length - 1
             Call list.SetValue(source(i), i)
@@ -152,7 +157,7 @@ Public Module Serialization
     Private Function __loadFromStream(RData As RDotNET.SymbolicExpression, TypeInfo As System.Type, DebugLevel As Integer) As Object
 
 #If DEBUG Then
-            Call Console.WriteLine(New String("."c, DebugLevel) & ">   " & RData.Type.ToString)
+        Call Console.WriteLine(New String("."c, DebugLevel) & ">   " & RData.Type.ToString)
 #End If
         Select Case RData.Type
 
@@ -187,9 +192,11 @@ Public Module Serialization
     ''' <returns></returns>
     Private Function __createMatrix(RData As RDotNET.SymbolicExpression, typeInfo As Type, debugLv As Integer) As Object
         Dim list As SymbolicExpression() = RData.AsList.ToArray
-        Dim Matrix = (From vec As SymbolicExpression
-                      In list
-                      Select __loadFromStream(vec, typeInfo, debugLv)).ToArray
-        Return Matrix
+        Dim mat As Object = LinqAPI.Exec(Of Object) <=
+            From vec As SymbolicExpression
+            In list
+            Select __loadFromStream(vec, typeInfo, debugLv)
+
+        Return mat
     End Function
 End Module
