@@ -1,5 +1,6 @@
 ﻿Imports RDotNet.Extensions.VisualBasic.API.base
 Imports RDotNet.Extensions.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace adegenet
 
@@ -27,59 +28,59 @@ Namespace adegenet
         ''' In all cases, rows And columns are given generic names.
         ''' </summary>
         ''' <returns></returns>
-        Public Property tab
+        Public Property tab As String()
 
         ''' <summary>
         ''' locus factor for the columns of tab
         ''' </summary>
         ''' <returns></returns>
-        Public Property locFac
+        Public Property locFac As String()
         ''' <summary>
         ''' integer vector giving the number of alleles per locus
         ''' </summary>
         ''' <returns></returns>
-        Public Property locNAll
+        Public Property locNAll As Integer()
         ''' <summary>
         ''' list having one component per locus, each containing a character vector of alleles names
         ''' </summary>
         ''' <returns></returns>
-        Public Property allNames
+        <Field("all.names")> Public Property allNames As String()
         ''' <summary>
         ''' an integer indicating the degree of ploidy of the genotypes. Beware: 2 is not an integer, but as.integer(2) is.
         ''' </summary>
         ''' <returns></returns>
-        Public Property ploidy
+        Public Property ploidy As Integer()
         ''' <summary>
         ''' a character string indicating the type of marker: ``codom`` stands for ``codominant`` 
         ''' (e.g. microstallites, allozymes); ``PA`` stands for ``presence/absence`` (e.g. AFLP).
         ''' </summary>
         ''' <returns></returns>
-        Public Property type
+        Public Property type As String
         ''' <summary>
         ''' the matched call
         ''' </summary>
         ''' <returns></returns>
-        Public Property [call]
+        Public Property [call] As String
         ''' <summary>
         ''' (optional) data frame giving levels of population stratification for each individual
         ''' </summary>
         ''' <returns></returns>
-        Public Property strata
+        Public Property strata As String()
         ''' <summary>
         ''' (optional) a hierarchical formula defining the hierarchical levels in the @@strata slot.
         ''' </summary>
         ''' <returns></returns>
-        Public Property hierarchy
+        Public Property hierarchy As String
         ''' <summary>
         ''' (optional) factor giving the population of each individual
         ''' </summary>
         ''' <returns></returns>
-        Public Property pop
+        Public Property pop As String()
         ''' <summary>
         ''' (optional) a list containing other information
         ''' </summary>
         ''' <returns></returns>
-        Public Property other
+        Public Property other As String()
 
         ''' <summary>
         ''' ###### Microsatellites genotypes of 237 cats from 17 colonies of Nancy (France)
