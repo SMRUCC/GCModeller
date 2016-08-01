@@ -100,8 +100,7 @@ Namespace adegenet
         ''' </remarks>
         Public Shared Function nancycats() As genind
             If require("adegenet") AndAlso data("nancycats") IsNot Nothing Then
-                Dim out As SymbolicExpression = RServer.Evaluate("nancycats")
-                Dim obj As genind = out.LoadFromStream(Of genind)
+                Dim obj As genind = "nancycats".ζ.S4Object(Of genind)
                 Return obj
             Else
                 Throw New Exception(RServer.ToString)
