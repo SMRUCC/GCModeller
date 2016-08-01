@@ -1,10 +1,38 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::8647734e6eb3cc3026bed6ac64c54845, ..\RNA-seq\CLI\Tools.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -401,12 +429,40 @@ Partial Module CLI
                 Call row.Apply(Function(s) CInt(Val(s)), skip:=1)
             Next
 
-            Call data.PushAsTable(tbl)
+            Dim columns As String()() = data.Columns.Skip(1).ToArray
+            Dim nonZEROs As New List(Of String())
 
-            Dim reuslt = stats.chisqTest(tbl)
-            Call reuslt.GetJson.__DEBUG_ECHO
+            For i As Integer = 0 To columns.First.Length - 1
+                Dim noZERO As String = LinqAPI.DefaultFirst(Of String) <=
+                    From col As String()
+                    In columns
+                    Let s As String = col(i)
+                    Where s <> "0" AndAlso s <> "0.0"
+                    Select s
+                If Not String.IsNullOrEmpty(noZERO) Then
+                    nonZEROs += columns.ToArray(Function(x) x(i))
+                End If
+            Next
+
+            nonZEROs = nonZEROs.MatrixTranspose.ToList
+
+            Dim first = nonZEROs.First
+            nonZEROs = nonZEROs.Skip(1).ToList
+            Dim pvalues As New RowObject From {"p-value", "null"}
+
+            For i As Integer = 0 To nonZEROs.Count - 1
+                Dim jdt As DocumentStream.File = {first, nonZEROs(i)}.JoinColumns
+                Call jdt.PushAsTable(tbl)
+                Dim reuslt = stats.chisqTest(tbl)
+                pvalues.Add(reuslt.pvalue)
+            Next
+
+            data += pvalues
+
+            Call data.Save(out, Encodings.ASCII)
         Next
 
         Return 0
     End Function
 End Module
+
