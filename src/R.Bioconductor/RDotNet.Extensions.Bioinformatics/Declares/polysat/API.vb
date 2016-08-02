@@ -1,8 +1,21 @@
-﻿Imports RDotNet.Extensions.VisualBasic
+﻿Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports RDotNet.Extensions.VisualBasic
 
 Namespace polysat
 
     Public Module API
+
+        ''' <summary>
+        ''' Build a Csv File for the result of API <see cref="calcFst"/>
+        ''' </summary>
+        ''' <param name="list"></param>
+        ''' <param name="pops"></param>
+        ''' <returns></returns>
+        Public Function BuilMatrix(list As Double(), pops As String()) As DocumentStream.File
+
+        End Function
+
+        Public Const Genomes As String = "Genomes"
 
         ''' <summary>
         ''' **Calculate Wright's Pairwise FST**

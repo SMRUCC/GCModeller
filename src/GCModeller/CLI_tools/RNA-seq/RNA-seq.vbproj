@@ -186,6 +186,7 @@
     <Compile Include="CLI\Expressions.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\gast.vb" />
+    <Compile Include="CLI\calcFst.vb" />
     <Compile Include="CLI\Tools.vb" />
     <Compile Include="CLI\WGCNA.vb" />
     <Compile Include="Program.vb" />
@@ -229,6 +230,10 @@
     <ProjectReference Include="..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.vbproj">
       <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
       <Name>RNA-seq.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
+      <Project>{485965CD-DA31-4517-86F6-94DFD28379C1}</Project>
+      <Name>RDotNet.Extensions.Bioinformatics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
