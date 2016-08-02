@@ -64,7 +64,8 @@ Public Module TableExtensions
     Public Sub PushAsDataFrame(df As DocumentStream.File,
                                var As String,
                                Optional types As Dictionary(Of String, Type) = Nothing,
-                               Optional typeParsing As Boolean = True)
+                               Optional typeParsing As Boolean = True,
+                               Optional rowNames As IEnumerable(Of String) = Nothing)
 
         Dim names As String() = df.First.ToArray
 
@@ -96,6 +97,14 @@ Public Module TableExtensions
         Next
 
         Call $"{var} <- data.frame({names.JoinBy(", ")})".ζ
+
+        If rowNames IsNot Nothing Then
+            Dim rows As String() = rowNames.ToArray
+
+            If rows.Length > 0 Then
+                Call $"rownames({var}) <- {c(rows)}".ζ
+            End If
+        End If
     End Sub
 
     Public Sub PushAsDataFrame(Of T)(source As IEnumerable(Of T), var As String)

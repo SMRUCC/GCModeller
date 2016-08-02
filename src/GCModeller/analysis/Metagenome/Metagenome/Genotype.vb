@@ -1,14 +1,62 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Module Genotype
+
+    ReadOnly __all As KeyValuePair(Of Char, Char)() =
+        Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}) _
+                     .MatrixAsIterator _
+                     .ToArray
+
+    <Extension>
+    Public Function ExpandLocis(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
+        Dim file As New DocumentStream.File
+        Dim head As New RowObject From {"", "Genomes"}
+
+        For Each pp As KeyValuePair(Of Char, Char) In __all
+            Call head.Add($"{pp.Key}.{pp.Value}")
+        Next
+
+        Call file.AppendLine(head)
+
+        For Each x As GenotypeDetails In source
+            Dim row As New RowObject From {x.Population.Split(":"c).Last}
+            row += x.Frequency.Sum(Function(f) f.Count)
+            row += From pp As KeyValuePair(Of Char, Char)
+                   In __all
+                   Select CStr(x(pp.Key, pp.Value).Frequency)
+            file += row
+        Next
+
+        Dim notZEROs As New List(Of String())
+
+        For Each col In file.Columns
+            Dim notZERO As String = LinqAPI.DefaultFirst(Of String) <=
+ _
+                From s As String
+                In col.Skip(1)  ' 由于第一行是标题，所以肯定不是0值，跳过第一行
+                Where Not String.IsNullOrEmpty(s) AndAlso
+                    s <> "0" AndAlso
+                    s <> "0.0"
+                Select s
+
+            If Not String.IsNullOrEmpty(notZERO) Then
+                notZEROs += col
+            End If
+        Next
+
+        file = notZEROs.JoinColumns
+
+        Return file
+    End Function
 
     <Extension>
     Public Function Statics(source As DocumentStream.File) As DocumentStream.File

@@ -168,7 +168,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
         Dim TrimShared = If(Not String.IsNullOrEmpty(args("/trim")), args.GetInt32("/trim"), 30)
         Dim out As String = args.GetValue("-out", inFile.TrimSuffix & ".genome-context.csv")
         Dim LociData = inFile.LoadCsv(Of Transcript)(False)
-        Dim PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(args("-ptt"))
+        Dim PTT As PTT = PTT.Load(args("-ptt"))
         Dim Forwards = PTT.forwards
         Dim Reversed = PTT.reversed
         Dim ATG As Integer = If(args.ContainsParameter("/atg", False), args.GetInt32("/atg"), 1000)

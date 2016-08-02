@@ -1,13 +1,12 @@
-Imports RDotNet.Devices
-Imports RDotNet.Internals
-Imports RDotNet.NativeLibrary
 Imports System.Collections.Generic
 Imports System.IO
 Imports System.Linq
 Imports System.Runtime.InteropServices
 Imports System.Security.Permissions
 Imports System.Text
-
+Imports RDotNET.Devices
+Imports RDotNET.Internals
+Imports RDotNET.NativeLibrary
 Imports RDotNET.REngineExtension
 Imports RDotNET.SymbolicExpressionExtension
 
@@ -672,45 +671,45 @@ Public Class REngine
 	''' to avoid recursions issues</remarks>
 	Private geterrmessage As Expression = Nothing
 
-	''' <summary>
-	''' Gets the last error message in the R engine; see R function geterrmessage.
-	''' </summary>
-	Friend ReadOnly Property LastErrorMessage() As String
-		Get
-			If geterrmessage Is Nothing Then
-				Dim statement = "geterrmessage()" & vbLf
-				Dim s = GetFunction(Of Rf_mkString)()(statement)
-				Dim status As ParseStatus
+    ''' <summary>
+    ''' Gets the last error message in the R engine; see R function geterrmessage.
+    ''' </summary>
+    Public ReadOnly Property LastErrorMessage() As String
+        Get
+            If geterrmessage Is Nothing Then
+                Dim statement = "geterrmessage()" & vbLf
+                Dim s = GetFunction(Of Rf_mkString)()(statement)
+                Dim status As ParseStatus
                 Dim vector = New ExpressionVector(Me, GetFunction(Of R_ParseVector)()(s, -1, status, NilValue.DangerousGetHandle()))
-				If status <> ParseStatus.OK Then
-					Throw New ParseException(status, statement, "")
-				End If
-				If vector.Length = 0 Then
-					Throw New ParseException(status, statement, "Failed to create expression vector!")
-				End If
-				geterrmessage = vector.First()
-			End If
+                If status <> ParseStatus.OK Then
+                    Throw New ParseException(status, statement, "")
+                End If
+                If vector.Length = 0 Then
+                    Throw New ParseException(status, statement, "Failed to create expression vector!")
+                End If
+                geterrmessage = vector.First()
+            End If
             Dim result As SymbolicExpression = Nothing
-			If geterrmessage.TryEvaluate(GlobalEnvironment, result) Then
-				Dim msgs = SymbolicExpressionExtension.AsCharacter(result).ToArray()
-				If msgs.Length > 1 Then
-					Throw New Exception("Unexpected multiple error messages returned")
-				End If
-				If msgs.Length = 0 Then
-					Throw New Exception("No error messages returned (zero length)")
-				End If
-				Return msgs(0)
-			Else
-				Throw New EvaluationException("Unable to retrieve an R error message. Evaluating 'geterrmessage()' fails. The R engine is not in a working state.")
-			End If
-		End Get
-	End Property
+            If geterrmessage.TryEvaluate(GlobalEnvironment, result) Then
+                Dim msgs = SymbolicExpressionExtension.AsCharacter(result).ToArray()
+                If msgs.Length > 1 Then
+                    Throw New Exception("Unexpected multiple error messages returned")
+                End If
+                If msgs.Length = 0 Then
+                    Throw New Exception("No error messages returned (zero length)")
+                End If
+                Return msgs(0)
+            Else
+                Throw New EvaluationException("Unable to retrieve an R error message. Evaluating 'geterrmessage()' fails. The R engine is not in a working state.")
+            End If
+        End Get
+    End Property
 
-	''' <summary>
-	''' Sets the command line arguments.
-	''' </summary>
-	''' <param name="args">The arguments.</param>
-	Public Sub SetCommandLineArguments(args As String())
+    ''' <summary>
+    ''' Sets the command line arguments.
+    ''' </summary>
+    ''' <param name="args">The arguments.</param>
+    Public Sub SetCommandLineArguments(args As String())
 		CheckEngineIsRunning()
 		Dim newArgs = Utility.AddFirst(ID, args)
 		GetFunction(Of R_set_command_line_arguments)()(newArgs.Length, newArgs)
