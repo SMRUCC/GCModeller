@@ -22,13 +22,18 @@ Public Module Genotype
         Dim head As New RowObject From {"", "Genomes"}
 
         For Each pp As KeyValuePair(Of Char, Char) In __all
-            Call head.Add($"{pp.Key}.{pp.Value}")
+            Call head.Add($"locus.{pp.Key}{pp.Value}")
         Next
 
         Call file.AppendLine(head)
 
         For Each x As GenotypeDetails In source
             Dim row As New RowObject From {x.Population.Split(":"c).Last}
+
+            If row.First = "ALL" Then
+                Continue For
+            End If
+
             row += x.Frequency.Sum(Function(f) f.Count)
             row += From pp As KeyValuePair(Of Char, Char)
                    In __all
@@ -53,6 +58,14 @@ Public Module Genotype
             End If
         Next
 
+        Dim gns = notZEROs(1).Skip(1).ToArray(Function(x) CInt(x))
+        Dim max As Integer = gns.Max
+
+        For i As Integer = 0 To gns.Length - 1
+            gns(i) = CInt(10 * gns(i) / max)
+        Next
+
+        notZEROs(1) = (notZEROs(1).First + gns.ToList(Function(x) x.ToString))
         file = notZEROs.JoinColumns
 
         Return file

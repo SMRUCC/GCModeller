@@ -65,6 +65,10 @@ Public Module RExtensionInvoke
         Return REngine.WriteLine(script.RScript)
     End Function
 
+#If DEBUG Then
+    ReadOnly __logs As StreamWriter = App.GetAppSysTempFile(".log").OpenWriter
+#End If
+
     ''' <summary>
     ''' Evaluates a R statement in the given string.
     ''' </summary>
@@ -72,6 +76,10 @@ Public Module RExtensionInvoke
     ''' <returns></returns>
     <Extension>
     Public Function ζ(R As String) As SymbolicExpression
+#If DEBUG Then
+        Call __logs.WriteLine(R)
+        Call __logs.Flush()
+#End If
         Return RServer.Evaluate(R)
     End Function
 
