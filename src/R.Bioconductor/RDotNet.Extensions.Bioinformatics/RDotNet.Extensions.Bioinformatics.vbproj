@@ -180,6 +180,7 @@
     <Compile Include="Declares\igraph\graph_from_edgelist.vb" />
     <Compile Include="Declares\igraph\igraph.vb" />
     <Compile Include="Declares\igraph\make_empty_graph.vb" />
+    <Compile Include="Declares\polysat\API.vb" />
     <Compile Include="Declares\r-sparcc\API.vb" />
     <Compile Include="Declares\VennDiagram\drawQuadVenn.vb" />
     <Compile Include="Declares\VennDiagram\VennDiagram\Extensions.vb" />
