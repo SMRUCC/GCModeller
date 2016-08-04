@@ -30,7 +30,7 @@ Partial Module CLI
 
         require("polysat")
 
-        Dim result = polysat.calcFst(name)
+        Dim result = polysat.calcFst(name, NULL, NULL)
 
     End Function
 End Module

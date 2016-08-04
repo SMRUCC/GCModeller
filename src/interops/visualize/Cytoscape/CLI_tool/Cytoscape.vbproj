@@ -190,6 +190,7 @@
     <Compile Include="CLI\KEGGPhenotypes.vb" />
     <Compile Include="CLI\Metagenomics.vb" />
     <Compile Include="CLI\MetaCyc.vb" />
+    <Compile Include="CLI\Module1.vb" />
     <Compile Include="CLI\Phenotype.vb" />
     <Compile Include="CLI\SimpleRegulations.vb" />
     <Compile Include="CLI\KEGG.vb" />

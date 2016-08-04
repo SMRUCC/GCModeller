@@ -7,6 +7,9 @@
     <NamedValueOfString Name="xieguigang">
       <x>xie.guigang@live.com</x>
     </NamedValueOfString>
+    <NamedValueOfString Name="xie">
+      <x>genetics@smrucc.org</x>
+    </NamedValueOfString>
   </Authors>
   <Title>GNU GENERAL PUBLIC LICENSE (GPL3)</Title>
   <Copyright>Copyright (c) 2016 GPL3 Licensed</Copyright>

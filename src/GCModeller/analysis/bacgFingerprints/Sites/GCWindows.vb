@@ -24,12 +24,26 @@ Public Module GCWindows
         Dim pdelta As Double = (gc.Max - gc.Min) / 10
         Dim range As New DoubleRange(avg - pdelta, avg + pdelta)
         Dim pre As Double = -1
+        Dim left As Integer = 0
+        Dim right As Integer
 
         For Each win In gc.SlideWindows(slideWin / 2, steps / 2)
             Dim d As Double = win.Elements.Average
 
             If Not range.IsInside(d) Then
+                If Math.Sign(d - avg) = Math.Sign(pre - avg) Then  ' 任然是在一起的，因为方向相同并且大于阈值
+                    right += (steps / 2) * steps
+                Else
+                    ' 方向发生了变换
+                    Yield New NucleotideLocation(left, right)
+                    left = right
+                End If
 
+                pre = d
+            Else
+                right += (steps / 2) * steps
+                Yield New NucleotideLocation(left, right)
+                left = right
             End If
         Next
     End Function
