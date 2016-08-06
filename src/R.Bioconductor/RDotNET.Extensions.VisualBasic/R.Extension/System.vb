@@ -3,31 +3,6 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 
-Public Module Installed
-
-    Public Function Packages(packageName As String) As Boolean
-        Return RServer.Library(packageName)
-    End Function
-End Module
-
-Public Module Install
-
-    ''' <summary>
-    ''' 查看目标程序包是否已经安装在R系统里面
-    ''' </summary>
-    ''' <param name="packageName"></param>
-    ''' <returns></returns>
-    Public Function Packages(packageName As String) As Boolean
-        Try
-            Call RServer.Evaluate($"install.packages('{packageName}')")
-        Catch ex As Exception
-            Call App.LogException(ex)
-            Return False
-        End Try
-        Return True
-    End Function
-End Module
-
 ''' <summary>
 ''' R Engine extensions.(似乎对于RDotNet而言，在一个应用程序的实例进程之中仅允许一个REngine的实例存在，所以在这里就统一的使用一个公共的REngine的实例对象)
 ''' </summary>

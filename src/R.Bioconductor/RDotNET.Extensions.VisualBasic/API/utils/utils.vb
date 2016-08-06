@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace API
+Namespace API.utils
 
     Public Module utils
 
