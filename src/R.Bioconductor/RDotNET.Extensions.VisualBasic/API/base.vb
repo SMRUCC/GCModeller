@@ -3,6 +3,36 @@
     Public Module base
 
         ''' <summary>
+        ''' Loading/Attaching and Listing of Packages, library and require load and attach add-on packages.
+        ''' Load a available R package which was installed in the R system.(加载一个可用的R包)
+        ''' </summary>
+        ''' <param name="package">the name of a package, given as a name or literal character string, or a character string, depending on whether character.only is FALSE (default) or TRUE).</param>
+        ''' <param name="help">the name of a package, given as a name or literal character string, or a character string, depending on whether character.only is FALSE (default) or TRUE).</param>
+        ''' <param name="pos">the position on the search list at which to attach the loaded namespace. Can also be the name of a position on the current search list as given by search().</param>
+        ''' <param name="libloc">a character vector describing the location of R library trees to search through, or NULL. The default value of NULL corresponds to all libraries currently known to .libPaths(). Non-existent library trees are silently ignored.</param>
+        ''' <param name="characterOnly">a logical indicating whether package or help can be assumed to be character strings.</param>
+        ''' <param name="logicalReturn">logical. If it is TRUE, FALSE or TRUE is returned to indicate success.</param>
+        ''' <param name="warnConflicts">logical. If TRUE, warnings are printed about conflicts from attaching the new package. A conflict is a function masking a function, or a non-function masking a non-function.</param>
+        ''' <param name="quietly">a logical. If TRUE, no message confirming package attaching is printed, and most often, no errors/warnings are printed if package attaching fails.</param>
+        ''' <param name="verbose">a logical. If TRUE, additional diagnostics are printed.</param>
+        ''' <returns></returns>
+        Public Function library(package As String,
+                                Optional help As String = NULL,
+                                Optional pos As Integer = 2,
+                                Optional libloc As String = NULL,
+                                Optional characterOnly As Boolean = False,
+                                Optional logicalReturn As Boolean = False,
+                                Optional warnConflicts As Boolean = True,
+                                Optional quietly As Boolean = False,
+                                Optional verbose As String = VisualBasic.base.getOption.verbose)
+            Dim out As SymbolicExpression =
+                $"library({package}, {help}, pos = {pos}, lib.loc = {libloc},
+                           character.only = {characterOnly}, logical.return = {logicalReturn.λ},
+                           warn.conflicts = {warnConflicts.λ}, quietly = {quietly.λ},
+                           verbose = {verbose})".ζ
+        End Function
+
+        ''' <summary>
         ''' Loading/Attaching and Listing of Packages
         ''' </summary>
         ''' <param name="package">the name Of a package, given As a name Or literal character String, Or a character String, 
