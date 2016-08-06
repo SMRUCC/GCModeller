@@ -3,31 +3,6 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 
-Public Module Installed
-
-    Public Function Packages(packageName As String) As Boolean
-        Return RServer.Library(packageName)
-    End Function
-End Module
-
-Public Module Install
-
-    ''' <summary>
-    ''' 查看目标程序包是否已经安装在R系统里面
-    ''' </summary>
-    ''' <param name="packageName"></param>
-    ''' <returns></returns>
-    Public Function Packages(packageName As String) As Boolean
-        Try
-            Call RServer.Evaluate($"install.packages('{packageName}')")
-        Catch ex As Exception
-            Call App.LogException(ex)
-            Return False
-        End Try
-        Return True
-    End Function
-End Module
-
 ''' <summary>
 ''' R Engine extensions.(似乎对于RDotNet而言，在一个应用程序的实例进程之中仅允许一个REngine的实例存在，所以在这里就统一的使用一个公共的REngine的实例对象)
 ''' </summary>
@@ -177,7 +152,7 @@ Public Module RSystem
     ''' If file Is a connection (including one specified by "", it Is Not possible To re-encode the input inside source, And so the encoding argument
     ''' Is just used To mark character strings In the parsed input In Latin-1 And UTF-8 locales: see parse.
     ''' </remarks>
-    Public Function Source(file As String,
+    Public Function source(file As String,
                            Optional local As Boolean = True,
                            Optional echo As Boolean = False,
                            Optional printEval As Boolean = False,
@@ -198,15 +173,6 @@ Public Module RSystem
                                skip.echo = {skipEcho}, keep.source = {Rbool(keepSource)});"
         Return RServer.WriteLine(cmdl)
     End Function
-
-    ''' <summary>
-    ''' Load a available R package which was installed in the R system.(加载一个可用的R包)
-    ''' </summary>
-    ''' <param name="packageName"></param>
-    ''' <remarks></remarks>
-    Public Sub Library(packageName As String)
-        Dim result As SymbolicExpression = RServer.Evaluate($"library({packageName})")
-    End Sub
 
     ''' <summary>
     ''' Display the current working directory

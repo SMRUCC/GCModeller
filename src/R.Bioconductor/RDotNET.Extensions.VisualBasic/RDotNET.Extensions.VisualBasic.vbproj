@@ -170,7 +170,8 @@
     <Content Include="Services\ScriptBuilder\Helpers\README.txt" />
     <Content Include="RSyntax\README.txt" />
     <Compile Include="API\base.vb" />
-    <Compile Include="API\utils.vb" />
+    <Compile Include="API\utils\install.vb" />
+    <Compile Include="API\utils\utils.vb" />
     <Compile Include="R.Extension\TableExtensions.vb" />
     <Compile Include="R.Extension\RInit.vb" />
     <Compile Include="R.Extension\RScriptInvoke.vb" />

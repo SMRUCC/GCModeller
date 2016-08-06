@@ -3,6 +3,36 @@
     Public Module base
 
         ''' <summary>
+        ''' Loading/Attaching and Listing of Packages, library and require load and attach add-on packages.
+        ''' Load a available R package which was installed in the R system.(加载一个可用的R包)
+        ''' </summary>
+        ''' <param name="package">the name of a package, given as a name or literal character string, or a character string, depending on whether character.only is FALSE (default) or TRUE).</param>
+        ''' <param name="help">the name of a package, given as a name or literal character string, or a character string, depending on whether character.only is FALSE (default) or TRUE).</param>
+        ''' <param name="pos">the position on the search list at which to attach the loaded namespace. Can also be the name of a position on the current search list as given by search().</param>
+        ''' <param name="libloc">a character vector describing the location of R library trees to search through, or NULL. The default value of NULL corresponds to all libraries currently known to .libPaths(). Non-existent library trees are silently ignored.</param>
+        ''' <param name="characterOnly">a logical indicating whether package or help can be assumed to be character strings.</param>
+        ''' <param name="logicalReturn">logical. If it is TRUE, FALSE or TRUE is returned to indicate success.</param>
+        ''' <param name="warnConflicts">logical. If TRUE, warnings are printed about conflicts from attaching the new package. A conflict is a function masking a function, or a non-function masking a non-function.</param>
+        ''' <param name="quietly">a logical. If TRUE, no message confirming package attaching is printed, and most often, no errors/warnings are printed if package attaching fails.</param>
+        ''' <param name="verbose">a logical. If TRUE, additional diagnostics are printed.</param>
+        ''' <returns></returns>
+        Public Function library(package As String,
+                                Optional help As String = NULL,
+                                Optional pos As Integer = 2,
+                                Optional libloc As String = NULL,
+                                Optional characterOnly As Boolean = False,
+                                Optional logicalReturn As Boolean = False,
+                                Optional warnConflicts As Boolean = True,
+                                Optional quietly As Boolean = False,
+                                Optional verbose As String = VisualBasic.base.getOption.verbose)
+            Dim out As SymbolicExpression =
+                $"library({package}, {help}, pos = {pos}, lib.loc = {libloc},
+                           character.only = {characterOnly}, logical.return = {logicalReturn.λ},
+                           warn.conflicts = {warnConflicts.λ}, quietly = {quietly.λ},
+                           verbose = {verbose})".ζ
+        End Function
+
+        ''' <summary>
         ''' Loading/Attaching and Listing of Packages
         ''' </summary>
         ''' <param name="package">the name Of a package, given As a name Or literal character String, Or a character String, 
@@ -89,7 +119,75 @@
                                   Optional checkRows As Boolean = False,
                                   Optional checkNames As Boolean = True,
                                   Optional stringsAsFactors As String = "default.stringsAsFactors()") As String
+            Throw New NotImplementedException
+        End Function
 
+        ''' <summary>
+        ''' **Matrices**
+        ''' 
+        ''' + ``matrix`` creates a matrix from the given set of values.
+        ''' + ``as.matrix`` attempts to turn its argument into a matrix.
+        ''' + ``is.matrix`` tests if its argument Is a (strict) matrix.
+        ''' </summary>
+        ''' <param name="data">an optional data vector (including a list Or expression vector). Non-atomic classed R objects are coerced by as.vector And all attributes discarded.</param>
+        ''' <param name="nrow">the desired number of rows.</param>
+        ''' <param name="ncol">the desired number of columns.</param>
+        ''' <param name="byrow">logical. If FALSE (the default) the matrix is filled by columns, otherwise the matrix is filled by rows.</param>
+        ''' <param name="dimnames">A dimnames attribute For the matrix: NULL Or a list of length 2 giving the row And column names respectively. 
+        ''' An empty list Is treated as NULL, And a list of length one as row names. The list can be named, 
+        ''' And the list names will be used as names for the dimensions.</param>
+        ''' <remarks>
+        ''' If one of nrow or ncol is not given, an attempt is made to infer it from the length of data and the other parameter. If neither is given, a one-column matrix is returned.
+        ''' If there are too few elements In data To fill the matrix, Then the elements In data are recycled. If data has length zero, NA Of an appropriate type Is used For atomic vectors (0 For raw vectors) And NULL For lists.
+        ''' Is.matrix returns TRUE if x Is a vector And has a "dim" attribute of length 2) And FALSE otherwise. Note that a data.frame Is Not a matrix by this test. The function Is generic: you can write methods To handle specific classes Of objects, see InternalMethods.
+        ''' as.matrix Is a generic function. The method for data frames will return a character matrix if there Is only atomic columns And any non-(numeric/logical/complex) column, applying as.vector to factors And format to other non-character columns. 
+        ''' Otherwise, the usual coercion hierarchy (``logical &lt; integer &lt; double &lt; complex``) will be used, e.g., all-logical data frames will be coerced to a logical matrix, mixed logical-integer will give a integer matrix, etc.
+        ''' The Default method For As.matrix calls As.vector(x), And hence e.g. coerces factors To character vectors.
+        ''' When coercing a vector, it produces a one-column matrix, And promotes the names (if any) of the vector to the rownames of the matrix.
+        ''' Is.matrix Is a primitive function.
+        ''' The print method For a matrix gives a rectangular layout With dimnames Or indices. For a list matrix, the entries Of length Not one are printed In the form Integer,7 indicating the type And length.
+        ''' </remarks>
+        Public Function matrix(data As String,
+                               Optional nrow As Integer = -1,
+                               Optional ncol As Integer = -1,
+                               Optional byrow As Boolean = False,
+                               Optional dimnames As String = NULL) As String
+
+            Dim x As String = App.NextTempName
+
+            If nrow = -1 Then
+                Call $"{x} <- matrix({data}, ncol={ncol}, byrow={byrow.λ}, dimnames={dimnames})".ζ
+            ElseIf ncol = -1 Then
+                Call $"{x} <- matrix({data}, nrow={nrow}, byrow={byrow.λ}, dimnames={dimnames})".ζ
+            Else
+                Call $"{x} <- matrix({data}, nrow={nrow}, ncol={ncol}, byrow={byrow.λ}, dimnames={dimnames})".ζ
+            End If
+
+            Return x
+        End Function
+
+        ''' <summary>
+        ''' **Matrices**
+        ''' 
+        ''' + ``matrix`` creates a matrix from the given set of values.
+        ''' + ``as.matrix`` attempts to turn its argument into a matrix.
+        ''' + ``is.matrix`` tests if its argument Is a (strict) matrix.
+        ''' </summary>
+        ''' <param name="data">an optional data vector (including a list Or expression vector). Non-atomic classed R objects are coerced by as.vector And all attributes discarded.</param>
+        ''' <param name="nrow">the desired number of rows.</param>
+        ''' <param name="ncol">the desired number of columns.</param>
+        ''' <param name="byrow">logical. If FALSE (the default) the matrix is filled by columns, otherwise the matrix is filled by rows.</param>
+        ''' <param name="dimnames">A dimnames attribute For the matrix: NULL Or a list of length 2 giving the row And column names respectively. 
+        ''' An empty list Is treated as NULL, And a list of length one as row names. The list can be named, 
+        ''' And the list names will be used as names for the dimensions.</param>
+        ''' <returns>函数返回在R之中的一个临时变量名字符串，可以通过这个变量名来引用R之中的这个matrix</returns>
+        Public Function matrix(Of T)(data As IEnumerable(Of T),
+                                     Optional nrow As Integer = -1,
+                                     Optional ncol As Integer = -1,
+                                     Optional byrow As Boolean = False,
+                                     Optional dimnames As String = NULL) As String
+            Dim vec As String = c(data.ToArray)
+            Return matrix(vec, nrow, ncol, byrow, dimnames)
         End Function
     End Module
 End Namespace

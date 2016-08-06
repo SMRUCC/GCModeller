@@ -143,12 +143,12 @@ Namespace gplots
         ''' 2-element vector giving the (left-right, top-bottom) justification of row/column labels (relative to the text orientation).
         ''' </summary>
         ''' <returns></returns>
-        Public Property adjRow As RExpression = c(0, NA)
+        Public Property adjRow As RExpression = c(New RExpression(0), NA)
         ''' <summary>
         ''' 2-element vector giving the (left-right, top-bottom) justification of row/column labels (relative to the text orientation).
         ''' </summary>
         ''' <returns></returns>
-        Public Property adjCol As RExpression = c(NA, 0)
+        Public Property adjCol As RExpression = c(NA, New RExpression(0))
         ''' <summary>
         ''' Number of character-width spaces to place between row/column labels and the edge of the plotting region.
         ''' </summary>

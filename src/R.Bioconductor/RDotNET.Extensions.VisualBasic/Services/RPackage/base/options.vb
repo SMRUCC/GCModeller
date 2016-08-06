@@ -3,6 +3,10 @@ Imports RDotNET.Extensions.VisualBasic.Services.ScriptBuilder.RTypes
 
 Namespace base
 
+    Public Module getOption
+        Public Const verbose As String = "getOption(""verbose"")"
+    End Module
+
     ''' <summary>
     ''' Allow the user to set and examine a variety of global options which affect the way in which R computes and displays its results.
     ''' (由于options函数会设置环境变量，由于设置的变量很少，但是大部分参数为逻辑值，所以在这里使用RExpression类型来防止默认为True的参数被误设置为False)

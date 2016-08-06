@@ -46,24 +46,29 @@ Public Class ChainModel
     End Function
 
     Public Sub RotateX(x As Double)
-        For Each aa As AA In __chain
-            aa.Point = aa.Point.RotateX(x)
-        Next
+        '    For Each aa As AA In __chain
+        '        aa.Point = aa.Point.RotateX(x)
+        '    Next
+        _rotate = New Point3D(x, _rotate.Y, _rotate.Z)
     End Sub
 
     Public Sub RotateY(y As Double)
-        For Each aa As AA In __chain
-            aa.Point = aa.Point.RotateY(y)
-        Next
+        '    For Each aa As AA In __chain
+        '        aa.Point = aa.Point.RotateY(y)
+        '    Next
+        _rotate = New Point3D(_rotate.X, y, _rotate.Z)
     End Sub
 
     Public Sub Rotate(a As Double)
-        For Each aa As AA In __chain
-            aa.Point = aa.Point.RotateX(a)
-            aa.Point = aa.Point.RotateY(a)
-            aa.Point = aa.Point.RotateZ(a)
-        Next
+        '    For Each aa As AA In __chain
+        '        aa.Point = aa.Point.RotateX(a)
+        '        aa.Point = aa.Point.RotateY(a)
+        '        aa.Point = aa.Point.RotateZ(a)
+        '    Next
+        _rotate = New Point3D(a, a, a)
     End Sub
+
+    Dim _rotate As New Point3D
 
     Public Shared Function GraphToScreen(iPos As Point, rect As Rectangle) As Point
         Dim x As Integer = CInt(Math.Truncate(iPos.X + (CSng(rect.Right - rect.Left) / 2.0F)))
@@ -78,7 +83,7 @@ Public Class ChainModel
     ''' <param name="clientSize"></param>
     ''' <param name="vd">View distance</param>
     Public Sub UpdateGraph(ByRef g As Graphics, clientSize As Size, vd As Integer)
-        Dim pre As Point = __draw(g, __first, clientSize, vd)
+        Dim pre As Point = __draw(g, __first, clientSize, vd, _rotate)
 
 #Const DEBUG = 1
 
@@ -87,17 +92,16 @@ Public Class ChainModel
 #End If
 
         For Each p As AA In Chian.Skip(1)
-            Dim cur = __draw(g, p, clientSize, vd)
+            Dim cur = __draw(g, p, clientSize, vd, _rotate)
             Call g.DrawLine(p.Color, cur, pre)
             pre = cur
         Next
     End Sub
 
-    Private Function __draw(g As Graphics, aa As AA, clientSize As Size, vd As Integer) As Point
-        Dim pt3D As Point3D = aa.Point.Project(
-            clientSize.Width,
-            clientSize.Height,
-            256, vd)
+    Private Function __draw(g As Graphics, aa As AA, client As Size, vd As Integer, rotate As Point3D) As Point
+        Dim pt3D As Point3D = aa.Point _
+            .RotateX(_rotate.X).RotateY(_rotate.Y).RotateZ(_rotate.Z) _
+            .Project(client.Width, client.Height, 256, vd)
 
         Dim pt As New Point(pt3D.X, pt3D.Y)
         Call g.FillPie(aa.Color.Brush, New Rectangle(pt, New Size(10, 10)), 0, 360)

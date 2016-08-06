@@ -93,7 +93,7 @@ Namespace VennDiagram
         ''' Vector of length 2 indicating horizontal and vertical justification of the main title
         ''' </summary>
         ''' <returns></returns>
-        <Parameter("main.just")> Public Property mainJust As RExpression = c(0.5, 1)
+        <Parameter("main.just")> Public Property mainJust As RExpression = c(0.5, 1.0R)
         ''' <summary>
         ''' Vector of length 2 indicating (x,y) of the subtitle
         ''' </summary>
@@ -123,7 +123,7 @@ Namespace VennDiagram
         ''' Vector of length 2 indicating horizontal and vertical justification of the subtitle
         ''' </summary>
         ''' <returns></returns>
-        <Parameter("sub.just")> Public Property subJust As RExpression = c(0.5, 1)
+        <Parameter("sub.just")> Public Property subJust As RExpression = c(0.5, 1.0R)
         ''' <summary>
         ''' Allow specification of category names using plotmath syntax
         ''' </summary>

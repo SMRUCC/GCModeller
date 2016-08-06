@@ -33,11 +33,31 @@ Module Program
 
     Public Function Main() As Integer
         '  Call ssss.asfdsfd()
-
+        '  sdfsdf()
         '  Call ExportNetwork()
 
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
+
+    Public Sub sdfsdf()
+        Dim snp = "C:\Users\xieguigang\Desktop\New folder\snp-prot-vir_network\snp.csv".LoadCsv(Of ssss)
+        Dim vir = "C:\Users\xieguigang\Desktop\New folder\snp-prot-vir_network\vir.csv".LoadCsv(Of ssss)
+
+        Dim virhash = (From x In vir Select x Group x By x.B Into Group).ToDictionary(Function(x) x.B, Function(x) x.Group.ToArray)
+        Dim out As New List(Of ssss)
+
+        For Each x In snp
+            Dim virs = virhash(x.B)
+
+            For Each y In virs
+                Dim copy = x.Copy
+                copy.B = y.A
+                out += copy
+            Next
+        Next
+
+        Call out.SaveTo("C:\Users\xieguigang\Desktop\New folder\snp-prot-vir_network\snp-vir_net.csv")
+    End Sub
 
 
     Public Class ssss
@@ -46,6 +66,10 @@ Module Program
         Public Property tag As String
 
         Public Property meta As Dictionary(Of String, String)
+
+        Public Overrides Function ToString() As String
+            Return A
+        End Function
 
         Public Function Copy() As ssss
             Return New ssss With {.A = A, .B = B, .tag = tag, .meta = New Dictionary(Of String, String)}
