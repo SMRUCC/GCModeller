@@ -1,7 +1,11 @@
-﻿Imports RDotNET.Extensions.VisualBasic
+﻿Imports System.Xml.Serialization
+Imports RDotNET.Extensions.VisualBasic
 
 Namespace Services.ScriptBuilder.RTypes
 
+    ''' <summary>
+    ''' TRUE, FALSE, T, F
+    ''' </summary>
     Public Structure RBoolean : Implements IScriptProvider
 
         ''' <summary>
@@ -47,7 +51,7 @@ Namespace Services.ScriptBuilder.RTypes
             End Get
         End Property
 
-        <Xml.Serialization.XmlText> Public Property value As String
+        <XmlText> Public Property value As String
 
         Sub New(R As String)
             _value = R
@@ -60,6 +64,10 @@ Namespace Services.ScriptBuilder.RTypes
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Directly returns the <see cref="value"/> string data.
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function RScript() As String Implements IScriptProvider.RScript
             Return _value
         End Function

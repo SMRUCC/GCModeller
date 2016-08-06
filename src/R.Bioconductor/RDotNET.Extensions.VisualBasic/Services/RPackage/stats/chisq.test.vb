@@ -17,9 +17,9 @@ Namespace stats
         ''' <returns></returns>
         ''' 
         <ExportAPI("chisq.test")>
-        Public Function chisqTest(x As String, Optional y As String = NULL, Optional correct As String = [TRUE]) As chisqTestResult
-            Dim R As String = $"chisq.test({x},y={y},correct={correct})"
-            Dim out = RServer.Evaluate(R).AsList.ToArray
+        Public Function chisqTest(x As String, Optional y As String = NULL, Optional correct As Boolean = True) As chisqTestResult
+            Dim out As SymbolicExpression() =
+                $"chisq.test({x},y={y},correct={correct.λ})".ζ.AsList.ToArray
             Dim i As New Pointer
             Dim result As New chisqTestResult With {
                 .statistic = out(++i).AsNumeric.ToArray.First,
@@ -40,12 +40,12 @@ Namespace stats
     Public Class chisqTestResult
 
         ''' <summary>
-        ''' the value the chi-squared test statistic.
+        ''' [X-squared] the value the chi-squared test statistic.
         ''' </summary>
         ''' <returns></returns>
         Public Property statistic As Double
         ''' <summary>
-        ''' the degrees Of freedom Of the approximate chi-squared distribution Of the test statistic, NA If the p-value Is computed by Monte Carlo simulation.
+        ''' [df] the degrees Of freedom Of the approximate chi-squared distribution Of the test statistic, NA If the p-value Is computed by Monte Carlo simulation.
         ''' </summary>
         ''' <returns></returns>
         Public Property parameter As Integer
@@ -60,7 +60,7 @@ Namespace stats
         ''' <returns></returns>
         Public Property method As String
         ''' <summary>
-        ''' a character String giving the name(s) Of the data.
+        ''' [data] a character String giving the name(s) Of the data.
         ''' </summary>
         ''' <returns></returns>
         Public Property dataName As String

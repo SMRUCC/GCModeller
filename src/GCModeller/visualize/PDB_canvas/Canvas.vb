@@ -7,12 +7,19 @@ Imports SMRUCC.genomics.Data.RCSB.PDB
 
 Public Class Canvas
 
+    ''' <summary>
+    ''' The graphics update driver
+    ''' </summary>
     Dim __driver As New UpdateThread(45, AddressOf __update) With {
         .ErrHandle = AddressOf App.LogException
     }
     Dim _model As ChainModel
-    Dim _viewDistance As Integer = -40
+    Dim _viewDistance As Integer = -48
 
+    ''' <summary>
+    ''' Load a pdb model and visualize this object on the screen.
+    ''' </summary>
+    ''' <param name="path">*.pdb file path</param>
     Public Sub LoadModel(path As String)
         Dim pdb As PDB = PDB.Load(path)
         _model = New ChainModel(pdb)
@@ -38,6 +45,10 @@ Public Class Canvas
     Dim rotateY As Double
     Dim _autoRotation As Boolean = False
 
+    ''' <summary>
+    ''' Model auto rotation?
+    ''' </summary>
+    ''' <returns></returns>
     Public Property AutoRotate As Boolean
         Get
             Return _autoRotation
@@ -60,10 +71,10 @@ Public Class Canvas
         End If
 
         If Math.Abs(usrCursor.X - e.X) > 20 Then
-            rotateX += (-usrCursor.X + e.X) / 100000
+            rotateX += (-usrCursor.X + e.X) / 200
             Call _model.RotateX(rotateX)
         Else
-            rotateY += (-usrCursor.Y + e.Y) / 100000
+            rotateY += (-usrCursor.Y + e.Y) / 200
             Call _model.RotateY(rotateY)
         End If
         '  
@@ -83,7 +94,7 @@ Public Class Canvas
         Call Invoke(Sub() Call Me.Invalidate())
 
         If AutoRotate Then
-            rotateX += 0.0005
+            rotateX += 1
             Call _model.Rotate(rotateX)
         End If
     End Sub
