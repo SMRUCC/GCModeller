@@ -1,37 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::9bae5cc5b5470139ec1a1d44be4176f2, ..\GCModeller\sub-system\FBA_DP\FBA\RSolver.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic.Extensions
 Imports System.Text
-Imports RDotNET
-Imports RDotNET.Extensions.VisualBasic.RSystem
-Imports RDotNET.Extensions.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports RDotNET
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API.utils
+Imports RDotNET.Extensions.VisualBasic.API.base
 
 ''' <summary>
 ''' 求解FBA线性规划问题的模块对象
@@ -90,20 +91,20 @@ Public Class FBAlpRSolver : Implements IDisposable
 
     Private Function __initLpSolver() As Boolean
         Printf("R << Installed.Packages(""lpSolveAPI"")")
-        If Not Installed.Packages("lpSolveAPI") Then
-            Printf("Package 'lpSolveAP' was not installed, trying install this package...")
-            Printf("R << Install.Packages(""lpSolveAPI"")")
-            If Not Install.Packages("lpSolveAPI") Then
-                Printf("Install library package ""lpsolveAPI"" failured!")
+        If installed.packages("lpSolveAPI") Is Nothing Then
+            printf("Package 'lpSolveAP' was not installed, trying install this package...")
+            printf("R << Install.Packages(""lpSolveAPI"")")
+            If Not install.packages("lpSolveAPI") Then
+                printf("Install library package ""lpsolveAPI"" failured!")
                 Return False
             Else
-                Printf("Install library package ""lpsolveAPI"" successfully!")
+                printf("Install library package ""lpsolveAPI"" successfully!")
             End If
         End If
 
-        Printf("R << Library(lpSolveAPI)")
+        printf("R << Library(lpSolveAPI)")
         Library("lpSolveAPI")
-        Printf("Successfully load library 'lpSolveAPI'")
+        printf("Successfully load library 'lpSolveAPI'")
         Return True
     End Function
 

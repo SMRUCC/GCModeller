@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::661320cc38b8d623dab7878619430dc1, ..\LibMySQL\Extensions\CommonExtension.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -29,6 +29,7 @@ Imports System.Reflection
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
+Imports System.Text
 
 Public Module CommonExtension
 
@@ -104,5 +105,38 @@ Public Module CommonExtension
         MySqlDbType.UByte, MySqlDbType.UInt16, MySqlDbType.UInt24, MySqlDbType.UInt32, MySqlDbType.UInt64,
         MySqlDbType.Year
     }
+
+    ReadOnly __esacps As New Dictionary(Of String, String) From {
+        {Text.ASCII.NUL, "\0"},
+        {"'", "\'"},
+        {"""", "\"""},
+        {Text.ASCII.BS, "\b"},
+        {Text.ASCII.LF, "\n"},
+        {Text.ASCII.CR, "\r"},
+        {Text.ASCII.TAB, "\t"},
+        {Text.ASCII.SUB, "\Z"},
+        {"%", "\%"},
+        {"_", "\_"}
+    }
+
+    ' {"\", "\\"}
+
+    ''' <summary>
+    ''' 处理字符串之中的特殊字符的转义
+    ''' </summary>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function MySqlEscaping(value As String) As String
+        Dim sb As New StringBuilder(value)
+
+        Call sb.Replace("\", "\\")
+
+        For Each x In __esacps
+            Call sb.Replace(x.Key, x.Value)
+        Next
+
+        Return sb.ToString
+    End Function
 End Module
 

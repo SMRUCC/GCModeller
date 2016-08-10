@@ -28,10 +28,12 @@
 Imports Microsoft.VisualBasic.DataVisualization.Network.Graph
 Imports Microsoft.VisualBasic.DataVisualization.Network.Layouts
 Imports Microsoft.VisualBasic.DataVisualization.Network.Layouts.Interfaces
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Transformation
 
 Public Class Renderer3D : Inherits Renderer
+    Implements IGraphicsEngine
 
     Public Property ViewDistance As Double = -120
 
@@ -93,6 +95,13 @@ Public Class Renderer3D : Inherits Renderer
             Dim rect As New Rectangle(pt, New Size(CInt(r), CInt(r)))
 
             Call canvas.FillPie(n.Data.Color, rect, 0, 360)
+
+            If ShowLabels Then
+                Dim center As Point = rect.Center
+                Dim sz As SizeF = canvas.MeasureString(n.ID, Font)
+                center = New Point(center.X - sz.Width / 2, center.Y - sz.Height / 2)
+                Call canvas.DrawString(n.ID, Font, Brushes.Gray, center)
+            End If
         End SyncLock
     End Sub
 End Class

@@ -6,6 +6,7 @@ Namespace API.utils
 
         ''' <summary>
         ''' Find Installed Packages. Find (or retrieve) details of all packages installed in the specified libraries.
+        ''' (假若指定了包名称的话，没有安装会返回空值)
         ''' </summary>
         ''' <param name="libloc"></param>
         ''' <param name="priority"></param>

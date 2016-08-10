@@ -33,8 +33,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNet
 Imports RDotNet.Extensions
-Imports RDotNet.Extensions.VisualBasic
-Imports RDotNet.Extensions.VisualBasic.RSystem
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API.base
 Imports SMRUCC.genomics.Analysis.PFSNet
 
 #Const DEBUG = True
@@ -77,7 +77,7 @@ Namespace PfsNET
                 Call TryInit(R_HOME)
             End If
 
-            Call Library("igraph")
+            Call library("igraph")
             Call New RScriptInvoke(Encoding.ASCII.GetString(My.Resources.onLoad)).PrintSTDOUT()
 
             If Not String.IsNullOrEmpty(java_class) Then
