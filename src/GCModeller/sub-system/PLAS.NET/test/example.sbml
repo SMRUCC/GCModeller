@@ -17,10 +17,10 @@
       <compartment id="CCO__45__PERI__45__BAC" name="CCO-PERI-BAC" />
     </listOfCompartments>
     <listOfSpecies>
-      <species id="A" name="partially   N-deacetylated poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
-      <species id="B" name="thiamin: C12H17N4OS" initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
-      <species id="C" name="poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
-      <species id="D" name="a tRNA uridine34: " initialAmount="1000" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="A" name="partially   N-deacetylated poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="B" name="thiamin: C12H17N4OS" initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="C" name="poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="D" name="a tRNA uridine34: " initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
     </listOfSpecies>
     <listOfReactions>
       <reaction id="R1" name="THIOESTER-RXN" reversible="true">
@@ -86,6 +86,26 @@
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="A" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math XMLNS="http://www.w3.org/1998/Math/MathML">
+            <ci> FLUX_VALUE </ci>
+          </math>
+          <listOfParameters>
+            <parameter id="LOWER_BOUND" value="-1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="UPPER_BOUND" value="1000" units="mmol_per_gDW_per_hr" />
+            <parameter id="OBJECTIVE_COEFFICIENT" value="0" />
+            <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr" />
+            <parameter id="REDUCED_COST" value="0" />
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+	      <reaction id="R5" name="RXN0-2044" reversible="true">
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B" stoichiometry="1" />
         </listOfProducts>
         <kineticLaw>
           <math XMLNS="http://www.w3.org/1998/Math/MathML">

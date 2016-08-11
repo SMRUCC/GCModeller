@@ -29,6 +29,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
@@ -46,8 +47,14 @@ Namespace Level2
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function IsEntry(sbml As XmlFile, metabolite As String) As Boolean
-            Dim Query = From e In sbml.Model.listOfReactions Where e.Produce(metabolite) Select e '
-            Return Not Query.Count > 0  '当该代谢物仅有消耗而无合成项目的时候，该代谢物为入口
+            Dim LQuery = LinqAPI.DefaultFirst(Of Reaction) <=
+ _
+                From rxn As Reaction
+                In sbml.Model.listOfReactions
+                Where rxn.Produce(metabolite) ' 当该代谢物仅有消耗而无合成项目的时候，该代谢物为入口
+                Select rxn '
+
+            Return LQuery Is Nothing
         End Function
 
         ''' <summary>
@@ -57,25 +64,39 @@ Namespace Level2
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function GetAllConsume(sbml As XmlFile, Metabolite As String) As Elements.Reaction()
-            Dim Query = From e In sbml.Model.listOfReactions Where e.Consume(Metabolite) Select e '
-            Return Query.ToArray
+            Dim LQuery = LinqAPI.Exec(Of Reaction) <=
+ _
+                From rxn As Reaction
+                In sbml.Model.listOfReactions
+                Where rxn.Consume(Metabolite)
+                Select rxn '
+
+            Return LQuery
         End Function
 
         <Extension> Public Function GetAllProduce(SBML As Level2.XmlFile, Metabolite As String) As Elements.Reaction()
-            Dim Query = From e In SBML.Model.listOfReactions Where e.Produce(Metabolite) Select e '
-            Return Query.ToArray
+            Dim LQuery = LinqAPI.Exec(Of Reaction) <=
+ _
+                From rxn As Reaction
+                In SBML.Model.listOfReactions
+                Where rxn.Produce(Metabolite)
+                Select rxn '
+
+            Return LQuery
         End Function
 
         <Extension> Public Function RevertEscapes(file As XmlFile, Replacement As Escaping()) As XmlFile
             Dim model As Elements.Model = file.Model
+            Dim splst As speciesReference() = LinqAPI.Exec(Of speciesReference) <=
+ _
+                From rxn As Reaction
+                In model.listOfReactions
+                Select rxn.Products.Join(rxn.Reactants)
+
             Call Escaping.Replace(Of SBML.Level2.Elements.Specie)(model.listOfSpecies, Replacement)
             Call Escaping.Replace(Of SBML.Level2.Elements.Reaction)(model.listOfReactions, Replacement)
-            Dim List As List(Of speciesReference) = New List(Of speciesReference)
-            For Each rxn In model.listOfReactions
-                Call List.AddRange(rxn.Products)
-                Call List.AddRange(rxn.Reactants)
-            Next
-            Call Escaping.Replace(List, Replacement)
+            Call Escaping.Replace(splst, Replacement)
+
             Return file
         End Function
     End Module

@@ -78,7 +78,7 @@ Namespace ComponentModel.EquaionModel
                           Select x
                           Group x By x.Identifier.ToLower Into Group)
             Dim hash As Dictionary(Of String, T()) =
-                Groups.ToDictionary(Function(x) x.ToLower,
+                Groups.ToDictionary(Function(x) x.Group.First.Identifier,
                                     Function(x) x.Group.ToArray)
             Return hash
         End Function

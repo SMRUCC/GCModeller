@@ -165,19 +165,19 @@ Namespace Kernel
             Call dataSvr.Save(Path)
         End Sub
 
-        Private Sub Load(DataModel As Script.Model, tick As Action(Of DataSet))
-            Me._innerDataModel = DataModel
+        Private Sub Load(script As Script.Model, tick As Action(Of DataSet))
+            Me._innerDataModel = script
             Me.Vars = LinqAPI.Exec(Of var) <=
  _
                 From v As var
-                In DataModel.Vars
+                In script.Vars
                 Select v
                 Order By Len(v.UniqueId) Descending
 
-            For Each declares In DataModel.UserFunc
+            For Each declares In script.UserFunc.SafeQuery
                 Call __engine.Functions.Add(declares.Declaration)
             Next
-            For Each __const In DataModel.Constant
+            For Each __const In script.Constant.SafeQuery
                 Call __engine.Constant.Add(__const.Name, __const.x)
             Next
 
@@ -185,7 +185,7 @@ Namespace Kernel
                 __engine(x.UniqueId) = x.Value
             Next
 
-            Me.Channels = DataModel.sEquations.ToArray(Function(x) New Equation(x, __engine))
+            Me.Channels = script.sEquations.ToArray(Function(x) New Equation(x, __engine))
 
             For i As Integer = 0 To Channels.Length - 1
                 Channels(i).Set(Me)
