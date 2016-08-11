@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D.Transformation
 Public Class Renderer3D : Inherits Renderer
     Implements IGraphicsEngine
 
-    Public Property ViewDistance As Double = -120
+    Public Property ViewDistance As Double = -220
 
     Dim dynamicsRadius As Boolean
 
