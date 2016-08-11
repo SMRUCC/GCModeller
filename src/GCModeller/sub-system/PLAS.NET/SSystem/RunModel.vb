@@ -62,10 +62,15 @@ Public Module RunModel
     End Function
 
     ' /precise 0.1
+    ' /time 10
 
     <Extension>
     Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
         Dim p As Double = args.GetValue("/precise", 0.1)
+        Dim t As Double = args.GetDouble("/time")
+        If t > 0 Then
+            Model.FinalTime = t
+        End If
         Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
         Dim out As String = args.GetValue("-o", args("-i").TrimSuffix & ".out.Csv")
         Dim maps As New Dictionary(Of String, String) From {

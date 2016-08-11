@@ -26,6 +26,7 @@
 #End Region
 
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Linq
@@ -60,16 +61,24 @@ Namespace Script
         ''' </summary>
         Private Sub __strip()
             For Each sp In SBMLFile.Model.listOfSpecies
-                sp.ID = sp.ID.Replace("-", "_")
+                Call __stripNumber(sp.ID)
             Next
             For Each rxn In SBMLFile.Model.listOfReactions
                 For Each m As speciesReference In rxn.Reactants
-                    m.species = m.species.Replace("-", "_")
+                    Call __stripNumber(m.species)
                 Next
                 For Each m As speciesReference In rxn.Products
-                    m.species = m.species.Replace("-", "_")
+                    Call __stripNumber(m.species)
                 Next
             Next
+        End Sub
+
+        Private Shared Sub __stripNumber(ByRef s As String)
+            Dim n As String = Regex.Match(s, "\d").Value
+            If Not String.IsNullOrEmpty(n) AndAlso InStr(s, n) = 1 Then
+                s = "N_" & s
+            End If
+            s = s.Replace("-", "_").Replace("+", "_")
         End Sub
 
         ''' <summary>
@@ -98,10 +107,24 @@ Namespace Script
                 }
             Next
 
-            Model.sEquations = reactions
-            Model.Vars = metabolites.Values.ToArray
+            Model.sEquations = reactions _
+                .Where(Function(x) Not String.IsNullOrEmpty(x.Expression)).ToArray
+            Model.Vars = metabolites.Values _
+                .Where(Function(x) __where(x, Model)).ToArray
 
             Return True
+        End Function
+
+        Private Function __where(x As var, model As Script.Model) As Boolean
+            Dim name As String = x.UniqueId
+
+            For Each eq As SEquation In model.sEquations
+                If InStr(eq.Expression, name) > 0 Then
+                    Return True
+                End If
+            Next
+
+            Return False
         End Function
 
         ''' <summary>
