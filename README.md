@@ -34,6 +34,7 @@ GCModeller supports the ``SBML`` and ``BIOM`` data standards for exchanges the a
 
 ![XC_1184 protein structure drawing](./GCModeller/Data/pdb_Draw/Demo.gif)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/2016-05-17.png)
+![](./images/3d_bio_net_canvas.gif)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/FUR-lightbox.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pXOCGX01-lightbox.png)
