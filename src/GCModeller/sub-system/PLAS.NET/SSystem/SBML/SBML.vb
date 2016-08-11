@@ -81,9 +81,9 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
         Dim metabolites As New Dictionary(Of var)
 
         For Each m As Specie In SBMLFile.Model.listOfSpecies
-            If Not IsEntry(SBMLFile, m.ID) Then
-                reactions += New SEquation(m.ID, GenerateFunction(m.ID))
-            End If
+            ' If Not IsEntry(SBMLFile, m.ID) Then
+            reactions += New SEquation(m.ID, GenerateFunction(m.ID))
+            ' End If
 
             If metabolites & m.ID Then
                 Continue For
