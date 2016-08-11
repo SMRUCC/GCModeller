@@ -191,7 +191,7 @@ Public Class MySQL : Implements IDisposable
         Call Reader.Read()
 
         Dim ObjValue As Object = Reader.GetValue(Scan0)
-        Dim value As T = DirectCast(ObjValue, T)
+        Dim value As T = CType(ObjValue, T)
 
         Return value
     End Function
@@ -479,6 +479,20 @@ Public Class MySQL : Implements IDisposable
             ._UriMySQL = uri_obj,
             ._reflector = New Reflection.DbReflector(uri_obj.GetConnectionString)
         }
+    End Operator
+
+    ''' <summary>
+    ''' ``mysql.Connect(cnn)``
+    ''' </summary>
+    ''' <param name="mysql"></param>
+    ''' <param name="cnn"></param>
+    ''' <returns></returns>
+    Public Shared Operator <=(mysql As MySQL, cnn As ConnectionUri) As Double
+        Return mysql.Connect(cnn)
+    End Operator
+
+    Public Shared Operator >=(mysql As MySQL, cnn As ConnectionUri) As Double
+        Throw New NotSupportedException
     End Operator
 
 #Region "IDisposable Support"

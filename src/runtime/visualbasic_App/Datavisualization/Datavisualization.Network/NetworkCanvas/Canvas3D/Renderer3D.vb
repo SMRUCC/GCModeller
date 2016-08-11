@@ -28,12 +28,16 @@
 Imports Microsoft.VisualBasic.DataVisualization.Network.Graph
 Imports Microsoft.VisualBasic.DataVisualization.Network.Layouts
 Imports Microsoft.VisualBasic.DataVisualization.Network.Layouts.Interfaces
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Transformation
 
 Public Class Renderer3D : Inherits Renderer
+    Implements IGraphicsEngine
 
     Public Property ViewDistance As Double = -120
+
+    Dim dynamicsRadius As Boolean
 
     ''' <summary>
     ''' 
@@ -41,8 +45,13 @@ Public Class Renderer3D : Inherits Renderer
     ''' <param name="canvas"></param>
     ''' <param name="regionProvider"></param>
     ''' <param name="iForceDirected"><see cref="ForceDirected3D"/></param>
-    Public Sub New(canvas As Func(Of Graphics), regionProvider As Func(Of Rectangle), iForceDirected As IForceDirected)
+    Public Sub New(canvas As Func(Of Graphics),
+                   regionProvider As Func(Of Rectangle),
+                   iForceDirected As IForceDirected,
+                   Optional dynamicsRadius As Boolean = False)
+
         Call MyBase.New(canvas, regionProvider, iForceDirected)
+        Me.dynamicsRadius = dynamicsRadius
     End Sub
 
     Public Property rotate As Double = Math.PI / 3
@@ -77,6 +86,12 @@ Public Class Renderer3D : Inherits Renderer
     End Sub
 
     Protected Overrides Sub drawNode(n As Node, iPosition As AbstractVector)
+        Dim r As Single = If(dynamicsRadius, n.Data.radius, radiushash(n))
+
+        If r < 0.6 Then
+            Return
+        End If
+
         Dim client As Rectangle = __regionProvider()
         Dim pos As Point = New Point3D(iPosition.x, iPosition.y, iPosition.z) _
             .RotateX(rotate) _
@@ -88,11 +103,17 @@ Public Class Renderer3D : Inherits Renderer
         '   pos = GraphToScreen(pos, __regionProvider())
 
         SyncLock canvas
-            Dim r As Single = radiushash(n)
             Dim pt As New Point(CInt(pos.X - r / 2), CInt(pos.Y - r / 2))
             Dim rect As New Rectangle(pt, New Size(CInt(r), CInt(r)))
 
             Call canvas.FillPie(n.Data.Color, rect, 0, 360)
+
+            If ShowLabels Then
+                Dim center As Point = rect.Center
+                Dim sz As SizeF = canvas.MeasureString(n.ID, Font)
+                center = New Point(center.X - sz.Width / 2, center.Y - sz.Height / 2)
+                Call canvas.DrawString(n.ID, Font, Brushes.Gray, center)
+            End If
         End SyncLock
     End Sub
 End Class

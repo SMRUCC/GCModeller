@@ -50,20 +50,20 @@ Namespace Kernel
         Dim dataSvr As DataAcquisition
 
         ''' <summary>
-        ''' Object that action the disturbing
+        ''' Object that action the disturbing.(生物扰动实验)
         ''' </summary>
         ''' <remarks></remarks>
         Public Kicks As Kicks
 
         ''' <summary>
-        ''' Store the system state.
+        ''' Store the system state.(变量，也就是生化反应底物)
         ''' </summary>
         ''' <remarks></remarks>
-        Public Property Vars As var()
+        Public Property Vars As IEnumerable(Of var)
             Get
-                Return __varsHash.Values.ToArray
+                Return __varsHash.Values
             End Get
-            Set(value As var())
+            Set(value As IEnumerable(Of var))
                 If value Is Nothing Then
                     __varsHash = New Dictionary(Of var)
                 Else
@@ -73,7 +73,7 @@ Namespace Kernel
         End Property
 
         ''' <summary>
-        ''' Alter the system state.
+        ''' Alter the system state.(方程，也就是生化反应过程)
         ''' </summary>
         ''' <remarks></remarks>
         Public Channels As Equation()
@@ -85,9 +85,9 @@ Namespace Kernel
         ''' </summary>
         ReadOnly __engine As New Mathematical.Expression
 
-        Sub New(Model As Script.Model)
+        Sub New(Model As Script.Model, Optional dataTick As Action(Of DataSet) = Nothing)
             Call MyBase.New(Model)
-            Call Me.Load(Model)
+            Call Me.Load(Model, dataTick)
         End Sub
 
         Public Function GetValue(id As String) As var
@@ -107,13 +107,23 @@ Namespace Kernel
 
         Public Property Precision As Double = 0.1
 
+        ''' <summary>
+        ''' 请注意，当前的线程会被阻塞在这里直到整个计算过程完成
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function Run() As Integer
             Dim proc As New ProgressBar("Running PLAS.NET S-system kernel...")
             Dim prog As New ProgressProvider(_innerDataModel.FinalTime * (1 / Precision))
 
-            For Me._RTime = 0 To prog.Target
+            _break = False
+
+            If Not TerminalEvents.ConsoleHandleInvalid Then
+                For Me._RTime = 0 To prog.Target
+                    If _break Then
+                        Exit For
+                    End If
 #If DEBUG Then
-                Call __innerTicks(Me._RTime)
+                    Call __innerTicks(Me._RTime)
 #Else
                 Try
                     Call __innerTicks(Me._RTime)
@@ -124,11 +134,28 @@ Namespace Kernel
                     Return -1
                 End Try
 #End If
-                Call proc.SetProgress(prog.StepProgress)
-            Next
+                    Call proc.SetProgress(prog.StepProgress)
+                Next
+            Else
+                For Me._RTime = 0 To prog.Target
+                    If _break Then
+                        Exit For
+                    End If
+                    Call __innerTicks(Me._RTime)
+                Next
+            End If
 
             Return 0
         End Function
+
+        Dim _break As Boolean = False
+
+        ''' <summary>
+        ''' 中断执行
+        ''' </summary>
+        Public Sub Break()
+            _break = True
+        End Sub
 
         Friend Function get_Model() As Script.Model
             Return MyBase._innerDataModel
@@ -138,7 +165,7 @@ Namespace Kernel
             Call dataSvr.Save(Path)
         End Sub
 
-        Private Sub Load(DataModel As Script.Model)
+        Private Sub Load(DataModel As Script.Model, tick As Action(Of DataSet))
             Me._innerDataModel = DataModel
             Me.Vars = LinqAPI.Exec(Of var) <=
  _
@@ -165,7 +192,7 @@ Namespace Kernel
             Next
 
             Kicks = New Kicks(Me)
-            dataSvr = New DataAcquisition(Me)
+            dataSvr = New DataAcquisition(Me, tick)
         End Sub
 
         ''' <summary>
@@ -184,11 +211,14 @@ Namespace Kernel
         ''' <param name="Model"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Run(Model As Script.Model, precise As Double) As List(Of DataSet)
-            Dim Kernel As New Kernel(Model) With {
+        Public Overloads Shared Function Run(Model As Script.Model,
+                                             precise As Double,
+                                             Optional dataTick As Action(Of DataSet) = Nothing) As List(Of DataSet)
+
+            Dim Kernel As New Kernel(Model, dataTick) With {
                 .Precision = precise
             }
-            Kernel.Run()
+            Call Kernel.Run()
             Return Kernel.dataSvr.data
         End Function
 

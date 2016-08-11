@@ -33,24 +33,32 @@ Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Namespace Kernel
 
     ''' <summary>
-    ''' Data service
+    ''' Data service.(数据采集服务)
     ''' </summary>
     Public Class DataAcquisition
 
         Friend data As New List(Of DataSet)
 
         Dim kernel As Kernel
+        Dim __tickCallback As Action(Of DataSet)
 
-        Sub New(k As Kernel)
+        Sub New(k As Kernel, Optional tick As Action(Of DataSet) = Nothing)
             kernel = k
+            __tickCallback = tick
         End Sub
 
         Public Sub Tick()
-            data += New DataSet With {
-                .Identifier = kernel.RuntimeTicks * Kernel.precision,
+            Dim t As New DataSet With {
+                .Identifier = kernel.RuntimeTicks * kernel.Precision,
                 .Properties = kernel.Vars _
                     .ToDictionary(AddressOf __tag, Function(x) x.Value)
             }
+
+            data += t
+
+            If Not __tickCallback Is Nothing Then
+                Call __tickCallback(t)
+            End If
         End Sub
 
         Private Shared Function __tag(x As var) As String

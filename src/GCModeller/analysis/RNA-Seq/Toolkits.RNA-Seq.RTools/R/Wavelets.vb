@@ -30,8 +30,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports RDotNet.Extensions.VisualBasic
-Imports RDotNet.SymbolicExpressionExtension
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API.base
+Imports RDotNET.SymbolicExpressionExtension
 
 ''' <summary>
 ''' wavelets: A package of functions for computing wavelet filters, wavelet transforms and multiresolution analyses.
@@ -56,7 +57,7 @@ Imports RDotNet.SymbolicExpressionExtension
                 Call TryInit(R_HOME)
             End If
 
-            Call RServer.Library(packageName:="wavelets")
+            Call library("wavelets")
 
             Return True
         Catch ex As Exception

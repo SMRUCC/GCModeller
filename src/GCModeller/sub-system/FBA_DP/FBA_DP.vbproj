@@ -236,7 +236,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\R.Bioinformatics\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\RDotNet.Extensions.Bioinformatics.vbproj">
       <Project>{485965cd-da31-4517-86f6-94dfd28379c1}</Project>
       <Name>RDotNet.Extensions.Bioinformatics</Name>
     </ProjectReference>

@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNet.Extensions.VisualBasic
-Imports RDotNet.Extensions.VisualBasic.RSystem
+Imports RDotNET.Extensions.VisualBasic.API.base
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
@@ -213,9 +213,9 @@ Huber, W.",
                     Call TryInit(R_HOME)
                 End If
 
-                Call RServer.Library(packageName:="rtracklayer")
-                Call RServer.Library(packageName:="GenomicAlignments")
-                Call RServer.Library(packageName:="DESeq2")
+                Call library("rtracklayer")
+                Call library("GenomicAlignments")
+                Call library("DESeq2")
 
                 Return True
             Catch ex As Exception
