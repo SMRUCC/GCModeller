@@ -44,6 +44,7 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
     Public Overrides Function Compile(Optional args As CommandLine = Nothing) As Script.Model
         Dim Model As New Script.Model
 
+        Call __strip()
         Call __generateSystem(Model)
 
         Model.Title = SBMLFile.Model.name
@@ -53,6 +54,23 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
     End Function
 
     ''' <summary>
+    ''' 需要在这里将``-``连接符替换为下划线``_``不然在解析数学表达式的时候会被当作为减号
+    ''' </summary>
+    Private Sub __strip()
+        For Each sp In SBMLFile.Model.listOfSpecies
+            sp.ID = sp.ID.Replace("-", "_")
+        Next
+        For Each rxn In SBMLFile.Model.listOfReactions
+            For Each m As speciesReference In rxn.Reactants
+                m.species = m.species.Replace("-", "_")
+            Next
+            For Each m As speciesReference In rxn.Products
+                m.species = m.species.Replace("-", "_")
+            Next
+        Next
+    End Sub
+
+    ''' <summary>
     ''' Generate the equation group of the target modelling system.(生成目标模型系统的方程组)
     ''' </summary>
     ''' <param name="Model"></param>
@@ -60,11 +78,15 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
     ''' <remarks></remarks>
     Private Function __generateSystem(Model As Script.Model) As Boolean
         Dim reactions As New List(Of SEquation)
-        Dim metabolites As New List(Of var)
+        Dim metabolites As New Dictionary(Of var)
 
         For Each m As Specie In SBMLFile.Model.listOfSpecies
             If Not IsEntry(SBMLFile, m.ID) Then
                 reactions += New SEquation(m.ID, GenerateFunction(m.ID))
+            End If
+
+            If metabolites & m.ID Then
+                Continue For
             End If
 
             metabolites += New var With {
@@ -74,31 +96,25 @@ Public Class SBML : Inherits Compiler(Of Script.Model)
             }
         Next
 
-        Model.sEquations = reactions.ToArray
-        Model.Vars = metabolites.ToArray
+        Model.sEquations = reactions
+        Model.Vars = metabolites.Values.ToArray
 
         Return True
     End Function
 
     Private Function GenerateFunction(Metabolite As String) As String
-        Dim expr As New StringBuilder(1024)
-        For Each Reaction In GetAllProduce(SBMLFile, Metabolite)
-            expr.AppendFormat("{0}+", __contact(Reaction.Reactants))
-        Next
-        For Each Reaction In GetAllConsume(SBMLFile, Metabolite)
-            expr.AppendFormat("{0}-", __contact(Reaction.Products))
-        Next
-
-        Return expr.ToString
+        Dim produce As String = GetAllProduce(SBMLFile, Metabolite).Select(Function(rxn) __contact(rxn.Reactants)).JoinBy("+")
+        Dim consume As String = GetAllConsume(SBMLFile, Metabolite).Select(Function(rxn) __contact(rxn.Products)).JoinBy("-")
+        Dim eq As String = produce & "-" & consume
+        Return eq
     End Function
 
-    Private Function __contact(e As IEnumerable(Of speciesReference)) As String
-        Dim sBuilder As StringBuilder = New StringBuilder(128)
-        For Each Metabolite In e
-            sBuilder.AppendFormat("{0}*", Metabolite.species)
-        Next
-        Call sBuilder.Remove(sBuilder.Length - 1, 1)
-        Return sBuilder.ToString
+    Private Function __contact(mlst As IEnumerable(Of speciesReference)) As String
+        If mlst.Count = 1 Then
+            Return mlst.First.species & "^0.5"
+        Else
+            Return mlst.Select(Function(x) x.species).JoinBy("^0.5*")
+        End If
     End Function
 
     Public Overloads Shared Function Compile(path As String, Optional AutoFix As Boolean = False) As Script.Model

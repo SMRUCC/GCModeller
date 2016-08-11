@@ -63,7 +63,7 @@ Namespace Kernel
 
         Private Shared Function __tag(x As var) As String
             If Not String.IsNullOrEmpty(x.Title) Then
-                Return x.Title
+                Return $"{x.UniqueId}({x.Title})"
             Else
                 Return x.UniqueId
             End If

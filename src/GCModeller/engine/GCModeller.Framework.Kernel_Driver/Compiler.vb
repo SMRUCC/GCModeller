@@ -167,7 +167,10 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
 #End Region
 
     Public Function WriteLog() As Boolean Implements ISupportLoggingClient.WriteLog
-        Return _Logging.Save()
+        If Not _Logging Is Nothing Then
+            Return _Logging.Save()
+        End If
+        Return True
     End Function
 End Class
 
