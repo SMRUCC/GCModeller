@@ -15,7 +15,14 @@ http://www.dqb.fc.ul.pt/docentes/aferreira/plasdownm.html
 (http://www.sciencedirect.com/science/article/pii/0895717788904694)
 
 
-### Script syntax
+## SBML model example
+
+Example model: [example.sbml](./test/example.sbml)
+
+![](./Example.png)
+![](./Example_OUT.png)
+
+## Script syntax
 
 ##### Decalre a Reaction Dynamics
 
@@ -58,9 +65,9 @@ NAMED <var> <alias>
 ```
 
 
-### Example
+## Example
 
-##### Hull system
+### Hull system
 
 Script:
 ```bash
@@ -82,7 +89,7 @@ PLAS Run run -i "./Hull.txt" -f script
 ![](./test/Hull.png)
 
 
-##### Atkinson system
+### Atkinson system
 
 ```
 RXN x1=beta1*(lamda1*(1+alpha1*(x4^n1)/(1+x4^n1))-x1)

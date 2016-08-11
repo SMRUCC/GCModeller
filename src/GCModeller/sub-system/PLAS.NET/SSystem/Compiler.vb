@@ -27,6 +27,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Analysis.SSystem
+Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 Public Module Compiler
 
@@ -39,8 +40,8 @@ Public Module Compiler
     Public ReadOnly Property Compilers As IReadOnlyDictionary(Of String, ICompiler) =
         New HashDictionary(Of ICompiler) From {
  _
-        {"script", AddressOf ScriptCompiler},
-        {"sbml", AddressOf SBMLCompiler}
+            {"script", AddressOf ScriptCompiler},
+            {"sbml", AddressOf SBMLCompiler}
     }
 
     Public Function ScriptCompiler(input As String, out As String, autoFix As Boolean) As Boolean
