@@ -78,7 +78,7 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public Channels As Equation()
 
-        Dim __varsHash As Dictionary(Of var)
+        Friend __varsHash As Dictionary(Of var)
 
         ''' <summary>
         ''' 模拟器的数学计算引擎

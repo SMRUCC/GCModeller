@@ -116,6 +116,14 @@ Namespace Kernel.ObjectModels
                 In k.Vars
                 Where String.Equals(o.UniqueId, Identifier)
                 Select o '
+
+            If Var Is Nothing Then
+                Var = New var With {
+                    .UniqueId = Identifier,
+                    .Value = 10.0R
+                }
+                k.__varsHash(Identifier) = Var
+            End If
         End Sub
 
         Public ReadOnly Property Model As SEquation
