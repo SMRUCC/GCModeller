@@ -26,7 +26,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Model.psidev.MIF25.Nodes
 
 Namespace XML
 
