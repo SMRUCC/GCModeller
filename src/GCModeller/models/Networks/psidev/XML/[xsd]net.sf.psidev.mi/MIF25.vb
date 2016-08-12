@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Data.StringDB.MIF25.Nodes
+Imports SMRUCC.genomics.Model.psidev.MIF25.Nodes
 
-Namespace StringDB.MIF25
+Namespace XML
 
     ' 请勿再修改本命名空间之中的所有Xml序列化对象的格式定义了，这个是用来读取string-db数据库的官方文档之中所介绍的格式
 
@@ -77,38 +77,6 @@ Namespace StringDB.MIF25
 
                 Return Nothing
             End If
-        End Function
-
-        Public Function ExtractNetwork() As StringDB.SimpleCsv.PitrNode()
-            Dim LQuery = (From entry As Entry
-                          In Me.Entries
-                          Select __extractNetwork(entry)).ToArray.MatrixToVector
-            Return LQuery
-        End Function
-
-        Private Function __extractNetwork(entry As Entry) As SimpleCsv.PitrNode()
-            Dim LQuery = (From interacts As Interaction
-                          In entry.InteractionList
-                          Select __extractEdge(interacts)).ToArray
-            Return LQuery
-        End Function
-
-        Private Function __extractEdge(Interaction As Interaction) As StringDB.SimpleCsv.PitrNode
-            Dim Node As StringDB.SimpleCsv.PitrNode = New StringDB.SimpleCsv.PitrNode
-            Node.Confidence = Interaction.ConfidenceList.First.value
-            Node.FromNode = GetInteractor(Interaction.ParticipantList.First.InteractorRef).Xref.PrimaryReference.Id
-            Node.ToNode = GetInteractor(Interaction.ParticipantList.Last.InteractorRef).Xref.PrimaryReference.Id
-            Return Node
-        End Function
-
-        Public Shared Function ExtractNetwork(Dir As String) As StringDB.SimpleCsv.PitrNode()
-            Dim LoadFilesLQuery = (From File As String
-                                   In FileIO.FileSystem.GetFiles(Dir, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-                                   Select File.LoadXml(Of EntrySet)()).ToArray
-            Dim Network As StringDB.SimpleCsv.PitrNode()() = (From file As EntrySet
-                                                              In LoadFilesLQuery.AsParallel
-                                                              Select edges = file.ExtractNetwork).ToArray
-            Return Network.MatrixToList.TrimNull
         End Function
     End Class
 End Namespace

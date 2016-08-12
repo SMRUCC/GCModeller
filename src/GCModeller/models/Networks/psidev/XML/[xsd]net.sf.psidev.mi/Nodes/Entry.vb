@@ -28,7 +28,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace StringDB.MIF25.Nodes
+Namespace XML
 
     Public Class Entry
 

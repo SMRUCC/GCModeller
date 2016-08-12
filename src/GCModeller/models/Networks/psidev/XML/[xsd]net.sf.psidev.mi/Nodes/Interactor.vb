@@ -28,31 +28,31 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace StringDB.MIF25.Nodes
+Namespace XML
 
-    <XmlType("interactor")> Public Class Interactor : Inherits StringDB.MIF25.XmlCommon.DataItem
-        Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.IReadOnlyId
+    <XmlType("interactor")> Public Class Interactor : Inherits DataItem
+        Implements IReadOnlyId
 
-        <XmlElement("names")> Public Property Names As StringDB.MIF25.XmlCommon.Names
-        <XmlElement("xref")> Public Property Xref As StringDB.MIF25.XmlCommon.Xref
+        <XmlElement("names")> Public Property Names As Names
+        <XmlElement("xref")> Public Property Xref As Xref
         <XmlElement("interactorType")> Public Property InteractorType As __interactorType
 
         Public ReadOnly Property Synonym As String Implements IReadOnlyId.Identity
             Get
-                Return Xref.PrimaryReference.Id
+                Return Xref.primaryRef.Id
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return Xref.PrimaryReference.ToString
+            Return Xref.primaryRef.ToString
         End Function
     End Class
     Public Class __interactorType
-        <XmlElement("names")> Public Property Names As StringDB.MIF25.XmlCommon.Names
-        <XmlElement("xref")> Public Property Xref As StringDB.MIF25.XmlCommon.Xref
+        <XmlElement("names")> Public Property Names As Names
+        <XmlElement("xref")> Public Property Xref As Xref
     End Class
 
-    <XmlType("interaction")> Public Class Interaction : Inherits StringDB.MIF25.XmlCommon.DataItem
+    <XmlType("interaction")> Public Class Interaction : Inherits DataItem
 
         <XmlArray("experimentList")> Public Property ExperimentList As ExperimentRef()
 
@@ -80,6 +80,6 @@ Namespace StringDB.MIF25.Nodes
     End Class
 
     <XmlType("unit")> Public Class __unit
-        <XmlElement("names")> Public Property Names As StringDB.MIF25.XmlCommon.Names
+        <XmlElement("names")> Public Property Names As Names
     End Class
 End Namespace
