@@ -28,7 +28,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 
-Namespace StringDB.MIF25.XmlCommon
+Namespace XML
 
     Public MustInherit Class DataItem
 
@@ -44,7 +44,7 @@ Namespace StringDB.MIF25.XmlCommon
         Public Property fullName As String
 
         Public Overrides Function ToString() As String
-            Return String.Format("({0}) {1}", ShortLabel, FullName)
+            Return String.Format("({0}) {1}", shortLabel, fullName)
         End Function
     End Class
 

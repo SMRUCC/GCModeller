@@ -28,11 +28,11 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace StringDB.MIF25.Nodes
+Namespace XML
 
-    <XmlType("experimentDescription")> Public Class ExperimentDescription : Inherits StringDB.MIF25.XmlCommon.DataItem
+    <XmlType("experimentDescription")> Public Class ExperimentDescription : Inherits DataItem
 
-        <XmlElement("names")> Public Property Names As StringDB.MIF25.XmlCommon.Names
+        <XmlElement("names")> Public Property Names As Names
         <XmlElement("bibref")> Public Property Bibref As __bibref
 
         Public Overrides Function ToString() As String
@@ -40,14 +40,14 @@ Namespace StringDB.MIF25.Nodes
         End Function
 
         Public Class __bibref
-            <XmlElement("xref")> Public Property Xref As StringDB.MIF25.XmlCommon.Xref
+            <XmlElement("xref")> Public Property Xref As Xref
         End Class
 
         <XmlArray("hostOrganismList")> Public Property HostOrganismList As __hostOrganism()
 
         <XmlType("hostOrganism")> Public Class __hostOrganism
             <XmlAttribute("ncbiTaxId")> Public Property ncbiTaxId As String
-            <XmlElement("names")> Public Property Names As StringDB.MIF25.XmlCommon.Names
+            <XmlElement("names")> Public Property Names As Names
         End Class
 
         Public Property interactionDetectionMethod As __interactionDetectionMethod
@@ -55,12 +55,12 @@ Namespace StringDB.MIF25.Nodes
     End Class
 
     <XmlType("interactionDetectionMethod")> Public Class __interactionDetectionMethod
-        <XmlElement("names")> Public Property Names As StringDB.MIF25.XmlCommon.Names
-        <XmlElement("xref")> Public Property Xref As StringDB.MIF25.XmlCommon.Xref
+        <XmlElement("names")> Public Property Names As Names
+        <XmlElement("xref")> Public Property Xref As Xref
     End Class
 
     <XmlType("participantIdentificationMethod")> Public Class __participantIdentificationMethod
-        <XmlElement("names")> Public Property Names As StringDB.MIF25.XmlCommon.Names
-        <XmlElement("xref")> Public Property Xref As StringDB.MIF25.XmlCommon.Xref
+        <XmlElement("names")> Public Property Names As Names
+        <XmlElement("xref")> Public Property Xref As Xref
     End Class
 End Namespace
