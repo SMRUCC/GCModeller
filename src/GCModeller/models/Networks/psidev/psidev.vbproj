@@ -81,6 +81,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="XML\[xsd]net.sf.psidev.mi\MIF25.vb" />
+    <Compile Include="XML\[xsd]net.sf.psidev.mi\Nodes\Entry.vb" />
+    <Compile Include="XML\[xsd]net.sf.psidev.mi\Nodes\ExperimentDescription.vb" />
+    <Compile Include="XML\[xsd]net.sf.psidev.mi\Nodes\Interactor.vb" />
+    <Compile Include="XML\[xsd]net.sf.psidev.mi\XmlCommon.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

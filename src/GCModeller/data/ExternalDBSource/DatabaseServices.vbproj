@@ -389,11 +389,6 @@
     <Compile Include="string-db\StrPNet\EffectorMap.vb" />
     <Compile Include="string-db\StrPNet\TCS\TCS.vb" />
     <Compile Include="string-db\StrPNet\TCS\SensorInducers.vb" />
-    <Compile Include="string-db\[xsd]net.sf.psidev.mi\Nodes\Interactor.vb" />
-    <Compile Include="string-db\[xsd]net.sf.psidev.mi\Nodes\ExperimentDescription.vb" />
-    <Compile Include="string-db\[xsd]net.sf.psidev.mi\Nodes\Entry.vb" />
-    <Compile Include="string-db\[xsd]net.sf.psidev.mi\XmlCommon.vb" />
-    <Compile Include="string-db\[xsd]net.sf.psidev.mi\MIF25.vb" />
     <Compile Include="string-db\StringAPI.vb" />
     <Compile Include="DEG\Annotations.vb" />
     <Compile Include="MySQLDbReflector.vb" />
@@ -445,6 +440,10 @@
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\Networks\psidev\psidev.vbproj">
+      <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
+      <Name>psidev</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
