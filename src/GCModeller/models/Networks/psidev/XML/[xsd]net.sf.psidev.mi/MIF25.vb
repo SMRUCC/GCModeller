@@ -38,8 +38,8 @@ Namespace XML
     <XmlRoot("entrySet", Namespace:="net:sf:psidev:mi")>
     Public Class EntrySet
 
-        <XmlAttribute("level")> Public Property Level As Integer
-        <XmlAttribute("version")> Public Property Version As Integer
+        <XmlAttribute> Public Property level As Integer
+        <XmlAttribute> Public Property version As Integer
 
         <XmlElement("entry")> Public Property Entries As Entry()
             Get
