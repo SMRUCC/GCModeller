@@ -24,11 +24,12 @@ Currently the R language hybrids programming environment just provides some ``bi
 ``GCModeller`` is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits. And some common bioinformatics problem utils tools and common biological database I/O tools is also available in GCModeller for the .NET language programming.
 
 #### Data Standards
-GCModeller supports the ``SBML`` and ``BIOM`` data standards for exchanges the analysis and model data with other bioinformatics softwares.
++ GCModeller supports the ``SBML`` and ``BIOM`` data standards for exchanges the analysis and model data with other bioinformatics softwares.
++ Supports ``PSI`` data for the biological interaction network model
 
-|SBML|BIOM|
-|----|----|
-|[![](https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/sbml-logo-70.png)](http://sbml.org/Main_Page)|[![](https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/biom-format.png)](http://biom-format.org/)|
+> + [![SBML](https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/sbml-logo-70.png)](http://sbml.org/Main_Page)
+> + [![BIOM](https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/biom-format.png)](http://biom-format.org/)
+> + [![PSI](./images/data_standards/PSI_logo_s.png)](http://www.psidev.info/overview)
 
 #### Gallery
 

@@ -35,6 +35,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.StringDB
+Imports SMRUCC.genomics.Model
+Imports SMRUCC.genomics.Model.psidev.XML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
@@ -67,8 +69,8 @@ Namespace NetworkModel.StringDB
             Dim Network As New List(Of Edge)
 
             For Each iteraction In stringDB.LoadSourceEntryList({"*.xml"})      ' string-db数据库是用来生成网络之中的边的
-                For Each itr As MIF25.Nodes.Entry In iteraction.Value.LoadXml(Of MIF25.EntrySet).Entries
-                    Network += From edge As MIF25.Nodes.Interaction
+                For Each itr As psidev.XML.Entry In iteraction.Value.LoadXml(Of EntrySet).Entries
+                    Network += From edge As psidev.XML.Interaction
                                In itr.InteractionList
                                Let edgeModel = __edgeModel(edge, Model, itr)
                                Let conf = Val(edgeModel.Value("ConfidenceList-likelihood")?.Value)
@@ -115,7 +117,7 @@ Namespace NetworkModel.StringDB
             Return Model
         End Function
 
-        Private Function __edgeModel(edge As MIF25.Nodes.Interaction, Model As Graph, itr As MIF25.Nodes.Entry) As Edge
+        Private Function __edgeModel(edge As psidev.XML.Interaction, Model As Graph, itr As Entry) As Edge
             Dim EdgeModel As Edge = New Edge
             Dim source As String = itr.GetInteractor(edge.ParticipantList.First.InteractorRef).Synonym
             Dim target As String = itr.GetInteractor(edge.ParticipantList.Last.InteractorRef).Synonym
@@ -127,7 +129,7 @@ Namespace NetworkModel.StringDB
             Dim attrs As New List(Of Attribute)
             attrs += New Attribute With {
                 .Type = ATTR_VALUE_TYPE_REAL,
-                .Name = $"{NameOf(edge.ConfidenceList)}-{edge.ConfidenceList.First.Unit.Names.ShortLabel}",
+                .Name = $"{NameOf(edge.ConfidenceList)}-{edge.ConfidenceList.First.Unit.Names.shortLabel}",
                 .Value = edge.ConfidenceList.First.value
             }
 
@@ -136,13 +138,13 @@ Namespace NetworkModel.StringDB
             If Not experiment Is Nothing Then
                 Dim name As String =
                     If(experiment.Names Is Nothing,
-                    experiment.interactionDetectionMethod.Names.ShortLabel,
-                    experiment.Names.ShortLabel)
+                    experiment.interactionDetectionMethod.Names.shortLabel,
+                    experiment.Names.shortLabel)
 
                 attrs += New Attribute With {
                     .Type = ATTR_VALUE_TYPE_STRING,
                     .Name = $"{NameOf(edge.ExperimentList)}-{name}",
-                    .Value = experiment.Bibref.Xref.PrimaryReference.Db & ": " & experiment.Bibref.Xref.PrimaryReference.Id
+                    .Value = experiment.Bibref.Xref.primaryRef.db & ": " & experiment.Bibref.Xref.primaryRef.id
                 }
             End If
 

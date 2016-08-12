@@ -28,6 +28,7 @@
 Imports System.Threading.Tasks.Parallel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
@@ -39,6 +40,9 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.StringDB
+Imports SMRUCC.genomics.Data.StringDB.SimpleCsv
+Imports SMRUCC.genomics.Model.psidev.XML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Workflows.PromoterParser
@@ -196,7 +200,7 @@ Namespace Workflows.PromoterParser
             End Sub
 
             Public Sub __extractFromString(stringEntry As String)
-                Dim entry = stringEntry.LoadXml(Of StringDB.MIF25.EntrySet)(ThrowEx:=False)
+                Dim entry = stringEntry.LoadXml(Of EntrySet)(ThrowEx:=False)
 
                 If entry Is Nothing Then
                     Return
@@ -205,27 +209,31 @@ Namespace Workflows.PromoterParser
                 Dim Interactions As StringDB.SimpleCsv.PitrNode() = entry.ExtractNetwork
                 Dim GeneId As String = Strings.Split(stringEntry.Replace("\", "/"), "/").Last.Split(CChar(".")).First
                 Dim Door = Parser.PromoterParser.DoorOperonView.Select(GeneId)
-                Dim InteractingGeneIds As String() = (From intr As StringDB.SimpleCsv.PitrNode
-                                                      In Interactions
-                                                      Let Itr_Id As String = intr.GetInteractNode(GeneId)
-                                                      Where Not String.IsNullOrEmpty(Itr_Id)
-                                                      Select Itr_Id
-                                                      Distinct).ToArray
+                Dim InteractingGeneIds As String() = LinqAPI.Exec(Of String) <=
+ _
+                    From intr As PitrNode
+                    In Interactions
+                    Let Itr_Id As String = intr.GetInteractNode(GeneId)
+                    Where Not String.IsNullOrEmpty(Itr_Id)
+                    Select Itr_Id
+                    Distinct
 
                 If Not InteractingGeneIds.IsNullOrEmpty Then
-                    Dim DoorIdList As List(Of String) = (From strId As String
-                                                         In InteractingGeneIds
-                                                         Select Parser.PromoterParser.DoorOperonView.Select(strId).Key).ToList
-                    Call DoorIdList.Add(Door.Key)
+                    Dim DOORids As List(Of String) = LinqAPI.MakeList(Of String) <=
+                        From strId As String
+                        In InteractingGeneIds
+                        Select Parser.PromoterParser.DoorOperonView.Select(strId).Key
 
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_150, GeneId, 150, ExportDir)
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_200, GeneId, 200, ExportDir)
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_250, GeneId, 250, ExportDir)
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_300, GeneId, 300, ExportDir)
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_350, GeneId, 350, ExportDir)
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_400, GeneId, 400, ExportDir)
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_450, GeneId, 450, ExportDir)
-                    Call __extractForGenes(DoorIdList.Distinct.ToArray, Parser.PromoterParser.Promoter_500, GeneId, 500, ExportDir)
+                    Call DOORids.Add(Door.Key)
+
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_150, GeneId, 150, ExportDir)
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_200, GeneId, 200, ExportDir)
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_250, GeneId, 250, ExportDir)
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_300, GeneId, 300, ExportDir)
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_350, GeneId, 350, ExportDir)
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_400, GeneId, 400, ExportDir)
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_450, GeneId, 450, ExportDir)
+                    Call __extractForGenes(DOORids.Distinct.ToArray, Parser.PromoterParser.Promoter_500, GeneId, 500, ExportDir)
                 End If
             End Sub
 
