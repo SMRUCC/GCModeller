@@ -68,6 +68,7 @@
     <Compile Include="TAB\Parser.vb" />
     <Compile Include="TAB\v27.vb" />
     <Compile Include="XML\MIF.vb" />
+    <Compile Include="XML\MIF30\Schema.vb" />
     <Compile Include="XML\v30.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -88,7 +89,7 @@
     <Compile Include="XML\[xsd]net.sf.psidev.mi\Nodes\Entry.vb" />
     <Compile Include="XML\[xsd]net.sf.psidev.mi\Nodes\ExperimentDescription.vb" />
     <Compile Include="XML\[xsd]net.sf.psidev.mi\Nodes\Interactor.vb" />
-    <Compile Include="XML\[xsd]net.sf.psidev.mi\XmlCommon.vb" />
+    <Compile Include="XML\XmlCommon.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
