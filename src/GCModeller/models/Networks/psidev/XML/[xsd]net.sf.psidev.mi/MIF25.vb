@@ -35,10 +35,7 @@ Namespace XML
     ''' net:sf:psidev:mi/http://psidev.sourceforge.net/mi/rel25/src/MIF25.xsd
     ''' </summary>
     <XmlRoot("entrySet", Namespace:="net:sf:psidev:mi")>
-    Public Class EntrySet
-
-        <XmlAttribute> Public Property level As Integer
-        <XmlAttribute> Public Property version As Integer
+    Public Class EntrySet : Inherits MIF
 
         <XmlElement("entry")> Public Property Entries As Entry()
             Get

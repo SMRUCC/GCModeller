@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="TAB\Parser.vb" />
     <Compile Include="TAB\v27.vb" />
+    <Compile Include="XML\MIF.vb" />
     <Compile Include="XML\v30.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
