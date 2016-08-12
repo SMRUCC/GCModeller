@@ -39,12 +39,12 @@ Namespace StringDB.MIF25.Nodes
 
         Public ReadOnly Property Synonym As String Implements IReadOnlyId.Identity
             Get
-                Return Xref.PrimaryReference.Id
+                Return Xref.primaryRef.Id
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return Xref.PrimaryReference.ToString
+            Return Xref.primaryRef.ToString
         End Function
     End Class
     Public Class __interactorType
