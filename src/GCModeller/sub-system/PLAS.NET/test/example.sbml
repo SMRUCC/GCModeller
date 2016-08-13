@@ -18,7 +18,7 @@
     </listOfCompartments>
     <listOfSpecies>
       <species id="A" name="partially   N-deacetylated poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
-      <species id="B" name="thiamin: C12H17N4OS" initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
+      <species id="B" name="thiamin: C12H17N4OS" initialAmount="100" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
       <species id="C" name="poly-beta-1,6-N-acetyl-D-glucosamine: " initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
       <species id="D" name="a tRNA uridine34: " initialAmount="10" compartment="CCO__45__CYTOSOL" boundaryCondition="false" />
     </listOfSpecies>
