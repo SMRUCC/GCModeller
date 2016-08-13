@@ -166,6 +166,7 @@ Namespace Script
                 .SBMLFile = path,
                 .AutoFixError = AutoFix
             }
+                Call Compiler.CompiledModel.WriteScript(path & ".plas")
                 Return Compiler.Compile
             End Using
         End Function

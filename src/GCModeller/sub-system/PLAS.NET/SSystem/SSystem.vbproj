@@ -194,6 +194,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Script\ScriptWriter.vb" />
     <Compile Include="Script\SBML.vb" />
     <Compile Include="Script\Model.vb" />
     <Compile Include="Script\ScriptCompiler.vb" />
