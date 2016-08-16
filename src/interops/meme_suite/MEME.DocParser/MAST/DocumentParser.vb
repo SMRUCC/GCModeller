@@ -46,7 +46,7 @@ Namespace DocumentFormat.MAST.HTML
         ''' <remarks></remarks>
         <ExportAPI("Mast.Load_HTML", Info:="Old version of mast program output parser")>
         Public Function LoadDocument(url As String, <Parameter("Mode.Footprint")> FootPrintMode As Boolean) As MASTHtml
-            Dim PageContent As String = Strings.Split(url.GET(FileSystemUrl:=True), "<h4>Top Scoring Sequences <a").Last
+            Dim PageContent As String = Strings.Split(url.GET(isFileUrl:=True), "<h4>Top Scoring Sequences <a").Last
             Dim MAST As MASTHtml = New MASTHtml
             Dim InputData As String = Regex.Match(PageContent, "<form>.+?</form>", RegexOptions.Singleline).Value
             PageContent = Regex.Match(PageContent, "<tbody>.+?</tbody>", RegexOptions.Singleline).Value
@@ -73,7 +73,7 @@ Namespace DocumentFormat.MAST.HTML
         ''' <remarks></remarks>
         <ExportAPI("MAST410.Load_Html", Info:="MAST version 4.10.0 (Release date: Wed May 21 10:35:36 2014 +1000)")>
         Public Function LoadDocument_v410(url As String, <Parameter("Mode.Footprints")> FootPrintMode As Boolean) As MASTHtml
-            Dim PageContent As String = Strings.Split(url.GET(FileSystemUrl:=True), "<h4>Top Scoring Sequences <a").Last
+            Dim PageContent As String = Strings.Split(url.GET(isFileUrl:=True), "<h4>Top Scoring Sequences <a").Last
             Dim InputData As String = Regex.Match(PageContent, "<form>.+?</form>", RegexOptions.Singleline).Value
             Dim ChunkBuffer As String() = (From m As Match
                                            In Regex.Matches(PageContent, "<tbody>.+?</tbody>", RegexOptions.Singleline)
