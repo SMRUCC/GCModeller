@@ -58,10 +58,8 @@ Namespace DocumentFormat.MEME.HTML
 
         <ExportAPI("meme.load_html")>
         Public Function LoadDocument(url As String) As MEMEHtml
-            Dim pageContent As String = Strings.Split(url.GET(FileSystemUrl:=True), Seperator).Last
-            Dim strMotifs As String() = (From match As Match
-                                         In Regex.Matches(pageContent, Line, RegexOptions.Singleline + RegexOptions.IgnoreCase)
-                                         Select match.Value).ToArray
+            Dim pageContent As String = Strings.Split(url.GET(isFileUrl:=True), Seperator).Last
+            Dim strMotifs As String() = Regex.Matches(pageContent, Line, RegexICSng).ToArray
             Dim Motifs = (From strValue As String In strMotifs Select Motif.TryParse(strValue)).ToArray
             Dim ObjectId As String = ""
 

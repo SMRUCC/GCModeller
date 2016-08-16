@@ -89,7 +89,6 @@ Public Class Canvas
             inputs = New InputDevice(Me)
         End If
 
-        fdgRenderer.Asynchronous = False
         Me.ShowLabel = showLabel
     End Sub
 
@@ -125,6 +124,7 @@ Public Class Canvas
     ''' The graphics updates thread.
     ''' </summary>
     Protected Friend timer As New UpdateThread(30, AddressOf __invokePaint)
+    Protected Friend physicsEngine As New UpdateThread(30, AddressOf __physicsUpdates)
     ''' <summary>
     ''' The graphics rendering provider
     ''' </summary>
@@ -136,6 +136,21 @@ Public Class Canvas
 
     Public Property AutoRotate As Boolean = True
     Public Property DynamicsRadius As Boolean = False
+
+    Public Property ViewDistance As Double
+        Get
+            If Not space3D Then
+                Return 0
+            Else
+                Return DirectCast(fdgRenderer, Renderer3D).ViewDistance
+            End If
+        End Get
+        Set(value As Double)
+            If space3D Then
+                DirectCast(fdgRenderer, Renderer3D).ViewDistance = value
+            End If
+        End Set
+    End Property
 
     <DefaultValue(True)>
     Public Property ShowLabel As Boolean
@@ -160,12 +175,20 @@ Public Class Canvas
         End If
     End Sub
 
+    Private Sub __physicsUpdates()
+        SyncLock fdgRenderer
+            If Not fdgRenderer Is Nothing Then
+                Call fdgRenderer.PhysicsEngine.Calculate(0.05F)
+            End If
+        End SyncLock
+    End Sub
+
     Private Sub Canvas_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
         paper = e.Graphics
         paper.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
         paper.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
 
-        Call fdgRenderer.Draw(0.05F)
+        Call fdgRenderer.Draw(0.05F, physicsUpdate:=False)
     End Sub
 
     Dim inputs As InputDevice
@@ -174,14 +197,18 @@ Public Class Canvas
         Graph = New NetworkGraph
         timer.ErrHandle = AddressOf App.LogException
         timer.Start()
+        physicsEngine.ErrHandle = AddressOf App.LogException
+        physicsEngine.Start()
     End Sub
 
     Public Sub [Stop]()
         Call timer.Stop()
+        Call physicsEngine.Stop()
     End Sub
 
     Public Sub Run()
         Call timer.Start()
+        Call physicsEngine.Start()
     End Sub
 
     ''' <summary>
@@ -193,5 +220,6 @@ Public Class Canvas
 
     Private Sub Canvas_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
         timer.Dispose()
+        physicsEngine.Dispose()
     End Sub
 End Class

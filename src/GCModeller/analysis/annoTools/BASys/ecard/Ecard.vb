@@ -111,7 +111,7 @@ Public Class EcardValue
     End Property
 
     Shared ReadOnly __schema As Dictionary(Of String, PropertyInfo) =
-        GetType(EcardValue).Schema(PropertyAccessibilityControls.ReadWrite) _
+        GetType(EcardValue).Schema(PropertyAccess.ReadWrite) _
         .ToDictionary(
         Function(x) x.Key.Replace("_", " "),
         Function(x) x.Value)
