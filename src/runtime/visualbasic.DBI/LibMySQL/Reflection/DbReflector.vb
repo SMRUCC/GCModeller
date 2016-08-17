@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::2c2023f3faba725ccb4dc97d7ec76608, ..\LibMySQL\Reflection\DbReflector.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic
 Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Reflection
 
@@ -97,15 +98,16 @@ Namespace Reflection
         ''' <param name="type"></param>
         ''' <param name="FieldList"></param>
         ''' <returns></returns>
-        Private Function __getObject(Of T)(source As Object, type As Type, FieldList As KeyValuePair(Of Integer, PropertyInfo)()) As T
+        Private Function __getObject(Of T)(source As Object, type As Type, FieldList As SeqValue(Of PropertyInfo)()) As T
             Dim FillObject As Object = Activator.CreateInstance(type) 'Create a instance of specific type: our record schema. 
 
             For FieldPointer As Integer = 0 To FieldList.Length - 1  'Scan all of the fields in the field list and get the field value.
-                Dim Pair = FieldList(FieldPointer)
-                Dim Ordinal As Integer = Pair.Key
+                Dim prop As SeqValue(Of PropertyInfo) = FieldList(FieldPointer)
+                Dim Ordinal As Integer = prop.i
                 Dim ObjValue As Object = source.GetValue(Ordinal)
+
                 If Not IsDBNull(ObjValue) Then
-                    Call Pair.Value.SetValue(FillObject, ObjValue, Nothing)
+                    Call prop.obj.SetValue(FillObject, ObjValue, Nothing)
                 End If
             Next
 
@@ -114,70 +116,75 @@ Namespace Reflection
 
         Private Shared Function __getObject(Of T)(reader As MySqlDataReader,
                                                   type As Type,
-                                                  FieldList As KeyValuePair(Of Integer, PropertyInfo)()) As T
+                                                  FieldList As SeqValue(Of PropertyInfo)()) As T
             Dim FillObject As Object = Activator.CreateInstance(type) 'Create a instance of specific type: our record schema. 
             Dim FieldPointer As Integer
 
             Try
                 For FieldPointer = 0 To FieldList.Length - 1  'Scan all of the fields in the field list and get the field value.
-                    Dim Pair = FieldList(FieldPointer)
-                    Dim Ordinal As Integer = Pair.Key
+                    Dim prop As SeqValue(Of PropertyInfo) = FieldList(FieldPointer)
+                    Dim Ordinal As Integer = prop.i
                     Dim ObjValue As Object = reader.GetValue(Ordinal)
                     If Not IsDBNull(ObjValue) Then
-                        Call Pair.Value.SetValue(FillObject, ObjValue, Nothing)
+                        Call prop.obj.SetValue(FillObject, ObjValue, Nothing)
                     End If
                 Next
             Catch ex As Exception
                 Dim ErrorField = FieldList(FieldPointer)
-                ex = New Exception($"[{ErrorField.Key}] => {ErrorField.Value.ToString}", ex)
+                ex = New Exception($"[{ErrorField.i}] => {ErrorField.obj.ToString}", ex)
                 Throw ex
             End Try
 
             Return DirectCast(FillObject, T)
         End Function
 
-        Private Shared Function __queryInitSchema(Reader As MySqlDataReader, type As Type) As KeyValuePair(Of Integer, PropertyInfo)()
+        Private Shared Function __queryInitSchema(Reader As MySqlDataReader, type As Type) As SeqValue(Of PropertyInfo)()
             Dim DbFieldAttr As DatabaseField
             Dim ItemTypeProperty = type.GetProperties
-            Dim [Property] As PropertyInfo
-            Dim FieldList As New List(Of KeyValuePair(Of Integer, PropertyInfo))
+            Dim fields As New List(Of SeqValue(Of PropertyInfo))
+            Dim schema = (From r As DataRow
+                          In Reader.GetSchemaTable
+                          Select r).ToArray(Function(x) x.Item("ColumnName").ToString)  ' 获取当前表之中可用的列名称列表
 
-            For i As Integer = 0 To ItemTypeProperty.Length - 1  'Using the reflection to get the fields in the table schema only once.
-                [Property] = ItemTypeProperty(i)
-                DbFieldAttr = [Property].GetAttribute(Of DatabaseField)()
+            For Each [property] As PropertyInfo In ItemTypeProperty    'Using the reflection to get the fields in the table schema only once.
+                DbFieldAttr = [property].GetAttribute(Of DatabaseField)()
 
                 If DbFieldAttr Is Nothing Then Continue For
-                If Len(DbFieldAttr.Name) = 0 Then
-                    DbFieldAttr.Name = [Property].Name
+                If String.IsNullOrEmpty(DbFieldAttr.Name) Then
+                    DbFieldAttr.Name = [property].Name
+                End If
+                If Array.IndexOf(schema, DbFieldAttr.Name) = -1 Then
+                    Continue For  ' 反射操作的时候只对包含有的列属性进行赋值
                 End If
 
                 Dim Ordinal As Integer = Reader.GetOrdinal(DbFieldAttr.Name)
 
                 If Ordinal >= 0 Then
-                    Call FieldList.Add(New KeyValuePair(Of Integer, PropertyInfo)(Ordinal, [Property]))
+                    fields += New SeqValue(Of PropertyInfo) With {
+                        .i = Ordinal,
+                        .obj = [property]
+                    }
                 End If
             Next
 
-            Return FieldList.ToArray
+            Return fields
         End Function
 
-        Private Delegate Function QueryInvoke(Of T)(Reader As MySqlDataReader,
-                                                    type As Type,
-                                                    FieldList As KeyValuePair(Of Integer, PropertyInfo)()) As Generic.IEnumerable(Of T)
+        Private Delegate Function QueryInvoke(Of T)(Reader As MySqlDataReader, type As Type, FieldList As SeqValue(Of PropertyInfo)()) As IEnumerable(Of T)
 
         Private Function __queryParallelInvoke(Of T)(Reader As MySqlDataReader,
                                                      type As Type,
-                                                     FieldList As KeyValuePair(Of Integer, PropertyInfo)()) As T()
+                                                     FieldList As SeqValue(Of PropertyInfo)()) As T()
             Dim LQuery As T() = (From x As T In __linqToMySQL(Of T)(Reader, type, FieldList).AsParallel Select x).ToArray
             Return LQuery
         End Function
 
         Private Function __linqToMySQL(Of T)(Reader As MySqlDataReader,
                                              type As Type,
-                                             FieldList As KeyValuePair(Of Integer, PropertyInfo)()) As Generic.IEnumerable(Of T)
-            Dim LQuery As Generic.IEnumerable(Of T) = From row As Object
-                                                      In Reader
-                                                      Select __getObject(Of T)(row, type, FieldList)
+                                             FieldList As SeqValue(Of PropertyInfo)()) As IEnumerable(Of T)
+            Dim LQuery As IEnumerable(Of T) = From row As Object
+                                              In Reader
+                                              Select __getObject(Of T)(row, type, FieldList)
             Return LQuery
         End Function
 
@@ -187,15 +194,15 @@ Namespace Reflection
         ''' <typeparam name="T"></typeparam>
         ''' <param name="SQL"></param>
         ''' <returns></returns>
-        Public Function AsQuery(Of T)(SQL As String, ByRef getError As String) As Generic.IEnumerable(Of T)
-            Dim query As Generic.IEnumerable(Of T) =
+        Public Function AsQuery(Of T)(SQL As String, ByRef getError As String) As IEnumerable(Of T)
+            Dim query As IEnumerable(Of T) =
                 __queryEngine(Of T)(SQL, AddressOf __linqToMySQL(Of T), getError)
             Return query
         End Function
 
         Private Shared Function __queryInvoke(Of T)(Reader As MySqlDataReader,
                                              type As Type,
-                                             FieldList As KeyValuePair(Of Integer, PropertyInfo)()) As T()
+                                             FieldList As SeqValue(Of PropertyInfo)()) As T()
             Dim Table As New List(Of T)
 
             Do While Reader.Read
@@ -228,8 +235,8 @@ Namespace Reflection
                     Return New T() {}
                 End If
 
-                Dim FieldList As KeyValuePair(Of Integer, PropertyInfo)() = __queryInitSchema(Reader, Type)
-                Dim Table As Generic.IEnumerable(Of T) = queryEngine(Reader, Type, FieldList)
+                Dim FieldList As SeqValue(Of PropertyInfo)() = __queryInitSchema(Reader, Type)
+                Dim Table As IEnumerable(Of T) = queryEngine(Reader, Type, FieldList)
                 Return Table
             Catch ex As Exception
                 Dim log As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "/MYSQL_REFLECTOR_ERROR.log"
@@ -268,7 +275,7 @@ Namespace Reflection
 
             Public Function __queryEngine(Reader As MySqlDataReader,
                                           type As Type,
-                                          lstField As KeyValuePair(Of Integer, PropertyInfo)()) As T()
+                                          lstField As SeqValue(Of PropertyInfo)()) As T()
                 Call __forEach(Of T)(Reader, type, lstField, Me.__invoke)
                 Return Nothing
             End Function
@@ -283,7 +290,7 @@ Namespace Reflection
             ''' <param name="__invoke"></param>
             Private Shared Sub __forEach(Of TEntity)(reader As MySqlDataReader,
                                                      type As Type,
-                                                     lstFields As KeyValuePair(Of Integer, PropertyInfo)(),
+                                                     lstFields As SeqValue(Of PropertyInfo)(),
                                                      __invoke As Func(Of TEntity, Boolean))
                 Do While reader.Read
                     Dim obj As TEntity = __getObject(Of TEntity)(reader, type, lstFields)

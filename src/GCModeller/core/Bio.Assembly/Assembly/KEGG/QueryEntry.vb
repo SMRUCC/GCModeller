@@ -155,7 +155,7 @@ Namespace Assembly.KEGG.WebServices
         Public Shared Function InternalParser(s As String) As ListEntry
             Dim urlEntry As String = Regex.Match(s, "<a href="".+?"">.+?</a>").Value
             Dim descr As String = s.Replace(urlEntry, "").Trim
-            Dim url As String = "http://www.genome.jp" & urlEntry.Get_href
+            Dim url As String = "http://www.genome.jp" & urlEntry.href
             Dim EntryID As String = urlEntry.GetValue
             Return New ListEntry With {
                 .Description = descr,

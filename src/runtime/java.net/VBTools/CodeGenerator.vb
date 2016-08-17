@@ -408,7 +408,7 @@ Public Module CodeGenerator
     End Function
 
     Private Function getParameter(Token As String) As KeyValuePair(Of String, String)
-        Dim Type As String = Token.Get_href
+        Dim Type As String = Token.href
         Dim Tokens As String() = Token.Split
         Dim Name As String = Tokens.Last
 
@@ -453,7 +453,7 @@ Public Module CodeGenerator
         Dim Type As String = Regex.Match(Token, "<pre>.+?</pre>").Value.GetValue.Replace("&nbsp;", " ")
         Dim Comments As String = Regex.Match(Token, "<div Class=""block"">.+?</div>", RegexOptions.IgnoreCase).Value.GetValue
 
-        Dim TypeFullName As String = Type.Get_href
+        Dim TypeFullName As String = Type.href
         Dim Tokens As String() = Type.Split
         Dim AccessLevel As CodeDom.MemberAttributes = __buildAttrs(Tokens)
 
@@ -522,7 +522,7 @@ Public Module CodeGenerator
 
         str = Regex.Match(str, Interfaces, RegexOptions.Singleline).Value
 
-        Dim Tokens As String() = (From m As Match In Regex.Matches(str, "<a .+?</a>") Select href2FullName(m.Value.Get_href)).ToArray
+        Dim Tokens As String() = (From m As Match In Regex.Matches(str, "<a .+?</a>") Select href2FullName(m.Value.href)).ToArray
         Return Tokens
     End Function
 
@@ -554,7 +554,7 @@ Public Module CodeGenerator
 
         [inherits] = Tokens.First
         [inherits] = Regex.Match([inherits], "extends.+?<a href="".+?"" title="".+?"">.+?</a>").Value
-        [inherits] = [inherits].Get_href
+        [inherits] = [inherits].href
         [inherits] = href2FullName([inherits])
 
         str = Tokens.Last

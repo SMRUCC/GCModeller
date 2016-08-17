@@ -59,7 +59,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim key As String = Regex.Match(entry, ">.+?</a>").Value
                 key = Mid(key, 2, Len(key) - 5)
                 Dim Description As String = Strings.Split(entry, "</a>").Last.Trim
-                Dim url As String = "http://www.genome.jp" & entry.Get_href
+                Dim url As String = "http://www.genome.jp" & entry.href
 
                 Yield New ListEntry With {
                     .EntryID = key,

@@ -396,7 +396,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim EntryItem As New PathwayEntry
             Dim sbuf As String() = Strings.Split(s, vbLf)
             EntryItem.Entry = sbuf.First.GetValue
-            EntryItem.Url = sbuf.First.Get_href
+            EntryItem.Url = sbuf.First.href
             sbuf = sbuf.Skip(3).ToArray
 
             Dim p As New Pointer(0)

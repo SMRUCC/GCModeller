@@ -62,7 +62,7 @@ Namespace Regprecise
 
             Dim sites As String = Regex.Match(html, __sites, RegexOptions.Singleline).Value
 
-            sites = RegPrecise & sites.Get_href
+            sites = RegPrecise & sites.href
             motif.Taxonomy = html.__getTaxonomy
             motif.Sites = FastaObject.Parse(url:=sites)
 
@@ -75,14 +75,14 @@ Namespace Regprecise
             html = Regex.Match(html, "<a.+?</a>", RegexOptions.Singleline).Value
 
             Dim key As String = html.GetValue
-            Dim value As String = RegPrecise & html.Get_href
+            Dim value As String = RegPrecise & html.href
             Return New KeyValuePair(key, value)
         End Function
 
         <Extension>
         Private Function __getEntry(value As String) As KeyValuePair
             Dim key As String = value.GetValue.TrimVBCrLf.Trim
-            value = RegPrecise & value.Get_href
+            value = RegPrecise & value.href
             Return New KeyValuePair(key, value)
         End Function
 

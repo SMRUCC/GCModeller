@@ -132,7 +132,7 @@ Namespace Regprecise
 
             Regulator.Type = If(InStr(Items(p.MoveNext), " RNA "), Regulator.Types.RNA, Regulator.Types.TF)
             Dim EntryData As String = Regex.Match(Items(p.MoveNext), "href="".+?"">.+?</a>").Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & EntryData.Get_href
+            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & EntryData.href
             Regulator.Regulator = KeyValuePair.CreateObject(WebAPI.GetsId(EntryData), url)
             Regulator.Effector = __getTagValue(Items(p.MoveNext))
             Regulator.Pathway = __getTagValue(Items(p.MoveNext))
@@ -147,11 +147,11 @@ Namespace Regprecise
             Dim p As Integer = 1
 
             Regulator.SiteMore = Regex.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
-            Regulator.SiteMore = "http://regprecise.lbl.gov/RegPrecise/" & Regulator.SiteMore.Get_href
+            Regulator.SiteMore = "http://regprecise.lbl.gov/RegPrecise/" & Regulator.SiteMore.href
 
             If Regulator.Type = Types.TF Then
                 Dim LocusTag As String = Regex.Match(Properties(p.MoveNext), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
-                Regulator.LocusTag = KeyValuePair.CreateObject(WebAPI.GetsId(LocusTag), LocusTag.Get_href)
+                Regulator.LocusTag = KeyValuePair.CreateObject(WebAPI.GetsId(LocusTag), LocusTag.href)
                 Regulator.Family = __getTagValue_td(Properties(p.MoveNext).Replace("<td>Regulator family:</td>", ""))
             Else
                 Dim Name As String = Regex.Matches(Properties(p.MoveNext), "<td>.+?</td>", RegexICSng).ToArray.Last
@@ -166,7 +166,7 @@ Namespace Regprecise
             Regulator.BiologicalProcess = __getTagValue_td(Properties(p.MoveNext))
 
             Dim RegulogEntry As String = Regex.Match(Properties(p + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & RegulogEntry.Get_href
+            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & RegulogEntry.href
             Regulator.Regulog = KeyValuePair.CreateObject(WebAPI.GetsId(RegulogEntry).TrimA("").Replace(vbTab, "").Trim, url)
 
             Dim exportServletLnks As String() = __exportServlet(html)
@@ -190,7 +190,7 @@ Namespace Regprecise
             Dim url As String = Regex.Match(pageContent, "<table class=""tblexport"">.+?</table>", RegexOptions.Singleline).Value
             Dim links As String() = (From match As Match In Regex.Matches(url, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) Select match.Value).ToArray
             links = links.ToArray(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value)
-            links = links.ToArray(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.Get_href)
+            links = links.ToArray(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href)
             Return links
         End Function
 

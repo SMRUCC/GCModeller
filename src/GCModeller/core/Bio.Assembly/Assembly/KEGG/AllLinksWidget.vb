@@ -58,7 +58,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Links.Links =
                 LinqAPI.Exec(Of KeyValuePair) <= From s As String
                                                  In sbuf
-                                                 Let url As String = "http://www.genome.jp" & s.Get_href
+                                                 Let url As String = "http://www.genome.jp" & s.href
                                                  Let Key As String = s.GetValue
                                                  Select New KeyValuePair With {
                                                      .Key = Regex.Replace(Key, "\(.+?\)", "").Trim,
