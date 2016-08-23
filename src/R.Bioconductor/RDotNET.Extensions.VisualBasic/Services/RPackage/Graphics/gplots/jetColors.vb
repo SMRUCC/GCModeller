@@ -1,4 +1,32 @@
-﻿Imports RDotNET.Extensions.VisualBasic.Services.ScriptBuilder
+﻿#Region "Microsoft.VisualBasic::80b49ee3bdfdce69689e104eec49f1f6, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\RPackage\Graphics\gplots\jetColors.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports RDotNET.Extensions.VisualBasic.Services.ScriptBuilder
 
 Namespace gplots
 
@@ -8,12 +36,74 @@ Namespace gplots
     ''' <remarks>
     ''' 旭仔-畜牧 564307915@qq.com
     ''' </remarks>
-    Public Class jetColors : Inherits IRScript
+    Public NotInheritable Class jetColors : Inherits IRScript
 
-        Public Const [Call] As String = "get.jetColors()"
+        ''' <summary>
+        ''' ``get.jetColors()``
+        ''' </summary>
+        Public Shared ReadOnly Property [Call] As String = "get.jetColors()"
 
-        Protected Overrides Function __R_script() As String
-            Return "
+        Private Shared ReadOnly __call As jetColors
+
+        Shared Sub New()
+            __call = New jetColors
+            Call __call.RScript.ζ
+            Call BI.ζ
+        End Sub
+
+        Private Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' BI_colors: <see cref="BI"/> 
+        ''' </summary>
+        Public Shared ReadOnly Property BI_colors As String = NameOf(BI_colors)
+
+        Public Const BI As String = "
+l1 <- rgb(  1,  51, 0, maxColorValue = 255);
+l2 <- rgb(  0, 248, 1, maxColorValue = 255);
+l3 <- rgb(249, 249, 1, maxColorValue = 255);
+l4 <- rgb(250, 162, 0, maxColorValue = 255);
+l5 <- rgb(250,   0, 4, maxColorValue = 255);
+
+BI_colors <- c(l1, l2, l3, l4, l5);
+"
+
+        ''' <summary>
+        ''' R script for generates the color pattern profiles.
+        ''' 
+        ''' ```R
+        ''' jetColors.f0 &lt;- function(rgb1,rgb2,n) {
+        '''      return(mapply(seq, rgb1, rgb2, len = n));
+        ''' }
+        ''' 
+        ''' get.jetColors &lt;- function() {
+        '''
+        '''    red    &lt;- c(0.60,0.00,0.00)
+        '''    yellow &lt;- c(1.00,0.86,0.10)
+        '''    mid    &lt;- c(0.85,1.00,0.85)
+        '''    cyan   &lt;- c(0.10,0.86,1.00)
+        '''    blue   &lt;- c(0.00,0.00,0.50)
+        '''    r2y    &lt;- jetColors.f0(red,yellow,400)
+        '''    c2b    &lt;- jetColors.f0(cyan,blue,400)
+        '''    y2m    &lt;- jetColors.f0(yellow, mid, 202)
+        '''    y2m    &lt;- y2m[-c(1,nrow(y2m)),]
+        '''    m2c    &lt;- jetColors.f0(mid,cyan,202)
+        '''    m2c    &lt;- m2c[-nrow(m2c),]
+        '''    color  &lt;- rbind(r2y,y2m,m2c,c2b)
+        '''    color  &lt;- color[nrow(color):1,]
+        '''
+        '''    jetColors &lt;- character(len=nrow(color))
+        '''
+        '''    for(i in 1:nrow(color)) {
+        '''        jetColors[i] = RGB(color[i, 1], color[i, 2], color[i, 3])
+        '''    }
+        '''
+        '''    return(jetColors)
+        ''' }
+        ''' ```
+        ''' </summary>
+        Public Const getJetColors As String = "
 jetColors.f0 <- function(rgb1,rgb2,n) {
     return (mapply(seq,rgb1,rgb2,len=n));
 }
@@ -42,6 +132,9 @@ get.jetColors <- function() {
 
     return (jetColors)
 }"
+
+        Protected Overrides Function __R_script() As String
+            Return getJetColors
         End Function
     End Class
 End Namespace

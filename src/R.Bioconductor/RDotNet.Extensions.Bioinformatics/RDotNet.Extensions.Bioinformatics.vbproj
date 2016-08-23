@@ -173,7 +173,9 @@
     <Compile Include="Declares\bnlearn\ArcOperations.vb" />
     <Compile Include="Declares\bnlearn\bnFit.vb" />
     <Compile Include="Declares\bnlearn\bnFitPlots.vb" />
+    <Compile Include="Declares\genetics\API.vb" />
     <Compile Include="Declares\hierfstat\API.vb" />
+    <Compile Include="Declares\LDheatmap\LDheatmapAPI.vb" />
     <Compile Include="Declares\plot3D\plots.vb" />
     <Compile Include="Declares\plot3D\plot3D.vb" />
     <Compile Include="Declares\igraph\make_lattice.vb" />

@@ -170,6 +170,8 @@
     <Content Include="Services\ScriptBuilder\Helpers\README.txt" />
     <Content Include="RSyntax\README.txt" />
     <Compile Include="API\base.vb" />
+    <Compile Include="API\grDevices\dev.vb" />
+    <Compile Include="API\grDevices\images.vb" />
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
     <Compile Include="R.Extension\TableExtensions.vb" />
@@ -191,6 +193,7 @@
     <Compile Include="Services\RPackage\Graphics\gplots\DendrogramAPI.vb" />
     <Compile Include="Services\RPackage\Graphics\gplots\heatmap2OUT.vb" />
     <Compile Include="Services\RPackage\Graphics\graphics\plot.vb" />
+    <Compile Include="Services\RPackage\Graphics\grDevices\API.vb" />
     <Compile Include="Services\RPackage\Graphics\grDevices\grDevice.vb" />
     <Compile Include="Services\RPackage\Graphics\grDevices\pdf.vb" />
     <Compile Include="Services\RPackage\Graphics\grDevices\images.vb" />

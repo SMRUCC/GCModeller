@@ -273,6 +273,13 @@ Namespace Reflection
                 Return False
             End Function
 
+            ''' <summary>
+            ''' 不会返回值的，这个返回参数只是为了兼容其他的语句部分
+            ''' </summary>
+            ''' <param name="Reader"></param>
+            ''' <param name="type"></param>
+            ''' <param name="lstField"></param>
+            ''' <returns></returns>
             Public Function __queryEngine(Reader As MySqlDataReader,
                                           type As Type,
                                           lstField As SeqValue(Of PropertyInfo)()) As T()

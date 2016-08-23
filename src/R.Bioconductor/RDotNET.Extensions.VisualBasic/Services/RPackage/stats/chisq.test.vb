@@ -1,4 +1,32 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::cc8a4527bc99c41f0b6e53253cfe3cc4, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\RPackage\stats\chisq.test.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -15,7 +43,20 @@ Namespace stats
         ''' <param name="y"></param>
         ''' <param name="correct"></param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' 卡方检验试用条件
+        ''' 1. 随机样本数据； 
+        ''' 2. 卡方检验的理论频数不能太小. 
+        ''' 两个独立样本比较可以分以下3种情况：
+        ''' 1. 所有的理论数T≥5并且总样本量n≥40,用Pearson卡方进行检验. 
+        ''' 2. 如果理论数``T&lt;5``但T≥1,并且n≥40,用连续性校正的卡方进行检验. 
+        ''' 3. 如果有理论数T&lt;1或n&lt;40,则用Fisher's检验. 
+        ''' 上述是适用于四格表.
+        ''' R×C表卡方检验应用条件 
+        ''' 1. R×C表中理论数小于5的格子不能超过1/5； 
+        ''' 2. 不能有小于1的理论数.我的实验中也不符合R×C表的卡方检验.可以通过增加样本数、列合并来实现.
+        ''' 统计专业研究生工作室为您服务，需要专业数据分析可以找我
+        ''' </remarks>
         <ExportAPI("chisq.test")>
         Public Function chisqTest(x As String, Optional y As String = NULL, Optional correct As Boolean = True) As chisqTestResult
             Dim out As SymbolicExpression() =
