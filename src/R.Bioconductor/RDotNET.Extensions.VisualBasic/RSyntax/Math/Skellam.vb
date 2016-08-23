@@ -1,8 +1,37 @@
-﻿Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports RDotNET.Extensions.VisualBasic.RBase.Vectors
+﻿#Region "Microsoft.VisualBasic::a2789e7bbaebd6418755dc5bbda089b1, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RSyntax\Math\Skellam.vb"
 
-Namespace RBase.MathExtension
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports RDotNET.Extensions.VisualBasic.SyntaxAPI.Vectors
+
+Namespace SyntaxAPI.MathExtension
 
     ''' <summary>
     ''' Skellam distribution
@@ -31,10 +60,10 @@ Wikipedia: Skellam distribution: http://en.wikipedia.org/wiki/Skellam_distributi
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("dskellam.sp", Info:="Density, distribution function, quantile function and random number generation for the Skellam distribution with parameters lambda1 and lambda2. ")>
-        Public Function DskellamSp(<Scripting.MetaData.Parameter("X", "Vector of quantiles")> x As Vector,
-                               <Scripting.MetaData.Parameter("lambda1", "vectors of (non-negative) means.")> lambda1 As Vector,
-                               <Scripting.MetaData.Parameter("lambda2", "vectors of (non-negative) means.")> Optional lambda2 As Vector = Nothing,
-                               <Scripting.MetaData.Parameter("log", "logical; if TRUE, probabilities p are given as log(p).")> Optional log As Boolean = False) As Vector
+        Public Function DskellamSp(<Parameter("X", "Vector of quantiles")> x As Vector,
+                                   <Parameter("lambda1", "vectors of (non-negative) means.")> lambda1 As Vector,
+                                   <Parameter("lambda2", "vectors of (non-negative) means.")> Optional lambda2 As Vector = Nothing,
+                                   <Parameter("log", "logical; if TRUE, probabilities p are given as log(p).")> Optional log As Boolean = False) As Vector
 
             If lambda2.IsNullOrEmpty Then
                 lambda2 = lambda1
@@ -135,7 +164,7 @@ Wikipedia: Skellam distribution: http://en.wikipedia.org/wiki/Skellam_distributi
         End Function
 
         <ExportAPI("pskellamSp")>
-        Public Function pskellamSp(q As Vector, lambda1 As Vector, Optional lambda2 As Vector = NULL, <Scripting.MetaData.Parameter("Lower.Tail")> Optional LowerTail As Boolean = True, <Scripting.MetaData.Parameter("log.p")> Optional logp As Boolean = False) As Vector
+        Public Function pskellamSp(q As Vector, lambda1 As Vector, Optional lambda2 As Vector = NULL, <MetaData.Parameter("Lower.Tail")> Optional LowerTail As Boolean = True, <MetaData.Parameter("log.p")> Optional logp As Boolean = False) As Vector
 
             If Missing(lambda2) Then
                 lambda2 = lambda1

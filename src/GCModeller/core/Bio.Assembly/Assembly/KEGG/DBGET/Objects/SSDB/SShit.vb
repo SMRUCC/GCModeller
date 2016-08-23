@@ -73,7 +73,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
             Dim ResultItem As SShit = New SShit
             Dim Tokens = Strings.Split(strData, "   ")
             Dim EntryValue As String = Strings.Split(Tokens.First, "  ").First  'Regex.Match(strData, "VALUE="".+?""( [^>]+)?><A HREF="".+?"" TARGET="".+?"">.+?</A> .+?<A").Value
-            ResultItem.EntryUrl = EntryValue.Get_href
+            ResultItem.EntryUrl = EntryValue.href
             Dim EntryTemp As String() = New String() {Regex.Match(EntryValue, "VALUE="".+?""", RegexOptions.IgnoreCase).Value, Strings.Split(EntryValue, "</A>").Last}
             EntryTemp(0) = Mid(EntryTemp(0), 8)
             EntryTemp(0) = Mid(EntryTemp(0), 1, Len(EntryTemp(0)) - 1)
@@ -90,7 +90,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
 
             Dim strTemp As String = Regex.Match(strData, "<A HREF=""[^>]+?""  TARGET=""_blank"">K.+?</a>", RegexOptions.IgnoreCase).Value
             If Not String.IsNullOrEmpty(strTemp) Then
-                TempChunk = New String() {strTemp.Get_href, Regex.Match(strTemp, ">[^>]+?</a>").Value}
+                TempChunk = New String() {strTemp.href, Regex.Match(strTemp, ">[^>]+?</a>").Value}
                 TempChunk(1) = Mid(TempChunk(1), 2)
                 TempChunk(1) = Mid(TempChunk(1), 1, Len(TempChunk(1)) - 4)
                 ResultItem.KO = New KeyValuePair With {

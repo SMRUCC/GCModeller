@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::40ddb795a361bce4e9dad03d52a3a5b3, ..\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\ColorExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::b256986b4379b9419adc73c9b3ff03e8, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\ColorExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -68,6 +69,24 @@ Namespace Imaging
                 Return __allDotNETPrefixColors.Values.Shuffles
             End Get
         End Property
+
+        ''' <summary>
+        ''' 经过人工筛选的颜色，不会出现过白或者过黑，过度相似的情况
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ChartColors As Color() = {
+            Color.AliceBlue, Color.Aquamarine, Color.BlueViolet, Color.BurlyWood,
+            Color.CadetBlue, Color.Chartreuse, Color.Chocolate, Color.Coral,
+            Color.CornflowerBlue, Color.Crimson, Color.Cyan, Color.DarkBlue,
+            Color.DarkCyan, Color.DarkGoldenrod, Color.DarkGray, Color.DarkMagenta,
+            Color.DarkOliveGreen, Color.DarkOrchid, Color.DarkSeaGreen, Color.DarkSlateBlue,
+            Color.DarkSlateGray, Color.DeepPink, Color.DeepSkyBlue, Color.DodgerBlue,
+            Color.GreenYellow, Color.ForestGreen, Color.Firebrick, Color.Gold, Color.Indigo,
+            Color.LightSeaGreen, Color.LightSkyBlue, Color.LimeGreen, Color.MediumSeaGreen,
+            Color.MediumTurquoise, Color.MidnightBlue, Color.Orchid, Color.OrangeRed, Color.Red,
+            Color.RoyalBlue, Color.SeaGreen, Color.SpringGreen, Color.SteelBlue, Color.Teal,
+            Color.YellowGreen
+        }
 #End If
         ''' <summary>
         ''' 解析颜色表达式里面的RGB的正则表达式

@@ -350,6 +350,10 @@ Public Class MySQL : Implements IDisposable
         Dim s_SQL As String = SQL.GetDeleteSQL
         Return Execute(s_SQL) > 0
     End Function
+
+    Public Function ExecReplace(SQL As SQLTable) As Boolean
+        Return Execute(SQL.GetReplaceSQL) > 0
+    End Function
 #End Region
 
     Public Function CommitInserts(Transaction As IEnumerable(Of SQLTable)) As Boolean

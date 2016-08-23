@@ -159,7 +159,7 @@ both of these relationships hold
 
             Dim EntryData As QueryEntry = New QueryEntry With {
                 .LocusId = Entry.GetValue,
-                .SpeciesId = Entry.Get_href.Split(CChar("?")).Last.Split(CChar(":")).First,
+                .SpeciesId = Entry.href.Split(CChar("?")).Last.Split(CChar(":")).First,
                 .Description = Name
             }
             Return EntryData
@@ -221,7 +221,7 @@ both of these relationships hold
             Dim values As TripleKeyValuesPair() = Links.ToArray(
                 Function(ss) New TripleKeyValuesPair With {
                     .Key = Name,
-                    .Value1 = ss.Get_href,
+                    .Value1 = ss.href,
                     .Value2 = ss.GetValue})
             Return values
         End Function

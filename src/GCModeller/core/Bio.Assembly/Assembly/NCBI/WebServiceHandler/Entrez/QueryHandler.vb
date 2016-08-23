@@ -144,7 +144,7 @@ Namespace Assembly.NCBI.Entrez
 
                 EntryObj.Title = Regex.Match(Work, "<p class=""title""><a href="".+?"" ref="".+?"">.+?</a></p>").Value
                 EntryObj.Description = __getTAG(Regex.Match(Work, "<p class=""desc"">.+?</p>").Value)
-                EntryObj.URL = "http://www.ncbi.nlm.nih.gov" & Regex.Match(EntryObj.Title, "<a href="".+?""").Value.Get_href
+                EntryObj.URL = "http://www.ncbi.nlm.nih.gov" & Regex.Match(EntryObj.Title, "<a href="".+?""").Value.href
                 EntryObj.Title = __getTAG(Regex.Match(EntryObj.Title, "ref="".+?"">.+?</a").Value)
                 Work = ChunkBuffer.Last
                 EntryObj.AccessionId = Regex.Match(Work, "<dt>Accession:</dt>.+?<dd>.+?</dd>").Value

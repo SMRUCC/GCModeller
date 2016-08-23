@@ -1,9 +1,38 @@
-﻿Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.RBase.Vectors
+﻿#Region "Microsoft.VisualBasic::73cdfd3d20dc310f324bd032b6c90ed0, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RSyntax\PrimitiveAPI\PrimitiveAPI.vb"
 
-Namespace RBase
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports RDotNET.Extensions.VisualBasic.SyntaxAPI.Vectors
+
+Namespace SyntaxAPI
 
     ''' <summary>
     ''' R function bridge to VisualBasic
@@ -89,10 +118,10 @@ Namespace RBase
         '''
         <ExportAPI("Warning")>
         Public Function warning(args As Generic.IEnumerable(Of Object),
-                            <Scripting.MetaData.Parameter("call.", "logical, indicating if the call should become part of the warning message.")> Optional [Call] As Boolean = True,
-                            <Scripting.MetaData.Parameter("immediate.", "logical, indicating if the call should be output immediately, even if getOption(""warn"") <= 0.")> Optional immediate As Boolean = False,
-                            <Scripting.MetaData.Parameter("noBreaks.", "logical, indicating as far as possible the message should be output as a single line when options(warn = 1).")> Optional noBreaks As Boolean = False,
-                            <Scripting.MetaData.Parameter("domain", "see gettext. If NA, messages will not be translated, see also the note in stop.")> Optional domain As Object = NULL) As String
+                            <MetaData.Parameter("call.", "logical, indicating if the call should become part of the warning message.")> Optional [Call] As Boolean = True,
+                            <MetaData.Parameter("immediate.", "logical, indicating if the call should be output immediately, even if getOption(""warn"") <= 0.")> Optional immediate As Boolean = False,
+                            <MetaData.Parameter("noBreaks.", "logical, indicating as far as possible the message should be output as a single line when options(warn = 1).")> Optional noBreaks As Boolean = False,
+                            <MetaData.Parameter("domain", "see gettext. If NA, messages will not be translated, see also the note in stop.")> Optional domain As Object = NULL) As String
             Throw New NotImplementedException
         End Function
 
@@ -135,7 +164,7 @@ Namespace RBase
         '''
         <ExportAPI("Any")>
         Public Function Any(x As BooleanVector,
-                            <Scripting.MetaData.Parameter("na.rm", "logical. If true NA values are removed before the result is computed.")>
+                            <MetaData.Parameter("na.rm", "logical. If true NA values are removed before the result is computed.")>
                             Optional NaRM As Boolean = False) As BooleanVector
 
             If NaRM Then
@@ -160,7 +189,7 @@ Namespace RBase
         '''
         <ExportAPI("All")>
         Public Function All(x As BooleanVector,
-                            <Scripting.MetaData.Parameter("na.rm", "logical. If true NA values are removed before the result is computed.")>
+                            <MetaData.Parameter("na.rm", "logical. If true NA values are removed before the result is computed.")>
                             Optional NaRM As Boolean = False) As BooleanVector
             If NaRM Then
 
@@ -211,7 +240,7 @@ Namespace RBase
         '''
         <ExportAPI("Rep")>
         Public Function Rep(x As Vector,
-                        <Scripting.MetaData.Parameter("length.out", "non-negative integer: the desired length of the output vector.")> Optional LengthOut As Integer = 0) As Vector
+                        <MetaData.Parameter("length.out", "non-negative integer: the desired length of the output vector.")> Optional LengthOut As Integer = 0) As Vector
 
             Dim data As Double() = DirectCast(x.Elements.Clone, Double())
 
@@ -232,7 +261,7 @@ Namespace RBase
         '''
         <ExportAPI("Rep")>
         Public Function Rep(x As BooleanVector,
-                        <Scripting.MetaData.Parameter("length.out", "non-negative integer: the desired length of the output vector.")> Optional LengthOut As Integer = 0) As BooleanVector
+                        <MetaData.Parameter("length.out", "non-negative integer: the desired length of the output vector.")> Optional LengthOut As Integer = 0) As BooleanVector
 
             Dim data As Boolean() = DirectCast(x.Elements.Clone, Boolean())
 

@@ -143,7 +143,7 @@ Namespace Regprecise
 
         Private Function __download(entryHref As String, EXPORT As String) As BacteriaGenome
             Dim strData As String = Regex.Match(entryHref, "href="".+?"">.+?</a>").Value
-            Dim Entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(strData), "http://regprecise.lbl.gov/RegPrecise/" & strData.Get_href)
+            Dim Entry As KeyValuePair = KeyValuePair.CreateObject(GetsId(strData), "http://regprecise.lbl.gov/RegPrecise/" & strData.href)
             Dim SavePath As String = String.Format("{0}/{1}.xml", EXPORT, Entry.Key.NormalizePathString)
 
             If FileIO.FileSystem.FileExists(SavePath) AndAlso

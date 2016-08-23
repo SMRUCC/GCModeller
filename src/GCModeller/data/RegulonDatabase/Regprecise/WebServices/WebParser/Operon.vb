@@ -103,7 +103,7 @@ Namespace Regprecise
         Private Shared Function __locusParser(page As String) As Dictionary(Of String, String)
             Dim locus As String() = Regex.Matches(page, "<a href="".+?"">.+?</a>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
             Dim dict = (From s As String In locus
-                        Let id As String = s.GetValue, url As String = s.Get_href
+                        Let id As String = s.GetValue, url As String = s.href
                         Let vimssid As String = MicrobesOnline.locusId(url)
                         Where Not String.IsNullOrEmpty(vimssid)
                         Select id, vimssid

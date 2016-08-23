@@ -1,6 +1,74 @@
-﻿Namespace API
+﻿#Region "Microsoft.VisualBasic::9872d4371e3aa1318604e8ceaf5cf7ab, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+
+Namespace API
 
     Public Module base
+
+        ''' <summary>
+        ''' Combine Values into a Vector or List
+        ''' 
+        ''' This is a generic function which combines its arguments.
+        ''' The Default method combines its arguments To form a vector. All arguments are coerced To a common type which Is the type Of the returned value, And all attributes except names are removed.
+        ''' </summary>
+        ''' <param name="list">objects to be concatenated.</param>
+        ''' <param name="recursive">logical. If recursive = TRUE, the function recursively descends through lists (and pairlists) combining all their elements into a vector.
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' The output type is determined from the highest type of the components in the hierarchy NULL &lt; raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list &lt; expression. Pairlists are treated as lists, but non-vector components (such names and calls) are treated as one-element lists which cannot be unlisted even if recursive = TRUE.
+        ''' c Is sometimes used for its side effect of removing attributes except names, for example to turn an array into a vector. as.vector Is a more intuitive way to do this, but also drops names. Note too that methods other than the default are Not required to do this (And they will almost certainly preserve a class attribute).
+        ''' This Is a primitive function.
+        ''' </remarks>
+        Public Function c(list As IEnumerable(Of String), Optional recursive As Boolean = False) As String
+            Dim out As String = App.NextTempName
+            Call $"{out} <- c({list.JoinBy(", ")}, recursive = {recursive.λ})".ζ
+            Return out
+        End Function
+
+        ''' <summary>
+        ''' Combine Values into a Vector or List
+        ''' 
+        ''' This is a generic function which combines its arguments.
+        ''' The Default method combines its arguments To form a vector. All arguments are coerced To a common type which Is the type Of the returned value, And all attributes except names are removed.
+        ''' </summary>
+        ''' <param name="list">objects to be concatenated.</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' The output type is determined from the highest type of the components in the hierarchy NULL &lt; raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list &lt; expression. Pairlists are treated as lists, but non-vector components (such names and calls) are treated as one-element lists which cannot be unlisted even if recursive = TRUE.
+        ''' c Is sometimes used for its side effect of removing attributes except names, for example to turn an array into a vector. as.vector Is a more intuitive way to do this, but also drops names. Note too that methods other than the default are Not required to do this (And they will almost certainly preserve a class attribute).
+        ''' This Is a primitive function.
+        ''' </remarks>
+        Public Function c(ParamArray list As String()) As String
+            Return c(list, False)
+        End Function
 
         ''' <summary>
         ''' Loading/Attaching and Listing of Packages, library and require load and attach add-on packages.
@@ -24,7 +92,7 @@
                                 Optional logicalReturn As Boolean = False,
                                 Optional warnConflicts As Boolean = True,
                                 Optional quietly As Boolean = False,
-                                Optional verbose As String = VisualBasic.base.getOption.verbose)
+                                Optional verbose As String = SymbolBuilder.base.getOption.verbose)
             Dim out As SymbolicExpression =
                 $"library({package}, {help}, pos = {pos}, lib.loc = {libloc},
                            character.only = {characterOnly}, logical.return = {logicalReturn.λ},
@@ -119,7 +187,14 @@
                                   Optional checkRows As Boolean = False,
                                   Optional checkNames As Boolean = True,
                                   Optional stringsAsFactors As String = "default.stringsAsFactors()") As String
-            Throw New NotImplementedException
+
+            Dim out As String = App.NextTempName
+
+            Call $"{out} <- data.frame({x.JoinBy(", ")}, row.names = {rowNames}, check.rows = {checkRows},
+           check.names = {checkNames},
+           stringsAsFactors = {stringsAsFactors})".ζ
+
+            Return out
         End Function
 
         ''' <summary>

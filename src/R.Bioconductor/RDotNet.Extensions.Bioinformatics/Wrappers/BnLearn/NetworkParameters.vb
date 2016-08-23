@@ -1,7 +1,36 @@
-﻿Imports System.Text.RegularExpressions
+﻿#Region "Microsoft.VisualBasic::f57762541b65c604f266124ff20368ab, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\NetworkParameters.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
-Imports RDotNet.Extensions.VisualBasic
+Imports Microsoft.VisualBasic.Language
+Imports RDotNET.Extensions.VisualBasic
 
 Namespace bnlearn
 
@@ -25,9 +54,17 @@ Namespace bnlearn
         ''' <remarks>
         ''' </remarks>
         Public Function GetNetworkParameters(numberOfFactors As Integer) As ConditionalProbability()
-            Call RServer.WriteLine("library(bnlearn); pdag = iamb(learning.test) ; dag = set.arc(pdag, from = ""A"", to = ""B"") ; fit = bn.fit(dag, learning.test, method = ""bayes"") ;")
-            Dim DataChunk As String() = RServer.WriteLine("fit")
-            Dim LQuery = (From strData As String In DataChunk Select ConditionalProbability.TryParse(strData.Replace(vbCr, "").Replace(vbLf, ""), numberOfFactors)).ToArray
+
+            Call "library(bnlearn); 
+pdag = iamb(learning.test); 
+dag = set.arc(pdag, from = ""A"", to = ""B""); 
+fit = bn.fit(dag, learning.test, method = ""bayes"");".ζ
+
+            Dim LQuery = LinqAPI.Exec(Of ConditionalProbability) <=
+                From s As String
+                In "fit".ζ.AsCharacter.ToArray
+                Let Data As String = s.Replace(vbCr, "").Replace(vbLf, "")
+                Select ConditionalProbability.TryParse(Data, numberOfFactors)
             Return LQuery
         End Function
 

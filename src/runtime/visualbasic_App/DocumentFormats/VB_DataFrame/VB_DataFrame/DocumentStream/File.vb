@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7a0af505e2e29cc4f33b5afd8c3aa23a, ..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\VB_DataFrame\DocumentStream\File.vb"
+﻿#Region "Microsoft.VisualBasic::6dedb76af2e1cbff3d1015d483a395f2, ..\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\DocumentStream\File.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -50,13 +51,24 @@ Namespace DocumentStream
         ''' <remarks></remarks>
         Protected Friend _innerTable As List(Of RowObject) = New List(Of RowObject)
 
+        ''' <summary>
+        ''' Creates an empty csv docs object.
+        ''' </summary>
         Public Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Creates csv file object from the rows data.
+        ''' </summary>
+        ''' <param name="data"></param>
         Sub New(data As IEnumerable(Of RowObject))
             _innerTable = data.ToList
         End Sub
 
+        ''' <summary>
+        ''' Load document from path
+        ''' </summary>
+        ''' <param name="path"></param>
         Sub New(path As String)
             FilePath = path
             _innerTable = __loads(path, Encoding.Default)
@@ -67,6 +79,12 @@ Namespace DocumentStream
             FilePath = path
         End Sub
 
+        ''' <summary>
+        ''' Gets or sets the specific cell's data
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <returns></returns>
         Default Public Overloads Property Item(x As Integer, y As Integer) As String
             Get
                 Dim row As RowObject = Me(x)

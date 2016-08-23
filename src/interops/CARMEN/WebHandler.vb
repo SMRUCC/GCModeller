@@ -115,7 +115,7 @@ Public Module WebHandler
     Public Sub DownloadResult(url As String, outDIR As String)
         Dim WebPage As String = url.GET
         Dim Downloads As String() = Regex.Matches(WebPage, "href=""/out/CARMEN.+?""", RegexOptions.IgnoreCase) _
-            .ToArray(Function(href) href.Get_href)
+            .ToArray(Function(href) href.href)
 
         For Each file As String In Downloads
             Dim path As String = outDIR & "/" & FileIO.FileSystem.GetFileInfo(file).Name
