@@ -83,7 +83,7 @@ Public Module CLI
             printf("Could not found the source file!")
             Return -1
         Else
-            out = UnixPath(out, True)
+            out = UnixPath(out)
         End If
 
         Return __run(inds, title, partitionsOption, out, RBin)

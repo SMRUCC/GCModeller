@@ -39,6 +39,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
