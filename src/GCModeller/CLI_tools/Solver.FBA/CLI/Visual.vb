@@ -32,9 +32,9 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNet.Extensions.Bioinformatics
 Imports RDotNet.Extensions.VisualBasic
-Imports RDotNet.Extensions.VisualBasic.gplots
-Imports RDotNet.Extensions.VisualBasic.grDevices
-Imports RDotNet.Extensions.VisualBasic.utils.read.table
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.gplots
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.grDevices
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.utils.read.table
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
 
 Partial Module CLI

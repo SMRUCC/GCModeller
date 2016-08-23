@@ -172,7 +172,7 @@
     <Compile Include="API\base.vb" />
     <Compile Include="API\as.vb" />
     <Compile Include="API\is.vb" />
-    <Compile Include="API\stats.vb" />
+    <Compile Include="API\stats\stats.vb" />
     <Compile Include="API\grDevices\dev.vb" />
     <Compile Include="API\grDevices\images.vb" />
     <Compile Include="API\utils\install.vb" />
@@ -202,7 +202,7 @@
     <Compile Include="ScriptBuilder\RPackage\Graphics\grDevices\images.vb" />
     <Compile Include="ScriptBuilder\RPackage\Graphics\gplots\heatmap2.vb" />
     <Compile Include="ScriptBuilder\RPackage\base\Control.vb" />
-    <Compile Include="ScriptBuilder\RPackage\stats\chisq.test.vb" />
+    <Compile Include="API\stats\chisq.test.vb" />
     <Compile Include="ScriptBuilder\RPackage\stats\dist.vb" />
     <Compile Include="ScriptBuilder\RPackage\stats\heatmap_plot.vb" />
     <Compile Include="ScriptBuilder\RPackage\stats\heatmap.vb" />
