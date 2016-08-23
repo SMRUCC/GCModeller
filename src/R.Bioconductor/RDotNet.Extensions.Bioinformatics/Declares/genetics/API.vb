@@ -27,12 +27,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports RDotNet.Extensions.VisualBasic
-Imports RDotNet.Extensions.VisualBasic.RScripts
-Imports RDotNet.Extensions.VisualBasic.API.base
-Imports Microsoft.VisualBasic
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API.base
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.RScripts
 
 Namespace genetics
 

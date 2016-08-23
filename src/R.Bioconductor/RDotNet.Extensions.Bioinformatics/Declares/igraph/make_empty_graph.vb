@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports RDotNet.Extensions.VisualBasic.Services.ScriptBuilder
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace igraph
 

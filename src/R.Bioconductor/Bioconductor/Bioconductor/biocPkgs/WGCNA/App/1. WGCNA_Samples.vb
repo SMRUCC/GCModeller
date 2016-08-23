@@ -28,14 +28,14 @@
 
 Imports System.Text
 Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.base
-Imports RDotNET.Extensions.VisualBasic.flashClust
-Imports RDotNET.Extensions.VisualBasic.Graphics
-Imports RDotNET.Extensions.VisualBasic.grDevices
-Imports RDotNET.Extensions.VisualBasic.Services.ScriptBuilder
-Imports RDotNET.Extensions.VisualBasic.stats
-Imports RDotNET.Extensions.VisualBasic.utils.read.table
-Imports RDotNET.Extensions.VisualBasic.dynamicTreeCut
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.base
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.dynamicTreeCut
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.flashClust
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Graphics
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.grDevices
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.stats
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.utils.read.table
 
 Namespace WGCNA.App
 

@@ -27,11 +27,12 @@
 #End Region
 
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports RDotNet.Extensions.VisualBasic
-Imports RDotNet.Extensions.VisualBasic.API.base
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports RDotNET.Extensions.VisualBasic.API.base
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace LDheatmap
 

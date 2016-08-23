@@ -28,8 +28,8 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports RDotNET.Extensions.VisualBasic.Services.ScriptBuilder.RTypes
 Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
 Namespace WGCNA
 

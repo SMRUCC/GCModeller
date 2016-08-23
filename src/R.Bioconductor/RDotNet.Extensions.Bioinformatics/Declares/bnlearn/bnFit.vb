@@ -26,8 +26,8 @@
 
 #End Region
 
-Imports RDotNet.Extensions.VisualBasic.Services.ScriptBuilder
-Imports RDotNet.Extensions.VisualBasic.Services.ScriptBuilder.RTypes
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
 Namespace declares.bnlearn
 

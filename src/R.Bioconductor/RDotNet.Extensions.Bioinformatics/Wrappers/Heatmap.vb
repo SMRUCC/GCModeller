@@ -1,41 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::af353d9073a6b681aea00fcf6596cf6f, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Wrappers\Heatmap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
 Imports System.IO
+Imports System.Text
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Tokenizer
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
-Imports RDotNet.Extensions.VisualBasic
-Imports RDotNet.Extensions.VisualBasic.utils.read.table
-Imports RDotNet.Extensions.VisualBasic.stats
-Imports RDotNet.Extensions.VisualBasic.Graphics
-Imports RDotNet.Extensions.VisualBasic.grDevices
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Graphics
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.grDevices
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.stats
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.utils.read.table
 
 Public Class Heatmap : Inherits IRScript
 

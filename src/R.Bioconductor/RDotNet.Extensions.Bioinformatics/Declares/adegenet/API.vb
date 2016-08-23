@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports RDotNet.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace adegenet
 
