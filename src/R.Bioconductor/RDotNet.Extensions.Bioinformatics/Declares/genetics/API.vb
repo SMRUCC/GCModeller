@@ -110,7 +110,7 @@ Namespace genetics
 
             For Each col In df.Columns.Where(Function(x) x(Scan0) <> NameOf(EntityObject.Identifier))
                 Dim loci As String = col(Scan0)
-                Dim vec As String = c(col.Skip(1).ToArray)
+                Dim vec As String = RScripts.c(col.Skip(1).ToArray)
 
                 Call $"{loci} <- {genotype(vec, removeSpaces:=False)}".ζ
                 locis += loci

@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
-Namespace RBase.Vectors
+Namespace SyntaxAPI.Vectors
 
     Public Class GenericVector(Of T) : Implements IEnumerable(Of T)
         Implements System.IDisposable

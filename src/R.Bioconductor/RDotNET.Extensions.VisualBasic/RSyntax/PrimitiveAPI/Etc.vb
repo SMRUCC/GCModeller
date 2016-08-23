@@ -29,9 +29,9 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports RDotNET.Extensions.VisualBasic.RBase.Vectors
+Imports RDotNET.Extensions.VisualBasic.SyntaxAPI.Vectors
 
-Namespace RBase
+Namespace SyntaxAPI
 
     <PackageNamespace("RBase.Read")>
     Public Module Read

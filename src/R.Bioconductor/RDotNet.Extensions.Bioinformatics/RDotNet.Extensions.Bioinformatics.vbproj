@@ -176,6 +176,7 @@
     <Compile Include="Declares\genetics\API.vb" />
     <Compile Include="Declares\hierfstat\API.vb" />
     <Compile Include="Declares\LDheatmap\LDheatmapAPI.vb" />
+    <Compile Include="Declares\pheatmap\API.vb" />
     <Compile Include="Declares\plot3D\plots.vb" />
     <Compile Include="Declares\plot3D\plot3D.vb" />
     <Compile Include="Declares\igraph\make_lattice.vb" />
@@ -189,6 +190,7 @@
     <Compile Include="Declares\VennDiagram\VennDiagram\RModelAPI.vb" />
     <Compile Include="Declares\VennDiagram\VennDiagram\Partition.vb" />
     <Compile Include="Declares\VennDiagram\VennDiagram\VennDiagram.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

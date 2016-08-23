@@ -29,7 +29,7 @@
 
 Imports Microsoft.VisualBasic.Linq
 
-Namespace RBase.Vectors
+Namespace SyntaxAPI.Vectors
 
     Public Class BooleanVector : Inherits GenericVector(Of Boolean)
 
