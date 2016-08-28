@@ -28,7 +28,7 @@
 
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 
-Namespace SymbolBuilder.gplots
+Namespace SymbolBuilder.packages.gplots
 
     ''' <summary>
     ''' Using function call 'get.jetColors()' to gets the colors vector

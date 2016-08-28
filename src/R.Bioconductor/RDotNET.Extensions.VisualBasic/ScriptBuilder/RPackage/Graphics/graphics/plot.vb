@@ -31,7 +31,7 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.Graphics
+Namespace SymbolBuilder.packages.Graphics
 
     ''' <summary>
     ''' Generic function for plotting of R objects. For more details about the graphical parameter arguments, see par.

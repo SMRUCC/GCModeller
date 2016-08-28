@@ -29,7 +29,7 @@
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.base
+Namespace SymbolBuilder.packages.base
 
     ''' <summary>
     ''' Create a data frame from all combinations of the supplied vectors or factors. See the description of the return value for precise details of the way this is done.

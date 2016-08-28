@@ -28,9 +28,9 @@
 
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.stats
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.stats
 
-Namespace SymbolBuilder.gplots
+Namespace SymbolBuilder.packages.gplots
 
     ''' <summary>
     ''' A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and/or to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.

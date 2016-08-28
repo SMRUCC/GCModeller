@@ -1,19 +1,28 @@
 # Microsoft.VisualBasic.Parallel
 > Further reading: [Parallel library of GCModeller parallel computing](http://www.codeproject.com/Articles/1076209/Easy-Distribution-Computing-in-VisualBasic)
 
+##### Runtime
+
+Require of VisualBasic server CLI runtime
+
+> PM> Install-Package VB_AppFramework
+
+Or reference to source code project:
+
+> https://github.com/xieguigang/VisualBasic_AppFramework
 
 ##### Steps of the distributed computing in this library
 
->
-1. Create the instance of the TaskInvoke object on your server side program
-2. Creates the function to analysis the data
-3. Create a TaskHost object on your local client, and connect to the remote through IPEndPoint
-4. Using AddressOf function to gets the function Delegate pointer of your target function which is want to running on the remote.
-5. Calling this function Delegate pointer on the remote machine through TaskHost.Invoke and gets the returns result.
+> 1. Create the instance of the TaskInvoke object on your server side program
+> 2. Creates the function to analysis the data
+> 3. Create a TaskHost object on your local client, and connect to the remote through IPEndPoint
+> 4. Using AddressOf function to gets the function Delegate pointer of your target function which is want to running on the remote.
+> 5. Calling this function Delegate pointer on the remote machine through TaskHost.Invoke and gets the returns result.
 
 Through these steps, your function on the local client should be running on the cloud and you are able to integrated your cloud server calculation resource onto your local client app to provides the powerfull cloud computing feature for your application.
 
-Important NOTE:
+**Important NOTE:**
+
 + Please notices that the function which is running on the remote machine should be a statics method and donot reference to the module variable as the module variable is probably not initialized on the remote machine, just using the variable limits in your function inner local variable.
 Example:
 

@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.Serialization
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.flashClust
+Namespace SymbolBuilder.packages.flashClust
 
     ''' <summary>
     ''' Faster alternative to hclust.

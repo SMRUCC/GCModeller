@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
-Namespace SymbolBuilder.dynamicTreeCut
+Namespace SymbolBuilder.packages.dynamicTreeCut
 
     Public Module Func
 

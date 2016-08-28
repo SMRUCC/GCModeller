@@ -28,7 +28,7 @@
 
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
-Namespace SymbolBuilder.base
+Namespace SymbolBuilder.packages.base
 
     ''' <summary>
     ''' These are the basic control-flow constructs of the R language. They function in much the same way as control statements in any Algol-like language. 

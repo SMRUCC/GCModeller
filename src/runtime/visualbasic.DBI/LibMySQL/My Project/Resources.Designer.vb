@@ -59,55 +59,5 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property libmySQL() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("libmySQL", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property mysql() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("mysql", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property mysqladmin() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("mysqladmin", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property mysqld() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("mysqld", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property share() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("share", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
     End Module
 End Namespace

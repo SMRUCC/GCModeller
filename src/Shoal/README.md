@@ -13,6 +13,16 @@ The IDE for shoal language development was under progressed.
 # Developer NOTE
 Due to the reason of modular development in the GCModeller team, some of the plugin included in this project depend on other external repository in github:
 
+##### Runtime
+
+Require of VisualBasic server CLI runtime
+
+> PM> Install-Package VB_AppFramework
+
+Or reference to source code project:
+
+> https://github.com/xieguigang/VisualBasic_AppFramework
+
 * General Application Framework of VisualBasic
 [VisualBasic_AppFramework (https://github.com/xieguigang/VisualBasic_AppFramework)](https://github.com/xieguigang/VisualBasic_AppFramework)
 

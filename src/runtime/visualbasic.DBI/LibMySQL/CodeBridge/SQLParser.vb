@@ -25,6 +25,8 @@
 
 #End Region
 
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
@@ -82,10 +84,17 @@ Public Module SQLParser
     ''' <param name="Path"></param>
     ''' <returns></returns>
     Public Function LoadSQLDoc(Path As String) As Reflection.Schema.Table()
-        Dim Doc As String = FileIO.FileSystem.ReadAllText(Path)
-        Dim DB As String = __getDBName(Doc)
+        Using file As New StreamReader(New FileStream(Path, FileMode.Open))
+            Return file.LoadSQLDoc
+        End Using
+    End Function
+
+    <Extension>
+    Public Function LoadSQLDoc(stream As StreamReader, Optional ByRef raw As String = Nothing) As Reflection.Schema.Table()
+        Dim doc As String = stream.ReadToEnd
+        Dim DB As String = __getDBName(doc)
         Dim Tables = (From m As Match
-                      In Regex.Matches(Doc, SQL_CREATE_TABLE, RegexOptions.Singleline)
+                      In Regex.Matches(doc, SQL_CREATE_TABLE, RegexOptions.Singleline)
                       Let Tokens As KeyValuePair(Of String, String()) = __sqlParser(SQL:=m.Value)
                       Let TableName As String = Tokens.Value(Scan0)
                       Let PrimaryKey As String = Tokens.Key
@@ -107,6 +116,8 @@ Public Module SQLParser
                     Table.PrimaryKey,
                     Table.Original)
                 Select setValue(tbl, DB)
+
+        raw = doc
 
         Return SqlSchema
     End Function

@@ -29,7 +29,7 @@
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.base
+Namespace SymbolBuilder.packages.base
 
     Public Module getOption
         Public Const verbose As String = "getOption(""verbose"")"

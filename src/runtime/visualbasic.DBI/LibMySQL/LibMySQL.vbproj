@@ -195,7 +195,6 @@
   <ItemGroup>
     <Compile Include="CodeBridge\CodeGenerator.vb" />
     <Compile Include="CodeBridge\SQLParser.vb" />
-    <Compile Include="Extensions\RunDll.vb" />
     <Compile Include="MYSQL.Client\Linq.vb" />
     <Compile Include="MYSQL.Client\Table.vb" />
     <Compile Include="Reflection\SQL_LDM\SqlGenerateMethods.vb" />
@@ -231,7 +230,6 @@
     <Compile Include="Reflection\SQL_LDM\Insert.vb" />
     <Compile Include="Reflection\SQL_LDM\Delete.vb" />
     <Compile Include="Reflection\SQL_LDM\CreateTable.vb" />
-    <Compile Include="TinyServer\TinyServer.vb" />
     <Compile Include="Workbench\Dump\RestoreWorker.vb" />
     <Compile Include="Workbench\ServerInstances.vb" />
     <Compile Include="Workbench\Connections.vb" />
@@ -256,11 +254,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="TinyServer\libmySQL.res_dll" />
-    <None Include="TinyServer\mysql.res_exe" />
-    <None Include="TinyServer\mysqladmin.res_exe" />
-    <None Include="TinyServer\mysqld.res_exe" />
-    <None Include="TinyServer\share.zip" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
