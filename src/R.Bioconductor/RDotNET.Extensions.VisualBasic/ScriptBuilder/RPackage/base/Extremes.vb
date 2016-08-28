@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.base.Extremes
+Namespace SymbolBuilder.packages.base.Extremes
 
     ''' <summary>
     ''' Returns the (parallel) maxima and minima of the input values.

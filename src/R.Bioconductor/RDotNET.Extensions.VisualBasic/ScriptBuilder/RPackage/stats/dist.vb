@@ -31,7 +31,7 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.stats
+Namespace SymbolBuilder.packages.stats
 
     ''' <summary>
     ''' Distance Matrix Computation

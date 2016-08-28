@@ -169,8 +169,9 @@
   <ItemGroup>
     <Content Include="ScriptBuilder\Helpers\README.txt" />
     <Content Include="RSyntax\README.txt" />
-    <Compile Include="API\base.vb" />
+    <Compile Include="API\base\base.vb" />
     <Compile Include="API\as.vb" />
+    <Compile Include="API\base\print.vb" />
     <Compile Include="API\is.vb" />
     <Compile Include="API\stats\stats.vb" />
     <Compile Include="API\grDevices\dev.vb" />
@@ -203,6 +204,7 @@
     <Compile Include="ScriptBuilder\RPackage\Graphics\gplots\heatmap2.vb" />
     <Compile Include="ScriptBuilder\RPackage\base\Control.vb" />
     <Compile Include="API\stats\chisq.test.vb" />
+    <Compile Include="ScriptBuilder\RPackage\stats\ts.vb" />
     <Compile Include="ScriptBuilder\RPackage\stats\dist.vb" />
     <Compile Include="ScriptBuilder\RPackage\stats\heatmap_plot.vb" />
     <Compile Include="ScriptBuilder\RPackage\stats\heatmap.vb" />

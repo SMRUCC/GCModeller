@@ -29,7 +29,7 @@
 Imports System.Text
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 
-Namespace SymbolBuilder.grDevices
+Namespace SymbolBuilder.packages.grDevices
 
     Public MustInherit Class grDevice : Inherits IRToken
 

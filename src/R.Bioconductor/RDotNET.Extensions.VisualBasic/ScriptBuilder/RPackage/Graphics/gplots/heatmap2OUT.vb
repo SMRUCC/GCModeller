@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace SymbolBuilder.gplots
+Namespace SymbolBuilder.packages.gplots
 
     Public Class heatmap2OUT
 

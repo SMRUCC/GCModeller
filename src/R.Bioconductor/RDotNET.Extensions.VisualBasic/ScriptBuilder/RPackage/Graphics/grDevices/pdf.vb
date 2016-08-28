@@ -26,10 +26,10 @@
 
 #End Region
 
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.base.ControlFlow
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.base.ControlFlow
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.grDevices
+Namespace SymbolBuilder.packages.grDevices
 
     ''' <summary>
     ''' pdf starts the graphics device driver for producing PDF graphics.

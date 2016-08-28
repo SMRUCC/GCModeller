@@ -29,7 +29,7 @@
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.gplots
+Namespace SymbolBuilder.packages.gplots
 
     ''' <summary>
     ''' Plot a Venn diagrams for up to 5 sets

@@ -123,20 +123,27 @@ Namespace API
         ''' The value Of argument frequency Is used When the series Is sampled an integral number Of times In Each unit time interval. For example, one could use a value Of 7 For frequency When the data are sampled daily, And the natural time period Is a week, Or 12 When the data are sampled monthly And the natural time period Is a year. Values Of 4 And 12 are assumed In (e.g.) print methods To imply a quarterly And monthly series respectively.
         ''' </remarks>
         Public Function ts(Optional data As String = "NA",
-                           Optional start As Integer = 1,
-                           Optional [end] As String = "numeric()",
+                           Optional start As String = "c(1,1)",
+                           Optional [end] As String = Nothing,
                            Optional frequency As Integer = 1,
-                           Optional deltat As Integer = 1,
-                           Optional tseps As String = "getOption(""ts.eps"")",
-                           Optional [class] As String = NULL,
-                           Optional names As String = NULL) As String
+                           Optional deltat As String = Nothing,
+                           Optional tseps As String = Nothing,
+                           Optional [class] As String = Nothing,
+                           Optional names As String = Nothing) As String
 
             Dim tmp As String = App.NextTempName
+            Dim func As New packages.stats.ts With {
+                .data = data,
+                .start = start,
+                .end = [end],
+                .frequency = frequency,
+                .class = [class],
+                .ts_eps = tseps,
+                .names = names,
+                .deltat = deltat
+            }
 
-            Call $"{tmp} <- ts(data = {data}, start = {start}, 
-end = {[end]}, frequency = {frequency},
-deltat = {deltat}, ts.eps = {tseps}, 
-class = {[class]}, names = {names})".ζ
+            Call $"{tmp} <- {func}".ζ
 
             Return tmp
         End Function

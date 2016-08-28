@@ -29,7 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.BinaryTree
 
-Namespace SymbolBuilder.gplots
+Namespace SymbolBuilder.packages.gplots
 
     Public Module DendrogramAPI
 

@@ -27,7 +27,7 @@
 #End Region
 
 
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.grDevices
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.grDevices
 
 Namespace API.grDevices
 

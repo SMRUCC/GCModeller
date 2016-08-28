@@ -92,7 +92,7 @@ Namespace API
                                 Optional logicalReturn As Boolean = False,
                                 Optional warnConflicts As Boolean = True,
                                 Optional quietly As Boolean = False,
-                                Optional verbose As String = SymbolBuilder.base.getOption.verbose)
+                                Optional verbose As String = packages.base.getOption.verbose)
             Dim out As SymbolicExpression =
                 $"library({package}, {help}, pos = {pos}, lib.loc = {libloc},
                            character.only = {characterOnly}, logical.return = {logicalReturn.λ},

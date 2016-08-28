@@ -28,7 +28,7 @@
 
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
-Namespace SymbolBuilder.base
+Namespace SymbolBuilder.packages.base
 
     Public Module DataFrameAPI
 

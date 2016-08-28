@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MMFProtocol.Pipeline
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Graphics
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.Graphics
 
 Namespace API.Graphics
 

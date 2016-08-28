@@ -28,7 +28,7 @@
 
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
 
-Namespace SymbolBuilder.grDevices
+Namespace SymbolBuilder.packages.grDevices
 
     Public Module API
 
