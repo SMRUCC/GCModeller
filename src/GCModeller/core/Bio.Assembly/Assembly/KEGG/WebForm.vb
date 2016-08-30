@@ -1,38 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::43a420df01f8499c543a2d8034864834, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\WebForm.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports Microsoft.VisualBasic.Linq.Extensions
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.HtmlParser
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.HtmlParser
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
@@ -46,7 +48,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <summary>
         ''' Entry, {trim_formatted, non-process}
         ''' </summary>
-        Dim _strData As SortedDictionary(Of String, KeyValuePair(Of String, String)())
+        Dim _strData As SortedDictionary(Of String, NamedValue(Of String)())
         Dim _url As String
 
         Public ReadOnly Property WebPageTitle As String
@@ -55,23 +57,45 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Sub New(Url As String)
             Dim PageContent As String = Url.GET.Replace("&nbsp;", " ").Replace("&gt;", ">").Replace("&lt;", "<")
             Dim Tokens As String() = Regex.Split(PageContent, "<th class="".+?"" align="".+?""").Skip(1).ToArray
-            Dim TempChunk As String() = (From strValue As String In Tokens
-                                         Let value As String = Regex.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
-                                         Where Not String.IsNullOrEmpty(value)
-                                         Select value).ToArray
+            Dim tmp As String() = LinqAPI.Exec(Of String) <=
+ _
+                From strValue As String
+                In Tokens
+                Let value As String = Regex.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
+                Where Not String.IsNullOrEmpty(value)
+                Select value
+
             Me._WebPageTitle = PageContent.HTMLtitle
             Me._url = Url
-            Me._strData = New SortedDictionary(Of String, KeyValuePair(Of String, String)())
+            Me._strData = New SortedDictionary(Of String, NamedValue(Of String)())
 
-            Dim Fields = (From strValue As String In TempChunk
-                          Let Key As String = Regex.Match(strValue, "<nobr>.+?</nobr>").Value
-                          Let Value As String = RegexReplace(strValue.Replace(Key, ""), WebForm.HtmlFormatControl)
-                          Select New KeyValuePair(Of String, String())(Key.GetValue, {Value.TrimA, strValue})).ToArray
+            Dim fields = LinqAPI.Exec(Of NamedValue(Of String())) <=
+ _
+                From strValue As String
+                In tmp
+                Let Key As String = Regex.Match(strValue, "<nobr>.+?</nobr>").Value
+                Let Value As String = RegexReplace(strValue.Replace(Key, ""), WebForm.HtmlFormatControl)
+                Select New NamedValue(Of String()) With {
+                    .Name = Key.GetValue,
+                    .x = {Value.TrimA, strValue}
+                }
+            Dim allKeys As IEnumerable(Of String) = From item As NamedValue(Of String())
+                                                    In fields
+                                                    Let KeyValue As String = item.Name
+                                                    Select KeyValue
+                                                    Distinct
+            For Each Key As String In allKeys
+                Dim vals As NamedValue(Of String)() = LinqAPI.Exec(Of NamedValue(Of String)) <=
+ _
+                    From item As NamedValue(Of String())
+                    In fields
+                    Where String.Equals(Key, item.Name)
+                    Select New NamedValue(Of String) With {
+                        .Name = item.x(Scan0),
+                        .x = item.x(1)
+                    }
 
-            For Each Key As String In (From item In Fields Let KeyValue As String = item.Key Select KeyValue Distinct).ToArray
-                Call _strData.Add(Key, (From item In Fields
-                                        Where String.Equals(Key, item.Key)
-                                        Select New KeyValuePair(Of String, String)(item.Value(Scan0), item.Value(1))).ToArray)
+                Call _strData.Add(Key, vals)
             Next
 
             AllLinksWidget = InternalWebFormParsers.AllLinksWidget.InternalParser(PageContent)
@@ -83,6 +107,10 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Me.References = bGetObject.Reference.References(Tokens)
         End Sub
 
+        ''' <summary>
+        ''' Reference list of this biological object
+        ''' </summary>
+        ''' <returns></returns>
         Public Property References As bGetObject.Reference()
 
         Private Shared ReadOnly HtmlFormatControl As String() = New String() {"<td .+?>", "<div .+?>", "</th>|</div>|</td>|</tr>|<tr>|<tbody>|<div>|</tbody>|</table>|<nobr>|</nobr>", "<table .+?>"}
@@ -92,12 +120,17 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Return New KeyValuePair() {}
             End If
 
-            Dim ComponentList As New List(Of KeyValuePair)
-            Dim Chunkbuffer As String() = (From m As Match In Regex.Matches(strValue, SplitRegx) Select m.Value Distinct).ToArray
+            Dim componentList As New List(Of KeyValuePair)
+            Dim bufs As String() = LinqAPI.Exec(Of String) <=
+ _
+                From m As Match
+                In Regex.Matches(strValue, SplitRegx)
+                Select m.Value
+                Distinct
 
-            For i As Integer = 0 To Chunkbuffer.Count - 2
-                Dim p1 As Integer = InStr(strValue, Chunkbuffer(i))
-                Dim p2 As Integer = InStr(strValue, Chunkbuffer(i + 1))
+            For i As Integer = 0 To bufs.Length - 2
+                Dim p1 As Integer = InStr(strValue, bufs(i))
+                Dim p2 As Integer = InStr(strValue, bufs(i + 1))
                 Dim strTemp As String = Mid(strValue, p1, p2 - p1)
 
                 Dim ComponentEntry As String = Regex.Match(strTemp, SplitRegx).Value
@@ -106,22 +139,22 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 ComponentEntry = ComponentEntry.GetValue
                 ComponentDescription = WebForm.RemoveHrefLink(ComponentDescription)
 
-                ComponentList += New KeyValuePair With {
+                componentList += New KeyValuePair With {
                     .Key = ComponentEntry,
                     .Value = ComponentDescription
                 }
             Next
 
-            Dim p As Integer = InStr(strValue, Chunkbuffer.Last)
+            Dim p As Integer = InStr(strValue, bufs.Last)
             strValue = Mid(strValue, p)
             Dim LastEntry As New KeyValuePair
             LastEntry.Key = Regex.Match(strValue, SplitRegx).Value
             LastEntry.Value = WebForm.RemoveHrefLink(strValue.Replace(LastEntry.Key, "").Trim)
             LastEntry.Key = LastEntry.Key.GetValue
 
-            Call ComponentList.Add(LastEntry)
+            Call componentList.Add(LastEntry)
 
-            Return ComponentList.ToArray
+            Return componentList.ToArray
         End Function
 
         ''' <summary>
@@ -146,7 +179,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <remarks></remarks>
         Public Function GetValue(KeyWord As String) As String()
             If _strData.ContainsKey(KeyWord) Then
-                Return _strData.Item(KeyWord).ToArray(Function(obj) obj.Key)
+                Return _strData.Item(KeyWord).ToArray(Function(x) x.x)
             Else
                 Return New String() {""}
             End If
@@ -154,7 +187,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
         Public Function GetRaw(Keyword As String) As String()
             If _strData.ContainsKey(Keyword) Then
-                Return _strData.Item(Keyword).ToArray(Function(obj) obj.Value)
+                Return _strData.Item(Keyword).ToArray(Function(x) x.x)
             Else
                 Return New String() {""}
             End If
@@ -171,11 +204,11 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Return ""
             End If
 
-            Dim Links = (From m As Match
-                         In Regex.Matches(strValue, HREF)
-                         Select Original = m.Value,
-                             Value = m.Value.GetValue).ToArray
-            Dim sBuilder As StringBuilder = New StringBuilder(strValue)
+            Dim sBuilder As New StringBuilder(strValue)
+            Dim Links = From m As Match
+                        In Regex.Matches(strValue, HREF)
+                        Select Original = m.Value,
+                            Value = m.Value.GetValue
 
             For Each LinkItem In Links
                 Call sBuilder.Replace(LinkItem.Original, LinkItem.Value)
@@ -187,8 +220,8 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 #Region "Implements IReadOnlyDictionary(Of String, String)"
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, String())) Implements IEnumerable(Of KeyValuePair(Of String, String())).GetEnumerator
-            For Each Item As KeyValuePair(Of String, KeyValuePair(Of String, String)()) In Me._strData
-                Yield New KeyValuePair(Of String, String())(Item.Key, Item.Value.ToArray(Function(obj) obj.Key))
+            For Each Item As KeyValuePair(Of String, NamedValue(Of String)()) In Me._strData
+                Yield New KeyValuePair(Of String, String())(Item.Key, Item.Value.ToArray(Function(obj) obj.x))
             Next
         End Function
 
@@ -215,9 +248,9 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         End Property
 
         Public Function TryGetValue(key As String, ByRef value As String()) As Boolean Implements IReadOnlyDictionary(Of String, String()).TryGetValue
-            Dim raw As KeyValuePair(Of String, String)() = Nothing
+            Dim raw As NamedValue(Of String)() = Nothing
             Dim f As Boolean = _strData.TryGetValue(key, raw)
-            value = raw.ToArray(Function(obj) obj.Key)
+            value = raw.ToArray(Function(obj) obj.x)
             Return f
         End Function
 
@@ -263,6 +296,5 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             GC.SuppressFinalize(Me)
         End Sub
 #End Region
-
     End Class
 End Namespace

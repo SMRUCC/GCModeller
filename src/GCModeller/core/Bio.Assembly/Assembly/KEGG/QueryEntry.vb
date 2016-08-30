@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::af8193d050e4b23e6f9878150e3070bb, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\QueryEntry.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.KEGG.WebServices
 
@@ -40,6 +41,7 @@ Namespace Assembly.KEGG.WebServices
     ''' <remarks>
     ''' The example format as:
     ''' 
+    ''' ```
     ''' Nostoc sp. PCC 7120
     ''' #
     ''' alr4156
@@ -49,9 +51,19 @@ Namespace Assembly.KEGG.WebServices
     ''' all2134
     ''' all2133
     ''' ......
+    ''' ```
     ''' </remarks>
     Public Class QuerySource
+
+        ''' <summary>
+        ''' The genome name.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property genome As String
+        ''' <summary>
+        ''' The list of gene locus id that using for the query.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property locusId As String()
 
         ''' <summary>
@@ -113,7 +125,14 @@ Namespace Assembly.KEGG.WebServices
             Dim Tokens As String() = IO.File.ReadAllLines(path)
             Dim name As String = Tokens(Scan0)
             Dim lstId As String() = Tokens.Skip(2).ToArray
-            lstId = (From s As String In lstId Where Not String.IsNullOrEmpty(s) Select s.Split.First).ToArray
+
+            lstId = LinqAPI.Exec(Of String) <=
+ _
+                From s As String
+                In lstId
+                Where Not String.IsNullOrEmpty(s)
+                Select s.Split.First
+
             Return New QuerySource With {
                 .genome = name,
                 .locusId = lstId
@@ -157,6 +176,7 @@ Namespace Assembly.KEGG.WebServices
             Dim descr As String = s.Replace(urlEntry, "").Trim
             Dim url As String = "http://www.genome.jp" & urlEntry.href
             Dim EntryID As String = urlEntry.GetValue
+
             Return New ListEntry With {
                 .Description = descr,
                 .EntryID = EntryID,
@@ -202,10 +222,10 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Shared Widening Operator CType(strArray As String()) As QueryEntry
-            If strArray.IsNullOrEmpty OrElse strArray.Count < 2 Then
+            If strArray.IsNullOrEmpty OrElse strArray.Length < 2 Then
                 Return New QueryEntry
             Else
-                If strArray.Count = 2 Then
+                If strArray.Length = 2 Then
                     Return New QueryEntry With {
                         .SpeciesId = strArray(0),
                         .LocusId = strArray(1)

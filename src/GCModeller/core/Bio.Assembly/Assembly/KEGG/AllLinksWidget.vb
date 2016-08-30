@@ -41,11 +41,13 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
         Default Public ReadOnly Property Url(ItemKey As String) As String
             Get
-                Dim LQuery As String =
-                    LinqAPI.DefaultFirst(Of String) <= From lnkValue As KeyValuePair
-                                                       In Links
-                                                       Where String.Equals(lnkValue.Key, ItemKey)
-                                                       Select lnkValue.Value
+                Dim LQuery As String = LinqAPI.DefaultFirst(Of String) <=
+ _
+                    From lnkValue As KeyValuePair
+                    In Links
+                    Where String.Equals(lnkValue.Key, ItemKey)
+                    Select lnkValue.Value
+
                 Return LQuery
             End Get
         End Property
@@ -53,7 +55,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Public Shared Function InternalParser(html As String) As AllLinksWidget
             Dim Links As AllLinksWidget = New AllLinksWidget
             html = Regex.Match(html, "All links.+</pre>", RegexOptions.Singleline).Value
-            Dim sbuf As String() = (From m As Match In Regex.Matches(html, "<a href="".+?"">.+?</a>") Select m.Value).ToArray
+            Dim sbuf As String() = Regex.Matches(html, "<a href="".+?"">.+?</a>").ToArray
 
             Links.Links =
                 LinqAPI.Exec(Of KeyValuePair) <= From s As String
@@ -68,9 +70,13 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Join("; ", (From m As KeyValuePair
-                                      In Links
-                                      Select ss = m.ToString).ToArray)
+            Dim links As String() = LinqAPI.Exec(Of String) <=
+ _
+                From m As KeyValuePair
+                In Me.Links
+                Select ss = m.ToString
+
+            Return String.Join("; ", links)
         End Function
     End Class
 End Namespace
