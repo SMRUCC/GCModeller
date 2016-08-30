@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.base
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.base
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
 Namespace SymbolBuilder
