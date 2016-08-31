@@ -1,34 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::06b401785b8ced5b0b1ae36fdf398cbc, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\BlastOutput.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.XmlFile
 
@@ -60,15 +63,22 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
         <XmlArray("BlastOutput_param")> Public Property Param As Parameters()
         <XmlArray("BlastOutput_iterations")> Public Property Iterations As Iteration()
 
+        ''' <summary>
+        ''' Trim for uid/locus_tag
+        ''' </summary>
+        ''' <param name="QueryGrepMethod"></param>
+        ''' <param name="HitsGrepMethod"></param>
+        ''' <returns></returns>
         Public Overrides Function Grep(QueryGrepMethod As TextGrepMethod, HitsGrepMethod As TextGrepMethod) As IBlastOutput
-            Dim Queries = Me.Iterations
             If Not QueryGrepMethod Is Nothing Then
-                Dim LQuery = (From idx As Integer In Iterations.Count.Sequence
-                              Let Query As Iteration = Queries(idx) Select Query.GrepQuery(QueryGrepMethod)).ToArray '
+                For Each query In Iterations
+                    Call query.GrepQuery(QueryGrepMethod)
+                Next
             End If
             If Not HitsGrepMethod Is Nothing Then
-                Dim LQuery = (From idx As Integer In Iterations.Count.Sequence
-                              Let Query As Iteration = Queries(idx) Select Query.GrepHits(HitsGrepMethod)).ToArray '
+                For Each query In Iterations
+                    Call query.GrepHits(HitsGrepMethod)
+                Next
             End If
 
             Return Me
@@ -78,23 +88,20 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
             Throw New NotImplementedException
         End Function
 
-        Public Overrides Function ExportBestHit(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As LocalBLAST.Application.BBH.BestHit()
-            Return (From Iteration As Iteration In Iterations Select Iteration.BestHit(identities_cutoff)).ToArray
+        Public Overrides Function ExportBestHit(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As BestHit()
+            Return LinqAPI.Exec(Of BestHit) <= From i As Iteration
+                                               In Iterations
+                                               Select i.BestHit(identities_cutoff)
         End Function
 
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Text.Encoding = Nothing) As Boolean
-            If String.IsNullOrEmpty(FilePath) Then
-                FilePath = Me.FilePath
-            Else
-                MyBase.FilePath = FilePath
-            End If
-
+        Public Overrides Function Save(Optional FilePath As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean
             Dim Xml As String = Me.GetXml
 
-            If Encoding Is Nothing Then Encoding = System.Text.Encoding.UTF8
+            If encoding Is Nothing Then
+                encoding = System.Text.Encoding.UTF8
+            End If
 
-            Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(FilePath))
-            Return Xml.SaveTo(FilePath, encoding:=Encoding)
+            Return Xml.SaveTo(getPath(FilePath), encoding:=encoding)
         End Function
 
         ''' <summary>
@@ -109,19 +116,23 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
             Return BlastOutput
         End Function
 
-        Public Overrides Function ExportOverview() As LocalBLAST.BLASTOutput.Views.Overview
-            Dim LQuery = Me.Iterations.ToArray(Function(x) __toQuery(x))
-            Return New Views.Overview With {.Queries = LQuery}
+        Public Overrides Function ExportOverview() As Overview
+            Return New Views.Overview With {
+                .Queries = Iterations.ToArray(AddressOf __toQuery)
+            }
         End Function
 
         Private Shared Function __toQuery(query As Iteration) As Views.Query
             Dim queryName As String = query.QueryId
             Dim hits = query.Hits.ToArray(Function(x) __toHit(x, query))
-            Return New Views.Query With {.Id = queryName, .Hits = hits.MatrixToVector}
+            Return New Views.Query With {
+                .Id = queryName,
+                .Hits = hits.MatrixToVector
+            }
         End Function
 
-        Private Shared Function __toHit(hit As XmlFile.Hits.Hit, query As Iteration) As LocalBLAST.Application.BBH.BestHit()
-            Dim list = hit.Hsps.ToArray(Function(hsp) New LocalBLAST.Application.BBH.BestHit With {
+        Private Shared Function __toHit(hit As XmlFile.Hits.Hit, query As Iteration) As BestHit()
+            Dim list = hit.Hsps.ToArray(Function(hsp) New BestHit With {
                 .HitName = hit.Id & "| " & hit.Def,
                 .hit_length = hit.HitLength,
                 .length_hit = hit.Len,
@@ -136,7 +147,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
             Return list
         End Function
 
-        Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As LocalBLAST.Application.BBH.BestHit()
+        Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As BestHit()
             Throw New NotImplementedException
         End Function
     End Class

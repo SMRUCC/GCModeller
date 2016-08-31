@@ -57,7 +57,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         Public Shared Function TryParse(TextLines As String()) As HitSegment
             If TextLines.IsNullOrEmpty Then
                 Return Nothing
-            ElseIf TextLines.Count < 3 Then
+            ElseIf TextLines.Length < 3 Then
                 Dim sBuilder As StringBuilder = New StringBuilder(1024)
                 For Each item In TextLines
                     Call sBuilder.AppendLine(vbTab & vbTab & item)
@@ -70,7 +70,8 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
                 Return New HitSegment With {
                     .Query = Segment.TryParse(TextLines(QUERY_INDEX)),
                     .Consensus = TextLines(CONSERVED_INDEX).Trim,
-                    .Sbjct = Segment.TryParse(TextLines(SUBJECT_INDEX))}
+                    .Sbjct = Segment.TryParse(TextLines(SUBJECT_INDEX))
+                }
             End If
         End Function
     End Class
@@ -79,8 +80,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
     ''' 匹配上的序列片段
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Segment
-        Implements I_PolymerSequenceModel, ILocationSegment
+    Public Class Segment : Implements I_PolymerSequenceModel, ILocationSegment
 
         <XmlAttribute> Public Property Left As Long
         <XmlAttribute> Public Property Right As Long
@@ -103,18 +103,19 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         Public Shared Function TryParse(Text As String) As Segment
             Dim Numbers = Regex.Matches(Text, "\d+")
             Dim Tokens As String() = Text.Split
-            Dim Segment As Segment = New Segment With {
+            Dim sg As New Segment With {
                 .Left = Numbers(0).Value.RegexParseDouble,
-                .Right = Numbers(1).Value.RegexParseDouble}
+                .Right = Numbers(1).Value.RegexParseDouble
+            }
 
             For i As Integer = Tokens.Count - 1 To 1 Step -1
                 If Not Tokens(i).IsNullOrEmpty AndAlso Tokens(i).RegexParseDouble = 0.0R Then
-                    Segment.SequenceData = Tokens(i)
+                    sg.SequenceData = Tokens(i)
                     Exit For
                 End If
             Next
 
-            Return Segment
+            Return sg
         End Function
 
         Public Overrides Function ToString() As String

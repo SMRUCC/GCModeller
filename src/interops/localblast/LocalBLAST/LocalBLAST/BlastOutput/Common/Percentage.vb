@@ -84,9 +84,12 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             If String.IsNullOrEmpty(Text) Then Return ZERO
 
             Dim Matchs As String() = Regex.Matches(Text, "\d+").ToArray
+            Dim n As Double = Matchs(0).RegexParseDouble
+            Dim d As Double = Matchs(1).RegexParseDouble
+
             Return New Percentage With {
-                .Numerator = Matchs(0).RegexParseDouble,
-                .Denominator = Matchs(1).RegexParseDouble
+                .Numerator = n,
+                .Denominator = d
             }
         End Function
 
