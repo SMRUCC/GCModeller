@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::62e91f5abc3bea9184ad44449d43a4c0, ..\httpd\HTTPServer\SMRUCC.HTTPInternal\Core\HttpServer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,19 +30,21 @@ Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
 Imports System.Threading
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
+Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace Core
 
     ''' <summary>
     ''' Internal http server core.
     ''' </summary>
-    Public MustInherit Class HttpServer : Implements System.IDisposable
+    Public MustInherit Class HttpServer : Inherits ClassObject
+        Implements IDisposable
 
         Protected Is_active As Boolean = True
 
         ReadOnly _httpListener As TcpListener
-        ReadOnly _homeShowOnStart As Boolean = False
 
         ''' <summary>
         ''' The network data port of this internal http server listen.
@@ -63,12 +65,20 @@ Namespace Core
         ''' 
         ''' </summary>
         ''' <param name="port">The network data port of this internal http server listen.</param>
-        ''' <param name="homeShowOnStart"></param>
-        Public Sub New(port As Integer, Optional homeShowOnStart As Boolean = False)
+        Public Sub New(port As Integer, Optional threads As Integer = -1)
             Me._LocalPort = port
-            Me._homeShowOnStart = homeShowOnStart
             Me._httpListener = New TcpListener(IPAddress.Any, _LocalPort)
+            Me._threadPool = New Threads.ThreadPool(
+                If(threads = -1,
+                LQuerySchedule.Recommended_NUM_THREADS * 8,
+                threads))
+            Call Console.WriteLine("Web server threads_pool_size=" & _threadPool.NumOfThreads)
         End Sub
+
+        ''' <summary>
+        ''' 处理连接的线程池
+        ''' </summary>
+        Dim _threadPool As Threads.ThreadPool
 
         ''' <summary>
         ''' Running this http server. 
@@ -78,7 +88,7 @@ Namespace Core
         ''' <returns></returns>
         Public Overridable Function Run() As Integer
             Try
-                Call _httpListener.Start()
+                Call _httpListener.Start(10240)
             Catch ex As Exception
                 If ex.IsSocketPortOccupied Then
                     Call $"Could not start http services at {NameOf(_LocalPort)}:={_LocalPort}".__DEBUG_ECHO
@@ -100,19 +110,44 @@ Namespace Core
             End Try
 
             Call Console.WriteLine("Http Server Start listen at " & _httpListener.LocalEndpoint.ToString)
+#If DEBUG Then
             Call RunTask(AddressOf Me.OpenAPI_HOME)
-
+#End If
             While Is_active
-                Dim s As TcpClient = _httpListener.AcceptTcpClient()
-                Dim processor As HttpProcessor = __httpProcessor(s)
-                Dim proc As New Thread(New ThreadStart(AddressOf processor.Process))
-
-                Call $"Process client from {s.Client.RemoteEndPoint.ToString}".__DEBUG_ECHO
-                Call proc.Start()
-                Call Thread.Sleep(1)
+                If Not _threadPool.FullCapacity Then
+                    Call _threadPool.RunTask(AddressOf __accept)
+                Else
+                    Thread.Sleep(1)
+                End If
             End While
 
             Return 0
+        End Function
+
+        Private Sub __accept()
+            Try
+                Dim s As TcpClient = _httpListener.AcceptTcpClient
+                Dim processor As HttpProcessor = getProcessor(s)
+
+                Call $"Process client from {s.Client.RemoteEndPoint.ToString}".__DEBUG_ECHO
+                Call processor.Process()
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+        End Sub
+
+        Public Property BufferSize As Integer = 4096
+
+        ''' <summary>
+        ''' 一些初始化的设置在这里
+        ''' </summary>
+        ''' <param name="client"></param>
+        ''' <returns></returns>
+        Private Function getProcessor(client As TcpClient) As HttpProcessor
+            Dim proc As HttpProcessor = __httpProcessor(client)
+            proc.BUF_SIZE = BufferSize
+
+            Return proc
         End Function
 
         ''' <summary>
@@ -125,8 +160,7 @@ Namespace Core
         Private Sub OpenAPI_HOME()
             Call Thread.Sleep(10 * 1000)
 
-            If Environment.OSVersion.Platform = PlatformID.Win32NT AndAlso
-                _homeShowOnStart Then
+            If Environment.OSVersion.Platform = PlatformID.Win32NT Then
                 Dim uri As String = $"http://127.0.0.1:{_LocalPort}/"
                 Call Process.Start(uri)
             End If
@@ -169,6 +203,7 @@ Namespace Core
         ''' </example>
         Public MustOverride Sub handleGETRequest(p As HttpProcessor)
         Public MustOverride Sub handlePOSTRequest(p As HttpProcessor, inputData As MemoryStream)
+        Public MustOverride Sub handleOtherMethod(p As HttpProcessor)
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls

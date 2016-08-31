@@ -37,11 +37,15 @@ Namespace AppEngine.APIMethods
     ''' </summary>
     Public Class [GET] : Inherits APIMethod
 
+        ''' <summary>
+        ''' type argument using for Build example json
+        ''' </summary>
+        ''' <param name="responseExample"></param>
         Sub New(responseExample As Type)
             Call MyBase.New(responseExample)
         End Sub
 
-        Public Overrides Function GetMethodHelp(EntryPoint As System.Reflection.MethodInfo) As String
+        Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
             Return $"Method: <strong>{GetType([GET]).Name}</strong><br />
 {__getParameters(EntryPoint)}<br />
 Returns:<br />
@@ -63,7 +67,7 @@ Returns:<br />
             Call MyBase.New(responseExample)
         End Sub
 
-        Public Overrides Function GetMethodHelp(EntryPoint As System.Reflection.MethodInfo) As String
+        Public Overrides Function GetMethodHelp(EntryPoint As MethodInfo) As String
             Return $"Method: <strong>{GetType(POST).Name}</strong><br />
 {__getParameters(EntryPoint)}<br />
 Returns:<br />

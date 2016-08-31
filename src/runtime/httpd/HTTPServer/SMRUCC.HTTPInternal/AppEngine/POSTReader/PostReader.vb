@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::61bf099e55bad77a27e7101f3a6006dc, ..\httpd\HTTPServer\SMRUCC.HTTPInternal\AppEngine\POSTReader\PostReader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -29,6 +29,7 @@ Imports System.Text
 Imports System.Collections
 Imports System.Collections.Specialized
 Imports System.IO
+Imports Microsoft.VisualBasic.Language
 
 Namespace AppEngine.POSTParser
 
@@ -36,6 +37,17 @@ Namespace AppEngine.POSTParser
     ''' POST参数的解析工具
     ''' </summary>
     Public Class PostReader
+
+        ''' <summary>
+        ''' Get value from <see cref="Form"/>
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns></returns>
+        Default Public ReadOnly Property param(name As String) As String
+            Get
+                Return Form(name)
+            End Get
+        End Property
 
         Private Shared Function GetParameter(header As String, attr As String) As String
             Dim ap As Integer = header.IndexOf(attr)
@@ -86,30 +98,40 @@ Namespace AppEngine.POSTParser
         ''' </summary>
         Private Sub LoadMultiPart()
             Dim boundary As String = GetParameter(ContentType, "; boundary=")
+
             If boundary Is Nothing Then
-                Return
+                ' probably is a jquery post
+                Dim byts As Byte() = DirectCast(InputStream, MemoryStream).ToArray
+                Dim s As String = ContentEncoding.GetString(byts)
+
+                For Each x In s.postRequestParser
+                    Call Form.Add(x.Key, x.Value)
+                Next
+            Else
+                Dim input As Stream = GetSubStream(InputStream)
+                Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
+                Dim read As New Value(Of HttpMultipart.Element)
+
+                While (read = multi_part.ReadNextElement()) IsNot Nothing
+                    Dim e = +read
+
+                    If e.Filename Is Nothing Then
+                        Dim copy As Byte() = New Byte(e.Length - 1) {}
+
+                        input.Position = e.Start
+                        input.Read(copy, 0, CInt(e.Length))
+
+                        Form.Add(e.Name, ContentEncoding.GetString(copy))
+                    Else
+                        '
+                        ' We use a substream, as in 2.x we will support large uploads streamed to disk,
+                        '
+                        Dim [sub] As New HttpPostedFile(e.Filename, e.ContentType, input, e.Start, e.Length)
+                        Files.Add(e.Name, [sub])
+                    End If
+
+                End While
             End If
-
-            Dim input As Stream = GetSubStream(InputStream)
-            Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
-
-            Dim e As HttpMultipart.Element = Nothing
-            While multi_part.ReadNextElement().ShadowCopy(e) IsNot Nothing
-                If e.Filename Is Nothing Then
-                    Dim copy As Byte() = New Byte(e.Length - 1) {}
-
-                    input.Position = e.Start
-                    input.Read(copy, 0, CInt(e.Length))
-
-                    Form.Add(e.Name, ContentEncoding.GetString(copy))
-                Else
-                    '
-                    ' We use a substream, as in 2.x we will support large uploads streamed to disk,
-                    '
-                    Dim [sub] As New HttpPostedFile(e.Filename, e.ContentType, input, e.Start, e.Length)
-                    Files.Add(e.Name, [sub])
-                End If
-            End While
         End Sub
     End Class
 End Namespace
