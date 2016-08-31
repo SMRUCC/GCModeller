@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace LocalBLAST.BLASTOutput.ComponentModel
 
     Public Structure Parameter
+
         <XmlAttribute> Dim Lambda, K, H, a, alpha, sigma As Double
 
         Public Const MATCHED As String = "Lambda.+$"

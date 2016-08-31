@@ -30,6 +30,7 @@ Imports System.Text.RegularExpressions
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
     Public Structure ParameterSummary
+
         Dim Database, PostedDate As String
         ''' <summary>
         ''' Number of letters in database

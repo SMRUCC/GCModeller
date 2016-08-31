@@ -1,33 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::488e60da50203760ccec58e4560c2d4f, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\OutputReader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
@@ -45,25 +47,18 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' <remarks></remarks>
         Public Function TryParseOutput(Path As String) As v228_BlastX
             Dim SourceText As String = FileIO.FileSystem.ReadAllText(Path)
-            Dim Sections As String() = (From m As Match In Regex.Matches(SourceText, SECTION_REGEX, RegexOptions.Singleline) Select m.Value).ToArray
-            Dim LQuery As Components.Query()
-            '  Try
-            LQuery = (From str As String In Sections Select __queryParser(str)).ToArray
-            '  Catch ex As Exception
-            '  ex = New Exception(Path.ToFileURL, ex)
-            '  Throw ex
-            '  End Try
+            Dim Sections As String() = Regex.Matches(SourceText, SECTION_REGEX, RegexOptions.Singleline).ToArray
+            Dim LQuery As Components.Query() = Sections.ToArray(AddressOf __queryParser)
+
             Return New v228_BlastX With {
                 .FilePath = Path & ".xml",
                 .Queries = LQuery,
-                .Database = IO.Path.GetFileNameWithoutExtension(Path)
+                .Database = Path.BaseName
             }
         End Function
 
         Private Function __hitFragments(sec As String) As List(Of Components.HitFragment)
-            Dim HSP As String() = (From m As Match
-                                      In Regex.Matches(sec, BlastXScore.REGEX_BLASTX_SCORE, RegexOptions.Singleline)
-                                   Select m.Value).ToArray
+            Dim HSP As String() = Regex.Matches(sec, BlastXScore.REGEX_BLASTX_SCORE, RegexOptions.Singleline).ToArray
 
             Dim tmp As New List(Of Components.HitFragment)
 
@@ -80,7 +75,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
             Dim pLast As Integer = InStr(sec, HSP.Last)
             Dim last As String = Regex.Split(Mid(sec, pLast), "Lambda\s+K").First.Replace(HSP.Last, "")
-            Call tmp.Add(__hspParser(last, HSP.Last))
+
+            tmp += __hspParser(last, HSP.Last)
 
             Dim name As String = Strings.Split(sec, " Score =", Compare:=CompareMethod.Binary).First
             Dim len As String = Regex.Match(name, "Length\s*=\s*\d+", RegexOptions.Singleline).Value
@@ -99,7 +95,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
 
         Private Function __queryParser(str As String) As Components.Query
-            Dim ChunkBuffer As New List(Of Components.HitFragment)
+            Dim bufs As New List(Of Components.HitFragment)
 
             If InStr(str, "***** No hits found *****") Then
                 GoTo ENTRY_INFO_PARSER
@@ -109,20 +105,23 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
             For i As Integer = 0 To names.Length - 2
                 Dim sec As String = names(i)
-                ChunkBuffer += __hitFragments(sec).ToArray
+                bufs += __hitFragments(sec).ToArray
             Next
 
             Dim last As String = names.Last
             last = Regex.Split(last, "Lambda\s+K", RegexOptions.Singleline).First
 
-            ChunkBuffer += __hitFragments(last).ToArray
+            bufs += __hitFragments(last).ToArray
 
 ENTRY_INFO_PARSER:
 
-            Dim Tokens As String() = (From s As String
-                                      In Strings.Split(str.Replace(vbCr, ""), vbLf)
-                                      Where Not String.IsNullOrEmpty(s)
-                                      Select s).ToArray
+            Dim Tokens As String() = LinqAPI.Exec(Of String) <=
+ _
+                From s As String
+                In Strings.Split(str.Replace(vbCr, ""), vbLf)
+                Where Not String.IsNullOrEmpty(s)
+                Select s
+
             Dim p As Integer
             Dim QueryName As String = __parser(p, "Length=", Tokens).Trim
             Dim QueryLength As String = Tokens(p.MoveNext).Trim
@@ -135,7 +134,7 @@ ENTRY_INFO_PARSER:
             SubjectLength = Regex.Match(SubjectLength, "\d+").Value
 
             Return New Components.Query With {
-                .Hits = ChunkBuffer.ToArray,
+                .Hits = bufs.ToArray,
                 .QueryName = QueryName,
                 .QueryLength = Val(QueryLength),
                 .SubjectLength = Val(SubjectLength),
@@ -162,19 +161,27 @@ ENTRY_INFO_PARSER:
         End Function
 
         Private Function __hspParser(s As String, Score As String) As Components.HitFragment
-            Dim Hsp = (From sss As String In s.lTokens
-                       Where Not String.IsNullOrEmpty(sss)
-                       Select sss).ToArray.CreateSlideWindows(3, offset:=3)
-            Dim LQuery = (From chunk In Hsp Select BLASTOutput.ComponentModel.HitSegment.TryParse(chunk.Elements)).ToArray
+            Dim hsp = s.lTokens _
+                .Where(Function(ss) Not String.IsNullOrEmpty(ss)) _
+                .CreateSlideWindows(3, offset:=3)
+            Dim LQuery As HitSegment() =
+                hsp.ToArray(Function(x) HitSegment.TryParse(x.Elements))
+
             Return New Components.HitFragment With {
                 .Score = __scoreParser(Score),
                 .Hsp = LQuery
             }
         End Function
 
-        Private Function __scoreParser(s As String) As BLASTOutput.ComponentModel.BlastXScore
-            Dim Tokens As String() = (From str As String In Strings.Split(s.Replace(vbCr, ""), vbLf) Where Not String.IsNullOrEmpty(str) Select str).ToArray
-            Dim Score As BLASTOutput.ComponentModel.BlastXScore = ComponentModel.BlastXScore.TryParse(Of BLASTOutput.ComponentModel.BlastXScore)(s)
+        Private Function __scoreParser(s As String) As BlastXScore
+            Dim Tokens As String() = LinqAPI.Exec(Of String) <=
+ _
+                From str As String
+                In Strings.Split(s.Replace(vbCr, ""), vbLf)
+                Where Not String.IsNullOrEmpty(str)
+                Select str
+
+            Dim Score As BlastXScore = BlastXScore.TryParse(Of BlastXScore)(s)
             Score.Frame = Val(Tokens.Last.Replace("Frame =", "").Trim)
 
             Return Score

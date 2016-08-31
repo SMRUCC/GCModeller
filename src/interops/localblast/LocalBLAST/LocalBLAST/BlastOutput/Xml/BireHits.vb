@@ -49,7 +49,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
         Protected Friend ReadOnly Property Coverage As Double
             Get
                 Dim LQuery = From Hsp As Hsp In Me.Hsps Select Val(Hsp.HitTo) - Val(Hsp.HitFrom) '
-                Return LQuery.ToArray.Sum / Val(Len)
+                Return LQuery.Sum / Val(Len)
             End Get
         End Property
 
@@ -74,14 +74,14 @@ Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
         Protected Friend ReadOnly Property Identities As Double
             Get
                 Dim LQuery As Double() = (From Hsp As Hsp In Me.Hsps Select Val(Hsp.Identity)).ToArray
-                Return LQuery.Sum / LQuery.Count
+                Return LQuery.Sum / LQuery.Length
             End Get
         End Property
 
         Protected Friend ReadOnly Property Gaps As Integer
             Get
                 Dim LQuery = From Hsp As Hsp In Me.Hsps Select Val(Hsp.Gaps) '
-                Return LQuery.ToArray.Sum
+                Return LQuery.Sum
             End Get
         End Property
 
@@ -100,6 +100,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile.Hits
     End Class
 
     Public Class Hsp
+
         <XmlElement("Hsp_num")> Public Property Num As String
         <XmlElement("Hsp_bit-score")> Public Property BitScore As String
         <XmlElement("Hsp_score")> Public Property Score As String
