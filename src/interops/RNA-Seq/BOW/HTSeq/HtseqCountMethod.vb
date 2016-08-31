@@ -277,8 +277,10 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
 
     <ExportAPI("HtSeq-count.Mode")>
     Public Function GetMethod(mode As String) As HtSeqMethod
-        If HtSeqMethods.ContainsKey(mode.ToLower.ShadowCopy(mode)) Then
-            Return _HtSeqMethods(mode)
+        Dim key As String = mode.ToLower
+
+        If HtSeqMethods.ContainsKey(key) Then
+            Return _HtSeqMethods(key)
         End If
 
         Call $"mode={mode} currently is not supported yet, using default ""union"".".__DEBUG_ECHO
@@ -295,15 +297,19 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
 
         Public Shared Function Load(path As String) As CountResult()
             Dim lines As String() = IO.File.ReadAllLines(path)
-            Dim array As CountResult() = (From line As String In lines.AsParallel
-                                          Let Tokens As String() = Strings.Split(line, vbTab)
-                                          Where Tokens.Length >= 2
-                                          Let expr As Double = Val(Tokens(1))
-                                          Let value As CountResult = New CountResult With {
-                                                  .Feature = Tokens(Scan0),
-                                                  .Counts = expr
-                                              }
-                                          Select value).ToArray
+            Dim array As CountResult() = LinqAPI.Exec(Of CountResult) <=
+ _
+                From line As String
+                In lines
+                Let Tokens As String() = Strings.Split(line, vbTab)
+                Where Tokens.Length >= 2
+                Let expr As Double = Val(Tokens(1))
+                Let value As CountResult = New CountResult With {
+                    .Feature = Tokens(Scan0),
+                    .Counts = expr
+                }
+                Select value
+
             Return array
         End Function
     End Class

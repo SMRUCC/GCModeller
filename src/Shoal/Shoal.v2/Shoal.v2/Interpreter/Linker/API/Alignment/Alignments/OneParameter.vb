@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.Parser.Tokens.ParameterName
 Imports Microsoft.VisualBasic.Scripting.MetaData.Parameter
 Imports System.Reflection
+Imports Microsoft.VisualBasic.Language
 
 Namespace Interpreter.Linker.APIHandler.Alignment
 
@@ -42,14 +43,14 @@ Namespace Interpreter.Linker.APIHandler.Alignment
         End Function
 
         Private Function __equals(Name As String) As ParamAlignments
-            Dim equalsValue As Integer
+            Dim equalsValue As int = Scan0
             Dim valueInput As Object = InputParam(Name)
 
             If __boolsEquals(FuncDef, valueInput) Then Return New ParamAlignments With {.Score = 100, .args = {True}}
 
             Dim inputType As Type = valueInput.GetType
 
-            If TypeEquals.TypeEquals(FuncDef.ParameterType, inputType).ShadowCopy(equalsValue) > 0 Then
+            If (equalsValue = TypeEquals.TypeEquals(FuncDef.ParameterType, inputType)) > 0 Then
                 Return New ParamAlignments With {
                     .Score = equalsValue,
                     .args = {valueInput}

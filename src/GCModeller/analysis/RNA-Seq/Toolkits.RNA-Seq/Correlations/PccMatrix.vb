@@ -168,13 +168,15 @@ Public Class PccMatrix
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function GetValue(Id1 As String, Id2 As String, Optional Parallel As Boolean = True) As Double Implements IWeightPaired.GetValue
-        If Not _pccValues.ContainsKey(Id1.ToUpper.ShadowCopy(Id1)) Then
+        Dim key1 As String = Id1.ToUpper
+
+        If Not _pccValues.ContainsKey(key1) Then
             Return 0
         End If
 
         If __ordinalHash.ContainsKey(Id2) Then
             Dim idx As Integer = __ordinalHash(Id2)
-            Dim value As Double = _pccValues(Id1).Values(idx)
+            Dim value As Double = _pccValues(key1).Values(idx)
             Return value
         Else
             Return 0

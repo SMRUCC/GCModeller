@@ -151,8 +151,9 @@ Principal Component Analysis",
                                    Optional modules As String = DEFAULT_COLORS) As String
 
             Dim WGCNA As StringBuilder = New StringBuilder(My.Resources.WGCNA)
+            outDIR = outDIR.GetDirectoryFullPath
             Call WGCNA.Replace("[dataExpr]", dataExpr.GetFullPath)
-            Call WGCNA.Replace("[WORK]", outDIR.GetDirectoryFullPath.ShadowCopy(outDIR))
+            Call WGCNA.Replace("[WORK]", outDIR)
             Call WGCNA.Replace("[GeneId_LABEL]", GeneIdLabel)
             Call WGCNA.Replace("[TOMsave]", IO.Path.GetFileNameWithoutExtension(dataExpr) & ".TOMsave")
             Call WGCNA.Replace("[Annotations.csv]", annotations.GetFullPath)

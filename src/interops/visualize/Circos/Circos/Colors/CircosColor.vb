@@ -139,8 +139,10 @@ Namespace Colors
 
         <ExportAPI("From.Name", Info:="Gets the .NET color object from the circos color name. If the function failed, then the Color.Black value will be return.")>
         Public Function FromKnownColorName(Name As String) As Color
-            If CircosColor.RGBColors.ContainsKey(Name.ToLower.ShadowCopy(Name)) Then
-                Return CircosColor.RGBColors(Name)
+            Dim key As String = Name.ToLower
+
+            If CircosColor.RGBColors.ContainsKey(key) Then
+                Return CircosColor.RGBColors(key)
             Else
                 Return Color.Black
             End If

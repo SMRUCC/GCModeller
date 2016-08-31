@@ -140,27 +140,32 @@ TRAINING SET<br />
                 Return New Dictionary(Of String, KeyValuePair(Of Double, Integer))
             End If
 
-            Dim str As String = ""
-            Dim Dict As New Dictionary(Of String, KeyValuePair(Of Double, Integer))
+            Dim str As New Value(Of String)
+            Dim dict As New Dictionary(Of String, KeyValuePair(Of Double, Integer))
 
-            Do While Not Regex.Match(Lines(p).ShadowCopy(str), "\*+").Success
+            Do While Not Regex.Match(str = Lines(p), "\*+").Success
 
                 If String.IsNullOrEmpty(str) Then
                     p += 1
                     Continue Do
                 End If
 
-                Dim Tokens As String() = (From s As String In str.Split Where Not String.IsNullOrEmpty(s) Select s).ToArray
+                Dim Tokens As String() = LinqAPI.Exec(Of String) <=
+ _
+                    From s As String
+                    In str.value.Split
+                    Where Not String.IsNullOrEmpty(s)
+                    Select s
 
-                Call Dict.Add(Tokens(Scan0), New KeyValuePair(Of Double, Integer)(Val(Tokens(1)), CInt(Val(Tokens(2)))))
-                If Tokens.Count > 3 Then
-                    Call Dict.Add(Tokens(3), New KeyValuePair(Of Double, Integer)(Val(Tokens(4)), CInt(Val(Tokens(5)))))
+                Call dict.Add(Tokens(Scan0), New KeyValuePair(Of Double, Integer)(Val(Tokens(1)), CInt(Val(Tokens(2)))))
+                If Tokens.Length > 3 Then
+                    Call dict.Add(Tokens(3), New KeyValuePair(Of Double, Integer)(Val(Tokens(4)), CInt(Val(Tokens(5)))))
                 End If
 
                 p += 1
             Loop
 
-            Return Dict
+            Return dict
         End Function
 
         <ExportAPI("Load.Xml.MAST")>

@@ -35,6 +35,9 @@ Imports SMRUCC.HTTPInternal.Platform
 
 Namespace AppEngine
 
+    ''' <summary>
+    ''' Help document developer user manual page
+    ''' </summary>
     <[Namespace]("sdk")>
     Public Class APPManager : Inherits WebApp
         Implements IEnumerable(Of APPEngine)
@@ -57,7 +60,9 @@ Namespace AppEngine
 
         Default Public ReadOnly Property App(name As String) As APPEngine
             Get
-                If RunningAPP.ContainsKey(name.ToLower.ShadowCopy(name)) Then
+                name = name.ToLower
+
+                If RunningAPP.ContainsKey(name) Then
                     Return RunningAPP(name)
                 Else
                     Return Nothing
@@ -65,12 +70,17 @@ Namespace AppEngine
             End Get
         End Property
 
+        ''' <summary>
+        ''' Get running app by type.
+        ''' </summary>
+        ''' <typeparam name="App"></typeparam>
+        ''' <returns></returns>
         Public Function GetApp(Of App As Class)() As App
             Dim appType As Type = GetType(App)
             Dim LQuery As App = LinqAPI.DefaultFirst(Of App) <=
  _
                 From x As APPEngine
-                In RunningAPP.Values.AsParallel
+                In RunningAPP.Values
                 Where appType.Equals(x.Application.GetType)
                 Let AppInstant As App =
                     DirectCast(x.Application, App)

@@ -253,14 +253,14 @@ _SET_PRIMARYKEY:
         End If
 
         Dim p_CommentKeyWord As Integer = InStr(FieldDef, "COMMENT '", CompareMethod.Text)
-        Dim p As Integer
+        Dim p As New int
 
         If p_CommentKeyWord = 0 Then  '没有注释，则百分之百就是列属性了
             p_CommentKeyWord = Integer.MaxValue
         End If
 
-        Dim IsAutoIncrement As Boolean = InStr(FieldDef, "AUTO_INCREMENT", CompareMethod.Text).ShadowCopy(p) > 0 AndAlso p < p_CommentKeyWord
-        Dim IsNotNull As Boolean = InStr(FieldDef, "NOT NULL", CompareMethod.Text).ShadowCopy(p) > 0 AndAlso p < p_CommentKeyWord
+        Dim IsAutoIncrement As Boolean = (p = InStr(FieldDef, "AUTO_INCREMENT", CompareMethod.Text)) > 0 AndAlso p < p_CommentKeyWord
+        Dim IsNotNull As Boolean = (p = InStr(FieldDef, "NOT NULL", CompareMethod.Text)) > 0 AndAlso p < p_CommentKeyWord
 
         Dim FieldSchema As New Reflection.Schema.Field With {
             .FieldName = FieldName,

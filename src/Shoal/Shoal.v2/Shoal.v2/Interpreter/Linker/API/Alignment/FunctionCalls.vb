@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.Parser.Tokens.ParameterName
 Imports Microsoft.VisualBasic.Scripting.MetaData.Parameter
 Imports System.Reflection
+Imports Microsoft.VisualBasic.Language
 
 Namespace Interpreter.Linker.APIHandler.Alignment
 
@@ -27,11 +28,11 @@ Namespace Interpreter.Linker.APIHandler.Alignment
         End Function
 
         Friend Function __alignType(paramDef As Type, valueInput As Object, ByRef score As Integer, ByRef outRef As Object) As Boolean
-            Dim equalsValue As Integer
+            Dim equalsValue As int = Scan0
             Dim inputType As Type = valueInput.GetType
 
-            If TypeEquals.TypeEquals(paramDef, inputType).ShadowCopy(equalsValue) > 0 Then
-                score += equalsValue
+            If (equalsValue = TypeEquals.TypeEquals(paramDef, inputType)) > 0 Then
+                score += equalsValue.value
                 outRef = valueInput
             Else
                 If InputHandler.Convertible(inputType, paramDef) Then

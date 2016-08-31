@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::08792750c207460feed4bdb6387a5613, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\DESeq.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.VisualBasic
@@ -388,7 +389,7 @@ Huber, W.",
         ''' <param name="PairedEnd">假若是Paired-End的比对数据，则还需要首先使用samtools工具进行排序</param>
         ''' <returns></returns>
         <ExportAPI("HTSeq.Count", Info:="This function required of python, numpy and HTSeq installed on your computer.")>
-        Public Function HTSeqCount(SAM As String, GFF As String, Optional PairedEnd As Boolean = True) As Boolean
+        Public Function HTSeqCount(SAM As Value(Of String), GFF As String, Optional PairedEnd As Boolean = True) As Boolean
             'python -m HTSeq.scripts.count [options] <alignment_file> <gff_file>
             Call Settings.Session.Initialize()
 
@@ -399,8 +400,8 @@ Huber, W.",
 
             If PairedEnd Then
                 '进行排序
-                Dim Sorted As String = SAM & ".ordered"
-                Call $"The input Sam data file {SAM.ToFileURL} is paired-end data, needs to be sorted.....".__DEBUG_ECHO
+                Dim Sorted As String = SAM.value & ".ordered"
+                Call $"The input Sam data file {SAM.value.ToFileURL} is paired-end data, needs to be sorted.....".__DEBUG_ECHO
                 Call "Start to sorting the sam file....".__DEBUG_ECHO
 
                 '将sam转换为bam
@@ -417,15 +418,15 @@ Huber, W.",
                 End If
 
                 Fna = Samtools.Indexing(Fna)
-                Call Samtools.Import(SAM, Fna, (SAM & ".bam").ShadowCopy(SAM))
+                Call Samtools.Import(SAM, Fna, SAM = (SAM.value & ".bam"))
                 Call Samtools.Sort(SAM, Sorted)
                 Call $"Samtools sorts job done! Sorted file saved at {Sorted.ToFileURL}".__DEBUG_ECHO
                 SAM = Sorted & ".bam"
             End If
 
             Dim Cli As String = If(PairedEnd,
-                $"-m HTSeq.scripts.count -r name -f bam {SAM.CliPath} {GFF.CliPath}",
-                $"-m HTSeq.scripts.count {SAM.CliPath} {GFF.CliPath}") 'bam文件还需要加一些开关来指定格式？
+                $"-m HTSeq.scripts.count -r name -f bam {SAM.value.CliPath} {GFF.CliPath}",
+                $"-m HTSeq.scripts.count {SAM.value.CliPath} {GFF.CliPath}") 'bam文件还需要加一些开关来指定格式？
             Dim HTseq As IIORedirectAbstract = New IORedirectFile(Settings.Session.SettingsFile.Python, Cli)
             Dim i As Boolean = 0 = HTseq.Run()
 

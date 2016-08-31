@@ -34,7 +34,8 @@ Namespace Interpreter.Linker
         Public Function TryGetEntryPoint(EntryPoint As Parser.Tokens.EntryPoint,
                                          ByRef execName As String,
                                          ByRef execValue As Object) As APIHandler.APIEntryPoint
-            Dim API = TryGetEntryPoint(TryGetName(EntryPoint, execValue).ShadowCopy(execName))
+            execName = TryGetName(EntryPoint, execValue)
+            Dim API = TryGetEntryPoint(execName)
             Return API
         End Function
 

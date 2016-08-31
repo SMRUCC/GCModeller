@@ -84,8 +84,7 @@
         End Sub
 
         Public Shared Function GetOperator(opr As String) As Operators
-
-            Select Case Trim(opr).ShadowCopy(opr)
+            Select Case Trim(opr)
 
                 Case "<-", "=" : Return Operators.ValueAssign
                 Case "->" : Return Operators.ExtCall

@@ -73,8 +73,10 @@ Namespace Framework.Provider
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Find(name As String) As TypeEntry
-            If _typeHash.ContainsKey(name.ToLower.ShadowCopy(name)) Then
-                Return _typeHash(name)
+            Dim key As String = name.ToLower
+
+            If _typeHash.ContainsKey(key) Then
+                Return _typeHash(key)
             Else
                 Return Nothing
             End If

@@ -66,9 +66,11 @@ Namespace Topologically.SimilarityMatches
                                            Max As Integer,
                                            Optional cutoff As Double = 0.65) As LociMatchedResult()
 
+            Sequence = Sequence.ToUpper
+
             Dim Chars As Char() =
                 LinqAPI.Exec(Of Char) <= From c As Char
-                                         In Sequence.ToUpper.ShadowCopy(Sequence)
+                                         In Sequence
                                          Select c
                                          Distinct
             Dim initSeeds = (From obj In __generateSeeds(Chars, loci, cutoff, Min, Max)
@@ -244,8 +246,10 @@ Namespace Topologically.SimilarityMatches
 
         <ExportAPI("invoke.search.similarity.reversed")>
         Public Function InvokeSearchReversed(Sequence As String, Min As Integer, Max As Integer, Optional cutoff As Double = 0.65) As ReversedLociMatchedResult()
+            Sequence = Sequence.ToUpper
+
             Dim Seeds = (From rp As RevRepeats
-                         In RepeatsSearchAPI.SearchReversedRepeats(New SegmentObject(Sequence.ToUpper.ShadowCopy(Sequence), 1), Min, Max)
+                         In RepeatsSearchAPI.SearchReversedRepeats(New SegmentObject(Sequence, 1), Min, Max)
                          Select rp.RevSegment
                          Distinct).ToArray  '生成搜索所需要的反向重复序列的种子
             Dim Chars As Char() = (From c As Char

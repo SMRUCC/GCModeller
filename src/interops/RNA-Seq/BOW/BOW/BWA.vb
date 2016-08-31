@@ -252,7 +252,7 @@ Public Module BWA
         Dim sai As String = ""
 
         Call BWA.Index(Reference)                       'Step 1
-        Call BWA.Aln(Reference, Fastaq).ShadowCopy(sai) 'Step 2
+        sai = BWA.Aln(Reference, Fastaq)                'Step 2
         Call BWA.Samse(Reference, sai, Fastaq, SAM)     'Step 3
 
         Return SAM
