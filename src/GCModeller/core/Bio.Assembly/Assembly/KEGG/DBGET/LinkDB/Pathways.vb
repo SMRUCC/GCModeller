@@ -27,12 +27,12 @@
 
 Imports System.Net
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Terminal
 
 Namespace Assembly.KEGG.DBGET.LinkDB
 

@@ -1,34 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::2d55170b90ea731e2f131317d2cbab70, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Similarity
 
@@ -139,24 +141,40 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 j += 1
             Next
 
-            Dim LQuery = (From Handle As Integer In eulst.Sequence
-                          Let obj As Organism = eulst(Handle)
-                          Where Not obj Is Nothing
-                          Select obj.Trim).ToArray
-            Dim lstProk As Prokaryote() = (From handle As Integer In prlst.Sequence
-                                           Let obj As Prokaryote = prlst(handle)
-                                           Where Not obj Is Nothing
-                                           Select DirectCast(obj.Trim, Prokaryote)).ToArray
-            Dim lstKEGGOrgsm As KEGGOrganism =
-                New KEGGOrganism With {
-                    .Eukaryotes = LQuery,
-                    .Prokaryote = lstProk
-            }
+            Dim LQuery As Organism() = LinqAPI.Exec(Of Organism) <=
+ _
+                From Handle As Integer
+                In eulst.Sequence
+                Let obj As Organism = eulst(Handle)
+                Where Not obj Is Nothing
+                Select obj.Trim
 
+            Dim lstProk As Prokaryote() = LinqAPI.Exec(Of Prokaryote) <=
+ _
+                From handle As Integer
+                In prlst.Sequence
+                Let obj As Prokaryote = prlst(handle)
+                Where Not obj Is Nothing
+                Select DirectCast(obj.Trim, Prokaryote)
+
+            Return New KEGGOrganism With {
+                .Eukaryotes = LQuery,
+                .Prokaryote = lstProk
+            }.__fillClass
+        End Function
+
+        ''' <summary>
+        ''' 从上往下填充物种分类信息
+        ''' </summary>
+        ''' <param name="org"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function __fillClass(org As KEGGOrganism) As KEGGOrganism
             Dim Phylum As String = ""
             Dim [Class] As String = ""
-            For idx As Integer = 0 To lstKEGGOrgsm.Eukaryotes.Length - 1
-                Dim Organism = lstKEGGOrgsm.Eukaryotes(idx)
+
+            For idx As Integer = 0 To org.Eukaryotes.Length - 1
+                Dim Organism = org.Eukaryotes(idx)
                 If Not String.IsNullOrEmpty(Organism.Class) Then
                     [Class] = Organism.Class
                 Else
@@ -171,8 +189,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
             Dim Kingdom As String = ""
             Phylum = "" : [Class] = ""
-            For idx As Integer = 0 To lstKEGGOrgsm.Prokaryote.Length - 1
-                Dim Organism = lstKEGGOrgsm.Prokaryote(idx)
+            For idx As Integer = 0 To org.Prokaryote.Length - 1
+                Dim Organism = org.Prokaryote(idx)
                 If Not String.IsNullOrEmpty(Organism.Class) Then
                     [Class] = Organism.Class
                 Else
@@ -190,7 +208,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                 End If
             Next
 
-            Return lstKEGGOrgsm
+            Return org
         End Function
 
         ''' <summary>
@@ -203,6 +221,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
             Return __loadList(html)
         End Function
 
+        ''' <summary>
+        ''' Data from the external resources.
+        ''' </summary>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
         Public Function FromResource(url As String) As KEGGOrganism
             Dim page As String = url.GET
             Return __loadList(page)
