@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::347b9cd9164bc4c79d7f272f4906b7e4, ..\GCModeller\core\Bio.Assembly\Assembly\DOOR\DOOR.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.DOOR
 
@@ -105,10 +106,14 @@ Namespace Assembly.DOOR
         End Function
 
         Public Function [Select](OperonId As String) As GeneBrief()
-            Dim LQuery = (From obj As GeneBrief In Genes
-                          Where String.Equals(OperonId, obj.OperonID)
-                          Select obj
-                          Order By obj.Synonym Ascending).ToArray
+            Dim LQuery = LinqAPI.Exec(Of GeneBrief) <=
+ _
+                From obj As GeneBrief
+                In Genes
+                Where String.Equals(OperonId, obj.OperonID)
+                Select obj
+                Order By obj.Synonym Ascending
+
             Return LQuery
         End Function
 
@@ -133,22 +138,29 @@ Namespace Assembly.DOOR
 
         Private Function __generate(sId As String, trim As Boolean) As String
             Dim Genes As GeneBrief() = Me.[Select](OperonId:=sId)
+
             If trim Then
-                If Genes.Count < 2 Then
+                If Genes.Length < 2 Then
                     Return ""
                 End If
             End If
+
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
             Dim LocationBuilder As StringBuilder = New StringBuilder(128)
 
             For Each obj In Genes
+                Dim strand As String = If(
+                    obj.Location.Strand = Strands.Forward,
+                    "+; ",
+                    "-; ")
+
                 Call sBuilder.Append(obj.Synonym & "; ")
-                Call LocationBuilder.Append(If(obj.Location.Strand = Strands.Forward, "+; ", "-; "))
+                Call LocationBuilder.Append(strand)
             Next
             Call sBuilder.Remove(sBuilder.Length - 2, 2)
             Call LocationBuilder.Remove(LocationBuilder.Length - 2, 2)
 
-            Dim strData As StringBuilder = New StringBuilder(1024)
+            Dim strData As New StringBuilder(1024)
             Call strData.Append(String.Format("{0},{1},", sId, Genes.Length))
             Call strData.Append(LocationBuilder.ToString & ",")
             Call strData.Append(sBuilder.ToString)
@@ -185,20 +197,27 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Export(SavedPath As String, Trim As Boolean) As Boolean
-            Dim OperonIds As String() = (From GeneObj As Assembly.DOOR.GeneBrief
-                                         In Genes
-                                         Select GeneObj.OperonID
-                                         Distinct
-                                         Order By OperonID Ascending).ToArray
-            Dim LQuery = (From OperonID As String In OperonIds
-                          Let row As String = __generate(OperonID, Trim)
-                          Where Not String.IsNullOrEmpty(row)
-                          Select row).ToList
+            Dim OperonIds As String() = LinqAPI.Exec(Of String) <=
+ _
+                From gene As GeneBrief
+                In Genes
+                Select gene.OperonID
+                Distinct
+                Order By OperonID Ascending
+
+            Dim LQuery = LinqAPI.MakeList(Of String) <=
+                From OperonID As String
+                In OperonIds
+                Let row As String = __generate(OperonID, Trim)
+                Where Not String.IsNullOrEmpty(row)
+                Select row
+
             Call LQuery.Insert(0, "OperonID,Counts,Direction,OperonGenes")
 
             Try
-                Call IO.File.WriteAllLines(SavedPath, LQuery.ToArray)
+                Call LQuery.SaveTo(SavedPath)
             Catch ex As Exception
+                Call App.LogException(New Exception(SavedPath, ex))
                 Return False
             End Try
 
