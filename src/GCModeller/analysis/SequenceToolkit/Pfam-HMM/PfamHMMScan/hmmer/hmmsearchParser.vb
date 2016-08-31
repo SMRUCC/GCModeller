@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::e25a3b2c50ba594f4caa85b5ac3a79b8, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmsearchParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Public Module hmmsearchParser
 
@@ -75,19 +76,19 @@ Public Module hmmsearchParser
 
         Dim fields As Integer() = buf(offset).CrossFields
         Dim hits As New List(Of Score)
-        Dim s As String = ""
+        Dim s As New Value(Of String)
 
         offset += 1
 
-        Do While Not buf.Read(offset).ShadowCopy(s).IsBlank AndAlso
+        Do While Not (s = buf.Read(offset)).IsBlank AndAlso
             InStr(s, hmmscan.inclusion) = 0
-            hits += s.HitParser(fields)
+            hits += s.value.HitParser(fields)
         Loop
 
         Dim uhits As New List(Of Score)
 
-        Do While Not buf.Read(offset).ShadowCopy(s).IsBlank
-            uhits += s.HitParser(fields)
+        Do While Not (s = buf.Read(offset)).IsBlank
+            uhits += s.value.HitParser(fields)
         Loop
 
         offset = buf.Lookup("Domain annotation for each sequence")
@@ -124,12 +125,12 @@ Public Module hmmsearchParser
     Private Function __alignmentParser(buf As String()) As AlignmentHit
         Dim title As String = Mid(buf(Scan0), 3).Trim
         Dim fields As Integer() = buf(2).CrossFields
-        Dim s As String = Nothing
+        Dim s As New Value(Of String)
         Dim aligns As New List(Of hmmscan.Align)
         Dim p As Integer = 3
 
-        Do While Not buf.Read(p).ShadowCopy(s).IsBlank
-            aligns += New hmmscan.Align(s.FieldParser(fields))
+        Do While Not (s = buf.Read(p)).IsBlank
+            aligns += New hmmscan.Align(s.value.FieldParser(fields))
         Loop
 
         Return New AlignmentHit With {

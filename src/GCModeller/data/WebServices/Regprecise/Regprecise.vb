@@ -27,6 +27,7 @@
 
 Imports System.IO, System.Net, System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -437,11 +438,11 @@ RETRY:          Dim json As String = __getResponse(request)
         Private Function __getResponse(request As HttpWebRequest) As String
             Dim response = request.GetResponse.As(Of System.Net.HttpWebResponse)
             Dim s = response.GetResponseStream()
-            Dim strDate As String = ""
+            Dim strDate As New Value(Of String)
             Dim strValue As StringBuilder = New StringBuilder(2048)
             Dim Reader As StreamReader = New StreamReader(s, Encoding.UTF8)
 
-            Do While Not Reader.ReadLine().ShadowCopy(strDate) Is Nothing
+            Do While Not (strDate = Reader.ReadLine()) Is Nothing
                 Call strValue.AppendLine(strDate)
             Loop
 

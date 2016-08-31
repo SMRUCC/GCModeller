@@ -43,8 +43,10 @@ Namespace Framework.Provider.ImportsAPI
         ''' <param name="ns"></param>
         ''' <returns></returns>
         Public Overloads Function [GetType](ns As String) As Type()
-            If __nsList.ContainsKey(ns.ToLower.ShadowCopy(ns)) Then
-                Return __nsList(ns).Modules.ToArray(Function(x) x.GetType)
+            Dim key As String = ns.ToLower
+
+            If __nsList.ContainsKey(key) Then
+                Return __nsList(key).Modules.ToArray(Function(x) x.GetType)
             Else
                 Return New Type() {}
             End If

@@ -115,18 +115,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
-    <OutputPath>bin\docs\</OutputPath>
-    <DocumentationFile>SMRUCC.HTTPInternal.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
-    <OutputPath>..\..\..\sdk\bin\</OutputPath>
-    <DocumentationFile>SMRUCC.HTTPInternal.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
-    <OutputPath>bin\x86\docs\</OutputPath>
-    <DocumentationFile>SMRUCC.HTTPInternal.xml</DocumentationFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -151,15 +139,20 @@
   <ItemGroup>
     <Compile Include="AppEngine\APIName.vb" />
     <Compile Include="AppEngine\API\APIMethod.vb" />
+    <Compile Include="AppEngine\API\Arguments.vb" />
     <Compile Include="AppEngine\API\Methods.vb" />
     <Compile Include="AppEngine\APPEngine.vb" />
     <Compile Include="AppEngine\APPManager.vb" />
+    <Compile Include="AppEngine\CookieParser.vb" />
     <Compile Include="AppEngine\ExternalCall.vb" />
     <Compile Include="AppEngine\WebApp.vb" />
-    <Compile Include="AppEngine\API\__API_Invoker.vb" />
+    <Compile Include="AppEngine\API\APIInvoker.vb" />
+    <Compile Include="Core\CachedFile.vb" />
+    <Compile Include="Core\Content.vb" />
     <Compile Include="Core\HttpFileSystem.vb" />
     <Compile Include="Core\HttpProcessor.vb" />
     <Compile Include="Core\HttpServer.vb" />
+    <Compile Include="HtmlPage.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

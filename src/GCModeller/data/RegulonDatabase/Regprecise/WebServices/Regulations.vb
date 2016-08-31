@@ -226,8 +226,10 @@ Namespace Regprecise.WebServices
         ''' <param name="geneLocusTag"></param>
         ''' <returns></returns>
         Public Function GetSite(geneLocusTag As String) As Regprecise.WebServices.JSONLDM.site
-            If _sitesLocusHash.ContainsKey(geneLocusTag.ToLower.ShadowCopy(geneLocusTag)) Then
-                Return _sitesLocusHash(geneLocusTag)
+            Dim key As String = geneLocusTag.ToLower
+
+            If _sitesLocusHash.ContainsKey(key) Then
+                Return _sitesLocusHash(key)
             Else
                 Return Nothing
             End If

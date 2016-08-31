@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.InputHandler
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -59,15 +60,15 @@ Namespace IO.Properties
         End Function
 
         <ExportAPI("Get.Doc")>
-        Public Function GetDoc(obj As Object, Optional type As Type = Nothing) As String
-            Dim readWrites = If(type Is Nothing, obj.GetType.ShadowCopy(type), type).GetReadWriteProperties
+        Public Function GetDoc(obj As Object, Optional type As Value(Of Type) = Nothing) As String
+            Dim readWrites = If(type Is Nothing, type = obj.GetType, +type).GetReadWriteProperties
             Dim Properties = (From p As PropertyInfo
                               In readWrites
                               Where (p.PropertyType.IsClass AndAlso p.PropertyType = GetType(String)) OrElse
                                   p.PropertyType.IsValueType
                               Select p).ToArray
             Dim propBuilder As StringBuilder = New StringBuilder(1024)
-            Dim typeComments = type.GetCustomAttributes(Comment.TypeInfo, True)
+            Dim typeComments = (+type).GetCustomAttributes(Comment.TypeInfo, True)
             If Not typeComments.IsNullOrEmpty Then
                 Call __writeComments(typeComments, propBuilder)
                 Call propBuilder.AppendLine()

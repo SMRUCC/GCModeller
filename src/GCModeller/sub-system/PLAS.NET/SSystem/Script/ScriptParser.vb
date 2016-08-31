@@ -29,6 +29,7 @@ Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Script
 
@@ -156,9 +157,9 @@ Namespace Script
             Return model
         End Function
 
-        Public Function ConstantParser(expr As String) As NamedValue(Of String)
-            Dim name As String = expr.Trim.ShadowCopy(expr).Split.First
-            expr = Mid(expr, name.Length + 1).Trim
+        Public Function ConstantParser(expr As Value(Of String)) As NamedValue(Of String)
+            Dim name As String = (expr = (+expr).Trim).Split.First
+            expr.value = Mid(expr.value, name.Length + 1).Trim
             Return New NamedValue(Of String) With {
                 .x = expr,
                 .Name = name

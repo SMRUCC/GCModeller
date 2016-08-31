@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::43bda41599b4a91def1d1a1baa0b7b1c, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmscanParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Language
 
 Namespace hmmscan
 
@@ -73,17 +74,17 @@ Namespace hmmscan
             Dim fields As Integer() = buf(4).CrossFields
             Dim hits As New List(Of Hit)
             Dim offset As Integer = 5
-            Dim s As String = ""
+            Dim s As New Value(Of String)
 
-            Do While Not buf.Read(offset).ShadowCopy(s).IsBlank AndAlso
+            Do While Not (s = buf.Read(offset)).IsBlank AndAlso
                 InStr(s, inclusion) = 0
-                hits += s.HitParser(fields)
+                hits += s.value.HitParser(fields)
             Loop
 
             Dim uhits As New List(Of Hit)
 
-            Do While Not buf.Read(offset).ShadowCopy(s).IsBlank
-                uhits += s.HitParser(fields)
+            Do While Not (s = buf.Read(offset)).IsBlank
+                uhits += s.value.HitParser(fields)
             Loop
 
             offset = buf.Lookup("Domain annotation for each model")
@@ -117,12 +118,12 @@ Namespace hmmscan
             Dim name As String = Mid(title, 1, p - 1)
             Dim describ As String = Mid(title, p + 1).Trim
             Dim fields As Integer() = buf(2).CrossFields
-            Dim s As String = Nothing
+            Dim s As New Value(Of String)
             Dim aligns As New List(Of Align)
 
             p = 3
 
-            Do While Not buf.Read(p).ShadowCopy(s).IsBlank
+            Do While Not (s = buf.Read(p)).IsBlank
                 aligns += New Align(FormattedParser.FieldParser(s, fields))
             Loop
 

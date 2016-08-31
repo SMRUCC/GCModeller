@@ -140,8 +140,11 @@ Namespace Assembly.NCBI.COG
         ''' <param name="COG">已经自动处理好所有事情了</param>
         ''' <returns></returns>
         Public Function GetCategory(COG As String) As COGCategories
-            If String.IsNullOrEmpty(__trimCOGs(COG).ShadowCopy(COG)) OrElse
+            COG = __trimCOGs(COG)
+
+            If String.IsNullOrEmpty(COG) OrElse
                 String.Equals(COG, "-") Then
+
                 Return COGCategories.NotAssigned
             Else
                 Dim COGChar As Char = COG.First
@@ -156,8 +159,11 @@ Namespace Assembly.NCBI.COG
         End Function
 
         Public Function GetCategories(COG As String) As COGCategories()
-            If String.IsNullOrEmpty(__trimCOGs(COG).ShadowCopy(COG)) OrElse
+            COG = __trimCOGs(COG)
+
+            If String.IsNullOrEmpty(COG) OrElse
                 String.Equals(COG, "-") Then
+
                 Return {COGCategories.NotAssigned}
             End If
 

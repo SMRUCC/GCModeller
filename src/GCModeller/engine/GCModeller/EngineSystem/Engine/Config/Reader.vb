@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::2d0abfc6c4a5eaa7751700f4194e640b, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Config\Reader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Language
 
 Namespace EngineSystem.Engine.Configuration
 
@@ -41,91 +42,91 @@ Namespace EngineSystem.Engine.Configuration
 
         Public ReadOnly Property SuppressErrorMessage As Boolean
             Get
-                Return _configs.SuppressErrorMessage.getBoolean
+                Return _Configs.SuppressErrorMessage.getBoolean
             End Get
         End Property
 
         Public ReadOnly Property SuppressPeriodicMessage As Boolean
             Get
-                Return _configs.SuppressPeriodicMessage.getBoolean
+                Return _Configs.SuppressPeriodicMessage.getBoolean
             End Get
         End Property
 
         Public ReadOnly Property SuppressWarnMessage As Boolean
             Get
-                Return _configs.SuppressWarnMessage.getBoolean
+                Return _Configs.SuppressWarnMessage.getBoolean
             End Get
         End Property
 
         Public ReadOnly Property Initial_pH As Double
             Get
-                Return _configs.Initial_pH
+                Return _Configs.Initial_pH
             End Get
         End Property
 
         Public ReadOnly Property Initial_Temperature As Double
             Get
-                Return _configs.Initial_Temperature
+                Return _Configs.Initial_Temperature
             End Get
         End Property
 
         Public ReadOnly Property DefaultCompartmentId As String
             Get
-                Return _configs.DefaultCompartmentId.GetString
+                Return _Configs.DefaultCompartmentId.GetString
             End Get
         End Property
 
         Public ReadOnly Property CommitLoopsInterval As Integer
             Get
-                Return _configs.CommitLoopsInterval
+                Return _Configs.CommitLoopsInterval
             End Get
         End Property
 
         Public ReadOnly Property KernelLoops As Long
             Get
-                Return _configs.KernelCycles
+                Return _Configs.KernelCycles
             End Get
         End Property
 
         Public ReadOnly Property TrimMetabolism As Boolean
             Get
-                Return _configs.TrimMetabolismMetabolites.getBoolean
+                Return _Configs.TrimMetabolismMetabolites.getBoolean
             End Get
         End Property
 
         Public ReadOnly Property CultivationMediumPath() As String
             Get
-                Return _configs.CultivationMediums.GetString
+                Return _Configs.CultivationMediums.GetString
             End Get
         End Property
 
         Public ReadOnly Property ExperimentData As String
             Get
-                Return _configs.ExperimentData.GetString
+                Return _Configs.ExperimentData.GetString
             End Get
         End Property
 
         Public ReadOnly Property Model_MetabolismSystem As String
             Get
-                Return _configs.MetabolismModel.GetString
+                Return _Configs.MetabolismModel.GetString
             End Get
         End Property
 
         Public ReadOnly Property Model_ExpressionNetwork As String
             Get
-                Return _configs.ExpressionRegulationNetwork.GetString
+                Return _Configs.ExpressionRegulationNetwork.GetString
             End Get
         End Property
 
         Public ReadOnly Property ScriptMountPoint As String
             Get
-                Return _configs.ScriptMountPoint.GetString
+                Return _Configs.ScriptMountPoint.GetString
             End Get
         End Property
 
         Public ReadOnly Property DumpData As String
             Get
-                Return GetPath(_configs.DumpData)
+                Return GetPath(_Configs.DumpData)
             End Get
         End Property
 
@@ -137,41 +138,41 @@ Namespace EngineSystem.Engine.Configuration
 
         Public ReadOnly Property DataStorageURL() As KeyValuePair(Of Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String)
             Get
-                Dim TypeId As String = Regex.Match(_configs.DataStorageUrl, "(CSV://)|(MySQL://)", RegexOptions.IgnoreCase).Value
+                Dim TypeId As String = Regex.Match(_Configs.DataStorageUrl, "(CSV://)|(MySQL://)", RegexOptions.IgnoreCase).Value
 
                 If String.Equals(TypeId, "CSV://", StringComparison.OrdinalIgnoreCase) Then
-                    Dim url = _configs.DataStorageUrl.Replace(TypeId, "")
+                    Dim url = _Configs.DataStorageUrl.Replace(TypeId, "")
                     Return New KeyValuePair(Of Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String)(Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.CSV, GetPath(url))
                 ElseIf String.Equals(TypeId, "MYSQL://", StringComparison.OrdinalIgnoreCase) Then
-                    Dim url = _configs.DataStorageUrl.Replace(TypeId, "")
+                    Dim url = _Configs.DataStorageUrl.Replace(TypeId, "")
                     Return New KeyValuePair(Of Services.DataAcquisition.ManageSystem.DataStorageServiceTypes, String)(Services.DataAcquisition.ManageSystem.DataStorageServiceTypes.MySQL, url)
                 Else
-                    Throw New SyntaxErrorException(String.Format("{0} is not a valid required url format!", _configs.DataStorageUrl))
+                    Throw New SyntaxErrorException(String.Format("{0} is not a valid required url format!", _Configs.DataStorageUrl))
                 End If
             End Get
         End Property
 
         Public ReadOnly Property LambdaWeight_mRNA As Double
             Get
-                Return Val(_configs.mRNA_LambdaWeight)
+                Return Val(_Configs.mRNA_LambdaWeight)
             End Get
         End Property
 
         Public ReadOnly Property LambdaWeight_rRNA As Double
             Get
-                Return Val(_configs.rRNA_LambdaWeight)
+                Return Val(_Configs.rRNA_LambdaWeight)
             End Get
         End Property
 
         Public ReadOnly Property LambdaWeight_tRNA As Double
             Get
-                Return Val(_configs.tRNA_LambdaWeight)
+                Return Val(_Configs.tRNA_LambdaWeight)
             End Get
         End Property
 #End Region
 
         Sub New(data As Configurations)
-            _configs = data
+            _Configs = data
         End Sub
 
         ''' <summary>
@@ -187,7 +188,7 @@ Namespace EngineSystem.Engine.Configuration
         End Property
 
         Public Overrides Function ToString() As String
-            Return _configs.ToString
+            Return _Configs.ToString
         End Function
 
 #Region "Common shared methods"
@@ -200,13 +201,13 @@ Namespace EngineSystem.Engine.Configuration
             {"@temp", My.Computer.FileSystem.SpecialDirectories.Temp}
         }
 
-        Public Shared Function GetPath(strValue As String) As String
-            If String.IsNullOrEmpty(strValue.GetString.ShadowCopy(strValue)) Then
+        Public Shared Function GetPath(strValue As Value(Of String)) As String
+            If String.IsNullOrEmpty(strValue = (+strValue).GetString) Then
                 Return ""
             Else
-                Dim strTemp As String = strValue.Replace("\", "/").Split(CChar("/")).First
+                Dim strTemp As String = strValue.value.Replace("\", "/").Split(CChar("/")).First
                 If PathHash.ContainsKey(strTemp.ToLower) Then
-                    Return strValue.Replace(strTemp, PathHash(strTemp.ToLower))
+                    Return strValue.value.Replace(strTemp, PathHash(strTemp.ToLower))
                 Else
                     Return FileIO.FileSystem.GetDirectoryInfo(strValue).FullName
                 End If

@@ -19,7 +19,8 @@ Namespace Script
         End Function
 
         Public Shared Operator +(hash As Dictionary(Of String, Variable), x As Variable) As Dictionary(Of String, Variable)
-            If hash.ContainsKey(x.Name.ToLower.ShadowCopy(x.Name)) Then
+            x.Name = x.Name.ToLower
+            If hash.ContainsKey(x.Name) Then
                 Call hash.Remove(x.Name)
             End If
             Call hash.Add(x.Name, x)

@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::59f3fe00b8291ca4a1d3adba0260bf31, ..\httpd\HTTPServer\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,8 @@ Imports System.Net
 Imports System.Net.Sockets
 Imports System.Threading
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ' offered to the public domain for any use with no restriction
 ' and also with no warranty of any kind, please enjoy. - David Jeske. 
@@ -59,7 +61,7 @@ Namespace Core
         ''' <returns></returns>
         Public Property http_url As String
         Public Property http_protocol_versionstring As String
-        Public Property httpHeaders As New Hashtable()
+        Public Property httpHeaders As New Dictionary(Of String, String)
 
         ''' <summary>
         ''' 可以向这里面写入数据从而回传数据
@@ -75,7 +77,7 @@ Namespace Core
         ''' 10MB
         ''' </summary>
         ''' <remarks></remarks>
-        Const MAX_POST_SIZE As Integer = 10 * 1024 * 1024
+        Const MAX_POST_SIZE As Integer = 128 * 1024 * 1024
 
         Public Sub New(s As TcpClient, srv As HttpServer)
             Me.socket = s
@@ -107,6 +109,7 @@ Namespace Core
         Private Function __streamReadLine(inputStream As Stream) As String
             Dim nextChar As Integer
             Dim chrbuf As New List(Of Char)
+            Dim n As Integer
 
             While True
                 nextChar = inputStream.ReadByte()
@@ -118,7 +121,12 @@ Namespace Core
                 End If
                 If nextChar = -1 Then
                     Call Thread.Sleep(1)
-                    Continue While
+                    n += 1
+                    If n > 1024 Then
+                        Exit While
+                    Else
+                        Continue While
+                    End If
                 End If
 
                 Call chrbuf.Add(Convert.ToChar(nextChar))
@@ -135,16 +143,23 @@ Namespace Core
             ' we probably shouldn't be using a streamwriter for all output from handlers either
             outputStream = New StreamWriter(New BufferedStream(socket.GetStream()))
             Try
-                Call __processInvoker()  ' ??????http???????????????????????????????
+                Call __processInvoker()
             Catch e As Exception
-                Console.WriteLine("Exception: " & e.ToString())
+                Call e.PrintException
                 writeFailure(e.ToString)
             End Try
 
             Try
-                outputStream.Flush()
+                Call outputStream.Flush()
             Catch ex As Exception
-                ' ????????????????????????????????????
+                Call App.LogException(ex)
+            Finally
+                Try
+                    Call outputStream.Close()
+                    Call outputStream.Dispose()
+                Catch ex As Exception
+                    Call App.LogException(ex)
+                End Try
             End Try
 
             ' bs.Flush(); // flush any remaining output
@@ -162,16 +177,17 @@ Namespace Core
             Call parseRequest()
             Call readHeaders()
 
-            If http_method.Equals("GET") Then
+            If http_method.Equals("GET", StringComparison.OrdinalIgnoreCase) Then
                 handleGETRequest()
 
-            ElseIf http_method.Equals("POST") Then
+            ElseIf http_method.Equals("POST", StringComparison.OrdinalIgnoreCase) Then
                 HandlePOSTRequest()
 
             Else
-                Dim msg As String = $"Unsupport {NameOf(http_method)}:={http_method}"
-                Call msg.__DEBUG_ECHO
-                Call writeFailure(msg)
+                ' Dim msg As String = $"Unsupport {NameOf(http_method)}:={http_method}"
+                ' Call msg.__DEBUG_ECHO
+                ' Call writeFailure(msg)
+                Call srv.handleOtherMethod(Me)
             End If
         End Sub
 
@@ -185,18 +201,20 @@ Namespace Core
             http_url = tokens(1)
             http_protocol_versionstring = tokens(2)
 
-            Console.WriteLine("starting: " & request)
+            ' Console.WriteLine("starting: " & request)
         End Sub
 
         Public Sub readHeaders()
+            Dim line As String = "", s As New Value(Of String)
+
             Call NameOf(readHeaders).__DEBUG_ECHO
 
-            Dim line As String = ""
-
-            While __streamReadLine(_inputStream).ShadowCopy(line) IsNot Nothing
-                If line.Equals("") Then
-                    Console.WriteLine("got headers")
+            While (s = __streamReadLine(_inputStream)) IsNot Nothing
+                If s.value.Equals("") Then
+                    ' Console.WriteLine("got headers")
                     Return
+                Else
+                    line = s.value
                 End If
 
                 Dim separator As Integer = line.IndexOf(":"c)
@@ -211,7 +229,7 @@ Namespace Core
                 End While
 
                 Dim value As String = line.Substring(pos, line.Length - pos)
-                Console.WriteLine("header: {0}:{1}", name, value)
+                Call $"header: {name}:{value}".__DEBUG_ECHO
                 httpHeaders(name) = value
             End While
         End Sub
@@ -220,7 +238,10 @@ Namespace Core
             Call srv.handleGETRequest(Me)
         End Sub
 
-        Private Const BUF_SIZE As Integer = 4096
+        Public BUF_SIZE As Integer = 4096
+
+        Public Const ContentLengthTooLarge As String = "POST Content-Length({0}) too big for this simple server"
+        Public Const ContentLength As String = "Content-Length"
 
         ''' <summary>
         ''' This post data processing just reads everything into a memory stream.
@@ -232,23 +253,23 @@ Namespace Core
         ''' <remarks></remarks>
         Public Sub HandlePOSTRequest()
 
-            Call Console.WriteLine("get post data start")
+            ' Call Console.WriteLine("get post data start")
 
             Dim content_len As Integer = 0
             Dim ms As New MemoryStream()
 
-            If Me.httpHeaders.ContainsKey("Content-Length") Then
-                content_len = Convert.ToInt32(Me.httpHeaders("Content-Length"))
+            If Me.httpHeaders.ContainsKey(ContentLength) Then
+                content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
                 If content_len > MAX_POST_SIZE Then
-                    Throw New Exception(String.Format("POST Content-Length({0}) too big for this simple server", content_len))
+                    Throw New Exception(String.Format(ContentLengthTooLarge, content_len))
                 End If
                 Dim buf As Byte() = New Byte(BUF_SIZE - 1) {}
                 Dim to_read As Integer = content_len
                 While to_read > 0
-                    Console.WriteLine("starting Read, to_read={0}", to_read)
+                    ' Console.WriteLine("starting Read, to_read={0}", to_read)
 
                     Dim numread As Integer = Me._inputStream.Read(buf, 0, Math.Min(BUF_SIZE, to_read))
-                    Console.WriteLine("read finished, numread={0}", numread)
+                    ' Console.WriteLine("read finished, numread={0}", numread)
                     If numread = 0 Then
                         If to_read = 0 Then
                             Exit While
@@ -259,16 +280,23 @@ Namespace Core
                     to_read -= numread
                     ms.Write(buf, 0, numread)
                 End While
-                ms.Seek(0, SeekOrigin.Begin)
+
+                Call ms.Seek(Scan0, SeekOrigin.Begin)
             End If
 
-            Call Console.WriteLine("get post data end")
+            ' Call Console.WriteLine("get post data end")
             Call srv.handlePOSTRequest(Me, ms)
         End Sub
 
         Public Sub writeSuccess(Optional content_type As String = "text/html")
-            On Error Resume Next
+            Try
+                Call __writeSuccess(content_type, Nothing)
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+        End Sub
 
+        Private Sub __writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
             outputStream.WriteLine("HTTP/1.0 200 OK")
             ' these are the HTTP headers...          
@@ -276,8 +304,20 @@ Namespace Core
             outputStream.WriteLine("Connection: close")
             ' ..add your own headers here if you like
 
+            Call content.WriteHeader(outputStream)
+
+            outputStream.WriteLine("X-Powered-By: Microsoft VisualBasic")
             outputStream.WriteLine("")
             ' this terminates the HTTP headers.. everything after this is HTTP body..
+        End Sub
+
+        Public Sub writeSuccess(content As Content)
+            Try
+                Call __writeSuccess(content.Type, content)
+            Catch ex As Exception
+                ex = New Exception(content.GetJson)
+                Call App.LogException(ex)
+            End Try
         End Sub
 
         ''' <summary>
@@ -290,8 +330,17 @@ Namespace Core
         ''' 404
         ''' </summary>
         Public Sub writeFailure(ex As String)
-            On Error Resume Next
+            Try
+                Call __writeFailure(ex)
+            Catch e As Exception
+                Call App.LogException(e)
+            End Try
+        End Sub
 
+        ''' <summary>
+        ''' 404
+        ''' </summary>
+        Private Sub __writeFailure(ex As String)
             ' this is an http 404 failure response
             Call outputStream.WriteLine("HTTP/1.0 404 Not Found")
             ' these are the HTTP headers

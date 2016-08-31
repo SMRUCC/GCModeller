@@ -27,6 +27,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Data.Xfam
 
 Namespace FileSystem
@@ -110,12 +111,13 @@ Namespace FileSystem
                                  Optional highlyThreshold As Double = 0.65,
                                  Optional accept As Integer = 10) As Family.MatchStates
             Dim Family As Family
+            Dim key As New Value(Of String)
 
-            If _familys.ContainsKey(Name.ToLower.ShadowCopy(Name)) Then
-                Family = _familys(Name)
+            If _familys.ContainsKey(key = Name.ToLower) Then
+                Family = _familys(key)
             Else
-                If _familys.ContainsKey(("*" & Name).ShadowCopy(Name)) Then
-                    Family = _familys(Name)
+                If _familys.ContainsKey(key = ("*" & key.value)) Then
+                    Family = _familys(key)
                 Else
                     Return False
                 End If

@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::0724db1a4817b81c66738fc2239e79c0, ..\GCModeller\analysis\Xfam\Rfam\Infernal\cmsearch\ParserAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
@@ -74,21 +75,21 @@ Namespace Infernal.cmsearch
                 describ = ""
             End If
 
-            Dim s As String = Nothing
+            Dim s As New Value(Of String)
             Dim list As New List(Of Hit)
             Dim fields As Integer() = buf(offset - 1).CrossFields
 
-            Do While Not buf.Read(offset).ShadowCopy(s).IsBlank AndAlso InStr(s, cmscan.uncertain) <= 0
-                list += s.__hitParser(fields)
+            Do While Not (s = buf.Read(offset)).IsBlank AndAlso InStr(s, cmscan.uncertain) <= 0
+                list += s.value.__hitParser(fields)
             Loop
 
             Dim ulist As New List(Of Hit)
 
-            Do While Not buf.Read(offset).ShadowCopy(s).IsBlank
+            Do While Not (s = buf.Read(offset)).IsBlank
                 If InStr(s, "[No hits detected that satisfy reporting thresholds]") > 0 Then
                     Exit Do
                 Else
-                    ulist += s.__hitParser(fields)
+                    ulist += s.value.__hitParser(fields)
                 End If
             Loop
 

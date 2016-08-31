@@ -34,10 +34,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Graphics
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.grDevices
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.stats
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.utils.read.table
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.Graphics
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.grDevices
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.stats
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.utils.read.table
 
 Public Class Heatmap : Inherits IRScript
 
@@ -58,7 +58,7 @@ Public Class Heatmap : Inherits IRScript
     ''' tiff文件的输出路径
     ''' </summary>
     ''' <returns></returns>
-    Public Property image As grDevices.grImage
+    Public Property image As grImage
 
     Private Function __getRowNames() As String
         Dim col As String = rowNameMaps

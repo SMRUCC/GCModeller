@@ -56,7 +56,7 @@ Namespace Infernal.cmscan
         Private Function __querys(buf As String(), offset As Integer) As Query
             Dim title As String = buf(offset)
             Dim describ As String = buf(offset + 1).Replace("Description:", "").Trim
-            Dim s As String = Nothing
+            Dim s As New Value(Of String)
             Dim list As New List(Of Hit)
 
             offset += 4
@@ -65,14 +65,14 @@ Namespace Infernal.cmscan
 
             offset += 1
 
-            Do While Not buf.Read(offset).ShadowCopy(s).IsBlank AndAlso InStr(s, uncertain) <= 0
-                list += s.__hitParser(fields)
+            Do While Not (s = buf.Read(offset)).IsBlank AndAlso InStr(s, uncertain) <= 0
+                list += s.value.__hitParser(fields)
             Loop
 
             Dim ulist As New List(Of Hit)
 
-            Do While Not buf.Read(offset).ShadowCopy(s).IsBlank
-                ulist += s.__hitParser(fields)
+            Do While Not (s = buf.Read(offset)).IsBlank
+                ulist += s.value.__hitParser(fields)
             Loop
 
             Dim len As Long = Regex.Match(title, "L=\d+").Value.Split("="c).Last.ParseLong

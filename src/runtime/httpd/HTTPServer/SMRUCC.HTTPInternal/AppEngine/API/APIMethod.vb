@@ -60,14 +60,14 @@ Namespace AppEngine.APIMethods
             Return example
         End Function
 
-        Public MustOverride Function GetMethodHelp(EntryPoint As System.Reflection.MethodInfo) As String
+        Public MustOverride Function GetMethodHelp(EntryPoint As MethodInfo) As String
 
-        Protected Function __getParameters(EntryPoint As System.Reflection.MethodInfo) As String
+        Protected Function __getParameters(EntryPoint As MethodInfo) As String
             Dim attrs As Object() = EntryPoint.GetCustomAttributes(GetType(Microsoft.VisualBasic.CommandLine.Reflection.ParameterInfo), True)
             If attrs.IsNullOrEmpty Then
                 Return ""
             Else
-                Dim sbr As StringBuilder = New StringBuilder("<strong>Parameters:</strong><br /><table>")
+                Dim sbr As New StringBuilder("<strong>Parameters:</strong><br /><table>")
 
                 For Each param In attrs.ToArray(Function(value) DirectCast(value, Microsoft.VisualBasic.CommandLine.Reflection.ParameterInfo))
                     Call sbr.AppendLine($"  <tr>
@@ -85,10 +85,10 @@ Namespace AppEngine.APIMethods
 
         Private Shared Function __isValueType(typeDef As Type) As Boolean
             If Not typeDef.IsClass OrElse
-            typeDef.Equals(GetType(String)) OrElse
-            typeDef.Equals(GetType(Image)) OrElse
-            String.Equals("System.Collections.Generic", typeDef.Namespace) OrElse
-            typeDef.IsInheritsFrom(GetType(System.Array)) Then
+                typeDef.Equals(GetType(String)) OrElse
+                typeDef.Equals(GetType(Image)) OrElse
+                String.Equals("System.Collections.Generic", typeDef.Namespace) OrElse
+                typeDef.IsInheritsFrom(GetType(Array)) Then
 
                 Return True
             Else
@@ -126,7 +126,8 @@ Namespace AppEngine.APIMethods
 
             Dim sbr As StringBuilder = New StringBuilder
             Dim props As PropertyInfo() = typeDef.GetProperties
-            Dim values = (From prop As PropertyInfo In props
+            Dim values = (From prop As PropertyInfo
+                          In props
                           Select prop.PropertyType,
                           prop.Name,
                           descr = EmitReflection.Description(prop).TrimVBCrLf,

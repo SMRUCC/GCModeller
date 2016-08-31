@@ -78,8 +78,10 @@ Namespace Script
                 Throw New Exception("source name can not be null!")
             End If
 
-            If _varsHash.ContainsKey(source.ToLower.ShadowCopy(source)) Then
-                Return _varsHash(source).Data
+            Dim key As String = source.ToLower
+
+            If _varsHash.ContainsKey(key) Then
+                Return _varsHash(key).Data
             Else
                 Return Nothing
             End If

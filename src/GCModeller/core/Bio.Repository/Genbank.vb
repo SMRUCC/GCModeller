@@ -142,7 +142,8 @@ Public Module Installer
     ''' <param name="repo"></param>
     ''' <returns></returns>
     Public Function GetsiRNATargetSeqs(siRNAtarget As IEnumerable(Of Bac_sRNA.org.Interaction), repo As Genbank) As IEnumerable(Of FASTA.FastaToken)
-        Dim index As GenbankIndex = repo.Query(siRNAtarget.ToArray.ShadowCopy(siRNAtarget))
+        Dim source = siRNAtarget.ToArray
+        Dim index As GenbankIndex = repo.Query(source)
 
         If index Is Nothing Then
             Return Nothing
@@ -153,7 +154,7 @@ Public Module Installer
                 genes.ToDictionary(Function(x) x.Attributes.First)
 
             Return From itr As Bac_sRNA.org.Interaction
-                   In siRNAtarget
+                   In source
                    Where hash.ContainsKey(itr.TargetName)
                    Select hash(itr.TargetName)
         End If

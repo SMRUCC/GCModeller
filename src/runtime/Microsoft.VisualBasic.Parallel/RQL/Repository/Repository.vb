@@ -2,6 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComputingServices.TaskHost
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Framework.DynamicCode
 Imports Microsoft.VisualBasic.Linq.Framework.Provider
 Imports Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI
@@ -37,9 +38,9 @@ Namespace Linq
             __types = compiler.EntityProvider
         End Sub
 
-        Public Sub AddLinq(url As String, resource As String, Linq As GetLinqResource)
+        Public Sub AddLinq(url As Value(Of String), resource As String, Linq As GetLinqResource)
             Dim res As EntityProvider = LinqSource.Source(resource, Linq)
-            If Models.ContainsKey(url.ToLower.ShadowCopy(url)) Then
+            If Models.ContainsKey(url = (+url).ToLower) Then
                 Call Models.Remove(url)
             End If
             Call Models.Add(url, res)
@@ -52,6 +53,7 @@ Namespace Linq
         ''' <returns></returns>
         Public Function GetRepository(url As String, Optional where As String = "") As IEnumerable
             Dim api As EntityProvider = Models(url.ToLower)
+
             If String.IsNullOrEmpty(where) Then
                 Return api.GetRepository
             Else

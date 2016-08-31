@@ -102,7 +102,9 @@ Namespace ComponentModel.EquaionModel
         ''' <param name="ID"></param>
         ''' <returns></returns>
         Public Overridable Function GetCoEfficient(ID As String) As Double
-            If __leftHash.ContainsKey(ID.ToLower.ShadowCopy(ID)) Then
+            ID = ID.ToLower
+
+            If __leftHash.ContainsKey(ID) Then
                 Return -1 * __leftHash(ID).ToArray(Function(x) x.StoiChiometry).Sum
             ElseIf __rightHash.ContainsKey(ID) Then
                 Return __rightHash(ID).ToArray(Function(x) x.StoiChiometry).Sum
