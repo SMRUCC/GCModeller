@@ -57,9 +57,10 @@ Namespace ContextModel
         ''' <returns></returns>
         <Extension>
         Public Function Density(Of T As IGeneBrief)(genome As IGenomicsContextProvider(Of T),
-                                                     TF As IEnumerable(Of String),
-                                                     Optional ranges As Integer = 10000,
-                                                     Optional stranded As Boolean = False) As Density()
+                                                    TF As IEnumerable(Of String),
+                                                    Optional ranges As Integer = 10000,
+                                                    Optional stranded As Boolean = False) As Density()
+
             Dim TFs As T() = TF.ToArray(AddressOf genome.GetByName)
             Dim getTF As Func(Of Strands, T()) = New __sourceHelper(Of T)(TFs, stranded).__gets
             Dim result As Density() = genome.__worker(getTF, AddressOf __getGenes(Of T), TFs.Length, ranges)
@@ -134,22 +135,24 @@ Namespace ContextModel
 
         <Extension>
         Private Function __worker(Of T As IGeneBrief)(genome As IGenomicsContextProvider(Of T),
-                                                       getTF As Func(Of Strands, T()),
-                                                       getRelated As Func(Of T, T(), Integer, T()),
-                                                       numTotal As Integer,
-                                                       ranges As Integer) As Density()
-            Dim LQuery As Density() =
-                LinqAPI.Exec(Of Density) <= From gene As T
-                                            In genome.AllFeatures
-                                            Let sides As T() = getTF(gene.Location.Strand)
-                                            Let related As T() = getRelated(gene, sides, ranges)
-                                            Select New Density With {
-                                                .locus_tag = gene.Identifier,
-                                                .Abundance = related.Length / numTotal,
-                                                .Hits = related.ToArray(Function(g) g.Identifier),
-                                                .loci = gene.Location,
-                                                .product = gene.Product
-                                            }
+                                                      getTF As Func(Of Strands, T()),
+                                                      getRelated As Func(Of T, T(), Integer, T()),
+                                                      numTotal As Integer,
+                                                      ranges As Integer) As Density()
+            Dim LQuery As Density() = LinqAPI.Exec(Of Density) <=
+ _
+                From gene As T
+                In genome.AllFeatures
+                Let sides As T() = getTF(gene.Location.Strand)
+                Let related As T() = getRelated(gene, sides, ranges)
+                Select New Density With {
+                    .locus_tag = gene.Identifier,
+                    .Abundance = related.Length / numTotal,
+                    .Hits = related.ToArray(Function(g) g.Identifier),
+                    .loci = gene.Location,
+                    .product = gene.Product
+                }
+
             Return LQuery
         End Function
 

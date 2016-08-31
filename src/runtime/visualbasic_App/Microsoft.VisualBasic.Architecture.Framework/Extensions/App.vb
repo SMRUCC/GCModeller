@@ -232,6 +232,10 @@ Public Module App
         __joinedVariables.Add(vars)
     End Sub
 
+    ''' <summary>
+    ''' 获取<see cref="App"/>的可读属性值来作为环境变量
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetAppVariables() As NamedValue(Of String)()
         Dim type As Type = GetType(App)
         Dim pros = type.Schema(PropertyAccess.Readable, BindingFlags.Public Or BindingFlags.Static)
@@ -446,7 +450,13 @@ Public Module App
         Call exMsg.AppendLine("TIME:  " & Now.ToString)
         Call exMsg.AppendLine("TRACE: " & Trace)
         Call exMsg.AppendLine(New String("=", 120))
-        Call exMsg.AppendLine(Logging.LogFile.SystemInfo)
+        Call exMsg.Append(Logging.LogFile.SystemInfo)
+        Call exMsg.AppendLine(New String("=", 120))
+        Call exMsg.Append($"Environment Variables from {GetType(App).FullName}:")
+        For Each x In App.GetAppVariables
+            Call exMsg.AppendLine()
+            Call exMsg.Append($"{x.Name}:={x.x}")
+        Next
         Call exMsg.AppendLine(New String("=", 120))
         Call exMsg.AppendLine(ex.ToString)
         Return exMsg.ToString
@@ -831,12 +841,14 @@ Public Module App
                 Call App.SelfFolk(args).Run()
             Next
         Else
-            Dim Tasks As Func(Of Integer)() =
-                LinqAPI.Exec(Of Func(Of Integer)) <= From args As String
-                                                     In CLI
-                                                     Let io As IIORedirectAbstract = App.SelfFolk(args)
-                                                     Let task As Func(Of Integer) = AddressOf io.Run
-                                                     Select task
+            Dim Tasks As Func(Of Integer)() = LinqAPI.Exec(Of Func(Of Integer)) <=
+ _
+                From args As String
+                In CLI
+                Let io As IIORedirectAbstract = App.SelfFolk(args)
+                Let task As Func(Of Integer) = AddressOf io.Run
+                Select task
+
             Call BatchTask(Of Integer)(Tasks, parallel)
         End If
 
