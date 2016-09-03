@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7851f8a02ff14ad534b74fad5efcf51, ..\visualbasic_App\Microsoft.VisualBasic.NETProtocol\Protocols\InvokeAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f1c21bd0080cc15cedc8a598f7ed2549, ..\visualbasic_App\Microsoft.VisualBasic.NETProtocol\Protocols\UserAPI.vb"
 
     ' Author:
     ' 
@@ -26,35 +26,45 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+Imports Microsoft.VisualBasic.Serialization
 
-Namespace Protocols
+Namespace NETProtocol.Protocols
 
-    Module InvokeAPI
+    ''' <summary>
+    ''' 用户客户端所调用的协议
+    ''' </summary>
+    Module UserAPI
 
-        ''' <summary>
-        ''' 其他的服务器模块向消息推送服务发送更新数据的协议
-        ''' </summary>
         Public Enum Protocols
+            InitUser
             ''' <summary>
-            ''' Push data to user
+            ''' 获取得到推送的消息
             ''' </summary>
-            PushToUser
+            GetData
         End Enum
 
         Public ReadOnly Property ProtocolEntry As Long =
             New Protocol(GetType(Protocols)).EntryPoint
 
-        <Extension> Public Function PushData(data As Byte()) As RequestStream
-            Return New RequestStream(ProtocolEntry, Protocols.PushToUser, data)
+        ''' <summary>
+        ''' 在服务器端调用得到用户的唯一标识符
+        ''' </summary>
+        ''' <param name="sId"></param>
+        ''' <returns></returns>
+        Public Function Uid(sId As String) As Long
+            sId &= Now.ToBinary.ToString
+            sId = SecurityString.GetMd5Hash(sId)
+            Return SecurityString.ToLong(sId)
         End Function
 
-        <Extension> Public Sub PushData(API As IPEndPoint, data As Byte())
-            Dim req As RequestStream = data.PushData   ' 创建协议
-            Dim invoke As AsynInvoke = New AsynInvoke(API)  ' 创建socket
-            Dim rep As RequestStream = invoke.SendMessage(req) ' 发送消息
-        End Sub
+        Public Function InitUser(remote As IPEndPoint, uid As String) As InitPOSTBack
+            Dim req = RequestStream.CreateProtocol(ProtocolEntry, Protocols.InitUser, uid)
+            Dim rep = New AsynInvoke(remote).SendMessage(req)
+            Dim args = rep.LoadObject(AddressOf JSON.LoadObject(Of InitPOSTBack))
+            args.Portal.IPAddress = remote.IPAddress ' 服务器端偷懒了
+            Return args
+        End Function
     End Module
 End Namespace

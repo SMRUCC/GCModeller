@@ -25,8 +25,8 @@
 
 #End Region
 
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.HTTPInternal.Core
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace Platform.Plugins
 

@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.Microsoft.VisualBasic.Net.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.WebCloud.GIS.My.MySettings
             Get
-                Return Global.Microsoft.VisualBasic.Net.My.MySettings.Default
+                Return Global.SMRUCC.WebCloud.GIS.My.MySettings.Default
             End Get
         End Property
     End Module

@@ -28,10 +28,10 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.HTTPInternal.AppEngine.POSTParser
-Imports SMRUCC.HTTPInternal.Platform
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace AppEngine
 

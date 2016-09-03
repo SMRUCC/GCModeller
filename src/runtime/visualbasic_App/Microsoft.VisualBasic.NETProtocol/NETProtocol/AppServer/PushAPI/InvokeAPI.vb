@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
 
-Namespace PushAPI
+Namespace NETProtocol.PushAPI
 
     ''' <summary>
     ''' 服务器端的其他模块调用消息更新推送的接口

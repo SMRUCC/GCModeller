@@ -28,7 +28,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports SMRUCC.HTTPInternal.Platform
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Module CLI
 
