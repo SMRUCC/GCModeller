@@ -26,12 +26,22 @@
 #End Region
 
 Imports System.Reflection
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports System.Text
+Imports Microsoft.VisualBasic
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 
-Public Module CommonExtension
+Public Module Extensions
+
+    ''' <summary>
+    ''' ``DROP TABLE IF EXISTS `{<see cref="Table.GetTableName"/>(GetType(<typeparamref name="T"/>))}`;``
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <returns></returns>
+    Public Function DropTableSQL(Of T As SQLTable)() As String
+        Return $"DROP TABLE IF EXISTS `{Table.GetTableName(GetType(T))}`;"
+    End Function
 
     <Extension> Public Function AsDBI(Of Table As SQLTable)(uri As String) As Linq(Of Table)
         Dim DBI As ConnectionUri = ConnectionUri.TryParsing(uri)

@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Reflection
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 Namespace Reflection.Schema
 
@@ -101,7 +101,12 @@ Namespace Reflection.Schema
         ''' <remarks>Long/Integer first, then the Text is second, the primary key is the last consideration.</remarks>
         Public Property Index As String
         Public Property IndexProperty As PropertyInfo
-        Public Property SchemaType As System.Type
+        Public Property SchemaType As Type
+        ''' <summary>
+        ''' Create Table SQL, optional...
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SQL As String
 
         Protected Friend Sub New()
         End Sub
@@ -141,7 +146,7 @@ Namespace Reflection.Schema
                 If Field.Unique Then
                     UniqueFields.Add(Field.FieldName)
 
-                    If CommonExtension.Numerics.IndexOf(Field.DataType) > -1 AndAlso Field.PrimaryKey Then
+                    If Extensions.Numerics.IndexOf(Field.DataType) > -1 AndAlso Field.PrimaryKey Then
                         Index = Field.FieldName
                         IndexProperty = ItemProperty(i)
                     End If
@@ -170,7 +175,7 @@ Namespace Reflection.Schema
                         LinqAPI.DefaultFirst(Of String) <=
                         From Field In Fields
                         Where (Field.PrimaryKey AndAlso
-                            CommonExtension.Numerics.IndexOf(Field.DataType) > -1)
+                            Extensions.Numerics.IndexOf(Field.DataType) > -1)
                         Select Field.FieldName
 
                     If Not String.IsNullOrEmpty(LQuery) Then
@@ -194,8 +199,8 @@ Namespace Reflection.Schema
             End If
         End Sub
 
-        Private Function GetTableName(Type As Type) As String
-            Dim Attributes = Type.CustomAttributes
+        Public Shared Function GetTableName(type As Type) As String
+            Dim Attributes = type.CustomAttributes
 
             For Each attr As CustomAttributeData In Attributes
                 If String.Equals(attr.AttributeType.Name, "TableName") Then

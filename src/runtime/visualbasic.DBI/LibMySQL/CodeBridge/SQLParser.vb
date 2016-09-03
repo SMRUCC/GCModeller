@@ -32,6 +32,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 
 Public Module SQLParser
 
@@ -197,6 +198,14 @@ _SET_PRIMARYKEY:
         End Try
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="Fields"></param>
+    ''' <param name="TableName"></param>
+    ''' <param name="PrimaryKey"></param>
+    ''' <param name="CreateTableSQL">Create table SQL raw.</param>
+    ''' <returns></returns>
     Private Function __createSchemaInner(Fields As String(), TableName As String, PrimaryKey As String, CreateTableSQL As String) As Reflection.Schema.Table
         TableName = Regex.Match(TableName, "`.+?`").Value
         TableName = Mid(TableName, 2, Len(TableName) - 2)
@@ -214,21 +223,25 @@ _SET_PRIMARYKEY:
         End If
 
         Dim Comment As String = Regex.Match(CreateTableSQL, "COMMENT='.+';", RegexOptions.Singleline).Value
-        Dim FieldLQuery = (From Field As String In Fields Select __createField(Field)).ToDictionary(Function(Field) Field.FieldName)
+        Dim FieldLQuery = (From Field As String
+                           In Fields
+                           Select __createField(Field)).ToDictionary(Function(Field) Field.FieldName)
 
         If Not String.IsNullOrEmpty(Comment) Then
             Comment = Mid(Comment, 10)
             Comment = Mid(Comment, 1, Len(Comment) - 2)
         End If
 
-        Dim TableSchema As Reflection.Schema.Table =
-            New Reflection.Schema.Table With {
-                ._databaseFields = FieldLQuery,  'The database fields reflection result {Name, Attribute}
-                .TableName = TableName,
-                .PrimaryFields = PrimaryKeys.ToList,     'Assuming at least only one primary key in a table
-                .Index = PrimaryKey,
-                .Comment = Comment
-            }
+        CreateTableSQL = ASCII.ReplaceQuot(CreateTableSQL)
+
+        Dim TableSchema As New Reflection.Schema.Table With {
+            ._databaseFields = FieldLQuery,  'The database fields reflection result {Name, Attribute}
+            .TableName = TableName,
+            .PrimaryFields = PrimaryKeys.ToList,     'Assuming at least only one primary key in a table
+            .Index = PrimaryKey,
+            .Comment = Comment,
+            .SQL = CreateTableSQL
+        }
         Return TableSchema
     End Function
 

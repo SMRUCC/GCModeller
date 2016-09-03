@@ -25,12 +25,12 @@
 
 #End Region
 
-Imports MySql.Data.MySqlClient
-Imports Microsoft.VisualBasic
 Imports System.Reflection
 Imports System.Text.RegularExpressions
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
+Imports MySql.Data.MySqlClient
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 Namespace Reflection
 

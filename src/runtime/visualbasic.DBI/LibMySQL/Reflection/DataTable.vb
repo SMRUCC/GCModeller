@@ -27,8 +27,8 @@
 
 Imports System.Reflection
 Imports System.Text
-Imports MySql.Data.MySqlClient
 Imports Microsoft.VisualBasic
+Imports MySql.Data.MySqlClient
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.SQL
 

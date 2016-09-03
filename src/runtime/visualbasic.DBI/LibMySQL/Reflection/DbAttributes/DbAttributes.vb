@@ -83,6 +83,7 @@ Namespace Reflection.DbAttributes
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property Database As String
+        <XmlText> Public Property SchemaSQL As String
 
         Public Sub New(Name As String)
             Me.Name = Name

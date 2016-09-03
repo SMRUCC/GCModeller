@@ -208,7 +208,7 @@
     <Compile Include="Reflection\DbReflector.vb" />
     <Compile Include="Reflection\DbAttributes\DbAttributes.vb" />
     <Compile Include="MYSQL.Client\ConnectionUri.vb" />
-    <Compile Include="Extensions\CommonExtension.vb" />
+    <Compile Include="Extensions\Extensions.vb" />
     <Compile Include="MYSQL.Client\MySQL.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
