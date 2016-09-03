@@ -33,6 +33,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
 ' offered to the public domain for any use with no restriction
 ' and also with no warranty of any kind, please enjoy. - David Jeske. 
@@ -112,11 +113,13 @@ Namespace Core
             Dim n As Integer
 
             While True
+
                 nextChar = inputStream.ReadByte()
-                If nextChar = Asc(ControlChars.Lf) Then
+
+                If nextChar = ASCII.Byte.LF Then
                     Exit While
                 End If
-                If nextChar = Asc(ControlChars.Cr) Then
+                If nextChar = ASCII.Byte.CR Then
                     Continue While
                 End If
                 If nextChar = -1 Then

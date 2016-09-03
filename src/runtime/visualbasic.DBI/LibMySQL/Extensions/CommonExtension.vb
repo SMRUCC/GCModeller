@@ -115,8 +115,7 @@ Public Module CommonExtension
         {Text.ASCII.CR, "\r"},
         {Text.ASCII.TAB, "\t"},
         {Text.ASCII.SUB, "\Z"},
-        {"%", "\%"},
-        {"_", "\_"}
+        {"%", "\%"}', {"_", "\_"}
     }
 
     ' {"\", "\\"}

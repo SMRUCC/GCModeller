@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic.Net.Protocols
 
-Namespace PushAPI
+Namespace NETProtocol.PushAPI
 
     ''' <summary>
     ''' 用来缓存消息信息的用户的消息池

@@ -4,9 +4,9 @@ Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.STDIO__
-Imports SMRUCC.HTTPInternal.AppEngine.POSTParser
-Imports SMRUCC.HTTPInternal.Core
-Imports SMRUCC.HTTPInternal.Platform
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
+Imports SMRUCC.WebCloud.HTTPInternal.Core
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace AppEngine.APIMethods.Arguments
 

@@ -30,11 +30,11 @@ Imports System.Net.Sockets
 Imports System.Reflection
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.HTTPInternal.AppEngine
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.HTTPInternal.AppEngine.POSTParser
-Imports SMRUCC.HTTPInternal.Core
-Imports SMRUCC.HTTPInternal.Platform.Plugins
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
+Imports SMRUCC.WebCloud.HTTPInternal.Core
+Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 
 Namespace Platform
 

@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.IO
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.HTTPInternal.AppEngine.POSTParser
-Imports SMRUCC.HTTPInternal.Core
-Imports SMRUCC.HTTPInternal.Platform
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
+Imports SMRUCC.WebCloud.HTTPInternal.Core
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace AppEngine
 
