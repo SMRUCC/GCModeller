@@ -29,6 +29,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 
@@ -47,6 +48,30 @@ Public Module Extensions
         Else
             Return attrs.SchemaSQL
         End If
+    End Function
+
+    ''' <summary>
+    ''' 如果成功，则返回空值，如果不成功，会返回错误消息
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="mysql"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ClearTable(Of T As SQLTable)(mysql As MySQL) As String
+        Dim SQL As New Value(Of String)
+
+        If mysql.Ping = -1.0R Then
+            Return "No MySQL connection!"
+        End If
+
+        If Not String.IsNullOrEmpty(SQL = GetCreateTableMetaSQL(Of T)()) Then
+            Call mysql.Execute(DropTableSQL(Of T))
+            Call mysql.Execute(SQL)
+        Else
+            Return "No ``CREATE TABLE`` SQL meta data!"
+        End If
+
+        Return Nothing
     End Function
 
     ''' <summary>

@@ -268,8 +268,10 @@ Namespace Reflection
         Public Function Commit() As Boolean
             If Transaction.Length = 0 Then Return True 'No transaction will be commit to database server.
 
-            If Not MySQL.CommitTransaction(Transaction.ToString) Then 'the transaction commit failure.
-                ErrorMessage = String.Join(vbCrLf & vbCrLf, MySQL.GetErrMessage)
+            Dim ex As Exception = Nothing
+
+            If Not MySQL.CommitTransaction(Transaction.ToString, ex) Then 'the transaction commit failure.
+                ErrorMessage = ex.ToString
                 Return False
             End If
             Call Transaction.Clear()  'Clean the previous transaction when the transaction commit is successfully. 
