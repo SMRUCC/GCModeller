@@ -29,6 +29,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports MySql.Data.MySqlClient
 
 ''' <summary>
@@ -49,7 +50,6 @@ Public Class MySQL : Implements IDisposable
     ''' <remarks></remarks>
     Public Event ThrowException(Ex As Exception, SQL As String)
 
-    Dim _SQLErrMsg As List(Of String) = New List(Of String)
     Dim _reflector As Reflection.DbReflector
 
     ''' <summary>
@@ -58,34 +58,8 @@ Public Class MySQL : Implements IDisposable
     ''' <remarks></remarks>
     Public ReadOnly Property UriMySQL As ConnectionUri
 
-    ''' <summary>
-    ''' Get the error message that throw by the client during the time of the sql command executed.
-    ''' (获取在客户端执行Sql命令的时候所捕获的错误的描述，会将错误信息清除)
-    ''' </summary>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Function GetErrMessage() As String()
-        Dim str = _SQLErrMsg.ToArray
-        Call _SQLErrMsg.Clear()
-        Return str
-    End Function
-
-    Public Function GetErrMessageString() As String
-        If _SQLErrMsg.IsNullOrEmpty Then
-            Return "null"
-        End If
-
-        Dim str = String.Join(vbCrLf, _SQLErrMsg.ToArray)
-        Call _SQLErrMsg.Clear()
-        Return str
-    End Function
-
     Public Overrides Function ToString() As String
-        If _SQLErrMsg.IsNullOrEmpty Then
-            Return _UriMySQL
-        Else
-            Return $"{_UriMySQL}; //ErrMsg: {String.Join(vbTab, _SQLErrMsg)}"
-        End If
+        Return UriMySQL.GetJson
     End Function
 
     ''' <summary>
@@ -134,7 +108,6 @@ Public Class MySQL : Implements IDisposable
     ''' <remarks></remarks>
     Public Function Connect(ConnectionString As String) As Double
         _UriMySQL = ConnectionString
-        Call _SQLErrMsg.Clear()
         _reflector = New Reflection.DbReflector(_UriMySQL.GetConnectionString)
 
         Return Ping()
@@ -159,7 +132,10 @@ Public Class MySQL : Implements IDisposable
 
                 Return value
             Catch ex As Exception
-                __throwExceptionHelper(ex, SQL)
+                ex = __throwExceptionHelper(ex, SQL, False)
+                Call ex.PrintException
+                Call App.LogException(ex)
+
                 Return Nothing
             Finally
                 Call MySQL.Close()
@@ -177,7 +153,10 @@ Public Class MySQL : Implements IDisposable
         Try
             Return __executeAggregate(Of T)(SQL)
         Catch ex As Exception
-            __throwExceptionHelper(ex, SQL)
+            ex = __throwExceptionHelper(ex, SQL, False)
+            Call ex.PrintException
+            Call App.LogException(ex)
+
             Return Nothing
         Finally
 
@@ -219,7 +198,10 @@ Public Class MySQL : Implements IDisposable
                 Return MySqlCommand.ExecuteReader
 
             Catch ex As Exception
-                __throwExceptionHelper(ex, SQL)
+                ex = __throwExceptionHelper(ex, SQL, False)
+                Call ex.PrintException
+                Call App.LogException(ex)
+
                 Return Nothing
             End Try
 
@@ -243,33 +225,33 @@ Public Class MySQL : Implements IDisposable
     ''' 则这个函数会返回一个负数)
     ''' </returns>
     ''' <remarks></remarks>
-    Public Function Execute(SQL As String) As Integer
-        Dim n As Integer
+    Public Function Execute(SQL As String, Optional throwExp As Boolean = False) As Integer
+        Using MySQL As New MySqlConnection(_UriMySQL)
+            Dim MySqlCommand As New MySqlCommand(SQL) With {
+                .Connection = MySQL
+            }
 
-        Using MySQL As MySqlConnection = New MySqlConnection(_UriMySQL)
-            Dim MySqlCommand As MySqlCommand = New MySqlCommand(SQL)
-
-            MySqlCommand.Connection = MySQL
             Try
                 MySQL.Open()
-                n = MySqlCommand.ExecuteNonQuery
+                Return MySqlCommand.ExecuteNonQuery
             Catch ex As Exception
-                __throwExceptionHelper(ex, SQL)
+                If throwExp Then
+                    __throwExceptionHelper(ex, SQL, True)
+                Else
+                    ex = __throwExceptionHelper(ex, SQL, False)
+                    Call ex.PrintException
+                    Call App.LogException(ex)
+                End If
                 Return -1
+            Finally
+                MySQL.Close()
             End Try
-
-            MySQL.Close()
         End Using
-
-        Return n
     End Function
 
     Public Function ForEach(Of T)(SQL As String, Invoke As Action(Of T)) As String
         Dim Err As String = ""
         Call _reflector.ForEach(Of T)(SQL, Invoke, Err)
-        If Not String.IsNullOrEmpty(Err) Then
-            Call Me._SQLErrMsg.Add(Err & vbCrLf & vbCrLf)
-        End If
         Return Err
     End Function
 
@@ -291,14 +273,16 @@ Public Class MySQL : Implements IDisposable
         Try
             Adapter.Fill(DataSet)
         Catch ex As Exception
-            Call __throwExceptionHelper(ex, SQL)
+            ex = __throwExceptionHelper(ex, SQL, False)
+            Call ex.PrintException
+            Call App.LogException(ex)
             Return Nothing
         End Try
 
         Return DataSet
     End Function
 
-    Public Function Query(Of T As Class)(SQL As String, Optional Parallel As Boolean = False) As T()
+    Public Function Query(Of T As Class)(SQL As String, Optional Parallel As Boolean = False, Optional throwExp As Boolean = True) As T()
         Dim Err As String = ""
         Dim Table As T() =
             If(Parallel,
@@ -306,14 +290,19 @@ Public Class MySQL : Implements IDisposable
             _reflector.Query(Of T)(SQL, GetErr:=Err))
 
         If Table Is Nothing Then
-            Call Me._SQLErrMsg.Add(SQL & " ------>" & vbCrLf & Err)
-            Return Nothing
+            If throwExp Then
+                Dim ex As New Exception(SQL)
+                ex = New Exception(Err, ex)
+                Throw ex
+            Else
+                Return Nothing
+            End If
         Else
             Return Table.ToArray
         End If
     End Function
 
-    Public Function CreateQuery(SQL As String) As Global.MySql.Data.MySqlClient.MySqlDataReader
+    Public Function CreateQuery(SQL As String) As MySqlDataReader
         Dim MySql As MySqlConnection = New MySqlConnection(_UriMySQL) '[ConnectionString] is a compiled mysql connection string from our class constructor.
         Dim MySqlCommand As MySqlCommand = New MySqlCommand(SQL, MySql)
 
@@ -321,44 +310,43 @@ Public Class MySQL : Implements IDisposable
             MySql.Open()
             Return MySqlCommand.ExecuteReader(CommandBehavior.CloseConnection)
         Catch ex As Exception
-            Call __throwExceptionHelper(ex, SQL)
+            ex = __throwExceptionHelper(ex, SQL, False)
+            Call App.LogException(ex)
+            Call ex.PrintException
             Return Nothing
+        Finally
+
         End Try
     End Function
 
 #Region ""
-    Public Function ExecUpdate(SQL As Oracle.LinuxCompatibility.MySQL.SQLTable) As Boolean
+    Public Function ExecUpdate(SQL As Oracle.LinuxCompatibility.MySQL.SQLTable, Optional throwExp As Boolean = False) As Boolean
         Dim s_SQL As String = SQL.GetUpdateSQL
-        Return Execute(s_SQL) > 0
+        Return Execute(s_SQL, throwExp) > 0
     End Function
 
-    Public Function ExecInsert(SQL As Oracle.LinuxCompatibility.MySQL.SQLTable) As Boolean
+    Public Function ExecInsert(SQL As Oracle.LinuxCompatibility.MySQL.SQLTable, Optional throwExp As Boolean = False) As Boolean
         Dim s_SQL As String = SQL.GetInsertSQL
 #If DEBUG Then
         Call s_SQL.__DEBUG_ECHO
 #End If
-        Dim success As Boolean = Execute(s_SQL) > 0
-#If DEBUG Then
-        If Not success Then
-            Call String.Join(vbCrLf, Me._SQLErrMsg.ToArray).__DEBUG_ECHO
-        End If
-#End If
+        Dim success As Boolean = Execute(s_SQL, throwExp) > 0
         Return success
     End Function
 
-    Public Function ExecDelete(SQL As Oracle.LinuxCompatibility.MySQL.SQLTable) As Boolean
+    Public Function ExecDelete(SQL As Oracle.LinuxCompatibility.MySQL.SQLTable, Optional throwExp As Boolean = False) As Boolean
         Dim s_SQL As String = SQL.GetDeleteSQL
-        Return Execute(s_SQL) > 0
+        Return Execute(s_SQL, throwExp) > 0
     End Function
 
-    Public Function ExecReplace(SQL As SQLTable) As Boolean
-        Return Execute(SQL.GetReplaceSQL) > 0
+    Public Function ExecReplace(SQL As SQLTable, Optional throwExp As Boolean = False) As Boolean
+        Return Execute(SQL.GetReplaceSQL, throwExp) > 0
     End Function
 #End Region
 
-    Public Function CommitInserts(Transaction As IEnumerable(Of SQLTable)) As Boolean
+    Public Function CommitInserts(Transaction As IEnumerable(Of SQLTable), Optional ByRef ex As Exception = Nothing) As Boolean
         Dim SQL As String = Transaction.ToArray(Function(x) x.GetInsertSQL).JoinBy(vbLf)
-        Return CommitTransaction(SQL)
+        Return CommitTransaction(SQL, ex)
     End Function
 
     ''' <summary>
@@ -372,7 +360,7 @@ Public Class MySQL : Implements IDisposable
     ''' (返回本事务是否被成功提交至数据库服务器)
     ''' </returns>
     ''' <remarks></remarks>
-    Public Function CommitTransaction(Transaction As String) As Boolean
+    Public Function CommitTransaction(Transaction As String, Optional ByRef excep As Exception = Nothing) As Boolean
         Using MyConnection As New MySqlConnection(_UriMySQL)
             MyConnection.Open()
 
@@ -397,10 +385,10 @@ Public Class MySQL : Implements IDisposable
             Catch e As Exception
                 Try
                     MyTrans.Rollback()
-                    __throwExceptionHelper(e, Transaction)
                 Catch ex As MySqlException
-                    __throwExceptionHelper(ex, Transaction)
+                    e = New Exception(__throwExceptionHelper(ex, Transaction, False).ToString, e)
                 End Try
+                excep = e
                 Return False
             Finally
                 MyConnection.Close()
@@ -408,11 +396,18 @@ Public Class MySQL : Implements IDisposable
         End Using
     End Function
 
-    Private Sub __throwExceptionHelper(Ex As Exception, SQL As String)
-        Dim SQLErrMsg = SQL & " -------> " & vbCrLf & vbCrLf & Ex.ToString
-        Call Me._SQLErrMsg.Add(SQLErrMsg)
-        Call RunTask(Sub() RaiseEvent ThrowException(Ex, SQL))
-    End Sub
+    Private Function __throwExceptionHelper(Ex As Exception, SQL As String, throwExp As Boolean) As Exception
+        Dim url As New ConnectionUri(UriMySQL)
+        url.Password = "********"
+        Ex = New Exception(url.GetJson, Ex)
+        Ex = New Exception(SQL, Ex)
+
+        If throwExp Then
+            Throw Ex
+        Else
+            Return Ex
+        End If
+    End Function
 
     ''' <summary>
     ''' Test the connection of the client to the mysql database server and then 
@@ -431,7 +426,9 @@ Public Class MySQL : Implements IDisposable
             Try
                 MySql.Open()
             Catch ex As Exception
-                __throwExceptionHelper(ex, "null")
+                ex = __throwExceptionHelper(ex, "null", False)
+                Call ex.PrintException
+                Call App.LogException(ex)
                 Return -1
             End Try
 
@@ -507,7 +504,6 @@ Public Class MySQL : Implements IDisposable
         If Not Me.disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects).
-                Call _SQLErrMsg.Clear()
             End If
 
             ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.

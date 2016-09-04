@@ -34,10 +34,15 @@ Imports System.Xml.Serialization
 ''' <remarks></remarks>
 Public Class ConnectionUri
 
+    ''' <summary>
+    ''' ```
+    ''' Database={0}; Data Source={1}; User Id={2}; Password={3}; Port={4};
+    ''' ```
+    ''' </summary>
     Public Const MYSQL_CONNECTION As String = "Database={0}; Data Source={1}; User Id={2}; Password={3}; Port={4};"
 
     ''' <summary>
-    ''' The server IP address, you can using 'localhost' to specific the local machine.(服务器的IP地址，可以使用localhost来指代本机)
+    ''' The server IP address, you can using ``localhost`` to specific the local machine.(服务器的IP地址，可以使用localhost来指代本机)
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
@@ -52,7 +57,7 @@ Public Class ConnectionUri
     <XmlAttribute> Public Property ServicesPort As UInteger
 
     ''' <summary>
-    ''' Using &lt;database_name>.(数据库的名称)
+    ''' ``Using &lt;database_name>``.(数据库的名称)
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
@@ -62,8 +67,24 @@ Public Class ConnectionUri
     <XmlAttribute> Public Property Password As String
     <XmlAttribute> Public Property TimeOut As Integer = -1
 
+    Sub New()
+    End Sub
+
     ''' <summary>
-    ''' Database={0}; Data Source={1}; User Id={2}; Password={3}; Port={4}
+    ''' 复制值
+    ''' </summary>
+    ''' <param name="o"></param>
+    Sub New(o As ConnectionUri)
+        Me.Database = o.Database
+        Me.IPAddress = o.IPAddress
+        Me.Password = o.Password
+        Me.ServicesPort = o.ServicesPort
+        Me.TimeOut = o.TimeOut
+        Me.User = o.User
+    End Sub
+
+    ''' <summary>
+    ''' ``Database={0}; Data Source={1}; User Id={2}; Password={3}; Port={4}``
     ''' </summary>
     ''' <param name="cnn"></param>
     ''' <returns></returns>

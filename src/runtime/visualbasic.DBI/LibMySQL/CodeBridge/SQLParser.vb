@@ -43,7 +43,8 @@ Public Module SQLParser
 
     Public Function ParseTable(SQL As String) As Reflection.Schema.Table
         Dim CTMatch As Match = Regex.Match(SQL, SQL_CREATE_TABLE, RegexOptions.Singleline)
-        Dim Tokens As KeyValuePair(Of String, String()) = __sqlParser(CTMatch.Value.Replace(vbLf, vbCr))
+        Dim Tokens As KeyValuePair(Of String, String()) =
+            __sqlParser(CTMatch.Value.Replace(vbLf, vbCr))
 
         Try
             Return __parseTable(SQL, CTMatch, Tokens)
@@ -232,12 +233,12 @@ _SET_PRIMARYKEY:
             Comment = Mid(Comment, 1, Len(Comment) - 2)
         End If
 
-        CreateTableSQL = ASCII.ReplaceQuot(CreateTableSQL)
+        CreateTableSQL = ASCII.ReplaceQuot(CreateTableSQL, "\'")
 
         Dim TableSchema As New Reflection.Schema.Table With {
-            ._databaseFields = FieldLQuery,  'The database fields reflection result {Name, Attribute}
+            ._databaseFields = FieldLQuery,        ' The database fields reflection result {Name, Attribute}
             .TableName = TableName,
-            .PrimaryFields = PrimaryKeys.ToList,     'Assuming at least only one primary key in a table
+            .PrimaryFields = PrimaryKeys.ToList,   ' Assuming at least only one primary key in a table
             .Index = PrimaryKey,
             .Comment = Comment,
             .SQL = CreateTableSQL
