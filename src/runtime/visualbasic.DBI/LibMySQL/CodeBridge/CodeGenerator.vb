@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports System.Runtime.CompilerServices
 Imports System.IO
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 ''' <summary>
 ''' Automatically generates visualbasic source code from the SQL schema dump document.(根据SQL文档生成Visual Basic源代码)
@@ -214,6 +215,9 @@ Public Module CodeGenerator
                                                                Select field).FirstOrDefault)
         If Not String.IsNullOrEmpty(DBName) Then
             DBName = $", Database:=""{DBName}"""
+        End If
+        If Not String.IsNullOrEmpty(Table.SQL) Then
+            DBName &= $", {NameOf(TableName.SchemaSQL)}:=""{vbCrLf}{Table.SQL}"""
         End If
 
         Call CodeGenerator.AppendLine("''' ```SQL")

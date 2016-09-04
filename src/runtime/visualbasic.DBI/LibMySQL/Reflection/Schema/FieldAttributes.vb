@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Reflection
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports System.Text
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 Namespace Reflection.Schema
 

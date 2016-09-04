@@ -26,8 +26,8 @@
 #End Region
 
 Imports System.Text
-Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 
 Namespace Reflection.SQL
 
