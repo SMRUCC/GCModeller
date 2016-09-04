@@ -35,6 +35,21 @@ Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 Public Module Extensions
 
     ''' <summary>
+    ''' 读取CreateTable元数据
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <returns></returns>
+    Public Function GetCreateTableMetaSQL(Of T As SQLTable)() As String
+        Dim attrs As TableName = GetType(T).GetCustomAttribute(Of TableName)
+
+        If attrs Is Nothing Then
+            Return Nothing
+        Else
+            Return attrs.SchemaSQL
+        End If
+    End Function
+
+    ''' <summary>
     ''' ``DROP TABLE IF EXISTS `{<see cref="Table.GetTableName"/>(GetType(<typeparamref name="T"/>))}`;``
     ''' </summary>
     ''' <typeparam name="T"></typeparam>

@@ -85,15 +85,18 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MaxMind\MySQL\geolite2\geolite2_city_blocks_ipv6.vb" />
+    <Compile Include="MaxMind\MySQL\geolite2\geolite2_country_blocks_ipv4.vb" />
+    <Compile Include="MaxMind\MySQL\geolite2\geolite2_country_blocks_ipv6.vb" />
+    <Compile Include="MaxMind\MySQL\geolite2\geolite2_country_locations.vb" />
     <Compile Include="MaxMind\QueryEngine\QueryOut.vb" />
     <Compile Include="MaxMind\QueryEngine\Database.vb" />
     <Compile Include="MaxMind\QueryEngine\Engine.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="MaxMind\Views.vb" />
-    <Compile Include="MaxMind\Tables\GeoIP2\IPv4\geolite2_city_blocks_ipv4.vb" />
-    <Compile Include="MaxMind\Tables\GeoIP2\IPv4\geolite2_city_locations.vb" />
-    <Compile Include="MaxMind\Tables\GeoIP2\IPv6.vb" />
-    <Compile Include="MaxMind\Tables\geolite\geolite_city.vb" />
+    <Compile Include="MaxMind\MySQL\geolite2\geolite2_city_blocks_ipv4.vb" />
+    <Compile Include="MaxMind\MySQL\geolite2\geolite2_city_locations.vb" />
+    <Compile Include="MaxMind\MySQL\geolite\geolite_city.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
