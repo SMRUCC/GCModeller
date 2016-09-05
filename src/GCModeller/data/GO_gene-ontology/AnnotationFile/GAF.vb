@@ -1,31 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::9e0051a349053f302b725d163a69d88f, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\GAF.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Reflection
+Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' GO Annotation File (GAF) Format 2.0
@@ -33,12 +36,43 @@ Imports Microsoft.VisualBasic
 ''' <remarks></remarks>
 Public Class GAF
 
-    Private Shared ReadOnly GAF_Heads As String = <GAF>!GOC Validation Date: 10/04/2014 $
+    ''' <summary>
+    ''' ```
+    ''' !GOC Validation Date: 10/04/2014 $
+    ''' !Submission Date: 10/4/2014
+    ''' !
+    ''' !The above ""Submission Date"" Is when the annotation project provided
+    ''' !this file to the Gene Ontology Consortium (GOC).  The ""GOC Validation
+    ''' !Date"" indicates when this file was last changed as a result of a GOC
+    ''' !validation And filtering process.  
+    ''' !
+    ''' !Note: The contents Of this file may differ from that submitted To the
+    ''' !GOC.The identifiers And syntax Of the file have been checked, rows of
+    ''' !data Not meeting the standards set by the GOC have been removed. This
+    ''' !file may also have annotations removed because the annotations for the
+    ''' !listed Taxonomy identifier are only allowed in a file provided by
+    ''' !another annotation project.  The original submitted file Is available from
+    ''' !http : //www.geneontology.org/gene-associations/submission/
+    ''' !
+    ''' !For information on which taxon are allowed in which files please see
+    ''' !http : //www.geneontology.org/GO.annotation.shtml#script
+    ''' !
+    ''' !gaf-version:  2.0
+    ''' !Project_name: Saccharomyces Genome Database (SGD)
+    ''' !URL :  http://www.yeastgenome.org/
+    ''' !Contact Email:  sgd-helpdesk@lists.stanford.edu
+    ''' !Funding :  NHGRI of US National Institutes of Health, HG001315
+    ''' !Date :  10/04/2014 $
+    ''' !
+    ''' ```
+    ''' </summary>
+    Private Shared ReadOnly GAF_Heads As String =
+"!GOC Validation Date: 10/04/2014 $
 !Submission Date: 10/4/2014
 !
-! The above "Submission Date" is when the annotation project provided
-! this file to the Gene Ontology Consortium (GOC).  The "GOC Validation
-! Date" indicates when this file was last changed as a result of a GOC
+! The above ""Submission Date"" is when the annotation project provided
+! this file to the Gene Ontology Consortium (GOC).  The ""GOC Validation
+! Date"" indicates when this file was last changed as a result of a GOC
 ! validation and filtering process.  
 !
 ! Note: The contents of this file may differ from that submitted to the
@@ -59,7 +93,7 @@ Public Class GAF
 !Funding: NHGRI of US National Institutes of Health, HG001315
 !Date: 10/04/2014 $
 !
-</GAF>
+"
 
 #Region "Definitions and requirements for field contents"
 
@@ -329,34 +363,62 @@ Public Class GAF
     End Function
 
     Private Function GenerateLine() As String
-        Return String.Join(vbTab, DB, DBObjectID, DBObjectSymbol, Qualifier, GOID, DBReference, EvidenceCode, WithOrFrom, Aspect, DBObjectName, DBObjectSynonym, DBObjectType, Taxon, [Date], AssignedBy, AnnotationExtension, GeneProductFormID)
+        Dim array As String() = {
+            DB,
+            DBObjectID,
+            DBObjectSymbol,
+            Qualifier,
+            GOID,
+            DBReference,
+            EvidenceCode,
+            WithOrFrom,
+            Aspect,
+            DBObjectName,
+            DBObjectSynonym,
+            DBObjectType,
+            Taxon,
+            [Date],
+            AssignedBy,
+            AnnotationExtension,
+            GeneProductFormID
+        }
+        Return String.Join(vbTab, array)
     End Function
 
     Public Shared Function Save(GAFLines As GAF(), path As String) As Boolean
-        Dim ChunkBuffer As List(Of String) = New List(Of String)
-        Call ChunkBuffer.Add(GAF.GAF_Heads)
-        Call ChunkBuffer.AddRange((From item In GAFLines Select item.GenerateLine).ToArray)
+        Dim bufs As New List(Of String)
 
-        Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(path))
-        Call IO.File.WriteAllLines(path, ChunkBuffer.ToArray)
+        Call bufs.Add(GAF.GAF_Heads)
+        Call bufs.AddRange(
+            GAFLines.Select(Function(x) x.GenerateLine))
 
-        Return True
+        Return bufs.SaveTo(path, Encoding.ASCII)
     End Function
 
     Public Shared Function Load(path As String) As GAF()
-        Dim strLines As String() = (From strLine As String In IO.File.ReadLines(path) Where strLine.First <> "!"c Select strLine).ToArray
-        Dim ClassSchemaBuffer = (From item In Field.LoadClassSchema(Of GAF)() Select item Order By item.Key.Index Ascending).ToArray
+        Dim strLines As String() = LinqAPI.Exec(Of String) <=
+ _
+            From strLine As String
+            In IO.File.ReadLines(path)
+            Where strLine.First <> "!"c
+            Select strLine
+
+        Dim ClassSchemaBuffer = From x
+                                In Field.LoadClassSchema(Of GAF)()
+                                Select x
+                                Order By x.Key.Index Ascending
+
         Dim ClassSchema = (From item In ClassSchemaBuffer Select item.Value).ToArray
         Dim LQuery = (From strLine As String In strLines Select Load(strLine, ClassSchema)).ToArray
         Return LQuery
     End Function
 
-    Private Shared Function Load(strValue As String, ClassSchema As System.Reflection.PropertyInfo()) As GAF
-        Dim Chunkbuffer As String() = Strings.Split(strValue, vbTab)
-        Dim Target As GAF = New GAF
+    Private Shared Function Load(strValue As String, ClassSchema As PropertyInfo()) As GAF
+        Dim bufs As String() = Strings.Split(strValue, vbTab)
+        Dim Target As New GAF
 
-        For i As Integer = 0 To Chunkbuffer.Count - 1
-            Call ClassSchema(i).SetValue(Target, Chunkbuffer(i))
+        For i As Integer = 0 To bufs.Length - 1
+            Call ClassSchema(i).SetValue(Target, bufs(i))
         Next
 
         Return Target

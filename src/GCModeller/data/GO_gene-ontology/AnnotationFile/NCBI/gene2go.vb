@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::a4fa0f19227146105656d8a8e91800d4, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\NCBI\gene2go.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.Emit.Marshal
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -57,10 +58,13 @@ Namespace NCBI
         ''' <returns></returns>
         Public Shared Function LoadDoc(path As String) As gene2go()
             Dim lines As String() = path.ReadAllLines
-            Dim LQuery = (From line As String
-                          In lines.AsParallel
-                          Let tokens As String() = Strings.Split(line, vbTab)
-                          Select __create(tokens.MarshalAs)).ToArray
+            Dim LQuery As gene2go() = LinqAPI.Exec(Of gene2go) <=
+ _
+                From line As String
+                In lines.AsParallel
+                Let tokens As String() = Strings.Split(line, vbTab)
+                Select __create(tokens.MarshalAs)
+
             Return LQuery
         End Function
 
