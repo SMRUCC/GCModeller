@@ -58,22 +58,30 @@ Namespace EngineSystem.Services.DataAcquisition.DataSerializer
         End Sub
 
         Public Overrides Function CommitData(Optional TableName As String = "") As Integer
-            Dim Query = From e In _DataFlows Let SQL = e.InsertSQL(Id:=PlusId) Select SQL.Replace("%s", TableName) '
-            Dim TransactionBuilder As StringBuilder = New StringBuilder(10 * 1024)
+            Dim LQuery = From x As DataFlowF
+                         In _DataFlows
+                         Let SQL = x.InsertSQL(Id:=PlusId)
+                         Select SQL.Replace("%s", TableName) '
 
-            For Each INSERT_SQL As String In Query.ToArray
-                Call TransactionBuilder.AppendLine(INSERT_SQL)
+            Dim t As New StringBuilder(10 * 1024)
+            Dim exp As Exception = Nothing
+
+            For Each INSERT_SQL As String In LQuery
+                Call t.AppendLine(INSERT_SQL)
             Next
 
             Call _DataFlows.Clear()
-            If Not MyBase._SuppressPeriodicMessage Then Call Printf("   > Data size: %s byte.", TransactionBuilder.Length)
-            Dim r As Boolean = MySQL.CommitTransaction(Transaction:=TransactionBuilder.ToString)
+
+            If Not MyBase._SuppressPeriodicMessage Then
+                Call printf("   > Data size: %s byte.", t.Length)
+            End If
+
+            Dim r As Boolean = MySQL.CommitTransaction(t.ToString, exp)
 
             If r = False Then
-                MyBase._ErrMessage =
-                    MySQL.GetErrMessageString & vbCrLf & New String("-"c, 20) & "> " & TableName & " </SQL>" & vbCrLf & vbCrLf &
-                    "    TRANSACTION_DUMP()::{" & vbCrLf & vbCrLf & TransactionBuilder.ToString & vbCrLf & vbCrLf & "       }"
-                Call FileIO.FileSystem.WriteAllText(Settings.TEMP & "/MySQL.log", MyBase._ErrMessage, append:=True)
+                exp = New Exception(New String("-"c, 20) & "> " & TableName & " </SQL>" & vbCrLf & vbCrLf &
+                    "    TRANSACTION_DUMP()::{" & vbCrLf & vbCrLf & t.ToString & vbCrLf & vbCrLf & "       }", exp)
+                Call App.LogException(exp)
 
                 Return -1
             End If

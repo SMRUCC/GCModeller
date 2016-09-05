@@ -129,10 +129,12 @@ Public Module CorrsDbAPI
                 Call Transaction.Add(line)
             Next
 
-            If Not MySQL.CommitTransaction(String.Join(vbCrLf, Transaction.ToArray(Function(ds) ds.GetInsertSQL))) Then
-                Dim exMsg As String = MySQL.GetErrMessageString
-                Call App.LogException(New Exception(exMsg))
-                Call exMsg.__DEBUG_ECHO
+            Dim exp As Exception = Nothing
+            Dim t As String = String.Join(vbCrLf, Transaction.ToArray(Function(ds) ds.GetInsertSQL))
+
+            If Not MySQL.CommitTransaction(t, exp) Then
+                Call App.LogException(exp)
+                Call exp.PrintException
             Else
                 Call $"[{g1}] Job Done!".__DEBUG_ECHO
             End If
