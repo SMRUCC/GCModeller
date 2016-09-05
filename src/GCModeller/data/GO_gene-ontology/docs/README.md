@@ -1,7 +1,4 @@
-# GO_gene-ontology
-Gene Ontology Parser for [GCModeller](http://gcmodeller.org/)
-
-The Gene Ontology (GO) ![](./go-logo-icon.mini__0.png) project is a collaborative effort to address the need for consistent descriptions of gene products across databases. Founded in 1998, the project began as a collaboration between three model organism databases, FlyBase (Drosophila), the Saccharomyces Genome Database (SGD) and the Mouse Genome Database (MGD). The GO Consortium (GOC) has since grown to incorporate many databases, including several of the world's major repositories for plant, animal, and microbial genomes. The GO Contributors page lists all member organizations.
+The Gene Ontology (GO) project is a collaborative effort to address the need for consistent descriptions of gene products across databases. Founded in 1998, the project began as a collaboration between three model organism databases, FlyBase (Drosophila), the Saccharomyces Genome Database (SGD) and the Mouse Genome Database (MGD). The GO Consortium (GOC) has since grown to incorporate many databases, including several of the world's major repositories for plant, animal, and microbial genomes. The GO Contributors page lists all member organizations.
 
 The GO project has developed three structured ontologies that describe gene products in terms of their associated biological processes, cellular components and molecular functions in a species-independent manner. There are three separate aspects to this effort: first, the development and maintenance of the ontologies themselves; second, the annotation of gene products, which entails making associations between the ontologies and the genes and gene products in the collaborating databases; and third, the development of tools that facilitate the creation, maintenance and use of ontologies.
 
@@ -9,7 +6,7 @@ The use of GO terms by collaborating databases facilitates uniform queries acros
 
 Shared vocabularies are an important step towards unifying biological databases, but additional work is still necessary as knowledge changes, updates lag behind, and individual curators evaluate data differently. The GO aims to serve as a platform where curators can agree on stating how and why a specific term is used, and how to consistently apply it, for example, to establish relationships between gene products.
 
-#### The Scope of GO
+## The Scope of GO
 The following areas are outside the scope of GO, and terms in these domains will not appear in the ontologies:
 
 + Gene products: e.g. cytochrome c is not in the ontologies, but attributes of cytochrome c, such as oxidoreductase activity, are.
@@ -19,11 +16,5 @@ The following areas are outside the scope of GO, and terms in these domains will
 + Protein-protein interactions.
 + Environment, evolution and expression.
 + Anatomical or histological features above the level of cellular components, including cell types.
-
-
-### Development References
-
-+ https://github.com/xieguigang/VisualBasic_AppFramework
-+ https://github.com/SMRUCC/GCModeller.Core
-+ https://github.com/SMRUCC/SBML
-+ https://github.com/xieguigang/VisualBasic.DBI
++ 
+Further information is available on the [Frequently Asked Questions](http://geneontology.org/faq-page) (FAQ) page.

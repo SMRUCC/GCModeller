@@ -3,9 +3,9 @@ Imports System.Net.Sockets
 Imports Microsoft.VisualBasic.ComputingServices.TaskHost
 Imports Microsoft.VisualBasic.Linq.Framework.Provider
 Imports Microsoft.VisualBasic.Net
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.RQL.Linq
-Imports SMRUCC.HTTPInternal.Core
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 ''' <summary>
 ''' 在线查询服务提供模块，在这个模块之中只负责进行url参数的解析工作

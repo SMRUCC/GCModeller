@@ -1,33 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::0db538b07cb0e7fa80a0d0c084c7352e, ..\GCModeller\CLI_tools\KEGG\Procedures\Orthology.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace Procedures
 
@@ -43,12 +46,14 @@ Namespace Procedures
 
         Public ReadOnly Property Entries As String()
             Get
-                Return (From s As String
-                        In BriefData.GetEntries
-                        Where Not String.IsNullOrEmpty(s)
-                        Select s
-                        Distinct
-                        Order By s Ascending).ToArray
+                Return LinqAPI.Exec(Of String) <=
+ _
+                    From s As String
+                    In BriefData.GetEntries
+                    Where Not String.IsNullOrEmpty(s)
+                    Select s
+                    Distinct
+                    Order By s Ascending
             End Get
         End Property
 
@@ -68,13 +73,15 @@ Namespace Procedures
             Call transaction.Add(__getGenes(ort))
 
             Dim TransactSQL As String = String.Join(vbCrLf, transaction.ToArray(Function(t) t.GetReplaceSQL))
+            Dim exp As Exception = Nothing
             Try
-                Call KEGG.CommitTransaction(TransactSQL)
+                Call KEGG.CommitTransaction(TransactSQL, exp)
             Catch ex As Exception
 
             End Try
 
-            If Not KEGG.GetErrMessage.IsNullOrEmpty Then
+            If Not exp Is Nothing Then
+                Call App.LogException(exp)
                 Call TransactSQL.SaveTo(App.CurrentDirectory & "/" & ort.Entry & ".sql")
             End If
         End Sub
@@ -250,25 +257,43 @@ Namespace Procedures
         ''' 在这里更新Other DBs的数据
         ''' </summary>
         ''' <param name="ort"></param>
-        Private Function __getXRef(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
-            Dim xRefs = (From lnk In ort.xRefEntry
+        Private Function __getXRef(ort As bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
+            Dim xRefs = (From lnk As TripleKeyValuesPair
+                         In ort.xRefEntry
                          Select lnk
-                         Group lnk By lnk.Key.ToUpper Into Group).ToDictionary(Function(obj) obj.ToUpper, elementSelector:=Function(obj) obj.Group.ToArray)
+                         Group lnk By lnk.Key.ToUpper Into Group) _
+                              .ToDictionary(Function(x) x.ToUpper,
+                                            Function(x) x.Group.ToArray)
             Dim datas As New List(Of Oracle.LinuxCompatibility.MySQL.SQLTable)
 
             If xRefs.ContainsKey("COG") Then
-                Dim source = xRefs("COG")
-                Call datas.Add(source.ToArray(Function(cog) New LocalMySQL.xref_ko2cog With {.COG = cog.Value2, .ko = ort.Entry, .url = cog.Value1}))
+                Dim source As TripleKeyValuesPair() = xRefs("COG")
+                datas += source.ToArray(Function(cog) _
+                     New LocalMySQL.xref_ko2cog With {
+                        .COG = cog.Value2,
+                        .ko = ort.Entry,
+                        .url = cog.Value1
+                })
             End If
 
             If xRefs.ContainsKey("GO") Then
-                Dim source = xRefs("GO")
-                Call datas.Add(source.ToArray(Function(go) New LocalMySQL.xref_ko2go With {.go = go.Value2, .ko = ort.Entry, .url = go.Value1}))
+                Dim source As TripleKeyValuesPair() = xRefs("GO")
+                datas += source.ToArray(Function(go) _
+                     New LocalMySQL.xref_ko2go With {
+                        .go = go.Value2,
+                        .ko = ort.Entry,
+                        .url = go.Value1
+                })
             End If
 
             If xRefs.ContainsKey("RN") Then
-                Dim source = xRefs("RN")
-                Call datas.Add(source.ToArray(Function(rn) New LocalMySQL.xref_ko2rn With {.rn = rn.Value2, .ko = ort.Entry, .url = rn.Value1}))
+                Dim source As TripleKeyValuesPair() = xRefs("RN")
+                datas += source.ToArray(Function(rn) _
+                     New LocalMySQL.xref_ko2rn With {
+                        .rn = rn.Value2,
+                        .ko = ort.Entry,
+                        .url = rn.Value1
+                })
             End If
 
             Return datas.ToArray

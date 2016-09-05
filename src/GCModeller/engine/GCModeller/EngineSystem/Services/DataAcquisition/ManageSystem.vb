@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::55bb74ce1ac8b1655946ba5b0350eb0b, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\ManageSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Logging
 
 Namespace EngineSystem.Services.DataAcquisition
 
@@ -169,11 +170,7 @@ Namespace EngineSystem.Services.DataAcquisition
 
                 If p < 0 Then  '数据库服务器通信连接测试失败
                     Call Me.SystemLogging.WriteLine("Could not establish the mysql server connection, please check out the connection parameter or the server running state.",
-                                                    "gchost -> main()",
-                                                    Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
-                    Call Me.SystemLogging.WriteLine(MySQL_DbAdapter.GetErrMessageString,
-                                                    $"{NameOf(TestMySQL)} => MYSQL_EXCEPTION",
-                                                    Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                                                    "gchost -> main()", MSG_TYPES.ERR)
                     Return False
                 Else
                     Call Me.SystemLogging.WriteLine(String.Format("[{0}]  Established mysql server connection, ping {1} ms", Now.ToString, p), "gchost -> main()")
