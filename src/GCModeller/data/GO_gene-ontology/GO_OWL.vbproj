@@ -171,6 +171,7 @@
     <Compile Include="AnnotationFile\Obo\AnnotationFile.vb" />
     <Compile Include="AnnotationFile\GAF.vb" />
     <Compile Include="AnnotationFile\Obo\Head.vb" />
+    <Compile Include="Ontologies.vb" />
     <Compile Include="MySQL\Tables\association.vb" />
     <Compile Include="MySQL\Tables\association_isoform.vb" />
     <Compile Include="MySQL\Tables\association_property.vb" />

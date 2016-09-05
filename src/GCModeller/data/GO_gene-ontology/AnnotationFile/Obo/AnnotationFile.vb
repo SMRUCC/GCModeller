@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::e14b52a9b63f629c846e11bb398c0ddc, ..\GCModeller\data\GO_gene-ontology\AnnotationFile\Obo\AnnotationFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' go.obo(Go注释功能定义文件)
@@ -37,18 +38,27 @@ Public Class AnnotationFile
     Public Property Terms As Term()
 
     Public Shared Function LoadDocument(path As String) As AnnotationFile
-        Dim FileContent As String() = (From strLine As String In IO.File.ReadAllLines(path) Where Not String.IsNullOrEmpty(strLine) Select strLine.Replace(",", ";")).ToArray
-        Dim ChunkBuffer As String()
-        Dim i As Integer = Array.IndexOf(FileContent, Term.TERM)
-        Dim File As AnnotationFile = New AnnotationFile
+        Dim lines As String() = LinqAPI.Exec(Of String) <=
+ _
+            From strLine As String
+            In IO.File.ReadAllLines(path)
+            Where Not String.IsNullOrEmpty(strLine)
+            Select strLine.Replace(",", ";")
+
+        Dim bufs As String()
+        Dim i As Integer = Array.IndexOf(lines, Term.TERM)
+        Dim File As New AnnotationFile
 
         If i = -1 Then
-            Dim Head As Head = Field.LoadData(Of Head)(FileContent)
-            Return New AnnotationFile With {.Head = Head, .Terms = New Term() {}}
+            Dim Head As Head = Field.LoadData(Of Head)(lines)
+            Return New AnnotationFile With {
+                .Head = Head,
+                .Terms = New Term() {}
+            }
         Else
-            ChunkBuffer = New String(i - 1) {}
-            Call Array.ConstrainedCopy(FileContent, 0, ChunkBuffer, 0, ChunkBuffer.Length)
-            File.Head = Field.LoadData(Of Head)(ChunkBuffer)
+            bufs = New String(i - 1) {}
+            Call Array.ConstrainedCopy(lines, 0, bufs, 0, bufs.Length)
+            File.Head = Field.LoadData(Of Head)(bufs)
         End If
 
         Dim Terms As List(Of Term) = New List(Of Term)
@@ -56,22 +66,22 @@ Public Class AnnotationFile
 
         i += 1
         pre = i
-        i = Array.IndexOf(FileContent, Term.TERM, i)
+        i = Array.IndexOf(lines, Term.TERM, i)
 
         Do While i > -1
             Dim Length As Integer = i - pre
-            ChunkBuffer = New String(Length - 1) {}
-            Call Array.ConstrainedCopy(FileContent, pre, ChunkBuffer, 0, Length)
-            Call Terms.Add(Field.LoadData(Of Term)(ChunkBuffer))
+            bufs = New String(Length - 1) {}
+            Call Array.ConstrainedCopy(lines, pre, bufs, 0, Length)
+            Call Terms.Add(Field.LoadData(Of Term)(bufs))
 
             i += 1
             pre = i
-            i = Array.IndexOf(FileContent, Term.TERM, i)
+            i = Array.IndexOf(lines, Term.TERM, i)
         Loop
 
-        ChunkBuffer = New String(FileContent.Count - 1 - pre) {}
-        Call Array.ConstrainedCopy(FileContent, pre, ChunkBuffer, 0, ChunkBuffer.Length)
-        Call Terms.Add(Field.LoadData(Of Term)(ChunkBuffer))
+        bufs = New String(lines.Length - 1 - pre) {}
+        Call Array.ConstrainedCopy(lines, pre, bufs, 0, bufs.Length)
+        Call Terms.Add(Field.LoadData(Of Term)(bufs))
 
         File.Terms = Terms.ToArray
 
@@ -79,21 +89,20 @@ Public Class AnnotationFile
     End Function
 
     Public Function Save(path As String) As Boolean
-        Dim ChunkBuffer As List(Of String) = New List(Of String)
-        Dim LQuery = (From TermItem As Term In Terms Select Field.GenerateValueCollection(Of Term)(TermItem)).ToArray
+        Dim bufs As List(Of String) = New List(Of String)
+        Dim LQuery = From x As Term
+                     In Terms
+                     Select Field.GenerateValueCollection(Of Term)(x)
 
-        Call ChunkBuffer.AddRange(Field.GenerateValueCollection(Of Head)(Head))
-        Call ChunkBuffer.Add("")
+        Call bufs.AddRange(Field.GenerateValueCollection(Of Head)(Head))
+        Call bufs.Add("")
 
-        For Each item In LQuery
-            Call ChunkBuffer.Add(Term.TERM)
-            Call ChunkBuffer.AddRange(item)
-            Call ChunkBuffer.Add("")
+        For Each x In LQuery
+            Call bufs.Add(Term.TERM)
+            Call bufs.AddRange(x)
+            Call bufs.Add("")
         Next
 
-        Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(path))
-        Call IO.File.WriteAllLines(path, ChunkBuffer.ToArray, encoding:=System.Text.Encoding.ASCII)
-
-        Return True
+        Return bufs.SaveTo(path, Encodings.ASCII.GetEncodings)
     End Function
 End Class

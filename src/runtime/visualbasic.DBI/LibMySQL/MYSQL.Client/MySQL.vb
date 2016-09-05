@@ -90,9 +90,18 @@ Public Class MySQL : Implements IDisposable
     Public Sub New()
     End Sub
 
+    ''' <summary>
+    ''' Creates a new mysql session object from connection uri.
+    ''' </summary>
+    ''' <param name="uri"></param>
     Sub New(uri As ConnectionUri)
         Call Connect(uri)
     End Sub
+
+    Public Function ConnectDatabase(DbName As String) As MySQL
+        Dim uri As New ConnectionUri(UriMySQL, DbName)
+        Return New MySQL(uri)
+    End Function
 
     Private Function CreateSchema(Name As String) As Boolean
         Const CREATE_SCHEMA As String = "CREATE DATABASE /*!32312 IF NOT EXISTS*/ {0};"
