@@ -31,7 +31,56 @@ Imports System.Xml.Serialization
 ''' <summary>
 ''' The connection parameter for the MYSQL database server.(MySQL服务器的远程连接参数)
 ''' </summary>
-''' <remarks></remarks>
+''' <remarks>
+''' #### Using MySqlCommand
+'''
+''' A MySqlCommand has the CommandText And CommandType properties associated With it. The CommandText will be handled differently depending On the setting Of CommandType. 
+''' CommandType can be one Of: 
+'''
+''' + Text -An SQL text command (default)
+''' + StoredProcedure -The name of a Stored Procedure
+''' + TableDirect -The name of a table (New in Connector/Net 6.2)
+'''
+''' The Default CommandType, Text, is used For executing queries And other SQL commands. Some example Of this can be found In the following section Section 4.1.2, 
+''' **“The MySqlCommand Object”**.
+'''
+''' + If CommandType Is set to StoredProcedure, set CommandText to the name of the Stored Procedure to access.
+''' + If CommandType Is set to TableDirect, all rows And columns of the named table will be returned when you call one of the Execute methods. In effect, 
+'''   this command performs a SELECT * on the table specified. The CommandText property Is set to the name of the table to query. This Is illustrated by the 
+'''   following code snippet
+'''
+''' ```vbnet
+''' ' ...
+''' Dim cmd As New MySqlCommand()
+''' cmd.CommandText = "mytable"
+''' cmd.Connection = someConnection
+''' cmd.CommandType = CommandType.TableDirect
+''' Dim reader As MySqlDataReader = cmd.ExecuteReader()
+'''
+''' Do While (reader.Read())
+'''     Call Console.WriteLine(reader(0), reader(1)...)
+''' Loop
+''' ' ...
+''' ```
+''' 
+''' Examples of using the CommandType of StoredProcedure can be found in the section Section 5.10, “Accessing Stored Procedures with Connector/Net”.
+''' Commands can have a timeout associated With them. This Is useful As you may Not want a situation were a command takes up an excessive amount Of time. 
+''' A timeout can be Set Using the CommandTimeout Property. The following code snippet sets a timeout Of one minute:
+'''
+''' ```vbnet
+''' Dim cmd As New MySqlCommand()
+''' cmd.CommandTimeout = 60
+''' ```
+''' 
+''' The Default value Is 30 seconds. **Avoid a value Of 0, which indicates an indefinite wait.** To change the Default command timeout, use the connection String 
+''' Option Default Command Timeout.
+''' Prior to MySQL Connector/Net 6.2, MySqlCommand.CommandTimeout included user processing time, that Is processing time Not related To direct use Of the connector. 
+''' Timeout was implemented through a .NET Timer, that triggered after CommandTimeout seconds. This timer consumed a thread.
+''' MySQL Connector/Net 6.2 introduced timeouts that are aligned With how Microsoft Handles SqlCommand.CommandTimeout. This Property Is the cumulative timeout 
+''' For all network reads And writes during command execution Or processing Of the results. A timeout can still occur In the MySqlReader.Read method after the first 
+''' row Is returned, And does Not include user processing time, only IO operations. The 6.2 implementation uses the underlying stream timeout facility, so Is more 
+''' efficient In that it does Not require the additional timer thread As was the Case With the previous implementation.
+''' </remarks>
 Public Class ConnectionUri
 
     ''' <summary>
@@ -65,6 +114,18 @@ Public Class ConnectionUri
     <XmlAttribute> Public Property Database As String
     <XmlAttribute> Public Property User As String
     <XmlAttribute> Public Property Password As String
+
+    ''' <summary>
+    ''' 这个属性会在链接字符串之中设置查询超时的选项，单位为秒：
+    ''' 
+    ''' ```
+    ''' default command timeout={TimeOut};
+    ''' ```
+    ''' 
+    ''' + 假若这个参数值为负数，则不会进行设置，默认值为-1，为负值，则默认不会设置超时选项，即使用默认的超时设置30秒
+    ''' + 假若这个参数值为0，则会被设置为无限等待
+    ''' </summary>
+    ''' <returns></returns>
     <XmlAttribute> Public Property TimeOut As Integer = -1
 
     Sub New()
@@ -74,8 +135,9 @@ Public Class ConnectionUri
     ''' 复制值
     ''' </summary>
     ''' <param name="o"></param>
-    Sub New(o As ConnectionUri)
-        Me.Database = o.Database
+    Sub New(o As ConnectionUri, Optional DbName As String = Nothing)
+        Me.Database = If(
+            String.IsNullOrEmpty(DbName), o.Database, DbName)
         Me.IPAddress = o.IPAddress
         Me.Password = o.Password
         Me.ServicesPort = o.ServicesPort
@@ -146,13 +208,18 @@ Public Class ConnectionUri
     Public Overrides Function ToString() As String
         Dim cnn As String = __basicllyConfig()
 
-        If TimeOut >= 0 Then
+        If TimeOut >= 0 Then  ' 假若在这里timeout大于零的话，会在链接字符串中设置超时选项
+            ' 等于零是无限等待
             cnn &= $" default command timeout={TimeOut};"
         End If
 
         Return cnn
     End Function
 
+    ''' <summary>
+    ''' 基本的Mysql链接字符串配置
+    ''' </summary>
+    ''' <returns></returns>
     Private Function __basicllyConfig() As String
         If String.IsNullOrEmpty(Database) Then
             Return $"Data Source={IPAddress}; User Id={User}; Password={Password}; Port={ServicesPort};"
