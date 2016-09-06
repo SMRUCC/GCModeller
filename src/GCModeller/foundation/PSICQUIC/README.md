@@ -9,10 +9,10 @@ PSICQUIC is an effort from the [HUPO Proteomics Standard Initiative](http://www.
 
 ![Image of PSICQUIC](psicquic.png)
 
-Basically, PSICQUIC specifies: 
+Basically, PSICQUIC specifies:
  + A standard [web service](http://en.wikipedia.org/wiki/Web_service) with a well-defined list of methods, accessible using [SOAP](https://github.com/maitesin/psicquic/blob/wiki/PsicquicSpec_1_3_Soap.md) or [REST](https://github.com/maitesin/psicquic/blob/wiki/PsicquicSpec_1_3_Rest.md).
  + A common query language ([MIQL](https://github.com/maitesin/psicquic/blob/wiki/MiqlDefinition.md)) 
- 
+
 Many interaction databases are already implementing PSICQUIC. You can check the [Registry](http://www.ebi.ac.uk/Tools/webservices/psicquic/registry/registry?action=STATUS) to see the most up to date list of providers and their status.
 
 If you are a user in need of a convenient and standard way to fetch molecular interaction data from different sources, check the following section "Information for Users". If you are a service provider willing to facilitate your data so it can reach more users with very little effort, check the section "Information for Molecular Interaction providers" below.

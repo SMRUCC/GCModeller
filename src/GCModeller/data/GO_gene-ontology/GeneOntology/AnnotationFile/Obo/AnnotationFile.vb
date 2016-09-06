@@ -27,14 +27,15 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 ''' <summary>
-''' go.obo(Go注释功能定义文件)
+''' go.obo/go-basic.obo(Go注释功能定义文件)
 ''' </summary>
 ''' <remarks></remarks>
 Public Class AnnotationFile
 
-    Public Property Head As Head
+    Public Property header As header
     Public Property Terms As Term()
 
     Public Shared Function LoadDocument(path As String) As AnnotationFile
@@ -50,15 +51,15 @@ Public Class AnnotationFile
         Dim File As New AnnotationFile
 
         If i = -1 Then
-            Dim Head As Head = Field.LoadData(Of Head)(lines)
+            Dim Head As header = LoadData(Of header)(lines)
             Return New AnnotationFile With {
-                .Head = Head,
+                .header = Head,
                 .Terms = New Term() {}
             }
         Else
             bufs = New String(i - 1) {}
             Call Array.ConstrainedCopy(lines, 0, bufs, 0, bufs.Length)
-            File.Head = Field.LoadData(Of Head)(bufs)
+            File.header = LoadData(Of header)(bufs)
         End If
 
         Dim Terms As List(Of Term) = New List(Of Term)
@@ -72,7 +73,7 @@ Public Class AnnotationFile
             Dim Length As Integer = i - pre
             bufs = New String(Length - 1) {}
             Call Array.ConstrainedCopy(lines, pre, bufs, 0, Length)
-            Call Terms.Add(Field.LoadData(Of Term)(bufs))
+            Call Terms.Add(LoadData(Of Term)(bufs))
 
             i += 1
             pre = i
@@ -81,7 +82,7 @@ Public Class AnnotationFile
 
         bufs = New String(lines.Length - 1 - pre) {}
         Call Array.ConstrainedCopy(lines, pre, bufs, 0, bufs.Length)
-        Call Terms.Add(Field.LoadData(Of Term)(bufs))
+        Call Terms.Add(LoadData(Of Term)(bufs))
 
         File.Terms = Terms.ToArray
 
@@ -90,11 +91,12 @@ Public Class AnnotationFile
 
     Public Function Save(path As String) As Boolean
         Dim bufs As List(Of String) = New List(Of String)
+        Dim schema = LoadClassSchema(Of Term)()
         Dim LQuery = From x As Term
                      In Terms
-                     Select Field.GenerateValueCollection(Of Term)(x)
+                     Select x.ToLines(schema)
 
-        Call bufs.AddRange(Field.GenerateValueCollection(Of Head)(Head))
+        Call bufs.AddRange(header.ToLines)
         Call bufs.Add("")
 
         For Each x In LQuery

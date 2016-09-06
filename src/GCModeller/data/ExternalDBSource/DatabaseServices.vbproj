@@ -442,7 +442,7 @@
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\models\Networks\psidev\psidev.vbproj">
+    <ProjectReference Include="..\..\foundation\PSICQUIC\psidev\psidev.vbproj">
       <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
       <Name>psidev</Name>
     </ProjectReference>

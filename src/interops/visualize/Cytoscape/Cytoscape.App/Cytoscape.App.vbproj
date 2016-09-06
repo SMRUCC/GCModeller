@@ -229,7 +229,7 @@
       <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\models\Networks\psidev\psidev.vbproj">
+    <ProjectReference Include="..\..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj">
       <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
       <Name>psidev</Name>
     </ProjectReference>

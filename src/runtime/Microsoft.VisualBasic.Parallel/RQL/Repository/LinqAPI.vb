@@ -4,9 +4,9 @@ Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.SecurityString.MD5Hash
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.HTTPInternal.AppEngine
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods
-Imports SMRUCC.HTTPInternal.Platform
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace Linq
 

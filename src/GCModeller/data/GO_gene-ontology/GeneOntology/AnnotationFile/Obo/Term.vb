@@ -25,6 +25,8 @@
 
 #End Region
 
+Imports SMRUCC.genomics.foundation.OBO_Foundry
+
 ''' <summary>
 ''' ##### GO as a Graph
 ''' 
