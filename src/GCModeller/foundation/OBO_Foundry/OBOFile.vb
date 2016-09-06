@@ -1,4 +1,10 @@
-﻿''' <summary>
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+
+''' <summary>
 ''' 
 ''' </summary>
 ''' <remarks>
@@ -167,4 +173,61 @@
 ''' </remarks>
 Public Class OBOFile
 
+    Public Property header As header
+
+    ReadOnly __file As String
+    ReadOnly __reader As StreamReader
+
+    Sub New(file As String)
+        __file = file
+        __reader = New StreamReader(New FileStream(file, FileMode.Open))
+
+        Call __parseHeader()
+    End Sub
+
+    Private Sub __parseHeader()
+        Dim s As New Value(Of String)
+        Dim bufs As New List(Of String)
+
+        Do While Not String.IsNullOrEmpty(s = __reader.ReadLine)
+            bufs += s.value
+        Loop
+
+        header = bufs.LoadData(Of header)()
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return __file.ToFileURL
+    End Function
+
+    Public Iterator Function GetDatas() As IEnumerable(Of RawTerm)
+        Dim s As New Value(Of String)
+        Dim bufs As New List(Of String)
+
+        Do While Not __reader.EndOfStream
+            Dim name As String = __reader.ReadLine
+
+            Do While Not String.IsNullOrEmpty(s = __reader.ReadLine)
+                bufs += s.value
+            Loop
+
+            Dim g = From line As String
+                    In bufs
+                    Select x = line.GetTagValue(": ")
+                    Group x By id = x.Name Into Group
+            Dim data As NamedValue(Of String())() =
+                LinqAPI.Exec(Of NamedValue(Of String())) <=
+                From x
+                In g
+                Select New NamedValue(Of String()) With {
+                    .Name = x.id,
+                    .x = x.Group.ToArray(Function(o) o.x)
+                }
+
+            Yield New RawTerm With {
+                .Type = name,
+                .data = data
+            }
+        Loop
+    End Function
 End Class
