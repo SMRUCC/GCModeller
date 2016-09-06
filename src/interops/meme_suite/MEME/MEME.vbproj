@@ -293,6 +293,10 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj">
+      <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
+      <Name>psidev</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
       <Name>+VB_DataFrame</Name>
