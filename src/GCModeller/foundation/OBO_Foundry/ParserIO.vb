@@ -9,9 +9,11 @@ Imports Microsoft.VisualBasic.Linq
 
 Public Module ParserIO
 
-    Public Function LoadData(Of T As Class)(strValue As String()) As T
+    <Extension>
+    Public Function LoadData(Of T As Class)(strValue As IEnumerable(Of String)) As T
         Dim Schema As Dictionary(Of BindProperty(Of Field)) = LoadClassSchema(Of T)()
-        Dim data As Dictionary(Of String, String()) = __createModel(strValue)
+        Dim data As Dictionary(Of String, String()) =
+            __createModel(strValue.ToArray)
         Dim o As T = Activator.CreateInstance(Of T)()
 
         For Each f As BindProperty(Of Field) In Schema.Values

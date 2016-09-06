@@ -64,6 +64,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RawTerm.vb" />
     <Compile Include="ParserIO.vb" />
     <Compile Include="header.vb" />
     <Compile Include="OBOFile.vb" />
