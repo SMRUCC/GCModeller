@@ -140,7 +140,7 @@ Namespace Assembly.MetaCyc.File.DataFiles
         ''' <remarks></remarks>
         Public Function Append(e As T) As Long
             Call FrameObjects.Add(item:=e)
-            Return FrameObjects.LongCount
+            Return FrameObjects.Count
         End Function
 
         Public Sub AddRange(source As IEnumerable(Of T))
@@ -199,7 +199,7 @@ Namespace Assembly.MetaCyc.File.DataFiles
         End Sub
 
         Public Function Contains(item As KeyValuePair(Of String, T)) As Boolean Implements ICollection(Of KeyValuePair(Of String, T)).Contains
-            Return FrameObjects.Contains(item)
+            Return FrameObjects.ContainsKey(item.Key)
         End Function
 
         Public Shadows Sub CopyTo(array() As KeyValuePair(Of String, T), arrayIndex As Integer) Implements ICollection(Of KeyValuePair(Of String, T)).CopyTo

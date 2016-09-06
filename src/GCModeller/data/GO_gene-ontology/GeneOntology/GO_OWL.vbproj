@@ -167,10 +167,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnnotationFile\NCBI\gene2go.vb" />
-    <Compile Include="AnnotationFile\ToGo.vb" />
+    <Compile Include="AnnotationFile\Obo\FilesParser.vb" />
+    <Compile Include="AnnotationFile\xref2go\XrefIdTypes.vb" />
+    <Compile Include="AnnotationFile\xref2go\XrefId.vb" />
+    <Compile Include="AnnotationFile\xref2go\ToGo.vb" />
     <Compile Include="AnnotationFile\Obo\AnnotationFile.vb" />
     <Compile Include="AnnotationFile\GAF.vb" />
-    <Compile Include="AnnotationFile\Obo\Head.vb" />
+    <Compile Include="OntologyRelations.vb" />
     <Compile Include="Ontologies.vb" />
     <Compile Include="MySQL\Tables\association.vb" />
     <Compile Include="MySQL\Tables\association_isoform.vb" />
@@ -217,7 +220,6 @@
     <Compile Include="MySQL\Tables\term_subset.vb" />
     <Compile Include="MySQL\Tables\term_synonym.vb" />
     <Compile Include="OWL\Ontology.vb" />
-    <Compile Include="Reflections\Field.vb" />
     <Compile Include="AnnotationFile\Obo\Term.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -270,6 +272,10 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
+      <Project>{327a0323-5469-45c1-b95b-4a0336cf27c2}</Project>
+      <Name>OBO_Foundry</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\models\SBML\Biopax\Biopax.vbproj">
       <Project>{b2e4bb6d-ce7c-47ae-b06d-9cdc10851b77}</Project>

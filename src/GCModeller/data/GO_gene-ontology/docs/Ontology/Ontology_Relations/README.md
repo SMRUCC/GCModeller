@@ -37,16 +37,16 @@ Nodes in the GO graph can have any number and type of relationships to other nod
 + mitochondrion has two parents: it is an organelle and it is part of the cytoplasm;
 + organelle has two children: mitochondrion is an organelle, and organelle membrane is part of organelle
 
-## The _is_ a relation
-The ``is`` a relation forms the basic structure of GO. If we say A is a B, we mean that node A is a subtype of node B. For example, mitotic cell cycle is a cell cycle, or lyase activity is a catalytic activity.
+## The _is a_ relation
+The ``is a`` relation forms the basic structure of GO. If we say A is a B, we mean that node A is a subtype of node B. For example, mitotic cell cycle is a cell cycle, or lyase activity is a catalytic activity.
 It should be noted that is a does not mean ‘is an instance of’. An ‘instance’, ontologically speaking, is a specific example of something; e.g. a cat is a mammal, but Garfield is an instance of a cat, rather than a subtype of cat. GO, like most ontologies, does not use instances, and the terms in GO represent a class of entities or phenomena, rather than specific manifestations thereof. However, if we know that cat is a mammal, we can say that every instance of cat is a mammal.
 
-## Reasoning over _is_ a
+## Reasoning over _is a_
 ```
 is a ∘is a → is a
 ```
 
-The is a relation is transitive, which means that if A is a B, and B is a C, we can infer that A is a C.
+The ``is a`` relation is transitive, which means that if A is a B, and B is a C, we can infer that A is a C.
 
 ![](./graffle_trans_isa.png)
 
@@ -58,8 +58,8 @@ mitochondrion is an intracellular organelle and intracellular organelle is an or
 
 Stated more formally, this would be: ``is a∘ is a → is a``
 
-## The part of relationship
-The relation part of is used to represent part-whole relationships in the Gene Ontology. part of has a specific meaning in GO, and a part of relation would only be added between A and B if B is necessarily part of A: wherever B exists, it is as part of A, and the presence of the B implies the presence of A. However, given the occurrence of A, we cannot say for certain that B exists.
+## The _part of_ relationship
+The relation **_part of_** is used to represent part-whole relationships in the Gene Ontology. part of has a specific meaning in GO, and a part of relation would only be added between A and B if B is necessarily part of A: wherever B exists, it is as part of A, and the presence of the B implies the presence of A. However, given the occurrence of A, we cannot say for certain that B exists.
 
 ![](./diag-allsome-partof.gif)
 

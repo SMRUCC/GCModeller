@@ -26,14 +26,18 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.foundation.OBO_Foundry
 
-Public Class Head
+''' <summary>
+''' 
+''' </summary>
+Public Class header
 
     <Field("format-version")> Public Property Version As String
     <Field("data-version")> Public Property DataVersion As String
     <Field("date")> Public Property [Date] As String
     <Field("saved-by")> Public Property Author As String
-    <Field("auto-generated-by")> Public Property Tools As String
+    <Field("auto-generated-by")> Public Property Tools As String = "GCModeller"
     <Field("subsetdef")> Public Property SubsetDef As String()
     <Field("synonymtypedef")> Public Property SynonymTypeDef As String
     <Field("default-namespace")> Public Property DefaultNamespace As String
