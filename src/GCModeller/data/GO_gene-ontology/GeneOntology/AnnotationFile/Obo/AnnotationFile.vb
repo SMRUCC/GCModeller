@@ -51,7 +51,7 @@ Namespace OBO
             Call bufs.Add("")
 
             For Each x In LQuery
-                Call bufs.Add(Term.TERM)
+                Call bufs.Add(Term.Term)
                 Call bufs.AddRange(x)
                 Call bufs.Add("")
             Next
