@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/SMRUCC/GCModeller.svg?branch=master)](https://travis-ci.org/SMRUCC/GCModeller)
 
 # GCModeller
-GCModeller Virtual Cell System
+GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
 > + HOME: http://gcmodeller.org
 > + Online services: http://services.gcmodeller.org
@@ -32,7 +32,6 @@ Currently the R language hybrids programming environment just provides some ``bi
 
 #### Gallery
 
-![XC_1184 protein structure drawing](./GCModeller/Data/pdb_Draw/Demo.gif)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/2016-05-17.png)
 ![](./images/3d_bio_net_canvas.gif)
 ![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/FUR-lightbox.png)
