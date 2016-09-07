@@ -27,19 +27,35 @@
 
 Imports Microsoft.VisualBasic.Serialization.JSON
 
+''' <summary>
+''' Obo term field or tabular indexed column
+''' </summary>
 <AttributeUsage(AttributeTargets.Property, AllowMultiple:=False, Inherited:=True)>
 Public Class Field : Inherits Attribute
 
     Friend _Name As String, _toLower As Boolean
 
+    ''' <summary>
+    ''' Tablular column index
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Index As Integer
     Public Shared ReadOnly Property TypeInfo As Type = GetType(Field)
 
+    ''' <summary>
+    ''' Init with a field name in the obo term.
+    ''' </summary>
+    ''' <param name="Name"></param>
+    ''' <param name="toLower"></param>
     Sub New(Optional Name As String = "", Optional toLower As Boolean = True)
         Me._Name = Name
         Me._toLower = toLower
     End Sub
 
+    ''' <summary>
+    ''' Init with a field index in the table columns
+    ''' </summary>
+    ''' <param name="Index"></param>
     Sub New(Index As Integer)
         _Index = Index
     End Sub

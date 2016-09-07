@@ -28,10 +28,7 @@ Currently the R language hybrids programming environment just provides some ``bi
 + Supports ``PSI`` data for the biological interaction network model
 + Supports ``OBO`` data for ontology database like ``go``.
 
-> + [![SBML](https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/sbml-logo-70.png)](http://sbml.org/Main_Page)
-> + [![BIOM](https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/biom-format.png)](http://biom-format.org/)
-> + [![PSI](./images/data_standards/PSI_logo_s.png)](http://www.psidev.info/overview)
-> + [![OBO Foundry](./images/data_standards/foundrylogo.png)](http://www.obofoundry.org/)
+<a href="http://sbml.org/Main_Page"><img src="https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/sbml-logo-70.png" width=80></a> <a href="http://biom-format.org/"><img src="https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/biom-format.png" width=80></a> <a href="http://www.psidev.info/overview"><img src="./images/data_standards/PSI_logo_s.png" width=80></a> <a href="http://www.obofoundry.org/"><img src="./images/data_standards/foundrylogo.png" width=80></a>
 
 #### Gallery
 
