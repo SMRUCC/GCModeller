@@ -67,6 +67,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -85,6 +86,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="markmarkoh_datamaps\fills.vb" />
     <Compile Include="MaxMind\MySQL\geolite2\geographical_information_view.vb" />
     <Compile Include="MaxMind\MySQL\geolite2\geolite2_city_blocks_ipv6.vb" />
     <Compile Include="MaxMind\MySQL\geolite2\geolite2_country_blocks_ipv4.vb" />

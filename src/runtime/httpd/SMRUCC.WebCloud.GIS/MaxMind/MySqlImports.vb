@@ -98,24 +98,41 @@ Namespace MaxMind
                 },
                 ls - l - r - wildcards("GeoLite2-City-Locations*.csv") <= DIR
             )
-            Return mysql.ImportsLocationFiles(Of geolite2_city_locations)(files)
+            Return mysql.ImportsLocationFiles(Of geolite2_city_locations)(
+                files, Sub(x)
+                           x.city_name = MySqlEscaping(x.city_name)
+                           x.subdivision_1_name = MySqlEscaping(x.subdivision_1_name)
+                           x.subdivision_2_name = MySqlEscaping(x.subdivision_2_name)
+
+                           Call mysql.ExecInsert(x)
+                       End Sub)
         End Function
 
         <Extension>
-        Public Function ImportsLocationFiles(Of T As SQLTable)(mysql As MySQL, files As IEnumerable(Of String)) As Boolean
+        Public Function ImportsLocationFiles(Of T As SQLTable)(mysql As MySQL, files As IEnumerable(Of String), Optional invoke As Action(Of T) = Nothing) As Boolean
             Call mysql.ClearTable(Of T)
+
+            If invoke Is Nothing Then
+                invoke = AddressOf mysql.ExecInsert
+            End If
 
             For Each df As String In files
                 Dim data = df.LoadCsv(Of T)
 
                 For Each x As T In data
-                    Call mysql.ExecInsert(x)
+                    Call invoke(x)
                 Next
             Next
 
             Return True
         End Function
 
+        ''' <summary>
+        ''' 重新生成<see cref="geographical_information_view"/>表数据
+        ''' </summary>
+        ''' <param name="mysql"></param>
+        ''' <param name="locale"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function UpdateGeographicalView(mysql As MySQL, Optional locale As String = "en") As String
             Dim indexed As New List(Of Long)
@@ -123,6 +140,9 @@ Namespace MaxMind
 
             If Not (err = mysql.ClearTable(Of geographical_information_view)) Is Nothing Then
                 Return err
+            Else
+                mysql = New MySQL(New ConnectionUri(mysql.UriMySQL))
+                mysql.UriMySQL.TimeOut = 0
             End If
 
             Dim geonames As geolite2_city_locations() = mysql.Query(Of geolite2_city_locations)(
@@ -139,7 +159,9 @@ Namespace MaxMind
                 "SELECT * FROM maxmind_geolite2.geolite2_city_blocks_ipv4;",
                 Sub(x)
                     If indexed.IndexOf(x.geoname_id) > -1 Then
-                        Return
+                        Return  ' 跳过已经存在的记录
+                    Else
+                        indexed += x.geoname_id
                     End If
                     If Not geoHash.ContainsKey(x.geoname_id) Then
                         Return
@@ -147,17 +169,18 @@ Namespace MaxMind
 
                     Dim info As geolite2_city_locations = geoHash(x.geoname_id)
                     Dim view As New geographical_information_view With {
-                        .city_name = info.city_name,
+                        .city_name = MySqlEscaping(info.city_name),
                         .country_iso_code = info.country_iso_code,
                         .geoname_id = x.geoname_id,
                         .country_name = info.country_name,
                         .latitude = x.latitude,
                         .longitude = x.longitude,
-                        .subdivision_1_name = info.subdivision_1_name,
-                        .subdivision_2_name = info.subdivision_2_name
+                        .subdivision_1_name = MySqlEscaping(info.subdivision_1_name),
+                        .subdivision_2_name = MySqlEscaping(info.subdivision_2_name)
                     }
 
                     Call mysql.ExecInsert(view)
+                    Call Console.Write(".")
                 End Sub)
 
             Return Nothing
