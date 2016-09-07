@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{6813383D-0F5E-4B05-8BD0-DBD308FB7E89}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <MyType>Windows</MyType>
+    <RootNamespace>SMRUCC.genomics.Model.obographs</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Model.obographs</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <DefineConstants>DEBUG=1,TRACE=1</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <DefineConstants>TRACE=1</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="io\OgJsonReader.vb" />
+    <Compile Include="io\OgSchemaGenerator.vb" />
+    <Compile Include="io\OgYamlGenerator.vb" />
+    <Compile Include="io\OgYamlReader.vb" />
+    <Compile Include="io\PrefixHelper.vb" />
+    <Compile Include="model\axiom\AbstractAxiom.vb" />
+    <Compile Include="model\axiom\AbstractExpression.vb" />
+    <Compile Include="model\axiom\Axiom.vb" />
+    <Compile Include="model\axiom\EquivalentNodesSet.vb" />
+    <Compile Include="model\axiom\ExistentialRestrictionExpression.vb" />
+    <Compile Include="model\axiom\Expression.vb" />
+    <Compile Include="model\axiom\LogicalDefinitionAxiom.vb" />
+    <Compile Include="model\Edge.vb" />
+    <Compile Include="model\Graph.vb" />
+    <Compile Include="model\GraphDocument.vb" />
+    <Compile Include="model\Meta.vb" />
+    <Compile Include="model\meta\AbstractPropertyValue.vb" />
+    <Compile Include="model\meta\BasicPropertyValue.vb" />
+    <Compile Include="model\meta\DefinitionPropertyValue.vb" />
+    <Compile Include="model\meta\PropertyValue.vb" />
+    <Compile Include="model\meta\SynonymPropertyValue.vb" />
+    <Compile Include="model\meta\XrefPropertyValue.vb" />
+    <Compile Include="model\Node.vb" />
+    <Compile Include="model\NodeOrEdge.vb" />
+    <Compile Include="owlapi\FromOwl.vb" />
+    <Compile Include="owlapi\SynonymVocabulary.vb" />
+    <Compile Include="runner\RunEngine.vb" />
+    <Compile Include="Properties\AssemblyInfo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_HTML\VB_HTML\DocumentFormat.MarkupLanguage.vbproj">
+      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
+      <Name>DocumentFormat.MarkupLanguage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>
