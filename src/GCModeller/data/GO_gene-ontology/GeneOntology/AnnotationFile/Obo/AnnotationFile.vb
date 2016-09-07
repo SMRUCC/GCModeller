@@ -29,35 +29,38 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
-''' <summary>
-''' go.obo/go-basic.obo(Go注释功能定义文件)
-''' </summary>
-''' <remarks></remarks>
-Public Class AnnotationFile
+Namespace OBO
 
-    Public Property header As header
-    Public Property Terms As Term()
+    ''' <summary>
+    ''' go.obo/go-basic.obo(Go注释功能定义文件)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Class AnnotationFile
 
-    Public Function Save(path As String) As Boolean
-        Dim bufs As List(Of String) = New List(Of String)
-        Dim schema = LoadClassSchema(Of Term)()
-        Dim LQuery = From x As Term
+        Public Property header As header
+        Public Property Terms As Term()
+
+        Public Function Save(path As String) As Boolean
+            Dim bufs As List(Of String) = New List(Of String)
+            Dim schema = LoadClassSchema(Of Term)()
+            Dim LQuery = From x As Term
                      In Terms
-                     Select x.ToLines(schema)
+                         Select x.ToLines(schema)
 
-        Call bufs.AddRange(header.ToLines)
-        Call bufs.Add("")
-
-        For Each x In LQuery
-            Call bufs.Add(Term.TERM)
-            Call bufs.AddRange(x)
+            Call bufs.AddRange(header.ToLines)
             Call bufs.Add("")
-        Next
 
-        Return bufs.SaveTo(path, Encodings.ASCII.GetEncodings)
-    End Function
+            For Each x In LQuery
+                Call bufs.Add(Term.Term)
+                Call bufs.AddRange(x)
+                Call bufs.Add("")
+            Next
 
-    Public Shared Function LoadDocument(path As String) As AnnotationFile
+            Return bufs.SaveTo(path, Encodings.ASCII.GetEncodings)
+        End Function
 
-    End Function
-End Class
+        Public Shared Function LoadDocument(path As String) As AnnotationFile
+
+        End Function
+    End Class
+End Namespace

@@ -167,6 +167,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnnotationFile\NCBI\gene2go.vb" />
+    <Compile Include="AnnotationFile\Obo\base.vb" />
+    <Compile Include="AnnotationFile\Obo\Instance.vb" />
+    <Compile Include="AnnotationFile\Obo\Typedef.vb" />
+    <Compile Include="AnnotationFile\Obo\OntologyRelations.vb" />
     <Compile Include="AnnotationFile\xref2go\XrefIdTypes.vb" />
     <Compile Include="AnnotationFile\xref2go\XrefId.vb" />
     <Compile Include="AnnotationFile\xref2go\ToGo.vb" />

@@ -30,6 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 ''' <summary>
@@ -68,8 +69,8 @@ Public Class GAF
     ''' !
     ''' ```
     ''' </summary>
-    Private Shared ReadOnly GAF_Heads As String =
-"!GOC Validation Date: 10/04/2014 $
+    Const GAF_Heads As String = "
+!GOC Validation Date: 10/04/2014 $
 !Submission Date: 10/4/2014
 !
 ! The above ""Submission Date"" is when the annotation project provided
@@ -390,7 +391,7 @@ Public Class GAF
     Public Shared Function Save(GAFLines As GAF(), path As String) As Boolean
         Dim bufs As New List(Of String)
 
-        Call bufs.Add(GAF.GAF_Heads)
+        Call bufs.Add(GAF.GAF_Heads.Trim(ASCII.CR, ASCII.LF))
         Call bufs.AddRange(
             GAFLines.Select(Function(x) x.GenerateLine))
 
@@ -411,7 +412,9 @@ Public Class GAF
                                 Order By x.Field.Index Ascending
 
         Dim ClassSchema = ClassSchemaBuffer.ToArray(Function(x) x.Property)
-        Dim LQuery = (From strLine As String In strLines Select Load(strLine, ClassSchema)).ToArray
+        Dim LQuery = (From strLine As String
+                      In strLines
+                      Select Load(strLine, ClassSchema)).ToArray
         Return LQuery
     End Function
 
