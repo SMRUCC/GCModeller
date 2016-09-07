@@ -9,6 +9,12 @@ Imports Microsoft.VisualBasic.Linq
 
 Public Module ParserIO
 
+    ''' <summary>
+    ''' header or term object.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="strValue"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function LoadData(Of T As Class)(strValue As IEnumerable(Of String)) As T
         Dim Schema As Dictionary(Of BindProperty(Of Field)) = LoadClassSchema(Of T)()
@@ -35,6 +41,11 @@ Public Module ParserIO
 
     Const TAG As String = ".+?: "
 
+    ''' <summary>
+    ''' Parsing a term object as data model
+    ''' </summary>
+    ''' <param name="strValue"></param>
+    ''' <returns></returns>
     Private Function __createModel(strValue As String()) As Dictionary(Of String, String())
         Dim LQuery = From strLine As String
                      In strValue
@@ -47,6 +58,11 @@ Public Module ParserIO
                                    Function(x) x.Group.ToArray(Function(value) value.x))
     End Function
 
+    ''' <summary>
+    ''' Parsing the object fields template in the obo files
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <returns></returns>
     Public Function LoadClassSchema(Of T As Class)() As Dictionary(Of BindProperty(Of Field))
         Dim type As TypeInfo = GetType(T)
         Dim Properties = type.GetProperties(BindingFlags.Instance Or BindingFlags.Public)
@@ -75,6 +91,13 @@ Public Module ParserIO
         Return schema
     End Function
 
+    ''' <summary>
+    ''' For generates the obo document and save data model into the file system.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="target"></param>
+    ''' <param name="schema"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ToLines(Of T As Class)(target As T, schema As Dictionary(Of BindProperty(Of Field))) As String()
         Dim bufs As New List(Of String)
@@ -107,6 +130,12 @@ Public Module ParserIO
         Return bufs.ToArray
     End Function
 
+    ''' <summary>
+    ''' For generates the obo document and save data model into the file system.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="target"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ToLines(Of T As Class)(target As T) As String()
         Return target.ToLines(LoadClassSchema(Of T)())
