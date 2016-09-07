@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/SMRUCC/GCModeller.svg?branch=master)](https://travis-ci.org/SMRUCC/GCModeller)
 
 # GCModeller
-GCModeller Virtual Cell System
+GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
 > + HOME: http://gcmodeller.org
 > + Online services: http://services.gcmodeller.org
