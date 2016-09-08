@@ -70,7 +70,7 @@ Public Module GCSkew
     <ExportAPI("GC.Content.Drawing")>
     Public Function InvokeDrawingGCContent(source As Image, nt As FASTA.FastaToken, Location As Point, Width As Integer) As Image
         Dim GCContent As Double() = NucleotideModels.GCContent(nt, WindowSize, Steps, True)
-        Return InvokeDrawingCurve(source, GCContent, Location, New Size(Width, PlotsHeight)) ', loci:=__getLoci(nt))
+        Return DrawingCurve(source, GCContent, Location, New Size(Width, PlotsHeight)) ', loci:=__getLoci(nt))
     End Function
 
     Private Function __getLoci(nt As FASTA.FastaToken) As Loci.Location
@@ -114,11 +114,11 @@ Public Module GCSkew
     End Sub
 
     <ExportAPI("Curve.Drawing")>
-    Public Function InvokeDrawingCurve(source As Image,
-                                       buf As Double(),
-                                       location As Point,
-                                       size As Size,
-                                       Optional type As GraphicTypes = GraphicTypes.Histogram) As Image
+    Public Function DrawingCurve(source As Image,
+                                 buf As Double(),
+                                 location As Point,
+                                 size As Size,
+                                 Optional type As GraphicTypes = GraphicTypes.Histogram) As Image
         Return CurvesModel.GraphicsDevice(type).Draw(source, buf, location, size)
     End Function
 
@@ -136,10 +136,10 @@ Public Module GCSkew
     Public Function InvokeDrawing(source As Image, nt As FASTA.FastaToken, Location As Point, Width As Integer) As Image
         ' 绘制gc偏移曲线
         Dim Skew As Double() = NucleotideModels.GCSkew(nt, WindowSize, Steps, True)
-        Return InvokeDrawingCurve(source,
-                                  buf:=Skew,
-                                  location:=Location,
-                                  size:=New Size(Width, PlotsHeight))
+        Return DrawingCurve(source,
+                            buf:=Skew,
+                            location:=Location,
+                            size:=New Size(Width, PlotsHeight))
         'loci:=__getLoci(nt))
     End Function
 End Module

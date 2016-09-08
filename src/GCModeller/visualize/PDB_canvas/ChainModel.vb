@@ -31,7 +31,8 @@ Public Class ChainModel
                                        In PDB.AminoAcidSequenceData
                                        Select AA.AA_ID
                                        Distinct
-        Dim AAColors = (From cl In RenderingColor.InitCOGColors(aas)
+        Dim AAColors = (From cl
+                        In RenderingColor.InitCOGColors(aas)
                         Select ID = cl.Key,
                             br = New Pen(New SolidBrush(cl.Value), penWidth)) _
                            .ToDictionary(Function(item) item.ID,

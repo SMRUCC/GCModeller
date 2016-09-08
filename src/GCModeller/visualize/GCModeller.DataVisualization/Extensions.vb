@@ -52,13 +52,13 @@ Public Module Extensions
         Dim legendHeight As Integer = 20
         Dim FontHeight As Single = gdi.MeasureString("COG", legendFont).Height
         Dim d As Single = (legendHeight - FontHeight) / 2
-        Dim colors As List(Of KeyValuePair(Of String, Brush)) =
-            LinqAPI.MakeList(Of KeyValuePair(Of String, Brush)) <=
-                From x As KeyValuePair(Of String, Brush)
-                In COGsColor
-                Where Not String.IsNullOrEmpty(x.Key)
-                Select x
-                Order By x.Key Ascending
+        Dim colors = LinqAPI.MakeList(Of KeyValuePair(Of String, Brush)) <=
+ _
+            From x As KeyValuePair(Of String, Brush)
+            In COGsColor
+            Where Not String.IsNullOrEmpty(x.Key)
+            Select x
+            Order By x.Key Ascending
 
         If COGsColor.ContainsKey("") Then
             Dim Cl As Brush = COGsColor("")
