@@ -217,8 +217,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\GCModeller\analysis\PFSNet\PFSNet.vbproj">
+      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
+      <Name>PFSNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
+      <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
+      <Name>Toolkits.RNA-Seq.RTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
+      <Name>Toolkits.RNA-Seq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
-      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
+      <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
@@ -229,6 +241,10 @@
       <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\foundation\OBO_Foundry\OBO_Foundry.vbproj">
+      <Project>{327a0323-5469-45c1-b95b-4a0336cf27c2}</Project>
+      <Name>OBO_Foundry</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj">
       <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
       <Name>psidev</Name>
@@ -236,6 +252,10 @@
     <ProjectReference Include="..\..\..\..\GCModeller\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
+      <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
@@ -249,29 +269,13 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
-      <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
-      <Name>Toolkits.RNA-Seq.RTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
-      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
-      <Name>Toolkits.RNA-Seq</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\data\ExternalDBSource\DatabaseServices.vbproj">
-      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
-      <Name>DatabaseServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\PFSNet\PFSNet.vbproj">
-      <Project>{8f90da49-5d2b-463d-9b36-5cd64b7846aa}</Project>
-      <Name>PFSNet</Name>
+    <ProjectReference Include="..\..\..\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
+      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
+      <Name>MEME.DocParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
-      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
-      <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cytoscape\Cytoscape.vbproj">
       <Project>{9c7dd64a-e4c0-4011-8994-c842702c6ed4}</Project>
