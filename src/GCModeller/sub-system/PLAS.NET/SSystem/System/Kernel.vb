@@ -105,6 +105,10 @@ Namespace Kernel
             Return 0
         End Function
 
+        ''' <summary>
+        ''' 整个引擎的计算精度
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Precision As Double = 0.1
 
         ''' <summary>

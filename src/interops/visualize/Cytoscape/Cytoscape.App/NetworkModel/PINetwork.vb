@@ -34,9 +34,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Data.StringDB
 Imports SMRUCC.genomics.Model
-Imports SMRUCC.genomics.Model.psidev.XML
+Imports SMRUCC.genomics.foundation
+Imports SMRUCC.genomics.foundation.psidev.XML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 

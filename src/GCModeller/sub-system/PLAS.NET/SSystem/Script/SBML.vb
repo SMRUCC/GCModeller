@@ -38,6 +38,9 @@ Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace Script
 
+    ''' <summary>
+    ''' SBML模型编译器
+    ''' </summary>
     Public Class SBML : Inherits Compiler(Of Script.Model)
 
         Dim SBMLFile As XmlFile
@@ -115,6 +118,12 @@ Namespace Script
             Return True
         End Function
 
+        ''' <summary>
+        ''' 检查目标反应物对象是否存在于模型的表达式之中
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="model"></param>
+        ''' <returns></returns>
         Private Function __where(x As var, model As Script.Model) As Boolean
             Dim name As String = x.UniqueId
 

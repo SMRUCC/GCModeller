@@ -42,7 +42,7 @@ Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.StringDB
 Imports SMRUCC.genomics.Data.StringDB.SimpleCsv
-Imports SMRUCC.genomics.Model.psidev.XML
+Imports SMRUCC.genomics.foundation.psidev.XML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Workflows.PromoterParser

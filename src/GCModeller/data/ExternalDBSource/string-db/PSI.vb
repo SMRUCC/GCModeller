@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Data.StringDB.SimpleCsv
-Imports SMRUCC.genomics.Model.psidev.XML
+Imports SMRUCC.genomics.foundation.psidev.XML
 
 Namespace StringDB
 

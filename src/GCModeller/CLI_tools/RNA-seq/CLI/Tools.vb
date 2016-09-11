@@ -434,14 +434,15 @@ Partial Module CLI
             Dim nonZEROs As New List(Of String())
 
             For i As Integer = 0 To columns.First.Length - 1
+                Dim index As Integer = i
                 Dim noZERO As String = LinqAPI.DefaultFirst(Of String) <=
                     From col As String()
                     In columns
-                    Let s As String = col(i)
+                    Let s As String = col(index)
                     Where s <> "0" AndAlso s <> "0.0"
                     Select s
                 If Not String.IsNullOrEmpty(noZERO) Then
-                    nonZEROs += columns.ToArray(Function(x) x(i))
+                    nonZEROs += columns.ToArray(Function(x) x(index))
                 End If
             Next
 

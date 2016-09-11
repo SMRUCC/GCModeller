@@ -44,7 +44,7 @@ Module Program
 
         Dim list As Double() = "G:\5.14.circos\03.ZIKV_45_2015_updated_mafft_named.GCSkew.txt".ReadVector
         Dim img As New Bitmap(3000, 1000)
-        Dim res = GCSkew.InvokeDrawingCurve(img, list, New Point(200, 850), New Size(2500, 800), GraphicTypes.Histogram)
+        Dim res = GCSkew.DrawingCurve(img, list, New Point(200, 850), New Size(2500, 800), GraphicTypes.Histogram)
 
         Call res.SaveAs("x:\dddd.png", ImageFormats.Png)
 

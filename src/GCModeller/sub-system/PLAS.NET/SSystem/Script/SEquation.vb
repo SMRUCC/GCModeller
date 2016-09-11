@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Script
 
     ''' <summary>
-    ''' S-system equation.
+    ''' S-system equation.(S-系统方程数据模型)
     ''' </summary>
     Public Class SEquation
 
@@ -43,6 +43,10 @@ Namespace Script
         ''' </summary>
         ''' <returns></returns>
         Public Property x As String
+        ''' <summary>
+        ''' The mathematics equation of this reaction channel its dynamics
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Expression As String
 
         Sub New(id As String, expr As String)
@@ -53,6 +57,11 @@ Namespace Script
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Parsing the math expression property <see cref="Expression"/>
+        ''' </summary>
+        ''' <param name="engine"></param>
+        ''' <returns></returns>
         Public Function GetModel(engine As Mathematical.Expression) As SimpleExpression
             Return ExpressionParser.TryParse(Expression, engine)
         End Function

@@ -72,7 +72,8 @@ Namespace Kernel.ObjectModels
         End Sub
 
         ''' <summary>
-        ''' Evaluate the expression value of the property <see cref="Equation.Expression"></see>.(计算<see cref="Equation.Expression"></see>属性表达式的值)
+        ''' Evaluate the expression value of the property <see cref="Equation.Expression"></see>.
+        ''' (计算<see cref="Equation.Expression"></see>属性表达式的值)
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -81,12 +82,23 @@ Namespace Kernel.ObjectModels
             Return rtvl
         End Function
 
+        ''' <summary>
+        ''' The node states in the current network state.
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
         Public Overrides ReadOnly Property Value As Double
             Get
                 Return Me.Var.Value
             End Get
         End Property
 
+        ''' <summary>
+        ''' 执行一次数学运算，然后使用当前所更新的变量值更新表达式计算引擎内部的变量值
+        ''' </summary>
+        ''' <param name="engine"></param>
+        ''' <returns></returns>
         Public Function Elapsed(engine As Mathematical.Expression) As Boolean
             Var.Value += (Me.Evaluate * Kernel.Precision)
             engine(Var.UniqueId) = Var.Value

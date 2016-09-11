@@ -37,6 +37,7 @@ Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Namespace NetworkModel.PfsNET
 

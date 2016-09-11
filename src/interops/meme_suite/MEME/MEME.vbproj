@@ -281,32 +281,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
-      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
-      <Name>VirtualFootprint</Name>
+    <Content Include="Terminal.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
+      <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
+      <Name>Toolkits.RNA-Seq.RTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
-      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
-      <Name>Bio.InteractionModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj">
-      <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
-      <Name>psidev</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
-      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
-      <Name>+VB_DataFrame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
+      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
+      <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
-      <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
+      <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.vbproj">
@@ -317,43 +304,55 @@
       <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
       <Name>SmithWaterman</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Datavisualization.Network</Name>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\VirtualFootprint\VirtualFootprint.vbproj">
+      <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
+      <Name>VirtualFootprint</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\data\RegulonDatabase\RegulonDatabase.vbproj">
-      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
-      <Name>RegulonDatabase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TmoD\TmoD.vbproj">
-      <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
-      <Name>TmoD</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
-      <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
-      <Name>Toolkits.RNA-Seq.RTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
-      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
-      <Name>Toolkits.RNA-Seq</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
+      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
+      <Name>Bio.InteractionModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\data\RegulonDatabase\RegulonDatabase.vbproj">
+      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
+      <Name>RegulonDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj">
+      <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
+      <Name>psidev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Datavisualization\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Datavisualization.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TmoD\TmoD.vbproj">
+      <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
+      <Name>TmoD</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Terminal.ico" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="..\..\..\GCModeller\shared\docs\Shared.DocumentFormats.projitems" Label="Shared" />

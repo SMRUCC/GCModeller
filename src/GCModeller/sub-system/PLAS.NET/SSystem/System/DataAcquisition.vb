@@ -40,6 +40,9 @@ Namespace Kernel
         Friend data As New List(Of DataSet)
 
         Dim kernel As Kernel
+        ''' <summary>
+        ''' 这个主要是调用外部接口的回调函数，这个回调函数会在一个内核循环之中采集完数据之后被触发调用
+        ''' </summary>
         Dim __tickCallback As Action(Of DataSet)
 
         Sub New(k As Kernel, Optional tick As Action(Of DataSet) = Nothing)
@@ -56,6 +59,7 @@ Namespace Kernel
 
             data += t
 
+            ' 在一次内核循环之中才几万计算数据之后调用回调函数来触发外部事件
             If Not __tickCallback Is Nothing Then
                 Call __tickCallback(t)
             End If

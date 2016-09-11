@@ -25,16 +25,23 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Scripting.TokenIcer
-Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.TokenIcer
+Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
 Namespace Script
 
     Public Module ScriptParser
 
+        ''' <summary>
+        ''' 解析系统方程表达式
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         Public Function sEquationParser(x As Token(Of Tokens)) As SEquation
             Dim value = x.TokenValue.GetTagValue("=")
             Return New SEquation With {
@@ -43,6 +50,11 @@ Namespace Script
             }
         End Function
 
+        ''' <summary>
+        ''' 解析出系统的状态扰动实验表达式
+        ''' </summary>
+        ''' <param name="line"></param>
+        ''' <returns></returns>
         Public Function ExperimentParser(line As String) As Experiment
             Dim Tokens As String() = line.Split
             Dim Dict As New Dictionary(Of String, String)
@@ -72,9 +84,15 @@ Namespace Script
             Return Disturb
         End Function
 
-        Public Function ParseFile(path As String) As Model
-            Dim lines As String() = path.ReadAllLines
-            Dim tokens As Token(Of Tokens)() = TokenIcer.TryParse(lines)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="scriptText">脚本的文本内容</param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Public Function ParseScript(scriptText As String) As Model
+            Dim tokens As Token(Of Tokens)() = TokenIcer.TryParse(scriptText.lTokens)
             Dim typeTokens = (From x As Token(Of Tokens)
                               In tokens
                               Select x
@@ -151,10 +169,25 @@ Namespace Script
                 {})
             model.Constant =
                 If(typeTokens.ContainsKey(Script.Tokens.Constant),
-                typeTokens(Script.Tokens.Constant).ToArray(Function(x) ScriptParser.ConstantParser(x.Text)),
+                typeTokens(Script.Tokens.Constant).ToArray(AddressOf ScriptParser.ConstantParser),
                 {})
 
             Return model
+        End Function
+
+        ''' <summary>
+        ''' 从文件指针或者网络数据之中解析出脚本模型
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ParseStream(s As Stream) As Model
+            Return ParseScript(New StreamReader(s).ReadToEnd)
+        End Function
+
+        <Extension>
+        Public Function ParseFile(path As String) As Model
+            Return ParseScript(path.ReadAllText)
         End Function
 
         Public Function ConstantParser(expr As Value(Of String)) As NamedValue(Of String)
@@ -164,6 +197,10 @@ Namespace Script
                 .x = expr,
                 .Name = name
             }
+        End Function
+
+        Public Function ConstantParser(expr As Token(Of Script.Tokens)) As NamedValue(Of String)
+            Return ConstantParser(expr.Text)
         End Function
     End Module
 End Namespace
