@@ -104,21 +104,37 @@ Namespace RegpreciseRegulations
                                                 <Parameter("Path.SvQ")> svqPath As String) As BiDirectionalBesthit()
             Dim QvsBesthit = Overview.LoadExcel(qvsPath).ExportAllBestHist
             Dim SvQBesthit = Overview.LoadExcel(svqPath).ExportAllBestHist
-
-            Dim LQuery = (From bbbh In (From besthit In SvQBesthit
-                                        Select spcode = besthit.QueryName.Split(":"c).First, bh = besthit
-                                        Group By spcode Into Group).ToArray
+            Dim bgs = From besthit As BestHit
+                      In SvQBesthit
+                      Select spcode = besthit.QueryName.Split(":"c).First,
+                          bh = besthit
+                      Group By spcode Into Group
+            Dim LQuery = (From bbbh
+                          In bgs
                           Select bbbh.spcode,
-                              bh = (From item In bbbh.Group Select item.bh).ToArray).ToDictionary(Function(item) item.spcode, Function(item) item.bh)  '对subject进行按照物种分组
-
-            Dim QvsBHData = (From bhhh In (From besthit In QvsBesthit
-                                           Select bh = besthit, spcode = besthit.HitName.Split(CChar(":")).First
-                                           Group By spcode Into Group).ToArray
-                             Select spcode = bhhh.spcode, bh = (From item In bhhh.Group Select item.bh).ToArray).ToArray
-            Dim BBH As BiDirectionalBesthit() = (From species In QvsBHData.AsParallel  ' 分别构建出bbh
-                                                 Let bbhData = Regprecise.InternalCreateBBH(species.spcode, Qvs:=species.bh, SvqDict:=LQuery)
+                              bh = (From item In bbbh.Group Select item.bh).ToArray) _
+                                .ToDictionary(Function(x) x.spcode,
+                                              Function(x) x.bh)  '对subject进行按照物种分组
+            Dim bg = From besthit As BestHit
+                     In QvsBesthit
+                     Select bh = besthit,
+                         spcode = besthit.HitName.Split(CChar(":")).First
+                     Group By spcode Into Group
+            Dim QvsBHData = From bhhh
+                            In bg
+                            Select spcode = bhhh.spcode,
+                                bh = (From item In bhhh.Group Select item.bh).ToArray
+            Dim BBH As BiDirectionalBesthit() = (From species
+                                                 In QvsBHData.AsParallel  ' 分别构建出bbh
+                                                 Let bbhData As BiDirectionalBesthit() = Regprecise.InternalCreateBBH(
+                                                     species.spcode,
+                                                     Qvs:=species.bh,
+                                                     SvqDict:=LQuery)
                                                  Where Not bbhData.IsNullOrEmpty
-                                                 Select bbhData).ToArray.MatrixToVector.Select(Function(item) item.Matched)
+                                                 Select bbhData) _
+                                                    .MatrixAsIterator _
+                                                    .Where(Function(item) item.Matched) _
+                                                    .ToArray
             Return BBH
         End Function
 

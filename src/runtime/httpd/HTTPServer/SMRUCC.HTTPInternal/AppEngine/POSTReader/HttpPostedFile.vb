@@ -107,7 +107,7 @@ Namespace AppEngine.POSTParser
                     Dim n As New int
 
                     While (n = stream.Read(buffer, 0, 16 * 1024)) <> 0
-                        fs.Write(buffer, 0, n)
+                        fs.Write(buffer, 0, n.value)
                     End While
                 End Using
             Finally

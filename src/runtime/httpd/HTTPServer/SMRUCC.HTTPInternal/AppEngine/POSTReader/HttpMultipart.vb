@@ -272,10 +272,10 @@ Namespace AppEngine.POSTParser
             Dim elem As New Element()
             Dim header As New Value(Of String)
             While (header = ReadHeaders()) IsNot Nothing
-                If StrUtils.StartsWith(header, "Content-Disposition:", True) Then
-                    elem.Name = GetContentDispositionAttribute(header, "name")
-                    elem.Filename = StripPath(GetContentDispositionAttributeWithEncoding(header, "filename"))
-                ElseIf StrUtils.StartsWith(header, "Content-Type:", True) Then
+                If StrUtils.StartsWith(header.value, "Content-Disposition:", True) Then
+                    elem.Name = GetContentDispositionAttribute(header.value, "name")
+                    elem.Filename = StripPath(GetContentDispositionAttributeWithEncoding(header.value, "filename"))
+                ElseIf StrUtils.StartsWith(header.value, "Content-Type:", True) Then
                     elem.ContentType = header.value.Substring("Content-Type:".Length).Trim()
                 End If
             End While
