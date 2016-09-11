@@ -37,6 +37,15 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 ''' </summary>
 Public Module RSystem
 
+    <Extension>
+    Public Function params(additionals As String()) As String
+        If additionals.IsNullOrEmpty Then
+            Return ""
+        Else
+            Return ", " & additionals.JoinBy(", ")
+        End If
+    End Function
+
     Private Const SPLIT_REGX_EXPRESSION As String = "[,] (?=(?:[^""]|""[^""]*"")*$)"
 
     ''' <summary>

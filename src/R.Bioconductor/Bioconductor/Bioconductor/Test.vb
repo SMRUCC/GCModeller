@@ -36,9 +36,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNet.Extensions.Bioinformatics
 Imports RDotNet.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.gplots
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.grDevices
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.utils.read.table
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.gplots
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.grDevices
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.utils.read.table
 Imports SMRUCC.R.CRAN.Bioconductor.Web
 Imports SMRUCC.R.CRAN.Bioconductor.Web.Packages
 Imports Element = System.Xml.XmlElement

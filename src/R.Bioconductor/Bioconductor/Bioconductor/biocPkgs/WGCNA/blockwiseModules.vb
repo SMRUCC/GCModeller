@@ -28,7 +28,7 @@
 
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.base.Extremes
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.base.Extremes
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
 Namespace WGCNA

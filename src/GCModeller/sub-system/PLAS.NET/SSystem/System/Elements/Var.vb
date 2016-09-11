@@ -60,12 +60,23 @@ Namespace Kernel.ObjectModels
             }
         End Operator
 
-        Public Shared Function TryParse(strData As String) As var
-            Return CType(strData, var)
+        ''' <summary>
+        ''' 用来解析值是一个表达式的情况
+        ''' </summary>
+        ''' <param name="strData"></param>
+        ''' <param name="val"></param>
+        ''' <returns></returns>
+        Public Shared Function TryParse(strData As String, val As Mathematical.Expression) As var
+            Dim tokens = strData.GetTagValue("=", trim:=True)
+
+            Return New var With {
+                .UniqueId = tokens.Name,
+                .Value = val.Evaluation(tokens.x)
+            }
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 请注意，假若值是一个表达式的话，请不要使用这个方法来解析
         ''' </summary>
         ''' <param name="s">Script line.(脚本行文本)</param>
         ''' <returns></returns>

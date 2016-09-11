@@ -173,6 +173,7 @@
     <Compile Include="Declares\bnlearn\ArcOperations.vb" />
     <Compile Include="Declares\bnlearn\bnFit.vb" />
     <Compile Include="Declares\bnlearn\bnFitPlots.vb" />
+    <Compile Include="Declares\deSolve\API.vb" />
     <Compile Include="Declares\forecast\Class1.vb" />
     <Compile Include="Declares\genetics\API.vb" />
     <Compile Include="Declares\hierfstat\API.vb" />
