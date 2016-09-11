@@ -171,6 +171,7 @@
     <Content Include="RSyntax\README.txt" />
     <Compile Include="API\base\base.vb" />
     <Compile Include="API\as.vb" />
+    <Compile Include="API\base\with.vb" />
     <Compile Include="API\base\print.vb" />
     <Compile Include="API\is.vb" />
     <Compile Include="API\stats\stats.vb" />

@@ -48,7 +48,7 @@ Namespace Kernel
 
         Sub New(kernel As Kernel)
             __kernel = kernel
-            __pendingKicks = kernel.get_Model.Experiments.ToList(Function(x) New Disturb(x))
+            __pendingKicks = kernel.Model.Experiments.ToList(Function(x) New Disturb(x))
             __runningKicks = New List(Of Disturb)
 
             For i As Integer = 0 To __pendingKicks.Count - 1

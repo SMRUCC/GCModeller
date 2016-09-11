@@ -44,6 +44,10 @@ Namespace Script
         ''' </summary>
         ''' <returns></returns>
         <XmlElement> Public Property UserFunc As [Function]()
+        ''' <summary>
+        ''' 假若在脚本里面，常数值是表达式，则求值的顺序会是从上到下
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement> Public Property [Constant] As NamedValue(Of String)()
 
         Dim __varHash As Dictionary(Of var)

@@ -161,9 +161,11 @@ Namespace Kernel
             _break = True
         End Sub
 
-        Friend Function get_Model() As Script.Model
-            Return MyBase._innerDataModel
-        End Function
+        Public ReadOnly Property Model() As Script.Model
+            Get
+                Return MyBase._innerDataModel
+            End Get
+        End Property
 
         Public Sub Export(Path As String)
             Call dataSvr.Save(Path)

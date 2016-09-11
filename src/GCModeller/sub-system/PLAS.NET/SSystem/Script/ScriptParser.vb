@@ -101,9 +101,20 @@ Namespace Script
                                                  Function(x) x.Group.ToArray)
 
             Dim equations = typeTokens(Script.Tokens.Reaction).ToArray(AddressOf sEquationParser)
-            Dim inits = typeTokens(Script.Tokens.InitValue).ToArray(Function(x) CType(x.Text, var))
             Dim Disturbs As Experiment()
             Dim FinalTime As Integer
+            Dim val As New Mathematical.Expression
+
+            Dim c =
+                If(typeTokens.ContainsKey(Script.Tokens.Constant),
+                typeTokens(Script.Tokens.Constant).ToArray(AddressOf ScriptParser.ConstantParser),
+                {})
+
+            For Each x As NamedValue(Of String) In c
+                Call val.Constant.Add(x.Name, expr:=x.x)
+            Next
+
+            Dim inits = typeTokens(Script.Tokens.InitValue).ToArray(Function(x) var.TryParse(x.Text, val))
 
             If typeTokens.ContainsKey(Script.Tokens.Disturb) Then
                 Disturbs = typeTokens(Script.Tokens.Disturb).ToArray(Function(x) ExperimentParser(x.Text))
@@ -114,7 +125,7 @@ Namespace Script
             If Not typeTokens.ContainsKey(Script.Tokens.Time) Then
                 FinalTime = 100
             Else
-                FinalTime = Val(typeTokens(Script.Tokens.Time).First.Text)
+                FinalTime = val.Evaluation(typeTokens(Script.Tokens.Time).First.Text)
             End If
 
             Dim Title As String
@@ -136,7 +147,8 @@ Namespace Script
                 .Experiments = Disturbs,
                 .Comment = Comments.JoinBy(vbCrLf),
                 .FinalTime = FinalTime,
-                .Title = Title
+                .Title = Title,
+                .Constant = c
             }
             Dim NameList As String()
 
@@ -167,10 +179,6 @@ Namespace Script
                 If(typeTokens.ContainsKey(Script.Tokens.Function),
                 typeTokens(Script.Tokens.Function).ToArray(Function(x) CType(x.Text, [Function])),
                 {})
-            model.Constant =
-                If(typeTokens.ContainsKey(Script.Tokens.Constant),
-                typeTokens(Script.Tokens.Constant).ToArray(AddressOf ScriptParser.ConstantParser),
-                {})
 
             Return model
         End Function
@@ -190,15 +198,29 @@ Namespace Script
             Return ParseScript(path.ReadAllText)
         End Function
 
+        ''' <summary>
+        ''' 函数会自动去除掉表达式末尾的注释
+        ''' </summary>
+        ''' <param name="expr"></param>
+        ''' <returns></returns>
         Public Function ConstantParser(expr As Value(Of String)) As NamedValue(Of String)
             Dim name As String = (expr = (+expr).Trim).Split.First
             expr.value = Mid(expr.value, name.Length + 1).Trim
+            expr = expr.value _
+                .GetTagValue("#", failureNoName:=False).Name _
+                .GetTagValue("'", failureNoName:=False).Name _
+                .GetTagValue("//", failureNoName:=False).Name
             Return New NamedValue(Of String) With {
                 .x = expr,
                 .Name = name
             }
         End Function
 
+        ''' <summary>
+        ''' 这里只是进行解析，并没有立即进行求值
+        ''' </summary>
+        ''' <param name="expr"></param>
+        ''' <returns></returns>
         Public Function ConstantParser(expr As Token(Of Script.Tokens)) As NamedValue(Of String)
             Return ConstantParser(expr.Text)
         End Function

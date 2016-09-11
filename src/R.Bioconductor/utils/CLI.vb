@@ -30,9 +30,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNet.Extensions.Bioinformatics
 Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.gplots
-Imports RDotNET.Extensions.VisualBasic.grDevices
-Imports RDotNET.Extensions.VisualBasic.utils.read.table
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.gplots
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.grDevices
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.utils.read.table
 
 Module CLI
 
