@@ -120,11 +120,13 @@ Public Module RExtensionInvoke
     ''' <returns></returns>
     <Extension>
     Public Function 丶(R As String) As SymbolicExpression
+        SyncLock RServer
 #If DEBUG Then
         Call __logs.WriteLine(R)
         Call __logs.Flush()
 #End If
-        Return RServer.Evaluate(R)
+            Return RServer.Evaluate(R)
+        End SyncLock
     End Function
 
     ''' <summary>
