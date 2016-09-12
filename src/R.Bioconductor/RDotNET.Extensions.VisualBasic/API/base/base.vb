@@ -49,7 +49,7 @@ Namespace API
         ''' </remarks>
         Public Function c(list As IEnumerable(Of String), Optional recursive As Boolean = False) As String
             Dim out As String = App.NextTempName
-            Call $"{out} <- c({list.JoinBy(", ")}, recursive = {recursive.λ})".ζ
+            Call $"{out} <- c({list.JoinBy(", ")}, recursive = {recursive.λ})".丶
             Return out
         End Function
 
@@ -97,7 +97,7 @@ Namespace API
                 $"library({package}, {help}, pos = {pos}, lib.loc = {libloc},
                            character.only = {characterOnly}, logical.return = {logicalReturn.λ},
                            warn.conflicts = {warnConflicts.λ}, quietly = {quietly.λ},
-                           verbose = {verbose})".ζ
+                           verbose = {verbose})".丶
         End Function
 
         ''' <summary>
@@ -137,7 +137,7 @@ Namespace API
                         lib.loc        = {libloc},
                         quietly        = {quietly.λ},
                         warn.conflicts = {warnConflicts.λ},
-                        character.only = {characterOnly.λ})".ζ.AsBoolean
+                        character.only = {characterOnly.λ})".丶.AsBoolean
         End Function
 
         ''' <summary>
@@ -192,7 +192,7 @@ Namespace API
 
             Call $"{out} <- data.frame({x.JoinBy(", ")}, row.names = {rowNames}, check.rows = {checkRows},
            check.names = {checkNames},
-           stringsAsFactors = {stringsAsFactors})".ζ
+           stringsAsFactors = {stringsAsFactors})".丶
 
             Return out
         End Function
@@ -231,11 +231,11 @@ Namespace API
             Dim x As String = App.NextTempName
 
             If nrow = -1 Then
-                Call $"{x} <- matrix({data}, ncol={ncol}, byrow={byrow.λ}, dimnames={dimnames})".ζ
+                Call $"{x} <- matrix({data}, ncol={ncol}, byrow={byrow.λ}, dimnames={dimnames})".丶
             ElseIf ncol = -1 Then
-                Call $"{x} <- matrix({data}, nrow={nrow}, byrow={byrow.λ}, dimnames={dimnames})".ζ
+                Call $"{x} <- matrix({data}, nrow={nrow}, byrow={byrow.λ}, dimnames={dimnames})".丶
             Else
-                Call $"{x} <- matrix({data}, nrow={nrow}, ncol={ncol}, byrow={byrow.λ}, dimnames={dimnames})".ζ
+                Call $"{x} <- matrix({data}, nrow={nrow}, ncol={ncol}, byrow={byrow.λ}, dimnames={dimnames})".丶
             End If
 
             Return x

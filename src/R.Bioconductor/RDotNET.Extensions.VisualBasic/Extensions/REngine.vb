@@ -51,7 +51,7 @@ Public Module RExtensionInvoke
 
         Call $"{tmp} <- function({String.Join(", ", args.ToArray)}) {"{
 " & def & "
-}"}".ζ
+}"}".丶
 
         Return tmp
     End Function
@@ -119,7 +119,7 @@ Public Module RExtensionInvoke
     ''' <param name="R"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ζ(R As String) As SymbolicExpression
+    Public Function 丶(R As String) As SymbolicExpression
 #If DEBUG Then
         Call __logs.WriteLine(R)
         Call __logs.Flush()

@@ -91,7 +91,7 @@ Namespace genetics
             Call $"{tmp} <- genotype({a1}, a2={a2}, alleles={alleles}, sep={Rstring(sep)}, remove.spaces={removeSpaces.λ},
                                      reorder = {reorder},
                                      allow.partial.missing={allowPartialmissing.λ}, locus={locus},
-                                     genotypeOrder={genotypeOrder})".ζ
+                                     genotypeOrder={genotypeOrder})".丶
             Return tmp
         End Function
 
@@ -113,11 +113,11 @@ Namespace genetics
                 Dim loci As String = col(Scan0)
                 Dim vec As String = RScripts.c(col.Skip(1).ToArray)
 
-                Call $"{loci} <- {genotype(vec, removeSpaces:=False)}".ζ
+                Call $"{loci} <- {genotype(vec, removeSpaces:=False)}".丶
                 locis += loci
             Next
 
-            Call $"{tmp} <- data.frame({locis.JoinBy(",")})".ζ
+            Call $"{tmp} <- data.frame({locis.JoinBy(",")})".丶
 
             Return tmp
         End Function

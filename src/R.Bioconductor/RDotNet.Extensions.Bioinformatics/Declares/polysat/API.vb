@@ -94,7 +94,7 @@ Namespace polysat
                                 Optional loci As String = "unique(as.matrix(as.data.frame(strsplit(names(freqs), split = ""."", fixed = TRUE), stringsAsFactors = FALSE))[1, ])") As Double()
             loci = loci.Replace("freqs", freqs)
             pops = pops.Replace("freqs", freqs)
-            Return $"calcFst({freqs}, pops={pops}, loci={loci})".ζ.AsNumeric.ToArray
+            Return $"calcFst({freqs}, pops={pops}, loci={loci})".丶.AsNumeric.ToArray
         End Function
 
 #Region "Example"
@@ -122,11 +122,11 @@ Namespace polysat
         ''' </summary>
         ''' <returns></returns>
         Public Function myfreq() As String
-            Call "Genomes  <- c(8, 10)".ζ
-            Call "loci.196 <- c(0.0, 0.2)".ζ
-            Call "loci.198 <- c(0.0, 0.2)".ζ
-            Call "loci.200 <- c(0.0, 0.2)".ζ
-            Call "loci.204 <- c(0.1666667, 0.1)".ζ
+            Call "Genomes  <- c(8, 10)".丶
+            Call "loci.196 <- c(0.0, 0.2)".丶
+            Call "loci.198 <- c(0.0, 0.2)".丶
+            Call "loci.200 <- c(0.0, 0.2)".丶
+            Call "loci.204 <- c(0.1666667, 0.1)".丶
             REM Call "".ζ
             REM Call "".ζ
             REM Call "".ζ
@@ -137,8 +137,8 @@ Namespace polysat
             REM Call "".ζ
             REM Call "".ζ
             REM Call "".ζ
-            Call $"{NameOf(myfreq)} <- data.frame(Genomes, loci.196, loci.198, loci.200, loci.204)".ζ
-            Call $"rownames({NameOf(myfreq)}) <- c(""Pop1"", ""Pop2"")".ζ
+            Call $"{NameOf(myfreq)} <- data.frame(Genomes, loci.196, loci.198, loci.200, loci.204)".丶
+            Call $"rownames({NameOf(myfreq)}) <- c(""Pop1"", ""Pop2"")".丶
 
             Return NameOf(myfreq)
         End Function

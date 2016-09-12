@@ -128,7 +128,7 @@ Namespace adegenet
         ''' </remarks>
         Public Shared Function nancycats() As genind
             If require("adegenet") AndAlso data("nancycats") IsNot Nothing Then
-                Dim obj As genind = "nancycats".ζ.S4Object(Of genind)
+                Dim obj As genind = "nancycats".丶.S4Object(Of genind)
                 Return obj
             Else
                 Throw New Exception(RServer.ToString)

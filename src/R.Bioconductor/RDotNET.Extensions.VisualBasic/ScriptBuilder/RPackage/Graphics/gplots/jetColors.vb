@@ -47,8 +47,8 @@ Namespace SymbolBuilder.packages.gplots
 
         Shared Sub New()
             __call = New jetColors
-            Call __call.RScript.ζ
-            Call BI.ζ
+            Call __call.RScript.丶
+            Call BI.丶
         End Sub
 
         Private Sub New()

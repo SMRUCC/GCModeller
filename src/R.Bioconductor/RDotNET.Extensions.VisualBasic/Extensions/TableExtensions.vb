@@ -122,16 +122,16 @@ Public Module TableExtensions
                     cc = c(col.obj.ToArray(Function(x) DirectCast(x, Object)))
             End Select
 
-            Call $"{name} <- {cc}".ζ   ' x <- c(....)
+            Call $"{name} <- {cc}".丶   ' x <- c(....)
         Next
 
-        Call $"{var} <- data.frame({names.JoinBy(", ")})".ζ
+        Call $"{var} <- data.frame({names.JoinBy(", ")})".丶
 
         If rowNames IsNot Nothing Then
             Dim rows As String() = rowNames.ToArray
 
             If rows.Length > 0 Then
-                Call $"rownames({var}) <- {c(rows)}".ζ
+                Call $"rownames({var}) <- {c(rows)}".丶
             End If
         End If
     End Sub

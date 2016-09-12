@@ -58,11 +58,11 @@ Namespace bnlearn
             Call "library(bnlearn); 
 pdag = iamb(learning.test); 
 dag = set.arc(pdag, from = ""A"", to = ""B""); 
-fit = bn.fit(dag, learning.test, method = ""bayes"");".ζ
+fit = bn.fit(dag, learning.test, method = ""bayes"");".丶
 
             Dim LQuery = LinqAPI.Exec(Of ConditionalProbability) <=
                 From s As String
-                In "fit".ζ.AsCharacter.ToArray
+                In "fit".丶.AsCharacter.ToArray
                 Let Data As String = s.Replace(vbCr, "").Replace(vbLf, "")
                 Select ConditionalProbability.TryParse(Data, numberOfFactors)
             Return LQuery

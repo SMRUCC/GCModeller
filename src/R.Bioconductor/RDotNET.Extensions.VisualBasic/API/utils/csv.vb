@@ -52,7 +52,7 @@ Namespace API.utils
             fileEncoding = {Rstring(fileEncoding)})"
 
             Try
-                Call R.ζ
+                Call R.丶
             Catch ex As Exception
                 ex = New Exception(R, ex)
                 Throw ex

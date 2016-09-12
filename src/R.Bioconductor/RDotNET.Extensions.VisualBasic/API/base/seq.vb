@@ -30,19 +30,19 @@ Namespace API
             Dim tmp As String = App.NextTempName
 
             If alongWith <> NULL Then
-                Call $"{tmp} <- seq(along.with= {alongWith}  {additionals.params})".ζ
+                Call $"{tmp} <- seq(along.with= {alongWith}  {additionals.params})".丶
             Else
                 If lengthOut <> NULL Then
                     If by = NULL Then
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, by = ((to - from)/(length.out - 1)), length.out = {lengthOut} {additionals.params})".ζ
+                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, by = ((to - from)/(length.out - 1)), length.out = {lengthOut} {additionals.params})".丶
                     Else
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, length.out = {lengthOut} {additionals.params})".ζ
+                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, length.out = {lengthOut} {additionals.params})".丶
                     End If
                 Else
                     If by = NULL Then
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]} {additionals.params})".ζ
+                        Call $"{tmp} <- seq(from = {from}, to = {[to]} {additionals.params})".丶
                     Else
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, by = {by} {additionals.params})".ζ
+                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, by = {by} {additionals.params})".丶
                     End If
                 End If
             End If
