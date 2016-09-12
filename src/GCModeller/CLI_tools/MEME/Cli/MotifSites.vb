@@ -39,6 +39,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports System.Data.Linq.Mapping
 Imports Microsoft.VisualBasic.CommandLine
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
 
 Partial Module CLI
 
@@ -119,7 +120,7 @@ Partial Module CLI
 
             Dim hitId As String = mast.Motifs.BriefName
 
-            For Each seq In mast.Sequences.SequenceList
+            For Each seq As SequenceDescript In mast.Sequences.SequenceList
                 If seq.Segments.IsNullOrEmpty Then
                     Continue For
                 End If
