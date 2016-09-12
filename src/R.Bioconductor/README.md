@@ -35,13 +35,13 @@ Imports RDotNET.Extensions.Bioinformatics.deSolve.API
 Imports RDotNET.Extensions.Bioinformatics.deSolve
 
 ' Setup variables in R language from VisualBasic
-Call $"p      <- {p}".ζ
-Call $"beta   <- {beta}".ζ
-Call $"c      <- {c}".ζ
-Call $"delta  <- {delta}".ζ
-Call $"U0     <- {U0}".ζ
-Call $"rho    <- {rho}".ζ
-Call $"lambda <- {lambda}".ζ
+Call $"p      <- {p}".丶
+Call $"beta   <- {beta}".丶
+Call $"c      <- {c}".丶
+Call $"delta  <- {delta}".丶
+Call $"U0     <- {U0}".丶
+Call $"rho    <- {rho}".丶
+Call $"lambda <- {lambda}".丶
 
 ' The initial value for infected cells(I0) is set to zero.
 ' The best model based on the Akaike Information Criterion(AIC) is presented in Figure3, providing an estimate of 9 ffu/ml for V0.
