@@ -104,6 +104,11 @@ Namespace SymbolBuilder
             Return file.Replace("\"c, "/"c)
         End Function
 
+        ''' <summary>
+        ''' 这个函数仅用于生成脚本
+        ''' </summary>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public Function c(ParamArray b As Boolean()) As String
             Dim cx As String = String.Join(", ", b.ToArray(AddressOf λ))
             Return $"c({cx})"
@@ -120,7 +125,7 @@ Namespace SymbolBuilder
         End Function
 
         ''' <summary>
-        ''' c(....).(这个不会添加双引号)
+        ''' c(....).(这个不会添加双引号，这个函数只是用于生成R脚本，并没有在运行时环境之中被执行)
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
