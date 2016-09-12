@@ -35,7 +35,6 @@ Namespace SymbolBuilder
 
     Public Module RScripts
 
-        Public Const NULL As String = "NULL"
         ''' <summary>
         ''' "NA" 字符串，而不是NA空值常量
         ''' </summary>
