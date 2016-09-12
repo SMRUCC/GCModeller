@@ -100,7 +100,7 @@ Namespace API
       method = {method}, n.cond = {ncond},
       SSinit = {SSinit},
       optim.method = {Rstring(optimmethod)},
-      optim.control = {optimcontrol}, kappa = {kappa})".ζ
+      optim.control = {optimcontrol}, kappa = {kappa})".丶
 
             Return out
         End Function
@@ -143,7 +143,7 @@ Namespace API
                 .deltat = deltat
             }
 
-            Call $"{tmp} <- {func}".ζ
+            Call $"{tmp} <- {func}".丶
 
             Return tmp
         End Function

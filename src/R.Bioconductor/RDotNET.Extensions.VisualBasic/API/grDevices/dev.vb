@@ -36,7 +36,7 @@ Namespace API.grDevices
         ''' <param name="which"></param>
         ''' <returns></returns>
         Public Function off(Optional which As String = "dev.cur()") As Integer
-            Call $"dev.off(which={which})".ζ
+            Call $"dev.off(which={which})".丶
         End Function
     End Module
 End Namespace

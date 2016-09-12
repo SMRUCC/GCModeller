@@ -38,7 +38,7 @@ Public Class Engine : Implements IDisposable
                 .ID = x.UniqueId,
                 .Data = New NodeData With {
                     .label = x.Title,
-                    .mass = x.Value,
+                    .mass = CSng(x.Value),
                     .Color = New SolidBrush(Color.Black)
                 }
             }
@@ -66,7 +66,7 @@ Public Class Engine : Implements IDisposable
 
     Private Sub __tickData(x As DataSet)
         For Each k As String In x.Properties.Keys
-            nodeTbl(Regex.Replace(k, "\(.+\)", "")).Data.radius = x(k)
+            nodeTbl(Regex.Replace(k, "\(.+\)", "")).Data.radius = CSng(x(k))
         Next
 
         Thread.Sleep(50)

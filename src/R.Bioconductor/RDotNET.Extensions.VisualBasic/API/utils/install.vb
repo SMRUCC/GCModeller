@@ -51,7 +51,7 @@ Namespace API.utils
             Dim out As SymbolicExpression =
                 $"installed.packages(lib.loc = {libloc}, priority = {priority},
                                      noCache = {noCache.λ}, fields = {fields},
-                                     subarch = {subarch})".ζ
+                                     subarch = {subarch})".丶
         End Function
     End Module
 
@@ -123,7 +123,7 @@ Namespace API.utils
                                         clean = {clean.λ}, Ncpus = {Ncpus},
                                         verbose = {verbose},
                                         libs_only = {libs_only.λ}, {INSTALL_opts}, quiet = {quiet},
-                                        keep_outputs = {keep_outputs})".ζ
+                                        keep_outputs = {keep_outputs})".丶
                 Return True
             Catch ex As Exception
                 Call App.LogException(ex)

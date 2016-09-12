@@ -99,7 +99,7 @@ Namespace Core
                     Call Console.WriteLine()
                     Call Console.WriteLine()
                 Else
-                    ex = New Exception(LocalPort, ex)
+                    ex = New Exception(CStr(LocalPort), ex)
                     Call ex.PrintException
                     Call App.LogException(ex)
                 End If

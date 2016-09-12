@@ -37,6 +37,8 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 ''' </summary>
 Public Module RSystem
 
+    Public Const NULL As String = "NULL"
+
     <Extension>
     Public Function params(additionals As String()) As String
         If additionals.IsNullOrEmpty Then
@@ -223,24 +225,6 @@ Public Module RSystem
 
     Public Function setwd(workingDir As String) As String()
         Return RServer.WriteLine($"setwd(""{workingDir}"")")
-    End Function
-
-    ''' <summary>
-    ''' [Sequence Generation] Generate regular sequences. seq is a standard generic with a default method.
-    ''' </summary>
-    ''' <param name="From">the starting and (maximal) end values of the sequence. Of length 1 unless just from is supplied as an unnamed argument.</param>
-    ''' <param name="To">the starting and (maximal) end values of the sequence. Of length 1 unless just from is supplied as an unnamed argument.</param>
-    ''' <param name="By">number: increment of the sequence</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Function seq([From] As Integer, [To] As Integer, Optional By As Double = 1) As Integer()
-        Dim seqs(([To] - From) / By) As Integer
-        seqs(Scan0) = [From]
-        For i As Integer = 1 To seqs.Length - 1
-            seqs(i) = seqs(i - 1) + By
-        Next
-
-        Return seqs
     End Function
 
     ''' <summary>

@@ -43,7 +43,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.My.MySettings" Collapsed="true">
-    <Position X="33.25" Y="1.5" Width="1.5" />
+    <Position X="31.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
@@ -77,7 +77,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.Heatmap" Collapsed="true">
-    <Position X="31.5" Y="1.5" Width="1.5" />
+    <Position X="35" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAIAAAAAECQAAAABAMGCAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Wrappers\Heatmap.vb</FileName>
@@ -126,7 +126,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.declares.bnlearn.customFit" Collapsed="true">
-    <Position X="35" Y="0.5" Width="1.5" />
+    <Position X="36.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
       <FileName>Declares\bnlearn\bnFit.vb</FileName>
@@ -231,28 +231,28 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.plot3D.plot3D" Collapsed="true">
-    <Position X="36.75" Y="1.5" Width="1.5" />
+    <Position X="35" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Declares\plot3D\plot3D.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.plot3D.plots" Collapsed="true">
-    <Position X="31.5" Y="2.5" Width="1.5" />
+    <Position X="36.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Declares\plot3D\plots.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.drawQuadVenn" Collapsed="true">
-    <Position X="36.75" Y="0.5" Width="1.5" />
+    <Position X="31.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CBCAIAMQwAIAQAAABAAAJRAgCIAcACARDCo6BAAAAAI=</HashCode>
       <FileName>Declares\VennDiagram\drawQuadVenn.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Partition" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="35" Y="1.5" Width="1.5" />
+    <Position X="33.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAAAAAAQAAAAAgAAIAEAAgAAAAAA=</HashCode>
       <FileName>Declares\VennDiagram\VennDiagram\Partition.vb</FileName>
@@ -260,7 +260,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.VennDiagram" Collapsed="true">
-    <Position X="33.25" Y="2.5" Width="1.5" />
+    <Position X="31.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAIACoAACAAAEAEAAQAAAAAAAAAAgQAAgAAAAAAAAA=</HashCode>
       <FileName>Declares\VennDiagram\VennDiagram\VennDiagram.vb</FileName>
@@ -273,44 +273,100 @@
       <FileName>Wrappers\BnLearn\bnlearn.vb</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.adegenet.genind" Collapsed="true">
+    <Position X="33.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABCAEQAAIAAAAAAABAIQAAAABACAAAAAAEAQAAAA=</HashCode>
+      <FileName>Declares\adegenet\genind.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.LDheatmap.LDheatmapS4Object" Collapsed="true">
+    <Position X="36.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAACBAEAAAAAAAAAEAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\LDheatmap\LDheatmapAPI.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RDotNet.Extensions.Bioinformatics.sparcc.Correlations" Collapsed="true">
+    <Position X="35" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Declares\r-sparcc\API.vb</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="RDotNet.Extensions.Bioinformatics.bnlearn.INetworkNodeValue" Collapsed="true">
-    <Position X="31.5" Y="6" Width="1.5" />
+    <Position X="31.5" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAA=</HashCode>
       <FileName>Wrappers\BnLearn\NodeAbstract.vb</FileName>
     </TypeIdentifier>
   </Interface>
   <Module Name="RDotNet.Extensions.Bioinformatics.My.Resources.Resources" Collapsed="true">
-    <Position X="36.75" Y="3.75" Width="1.5" />
+    <Position X="31.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAABQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="RDotNet.Extensions.Bioinformatics.My.MySettingsProperty" Collapsed="true">
-    <Position X="35" Y="3.75" Width="1.5" />
+    <Position X="36.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="RDotNet.Extensions.Bioinformatics.sparcc.API" Collapsed="true">
-    <Position X="31.5" Y="3.75" Width="1.5" />
+    <Position X="31.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Declares\r-sparcc\API.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.Extensions" Collapsed="true">
-    <Position X="33.25" Y="3.75" Width="1.5" />
+    <Position X="35" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Declares\VennDiagram\VennDiagram\Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI.RModelAPI" Collapsed="true">
-    <Position X="31.5" Y="4.75" Width="1.5" />
+    <Position X="33.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
       <FileName>Declares\VennDiagram\VennDiagram\RModelAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.adegenet.API" Collapsed="true">
+    <Position X="33.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Declares\adegenet\API.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.genetics.API" Collapsed="true">
+    <Position X="35" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\genetics\API.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.hierfstat.API" Collapsed="true">
+    <Position X="36.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Declares\hierfstat\API.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.LDheatmap.API" Collapsed="true">
+    <Position X="31.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Declares\LDheatmap\LDheatmapAPI.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="RDotNet.Extensions.Bioinformatics.polysat.API" Collapsed="true">
+    <Position X="33.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAQAAAAAAAAAAAAAAAAIAAAAgAAAAAA=</HashCode>
+      <FileName>Declares\polysat\API.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Font Name="Segoe UI" Size="9" />

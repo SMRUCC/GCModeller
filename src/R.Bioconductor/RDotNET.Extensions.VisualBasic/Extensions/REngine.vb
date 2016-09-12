@@ -40,6 +40,22 @@ Imports RDotNET.SymbolicExpressionExtension
 ''' </summary>
 Public Module RExtensionInvoke
 
+    ''' <summary>
+    ''' Declaring a function object in the R language
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <param name="def"></param>
+    ''' <returns></returns>
+    Public Function [function](args As IEnumerable(Of String), def As String) As String
+        Dim tmp As String = App.NextTempName
+
+        Call $"{tmp} <- function({String.Join(", ", args.ToArray)}) {"{
+" & def & "
+}"}".丶
+
+        Return tmp
+    End Function
+
     <Extension>
     Public Function AsBoolean(sym As SymbolicExpression) As Boolean
         Return sym.AsLogical.First
@@ -103,7 +119,7 @@ Public Module RExtensionInvoke
     ''' <param name="R"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ζ(R As String) As SymbolicExpression
+    Public Function 丶(R As String) As SymbolicExpression
 #If DEBUG Then
         Call __logs.WriteLine(R)
         Call __logs.Flush()

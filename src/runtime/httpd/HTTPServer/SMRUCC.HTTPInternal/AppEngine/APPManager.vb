@@ -100,7 +100,7 @@ Namespace AppEngine
         ''' </summary>
         ''' <param name="response">HTML输出页面或者json数据</param>
         ''' <returns></returns>
-        Public Function InvokePOST(request As HttpRequest, response As HttpResponse) As Boolean
+        Public Function InvokePOST(request As HttpPOSTRequest, response As HttpResponse) As Boolean
             Return APPEngine.InvokePOST(request, RunningAPP, response)
         End Function
 

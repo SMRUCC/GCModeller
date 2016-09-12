@@ -336,7 +336,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
                                            Scan0,
                                            sBuf.Length)
 
-                If Data Is Null Then
+                If Data Is Nothing Then
                     index = Scan0
                     ReDim Data(sBuf.Length - 1)
                 Else
@@ -360,13 +360,16 @@ Namespace Assembly.NCBI.GenBank.GBFF
         '''
         <ExportAPI("Load.DbList", Info:="Using this function to load the ncbi genbank database file if the database file contains more than one genome.")>
         Public Shared Iterator Function LoadDatabase(filePath As String) As IEnumerable(Of File)
-            Dim Tokens As String() = Regex.Split(FileIO.FileSystem.ReadAllText(filePath),
-                                                 GENBANK_MULTIPLE_RECORD_SPLIT,
-                                                 RegexOptions.Multiline)
-            Dim sBuf As String()() = (From s As String
-                                      In Tokens.AsParallel
-                                      Let ss As String = s & vbCrLf & "//"
-                                      Select ss.lTokens).ToArray
+            Dim data As String = FileIO.FileSystem.ReadAllText(filePath)
+            Dim parts As String() =
+                Regex.Split(data, GENBANK_MULTIPLE_RECORD_SPLIT, RegexOptions.Multiline)
+            Dim sBuf As IEnumerable(Of String()) =
+ _
+                From s As String
+                In parts.AsParallel
+                Let ss As String = s & vbCrLf & "//"
+                Select ss.lTokens
+
             Try
                 For Each buf As String() In sBuf
                     Dim sDat As String() = __trims(buf)

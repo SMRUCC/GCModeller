@@ -12,6 +12,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -313,8 +314,6 @@ Module CLI
         Public Property Taxonomy As String
     End Class
 
-    Const tab As Char = vbTab
-
     <ExportAPI("/gi.Match",
                Usage:="/gi.Match /in <nt.parts.fasta> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
     Public Function giMatch(args As CommandLine) As Integer
@@ -335,7 +334,7 @@ Module CLI
 
         Using match As StreamWriter = out.OpenWriter
             For Each line As String In gi2taxid.IterateAllLines
-                gi = line.Split(tab).First
+                gi = line.Split(ASCII.TAB).First
 
                 If hash.ContainsKey(gi) Then
                     Call match.WriteLine(line)

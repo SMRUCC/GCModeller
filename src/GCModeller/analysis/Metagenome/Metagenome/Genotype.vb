@@ -34,7 +34,7 @@ Public Module Genotype
                 Continue For
             End If
 
-            row += x.Frequency.Sum(Function(f) f.Count)
+            row += CStr(x.Frequency.Sum(Function(f) f.Count))
             row += From pp As KeyValuePair(Of Char, Char)
                    In __all
                    Select CStr(x(pp.Key, pp.Value).Frequency)
@@ -205,7 +205,7 @@ Public Module Genotype
             out += f
         Next
 
-        Return out
+        Return out.ToArray
     End Function
 End Module
 

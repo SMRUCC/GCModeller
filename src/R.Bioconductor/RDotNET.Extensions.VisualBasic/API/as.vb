@@ -10,7 +10,7 @@
         ''' <returns>as.ts is generic. Its default method will use the tsp attribute of the object if it has one to set the start and end times and frequency.</returns>
         Public Function ts(x As String, ParamArray additionals As String()) As String
             Dim out As String = App.NextTempName
-            Call $"{out} <- as.ts({x}, {String.Join(",", additionals)})".ζ
+            Call $"{out} <- as.ts({x}, {String.Join(",", additionals)})".丶
             Return out
         End Function
     End Module

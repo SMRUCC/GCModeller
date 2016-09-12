@@ -125,7 +125,7 @@ Module CLI
         Dim out As String = args.GetValue("/out", queryFile.TrimSuffix)
         Dim query As New FASTA.FastaFile(queryFile)
 
-        For Each seq In query
+        For Each seq As FastaToken In query
             Dim path As String = $"{out}/{seq.Title.NormalizePathString(False)}.csv"
             Dim result = KEGG_tools.Blastn.Submit(seq)
             Call result.SaveTo(path)
