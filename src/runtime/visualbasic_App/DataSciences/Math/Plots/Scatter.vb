@@ -1,12 +1,12 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.SlideWindow
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.Calculus
+Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Module Scatter
 
@@ -19,43 +19,37 @@ Public Module Scatter
     ''' <param name="bg"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Plot(c As IEnumerable(Of Serials), Optional size As Size = Nothing, Optional margin As Size = Nothing, Optional bg As String = "white") As Bitmap
-        If size.IsEmpty Then
-            size = New Size(4000, 3000)
-        End If
-        If margin.IsEmpty Then
-            margin = New Size(100, 100)
-        End If
+    Public Function Plot(c As IEnumerable(Of Serials),
+                         Optional size As Size = Nothing,
+                         Optional margin As Size = Nothing,
+                         Optional bg As String = "white",
+                         Optional showGrid As Boolean = True) As Bitmap
 
-        Dim array As Serials() = c.ToArray
-        Dim bmp As New Bitmap(size.Width, size.Height)
-        Dim bgColor As Color = bg.ToColor(onFailure:=Color.White)
-        Dim mapper As New Scaling(array)
+        Return GraphicsPlots(
+            size, margin, bg,
+            Sub(g)
+                Dim mapper As New Scaling(c.ToArray)
 
-        Using g As Graphics = Graphics.FromImage(bmp)
-            Dim rect As New Rectangle(New Point, size)
+                Call g.DrawAxis(size, margin, mapper, showGrid)
 
-            Call g.FillRectangle(New SolidBrush(bgColor), rect)
+                For Each line As Serials In mapper.ForEach(size, margin)
+                    Dim pts = line.pts.SlideWindows(2)
+                    Dim pen As New Pen(color:=line.color, width:=line.width) With {
+                        .DashStyle = line.lineType
+                    }
+                    Dim br As New SolidBrush(line.color)
+                    Dim d = line.PointSize
+                    Dim r As Single = line.PointSize / 2
 
-            For Each line As Serials In mapper.ForEach(size, margin)
-                Dim pts = line.pts.SlideWindows(2)
-                Dim pen As New Pen(color:=line.color, width:=line.width) With {
-                    .DashStyle = line.lineType
-                }
-                Dim br As New SolidBrush(line.color)
-                Dim r As Single = line.PointSize
-
-                For Each pt In pts
-                    Dim a = pt.First
-                    Dim b = pt.Last
-                    Call g.DrawLine(pen, a, b)
-                    Call g.FillPie(br, a.X, a.Y, r, r, 0, 360)
-                    Call g.FillPie(br, b.X, b.Y, r, r, 0, 360)
+                    For Each pt In pts
+                        Dim a = pt.First
+                        Dim b = pt.Last
+                        Call g.DrawLine(pen, a, b)
+                        Call g.FillPie(br, a.X - r, a.Y - r, d, d, 0, 360)
+                        Call g.FillPie(br, b.X - r, b.Y - r, d, d, 0, 360)
+                    Next
                 Next
-            Next
-        End Using
-
-        Return bmp
+            End Sub)
     End Function
 
     <Extension>
@@ -63,6 +57,10 @@ Public Module Scatter
         Dim c = {
             New Serials With {
                 .title = ode.df.ToString,
+                .color = Color.DarkCyan,
+                .lineType = DashStyle.Dash,
+                .PointSize = 50,
+                .width = 5,
                 .pts = LinqAPI.Exec(Of PointF) <= From x As SeqValue(Of Double)
                                                   In ode.x.SeqIterator
                                                   Select New PointF(CSng(x.obj), CSng(ode.y(x.i)))
