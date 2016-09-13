@@ -4,14 +4,25 @@ Imports Microsoft.VisualBasic.Linq
 
 Public Class Scaling
 
-    ReadOnly dx, dy As Single
-    ReadOnly xmin, ymin As Single
+    Public ReadOnly dx, dy As Single
+    Public ReadOnly xmin, ymin As Single
+
     ReadOnly serials As Serials()
+
+    Public ReadOnly type As Type
 
     Sub New(array As Serials())
         dx = Scaling(array, Function(p) p.X, xmin)
         dy = Scaling(array, Function(p) p.Y, ymin)
         serials = array
+        type = GetType(Scatter)
+    End Sub
+
+    Sub New(hist As HistogramGroup)
+        Dim h As List(Of Double) = hist.Samples.Select(Function(s) s.data).MatrixToList
+        ymin = h.Min
+        dy = h.Max - ymin
+        type = GetType(Histogram)
     End Sub
 
     ''' <summary>
@@ -38,6 +49,22 @@ Public Class Scaling
                 .width = s.width
             }
         Next
+    End Function
+
+    Public Function XScaler(size As Size, margin As Size) As Func(Of Single, Single)
+        Dim bottom As Integer = size.Height - margin.Height
+        Dim width As Integer = size.Width - margin.Width * 2
+        Dim height As Integer = size.Height - margin.Height * 2
+
+        Return Function(x) margin.Width + width * (x - xmin) / dx
+    End Function
+
+    Public Function YScaler(size As Size, margin As Size) As Func(Of Single, Single)
+        Dim bottom As Integer = size.Height - margin.Height
+        Dim width As Integer = size.Width - margin.Width * 2
+        Dim height As Integer = size.Height - margin.Height * 2
+
+        Return Function(y) bottom - height * (y - ymin) / dy
     End Function
 
     ''' <summary>
