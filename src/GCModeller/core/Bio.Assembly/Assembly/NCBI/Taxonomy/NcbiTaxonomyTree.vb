@@ -21,6 +21,12 @@ Namespace Assembly.NCBI
             Return Me.GetJson
         End Function
 
+        ''' <summary>
+        ''' 直接处理<see cref="NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(Integer, Boolean)"/>的输出数据，不需要进行额外的排序操作
+        ''' </summary>
+        ''' <param name="tree"></param>
+        ''' <param name="delimiter"></param>
+        ''' <returns></returns>
         Public Shared Function Taxonomy(tree As TaxonNode(), Optional delimiter As String = ",") As String
             tree = tree.Reverse.ToArray
             Return String.Join(delimiter, tree.ToArray(Function(x) x.name))
@@ -108,7 +114,7 @@ Namespace Assembly.NCBI
         ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
         ''' 
         ''' </summary>
-        Sub New(DIR)
+        Sub New(DIR As String)
             Call Me.New(DIR & "/nodes.dmp", DIR & "/names.dmp")
         End Sub
 
@@ -357,7 +363,7 @@ Namespace Assembly.NCBI
             Return lineage
         End Function
 
-        Public Function __descendants(taxid As Integer) As IEnumerable(Of Integer)
+        Private Function __descendants(taxid As Integer) As IEnumerable(Of Integer)
             '""" 
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
             '    >>> tree._getDescendants(208962) # doctest: +NORMALIZE_WHITESPACE
