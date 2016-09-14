@@ -35,7 +35,7 @@ Namespace Specifics.MetaCyc
             Call MyBase.New(note.Properties, PropertyParser.FluxKeyMaps)
 
             Me.BIOCYC = __getValue(FluxProperties.BIOCYC)
-            Me.ConfidenceLevel = Scripting.CastDouble(__getValue(FluxProperties.ConfidenceLevel))
+            Me.ConfidenceLevel = Val(__getValue(FluxProperties.ConfidenceLevel))
             Me.ECNumber = GetEcList(__getValue(FluxProperties.ECNumber))
             Me.GENE_ASSOCIATION = GetGenes(__getValue(FluxProperties.GENE_ASSOCIATION))
             Me.SUBSYSTEM = __getValue(FluxProperties.SUBSYSTEM)

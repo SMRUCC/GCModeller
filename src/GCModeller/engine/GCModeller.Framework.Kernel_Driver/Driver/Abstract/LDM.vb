@@ -110,7 +110,7 @@ Public MustInherit Class Variable : Implements IAddressHandle
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <XmlAttribute> Public Property Value As Double
+    <XmlAttribute> Public Overridable Property Value As Double
     ''' <summary>
     ''' The unique id of this node entity in the network, the function of this property is as the same as the 
     ''' <see cref="Handle"></see> property to unique indicates this variable node instance in the network system.
