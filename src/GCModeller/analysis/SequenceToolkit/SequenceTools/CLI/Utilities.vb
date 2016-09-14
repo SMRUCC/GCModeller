@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
                   Description:="Sequence operation utilities",
                   Publisher:="xie.guigang@gmail.com")>
 <ExceptionHelp(Documentation:="https://github.com/smrucc/gcmodeller/src/analysis/",
-               EMailLink:="http://gcmodeller.org",
+               EMailLink:="xie.guigang@gcmodeller.org",
                Debugging:="http://gcmodeller.org")>
 Public Module Utilities
 
