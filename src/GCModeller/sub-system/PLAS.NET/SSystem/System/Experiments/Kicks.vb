@@ -28,6 +28,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Mathematical.diffEq
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
 Namespace Kernel
@@ -43,17 +44,28 @@ Namespace Kernel
         ''' Active object.
         ''' </summary>
         ''' <remarks></remarks>
-        ReadOnly __runningKicks As List(Of Disturb)
-        ReadOnly __kernel As Kernel
+        ReadOnly __runningKicks As New List(Of Disturb)
+        ' ReadOnly __kernel As Kernel
 
         Sub New(kernel As Kernel)
-            __kernel = kernel
-            __pendingKicks = kernel.Model.Experiments.ToList(Function(x) New Disturb(x))
-            __runningKicks = New List(Of Disturb)
+            ' __kernel = kernel
+            __pendingKicks = kernel.Model.Experiments.ToList(
+                Function(x) New Disturb(
+                    x,
+                    kernel.GetValue(x.Id),
+                    Function() kernel.RuntimeTicks))
 
-            For i As Integer = 0 To __pendingKicks.Count - 1
-                __pendingKicks(i).Set(kernel)
-            Next
+            ' For i As Integer = 0 To __pendingKicks.Count - 1
+            '    __pendingKicks(i).Set(kernel)
+            ' Next
+        End Sub
+
+        Sub New(vars As Dictionary(Of Ivar), model As Script.Model, getRunTicks As Func(Of Long))
+            __pendingKicks = model.Experiments.ToList(
+                Function(x) New Disturb(
+                    x,
+                    vars(x.Id),
+                    getRunTicks))
         End Sub
 
         Public Sub Tick()
@@ -71,6 +83,10 @@ Namespace Kernel
             Next
         End Sub
 
+        ''' <summary>
+        ''' 从当前正在运行的实验之中查找出过期的实验对象
+        ''' </summary>
+        ''' <returns></returns>
         Private Function __getExpireds() As Disturb()
             Return LinqAPI.Exec(Of Disturb) <=
  _
@@ -81,6 +97,10 @@ Namespace Kernel
 
         End Function
 
+        ''' <summary>
+        ''' 获取正在处于等待队列的实验
+        ''' </summary>
+        ''' <returns></returns>
         Private Function __getPendings() As Disturb()
             Return LinqAPI.Exec(Of Disturb) <=
  _
