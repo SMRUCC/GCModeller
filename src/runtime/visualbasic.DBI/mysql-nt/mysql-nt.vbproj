@@ -71,6 +71,10 @@
     <OutputPath>bin\x64\Publish\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\LibMySQL\packages\MySql.ConnectorNET.Data.6.8.3.2\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -118,6 +122,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -131,6 +136,7 @@
     <None Include="mysql.res_exe" />
     <None Include="mysqladmin.res_exe" />
     <None Include="mysqld.res_exe" />
+    <None Include="packages.config" />
     <None Include="share.zip" />
   </ItemGroup>
   <ItemGroup>
