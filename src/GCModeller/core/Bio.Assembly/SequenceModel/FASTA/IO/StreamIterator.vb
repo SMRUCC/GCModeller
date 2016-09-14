@@ -51,11 +51,13 @@ Namespace SequenceModel.FASTA
             Loop
 
             If Not stream.Count = 0 Then
-                Yield FastaToken.ParseFromStream(stream)
+                Yield FastaToken.ParseFromStream(stream, {"|"c})
             End If
         End Function
 
         Public Const SOH As Char = Chr(1)
+
+        ReadOnly __deli As Char() = {"|"c}
 
         ''' <summary>
         ''' Loops on each block of data
@@ -71,7 +73,7 @@ Namespace SequenceModel.FASTA
                 If line.First = ">"c AndAlso stream.Count > 0 Then  ' 在这里碰见了一个fasta头部
 
                     ' 则解析临时数据，然后清空临时缓存变量
-                    Dim fa As FastaToken = FastaToken.ParseFromStream(stream)
+                    Dim fa As FastaToken = FastaToken.ParseFromStream(stream, __deli)
                     Yield fa
 
                     stream.Clear()

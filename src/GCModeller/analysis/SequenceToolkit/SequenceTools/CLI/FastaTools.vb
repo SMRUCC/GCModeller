@@ -26,6 +26,7 @@
 #End Region
 
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -367,22 +368,39 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("/Distinct", Usage:="/Distinct /in <in.fasta> [/out <out.fasta>]")>
+    <ExportAPI("/Distinct",
+               Info:="Distinct fasta sequence by sequence content.",
+               Usage:="/Distinct /in <in.fasta> [/out <out.fasta> /by_Uid <uid_regexp>]")>
     Public Function Distinct(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Distinct.fasta")
-        Dim fasta As New FASTA.FastaFile([in])
-        Dim uids = (From fa As FastaToken In fasta
-                    Let id As String = fa.Attributes.First.Split(":"c).Last,
-                        seq As String = fa.SequenceData.ToUpper
-                    Select uid = id.ToUpper & "+" & seq,
-                        id,
-                        seq
-                    Group By uid Into Group)
-        fasta = New FastaFile(From x
-                              In uids
-                              Let fa = x.Group.First
-                              Select New FastaToken({fa.id}, fa.seq))
+        Dim fasta As New FASTA.FastaFile([in], {"|"c, "/"c})
+        Dim uidRegx As String = args("/by_uid")
+
+        fasta = New FastaFile(From x In fasta Select New FastaToken(x.Attributes, x.SequenceData.Trim("-"c)))
+
+        If Not String.IsNullOrEmpty(uidRegx) Then
+            out = out.TrimSuffix & ".unique_uid.fasta"
+            Call $"uidRegexp using {uidRegx}".__DEBUG_ECHO
+
+            Dim uids = From fa As FastaToken
+                       In fasta
+                       Select fa,
+                           uid = Regex.Match(fa.Title, uidRegx, RegexICSng).Value
+                       Group By uid Into Group
+            fasta = New FastaFile(uids.Select(Function(x) New FastaToken({x.uid, x.Group.First.fa.Title}, x.Group.First.fa.SequenceData)).OrderByDescending(Function(fa) fa.Length))
+        Else
+            Dim uids = From fa As FastaToken
+                   In fasta
+                       Let seq As String = fa.SequenceData.ToUpper
+                       Select fa,
+                           seq
+                       Group By seq Into Group
+            fasta = New FastaFile(From x
+                                  In uids
+                                  Let fa = x.Group.First
+                                  Select New FastaToken(fa.fa.Attributes, fa.seq))
+        End If
 
         Return fasta.Save(out, Encodings.ASCII)
     End Function
