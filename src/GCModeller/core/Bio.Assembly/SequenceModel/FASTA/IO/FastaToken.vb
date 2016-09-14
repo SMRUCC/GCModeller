@@ -274,7 +274,7 @@ Namespace SequenceModel.FASTA
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Load")>
-        Public Shared Function Load(File As String) As FastaToken
+        Public Shared Function Load(File As String, Optional deli As Char() = Nothing) As FastaToken
             Dim lines As String() = IO.File.ReadAllLines(File)
 
             If lines.IsNullOrEmpty Then
@@ -282,7 +282,7 @@ Namespace SequenceModel.FASTA
                 Return Nothing
             End If
 
-            Return ParseFromStream(lines)
+            Return ParseFromStream(lines, If(deli.IsNullOrEmpty, {"|"c}, deli))
         End Function
 
         ''' <summary>
@@ -293,13 +293,13 @@ Namespace SequenceModel.FASTA
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("FastaToken.From.Stream")>
-        Public Shared Function ParseFromStream(stream As IEnumerable(Of String)) As FastaToken
+        Public Shared Function ParseFromStream(stream As IEnumerable(Of String), deli As Char()) As FastaToken
             If stream.IsNullOrEmpty Then Return Nothing
 
             Dim lines As String() = stream.ToArray
             Dim fa As New FastaToken
 
-            fa.Attributes = Mid(lines(Scan0), 2).Split(CChar("|"))
+            fa.Attributes = Mid(lines(Scan0), 2).Split(deli)
             fa.Attributes = fa.Attributes.ToArray(Function(s) s.Replace(StreamIterator.SOH, ""))
             fa.SequenceData = String.Join("", lines.Skip(1).ToArray)  ' Linux mono does not support <Extension> attribute!
 
@@ -314,11 +314,11 @@ Namespace SequenceModel.FASTA
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("FastaToken.Parser")>
-        Public Shared Function TryParse(strData As String) As FastaToken
+        Public Shared Function TryParse(strData As String, Optional deli As Char = "|"c) As FastaToken
             Dim LQuery = (From strLine As String
                           In strData.Split(CChar(vbLf))
                           Select strLine.Replace(vbCr, "")).ToArray
-            Return FastaToken.ParseFromStream(LQuery)
+            Return FastaToken.ParseFromStream(LQuery, {deli})
         End Function
 
         ''' <summary>

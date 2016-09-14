@@ -91,9 +91,11 @@ Namespace SequenceModel.FASTA
             Call Me.New(fa.ToArray(Function(x) New FastaToken(x)))
         End Sub
 
-        Sub New(path As String)
+        Sub New(path As String, Optional deli As Char() = Nothing)
             FilePath = path
-            _innerList = DocParser(FileIO.FileSystem.ReadAllText(path))
+            _innerList = DocParser(
+                FileIO.FileSystem.ReadAllText(path),
+                If(deli.IsNullOrEmpty, {"|"c}, deli))
         End Sub
 
         Protected Friend Overridable Property _innerList As List(Of FastaToken) = New List(Of FastaToken)
@@ -171,7 +173,7 @@ Namespace SequenceModel.FASTA
         ''' <param name="Explicit">当参数为真的时候，目标文件不存在则会抛出错误，反之则会返回一个空文件</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Shared Function Read(File As Path, Optional Explicit As Boolean = True) As FastaFile
+        Public Overloads Shared Function Read(File As Path, Optional Explicit As Boolean = True, Optional deli As Char = "|"c) As FastaFile
             If Not File.FileExists Then
                 If Explicit Then
                     Throw New Exception($"File ""{File.ToFileURL}"" is not exists on the file system!")
@@ -180,7 +182,7 @@ Namespace SequenceModel.FASTA
                 End If
             End If
 
-            Dim FastaReader As New FastaFile(DocParser(IO.File.ReadAllLines(File))) With {
+            Dim FastaReader As New FastaFile(DocParser(IO.File.ReadAllLines(File), {deli})) With {
                 .FilePath = FileIO.FileSystem.GetFileInfo(File).FullName
             }
             Return FastaReader
@@ -224,15 +226,19 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Return Data
         End Function
 
-        Public Shared Function DocParser(TokenLines As String()) As List(Of FastaToken)
-            Dim faToken As List(Of String) = New List(Of String)
+        Public Shared Function DocParser(TokenLines As String(), Optional deli As Char() = Nothing) As List(Of FastaToken)
+            Dim faToken As New List(Of String)
             Dim faList As New List(Of FastaToken)
+
+            If deli.IsNullOrEmpty Then
+                deli = {"|"c}
+            End If
 
             For Each Line As String In TokenLines
                 If String.IsNullOrEmpty(Line) Then
                     Continue For
                 ElseIf Line.Chars(Scan0) = ">"c Then  'New FASTA Object
-                    Call faList.Add(FastaToken.ParseFromStream(faToken))
+                    Call faList.Add(FastaToken.ParseFromStream(faToken, deli))
                     Call faToken.Clear()
                 End If
 
@@ -243,14 +249,14 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 Call faList.RemoveAt(Scan0)
             End If
 
-            Call faList.Add(FastaToken.ParseFromStream(faToken))
+            Call faList.Add(FastaToken.ParseFromStream(faToken, deli))
 
             Return faList
         End Function
 
-        Public Shared Function DocParser(doc As String) As List(Of FastaToken)
+        Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaToken)
             Dim TokenLines As String() = doc.lTokens
-            Return DocParser(TokenLines)
+            Return DocParser(TokenLines, deli)
         End Function
 
         ''' <summary>
@@ -259,8 +265,8 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="doc">The file data content in the fasta file, not the path of the fasta file!</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function ParseDocument(doc As String) As FastaFile
-            Dim Fasta As New FastaFile(DocParser(doc))
+        Public Shared Function ParseDocument(doc As String, Optional deli As Char() = Nothing) As FastaFile
+            Dim Fasta As New FastaFile(DocParser(doc, If(deli.IsNullOrEmpty, {"|"c}, deli)))
             Return Fasta
         End Function
 
