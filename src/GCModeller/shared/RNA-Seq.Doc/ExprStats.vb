@@ -79,7 +79,7 @@ Namespace DESeq2
         ''' <returns></returns>
         Public Function GetLevel2(sample As String) As Double
             Dim name As String = ExprStats.LEVEL2 & sample
-            Return Scripting.CastDouble(Samples(name))
+            Return Val(Samples(name))
         End Function
 
         ''' <summary>

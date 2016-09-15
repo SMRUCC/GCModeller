@@ -19,7 +19,7 @@
         <LinqEntity("double", GetType(Double))>
         Public Function GetDouble(uri As String) As IEnumerable
             Dim lines As String() = IO.File.ReadAllLines(uri)
-            Dim LQuery = (From line As String In lines Select Scripting.CastDouble(line))
+            Dim LQuery = lines.Select(AddressOf Val)
             Return LQuery
         End Function
     End Module

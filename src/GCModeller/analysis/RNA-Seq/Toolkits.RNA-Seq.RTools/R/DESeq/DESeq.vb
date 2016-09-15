@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API.base
-Imports RDotNET.Extensions.VisualBasic.SyntaxAPI
+Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
@@ -285,7 +285,7 @@ Huber, W.",
             Catch ex As Exception
                 ex = New Exception(RScript, ex)
                 Call ex.PrintException
-                Call Warnings().JoinBy(vbCrLf).__DEBUG_ECHO
+                Call base.warning().JoinBy(vbCrLf).__DEBUG_ECHO
             End Try
 
             Dim DiffPath As String = directory & "/diffexpr-results.csv"
