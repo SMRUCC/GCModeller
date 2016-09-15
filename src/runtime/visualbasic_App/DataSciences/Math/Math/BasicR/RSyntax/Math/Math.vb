@@ -27,9 +27,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports RDotNET.Extensions.VisualBasic.SyntaxAPI.Vectors
 
 Namespace SyntaxAPI.MathExtension
 

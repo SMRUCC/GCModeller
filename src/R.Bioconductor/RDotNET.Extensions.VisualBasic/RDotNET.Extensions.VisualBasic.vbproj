@@ -169,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ScriptBuilder\Helpers\README.txt" />
-    <Content Include="RSyntax\README.txt" />
     <Compile Include="API\base\base.vb" />
     <Compile Include="API\as.vb" />
     <Compile Include="API\base\seq.vb" />
@@ -226,14 +225,6 @@
     <Compile Include="API\graphics\PieChart.vb" />
     <Compile Include="ScriptBuilder\Extensions.vb" />
     <Compile Include="ScriptBuilder\Abstract\IRScript.vb" />
-    <Compile Include="RSyntax\Math\Math.vb" />
-    <Compile Include="RSyntax\Math\Poisson.vb" />
-    <Compile Include="RSyntax\Math\Skellam.vb" />
-    <Compile Include="RSyntax\PrimitiveAPI\Etc.vb" />
-    <Compile Include="RSyntax\PrimitiveAPI\PrimitiveAPI.vb" />
-    <Compile Include="RSyntax\Vectors\BooleanVector.vb" />
-    <Compile Include="RSyntax\Vectors\GenericVector%28Of T%29.vb" />
-    <Compile Include="RSyntax\Vectors\VECTOR.vb" />
     <Compile Include="Extensions\REngine.vb" />
     <Compile Include="ScriptBuilder\BuilderAPI.vb" />
     <Compile Include="Extensions\Serialization.vb" />

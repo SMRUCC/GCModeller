@@ -81,7 +81,7 @@ Namespace SymbolBuilder.packages.gplots
         End Function
 
         Public Shared Function MeansParser(result As String) As Double()
-            Return Regex.Matches(result, "(-?\d+(\.\d+)?)|(NaN)").ToArray(Function(s) Scripting.CastDouble(s))
+            Return Regex.Matches(result, "(-?\d+(\.\d+)?)|(NaN)").ToArray(AddressOf Val)
         End Function
 
         ''' <summary>
@@ -188,8 +188,8 @@ Namespace SymbolBuilder.packages.gplots
             high = Mid(high, 3, high.Length - 3)
             color = Mid(color, 3, color.Length - 3)
 
-            Dim lows As Double() = low.Split(","c).ToArray(Function(s) Scripting.CastDouble(s.Trim))
-            Dim highs As Double() = high.Split(","c).ToArray(Function(s) Scripting.CastDouble(s.Trim))
+            Dim lows As Double() = low.Split(","c).ToArray(Function(s) Val(s.Trim))
+            Dim highs As Double() = high.Split(","c).ToArray(Function(s) Val(s.Trim))
             Dim colors As String() = color.Split(","c).ToArray(Function(s) s.Trim)
 
             Return LinqAPI.Exec(Of colorTable) <=

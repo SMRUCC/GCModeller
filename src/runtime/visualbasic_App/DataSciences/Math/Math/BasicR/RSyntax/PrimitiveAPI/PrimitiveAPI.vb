@@ -28,9 +28,9 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports RDotNET.Extensions.VisualBasic.SyntaxAPI.Vectors
 
 Namespace SyntaxAPI
 
@@ -83,15 +83,6 @@ Namespace SyntaxAPI
 
         Public Const NULL As Object = Nothing
         Public Const NAN As Double = Double.NaN
-
-        ''' <summary>
-        ''' Warnings and its print method print the variable last.warning in a pleasing form.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function Warnings() As String()
-            Dim out As String() = RServer.WriteLine("warnings()")
-            Return out
-        End Function
 
         ''' <summary>
         ''' Generates a warning message that corresponds to its argument(s) and (optionally) the expression or function from which it was called.

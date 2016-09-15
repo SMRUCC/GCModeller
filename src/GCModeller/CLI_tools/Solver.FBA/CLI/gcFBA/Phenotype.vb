@@ -247,7 +247,7 @@ Partial Module CLI
     End Function
 
     Private Function __getObjectives(value As String, model As lpSolveRModel, obj As FBA_OUTPUT.ObjectiveFunction, sample As String) As FBA_OUTPUT.ObjectiveFunction
-        obj.Add(sample, Scripting.CastDouble(value))
+        obj.Add(sample, Val(value))
         obj.Factors = model.Objectives
         Return obj
     End Function
