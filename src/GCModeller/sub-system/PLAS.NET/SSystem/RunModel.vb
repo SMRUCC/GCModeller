@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Mathematical.diffEq
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 Public Module RunModel
@@ -66,17 +67,29 @@ Public Module RunModel
 
     <Extension>
     Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
-        Dim p As Double = args.GetValue("/precise", 0.1)
         Dim t As Double = args.GetDouble("/time")
+        Dim out As String = args.GetValue("-o", args("-i").TrimSuffix & ".out.Csv")
+
         If t > 0 Then
             Model.FinalTime = t
         End If
-        Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
-        Dim out As String = args.GetValue("-o", args("-i").TrimSuffix & ".out.Csv")
-        Dim maps As New Dictionary(Of String, String) From {
-            {NameOf(DataSet.Identifier), "#Time"}
-        }
-        Return ds.SaveTo(path:=out, nonParallel:=True, maps:=maps).CLICode
+
+        If args.GetBoolean("/ODEs") Then
+            Call "PLAS using ODEs solver....".__DEBUG_ECHO
+
+            Dim p As Double = args.GetValue("/precise", 10000)
+            Dim output As out = Kernel.ODEs.RunSystem(Model)
+            Dim df As File = output.DataFrame(xDisp:="#Time")
+
+            Return df.Save(out, Encodings.ASCII)
+        Else
+            Dim p As Double = args.GetValue("/precise", 0.1)
+            Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
+            Dim maps As New Dictionary(Of String, String) From {
+                {NameOf(DataSet.Identifier), "#Time"}
+            }
+            Return ds.SaveTo(path:=out, nonParallel:=True, maps:=maps).CLICode
+        End If
     End Function
 End Module
 

@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.Analysis.SSystem.Script
 Public Module CLI
 
     <ExportAPI("Run", Info:="run a model file of the biochemical network system.",
-        Usage:="run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1>]",
+        Usage:="run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs]",
         Example:="run -i ""/home/xieguigang/proj/xcc8004.sbml"" -f sbml -chart T -o ""/home/xieguigang/Desktop/xcc8004.csv""")>
     <ParameterInfo("-i", False, Description:="The file path of the input model file that will be run on the PLAS program.", Example:="/home/xieguigang/proj/xcc8004.sbml")>
     <ParameterInfo("-f", True,
