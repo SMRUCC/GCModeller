@@ -167,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IdentityResult.vb" />
+    <Compile Include="GCOutlier.vb" />
     <Compile Include="Sigma\CAI\CAITable.vb" />
     <Compile Include="Sigma\CAI\CodonFrequency.vb" />
     <Compile Include="Sigma\CAI\CodonFrequencyCAI.vb" />
@@ -219,6 +220,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DataSciences\Math\Math\Microsoft.VisualBasic.Mathematical.vbproj">
+      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
+      <Name>Microsoft.VisualBasic.Mathematical</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
