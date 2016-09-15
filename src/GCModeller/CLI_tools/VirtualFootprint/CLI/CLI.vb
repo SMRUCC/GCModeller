@@ -109,10 +109,10 @@ Module CLI
     End Function
 
     <ExportAPI("/gc.outliers",
-               Usage:="/gc.outliers /mal <mal.fasta> [/q <quantiles:0.9,0.95,0.99,1> /method <gcskew/gccontent,default:gccontent> /out <out.csv> /win 250 /steps 50 /slides 5]")>
+               Usage:="/gc.outliers /mal <mal.fasta> [/q <quantiles:0.95,0.99,1> /method <gcskew/gccontent,default:gccontent> /out <out.csv> /win 250 /steps 50 /slides 5]")>
     Public Function Outliers(args As CommandLine) As Integer
         Dim mal As String = args("/mal")
-        Dim q As Double() = args.GetValue("/q", "0.9,0.95,0.99,1") _
+        Dim q As Double() = args.GetValue("/q", "0.95,0.99,1") _
             .Split(","c) _
             .ToArray(Function(x) Val(x.Trim))
         Dim method As String = args.GetValue("/method", "gccontent")
@@ -122,6 +122,9 @@ Module CLI
         Dim out As String = args.GetValue("/out",
             mal.TrimSuffix & $".win_size={win},steps={steps},slides={slides},m={method};quantiles={q.Select(Function(n) n.ToString).JoinBy(",")}.csv")
         Dim result = GCOutlier.Outlier(New FastaFile(mal), q, win, steps, slides, GCOutlier.GetMethod(method)).ToArray
+        Return New DocumentStream.File(
+            DocumentStream.File.Distinct(result.ToCsvDoc)) _
+            .Save(out, Encodings.ASCII).CLICode
     End Function
 End Module
 

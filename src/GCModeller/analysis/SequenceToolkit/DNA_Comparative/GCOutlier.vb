@@ -9,6 +9,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 Imports Microsoft.VisualBasic.Mathematical.Quantile
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' ``GC%``异常点分析
@@ -16,7 +17,14 @@ Imports Microsoft.VisualBasic.Mathematical.Quantile
 Public Module GCOutlier
 
     Public Function GetMethod(name As String) As NtProperty
-
+        Select Case LCase(name)
+            Case "gcskew"
+                Return AddressOf GCSkew
+            Case "gccontent"
+                Return AddressOf GCContent
+            Case Else
+                Return AddressOf GCContent
+        End Select
     End Function
 
     <Extension>
@@ -24,14 +32,14 @@ Public Module GCOutlier
                                      Optional winsize As Integer = 250,
                                      Optional steps As Integer = 50,
                                      Optional slideSize As Integer = 5,
-                                     Optional method As NtProperty = Nothing) As IEnumerable(Of NamedValue(Of NucleotideLocation))
+                                     Optional method As NtProperty = Nothing) As IEnumerable(Of lociX)
 
         Dim data As NamedValue(Of Double())() = GCData(mla, winsize, steps, method)
         Dim iSeq As Integer() = data(Scan0).x.Sequence.ToArray
         Dim seq As lociX()() = New lociX(slideSize - 1)() {}
 
         For i As Integer = 0 To slideSize - 1
-            Dim a As lociX() = New lociX(iSeq.Length - 1) {}
+            Dim a As lociX() = New lociX(data.Length - 1) {}
 
             For Each x In data.SeqIterator
                 a(x.i) = New lociX With {
@@ -58,6 +66,17 @@ Public Module GCOutlier
 
             Dim result = tmp.SelectByQuantile(Function(x) x.value * 1000, quantiles,,).ToArray
 
+            For Each lv In result
+                For Each x As lociX In lv.value
+                    Yield New lociX With {
+                        .value = x.value,
+                        .loci = x.loci * steps + 1,
+                        .qLevel = lv.Tag,
+                        .right = (x.loci + 1) * steps,
+                        .Title = x.Title
+                    }
+                Next
+            Next
         Next
     End Function
 
@@ -65,5 +84,11 @@ Public Module GCOutlier
         Public Property Title As String
         Public Property loci As Integer
         Public Property value As Double
+        Public Property qLevel As Double
+        Public Property right As Integer
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 End Module
