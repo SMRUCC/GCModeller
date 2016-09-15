@@ -55,6 +55,9 @@ Namespace SequenceModel.NucleotideModels
                                Optional steps As Integer = 50,
                                Optional method As NtProperty = Nothing) As NamedValue(Of Double())()
 
+            If method Is Nothing Then
+                method = AddressOf GCSkew
+            End If
             Dim LQuery = From genome As SeqValue(Of FastaToken)
                          In nts.SeqIterator.AsParallel
                          Select genome,
