@@ -8,11 +8,16 @@ Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
+Imports Microsoft.VisualBasic.Mathematical.Quantile
 
 ''' <summary>
 ''' ``GC%``异常点分析
 ''' </summary>
 Public Module GCOutlier
+
+    Public Function GetMethod(name As String) As NtProperty
+
+    End Function
 
     <Extension>
     Public Iterator Function Outlier(mla As IEnumerable(Of FastaToken), quantiles As Double(),
@@ -39,6 +44,19 @@ Public Module GCOutlier
 
         For Each index As SlideWindowHandle(Of Integer) In iSeq.SlideWindows(slideSize)
             Dim tmp As New List(Of lociX)
+
+            For Each i In index.SeqIterator ' index里面的数据是fasta序列上面的位点坐标
+                Dim a As lociX() = seq(i.i)
+
+                For Each x In data.SeqIterator
+                    a(x.i).value = x.obj.x(i.obj)
+                    a(x.i).loci = i.obj
+                Next
+
+                tmp += a
+            Next
+
+            Dim result = tmp.SelectByQuantile(Function(x) x.value * 1000, quantiles,,).ToArray
 
         Next
     End Function
