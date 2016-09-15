@@ -264,5 +264,29 @@ Namespace API
             Dim vec As String = c(data.ToArray)
             Return matrix(vec, nrow, ncol, byrow, dimnames)
         End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="args"></param>
+        ''' <param name="[call]"></param>
+        ''' <param name="immediate"></param>
+        ''' <param name="noBreaks"></param>
+        ''' <param name="domain"></param>
+        ''' <returns></returns>
+        Public Function warning(Optional args As IEnumerable(Of String) = Nothing,
+                                Optional [call] As Boolean = True,
+                                Optional immediate As Boolean = False,
+                                Optional noBreaks As Boolean = False,
+                                Optional domain As String = NULL) As String()
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="expr"></param>
+        Public Sub suppressWarnings(expr As String)
+
+        End Sub
     End Module
 End Namespace
