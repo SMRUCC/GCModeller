@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
@@ -349,7 +350,7 @@ Public Module PhenotypeRegulations
                          Let Data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray
                          Select New CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = Data}).ToArray
         Dim Vector = (From data0Expr In DataChunk Select data0Expr.Samples).ToArray.MatrixToList
-        Dim Ranking As Integer() = Microsoft.VisualBasic.GenerateMapping(Vector, Level)
+        Dim Ranking As Integer() = GenerateMapping(Vector, Level)
         Dim ChunkBuffer As Integer() = New Integer(DataChunk.First.Samples.Length - 1) {}
         Dim ChunkList As New List(Of DataSerials(Of Integer))
         Dim p As Integer = 0
