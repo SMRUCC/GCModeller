@@ -168,7 +168,7 @@ Principal Component Analysis",
 #If DEBUG Then
             Call My.Computer.FileSystem.CurrentDirectory.__DEBUG_ECHO
 #End If
-            Dim STD As String() = RServer.WriteLine(WGCNA.ToString)
+            Dim STD As String() = R.WriteLine(WGCNA.ToString)
             Dim Cytoscape As String = outDIR & "/CytoscapeEdges.txt"
 
             Call STD.SaveTo(outDIR & "/WGCNA.STD.txt")

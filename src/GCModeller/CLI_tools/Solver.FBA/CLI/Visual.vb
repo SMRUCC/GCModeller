@@ -55,12 +55,17 @@ Partial Module CLI
         }
 
         Dim scriptText As String = script.RScript
-        Dim STD As String() = RServer.WriteLine(scriptText)
-        Dim result As heatmap2OUT = heatmap2OUT.RParser(script.output, script.locusId, script.samples)
 
-        Call scriptText.SaveTo(outDIR & "/heatmap.r")
-        Call result.GetJson.SaveTo(outDIR & "/heatmap.result.json")
-        Return STD.FlushAllLines(outDIR & "/heatmap.STD.txt")
+        SyncLock R
+            With R
+                Dim STD As String() = .WriteLine(scriptText)
+                Dim result As heatmap2OUT = heatmap2OUT.RParser(script.output, script.locusId, script.samples)
+
+                Call scriptText.SaveTo(outDIR & "/heatmap.r")
+                Call result.GetJson.SaveTo(outDIR & "/heatmap.result.json")
+                Return STD.FlushAllLines(outDIR & "/heatmap.STD.txt")
+            End With
+        End SyncLock
     End Function
 
     <ExportAPI("/heatmap.scale", Usage:="/heatmap.scale /x <matrix.csv> [/factor 30 /out <out.csv>]")>

@@ -117,7 +117,7 @@ Public Module BaSAR
             Call RSystem.TryInit(R_HOME)
         End If
 
-        Dim OUTPUT As String() = RServer.WriteLine(My.Resources.BaSAR)
+        Call My.Resources.BaSAR.__call
 
         Return True
     End Function
@@ -209,11 +209,14 @@ Public Module BaSAR
         Dim s_Data As String = String.Format("p.data <- c({0});", String.Join(",", data))
         Dim s_tPoints As String = String.Format("p.tpoints <- c({0});", String.Join(",", tpoints))
         Dim Invoke As String = String.Format("BaSAR.local(p.data, {0}, {1}, {2}, p.tpoints, {3}, {4});", start, [stop], nsamples, nbackg, window)
-        Dim STDOUT As String()
 
-        STDOUT = RServer.WriteLine(s_Data)
-        STDOUT = RServer.WriteLine(s_tPoints)
-        STDOUT = RServer.WriteLine(Invoke)
+        SyncLock R
+            With R
+                .call = s_Data
+                .call = s_tPoints
+                .call = Invoke
+            End With
+        End SyncLock
 
         Throw New NotImplementedException
     End Function
