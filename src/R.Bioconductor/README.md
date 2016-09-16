@@ -34,14 +34,20 @@ Imports RDotNET.Extensions.VisualBasic.API.utils
 Imports RDotNET.Extensions.Bioinformatics.deSolve.API
 Imports RDotNET.Extensions.Bioinformatics.deSolve
 
-' Setup variables in R language from VisualBasic
-Call $"p      <- {p}".丶
-Call $"beta   <- {beta}".丶
-Call $"c      <- {c}".丶
-Call $"delta  <- {delta}".丶
-Call $"U0     <- {U0}".丶
-Call $"rho    <- {rho}".丶
-Call $"lambda <- {lambda}".丶
+SyncLock R
+    With R
+
+        ' Setup variables in R language from VisualBasic
+        .call = $"p      <- {p}"
+        .call = $"beta   <- {beta}"
+        .call = $"c      <- {c}"
+        .call = $"delta  <- {delta}"
+        .call = $"U0     <- {U0}"
+        .call = $"rho    <- {rho}"
+        .call = $"lambda <- {lambda}"
+
+    End With
+End SyncLock
 
 ' The initial value for infected cells(I0) is set to zero.
 ' The best model based on the Akaike Information Criterion(AIC) is presented in Figure3, providing an estimate of 9 ffu/ml for V0.
@@ -54,7 +60,7 @@ Dim model = [function](
         "params"
     },
 _
-       "with(as.list(y), {
+    "with(as.list(y), {
 
         dU <- lambda - rho * U - beta * U * V
         dI <- beta * U * V - delta * I

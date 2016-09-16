@@ -1,36 +1,78 @@
 ﻿#Region "Microsoft.VisualBasic::1e8dd4711e26c96d16fbee34ea63410d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\R.Extension\System.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+
+Public Class ExtendedEngine : Inherits REngine
+
+    ''' <summary>
+    ''' Evaluates a R statement in the given string.
+    ''' </summary>
+    Public WriteOnly Property [call] As String
+        Set(value As String)
+#If DEBUG Then
+            Call __logs.WriteLine(R)
+            Call __logs.Flush()
+#End If
+            Call Evaluate(statement:=value)
+        End Set
+    End Property
+
+    Sub New(id As String, dll As String)
+        MyBase.New(id, dll)
+    End Sub
+
+#If DEBUG Then
+    Friend ReadOnly __logs As StreamWriter = App.GetAppSysTempFile(".log").OpenWriter
+#End If
+
+    Friend Shared Function __init(id As String, Optional dll As String = Nothing) As ExtendedEngine
+        If id Is Nothing Then
+            Throw New ArgumentNullException("id", "Empty ID is not allowed.")
+        End If
+        If id = String.Empty Then
+            Throw New ArgumentException("Empty ID is not allowed.", "id")
+        End If
+        'if (instances.ContainsKey(id))
+        '{
+        '   throw new ArgumentException();
+        '}
+        dll = ProcessRDllFileName(dll)
+        Dim engine As New ExtendedEngine(id, dll)
+        'instances.Add(id, engine);
+        Return engine
+    End Function
+End Class
 
 ''' <summary>
 ''' R Engine extensions.(似乎对于RDotNet而言，在一个应用程序的实例进程之中仅允许一个REngine的实例存在，所以在这里就统一的使用一个公共的REngine的实例对象)
@@ -54,17 +96,22 @@ Public Module RSystem
     ''' The default R Engine server.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property RServer As RDotNET.REngine
+    Public ReadOnly Property R As ExtendedEngine
+
+    ''' <summary>
+    ''' R server can not be initialized automatically, please manual set up init later.
+    ''' </summary>
+    Const UnableRunAutomatically As String = "R server can not be initialized automatically, please manual set up init later."
 
     ''' <summary>
     ''' Initialize the default R Engine.
     ''' </summary>
     Sub New()
         Try
-            RSystem.RServer = RInit.StartEngineServices
+            RSystem.R = RInit.StartEngineServices
         Catch ex As Exception
             ' 无法自动初始化，需要手动启动R的计算引擎
-            ex = New Exception("R server can not be initialized automatically, please manual set up init later.", ex)
+            ex = New Exception(UnableRunAutomatically, ex)
             Call App.LogException(ex)
         End Try
     End Sub
@@ -74,14 +121,14 @@ Public Module RSystem
     ''' </summary>
     ''' <param name="R_HOME"></param>
     Public Sub TryInit(R_HOME As String)
-        If RServer Is Nothing OrElse Not RServer.IsRunning Then
-            _RServer = RInit.StartEngineServices(R_HOME)
+        If R Is Nothing OrElse Not R.IsRunning Then
+            _R = RInit.StartEngineServices(R_HOME)
         End If
     End Sub
 
     Public Sub TryInit()
-        If RServer Is Nothing OrElse Not RServer.IsRunning Then
-            _RServer = RInit.StartEngineServices
+        If R Is Nothing OrElse Not R.IsRunning Then
+            _R = RInit.StartEngineServices
         End If
     End Sub
 
@@ -94,7 +141,7 @@ Public Module RSystem
         Dim R As String = $"packageVersion(""{pkg}"")"
         Dim result As String()
         Try
-            result = RServer.WriteLine(R)
+            result = RSystem.R.WriteLine(R)
         Catch ex As Exception
             ex = New Exception(R, ex)
             Call App.LogException(ex)
@@ -113,7 +160,7 @@ Public Module RSystem
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function Library() As String
-        Dim Result As String = RServer.WriteLine("library()").JoinBy(vbCrLf)
+        Dim Result As String = R.WriteLine("library()").JoinBy(vbCrLf)
         Dim sBuilder As StringBuilder = New StringBuilder(Result, 5 * 1024)
 
         sBuilder.Remove(0, 2)
@@ -211,7 +258,7 @@ Public Module RSystem
                                encoding = {Rstring(encoding)},
                                continue.echo = {Rbool(continueEcho)},
                                skip.echo = {skipEcho}, keep.source = {Rbool(keepSource)});"
-        Return RServer.WriteLine(cmdl)
+        Return R.WriteLine(cmdl)
     End Function
 
     ''' <summary>
@@ -220,11 +267,11 @@ Public Module RSystem
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function getwd() As String
-        Return RServer.WriteLine("getwd()").JoinBy(vbCrLf)
+        Return R.WriteLine("getwd()").JoinBy(vbCrLf)
     End Function
 
     Public Function setwd(workingDir As String) As String()
-        Return RServer.WriteLine($"setwd(""{workingDir}"")")
+        Return R.WriteLine($"setwd(""{workingDir}"")")
     End Function
 
     ''' <summary>

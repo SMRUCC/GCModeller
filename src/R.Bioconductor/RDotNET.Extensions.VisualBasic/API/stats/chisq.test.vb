@@ -61,7 +61,7 @@ Namespace API
         <ExportAPI("chisq.test")>
         Public Function chisqTest(x As String, Optional y As String = NULL, Optional correct As Boolean = True) As chisqTestResult
             Dim out As SymbolicExpression() =
-                $"chisq.test({x},y={y},correct={correct.λ})".丶.AsList.ToArray
+                $"chisq.test({x},y={y},correct={correct.λ})".__call.AsList.ToArray
             Dim i As New Pointer
             Dim result As New chisqTestResult With {
                 .statistic = out(++i).AsNumeric.ToArray.First,

@@ -18,7 +18,7 @@
 
             Call $"{tmp} <- with({data}, {"{" & vbCrLf &
                                               expr & vbCrLf &
-                                          "}"}, {additionals.params})".丶
+                                          "}"}, {additionals.params})".__call
             Return tmp
         End Function
     End Module

@@ -103,7 +103,7 @@ Namespace adegenet
 
             Call $"{tmp} <- df2genind({tmp}, sep = {sep}, ncode = {ncode}, ind.names = {rowNames},
   loc.names = {colNames}, pop = {pop}, NA.char = {Rstring(NAchar)}, ploidy = {ploidy},
-  type = {type}, strata = {strata}, hierarchy = {hierarchy})".丶
+  type = {type}, strata = {strata}, hierarchy = {hierarchy})".__call
 
             Return tmp
         End Function

@@ -52,7 +52,7 @@ Namespace API.Graphics
             Call $"# Simple Pie Chart
 slices <- c({String.Join(", ", (From n In slices Select CStr(n.x)).ToArray)})
 lbls   <- c({String.Join(", ", (From n In slices Select $"""{n.Name}""").ToArray)})
-{GraphicsDevice.tiff(plot:=$"pie(slices, labels = lbls, main=""{Title}"")", filename:=SaveTo, width:=3000, height:=2500)}".丶
+{GraphicsDevice.tiff(plot:=$"pie(slices, labels = lbls, main=""{Title}"")", filename:=SaveTo, width:=3000, height:=2500)}".__call
             Return True
         End Function
 

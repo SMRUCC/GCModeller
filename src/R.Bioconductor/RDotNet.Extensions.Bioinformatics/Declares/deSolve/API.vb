@@ -118,7 +118,7 @@ times={times},
 func={func}, 
 parms={parms}, 
 method = {method} 
-{addis})".丶
+{addis})".__call
 
             Return tmp
         End Function

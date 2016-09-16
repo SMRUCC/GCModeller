@@ -61,13 +61,17 @@ Public Module TableExtensions
             End If
         Next
 
-        Dim R As New StringBuilder()
+        Dim sb As New StringBuilder()
         Dim colNames As String = c(table.First.Skip(If(skipFirst, 1, 0)).ToArray)
 
-        R.AppendLine($"{tableName} <- matrix(c({MAT.JoinBy(",")}),ncol={ncol},byrow=TRUE);")
-        R.AppendLine($"colnames({tableName}) <- {colNames}")
+        sb.AppendLine($"{tableName} <- matrix(c({MAT.JoinBy(",")}),ncol={ncol},byrow=TRUE);")
+        sb.AppendLine($"colnames({tableName}) <- {colNames}")
 
-        Call RServer.Evaluate(R.ToString)
+        SyncLock R
+            With R
+                .call = sb.ToString
+            End With
+        End SyncLock
     End Sub
 
     ''' <summary>
@@ -103,37 +107,41 @@ Public Module TableExtensions
             types = New Dictionary(Of String, Type)
         End If
 
-        For Each col As SeqValue(Of String()) In df.Columns.SeqIterator
-            Dim name As String = names(col.i)
-            Dim type As Type = If(
-                types.ContainsKey(name),
-                types(name),
-                If(typeParsing,
-                   col.obj.SampleForType,
-                   GetType(String)))
-            Dim cc As String
+        SyncLock R
+            With R
+                For Each col As SeqValue(Of String()) In df.Columns.SeqIterator
+                    Dim name As String = names(col.i)
+                    Dim type As Type = If(
+                        types.ContainsKey(name),
+                        types(name),
+                        If(typeParsing,
+                           col.obj.SampleForType,
+                           GetType(String)))
+                    Dim cc As String
 
-            Select Case type
-                Case GetType(String)
-                    cc = c(col.obj)
-                Case GetType(Boolean)
-                    cc = c(col.obj.ToArray(AddressOf getBoolean))
-                Case Else
-                    cc = c(col.obj.ToArray(Function(x) DirectCast(x, Object)))
-            End Select
+                    Select Case type
+                        Case GetType(String)
+                            cc = c(col.obj)
+                        Case GetType(Boolean)
+                            cc = c(col.obj.ToArray(AddressOf getBoolean))
+                        Case Else
+                            cc = c(col.obj.ToArray(Function(x) DirectCast(x, Object)))
+                    End Select
 
-            Call $"{name} <- {cc}".丶   ' x <- c(....)
-        Next
+                    .call = $"{name} <- {cc}"   ' x <- c(....)
+                Next
 
-        Call $"{var} <- data.frame({names.JoinBy(", ")})".丶
+                .call = $"{var} <- data.frame({names.JoinBy(", ")})"
 
-        If rowNames IsNot Nothing Then
-            Dim rows As String() = rowNames.ToArray
+                If rowNames IsNot Nothing Then
+                    Dim rows As String() = rowNames.ToArray
 
-            If rows.Length > 0 Then
-                Call $"rownames({var}) <- {c(rows)}".丶
-            End If
-        End If
+                    If rows.Length > 0 Then
+                        .call = $"rownames({var}) <- {c(rows)}"
+                    End If
+                End If
+            End With
+        End SyncLock
     End Sub
 
     ''' <summary>

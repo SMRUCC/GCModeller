@@ -4,22 +4,26 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 ''' <summary>
-''' The R runtime variable
+''' The R runtime variable.(当隐式转换为字符串的时候，返回的是变量名)
 ''' </summary>
 ''' 
 Public Class var
 
     Public ReadOnly Property Name As String
+
     Public ReadOnly Property type As String
         Get
-            Return $"typeof({Name})".丶.AsCharacter.ToArray.FirstOrDefault
+            Return $"typeof({Name})".__call _
+                .AsCharacter _
+                .ToArray _
+                .FirstOrDefault
         End Get
     End Property
 
     <ScriptIgnore>
     Public ReadOnly Property RValue As SymbolicExpression
         Get
-            Return Name.丶
+            Return R.Evaluate(Name)
         End Get
     End Property
 
@@ -36,7 +40,7 @@ Public Class var
     End Property
 
     Private Sub __setValue()
-        Call $"{Name} <- {_expr}".丶
+        Call $"{Name} <- {_expr}".__call
     End Sub
 
     Sub New()
@@ -64,10 +68,24 @@ Public Class var
         Throw New NotImplementedException
     End Function
 
+    Public Overloads Shared Operator <=(x As var, expr As String) As String
+        x.Expression = expr
+        Return expr
+    End Operator
+
+    Public Overloads Shared Operator >=(x As var, expr As String) As String
+        Throw New NotImplementedException
+    End Operator
+
     Public Overrides Function ToString() As String
         Return Me.GetJson(simpleDict:=False)
     End Function
 
+    ''' <summary>
+    ''' 返回R环境之中的变量名
+    ''' </summary>
+    ''' <param name="var"></param>
+    ''' <returns></returns>
     Public Shared Narrowing Operator CType(var As var) As String
         Return var.Name
     End Operator

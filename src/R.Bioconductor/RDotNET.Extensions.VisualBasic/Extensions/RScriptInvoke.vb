@@ -79,7 +79,7 @@ Public Class RScriptInvoke
     End Function
 
     Public Function Invoke() As String()
-        Return RServer.WriteLine([Call])
+        Return R.WriteLine([Call])
     End Function
 
     ''' <summary>
@@ -98,7 +98,7 @@ Public Class RScriptInvoke
     ''' <typeparam name="T">在R之中的类型必须是S4Object对象</typeparam>
     ''' <returns></returns>
     Public Function Invoke(Of T As Class)() As T
-        Dim raw As RDotNET.SymbolicExpression = RServer.Evaluate([Call])
+        Dim raw As RDotNET.SymbolicExpression = R.Evaluate([Call])
         Dim result As T = Serialization.S4Object(Of T)(raw)
         Return result
     End Function

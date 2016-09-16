@@ -49,9 +49,13 @@ Public Module RExtensionInvoke
     Public Function [function](args As IEnumerable(Of String), def As String) As String
         Dim tmp As String = App.NextTempName
 
-        Call $"{tmp} <- function({String.Join(", ", args.ToArray)}) {"{
+        SyncLock R
+            With R
+                .call = $"{tmp} <- function({String.Join(", ", args.ToArray)}) {"{
 " & def & "
-}"}".丶
+}"}"
+            End With
+        End SyncLock
 
         Return tmp
     End Function
@@ -109,38 +113,40 @@ Public Module RExtensionInvoke
         Return REngine.WriteLine(script.RScript)
     End Function
 
-#If DEBUG Then
-    ReadOnly __logs As StreamWriter = App.GetAppSysTempFile(".log").OpenWriter
-#End If
-
     ''' <summary>
     ''' Evaluates a R statement in the given string.
     ''' </summary>
-    ''' <param name="R"></param>
+    ''' <param name="expr"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function 丶(R As String) As SymbolicExpression
-        SyncLock RServer
+    Public Function __call(expr As IScriptProvider) As SymbolicExpression
+        SyncLock R
+            With R
 #If DEBUG Then
-        Call __logs.WriteLine(R)
-        Call __logs.Flush()
+                Call .__logs.WriteLine(expr.RScript)
+                Call .__logs.Flush()
 #End If
-            Return RServer.Evaluate(R)
+                Return .Evaluate(expr.RScript)
+            End With
         End SyncLock
     End Function
 
     ''' <summary>
     ''' Evaluates a R statement in the given string.
     ''' </summary>
-    ''' <param name="R"></param>
+    ''' <param name="expr"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function __call(R As IScriptProvider) As SymbolicExpression
+    Public Function __call(expr As String) As SymbolicExpression
+        SyncLock R
+            With R
 #If DEBUG Then
-        Call __logs.WriteLine(R.RScript)
-        Call __logs.Flush()
+                Call .__logs.WriteLine(expr)
+                Call .__logs.Flush()
 #End If
-        Return RServer.Evaluate(R.RScript)
+                Return .Evaluate(expr)
+            End With
+        End SyncLock
     End Function
 
     ''' <summary>

@@ -27,22 +27,25 @@ Namespace API
                             Optional lengthOut As String = NULL,
                             Optional alongWith As String = NULL,
                             Optional additionals As String() = Nothing) As String
-            Dim tmp As String = App.NextTempName
+            Dim tmp As var
 
             If alongWith <> NULL Then
-                Call $"{tmp} <- seq(along.with= {alongWith}  {additionals.params})".丶
+                tmp = $"seq(along.with= {alongWith}  {additionals.params})"
             Else
                 If lengthOut <> NULL Then
                     If by = NULL Then
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, by = ((to - from)/(length.out - 1)), length.out = {lengthOut} {additionals.params})".丶
+                        tmp = $"seq(from = {from}, to = {[to]}, 
+                                    by = ((to - from)/(length.out - 1)), 
+                                    length.out = {lengthOut} 
+                                    {additionals.params})"
                     Else
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, length.out = {lengthOut} {additionals.params})".丶
+                        tmp = $"seq(from = {from}, to = {[to]}, length.out = {lengthOut} {additionals.params})"
                     End If
                 Else
                     If by = NULL Then
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]} {additionals.params})".丶
+                        tmp = $"seq(from = {from}, to = {[to]} {additionals.params})"
                     Else
-                        Call $"{tmp} <- seq(from = {from}, to = {[to]}, by = {by} {additionals.params})".丶
+                        tmp = $"seq(from = {from}, to = {[to]}, by = {by} {additionals.params})"
                     End If
                 End If
             End If

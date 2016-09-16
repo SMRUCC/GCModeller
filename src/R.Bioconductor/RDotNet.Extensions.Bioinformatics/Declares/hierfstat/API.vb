@@ -54,7 +54,7 @@ Namespace hierfstat
         ''' <param name="resType">the type of result to be returned: a dist object, or a symmetric matrix</param>
         ''' <returns>A vector, a matrix, or a dist object containing F statistics.</returns>
         Public Function pairwise_fst(x As String, Optional pop As String = NULL, Optional resType As String = "c(""dist"", ""matrix"")")
-            Dim out As SymbolicExpression = $"pairwise.fst({x}, pop = {pop}, res.type = {resType})".丶
+            Dim out As SymbolicExpression = $"pairwise.fst({x}, pop = {pop}, res.type = {resType})".__call
 
         End Function
     End Module
