@@ -100,7 +100,7 @@ Namespace API
       method = {method}, n.cond = {ncond},
       SSinit = {SSinit},
       optim.method = {Rstring(optimmethod)},
-      optim.control = {optimcontrol}, kappa = {kappa})".丶
+      optim.control = {optimcontrol}, kappa = {kappa})".__call
 
             Return out
         End Function
@@ -143,7 +143,11 @@ Namespace API
                 .deltat = deltat
             }
 
-            Call $"{tmp} <- {func}".丶
+            SyncLock R
+                With R
+                    .call = $"{tmp} <- {func}"
+                End With
+            End SyncLock
 
             Return tmp
         End Function

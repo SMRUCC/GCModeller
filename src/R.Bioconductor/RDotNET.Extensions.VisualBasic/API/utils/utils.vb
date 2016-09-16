@@ -77,7 +77,7 @@ Namespace API.utils
                              Optional envir As String = ".GlobalEnv") As String()
             Dim objs As String = x.JoinBy(", ")
             Dim Rscript As String = $"data({objs},list={list},package={package},lib.loc={libloc},verbos={verbose},envir={envir})"
-            Dim out As String() = RServer.WriteLine(Rscript)
+            Dim out As String() = R.WriteLine(Rscript)
             Return out
         End Function
 

@@ -98,7 +98,7 @@ Namespace LDheatmap
 	LDmeasure={Rstring(LDmeasure)}, title={Rstring(title)}, add.map={addMap.λ}, add.key={addKey.λ},
 	geneMapLocation={geneMapLocation}, geneMapLabelX={geneMapLabelX}, geneMapLabelY={geneMapLabelY},
 	SNP.name={SNPname}, color={color}, newpage={newpage.λ},
-	name={Rstring(name)}, vp.name={vpname}, pop={pop.λ}, flip={flip}, text={text.λ})".丶
+	name={Rstring(name)}, vp.name={vpname}, pop={pop.λ}, flip={flip}, text={text.λ})".__call
 
             Dim ld As New LDheatmapS4Object
             Dim list = out.AsList.ToArray
@@ -113,7 +113,7 @@ Namespace LDheatmap
             End If
             LDmatrix = Rstring(LDmatrix.UnixPath)
 
-            Call $"success <- write.csv({tmp}$LDmatrix, {LDmatrix})".丶
+            Call $"success <- write.csv({tmp}$LDmatrix, {LDmatrix})".__call
             LDmatrix = LDmatrix.GetString
 
             Return ld

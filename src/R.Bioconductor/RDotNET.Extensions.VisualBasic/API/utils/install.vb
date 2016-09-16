@@ -51,7 +51,7 @@ Namespace API.utils
             Dim out As SymbolicExpression =
                 $"installed.packages(lib.loc = {libloc}, priority = {priority},
                                      noCache = {noCache.λ}, fields = {fields},
-                                     subarch = {subarch})".丶
+                                     subarch = {subarch})".__call
         End Function
     End Module
 
@@ -113,8 +113,10 @@ Namespace API.utils
                                  Optional INSTALL_opts As String = NULL,
                                  Optional quiet As Boolean = False,
                                  Optional keep_outputs As Boolean = False) As Boolean
-            Try
-                Call $"install.packages('{pkgs}', {[lib]}, repos = {repos},
+            SyncLock R
+                With R
+                    Try
+                        .call = $"install.packages('{pkgs}', {[lib]}, repos = {repos},
                                         contriburl = {contriburl},
                                         {method}, available = {available}, destdir = {destdir},
                                         dependencies = {dependencies}, type = {type},
@@ -123,12 +125,14 @@ Namespace API.utils
                                         clean = {clean.λ}, Ncpus = {Ncpus},
                                         verbose = {verbose},
                                         libs_only = {libs_only.λ}, {INSTALL_opts}, quiet = {quiet},
-                                        keep_outputs = {keep_outputs})".丶
-                Return True
-            Catch ex As Exception
-                Call App.LogException(ex)
-                Return False
-            End Try
+                                        keep_outputs = {keep_outputs})"
+                        Return True
+                    Catch ex As Exception
+                        Call App.LogException(ex)
+                        Return False
+                    End Try
+                End With
+            End SyncLock
         End Function
     End Module
 End Namespace

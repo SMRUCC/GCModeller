@@ -28,7 +28,7 @@
 
 Imports System.IO
 
-Public Module RInit
+Module RInit
 
     ''' <summary>
     ''' Automatically search for the path of the R system and then construct a R session for you.
@@ -36,7 +36,7 @@ Public Module RInit
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function StartEngineServices() As REngine
+    Public Function StartEngineServices() As ExtendedEngine
         Dim Directories As String() = ProgramPathSearchTool.SearchDirectory("R", "")
         If Directories.IsNullOrEmpty Then
             Throw New Exception(INIT_FAILURE)
@@ -70,7 +70,7 @@ Public Module RInit
     ''' <param name="R_HOME"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function StartEngineServices(R_HOME As String) As REngine
+    Public Function StartEngineServices(R_HOME As String) As ExtendedEngine
         Dim oldPath As String = Environment.GetEnvironmentVariable("PATH")
         Dim rPath As String = If(Environment.Is64BitProcess,
                                  $"{R_HOME}/x64",
@@ -97,7 +97,7 @@ Public Module RInit
             Call Environment.SetEnvironmentVariable("R_HOME", rHome)
         End If
 
-        Dim REngine As REngine = REngine.CreateInstance("RDotNet")
+        Dim REngine As ExtendedEngine = ExtendedEngine.__init("RDotNet")
         Call REngine.Initialize()
 
         Return REngine

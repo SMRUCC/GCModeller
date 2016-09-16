@@ -41,7 +41,7 @@ Namespace sparcc
         ''' 装载计算脚本
         ''' </summary>
         Sub New()
-            Call RServer.Evaluate(My.Resources.sparcc)
+            Call R.Evaluate(My.Resources.sparcc)
         End Sub
 
         ''' <summary>
@@ -57,8 +57,8 @@ Namespace sparcc
         ''' <param name="exiter"></param>
         ''' <returns></returns>
         Public Function sparcc(x As String, Optional maxIter As Integer = 20, Optional th As Double = 0.1, Optional exiter As Double = 10) As Correlations
-            Dim out As String() = RServer.WriteLine($"tab <- read.table(""{x.UnixPath}"",header=T);")
-            Dim result = RServer.Evaluate($"thisX <- sparcc(tab, {maxIter}, {th}, {exiter});")
+            Dim out As String() = R.WriteLine($"tab <- read.table(""{x.UnixPath}"",header=T);")
+            Dim result = R.Evaluate($"thisX <- sparcc(tab, {maxIter}, {th}, {exiter});")
             Dim list = result.AsList.ToArray
             Dim i As New Pointer
             Dim corr As Double() = list(++i).AsNumeric.ToArray
