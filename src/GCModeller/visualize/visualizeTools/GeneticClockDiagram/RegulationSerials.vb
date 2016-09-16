@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.InteractionModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Mathematical
 
 <[Namespace]("plot.regulation.serials", Description:="")> Module RegulationSerials
 

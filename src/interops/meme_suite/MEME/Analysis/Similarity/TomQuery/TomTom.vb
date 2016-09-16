@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
@@ -231,7 +232,7 @@ Nucleic Acids Res. 2005 Jul 1;33(Web Server issue):W438-41.",
         ''' 
         <ExportAPI("PCC")>
         Public Function PCC(X As ResidueSite, Y As ResidueSite) As Double
-            Dim value As Double = Microsoft.VisualBasic.Correlations.GetPearson(X, Y)
+            Dim value As Double = Correlations.GetPearson(X, Y)
             Return value
         End Function
 

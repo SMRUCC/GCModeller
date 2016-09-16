@@ -28,6 +28,7 @@
 Imports System.Web.Script.Serialization
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Mathematical
 
 ''' <summary>
 ''' Simple site information of the TF motif site.

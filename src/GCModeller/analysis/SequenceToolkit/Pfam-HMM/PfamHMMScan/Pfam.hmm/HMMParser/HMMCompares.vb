@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Mathematical
 
 Public Module HMMCompares
 

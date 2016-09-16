@@ -33,6 +33,7 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
