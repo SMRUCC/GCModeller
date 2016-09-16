@@ -280,8 +280,11 @@ Huber, W.",
             Call "Start running R analysis....".__DEBUG_ECHO
 
             Try
-                Dim STD As String() = RServer.WriteLine(RScript)
-                Call Console.WriteLine(String.Join(vbCrLf, STD))
+                SyncLock R
+                    With R
+                        Call .WriteLine(RScript).JoinBy(vbCrLf).__DEBUG_ECHO
+                    End With
+                End SyncLock
             Catch ex As Exception
                 ex = New Exception(RScript, ex)
                 Call ex.PrintException
@@ -357,8 +360,13 @@ Huber, W.",
             Call TryInit(Settings.Session.GetSettingsFile.R_HOME)
 
             Try
-                Dim STD As String() = RServer.WriteLine(ScriptBuilder.ToString)
-                Call Console.WriteLine(String.Join(vbCrLf, STD))
+                SyncLock R
+                    With R
+                        Call .WriteLine(ScriptBuilder.ToString) _
+                                .JoinBy(vbCrLf) _
+                                .__DEBUG_ECHO
+                    End With
+                End SyncLock
             Catch ex As Exception
                 Call Console.WriteLine(ex.ToString)
             End Try
@@ -472,8 +480,13 @@ Huber, W.",
             Call RScript.Replace("<MAplot.png>", Export & "/MAplot.png")
             Call RScript.Replace("<DIR.Source>", SourceDir)
 
-            Call RScript.ToString.SaveTo(Export & "/Invoke_DESeq2.txt", System.Text.Encoding.ASCII)
-            Call RServer.WriteLine(RScript.ToString)
+            Call RScript.SaveTo(Export & "/Invoke_DESeq2.txt", Encoding.ASCII)
+
+            SyncLock R
+                With R
+                    .call = RScript.ToString
+                End With
+            End SyncLock
 
             Return True
         End Function
@@ -496,7 +509,6 @@ Huber, W.",
                                           <Parameter("anno.gff", "The gff format genome annotation file, which can be achieved from the ncbi FTP in the same directory of ptt annotation file.")>
                                           annoGFF As String) As RDotNET.SymbolicExpression
             Dim GTF As String = annoGFF.Replace("\", "/")
-            Dim STD As String()
             Dim anno As String =
             $"gffFile <- ""{GTF}"";
                  gff0 <- import(gffFile,format=""gff3"", version=""3"" , asRangedData=F);
@@ -525,29 +537,32 @@ library(GenomicAlignments)
                 vbCrLf & anno & vbCrLf & Script & vbCrLf & DESeq2R
 
             Call DebugScript.SaveTo(Settings.DataCache & "/DEseq.r.txt")
-            Call Console.WriteLine(DebugScript)
+            Call DebugScript.__DEBUG_ECHO
 
-            Try
-                STD = RServer.WriteLine(anno)
-            Catch ex As Exception
-                Throw New Exception(anno & vbCrLf & vbCrLf & ex.ToString)
-            End Try
+            SyncLock R
+                With R
+                    Try
+                        .call = anno
+                    Catch ex As Exception
+                        Throw New Exception(anno & vbCrLf & vbCrLf & ex.ToString)
+                    End Try
 
-            Try
-                STD = RServer.WriteLine(Script)
-            Catch ex As Exception
-                Throw New Exception(Script & vbCrLf & vbCrLf & ex.ToString)
-            End Try
+                    Try
+                        .call = Script
+                    Catch ex As Exception
+                        Throw New Exception(Script & vbCrLf & vbCrLf & ex.ToString)
+                    End Try
 
-            Try
-                STD = RServer.WriteLine(DESeq2R)
-            Catch ex As Exception
-                Throw New Exception(DESeq2R & vbCrLf & vbCrLf & ex.ToString)
-            End Try
+                    Try
+                        .call = DESeq2R
+                    Catch ex As Exception
+                        Throw New Exception(DESeq2R & vbCrLf & vbCrLf & ex.ToString)
+                    End Try
 
-            Dim result As RDotNET.SymbolicExpression =
-                RServer.GetSymbol("resOrdered")
-            Return result
+                    Dim result As RDotNET.SymbolicExpression = .GetSymbol("resOrdered")
+                    Return result
+                End With
+            End SyncLock
         End Function
     End Module
 End Namespace

@@ -61,12 +61,15 @@ Module Program
 
         library("lpSolve")
 
-        Dim out As String() = RServer.WriteLine("p <- lp(objective.in=c(5, 8),
+        SyncLock R
+            With R
+                Dim out As String() = .WriteLine("p <- lp(objective.in=c(5, 8),
 const.mat= Matrix(c(1, 1, 1, 2), nrow = 2),
 const.rhs= c(2, 3),
 const.dir=c(""<="", ""=""), direction=""max"");
 p$solution;")
-
-        Call out.JoinBy(vbCrLf).__DEBUG_ECHO
+                Call out.JoinBy(vbCrLf).__DEBUG_ECHO
+            End With
+        End SyncLock
     End Sub
 End Module

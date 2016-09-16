@@ -113,7 +113,7 @@ Namespace PfsNET
                                 Optional b As String = "0.5",
                                 Optional t1 As String = "0.95",
                                 Optional t2 As String = "0.85",
-                                Optional n As String = "1000") As RDotNet.SymbolicExpression
+                                Optional n As String = "1000") As SymbolicExpression
 
             Call Console.WriteLine()
 
@@ -121,8 +121,12 @@ Namespace PfsNET
             file2 = FileIO.FileSystem.GetFileInfo(file2).FullName
             file3 = FileIO.FileSystem.GetFileInfo(file3).FullName
 
-            Dim Script = New PfsNETScript(b, t1, t2, n) With {.File1 = file1, .File2 = file2, .File3 = file3}
-            Dim Expr = RServer.Evaluate(Script.RScript)
+            Dim Script As New PfsNETScript(b, t1, t2, n) With {
+                .File1 = file1,
+                .File2 = file2,
+                .File3 = file3
+            }
+            Dim Expr As SymbolicExpression = Script.__call
 
             Try
                 Call Script.RScript.SaveTo("./PfsNET.txt")
@@ -170,7 +174,12 @@ Namespace PfsNET
                 .File3 = file3
             }
 
-            STDOutput = RServer.WriteLine(script)
+            SyncLock R
+                With R
+                    STDOutput = .WriteLine(script)
+                End With
+            End SyncLock
+
             STDOutput = LinqAPI.Exec(Of String) <=
  _
                 From strLine As String

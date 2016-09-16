@@ -164,22 +164,29 @@ Public Class DataPreparations
 
         '建模操作
         Call Console.WriteLine("Start to modelling the protein interaction Bayesian network...")
-        Dim StandardOutput As String() = RServer.WriteLine(New BnlearnModelling(SequenceAssemble(TargetHomologous, TargetHomologousPartners, pairsFile)))
-        Call Console.WriteLine("Modelling job done!")
 
         '利用所建立的模型求解具体的蛋白质互作问题
-        Dim ResultInteractions As DocumentStream.File = New DocumentStream.File
-        Call ResultInteractions.Add(New String() {"GeneId", "InteractionPartner", "Possibilities"})
-        Call Console.WriteLine("Predicting protein interactions...")
+        Dim ResultInteractions As New DocumentStream.File
 
-        For Each item In pairsFilePretend.Skip(1)
-            Dim seqPair = SequenceAssemble(TargetHomologous, TargetHomologousPartners, New KeyValuePair(Of String, String)(item(0), item(1)))
-            Dim stpwatch = Stopwatch.StartNew
-            StandardOutput = RServer.WriteLine(New BnlearnInference(seqPair.Key, seqPair.Value)) '对未知的两个蛋白质之间的互作问题做出推测
-            Call item.Add(StandardOutput.First)
-            Call Console.WriteLine("{0} -> {1}  P(A|B):={2}, {3}ms", item(0), item(1), item(2), stpwatch.ElapsedMilliseconds)
-            Call ResultInteractions.Add(item)
-        Next
+        SyncLock R
+            With R
+                Dim model As New BnlearnModelling(SequenceAssemble(TargetHomologous, TargetHomologousPartners, pairsFile))
+                Dim StandardOutput As String() = .WriteLine(model)
+
+                Call Console.WriteLine("Modelling job done!")
+                Call ResultInteractions.Add(New String() {"GeneId", "InteractionPartner", "Possibilities"})
+                Call Console.WriteLine("Predicting protein interactions...")
+
+                For Each x In pairsFilePretend.Skip(1)
+                    Dim seqPair = SequenceAssemble(TargetHomologous, TargetHomologousPartners, New KeyValuePair(Of String, String)(x(0), x(1)))
+                    Dim stpwatch = Stopwatch.StartNew
+                    StandardOutput = .WriteLine(New BnlearnInference(seqPair.Key, seqPair.Value)) '对未知的两个蛋白质之间的互作问题做出推测
+                    Call x.Add(StandardOutput.First)
+                    Call Console.WriteLine("{0} -> {1}  P(A|B):={2}, {3}ms", x(0), x(1), x(2), stpwatch.ElapsedMilliseconds)
+                    Call ResultInteractions.Add(x)
+                Next
+            End With
+        End SyncLock
 
         Call Console.WriteLine("Prediction job done!" & vbCrLf)
         Call Console.WriteLine("==================END_OF_PREDITION_OF ""{0}""=====================", GeneId)

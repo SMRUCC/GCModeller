@@ -72,21 +72,26 @@ Public Class FBAlpRSolver : Implements IDisposable
         printf("Please wait for a while...")
         script = lpSolveRModel.RScript
         printf("Compile job done! \nstart to solve this FBA model using R.")
-
         printf("Pushing the R script to the REngine...")
-        Call RServer.Evaluate(script)
-        printf("FBA model computation job done!")
 
-        printf("Get the objective function value...")
-        Dim Objective As String = RServer.WriteLine("get.objective(lprec)")(Scan0)  'Get Objective Function value
+        SyncLock R
+            With R
+                .call = script
 
-        printf("Get the flux value for each reaction...")
-        Dim FluxsDistribution As String() = RServer.WriteLine("get.variables(lprec)")
+                printf("FBA model computation job done!")
 
-        Return New lpOUT With {
-            .Objective = Objective,
-            .FluxsDistribution = FluxsDistribution
-        }
+                printf("Get the objective function value...")
+                Dim Objective As String = .WriteLine("get.objective(lprec)")(Scan0)  'Get Objective Function value
+
+                printf("Get the flux value for each reaction...")
+                Dim FluxsDistribution As String() = .WriteLine("get.variables(lprec)")
+
+                Return New lpOUT With {
+                    .Objective = Objective,
+                    .FluxsDistribution = FluxsDistribution
+                }
+            End With
+        End SyncLock
     End Function
 
     Private Function __initLpSolver() As Boolean

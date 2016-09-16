@@ -243,12 +243,15 @@ Imports RDotNET.SymbolicExpressionExtension
         Dim s_X As String = String.Format("X <- c({0})", String.Join(",", X))
         Dim s_nLevel As String = String.Format("n.levels <- {0}", nlevels)
         Dim s_Invoke As String = String.Format("modwt(X, filter=""{0}"", n.levels, boundary=""{1}"", fast={2})", filter, boundary, fast.ToString.ToUpper)
-        Dim STDOUT As String()
 
-        STDOUT = RServer.WriteLine(s_X)
-        STDOUT = RServer.WriteLine(s_nLevel)
+        SyncLock R
+            With R
+                .call = s_X
+                .call = s_nLevel
+            End With
+        End SyncLock
 
-        Dim Expr As RDotNET.SymbolicExpression = RServer.Evaluate(s_Invoke)
+        Dim Expr As RDotNET.SymbolicExpression = s_Invoke.__call
         Return Waveletmodwt.Load(Expr)
     End Function
 
@@ -285,12 +288,15 @@ Imports RDotNET.SymbolicExpressionExtension
         Dim s_X As String = String.Format("X <- c({0})", String.Join(",", X))
         Dim s_nLevel As String = String.Format("n.levels <- {0}", nlevels)
         Dim s_Invoke As String = String.Format("dwt(X, filter=""{0}"", n.levels, boundary=""{1}"", fast={2})", filter, boundary, fast.ToString.ToUpper)
-        Dim STDOUT As String()
 
-        STDOUT = RServer.WriteLine(s_X)
-        STDOUT = RServer.WriteLine(s_nLevel)
+        SyncLock R
+            With R
+                .call = s_X
+                .call = s_nLevel
+            End With
+        End SyncLock
 
-        Dim Expr As RDotNET.SymbolicExpression = RServer.Evaluate(s_Invoke)
+        Dim Expr As RDotNET.SymbolicExpression = R.Evaluate(s_Invoke)
         Return Expr
     End Function
 
