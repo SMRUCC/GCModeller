@@ -396,7 +396,9 @@ Public Module App
     Dim _tmpHash As New Uid
 
     Private Function __getTEMPhash() As String
-        Return FormatZero(++_tmpHash, "00000")
+        SyncLock _tmpHash
+            Return FormatZero(++_tmpHash, "00000")
+        End SyncLock
     End Function
 
     ''' <summary>
@@ -820,8 +822,9 @@ Public Module App
             }
             Return process
         Else
-            Dim process As New IORedirectFile(app, cli)
-            Return process
+            Return New IORedirect(app, cli)
+            ' Dim process As New IORedirectFile(app, cli)
+            ' Return process
         End If
     End Function
 
@@ -849,7 +852,7 @@ Public Module App
                 Let task As Func(Of Integer) = AddressOf io.Run
                 Select task
 
-            Call BatchTask(Of Integer)(Tasks, parallel)
+            Call BatchTask(Of Integer)(Tasks, parallel, TimeInterval:=10)
         End If
 
         Return sw.ElapsedMilliseconds

@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Threads
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
@@ -375,14 +376,15 @@ Partial Module Utilities
         Dim cutoff As Double = args.GetValue("/cutoff", 0.6)
         Dim maxDist As Integer = args.GetValue("/max-dist", 35)
         Dim inFasta As FastaFile = FastaFile.LoadNucleotideData(input)
-        Dim numThreads As Integer = args.GetValue("/num_threads", -1)
-        Dim CLI As String() =
-            inFasta.ToArray(
-            Function(fa) __hairpinksCLI(fa, out, min, max, cutoff, maxDist))
 
-        numThreads = LQuerySchedule.AutoConfig(numThreads)
+        For Each fa As FastaToken In inFasta
+            Dim path As String = out & "/" & fa.Title.NormalizePathString & ".csv"
+            If Not fa.SearchHairpinks(min, max, cutoff, maxDist).SaveTo(path) Then
+                Throw New Exception(fa.GetJson)
+            End If
+        Next
 
-        Return App.SelfFolks(CLI, numThreads)
+        Return 0
     End Function
 
     Private Function __hairpinksCLI(fasta As FastaToken,
@@ -487,57 +489,8 @@ Partial Module Utilities
         Dim cutoff As Integer = args.GetValue("/cutoff", 3)
         Dim maxDist As Integer = args.GetValue("/max-dist", 35)
         Dim inFasta As FastaToken = FastaToken.Load(input)
-
-        Dim search As New TextIndexing(inFasta.SequenceData, min, max)
-        Dim resultSet As ImperfectPalindrome() =
-            LinqAPI.Exec(Of ImperfectPalindrome) <= From segment As TextSegment
-                                                    In search.PreCache
-                                                    Let result As ImperfectPalindrome =
-                                                        Found(inFasta,
-                                                            segment,
-                                                            cutoff,
-                                                            search,
-                                                            maxDist,
-                                                            max)
-                                                    Where Not result Is Nothing
-                                                    Select result
+        Dim resultSet = inFasta.SearchHairpinks(min, max, cutoff, maxDist)
         Return resultSet.SaveTo(out)
-    End Function
-
-    Private Function Found(inFasta As FastaToken,
-                           segment As TextSegment,
-                           cutoff As Integer,
-                           search As TextIndexing,
-                           maxDist As Integer,
-                           max As Integer) As ImperfectPalindrome
-
-        If Regex.Match(segment.Segment, "[-]+").Value.Equals(segment.Segment) Then
-            Return Nothing
-        End If
-
-        Dim palin As String = PalindromeLoci.GetPalindrome(segment.Segment)  ' 当前片段所计算出来的完全匹配的回文位点
-        Dim start As Integer = segment.Index + segment.Array.Length + maxDist * 0.95
-        Dim parPiece As String = Mid(inFasta.SequenceData, start, max + 5)  ' 实际的位点
-        Dim dist = LevenshteinDistance.ComputeDistance(palin, parPiece)
-
-        If dist Is Nothing Then Return Nothing
-
-        Dim maxMatch As Integer = search.IsMatch(dist.DistEdits, cutoff)
-
-        If maxMatch <= 0 Then Return Nothing
-
-        Dim result As New ImperfectPalindrome With {
-            .Site = segment.Segment,
-            .Left = segment.Index,
-            .Palindrome = parPiece,
-            .Paloci = start,
-            .Distance = dist.Distance,
-            .Evolr = dist.DistEdits,
-            .Matches = dist.Matches,
-            .Score = dist.Score,
-            .MaxMatch = maxMatch
-        }
-        Return result
     End Function
 
     <ExportAPI("--ToVector",
