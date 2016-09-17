@@ -84,14 +84,21 @@ Public Class SeqDiff : Implements sIdEnumerable
         For Each fa In mla
             Dim key As String = fa.Title.NormalizePathString
             If Not files.ContainsKey(key) Then
+                Call key.Warning
                 Continue For
             End If
-            Dim data = files(key).LoadCsv(Of ImperfectPalindrome)
-            Dim uid As String = fa.Attributes.First & fa.Attributes.Last
-            dict(uid).data.Add($"{title}.distance(Avg)", data.Average(Function(x) x.Distance))
-            dict(uid).data.Add($"{title}.score(Avg)", data.Average(Function(x) x.Score))
-            dict(uid).data.Add($"{title}.maxMatch(Avg)", data.Average(Function(x) x.MaxMatch))
-            dict(uid).data.Add($"{title}.count", data.Count)
+            Try
+                Dim data = files(key).LoadCsv(Of ImperfectPalindrome)
+                Dim uid As String = fa.Attributes.First & fa.Attributes.Last
+                dict(uid).data.Add($"{title}.distance(Avg)", data.Average(Function(x) x.Distance))
+                dict(uid).data.Add($"{title}.score(Avg)", data.Average(Function(x) x.Score))
+                dict(uid).data.Add($"{title}.maxMatch(Avg)", data.Average(Function(x) x.MaxMatch))
+                dict(uid).data.Add($"{title}.count", data.Count)
+            Catch ex As Exception
+                ex = New Exception(files(key).ToFileURL, ex)
+                Call ex.PrintException
+                Call App.LogException(ex)
+            End Try
         Next
     End Sub
 
@@ -113,13 +120,19 @@ Public Class SeqDiff : Implements sIdEnumerable
             End If
             Dim uid As String = fa.Attributes.First & fa.Attributes.Last
             Dim seq As SeqDiff = dict(uid)
-            If rev Then
-                Dim data = files(key).LoadCsv(Of RevRepeatsView)
-                Call __repeatsData(Of RevRepeatsView)(data, seq)
-            Else
-                Dim data = files(key).LoadCsv(Of RepeatsView)
-                Call __repeatsData(Of RepeatsView)(data, seq)
-            End If
+            Try
+                If rev Then
+                    Dim data = files(key).LoadCsv(Of RevRepeatsView)
+                    Call __repeatsData(Of RevRepeatsView)(data, seq)
+                Else
+                    Dim data = files(key).LoadCsv(Of RepeatsView)
+                    Call __repeatsData(Of RepeatsView)(data, seq)
+                End If
+            Catch ex As Exception
+                ex = New Exception(files(key).ToFileURL, ex)
+                Call ex.PrintException
+                Call App.LogException(ex)
+            End Try
         Next
     End Sub
 
