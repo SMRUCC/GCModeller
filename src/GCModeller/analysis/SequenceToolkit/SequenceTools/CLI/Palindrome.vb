@@ -450,6 +450,7 @@ Partial Module Utilities
 
     <ExportAPI("--PerfectPalindrome.Filtering",
                Usage:="--PerfectPalindrome.Filtering /in <inDIR> [/min <8> /out <outDIR>]")>
+    <ParameterInfo("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
     Public Function FilterPerfectPalindrome(args As CommandLine) As Integer
         Dim LQuery = (From file As String
                       In FileIO.FileSystem.GetFiles(args("/in"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv")
@@ -477,6 +478,7 @@ Partial Module Utilities
 
     <ExportAPI("--Hairpinks",
                Usage:="--Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 /max-dist <35 (bp)>]")>
+    <ParameterInfo("/out", True, AcceptTypes:={GetType(ImperfectPalindrome)})>
     Public Function Hairpinks(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim out As String = args.GetValue("/out", input.TrimSuffix & ".hairpink.csv")
