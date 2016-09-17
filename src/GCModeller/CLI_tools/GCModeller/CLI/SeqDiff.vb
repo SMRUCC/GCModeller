@@ -20,8 +20,8 @@ Public Class SeqDiff : Implements sIdEnumerable
             .uid = attrs(Scan0),
             .Date = attrs.Last,
             .Tag = attrs(1),
-            .Host = If(attrs.Length = 5, attrs(2), attrs(3)),
-            .Location = If(attrs.Length = 5, attrs(3), attrs(4)),
+            .Host = If(attrs.Length = 5 OrElse attrs.Length = 4, attrs(2), attrs(3)),
+            .Location = If(attrs.Length = 4, attrs(2), If(attrs.Length = 5, attrs(3), attrs(4))),
             .data = New Dictionary(Of String, String)
         }
     End Function
@@ -33,17 +33,19 @@ Public Class SeqDiff : Implements sIdEnumerable
 
         Dim gcSkewData = OutlierAnalysis(mla, quantiles, winsize, steps, slideSize, AddressOf GCSkew)
         Dim gcContentData = OutlierAnalysis(mla, quantiles, winsize, steps, slideSize, AddressOf GCContent)
-        Dim dict As Dictionary(Of SeqDiff) = bufs.ToDictionary
+        Dim dict As Dictionary(Of String, SeqDiff) = bufs.ToDictionary(Function(x) x.uid & x.Date)
 
         Call __addData(dict, gcSkewData, "GCSkew")
         Call __addData(dict, gcContentData, "GC%")
     End Sub
 
-    Private Shared Sub __addData(ByRef dict As Dictionary(Of SeqDiff), data As IEnumerable(Of lociX), title As String)
+    Private Shared Sub __addData(ByRef dict As Dictionary(Of String, SeqDiff), data As IEnumerable(Of lociX), title As String)
         Dim g = From x As lociX
                 In data
-                Select x
-                Group x By uid = x.Title.Split("|"c).First Into Group
+                Let attrs As String() = x.Title.Split("|"c)
+                Let uid = attrs.First & attrs.Last
+                Select x, uid
+                Group x By uid Into Group
 
         For Each x In g
             Dim qg = From o As lociX
