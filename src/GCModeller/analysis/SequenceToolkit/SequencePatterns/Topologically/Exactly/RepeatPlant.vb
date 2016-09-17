@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::d508bb2b1dd8a1bb675e2012e141aae5, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatPlant.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Language
 
 Namespace Topologically
 
@@ -52,6 +53,9 @@ Namespace Topologically
         End Function
     End Class
 
+    ''' <summary>
+    ''' 正向重复位点的序列模型
+    ''' </summary>
     Public Class RepeatsView : Implements ILoci
         Implements I_PolymerSequenceModel
 
@@ -69,16 +73,19 @@ Namespace Topologically
         End Function
 
         Public Shared Function TrimView(data As Generic.IEnumerable(Of RepeatsLoci)) As RepeatsView()
-            Dim LQuery = (From loci As RepeatsLoci
-                          In data
-                          Select loci
-                          Group loci By loci.RepeatLoci Into Group).ToArray
-            Dim views = (From loci In LQuery
-                         Let pos As Integer() = loci.Group.ToArray(Function(site) CInt(site.LociLeft))
-                         Select New RepeatsView With {
-                             .SequenceData = loci.RepeatLoci,
-                             .Left = pos.Min,
-                             .Locis = pos}).ToArray
+            Dim LQuery = From loci As RepeatsLoci
+                         In data
+                         Select loci
+                         Group loci By loci.RepeatLoci Into Group
+            Dim views = LinqAPI.Exec(Of RepeatsView) <=
+                From loci
+                In LQuery
+                Let pos As Integer() = loci.Group.ToArray(Function(site) CInt(site.LociLeft))
+                Select New RepeatsView With {
+                    .SequenceData = loci.RepeatLoci,
+                    .Left = pos.Min,
+                    .Locis = pos
+                }
             Return views
         End Function
 
@@ -146,6 +153,9 @@ Namespace Topologically
         End Property
     End Class
 
+    ''' <summary>
+    ''' 反向重复序列的模型，继承于<see cref="RepeatsView"/>模型
+    ''' </summary>
     Public Class RevRepeatsView : Inherits RepeatsView
         Implements ILoci
         Implements I_PolymerSequenceModel
@@ -181,7 +191,7 @@ Namespace Topologically
                 Dim loci = (From n As Integer
                             In RevLocis
                             Select n
-                            Order By n Ascending).ToArray.CreateSlideWindows(2)
+                            Order By n Ascending).CreateSlideWindows(2)
                 Dim avgDist As Double = loci.ToArray(
                     Function(lo) _
                         If(lo.Elements.IsNullOrEmpty OrElse

@@ -39,14 +39,15 @@ Partial Module Utilities
                Usage:="Search.Batch /aln <alignment.fasta> [/min 3 /max 20 /min-rep 2 /out <./>]")>
     <ParameterInfo("/aln", False,
                    Description:="The input fasta file should be the output of the clustal multiple alignment fasta output.")>
+    <ParameterInfo("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(RevRepeatsView)})>
     Public Function BatchSearch(args As CommandLine) As Integer
         Dim Mla As FastaFile = args.GetObject("/aln", AddressOf FastaFile.Read)
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim MinAppeared As Integer = args.GetValue("/min-rep", 2)
-        Dim SaveDir As String = args.GetValue("/out", "./")
+        Dim EXPORT As String = args.GetValue("/out", "./")
 
-        Call Topologically.BatchSearch(Mla, Min, Max, MinAppeared, SaveDir)
+        Call Topologically.BatchSearch(Mla, Min, Max, MinAppeared, EXPORT)
 
         Return 0
     End Function

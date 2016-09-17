@@ -27,8 +27,18 @@ Public Module GCOutlier
         End Select
     End Function
 
+    ''' <summary>
+    ''' 计算分析DNA序列之上的特别突出的位点
+    ''' </summary>
+    ''' <param name="mla"></param>
+    ''' <param name="quantiles"></param>
+    ''' <param name="winsize"></param>
+    ''' <param name="steps"></param>
+    ''' <param name="slideSize"></param>
+    ''' <param name="method"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Iterator Function Outlier(mla As IEnumerable(Of FastaToken), quantiles As Double(),
+    Public Iterator Function OutlierAnalysis(mla As IEnumerable(Of FastaToken), quantiles As Double(),
                                      Optional winsize As Integer = 250,
                                      Optional steps As Integer = 50,
                                      Optional slideSize As Integer = 5,

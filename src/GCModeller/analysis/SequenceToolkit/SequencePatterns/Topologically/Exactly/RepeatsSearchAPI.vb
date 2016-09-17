@@ -291,7 +291,7 @@ RETURN_VALUE:
         End Sub
 
         ''' <summary>
-        ''' Batch search for the repeats and reversed repeats sequence feature sites.
+        ''' Batch search for the repeats and reversed repeats sequence feature sites. ``<see cref="RepeatsView"/>`` and ``<see cref="RevRepeatsView"/>``
         ''' </summary>
         ''' <param name="Mla"></param>
         ''' <param name="Min"></param>
