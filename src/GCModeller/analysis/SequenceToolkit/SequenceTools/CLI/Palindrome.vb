@@ -278,7 +278,7 @@ Partial Module Utilities
     ''' <returns></returns>
     Private Function __palindromeTask(fasta As FastaToken, EXPORT As String, min As Integer, max As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
-        Dim Temp As String = App.GetAppSysTempFile(".fasta")
+        Dim Temp As String = App.GetAppSysTempFile(".fasta", App.PID)
         Dim CLI As String = $"--Palindrome.From.Fasta /nt {Temp.CliPath} /out {csv.CliPath} /min {min} /max {max}"
         Call fasta.SaveTo(Temp)
 
@@ -392,7 +392,7 @@ Partial Module Utilities
                                     cutoff As Double,
                                     maxDist As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
-        Dim Temp As String = App.GetAppSysTempFile(".fasta")
+        Dim Temp As String = App.GetAppSysTempFile(".fasta", App.PID)
         Dim CLI As String = $"--Hairpinks /in {Temp.CliPath} /out {csv.CliPath} /min {min} /max {max} /cutoff {cutoff} /max-dist {maxDist}"
         Call fasta.SaveTo(Temp)
 
