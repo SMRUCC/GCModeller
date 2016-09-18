@@ -51,30 +51,30 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Partial Module Utilities
 
     <ExportAPI("/Select.By_Locus",
-               Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta.inDIR> [/out <out.fasta>]")>
+               Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/out <out.fasta>]")>
     Public Function SelectByLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim fa As String = args("/fa")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & ".fasta")
-        Dim fasta As IEnumerable(Of String) =
-            ls - l - r - wildcards("*.faa", "*.fasta", "*.fsa", "*.fa") <= fa
+        Dim fasta As FastaToken() =
+            StreamIterator.SeqSource(fa, "*.faa", "*.fasta", "*.fsa", "*.fa").ToArray
         Dim locus As String() = [in].ReadAllLines
 
-        Call $"Found {fasta.Count} fasta files in source DIR  {fa}".__DEBUG_ECHO
+        Call $"Found {fasta.Length} fasta files in source DIR  {fa}".__DEBUG_ECHO
 
-        Dim seqHash As Dictionary(Of String, FastaToken) =
-            (From file As String
-             In fasta
-             Select New FastaFile(file)).MatrixAsIterator _
-                                        .ToDictionary(Function(x) x.Attributes.First.Split.First.Trim)
-
+        Dim seqHash As Dictionary(Of String, FastaToken()) = (From x
+                                                              In fasta
+                                                              Let uid As String = x.Attributes.First.Split.First.Trim
+                                                              Select x,
+                                                                uid
+                                                              Group x By uid Into Group).ToDictionary(Function(x) x.uid, Function(x) x.Group.ToArray)
         Call $"Files loads {seqHash.Count} sequence...".__DEBUG_ECHO
 
-        Dim LQuery As IEnumerable(Of FastaToken) = From sId As String
-                                                   In locus
-                                                   Where seqHash.ContainsKey(sId)
-                                                   Select seqHash(sId)
-        Dim outFa As New FastaFile(LQuery)
+        Dim LQuery As IEnumerable(Of FastaToken()) = From sId As String
+                                                     In locus
+                                                     Where seqHash.ContainsKey(sId)
+                                                     Select seqHash(sId)
+        Dim outFa As New FastaFile(LQuery.MatrixAsIterator)
 
         Return outFa.Save(out, Encodings.ASCII)
     End Function

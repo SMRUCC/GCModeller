@@ -72,6 +72,7 @@ Partial Module Utilities
     <ExportAPI("--Palindrome.From.NT",
                Info:="This function is just for debugger test, /nt parameter is the nucleotide sequence data as ATGCCCC",
                Usage:="--Palindrome.From.NT /nt <nt-sequence> /out <out.csv> [/min <3> /max <20>]")>
+    <ParameterInfo("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     Public Function SearchPalindromeNT(args As CommandLine) As Integer
         Dim NT As New FastaToken With {
             .SequenceData = args("/nt"),
@@ -111,6 +112,7 @@ Partial Module Utilities
     <ExportAPI("--Mirror.From.NT",
                Usage:="--Mirror.From.NT /nt <nt-sequence> /out <out.csv> [/min <3> /max <20>]",
                Info:="Mirror Palindrome, and this function is for the debugging test")>
+    <ParameterInfo("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     Public Function SearchMirrotNT(args As CommandLine) As Integer
         Dim NT As New FastaToken With {
            .SequenceData = args("/nt"),
@@ -126,6 +128,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Mirrors.Nt.Trim", Usage:="/Mirrors.Nt.Trim /in <mirrors.Csv> [/out <out.Csv>]")>
+    <ParameterInfo("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     Public Function TrimNtMirrors(args As CommandLine) As Integer
         Dim [in] As String = args.GetFullFilePath("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & NameOf(TrimNtMirrors) & ".Csv")
@@ -163,6 +166,7 @@ Partial Module Utilities
 
     <ExportAPI("/Mirror.Fuzzy.Batch",
                Usage:="/Mirror.Fuzzy.Batch /in <in.fasta/DIR> [/out <out.DIR> /cut 0.6 /max-dist 6 /min 3 /max 20 /num_threads <-1>]")>
+    <ParameterInfo("/out", True, AcceptTypes:={(GetType(PalindromeLoci))})>
     Public Function FuzzyMirrorsBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim cut As Double = args.GetValue("/cut", 0.6)
@@ -193,6 +197,7 @@ Partial Module Utilities
                    Description:="Calculation in the multiple process mode?",
                    AcceptTypes:={GetType(Boolean)})>
     <ParameterInfo("/nt", False, AcceptTypes:={GetType(FastaFile)})>
+    <ParameterInfo("/out", True, AcceptTypes:={GetType(PalindromeLoci)})>
     Public Function MirrorBatch(args As CommandLine) As Integer
         Dim NT As New FastaFile(args - "/nt")
         Dim out As String = args.GetValue("/out", args("/nt").TrimSuffix & "-Mirror/")
@@ -375,7 +380,7 @@ Partial Module Utilities
         Dim max As Integer = args.GetValue("/max", 7)
         Dim cutoff As Double = args.GetValue("/cutoff", 0.6)
         Dim maxDist As Integer = args.GetValue("/max-dist", 35)
-        Dim inFasta As FastaFile = FastaFile.LoadNucleotideData(input)
+        Dim inFasta As New FastaFile(input)
 
         For Each fa As FastaToken In inFasta
             Dim path As String = out & "/" & fa.Title.NormalizePathString & ".csv"
