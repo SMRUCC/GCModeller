@@ -1,39 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::ac40c2401c229f111937f821dc5276f5, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\Palindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Topologically
@@ -103,6 +107,61 @@ Namespace Topologically
     <PackageNamespace("Palindrome.Search",
                       Publisher:="xie.guigang@gcmodeller.org", Url:="http://gcmodeller.org")>
     Public Module Palindrome
+
+        <Extension>
+        Public Function SearchHairpinks(fa As FastaToken,
+                                        Optional min As Integer = 6,
+                                        Optional max As Integer = 8,
+                                        Optional cutoff As Integer = 3,
+                                        Optional maxDist As Integer = 35) As ImperfectPalindrome()
+            Dim search As New TextIndexing(fa.SequenceData, min, max)
+
+            Return LinqAPI.Exec(Of ImperfectPalindrome) <=
+ _
+                From segment As TextSegment
+                In search.PreCache.AsParallel
+                Let result As ImperfectPalindrome =
+                    Found(fa, segment, cutoff, search, maxDist, max)
+                Where Not result Is Nothing
+                Select result
+
+        End Function
+
+        Private Function Found(inFasta As FastaToken,
+                           segment As TextSegment,
+                           cutoff As Integer,
+                           search As TextIndexing,
+                           maxDist As Integer,
+                           max As Integer) As ImperfectPalindrome
+
+            If Regex.Match(segment.Segment, "[-]+").Value.Equals(segment.Segment) Then
+                Return Nothing
+            End If
+
+            Dim palin As String = PalindromeLoci.GetPalindrome(segment.Segment)  ' 当前片段所计算出来的完全匹配的回文位点
+            Dim start As Integer = segment.Index + segment.Array.Length + maxDist * 0.95
+            Dim parPiece As String = Mid(inFasta.SequenceData, start, max + 5)  ' 实际的位点
+            Dim dist = LevenshteinDistance.ComputeDistance(palin, parPiece)
+
+            If dist Is Nothing Then Return Nothing
+
+            Dim maxMatch As Integer = search.IsMatch(dist.DistEdits, cutoff)
+
+            If maxMatch <= 0 Then Return Nothing
+
+            Dim result As New ImperfectPalindrome With {
+            .Site = segment.Segment,
+            .Left = segment.Index,
+            .Palindrome = parPiece,
+            .Paloci = start,
+            .Distance = dist.Distance,
+            .Evolr = dist.DistEdits,
+            .Matches = dist.Matches,
+            .Score = dist.Score,
+            .MaxMatch = maxMatch
+        }
+            Return result
+        End Function
 
         <ExportAPI("Palindrome.Vector")>
         Public Function PalindromeLociVector(DIR As String, Length As Integer) As Double()

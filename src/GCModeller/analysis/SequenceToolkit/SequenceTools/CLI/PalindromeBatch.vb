@@ -35,9 +35,30 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
+
+    <ExportAPI("/check.attrs", Usage:="/check.attrs /in <in.fasta> /n <attrs.count> [/all]")>
+    Public Function CheckHeaders(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim n As Integer = args("/n")
+        Dim all As Boolean = args.GetBoolean("/all")
+
+        For Each fa As FastaToken In New FastaFile([in])
+            If fa.Attributes.Length <> n OrElse fa.ToString.Length > 220 Then
+                Call Console.WriteLine(fa.ToString)
+                If Not all Then  ' 默认是停止于遇到的第一条序列
+                    Exit For
+                End If
+            End If
+        Next
+
+        Call Console.WriteLine("DONE!")
+
+        Return 0
+    End Function
 
     <ExportAPI("/Palindrome.BatchTask",
                Usage:="/Palindrome.BatchTask /in <in.DIR> [/num_threads 4 /min 3 /max 20 /min-appears 2 /cutoff <0.6> /Palindrome /max-dist <1000 (bp)> /partitions <-1> /out <out.DIR>]")>
