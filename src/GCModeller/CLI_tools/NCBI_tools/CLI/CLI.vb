@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
@@ -263,6 +264,80 @@ Module CLI
 
             Call Taxono.Save(out, data, index)
         Next
+
+        Return 0
+    End Function
+
+    ''' <summary>
+    ''' 假若参考序列文件标题之中已经存在了物种分类信息，则可以使用这个函数直接解析赋值，而不再需要加载NCBI的库文件来获取物种信息
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Assign.Taxonomy.From.Ref", Usage:="/Assign.Taxonomy.From.Ref /in <in.DIR> /ref <nt.taxonomy.fasta> [/index <Name> /non-BIOM /out <out.DIR>]")>
+    Public Function AssignTaxonomyFromRef(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim ref As String = args("/ref")
+        Dim index As String = args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
+        Dim outDIR As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy/")
+        Dim tax As New Dictionary(Of String, String)
+
+        For Each fa In New StreamIterator(ref).ReadStream
+            Dim title As String = fa.Title
+            Dim uid As String = fa.Attributes.First.Split.First
+            tax(uid) = title
+        Next
+
+        For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
+            Dim data = Taxono.Load(file, index)
+            Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
+
+            For Each x In data
+                If tax.ContainsKey(x.Tag) Then
+                    x.Taxonomy = tax(x.Tag)
+                End If
+            Next
+
+            Call Taxono.Save(out, data, index)
+        Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Associates.Brief", Usage:="/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
+    Public Function Associates(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim lsWords As String() = args("/ls").ReadAllLines.Where(Function(s) Not String.IsNullOrEmpty(Trim(s))).ToArray(Function(s) s.Trim.ToLower)
+        Dim outDIR As String = args.GetValue("/out", [in].TrimDIR & ".associates.tsv")
+        Dim index As String = args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
+        Dim output As StreamWriter = outDIR.OpenWriter
+
+        For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
+            Dim data = Taxono.Load(file, index)
+            Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
+
+            For Each x In data
+                If x.Taxonomy Is Nothing Then
+                    Continue For
+                End If
+                For Each line As String In lsWords
+                    Dim words = line.Split ' 小写的
+                    Dim tax = x.Taxonomy.ToLower.Split
+
+                    For Each xx In tax
+                        For Each y In words
+                            Dim compare = Text.Similarity.Match(xx, y)
+                            If Not compare Is Nothing AndAlso compare.Score >= 0.6 Then
+                                Call output.WriteLine(String.Join(vbTab, xx, x.Taxonomy, line, x.Values.GetJson))
+                            End If
+                        Next
+                    Next
+                Next
+            Next
+        Next
+
+        output.Flush()
+        output.Close()
+        output.Dispose()
 
         Return 0
     End Function
