@@ -228,7 +228,7 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic_App\DocumentFormats\VB_HTML\VB_HTML\MarkupLanguage.vbproj">
+    <ProjectReference Include="..\..\runtime\visualbasic_App\DocumentFormats\html\MarkupLanguage.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>MarkupLanguage</Name>
     </ProjectReference>
