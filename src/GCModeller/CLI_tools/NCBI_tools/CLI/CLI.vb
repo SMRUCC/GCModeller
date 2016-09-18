@@ -303,6 +303,45 @@ Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Associates.Brief", Usage:="/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
+    Public Function Associates(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim lsWords As String() = args("/ls").ReadAllLines.Where(Function(s) Not String.IsNullOrEmpty(Trim(s))).ToArray(Function(s) s.Trim.ToLower)
+        Dim outDIR As String = args.GetValue("/out", [in].TrimDIR & ".associates.tsv")
+        Dim index As String = args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
+        Dim output As StreamWriter = outDIR.OpenWriter
+
+        For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
+            Dim data = Taxono.Load(file, index)
+            Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
+
+            For Each x In data
+                If x.Taxonomy Is Nothing Then
+                    Continue For
+                End If
+                For Each line As String In lsWords
+                    Dim words = line.Split ' 小写的
+                    Dim tax = x.Taxonomy.ToLower.Split
+
+                    For Each xx In tax
+                        For Each y In words
+                            Dim compare = Text.Similarity.Match(xx, y)
+                            If Not compare Is Nothing AndAlso compare.Score >= 0.6 Then
+                                Call output.WriteLine(String.Join(vbTab, xx, x.Taxonomy, line, x.Values.GetJson))
+                            End If
+                        Next
+                    Next
+                Next
+            Next
+        Next
+
+        output.Flush()
+        output.Close()
+        output.Dispose()
+
+        Return 0
+    End Function
+
     Public Class Taxono : Inherits ITaxon
 
         Public Property Tag As String
