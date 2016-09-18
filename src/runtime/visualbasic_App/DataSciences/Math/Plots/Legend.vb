@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.MarkupLanguage.CSS
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MarkupLanguage.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class Legend
@@ -10,7 +12,11 @@ Public Class Legend
     ''' CSS expression, which can be parsing by <see cref="CSSFont"/> 
     ''' </summary>
     ''' <returns></returns>
-    Public Property font As String
+    Public Property fontstyle As String
+
+    Public Function GetFont() As Font
+        Return CSSFont.TryParse(fontstyle).GDIObject
+    End Function
 
     Public Overrides Function ToString() As String
         Return Me.GetJson
@@ -24,3 +30,11 @@ Public Enum LegendStyles
     DashLine
     Diamond
 End Enum
+
+Public Module LegendPlotExtensions
+
+    <Extension>
+    Public Function DrawLegend(ByRef g As Graphics, pos As Point, l As Legend) As SizeF
+
+    End Function
+End Module

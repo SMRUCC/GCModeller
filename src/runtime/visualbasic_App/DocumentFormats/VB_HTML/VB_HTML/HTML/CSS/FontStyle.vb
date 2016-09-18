@@ -81,21 +81,32 @@ Namespace CSS
             End Select
         End Function
 
-        Public Shared Function TryParse(css As String) As CSSFont
-            Dim tokens As String() = css.Split(";"c)
-            Dim styles As Dictionary(Of String, String) = tokens _
-                .Select(Function(s) s.GetTagValue(":", True)) _
-                .ToDictionary(Function(x) x.Name.ToLower,
-                              Function(x) x.x)
-            Dim font As New CSSFont
+        ''' <summary>
+        ''' Parsing font style data from the css expression string.
+        ''' </summary>
+        ''' <param name="css"></param>
+        ''' <param name="[default]">On failure return this default value</param>
+        ''' <returns></returns>
+        Public Shared Function TryParse(css As String, Optional [default] As CSSFont = Nothing) As CSSFont
+            Try
+                Dim tokens As String() = css.Split(";"c)
+                Dim styles As Dictionary(Of String, String) = tokens _
+                    .Select(Function(s) s.GetTagValue(":", True)) _
+                    .ToDictionary(Function(x) x.Name.ToLower,
+                                  Function(x) x.x)
+                Dim font As New CSSFont
 
-            If styles.ContainsKey("font-style") Then font.style = GetStyle(styles("font-style"))
-            If styles.ContainsKey("font-size") Then font.size = CSng(Val(styles("font-size"))) Else font.size = 12
-            If styles.ContainsKey("font-family") Then font.family = styles("font-family") Else font.family = FontFace.MicrosoftYaHei
-            If styles.ContainsKey("font-weight") Then font.weight = CSng(Val(styles("font-weight")))
-            If styles.ContainsKey("font-variant") Then font.variant = styles("font-variant")
+                If styles.ContainsKey("font-style") Then font.style = GetStyle(styles("font-style"))
+                If styles.ContainsKey("font-size") Then font.size = CSng(Val(styles("font-size"))) Else font.size = 12
+                If styles.ContainsKey("font-family") Then font.family = styles("font-family") Else font.family = FontFace.MicrosoftYaHei
+                If styles.ContainsKey("font-weight") Then font.weight = CSng(Val(styles("font-weight")))
+                If styles.ContainsKey("font-variant") Then font.variant = styles("font-variant")
 
-            Return font
+                Return font
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Return [default]
+            End Try
         End Function
 
         Public Overrides Function ToString() As String
