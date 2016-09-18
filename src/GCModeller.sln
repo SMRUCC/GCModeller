@@ -191,7 +191,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DocumentFormat.Word", "runt
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VB_RDF", "runtime\visualbasic_App\DocumentFormats\RDF\RDF\VB_RDF.vbproj", "{20912FF3-CE68-497C-854D-21E372F11D7C}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DocumentFormat.MarkupLanguage", "runtime\visualbasic_App\DocumentFormats\VB_HTML\VB_HTML\DocumentFormat.MarkupLanguage.vbproj", "{2DD4BE80-DDC3-4767-94A7-10F1C3395716}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MarkupLanguage", "runtime\visualbasic_App\DocumentFormats\VB_HTML\VB_HTML\MarkupLanguage.vbproj", "{2DD4BE80-DDC3-4767-94A7-10F1C3395716}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.Imaging", "runtime\visualbasic_App\Datavisualization\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj", "{85E71B4B-9276-4EC8-AADC-C849205F1EA8}"
 EndProject

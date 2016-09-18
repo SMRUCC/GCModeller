@@ -161,9 +161,9 @@
       <Project>{062afa7d-1e0d-48f8-b07d-fb74aeefa5d6}</Project>
       <Name>DocumentFormat.Word</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_HTML\VB_HTML\DocumentFormat.MarkupLanguage.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_HTML\VB_HTML\MarkupLanguage.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>DocumentFormat.MarkupLanguage</Name>
+      <Name>MarkupLanguage</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
