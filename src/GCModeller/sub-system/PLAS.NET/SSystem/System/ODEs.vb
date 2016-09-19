@@ -14,7 +14,7 @@ Namespace Kernel
         ''' <param name="model"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function RunSystem(model As Script.Model) As out
+        Public Function RunSystem(model As Script.Model) As ODEsOut
             Dim vars = LinqAPI.Exec(Of var) <=
                 From x As ObjectModels.var
                 In model.Vars

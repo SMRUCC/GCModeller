@@ -29,9 +29,9 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 
-Namespace Drawing2D.VectorElements
+Namespace Drawing2D.Vector.Shapes
 
-    Public Class Line : Inherits LayoutsElement
+    Public Class Line : Inherits Shape
 
         Dim pt1 As Point, pt2 As Point
         Dim BrushPen As Pen
