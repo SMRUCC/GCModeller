@@ -30,9 +30,9 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
 
-Namespace Drawing2D.VectorElements
+Namespace Drawing2D.Vector.Shapes
 
-    Public Class Triangle : Inherits LayoutsElement
+    Public Class Triangle : Inherits Shape
 
         Public Property Color As Color
 

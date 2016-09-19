@@ -29,9 +29,12 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 
-Namespace Drawing2D.VectorElements
+Namespace Drawing2D.Vector.Shapes
 
-    Public MustInherit Class LayoutsElement
+    ''' <summary>
+    ''' 矢量图形
+    ''' </summary>
+    Public MustInherit Class Shape
 
         Public Property Location As Point
         Public Property TooltipTag As String
@@ -61,12 +64,12 @@ Namespace Drawing2D.VectorElements
 
         Protected MustOverride Sub InvokeDrawing()
 
-        Public Function MoveTo(pt As Point) As LayoutsElement
+        Public Function MoveTo(pt As Point) As Shape
             Location = pt
             Return Me
         End Function
 
-        Public Function MoveOffset(offset As Point) As LayoutsElement
+        Public Function MoveOffset(offset As Point) As Shape
             Location = New Point(Location.X + offset.X, Location.Y + offset.Y)
             Return Me
         End Function

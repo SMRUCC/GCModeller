@@ -27,7 +27,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Text
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -46,7 +46,7 @@ Public Class DrawingModel
 
     Public Function Visualize() As Image
         Dim font As New Font(FontFace.MicrosoftYaHei, 12, FontStyle.Italic)  ' 默认的字体
-        Dim texts As Vectors.Text() = briefs.ToArray(Function(x) Vectors.GetText(x.Name, font))
+        Dim texts As Text() = briefs.ToArray(Function(x) GetText(x.Name, font))
         Dim szs As SizeF() = __getSize(texts)
         Dim maxtLen As Integer = szs.Select(Function(x) x.Width).Max
         Dim cl As SolidBrush = New SolidBrush(Color.Black)
@@ -58,7 +58,7 @@ Public Class DrawingModel
                 Call lnk.Draw(gdi, penWidth)
             Next
 
-            For Each x As SeqValue(Of Vectors.Text) In texts.SeqIterator    '然后绘制基因组的简单表示，以及显示标题
+            For Each x As SeqValue(Of Text) In texts.SeqIterator    '然后绘制基因组的简单表示，以及显示标题
                 Dim y As Integer = briefs(x).Y
                 Dim pt1 As New Point(margin.Width, y)
                 Dim pt2 As New Point(size.Width - margin.Width, y)
@@ -71,7 +71,7 @@ Public Class DrawingModel
         End Using
     End Function
 
-    Private Function __getSize(texts As Vectors.Text()) As SizeF()
+    Private Function __getSize(texts As Text()) As SizeF()
         Using gdi As GDIPlusDeviceHandle = New Size(10, 10).CreateGDIDevice
             Return texts.ToArray(Function(x) x.MeasureString(gdi))
         End Using
