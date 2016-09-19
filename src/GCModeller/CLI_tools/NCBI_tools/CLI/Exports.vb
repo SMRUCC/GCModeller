@@ -113,6 +113,7 @@ Partial Module CLI
                     Dim title As String = fa.Title.ToLower
                     Dim writeData = Sub()
                                         Dim hit As New List(Of String)(attrs)
+                                        hit += "word:=" & word
                                         hit += String.Join("; ", words(word))
                                         Dim write As New FastaToken(hit, fa.SequenceData)
 
@@ -135,6 +136,9 @@ Partial Module CLI
                         Next
                     End If
                 Next
+#If DEBUG Then
+                Console.WriteLine()
+#End If
             Next
         End Using
 
