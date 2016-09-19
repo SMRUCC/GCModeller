@@ -1,15 +1,20 @@
-﻿Imports System.Text
+﻿Imports System.IO
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
-    <ExportAPI("/Filter.Exports", Usage:="/Filter.Exports /in <nt.fasta> /tax <taxonomy_DIR> /gi2taxid <gi2taxid.txt> /words <list.txt> /out <out.DIR>")>
+    <ExportAPI("/Filter.Exports",
+               Usage:="/Filter.Exports /in <nt.fasta> /tax <taxonomy_DIR> /gi2taxid <gi2taxid.txt> /words <list.txt> [/out <out.DIR>]")>
     Public Function FilterExports(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim tax As New NcbiTaxonomyTree(args("/tax"))
@@ -71,6 +76,58 @@ Partial Module CLI
                 End If
             End If
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/nt.matches", Usage:="/nt.matches /in <nt.fasta> /list <words.txt> [/out <out.fasta>]")>
+    Public Function NtKeyMatches(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim list As String = args("/list")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "_" & list.BaseName & ".fasta")
+        Dim terms As String() =
+            list _
+            .ReadAllLines _
+            .Where(Function(s) Not s.IsBlank) _
+            .ToArray(Function(s) s.Trim.ToLower)
+        Dim words As Dictionary(Of String, String()) =
+            (From term In (From line As String
+                           In terms
+                           Let ws As String() = line.Split
+                           Select From w As String
+                                  In ws
+                                  Select termLine = line,
+                                      word = w).MatrixAsIterator
+             Select term
+             Group term.termLine By term.word Into Group) _
+                .ToDictionary(Function(x) x.word,
+                              Function(x) x.Group.Distinct.ToArray)
+
+        Call words.GetJson(True).__DEBUG_ECHO
+
+        Using writer As StreamWriter = out.OpenWriter(encoding:=Encodings.ASCII)
+            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+                Dim attrs As String() = fa.Attributes
+
+                For Each s As String In attrs
+                    For Each x As String In s.Trim.ToLower.Split
+                        For Each word As String In words.Keys
+                            Dim d = LevenshteinDistance.ComputeDistance(x, word)
+                            If d Is Nothing OrElse d.Score < 0.8 Then
+                                Continue For
+                            End If
+
+                            Dim hit As New List(Of String)(attrs)
+                            hit += String.Join("; ", words(word))
+                            Dim write As New FastaToken(hit, fa.SequenceData)
+
+                            Call writer.WriteLine(write.GenerateDocument(120))
+                            Call write.Title.__DEBUG_ECHO
+                        Next
+                    Next
+                Next
+            Next
+        End Using
 
         Return 0
     End Function
