@@ -107,24 +107,33 @@ Partial Module CLI
 
         Using writer As StreamWriter = out.OpenWriter(encoding:=Encodings.ASCII)
             For Each fa As FastaToken In New StreamIterator([in]).ReadStream
-                Dim attrs As String() = fa.Attributes
+                For Each word As String In words.Keys
 
-                For Each s As String In attrs
-                    For Each x As String In s.Trim.ToLower.Split
-                        For Each word As String In words.Keys
-                            Dim d = LevenshteinDistance.ComputeDistance(x, word)
-                            If d Is Nothing OrElse d.Score < 0.8 Then
-                                Continue For
-                            End If
+                    Dim attrs As String() = fa.Attributes
+                    Dim title As String = fa.Title.ToLower
+                    Dim writeData = Sub()
+                                        Dim hit As New List(Of String)(attrs)
+                                        hit += String.Join("; ", words(word))
+                                        Dim write As New FastaToken(hit, fa.SequenceData)
 
-                            Dim hit As New List(Of String)(attrs)
-                            hit += String.Join("; ", words(word))
-                            Dim write As New FastaToken(hit, fa.SequenceData)
+                                        Call writer.WriteLine(write.GenerateDocument(120))
+                                        Call write.Title.__DEBUG_ECHO
+                                    End Sub
 
-                            Call writer.WriteLine(write.GenerateDocument(120))
-                            Call write.Title.__DEBUG_ECHO
+                    If InStr(title, word) > 0 Then
+                        Call writeData()
+                    Else
+                        For Each s As String In attrs
+                            For Each x As String In s.Trim.ToLower.Split
+
+                                Dim d = LevenshteinDistance.ComputeDistance(x, word)
+
+                                If Not (d Is Nothing OrElse d.Score < 0.8) Then
+                                    Call writeData()
+                                End If
+                            Next
                         Next
-                    Next
+                    End If
                 Next
             Next
         End Using
