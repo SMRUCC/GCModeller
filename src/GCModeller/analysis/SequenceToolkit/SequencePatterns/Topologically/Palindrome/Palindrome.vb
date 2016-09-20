@@ -108,12 +108,23 @@ Namespace Topologically
                       Publisher:="xie.guigang@gcmodeller.org", Url:="http://gcmodeller.org")>
     Public Module Palindrome
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="fa"></param>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
+        ''' <param name="cutoff"></param>
+        ''' <param name="maxDist"></param>
+        ''' <param name="minMatch">至少需要连续匹配这么多个碱基</param>
+        ''' <returns></returns>
         <Extension>
         Public Function SearchHairpinks(fa As FastaToken,
                                         Optional min As Integer = 6,
                                         Optional max As Integer = 8,
                                         Optional cutoff As Integer = 3,
-                                        Optional maxDist As Integer = 35) As ImperfectPalindrome()
+                                        Optional maxDist As Integer = 35,
+                                        Optional minMatch As Integer = 3) As ImperfectPalindrome()
             Dim search As New TextIndexing(fa.SequenceData, min, max)
 
             Return LinqAPI.Exec(Of ImperfectPalindrome) <=
@@ -122,17 +133,18 @@ Namespace Topologically
                 In search.PreCache.AsParallel
                 Let result As ImperfectPalindrome =
                     Found(fa, segment, cutoff, search, maxDist, max)
-                Where Not result Is Nothing
+                Where Not result Is Nothing AndAlso
+                    result.MaxMatch >= minMatch
                 Select result
 
         End Function
 
         Private Function Found(inFasta As FastaToken,
-                           segment As TextSegment,
-                           cutoff As Integer,
-                           search As TextIndexing,
-                           maxDist As Integer,
-                           max As Integer) As ImperfectPalindrome
+                               segment As TextSegment,
+                               cutoff As Integer,
+                               search As TextIndexing,
+                               maxDist As Integer,
+                               max As Integer) As ImperfectPalindrome
 
             If Regex.Match(segment.Segment, "[-]+").Value.Equals(segment.Segment) Then
                 Return Nothing
@@ -150,16 +162,16 @@ Namespace Topologically
             If maxMatch <= 0 Then Return Nothing
 
             Dim result As New ImperfectPalindrome With {
-            .Site = segment.Segment,
-            .Left = segment.Index,
-            .Palindrome = parPiece,
-            .Paloci = start,
-            .Distance = dist.Distance,
-            .Evolr = dist.DistEdits,
-            .Matches = dist.Matches,
-            .Score = dist.Score,
-            .MaxMatch = maxMatch
-        }
+                .Site = segment.Segment,
+                .Left = segment.Index,
+                .Palindrome = parPiece,
+                .Paloci = start,
+                .Distance = dist.Distance,
+                .Evolr = dist.DistEdits,
+                .Matches = dist.Matches,
+                .Score = dist.Score,
+                .MaxMatch = maxMatch
+            }
             Return result
         End Function
 
