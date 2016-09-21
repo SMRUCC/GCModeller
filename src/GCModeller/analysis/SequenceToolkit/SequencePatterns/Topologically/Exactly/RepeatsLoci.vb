@@ -63,8 +63,8 @@ Namespace Topologically
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function GenerateDocumentSegment() As Topologically.RepeatsLoci()
-            Dim LQuery As RepeatsLoci() =
-                LinqAPI.Exec(Of RepeatsLoci) <=
+            Dim LQuery As RepeatsLoci() = LinqAPI.Exec(Of RepeatsLoci) <=
+ _
                 From revLoci As Integer
                 In Me.Locations
                 Select From loci As Integer
@@ -76,6 +76,7 @@ Namespace Topologically
                            .RevLociLeft = revLoci
                        }
                        Select DirectCast(site, Topologically.RepeatsLoci)
+
             Return LQuery
         End Function
 

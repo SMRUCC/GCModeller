@@ -133,7 +133,7 @@ Namespace Topologically
                 Dim ordLocis = (From n As Integer
                                 In Me.LociProvider
                                 Select n
-                                Order By n Ascending).ToArray.CreateSlideWindows(2)
+                                Order By n Ascending).CreateSlideWindows(2)
                 Dim avgDist As Double = ordLocis.ToArray(
                     Function(loci) _
                         If(loci.Elements.IsNullOrEmpty OrElse
