@@ -27,11 +27,12 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 
 Namespace Compiler.Components
 
@@ -72,7 +73,7 @@ Namespace Compiler.Components
         Public Function Analysis(Model As FileStream.IO.XmlresxLoader, CrossTalks As DocumentStream.File) As CrossTalks()
             Dim RR = CrossTalks.First.Skip(1).ToArray
             Dim p_cache = RR.Sequence
-            Dim LQuery = (From line As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
+            Dim LQuery = (From line As RowObject
                           In CrossTalks.Skip(1).ToArray
                           Let hisk As String = line.First
                           Let scores = line.Skip(1).ToArray

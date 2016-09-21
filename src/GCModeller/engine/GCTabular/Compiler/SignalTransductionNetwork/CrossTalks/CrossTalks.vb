@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Assembly
 
 Namespace Compiler.Components

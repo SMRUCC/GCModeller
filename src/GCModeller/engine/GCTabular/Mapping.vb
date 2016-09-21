@@ -28,8 +28,8 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
@@ -49,9 +49,9 @@ Public Class Mapping : Implements System.IDisposable
     End Sub
 
     Public Class EnzymeGeneMap
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Column("Enzymatic-Reaction")> Public Property EnzymeRxn As String
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.CollectionAttribute("GeneId")> Public Property GeneId As String()
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Column("Common-Name")> Public Property CommonName As String
+        <Column("Enzymatic-Reaction")> Public Property EnzymeRxn As String
+        <CollectionAttribute("GeneId")> Public Property GeneId As String()
+        <Column("Common-Name")> Public Property CommonName As String
 
         Public Overrides Function ToString() As String
             Return CommonName

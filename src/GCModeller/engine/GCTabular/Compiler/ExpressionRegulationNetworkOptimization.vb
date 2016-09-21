@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 
 Public Class ExpressionRegulationNetworkOptimization
 

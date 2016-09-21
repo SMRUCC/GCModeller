@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 
 Namespace DataVisualization
 
@@ -64,7 +64,7 @@ Namespace DataVisualization
 
             Public Function GetValue(p As Integer) As KeyValuePair(Of String, Double)()
                 Dim GetBuffer = Function(ChunkBuffer As String(), Heads As String()) As KeyValuePair(Of String, Double)()
-                                    Dim DataRow = Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject.TryParse(ChunkBuffer(p))
+                                    Dim DataRow = RowObject.TryParse(ChunkBuffer(p))
                                     Dim LQuery = (From i As Integer
                                                   In Heads.Sequence.Skip(1).AsParallel
                                                   Select New KeyValuePair(Of String, Double)(Heads(i), Val(DataRow(i)))).ToArray

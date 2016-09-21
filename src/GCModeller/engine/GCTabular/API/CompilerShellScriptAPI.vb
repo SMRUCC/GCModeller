@@ -27,7 +27,8 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat
 
@@ -35,7 +36,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream
 Public Module CompilerShellScriptAPI
 
     <ExportAPI("model.optimization")>
-    Public Function OptimizationModel(Model As FileStream.IO.XmlresxLoader) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+    Public Function OptimizationModel(Model As FileStream.IO.XmlresxLoader) As DocumentStream.File
         Dim Optimization = New Compiler.Components.MetabolismOptimization()
         Dim result = Optimization.Optimization(Model)
         Return result
