@@ -30,8 +30,8 @@ Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.HTMLWriter
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream.HTMLWriter
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.GCModeller.Workbench.ReportBuilder
