@@ -30,7 +30,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.ComponentModel
