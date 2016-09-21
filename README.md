@@ -21,7 +21,8 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 
 The ``GCModeller`` platform is original writen in ``VisualBasic.NET`` language, a feature bioinformatics analysis environment that .NET language hybrids programming with R language was included, which its SDK is available at repository:
 https://github.com/SMRUCC/R.Bioinformatics
-Currently the R language hybrids programming environment just provides some ``bioconductor`` API for the analysis in ``GCModeller``.
+
+Currently the ``R`` language hybrids programming environment just provides some ``bioconductor`` API for the analysis in ``GCModeller``.
 
 ``GCModeller`` is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits. And some common bioinformatics problem utils tools and common biological database I/O tools is also available in GCModeller for the .NET language programming.
 
