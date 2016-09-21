@@ -31,9 +31,10 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
@@ -482,7 +483,7 @@ Namespace Analysis
                                       Let Counts = (From item In Line Select CStr(item.Counts)).ToArray
                                       Let Array = New String()() {New String() {Line.First.RegulatorTF, ""}, Counts}
                                       Let value = Array.MatrixToVector
-                                      Select CType(value, Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)).ToArray)
+                                      Select CType(value, RowObject)).ToArray)
 
             st = st.MatrixTranspose
 
@@ -497,7 +498,7 @@ Namespace Analysis
             Call CsvFile.AppendLine()
             Call CsvFile.AppendLine(New String() {"Cell Phenotype", "Possible-Significant-Phenotype-Related-Regulator"})
             Call CsvFile.AppendRange((From Line In PossibleSignificantPhenoTypeGene
-                                      Select CType({Line.Type, Line.Genes}, Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)).ToArray)
+                                      Select CType({Line.Type, Line.Genes}, RowObject)).ToArray)
 
             Return CsvFile
         End Function

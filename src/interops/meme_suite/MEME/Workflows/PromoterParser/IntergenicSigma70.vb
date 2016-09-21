@@ -25,25 +25,25 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports SMRUCC.genomics.ContextModel.LocationDescriptions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
-Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.Linq
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.ContextModel.LocationDescriptions
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Workflows.PromoterParser
 
