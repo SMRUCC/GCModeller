@@ -33,6 +33,8 @@ Imports SMRUCC.genomics.Analysis.FBA_DP
 Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models
 Imports SMRUCC.genomics.Model.SBML
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv
 
 Namespace rFBA
 
@@ -104,14 +106,13 @@ Namespace rFBA
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetFBADataPackage() As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
-            Dim CsvData As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Function GetFBADataPackage() As DocumentStream.File
+            Dim CsvData As New DocumentStream.File
             Call CsvData.Add(New String() {"RTime", "ObjectiveFunction"})
             Call CsvData.First.AddRange(rFBAlpModel.GetFluxColumnIds)
             Dim LQuery = (From dataLine In Me.FBADataPackages.AsParallel
-                          Let CreateMethod = Function() As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
-                                                 Dim Row As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject =
-                                                     New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
+                          Let CreateMethod = Function() As RowObject
+                                                 Dim Row As New RowObject
                                                  Call Row.Add(dataLine.Key)
                                                  '    Call Row.Add(dataLine.Value.Key)
                                                  '     Call Row.AddRange(dataLine.Value.Value)
