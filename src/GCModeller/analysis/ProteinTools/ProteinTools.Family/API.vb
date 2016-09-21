@@ -29,7 +29,8 @@ Imports System.Reflection
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem
@@ -176,7 +177,7 @@ Public Module API
     End Function
 
     <ExportAPI("Family.Stat")>
-    Public Function FamilyStat(out As IEnumerable(Of AnnotationOut)) As DocumentFormat.Csv.DocumentStream.File
+    Public Function FamilyStat(out As IEnumerable(Of AnnotationOut)) As File
         Dim protFamily = (From prot As AnnotationOut
                           In out
                           Select prot.LocusId, Family = __trim(prot.Family)).ToArray
@@ -185,7 +186,7 @@ Public Module API
                               In prot.Family
                               Select prot.LocusId, Family = fm).ToArray).ToArray.MatrixToList
         Dim Groups = (From x In LQuery Select x Order By x.Family Group x By x.Family Into Group).ToArray
-        Dim Csv As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Dim Csv As New File
 
         Call Csv.Add("Family", "NumberOfProt", "LocusId")
         For Each FamilySet In Groups
