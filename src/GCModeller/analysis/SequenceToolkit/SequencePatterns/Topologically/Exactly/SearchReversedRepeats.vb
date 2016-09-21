@@ -26,7 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -88,13 +88,22 @@ Namespace Topologically
             Call $"Length={currLen}, Chunk={currentStat.Count}, Removed={currentRemoves.Length}  .......{100 * (currLen - Min) / (Max - Min)}%".__DEBUG_ECHO
         End Sub
 
+        ''' <summary>
+        ''' 获取将要进行移除的片段列表
+        ''' </summary>
+        ''' <param name="currentStat"></param>
+        ''' <returns></returns>
         Protected Overrides Function __getRemovedList(ByRef currentStat As List(Of String)) As String()
-            Dim RemoveList = (From Segment As String
-                              In currentStat.AsParallel
-                              Let revSegment As String = NucleicAcid.Complement(New String(Segment.ToArray.Reverse.ToArray))
-                              Where SequenceData.IndexOf(revSegment) = -1 OrElse
-                                  FindLocation(SequenceData, revSegment).Length < MinAppeared
-                              Select Segment).ToArray '找不到反向序列或者重复的次数少于阈值的，都将会被删除
+            Dim RemoveList As String() = LinqAPI.Exec(Of String) <=
+ _
+                From Segment As String
+                In currentStat.AsParallel
+                Let revStr As String = New String(Segment.ToArray.Reverse.ToArray)
+                Let revSegment As String = NucleicAcid.Complement(revStr)
+                Where SequenceData.IndexOf(revSegment) = -1 OrElse
+                    FindLocation(SequenceData, revSegment).Length < MinAppeared
+                Select Segment '找不到反向序列或者重复的次数少于阈值的，都将会被删除
+
             Return RemoveList
         End Function
     End Class

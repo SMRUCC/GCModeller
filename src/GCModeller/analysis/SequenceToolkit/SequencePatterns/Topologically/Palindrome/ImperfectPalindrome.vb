@@ -32,6 +32,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Topologically
 
+    ''' <summary>
+    ''' 只有一部分的序列是匹配上的回文序列
+    ''' </summary>
     Public Class ImperfectPalindrome : Inherits NucleotideModels.Contig
         Implements ILoci
 

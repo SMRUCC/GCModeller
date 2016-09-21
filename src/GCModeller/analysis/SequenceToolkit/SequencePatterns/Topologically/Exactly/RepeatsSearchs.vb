@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::1b8c35bc9ead59dac83ac5be0113990e, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 
@@ -79,14 +80,16 @@ Namespace Topologically
         ''' </summary>
         ''' <param name="currentStat"></param>
         Protected Overrides Sub __postResult(currentRemoves() As String, currentStat As List(Of String), currLen As Integer)
-            Dim ResultExport = (From NotAppearsSegment As String
-                                In currentRemoves.AsParallel
-                                Let Repeats As Repeats = GenerateRepeats(
-                                    SequenceData,
-                                    NotAppearsSegment,
-                                    MinAppeared)
-                                Where Not Repeats Is Nothing
-                                Select Repeats).ToArray
+            Dim ResultExport As Repeats() = LinqAPI.Exec(Of Repeats) <=
+ _
+                From NotAppearsSegment As String
+                In currentRemoves.AsParallel
+                Let Repeats As Repeats = GenerateRepeats(
+                    SequenceData,
+                    NotAppearsSegment,
+                    MinAppeared)
+                Where Not Repeats Is Nothing
+                Select Repeats
 
             Call ResultSet.AddRange(ResultExport)
             Call CountStatics.AppendLine(New String() {currLen, currentStat.Count, ResultExport.Count})

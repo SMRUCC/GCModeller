@@ -25,12 +25,12 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Language
 
 Namespace Topologically
 
@@ -133,7 +133,7 @@ Namespace Topologically
                 Dim ordLocis = (From n As Integer
                                 In Me.LociProvider
                                 Select n
-                                Order By n Ascending).ToArray.CreateSlideWindows(2)
+                                Order By n Ascending).CreateSlideWindows(2)
                 Dim avgDist As Double = ordLocis.ToArray(
                     Function(loci) _
                         If(loci.Elements.IsNullOrEmpty OrElse

@@ -27,7 +27,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
@@ -75,24 +75,24 @@ Namespace Topologically
         End Function
 
         <ExportAPI("Save")>
-        Public Function SaveDocument(data As Generic.IEnumerable(Of Repeats), <Parameter("Path.Csv")> SaveTo As String) As Boolean
+        Public Function SaveDocument(data As IEnumerable(Of Repeats), <Parameter("Path.Csv")> SaveTo As String) As Boolean
             Return Repeats.CreateDocument(data).SaveTo(SaveTo)
         End Function
 
         <ExportAPI("Save")>
-        Public Function SaveDocument(data As Generic.IEnumerable(Of RevRepeats), <Parameter("Path.Csv")> SaveTo As String) As Boolean
+        Public Function SaveDocument(data As IEnumerable(Of RevRepeats), <Parameter("Path.Csv")> SaveTo As String) As Boolean
             Return RevRepeats.CreateDocument(RevData:=data).SaveTo(SaveTo)
         End Function
 
         <ExportAPI("Save.Rev.Views")>
-        Public Function SaveRevViews(data As Generic.IEnumerable(Of RevRepeats),
+        Public Function SaveRevViews(data As IEnumerable(Of RevRepeats),
                                      <Parameter("Path.Csv")> SaveTo As String) As Boolean
             Dim view = RevRepeatsView.TrimView(data)
             Return view.SaveTo(SaveTo)
         End Function
 
         <ExportAPI("Save.Rep.Views")>
-        Public Function SaveRepeatsViews(data As Generic.IEnumerable(Of Repeats), <Parameter("Path.Csv")> SaveTo As String) As Boolean
+        Public Function SaveRepeatsViews(data As IEnumerable(Of Repeats), <Parameter("Path.Csv")> SaveTo As String) As Boolean
             Dim locis = Repeats.CreateDocument(data)
             Dim views = RepeatsView.TrimView(locis)
             Return views.SaveTo(SaveTo)
@@ -155,8 +155,8 @@ RETURN_VALUE:
                                        Optional MinAppeared As Integer = 2) As KeyValuePair(Of Double(), Double())
             Dim LQuery = (From genome As FastaToken
                           In Mla
-                          Select repeats = Topologically.RepeatsSearchAPI.SearchRepeats(genome, Min, Max, MinAppeared),
-                              rev = Topologically.RepeatsSearchAPI.SearchReversedRepeats(genome, Min, Max, MinAppeared)).ToArray
+                          Select repeats = RepeatsSearchAPI.SearchRepeats(genome, Min, Max, MinAppeared),
+                              rev = RepeatsSearchAPI.SearchReversedRepeats(genome, Min, Max, MinAppeared)).ToArray
             Dim Vecotrs = (From genome In LQuery
                            Let repeatsViews = RepeatsView.TrimView(Repeats.CreateDocument(genome.repeats)),
                                revViews = RevRepeatsView.TrimView(genome.rev)
@@ -253,7 +253,7 @@ RETURN_VALUE:
         ''' <param name="max"></param>
         ''' <param name="minappear"></param>
         ''' <returns></returns>
-        <Extension> Public Function Trim(Of TRepeats As RepeatsView)(data As Generic.IEnumerable(Of TRepeats),
+        <Extension> Public Function Trim(Of TRepeats As RepeatsView)(data As IEnumerable(Of TRepeats),
                                                                      min As Integer,
                                                                      max As Integer,
                                                                      minappear As Integer) As TRepeats()
