@@ -60,7 +60,7 @@ Namespace TaskHost
             Dim type As Type = o.GetType
 
             Me.Type = type.FullName
-            Me.value = JsonContract.GetJson(o, type)
+            Me.value = JsonContract.GetObjectJson(o, type)
         End Sub
 
         Public Overrides Function ToString() As String

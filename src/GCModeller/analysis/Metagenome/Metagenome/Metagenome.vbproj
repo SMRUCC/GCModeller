@@ -181,10 +181,6 @@
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
-      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
-      <Name>+VB_DataFrame</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>

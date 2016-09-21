@@ -64,11 +64,11 @@ Namespace SharedMemory
         ''' </summary>
         ''' <returns></returns>
         Public Function GetValueJson() As String
-            Return JsonContract.GetJson(value, Type.GetType(True))
+            Return JsonContract.GetObjectJson(value, Type.GetType(True))
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"Dim {Identifier} As {Type.ToString} = {JsonContract.GetJson(value, Type.GetType(True))}"
+            Return $"Dim {Identifier} As {Type.ToString} = {JsonContract.GetObjectJson(value, Type.GetType(True))}"
         End Function
     End Class
 

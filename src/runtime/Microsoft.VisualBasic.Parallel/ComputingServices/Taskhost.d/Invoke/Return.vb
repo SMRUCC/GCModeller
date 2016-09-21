@@ -59,7 +59,7 @@ Namespace TaskHost
 
         Sub New(value As Object, type As Type)
             _errCode = HTTP_RFC.RFC_OK
-            _value = JsonContract.GetJson(value, type)
+            _value = JsonContract.GetObjectJson(value, type)
         End Sub
 
         ''' <summary>

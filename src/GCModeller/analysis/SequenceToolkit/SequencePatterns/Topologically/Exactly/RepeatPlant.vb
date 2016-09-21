@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -65,6 +66,25 @@ Namespace Topologically
         Public ReadOnly Property Length As Integer
             Get
                 Return Len(SequenceData)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 每个重复的片段之间平均的间隔长度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable ReadOnly Property IntervalAverages As Double
+            Get
+                Dim orders = Locis.OrderBy(Function(x) x)
+                Dim pre = Left
+                Dim interval As New List(Of Integer)
+
+                For Each x As Integer In orders
+                    interval += (x - pre)
+                    pre = x
+                Next
+
+                Return interval.Average
             End Get
         End Property
 
@@ -198,6 +218,21 @@ Namespace Topologically
                         lo.Elements.Length = 1,
                         1, lo.Elements.Last - lo.Elements.First)).Average
                 Return MyBase.Hot + Len(RevSegment) / avgDist
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property IntervalAverages As Double
+            Get
+                Dim orders = RevLocis.OrderBy(Function(x) x).ToArray
+                Dim pre As Integer = orders.First
+                Dim interval As New List(Of Integer)
+
+                For Each x As Integer In orders.Skip(1)
+                    interval += (x - pre)
+                    pre = x
+                Next
+
+                Return interval.Average
             End Get
         End Property
     End Class

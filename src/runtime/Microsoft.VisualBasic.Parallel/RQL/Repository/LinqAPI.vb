@@ -60,7 +60,7 @@ Namespace Linq
             Dim n As Integer = Scripting.CastInteger(args(LinqAPI.n))
             Dim linq As LinqProvider = GetLinq(__uidMaps(uid))
             Dim source As Object = linq.Moves(n)
-            Dim json As String = JsonContract.GetJson(source, linq.BaseType)
+            Dim json As String = JsonContract.GetObjectJson(source, linq.BaseType)
             Return json
         End Function
 

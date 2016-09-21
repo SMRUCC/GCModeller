@@ -135,7 +135,7 @@ Namespace TaskHost
         Private Function __moveNext(CA As Long, args As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
             Dim readEnds As Boolean
             Dim value As Object = Moves(1, readEnds)
-            Dim json As String = JsonContract.GetJson(value, _type)
+            Dim json As String = JsonContract.GetObjectJson(value, _type)
             Dim flag As Long = If(Not readEnds, Protocols.TaskProtocols.ReadsDone, HTTP_RFC.RFC_OK)
             Return New RequestStream(flag, flag, json)
         End Function
