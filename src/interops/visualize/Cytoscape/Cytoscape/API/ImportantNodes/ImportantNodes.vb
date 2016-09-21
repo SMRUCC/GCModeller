@@ -26,16 +26,16 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
-Imports SMRUCC.genomics.InteractionModel
-Imports SMRUCC.genomics.InteractionModel.Regulon
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.InteractionModel
+Imports SMRUCC.genomics.InteractionModel.Regulon
+Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Namespace API.ImportantNodes
 

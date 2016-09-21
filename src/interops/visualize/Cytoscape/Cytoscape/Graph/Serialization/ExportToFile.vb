@@ -1,41 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::ef08f31e2bb9472ea79dbf56288b22ec, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Reflector
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream.NameOf
-Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.ComponentModels
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Linq
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.Reflector
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
 Namespace CytoscapeGraphView.Serialization
 
