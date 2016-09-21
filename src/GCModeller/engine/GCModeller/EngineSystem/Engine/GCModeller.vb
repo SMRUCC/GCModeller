@@ -28,11 +28,12 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Logging
-Imports Microsoft.VisualBasic.MemoryDump
+Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Serialization.MemoryDump
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
@@ -155,7 +156,7 @@ Namespace EngineSystem.Engine
             My.Computer.FileSystem.CurrentDirectory = My.Application.Info.DirectoryPath
             Me.ExperimentSystem = New ObjectModels.ExperimentSystem.ExperimentManageSystem(KernelModule)
 
-            Me.SystemActivityRecordList = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+            Me.SystemActivityRecordList = New DocumentStream.File
             Me.ShellScriptDevie = New ShellScript(Me)
 
             Call Me.SystemActivityRecordList.Add(New String() {"#TIME", "Transcription", "Translation", "Metabolism", "SUM()", "pH", "SignalTransductionNetwork"})
@@ -200,9 +201,9 @@ Namespace EngineSystem.Engine
 #If Not DEBUG Then
             Try
 #End If
-            For Me._RTime = 0 To KernelProfile.KernelLoops
-                If __innerTicks(_RTime) < 0 Then Exit For
-            Next
+                For Me._RTime = 0 To KernelProfile.KernelLoops
+                    If __innerTicks(_RTime) < 0 Then Exit For
+                Next
 #If Not DEBUG Then
             Catch ex As Exception
                 Call _SystemLogging.WriteLine(ex.ToString, "GCModeller->RUN()", Type:=Logging.MSG_TYPES.ERR)

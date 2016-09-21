@@ -25,13 +25,14 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns
 
 Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
 

@@ -25,11 +25,13 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Visualize.Circos
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
-Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
-Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
@@ -37,14 +39,12 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
 Imports SMRUCC.genomics.SequenceModel.Patterns
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize
-Imports Microsoft.VisualBasic.CommandLine
+Imports SMRUCC.genomics.Visualize.Circos
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
 <PackageNamespace("Circos.CLI",
                   Category:=APICategories.CLI_MAN,

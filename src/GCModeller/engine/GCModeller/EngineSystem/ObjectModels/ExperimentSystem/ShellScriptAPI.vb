@@ -26,12 +26,12 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap.IMapBuilder
-Imports Microsoft.VisualBasic.Scripting.ShoalShell
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.ShoalShell
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap.IMapBuilder
 
 Namespace EngineSystem.ObjectModels.ExperimentSystem
 
