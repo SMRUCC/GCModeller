@@ -267,10 +267,6 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\DocumentFormats\VB_DataFrame\VB_DataFrame\+VB_DataFrame.vbproj">
-      <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
-      <Name>+VB_DataFrame</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\workbench\Model_Repository\RQL\RQL.vbproj">
       <Project>{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}</Project>
       <Name>RQL</Name>
