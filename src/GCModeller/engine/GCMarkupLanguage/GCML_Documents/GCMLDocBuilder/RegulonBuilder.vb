@@ -25,7 +25,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
 
@@ -33,7 +34,7 @@ Namespace Builder
 
     Public Class RegulonBuilder : Inherits IBuilder
 
-        Dim Data As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject()
+        Dim Data As RowObject()
 
         Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel, DataPackage As DocumentStream.File, Optional FirstLineTitle As Boolean = True)
             MyBase.New(MetaCyc, Model)
