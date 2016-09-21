@@ -31,7 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -128,7 +128,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("MotifDist.Create")>
-    Public Function CreateMotifDist(dat As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File) As Gendist
+    Public Function CreateMotifDist(dat As DocumentStream.File) As Gendist
         Return MatrixFile.Gendist.CreateMotifDistrMAT(dat)
     End Function
 

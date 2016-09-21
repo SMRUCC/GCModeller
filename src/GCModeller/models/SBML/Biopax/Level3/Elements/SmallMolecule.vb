@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.RDF
+Imports Microsoft.VisualBasic.MIME.RDF
 Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 
 <XmlType("SmallMolecule")>
