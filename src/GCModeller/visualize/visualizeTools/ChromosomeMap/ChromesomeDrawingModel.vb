@@ -26,19 +26,17 @@
 #End Region
 
 Imports System.Drawing
-
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.CommandLine
-
-Imports Oracle.Java.IO.Properties.Reflector
 Imports System.Text
-Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.ComponentModel
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace ChromosomeMap.DrawingModels
