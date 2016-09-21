@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::f3c1d40651b4c211da50678a7266271e, ..\interops\RNA-Seq\BOW\HTSeq\HtseqCountMethod.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,7 +30,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -173,7 +174,7 @@ Public Module HtseqCountMethod
                 End If
             End If
 
-            Dim Row As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject From {locusId}
+            Dim Row As New RowObject From {locusId}
 
             If Not (From obj In dataExpr0 Where obj.expr.Count > 1 Select obj).ToArray.IsNullOrEmpty Then
                 Call $"Warning! There are duplicated tag value ""{Feature}"" ===> ""{locusId}"" in the experiment data!".__DEBUG_ECHO
@@ -447,14 +448,14 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
                           Select name = feature.attributes("name").ToUpper).ToArray
             For Each loci In counts
                 Dim feature As Value(Of Integer) = features(loci)
-                feature.Value += 1
+                feature.value += 1
             Next
         Next
 
         Dim Lines As CountResult() = (From Feature In features
                                       Let count As CountResult = New CountResult With {
                                               .Feature = Feature.Key,
-                                              .Counts = CDbl(Feature.Value.Value)
+                                              .Counts = CDbl(Feature.Value.value)
                                           }
                                       Select count).ToArray
         Return Lines
