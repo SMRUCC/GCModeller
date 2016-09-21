@@ -28,7 +28,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.GCModeller.Assembly
@@ -46,7 +46,7 @@ Module ProteinDomain
     ''' <param name="TargetFile">目标蛋白质序列数据库</param>
     ''' <param name="ExportSaved">保存的结果数据CSV文件的文件路径</param>
     ''' <remarks></remarks>
-    Public Function SMART(TargetFile As String, GrepText As String, ExportSaved As String) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+    Public Function SMART(TargetFile As String, GrepText As String, ExportSaved As String) As DocumentStream.File
         If String.IsNullOrEmpty(GrepText) Then
             GrepText = "tokens | 2"
         End If
@@ -57,7 +57,7 @@ Module ProteinDomain
         Call Process.Start(WaitForExit:=True)
         Call printf("END_OF_SMART_ANALYSIS")
 
-        Return Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load(ExportSaved)
+        Return DocumentStream.File.Load(ExportSaved)
     End Function
 
     Public Function AddingRules(MetaCyc As DatabaseLoadder,
@@ -133,7 +133,7 @@ Module ProteinDomain
     ''' </summary>
     ''' <returns>{DomainId, Protein-UniqueId()}</returns>
     ''' <remarks></remarks>
-    Private Function GetList(Rules As Rule(), DomainDistributionList As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File) As Dictionary(Of String, String())
+    Private Function GetList(Rules As Rule(), DomainDistributionList As DocumentStream.File) As Dictionary(Of String, String())
         Dim AllDomains As List(Of String) = New List(Of String)
         For Each Rule In Rules
             Call AllDomains.AddRange(Rule.GetDomains)

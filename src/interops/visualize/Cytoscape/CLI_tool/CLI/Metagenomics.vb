@@ -28,7 +28,8 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Model.Network.BLAST.API
@@ -124,9 +125,9 @@ Partial Module CLI
     Public Function MatrixToNetwork(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network.Csv")
-        Dim Csv = DocumentFormat.Csv.DocumentStream.File.Load(Path:=inFile)
+        Dim Csv = DocumentStream.File.Load(Path:=inFile)
         Dim ids As String() = Csv.First.Skip(1).ToArray
-        Dim net As New List(Of DataVisualization.Network.FileStream.NetworkEdge)
+        Dim net As New List(Of NetworkEdge)
         Dim cutoff As Double = args.GetDouble("/cutoff")
 
         For Each row As DocumentStream.RowObject In Csv.Skip(1)
@@ -137,7 +138,7 @@ Partial Module CLI
                 Dim n As Double = values(i)
 
                 If n <> 0R AndAlso Not Double.IsNaN(n) AndAlso n <= cutoff Then
-                    Dim edge As New DataVisualization.Network.FileStream.NetworkEdge With {
+                    Dim edge As New NetworkEdge With {
                         .FromNode = from,
                         .Confidence = n,
                         .ToNode = ids(i)

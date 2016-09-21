@@ -28,9 +28,9 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
@@ -43,9 +43,9 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
 Imports xCytoscape.GCModeller.FileSystem
 Imports xCytoscape.GCModeller.FileSystem.KEGG.Directories
-Imports ______NETWORK__ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
-    Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node,
-    Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge)
+Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
+    Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
+    Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
 
 Partial Module CLI
 
