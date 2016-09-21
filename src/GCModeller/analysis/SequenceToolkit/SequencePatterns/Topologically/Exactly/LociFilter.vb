@@ -31,24 +31,38 @@ Public Module LociFilter
                               data As IEnumerable(Of T),
                            Optional interval As Integer = 2000,
                            Optional compare As Compares = Compares.Interval,
-                           Optional returnsAll As Boolean = False) As IEnumerable(Of T)
+                           Optional returnsAll As Boolean = False,
+                           Optional lenMin As Integer = 4) As IEnumerable(Of T)
         Return data.__filtering(
             Function(x) x.Locis,
             Sub(x, l) x.Locis = l,
             interval,
             compare,
-            returnsAll)
+            returnsAll, lenMin)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="data"></param>
+    ''' <param name="getLocis"></param>
+    ''' <param name="setLocis"></param>
+    ''' <param name="interval"></param>
+    ''' <param name="compare"></param>
+    ''' <param name="returnsAll"></param>
+    ''' <param name="lengthMin">重复片段的最小长度</param>
+    ''' <returns></returns>
     <Extension>
     Private Iterator Function __filtering(Of T As RepeatsView)(data As IEnumerable(Of T),
                                                                getLocis As Func(Of T, Integer()),
                                                                setLocis As Action(Of T, Integer()),
                                                                interval As Integer,
                                                                compare As Compares,
-                                                               returnsAll As Boolean) As IEnumerable(Of T)
+                                                               returnsAll As Boolean,
+                                                               lengthMin As Integer) As IEnumerable(Of T)
         If compare = Compares.FromLoci Then
-            For Each loci As T In data
+            For Each loci As T In data.Where(Function(x) x.SequenceData.Length >= lengthMin)
                 Dim locis = LinqAPI.Exec(Of Integer) <=
                     From x As Integer
                     In getLocis(loci)
@@ -66,7 +80,7 @@ Public Module LociFilter
                 End If
             Next
         Else
-            For Each loci As T In data
+            For Each loci As T In data.Where(Function(x) x.SequenceData.Length >= lengthMin)
                 Dim orders As Integer() =
                     getLocis(loci).OrderBy(Function(x) x).ToArray
                 Dim locis As New List(Of Integer)
@@ -106,11 +120,12 @@ Public Module LociFilter
     Public Function FilteringRev(data As IEnumerable(Of RevRepeatsView),
                                  Optional interval As Integer = 2000,
                                  Optional compare As Compares = Compares.Interval,
-                                 Optional returnsAll As Boolean = False) As IEnumerable(Of RevRepeatsView)
+                                 Optional returnsAll As Boolean = False,
+                                 Optional lenMin As Integer = 4) As IEnumerable(Of RevRepeatsView)
         Return data.__filtering(Function(x) x.RevLocis,
                                 Sub(x, rl) x.RevLocis = rl,
                                 interval,
                                 compare,
-                                returnsAll)
+                                returnsAll, lenMin)
     End Function
 End Module
