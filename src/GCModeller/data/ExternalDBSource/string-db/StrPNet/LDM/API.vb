@@ -30,8 +30,8 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.StringDB.StrPNet.TCS
 Imports SMRUCC.genomics.Model.SBML
@@ -46,7 +46,7 @@ Namespace StringDB.StrPNet
         Public Function ExportNetwork(Pathway As Pathway, TFRegulations As TFRegulation(), Inducers As SensorInducers()) As NetworkEdge()
             Dim RegulatedObjects = TFRegulations.GetItems(Pathway.TF)
 
-            Dim ChunkList As List(Of Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge) = New List(Of DataVisualization.Network.FileStream.NetworkEdge)
+            Dim ChunkList As New List(Of NetworkEdge)
 
             If Not Pathway.OCS.IsNullOrEmpty Then
                 For Each OCS_Pathway In Pathway.OCS
@@ -68,26 +68,31 @@ Namespace StringDB.StrPNet
             Return ChunkList.ToArray
         End Function
 
-        Private Function TFBinding(RR As String, TF As String, Confidence As Double) As DataVisualization.Network.FileStream.NetworkEdge
-            Return New DataVisualization.Network.FileStream.NetworkEdge With {.FromNode = RR, .ToNode = TF, .InteractionType = "ProteinComplexAssembly", .Confidence = Confidence}
+        Private Function TFBinding(RR As String, TF As String, Confidence As Double) As NetworkEdge
+            Return New NetworkEdge With {
+                .FromNode = RR,
+                .ToNode = TF,
+                .InteractionType = "ProteinComplexAssembly",
+                .Confidence = Confidence
+            }
         End Function
 
-        Private Function ChemotaxisInduction(Sensor As String, Inducers As String()) As DataVisualization.Network.FileStream.NetworkEdge()
-            Dim LQuery = (From Inducer As String In Inducers Select New DataVisualization.Network.FileStream.NetworkEdge With {.FromNode = Inducer, .ToNode = Sensor, .InteractionType = "ChemotaxisInduction", .Confidence = 1}).ToArray
+        Private Function ChemotaxisInduction(Sensor As String, Inducers As String()) As NetworkEdge()
+            Dim LQuery = (From Inducer As String In Inducers Select New NetworkEdge With {.FromNode = Inducer, .ToNode = Sensor, .InteractionType = "ChemotaxisInduction", .Confidence = 1}).ToArray
             Return LQuery
         End Function
 
-        Private Function PhosphoTransfer(Donor As String, Reciever As String, Confidence As Double) As DataVisualization.Network.FileStream.NetworkEdge
-            Return New DataVisualization.Network.FileStream.NetworkEdge With {.FromNode = Donor, .ToNode = Reciever, .InteractionType = "PhosphoTransfer", .Confidence = Confidence}
+        Private Function PhosphoTransfer(Donor As String, Reciever As String, Confidence As Double) As NetworkEdge
+            Return New NetworkEdge With {.FromNode = Donor, .ToNode = Reciever, .InteractionType = "PhosphoTransfer", .Confidence = Confidence}
         End Function
 
-        Private Function Regulation(TFRegulations As TFRegulation()) As DataVisualization.Network.FileStream.NetworkEdge()
-            Dim ChunkList As List(Of DataVisualization.Network.FileStream.NetworkEdge) = New List(Of DataVisualization.Network.FileStream.NetworkEdge)
+        Private Function Regulation(TFRegulations As TFRegulation()) As NetworkEdge()
+            Dim ChunkList As New List(Of NetworkEdge)
             For Each TFRegulation As TFRegulation In TFRegulations
                 Dim RegulationEffect As String = If(TFRegulation.TFPcc > 0, "Activation", "Repression")
                 Call ChunkList.AddRange((From GeneId As String
                                          In TFRegulation.OperonGenes
-                                         Select New DataVisualization.Network.FileStream.NetworkEdge With {
+                                         Select New NetworkEdge With {
                                              .FromNode = TFRegulation.Regulator,
                                              .ToNode = GeneId,
                                              .InteractionType = RegulationEffect,

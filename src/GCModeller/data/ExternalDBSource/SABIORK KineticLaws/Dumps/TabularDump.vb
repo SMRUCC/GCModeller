@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
-Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace SabiorkKineticLaws.TabularDump
 
