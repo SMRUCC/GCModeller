@@ -1,35 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::70f050f9e8f182e23d2fa7169ed31b82, ..\GCModeller\data\RCSB PDB\PDB\PdbExport.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
 
 ''' <summary>
 ''' PDB File Format
@@ -105,10 +106,10 @@ Public Module PdbExport
                 Dim TempChunk As List(Of String()) = New List(Of String()) From {TargetProtein}
                 Call TempChunk.AddRange(ChainIdLQuery)
 
-                Dim ProteinComplexesAssembly = Microsoft.VisualBasic.ComponentModel.Comb.Generate(TempChunk.ToArray) '利用Entry里面的记录在Lquery里面进行筛选，使用组合的方式进行组装蛋白质
+                Dim ProteinComplexesAssembly = Comb.Generate(TempChunk.ToArray) '利用Entry里面的记录在Lquery里面进行筛选，使用组合的方式进行组装蛋白质
 
                 For Each item In ProteinComplexesAssembly
-                    Dim Row As RowObject = New DocumentFormat.Csv.DocumentStream.RowObject From {item.Count}
+                    Dim Row As RowObject = New RowObject From {item.Count}
                     Dim sBuilder As StringBuilder = New StringBuilder(1024)
                     For Each ProteinId As String In (From strData As String In item Select strData Order By strData Ascending).ToArray
                         Call sBuilder.Append(ProteinId & ", ")
