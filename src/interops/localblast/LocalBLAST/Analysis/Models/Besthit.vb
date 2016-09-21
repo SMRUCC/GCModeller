@@ -26,11 +26,11 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Namespace Analysis
 

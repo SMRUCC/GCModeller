@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::4a1666663215752054ecab65c32fbdba, ..\interops\meme_suite\MEME\Workflows\MAST_OUT.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 
 Namespace Workflows
 
@@ -39,18 +40,18 @@ Namespace Workflows
         ''' <param name="MASTLogFileDir"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Parse(MASTLogFileDir As String) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject()
+        Public Function Parse(MASTLogFileDir As String) As RowObject()
             Dim Path As String = (MASTLogFileDir & "/mast.xml")
             Dim ObjectId As String = FileIO.FileSystem.GetDirectoryInfo(MASTLogFileDir).Name.Replace(".fsa", "")
 
             If Not FileIO.FileSystem.FileExists(Path) OrElse FileIO.FileSystem.GetFileInfo(Path).Length <= 100 Then
-                Return {New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject From {ObjectId}}
+                Return {New RowObject From {ObjectId}}
             End If
 
             Dim XmlOutput As XmlOutput.MAST.MAST = Path.LoadXml(Of XmlOutput.MAST.MAST)()
 
             If XmlOutput.Sequences.SequenceList.IsNullOrEmpty Then
-                Return {New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject From {ObjectId}}
+                Return {New RowObject From {ObjectId}}
             End If
             Dim list As List(Of RowObject) = New List(Of RowObject)
             For Each seq In XmlOutput.Sequences.SequenceList
@@ -67,13 +68,12 @@ Namespace Workflows
             Return list.ToArray
         End Function
 
-        Public Function Prcedure(Dir As String) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Function Prcedure(Dir As String) As DocumentStream.File
             Dim LQuery = (From subDir As String In FileIO.FileSystem.GetDirectories(Dir)
                           Let data = Parse(subDir)
                           Where Not data.IsNullOrEmpty
                           Select data).ToArray
-            Dim File As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File =
-                New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+            Dim File As New DocumentStream.File
             Call File.AppendLine(New String() {"ObjectId", "MotifId", "p-value", "tbfsId", "E-value"})
             For Each DataRows In LQuery
                 Call File.AppendRange(DataRows)

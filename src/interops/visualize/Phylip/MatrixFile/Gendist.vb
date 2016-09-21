@@ -26,9 +26,9 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace MatrixFile
 

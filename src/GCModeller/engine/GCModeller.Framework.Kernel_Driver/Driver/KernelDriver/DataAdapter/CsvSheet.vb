@@ -25,8 +25,9 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
 ''' <summary>
 ''' 泛型仅能够包含有有限的几种基本的值类型
 ''' </summary>
@@ -42,7 +43,7 @@ Public Class MsCsvChunkBuffer(Of T) : Inherits DataStorage(Of T, DataStorage.Fil
     End Function
 
     Public Overrides Function WriteData(chunkbuffer As IEnumerable(Of DataStorage.FileModel.DataSerials(Of T)), url As String) As Boolean
-        Dim File As DocumentFormat.Csv.DocumentStream.File = get_Result(chunkbuffer)
+        Dim File As File = get_Result(chunkbuffer)
         Return File.Save(url, False)
     End Function
 
@@ -65,7 +66,7 @@ Public Class MsCsvChunkBuffer(Of T) : Inherits DataStorage(Of T, DataStorage.Fil
         Return File
     End Function
 
-    Public Function get_Result(driver As IDriver_DataSource_Adapter(Of T)) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+    Public Function get_Result(driver As IDriver_DataSource_Adapter(Of T)) As File
         Dim chunkbuffer = driver.get_DataSerials
         Dim File = get_Result(chunkbuffer)
         Return File

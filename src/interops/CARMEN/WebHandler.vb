@@ -27,10 +27,10 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.MIME.Markup.HTML
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.xConsole
-Imports Microsoft.VisualBasic.MarkupLanguage.HTML
 
 ''' <summary>
 ''' Comparative Analysis and Reconstruction of MEtabolic Networks

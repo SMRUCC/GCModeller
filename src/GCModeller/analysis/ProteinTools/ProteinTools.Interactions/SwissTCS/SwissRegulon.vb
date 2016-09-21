@@ -29,9 +29,11 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SwissTCS
@@ -194,14 +196,12 @@ Namespace SwissTCS
             Dim skIdList = (From item As CrossTalks In ChunkBuffer Select item.Kinase Distinct Order By Kinase Ascending).ToArray
             Dim rrIdList = (From item As CrossTalks In ChunkBuffer Select item.Regulator Distinct Order By Regulator Ascending).ToArray
 
-            Dim CsvFile As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File =
-                New DocumentFormat.Csv.DocumentStream.File
+            Dim CsvFile As New File
             Call CsvFile.AppendLine(rrIdList)
             Call CsvFile.First.InsertAt("HisK -> RR", 0)
 
             For Each HisK_Id As String In skIdList
-                Dim row As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject =
-                New DocumentFormat.Csv.DocumentStream.RowObject From {HisK_Id}
+                Dim row As RowObject = New RowObject From {HisK_Id}
                 Dim Scores = (From RRId As String In rrIdList
                               Let t = (From item As CrossTalks
                                    In ChunkBuffer.AsParallel
@@ -257,8 +257,7 @@ Namespace SwissTCS
         <Extension> Public Function CrossTalk(profiles As Generic.IEnumerable(Of CrossTalks), HisK As String, RR As String) As Double
             Dim LQuery = (From ctk As CrossTalks
                           In profiles
-                          Where DataVisualization.Network.Abstract.Contains(ctk, HisK) AndAlso
-                          DataVisualization.Network.Abstract.Contains(ctk, RR)
+                          Where Network.Abstract.Contains(ctk, HisK) AndAlso Network.Abstract.Contains(ctk, RR)
                           Select ctk).FirstOrDefault
             If LQuery Is Nothing Then
                 Return 0

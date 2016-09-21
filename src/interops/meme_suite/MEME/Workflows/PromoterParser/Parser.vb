@@ -28,6 +28,7 @@
 Imports System.Threading.Tasks.Parallel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
@@ -257,8 +258,7 @@ Namespace Workflows.PromoterParser
                                    Return LQuery
                                End Function
 
-            Dim BriefInfo As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File =
-                New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+            Dim BriefInfo As New File
             Call BriefInfo.Add(New String() {"OperonId", "OperonCounts_Gt_PccCutOff", "OperonIdList"})
 
             Dim InvokeAction As Action(Of DOOR.Operon) = Sub(Operon As DOOR.Operon)
@@ -299,8 +299,7 @@ Namespace Workflows.PromoterParser
         End Function
 
         Public Sub WholeGenomeParser(WGCNA As WGCNAWeight, Cutoff As String, Export As String)
-            Dim BriefInfo As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File =
-                New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+            Dim BriefInfo As New File
             Call BriefInfo.Add(New String() {"OperonId", "OperonCounts_Gt_WGCNACutOff", "OperonIdList"})
 
             Dim InvokeAction As Action(Of SMRUCC.genomics.Assembly.DOOR.Operon) =

@@ -27,9 +27,9 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Data.csv
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 
 Public Class STAMP
 

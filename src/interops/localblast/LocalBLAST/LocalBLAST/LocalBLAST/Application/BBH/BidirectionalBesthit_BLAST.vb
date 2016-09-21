@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::c6674676a438f9661c5fcf9d4c7e226e, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BidirectionalBesthit_BLAST.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace LocalBLAST.Application.BBH
@@ -95,7 +96,7 @@ Namespace LocalBLAST.Application.BBH
 
             Dim Log = _LocalBLASTService.GetLastLogFile
             Call Log.Grep(QueryGrepMethod, Nothing) '由于在MetaCyc数据库之中的FASTA文件的标题格式都是一样的，故而在这里就都使用一样的方法来解析名称了
-            Dim Log_QvS As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit).ToCsvDoc
+            Dim Log_QvS As File = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit).ToCsvDoc
 
             Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Subject), Log_QvS, HitsGrepMethod)
             Call Log_QvS.Save(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Query), IO.Path.GetFileNameWithoutExtension(Subject)), False)
@@ -112,7 +113,7 @@ Namespace LocalBLAST.Application.BBH
             Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Query), Log_SvQ.ToCsvDoc, QueryGrepMethod)
             Call Log_SvQ.SaveTo(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Subject), IO.Path.GetFileNameWithoutExtension(Query)), False)
 
-            Call Printf("END_OF_BIDIRECTION_BLAST():: start to build up the best mathced protein pair.")
+            Call printf("END_OF_BIDIRECTION_BLAST():: start to build up the best mathced protein pair.")
 
             Dim result = If(ExportAll, GetDirreBhAll2(Log_SvQ.ToCsvDoc, Log_QvS), BBHTop(Log_SvQ.ToCsvDoc, Log_QvS)) '????顺序反了？
             Return result

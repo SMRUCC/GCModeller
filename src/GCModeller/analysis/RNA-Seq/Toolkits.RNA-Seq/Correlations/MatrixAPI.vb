@@ -27,13 +27,14 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 
 <[PackageNamespace]("PCC.Matrix", Publisher:="xie.guigang@gmail.com", Category:=APICategories.UtilityTools)>
 Public Module MatrixAPI
@@ -58,7 +59,7 @@ Public Module MatrixAPI
 
         Dim sw As Stopwatch = Stopwatch.StartNew
         Dim lstId As String() = ds.ToArray(Function(row) row.First, Parallel:=False)
-        Dim LQuery = (From row As DocumentFormat.Csv.DocumentStream.RowObject
+        Dim LQuery = (From row As RowObject
                       In ds.AsParallel   ' 在后面通过查字典的方式保证一一对应关系，所以这里可以使用并行化
                       Let sample As ExprSamples = ExprSamples.ConvertObject(row)
                       Select sample).ToDictionary(Function(sample) sample.locusId)

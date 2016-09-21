@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.RDF
+Imports Microsoft.VisualBasic.MIME.RDF
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 

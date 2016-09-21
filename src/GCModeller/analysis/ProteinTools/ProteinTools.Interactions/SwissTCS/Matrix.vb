@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 
 Public Class Matrix
 

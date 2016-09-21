@@ -30,7 +30,8 @@ Imports System.Text.RegularExpressions
 Imports System.Threading.Tasks.Parallel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel
@@ -109,7 +110,7 @@ Namespace Workflows
                 Call matchedFile.Save(String.Format("{0}/{1}", Dir, FileIO.FileSystem.GetName(File.FilePath)), False)
             End Sub
 
-            Private Function __createAction(row As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
+            Private Function __createAction(row As RowObject) As RowObject
                 Dim tfbs = row(2)
                 Dim tfbsNameList = (From obj As KeyValuePair(Of String, String) In tfbsInfo.AsParallel Where String.Equals(tfbs, obj.Key) Select obj.Value).ToArray
                 If tfbsNameList.IsNullOrEmpty Then
@@ -117,7 +118,7 @@ Namespace Workflows
                 End If
                 Dim tfbsName = tfbsNameList.First
                 Dim LQuery = (From obj As KeyValuePair(Of String, String()) In regulators.AsParallel Where Array.IndexOf(obj.Value, tfbsName) > -1 Select obj.Key).ToArray
-                Dim newrow = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
+                Dim newrow As New RowObject
                 Call newrow.AddRange(row.ToArray)
 
                 If Not LQuery.IsNullOrEmpty Then
@@ -158,20 +159,19 @@ Namespace Workflows
             Dim File As String = File_MAST_OUT.Key
             Dim MAST_OUT As String = File_MAST_OUT.Value
             Dim name As String = FileIO.FileSystem.GetName(File)
-            Dim mast As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = String.Format("{0}/{1}", MAST_OUT, name)
-            Dim motifFile As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File =
-                New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
-            Dim meme = Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load(File)
+            Dim mast As DocumentStream.File = String.Format("{0}/{1}", MAST_OUT, name)
+            Dim motifFile As New DocumentStream.File
+            Dim meme As DocumentStream.File = DocumentStream.File.Load(File)
 
             Call motifFile.Add(New String() {"ObjectId", "Operon", "tfbsId", "meme_pvalue", "mast_pvalue", "mast_evalue"})
 
             Dim geneLQuery = (From Row In meme.Skip(1).AsParallel
-                              Let generate = Function() As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject()
+                              Let generate = Function() As RowObject()
                                                  Dim objectId = Row(0), motifId = Row(2)
                                                  Dim TFBSSites = (From tfbs_row In mast.AsParallel Where String.Equals(tfbs_row(0), objectId) AndAlso String.Equals(tfbs_row(1), motifId) Select tfbs_row).ToArray
                                                  'objectid,operon,tfbs,meme_pvalue,mast_p-value,mast_e-value
                                                  Dim LQuery = (From site In TFBSSites.AsParallel
-                                                               Select New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject From {objectId, Row(1), site(3), Row(3), site(2), site(4)}).ToArray
+                                                               Select New RowObject From {objectId, Row(1), site(3), Row(3), site(2), site(4)}).ToArray
                                                  For i As Integer = 0 To LQuery.Count - 1
                                                      Dim newrow = LQuery(i)
                                                      newrow(1) = String.Format("{0} --> {1}",

@@ -26,6 +26,8 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
@@ -36,8 +38,8 @@ Public Class BnlearnModelling : Inherits IRScript
     Dim TempData As String
 
     Sub New(ExperimentalInteractionAssemblies As String())
-        Dim csvData As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = New DocumentFormat.Csv.DocumentStream.File
-        Dim rowQuery = (From item In ExperimentalInteractionAssemblies Select Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject.CreateObject((From n In item Select CStr(n)).ToArray)).ToArray
+        Dim csvData As New DocumentStream.File
+        Dim rowQuery = (From item In ExperimentalInteractionAssemblies Select RowObject.CreateObject((From n In item Select CStr(n)).ToArray)).ToArray
         For i As Long = 0 To rowQuery.First.Count - 1
             Dim p = i
             Dim LQuery = (From row In rowQuery.AsParallel Let ch = row(p) Select ch Distinct).ToArray

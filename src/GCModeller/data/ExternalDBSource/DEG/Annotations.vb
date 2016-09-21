@@ -26,9 +26,10 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -43,7 +44,7 @@ Namespace DEG
         Public Function CreateReportView(LogFile As IBlastOutput, Annotations As DEG.Annotations()) As DocumentStream.File
             Call LogFile.Grep(Nothing, TextGrepScriptEngine.Compile("match DEG\d+").Method)
             Dim BestHit = LogFile.ExportAllBestHist '.AsDataSource(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False)
-            Dim CsvData As DocumentStream.File = New DocumentFormat.Csv.DocumentStream.File
+            Dim CsvData As File
             Dim QueriesId As String() = (From item In BestHit Select item.QueryName Distinct Order By QueryName Ascending).ToArray
             Dim SpeciesIdCollection = DEG.Annotations.GetSpeciesId(Annotations)
 

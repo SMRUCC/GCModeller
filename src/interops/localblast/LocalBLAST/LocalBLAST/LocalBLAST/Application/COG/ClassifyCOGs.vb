@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::424dda1b4880dd4f287702541ec5d891, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\ClassifyCOGs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Text
 
 Namespace LocalBLAST.Application.RpsBLAST
@@ -75,11 +76,11 @@ Namespace LocalBLAST.Application.RpsBLAST
                 Dim Log = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(LogFile)
                 Dim QueriesName As String() = (From query In Log.Queries Select query.QueryName).ToArray
                 If Not QueryGrepMethod Is Nothing Then
-                    Call Log.Grep(QueryGrepMethod, AddressOf Microsoft.VisualBasic.Text.TextGrepScriptEngine.Compile("'tokens | 2';'tokens ' ' 1';'tokens , 0'").Grep)
+                    Call Log.Grep(QueryGrepMethod, AddressOf TextGrepScriptEngine.Compile("'tokens | 2';'tokens ' ' 1';'tokens , 0'").Grep)
                 End If
                 Call Console.WriteLine("Generating output document...")
 
-                Dim File As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = Log.ExportBestHit.ToCsvDoc
+                Dim File As File = Log.ExportBestHit.ToCsvDoc
                 If Not DescriptionGrepMethod Is Nothing Then
                     Call File.First().Add("Protein_description")
                     For i As Integer = 0 To QueriesName.Count - 1
@@ -91,7 +92,7 @@ Namespace LocalBLAST.Application.RpsBLAST
 
                 Return File
             Else
-                Return New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+                Return New File
             End If
         End Function
 

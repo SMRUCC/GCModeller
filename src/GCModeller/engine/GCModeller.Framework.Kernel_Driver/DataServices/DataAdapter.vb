@@ -26,7 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 Namespace Kernel

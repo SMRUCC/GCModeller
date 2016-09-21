@@ -27,7 +27,7 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.RDF
+Imports Microsoft.VisualBasic.MIME.RDF
 
 Namespace MetaCyc.Biopax.Level3
 

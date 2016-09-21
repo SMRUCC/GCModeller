@@ -27,10 +27,10 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise.FastaReaders
 

@@ -27,7 +27,7 @@
 
 Imports System.Text
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 
 Namespace Builder
 

@@ -25,7 +25,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace LDM
