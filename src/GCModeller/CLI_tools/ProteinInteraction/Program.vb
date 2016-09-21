@@ -26,7 +26,7 @@
 #End Region
 
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 
 Module Program
 
