@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 

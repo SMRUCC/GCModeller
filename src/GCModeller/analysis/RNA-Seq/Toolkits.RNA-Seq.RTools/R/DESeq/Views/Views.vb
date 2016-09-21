@@ -27,7 +27,7 @@
 
 Imports SMRUCC.genomics.Assembly.NCBI.COG
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
 Namespace DESeq2
 

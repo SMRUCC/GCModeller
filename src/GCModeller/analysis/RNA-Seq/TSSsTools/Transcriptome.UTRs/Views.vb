@@ -28,7 +28,8 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -36,6 +37,8 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.COG
 
 ''' <summary>
 ''' TSSs位点的性质的统计函数
@@ -44,8 +47,7 @@ Imports SMRUCC.genomics.SequenceModel
 Public Module Views
 
     <ExportAPI("TSSs.Numbers")>
-    Public Function TSSsNumberDistributes(data As Generic.IEnumerable(Of DocumentFormat.Transcript),
-                                          Optional Max As Integer = 15) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+    Public Function TSSsNumberDistributes(data As Generic.IEnumerable(Of DocumentFormat.Transcript), Optional Max As Integer = 15) As File
 
         Dim LQuery = (From obj In data.AsParallel
                       Where Not String.IsNullOrEmpty(obj.Synonym)
@@ -53,8 +55,8 @@ Public Module Views
                       Group obj By obj.Synonym Into Group).ToArray
         Dim Numbers = New Integer(Max) {}
 
-        For Each Gene In LQuery
-            Dim n As Integer = Gene.Group.Count
+        For Each g In LQuery
+            Dim n As Integer = g.Group.Count
             If n > Max Then
                 n = Max
             End If
@@ -62,7 +64,7 @@ Public Module Views
             Numbers(n) = Numbers(n) + 1
         Next
 
-        Dim Csv As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Dim Csv As New File
         Call Csv.Add({"Numbers Of TSSs", "Numbers Of Genes"})
         For i As Integer = 0 To Max - 2
             Call Csv.Add(({i + 1, Numbers(i)}).ToArray(Of String)(Function(n) CStr(n)))
@@ -73,9 +75,9 @@ Public Module Views
     End Function
 
     <ExportAPI("5UTR.Length")>
-    Public Function TSSs5UTRLenDistributes(data As Generic.IEnumerable(Of DocumentFormat.Transcript), Optional Max As Integer = 1200) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+    Public Function TSSs5UTRLenDistributes(data As Generic.IEnumerable(Of DocumentFormat.Transcript), Optional Max As Integer = 1200) As File
         Dim LQuery = (From site In data Select d = Math.Abs(site.ATG - site.TSSs) Group d By d Into Group).ToArray
-        Dim CSV As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Dim CSV As New File
 
         Dim Numbers = New Integer(Max + 1) {}
 
@@ -118,19 +120,19 @@ Public Module Views
                  {SMRUCC.genomics.Assembly.NCBI.COG.COGCategories.Signaling, New Value(Of Integer)(0)},
                  {SMRUCC.genomics.Assembly.NCBI.COG.COGCategories.Unclassified, New Value(Of Integer)(0)}}).ToArray
 
-        For Each Gene In LQuery
-            Dim n As Integer = Gene.Group.Count
+        For Each g In LQuery
+            Dim n As Integer = g.Group.Count
             If n > Max Then
                 n = Max
             End If
             n -= 1
-            Dim Category = COGCategories.GetCategory(PTT.GeneObject(Gene.Synonym).COG)
+            Dim Category = COGCategories.GetCategory(PTT.GeneObject(g.Synonym).COG)
             Dim Number = Numbers(n)(Category)
-            Number.Value += 1
+            Number.value += 1
         Next
 
-        Dim Csv As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
-        Dim Categories = COGCategories.Categories.ToArray(Of SMRUCC.genomics.Assembly.NCBI.COG.COGCategories)(Function(obj) obj.Class).ToList
+        Dim Csv As New File
+        Dim Categories = COGCategories.Categories.ToArray(Of COGCategories)(Function(obj) obj.Class).ToList
         Call Categories.Add(Assembly.NCBI.COG.COGCategories.NotAssigned)
 
         Call Csv.Add(({"Numbers Of TSSs"}).Join(Categories.ToArray(Of String)(Function(cat) cat.Description).Join({"", "Numbers Of Genes"})))
@@ -138,25 +140,25 @@ Public Module Views
             Dim NumberValue = Numbers(i)
             Call Csv.Add((New String() {i + 1}).Join((From cat
                                                           In Categories
-                                                      Select CStr(NumberValue(cat).Value)).ToArray).Join({"", CStr(NumberValue.Values.ToArray(Of Integer)(Function(num) num.Value).Sum)}))
+                                                      Select CStr(NumberValue(cat).value)).ToArray).Join({"", CStr(NumberValue.Values.ToArray(Of Integer)(Function(num) num.value).Sum)}))
         Next
         Call Csv.Add((New String() {">=" & Max}).Join((From cat
                                                            In Categories
-                                                       Select CStr(Numbers(Numbers.Length - 2)(cat).Value)).ToArray.Join({"", Numbers(Numbers.Length - 2).Values.ToArray(Of Integer)(Function(num) num.Value).Sum})))
+                                                       Select CStr(Numbers(Numbers.Length - 2)(cat).value)).ToArray.Join({"", Numbers(Numbers.Length - 2).Values.ToArray(Of Integer)(Function(num) num.value).Sum})))
 
         Return Csv
     End Function
 
     <ExportAPI("5UTR.Length")>
     Public Function TSSs5UTRLenDistributes(data As Generic.IEnumerable(Of DocumentFormat.Transcript),
-                                           <Parameter("PTT", "The ptt file should contains the COG information.")> PTT As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
-                                           Optional Max As Integer = 1200) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+                                           <Parameter("PTT", "The ptt file should contains the COG information.")> PTT As PTT,
+                                           Optional Max As Integer = 1200) As File
 
         Dim LQuery = (From site As DocumentFormat.Transcript
                           In data
                       Select d = Math.Abs(site.ATG - site.TSSs)
                       Group d By d Into Group).ToArray
-        Dim CSV As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Dim CSV As New File
         Dim Numbers = New Integer(Max + 1) {}
 
         For Each Len5UTR In LQuery

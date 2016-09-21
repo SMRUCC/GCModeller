@@ -27,9 +27,10 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm
 Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Entities
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -240,13 +241,13 @@ Public Module GenesCOExpr
                          In FileList
                          Select DocumentStream.File.Load(File)).ToArray
         Dim IdList = New List(Of String)
-        For Each File As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File In DataFiles
+        For Each File As File In DataFiles
             Call IdList.AddRange((From row In File.Skip(1) Select row(IdCol)).ToArray)
         Next
         IdList = IdList.Distinct.ToList()
         Call IdList.Sort()
 
-        Dim Table = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject(IdList.Count) {}
+        Dim Table = New RowObject(IdList.Count) {}
 
         Dim TitleCollection As List(Of String) = New List(Of String)
         For Each File In DataFiles
@@ -302,13 +303,11 @@ Public Module GenesCOExpr
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function MergeChipData2(FileList As String(), IdCol As Integer, ExprDataCols As Integer()) As DocumentStream.File
-        Dim File As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = MergeChipData(FileList, IdCol, ExprDataCols).Skip(1).ToArray
-        Dim IdRow As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject =
-            (From row In File Select row.First()).ToArray
-        Dim retFile As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Dim File As File = MergeChipData(FileList, IdCol, ExprDataCols).Skip(1).ToArray
+        Dim IdRow As RowObject = (From row In File Select row.First()).ToArray
+        Dim retFile As New File
         Call retFile.AppendLine(IdRow)
-        Dim Table As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject() =
-            (From i As Integer In File.First.Count.Sequence Select New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject).ToArray
+        Dim Table As RowObject() = (From i As Integer In File.First.Count.Sequence Select New RowObject).ToArray
 
         For i As Integer = 0 To Table.Count - 1
             Dim sampleId As Integer = i + 1

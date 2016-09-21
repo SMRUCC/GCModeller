@@ -26,7 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 
 Namespace DESeq2
