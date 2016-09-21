@@ -28,6 +28,7 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance

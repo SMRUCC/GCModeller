@@ -27,6 +27,7 @@
 
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services

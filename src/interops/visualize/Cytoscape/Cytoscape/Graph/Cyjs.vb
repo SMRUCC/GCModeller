@@ -28,8 +28,8 @@
 Imports System.Text
 Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DataVisualization.Network.Abstract
-Imports Microsoft.VisualBasic.DataVisualization.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML

@@ -26,7 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.Word
+Imports Microsoft.VisualBasic.MIME.RTF
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Analysis.Annotations.Reports.DocumentElements
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -106,15 +106,15 @@ Namespace Reports
         End Function
 
         Public Function SaveRTF(Path As String) As Boolean
-            Dim Document As RichTextFormatDocument.Rtf = New RichTextFormatDocument.Rtf
+            Dim Document As New Rtf
 
-            Call Document.AppendLine(Me.GenomeTitle, New RichTextFormatDocument.Font(40, True, FontFace.MicrosoftYaHei, False, False, System.Drawing.Color.Red))
+            Call Document.AppendLine(Me.GenomeTitle, New Font(40, True, FontFace.MicrosoftYaHei, False, False, System.Drawing.Color.Red))
             Call Document.AppendLine()
             Call Document.AppendLine(New String("="c, 128))
 
-            Dim SectionBeginFont As New DocumentFormat.Word.RichTextFormatDocument.Font(16, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Black)
-            Dim QueryNameFont As New DocumentFormat.Word.RichTextFormatDocument.Font(16, True, FontFace.MicrosoftYaHei, True, False)
-            Dim QuerySequenceFont As New DocumentFormat.Word.RichTextFormatDocument.Font(16, True, FontFace.MicrosoftYaHei, True, False, Drawing.Color.Blue)
+            Dim SectionBeginFont As New Font(16, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Black)
+            Dim QueryNameFont As New Font(16, True, FontFace.MicrosoftYaHei, True, False)
+            Dim QuerySequenceFont As New Font(16, True, FontFace.MicrosoftYaHei, True, False, Drawing.Color.Blue)
 
             For Each Protein In Me.Proteins
                 Call Document.AppendText("Query Protein:=   ", SectionBeginFont.Clone)
@@ -128,19 +128,19 @@ Namespace Reports
                 If Protein.Orthologs.IsNullOrEmpty Then
                     Call Document.AppendLine("No Orthologous Protein Data!")
                 Else
-                    Call Document.AppendLine("Orthologous Annotations Data:", New DocumentFormat.Word.RichTextFormatDocument.Font(20, True, FontFace.Ubuntu, False, True))
+                    Call Document.AppendLine("Orthologous Annotations Data:", New Font(20, True, FontFace.Ubuntu, False, True))
                     Call Document.AppendLine(New String("*", 50))
 
-                    Call Document.AppendText("Orthology.Hit" & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(16, True, FontFace.MicrosoftYaHei, False, True))
+                    Call Document.AppendText("Orthology.Hit" & vbTab, New Font(16, True, FontFace.MicrosoftYaHei, False, True))
                     Call Document.AppendText("Orthology.OrganismSpecies" & vbTab)
-                    Call Document.AppendText("Orthology.Evalue" & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(18, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
+                    Call Document.AppendText("Orthology.Evalue" & vbTab, New Font(18, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
                     Call Document.AppendText("Orthology.Identities" & vbTab)
                     Call Document.AppendLine()
 
                     For Each Orthology In Protein.Orthologs
-                        Call Document.AppendText(Orthology.Hit & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(16, True, FontFace.MicrosoftYaHei, False, True))
+                        Call Document.AppendText(Orthology.Hit & vbTab, New Font(16, True, FontFace.MicrosoftYaHei, False, True))
                         Call Document.AppendText(Orthology.OrganismSpecies & vbTab)
-                        Call Document.AppendText(Orthology.Evalue & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(18, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
+                        Call Document.AppendText(Orthology.Evalue & vbTab, New Font(18, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
                         Call Document.AppendText(Orthology.Identities & vbTab)
                         Call Document.AppendLine()
                     Next
@@ -152,14 +152,14 @@ Namespace Reports
                     Call Document.AppendLine("Paralogs Data:")
                     Call Document.AppendLine(New String("*", 50))
 
-                    Call Document.AppendText("Paralog.Hit" & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(24, True, FontFace.MicrosoftYaHei, False, True))
-                    Call Document.AppendText("Paralog.Evalue" & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(24, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
-                    Call Document.AppendText("Paralog.Identities" & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(24, True, FontFace.MicrosoftYaHei, False, True))
+                    Call Document.AppendText("Paralog.Hit" & vbTab, New Font(24, True, FontFace.MicrosoftYaHei, False, True))
+                    Call Document.AppendText("Paralog.Evalue" & vbTab, New Font(24, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
+                    Call Document.AppendText("Paralog.Identities" & vbTab, New Font(24, True, FontFace.MicrosoftYaHei, False, True))
                     Call Document.AppendLine()
 
                     For Each Paralog In Protein.Paralogs
-                        Call Document.AppendText(Paralog.Hit & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(16, True, FontFace.MicrosoftYaHei, False, True))
-                        Call Document.AppendText(Paralog.Evalue & vbTab, New DocumentFormat.Word.RichTextFormatDocument.Font(18, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
+                        Call Document.AppendText(Paralog.Hit & vbTab, New Font(16, True, FontFace.MicrosoftYaHei, False, True))
+                        Call Document.AppendText(Paralog.Evalue & vbTab, New Font(18, True, FontFace.MicrosoftYaHei, False, False, Drawing.Color.Red))
                         Call Document.AppendText(Paralog.Identities & vbTab)
                         Call Document.AppendLine()
                     Next

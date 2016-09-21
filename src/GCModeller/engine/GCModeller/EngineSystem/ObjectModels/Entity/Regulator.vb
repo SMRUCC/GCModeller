@@ -26,6 +26,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer

@@ -28,15 +28,15 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace TrackDatas.Highlights
 

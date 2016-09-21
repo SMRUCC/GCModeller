@@ -204,6 +204,10 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\gr\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Datavisualization.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>

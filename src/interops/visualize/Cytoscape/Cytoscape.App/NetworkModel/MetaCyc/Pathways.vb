@@ -27,8 +27,8 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots

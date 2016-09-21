@@ -25,14 +25,14 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.ComponentModel
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 
 Namespace NetworkModel.KEGG

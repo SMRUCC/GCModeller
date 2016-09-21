@@ -27,6 +27,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements
 

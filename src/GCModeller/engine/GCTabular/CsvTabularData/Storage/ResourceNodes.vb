@@ -26,10 +26,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 
 Namespace FileStream.XmlFormat
 

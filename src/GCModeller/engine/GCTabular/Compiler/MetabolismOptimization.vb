@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::cb7cfaeda6bead5ce778d014a05e6af6, ..\GCModeller\engine\GCTabular\Compiler\MetabolismOptimization.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports System.Text
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 
 Namespace Compiler.Components
 
@@ -43,7 +44,7 @@ Namespace Compiler.Components
             "result <- fba.solve model $model______________0 r_bin $r" & vbCrLf &
             "result <- write.fba_result result $result saveto $result_save"
 
-        Public Function Optimization(Model As FileStream.IO.XmlresxLoader) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Function Optimization(Model As FileStream.IO.XmlresxLoader) As File
             Dim script As StringBuilder = New StringBuilder("rbin <- solver.fba session.new")
             Dim rBin As String = Settings.Session.SettingsFile.R_HOME
             'Call ScriptEngine.MMUDevice.Update("model", Model)

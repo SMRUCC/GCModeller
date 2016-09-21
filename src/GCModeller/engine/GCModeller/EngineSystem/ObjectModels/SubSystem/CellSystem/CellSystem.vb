@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL

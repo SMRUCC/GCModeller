@@ -26,8 +26,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects

@@ -27,7 +27,7 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataVisualization.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Cytoscape.GCModeller.FileSystem
