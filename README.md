@@ -3,6 +3,8 @@
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
 [![Build Status](https://travis-ci.org/SMRUCC/GCModeller.svg?branch=master)](https://travis-ci.org/SMRUCC/GCModeller)
 
+###### [WARNING] This project is a work in progress and is not recommended for production use.
+
 # GCModeller
 GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
