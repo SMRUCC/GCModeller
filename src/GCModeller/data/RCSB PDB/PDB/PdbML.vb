@@ -26,8 +26,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat
-Imports Microsoft.VisualBasic.DocumentFormat.RDF.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace PDBML

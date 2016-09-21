@@ -27,7 +27,6 @@
 
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 
 Namespace FileStream.XmlFormat
 

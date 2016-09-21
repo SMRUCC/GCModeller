@@ -28,7 +28,6 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace KEGG.Compiler

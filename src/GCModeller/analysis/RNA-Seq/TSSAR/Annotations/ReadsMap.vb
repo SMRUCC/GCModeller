@@ -29,7 +29,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -230,7 +230,7 @@ Public Module ReadsMap
         '将位点还原为标签
         Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.UserTag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
         '生成CSV文档
-        Dim Df As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Dim Df As New DocumentStream.File
         Dim OperonPromoterGene As String() = Nothing
 
         If Not DOOR Is Nothing Then

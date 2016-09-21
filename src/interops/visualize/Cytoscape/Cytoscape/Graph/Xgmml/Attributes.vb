@@ -29,7 +29,6 @@ Imports System.Drawing
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DocumentFormat.RDF
 Imports Microsoft.VisualBasic.Language
 
 Namespace CytoscapeGraphView.XGMML
