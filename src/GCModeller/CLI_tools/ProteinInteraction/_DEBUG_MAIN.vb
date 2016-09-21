@@ -25,14 +25,16 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
-Imports Microsoft.VisualBasic
 Imports System.Text
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions
 
 Module _DEBUG_MAIN
     Private Sub ffff()
-        Dim vsdip = Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load("E:\Desktop\xc8004_vs_dip_bestpair.csv")
+        Dim vsdip = DocumentStream.File.Load("E:\Desktop\xc8004_vs_dip_bestpair.csv")
         Dim id As String() = (From row In vsdip.Skip(1).AsParallel Let _id = row(0) Where Not String.IsNullOrEmpty(_id) Select _id Distinct Order By _id Ascending).ToArray
 
 
@@ -66,10 +68,10 @@ Module _DEBUG_MAIN
             End If
         Next
 
-        Dim csvData As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = New DocumentFormat.Csv.DocumentStream.File
+        Dim csvData As New DocumentStream.File
 
         For Each item In matchedfile
-            Dim row = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
+            Dim row = New RowObject
             Call row.Add(item.Key)
             If Not item.Value.IsNullOrEmpty Then
                 Dim sBuilder As StringBuilder = New StringBuilder(1024)

@@ -27,8 +27,8 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>

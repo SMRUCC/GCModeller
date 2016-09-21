@@ -1,5 +1,5 @@
 ﻿Imports System.ComponentModel
-Imports Microsoft.VisualBasic.DataVisualization.Network.Canvas
+Imports Microsoft.VisualBasic.Data.visualize.Network.Canvas
 Imports SMRUCC.genomics.Analysis.SSystem
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 

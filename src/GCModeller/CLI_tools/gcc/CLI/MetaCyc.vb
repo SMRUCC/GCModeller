@@ -25,12 +25,12 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
+Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.GCModeller.Assembly
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 <PackageNamespace("GCModeller.Compiler.CLI", Category:=APICategories.CLI_MAN,
                   Description:="gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model",

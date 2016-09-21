@@ -26,7 +26,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump

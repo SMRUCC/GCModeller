@@ -26,7 +26,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 
 Namespace FileStream.XmlFormat
 

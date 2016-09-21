@@ -30,7 +30,6 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout
 Imports Microsoft.VisualBasic.DataMining.Kernel.BayesianBeliefNetwork.BeliefNetwork.NetworkLayout.BeliefNode.CPTableF
-Imports Microsoft.VisualBasic.DataVisualization
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SequenceAssembler
 

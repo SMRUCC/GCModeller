@@ -27,7 +27,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports ProteinTools.Interactions.CLI
 Imports SMRUCC.genomics.Analysis.ProteinTools
 Imports SMRUCC.genomics.Assembly.KEGG.Archives

@@ -5,7 +5,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.GCOutlier
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 
 Public Class SeqDiff : Implements sIdEnumerable
 

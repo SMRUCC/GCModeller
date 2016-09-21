@@ -28,7 +28,6 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel
 
 Namespace ProteinDomainArchitecture.MPAlignment

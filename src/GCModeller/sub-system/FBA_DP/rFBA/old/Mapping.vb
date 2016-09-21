@@ -28,6 +28,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.Data
 
 Public Class Mapping
@@ -38,9 +39,9 @@ Public Class Mapping
     End Sub
 
     Public Class EnzymeGeneMap
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Column("Enzymatic-Reaction")> Public Property EnzymeRxn As String
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.CollectionAttribute("GeneId")> Public Property GeneId As String()
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Column("Common-Name")> Public Property CommonName As String
+        <Column("Enzymatic-Reaction")> Public Property EnzymeRxn As String
+        <CollectionAttribute("GeneId")> Public Property GeneId As String()
+        <Column("Common-Name")> Public Property CommonName As String
 
         Protected Friend Sub CopyTo(Target As EnzymeGeneMap)
             Target.GeneId = GeneId
@@ -91,9 +92,9 @@ Public Class Mapping
     ''' </summary>
     ''' <remarks></remarks>
     Public Class EffectorMap
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Column("regprecise-effector")> Public Property Effector As String
+        <Column("regprecise-effector")> Public Property Effector As String
         Public Property MetaCycId As String
-        <Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.Column("Common-Name")> Public Property CommonName As String
+        <Column("Common-Name")> Public Property CommonName As String
         Public Property Synonym As String
     End Class
 

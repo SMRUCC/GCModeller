@@ -26,7 +26,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.Regulators
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver

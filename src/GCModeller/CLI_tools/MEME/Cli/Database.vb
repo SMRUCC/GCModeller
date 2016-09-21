@@ -27,7 +27,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DataSetHandler
+Imports Microsoft.VisualBasic.Data.csv.DataSetHandler
 Imports SMRUCC.genomics.Analysis.Annotations.RegpreciseRegulations
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
