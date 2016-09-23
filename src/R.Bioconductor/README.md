@@ -34,6 +34,8 @@ Imports RDotNET.Extensions.VisualBasic.API.utils
 Imports RDotNET.Extensions.Bioinformatics.deSolve.API
 Imports RDotNET.Extensions.Bioinformatics.deSolve
 
+' Entering Microsoft R language environment by using VisualBasic language syntax specific
+' Enable R session runtime
 SyncLock R
     With R
 
@@ -46,6 +48,8 @@ SyncLock R
         .call = $"rho    <- {rho}"
         .call = $"lambda <- {lambda}"
 
+        ' For variable initialize like: p <- value
+        ' Dim p As var = value, this expression is also working
     End With
 End SyncLock
 
