@@ -11,6 +11,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -18,15 +19,17 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Partial Module CLI
 
     <ExportAPI("/Fasta.Filters",
-               Usage:="/Fasta.Filters /in <nt.fasta> /key <regex> [/out <out.fasta> /p]")>
+               Usage:="/Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/out <out.fasta> /p]")>
     <ParameterInfo("/p",
                    True,
                    AcceptTypes:={GetType(Boolean)},
-                   Description:="Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option.")>
+                   Description:="Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option. This option only works in single key mode.")>
     Public Function Filter(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim key As String = args("/key")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & key.NormalizePathString.Replace(" ", "_") & ".fasta")
+        Dim combine As String =
+            If(key.FileExists, key.BaseName, key.NormalizePathString.Replace(" ", "_"))
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & combine & ".fasta")
         Dim source As New StreamIterator([in])
         Dim parallel As Boolean = args.GetBoolean("/p")
 
@@ -39,22 +42,45 @@ Partial Module CLI
         End If
 
         Using file As New StreamWriter(New FileStream(out, FileMode.OpenOrCreate), Encoding.ASCII)
-            Dim regex As New Regex(key, RegexICSng)
 
             file.AutoFlush = True
 
-            If parallel Then
-                For Each block In LQuerySchedule.Where(source.ReadStream, Function(fa) regex.Match(fa.Title).Success)
-                    For Each x In block
-                        Call file.WriteLine(x.GenerateDocument(-1))
+            If Not key.FileExists Then ' 使用单个单词进行查询
+                Dim regex As New Regex(key, RegexICSng)
+
+                If parallel Then
+                    For Each block In LQuerySchedule.Where(source.ReadStream, Function(fa) regex.Match(fa.Title).Success)
+                        For Each x In block
+                            Call file.WriteLine(x.GenerateDocument(-1))
+                        Next
                     Next
-                Next
+                Else
+                    For Each fa As FastaToken In source.ReadStream
+                        If regex.Match(fa.Title).Success Then
+                            Call file.WriteLine(fa.GenerateDocument(-1))
+                            ' Call fa.Title.__DEBUG_ECHO
+                        End If
+                    Next
+                End If
             Else
+                Dim words As String() = key.ReadAllLines ' 使用文件之中的一组关键词进行查询
+                words = words.Select(Function(s) s.Split) _
+                    .MatrixAsIterator _
+                    .Distinct _
+                    .ToArray
+
+                Call words.GetJson.__DEBUG_ECHO
+
                 For Each fa As FastaToken In source.ReadStream
-                    If regex.Match(fa.Title).Success Then
-                        Call file.WriteLine(fa.GenerateDocument(-1))
-                        ' Call fa.Title.__DEBUG_ECHO
-                    End If
+                    For Each sKey As String In words
+                        Dim title As String = fa.Title
+
+                        If InStr(title, sKey, CompareMethod.Text) > 0 OrElse
+                            Regex.Match(title, sKey, RegexICSng).Success Then
+
+                            Call file.WriteLine(fa.GenerateDocument(-1))
+                        End If
+                    Next
                 Next
             End If
         End Using
