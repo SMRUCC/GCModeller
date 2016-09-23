@@ -27,6 +27,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.IEnumerations
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.MathematicsModels.EnzymeKinetics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.PoolMappings

@@ -27,9 +27,9 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
@@ -38,10 +38,10 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports ______NETWORK__ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
-    Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node,
-    Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge)
-Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
+Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
+    Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
+    Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
+Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
     Global.SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Enzyme,
     SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction)
 

@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::fd5243a002d3de137d099acf08d151df, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataExport.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 
 Namespace EngineSystem.Services
 
@@ -89,26 +90,26 @@ Namespace EngineSystem.Services
             Return (From row As System.Data.DataRow In Table.Tables(0).Rows Select CType(row.Item(columnName:="storage_table"), String)).ToArray
         End Function
 
-        Public Function Export() As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Function Export() As DocumentStream.File
             If Me.FetchedData.IsNullOrEmpty Then
-                Return New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+                Return New DocumentStream.File
             Else
                 Return Export(Data:=Me.FetchedData, [Handles]:=Me.Handles)
             End If
         End Function
 
         Private Shared Function Export(Data As IEnumerable(Of DataFlowF), [Handles] As IEnumerable(Of HandleF)) As DocumentStream.File
-            Dim CsvData As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+            Dim CsvData As New DocumentStream.File
             Dim Time As Integer() = (From row In Data.AsParallel Let i = row.Time Select i Distinct Order By i Ascending).ToArray
 
-            Dim HeadRow As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject From {"#TIME"}
+            Dim HeadRow As RowObject = New RowObject From {"#TIME"}
             Call HeadRow.AddRange((From row In [Handles] Select row.Identifier).ToArray) '名称按照句柄值进行排序
             Call CsvData.AppendLine(HeadRow)
 
             For Each TimePoint In Time
                 Dim Query = From row In Data.AsParallel Where row.Time = TimePoint Select row Order By row.Handle Ascending '按照句柄值进行排序
                 Dim Line As String() = (From e In Query.ToArray Select CStr(e.Value)).ToArray
-                Dim row2 As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject
+                Dim row2 As New RowObject
 
                 Call row2.Add(TimePoint)
                 Call row2.AddRange(Line)
@@ -118,7 +119,7 @@ Namespace EngineSystem.Services
             Return CsvData
         End Function
 
-        Public Shared Function Export(Service As EngineSystem.Services.DataAcquisition.DataSerializer.Csv) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Shared Function Export(Service As Csv) As File
             Return Export(Data:=Service._DataFlows, [Handles]:=Service.GetHandles)
         End Function
     End Class

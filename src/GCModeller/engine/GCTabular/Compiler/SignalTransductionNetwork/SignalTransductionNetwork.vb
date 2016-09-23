@@ -27,7 +27,7 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data

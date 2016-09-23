@@ -28,8 +28,8 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -44,9 +44,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
-Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.DataVisualization.Network.FileStream.Network(Of
-SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Enzyme,
-SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction)
+Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
+    SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Enzyme,
+    SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction)
 
 ''' <summary>
 ''' The calculation invoke interface of the both R scription version and VB version engine.

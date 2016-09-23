@@ -30,6 +30,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Poo
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
 Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.GCModeller.Assembly
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace EngineSystem.ObjectModels.Module
 

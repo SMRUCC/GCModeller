@@ -29,11 +29,11 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN
@@ -305,7 +305,7 @@ Public Module PhenotypeRegulations
              Let DataCols As String() = (From n As Integer In GeneObject.Samples Select CStr(n)).ToArray
              Let Row As String()() = {IDCol, DataCols}
              Let RowData = Row.MatrixToList
-             Select CType(RowData, Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)).ToArray
+             Select CType(RowData, RowObject)).ToArray
         Return CsvMatrix
     End Function
 
@@ -711,9 +711,9 @@ Public Module PhenotypeRegulations
                           Let PhenoTypeRegulators = (From GeneId As String In PhenotypeRelateGene Let GeneRegulators = (From item In RegulationData Where String.Equals(item.LocusId, GeneId) Let RegulatorIdColection = item.Regulators Select RegulatorIdColection).ToArray.MatrixToVector Select GeneRegulators).ToArray.MatrixToVector
                           Select Phenotype = strPhenotype, PhenotypeRelateGene, RegulatorCounts = PhenoTypeRegulators.Count, PhenoTypeRegulators).ToArray
         Dim LQuery = (From phenotype In Phenotypes
-                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge With {.FromNode = RegulatorId, .InteractionType = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.MatrixToVector
-        Dim RegulatorNodes = (From RegulatorId As String In Regulators Select New Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
-        Dim PhenotypeNodes = (From phenotype In Phenotypes Select New Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node With {.Identifier = phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
+                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.FromNode = RegulatorId, .InteractionType = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.MatrixToVector
+        Dim RegulatorNodes = (From RegulatorId As String In Regulators Select New FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
+        Dim PhenotypeNodes = (From phenotype In Phenotypes Select New FileStream.Node With {.Identifier = phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
 
         Call LQuery.SaveTo(EXPORT & "/Edges.csv", False)
         Call {RegulatorNodes, PhenotypeNodes}.MatrixToVector.SaveTo(EXPORT & "/Nodes.csv", False)
@@ -848,11 +848,11 @@ Public Module PhenotypeRegulations
     <ExportAPI("Export.Net.Cytoscape")>
     Public Function ExportCytoscapeNetwork(SignificantPhenotypeRegulations As File, ExportDIR As String) As Boolean
         Dim PhenotypeRegulations = (From Line In SignificantPhenotypeRegulations.Skip(1).AsParallel Where Not String.IsNullOrEmpty(Line.Last) Select Phenotype = Line.First, Regulators = (From item In Strings.Split(Line.Last, "; ") Select Regulator = item.Split(CChar("(")).First, Score = Val(Regex.Match(item, "\d+\.\d+").Value)).ToArray).ToArray
-        Dim Phenotypes = (From item In PhenotypeRegulations.AsParallel Select New Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node With {.Identifier = item.Phenotype, .NodeType = "PhenotypePathway"}).ToArray
-        Dim PhenotypeSignificantRegulators = (From RegulatorId As String In (From item In PhenotypeRegulations Select (From Regulator In item.Regulators Select Regulator.Regulator).ToArray).ToArray.MatrixToVector.Distinct.ToArray.AsParallel Select New Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
+        Dim Phenotypes = (From item In PhenotypeRegulations.AsParallel Select New FileStream.Node With {.Identifier = item.Phenotype, .NodeType = "PhenotypePathway"}).ToArray
+        Dim PhenotypeSignificantRegulators = (From RegulatorId As String In (From item In PhenotypeRegulations Select (From Regulator In item.Regulators Select Regulator.Regulator).ToArray).ToArray.MatrixToVector.Distinct.ToArray.AsParallel Select New FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
         Dim PhenotypeRegulationsEdges = (From Phenotype In PhenotypeRegulations.AsParallel
                                          Select (From Regulator In Phenotype.Regulators
-                                                 Select New Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge With {
+                                                 Select New NetworkEdge With {
                                                      .FromNode = Regulator.Regulator,
                                                      .ToNode = Phenotype.Phenotype,
                                                      .InteractionType = "PhenotypeRegulation",

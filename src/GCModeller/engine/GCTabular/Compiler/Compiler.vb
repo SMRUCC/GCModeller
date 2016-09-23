@@ -29,8 +29,12 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
@@ -59,7 +63,7 @@ Namespace Compiler
         Dim _TranscriptRegulations As TranscriptRegulation()
         Protected _argvs_Compile As CommandLine.CommandLine
         Protected _Door As SMRUCC.genomics.Assembly.DOOR.DOOR
-        Protected _CrossTalks As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Protected _CrossTalks As File
         Dim _ECProfiles As SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT()
 
 #End Region
@@ -174,8 +178,8 @@ Namespace Compiler
             Me._ModelIO.MetabolismModel = FileStream.MetabolismFlux.CreateObject(Me._MetabolismNetwork, MetabolismEnzymeLink:=Me._ModelIO.EnzymeMapping, MetaCycReactions:=_MetaCyc.GetReactions)
             Me._ModelIO.GenomeAnnotiation = FileStream.GeneObject.CreateObject(Me._MetaCyc.GetGenes, MyvaCog)
             Me._ModelIO.TranscriptionModel = FileStream.TranscriptUnit.CreateObject(Me._TranscriptRegulations, Door.DOOROperonView)
-            Me._ModelIO.CultivationMediums = GCMarkupLanguage.CultivationMediums.MetaCycDefault.Uptake_Substrates.ToList
-            Me._CrossTalks = Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File.Load(ModelProperty("-cross_talks"))
+            Me._ModelIO.CultivationMediums = CultivationMediums.MetaCycDefault.Uptake_Substrates.ToList
+            Me._CrossTalks = DocumentStream.File.Load(ModelProperty("-cross_talks"))
 
             'Sub New(Compiler As Compiler, KEGGReactionsCsv As String, KEGGCompoundsCsv As String, CARMENCsv As String)
             Dim KEGGReactions As String = ModelProperty("-kegg_reactions")
@@ -359,7 +363,7 @@ Namespace Compiler
             Next
             EnzymeGenes = (From strId As String In EnzymeGenes Select strId Distinct Order By strId Ascending).ToList
             For Each strId As String In EnzymeGenes
-                Dim ProteinPolypeptide = _ModelIO.Proteins.GetItem(UniqueId:=strId)
+                Dim ProteinPolypeptide = _ModelIO.Proteins.GetItem(uniqueId:=strId)
                 If ProteinPolypeptide Is Nothing Then '可能为蛋白质复合物
                     Call _Logging.WriteLine(String.Format("ASSIGN_PROTEIN_TYPES: {0} is not a polypeptide and it may be protein complex...", strId))
                     Continue For
@@ -432,9 +436,9 @@ Namespace Compiler
                 End If
             Next
 
-            Call Me._Logging.WriteLine(String.Format("{0}, polypeptide sequence not found! They may be RNA coding genes...", Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection.CollectionAttribute.CreateObject(PossibleRNAGene, "; ")),
+            Call Me._Logging.WriteLine(String.Format("{0}, polypeptide sequence not found! They may be RNA coding genes...", CollectionAttribute.CreateObject(PossibleRNAGene, "; ")),
                                           "GenerateCompositionVectors(Transcripts As FileStream.Transcript())",
-                                          Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                                          MSG_TYPES.ERR)
         End Sub
 
         ''' <summary>
@@ -442,8 +446,8 @@ Namespace Compiler
         ''' </summary>
         ''' <param name="CrossTalks"></param>
         ''' <remarks></remarks>
-        Protected Sub LinkEffectors(CrossTalks As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)
-            Dim FilteredList As List(Of FileStream.Regulator) = New List(Of FileStream.Regulator)
+        Protected Sub LinkEffectors(CrossTalks As DocumentStream.File)
+            Dim FilteredList As New List(Of FileStream.Regulator)
             Dim EffectorMapping = Me._ModelIO.EffectorMapping
 
             Call New Components.SignalTransductionNetwork(Me._ModelIO, _ModelIO.StringInteractions, _Logging).Invoke(Me._ModelIO.TranscriptionModel, _Door, CrossTalks:=CrossTalks)
@@ -583,7 +587,7 @@ Namespace Compiler
 
             Dim Regulators = (From item In _ModelIO.Regulators Where item.Effectors.IsNullOrEmpty Select item.ProteinId Distinct).ToArray
             For Each strId As String In Regulators
-                Dim Regulator = _ModelIO.Proteins.GetItem(UniqueId:=strId)
+                Dim Regulator = _ModelIO.Proteins.GetItem(uniqueId:=strId)
                 Regulator.ProteinType = GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide.ProteinTypes.TranscriptFactor
             Next
 

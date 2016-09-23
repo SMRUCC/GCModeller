@@ -26,6 +26,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services

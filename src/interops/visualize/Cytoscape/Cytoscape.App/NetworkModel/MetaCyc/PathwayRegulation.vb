@@ -26,9 +26,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Data
@@ -60,14 +60,14 @@ Namespace NetworkModel
                           Let TFRegulatedGenes As String() = Get_TFRegulatedGenes()
                           Select New With {.TF = Tf, .RegulatedPathways = (From item In Nodes Where item.SuperPathway = False AndAlso Regulates(TFRegulatedGenes, item) Select item).ToArray}).ToArray
 
-            Dim Network = New List(Of Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge)
+            Dim Network = New List(Of FileStream.NetworkEdge)
             Dim NodeList As List(Of PathwayRegulator) = New List(Of PathwayRegulator)
 
             Call Console.WriteLine("Start to create network visualization model...")
 
             For Each Line In LQuery
                 Dim Regulations = (From Pathway In Line.RegulatedPathways
-                                   Select New Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge With {
+                                   Select New FileStream.NetworkEdge With {
                                        .FromNode = Line.TF,
                                        .ToNode = Pathway.Identifier,
                                        .InteractionType = "Regulates"}).ToArray
@@ -76,23 +76,23 @@ Namespace NetworkModel
                     Call Network.AddRange(Regulations)
                     Call NodeList.Add(New PathwayRegulator With {.Identifier = Line.TF})
 
-                    Dim ChunkTemp As List(Of Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge) = New List(Of Microsoft.VisualBasic.DataVisualization.Network.FileStream.NetworkEdge)
+                    Dim ChunkTemp As New List(Of NetworkEdge)
                     For Each Node In Regulations
                         If Not Exists(ChunkTemp, Node) Then
                             Call ChunkTemp.Add(Node)
                         End If
                     Next
-                    Dim RegulationNodes As List(Of Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node) = New List(Of Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node)
+                    Dim RegulationNodes As New List(Of FileStream.Node)
                     For Each Item In ChunkTemp
                         If RegulationNodes.GetItem(Item.ToNode) Is Nothing Then
-                            Call RegulationNodes.Add(New Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node With {.Identifier = Item.ToNode, .NodeType = "Pathway"})
+                            Call RegulationNodes.Add(New FileStream.Node With {.Identifier = Item.ToNode, .NodeType = "Pathway"})
                         End If
                     Next
                     Dim PathwaysIds = (From item In RegulationNodes Select item.Identifier Distinct).ToArray
                     Dim Interactions = (From item In Edges.AsParallel Where Array.IndexOf(PathwaysIds, item.FromNode) > -1 AndAlso Array.IndexOf(PathwaysIds, item.ToNode) > -1 Select item).ToArray
 
                     Call ChunkTemp.AddRange(Interactions)
-                    Call RegulationNodes.Add(New Microsoft.VisualBasic.DataVisualization.Network.FileStream.Node With {.NodeType = "Regulator", .Identifier = Line.TF})
+                    Call RegulationNodes.Add(New FileStream.Node With {.NodeType = "Regulator", .Identifier = Line.TF})
 
                     Call RegulationNodes.SaveTo(String.Format("{0}/{1}/Nodes.csv", ExportDir, Line.TF), False)
                     Call ChunkTemp.SaveTo(String.Format("{0}/{1}/PathwayRegulations.csv", ExportDir, Line.TF), True)
