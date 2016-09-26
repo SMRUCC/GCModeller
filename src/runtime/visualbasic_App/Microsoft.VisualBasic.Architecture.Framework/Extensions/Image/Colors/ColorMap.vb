@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::c43a221415499caefb34603dbaa33ff2, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\ColorMap.vb"
+﻿#Region "Microsoft.VisualBasic::91d2ca2394bb0023af96a18312c2cedc, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\ColorMap.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -124,26 +124,64 @@ Namespace Imaging
             {NameOf(Me.Winter).ToLower, AddressOf Me.Winter}
         }
 
-        Public Const schAutumn As String = "Autumn"
-        Public Const schCool As String = "Cool"
-        Public Const schGray As String = "Gray"
-        Public Const schHot As String = "Hot"
-        Public Const schJet As String = "Jet"
-        Public Const schSpring As String = "Spring"
-        Public Const schSummer As String = "Summer"
-        Public Const schWinter As String = "Winter"
+        ''' <summary>
+        ''' Spring
+        ''' </summary>
+        Public Const PatternSpring As String = "Spring"
+        ''' <summary>
+        ''' Summer
+        ''' </summary>
+        Public Const PatternSummer As String = "Summer"
+        ''' <summary>
+        ''' Autumn
+        ''' </summary>
+        Public Const PatternAutumn As String = "Autumn"
+        ''' <summary>
+        ''' Winter
+        ''' </summary>
+        Public Const PatternWinter As String = "Winter"
+        ''' <summary>
+        ''' Jet
+        ''' </summary>
+        Public Const PatternJet As String = "Jet"
+        ''' <summary>
+        ''' Gray
+        ''' </summary>
+        Public Const PatternGray As String = "Gray"
+        ''' <summary>
+        ''' Hot
+        ''' </summary>
+        Public Const PatternHot As String = "Hot"
+        ''' <summary>
+        ''' Cool
+        ''' </summary>
+        Public Const PatternCool As String = "Cool"
 
-        Public Function GetMaps(name As String) As MapsFunc
+        ''' <summary>
+        ''' If failure, then this function will returns <see cref="Jet"/> by default, 
+        ''' or nothing if parameter <paramref name="noDefault"/> is set True.
+        ''' </summary>
+        ''' <param name="name">大小写不敏感</param>
+        ''' <returns></returns>
+        Public Function GetMaps(name As String, Optional noDefault As Boolean = False) As MapsFunc
             Static key As New Value(Of String)
 
             SyncLock key
-                If ColorMaps.ContainsKey(key = name.ToLower) Then
-                    Return ColorMaps(+key)
+                If Not name Is Nothing AndAlso
+                    ColorMaps.ContainsKey(key = name.ToLower) Then
+
+                    Return ColorMaps(key)
                 Else
-                    Return AddressOf Jet
+                    If noDefault Then
+                        Return Nothing
+                    Else
+                        Return AddressOf Jet
+                    End If
                 End If
             End SyncLock
         End Function
+
+#Region "Color Patterns"
 
         Public Function Spring() As Integer(,)
             Dim cmap As Integer(,) = New Integer(ColorMapLength - 1, 3) {}
@@ -319,5 +357,6 @@ Namespace Imaging
             Next
             Return cmap
         End Function
+#End Region
     End Class
 End Namespace
