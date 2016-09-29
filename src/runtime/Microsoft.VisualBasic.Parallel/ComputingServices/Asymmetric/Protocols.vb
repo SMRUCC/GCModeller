@@ -91,7 +91,7 @@ Namespace Asymmetric
         End Function
 
         Public Function GetPostData(request As RequestStream) As RegisterPost
-            Return request.LoadObject(Of RegisterPost)(AddressOf CreateObjectFromXml)
+            Return request.LoadObject(Of RegisterPost)(AddressOf LoadFromXml)
         End Function
     End Module
 End Namespace

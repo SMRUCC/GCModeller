@@ -48,7 +48,7 @@ Namespace KMeans
             Dim count As Integer = 0
             Dim sum As Double = 0.0
 
-            If X.GetUpperBound(0) <> Y.GetUpperBound(0) Then
+            If X.Length <> Y.Length Then
                 Throw New ArgumentException(DimNotAgree)
             Else
                 count = X.Length
@@ -74,8 +74,10 @@ Namespace KMeans
             Dim count As Integer = 0
             Dim sum As Double = 0.0
 
-            If X.GetUpperBound(0) <> Y.GetUpperBound(0) Then
-                Throw New ArgumentException(DimNotAgree)
+            If X.Length <> Y.Length Then
+                Dim ex As New ArgumentException(DimNotAgree)
+                ex = New ArgumentException($"len(X):={X.Length}, len(y):={Y.Length}", ex)
+                Throw ex
             Else
                 count = X.Length
             End If
@@ -135,10 +137,16 @@ Namespace KMeans
             Dim cluster As KMeansCluster(Of T) = Nothing
             Dim clusters As New ClusterCollection(Of T)
             Dim clusterNumbers As New List(Of Integer)
-            Dim Random As Random = New Random
+            Dim Random As New Random
 
             If clusterCount >= rowCount Then
-                Throw New Exception($"{clusterCount} >= {rowCount}, this will caused a dead loop!")
+                Dim msg As String =
+                    $"[cluster.count:={clusterCount}] >= [source.length:={rowCount}], this will caused a dead loop!"
+                Throw New Exception(msg)
+            Else
+                If debug Then
+                    Call "Init assigned random clusters...".__DEBUG_ECHO
+                End If
             End If
 
             While clusterNumbers.Count < clusterCount
@@ -154,6 +162,9 @@ Namespace KMeans
 
             If [stop] <= 0 Then
                 [stop] = clusterCount * rowCount
+            End If
+            If debug Then
+                Call "Start kmeans clustering....".__DEBUG_ECHO
             End If
 
             While stableClustersCount <> clusters.NumOfCluster
@@ -198,10 +209,9 @@ Namespace KMeans
         ''' Seperates a dataset into clusters or groups with similar characteristics
         ''' </summary>
         ''' <param name="clusters">A collection of data clusters</param>
-        ''' <param name="source">An array containing data to b eclustered</param>
+        ''' <param name="data">An array containing data to b eclustered</param>
         ''' <returns>A collection of clusters of data</returns>
-        Public Function ClusterDataSet(Of T As EntityBase(Of Double))(clusters As ClusterCollection(Of T), source As IEnumerable(Of T)) As ClusterCollection(Of T)
-            Dim data As T() = source.ToArray
+        Public Function ClusterDataSet(Of T As EntityBase(Of Double))(clusters As ClusterCollection(Of T), data As T()) As ClusterCollection(Of T)
             Dim clusterMean As Double()
             Dim firstClusterDistance As Double = 0.0
             Dim secondClusterDistance As Double = 0.0
@@ -216,7 +226,7 @@ Namespace KMeans
             Next
 
             If clusters.NumOfCluster <= 0 Then
-                Throw New SystemException("Cluster Count Cannot Be Zero!")
+                Throw New SystemException("Cluster count cannot be ZERO!")
             End If
 
             '((20+30)/2), ((170+160)/2), ((80+120)/2)
@@ -226,7 +236,7 @@ Namespace KMeans
                 For cluster As Integer = 0 To clusters.NumOfCluster - 1
                     Dim x As KMeansCluster(Of T) = clusters(cluster)
                     If x.NumOfEntity = 0 Then
-                        clusterMean = 0R.CopyVector(dataPoint.Length)
+                        clusterMean = New Double(dataPoint.Length - 1) {}
                     Else
                         clusterMean = x.ClusterMean
                     End If

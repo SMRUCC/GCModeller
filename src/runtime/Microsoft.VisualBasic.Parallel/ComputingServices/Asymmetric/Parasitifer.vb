@@ -227,7 +227,7 @@ Namespace Asymmetric
             Sub New(rawStream As Byte())
                 Dim str As String = System.Text.Encoding.UTF8.GetString(rawStream)
                 Try
-                    Portal = str.CreateObjectFromXml(Of Microsoft.VisualBasic.Net.IPEndPoint)
+                    Portal = str.LoadFromXml(Of Microsoft.VisualBasic.Net.IPEndPoint)
                 Catch ex As Exception
                     Throw New Exception(str, ex)
                 End Try

@@ -1,13 +1,13 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.DataVisualization.Network
-Imports Microsoft.VisualBasic.DataVisualization.Network.FileStream
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.DocumentFormat.Csv
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' Network visualization model json data generator.
@@ -22,15 +22,16 @@ Public Module NetworkGenerator
     <Extension>
     Public Function FromNetwork(net As FileStream.Network) As String
         Dim types As String() = net.Nodes.Select(Function(x) x.NodeType).Distinct.ToArray
-        Dim nodes As node() =
-            LinqAPI.Exec(Of node) <= From x As FileStream.Node
-                                     In net.Nodes
-                                     Select New node With {
-                                         .name = x.Identifier,
-                                         .group = Array.IndexOf(types, x.NodeType),
-                                         .type = x.NodeType,
-                                         .size = net.Links(x.Identifier)
-                                     }
+        Dim nodes As node() = LinqAPI.Exec(Of node) <=
+ _
+            From x As FileStream.Node
+            In net.Nodes
+            Select New node With {
+                .name = x.Identifier,
+                .group = Array.IndexOf(types, x.NodeType),
+                .type = x.NodeType,
+                .size = net.Links(x.Identifier)
+            }
         nodes = nodes.AddHandle
 
         Dim nodeHash = nodes.ToDictionary
