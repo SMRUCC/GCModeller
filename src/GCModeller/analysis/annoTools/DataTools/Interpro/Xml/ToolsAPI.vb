@@ -47,7 +47,7 @@ Namespace Interpro.Xml
             End If
 
             Dim Trim As String = __trim(path)
-            Dim DbXml As DbArchive = Trim.CreateObjectFromXml(Of DbArchive)()
+            Dim DbXml As DbArchive = Trim.LoadFromXml(Of DbArchive)()
             DbXml.FilePath = path
             Return DbXml
         End Function

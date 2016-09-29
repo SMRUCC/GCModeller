@@ -222,7 +222,7 @@ Namespace FileStream.IO
 
             Dim XML = DecryptedData.DecryptString(sBuilder.ToString)
             If SecurityString.VerifyMd5Hash(XML, MD5) Then
-                Return XML.CreateObjectFromXml(Of XmlresxLoader)()
+                Return XML.LoadFromXml(Of XmlresxLoader)()
             Else
                 Throw New Exception("Model data was corrupted!")
             End If

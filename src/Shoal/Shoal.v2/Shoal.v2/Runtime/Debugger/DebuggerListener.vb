@@ -58,7 +58,7 @@ RESTART:        _DebuggerListener = New TcpSynchronizationServicesSocket(Address
 
             Call Console.WriteLine(str)
 
-            Dim Message As DebuggerMessage = str.CreateObjectFromXml(Of DebuggerMessage)(False)
+            Dim Message As DebuggerMessage = str.LoadFromXml(Of DebuggerMessage)(False)
 
             If Message Is Nothing Then
                 Return NetResponse.RFC_TOKEN_INVALID

@@ -219,7 +219,7 @@ Namespace DocumentFormat.XmlOutput.MEME
         Public Shared Function LoadDocument(path As String) As MEME
             Dim Text As String = FileIO.FileSystem.ReadAllText(path)
             Text = Regex.Replace(Text, "<!DOCTYPE.+?]>", "")
-            Return Text.CreateObjectFromXml(Of MEME)()
+            Return Text.LoadFromXml(Of MEME)()
         End Function
 
         Public Function ToMEMEHtml() As HTML.MEMEHtml

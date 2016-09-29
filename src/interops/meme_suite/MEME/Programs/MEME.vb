@@ -1,30 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::9482e61c2d7485ff958389b74f0a9ccb, ..\interops\meme_suite\MEME\Programs\MEME.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 Namespace Programs
@@ -382,10 +383,10 @@ Namespace Programs
         ''' <param name="DataSet">file containing sequences in FASTA format</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Invoke(DataSet As String) As Microsoft.VisualBasic.CommandLine.IORedirect
-            Dim Optionals As String = Microsoft.VisualBasic.CommandLine.CLIBuildMethod.GetCLI(Of MEME)(Instance:=Me)
+        Public Function Invoke(DataSet As String) As IORedirect
+            Dim Optionals As String = CLIBuildMethod.GetCLI(Of MEME)(app:=Me)
             Dim arguments As String = String.Format(MEME.REQUIRED_ARGUMENTS, DataSet) & " " & Optionals
-            Return New Microsoft.VisualBasic.CommandLine.IORedirect(Me._executableAssembly, arguments)
+            Return New IORedirect(Me._executableAssembly, arguments)
         End Function
 
         Sub New(AssemblyPath As String)
