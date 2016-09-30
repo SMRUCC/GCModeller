@@ -35,7 +35,7 @@ Namespace OBO
     ''' go.obo/go-basic.obo(Go注释功能定义文件)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class AnnotationFile
+    Public Class GO_OBO
 
         Public Property header As header
         Public Property Terms As Term()
@@ -44,7 +44,7 @@ Namespace OBO
             Dim bufs As List(Of String) = New List(Of String)
             Dim schema = LoadClassSchema(Of Term)()
             Dim LQuery = From x As Term
-                     In Terms
+                         In Terms
                          Select x.ToLines(schema)
 
             Call bufs.AddRange(header.ToLines)
@@ -59,8 +59,43 @@ Namespace OBO
             Return bufs.SaveTo(path, Encodings.ASCII.GetEncodings)
         End Function
 
-        Public Shared Function LoadDocument(path As String) As AnnotationFile
+        ''' <summary>
+        ''' 对于小文件可以使用这个方法来读取
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadDocument(path As String) As GO_OBO
+            Using obo As New OBOFile(path$)
+                Return New GO_OBO With {
+                    .header = obo.header,
+                    .Terms = ReadTerms(obo).ToArray
+                }
+            End Using
+        End Function
 
+        Public Shared Function ParseHeader(path$) As header
+            Using obo As New OBOFile(path$)
+                Return obo.header
+            End Using
+        End Function
+
+        Public Shared Iterator Function ReadTerms(obo As OBOFile) As IEnumerable(Of Term)
+            Dim schema = LoadClassSchema(Of Term)()
+
+            For Each x As RawTerm In obo.GetDatas
+                If x.Type = Term.Term Then
+                    Yield schema.LoadData(Of Term)(x.GetData)
+                End If
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 使用迭代器来读取大型的GO OBO文件
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Public Shared Function Open(path$) As IEnumerable(Of Term)
+            Return ReadTerms(New OBOFile(path))
         End Function
     End Class
 End Namespace

@@ -28,6 +28,7 @@
 Imports System.Reflection
 Imports System.Text
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -399,22 +400,26 @@ Public Class GAF
     End Function
 
     Public Shared Function Load(path As String) As GAF()
-        Dim strLines As String() = LinqAPI.Exec(Of String) <=
+        Dim strLines As String() =
+            LinqAPI.Exec(Of String) <=
  _
             From strLine As String
             In IO.File.ReadLines(path)
             Where strLine.First <> "!"c
             Select strLine
 
-        Dim ClassSchemaBuffer = From x
-                                In LoadClassSchema(Of GAF)().Values
-                                Select x
-                                Order By x.Field.Index Ascending
+        Dim schemaBufs =
+            From x As SchemaMaps.BindProperty(Of Field)
+            In LoadClassSchema(Of GAF)().Values
+            Select x
+            Order By x.Field.Index Ascending
 
-        Dim ClassSchema = ClassSchemaBuffer.ToArray(Function(x) x.Property)
-        Dim LQuery = (From strLine As String
-                      In strLines
-                      Select Load(strLine, ClassSchema)).ToArray
+        Dim ClassSchema = schemaBufs.ToArray(Function(x) x.Property)
+        Dim LQuery As GAF() = LinqAPI.Exec(Of GAF) <=
+            From strLine As String
+            In strLines
+            Select Load(strLine, ClassSchema)
+
         Return LQuery
     End Function
 

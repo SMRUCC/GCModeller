@@ -174,7 +174,7 @@
     <Compile Include="AnnotationFile\xref2go\XrefIdTypes.vb" />
     <Compile Include="AnnotationFile\xref2go\XrefId.vb" />
     <Compile Include="AnnotationFile\xref2go\ToGo.vb" />
-    <Compile Include="AnnotationFile\Obo\AnnotationFile.vb" />
+    <Compile Include="AnnotationFile\Obo\GO.vb" />
     <Compile Include="AnnotationFile\GAF.vb" />
     <Compile Include="OntologyRelations.vb" />
     <Compile Include="Ontologies.vb" />

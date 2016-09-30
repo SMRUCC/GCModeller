@@ -18,21 +18,25 @@ Public Module ParserIO
     <Extension>
     Public Function LoadData(Of T As Class)(strValue As IEnumerable(Of String)) As T
         Dim Schema As Dictionary(Of BindProperty(Of Field)) = LoadClassSchema(Of T)()
-        Dim data As Dictionary(Of String, String()) =
-            __createModel(strValue.ToArray)
+        Dim data As Dictionary(Of String, String()) = __createModel(strValue.ToArray)
+        Return Schema.LoadData(Of T)(data)
+    End Function
+
+    <Extension>
+    Public Function LoadData(Of T As Class)(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String())) As T
         Dim o As T = Activator.CreateInstance(Of T)()
 
-        For Each f As BindProperty(Of Field) In Schema.Values
-            Dim EntryName As String = f.Field._Name
+        For Each f As BindProperty(Of Field) In schema.Values
+            Dim name As String = f.Field._Name
 
-            If Not data.ContainsKey(EntryName) Then
+            If Not data.ContainsKey(name) Then
                 Continue For
             End If
 
             If f.Type = GetType(String) Then
-                Call f.SetValue(o, data(EntryName).First)
+                Call f.SetValue(o, data(name)(Scan0%))
             Else
-                Call f.SetValue(o, data(EntryName))
+                Call f.SetValue(o, data(name))
             End If
         Next
 
@@ -74,7 +78,8 @@ Public Module ParserIO
                 attributeType:=Field.TypeInfo,
                 inherit:=True)
             Where Not attrs.IsNullOrEmpty AndAlso
-                DataFramework.IsPrimitive([property].PropertyType)
+                DataFramework.IsPrimitive([property].PropertyType) OrElse
+                [property].PropertyType = GetType(String())
             Select New BindProperty(Of Field)(DirectCast(attrs.First, Field), [property])
 
         If LQuery.IsNullOrEmpty Then Return Nothing
