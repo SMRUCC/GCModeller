@@ -10,12 +10,12 @@ Namespace OBO
         ''' </summary>
         ''' <returns></returns>
         <Field("is_anonymous")> Public Property is_anonymous As String
-        <Field("alt_id")> Public Property alt_id As String
+        <Field("alt_id")> Public Property alt_id As String()
         <Field("def")> Public Property def As String
         <Field("comment")> Public Property comment As String
-        <Field("subset")> Public Property subset As String
-        <Field("synonym")> Public Property synonym As String
-        <Field("xref")> Public Property xref As String
+        <Field("subset")> Public Property subset As String()
+        <Field("synonym")> Public Property synonym As String()
+        <Field("xref")> Public Property xref As String()
         ''' <summary>
         ''' !该关系仅对domain指定术语的亚类起作用
         ''' </summary>

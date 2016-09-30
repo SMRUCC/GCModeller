@@ -116,6 +116,10 @@ Namespace OBO
         <Field("replaced_by")> Public Property replaced_by As String
         <Field("is_obsolete")> Public Property is_obsolete As String
         <Field("comment")> Public Property comment As String
+        <Field("equivalent_to")> Public Property equivalent_to As String()
+        <Field("alt_id")> Public Property alt_id As String()
+        <Field("intersection_of")> Public Property intersection_of As String()
+        <Field("property_value")> Public Property property_value As String()
 
         Public Const Term As String = "[Term]"
         Public Const Typedef As String = "[Typedef]"

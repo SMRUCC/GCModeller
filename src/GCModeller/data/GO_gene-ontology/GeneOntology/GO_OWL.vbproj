@@ -166,16 +166,18 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnnotationFile\NCBI\gene2go.vb" />
-    <Compile Include="AnnotationFile\Obo\base.vb" />
-    <Compile Include="AnnotationFile\Obo\Instance.vb" />
-    <Compile Include="AnnotationFile\Obo\Typedef.vb" />
-    <Compile Include="AnnotationFile\Obo\OntologyRelations.vb" />
-    <Compile Include="AnnotationFile\xref2go\XrefIdTypes.vb" />
-    <Compile Include="AnnotationFile\xref2go\XrefId.vb" />
-    <Compile Include="AnnotationFile\xref2go\ToGo.vb" />
-    <Compile Include="AnnotationFile\Obo\GO.vb" />
-    <Compile Include="AnnotationFile\GAF.vb" />
+    <Compile Include="DAG\Term.vb" />
+    <Compile Include="DAG\Fields.vb" />
+    <Compile Include="Files\NCBI\gene2go.vb" />
+    <Compile Include="Files\Obo\base.vb" />
+    <Compile Include="Files\Obo\Instance.vb" />
+    <Compile Include="Files\Obo\Typedef.vb" />
+    <Compile Include="Files\Obo\OntologyRelations.vb" />
+    <Compile Include="Files\xref2go\XrefIdTypes.vb" />
+    <Compile Include="Files\xref2go\XrefId.vb" />
+    <Compile Include="Files\xref2go\ToGo.vb" />
+    <Compile Include="Files\Obo\GO.vb" />
+    <Compile Include="Files\GAF.vb" />
     <Compile Include="OntologyRelations.vb" />
     <Compile Include="Ontologies.vb" />
     <Compile Include="MySQL\Tables\association.vb" />
@@ -223,7 +225,7 @@
     <Compile Include="MySQL\Tables\term_subset.vb" />
     <Compile Include="MySQL\Tables\term_synonym.vb" />
     <Compile Include="OWL\Ontology.vb" />
-    <Compile Include="AnnotationFile\Obo\Term.vb" />
+    <Compile Include="Files\Obo\Term.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -290,6 +292,7 @@
       <Name>SBML</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
