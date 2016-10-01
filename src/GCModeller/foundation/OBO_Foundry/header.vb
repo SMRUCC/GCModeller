@@ -39,7 +39,7 @@ Public Class header
     <Field("saved-by")> Public Property Author As String
     <Field("auto-generated-by")> Public Property Tools As String = "GCModeller"
     <Field("subsetdef")> Public Property SubsetDef As String()
-    <Field("synonymtypedef")> Public Property SynonymTypeDef As String
+    <Field("synonymtypedef")> Public Property SynonymTypeDef As String()
     <Field("default-namespace")> Public Property DefaultNamespace As String
     <Field("remark")> Public Property Remark As String
     <Field("ontology")> Public Property Ontology As String
