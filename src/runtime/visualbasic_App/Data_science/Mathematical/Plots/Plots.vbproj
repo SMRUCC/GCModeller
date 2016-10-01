@@ -71,7 +71,7 @@
     <OutputPath>bin\x64\docs\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <OutputPath>bin\Publish\</OutputPath>
+    <OutputPath>X:\nuget_publish\VB_APP\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <OutputPath>bin\x64\Publish\</OutputPath>
@@ -111,6 +111,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -129,6 +130,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="3D\Axis.vb" />
+    <Compile Include="3D\Canvas.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3D\Scatter.vb" />
+    <Compile Include="3D\Data.vb" />
     <Compile Include="Axis.vb" />
     <Compile Include="Bubble.vb" />
     <Compile Include="g\Legends\LegendPlot.vb" />
@@ -136,9 +143,11 @@
     <Compile Include="csv\SerialData.vb" />
     <Compile Include="g\Legends\LegendStyles.vb" />
     <Compile Include="Heatmap.vb" />
+    <Compile Include="Histogram\Data.vb" />
+    <Compile Include="QQPlot.vb" />
     <Compile Include="PieChart.vb" />
     <Compile Include="PlotTypes.vb" />
-    <Compile Include="Histogram.vb" />
+    <Compile Include="Histogram\Histogram.vb" />
     <Compile Include="Scatter\Annotation.vb" />
     <Compile Include="Scatter\Data.vb" />
     <Compile Include="Scatter\Scatter.vb" />
@@ -195,6 +204,10 @@
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>Markups</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+      <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
+      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Math\Microsoft.VisualBasic.Mathematical.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>Microsoft.VisualBasic.Mathematical</Name>
@@ -204,6 +217,7 @@
       <Name>diffEq</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,12 +1,13 @@
-﻿
+﻿Imports System.ComponentModel
+
 ''' <summary>
 ''' The Gene Ontology project provides controlled vocabularies of defined terms representing gene product properties. 
 ''' These cover three domains: 
 ''' 
 ''' + ``Cellular Component``, the parts of a cell or its extracellular environment; 
 ''' + ``Molecular Function``, the elemental activities of a gene product at the molecular level, such as binding or catalysis; 
-''' + ``Biological Process``, operations or sets of molecular events with a defined beginning and end, pertinent to the functioning of integrated 
-''' living units: cells, tissues, organs, and organisms.
+''' + ``Biological Process``, operations or sets of molecular events with a defined beginning and end, pertinent to the 
+'''   functioning of integrated living units: cells, tissues, organs, and organisms.
 ''' 
 ''' The GO ontology Is structured As a directed acyclic graph where Each term has defined relationships To one Or more other 
 ''' terms In the same domain, And sometimes To other domains. The GO vocabulary Is designed To be species-agnostic, And 
@@ -22,7 +23,7 @@ Public Enum Ontologies
     ''' These terms describe a component of a cell that is part of a larger object, such as an anatomical structure 
     ''' (e.g. rough endoplasmic reticulum or nucleus) or a gene product group (e.g. ribosome, proteasome or a protein dimer).
     ''' </summary>
-    CellularComponent
+    <Description("cellular_component")> CellularComponent
     ''' <summary>
     ''' A biological process term describes a series of events accomplished by one or more organized assemblies of molecular functions. 
     ''' Examples of broad biological process terms are "cellular physiological process" or "signal transduction". Examples of more 
@@ -31,7 +32,7 @@ Public Enum Ontologies
     ''' A biological process Is Not equivalent To a pathway. At present, the GO does Not Try To represent the dynamics Or dependencies 
     ''' that would be required To fully describe a pathway.
     ''' </summary>
-    BiologicalProcess
+    <Description("biological_process")> BiologicalProcess
     ''' <summary>
     ''' Molecular function terms describes activities that occur at the molecular level, such as "catalytic activity" or "binding activity". 
     ''' GO molecular function terms represent activities rather than the entities (molecules or complexes) that perform the actions, 
@@ -42,5 +43,5 @@ Public Enum Ontologies
     ''' It Is easy To confuse a gene product name With its molecular Function; For that reason GO molecular functions are often appended 
     ''' With the word "activity".
     ''' </summary>
-    MolecularFunction
+    <Description("molecular_function")> MolecularFunction
 End Enum

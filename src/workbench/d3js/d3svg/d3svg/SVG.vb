@@ -2,6 +2,8 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Web.Script.Serialization
+Imports Microsoft.VisualBasic.Imaging.SVG
+Imports Microsoft.VisualBasic.MIME.Markup
 
 Public Class SVG
 
@@ -56,9 +58,9 @@ Public Module SVGBuilder
     End Function
 
     <Extension>
-    Public Function BuildModel(svg As SVG) As Nodes.SVG
+    Public Function BuildModel(svg As SVG) As SVGXml
         Dim doc As String = svg.__build(SVGRootNoNamespace)
-        Dim build As Nodes.SVG = doc.CreateObjectFromXml(Of Nodes.SVG)
+        Dim build As SVGXml = doc.LoadFromXml(Of SVGXml)
         Return build
     End Function
 

@@ -62,7 +62,7 @@ Namespace Colors
             Dim Y As Integer = CInt(5 + sz.Height) - 20
             Dim X As Double = 5
             Dim maps As New ColorMap(mapLevel * 2)
-            Dim clSequence = ColorSequence(maps.GetMaps(mapName), maps).Reverse.ToArray
+            Dim clSequence As Color() = ColorSequence(maps, mapName).Reverse.ToArray
             Dim offset = CInt(clSequence.Length * offsetPercentage)
             Dim drWidth As Integer = Gr.Width - 5 * 2
             Dim dx As Double = drWidth / (clSequence.Length - offset)
@@ -142,7 +142,7 @@ Namespace Colors
 
             Sub New(values As IEnumerable(Of Double), name As String, mapLevels As Integer, replaceBase As Boolean)
                 Dim maps As New ColorMap(mapLevels * 2)
-                Me.clSequence = ColorSequence(maps.GetMaps(name), maps).Reverse.ToArray
+                Me.clSequence = ColorSequence(maps, name).Reverse.ToArray
                 Me.values = values.ToArray
                 Me.replaceBase = replaceBase
                 Me.highest = clSequence.Last

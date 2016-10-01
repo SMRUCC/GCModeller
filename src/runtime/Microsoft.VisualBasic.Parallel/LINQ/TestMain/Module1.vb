@@ -70,7 +70,7 @@ Module Module1
         Call RunTask(Sub()
                          MsgBox("click to start!")
 
-                         Dim qlll = (From x As Integer In New RQL.API.Repository(Of Integer)("http://127.0.0.1/test123.vb").Where("$x mod 6 =1").AsLinq(Of Integer) Select x.__DEBUG_ECHO).ToArray
+                         Dim qlll = (From x As Integer In New RQL.API.Repository(Of Integer)("http://127.0.0.1/test123.vb").Where("$x mod 6 =1").AsLinq(Of Integer) Select Time(Sub() x.__DEBUG_ECHO)).ToArray
 
 
                          MsgBox("test2")
@@ -96,7 +96,7 @@ Module Module1
 
         Dim source = {1, 2, 3, 4, 5, 6, 7}
 
-        Dim LQuery = (From x As Integer In source Let add = x + 50 Where add > 0 Let cc = add ^ 2 Select cc, x, add, nn = Sum(New Double() {cc, x, add * 22}))
+        Dim LQuery = (From x As Integer In source Let add = x + 50 Where add > 0 Let cc = add ^ 2 Select cc, x, add, nn = New Double() {cc, x, add * 22}.Sum)
 
 
         Dim code As String = LinqClosure.BuildClosure("x", GetType(Integer), {"add = x + 50 "}, {"cc = add ^ 2"}, {"cc", "x", "add", "nn = cc+ x+ Add * 22"}, "add > 0")

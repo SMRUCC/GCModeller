@@ -79,7 +79,7 @@ RESTART:        ReadListenerServices.Run()
 
         Private Function __internalProtocol(uid As Long, request As RequestStream, remoteDevice As System.Net.IPEndPoint) As RequestStream
             Dim strMessage As String = request.GetUTF8String
-            Dim data As DebuggerMessage = strMessage.CreateObjectFromXml(Of DebuggerMessage)(False)
+            Dim data As DebuggerMessage = strMessage.LoadFromXml(Of DebuggerMessage)(False)
 
             If data Is Nothing Then
                 Return NetResponse.RFC_TOKEN_INVALID

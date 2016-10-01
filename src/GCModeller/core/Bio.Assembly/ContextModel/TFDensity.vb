@@ -133,12 +133,13 @@ Namespace ContextModel
             End Function
         End Structure
 
-        <Extension>
-        Private Function __worker(Of T As IGeneBrief)(genome As IGenomicsContextProvider(Of T),
-                                                      getTF As Func(Of Strands, T()),
-                                                      getRelated As Func(Of T, T(), Integer, T()),
-                                                      numTotal As Integer,
-                                                      ranges As Integer) As Density()
+        <Extension> Private Function __worker(Of T As IGeneBrief)(
+                                            genome As IGenomicsContextProvider(Of T),
+                                             getTF As Func(Of Strands, T()),
+                                        getRelated As Func(Of T, T(), Integer, T()),
+                                          numTotal As Integer,
+                                            ranges As Integer) As Density()
+
             Dim LQuery As Density() = LinqAPI.Exec(Of Density) <=
  _
                 From gene As T
@@ -166,14 +167,18 @@ Namespace ContextModel
         ''' This value is set to 20000bp is more perfect works on the bacteria genome, probably...
         ''' </param>
         ''' <returns></returns>
-        <Extension>
-        Public Function DensityCis(Of T As IGeneBrief)(
-                                      genome As IGenomicsContextProvider(Of T),
-                                      TF As IEnumerable(Of String),
-                                      Optional ranges As Integer = 10000) As Density()
+        <Extension> Public Function DensityCis(Of T As IGeneBrief)(
+                                             genome As IGenomicsContextProvider(Of T),
+                                                 TF As IEnumerable(Of String),
+                                    Optional ranges As Integer = 10000) As Density()
+
             Dim TFs As T() = TF.ToArray(AddressOf genome.GetByName)
             Dim getTF As Func(Of Strands, T()) = New __sourceHelper(Of T)(TFs, True).__gets
-            Dim result As Density() = genome.__worker(getTF, AddressOf __getCisGenes(Of T), TFs.Length, ranges)
+            Dim result As Density() =
+                genome.__worker(getTF,
+                                AddressOf __getCisGenes(Of T),
+                                TFs.Length,
+                                ranges)
             Return result
         End Function
 

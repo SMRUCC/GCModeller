@@ -88,7 +88,7 @@ Namespace OwlDocument
 
         Public Shared Function Load(path As String) As DocumentFile
             Dim strData As String = __trim(FileIO.FileSystem.ReadAllText(path))
-            Dim Instance = strData.CreateObjectFromXml(Of DocumentFile)()
+            Dim Instance = strData.LoadFromXml(Of DocumentFile)()
             Instance.FilePath = path
             Instance.__initDoc()
 

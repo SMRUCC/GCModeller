@@ -27,7 +27,7 @@ Public Class FormBrowser
     Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
         Using file As New SaveFileDialog With {.Filter = "SVG image(*.svg)|*.svg"}
             If file.ShowDialog = DialogResult.OK Then
-                Dim tmp As String = App.GetTempFile.TrimFileExt & ".html"
+                Dim tmp As String = App.GetTempFile.TrimSuffix & ".html"
                 Call geckoWebBrowser.SaveDocument(tmp)
                 Dim parser As d3svg.D3Parser = New d3svg.ForceDirectedGraph
                 Dim svg As d3svg.SVG = parser.HtmlFileParser(tmp)
