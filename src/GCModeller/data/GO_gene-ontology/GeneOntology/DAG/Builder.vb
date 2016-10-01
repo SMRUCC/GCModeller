@@ -17,7 +17,8 @@ Namespace DAG
                     .is_a = x.is_a.ToArray(Function(s) New is_a(s$)),
                     .relationship = x.relationship.ToArray(Function(s) New Relationship(s$)),
                     .synonym = x.synonym.ToArray(Function(s) New synonym(s$)),
-                    .xref = x.xref.ToArray(AddressOf xrefParser)
+                    .xref = x.xref.ToArray(AddressOf xrefParser),
+                    .namespace = x.namespace
                 }
             Next
 

@@ -58,9 +58,11 @@ Namespace SequenceModel.FASTA
         ''' <param name="chunkSize"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        Public Shared Function FastSplit(path As String, n As Integer, outDIR As String,
-                                     Optional chunkSize As Long = 1024 * 1024 * 128,
-                                     Optional encoding As System.Text.Encoding = Nothing) As Boolean
+        Public Shared Function FastSplit(path As String,
+                                         n As Integer,
+                                         outDIR As String,
+                                         Optional chunkSize As Long = 1024 * 1024 * 128,
+                                         Optional encoding As Encoding = Nothing) As Boolean
 
             Using IO As System.IO.FileStream = New IO.FileStream(path, System.IO.FileMode.Open)
                 Dim chunkBuffer As Byte() = New Byte(chunkSize - 1) {}

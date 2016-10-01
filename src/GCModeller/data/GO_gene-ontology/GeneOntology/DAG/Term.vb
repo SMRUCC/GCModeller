@@ -15,6 +15,7 @@ Namespace DAG
         Public Property synonym As synonym()
         Public Property relationship As Relationship()
         Public Property id As String Implements sIdEnumerable.Identifier
+        Public Property [namespace] As String
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
