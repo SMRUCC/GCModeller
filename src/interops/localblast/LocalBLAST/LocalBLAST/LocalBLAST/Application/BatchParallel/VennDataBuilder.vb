@@ -57,12 +57,7 @@ Namespace LocalBLAST.Application.BatchParallel
         ''' <param name="Export"></param>
         ''' <returns>返回blast的日志文件名</returns>
         ''' <remarks></remarks>
-        Public Delegate Function INVOKE_BLAST_HANDLE(Query As String,
-                                                     Subject As String,
-                                                     num_threads As Integer,
-                                                     Evalue As String,
-                                                     EXPORT As String,
-                                                     [Overrides] As Boolean) As String
+        Public Delegate Function INVOKE_BLAST_HANDLE(query$, subject$, num_threads%, evalue$, EXPORT$, [overrides] As Boolean) As String
 
         ''' <summary>
         ''' The recommended num_threads parameter for the blast operation base on the current system hardware information.
@@ -84,30 +79,25 @@ Namespace LocalBLAST.Application.BatchParallel
         ''' </summary>
         ''' <param name="input">输入的文件夹，fasta序列的文件拓展名必须要为*.fasta或者*.fsa</param>
         ''' <param name="EXPORT">结果导出的文件夹，导出blast日志文件</param>
-        ''' <param name="InvokedBLASTAction">所执行的blast命令，函数返回日志文件名</param>
+        ''' <param name="localblast">所执行的blast命令，函数返回日志文件名</param>
         ''' <remarks></remarks>
         '''
         <ExportAPI("Task.Builder")>
-        Public Function TaskBuilder(input As String,
-                                    EXPORT As String,
-                                    evalue As String,
-                                    InvokedBLASTAction As INVOKE_BLAST_HANDLE,
-                                    Optional [Overrides] As Boolean = False) As AlignEntry()
+        Public Function TaskBuilder(input$, EXPORT$, evalue$, localblast As INVOKE_BLAST_HANDLE, Optional [overrides] As Boolean = False) As AlignEntry()
             Dim Files As String() = ls - l - r - wildcards("*.fasta", "*.fsa") <= input
-            Dim ComboList = Comb(Of String).CreateCompleteObjectPairs(Files)
-
-            Call FileIO.FileSystem.CreateDirectory(EXPORT)
-
+            Dim clist = Comb(Of String).CreateCompleteObjectPairs(Files)
             Dim FileList As New List(Of String)
 
-            For Each pairedList In ComboList
+            Call EXPORT.MkDIR
+
+            For Each pairedList In clist
                 For Each paired As KeyValuePair(Of String, String) In pairedList
-                    FileList += InvokedBLASTAction(Query:=paired.Key,
-                                                   Subject:=paired.Value,
-                                                   Evalue:=evalue,
-                                                   EXPORT:=EXPORT,
-                                                   num_threads:=RecommendedThreads,
-                                                   [Overrides]:=[Overrides])
+                    FileList += localblast(query:=paired.Key,
+                                           subject:=paired.Value,
+                                           evalue:=evalue,
+                                           EXPORT:=EXPORT,
+                                           num_threads:=RecommendedThreads,
+                                           [overrides]:=[overrides])
                 Next
             Next
 
@@ -122,39 +112,31 @@ Namespace LocalBLAST.Application.BatchParallel
         ''' <param name="input"></param>
         ''' <param name="EXPORT"></param>
         ''' <param name="evalue"></param>
-        ''' <param name="InvokedBLASTAction"></param>
+        ''' <param name="localblast"></param>
         ''' <remarks></remarks>
         '''
         <ExportAPI("Task.Builder.Parallel")>
-        Public Function TaskBuilder_p(Input As String,
-                                      EXPORT As String,
-                                      Evalue As String,
-                                      InvokedBLASTAction As INVOKE_BLAST_HANDLE,
-                                      Optional [Overrides] As Boolean = False) As AlignEntry()
-
-            Dim Files As String() = ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa") <= Input
-            Dim ComboList As KeyValuePair(Of String, String)()() =
-                Comb(Of String).CreateCompleteObjectPairs(Files)
-
-            Call FileIO.FileSystem.CreateDirectory(EXPORT)
-
+        Public Function TaskBuilder_p(input$, EXPORT$, Evalue$, localblast As INVOKE_BLAST_HANDLE, Optional [overrides] As Boolean = False) As AlignEntry()
+            Dim Files As String() = ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa") <= input
+            Dim clist As KeyValuePair(Of String, String)()() = Comb(Of String).CreateCompleteObjectPairs(Files)
             Dim FileList As New List(Of String)
 
-            For Each pairedList As KeyValuePair(Of String, String)() In ComboList
-                Dim LQuery As String() =
-                    LinqAPI.Exec(Of String) <= From x As KeyValuePair(Of String, String)
-                                               In pairedList.AsParallel
-                                               Select InvokedBLASTAction(
-                                                   Query:=x.Key,
-                                                   Subject:=x.Value,
-                                                   Evalue:=Evalue,
-                                                   EXPORT:=EXPORT,
-                                                   num_threads:=RecommendedThreads,
-                                                   [Overrides]:=[Overrides])
-                FileList += LQuery
+            Call EXPORT.MkDIR
+
+            For Each pairedList As KeyValuePair(Of String, String)() In clist
+                FileList += From x As KeyValuePair(Of String, String)
+                            In pairedList.AsParallel
+                            Select localblast(
+                                query:=x.Key,
+                                subject:=x.Value,
+                                evalue:=Evalue,
+                                EXPORT:=EXPORT,
+                                num_threads:=RecommendedThreads,
+                                [overrides]:=[overrides])
             Next
 
-            'On Error Resume Next
+            On Error Resume Next
+
             Return FileList.ToArray(AddressOf LogNameParser)
         End Function
 
@@ -170,26 +152,23 @@ Namespace LocalBLAST.Application.BatchParallel
         ''' <param name="[overrides]"></param>
         ''' <param name="num_threads"></param>
         ''' <returns>返回日志文件列表</returns>
-        Public Function ParallelTask(inputDIR As String,
-                                     outDIR As String,
-                                     evalue As String,
-                                     blastTask As INVOKE_BLAST_HANDLE,
+        Public Function ParallelTask(inputDIR$, outDIR$, evalue$, blastTask As INVOKE_BLAST_HANDLE,
                                      Optional [overrides] As Boolean = False,
-                                     Optional num_threads As Integer = -1) As AlignEntry()
+                                     Optional num_threads% = -1) As AlignEntry()
 
             Dim Files As String() = ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa") <= inputDIR
-            Dim ComboList As KeyValuePair(Of String, String)()() =
+            Dim clist As KeyValuePair(Of String, String)()() =
                 Comb(Of String).CreateCompleteObjectPairs(Files)
-            Dim taskList As Func(Of String)() = (From task As KeyValuePair(Of String, String)
-                                                 In ComboList.MatrixAsIterator.AsParallel
-                                                 Let taskHandle As Func(Of String) =
-                                                     Function() blastTask(Query:=task.Key,
-                                                                          Subject:=task.Value,
-                                                                          Evalue:=evalue,
-                                                                          EXPORT:=outDIR,
-                                                                          num_threads:=RecommendedThreads,
-                                                                          [Overrides]:=[overrides])
-                                                 Select taskHandle).ToArray
+            Dim taskList As Func(Of String)() = LinqAPI.Exec(Of Func(Of String)) <=
+                From task As KeyValuePair(Of String, String)
+                In clist.MatrixAsIterator.AsParallel
+                Let taskHandle As Func(Of String) =
+                    Function() blastTask(
+                        query:=task.Key, subject:=task.Value, evalue:=evalue,
+                        EXPORT:=outDIR,
+                        num_threads:=RecommendedThreads,
+                        [overrides]:=[overrides])
+                Select taskHandle
 
             Call $"Fasta source is {Files.Length} genomes...".__DEBUG_ECHO
             Call $"Build bbh task list of {taskList.Length} tasks...".__DEBUG_ECHO
@@ -198,12 +177,15 @@ Namespace LocalBLAST.Application.BatchParallel
             Call "Start BLAST threads...".__DEBUG_ECHO
             Call $"     {NameOf(num_threads)} => {num_threads}".__DEBUG_ECHO
             Call $"     {NameOf(taskList)}    => {taskList.Length}".__DEBUG_ECHO
-            Call Console.WriteLine(New String("+", 200))
+            Call New String("+", 200).__DEBUG_ECHO
 
-            Dim fileList As String() = BatchTask(taskList,
-                                                 numThreads:=num_threads, ' 启动批量本地blast操作
-                                                 TimeInterval:=10)
-            'On Error Resume Next
+            Dim fileList As String() = BatchTask(
+                taskList,
+                numThreads:=num_threads, ' 启动批量本地blast操作
+                TimeInterval:=10)
+
+            On Error Resume Next
+
             Return fileList.ToArray(AddressOf LogNameParser)
         End Function
 
