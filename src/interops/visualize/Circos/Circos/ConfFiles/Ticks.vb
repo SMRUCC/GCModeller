@@ -47,14 +47,14 @@ Namespace Configurations
             Ticks = Nodes.Ticks.DefaultConfiguration
         End Sub
 
-        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer) As String
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
             For Each strLine As String In SimpleConfig.GenerateConfigurations(Me)
                 Call sBuilder.AppendLine(strLine)
             Next
 
             Call sBuilder.AppendLine()
-            Call sBuilder.AppendLine(Ticks.GenerateDocument(IndentLevel + 2))
+            Call sBuilder.AppendLine(Ticks.Build(IndentLevel + 2))
 
             Return sBuilder.ToString
         End Function

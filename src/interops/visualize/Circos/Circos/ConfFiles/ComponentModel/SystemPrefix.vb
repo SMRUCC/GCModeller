@@ -33,7 +33,7 @@ Namespace Configurations
 
     ''' <summary>
     ''' The circos distributed includes files.
-    ''' (这个对象仅仅是为了引用Cricos系统内的预置的配置文件的设立的，故而<see cref="CircosDistributed.GenerateDocument">
+    ''' (这个对象仅仅是为了引用Cricos系统内的预置的配置文件的设立的，故而<see cref="CircosDistributed.Build">
     ''' </see>方法和<see cref="CircosDistributed.Save"></see>方法可以不会被实现)
     ''' </summary>
     ''' <remarks></remarks>
@@ -55,7 +55,7 @@ Namespace Configurations
             Me.Section = name
         End Sub
 
-        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer) As String
             Return ""
         End Function
 

@@ -159,7 +159,7 @@ Namespace Configurations.Nodes.Plots
             Return $"({type}  --> {Me.TracksData.GetType.Name})  {Me.TracksData.ToString}"
         End Function
 
-        Public Overridable Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocument.GenerateDocument
+        Public Overridable Function Build(IndentLevel As Integer) As String Implements ICircosDocument.Build
             Dim IndentBlanks As String = New String(" "c, IndentLevel)
             Dim sb As StringBuilder = New StringBuilder(IndentBlanks & "<plot>" & vbCrLf, 1024)
 
@@ -187,7 +187,7 @@ Namespace Configurations.Nodes.Plots
                     Call sb.AppendLine(vbCrLf & IndentBlanks & String.Format("<{0}>", item.Key))
 
                     For Each o As CircosDocument In item.Value
-                        Call sb.AppendLine(o.GenerateDocument(IndentLevel + 2))
+                        Call sb.AppendLine(o.Build(IndentLevel + 2))
                     Next
 
                     Call sb.AppendLine(IndentBlanks & String.Format("</{0}>", item.Key))

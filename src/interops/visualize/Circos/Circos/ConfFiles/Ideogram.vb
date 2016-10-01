@@ -44,8 +44,8 @@ Namespace Configurations
             Call MyBase.New(IdeogramConf, Circos)
         End Sub
 
-        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
-            Return Ideogram.GenerateDocument(IndentLevel)
+        Protected Overrides Function Build(IndentLevel As Integer) As String
+            Return Ideogram.Build(IndentLevel)
         End Function
     End Class
 End Namespace

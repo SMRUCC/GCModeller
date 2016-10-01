@@ -61,8 +61,7 @@ Namespace Colors
         ''' <remarks></remarks>
         ''' 
         Private Function __loadResource() As Dictionary(Of String, Color)
-            Dim clBufs As String() =
-                LinqAPI.Exec(Of String) <= {
+            Dim clBufs$() = LinqAPI.Exec(Of String) <= {
  _
                 Strings.Split(My.Resources.colors, vbLf),
                 Strings.Split(My.Resources.colors_brewer, vbLf),
@@ -97,19 +96,19 @@ Namespace Colors
                                                           Where Array.IndexOf(RGBList, item) = -1
                                                           Select item
             CircosColor.ColorNames =
-                LinqAPI.Exec(Of KeyValuePair(Of Color, String)) <=
-                    From item
-                    In RGBValue.AsParallel
-                    Where item.TokensValues.Count >= 3
-                    Let R As Integer = CInt(Val(item.TokensValues(0)))
-                    Let G As Integer = CInt(Val(item.TokensValues(1)))
-                    Let B As Integer = CInt(Val(item.TokensValues(2)))
-                    Let Color = Drawing.Color.FromArgb(R, G, B)
-                    Select New KeyValuePair(Of Drawing.Color, String)(Color, item.ClName)
+                LinqAPI.Exec(Of KeyValuePair(Of Color, String)) <= From item
+                                                                   In RGBValue.AsParallel
+                                                                   Where item.TokensValues.Length >= 3
+                                                                   Let R As Integer = CInt(Val(item.TokensValues(0)))
+                                                                   Let G As Integer = CInt(Val(item.TokensValues(1)))
+                                                                   Let B As Integer = CInt(Val(item.TokensValues(2)))
+                                                                   Let Color = Color.FromArgb(R, G, B)
+                                                                   Select New KeyValuePair(Of Color, String)(Color, item.ClName)
 
             Dim Colors = From item As KeyValuePair(Of Color, String)
                          In CircosColor.ColorNames.AsParallel
-                         Select ClName = item.Value.ToLower.Trim.Split.Last,
+                         Let name As String = item.Value.ToLower.Trim.Split.Last
+                         Select ClName = name,
                               item.Key
                          Group By ClName Into Group
             CircosColor.RGBColors = Colors.ToDictionary(Function(x) x.ClName,
@@ -137,6 +136,11 @@ Namespace Colors
             End Get
         End Property
 
+        ''' <summary>
+        ''' Gets the .NET color object from the circos color name. If the function failed, then the Color.Black value will be return.
+        ''' </summary>
+        ''' <param name="Name"></param>
+        ''' <returns></returns>
         <ExportAPI("From.Name", Info:="Gets the .NET color object from the circos color name. If the function failed, then the Color.Black value will be return.")>
         Public Function FromKnownColorName(Name As String) As Color
             Dim key As String = Name.ToLower
@@ -150,6 +154,13 @@ Namespace Colors
 
         Public ReadOnly Property DefaultCOGColor As String = CircosColor.FromColor(Color.Brown)
 
+        ''' <summary>
+        ''' Gets circos color name from the .NET color object R,G,B value.
+        ''' </summary>
+        ''' <param name="R"></param>
+        ''' <param name="G"></param>
+        ''' <param name="B"></param>
+        ''' <returns></returns>
         <ExportAPI("From.RGB", Info:="Gets circos color name from the .NET color object R,G,B value.")>
         Public Function FromRGB(R As Integer, G As Integer, B As Integer) As String
             Dim LQuery As String =
@@ -229,19 +240,24 @@ Namespace Colors
                    Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
         <Extension> Public Function ColorProfiles(Of T)(categories As T()) As Dictionary(Of T, String)
             Dim Colors As String() = CircosColor.RGBColors.Keys.Shuffles
+
             If categories.IsNullOrEmpty OrElse
                 (categories.Count = 1 AndAlso categories(Scan0) Is Nothing) Then
-                Call $"{NameOf(categories)} is null...".__DEBUG_ECHO
+                Call $"{NameOf(categories)} is null...".Warning
                 categories = New T() {}
             End If
 
-            Return (From i As Integer
-                    In categories.Sequence
-                    Select cKey = categories(i),
-                        ClName = Colors(i)).ToDictionary(Function(cl) cl.cKey,
-                                                         Function(cl) cl.ClName)
+            Return categories _
+                .SeqIterator _
+                .ToDictionary(Function(cl) cl.obj,
+                              Function(cl) Colors(cl.i))
         End Function
 
+        ''' <summary>
+        ''' Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.
+        ''' </summary>
+        ''' <param name="categories"></param>
+        ''' <returns></returns>
         <ExportAPI("Color.Profiles",
                    Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
         <Extension> Public Function ColorProfiles(categories As IEnumerable(Of String)) As Dictionary(Of String, String)
