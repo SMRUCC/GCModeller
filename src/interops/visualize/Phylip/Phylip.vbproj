@@ -232,10 +232,6 @@
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\localblast\Localblast.Extensions.VennDiagram\localblast.Extensions.VennDiagram.vbproj">
-      <Project>{2e8a689a-3bec-4504-9d02-80082c732653}</Project>
-      <Name>localblast.Extensions.VennDiagram</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
@@ -247,6 +243,10 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\CRISPR\CRT\CRISPR.vbproj">
       <Project>{8da3bd48-13da-4f7e-b9d3-b258eae76363}</Project>
       <Name>CRISPR</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\localblast\venn\localblast.venn.vbproj">
+      <Project>{2e8a689a-3bec-4504-9d02-80082c732653}</Project>
+      <Name>localblast.venn</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

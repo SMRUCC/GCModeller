@@ -135,7 +135,7 @@ Namespace LocalBLAST.Application.BatchParallel
                                 [overrides]:=[overrides])
             Next
 
-            On Error Resume Next
+            ' On Error Resume Next
 
             Return FileList.ToArray(AddressOf LogNameParser)
         End Function
@@ -184,7 +184,7 @@ Namespace LocalBLAST.Application.BatchParallel
                 numThreads:=num_threads, ' 启动批量本地blast操作
                 TimeInterval:=10)
 
-            On Error Resume Next
+            ' On Error Resume Next
 
             Return fileList.ToArray(AddressOf LogNameParser)
         End Function
