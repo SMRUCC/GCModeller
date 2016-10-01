@@ -22,6 +22,15 @@ Public Module ParserIO
         Return Schema.LoadData(Of T)(data)
     End Function
 
+#Const DEVELOPMENT = 1
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="schema">对象的定义</param>
+    ''' <param name="data">从文件之中读取出来的一段数据</param>
+    ''' <returns></returns>
     <Extension>
     Public Function LoadData(Of T As Class)(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String())) As T
         Dim o As T = Activator.CreateInstance(Of T)()
@@ -29,20 +38,44 @@ Public Module ParserIO
         For Each f As BindProperty(Of Field) In schema.Values
             Dim name As String = f.Field._Name
 
-            If Not data.ContainsKey(name) Then
+            If Not data.ContainsKey(name) Then  ' Class之中有定义但是文件之中没有数据，这个是正常现象，则跳过
                 Continue For
             End If
 
+            Dim array$() = data(name)
+
             If f.Type = GetType(String) Then
-                Call f.SetValue(o, data(name)(Scan0%))
+#If DEVELOPMENT Then
+                If array.Length > 1 Then
+                    Throw New InvalidCastException(TypeMissMatch1)   ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
+                End If
+#End If
+                Call f.SetValue(o, array$(Scan0%))
             Else
-                Call f.SetValue(o, data(name))
+                Call f.SetValue(o, array$)
             End If
         Next
+
+#If DEVELOPMENT Then
+        Dim names As String() = schema.Keys.ToArray
+
+        For Each key$ In data.Keys
+            If Array.IndexOf(names, key$) = -1 Then
+                ' 文件之中定义有的但是Class之中没有被定义
+                Dim array$() = data(key$)
+                Dim type$ = If(array.Length = 1, GetType(String), GetType(String())).ToString
+                Dim msg$ =
+                    $"Missing property definition in the object: <Field(""{key$}"")>Public Property {key} As {type$}"
+
+                Throw New Exception(msg)
+            End If
+        Next
+#End If
 
         Return o
     End Function
 
+    Const TypeMissMatch1 As String = "The type of the property is ""System.String"", but the data from file is ""Array(Of System.String)""!"
     Const TAG As String = ".+?: "
 
     ''' <summary>

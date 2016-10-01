@@ -8,6 +8,10 @@ Namespace DAG
     Public Structure is_a
 
         Dim uid$, cat$
+        ''' <summary>
+        ''' 父节点的实例
+        ''' </summary>
+        Dim term As Term
 
         Sub New(value$)
             Dim tokens$() = Strings.Split(value$, " ! ")

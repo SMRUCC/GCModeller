@@ -166,6 +166,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAG\Relationship.vb" />
     <Compile Include="DAG\Term.vb" />
     <Compile Include="DAG\Fields.vb" />
     <Compile Include="Files\NCBI\gene2go.vb" />
