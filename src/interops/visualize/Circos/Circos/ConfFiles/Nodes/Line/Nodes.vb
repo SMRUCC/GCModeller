@@ -36,7 +36,7 @@ Namespace Configurations.Nodes.Plots.Lines
         <Circos> Public Property thickness As String = "1"
         <Circos> Public Property spacing As String = "0.025r"
 
-        Public Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Public Overrides Function Build(IndentLevel As Integer) As String
             Return Me.GenerateCircosDocumentElement("axis", IndentLevel, Nothing)
         End Function
     End Class
@@ -48,7 +48,7 @@ Namespace Configurations.Nodes.Plots.Lines
         <Circos> Public Property y1 As String = "0.002"
         <Circos> Public Property y0 As String = "0.006"
 
-        Public Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Public Overrides Function Build(IndentLevel As Integer) As String
             Return Me.GenerateCircosDocumentElement("background", IndentLevel, Nothing)
         End Function
     End Class

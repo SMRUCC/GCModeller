@@ -101,7 +101,7 @@ Namespace OBO
         ''' Indicates that the term belongs to a designated subset of terms, e.g. one of the GO slims.
         ''' </summary>
         ''' <returns></returns>
-        <Field("subset")> Public Property subset As String
+        <Field("subset")> Public Property subset As String()
         ''' <summary>
         ''' One or more links that capture how the term relates to other terms in the ontology. All terms 
         ''' (other than the root terms representing each namespace, above) have an is a sub-class relationship 
@@ -120,6 +120,7 @@ Namespace OBO
         <Field("alt_id")> Public Property alt_id As String()
         <Field("intersection_of")> Public Property intersection_of As String()
         <Field("property_value")> Public Property property_value As String()
+        <Field("consider")> Public Property consider As String()
 
         Public Const Term As String = "[Term]"
         Public Const Typedef As String = "[Typedef]"

@@ -106,21 +106,21 @@ Namespace Configurations
         ''' </summary>
         Public Const IdeogramConf As String = "ideogram.conf"
 
-        Protected MustOverride Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocument.GenerateDocument
+        Protected MustOverride Function Build(indents%) As String Implements ICircosDocument.Build
 
         ''' <summary>
         ''' Auto detected that current is circos distribution or not, if true, then this file will not be saved.
         ''' </summary>
-        ''' <param name="FilePath"></param>
+        ''' <param name="path"></param>
         ''' <param name="Encoding"></param>
         ''' <returns></returns>
-        Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save
+        Public Overrides Function Save(Optional path$ = "", Optional Encoding As Encoding = Nothing) As Boolean Implements ICircosDocument.Save
             If TypeOf Me Is CircosDistributed Then
                 Return True ' 系统自带的不需要进行保存了
             End If
 
-            Dim doc As String = GenerateDocument(IndentLevel:=Scan0)
-            Return doc.SaveTo(getPath(FilePath), If(Encoding Is Nothing, Encoding.ASCII, Encoding))
+            Dim doc As String = Build(indents:=Scan0)
+            Return doc.SaveTo(getPath(path), If(Encoding Is Nothing, Encoding.ASCII, Encoding))
         End Function
     End Class
 End Namespace

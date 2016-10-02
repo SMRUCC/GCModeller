@@ -5,26 +5,6 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace DAG
 
-    Public Structure is_a
-
-        Dim uid$, cat$
-        ''' <summary>
-        ''' 父节点的实例
-        ''' </summary>
-        Dim term As Term
-
-        Sub New(value$)
-            Dim tokens$() = Strings.Split(value$, " ! ")
-
-            uid = tokens(Scan0%)
-            cat = tokens(1%)
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return $"is_a: {uid} ! {cat$}"
-        End Function
-    End Structure
-
     Public Structure def
 
         Public def$

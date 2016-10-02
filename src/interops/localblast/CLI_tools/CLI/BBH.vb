@@ -63,9 +63,9 @@ Partial Module CLI
         Dim nt As Integer = args.GetValue("/num_threads", -1)
 
         Call "Start [query ==> {Hits}] direction...".__DEBUG_ECHO
-        Call VennDataModel.BatchBlastp(blastp, [in], subject, out, 10, [overrides], numThreads:=nt)
+        Call ParallelTaskAPI.BatchBlastp(blastp, [in], subject, out, 10, [overrides], numThreads:=nt)
         Call "Start [{Hits} ==> query] direction...".__DEBUG_ECHO
-        Call VennDataModel.BatchBlastpRev(localBlast, subject, [in], out, 10, [overrides], True, numThreads:=nt)
+        Call ParallelTaskAPI.BatchBlastpRev(localBlast, subject, [in], out, 10, [overrides], True, numThreads:=nt)
 
         Return 0
     End Function

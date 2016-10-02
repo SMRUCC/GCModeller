@@ -248,9 +248,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Localblast.Extensions.VennDiagram\localblast.Extensions.VennDiagram.vbproj">
+    <ProjectReference Include="..\venn\localblast.venn.vbproj">
       <Project>{2e8a689a-3bec-4504-9d02-80082c732653}</Project>
-      <Name>localblast.Extensions.VennDiagram</Name>
+      <Name>localblast.venn</Name>
     </ProjectReference>
     <ProjectReference Include="..\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
