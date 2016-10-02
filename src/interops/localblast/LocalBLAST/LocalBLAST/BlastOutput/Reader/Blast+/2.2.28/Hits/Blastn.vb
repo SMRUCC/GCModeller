@@ -46,18 +46,21 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
                 If String.IsNullOrEmpty(value) Then
                     Me._queryStrand = Strands.Unknown
-                    Me._referenceStrand = Strands.Unknown
+                    Me._referStrand = Strands.Unknown
                     Return
                 End If
 
                 Dim Tokens As String() = value.Split("/"c)
                 Me._queryStrand = GetStrand(Tokens(Scan0))
-                Me._referenceStrand = GetStrand(Tokens(1))
+                Me._referStrand = GetStrand(Tokens(1))
             End Set
         End Property
 
         Dim _queryStrand As Strands
-        Dim _referenceStrand As Strands
+        ''' <summary>
+        ''' 参考链的方向
+        ''' </summary>
+        Dim _referStrand As Strands
 
         Public Overrides ReadOnly Property QueryLocation As Location
             Get
@@ -67,7 +70,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Public Overrides ReadOnly Property SubjectLocation As Location
             Get
-                Return New NucleotideLocation(MyBase.SubjectLocation, _referenceStrand)
+                Return New NucleotideLocation(MyBase.SubjectLocation, _referStrand)
             End Get
         End Property
 
@@ -78,7 +81,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 Return New BlastnHit() {}
             End If
 
-            Dim Tokens As String() = Regex.Split(str, "^>", RegexOptions.Multiline).Skip(1).ToArray
+            Dim Tokens As String() = Regex.Split(str, "^>", RegexOptions.Multiline).Skip(1)
             Dim LQuery As BlastnHit() = Tokens.Select(AddressOf BlastnTryParse).MatrixToVector
 
             Return LQuery
@@ -88,7 +91,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim Tokens As String() = Regex.Split(Text, "^\s*Score\s*=", RegexOptions.Multiline)
             Dim Name As String = Strings.Split(Tokens.First, "Length=").First.TrimA
             Dim hitLen As Double = Text.Match("Length=\d+").RegexParseDouble
-            Dim LQuery = LinqAPI.Exec(Of BlastnHit) <=
+            Dim LQuery As BlastnHit() = LinqAPI.Exec(Of BlastnHit) <=
  _
                 From s As String
                 In Tokens.Skip(1)
@@ -99,12 +102,12 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Private Shared Function __blastnTryParse(str As String, Name As String, len As Double) As BlastnHit
             Dim blastnHit As New BlastnHit With {
-                .Score = LocalBLAST.BLASTOutput.ComponentModel.Score.TryParse(Of Score)(str),
+                .Score = Score.TryParse(Of Score)(str),
                 .Name = Name,
                 .Length = len
             }
 
-            Dim strHsp As String() = Regex.Matches(str, PAIRWISE, RegexOptions.Singleline + RegexOptions.IgnoreCase).ToArray
+            Dim strHsp As String() = Regex.Matches(str, PAIRWISE, RegexICSng).ToArray
             blastnHit.Hsp = ParseHitSegments(strHsp)
             blastnHit.Strand = Regex.Match(str, "^\s*Strand=.+?$", RegexOptions.Multiline).Value.Replace("Strand=", "").Trim
 

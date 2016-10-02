@@ -34,34 +34,6 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
-    Public Class BlastXHit : Inherits BBH.BestHit
-        Public Property Frame As String
-
-        Sub New()
-
-        End Sub
-
-        Sub New(query As Components.Query, hit As Components.HitFragment)
-            Me.evalue = hit.Score.Expect
-            Me.Frame = hit.ReadingFrameOffSet
-            Me.HitName = hit.HitName
-            Me.hit_length = hit.HitLen
-            Me.identities = hit.Score.Identities
-            Me.length_hit = hit.SubjectLength
-            Me.length_hsp = hit.SubjectLength
-            Me.length_query = hit.QueryLoci.FragmentSize
-            Me.Positive = hit.Score.Positives
-            Me.QueryName = query.QueryName
-            Me.query_length = query.QueryLength
-            Me.Score = hit.Score.Score
-        End Sub
-
-        Public Shared Function CreateObjects(query As Components.Query) As BlastXHit()
-            Dim LQuery = (From x In query.Hits Select New BlastXHit(query, x)).ToArray
-            Return LQuery
-        End Function
-    End Class
-
     Public Class v228_BlastX : Inherits IBlastOutput
 
         Public Property Queries As BlastX.Components.Query()

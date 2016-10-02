@@ -120,20 +120,20 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
-        Protected Const PAIRWISE As String = "Query\s+\d+\s+.+?\s+\d+.+?Sbjct\s+\d+\s+.+?\s+\d+"
+        Protected Const PAIRWISE$ = "Query\s+\d+\s+.+?\s+\d+.+?Sbjct\s+\d+\s+.+?\s+\d+"
 
-        Public Shared Function TryParse(Text As String) As SubjectHit
-            Dim name As String = Strings.Split(Text, "Length=").First.TrimA
-            Dim Length As Long = CLng(Text.Match("Length=\d+").RegexParseDouble)
+        Public Shared Function TryParse(text As String) As SubjectHit
+            Dim name As String = Strings.Split(text, "Length=").First.TrimA
+            Dim Length As Long = CLng(text.Match("Length=\d+").RegexParseDouble)
 
             Dim strHsp As String() =
-                Regex.Matches(Text,
+                Regex.Matches(text,
                               PAIRWISE,
                               RegexOptions.Singleline +
                               RegexOptions.IgnoreCase).ToArray
 
             Dim hit As New SubjectHit With {
-                .Score = Score.TryParse(Of Score)(Text),
+                .Score = Score.TryParse(Of Score)(text),
                 .Name = name,
                 .Length = Length,
                 .Hsp = ParseHitSegments(strHsp)

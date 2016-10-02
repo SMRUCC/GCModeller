@@ -88,7 +88,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ExportBestHit(Optional coverage As Double = 0.5, Optional identities As Double = 0.15) As LocalBLAST.Application.BBH.BestHit()
-            Return (From Query As Query In Queries Select __generateLine(Query, coverage, identities)).ToArray
+            Return (From query As Query In Queries Select __generateLine(query, coverage, identities)).ToArray
         End Function
 
         ''' <summary>
@@ -100,27 +100,27 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         Private Shared Function __generateLine(query As Query, coverage As Double, identities As Double) As BestHit
             Dim BestHit As SubjectHit = query.GetBestHit(coverage, identities)
-            Dim Row As BestHit = New BestHit With {
-                    .QueryName = query.QueryName
+            Dim row As New BestHit With {
+                .QueryName = query.QueryName
             }
 
             If BestHit Is Nothing Then
-                Row.HitName = HITS_NOT_FOUND
+                row.HitName = HITS_NOT_FOUND
             Else
                 Dim Score As Score = BestHit.Score
-                Row.HitName = BestHit.Name.Trim
-                Row.query_length = query.QueryLength
-                Row.hit_length = BestHit.Length
-                Row.Score = Score.RawScore
-                Row.evalue = Score.Expect
-                Row.identities = Score.Identities.Value
-                Row.Positive = Score.Positives.Value
-                Row.length_hit = BestHit.LengthHit
-                Row.length_query = BestHit.LengthQuery
-                Row.length_hsp = BestHit.Score.Gaps.Denominator
+                row.HitName = BestHit.Name.Trim
+                row.query_length = query.QueryLength
+                row.hit_length = BestHit.Length
+                row.Score = Score.RawScore
+                row.evalue = Score.Expect
+                row.identities = Score.Identities.Value
+                row.Positive = Score.Positives.Value
+                row.length_hit = BestHit.LengthHit
+                row.length_query = BestHit.LengthQuery
+                row.length_hsp = BestHit.Score.Gaps.Denominator
             End If
 
-            Return Row
+            Return row
         End Function
 
         ''' <summary>
@@ -243,20 +243,21 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <summary>
         ''' 根据Query检查完整性
         ''' </summary>
-        ''' <param name="QuerySource">主要是使用到Query序列之中的Title属性</param>
+        ''' <param name="source">主要是使用到Query序列之中的Title属性</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Function CheckIntegrity(QuerySource As FASTA.FastaFile) As Boolean
-            Dim LQuery = From Fasta As FASTA.FastaToken
-                         In QuerySource.AsParallel
-                         Let GetQuery = __checkIntegrity(Fasta, Me.Queries)
-                         Where GetQuery.IsNullOrEmpty
-                         Select GetQuery
-            Dim test As Boolean = Not LQuery.Count > 0 ' 大于零，说明有空的记录，即匹配不上的记录，则说明blast操作是被中断的，需要重新做
+        Public Overrides Function CheckIntegrity(source As FASTA.FastaFile) As Boolean
+            Dim LQuery =
+                LinqAPI.DefaultFirst(Of Query()) <= From Fasta As FASTA.FastaToken
+                                                    In source.AsParallel
+                                                    Let GetQuery = __checkIntegrity(Fasta, Me.Queries)
+                                                    Where GetQuery.IsNullOrEmpty  ' 空集合表示没有匹配的项目，则可能是不完整的结果
+                                                    Select GetQuery
+            Dim test As Boolean = LQuery Is Nothing  ' 不为空值，说明有空的记录，即匹配不上的记录，则说明blast操作是被中断的，需要重新做
             Return test
         End Function
 
-        Private Shared Function __checkIntegrity(Fasta As FASTA.FastaToken, Queries As Query())
+        Private Shared Function __checkIntegrity(Fasta As FASTA.FastaToken, Queries As Query()) As Query()
             Dim Title As String = Fasta.Title
             Dim GetLQuery = LinqAPI.Exec(Of Query) <=
  _
