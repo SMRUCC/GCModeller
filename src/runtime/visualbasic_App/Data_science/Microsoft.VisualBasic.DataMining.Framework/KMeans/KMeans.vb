@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace KMeans
 
@@ -176,6 +177,9 @@ Namespace KMeans
             End If
             If debug Then
                 Call "Start kmeans clustering....".__DEBUG_ECHO
+            End If
+            If parallel Then
+                Call $"Kmeans have {LQuerySchedule.CPU_NUMBER} CPU core for parallel computing.".__DEBUG_ECHO
             End If
 
             While stableClustersCount <> clusters.NumOfCluster
