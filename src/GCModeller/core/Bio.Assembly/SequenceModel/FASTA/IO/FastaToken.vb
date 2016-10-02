@@ -526,7 +526,7 @@ Namespace SequenceModel.FASTA
             Return FastaBuilder.ToString.SaveTo(Path, encoding)
         End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Public Function Save(Optional Path$ = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return SaveTo(Path, encoding.GetEncodings)
         End Function
     End Class
