@@ -26,12 +26,12 @@
 #End Region
 
 Imports System.Data.Common
-Imports System.Text
-Imports System.Data.Linq.Mapping
 Imports System.Data.Entity.Core
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.FileIO.FileSystem
+Imports System.Data.Linq.Mapping
 Imports System.Reflection
+Imports System.Text
+Imports Microsoft.VisualBasic.FileIO.FileSystem
+Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' The API interface wrapper of the SQLite.(SQLite的存储引擎的接口)
