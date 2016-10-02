@@ -168,7 +168,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Files.vb" />
     <Compile Include="LogAnalysis.vb" />
+    <Compile Include="Task.vb" />
     <Compile Include="VennDataModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

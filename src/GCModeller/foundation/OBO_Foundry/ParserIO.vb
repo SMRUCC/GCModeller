@@ -47,7 +47,7 @@ Public Module ParserIO
             If f.Type = GetType(String) Then
 #If DEVELOPMENT Then
                 If array.Length > 1 Then
-                    Throw New InvalidCastException(TypeMissMatch1)   ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
+                    Throw New InvalidCastException(name & ": " & TypeMissMatch1)   ' Class之中定义为字符串，但是文件之中是数组，则定义出错了
                 End If
 #End If
                 Call f.SetValue(o, array$(Scan0%))
@@ -57,7 +57,7 @@ Public Module ParserIO
         Next
 
 #If DEVELOPMENT Then
-        Dim names As String() = schema.Keys.ToArray
+        Dim names As String() = schema.Values.ToArray(Function(x) x.Field._Name)
 
         For Each key$ In data.Keys
             If Array.IndexOf(names, key$) = -1 Then

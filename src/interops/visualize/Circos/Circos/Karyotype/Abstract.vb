@@ -78,7 +78,7 @@ Namespace Karyotype
             }
         End Sub
 
-        Public Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocNode.GenerateDocument
+        Public Function Build(IndentLevel As Integer) As String Implements ICircosDocNode.Build
             Dim sb As New StringBuilder
 
             For Each x As IKaryotype In __karyotypes
@@ -92,7 +92,7 @@ Namespace Karyotype
         End Function
 
         Public Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-            Return GenerateDocument(Scan0).SaveTo(Path, encoding)
+            Return Build(Scan0).SaveTo(Path, encoding)
         End Function
 
         Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

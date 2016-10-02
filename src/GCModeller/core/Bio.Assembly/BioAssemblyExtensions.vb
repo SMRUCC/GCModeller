@@ -28,6 +28,11 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
@@ -36,11 +41,6 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 <PackageNamespace("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module BioAssemblyExtensions
@@ -105,8 +105,8 @@ Public Module BioAssemblyExtensions
     ''' <typeparam name="TFasta"><see cref="FastaToken"/></typeparam>
     ''' <param name="data">Target fasta source collection which its elements base type is <see cref="fastaToken"/></param>
     ''' <returns></returns>
-    <Extension> Public Function [DirectCast](Of TFasta As FASTA.FastaToken)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
-        Dim FastaFile As New FASTA.FastaFile(From Fasta As TFasta In data Select DirectCast(Fasta, FASTA.FastaToken))
+    <Extension> Public Function [DirectCast](Of TFasta As FastaToken)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
+        Dim FastaFile As New FastaFile(From Fasta As TFasta In data Select DirectCast(Fasta, FASTA.FastaToken))
         Return FastaFile
     End Function
 

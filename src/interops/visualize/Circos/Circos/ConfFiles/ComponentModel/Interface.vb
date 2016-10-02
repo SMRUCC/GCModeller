@@ -32,14 +32,14 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings
 Namespace Configurations
 
     Public MustInherit Class CircosDocument : Implements ICircosDocNode
-        MustOverride Function GenerateDocument(IndentLevel As Integer) As String Implements ICircosDocNode.GenerateDocument
+        MustOverride Function Build(indents As Integer) As String Implements ICircosDocNode.Build
     End Class
 
     ''' <summary>
-    ''' This object can be convert to text document by using method <see cref="GenerateDocument"/>
+    ''' This object can be convert to text document by using method <see cref="Build"/>
     ''' </summary>
     Public Interface ICircosDocNode
-        Function GenerateDocument(indentLevel As Integer) As String
+        Function Build$(indents%)
     End Interface
 
     ''' <summary>

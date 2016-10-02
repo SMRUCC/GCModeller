@@ -326,7 +326,7 @@ different with the ideogram configuration document was not included in the circo
             Dim Document As New BlastMaps(genome.Group.ToArray, Colors(i), Color)
             Dim PlotElement As New HighLight(Document)
 
-            Call doc.AddPlotElement(PlotElement)
+            Call doc.AddTrack(PlotElement)
 
             PlotElement.r1 = $"{r1}r"
             r1 -= d
@@ -386,13 +386,13 @@ different with the ideogram configuration document was not included in the circo
                 Docc.r0 = "0.86r"
                 Docc.r1 = "0.90r"
 
-                Call doc.AddPlotElement(Docc)
+                Call doc.AddTrack(Docc)
             Else
                 For Each circle In Document
                     If circle.Highlights.IsNullOrEmpty Then
                         Continue For
                     End If
-                    Call doc.AddPlotElement(circle)
+                    Call doc.AddTrack(circle)
                 Next
             End If
         End If
@@ -407,13 +407,13 @@ different with the ideogram configuration document was not included in the circo
                 Docc.fill_color = "blue"
                 Docc.orientation = "out"
 
-                Call doc.AddPlotElement(Docc)
+                Call doc.AddTrack(Docc)
             Else
                 For Each circle In Document
                     If circle.Highlights.IsNullOrEmpty Then
                         Continue For
                     End If
-                    Call doc.AddPlotElement(circle)
+                    Call doc.AddTrack(circle)
                 Next
             End If
         End If
@@ -430,7 +430,7 @@ different with the ideogram configuration document was not included in the circo
                                         Optional extTails As Boolean = False) As Configurations.Circos
         Dim node = New GradientMappings(values, doc.Size, mapName, winSize, replaceBase, extTails)
         Dim Document As New Nodes.Plots.HighLight(node)
-        Call doc.AddPlotElement(plotElement:=Document)
+        Call doc.AddTrack(track:=Document)
         Return doc
     End Function
 
@@ -443,7 +443,7 @@ different with the ideogram configuration document was not included in the circo
                                         Optional extTails As Boolean = False) As Configurations.Circos
         Dim node = New GradientMappings(values, doc.Size, mapName, winSize, replaceBase, extTails)
         Dim Document As New Nodes.Plots.HighLight(node)
-        Call doc.AddPlotElement(plotElement:=Document)
+        Call doc.AddTrack(track:=Document)
         Return doc
     End Function
 
@@ -591,7 +591,7 @@ SET_END:    Dim ends = i
         LabelDocument.r0 = "0.90r"
         LabelDocument.r1 = "0.995r"
 
-        Call doc.AddPlotElement(LabelDocument)
+        Call doc.AddTrack(LabelDocument)
 
         LabelDocument.snuggle_refine = If(snuggleRefine, yes, no)
     End Sub
@@ -700,12 +700,12 @@ SET_END:    Dim ends = i
         Dim LabelDocument As New Nodes.Plots.TextLabel(highlightLabel)
         LabelDocument.r0 = "0.8r"
         LabelDocument.r1 = "0.85r"
-        Call doc.AddPlotElement(LabelDocument)
+        Call doc.AddTrack(LabelDocument)
 
         Dim Document = __geneHighlights(GeneObjects, Colors, Strands.Unknown)
         Document.r0 = "0.75r"
         Document.r1 = "0.78r"
-        Call doc.AddPlotElement(Document)
+        Call doc.AddTrack(Document)
 
         Return doc
     End Function
@@ -822,7 +822,7 @@ SET_END:    Dim ends = i
 
     <ExportAPI("Adds.Plots", Info:="Adds a new circos plots element into the circos.conf object.")>
     Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As ITrackPlot) As Integer
-        Call doc.AddPlotElement(element)
+        Call doc.AddTrack(element)
         Return doc.Plots.Length
     End Function
 

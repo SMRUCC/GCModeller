@@ -114,8 +114,8 @@ Namespace NetworkModel.PfsNET
 
         <ExportAPI("PfsNet.Annotation")>
         Public Function GenerateAnnotations(pfsnet As PfsNET(), saveDIR As String) As Boolean
-            Dim GAF = New List(Of GAF)
-            Dim Go = New AnnotationFile
+            Dim GAF As New List(Of GAF)
+            Dim Go As New GO_OBO
 
             Call Go.Save(String.Format("{0}/pfsnet.go_annotation.txt", saveDIR))
             Call GeneOntology.GAF.Save(GAF.ToArray, String.Format("{0}/pfsnet.gaf.txt", saveDIR))

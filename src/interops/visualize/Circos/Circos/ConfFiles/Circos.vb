@@ -225,7 +225,7 @@ Namespace Configurations
             Me.main = Me
         End Sub
 
-        Public Overrides Function Save(Optional outDIR As String = "", Optional Encoding As Encoding = Nothing) As Boolean
+        Public Overrides Function Save(Optional outDIR$ = "", Optional Encoding As Encoding = Nothing) As Boolean
             If String.IsNullOrEmpty(outDIR) Then
                 outDIR = FileIO.FileSystem.GetParentPath(Me.FilePath)
             End If
@@ -248,7 +248,7 @@ Namespace Configurations
 
             App.CurrentDirectory = outDIR
 
-            Return GenerateDocument(0).SaveTo(FilePath, Encoding.ASCII)
+            Return Build(0).SaveTo(FilePath, Encoding.ASCII)
         End Function
 
         Public Overloads Shared Function CreateObject() As Circos
@@ -272,16 +272,16 @@ Namespace Configurations
         ''' <summary>
         ''' 函数会根据元素的个数的情况自动的调整在圈内的位置
         ''' </summary>
-        ''' <param name="plotElement"></param>
+        ''' <param name="track"></param>
         ''' <remarks></remarks>
-        Public Sub AddPlotElement(plotElement As ITrackPlot)
-            Call Me._plots.Add(plotElement)
+        Public Sub AddTrack(track As ITrackPlot)
+            Call Me._plots.Add(track)
 
             If Not String.IsNullOrEmpty(stroke_thickness) Then
-                plotElement.stroke_thickness = stroke_thickness
+                track.stroke_thickness = stroke_thickness
             End If
             If Not String.IsNullOrEmpty(stroke_color) Then
-                plotElement.stroke_color = stroke_color
+                track.stroke_color = stroke_color
             End If
 
             Call ForceAutoLayout(Me.Plots)
@@ -310,7 +310,7 @@ Namespace Configurations
             Next
         End Sub
 
-        Protected Overrides Function GenerateDocument(IndentLevel As Integer) As String
+        Protected Overrides Function Build(IndentLevel As Integer) As String
             Dim sb As New StringBuilder(1024)
             Call sb.AppendLine(Me.GenerateIncludes)
             Call sb.AppendLine()
@@ -321,7 +321,7 @@ Namespace Configurations
 
             If Not colors Is Nothing Then
                 Dim line As String =
-                    DirectCast(colors, ICircosDocument).GenerateDocument(Scan0)
+                    DirectCast(colors, ICircosDocument).Build(Scan0)
                 Call sb.AppendLine(line)
             End If
 
@@ -330,7 +330,7 @@ Namespace Configurations
 
                 For Each plotRule In _plots
                     Call sb.AppendLine()
-                    Call sb.AppendLine(plotRule.GenerateDocument(IndentLevel + 2))
+                    Call sb.AppendLine(plotRule.Build(IndentLevel + 2))
                 Next
 
                 Call sb.AppendLine()
