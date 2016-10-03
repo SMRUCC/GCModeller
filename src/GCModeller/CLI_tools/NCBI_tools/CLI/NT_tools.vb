@@ -117,9 +117,16 @@ Partial Module CLI
         Dim list As String = args("/list")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & list.BaseName & ".match/")
         Dim names As WordTokens() = list.LoadCsv(Of WordTokens)
-        Dim writer As Dictionary(Of String, StreamWriter) = names.ToDictionary(
-            Function(x) x.name,
-            Function(x) $"{out}/{x.name.NormalizePathString}.fasta".OpenWriter(Encodings.ASCII))
+        Dim writer As Dictionary(Of String, StreamWriter)
+
+        Try
+            writer = names.ToDictionary(
+                Function(x) x.name,
+                Function(x) $"{out}/{x.name.NormalizePathString}.fasta".OpenWriter(Encodings.ASCII))
+        Catch ex As Exception
+            ex = New Exception("There is duplicated name in your input list data!", ex)
+            Throw ex
+        End Try
 
         Using stream As New StreamIterator([in])
             For Each fasta As FastaToken In stream.ReadStream
