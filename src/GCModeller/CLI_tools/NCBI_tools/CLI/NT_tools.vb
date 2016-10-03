@@ -45,7 +45,7 @@ Partial Module CLI
 
     ' 这里主要是和处理nt数据库文件的相关工具
 
-    <ExportAPI("/nt.matches", Usage:="/nt.matches /in <nt.fasta> /list <words.txt> [/out <out.fasta>]")>
+    <ExportAPI("/nt.matches.key", Usage:="/nt.matches.key /in <nt.fasta> /list <words.txt> [/out <out.fasta>]")>
     Public Function NtKeyMatches(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim list As String = args("/list")
@@ -110,12 +110,62 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/nt.matches.name", Usage:="/nt.matches.name /in <nt.fasta> /list <names.csv> [/out <out.fasta>]")>
+    <ParameterInfo("/list", AcceptTypes:={GetType(WordTokens)})>
+    Public Function NtNameMatches(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim list As String = args("/list")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & list.BaseName & ".match/")
+        Dim names As WordTokens() = list.LoadCsv(Of WordTokens)
+        Dim writer As Dictionary(Of String, StreamWriter) = names.ToDictionary(
+            Function(x) x.name,
+            Function(x) $"{out}/{x.name.NormalizePathString}.fasta".OpenWriter(Encodings.ASCII))
+
+        Using stream As New StreamIterator([in])
+            For Each fasta As FastaToken In stream.ReadStream
+                Dim title As String = fasta.Title
+            Next
+        End Using
+
+        For Each file In writer.Values
+            Call file.Flush()
+            Call file.Close()
+            Call file.Dispose()
+        Next
+
+        Return True
+    End Function
+
     Public Class WordTokens
+
         Public Property name As String
         Public Property tokens As String()
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
+        End Function
+
+        Public Function Match(title As String) As Boolean
+            If InStr(name, title, CompareMethod.Text) > 0 OrElse
+                InStr(title, name, CompareMethod.Text) > 0 Then
+                Return True
+            End If
+
+            Dim dist = LevenshteinDistance.ComputeDistance(title.ToLower, name.ToLower)
+
+            If Not dist Is Nothing AndAlso dist.MatchSimilarity >= 0.65 Then
+                Return True
+            End If
+
+            Dim n As Integer
+
+            For Each t$ In tokens
+                If InStr(title, t, CompareMethod.Text) > 0 Then
+                    n += 1
+                End If
+            Next
+
+            Return n > 1
         End Function
 
         Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
