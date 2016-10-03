@@ -176,29 +176,9 @@ Partial Module CLI
 
             If Similarity.Evaluate(title, name) >= 0.8 Then
                 Return True
+            Else
+                Return title.IsOrdered(name)
             End If
-
-            Dim n As Integer
-
-            For Each t$ In tokens
-                If InStr(title, t, CompareMethod.Text) > 0 Then
-                    n += 1
-                End If
-            Next
-
-            If n = 0 Then
-                Return False
-            End If
-
-            If tokens.Length = n Then
-                Return True
-            End If
-
-            If (tokens.Length - n) <= 1 AndAlso n / tokens.Length > 0.6 Then
-                Return True
-            End If
-
-            Return False
         End Function
 
         Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
