@@ -87,7 +87,7 @@ Public Module NCBILocalBlast
         Dim Title As String = Fasta.Title
         Dim GetLQuery = (From Query As String
                          In Queries
-                         Where FuzzyMatchString.Equals(Title, Query)
+                         Where FuzzyMatching(Title, Query)
                          Select Query).FirstOrDefault
         Return Not String.IsNullOrEmpty(GetLQuery)
     End Function

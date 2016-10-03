@@ -114,30 +114,26 @@ Namespace Topologically.SimilarityMatches
         End Function
 
         <Extension>
-        Private Function __generateSeeds(Chars As Char(),
-                                         Loci As String,
-                                         Cutoff As Double,
-                                         Min As Integer,
-                                         Max As Integer) As NamedValue(Of Double)()
-            If Min < 6 Then
-                Cutoff = 0.3
+        Private Function __generateSeeds(chars As Char(), loci$, cutoff#, min%, max%) As NamedValue(Of Double)()
+            If min < 6 Then
+                cutoff = 0.3
             End If
 
-            Dim seeds As List(Of String) = Topologically.InitializeSeeds(Chars, Min)
+            Dim seeds As List(Of String) = Topologically.InitializeSeeds(chars, min)
             Dim source = (From s As String In seeds
-                          Let Score As Double = New StringSimilarityMatchs(s, Loci).Score
-                          Where Score >= Cutoff
+                          Let Score As Double = LevenshteinEvaluate(s, loci)
+                          Where Score >= cutoff
                           Select s,
                               Score).ToList '生成初始长度的种子
             Dim buf As List(Of String)
             'Seeds = (From obj In SeedsCollection Select obj.s).ToList
 
-            For i As Integer = Min + 1 To Max   '种子延伸至长度的上限
-                buf = Topologically.ExtendSequence(seeds, Chars)
+            For i As Integer = min + 1 To max   '种子延伸至长度的上限
+                buf = Topologically.ExtendSequence(seeds, chars)
                 Dim tmp = (From s As String
                            In buf.AsParallel
-                           Let Score As Double = New StringSimilarityMatchs(Loci, s).Score
-                           Where Score >= Cutoff
+                           Let Score As Double = LevenshteinEvaluate(loci, s)
+                           Where Score >= cutoff
                            Select s,
                                Score).ToArray
 
@@ -147,7 +143,7 @@ Namespace Topologically.SimilarityMatches
                 source += tmp
             Next
 
-            Call $"Seeds generation thread for   {Loci}    job done!".__DEBUG_ECHO
+            Call $"Seeds generation thread for   {loci}    job done!".__DEBUG_ECHO
 
             Return LinqAPI.Exec(Of NamedValue(Of Double)) <=
                 From x
@@ -200,7 +196,7 @@ Namespace Topologically.SimilarityMatches
             Dim Repeats = (From Loci As String
                            In Seeds
                            Let InternalSeeds = (From obj As NamedValue(Of Double)
-                                                In __generateSeeds(Chars, Loci, cutoff, Min, Max:=Len(Loci) * 1.5)
+                                                In __generateSeeds(Chars, Loci, cutoff, Min, max:=Len(Loci) * 1.5)
                                                 Select obj
                                                 Group By obj.Name Into Group) _
                                                     .ToDictionary(Function(obj) obj.Name,

@@ -67,7 +67,7 @@ Namespace Compiler.Components
                     End If
 
                     For Each CommonName As String In Metabolite.CommonNames
-                        Dim Result = (From item In ChEBINames.AsParallel Where FuzzyMatchString.Equals(CommonName, item.NAME) Select item.COMPOUND_ID).ToArray
+                        Dim Result = (From item In ChEBINames.AsParallel Where FuzzyMatching(CommonName, item.NAME) Select item.COMPOUND_ID).ToArray
                         Dim KEGGCompound = (From item In ChEBIAccessions
                                             Where Array.IndexOf(Result, item.COMPOUND_ID) > -1 AndAlso
                                                 String.Equals(item.TYPE, "KEGG COMPOUND accession")

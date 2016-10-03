@@ -174,17 +174,20 @@ Partial Module CLI
                 Return True
             End If
 
-            If Similarity.Evaluate(title, name) >= 0.8 Then
+            If Similarity.Evaluate(title, name) >= 0.85 Then
+#If debug Then
+                call console.write("*")
+#End If
                 Return True
             Else
-                Return title.IsOrdered(name)
+                Return title.IsOrdered(tokens)
             End If
         End Function
 
         Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
             For Each line As String In lines
                 Yield New WordTokens With {
-                    .name = line,
+                    .name = line.Trim(" "c, ASCII.TAB),
                     .tokens = line.Trim _
                         .StripSymbol _
                         .Split _

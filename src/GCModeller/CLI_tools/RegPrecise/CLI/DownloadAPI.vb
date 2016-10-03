@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -109,7 +110,7 @@ Public Module CLI
                 Continue For '  已经存在数据了，则不需要再导数据了
             End If
 #End If
-            Dim lkey As String = Text.Similarity.StringSelection(query, gbkHash.Keys, cut:=0.65)
+            Dim lkey As String = StringSelection(query, gbkHash.Keys, cutoff:=0.65)
 
             If String.IsNullOrEmpty(lkey) Then
                 Call $"{lkey} is not found!".__DEBUG_ECHO

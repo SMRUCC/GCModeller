@@ -264,7 +264,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
  _
                 From query As Query
                 In Queries
-                Where FuzzyMatchString.Equals(query.QueryName, Title)
+                Where FuzzyMatching(query.QueryName, Title)
                 Select query
 
             Return GetLQuery
