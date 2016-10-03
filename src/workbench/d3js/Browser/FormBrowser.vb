@@ -1,4 +1,32 @@
-﻿Imports d3svg
+﻿#Region "Microsoft.VisualBasic::19791fae3ce42a5d6cfc260b2b1533a1, ..\workbench\d3js\Browser\FormBrowser.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports d3svg
 Imports Gecko
 Imports Gecko.Events
 
@@ -44,3 +72,4 @@ Public Class FormBrowser
         Call ToolStripButton1_Click(Nothing, Nothing)
     End Sub
 End Class
+
