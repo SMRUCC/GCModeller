@@ -130,7 +130,23 @@ Partial Module CLI
 
         Using stream As New StreamIterator([in])
             For Each fasta As FastaToken In stream.ReadStream
-                Dim title As String = fasta.Title
+                Dim title As String = fasta.Attributes.Last.Trim
+                Dim ms$() = LinqAPI.Exec(Of String) <=
+ _
+                    From x As WordTokens
+                    In names.AsParallel
+                    Where x.Match(title)
+                    Select x.name
+
+                If ms.Length > 0 Then
+                    Dim data As String = fasta.GenerateDocument(120)
+
+                    For Each m As String In ms
+                        Call writer(m).WriteLine(data)
+                    Next
+
+                    Call Console.Write(".")
+                End If
             Next
         End Using
 
@@ -160,7 +176,7 @@ Partial Module CLI
 
             Dim dist = LevenshteinDistance.ComputeDistance(title.ToLower, name.ToLower)
 
-            If Not dist Is Nothing AndAlso dist.MatchSimilarity >= 0.65 Then
+            If Not dist Is Nothing AndAlso dist.MatchSimilarity >= 0.85 Then
                 Return True
             End If
 
@@ -172,7 +188,11 @@ Partial Module CLI
                 End If
             Next
 
-            Return n > 1
+            If n = 0 Then
+                Return False
+            End If
+
+            Return (tokens.Length - n) <= 2
         End Function
 
         Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
