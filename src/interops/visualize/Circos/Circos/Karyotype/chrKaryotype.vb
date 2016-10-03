@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b953160f25b56165a1c1b92cbed651fd, ..\interops\visualize\Circos\Circos\Karyotype\chrKaryotype.vb"
+﻿#Region "Microsoft.VisualBasic::d2304fe40efaaab37db817967b136769, ..\interops\visualize\Circos\Circos\Karyotype\chrKaryotype.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

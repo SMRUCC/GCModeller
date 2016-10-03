@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d2e20f7449fd7625f05c59e7c730a10e, ..\interops\RNA-Seq\Rockhopper\Java\ObjectModels\Genome.vb"
+﻿#Region "Microsoft.VisualBasic::c352df1fb3a66a783bebdcb5e865022a, ..\interops\RNA-Seq\Rockhopper\Java\ObjectModels\Genome.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -499,4 +500,3 @@ Namespace Java
 
     End Class
 End Namespace
-

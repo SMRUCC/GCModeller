@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d17659903fcd6d24c83fcc96cb67862e, ..\interops\visualize\Phylip\MatrixFile\Gendist.vb"
+﻿#Region "Microsoft.VisualBasic::c40f3312e918a372bf1fe9cb166d983d, ..\interops\visualize\Phylip\MatrixFile\Gendist.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

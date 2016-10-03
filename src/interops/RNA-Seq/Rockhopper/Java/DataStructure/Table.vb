@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::53baaeab26393947647aa52870ee4a4e, ..\interops\RNA-Seq\Rockhopper\Java\DataStructure\Table.vb"
+﻿#Region "Microsoft.VisualBasic::6fd6655afd24495755945487628a468f, ..\interops\RNA-Seq\Rockhopper\Java\DataStructure\Table.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 '
 ' * Copyright 2014 Brian Tjaden

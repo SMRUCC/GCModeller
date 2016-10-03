@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c6ed2b27c7fce87b15a41fc68a92c8c3, ..\interops\meme_suite\MEME\Analysis\FootprintTrace\MotifMatchMast.vb"
+﻿#Region "Microsoft.VisualBasic::e67263d5fdd6a7b8a3da8e42a8a12bbe, ..\interops\meme_suite\MEME\Analysis\FootprintTrace\MotifMatchMast.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8690de877cb53dccf23851e9de3935d0, ..\interops\localblast\LocalBLAST\Web\MetaAPI.vb"
+﻿#Region "Microsoft.VisualBasic::d5c0889e90fdca6930d80283b451b99d, ..\interops\localblast\LocalBLAST\Web\MetaAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

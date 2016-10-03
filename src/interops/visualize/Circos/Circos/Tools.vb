@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c8b7fd54e13eb0702ab3e99b0468fc04, ..\interops\visualize\Circos\Circos\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::977312cfb13c081c9ee32f9e67d67e11, ..\interops\visualize\Circos\Circos\Tools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

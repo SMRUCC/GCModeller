@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7a11830bcfc6091a037d4998b0a7642f, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GradientMappings.vb"
+﻿#Region "Microsoft.VisualBasic::e595ba6b087c25109a0751d2576e426b, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GradientMappings.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

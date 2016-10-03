@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7846e961e8d6355881442ded664fc9ac, ..\interops\RNA-Seq\BOW\CliResCommon.vb"
+﻿#Region "Microsoft.VisualBasic::fd2957d24924b10c6be10ccf06c45cb2, ..\interops\RNA-Seq\BOW\CliResCommon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -74,4 +75,3 @@ Public Module CliResCommon
     End Function
 
 End Module
-

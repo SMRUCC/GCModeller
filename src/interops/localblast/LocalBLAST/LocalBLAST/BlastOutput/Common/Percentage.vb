@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::573382d5d45676f8114c523bf0e5a4d9, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Percentage.vb"
+﻿#Region "Microsoft.VisualBasic::758eee37a866e0ea714cd5b1fdfb1bbb, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Percentage.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

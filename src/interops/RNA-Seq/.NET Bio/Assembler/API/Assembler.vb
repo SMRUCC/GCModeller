@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1f3d635c09a4a59d45029972c213fd8b, ..\interops\RNA-Seq\.NET Bio\Assembler\API\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::69de7b2f1403fac65e40ec002b65301c, ..\interops\RNA-Seq\.NET Bio\Assembler\API\Assembler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -408,7 +409,3 @@ Public Class Assembler
         Return loci.Right
     End Function
 End Class
-
-
-
-

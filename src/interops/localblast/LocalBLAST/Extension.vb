@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5ffbe68dfedf15ebdf1c3c959744afed, ..\interops\localblast\LocalBLAST\Extension.vb"
+﻿#Region "Microsoft.VisualBasic::b91809c49d3884273c65c998dff5d5e3, ..\interops\localblast\LocalBLAST\Extension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Class Extension
 
 End Class
-

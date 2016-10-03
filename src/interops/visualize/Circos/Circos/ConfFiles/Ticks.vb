@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::35ac8c7b14a08ba0c630bed61211b698, ..\interops\visualize\Circos\Circos\ConfFiles\Ticks.vb"
+﻿#Region "Microsoft.VisualBasic::0c4aeb1735714db71653683b008509ea, ..\interops\visualize\Circos\Circos\ConfFiles\Ticks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

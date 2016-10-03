@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2b3b69ed6edf4a3144b49e74cf2a5a51, ..\interops\visualize\Phylip\Evolview\TreeDecoType.vb"
+﻿#Region "Microsoft.VisualBasic::4988abc63c39d2e4e5e0d712c9c09b7f, ..\interops\visualize\Phylip\Evolview\TreeDecoType.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -39,4 +40,3 @@ Namespace Evolview
     End Enum
 
 End Namespace
-

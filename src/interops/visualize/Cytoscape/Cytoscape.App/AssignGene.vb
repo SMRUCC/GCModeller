@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f691e7100a40ce8a637e4d48a780a42e, ..\interops\visualize\Cytoscape\Cytoscape.App\AssignGene.vb"
+﻿#Region "Microsoft.VisualBasic::fc51d5d543ecf233f0a9cf348775a113, ..\interops\visualize\Cytoscape\Cytoscape.App\AssignGene.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -106,4 +107,3 @@ Public Class AssignGene
         Return GeneList.ToArray
     End Function
 End Class
-

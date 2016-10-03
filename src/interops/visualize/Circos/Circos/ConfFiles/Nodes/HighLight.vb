@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0683708778443334de5d4984cf9a740e, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\HighLight.vb"
+﻿#Region "Microsoft.VisualBasic::d6972c6ad14b27ce3c0e9279ca91c070, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\HighLight.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::54d9a0937d22f5dd797cc3bf6175cc56, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
+﻿#Region "Microsoft.VisualBasic::dd37f227566a208e6c921a5aa95252c2, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

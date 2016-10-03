@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::876be87ed054bd51e3fa289dcfeefc0c, ..\interops\RNA-Seq\.NET Bio\Assembler\CLI\BlastnMappings.vb"
+﻿#Region "Microsoft.VisualBasic::055e76b9d990952a9a1bae9a193d30c6, ..\interops\RNA-Seq\.NET Bio\Assembler\CLI\BlastnMappings.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -180,4 +181,3 @@ Partial Module CLI
         Return 0
     End Function
 End Module
-

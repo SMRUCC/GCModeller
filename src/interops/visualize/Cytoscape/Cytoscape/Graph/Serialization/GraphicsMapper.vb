@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::441a2dde2e636677bf744aa66be34327, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Serialization\GraphicsMapper.vb"
+﻿#Region "Microsoft.VisualBasic::c732011d59a26b98f9eea3ec2514843a, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Serialization\GraphicsMapper.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

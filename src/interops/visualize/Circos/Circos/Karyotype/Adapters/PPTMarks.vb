@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::62186696adf706f427024d80059490e6, ..\interops\visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
+﻿#Region "Microsoft.VisualBasic::88f1b6ed50f183484c007c37d7835764, ..\interops\visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

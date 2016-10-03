@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ae764119168376cc704fd17bb13a0982, ..\interops\meme_suite\TmoD\TMod.vb"
+﻿#Region "Microsoft.VisualBasic::e594d37e475cbaeb7340fe178a042376, ..\interops\meme_suite\TmoD\TMod.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -311,4 +312,3 @@ Public Module TMod
         Return FastaSubSamples(FASTA.FastaFile.Read(source), n, Counts, Export)
     End Function
 End Module
-

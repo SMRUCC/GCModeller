@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6ff732834444a1f0de3ae6194285a6c7, ..\interops\meme_suite\MEME\Analysis\MotifLoci.vb"
+﻿#Region "Microsoft.VisualBasic::55959cf04b1834f7d98bf66631ff919b, ..\interops\meme_suite\MEME\Analysis\MotifLoci.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

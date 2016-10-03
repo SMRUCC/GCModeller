@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::96add559e583c1880f8595c3fad9864c, ..\interops\meme_suite\MEME\Programs\TomTOM\TomTOM.vb"
+﻿#Region "Microsoft.VisualBasic::6ea1761e49b112a805e905f73822787a, ..\interops\meme_suite\MEME\Programs\TomTOM\TomTOM.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

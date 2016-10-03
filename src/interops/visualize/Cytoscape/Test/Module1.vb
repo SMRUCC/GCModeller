@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::575652640663c74c9f1309faec5f3ac4, ..\interops\visualize\Cytoscape\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::73dc4de9842c253f5f98d02e62014320, ..\interops\visualize\Cytoscape\Test\Module1.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ Module Module1
 
 
 End Module
-

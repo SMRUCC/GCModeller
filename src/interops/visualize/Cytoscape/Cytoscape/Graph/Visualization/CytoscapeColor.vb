@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bfa7d62641ea790e62af4d0760596b71, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Visualization\CytoscapeColor.vb"
+﻿#Region "Microsoft.VisualBasic::1a98cdfd63c826092143478e998049d0, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Visualization\CytoscapeColor.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -131,4 +132,3 @@ Public Module CytoscapeColor
         Return r
     End Function
 End Module
-

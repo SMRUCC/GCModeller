@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5aad49c0e5341f1e5821fec62970f0b2, ..\interops\RNA-Seq\RNA-seq.Data\Fastaq\Fastaq.vb"
+﻿#Region "Microsoft.VisualBasic::912a59448a212923931c7cb09636821b, ..\interops\RNA-Seq\RNA-seq.Data\Fastaq\Fastaq.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

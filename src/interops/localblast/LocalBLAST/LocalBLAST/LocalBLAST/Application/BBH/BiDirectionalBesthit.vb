@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::01988d43269b1f91b6697627980b208d, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::0af3ba44bd0418e74a594cfd86dcacd7, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

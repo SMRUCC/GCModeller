@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::746a2c84cfa8194fa5fcd2beaa93aa3a, ..\interops\visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
+﻿#Region "Microsoft.VisualBasic::8164a5593fc2fb5086f6898e46c21b51, ..\interops\visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

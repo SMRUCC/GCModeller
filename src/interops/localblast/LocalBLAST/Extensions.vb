@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0a850d610e5711d5096af43c36194422, ..\interops\localblast\LocalBLAST\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::055e4b27fa2165aae0a51d8a5f9db28d, ..\interops\localblast\LocalBLAST\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -124,4 +125,3 @@ Public Module Extensions
         Return Blastbin.GetLastLogFile
     End Function
 End Module
-

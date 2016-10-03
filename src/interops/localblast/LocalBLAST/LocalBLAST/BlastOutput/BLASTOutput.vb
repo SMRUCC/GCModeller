@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1402387ec237a37f284c6e9e383a37ec, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\BLASTOutput.vb"
+﻿#Region "Microsoft.VisualBasic::a452e2b9a469b724e03737315ad897d5, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\BLASTOutput.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::79ee50c5d3bd2300f9fc73de6eee01be, ..\interops\RNA-Seq\Rockhopper\TSSsValidation.vb"
+﻿#Region "Microsoft.VisualBasic::11d73d79e9d329e6b78d71d3f17e52f9, ..\interops\RNA-Seq\Rockhopper\TSSsValidation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -169,4 +170,3 @@ Module TSSsValidation
     End Function
 
 End Module
-

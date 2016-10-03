@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::28719103370899ce0c06a9f0c3c17273, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
+﻿#Region "Microsoft.VisualBasic::46c682bb7521482fb3e51d77a76e355c, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Line\Nodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

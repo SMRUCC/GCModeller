@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c7d0582f5c7897ca0220b9e86e08dc4e, ..\interops\visualize\Circos\Circos\Colors\CircosColor.vb"
+﻿#Region "Microsoft.VisualBasic::eea2e469fbd1060adba27a4592713fb7, ..\interops\visualize\Circos\Circos\Colors\CircosColor.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

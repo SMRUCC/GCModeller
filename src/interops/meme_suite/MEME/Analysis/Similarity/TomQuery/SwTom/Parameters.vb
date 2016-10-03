@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d6d1eeabd6e68030f47066f58655524c, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\Parameters.vb"
+﻿#Region "Microsoft.VisualBasic::a9b342f62788be58ac9bf1dff9440231, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\SwTom\Parameters.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

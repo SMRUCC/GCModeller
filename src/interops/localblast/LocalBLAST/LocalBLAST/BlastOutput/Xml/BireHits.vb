@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1c44a0b2c22d3f58dfc3609605bd76ff, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\BireHits.vb"
+﻿#Region "Microsoft.VisualBasic::124c8a43127bdcc7a8c29b9d7691fa0f, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\BireHits.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

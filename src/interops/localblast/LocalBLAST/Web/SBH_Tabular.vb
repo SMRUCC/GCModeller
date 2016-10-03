@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a09b14167787852e1b1f0150cd40555a, ..\interops\localblast\LocalBLAST\Web\SBH_Tabular.vb"
+﻿#Region "Microsoft.VisualBasic::e08d94678a0c2eacdd5960db6c7535de, ..\interops\localblast\LocalBLAST\Web\SBH_Tabular.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

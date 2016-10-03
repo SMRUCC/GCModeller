@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ab24c522cafe99dc6d756a18e9e858a1, ..\interops\RNA-Seq\.NET Bio\Bio.Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b719a3c37a4444b4ac39ae46927b701f, ..\interops\RNA-Seq\.NET Bio\Bio.Extensions\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -41,4 +42,3 @@ Public Module Extensions
     End Function
 
 End Module
-

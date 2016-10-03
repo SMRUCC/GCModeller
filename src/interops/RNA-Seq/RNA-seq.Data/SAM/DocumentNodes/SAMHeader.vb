@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7785bac671cb894f1e8ea02479cf1fd7, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\SAMHeader.vb"
+﻿#Region "Microsoft.VisualBasic::c440cbf79e2e2723ff12ace364e6ba13, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\SAMHeader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

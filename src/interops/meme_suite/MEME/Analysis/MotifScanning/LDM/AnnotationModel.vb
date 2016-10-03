@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2be31be85a3613cc89660fb76f1d86f9, ..\interops\meme_suite\MEME\Analysis\MotifScanning\LDM\AnnotationModel.vb"
+﻿#Region "Microsoft.VisualBasic::9ddd68ca4d40bc084adfa5d094f08795, ..\interops\meme_suite\MEME\Analysis\MotifScanning\LDM\AnnotationModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

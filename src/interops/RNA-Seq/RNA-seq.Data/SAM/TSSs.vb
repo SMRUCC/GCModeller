@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::93328aab298e45ddf8751a8171534440, ..\interops\RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::b1e480621048d5c01ad35ccbf8074b67, ..\interops\RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -155,4 +156,3 @@ Module SAM_TSSs
     End Function
 
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2497a5fa4d3909ebe551d49b158de5a8, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\BlastMaps\IdentityColors.vb"
+﻿#Region "Microsoft.VisualBasic::e5f7729c85e9301d9c175bb6f03e5b6a, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\BlastMaps\IdentityColors.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

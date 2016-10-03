@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e95d93aff3071402fb86149e3f0d0138, ..\interops\meme_suite\MEME\Programs\TomTOM\MotifMatch.vb"
+﻿#Region "Microsoft.VisualBasic::e20f097ad32c978defab632a850c1b00, ..\interops\meme_suite\MEME\Programs\TomTOM\MotifMatch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

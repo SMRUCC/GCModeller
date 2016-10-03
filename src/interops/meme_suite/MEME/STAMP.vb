@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::493ff9d956d969c7ea22577f15615702, ..\interops\meme_suite\MEME\STAMP.vb"
+﻿#Region "Microsoft.VisualBasic::db4f8edde22614b63698e52189d1f25e, ..\interops\meme_suite\MEME\STAMP.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -170,4 +171,3 @@ Public Class STAMP
         Return File
     End Function
 End Class
-
