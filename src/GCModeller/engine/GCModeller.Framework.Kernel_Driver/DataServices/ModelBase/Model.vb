@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d5405172f10efd61e17011621f7202ce, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\ModelBase\Model.vb"
+﻿#Region "Microsoft.VisualBasic::a4a114f6800762e7986c04371cd52f85, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\ModelBase\Model.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2b5a70533c5ce4b4f5c80f1cee41a66d, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_matrix_align_link.vb"
+﻿#Region "Microsoft.VisualBasic::385ffff5aff3d3ca44b9a13b52ce0f14, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\tf_matrix_align_link.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -101,4 +102,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8bf1887544907c58a3aadd3d86c32e48, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entitywithaccessionedsequence_2_hasmodifiedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::a2979db00f7a5fd953cd871aa99cb889, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entitywithaccessionedsequence_2_hasmodifiedresidue.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

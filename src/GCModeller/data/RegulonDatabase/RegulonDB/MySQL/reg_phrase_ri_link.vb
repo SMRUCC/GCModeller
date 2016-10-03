@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::557d313e7894ccf5e88477464ff0c706, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reg_phrase_ri_link.vb"
+﻿#Region "Microsoft.VisualBasic::2ffb633a45dec1696d210553bfb9046c, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reg_phrase_ri_link.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bd9e788c401a6c77214adaebcf78e0d5, ..\GCModeller\CLI_tools\KEGG\Procedures\jp_kegg2.vb"
+﻿#Region "Microsoft.VisualBasic::b263753835aba6fdf80a52bd6b770511, ..\GCModeller\CLI_tools\KEGG\Procedures\jp_kegg2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -37,4 +38,3 @@ Public MustInherit Class jp_kegg2
         Call $"{Me.KEGG.Ping}ms.....".__DEBUG_ECHO
     End Sub
 End Class
-

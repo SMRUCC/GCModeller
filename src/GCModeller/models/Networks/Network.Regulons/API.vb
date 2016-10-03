@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::048cc991f7df7c75e9693a0aa7034be3, ..\GCModeller\models\Networks\Network.Regulons\API.vb"
+﻿#Region "Microsoft.VisualBasic::1e08e93c723cf18f3d232824d21ad5b5, ..\GCModeller\models\Networks\Network.Regulons\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Module API
 
 End Module
-

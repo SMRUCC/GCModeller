@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fba3dbc23d36b81a06f1ae52e253790d, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\gwANI\identity_result.vb"
+﻿#Region "Microsoft.VisualBasic::33a5dcbd17f2c843b392fb49eea8b691, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\gwANI\Const.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ea6092e09d8eed409a5ade96006b8eb0, ..\Metagenome\Metagenome\RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::ef21be2dfde0f1491366e823747e4084, ..\GCModeller\analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -113,4 +114,3 @@ Public Module RelativeStatics
         End Function
     End Class
 End Module
-

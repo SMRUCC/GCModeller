@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::aaaebcb934c1f4a49f6d14c66487bccd, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\association_property.vb"
+﻿#Region "Microsoft.VisualBasic::94e824426ade4c4eb08fba20ac2c9961, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\association_property.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b68775a388a02d2b07d5eedf7cc9d478, ..\GCModeller\sub-system\FBA_DP\rFBA\ModelLoader.vb"
+﻿#Region "Microsoft.VisualBasic::24730e4a84ba35fe02bfeefd490be195, ..\GCModeller\sub-system\FBA_DP\rFBA\ModelLoader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -35,4 +36,3 @@
 '        Return Solver
 '    End Function
 'End Class
-

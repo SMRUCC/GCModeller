@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::baff99b347c753ae61f9e39909803e21, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\NCBIWebMaster.vb"
+﻿#Region "Microsoft.VisualBasic::b5f0bf4384115034044e7b97bd17c9cd, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\NCBIWebMaster.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

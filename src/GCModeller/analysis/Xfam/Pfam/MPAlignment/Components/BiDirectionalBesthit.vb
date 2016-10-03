@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e4139852b40b413fdad39a7fb98f114e, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\Components\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::1ca047bf04802d8af725d9a8a3c01c3b, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\Components\BiDirectionalBesthit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

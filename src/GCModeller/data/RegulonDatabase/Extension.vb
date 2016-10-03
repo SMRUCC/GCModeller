@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f9949b2a3b646ff99095aa0d02af961c, ..\GCModeller\data\RegulonDatabase\Extension.vb"
+﻿#Region "Microsoft.VisualBasic::e4843501e51e3d7f80a692dd8c3b4500, ..\GCModeller\data\RegulonDatabase\Extension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -93,4 +94,3 @@ Public Module Extensions
         Return parts.ToArray
     End Function
 End Module
-

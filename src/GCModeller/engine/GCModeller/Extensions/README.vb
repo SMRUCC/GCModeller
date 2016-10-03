@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4394e31b1f54390751c3635ab064e5f7, ..\GCModeller\engine\GCModeller\Extensions\README.vb"
+﻿#Region "Microsoft.VisualBasic::b96efda9c3a6ac6fbacaf3adf4fe2514, ..\GCModeller\engine\GCModeller\Extensions\README.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -84,4 +85,3 @@ Module README
     ''' <remarks></remarks>
     Public ReadOnly Project As String = <Website url="http://code.google.com/p/genome-in-code/"/>
 End Module
-

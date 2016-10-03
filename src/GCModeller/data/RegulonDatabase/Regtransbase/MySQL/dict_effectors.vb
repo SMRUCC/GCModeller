@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d59e839112df718ef14b952dd1798932, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_effectors.vb"
+﻿#Region "Microsoft.VisualBasic::8da320d218a2b2ba658c6d1e14c50233, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_effectors.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -88,4 +89,3 @@ End Class
 
 
 End Namespace
-

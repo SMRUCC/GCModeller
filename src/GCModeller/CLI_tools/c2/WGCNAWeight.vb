@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::10ef9406f77a0163e379db167cc96fc2, ..\GCModeller\CLI_tools\c2\WGCNAWeight.vb"
+﻿#Region "Microsoft.VisualBasic::ad6473c47315e4c877941665a8588c98, ..\GCModeller\CLI_tools\c2\WGCNAWeight.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -67,4 +68,3 @@ Public Class WGCNAWeight : Inherits LANS.SystemsBiology.Toolkits.RNASeq.WGCNA.WG
         End If
     End Function
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d4c6f973bc64d5345097edd3956c612b, ..\GCModeller\data\ExternalDBSource\ExplorEnz\MySQL\hist.vb"
+﻿#Region "Microsoft.VisualBasic::18731a461b127e9cf33f438c7cee9485, ..\GCModeller\data\ExternalDBSource\ExplorEnz\MySQL\hist.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -101,4 +102,3 @@ End Class
 
 
 End Namespace
-

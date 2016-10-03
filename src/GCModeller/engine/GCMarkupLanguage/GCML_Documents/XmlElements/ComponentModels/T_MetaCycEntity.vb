@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::83b74b835c9507551dc42b2de4824d17, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\T_MetaCycEntity.vb"
+﻿#Region "Microsoft.VisualBasic::9eabc9b17a6cfba6c261533bb657dd40, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\T_MetaCycEntity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a1109fc06ad60490a02c388c8c812d97, ..\GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
+﻿#Region "Microsoft.VisualBasic::b3ceacee1a3a839390d739d86d259d88, ..\GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -132,4 +133,3 @@ Namespace SangerSNPs
         End Function
     End Structure
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d4c28676f4988d98a723f048b739febd, ..\GCModeller\analysis\RNA-Seq\TSSAR\TSSAR\TSSAR.vb"
+﻿#Region "Microsoft.VisualBasic::bab3038c97c4dc87961f327dc2c3f030, ..\GCModeller\analysis\RNA-Seq\TSSAR\TSSAR\TSSAR.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,7 +26,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' 将TSSAR脚本转换为VB程序
 ''' </summary>
@@ -36,4 +36,3 @@ Public Class TSSAR
  
 
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bef5e923b27507874aeda1cd3329fb80, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ReactionRegulators.vb"
+﻿#Region "Microsoft.VisualBasic::6ba0f5101f1f0a036eedc2bf0cbca735, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ReactionRegulators.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

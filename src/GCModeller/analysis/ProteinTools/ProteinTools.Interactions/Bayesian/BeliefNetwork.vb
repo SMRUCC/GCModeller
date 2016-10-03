@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::681cf7fad700e94d1c4762fb4d77af88, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\Bayesian\BeliefNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::2df09cfd03d8595dccfe7cb5e11a6753, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\Bayesian\BeliefNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -177,4 +178,3 @@ Public Class BeliefNetwork
         Return EntityList.ToArray
     End Function
 End Class
-

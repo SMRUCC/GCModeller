@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::99da3a59398c5f1396503ad7ae478cee, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Parser\SimpleSegment.vb"
+﻿#Region "Microsoft.VisualBasic::b58d1735b4261c96714cc50251d33198, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Parser\SimpleSegment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c09f9f404aac752a7e943ced3131db66, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
+﻿#Region "Microsoft.VisualBasic::67db3ac058c590a245b41c1a95df3b21, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

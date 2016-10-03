@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::595453ab0be1eb83f05f754b51a601a7, ..\GCModeller\CLI_tools\c2\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::58237a31a864d37e165ca7bf484efff0, ..\GCModeller\CLI_tools\c2\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -34,4 +35,3 @@ Public Class ShellScriptAPI
         Throw New NotImplementedException
     End Function
 End Class
-

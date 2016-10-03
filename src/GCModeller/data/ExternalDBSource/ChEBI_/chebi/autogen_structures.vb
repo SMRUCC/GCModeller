@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d8a4fb43060855907fb450552aabe1ac, ..\GCModeller\data\ExternalDBSource\ChEBI_\chebi\autogen_structures.vb"
+﻿#Region "Microsoft.VisualBasic::99651cb89cbdeb374bc70d270a2d72f5, ..\GCModeller\data\ExternalDBSource\ChEBI_\chebi\autogen_structures.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -81,4 +82,3 @@ End Class
 
 
 End Namespace
-

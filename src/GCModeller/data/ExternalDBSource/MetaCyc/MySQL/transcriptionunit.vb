@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c94a39ac3a794a9380572a9efe1b569a, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\transcriptionunit.vb"
+﻿#Region "Microsoft.VisualBasic::43547e2613944df9713e5f2d374ad5ce, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\transcriptionunit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -88,4 +89,3 @@ End Class
 
 
 End Namespace
-

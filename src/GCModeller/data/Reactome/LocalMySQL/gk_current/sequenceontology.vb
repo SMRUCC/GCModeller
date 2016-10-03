@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::852d317fa1597bb24a7050f746d1714d, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\sequenceontology.vb"
+﻿#Region "Microsoft.VisualBasic::7847b1282ae9df08661045832cfea45b, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\sequenceontology.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -82,4 +83,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8d6882dbe7945f3868882be55f0ec00b, ..\GCModeller\visualize\visualizeTools\TextureResourceLoader.vb"
+﻿#Region "Microsoft.VisualBasic::086567ee256a23de4529cb3166c602a1, ..\GCModeller\visualize\visualizeTools\TextureResourceLoader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -101,4 +102,3 @@ Public Module TextureResourceLoader
         Return TextureResourceLoader.LoadTextureResource(My.Resources.DefaultTexture, New Size(27, 19), 6, 6)
     End Function
 End Module
-

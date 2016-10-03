@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3445337a075cf9f53cfc30dabb015c83, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\SleepIdentified.vb"
+﻿#Region "Microsoft.VisualBasic::6254e79b8d4c3ca14249062716fb8b5f, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\SleepIdentified.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

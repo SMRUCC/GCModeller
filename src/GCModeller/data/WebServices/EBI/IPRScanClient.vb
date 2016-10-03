@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::19759cfd62b3fddcd8a899712654cb1e, ..\GCModeller\data\ExternalDBSource\WebServices\EBI\IPRScanClient.vb"
+﻿#Region "Microsoft.VisualBasic::09f9cc6cae1a2b3f5cb27ba4c440f166, ..\GCModeller\data\WebServices\EBI\IPRScanClient.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -364,4 +365,3 @@
 '		End Sub
 '	End Class
 'End Namespace
-

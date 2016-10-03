@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::70ad9543946275f097052bb0e282679a, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\cond_effect_link.vb"
+﻿#Region "Microsoft.VisualBasic::30ec98d4d18808c22ac62f39e8751cb9, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\cond_effect_link.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7b659872dba4bcc453f60fcce15930ca, ..\GCModeller\engine\vcsm_Grid\PbsHostServer.vb"
+﻿#Region "Microsoft.VisualBasic::2a136bca7b7f0a6dfece5fb44b9f77f6, ..\GCModeller\engine\vcsm_Grid\PbsHostServer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -120,4 +121,3 @@ Public Class PbsHostServer : Implements IDisposable
     End Sub
 #End Region
 End Class
-

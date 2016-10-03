@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::66753f43779f06e0330bb81a9f415f4e, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::0d48fdc4a7bee5c4a0b4413e9eb3f5cd, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -133,4 +134,3 @@ Public Module ShellScriptAPI
         Return New AlignmentResult(query, subject, cost)
     End Function
 End Module
-

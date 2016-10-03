@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f9a0206e6dda18872671deb23d603919, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\PathwayBrief\AssignGene.vb"
+﻿#Region "Microsoft.VisualBasic::8312cbc7cfa59023352063a9b95760f2, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\PathwayBrief\AssignGene.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace PathwayBrief
 

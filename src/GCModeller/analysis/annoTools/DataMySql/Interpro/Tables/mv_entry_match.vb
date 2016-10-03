@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4793eff4b36cdfc643b2a2d974136ef8, ..\GCModeller\analysis\Annotation\Interpro\Tables\mv_entry_match.vb"
+﻿#Region "Microsoft.VisualBasic::79f4d34a59368202d3feab83b8267a96, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\mv_entry_match.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

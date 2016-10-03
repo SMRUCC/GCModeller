@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2faaa02135e7896cd3d6a6d76c35ae68, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\pathwaydiagram.vb"
+﻿#Region "Microsoft.VisualBasic::f72d5886b7a40983752fe87de81314d7, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\pathwaydiagram.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

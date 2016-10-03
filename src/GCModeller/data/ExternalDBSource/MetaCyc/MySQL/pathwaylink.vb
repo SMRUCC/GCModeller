@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3e2f4187413e519344c96722b8ebb0e2, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
+﻿#Region "Microsoft.VisualBasic::c4800a9f9ac5fb6d525c2c7ba8658a46, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathwaylink.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ End Class
 
 
 End Namespace
-

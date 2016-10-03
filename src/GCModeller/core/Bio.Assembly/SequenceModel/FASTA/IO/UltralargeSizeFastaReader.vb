@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f64c7a503df062d33119a415311c65dd, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb"
+﻿#Region "Microsoft.VisualBasic::5b8bd8e41cc2b608ff1d5e9752491a43, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

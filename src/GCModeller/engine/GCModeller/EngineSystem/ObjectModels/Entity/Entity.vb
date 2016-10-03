@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8d2b2b1b56cd50221bc0c979f1c17bcb, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Entity\Entity.vb"
+﻿#Region "Microsoft.VisualBasic::569dbb09b57729e6bc45d3b3f273fe0e, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Entity\Entity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 细胞系统之中的一个实体对象，请注意，这个对象只用来表示一个现实的物理世界之中存在的生物分子对象
@@ -56,4 +56,3 @@ Public Class Entity
 
     End Sub
 End Class
-

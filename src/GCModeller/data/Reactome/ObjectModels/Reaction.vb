@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e13bb745667d2faa7233abf69604c638, ..\GCModeller\data\Reactome\ObjectModels\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::3d0cbd7c86383c156d4827880777701b, ..\GCModeller\data\Reactome\ObjectModels\Reaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -67,4 +68,3 @@ Namespace ObjectModels
         End Function
     End Class
 End Namespace
-

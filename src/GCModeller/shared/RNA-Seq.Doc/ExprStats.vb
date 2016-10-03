@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::42c3e374cf2e788ee63a514c559fd5cc, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\RNA-Seq.Doc\ExprStats.vb"
+﻿#Region "Microsoft.VisualBasic::dbea6b2841da4da5aaeae53f1af78458, ..\GCModeller\shared\RNA-Seq.Doc\ExprStats.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

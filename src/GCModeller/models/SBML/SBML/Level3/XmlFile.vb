@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::987d96f073ef56a0f376ff3ebb706775, ..\GCModeller\models\SBML\SBML\Level3\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::b567f8088cf6f9e970891b0ccd1f64b2, ..\GCModeller\models\SBML\SBML\Level3\XmlFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -175,4 +176,3 @@ Namespace Level3
         <XmlAttribute> Public Property units As String
     End Class
 End Namespace
-

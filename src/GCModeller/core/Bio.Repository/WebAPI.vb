@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::43d4d6d37f461fa5f164a17f1076a8e9, ..\GCModeller\core\Bio.Repository\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5a9a82883b5a3a90fa1416c09843e65f, ..\GCModeller\core\Bio.Repository\WebAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -88,4 +89,3 @@ Public Module DownloaderWebAPI
         End Structure
     End Structure
 End Module
-

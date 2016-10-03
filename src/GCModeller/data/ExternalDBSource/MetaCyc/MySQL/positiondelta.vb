@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0a22f110b70a0359295e7af91649ffa4, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
+﻿#Region "Microsoft.VisualBasic::bd83d1c89b1932a541485310d8fe8f80, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\positiondelta.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -94,4 +95,3 @@ End Class
 
 
 End Namespace
-

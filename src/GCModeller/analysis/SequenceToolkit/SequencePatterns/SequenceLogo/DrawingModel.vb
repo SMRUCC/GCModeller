@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a211def4c7f093e67bb8746973b57f1a, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::b86cfa12391da7b0190b9fde264e1e64, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fe3da90625fb4fb7ca1e2f9ffc8188c3, ..\GCModeller\visualize\SyntenyVisual\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::6b9af275b62dad8160c8b2eb40f67024, ..\GCModeller\visualize\SyntenyVisual\DrawingModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

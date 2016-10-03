@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b64012a177c8e6caf3bbba83f3e01cb2, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SegmentRenderData.vb"
+﻿#Region "Microsoft.VisualBasic::f8a922e792b3f362c7793dec32bc3a65, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SegmentRenderData.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Public Class SegmentRenderData : Inherits SiteSigma
     ''' <summary>

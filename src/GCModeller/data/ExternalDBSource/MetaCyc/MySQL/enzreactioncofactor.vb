@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::69bce3dd5c87d4d47a6c37ec51816a4d, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzreactioncofactor.vb"
+﻿#Region "Microsoft.VisualBasic::d19eafbf9265fba4554a45d6b1bcc575, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzreactioncofactor.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

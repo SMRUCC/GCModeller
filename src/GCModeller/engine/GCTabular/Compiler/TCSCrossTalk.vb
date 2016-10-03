@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3c1444a12c83a9918212f5919863666d, ..\GCModeller\engine\GCTabular\Compiler\TCSCrossTalk.vb"
+﻿#Region "Microsoft.VisualBasic::d27aa4ae249142611efdf704bcf17096, ..\GCModeller\engine\GCTabular\Compiler\TCSCrossTalk.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -74,4 +75,3 @@
 '        Return CrossTalks.ToArray
 '    End Function
 'End Module
-

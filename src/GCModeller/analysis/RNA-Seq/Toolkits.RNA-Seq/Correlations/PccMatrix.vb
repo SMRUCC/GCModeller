@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d0ca8790ba7a70d874824c936af0c1c0, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\PccMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::97bd594c778fcea43953e16d71b6e10c, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\PccMatrix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -182,4 +183,3 @@ Public Class PccMatrix
         End If
     End Function
 End Class
-

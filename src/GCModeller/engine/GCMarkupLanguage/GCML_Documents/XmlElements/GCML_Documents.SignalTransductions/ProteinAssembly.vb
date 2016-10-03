@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a07bf065593ba3d99abdd5d7c3804af7, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\ProteinAssembly.vb"
+﻿#Region "Microsoft.VisualBasic::3c6dd3163912a50dfd95b0cfbc4bbca3, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\ProteinAssembly.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

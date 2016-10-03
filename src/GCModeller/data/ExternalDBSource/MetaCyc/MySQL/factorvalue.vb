@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::dd52a7d0deffcb64c23deccb281b6712, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\factorvalue.vb"
+﻿#Region "Microsoft.VisualBasic::82592d39797795ee1074d5864ebd4cf6, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\factorvalue.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -106,4 +107,3 @@ End Class
 
 
 End Namespace
-

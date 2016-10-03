@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::06873d54b8859e7a18b2a587f8e67856, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\scaffoldposchunks.vb"
+﻿#Region "Microsoft.VisualBasic::7126460b611bbdbcf5ee6459f0e131ac, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\scaffoldposchunks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -95,4 +96,3 @@ End Class
 
 
 End Namespace
-

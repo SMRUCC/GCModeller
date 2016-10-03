@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::44509945ef5f82b2036694f53d1b7563, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\taxnode.vb"
+﻿#Region "Microsoft.VisualBasic::8788b86452adedc1f7b7766e94f29b27, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\taxnode.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -109,4 +110,3 @@ End Class
 
 
 End Namespace
-

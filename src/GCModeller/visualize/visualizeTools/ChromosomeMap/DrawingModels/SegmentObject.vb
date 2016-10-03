@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c6dbbfed5c6fdfcf37a7e490229f85fa, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::8818ba86b7edfbb143d012fe208c27a2, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\SegmentObject.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

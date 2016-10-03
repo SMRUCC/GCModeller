@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b941bcd42ee0d9e3c633f7469bbaf52d, ..\GCModeller\engine\GCModeller\GUID\Uid.vb"
+﻿#Region "Microsoft.VisualBasic::aaa5d55c40a600bac7a19f74996f9945, ..\GCModeller\engine\GCModeller\GUID\Uid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -74,4 +75,3 @@ Partial Class Guid
         End Operator
     End Class
 End Class
-

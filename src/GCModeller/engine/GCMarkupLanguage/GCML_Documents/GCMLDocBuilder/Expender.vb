@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5a8d101baf96d891969f5cef48d3ad49, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Expender.vb"
+﻿#Region "Microsoft.VisualBasic::4f0102d24e1f79a3192fc24d8189a5ad, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\Expender.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

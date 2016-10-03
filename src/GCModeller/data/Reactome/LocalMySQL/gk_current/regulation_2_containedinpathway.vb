@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ec293ce0ee9e5f3cde1cecc165b8cdf7, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\regulation_2_containedinpathway.vb"
+﻿#Region "Microsoft.VisualBasic::b113920c7b473356c9dc9bc5dbd48861, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\regulation_2_containedinpathway.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

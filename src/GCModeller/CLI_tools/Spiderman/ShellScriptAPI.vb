@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4d6735c12fac36fcda5d460030952dd3, ..\GCModeller\CLI_tools\Spiderman\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f48c622d107bc5513b932b07afc20971, ..\GCModeller\CLI_tools\Spiderman\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -32,4 +33,3 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Public Class ShellScriptAPI
 
 End Class
-

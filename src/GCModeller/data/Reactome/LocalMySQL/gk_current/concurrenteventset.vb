@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::89032fcec5c064ec265fd11e2bd216e9, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\concurrenteventset.vb"
+﻿#Region "Microsoft.VisualBasic::cd8b6b4ce1e1d3e2abbdb64b5c672071, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\concurrenteventset.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -82,4 +83,3 @@ End Class
 
 
 End Namespace
-

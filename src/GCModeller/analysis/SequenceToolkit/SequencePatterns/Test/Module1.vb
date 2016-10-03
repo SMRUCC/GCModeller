@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ad17207c22cd6ddc5ed5e246d59d69a2, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::c7cfe5201ac6d2f9ced5a008799ea14f, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\Module1.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -48,4 +49,3 @@ Module Module1
     End Sub
 
 End Module
-

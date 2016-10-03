@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::37794e306f54e29a4638feed6ff65518, ..\GCModeller\analysis\Annotation\Interpro\Tables\match_struct.vb"
+﻿#Region "Microsoft.VisualBasic::3deb0039c1f91bd375e21855f1251fa5, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\match_struct.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -92,4 +93,3 @@ End Class
 
 
 End Namespace
-

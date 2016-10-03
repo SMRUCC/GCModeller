@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3f5dd1b3d8404afd17ef339a7e5dd17f, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\PromoterParser.vb"
+﻿#Region "Microsoft.VisualBasic::4b13f714e234e02386a8aa19fc0b8a07, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\PromoterParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -111,4 +112,3 @@ Public Class PromoterParser : Implements System.IDisposable
 #End Region
 
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ba3a0e8573220751d595439d5451468e, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e65e2607adca69e649690243281724e6, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\CorrsDbAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ Public Module CorrsDbAPI
         Return New WGCNAWeight With {.PairItems = weights}
     End Function
 End Module
-

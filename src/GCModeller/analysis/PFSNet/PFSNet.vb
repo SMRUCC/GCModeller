@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1262d1fd76933fce83a5b08d6a0ff2a7, ..\GCModeller\analysis\PFSNet\PFSNet.vb"
+﻿#Region "Microsoft.VisualBasic::5182abe6952d13b8d6a664b6d8b7f9f0, ..\GCModeller\analysis\PFSNet\PFSNet.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

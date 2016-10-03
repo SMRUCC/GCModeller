@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6b8cbacb045f62ad7ae8c4bb12ce6c20, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\polymer_2_repeatedunit.vb"
+﻿#Region "Microsoft.VisualBasic::5f59f5cc6ac6a9ef169a86d650737b2e, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\polymer_2_repeatedunit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

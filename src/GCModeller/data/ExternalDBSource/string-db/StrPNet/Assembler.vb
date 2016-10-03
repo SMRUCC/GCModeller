@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c8ae5f0f7b1364a7fe4d8f3b1013d171, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::51c7f96395ec27480a774c89cbed79bf, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\Assembler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

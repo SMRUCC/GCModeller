@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::998477164a9bcd73d9c853f437288593, ..\GCModeller\engine\GCModeller\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::da8efcee9b7c4e813925d0383acd3fa7, ..\GCModeller\engine\GCModeller\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -102,4 +103,3 @@ Public Module ShellScriptAPI
         Return True
     End Function
 End Module
-

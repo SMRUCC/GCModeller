@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ee9b4ad8f392b32cc3f38d41f239c96b, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\objtobindrxn.vb"
+﻿#Region "Microsoft.VisualBasic::dad3780bd5d7f5fb7acc0240da1110d4, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\objtobindrxn.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ End Class
 
 
 End Namespace
-

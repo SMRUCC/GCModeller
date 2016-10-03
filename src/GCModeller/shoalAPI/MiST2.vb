@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::430746459de061f7963c4a2740e22c82, ..\GCModeller\shoalAPI\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::0a46873fbe6f6b8bc561752978f9ec3f, ..\GCModeller\shoalAPI\MiST2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -130,4 +131,3 @@ Public Module MiST2API
         End If
     End Function
 End Module
-

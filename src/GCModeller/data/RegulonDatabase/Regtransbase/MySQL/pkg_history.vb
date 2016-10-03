@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0afc19484ab3212c891fd454aed1f7e6, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\pkg_history.vb"
+﻿#Region "Microsoft.VisualBasic::2091f4890601b157a6c2fedb53e13672, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\pkg_history.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -105,4 +106,3 @@ End Class
 
 
 End Namespace
-

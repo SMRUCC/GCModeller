@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bc75bcdaac86948d5e6459b7a3ae8570, ..\GCModeller\analysis\Annotation\Interpro\Xml\Family.vb"
+﻿#Region "Microsoft.VisualBasic::bc75bcdaac86948d5e6459b7a3ae8570, ..\GCModeller\analysis\annoTools\DataTools\Interpro\Xml\Family.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

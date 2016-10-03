@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f7bd0adcc979ffd9de15e7e46aaaf08e, ..\GCModeller\analysis\Annotation\Interpro\Tables\protein_ida.vb"
+﻿#Region "Microsoft.VisualBasic::4c9aa3b3a0aaa7dcbac969eea35cd4eb, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\protein_ida.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

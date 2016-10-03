@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d78c7b943eb97a6d76bf1a4531a2fe00, ..\Metagenome\Metagenome\BEBaC\CrudeClustering.vb"
+﻿#Region "Microsoft.VisualBasic::d78c7b943eb97a6d76bf1a4531a2fe00, ..\GCModeller\analysis\Metagenome\Metagenome\BEBaC\CrudeClustering.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

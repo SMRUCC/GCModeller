@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::54b34754b2ca501ecfa6e483b0e3d0e9, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::42f5ec7cc53f591fb206ebe1fcdf1e94, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Pathway.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

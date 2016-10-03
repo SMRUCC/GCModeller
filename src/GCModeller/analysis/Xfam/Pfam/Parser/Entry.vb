@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9588d967c9a741740a40fc6aecec7890, ..\GCModeller\analysis\Xfam\Pfam\Parser\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::5f57e63b30395e2d24235001a68de5ce, ..\GCModeller\analysis\Xfam\Pfam\Parser\Entry.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace PfamFastaComponentModels
 
@@ -70,4 +70,3 @@ Namespace PfamFastaComponentModels
 
     End Class
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3dd9505e1c3a72e16d577ba74a78db3f, ..\GCModeller\engine\GCMarkupLanguage\EquationGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::b1126535e323b1ebed6d9108498e15bb, ..\GCModeller\engine\GCMarkupLanguage\EquationGenerator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -135,4 +136,3 @@ Public Class EquationGenerator
         Return Equation
     End Function
 End Class
-

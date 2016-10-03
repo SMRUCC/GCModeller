@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d966f8018fdb348aecded6c4a4d4248c, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\fragmentinsertionmodification.vb"
+﻿#Region "Microsoft.VisualBasic::c01ed39085670f6e74c91dae839e6a40, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\fragmentinsertionmodification.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

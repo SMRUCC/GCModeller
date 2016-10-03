@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::93ba24625313a71a08470bda6d485684, ..\GCModeller\analysis\Annotation\Interpro\Tables\varsplic_supermatch.vb"
+﻿#Region "Microsoft.VisualBasic::a00c8a67af786c369d3a01388cf9756c, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\varsplic_supermatch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -97,4 +98,3 @@ End Class
 
 
 End Namespace
-

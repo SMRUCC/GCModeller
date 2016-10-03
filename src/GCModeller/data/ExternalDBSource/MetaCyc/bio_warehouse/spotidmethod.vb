@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::11a45294710ff147b58b6cff0e7be7e6, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\spotidmethod.vb"
+﻿#Region "Microsoft.VisualBasic::24c83c026668c1edca12a37515d6d974, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\spotidmethod.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -92,4 +93,3 @@ End Class
 
 
 End Namespace
-

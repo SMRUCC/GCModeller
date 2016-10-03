@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e44decd571d5cfe2b43fdac17d04ec2f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
+﻿#Region "Microsoft.VisualBasic::586889bbbbbad92c78217c8c9348137f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -210,4 +211,3 @@ Public Module Utilities
         Return res.SaveAs(out, ImageFormats.Png)
     End Function
 End Module
-

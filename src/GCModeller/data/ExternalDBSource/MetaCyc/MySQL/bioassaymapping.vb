@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a8ae47db260cf6e51aaa6df3b7f640de, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\bioassaymapping.vb"
+﻿#Region "Microsoft.VisualBasic::926b89b7944fb339417dd446740a0112, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\bioassaymapping.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ End Class
 
 
 End Namespace
-

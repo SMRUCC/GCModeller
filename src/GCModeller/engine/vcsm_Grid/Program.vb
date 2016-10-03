@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::be19c40024e08e8ed500116939b5d352, ..\GCModeller\engine\vcsm_Grid\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e168418250fed3acbc00c8fc54ddc6aa, ..\GCModeller\engine\vcsm_Grid\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -33,4 +34,3 @@ Module Program
         End Using
     End Function
 End Module
-

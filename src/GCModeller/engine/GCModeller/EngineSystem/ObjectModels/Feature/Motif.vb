@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6798c69f547ff5e8e87dfd6b8de98efa, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Feature\Motif.vb"
+﻿#Region "Microsoft.VisualBasic::c0b47a06af25d627341e1e94834743b0, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Feature\Motif.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Module.CentralDogmaInstance
 

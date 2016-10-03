@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4d3c35a65780d90bb2ba240b50787108, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb"
+﻿#Region "Microsoft.VisualBasic::c6e7c0990f8096b4d09dcb09263ba065, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

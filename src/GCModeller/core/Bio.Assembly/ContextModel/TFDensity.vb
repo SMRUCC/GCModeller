@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::281fe18972912fae05f2d9b04d59fa21, ..\GCModeller\core\Bio.Assembly\ContextModel\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::35c475a9a6d83aead3d0204665758416, ..\GCModeller\core\Bio.Assembly\ContextModel\TFDensity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

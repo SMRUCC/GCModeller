@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a409f126551a5576ddcd4ac21cf006fa, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CacheList.vb"
+﻿#Region "Microsoft.VisualBasic::2572bd2fdfd39933d04df2f60f1658cc, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\CacheList.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -40,4 +41,3 @@ Public Class CacheList
     ''' <remarks></remarks>
     Public Property List As List(Of KeyValuePair)
 End Class
-

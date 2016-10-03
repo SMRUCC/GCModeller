@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::de4d0d54ba7fc378a432208eab725000, ..\Interactions.BioGRID\TabularFiles\OSPREY_DATASET.vb"
+﻿#Region "Microsoft.VisualBasic::f3eed2e97a14501e932eae1a05e85b01, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\TabularFiles\OSPREY_DATASET.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Serialization.JSON
 ''' <summary>
@@ -49,4 +49,3 @@ Public Class OSPREY_DATASET
         Return Me.GetJson
     End Function
 End Class
-

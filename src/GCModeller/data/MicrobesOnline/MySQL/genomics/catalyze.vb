@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4ae34ce527d854f984a4905b8d8ed97a, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\catalyze.vb"
+﻿#Region "Microsoft.VisualBasic::b0eb2025732bc939afe0b47ba7cdfa46, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\catalyze.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ End Class
 
 
 End Namespace
-

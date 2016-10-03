@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c8466a8a3a0aa0dcb3dca5478ced98ab, ..\Metagenome\microbiomeGWAS\microbiomeGWAS.vb"
+﻿#Region "Microsoft.VisualBasic::2f4e60fd5fd9394070647c053eb19292, ..\GCModeller\analysis\Metagenome\microbiomeGWAS\microbiomeGWAS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Module microbiomeGWAS
 
 End Module
-

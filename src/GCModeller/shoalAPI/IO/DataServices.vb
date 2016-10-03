@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5a6764bcd966eee1cb465566eee5cb02, ..\GCModeller\shoalAPI\IO\DataServices.vb"
+﻿#Region "Microsoft.VisualBasic::731f3723dc1f24f8cc8aecd4ea8ffa13, ..\GCModeller\shoalAPI\IO\DataServices.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -52,4 +53,3 @@ Module DataServices
         Return LANS.SystemsBiology.InteractionModel.DataServicesExtension.SaveCsv(data).Save(saveto, False)
     End Function
 End Module
-

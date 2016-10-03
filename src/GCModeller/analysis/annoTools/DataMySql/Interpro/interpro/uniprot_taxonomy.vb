@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4e88c944197e91b54172c31292884f69, ..\GCModeller\analysis\Annotation\Interpro\interpro\uniprot_taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::74ca373d49ea04a1bbacae3a39277d21, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\interpro\uniprot_taxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

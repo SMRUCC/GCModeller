@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::592e63e873ce460143128d0f910a6fe4, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\Components\DomainAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::387227f32dabf2936da69c4d80e5dcce, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\Components\DomainAlignment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d69b9e5533cd21983953d8bd2d15d768, ..\GCModeller\analysis\Annotation\Interpro\Tables\mv_method2protein.vb"
+﻿#Region "Microsoft.VisualBasic::ca047fe84e9297b9abcd45e3f6481d61, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\mv_method2protein.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

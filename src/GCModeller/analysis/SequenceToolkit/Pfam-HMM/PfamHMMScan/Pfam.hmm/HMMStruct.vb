@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::81778caef6cf578fda8f936b4cce822d, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMStruct.vb"
+﻿#Region "Microsoft.VisualBasic::6bc3118942702a246c5e5fc6b5461088, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMStruct.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -177,4 +178,3 @@ Public Class HMMStruct : Inherits ClassObject
     Sub New()
     End Sub
 End Class
-

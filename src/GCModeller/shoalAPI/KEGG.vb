@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::eba120344fb9f4cdce2f7ee42fa17aa6, ..\GCModeller\shoalAPI\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::2b8fbfe6fa358844a879d6cbc603daaa, ..\GCModeller\shoalAPI\KEGG.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -320,4 +321,3 @@ Public Module KEGG
 
 #End Region
 End Module
-

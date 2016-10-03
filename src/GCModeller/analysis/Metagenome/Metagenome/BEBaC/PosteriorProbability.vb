@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::505aa001b3bb4aa5e4a16c650a546903, ..\Metagenome\Metagenome\BEBaC\PosteriorProbability.vb"
+﻿#Region "Microsoft.VisualBasic::505aa001b3bb4aa5e4a16c650a546903, ..\GCModeller\analysis\Metagenome\Metagenome\BEBaC\PosteriorProbability.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

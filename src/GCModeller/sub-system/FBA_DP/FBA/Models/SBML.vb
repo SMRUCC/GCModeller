@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::842a9fc67ecd9e8cd4fab313228e5c1c, ..\GCModeller\sub-system\FBA_DP\FBA\Models\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::5ab7378f31347d0a706716f5e669295d, ..\GCModeller\sub-system\FBA_DP\FBA\Models\SBML.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

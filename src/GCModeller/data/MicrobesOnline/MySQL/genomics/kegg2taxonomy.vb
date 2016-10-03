@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7af21c54caa937ca0816d192543d91c6, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\kegg2taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::5a55a96946ea6259f5c1ad9c5d5c73bd, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\kegg2taxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -84,4 +85,3 @@ End Class
 
 
 End Namespace
-

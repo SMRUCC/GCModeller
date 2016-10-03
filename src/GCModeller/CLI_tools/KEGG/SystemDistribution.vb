@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::97e3c3cb8f64bab0d791fe8d75dccc19, ..\GCModeller\CLI_tools\KEGG\SystemDistribution.vb"
+﻿#Region "Microsoft.VisualBasic::6b58be54e137c15ce3e8d0dab1d7bdd7, ..\GCModeller\CLI_tools\KEGG\SystemDistribution.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -78,4 +79,3 @@ Public Module SystemDistribution
         Return Device.ImageResource
     End Function
 End Module
-

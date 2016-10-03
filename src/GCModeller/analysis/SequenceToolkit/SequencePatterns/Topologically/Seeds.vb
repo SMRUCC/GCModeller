@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3d6202951d51813bbe062484b10f25c1, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds.vb"
+﻿#Region "Microsoft.VisualBasic::d8efdf74d7e79f8777c61345fb7d614e, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

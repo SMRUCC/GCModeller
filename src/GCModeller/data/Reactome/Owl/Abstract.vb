@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c8841d61fa644e77cfd3398fc73e5d27, ..\GCModeller\data\Reactome\Owl\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::a1a0ce190ee2e05aede6174df0a21180, ..\GCModeller\data\Reactome\Owl\Abstract.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -78,4 +79,3 @@ Namespace OwlDocument.Abstract
         End Function
     End Class
 End Namespace
-

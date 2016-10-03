@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::731ed4ae8b83744aee2c2dee8ecdaf78, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\orthology_pathways.vb"
+﻿#Region "Microsoft.VisualBasic::aa220e2663b1481a4ff303e4826bd4f6, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\orthology_pathways.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ End Class
 
 
 End Namespace
-

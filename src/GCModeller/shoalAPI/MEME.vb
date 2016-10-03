@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0a9c732a7ccfc452b6d536ab24de6cfa, ..\GCModeller\shoalAPI\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::31c9c2659561bf3d2d32e5b513698708, ..\GCModeller\shoalAPI\MEME.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -141,4 +142,3 @@ Public Module MEME
         Call MCounts.SaveTo(bbh.TrimFileExt & ".MultipleFamily.csv")
     End Sub
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0ae2c4532f23404473f1217f3b07d9fe, ..\GCModeller\shoalAPI\Cytoscape.vb"
+﻿#Region "Microsoft.VisualBasic::c7eddf9a1b6392abb79794b0f599b757, ..\GCModeller\shoalAPI\Cytoscape.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -108,4 +109,3 @@ Module Cytoscape
         'Return LQuery
     End Function
 End Module
-

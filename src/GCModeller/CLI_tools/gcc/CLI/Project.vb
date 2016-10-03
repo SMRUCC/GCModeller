@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e5df9c4b1ffadfb650945a0458e9d533, ..\GCModeller\CLI_tools\gcc\CLI\Project.vb"
+﻿#Region "Microsoft.VisualBasic::f5da36a39fdb185759a03533ab6eaa85, ..\GCModeller\CLI_tools\gcc\CLI\Project.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -27,4 +28,3 @@
 
 Imports Microsoft.VisualBasic.Terminal.stdio
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-

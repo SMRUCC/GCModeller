@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e2a600f5b70fd41b94a345d3c55136a7, ..\GCModeller\analysis\Annotation\Xfam\iPfam\LocalMySQL\MySQL_Tables\ligand_db_reference.vb"
+﻿#Region "Microsoft.VisualBasic::bba6fe6b0a78d9d86fd5195f986e9628, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\ligand_db_reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -72,4 +73,3 @@ End Class
 
 
 End Namespace
-

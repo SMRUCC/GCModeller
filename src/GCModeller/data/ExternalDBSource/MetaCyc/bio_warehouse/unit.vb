@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::01fdf88606d93a137b764d3e2a2e382e, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\unit.vb"
+﻿#Region "Microsoft.VisualBasic::5dd0982722ef02cf91f339ceee874a02, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\unit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -104,4 +105,3 @@ End Class
 
 
 End Namespace
-

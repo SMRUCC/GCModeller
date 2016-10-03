@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4036bfe94d08b2d2b6b0f03328a5e836, ..\GCModeller\engine\GCTabular\CsvTabularData\Storage\XmlModel.vb"
+﻿#Region "Microsoft.VisualBasic::2c16e2c357e40905bf5c071621ca192b, ..\GCModeller\engine\GCTabular\CsvTabularData\Storage\XmlModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

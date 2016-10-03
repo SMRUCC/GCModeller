@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3f033a79a1046d4c5398da71cc8c1c5b, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\glammcompound.vb"
+﻿#Region "Microsoft.VisualBasic::01901e1959834fd1fa82d939f3c44930, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\glammcompound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -98,4 +99,3 @@ End Class
 
 
 End Namespace
-

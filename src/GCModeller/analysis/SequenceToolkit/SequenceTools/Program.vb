@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::33fd9e6b4a292d63cd2b309552696c53, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\Program.vb"
+﻿#Region "Microsoft.VisualBasic::c33b39e3022caf222cd8a5f406855b7d, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::556a6aa06cfd7cab1ee3fbb9cb13e30e, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
+﻿#Region "Microsoft.VisualBasic::5e4408edeb42d1cbf4226ff52846dbdb, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::15708e48144ea46ccb7c5f4b44ed7c19, ..\GCModeller\CLI_tools\MEME\Program.vb"
+﻿#Region "Microsoft.VisualBasic::be4da6387fe216e34b9262c823b7eea0, ..\GCModeller\CLI_tools\MEME\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -33,4 +34,3 @@ Module Program
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module
-

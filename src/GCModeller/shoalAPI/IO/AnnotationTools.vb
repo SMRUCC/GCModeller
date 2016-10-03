@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cfb8e2af31f6dfaadd82a511c07d5126, ..\GCModeller\shoalAPI\IO\AnnotationTools.vb"
+﻿#Region "Microsoft.VisualBasic::1f5f098dda5dd7b7c847f3b9c642bc19, ..\GCModeller\shoalAPI\IO\AnnotationTools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ Module AnnotationToolsIOAPI
         Return path.LoadXml(Of GenomeAnnotations)()
     End Function
 End Module
-

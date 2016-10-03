@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::03d95b3d87c2e0db20f94b46a3a3974a, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\designelementtuple.vb"
+﻿#Region "Microsoft.VisualBasic::c57b45aae0e1a5e043ee26cb4c44ec14, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\designelementtuple.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -94,4 +95,3 @@ End Class
 
 
 End Namespace
-

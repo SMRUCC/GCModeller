@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::217de1fcfbcc00282180f9c62e161664, ..\GCModeller\visualize\GCModeller.DataVisualization\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::8905b3fff2b69290f328c8e6b0244423, ..\GCModeller\visualize\GCModeller.DataVisualization\ColorProfiles.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -60,4 +61,3 @@ Public Class ColorProfiles
         "{0} color(s) in the rendering profile, default color is ""{1}"""
 
 End Class
-

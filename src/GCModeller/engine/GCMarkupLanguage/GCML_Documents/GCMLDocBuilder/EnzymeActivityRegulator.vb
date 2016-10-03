@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e35ad4a72ee1d8c3904c99526c68d798, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\EnzymeActivityRegulator.vb"
+﻿#Region "Microsoft.VisualBasic::eb9509b0dcb1e8f8c81ff2aa45d581d4, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\EnzymeActivityRegulator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

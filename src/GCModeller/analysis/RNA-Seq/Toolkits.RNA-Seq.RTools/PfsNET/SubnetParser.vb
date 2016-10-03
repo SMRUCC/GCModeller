@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::00a29f9ed7ab42844f4befff6a7b44c3, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\SubnetParser.vb"
+﻿#Region "Microsoft.VisualBasic::af449757ef7bff4aa6dd410e8296b49b, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\SubnetParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

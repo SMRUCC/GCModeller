@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2ba5a037f5244520178ff771ead8a054, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\ConstraintMetaboliteMap.vb"
+﻿#Region "Microsoft.VisualBasic::4c666444a1cae35f52de0e4b10fae45e, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\ConstraintMetaboliteMap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

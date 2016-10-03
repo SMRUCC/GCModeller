@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c7ce747a0f292b6b892a185df47ad440, ..\GCModeller\CLI_tools\MEME\TomReport.vb"
+﻿#Region "Microsoft.VisualBasic::01f8c8df89ced6bd0438cf23f142b1a3, ..\GCModeller\CLI_tools\MEME\TomReport.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -190,4 +191,3 @@ Levenshtein Edits: {hsp.Alignment.DistEdits}
         Call innerHTML.AppendLine("</table>")
     End Sub
 End Module
-

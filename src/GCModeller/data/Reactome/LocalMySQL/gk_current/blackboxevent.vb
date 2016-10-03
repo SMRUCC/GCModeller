@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4cd11908383901bfc9924dd35a6e1ed0, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\blackboxevent.vb"
+﻿#Region "Microsoft.VisualBasic::95153029fb82038e0143f732471b9ec9, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\blackboxevent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

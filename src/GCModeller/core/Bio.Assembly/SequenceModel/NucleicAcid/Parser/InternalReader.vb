@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fff439b7329b882f8b594bc7d550b83f, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Parser\InternalReader.vb"
+﻿#Region "Microsoft.VisualBasic::ce0d818dd48852c56e95ccdec67d4d9f, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Parser\InternalReader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

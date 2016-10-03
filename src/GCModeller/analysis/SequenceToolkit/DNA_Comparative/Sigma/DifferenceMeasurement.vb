@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::287c0f72a54af777caae3ef6fcedc12c, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DifferenceMeasurement.vb"
+﻿#Region "Microsoft.VisualBasic::6048c3b304be3674e8aa947179d57cba, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\DifferenceMeasurement.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -243,4 +244,3 @@ Public Module DifferenceMeasurement
         VeryDistant
     End Enum
 End Module
-

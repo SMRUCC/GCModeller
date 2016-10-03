@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a338c470c8aa2efcb7e4339c0f2c8581, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\Compartment.vb"
+﻿#Region "Microsoft.VisualBasic::1431300e678b7805cc96a1c8201ba051, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\ComponentModels\Compartment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

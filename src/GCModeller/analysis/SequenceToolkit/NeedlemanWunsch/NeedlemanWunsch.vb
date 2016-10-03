@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8fe8275f70d33bbeaf35aa3bc2cb9d45, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::8e712cc5ec1963018cc3a8ac513dbae7, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -38,4 +39,3 @@ Public Class NeedlemanWunsch : Inherits NeedlemanWunsch(Of Char)
         Return a = b
     End Function
 End Class
-

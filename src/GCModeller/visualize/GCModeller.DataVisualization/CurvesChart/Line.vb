@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::058ee6cfe6cd039454b867269865a021, ..\GCModeller\visualize\GCModeller.DataVisualization\CurvesChart\Line.vb"
+﻿#Region "Microsoft.VisualBasic::404553dc6a2e4981744974ecbf640909, ..\GCModeller\visualize\GCModeller.DataVisualization\CurvesChart\Line.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ Public Class Line : Inherits CurvesModel
         Next
     End Sub
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5eb41983e848ecdbbbcd09d3bd756045, ..\GCModeller\CLI_tools\KEGG\OrthologExport.vb"
+﻿#Region "Microsoft.VisualBasic::48d4a84c2e7c383d7c45128810c6c89a, ..\GCModeller\CLI_tools\KEGG\OrthologExport.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -118,4 +119,3 @@ Public Module OrthologExport
         End If
     End Sub
 End Module
-

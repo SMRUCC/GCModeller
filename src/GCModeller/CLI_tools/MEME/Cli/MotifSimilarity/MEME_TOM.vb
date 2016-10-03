@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2d9487288d673a7455e20db68cefad1b, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\MEME_TOM.vb"
+﻿#Region "Microsoft.VisualBasic::c1401c88b399e4966358aa2a002bca1d, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\MEME_TOM.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

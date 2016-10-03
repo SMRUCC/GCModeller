@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ecbb155fe4fbafd4c5c31b42a8cc7424, ..\GCModeller\data\Reactome\LocalMySQL\gk_current_dn\id_to_externalidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::4706309339b581728bb83ec4249686eb, ..\GCModeller\data\Reactome\LocalMySQL\gk_current_dn\id_to_externalidentifier.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -88,4 +89,3 @@ End Class
 
 
 End Namespace
-

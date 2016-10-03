@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5f2c14ca0c876895052ee2761c83b647, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
+﻿#Region "Microsoft.VisualBasic::1f827eba8ec05e2c2399e65ed6fc2e1f, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -69,4 +70,3 @@ Public Enum OutFmts As Integer
     ''' </summary>
     <Description("vie")> vienna
 End Enum
-

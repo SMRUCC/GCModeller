@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::af58ad64cf97749d0e1db0d6ee003e0b, ..\GCModeller\analysis\Annotation\Interpro\Tables\entry_friends.vb"
+﻿#Region "Microsoft.VisualBasic::cf63602d00951d506ea49497f1cacfc8, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\entry_friends.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -98,4 +99,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f18bac30ee8897f0d31a2326c89ac785, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entityfunctionalstatus_2_functionalstatus.vb"
+﻿#Region "Microsoft.VisualBasic::2ab0e4660b889d8acd9136ac0414a26b, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entityfunctionalstatus_2_functionalstatus.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

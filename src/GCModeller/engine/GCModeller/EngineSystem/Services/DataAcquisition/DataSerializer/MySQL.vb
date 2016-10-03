@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6b62dd5f661b6c50b0a4198fad03d47f, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\MySQL.vb"
+﻿#Region "Microsoft.VisualBasic::6efe94404b11955d424d322dab0479d4, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\MySQL.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

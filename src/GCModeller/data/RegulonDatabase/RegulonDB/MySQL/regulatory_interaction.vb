@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::577dce293e81faa446a232ae23375860, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\regulatory_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::0a7a4823adcfa4f52cb2197e1b3e475c, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\regulatory_interaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -105,4 +106,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c82a5d414f609fc4b14478835bfb3fa8, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\PlasmidComparative.vb"
+﻿#Region "Microsoft.VisualBasic::0551f3d6a7371acb631606af7a5f1e8e, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\PlasmidComparative.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -104,4 +105,3 @@ Public Module PlasmidComparative
         Return row
     End Function
 End Module
-

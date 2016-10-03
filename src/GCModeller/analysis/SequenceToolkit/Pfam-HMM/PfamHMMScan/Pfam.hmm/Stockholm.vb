@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3f4706ee847ba3ff08c93aa29ca15706, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\Stockholm.vb"
+﻿#Region "Microsoft.VisualBasic::9e072ea565f8806e80ec9408513a1914, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\Stockholm.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -107,4 +108,3 @@ Public Class Stockholm : Implements sIdEnumerable
         Return hash
     End Function
 End Class
-

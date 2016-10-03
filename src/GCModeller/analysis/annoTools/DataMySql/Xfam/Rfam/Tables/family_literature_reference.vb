@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::44064f794ed936bf57e8290b1fe3dd3e, ..\GCModeller\analysis\Annotation\Xfam\Rfam\Tables\family_literature_reference.vb"
+﻿#Region "Microsoft.VisualBasic::e3d7c4217e94b33c92f2eb3f39c7a8f0, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\Rfam\Tables\family_literature_reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -73,4 +74,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a13441e2d53de8084f5f996acaeb1d11, ..\GCModeller\CLI_tools\c2\ProteinInteractionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::5d2bdd327ef2db965c2a861876cebd92, ..\GCModeller\CLI_tools\c2\ProteinInteractionNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -63,4 +64,3 @@ Public Class ProteinInteractionNetwork
         Return LANS.SystemsBiology.InteractionModel.ProteinInteractionNetwork.BuildInteraction(ProteinDAs, DOMINE)
     End Function
 End Class
-

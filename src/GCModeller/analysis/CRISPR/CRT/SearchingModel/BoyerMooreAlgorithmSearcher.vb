@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::292173731a5d82599a212456efb3c6d0, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\BoyerMooreAlgorithmSearcher.vb"
+﻿#Region "Microsoft.VisualBasic::7c18e6cc52dc9e2427cd607796546ed9, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\BoyerMooreAlgorithmSearcher.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace SearchingModel
 

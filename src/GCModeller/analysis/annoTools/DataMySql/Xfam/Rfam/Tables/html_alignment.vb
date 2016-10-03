@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::71c05824f93ef3f6b385219cd32a793a, ..\GCModeller\analysis\Annotation\Xfam\Rfam\Tables\html_alignment.vb"
+﻿#Region "Microsoft.VisualBasic::55b9f25bbe07278f2e7255ed1cd8ca96, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\Rfam\Tables\html_alignment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -74,4 +75,3 @@ End Class
 
 
 End Namespace
-

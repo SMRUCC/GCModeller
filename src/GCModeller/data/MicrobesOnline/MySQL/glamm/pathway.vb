@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e1078ffe57a76481043191823f3cfda9, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\pathway.vb"
+﻿#Region "Microsoft.VisualBasic::c365e29e30b0f0d506a71c24cd42ef79, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\pathway.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ End Class
 
 
 End Namespace
-

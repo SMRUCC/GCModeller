@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c30eec1cb732ca540b016f0003eaf6fc, ..\GCModeller\CLI_tools\c2\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::4c8d8eb5d6175280008eb6fd1709f827, ..\GCModeller\CLI_tools\c2\Class1.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ Public Class Class1
         Return sBuilder.ToString
     End Function
 End Class
-

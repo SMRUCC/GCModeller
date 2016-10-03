@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4d0a1246d1033c4df3725a8e53b7f3dd, ..\GCModeller\CLI_tools\c2\Reconstruction\KineticLaws\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::26be6bfa46102a60962c1db86288f11a, ..\GCModeller\CLI_tools\c2\Reconstruction\KineticLaws\EquationEquals.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -64,4 +65,3 @@ Public Class EquationEquals : Inherits LANS.SystemsBiology.Assembly.MetaCyc.Sche
         Return LQuery
     End Function
 End Class
-

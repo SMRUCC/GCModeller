@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9fd27e6f41a006d123391e96493be576, ..\GCModeller\data\MicrobesOnline\MySQL\BioCyc\enzrxn.vb"
+﻿#Region "Microsoft.VisualBasic::127d2bb66d44a07fbc482d49d45f4f10, ..\GCModeller\data\MicrobesOnline\MySQL\BioCyc\enzrxn.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

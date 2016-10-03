@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::12fdddd46e8cc779bb0f80dc2755af64, ..\GCModeller\shoalAPI\MetaCyc\ObjectOperations.vb"
+﻿#Region "Microsoft.VisualBasic::4dd2832ae3ce8183505da694f5b86a31, ..\GCModeller\shoalAPI\MetaCyc\ObjectOperations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -80,4 +81,3 @@ Public Class ObjectOperations
         Return True
     End Function
 End Class
-

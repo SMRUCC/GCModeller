@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0b487c7e27cab0ac6d98e7a3e5aa23a3, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\xref_ko2cog.vb"
+﻿#Region "Microsoft.VisualBasic::01c1f1bd7d2acfe70371d750d00dd0d6, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\xref_ko2cog.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

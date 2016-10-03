@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::466c3d05fef69fad41f1e5aeb08ea19f, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\IWeight.vb"
+﻿#Region "Microsoft.VisualBasic::51c5ead9828463d649ed3eeba8946b3e, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\IWeight.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -35,4 +36,3 @@ Public Interface IWeightPaired
     ''' <returns></returns>
     Function GetValue(Id1 As String, Id2 As String, Optional Parallel As Boolean = True) As Double
 End Interface
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::108207e1ee626d3e39a575861b5855fb, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\quanttypewidconfidenceindwid.vb"
+﻿#Region "Microsoft.VisualBasic::2e7851a058e270bc823dcc15cb9ea38b, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\quanttypewidconfidenceindwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

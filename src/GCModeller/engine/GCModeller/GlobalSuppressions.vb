@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d2cef7d32e817ab6f2a0cbe995069615, ..\GCModeller\engine\GCModeller\GlobalSuppressions.vb"
+﻿#Region "Microsoft.VisualBasic::1095656e8a33099cd82f902755c183c1, ..\GCModeller\engine\GCModeller\GlobalSuppressions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -39,4 +40,3 @@
 
 
 <Assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId:="SchemaModel", Scope:="member", Target:="SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.Compilers.MetaCyc.#Dispose(System.Boolean)")> 
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1e166c6abc3056e9a3d31b6fabf54b7d, ..\GCModeller\analysis\Annotation\Interpro\interpro\varsplic_master.vb"
+﻿#Region "Microsoft.VisualBasic::bc9ba9e000cbdd2acf20fcb4937e7b8e, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\interpro\varsplic_master.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

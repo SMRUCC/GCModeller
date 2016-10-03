@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b95c00fe2faee0b9969c989d347d2cdd, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entityset_2_hasmember.vb"
+﻿#Region "Microsoft.VisualBasic::cb9038922edd8ad52a324680cc2e611a, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\entityset_2_hasmember.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

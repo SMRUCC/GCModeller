@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::92c75be2bc11ad288e8d2f1e6d0785f2, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\biomaterialmeasurement.vb"
+﻿#Region "Microsoft.VisualBasic::824d8d3a6975eea3fae7ecbd60050fcf, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\biomaterialmeasurement.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -102,4 +103,3 @@ End Class
 
 
 End Namespace
-

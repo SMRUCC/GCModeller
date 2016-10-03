@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fcb69d72cdcaca1a88b9ecebedbf4744, ..\GCModeller\core\Bio.InteractionModel\DataServicesExtension.vb"
+﻿#Region "Microsoft.VisualBasic::01a6631a91f9c53880b5c252befe8aa6, ..\GCModeller\core\Bio.InteractionModel\DataServicesExtension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -123,4 +124,3 @@ Imports Microsoft.VisualBasic.Data.csv
         Return SaveCsv(data).Save(saveToCsv, False)
     End Function
 End Module
-

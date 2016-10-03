@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::005288e04ee49613175f28bac40dc03a, ..\GCModeller\engine\GCModeller\EngineSystem\Services\MySQL\DataModel\Record.vb"
+﻿#Region "Microsoft.VisualBasic::af74fcdd7b96a543e9614eec3436de1c, ..\GCModeller\engine\GCModeller\EngineSystem\Services\MySQL\DataModel\Record.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -120,5 +121,3 @@ Namespace EngineSystem.Services.MySQL
         End Property
     End Class
 End Namespace
-
-

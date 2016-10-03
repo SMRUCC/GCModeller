@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8950cd27ab1ea02b27d74c44b996ec37, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\nodevalue.vb"
+﻿#Region "Microsoft.VisualBasic::5582b9bfaffb37adb15673dc80a919c5, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\nodevalue.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -106,4 +107,3 @@ End Class
 
 
 End Namespace
-

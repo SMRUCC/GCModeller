@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7fa188d34187ab6b44291e5454deebac, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\pwyelement.vb"
+﻿#Region "Microsoft.VisualBasic::0a9fad7e0527f39f68499d1d39cae900, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\pwyelement.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -98,4 +99,3 @@ End Class
 
 
 End Namespace
-

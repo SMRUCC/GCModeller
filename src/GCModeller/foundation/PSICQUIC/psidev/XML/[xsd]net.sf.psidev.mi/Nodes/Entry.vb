@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a42ac14e189a74035970864313e47f6f, ..\GCModeller\data\ExternalDBSource\string-db\[xsd]net.sf.psidev.mi\Nodes\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::7a15f46dd67e930f97876c5e9a480fdb, ..\GCModeller\foundation\PSICQUIC\psidev\XML\[xsd]net.sf.psidev.mi\Nodes\Entry.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

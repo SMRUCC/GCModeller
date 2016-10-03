@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2e4c1e4b6a706bc0a6abe68133fc66a2, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb"
+﻿#Region "Microsoft.VisualBasic::c00dfad534b27f90e12fc871b3ee1945, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

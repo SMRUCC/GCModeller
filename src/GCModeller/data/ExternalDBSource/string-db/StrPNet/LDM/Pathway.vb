@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::285f9700d87b4eb9e78be173ec451757, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\LDM\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::5ea6a05252df71934a2a7a325befe607, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\LDM\Pathway.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

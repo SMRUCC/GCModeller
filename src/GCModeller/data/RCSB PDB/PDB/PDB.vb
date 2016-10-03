@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ff8bca60703c36d858e61181925cefab, ..\GCModeller\data\RCSB PDB\PDB\PDB.vb"
+﻿#Region "Microsoft.VisualBasic::18b76cc722e07bb284c4beb63275f1b8, ..\GCModeller\data\RCSB PDB\PDB\PDB.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

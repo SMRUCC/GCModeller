@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::364a7764088789c762b0fe3d499af2cc, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_molecularfunction.vb"
+﻿#Region "Microsoft.VisualBasic::d2f5e7372bea25bad77e07b7e4cec527, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\go_molecularfunction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -93,4 +94,3 @@ End Class
 
 
 End Namespace
-

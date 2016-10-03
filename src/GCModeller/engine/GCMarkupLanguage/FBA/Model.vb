@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::13e7e9a3673baf3e4ba7671a278f373a, ..\GCModeller\engine\GCMarkupLanguage\FBA\Model.vb"
+﻿#Region "Microsoft.VisualBasic::73cf4bd6e514e046b65dc06781f1d0d7, ..\GCModeller\engine\GCMarkupLanguage\FBA\Model.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -96,4 +97,3 @@ Namespace FBACompatibility
         End Property
     End Class
 End Namespace
-

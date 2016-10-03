@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9af855df119e28b0497ea9057275c5db, ..\GCModeller\CLI_tools\c2\CommandLines\Build2.vb"
+﻿#Region "Microsoft.VisualBasic::00a84350d8845abaed8424db0cb353ec, ..\GCModeller\CLI_tools\c2\CommandLines\Build2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ Partial Module CommandLines
         Return 0
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d34eea31dbb2d678d36cf34fb4daf778, ..\GCModeller\analysis\Xfam\Rfam\Rfam.vb"
+﻿#Region "Microsoft.VisualBasic::b949996368d23ac6463b7c04c526133a, ..\GCModeller\analysis\Xfam\Rfam\Rfam.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -92,4 +93,3 @@ Public Class Rfamily : Inherits NucleotideModels.Contig
         Return site
     End Function
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f441a43a61e45472d2b7549675dd169c, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\CAI\CAITable.vb"
+﻿#Region "Microsoft.VisualBasic::ef16bc9d1210e5f6216eafd29e173251, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\CAI\CAITable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -78,5 +79,3 @@ Public Class CAITable : Inherits ClassObject
                 }
     End Sub
 End Class
-
-

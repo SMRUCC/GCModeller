@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1d24029c9dd535dd63b876f8854469d7, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reference_note_link_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::0657fcad88c1b2658e0addbd5711824e, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\reference_note_link_tmp.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ End Class
 
 
 End Namespace
-

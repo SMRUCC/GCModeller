@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::81f7b981d9a8c9e4eee2e6a86b324dd5, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ProteinAssemblies.vb"
+﻿#Region "Microsoft.VisualBasic::362ebfc2daced1dc9084dbd26022abc8, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ProteinAssemblies.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

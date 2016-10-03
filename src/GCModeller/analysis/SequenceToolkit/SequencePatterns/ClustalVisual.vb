@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ee5d7d4d04db25ce354e3875aee9fd4d, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::dcd8dceb07fff770788f246010f84e88, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\ClustalVisual.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -169,4 +170,3 @@ Public Module ClustalVisual
         Return gdi.ImageResource
     End Function
 End Module
-

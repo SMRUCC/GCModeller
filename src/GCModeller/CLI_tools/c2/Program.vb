@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::891eb4d8f3689fd1aab2d35f7f1e9c1a, ..\GCModeller\CLI_tools\c2\Program.vb"
+﻿#Region "Microsoft.VisualBasic::0e8da0ac24ee104143039c9618293bca, ..\GCModeller\CLI_tools\c2\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -73,4 +74,3 @@ Module Program
         Return 0
     End Function
 End Module
-

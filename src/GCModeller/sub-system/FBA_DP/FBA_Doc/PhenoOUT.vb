@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b77e1777dceb1738347a7a0b339911a0, ..\GCModeller\sub-system\FBA_DP\FBA_Doc\PhenoOUT.vb"
+﻿#Region "Microsoft.VisualBasic::4b4a0905877be564d2992397600ee7f1, ..\GCModeller\sub-system\FBA_DP\FBA_Doc\PhenoOUT.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

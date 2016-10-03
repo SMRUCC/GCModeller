@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7a8de80bcbdf2e5040cb72a18d525166, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
+﻿#Region "Microsoft.VisualBasic::a04df6d33e8e3a2299ad83f430b05f30, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\LDM.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

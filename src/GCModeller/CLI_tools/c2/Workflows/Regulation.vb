@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8f12585fd87dd15fead79aee95a12066, ..\GCModeller\CLI_tools\c2\Workflows\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::b09766f3d8b6e1da40ff5f9c66fe5e37, ..\GCModeller\CLI_tools\c2\Workflows\Regulation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -66,4 +67,3 @@ Public Class Regulation : Inherits LANS.SystemsBiology.AnalysisTools.NBCR.Extens
         Return Me
     End Function
 End Class
-

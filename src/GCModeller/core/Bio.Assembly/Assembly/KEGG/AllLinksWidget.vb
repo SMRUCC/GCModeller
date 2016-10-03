@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::173f3f3e041731ac6c0a6f531632ed65, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\AllLinksWidget.vb"
+﻿#Region "Microsoft.VisualBasic::030c1601ac9c89074fb56a76ddd7c4fc, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\AllLinksWidget.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

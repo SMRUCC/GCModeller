@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7b0df951f36d3df808f6a868fb29666e, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\PwyFilters.vb"
+﻿#Region "Microsoft.VisualBasic::27ec370e930239062b146606002e79fc, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\PwyFilters.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -161,4 +162,3 @@ Public Class PwyFilters
         Return File
     End Function
 End Class
-

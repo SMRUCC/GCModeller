@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3a644dc390cb9f20971691f0a02beba5, ..\GCModeller\analysis\Annotation\Xfam\Rfam\Tables\sunburst.vb"
+﻿#Region "Microsoft.VisualBasic::69e73fe9a21417a83988180b363dea31, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\Rfam\Tables\sunburst.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -72,4 +73,3 @@ End Class
 
 
 End Namespace
-

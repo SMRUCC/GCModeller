@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cfa41d6aa73d4c2cdccec1215b690b77, ..\Interactions.BioGRID\API.vb"
+﻿#Region "Microsoft.VisualBasic::b299e8366174edda8c9e64da4b6a4597, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

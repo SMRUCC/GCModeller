@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0ad12ac75592afc9b870f3d4a0dafd9f, ..\GCModeller\shoalAPI\LinqProvider.vb"
+﻿#Region "Microsoft.VisualBasic::1320ea17f005c4500f00090a9eb751a9, ..\GCModeller\shoalAPI\LinqProvider.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -57,4 +58,3 @@ Public Module LinqProvider
         Return path.LoadCsv(Of Protein)
     End Function
 End Module
-

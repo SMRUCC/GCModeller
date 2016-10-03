@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::01e8c8ec4bbc661423232c03153d9fbe, ..\GCModeller\CLI_tools\GCModeller\Program.vb"
+﻿#Region "Microsoft.VisualBasic::9fd3752e7f397ccb68fd994e9a89aed2, ..\GCModeller\CLI_tools\GCModeller\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -34,4 +35,3 @@ Module Program
         Return New Interpreter(GetType(CLI)).Execute(App.CommandLine)
     End Function
 End Module
-

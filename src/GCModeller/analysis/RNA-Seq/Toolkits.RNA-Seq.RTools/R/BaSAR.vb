@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5fe3b8375befab49492173efdd53e681, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\BaSAR.vb"
+﻿#Region "Microsoft.VisualBasic::fa3594ff58faafee41d117aa8fcc9a11, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\BaSAR.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports RDotNET.Extensions.VisualBasic
 ''' <summary>

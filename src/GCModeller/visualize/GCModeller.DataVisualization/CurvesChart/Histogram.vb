@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a938e7437d3b18c8a883cdc9b760543d, ..\GCModeller\visualize\GCModeller.DataVisualization\CurvesChart\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::0f480f2095b29fd5c2d7895a9cd81045, ..\GCModeller\visualize\GCModeller.DataVisualization\CurvesChart\Histogram.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -113,5 +114,3 @@ Public Class Histogram : Inherits CurvesModel
         Next
     End Sub
 End Class
-
-

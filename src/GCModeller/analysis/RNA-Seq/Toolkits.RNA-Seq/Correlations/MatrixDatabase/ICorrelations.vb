@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7e674beffe57cb115d764c84b08a642b, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\ICorrelations.vb"
+﻿#Region "Microsoft.VisualBasic::77b70521fac935ece60eaed2ecd1b9b5, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixDatabase\ICorrelations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

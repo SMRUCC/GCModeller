@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::12fc9ae5e282242b838b113204a13a16, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\replacedresidue_2_psimod.vb"
+﻿#Region "Microsoft.VisualBasic::6386ad75f9c128adf0bcedb3576509d4, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\replacedresidue_2_psimod.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

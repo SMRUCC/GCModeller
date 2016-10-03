@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::07a2c836599b05229f77cd68ce7543d6, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\ImperfectPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::b78d312a1ff30a0315b686cb9922159f, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\ImperfectPalindrome.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

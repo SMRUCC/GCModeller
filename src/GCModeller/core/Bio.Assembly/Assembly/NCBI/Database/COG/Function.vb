@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::eb2359d0bbe836cd5f44dab6e8b8d427, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
+﻿#Region "Microsoft.VisualBasic::ec25dab0858503e5bd610a34335c2eb7, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

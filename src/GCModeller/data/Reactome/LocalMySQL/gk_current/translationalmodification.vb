@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::65d268ee3afd09f4116d8ae239ab1173, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\translationalmodification.vb"
+﻿#Region "Microsoft.VisualBasic::ba4b55490819696ef4bedfe81b32e13e, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\translationalmodification.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

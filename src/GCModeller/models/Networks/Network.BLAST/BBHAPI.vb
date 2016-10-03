@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bd65e20054b91563a0eeca1146515cd6, ..\GCModeller\models\Networks\Network.BLAST\BBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::fda92a7d1d59aa2fc96e9d96927f9cf4, ..\GCModeller\models\Networks\Network.BLAST\BBHAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -163,4 +164,3 @@ Public Module BBHAPI
         Return threadPool.InvokeGet
     End Function
 End Module
-

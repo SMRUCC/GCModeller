@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5a4e46c04fa71d940c871b797617af6f, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\FootPrintMap\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::d363462db0d9648b5bdb9516e8ed7a35, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\FootPrintMap\MotifSite.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

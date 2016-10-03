@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ab948c9d539904b81e4374515e7995f5, ..\GCModeller\analysis\Annotation\Interpro\Tables\protein2genome.vb"
+﻿#Region "Microsoft.VisualBasic::67f1e6f0d3a7e72ee565eb443bedcfc0, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\protein2genome.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -84,4 +85,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::aed7420e640753a31ddd57f2016d6680, ..\GCModeller\analysis\Annotation\CEG\MySQL\CEG\ceg_base.vb"
+﻿#Region "Microsoft.VisualBasic::8a0d44927fede24807628f267340dffe, ..\GCModeller\analysis\annoTools\DataMySql\CEG\MySQL\CEG\ceg_base.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

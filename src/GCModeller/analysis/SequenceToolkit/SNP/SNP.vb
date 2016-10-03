@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::365fd4ad996f3d4b2f3eb4f2825edf22, ..\GCModeller\analysis\SequenceToolkit\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::2e51650288e373401b3379954147477c, ..\GCModeller\analysis\SequenceToolkit\SNP\SNP.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -67,4 +68,3 @@ Public Class SNP : Inherits ClassObject
     Public Property CodonChange As String
 
 End Class
-

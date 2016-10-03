@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9a1d4fc165652b932384b444639e678e, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quanttypewidquanttypemapwid.vb"
+﻿#Region "Microsoft.VisualBasic::bc18f879ba446e234707fbd226d8f2e7, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quanttypewidquanttypemapwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

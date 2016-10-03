@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f543e39d809cb1f3eda87b9860732bda, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\vertexsearchableterm_2_vertex.vb"
+﻿#Region "Microsoft.VisualBasic::ac778c751de6c79b5a9e8f07c9b85291, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\vertexsearchableterm_2_vertex.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -98,4 +99,3 @@ End Class
 
 
 End Namespace
-

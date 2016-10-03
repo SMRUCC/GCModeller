@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8c19ecea72c69e5ea4b226080f32473a, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\TCS\TCS.vb"
+﻿#Region "Microsoft.VisualBasic::607a8c4cd6fe55fb0f500717f3ba252d, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\TCS\TCS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

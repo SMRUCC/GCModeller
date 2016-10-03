@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::52484bf8c283bb9b1b62ebed6ccb1566, ..\GCModeller\visualize\visualizeTools\MapModelCommon.vb"
+﻿#Region "Microsoft.VisualBasic::7586927c2fcff5ba5ebcb77ca7a20480, ..\GCModeller\visualize\visualizeTools\MapModelCommon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 绘图模型的通用基本类型结构
@@ -202,4 +202,3 @@ Public MustInherit Class MapModelCommon
         Return Graphic
     End Function
 End Class
-

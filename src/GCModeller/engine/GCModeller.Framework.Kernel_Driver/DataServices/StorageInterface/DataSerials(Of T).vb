@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::55bed3cc28131e5c92a8a5ea9af93833, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::90a546a4e41b9ab56534e47adc9bab01, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

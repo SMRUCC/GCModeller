@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::57d71857fcb25a93190aadb8a33283fe, ..\GCModeller\visualize\GCModeller.DataVisualization\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::b0171b88ed1cdc922163f9cb3b4e7a5b, ..\GCModeller\visualize\GCModeller.DataVisualization\RenderingColor.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

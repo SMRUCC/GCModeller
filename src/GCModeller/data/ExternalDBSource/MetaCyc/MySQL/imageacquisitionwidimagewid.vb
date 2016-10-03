@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2b22f234db365ec8dc3c8b1addcb9a96, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\imageacquisitionwidimagewid.vb"
+﻿#Region "Microsoft.VisualBasic::dba4588a4b70d199d67a847f2ce685d5, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\imageacquisitionwidimagewid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

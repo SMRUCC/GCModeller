@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2f37dde84bd58d08266ce974cc6037a2, ..\GCModeller\analysis\Annotation\Interpro\Tables\mv_proteome_count.vb"
+﻿#Region "Microsoft.VisualBasic::8c3387e2e8afd2c99f3b31874804645c, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\mv_proteome_count.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -93,4 +94,3 @@ End Class
 
 
 End Namespace
-

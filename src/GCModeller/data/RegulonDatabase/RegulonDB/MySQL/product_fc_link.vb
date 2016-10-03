@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::74508af0245adaee90d60fb499554581, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
+﻿#Region "Microsoft.VisualBasic::962889bb66b23c4122abb7dc396c175a, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\product_fc_link.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ End Class
 
 
 End Namespace
-

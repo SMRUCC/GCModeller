@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7a3607bb66bb799cf7448e2e1aa6c56e, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathwayreaction.vb"
+﻿#Region "Microsoft.VisualBasic::d37e91e5d548ebc886761b00e19af87c, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\pathwayreaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ End Class
 
 
 End Namespace
-

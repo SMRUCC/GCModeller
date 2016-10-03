@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8994796538fb08077ff91bd5d45ee6c9, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\Equation(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::982b4d1d7e6750a69246c3e9963c33ab, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\Equation(Of T).vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

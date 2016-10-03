@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::875c0f617ebc825feb5a0c964cf34010, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\terminator.vb"
+﻿#Region "Microsoft.VisualBasic::98021e3e4ac7c3c073cbe677bafe37e2, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\terminator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -97,4 +98,3 @@ End Class
 
 
 End Namespace
-

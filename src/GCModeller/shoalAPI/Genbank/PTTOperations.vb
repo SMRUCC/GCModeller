@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7760f1b6a16a8da66bb151b128057552, ..\GCModeller\shoalAPI\Genbank\PTTOperations.vb"
+﻿#Region "Microsoft.VisualBasic::106a6647a8a11ec072952f63757fd7d2, ..\GCModeller\shoalAPI\Genbank\PTTOperations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -69,4 +70,3 @@ Module PTTOperations
         Return PTT.Load(path)
     End Function
 End Module
-

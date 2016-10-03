@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c704aac6f622c71a008268ff35ed179a, ..\GCModeller\data\Reactome\Owl\Nodes.vb"
+﻿#Region "Microsoft.VisualBasic::e565511d058c37574ba2e7396051d37f, ..\GCModeller\data\Reactome\Owl\Nodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a6d4fdb33ff4ea97c924a0e7f22be19e, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
+﻿#Region "Microsoft.VisualBasic::88f089e2caac6e5c8a7034298832e9dc, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

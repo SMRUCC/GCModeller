@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b00d1271ecfde3db5c9a3e817b6da100, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\book_2_chapterauthors.vb"
+﻿#Region "Microsoft.VisualBasic::8ab9dfa133900b9a690a4226a042e81a, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\book_2_chapterauthors.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

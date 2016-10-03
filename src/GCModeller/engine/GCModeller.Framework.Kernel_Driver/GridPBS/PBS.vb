@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6086c476842bbdd35d0e581a41dab2d1, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\GridPBS\PBS.vb"
+﻿#Region "Microsoft.VisualBasic::0786ba6fedcc2b121b5dbaa4542bee76, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\GridPBS\PBS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace GridPBS
 

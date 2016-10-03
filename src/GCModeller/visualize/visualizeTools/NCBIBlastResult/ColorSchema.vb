@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::75a307446a18de721dc624205dbe52b3, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\ColorSchema.vb"
+﻿#Region "Microsoft.VisualBasic::e969502522982a17ec2bfecc8905e569, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\ColorSchema.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

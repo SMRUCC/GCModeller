@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::395995a2e780f29cae59ca339ff38614, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\MotifDraws.vb"
+﻿#Region "Microsoft.VisualBasic::253bdf52e2311d00b4a972ed694958e3, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\MotifDraws.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

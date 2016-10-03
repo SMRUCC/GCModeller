@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9541c3558e0dc63567f600830797dac2, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::9edade0d91ddeeb0a58a7f87d97b55ab, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\MotifSite.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -57,6 +58,3 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
         End Function
     End Class
 End Namespace
-
-
-

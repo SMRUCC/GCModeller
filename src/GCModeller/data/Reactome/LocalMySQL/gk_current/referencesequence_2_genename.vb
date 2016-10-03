@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ee60a3afd5f6e6bdd250ed62bd16918b, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\referencesequence_2_genename.vb"
+﻿#Region "Microsoft.VisualBasic::dfa5ed451845f7611f677b2186d41986, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\referencesequence_2_genename.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

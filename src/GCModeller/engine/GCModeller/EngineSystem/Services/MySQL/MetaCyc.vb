@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::39f41fbf851b4ad0d098db902a22cd5c, ..\GCModeller\engine\GCModeller\EngineSystem\Services\MySQL\MetaCyc.vb"
+﻿#Region "Microsoft.VisualBasic::63330c8a5927ea13f03dd77288b6cbbd, ..\GCModeller\engine\GCModeller\EngineSystem\Services\MySQL\MetaCyc.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -96,5 +97,3 @@
 '        End Operator
 '    End Class
 'End Namespace
-
-

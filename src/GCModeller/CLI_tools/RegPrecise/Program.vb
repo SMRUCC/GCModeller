@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e9a2a92d977d550e2eb8a1fe85956ae0, ..\GCModeller\CLI_tools\RegPrecise\Program.vb"
+﻿#Region "Microsoft.VisualBasic::a81f693db4d1ee0c2e9e6fb22cb82b71, ..\GCModeller\CLI_tools\RegPrecise\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -35,4 +36,3 @@ Module Program
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module
-

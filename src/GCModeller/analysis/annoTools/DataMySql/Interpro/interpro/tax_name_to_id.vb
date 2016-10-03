@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e923c051eb3c55e6542b20d676092301, ..\GCModeller\analysis\Annotation\Interpro\interpro\tax_name_to_id.vb"
+﻿#Region "Microsoft.VisualBasic::d6aba34f4f7bc814e5845b10092fdc0e, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\interpro\tax_name_to_id.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ End Class
 
 
 End Namespace
-

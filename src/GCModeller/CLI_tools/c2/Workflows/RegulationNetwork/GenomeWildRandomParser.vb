@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7a4ca48a4f6cc86aa2c7d2368210be80, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\GenomeWildRandomParser.vb"
+﻿#Region "Microsoft.VisualBasic::a2b5891f5256724319afe1091d0a8bcd, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\GenomeWildRandomParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 根据WGCNA权重数据在基因组中解析所有尽可能多的组合形式以用于调控位点的分析
@@ -114,4 +114,3 @@ Public Class GenomeWildRandomParser : Inherits PromoterParser
         Return LQuery.ToArray
     End Function
 End Class
-

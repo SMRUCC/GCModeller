@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::48977db35b880e94184ec6eb387ef074, ..\GCModeller\models\Networks\Network.Regulons\RegulatesGraph\TFNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::d5c416d08404bf6b4b6b53c3fbbd4c96, ..\GCModeller\models\Networks\Network.Regulons\RegulatesGraph\TFNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

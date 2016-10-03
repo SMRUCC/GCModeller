@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a93c0ce2cc0c734be31927684a42bd74, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::a09eb030b89bb37be40218754f55b942, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Engine.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -67,4 +68,3 @@ Public MustInherit Class IterationMathEngine(Of T_Model As ModelBaseType) : Inhe
         End Get
     End Property
 End Class
-

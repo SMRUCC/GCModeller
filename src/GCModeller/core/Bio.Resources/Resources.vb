@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1c797ca48f3af0d91665a622c7ace496, ..\GCModeller\core\Bio.Resources\Resources.vb"
+﻿#Region "Microsoft.VisualBasic::d40c4e7dcb420869d1c9659f8ca1af02, ..\GCModeller\core\Bio.Resources\Resources.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -45,4 +46,3 @@ Public Module Resources
         End Get
     End Property
 End Module
-

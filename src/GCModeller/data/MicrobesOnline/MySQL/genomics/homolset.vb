@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2ac694422906058876ab3c5576955e97, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\homolset.vb"
+﻿#Region "Microsoft.VisualBasic::ac069146a8e08b38d1703513803c5619, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\homolset.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -98,4 +99,3 @@ End Class
 
 
 End Namespace
-

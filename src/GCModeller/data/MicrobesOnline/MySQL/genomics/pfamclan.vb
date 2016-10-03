@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::73c8b1925e1fde0140c2e93f99f6b04c, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\pfamclan.vb"
+﻿#Region "Microsoft.VisualBasic::088dd2d606d3fa8c0f730177aeafb5be, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\pfamclan.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

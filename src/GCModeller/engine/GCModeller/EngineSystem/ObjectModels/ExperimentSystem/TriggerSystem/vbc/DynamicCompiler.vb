@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::970fabe3175c24be3b42d49e3213a684, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\DynamicCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::c5daaf6c229d73bebab48ced5eb28237, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\DynamicCompiler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

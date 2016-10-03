@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9502ef153ab336743ae429ffb3f792b2, ..\GCModeller\engine\GCTabular\Compiler\MolecularWeightCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::30d211233993632c4e09b066a33c09c0, ..\GCModeller\engine\GCTabular\Compiler\MolecularWeightCalculator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

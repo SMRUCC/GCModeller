@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::df86a33fc8c120a69fe70ca92426134d, ..\GCModeller\engine\GCMarkupLanguage\NetworkVisualization.vb"
+﻿#Region "Microsoft.VisualBasic::9fad1fb3eaa36173809fcc722a8891c0, ..\GCModeller\engine\GCMarkupLanguage\NetworkVisualization.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -101,4 +102,3 @@ Public Module NetworkVisualization
         Return sBuilder.ToString
     End Function
 End Module
-

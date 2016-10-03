@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::73b979eeb632a3f1a9b1e6e556511194, ..\GCModeller\CLI_tools\c2\NetworkVisualization\NetworkView.vb"
+﻿#Region "Microsoft.VisualBasic::87e9ca28e3f5e50078a915930720c73d, ..\GCModeller\CLI_tools\c2\NetworkVisualization\NetworkView.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -54,4 +55,3 @@ Public Module NetworkView
         Next
     End Sub
 End Module
-

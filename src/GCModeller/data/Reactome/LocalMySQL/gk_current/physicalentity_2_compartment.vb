@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::65be9b7a5ad84164283ea58548538b58, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\physicalentity_2_compartment.vb"
+﻿#Region "Microsoft.VisualBasic::70f987b626fddcac53534413d4bdb159, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\physicalentity_2_compartment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

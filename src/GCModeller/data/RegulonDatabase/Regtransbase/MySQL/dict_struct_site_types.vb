@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e1d6455935ac72763676bf727ed52f92, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_struct_site_types.vb"
+﻿#Region "Microsoft.VisualBasic::ed3f06c502605148dfadda06b5d88ad2, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_struct_site_types.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -84,4 +85,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5d2fe2813d0cea3a1109f3ad191417c7, ..\GCModeller\CLI_tools\c2\CommandLines\CommandLines.vb"
+﻿#Region "Microsoft.VisualBasic::9acc928938c29be832c89fa2b38a1431, ..\GCModeller\CLI_tools\c2\CommandLines\CommandLines.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -148,4 +149,3 @@ Public Module CommandLines
         End If
     End Function
 End Module
-

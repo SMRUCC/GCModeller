@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::25119f2f8d10176fc886161f64e155f7, ..\GCModeller\models\SBML\Biopax\Level3\File.vb"
+﻿#Region "Microsoft.VisualBasic::8aa31b898a48a47664539b683da90107, ..\GCModeller\models\SBML\Biopax\Level3\File.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::10221ea77854801eef8968299a72ce8e, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\condition_object.vb"
+﻿#Region "Microsoft.VisualBasic::3e420937e3d6f28ec1542968576c0b3b, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\condition_object.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ End Class
 
 
 End Namespace
-

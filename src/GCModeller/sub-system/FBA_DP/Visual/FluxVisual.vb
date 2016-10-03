@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7baa34ae3d574d2e76b5611eb65a77bf, ..\GCModeller\sub-system\FBA_DP\Visual\FluxVisual.vb"
+﻿#Region "Microsoft.VisualBasic::75271e271cfc3e61fa401da6bf6fa405, ..\GCModeller\sub-system\FBA_DP\Visual\FluxVisual.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -51,4 +52,3 @@
 
 '    End Function
 'End Module
-

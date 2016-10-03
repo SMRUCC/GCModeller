@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::85f84fd741a1af7c53823b0cb0c781db, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::8242ba37595a9b0b8db59971caa6daf1, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\sigma_tmp.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -97,4 +98,3 @@ End Class
 
 
 End Namespace
-

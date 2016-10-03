@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c9285d3c731d36c01e61ee5585446876, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::afdf2870eac8ea034cc9267141f5e4cd, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

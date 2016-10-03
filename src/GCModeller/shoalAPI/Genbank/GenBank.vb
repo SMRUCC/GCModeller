@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1e00827d2a06081ec3e930c855f68663, ..\GCModeller\shoalAPI\Genbank\GenBank.vb"
+﻿#Region "Microsoft.VisualBasic::4f8a4daefadff9d76e3e98e47522735a, ..\GCModeller\shoalAPI\Genbank\GenBank.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -488,4 +489,3 @@ example format can be review from: http://www.cbs.dtu.dk/services/gwBrowser/CP00
         Return LANS.SystemsBiology.Assembly.NCBI.GenBank.GBFF.File.Load(path)
     End Function
 End Module
-

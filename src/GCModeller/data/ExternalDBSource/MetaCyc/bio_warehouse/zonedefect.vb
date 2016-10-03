@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a5a62dce806e44a7b3d7f97ecb714aa8, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\zonedefect.vb"
+﻿#Region "Microsoft.VisualBasic::5237c20a2a73cd9f74049d32c2e74c97, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\zonedefect.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -102,4 +103,3 @@ End Class
 
 
 End Namespace
-

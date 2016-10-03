@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5252853a350fe477ce3f85fd87d3c4fa, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::cf0a55725d566628b37300e52ab91b30, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -1149,4 +1150,3 @@ Public Module ToolsAPI
         Return File.Save(FileName, False)
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::429b1fd6fe2661ce7253f8e6b1a0bfea, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\SearchReversedRepeats.vb"
+﻿#Region "Microsoft.VisualBasic::a57462773254e3d9f3dbae264faa93e2, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\SearchReversedRepeats.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

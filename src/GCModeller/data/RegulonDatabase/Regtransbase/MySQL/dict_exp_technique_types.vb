@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::905f57d63e278bd10771c12ec76150b1, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types.vb"
+﻿#Region "Microsoft.VisualBasic::f0f32d90e9ea150a6f8ca9c4f90e7f55, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ End Class
 
 
 End Namespace
-

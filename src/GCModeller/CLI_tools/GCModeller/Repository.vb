@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::917d166df447f7c749e7d591027b8aa4, ..\GCModeller\CLI_tools\GCModeller\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::647cf6e2c65c8b56ed9fa71fdae0a1eb, ..\GCModeller\CLI_tools\GCModeller\Repository.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 模型数据源管理器

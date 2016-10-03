@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6414de704b08f61c9ccc13faddda9e46, ..\GCModeller\analysis\Annotation\Interpro\Tables\supermatch.vb"
+﻿#Region "Microsoft.VisualBasic::2e9c9d469e3bab74ac5c4079716f316a, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\supermatch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d5ec61deb5524b98fa1c06f10c82e6dc, ..\GCModeller\analysis\Xfam\Pfam\Analysis\DomainAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::e982107d4a48bfa979df8d03e7abb32b, ..\GCModeller\analysis\Xfam\Pfam\Analysis\DomainAnalysis.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -371,4 +372,3 @@ Public Module DomainAnalysis
         Return xml.LoadXml(Of SiteSearch.PfamFamily)
     End Function
 End Module
-

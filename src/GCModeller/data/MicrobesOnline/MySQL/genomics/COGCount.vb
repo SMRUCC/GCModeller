@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::21ce5ecb003726535a9de340568a220f, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\COGCount.vb"
+﻿#Region "Microsoft.VisualBasic::3f0f319a4e25a612e4753628833f1f19, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\COGCount.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@
 
 
 'End Namespace
-

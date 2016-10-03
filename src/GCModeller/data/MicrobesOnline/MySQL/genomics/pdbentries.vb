@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bc9c178cf3738a7cffaa5e8a3a83bd3c, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\pdbentries.vb"
+﻿#Region "Microsoft.VisualBasic::7ed73bc971c392b4ce5dd74345083434, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\pdbentries.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -99,4 +100,3 @@ End Class
 
 
 End Namespace
-

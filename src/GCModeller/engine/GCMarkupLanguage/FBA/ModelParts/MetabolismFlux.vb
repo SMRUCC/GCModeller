@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::63696c4f2620c6821138e366c423f01f, ..\GCModeller\engine\GCMarkupLanguage\FBA\ModelParts\MetabolismFlux.vb"
+﻿#Region "Microsoft.VisualBasic::ea8f1f874a37b542fa941465b62e03b8, ..\GCModeller\engine\GCMarkupLanguage\FBA\ModelParts\MetabolismFlux.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

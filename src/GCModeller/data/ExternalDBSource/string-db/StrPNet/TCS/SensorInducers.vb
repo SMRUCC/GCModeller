@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a00607113221e45a3af44fdb69e367ed, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\TCS\SensorInducers.vb"
+﻿#Region "Microsoft.VisualBasic::98ea001b4280afe31e0d71ab53da49b0, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\TCS\SensorInducers.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

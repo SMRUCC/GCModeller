@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::27d1de691b92f3e6d3a0883dbbc9cbef, ..\GCModeller\data\RCSB PDB\PDB\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::0cc1fb652a5fb43544df946fbed61097, ..\GCModeller\data\RCSB PDB\PDB\AminoAcid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 氨基酸残基
@@ -65,4 +65,3 @@ Public Class AminoAcid
         Return LQuery
     End Function
 End Class
-

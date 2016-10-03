@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e5c591939821f654fba82eea22384d03, ..\GCModeller\analysis\Annotation\Interpro\interpro\proteome_rank.vb"
+﻿#Region "Microsoft.VisualBasic::4aa7dbd28f14bc9fbf37d735b9dc0ae5, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\interpro\proteome_rank.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

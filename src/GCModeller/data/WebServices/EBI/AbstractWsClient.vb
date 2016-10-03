@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::abc90b35593d9f40f99a2afd780e69c4, ..\GCModeller\data\ExternalDBSource\WebServices\EBI\AbstractWsClient.vb"
+﻿#Region "Microsoft.VisualBasic::be1062c5d7d6a8fd84717b73f78349a2, ..\GCModeller\data\WebServices\EBI\AbstractWsClient.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -762,4 +763,3 @@ Environment.NewLine &
 
     End Class
 End Namespace
-
