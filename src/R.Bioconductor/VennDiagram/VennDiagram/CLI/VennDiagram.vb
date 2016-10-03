@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::3142b897d654f4dc8545161fcf49d27a, ..\R.Bioconductor\VennDiagram\VennDiagram\CLI\VennDiagram.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.RSystem
@@ -114,7 +115,7 @@ Public Module CLI
 
         Call RScript.SaveTo(EXPORT, Encodings.ASCII.GetEncodings)
         Call VennDiagram.SaveAsXml(EXPORT.TrimSuffix & ".Xml")
-        Call RSystem.Source(EXPORT)
+        Call RSystem.source(EXPORT)
 
         printf("The venn diagram r script were saved at location:\n '%s'", EXPORT)
 
@@ -144,7 +145,7 @@ Public Module CLI
 
             Call TryInit()
             Call venn.RScript.SaveTo(EXPORT, Encodings.ASCII.GetEncodings)
-            Call RSystem.Source(EXPORT)
+            Call RSystem.source(EXPORT)
             Call Process.Start(venn.saveTiff)
 
             Return 0

@@ -40,6 +40,7 @@ Imports Microsoft.VisualBasic.Language
 Imports System.Data.Linq.Mapping
 Imports Microsoft.VisualBasic.CommandLine
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
+Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 

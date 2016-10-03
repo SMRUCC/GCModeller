@@ -53,6 +53,7 @@ Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 

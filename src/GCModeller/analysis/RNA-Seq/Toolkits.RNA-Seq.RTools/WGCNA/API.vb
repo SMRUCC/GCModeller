@@ -31,7 +31,8 @@ Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports RDotNet.Extensions.VisualBasic
+Imports Microsoft.VisualBasic.Text
+Imports RDotNET.Extensions.VisualBasic
 Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 
 Namespace WGCNA

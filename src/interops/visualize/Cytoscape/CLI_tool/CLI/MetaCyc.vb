@@ -27,6 +27,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Model.SBML.Level2
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel
 

@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -398,6 +399,7 @@ comparison function for the construction of familial binding profiles.")>
                                     Optional cost As Double = 0.7,
                                     Optional threshold As Double = 0.75,
                                     Optional bitsLevel As Double = 2) As Dictionary(Of MotifScans.AnnotationModel, DistResult)
+
             Dim methodInvoke As TomTOm.ColumnCompare = GetMethod(method)
             Dim param As New Parameters With {
                 .Method = method,

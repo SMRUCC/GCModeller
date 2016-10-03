@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.GCModeller.Workbench
 Imports SMRUCC.genomics.Interops.NBCR
@@ -206,7 +207,7 @@ Partial Module CLI
         Next
 
         Dim LQuery = (From x As Output
-                   In results
+                      In results
                       Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).MatrixToList
         Call LQuery.SaveTo(outDIR & "/Compares.Csv")
 

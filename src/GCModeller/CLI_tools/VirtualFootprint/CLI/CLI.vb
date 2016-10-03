@@ -41,6 +41,7 @@ Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.Text
 
 <PackageNamespace("VirtualFootprint.CLI", Category:=APICategories.CLI_MAN)>
 Module CLI

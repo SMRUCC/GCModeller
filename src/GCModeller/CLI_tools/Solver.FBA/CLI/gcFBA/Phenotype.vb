@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.FBA_DP
 Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
 Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT
