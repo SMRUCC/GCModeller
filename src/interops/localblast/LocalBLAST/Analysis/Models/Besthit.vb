@@ -65,10 +65,12 @@ Namespace Analysis
         Dim __protHash As Dictionary(Of HitCollection)
 
         Public Function IndexOf(QueryName As String) As Integer
-            Dim LQuery = (From hit As HitCollection
-                          In hits
-                          Where String.Equals(hit.QueryName, QueryName, StringComparison.OrdinalIgnoreCase)
-                          Select hit).FirstOrDefault
+            Dim LQuery = LinqAPI.DefaultFirst(Of HitCollection) <=
+                From hit As HitCollection
+                In hits
+                Where String.Equals(hit.QueryName, QueryName, StringComparison.OrdinalIgnoreCase)
+                Select hit
+
             If LQuery Is Nothing Then
                 Return -1
             Else
@@ -76,23 +78,26 @@ Namespace Analysis
             End If
         End Function
 
-        Public Function Take(spTags As String()) As BestHit
+        Public Function Take(ParamArray spTags$()) As BestHit
             Return New BestHit With {
                 .sp = sp,
-                .hits = LinqAPI.Exec(Of HitCollection) <=
-                        From x As HitCollection
-                        In hits.AsParallel
-                        Select x.Take(spTags)
+                .hits =
+                LinqAPI.Exec(Of HitCollection) <= From x As HitCollection
+                                                  In hits.AsParallel
+                                                  Select x.Take(spTags)
             }
         End Function
 
         Public Function GetTotalIdentities(sp As String) As Double
-            Dim LQuery = (From hit As HitCollection
-                          In hits
-                          Select (From sp_obj As Hit
-                                  In hit.Hits
-                                  Where String.Equals(sp, sp_obj.tag, StringComparison.OrdinalIgnoreCase)
-                                  Select sp_obj.Identities)).MatrixToList
+            Dim LQuery As Double() = LinqAPI.Exec(Of Double) <=
+ _
+                From hit As HitCollection
+                In hits
+                Select From sp_obj As Hit
+                       In hit.Hits
+                       Where String.Equals(sp, sp_obj.tag, StringComparison.OrdinalIgnoreCase)
+                       Select sp_obj.Identities
+
             If LQuery.IsNullOrEmpty Then
                 Return 0
             Else
@@ -109,6 +114,7 @@ Namespace Analysis
         Public Function GetUnConservedRegions(conserved As IReadOnlyList(Of String())) As String()
             Dim index As List(Of String) = conserved.MatrixToList
             Dim LQuery As String() = LinqAPI.Exec(Of String) <=
+ _
                 From hit As HitCollection
                 In Me.hits
                 Where index.IndexOf(hit.QueryName) = -1
@@ -119,10 +125,12 @@ Namespace Analysis
 
         Default Public ReadOnly Property Hit(QueryName As String, HitSpecies As String) As String
             Get
-                Dim LQuery = (From hitEntry As HitCollection
-                              In hits
-                              Where String.Equals(hitEntry.QueryName, QueryName)
-                              Select hitEntry).FirstOrDefault
+                Dim LQuery As HitCollection = LinqAPI.DefaultFirst(Of HitCollection) <=
+                    From hitEntry As HitCollection
+                    In hits
+                    Where String.Equals(hitEntry.QueryName, QueryName)
+                    Select hitEntry
+
                 If LQuery Is Nothing Then
                     Return ""
                 Else
@@ -138,12 +146,12 @@ Namespace Analysis
         ''' <summary>
         ''' 通过query查找的是reference的对象
         ''' </summary>
-        ''' <param name="QueryName"></param>
+        ''' <param name="queryName"></param>
         ''' <returns></returns>
-        Default Public ReadOnly Property Hit(QueryName As String) As HitCollection
+        Default Public ReadOnly Property Hit(queryName As String) As HitCollection
             Get
-                If __protHash.ContainsKey(QueryName) Then
-                    Return __protHash(QueryName)
+                If __protHash.ContainsKey(queryName) Then
+                    Return __protHash(queryName)
                 Else
                     Return Nothing
                 End If
@@ -162,19 +170,22 @@ Namespace Analysis
         ''' <remarks></remarks>
         Public ReadOnly Property GetTopHits As String()
             Get
-                Dim LQuery = (From hitData As HitCollection In hits Select hitData.Hits).MatrixToList
-                Dim Groups = (From hitData As Hit
-                              In LQuery
-                              Where Not String.IsNullOrEmpty(hitData.HitName)
-                              Select hitData
-                              Group By hitData.tag Into Group)
+                Dim LQuery = From hitData As HitCollection In hits Select hitData.Hits
+                Dim groups = From hitData As Hit
+                             In LQuery.MatrixAsIterator
+                             Where Not String.IsNullOrEmpty(hitData.HitName)
+                             Select hitData
+                             Group By hitData.tag Into Group
                 Dim source = From bacData
-                             In Groups
+                             In groups
                              Where bacData.Group.Count > 0
                              Select bacData.tag,
                                  n = bacData.Group.Count
                              Order By n Descending
-                Dim Id As String() = LinqAPI.Exec(Of String) <= From Tag In source Select Tag.tag
+                Dim Id As String() =
+                    LinqAPI.Exec(Of String) <= From Tag
+                                               In source
+                                               Select Tag.tag
 
                 Return Id
             End Get
@@ -276,15 +287,19 @@ Namespace Analysis
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function SelectSourceFromHits(source As String, copyTo As String) As String()
-            Dim gbEntry As Dictionary(Of String, String) = gbExportService.LoadGbkSource(source)
-            Dim LQuery As IEnumerable(Of Hit) = hits.Select(Function(hit) hit.Hits).MatrixAsIterator
-            Dim Grouped = (From hit As Hit
+            Dim gbEntry As Dictionary(Of String, String) =
+                gbExportService.LoadGbkSource(source)
+            Dim LQuery As IEnumerable(Of Hit) =
+                hits _
+                .Select(Function(hit) hit.Hits) _
+                .MatrixAsIterator
+            Dim grouped = (From hit As Hit
                            In LQuery
                            Where Not String.IsNullOrEmpty(hit.HitName)
                            Select hit
                            Group By hit.tag Into Group).ToArray
 
-            Dim list = From x In Grouped
+            Dim list = From x In grouped
                        Where x.Group.Count > 0
                        Select x.tag, x.Group.Count
 
@@ -295,6 +310,7 @@ Namespace Analysis
                     Dim path As String = gbEntry(tagId)
                     Dim ext As String = FileIO.FileSystem.GetFileInfo(path).Extension
                     Dim cppath As String = copyTo & "/" & tagId & ext
+
                     Call FileIO.FileSystem.CopyFile(path, cppath, showUI:=FileIO.UIOption.OnlyErrorDialogs, onUserCancel:=FileIO.UICancelOption.ThrowException)
                 End If
             Next
@@ -310,32 +326,44 @@ Namespace Analysis
         ''' <param name="TrimNull">将没有任何匹配的对象去除</param>
         ''' <remarks></remarks>
         Public Function InternalSort(TrimNull As Boolean) As List(Of HitCollection)
-            Dim SourceLQuery = (From query In (From hit As HitCollection
-                                               In Me.hits
-                                               Select (From subHit As Hit
-                                                       In hit.Hits
-                                                       Select QueryName = hit.QueryName,
-                                                           Tag = subHit.tag,
-                                                           obj = subHit,
-                                                           IsHit = Not String.IsNullOrEmpty(subHit.HitName))).MatrixAsIterator
-                                Select query
-                                Group By query.Tag Into Group).ToArray
-            Dim OrderByHits = (From x In SourceLQuery
-                               Let order = (From nnn In x.Group.ToArray Where nnn.IsHit Select 1).Count
-                               Select dict = x.Group.ToDictionary(Function(obj) obj.QueryName, Function(obj) obj.obj),
+            Dim source = From hit As HitCollection
+                         In hits
+                         Select From subHit As Hit
+                                In hit.Hits
+                                Select QueryName = hit.QueryName,
+                                    Tag = subHit.tag,
+                                    obj = subHit,
+                                    IsHit = Not String.IsNullOrEmpty(subHit.HitName)
+
+            Dim SourceLQuery = From query
+                               In source.MatrixAsIterator
+                               Select query
+                               Group By query.Tag Into Group
+            Dim OrderByHits = (From x
+                               In SourceLQuery
+                               Let order = (From nnn In x.Group Where nnn.IsHit Select 1).Count
+                               Select dict = x.Group.ToDictionary(
+                                   Function(obj) obj.QueryName,
+                                   Function(obj) obj.obj),
                                    SpeciesID = x.Tag, order
                                Order By order Descending).ToArray '已经按照比对上的数目排序了
 
             If TrimNull Then
-                OrderByHits = (From x In OrderByHits Where x.order > 0 Select x).ToArray
+                OrderByHits = From x
+                              In OrderByHits
+                              Where x.order > 0
+                              Select x
             End If
 
             Dim list As New List(Of HitCollection)
 
             For Each hit As HitCollection In Me.hits
-                Dim data As Hit() = (From x In OrderByHits Where x.dict.ContainsKey(hit.QueryName) Select x.dict(hit.QueryName)).ToArray
-                hit.Hits = data
+                Dim data As Hit() = LinqAPI.Exec(Of Hit) <= From x
+                                                            In OrderByHits
+                                                            Where x.dict.ContainsKey(hit.QueryName)
+                                                            Select x.dict(hit.QueryName)
                 list += hit
+                hit.Hits = data
             Next
 
             Return list
