@@ -69,7 +69,7 @@ Partial Module CLI
 
                 For Each s As String In wordList
                     If InStr(name, s, CompareMethod.Text) > 0 OrElse
-                        ((Not (m = MatchFuzzy(s, name,,)) Is Nothing) AndAlso
+                        ((Not (m = LevenshteinDistance.ComputeDistance(s, name)) Is Nothing) AndAlso
                         s.Split.Length - m.value.NumMatches < 3) Then
 
                         Dim path As String = out & "/" & tree & "/" & s & ".fasta"
@@ -90,7 +90,7 @@ Partial Module CLI
                         For Each s As String In wordList
                             If InStr(s, sp, CompareMethod.Text) > 0 OrElse
                                 InStr(sp, s, CompareMethod.Text) > 0 OrElse
-                                ((Not (m = MatchFuzzy(s, sp,,)) Is Nothing) AndAlso
+                                ((Not (m = LevenshteinDistance.ComputeDistance(s, sp)) Is Nothing) AndAlso
                                 s.Split.Length - m.value.NumMatches < 3) Then
 
                                 Dim path As String = out & "/" & tree & "/" & s & ".fasta"

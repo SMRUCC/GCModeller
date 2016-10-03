@@ -353,7 +353,7 @@ Module CLI
 
                     For Each xx In tax
                         For Each y In words
-                            Dim compare = Text.Similarity.Match(xx, y)
+                            Dim compare = LevenshteinDistance.ComputeDistance(xx, y)
                             If Not compare Is Nothing AndAlso compare.Score >= 0.6 Then
                                 Call output.WriteLine(String.Join(vbTab, xx, x.Taxonomy, line, x.Values.GetJson))
                             End If
