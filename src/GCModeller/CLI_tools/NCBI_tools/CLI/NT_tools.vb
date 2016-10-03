@@ -174,9 +174,7 @@ Partial Module CLI
                 Return True
             End If
 
-            Dim dist = LevenshteinDistance.ComputeDistance(title.ToLower, name.ToLower)
-
-            If Not dist Is Nothing AndAlso dist.MatchSimilarity >= 0.85 Then
+            If Similarity.Evaluate(title, name) >= 0.8 Then
                 Return True
             End If
 
@@ -192,7 +190,15 @@ Partial Module CLI
                 Return False
             End If
 
-            Return (tokens.Length - n) <= 2
+            If tokens.Length = n Then
+                Return True
+            End If
+
+            If (tokens.Length - n) <= 1 AndAlso n / tokens.Length > 0.6 Then
+                Return True
+            End If
+
+            Return False
         End Function
 
         Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
