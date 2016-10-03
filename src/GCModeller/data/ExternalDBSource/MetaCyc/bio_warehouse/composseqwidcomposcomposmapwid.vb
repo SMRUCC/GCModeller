@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::35b47328f990ea8d49d26cbebbd39a26, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\composseqwidcomposcomposmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::4e3123688b62791df29bf10e0a7a2926, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\composseqwidcomposcomposmapwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

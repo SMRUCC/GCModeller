@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::204e20e16d7165ea2fb04429c74ef7b1, ..\interops\visualize\Phylip\TreeDrawing.vb"
+﻿#Region "Microsoft.VisualBasic::c4fa12044fce9aaefc6ca944d7d65781, ..\interops\visualize\Phylip\TreeDrawing.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ Public Module TreeDrawing
         Next
     End Sub
 End Module
-

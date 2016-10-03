@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f118f987afa624428a3c52336e959ea6, ..\GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::cbe9e56e155e7dc464a81d654fc1e409, ..\GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

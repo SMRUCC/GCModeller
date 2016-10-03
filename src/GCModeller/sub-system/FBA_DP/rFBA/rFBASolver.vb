@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3fa5c7d7db199b81751630d122824556, ..\GCModeller\sub-system\FBA_DP\rFBA\rFBASolver.vb"
+﻿#Region "Microsoft.VisualBasic::22032f9baecec8f26d28aaca5d157758, ..\GCModeller\sub-system\FBA_DP\rFBA\rFBASolver.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -82,4 +83,3 @@
 '        Call ObjectModel.UpdateFluxConstraints()
 '    End Sub
 'End Class
-

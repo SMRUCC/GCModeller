@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::21e55680cc892f51085202c47e180e01, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::0781a8e34827ef106d172afb3f2ce448, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

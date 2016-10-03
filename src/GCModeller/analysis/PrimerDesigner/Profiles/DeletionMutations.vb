@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::557eb91c7c0019c1f0e17f1cc7984ab5, ..\GCModeller\analysis\PrimerDesigner\Profiles\DeletionMutations.vb"
+﻿#Region "Microsoft.VisualBasic::d9d7f27957c1f7ad4a641d39d985c63f, ..\GCModeller\analysis\PrimerDesigner\Profiles\DeletionMutations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Class DeletionMutations
 
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a65904d9fc925857a228f38cd190f906, ..\GCModeller\data\ExternalDBSource\WebServices\Regprecise\ORMapperFactory.vb"
+﻿#Region "Microsoft.VisualBasic::a65904d9fc925857a228f38cd190f906, ..\GCModeller\data\WebServices\Regprecise\ORMapperFactory.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

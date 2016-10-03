@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::96bbeec5c4f411ce51b62e02da22bad8, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Labels.vb"
+﻿#Region "Microsoft.VisualBasic::9da30331714569caa7bb0e3a50bed34e, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Labels.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

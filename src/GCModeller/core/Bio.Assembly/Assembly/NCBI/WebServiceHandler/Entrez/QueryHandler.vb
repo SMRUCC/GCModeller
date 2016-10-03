@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::47272cf3189a61025695cb77eaa6b237, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
+﻿#Region "Microsoft.VisualBasic::a2b7ebcd8aebc06fda97b105960fc1f3, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0e544f57e35f317ca973801031555cc5, ..\GCModeller\analysis\Annotation\UniprotSprot\uniprotKB\uniprotkb.vb"
+﻿#Region "Microsoft.VisualBasic::215d72a9e3842ef105296da6b23edf17, ..\GCModeller\analysis\annoTools\DataMySql\UniprotSprot\uniprotKB\uniprotkb.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -162,4 +163,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::00db26fec8efb70f8820a2a65707d45f, ..\GCModeller\sub-system\FBA_DP\FBA\BoundsOverrides.vb"
+﻿#Region "Microsoft.VisualBasic::a230df2cd92f2c630a2b8c6ffd941874, ..\GCModeller\sub-system\FBA_DP\FBA\BoundsOverrides.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -61,4 +62,3 @@ Public Class BoundsOverrides
 End Class
 
 Public Delegate Function IBoundsOverrides(rxn As String, curr As Double) As Double
-

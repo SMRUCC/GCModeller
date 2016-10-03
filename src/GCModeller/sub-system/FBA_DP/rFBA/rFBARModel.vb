@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::28bbd94a5e5e1d9148d78468fdf53a4a, ..\GCModeller\sub-system\FBA_DP\rFBA\rFBARModel.vb"
+﻿#Region "Microsoft.VisualBasic::cd2c95c1486e11fe42bd4140d4d6a613, ..\GCModeller\sub-system\FBA_DP\rFBA\rFBARModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -212,4 +213,3 @@
 '        _ObjectiveFunction = (From strid As String In Me._ColumnNames Let idx = Array.IndexOf(factors, strid) Let factor = If(idx < 0, 0.0R, 1.0R) Select factor).ToArray
 '    End Sub
 'End Class
-

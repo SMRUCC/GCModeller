@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::dd6d0ffc5249d12fb1b68bdbcc78777f, ..\GCModeller\analysis\Annotation\Interpro\Xml\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::81ef89c22778ef86685c20893d4c7bdf, ..\GCModeller\analysis\annoTools\DataTools\Interpro\Xml\ToolsAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

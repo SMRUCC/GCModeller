@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::677a94015d1aea63f4b53d3fb05d42fa, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::cdab298643c175019eec94418064cd99, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainVisualize.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -197,4 +198,3 @@ Public Class DomainVisualize
         Return ProfileData
     End Function
 End Class
-

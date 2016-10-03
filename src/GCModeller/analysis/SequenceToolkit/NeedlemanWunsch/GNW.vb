@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c7e30cdcaad553f03d80fa6c9b87ec20, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\GNW.vb"
+﻿#Region "Microsoft.VisualBasic::0ee21576b58518c23b42f33bcd4faed0, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\GNW.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

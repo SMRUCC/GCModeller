@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c49fb2f18d922f9ac681a2a348af3594, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\featurewidfeaturewid2.vb"
+﻿#Region "Microsoft.VisualBasic::bb9031126b27f5c4cffc4c7454cccfc8, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\featurewidfeaturewid2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::470dbbd9ae5ac20538ca775b99ed30d7, ..\GCModeller\shoalAPI\IO\Phylip.vb"
+﻿#Region "Microsoft.VisualBasic::d98d87f160b10d361668fdd8a062d0ec, ..\GCModeller\shoalAPI\IO\Phylip.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -51,4 +52,3 @@ Module Phylip
         Return mat.GenerateDocument.SaveTo(saveCsv)
     End Function
 End Module
-

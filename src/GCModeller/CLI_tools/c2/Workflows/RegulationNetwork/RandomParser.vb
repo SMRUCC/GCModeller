@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e0d26ed0a665053a666672ecdf0b7487, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\RandomParser.vb"
+﻿#Region "Microsoft.VisualBasic::48f9f8ba7b73a1f12fd802e2dee98e16, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\RandomParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -103,4 +104,3 @@ Public Class RandomParser
         Next
     End Sub
 End Class
-

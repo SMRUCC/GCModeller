@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::01068a1885454e2317cc2bde1494ec5b, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::b06dd03b99a5011003c9491a45384d41, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -179,4 +180,3 @@ RELEASE_PACKAGE:
         Return My.Resources.AUTHORS
     End Function
 End Class
-

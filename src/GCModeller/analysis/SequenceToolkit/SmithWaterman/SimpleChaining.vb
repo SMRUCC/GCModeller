@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b44f35935b1f122b17786aba455f01d6, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SimpleChaining.vb"
+﻿#Region "Microsoft.VisualBasic::2b8a5edffa28514b85a05e043cc3a00a, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SimpleChaining.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -172,4 +173,3 @@ Public Module SimpleChaining
         Next
     End Sub
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::013e1316cadf1ad4f4a62566e62de0fb, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\crisprfamily.vb"
+﻿#Region "Microsoft.VisualBasic::959ba3bea5daee061700cc23d6fcd231, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\crisprfamily.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ End Class
 
 
 End Namespace
-

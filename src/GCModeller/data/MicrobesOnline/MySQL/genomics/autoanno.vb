@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::eb4d8d6e1f19aa7c447a78a9903c186e, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\autoanno.vb"
+﻿#Region "Microsoft.VisualBasic::4dd43ff5e9379e11973dadd33e473b58, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\autoanno.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -109,4 +110,3 @@ End Class
 
 
 End Namespace
-

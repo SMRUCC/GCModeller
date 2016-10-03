@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::eba1cef9e4ffee3f1e40c956573e9bcf, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb"
+﻿#Region "Microsoft.VisualBasic::302192dcac201384b62e5c130f5b51f4, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\DataFile\DataFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::be8ffe79fd966ae9e665ea192141e845, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\Node.vb"
+﻿#Region "Microsoft.VisualBasic::c278d04fdfc0a322ed97f133ad9d5f77, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\Node.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ Namespace CytoscapeGraphView.XGMML
 #End Region
     End Class
 End Namespace
-

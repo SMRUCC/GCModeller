@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e7686dac74a41ef26ba881bcd1b58d68, ..\GCModeller\visualize\GCModeller.DataVisualization\ValueParser.vb"
+﻿#Region "Microsoft.VisualBasic::034b73c6e6a3216e2a08e03882dd90ea, ..\GCModeller\visualize\GCModeller.DataVisualization\ValueParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -94,4 +95,3 @@ Public Module ValueParser
         Return New Font(FontName, FontSize, FontStyle)
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::02af5ec236b1e29642f7aca92d928c34, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\CAI\RelativeCodonBiases.vb"
+﻿#Region "Microsoft.VisualBasic::692648e6cc086d7898326ffdc7f20e96, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\CAI\RelativeCodonBiases.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -143,4 +144,3 @@ Public Class RelativeCodonBiases
         Return F
     End Function
 End Class
-

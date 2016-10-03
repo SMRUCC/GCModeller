@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6249306a4fbf9431e74fa2046adf3600, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
+﻿#Region "Microsoft.VisualBasic::19c708352af57dd5862e3d44603adb2b, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -97,4 +98,3 @@ End Class
 
 
 End Namespace
-

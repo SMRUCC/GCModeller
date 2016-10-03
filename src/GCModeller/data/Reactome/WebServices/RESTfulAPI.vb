@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3e25e8e1f439d4908e74c41f2fba6d00, ..\GCModeller\data\Reactome\WebServices\RESTfulAPI.vb"
+﻿#Region "Microsoft.VisualBasic::6b229f0be9baa7c4b7571e53dab42b5f, ..\GCModeller\data\Reactome\WebServices\RESTfulAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -33,4 +34,3 @@ Namespace RESTfulAPI
 
     End Class
 End Namespace
-

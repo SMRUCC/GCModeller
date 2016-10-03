@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64068c6c61d943959934f293761b7b59, ..\R.Bioconductor\RDotNET\R.NET\Environment.vb"
+﻿#Region "Microsoft.VisualBasic::6c22758aa2dc7da59d6f24c73c78c39b, ..\R.Bioconductor\RDotNET\R.NET\Environment.vb"
 
     ' Author:
     ' 
@@ -128,4 +128,3 @@ Public Class REnvironment
         Return copy
     End Function
 End Class
-

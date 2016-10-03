@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::68237284a1850ee2d541099b4c4dd36f, ..\Interactions.BioGRID\TabularFiles\IDENTIFIERS.vb"
+﻿#Region "Microsoft.VisualBasic::ef62d31bb5c1bd6d8912047ac77d74ea, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\TabularFiles\IDENTIFIERS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -70,4 +71,3 @@ Public Class IDENTIFIERS
         Return Me.GetJson
     End Function
 End Class
-

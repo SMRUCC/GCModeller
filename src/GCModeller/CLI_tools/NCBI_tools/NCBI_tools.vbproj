@@ -164,6 +164,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLI\NT_tools.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\Exports.vb" />
     <Compile Include="Program.vb" />

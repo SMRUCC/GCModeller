@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::646becb0bc52e7e80cb6b69cd4f946d8, ..\GCModeller\CLI_tools\c2\Workflows\Merge.vb"
+﻿#Region "Microsoft.VisualBasic::b212ca65bb6fcb10d4e5905e4899ddd6, ..\GCModeller\CLI_tools\c2\Workflows\Merge.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -64,4 +65,3 @@ Public Class Merge
     End Function
 
 End Class
-

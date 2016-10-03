@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a757a48e768e5c7d8760b0dfca6dfea7, ..\GCModeller\analysis\Annotation\Interpro\interpro\entry_accpair.vb"
+﻿#Region "Microsoft.VisualBasic::c7bfc46f3c0ad9ae1230419e09a847a7, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\interpro\entry_accpair.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

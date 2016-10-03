@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::74f65010b90e46b5a2c69e1ce4a53abb, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Ideogram.vb"
+﻿#Region "Microsoft.VisualBasic::e66290399f7e4a8dd9376d6daa81dc4e, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\Ideogram.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

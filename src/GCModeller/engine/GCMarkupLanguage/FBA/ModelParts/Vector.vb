@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2ae92087c386f230cd1c9b6324be7ddd, ..\GCModeller\engine\GCMarkupLanguage\FBA\ModelParts\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::54a5a4dde5a54195608d2ac02c6e5979, ..\GCModeller\engine\GCMarkupLanguage\FBA\ModelParts\Vector.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

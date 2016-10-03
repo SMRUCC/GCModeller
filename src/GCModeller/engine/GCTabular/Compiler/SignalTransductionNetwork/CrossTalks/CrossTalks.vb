@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ce287ad9fb77ca130c88502d3e84609e, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\CrossTalks\CrossTalks.vb"
+﻿#Region "Microsoft.VisualBasic::9fbae8dcdf34a91eaa78738a919bb791, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\CrossTalks\CrossTalks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -70,4 +71,3 @@ Namespace Compiler.Components
         End Function
     End Class
 End Namespace
-

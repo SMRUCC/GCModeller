@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::93764a5323643191505edcfbb195477c, ..\GCModeller\analysis\VirtualFootprint\KEGGRegulon.vb"
+﻿#Region "Microsoft.VisualBasic::d0c6dd3c290b70f664ba90052c4eab6a, ..\GCModeller\analysis\VirtualFootprint\KEGGRegulon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -43,4 +44,3 @@ Public Class KEGGRegulon
         Return Me.GetJson
     End Function
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::eb81a036292cb2c96221dbe6fbbf1bf6, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\concurrenteventset_2_focusentity.vb"
+﻿#Region "Microsoft.VisualBasic::91d4995121b3f17f71ab7ce71fecf474, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\concurrenteventset_2_focusentity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

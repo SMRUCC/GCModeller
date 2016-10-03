@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8d5e966bee0da287565ebc7f8f3f1d8c, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\Bayesian\SequenceAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::f085c2eb90aeb87a92a638440dd69696, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\Bayesian\SequenceAssembler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -211,4 +212,3 @@ Public Class SequenceAssembler
         End Function
     End Class
 End Class
-

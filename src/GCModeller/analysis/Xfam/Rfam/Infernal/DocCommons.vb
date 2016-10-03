@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f5472aaa299fe7affbc22543b9f297b5, ..\GCModeller\analysis\Xfam\Rfam\Infernal\DocCommons.vb"
+﻿#Region "Microsoft.VisualBasic::72825b61fe1b8cfd796b0ed33667ab50, ..\GCModeller\analysis\Xfam\Rfam\Infernal\DocCommons.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

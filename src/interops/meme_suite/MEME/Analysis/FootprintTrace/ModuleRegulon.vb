@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9b7b2346f8161983fa38291a0a07d877, ..\interops\meme_suite\MEME\Analysis\FootprintTrace\ModuleRegulon.vb"
+﻿#Region "Microsoft.VisualBasic::710a2d67336631b8594abbfe193655a3, ..\interops\meme_suite\MEME\Analysis\FootprintTrace\ModuleRegulon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

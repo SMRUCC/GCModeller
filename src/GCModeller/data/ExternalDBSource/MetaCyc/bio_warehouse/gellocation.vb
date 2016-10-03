@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e0850486a10903740e7d52e9807deddd, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\gellocation.vb"
+﻿#Region "Microsoft.VisualBasic::ffa51318e5681005c3df55e5413bb733, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\gellocation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -100,4 +101,3 @@ End Class
 
 
 End Namespace
-

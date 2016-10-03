@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a1e3cb3862640c3d58cfd1eb21522219, ..\GCModeller\CLI_tools\c2\NetworkLearning\Encodings.vb"
+﻿#Region "Microsoft.VisualBasic::f0546509c7b6622e6077a47d653c59ee, ..\GCModeller\CLI_tools\c2\NetworkLearning\Encodings.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 使用标准正态分布进行网络节点水平的编码工具
@@ -116,4 +116,3 @@ Public Class Encodings
         Call EncodingChipData(ChipData:=ChipData, pList:=pList, ExportDir:=ExportDir)
     End Sub
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c43951154c91fece7535728d74211d61, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Experiment.vb"
+﻿#Region "Microsoft.VisualBasic::5f09ad6677ca9c451161e628d3ac89f9, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Experiment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

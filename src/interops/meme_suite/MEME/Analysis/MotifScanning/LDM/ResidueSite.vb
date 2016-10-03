@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5e0c1937d6a0d374439f3895260ce382, ..\interops\meme_suite\MEME\Analysis\MotifScanning\LDM\ResidueSite.vb"
+﻿#Region "Microsoft.VisualBasic::f69ce1f6e4f8daa6d5e2fac58a2a944a, ..\interops\meme_suite\MEME\Analysis\MotifScanning\LDM\ResidueSite.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

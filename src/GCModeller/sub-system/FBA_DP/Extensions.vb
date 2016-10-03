@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::85ef17e99603cc87313199247f9a1761, ..\GCModeller\sub-system\FBA_DP\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b8680473b90ba36b8569b85760879758, ..\GCModeller\sub-system\FBA_DP\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -53,4 +54,3 @@ Imports Microsoft.VisualBasic.Linq
         Return m.First.Length
     End Function
 End Module
-

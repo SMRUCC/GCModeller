@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bd07e8677c9e2a7078463214cab23bd5, ..\Interactions.BioGRID\ID.vb"
+﻿#Region "Microsoft.VisualBasic::75f197f816207c2c51ace29ac4db0081, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\ID.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -88,4 +89,3 @@ Public Class ID
         Return tokens.ToArray(Function(s) New ID(s))
     End Function
 End Class
-

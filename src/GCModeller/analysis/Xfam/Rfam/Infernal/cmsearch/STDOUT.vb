@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::507220d86cd4c41e05f2df3e60702b2c, ..\GCModeller\analysis\Xfam\Rfam\Infernal\cmsearch\STDOUT.vb"
+﻿#Region "Microsoft.VisualBasic::2cab88b988ecb391b2e0757541feccb9, ..\GCModeller\analysis\Xfam\Rfam\Infernal\cmsearch\STDOUT.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

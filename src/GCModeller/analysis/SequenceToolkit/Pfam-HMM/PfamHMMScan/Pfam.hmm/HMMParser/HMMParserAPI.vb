@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2170dc0f42a1afdfd813c877b696e80c, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMParser\HMMParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::73d44e55395a76b77eb43a48b951dd69, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMParser\HMMParserAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -175,4 +176,3 @@ Public Module HMMParserAPI
         }
     End Function
 End Module
-

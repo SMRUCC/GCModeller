@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06bd76a2279b4e5b54df9575a0a92e04, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\hierfstat\API.vb"
+﻿#Region "Microsoft.VisualBasic::c2efe2907f1d8c97ad68b81d3a1e063b, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\hierfstat\API.vb"
 
     ' Author:
     ' 

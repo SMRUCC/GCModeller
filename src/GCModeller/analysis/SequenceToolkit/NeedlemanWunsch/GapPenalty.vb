@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2ca460c9a652de133225eef34788dfd7, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\GapPenalty.vb"
+﻿#Region "Microsoft.VisualBasic::4aebf2d8133e2a4199be06bd6686c88d, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\GapPenalty.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' Class to implement linear and affine gap penalties

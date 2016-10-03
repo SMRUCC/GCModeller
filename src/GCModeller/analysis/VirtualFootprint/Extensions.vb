@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b523df807cbbb3c6370a811f237c9406, ..\GCModeller\analysis\VirtualFootprint\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d860af1842e03998d611e55e1b00daec, ..\GCModeller\analysis\VirtualFootprint\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -149,4 +150,3 @@ Public Module Extensions
         Next
     End Function
 End Module
-

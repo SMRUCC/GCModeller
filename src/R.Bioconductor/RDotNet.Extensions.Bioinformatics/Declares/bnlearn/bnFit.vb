@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::535d45b44aa9df4b691fe1605a13242a, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\bnlearn\bnFit.vb"
+﻿#Region "Microsoft.VisualBasic::b73d981ac5644c2940eed55e44d31398, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\bnlearn\bnFit.vb"
 
     ' Author:
     ' 

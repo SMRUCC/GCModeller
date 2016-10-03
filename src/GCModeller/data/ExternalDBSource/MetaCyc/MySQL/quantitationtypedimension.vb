@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1d685476f7827fab1dd46158c05cbf5a, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quantitationtypedimension.vb"
+﻿#Region "Microsoft.VisualBasic::7649dd7c713548e7d5bc2782bbf36d61, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\quantitationtypedimension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

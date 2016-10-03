@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::65489dc3fad12dfb0addfa89a9b05c1b, ..\interops\meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
+﻿#Region "Microsoft.VisualBasic::eb0019f9ab0bc8769c4bb5b98808b095, ..\interops\meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

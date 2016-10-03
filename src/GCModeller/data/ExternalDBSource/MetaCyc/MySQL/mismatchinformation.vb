@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::017043bb357d0392806303e3a02d824e, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\mismatchinformation.vb"
+﻿#Region "Microsoft.VisualBasic::318e1c15a08a9d218e941d7bf3987ee5, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\mismatchinformation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -104,4 +105,3 @@ End Class
 
 
 End Namespace
-

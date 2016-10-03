@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d81545b0e12e5c82dd87d603a8a51ed4, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\AssignGene.vb"
+﻿#Region "Microsoft.VisualBasic::eed203627ec6793384e2f46a3d4d606f, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\AssignGene.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 将基因与相应的反应过程映射起来
@@ -103,4 +103,3 @@ Public Class AssignGene
         Return GeneList.ToArray
     End Function
 End Class
-

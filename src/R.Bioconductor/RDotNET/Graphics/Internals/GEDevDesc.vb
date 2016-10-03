@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::820353221267c1f47cbf08c2d9e258ee, ..\R.Bioconductor\RDotNET\Graphics\Internals\GEDevDesc.vb"
+﻿#Region "Microsoft.VisualBasic::cc4c0d7348098fcea53ad00ab70a279f, ..\R.Bioconductor\RDotNET\Graphics\Internals\GEDevDesc.vb"
 
     ' Author:
     ' 
@@ -53,4 +53,3 @@ Namespace Graphics.Internals
         Friend ask As Boolean
     End Structure
 End Namespace
-

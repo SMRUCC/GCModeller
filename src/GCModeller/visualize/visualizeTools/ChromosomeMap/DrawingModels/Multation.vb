@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6376ce970500772a845992adab9f8141, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\Multation.vb"
+﻿#Region "Microsoft.VisualBasic::aa7e2aaeb45da607fd0dcf7f8ab17a6e, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\Multation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

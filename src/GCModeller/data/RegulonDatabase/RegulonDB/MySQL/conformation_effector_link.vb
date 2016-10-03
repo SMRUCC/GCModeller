@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fbe06e15a510e6c8084eab30211949ac, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\conformation_effector_link.vb"
+﻿#Region "Microsoft.VisualBasic::6e96cf15dc90776e1710b890d7271fdf, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\conformation_effector_link.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ End Class
 
 
 End Namespace
-

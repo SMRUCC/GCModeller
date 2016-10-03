@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::813ed6e616b609af2e21e614d63a86ba, ..\interops\RNA-Seq\RNA-seq.Data\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::3a8c5ba9ee82f0e99fa312dc14d36f1b, ..\interops\RNA-Seq\RNA-seq.Data\Contig.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -102,4 +103,3 @@ Public Class Contig : Inherits NucleotideModels.Contig
         Return _MappingLocation
     End Function
 End Class
-

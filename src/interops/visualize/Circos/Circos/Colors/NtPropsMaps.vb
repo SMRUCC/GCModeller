@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bcee306e26d3e1cc8485cfaca7fa714d, ..\interops\visualize\Circos\Circos\Colors\NtPropsMaps.vb"
+﻿#Region "Microsoft.VisualBasic::7e435fd0567ecf067e4e5b4b98a9c683, ..\interops\visualize\Circos\Circos\Colors\NtPropsMaps.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

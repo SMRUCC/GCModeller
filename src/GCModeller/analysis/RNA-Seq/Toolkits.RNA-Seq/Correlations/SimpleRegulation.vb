@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4352279dde62448396675ea9a3ab4b1b, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\SimpleRegulation.vb"
+﻿#Region "Microsoft.VisualBasic::5abf0b62e0ce35482cf225d98f3894a2, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\SimpleRegulation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -32,4 +33,3 @@ Public Class SimpleRegulation
     <XmlAttribute> Public Property Operon As String
     <XmlAttribute> Public Property PccValue As Double
 End Class
-

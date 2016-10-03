@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::02455a91f348bc71f95516f4f410cf2c, ..\GCModeller\analysis\Annotation\Interpro\Tables\tax_entry_count.vb"
+﻿#Region "Microsoft.VisualBasic::80271772e0bc04e26fe128b3ef125595, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\tax_entry_count.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

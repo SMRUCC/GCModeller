@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8da4cb6a7a04e36a93fd8267fa752b69, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a24073beccc1a06175b6e606d1311251, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Module Extensions
 
 End Module
-

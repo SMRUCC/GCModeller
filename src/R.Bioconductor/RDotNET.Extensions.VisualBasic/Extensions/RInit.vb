@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4e61dd0b3c95ac927557d533b2d16f8, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\R.Extension\RInit.vb"
+﻿#Region "Microsoft.VisualBasic::4be08ebcdac4af5138d23ff4ff42f925, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\RInit.vb"
 
     ' Author:
     ' 
@@ -103,4 +103,3 @@ Module RInit
         Return REngine
     End Function
 End Module
-

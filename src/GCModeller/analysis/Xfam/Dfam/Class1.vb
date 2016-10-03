@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2e67bb6e4e5b8829ff378ffe4c371121, ..\GCModeller\analysis\Xfam\Dfam\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::9b5889a63a2df73d205e61daa894c7f3, ..\GCModeller\analysis\Xfam\Dfam\Class1.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Class Class1
 
 End Class
-

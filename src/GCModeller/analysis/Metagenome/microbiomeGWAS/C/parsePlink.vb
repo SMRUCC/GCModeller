@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a3b142b06fd4d9acd2f9772d234ecab2, ..\Metagenome\microbiomeGWAS\C\parsePlink.vb"
+﻿#Region "Microsoft.VisualBasic::d39709f65f05a08117427aa81816a869, ..\GCModeller\analysis\Metagenome\microbiomeGWAS\C\parsePlink.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.IO
 
@@ -276,5 +276,3 @@ Public Module ParsePlink
         Next
     End Sub
 End Module
-
-

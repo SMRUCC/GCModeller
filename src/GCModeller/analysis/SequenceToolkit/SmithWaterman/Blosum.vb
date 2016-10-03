@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::48f698e8a21c3d4987a0c73b4d6cc4ca, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\Blosum.vb"
+﻿#Region "Microsoft.VisualBasic::a846b79fb9db209fc7e852b00b5af7d8, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\Blosum.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -188,4 +189,3 @@ Public Class Blosum
         Return getDistance(getIndex(a1), getIndex(a2))
     End Function
 End Class
-

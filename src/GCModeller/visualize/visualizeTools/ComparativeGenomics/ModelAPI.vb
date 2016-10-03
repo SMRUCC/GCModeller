@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::95e5344929df02ea30de1b3aed753cfc, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::53de3d2605916ab0d09390878ec50256, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ModelAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

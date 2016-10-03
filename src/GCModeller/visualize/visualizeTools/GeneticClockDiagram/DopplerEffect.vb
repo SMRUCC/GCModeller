@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::674ee24dc2f147aa044239e7a8f27068, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\DopplerEffect.vb"
+﻿#Region "Microsoft.VisualBasic::c77e5e95f55835279bdaab196a076e79, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\DopplerEffect.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

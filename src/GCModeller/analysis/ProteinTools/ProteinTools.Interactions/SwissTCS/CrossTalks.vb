@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1006e40e26eb231cc0f48098a11fe951, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\CrossTalks.vb"
+﻿#Region "Microsoft.VisualBasic::d70f3dc968f3178699faec0ae9a8c142, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\CrossTalks.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

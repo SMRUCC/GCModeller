@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7e87c42aef31c64b7d377cefb5628fcd, ..\interops\CARMEN\Analysis\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::b070b89f182c34c99aa64ee948d0b146, ..\interops\CARMEN\Analysis\Reaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

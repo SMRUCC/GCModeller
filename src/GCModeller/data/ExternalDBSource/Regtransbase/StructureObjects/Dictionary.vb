@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8bc6c9f0c31af6100abb71b61d14690f, ..\GCModeller\data\ExternalDBSource\Regtransbase\StructureObjects\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::1e45f4e89d894f1e2918b0c1398abd15, ..\GCModeller\data\ExternalDBSource\Regtransbase\StructureObjects\Dictionary.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -70,4 +71,3 @@ Namespace Regtransbase.StructureObjects.Dictionaries
         <DatabaseField("genome_guid")> Public Overrides Property Guid As Integer
     End Class
 End Namespace
-

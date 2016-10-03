@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::36bfcaaf791a5de3eda6651348a5372b, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\composgrpwidcompossequencewid.vb"
+﻿#Region "Microsoft.VisualBasic::f290427e6bcf21432c3b9b3f9c310763, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\composgrpwidcompossequencewid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

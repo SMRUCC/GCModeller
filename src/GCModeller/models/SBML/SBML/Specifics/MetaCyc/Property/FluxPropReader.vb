@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d28e6f75780c5eecdbee4f1d338a9ea6, ..\GCModeller\models\SBML\SBML\Specifics\MetaCyc\Property\FluxPropReader.vb"
+﻿#Region "Microsoft.VisualBasic::3bf135ca378f298539773816fe477bb7, ..\GCModeller\models\SBML\SBML\Specifics\MetaCyc\Property\FluxPropReader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

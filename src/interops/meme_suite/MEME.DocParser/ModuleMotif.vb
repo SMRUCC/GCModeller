@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bf91a93e5171c89c09f2b1cde839cb71, ..\interops\meme_suite\MEME.DocParser\ModuleMotif.vb"
+﻿#Region "Microsoft.VisualBasic::1cd9d3851f344eec8c8ab10f03675050, ..\interops\meme_suite\MEME.DocParser\ModuleMotif.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -66,4 +67,3 @@ Public Class ModuleMotif
     Public Property evalue As Double
     Public Property tom As String
 End Class
-

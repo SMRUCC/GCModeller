@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ad0d5832cbc69864d2e84c4e0848a064, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\FootPrintMap\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::ac831d9e72fd4eee6f72c5cf71f956bd, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\FootPrintMap\TSSs.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::787b98aeb2b4b3a2e5580306a360b451, ..\R.Bioconductor\RDotNET\Graphics\Internals\DevDesc.vb"
+﻿#Region "Microsoft.VisualBasic::cb93a79118764002bb40ae7ef5c99795, ..\R.Bioconductor\RDotNET\Graphics\Internals\DevDesc.vb"
 
     ' Author:
     ' 
@@ -205,4 +205,3 @@ Namespace Graphics.Internals
     <UnmanagedFunctionPointer(CallingConvention.Cdecl)> _
     Friend Delegate Sub _DevDesc_eventHelper(dd As IntPtr, code As Integer)
 End Namespace
-

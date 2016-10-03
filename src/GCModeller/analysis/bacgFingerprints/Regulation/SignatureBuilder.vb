@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0e172f1741c444b4396b69e02fbc7a92, ..\GCModeller\analysis\RegulationSignature\SignatureBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::47fa464ef292c877aaa76442dd510d40, ..\GCModeller\analysis\bacgFingerprints\Regulation\SignatureBuilder.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::91ec71cfd7a569cd0e77e34064d6dac6, ..\interops\RNA-Seq\BOW\BOW\Samtools.vb"
+﻿#Region "Microsoft.VisualBasic::04605211e74e9586c1bd0968c695ade0, ..\interops\RNA-Seq\BOW\BOW\Samtools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -372,4 +373,3 @@ converting between BAM and SAM formats, and just looking at the raw file content
         End Try
     End Function
 End Module
-

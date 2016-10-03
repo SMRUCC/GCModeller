@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f467e3addcc4c87294cba12e19da920, ..\R.Bioconductor\RDotNET\Graphics\Size.vb"
+﻿#Region "Microsoft.VisualBasic::6c52ae682755fe050e0c75999e78dc13, ..\R.Bioconductor\RDotNET\Graphics\Size.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Graphics
 

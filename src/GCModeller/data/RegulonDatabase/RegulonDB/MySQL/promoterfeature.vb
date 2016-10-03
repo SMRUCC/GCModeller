@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::eb3c47cc5424d0f90654a5609870ea81, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\promoterfeature.vb"
+﻿#Region "Microsoft.VisualBasic::9a4589d9cef9ff0f19915e2d0404a05d, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\promoterfeature.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -99,4 +100,3 @@ End Class
 
 
 End Namespace
-

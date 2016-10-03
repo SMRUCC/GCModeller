@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bcd5a43050b3baf5505bdf93d5e08b46, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\valence.vb"
+﻿#Region "Microsoft.VisualBasic::3ef1de2c7f5884c052991fb5bcb99ff3, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\valence.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

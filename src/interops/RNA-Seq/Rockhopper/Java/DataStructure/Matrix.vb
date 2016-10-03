@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3e1bdbe7ecc6cdf0e82d2e68c996ad3c, ..\interops\RNA-Seq\Rockhopper\Java\DataStructure\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::ab0743766ba16ab40635737bc47be155, ..\interops\RNA-Seq\Rockhopper\Java\DataStructure\Matrix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 '
 ' * Copyright 2013 Brian Tjaden
@@ -414,5 +414,3 @@ Namespace Java
     End Class
 
 End Namespace
-
-

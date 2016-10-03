@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::26550ea52f3f0bf3f40325b3027534f4, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\compoundmeasurement.vb"
+﻿#Region "Microsoft.VisualBasic::948c3c8035c7d1990f405daa973f0ecd, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\compoundmeasurement.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -102,4 +103,3 @@ End Class
 
 
 End Namespace
-

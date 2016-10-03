@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c6a2252c25cd5c0c00b634b2415546d, ..\R.Bioconductor\RDotNET\Graphics\Internals\GEcontext.vb"
+﻿#Region "Microsoft.VisualBasic::6bf4306ac9123098232c4b77334e4b15, ..\R.Bioconductor\RDotNET\Graphics\Internals\GEcontext.vb"
 
     ' Author:
     ' 
@@ -48,4 +48,3 @@ Namespace Graphics.Internals
         Friend fontfamily As String
     End Structure
 End Namespace
-

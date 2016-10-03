@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f06e582c26f3b6016ad81c0b8721ec85, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\sequencematch.vb"
+﻿#Region "Microsoft.VisualBasic::171e7ea38501cfb9f2fb3278dbfe11b0, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\sequencematch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -107,4 +108,3 @@ End Class
 
 
 End Namespace
-

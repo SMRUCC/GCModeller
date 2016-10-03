@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f94ead32dec7789b36b5808ef2b98214, ..\interops\visualize\Circos\Circos.Extensions\data\DeltaDiff.vb"
+﻿#Region "Microsoft.VisualBasic::ac27f5e207afd6a78a75a5c8b67a6d41, ..\interops\visualize\Circos\Circos.Extensions\data\DeltaDiff.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

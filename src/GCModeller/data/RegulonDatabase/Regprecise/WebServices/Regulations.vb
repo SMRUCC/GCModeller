@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a884620b7a76f899206c8bcf217d3d88, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\Regulations.vb"
+﻿#Region "Microsoft.VisualBasic::fa9abbc0445cc2c0813cd04411f59574, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\Regulations.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

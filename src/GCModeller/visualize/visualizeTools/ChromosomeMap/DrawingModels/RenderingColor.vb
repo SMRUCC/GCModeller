@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::96b24ac4e800e561fa99381bdaf83026, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::7a0fdc0bd89968e7321b64c2a6800725, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\RenderingColor.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

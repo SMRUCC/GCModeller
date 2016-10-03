@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5d717983487a95b662b39f8f6c58cc58, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\geneticallymodifiedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::5928c5845a299b685541e66d90a1a39f, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\geneticallymodifiedresidue.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -82,4 +83,3 @@ End Class
 
 
 End Namespace
-

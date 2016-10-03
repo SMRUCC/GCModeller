@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3e5bb883cbda00809215e6e6c3033d9e, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\TryParsePromoter.vb"
+﻿#Region "Microsoft.VisualBasic::ed6ad2f5f3620c892f2ed31d03abf97f, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\TryParsePromoter.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -231,4 +232,3 @@ Public Class TryParsePromoter
         Return LQuery
     End Function
 End Class
-

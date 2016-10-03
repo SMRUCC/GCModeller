@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c27b4d4baf5776de7e25d902d777a4f8, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\TranscriptUnit.vb"
+﻿#Region "Microsoft.VisualBasic::678aa9bd2e9f4de1d07ffc40e1a81936, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\TranscriptUnit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

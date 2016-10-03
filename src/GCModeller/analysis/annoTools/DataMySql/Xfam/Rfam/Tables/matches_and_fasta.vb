@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::12750e92a61e74ee295a6f41fe3b6873, ..\GCModeller\analysis\Annotation\Xfam\Rfam\Tables\matches_and_fasta.vb"
+﻿#Region "Microsoft.VisualBasic::ff97b347ea93747208cd63d37c5881b7, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\Rfam\Tables\matches_and_fasta.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -73,4 +74,3 @@ End Class
 
 
 End Namespace
-

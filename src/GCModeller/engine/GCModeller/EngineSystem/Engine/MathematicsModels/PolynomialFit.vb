@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4ad975375680c3574722b9c317fbebc0, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\MathematicsModels\PolynomialFit.vb"
+﻿#Region "Microsoft.VisualBasic::e7c0eb66e4dd50e7a6de50045407d175, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\MathematicsModels\PolynomialFit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace EngineSystem.MathematicsModels
 

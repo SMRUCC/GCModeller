@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b6b388dc72b79c9caf76caafa454c9d1, ..\GCModeller\analysis\Annotation\UniprotSprot\MySQL\uniprotkb.vb"
+﻿#Region "Microsoft.VisualBasic::43c8353ec2dc30c6b44eb448df7d508e, ..\GCModeller\analysis\annoTools\DataMySql\UniprotSprot\MySQL\uniprotkb.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -162,4 +163,3 @@ Namespace UniprotKB.MySQL.Tables
 
 
 End Namespace
-

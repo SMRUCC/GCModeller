@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::51eda79f09459cc6a25d56ce6aea00a2, ..\GCModeller\shoalAPI\Encodings.vb"
+﻿#Region "Microsoft.VisualBasic::a82b5616ede09567dbdf093a75d5fe0a, ..\GCModeller\shoalAPI\Encodings.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -61,4 +62,3 @@ Public Module Encodings
     End Function
 
 End Module
-

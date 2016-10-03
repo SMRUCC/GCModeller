@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::980fb195efc468ba224f73c7acfd654f, ..\GCModeller\models\SBML\Biopax\Level3\Elements\OwlOntology.vb"
+﻿#Region "Microsoft.VisualBasic::9eeefad1cbd86d376aca3ecc2d8ea8c5, ..\GCModeller\models\SBML\Biopax\Level3\Elements\OwlOntology.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::80353ae60b2efc906749f259d0ffe490, ..\interops\localblast\LocalBLAST\Analysis\Models\Besthit.vb"
+﻿#Region "Microsoft.VisualBasic::3ae0499e8deaca8d2d96f9257387a417, ..\interops\localblast\LocalBLAST\Analysis\Models\Besthit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

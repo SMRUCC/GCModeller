@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3fc843de585b1bb688c210a49dead6d2, ..\GCModeller\analysis\Annotation\Xfam\iPfam\LocalMySQL\MySQL_Tables\pdb_residue_data.vb"
+﻿#Region "Microsoft.VisualBasic::9e472b2b1f33ac90042eb4e55d2ae7e9, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\pdb_residue_data.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -80,4 +81,3 @@ End Class
 
 
 End Namespace
-

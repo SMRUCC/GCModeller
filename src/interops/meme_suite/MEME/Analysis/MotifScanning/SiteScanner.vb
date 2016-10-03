@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::950a492ecfd170cccf928676f79b613e, ..\interops\meme_suite\MEME\Analysis\MotifScanning\SiteScanner.vb"
+﻿#Region "Microsoft.VisualBasic::41c725774f292b04fc6e27f01bdc40ac, ..\interops\meme_suite\MEME\Analysis\MotifScanning\SiteScanner.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

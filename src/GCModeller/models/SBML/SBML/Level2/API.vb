@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8522c20297f1d6553872b3aeb8978ed9, ..\GCModeller\models\SBML\SBML\Level2\API.vb"
+﻿#Region "Microsoft.VisualBasic::9586ebd2b4b725d5a55fd1ba6871db25, ..\GCModeller\models\SBML\SBML\Level2\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

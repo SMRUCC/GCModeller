@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1e774470519cbccef002a46577451007, ..\GCModeller\analysis\Xfam\Rfam\Stockholm.vb"
+﻿#Region "Microsoft.VisualBasic::a3ae3b75320d1e1ba7bb8a97af6fd3bc, ..\GCModeller\analysis\Xfam\Rfam\Stockholm.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -326,4 +327,3 @@ Public Class Stockholm
         Return LQuery
     End Function
 End Class
-

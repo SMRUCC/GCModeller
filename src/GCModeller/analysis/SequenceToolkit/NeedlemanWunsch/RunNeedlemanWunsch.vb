@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1afa6f6dbc22e17a8a3735f2a50597aa, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\RunNeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::58d94bc223b57d0ea733e97da646e225, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\RunNeedlemanWunsch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

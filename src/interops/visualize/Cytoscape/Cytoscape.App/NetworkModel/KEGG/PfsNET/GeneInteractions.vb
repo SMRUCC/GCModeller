@@ -1,27 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::0c9aa6435ca7980ec06ead7509af1ba4, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
+﻿#Region "Microsoft.VisualBasic::629e56d3f74891d351f6b8b1cba11830, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\GeneInteractions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 

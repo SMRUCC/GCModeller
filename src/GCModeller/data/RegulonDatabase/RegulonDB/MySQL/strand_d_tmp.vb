@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bfaaf8cca8c619e7a62bda58123498aa, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\strand_d_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::56baa5d3da4ca8274180dd8852e000e1, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\strand_d_tmp.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ End Class
 
 
 End Namespace
-

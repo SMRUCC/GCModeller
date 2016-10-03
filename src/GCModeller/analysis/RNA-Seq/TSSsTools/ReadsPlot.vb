@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8a594300eccf0b0c3545e3f23df717c8, ..\GCModeller\analysis\RNA-Seq\TSSsTools\ReadsPlot.vb"
+﻿#Region "Microsoft.VisualBasic::6cec0c312204f1ec414e6d83880f8bd2, ..\GCModeller\analysis\RNA-Seq\TSSsTools\ReadsPlot.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -52,4 +53,3 @@ Public Module ReadsPlot
         Return Gr.ImageResource
     End Function
 End Module
-

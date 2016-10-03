@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::30d496760f8ece27aa6b383b3acf14bf, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\CAI\CodonFrequencyCAI.vb"
+﻿#Region "Microsoft.VisualBasic::fb545403929f0437784989b277b457f3, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\CAI\CodonFrequencyCAI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -57,4 +58,3 @@ Public Class CodonFrequencyCAI
         Return Me.GetJson
     End Function
 End Class
-

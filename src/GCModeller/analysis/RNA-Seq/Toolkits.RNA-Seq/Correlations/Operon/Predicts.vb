@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::788d821cee3bd4a7cd75f5fc59798ae1, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\Operon\Predicts.vb"
+﻿#Region "Microsoft.VisualBasic::e807a64f1dc3519c552cb16ab7b1f918, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\Operon\Predicts.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f1123242cd8286cb4355796c57fe7cc1, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::3b2fb0386ea704fc2835ea978f1bfe0d, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -101,4 +102,3 @@ End Class
 
 
 End Namespace
-

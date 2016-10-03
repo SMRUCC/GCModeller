@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::18753abf72858eea4b40288031db8451, ..\GCModeller\engine\GCTabular\CsvTabularData\Storage\ResourceMapper.vb"
+﻿#Region "Microsoft.VisualBasic::954982d3267cd002435de8c0ef163e7f, ..\GCModeller\engine\GCTabular\CsvTabularData\Storage\ResourceMapper.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

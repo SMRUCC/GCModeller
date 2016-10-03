@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0f816168d6f9f0ebc9ca6a3427359bdd, ..\interops\meme_suite\MEME\Workflows\PromoterParser\OperonPromoterParser.vb"
+﻿#Region "Microsoft.VisualBasic::0e9122a07279eca8fb067e08f872fff0, ..\interops\meme_suite\MEME\Workflows\PromoterParser\OperonPromoterParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -116,4 +117,3 @@ Namespace Workflows.PromoterParser
 
     End Class
 End Namespace
-

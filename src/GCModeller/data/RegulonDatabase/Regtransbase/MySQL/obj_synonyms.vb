@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ec93a0199fedd1e4183c97addd7daccf, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_synonyms.vb"
+﻿#Region "Microsoft.VisualBasic::d92c8a9456fb40ddf18b50b4d86d0574, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_synonyms.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -95,4 +96,3 @@ End Class
 
 
 End Namespace
-

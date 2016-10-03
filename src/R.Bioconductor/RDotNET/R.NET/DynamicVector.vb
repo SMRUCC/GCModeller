@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7129d1cba3574d16b1089aad9875e6c, ..\R.Bioconductor\RDotNET\R.NET\DynamicVector.vb"
+﻿#Region "Microsoft.VisualBasic::f72e1f511580c2ce9791ce16423ea651, ..\R.Bioconductor\RDotNET\R.NET\DynamicVector.vb"
 
     ' Author:
     ' 
@@ -274,4 +274,3 @@ Public Class DynamicVector
 		Marshal.WriteIntPtr(pointer, offset, sexp.DangerousGetHandle())
 	End Sub
 End Class
-

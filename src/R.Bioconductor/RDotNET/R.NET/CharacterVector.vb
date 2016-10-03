@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb09d38c96194f0f2fc7874ec4f8a544, ..\R.Bioconductor\RDotNET\R.NET\CharacterVector.vb"
+﻿#Region "Microsoft.VisualBasic::fd2f5f72d989efdb3af935ed407eb470, ..\R.Bioconductor\RDotNET\R.NET\CharacterVector.vb"
 
     ' Author:
     ' 
@@ -147,4 +147,3 @@ Public Class CharacterVector
 		End Get
 	End Property
 End Class
-

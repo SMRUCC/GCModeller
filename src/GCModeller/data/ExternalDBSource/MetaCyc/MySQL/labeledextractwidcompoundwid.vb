@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f9e7561c7e268b5cf471080ebadee18d, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
+﻿#Region "Microsoft.VisualBasic::1b42679f507bff28d3eb8587bce4e4c1, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\labeledextractwidcompoundwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

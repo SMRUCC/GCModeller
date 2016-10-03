@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d8d2f70e19befce32f8f3002f590acf2, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\Release.vb"
+﻿#Region "Microsoft.VisualBasic::875a8a33f58ce42429305e92be136c51, ..\GCModeller\analysis\SequenceToolkit\ClustalOmega\Release.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -49,4 +50,3 @@ Public Module Release
         Return DIR & "/clustalo.exe"
     End Function
 End Module
-

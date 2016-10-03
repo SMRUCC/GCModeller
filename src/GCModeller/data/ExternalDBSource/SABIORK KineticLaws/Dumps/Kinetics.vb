@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::be3f2a8426c9670c9c13f0962fe98c94, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::8477445bf6337cee74b0e0de01b50a03, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\Dumps\Kinetics.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

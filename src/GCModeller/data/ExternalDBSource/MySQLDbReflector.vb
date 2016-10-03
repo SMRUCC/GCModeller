@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::96b5ca35f3ae51191f6df7682e2eab5d, ..\GCModeller\data\ExternalDBSource\MySQLDbReflector.vb"
+﻿#Region "Microsoft.VisualBasic::892f59a5615d1044468f0435498fd1ac, ..\GCModeller\data\ExternalDBSource\MySQLDbReflector.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -38,4 +39,3 @@ Public MustInherit Class MySQLDbReflector
         Return String.Format("{0}::{1}", Me.GetType.Name, DbReflector.ToString)
     End Function
 End Class
-

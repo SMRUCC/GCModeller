@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d4240dcb2fbb624c294668af16e00ef7, ..\Metagenome\Metagenome\BEBaC\3-mer.vb"
+﻿#Region "Microsoft.VisualBasic::d4240dcb2fbb624c294668af16e00ef7, ..\GCModeller\analysis\Metagenome\Metagenome\BEBaC\3-mer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

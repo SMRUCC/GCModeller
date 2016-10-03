@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f958d8b92e96d8c5443b602d76c34934, ..\GCModeller\engine\GCTabular\DataVisualization\DynamicMap.vb"
+﻿#Region "Microsoft.VisualBasic::5eb4340e19b5221318a7d0cadae36ba9, ..\GCModeller\engine\GCTabular\DataVisualization\DynamicMap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

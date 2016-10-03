@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ce23b55e36ad31d0792207956e5c1296, ..\GCModeller\analysis\Annotation\CEG\GeneCluster.vb"
+﻿#Region "Microsoft.VisualBasic::19051ee7ecae52b8c0e4dc3f68709705, ..\GCModeller\analysis\annoTools\DataMySql\CEG\GeneCluster.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

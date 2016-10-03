@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b8f750c4540d97cb4346e8397b916247, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb"
+﻿#Region "Microsoft.VisualBasic::903f3ca39fe0faa2ec71b1233e1d7b68, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::13c0e02f586ab40df25d94c6e495e551, ..\GCModeller\sub-system\CellPhenotype\TRN\NetEngine\LDMDoc.vb"
+﻿#Region "Microsoft.VisualBasic::0ee0f46829de0eaa6fe148f49da1b781, ..\GCModeller\sub-system\CellPhenotype\TRN\NetEngine\LDMDoc.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

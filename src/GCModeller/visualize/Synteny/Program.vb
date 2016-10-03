@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4c2af86aebaf5e532fe73267faecc9da, ..\GCModeller\visualize\Synteny\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e06210273e720553f60262bc083593c1, ..\GCModeller\visualize\Synteny\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -57,4 +58,3 @@ Module Program
         Return res.SaveAs(png, ImageFormats.Png).CLICode
     End Function
 End Module
-

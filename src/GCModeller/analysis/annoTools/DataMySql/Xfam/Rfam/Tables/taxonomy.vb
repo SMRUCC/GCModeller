@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3bb35a60eb1af1ae2fd61061e86cced0, ..\GCModeller\analysis\Annotation\Xfam\Rfam\Tables\taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::c803d0ad55140b9785ee89c5217b8d8f, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\Rfam\Tables\taxonomy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -74,4 +75,3 @@ End Class
 
 
 End Namespace
-

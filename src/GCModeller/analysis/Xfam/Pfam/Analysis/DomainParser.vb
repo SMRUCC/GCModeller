@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1d9a49efd6623b21e5050114baf61972, ..\GCModeller\analysis\Xfam\Pfam\Analysis\DomainParser.vb"
+﻿#Region "Microsoft.VisualBasic::1f3f14de0ad6660da6c91d95bdfea95b, ..\GCModeller\analysis\Xfam\Pfam\Analysis\DomainParser.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -168,4 +169,3 @@ Public Module DomainParser
         Return domains
     End Function
 End Module
-

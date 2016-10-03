@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::66c7ba7d32df7216874a8dab2469e1ef, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\CIGAR_OPERATIONS.vb"
+﻿#Region "Microsoft.VisualBasic::303d432929eed1a0338837ec8d50a01f, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\CIGAR_OPERATIONS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7317d91b0d81c99dc584deaddffde33c, ..\Metagenome\microbiomeGWAS\C\dExp2.vb"
+﻿#Region "Microsoft.VisualBasic::72e84d30246b3f901f230ea6d5b2cac4, ..\GCModeller\analysis\Metagenome\microbiomeGWAS\C\dExp2.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -166,5 +167,3 @@ Public Module DExp2
         result(22) = result(22) / tmp
     End Sub
 End Module
-
-

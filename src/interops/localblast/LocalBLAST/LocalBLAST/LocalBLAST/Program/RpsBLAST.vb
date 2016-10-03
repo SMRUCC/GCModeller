@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8f4be58fbfcd7f4af6441a9b696e1b52, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\RpsBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::958d0ba619acbe7e77c760a58d0bece8, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\RpsBLAST.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

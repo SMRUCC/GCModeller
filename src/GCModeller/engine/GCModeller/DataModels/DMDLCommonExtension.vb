@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::06a3f90945e03c2aab54fc8babfcf728, ..\GCModeller\engine\GCModeller\DataModels\DMDLCommonExtension.vb"
+﻿#Region "Microsoft.VisualBasic::6bf855f48073f8aded9e7b762eed2b57, ..\GCModeller\engine\GCModeller\DataModels\DMDLCommonExtension.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -50,4 +51,3 @@ Module DMDLCommonExtension
         Return Query.ToArray
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::125fb0514553f15328325e955afa545b, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f2b7caa247130f641256824fb6fc63a1, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -36,4 +37,3 @@ Public Module Extensions
         }
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c8bc486620abb8d353712a0f9a31efe7, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetacycObjectFindingMethods.vb"
+﻿#Region "Microsoft.VisualBasic::fb78fe872ce8d160f121fd52a8f74288, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\MetacycObjectFindingMethods.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -220,4 +221,3 @@ Module MetacycObjectFindingMethods
         Return -1
     End Function
 End Module
-

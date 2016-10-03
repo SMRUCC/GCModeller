@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5efefa820f448a002b018aaad67b92d8, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::71bb0dd5a6db4605a0e6a5e4376a1cc9, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -70,4 +71,3 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
         Return sw
     End Function
 End Class
-

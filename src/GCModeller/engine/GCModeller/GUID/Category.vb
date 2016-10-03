@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b15c36c5762c08a7eb2ffe992875bbf2, ..\GCModeller\engine\GCModeller\GUID\Category.vb"
+﻿#Region "Microsoft.VisualBasic::69c70182ef50bba7c302b44922083c36, ..\GCModeller\engine\GCModeller\GUID\Category.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Partial Class Guid
 

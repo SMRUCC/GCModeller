@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::929bf1c0f73da8294817a1ac0862278a, ..\GCModeller\sub-system\PLAS.NET\SSystem\Script\SEquation.vb"
+﻿#Region "Microsoft.VisualBasic::ab65253a14ef9c83897cb53757df40ac, ..\GCModeller\sub-system\PLAS.NET\SSystem\Script\SEquation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

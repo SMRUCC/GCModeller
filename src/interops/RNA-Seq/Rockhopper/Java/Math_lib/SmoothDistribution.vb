@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bf066b2d808730a344fd09722d9f601f, ..\interops\RNA-Seq\Rockhopper\Java\Math_lib\SmoothDistribution.vb"
+﻿#Region "Microsoft.VisualBasic::97388ba09a9b1f39802a7137b7dc71d0, ..\interops\RNA-Seq\Rockhopper\Java\Math_lib\SmoothDistribution.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -256,4 +257,3 @@ Public Class SmoothDistribution
     End Sub
 
 End Class
-

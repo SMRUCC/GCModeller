@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::568a658d3b583f169cc76f376d3e8701, ..\GCModeller\engine\GCModeller\GUID\Guid.vb"
+﻿#Region "Microsoft.VisualBasic::34f477c6c5605b4bb0c4c29981950f08, ..\GCModeller\engine\GCModeller\GUID\Guid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' The Global Unique Identifier object using for identify a model component in the database.
@@ -133,4 +133,3 @@ Public Class Guid
         Return String.Equals(a.Generate, b.Generate)
     End Function
 End Class
-

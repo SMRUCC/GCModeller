@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f5582e3c0f0df46589564ebca742e01b, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\StorageInterface.vb"
+﻿#Region "Microsoft.VisualBasic::de63f767f3c9bb68cdfc51612d3eae55, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\StorageInterface.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 数据存储器
@@ -75,5 +75,3 @@ Public MustInherit Class DataStorage(Of T, TDataSource As DataStorage.FileModel.
 
     Public MustOverride Function WriteData(url As String) As Boolean Implements IDataStorage.WriteData
 End Class
-
-

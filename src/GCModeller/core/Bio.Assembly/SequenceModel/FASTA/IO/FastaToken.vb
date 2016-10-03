@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5e86124d936c612f50c4729157f5c5c0, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::cea50b3d5fe3dea82883a4f2256cef24, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

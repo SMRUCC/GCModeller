@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7bc7e69fa7cfb9b90eecf808212b6f28, ..\GCModeller\CLI_tools\S.M.A.R.T\DEBUG.vb"
+﻿#Region "Microsoft.VisualBasic::9b7e403e0408633ea81dd3466213a15a, ..\GCModeller\CLI_tools\S.M.A.R.T\DEBUG.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -100,4 +101,3 @@ Module DEBUG
 
     End Sub
 End Module
-

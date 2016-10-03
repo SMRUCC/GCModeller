@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4c207b4ce9c92dc92f78f30b3ec0caa8, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
+﻿#Region "Microsoft.VisualBasic::8d9abadc2af6627e400f222270e9e0d0, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCContent.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

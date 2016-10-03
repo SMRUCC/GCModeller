@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::38a970fc9550e2462f0bab0b929b8f4e, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProteinChain.vb"
+﻿#Region "Microsoft.VisualBasic::a2c68c085763990a48f93b7118008897, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProteinChain.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -95,4 +96,3 @@ Public Class ProteinChain : Inherits ITextFile
         Throw New NotImplementedException()
     End Function
 End Class
-

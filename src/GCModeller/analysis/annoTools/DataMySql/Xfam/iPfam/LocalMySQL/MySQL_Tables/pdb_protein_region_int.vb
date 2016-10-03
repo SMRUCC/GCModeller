@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c918656c2c0932106fd49364c11dde0c, ..\GCModeller\analysis\Annotation\Xfam\iPfam\LocalMySQL\MySQL_Tables\pdb_protein_region_int.vb"
+﻿#Region "Microsoft.VisualBasic::b8011f86a1d7cb1e85eaa268baf6df5e, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\pdb_protein_region_int.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -76,4 +77,3 @@ End Class
 
 
 End Namespace
-

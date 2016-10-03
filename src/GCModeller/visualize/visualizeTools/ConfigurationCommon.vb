@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::009a23e0b5a022deb014d0545af1b4ab, ..\GCModeller\visualize\visualizeTools\ConfigurationCommon.vb"
+﻿#Region "Microsoft.VisualBasic::ddc7ee7ec8554aa54db3ffa984e55a36, ..\GCModeller\visualize\visualizeTools\ConfigurationCommon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -59,4 +60,3 @@ Public Module ConfigurationCommon
         End If
     End Function
 End Module
-

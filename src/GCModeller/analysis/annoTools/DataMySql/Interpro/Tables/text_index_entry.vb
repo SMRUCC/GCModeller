@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::54a57c8da3e86f5082bc363bc5776530, ..\GCModeller\analysis\Annotation\Interpro\Tables\text_index_entry.vb"
+﻿#Region "Microsoft.VisualBasic::1d7f0fb059789988f8e1d7694de54604, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\text_index_entry.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

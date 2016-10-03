@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d2a30ad9c2ae7f95fab4c0586bfb7cb2, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\sequenceposition.vb"
+﻿#Region "Microsoft.VisualBasic::fbb6a5cdcce34e5a9eda5dc584326538, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\sequenceposition.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -108,4 +109,3 @@ End Class
 
 
 End Namespace
-

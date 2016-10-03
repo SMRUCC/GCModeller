@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f35130ea47e43c38b91333fddb1a57ac, ..\GCModeller\core\Bio.InteractionModel\RegulonModels\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::c66a214da3097799c586cd1bbd044df3, ..\GCModeller\core\Bio.InteractionModel\RegulonModels\Regulon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Regulon
 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::65ef7c660c9535cea9a7240ad1d4ba56, ..\GCModeller\analysis\Annotation\Xfam\iPfam\LocalMySQL\MySQL_Tables\quality_control.vb"
+﻿#Region "Microsoft.VisualBasic::147c1a2ed200fe1fbbfcc7c88421c407, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\quality_control.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -73,4 +74,3 @@ End Class
 
 
 End Namespace
-

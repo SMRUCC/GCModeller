@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e2e587a13beb3070bd77fb7f5c88b15d, ..\GCModeller\CLI_tools\c2\RegulationNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::75be22ca14354f18afb9753a66890e94, ..\GCModeller\CLI_tools\c2\RegulationNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -78,4 +79,3 @@ Public Class RegulationNetwork
         End If
     End Function
 End Class
-

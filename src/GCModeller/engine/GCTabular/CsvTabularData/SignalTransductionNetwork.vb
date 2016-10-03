@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::21caa18d41f5cbe29ab8137dcd09164b, ..\GCModeller\engine\GCTabular\CsvTabularData\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::4ea247718174af5dc13b18528888d645, ..\GCModeller\engine\GCTabular\CsvTabularData\SignalTransductionNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Namespace FileStream.SignalTransductionNetwork
 
 End Namespace
-

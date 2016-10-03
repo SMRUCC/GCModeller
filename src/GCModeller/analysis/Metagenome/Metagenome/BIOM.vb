@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fcc48c60fac75cba774480da615bce8d, ..\Metagenome\Metagenome\BIOM.vb"
+﻿#Region "Microsoft.VisualBasic::217ec91663d7f8b2a8e7c23bf41c5e93, ..\GCModeller\analysis\Metagenome\Metagenome\BIOM.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -125,5 +126,3 @@ Public Module BIOM
         End Function
     End Class
 End Module
-
-

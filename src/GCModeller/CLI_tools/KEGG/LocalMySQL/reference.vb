@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c639b09599f9fe073cff603d628c8733, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\reference.vb"
+﻿#Region "Microsoft.VisualBasic::3359cde209aab89a7bb344bf00b2c600, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

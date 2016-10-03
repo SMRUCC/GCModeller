@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1613153611740dbd4e6e567decf1190d, ..\GCModeller\data\ExternalDBSource\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f58219212682ecbe9e59403990b39116, ..\GCModeller\data\ExternalDBSource\ShellScriptAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -104,4 +105,3 @@ Namespace ShellScriptAPI
         End Function
     End Module
 End Namespace
-

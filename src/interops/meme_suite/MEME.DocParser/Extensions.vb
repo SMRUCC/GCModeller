@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6a1e6d6cb1544410ddd38d20d87ad546, ..\interops\meme_suite\MEME.DocParser\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::355e810cd2d51e93ea4d12e2df69a02d, ..\interops\meme_suite\MEME.DocParser\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -113,4 +114,3 @@ Public Module Extensions
         Return mastSite
     End Function
 End Module
-

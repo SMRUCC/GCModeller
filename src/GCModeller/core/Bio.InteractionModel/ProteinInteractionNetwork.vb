@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::940865a17cda11afbd02b1e669f0ca54, ..\GCModeller\core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::a207bafbd5c9799f6f3fd44d2bb5cde0, ..\GCModeller\core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -102,4 +103,3 @@ Public Class ProteinInteractionNetwork
         Return InteractionList.ToArray
     End Function
 End Class
-

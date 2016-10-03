@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0f40b2a2f694ab76c5f309559c037b38, ..\interops\visualize\Phylip\Evolview\PhyloTree.vb"
+﻿#Region "Microsoft.VisualBasic::45df8c9e642c8380ba88f5f3f86d8dfe, ..\interops\visualize\Phylip\Evolview\PhyloTree.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -2125,4 +2126,3 @@ Namespace Evolview
 
     End Class
 End Namespace
-

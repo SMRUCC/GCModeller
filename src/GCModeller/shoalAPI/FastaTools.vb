@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::596c19c3933b708ff0fa2a9803fb6497, ..\GCModeller\shoalAPI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::e2688eebeb27cadd11b27d83ddcc8521, ..\GCModeller\shoalAPI\FastaTools.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -198,4 +199,3 @@ Public Module FastaTools
         Return ExportProteins_Short(gb, OnlyLocusTag)
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::839f7ae153e6eafeb713be876ea803ab, ..\GCModeller\analysis\Annotation\Xfam\Rfam\Tables\pdb_full_region.vb"
+﻿#Region "Microsoft.VisualBasic::37e2489f46cb16efc24ab7c4ff4a8b5f, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\Rfam\Tables\pdb_full_region.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -79,4 +80,3 @@ End Class
 
 
 End Namespace
-

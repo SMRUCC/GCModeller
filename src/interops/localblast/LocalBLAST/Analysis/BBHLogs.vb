@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2d84cdc25e1537ce131e1da13bc68e0f, ..\interops\localblast\LocalBLAST\Analysis\BBHLogs.vb"
+﻿#Region "Microsoft.VisualBasic::6a9805c98e413d029fcde6ebc14ef19f, ..\interops\localblast\LocalBLAST\Analysis\BBHLogs.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

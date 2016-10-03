@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::72ddd4a8f8a5037cc5dfa9c4881168e1, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
+﻿#Region "Microsoft.VisualBasic::8e5e66f7aeb15bcf0f894c4fa7e0fb9a, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -84,4 +85,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f98ade20b708974b9d0daa618fd0b07e, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\enzreactionaltcompound.vb"
+﻿#Region "Microsoft.VisualBasic::21429b6ed5c9597458d0e49820f35dd6, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\enzreactionaltcompound.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -93,4 +94,3 @@ End Class
 
 
 End Namespace
-

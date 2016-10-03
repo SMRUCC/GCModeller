@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6acae5401e66209efaa54c901c7988a4, ..\interops\localblast\LocalBLAST\Web\AlignmentTable.vb"
+﻿#Region "Microsoft.VisualBasic::7c5235d2b3d0803d42bde2124b0c8b32, ..\interops\localblast\LocalBLAST\Web\AlignmentTable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

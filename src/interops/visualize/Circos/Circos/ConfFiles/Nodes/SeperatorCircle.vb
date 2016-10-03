@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f834225a2273fe4660a624bb9b315127, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\SeperatorCircle.vb"
+﻿#Region "Microsoft.VisualBasic::120802421a6487da8ed30fa4d8067c4f, ..\interops\visualize\Circos\Circos\ConfFiles\Nodes\SeperatorCircle.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

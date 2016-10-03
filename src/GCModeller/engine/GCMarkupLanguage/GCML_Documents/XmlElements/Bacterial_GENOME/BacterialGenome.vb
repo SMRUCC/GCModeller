@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5bd8a04e73778c353ecfe45f3535971a, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
+﻿#Region "Microsoft.VisualBasic::378300c0871923eb6ca0530fa9dae074, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\BacterialGenome.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

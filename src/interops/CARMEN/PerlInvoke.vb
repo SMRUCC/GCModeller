@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4836d3e3a29975a07baf05b54a459474, ..\interops\CARMEN\PerlInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::d0d40ad9535e046007be5005ea4d64a3, ..\interops\CARMEN\PerlInvoke.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -149,4 +150,3 @@ Public Module PerlInvoke
 
     End Function
 End Module
-

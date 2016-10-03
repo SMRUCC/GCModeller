@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e44b3a8ea7f9a65343d69a5a6bda5b36, ..\GCModeller\analysis\RNA-Seq\TSSAR\TSSAR\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::8b6b149963b09bd4e4cdbe904bc29118, ..\GCModeller\analysis\RNA-Seq\TSSAR\TSSAR\Module1.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -426,4 +427,3 @@
 '        Write.table(Data.frame(PLUS = SeenRegion_1, MINUS = SeenRegion_0), File = R_SeenRegion_fh)
 '    End Sub
 'End Module
-

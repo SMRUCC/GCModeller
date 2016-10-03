@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ddda689c733850e91ab72a417fe5d5d, ..\R.Bioconductor\RDotNET\R.NET\Internals\SymbolicExpressionType.vb"
+﻿#Region "Microsoft.VisualBasic::f5a8d727c2cbb9303332ccf567e7c838, ..\R.Bioconductor\RDotNET\R.NET\Internals\SymbolicExpressionType.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Internals
 	''' <summary>
@@ -211,4 +210,3 @@ Namespace Internals
 		#End Region
 	End Enum
 End Namespace
-

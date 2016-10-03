@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::18446498102aa1cd94010a21720230a0, ..\interops\localblast\LocalBLAST\NCBILocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::b40f079d8ab90a254ecddab99c520b6f, ..\interops\localblast\LocalBLAST\NCBILocalBlast.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -432,4 +433,3 @@ Public Module NCBILocalBlast
         Return ClassifyCOGs.Get_MyvaCOG_Classify(blast_output, textEngine, Whog_Xml)
     End Function
 End Module
-

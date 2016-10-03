@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b820c1a63fd29114c3beeccecbbef51, ..\R.Bioconductor\RDotNET\R.NET\Internals\OutputMode.vb"
+﻿#Region "Microsoft.VisualBasic::eaee64dcdfd556d2d343892f35cafd46, ..\R.Bioconductor\RDotNET\R.NET\Internals\OutputMode.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Internals
 	''' <summary>
@@ -54,4 +53,3 @@ Namespace Internals
 		Verbose = &H4
 	End Enum
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::20ba697e7b06bf4711e58c7ae49fec7d, ..\interops\meme_suite\MEME\SequenceLogo.vb"
+﻿#Region "Microsoft.VisualBasic::69c869c3927adb08a1b05f2f8db365d5, ..\interops\meme_suite\MEME\SequenceLogo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -138,4 +139,3 @@ Public Module SequenceLogoAPI
         Return Not LQuery.IsNullOrEmpty
     End Function
 End Module
-

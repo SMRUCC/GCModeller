@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2de0ba9244cda69debf947dae90f7c04, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\LDM\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::f424b810d40ef2b92cf0e5a33e3ac597, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\LDM\Regulation.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

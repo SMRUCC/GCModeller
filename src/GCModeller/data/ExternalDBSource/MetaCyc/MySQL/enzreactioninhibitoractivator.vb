@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6f5b5e7bb9df004b2327c99f7e28aedf, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
+﻿#Region "Microsoft.VisualBasic::9a147ebc20f97b0a21192b29d6fc8b2f, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\enzreactioninhibitoractivator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1a30e4822f24b3b78d220a711ad8c017, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\tigrinfo.vb"
+﻿#Region "Microsoft.VisualBasic::0d0f2f361f21bf1b6038e04dfd9fdb5f, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\tigrinfo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -97,4 +98,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0ff49e854678dadef8227461aeaa5b17, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::11160b162e2109ff1d458b7d50ae71b9, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -173,4 +174,3 @@ Public Module LociExtensions
         __types = hash
     End Sub
 End Module
-

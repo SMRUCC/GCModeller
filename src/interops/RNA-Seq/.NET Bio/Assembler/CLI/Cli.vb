@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::704cdfbc7c6515cf0fa5baf680805c9a, ..\interops\RNA-Seq\.NET Bio\Assembler\CLI\Cli.vb"
+﻿#Region "Microsoft.VisualBasic::a89c548a445c7d35d50c09021f0cbdb0, ..\interops\RNA-Seq\.NET Bio\Assembler\CLI\Cli.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -525,4 +526,3 @@ a directory source, and all of the reads file in that directory will be merged i
         End If
     End Sub
 End Module
-

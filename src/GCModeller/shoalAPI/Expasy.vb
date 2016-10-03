@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::115345d5467e4d613d0bf5d73ee5d7b5, ..\GCModeller\shoalAPI\Expasy.vb"
+﻿#Region "Microsoft.VisualBasic::f6964ebe7b1108fbba8e69d19a70a33f, ..\GCModeller\shoalAPI\Expasy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -49,4 +50,3 @@ Public Module Expasy
         Return data.SaveTo(saveto, False)
     End Function
 End Module
-

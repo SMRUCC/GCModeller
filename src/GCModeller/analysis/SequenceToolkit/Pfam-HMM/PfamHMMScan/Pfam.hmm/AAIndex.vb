@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0acc01b8a192f71d83110530adeddbf3, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\AAIndex.vb"
+﻿#Region "Microsoft.VisualBasic::7811d2b09feefaf6db299fddfc041aff, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\AAIndex.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' The index of the residue in the Pfam HMM model 
@@ -51,4 +51,3 @@ Public Enum AAIndex As Integer
     W
     Y
 End Enum
-

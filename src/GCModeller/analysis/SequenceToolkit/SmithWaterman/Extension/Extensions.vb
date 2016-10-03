@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5328f9866b13ba83379691251a3b8fec, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f8db77391b2b4cc50ab96dfdd5edc522, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -63,4 +64,3 @@ Public Module Extensions
         Return Length(nlst)
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c757220986efa3b8bcc5a41c12468889, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\desnelmappingwiddesnelmapwid.vb"
+﻿#Region "Microsoft.VisualBasic::5c5996a1a5c53f1c2d9f87da5ece656d, ..\GCModeller\data\ExternalDBSource\MetaCyc\bio_warehouse\desnelmappingwiddesnelmapwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

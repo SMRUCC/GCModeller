@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::63d59fcc6d0f95ad3011e191ad63e1b9, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\annotatedmap.vb"
+﻿#Region "Microsoft.VisualBasic::573bb8991ac5fd1853b1a7b6740837a2, ..\GCModeller\data\MicrobesOnline\MySQL\glamm\annotatedmap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

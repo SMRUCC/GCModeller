@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::de8e82eb17c9d2c836030e4fdfcd7cbe, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\functional_class.vb"
+﻿#Region "Microsoft.VisualBasic::714e3c6f21ee2a1ee2d3e61a74aa08a5, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\functional_class.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -97,4 +98,3 @@ End Class
 
 
 End Namespace
-

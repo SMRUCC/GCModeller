@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d4a67f8f156c0237e1f0cd5cd6bf4176, ..\interops\RNA-Seq\Rockhopper\API\DataModels.vb"
+﻿#Region "Microsoft.VisualBasic::debaa0852b1ebd4f8997d33ccd5df1c3, ..\interops\RNA-Seq\Rockhopper\API\DataModels.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -402,5 +403,3 @@ Namespace AnalysisAPI
         End Function
     End Class
 End Namespace
-
-

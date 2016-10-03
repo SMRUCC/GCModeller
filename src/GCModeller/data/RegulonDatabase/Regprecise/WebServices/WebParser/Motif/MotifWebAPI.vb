@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b2bf6b124844d0aa8bfdaafe85b77f91, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::3ca5ea25d4caee5c0c904b299721b178, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8ca7dce93a7e5aff7ab966e8ffdf48cf, ..\interops\visualize\Phylip\Evolview\TreePlotMode.vb"
+﻿#Region "Microsoft.VisualBasic::01cfe775b35027ab588e371dd6ba9edc, ..\interops\visualize\Phylip\Evolview\TreePlotMode.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,7 +26,6 @@
 
 #End Region
 
-
 Namespace Evolview
 
     Public Enum TreePlotMode
@@ -40,4 +40,3 @@ Namespace Evolview
     End Enum
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e1dc31ff6a948911621ad46e39052e63, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
+﻿#Region "Microsoft.VisualBasic::9f266931b0c38405ed3d73bc75f2da6d, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

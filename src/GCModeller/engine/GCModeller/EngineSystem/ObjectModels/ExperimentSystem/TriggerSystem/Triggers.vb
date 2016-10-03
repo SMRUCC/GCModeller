@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::42c1c9ff59daf6a686e3d837ee9c3a7b, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\Triggers.vb"
+﻿#Region "Microsoft.VisualBasic::65da3531fadf457cdb6377a6639ceb6c, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\Triggers.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -180,4 +181,3 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem.Triggers
 
     End Class
 End Namespace
-

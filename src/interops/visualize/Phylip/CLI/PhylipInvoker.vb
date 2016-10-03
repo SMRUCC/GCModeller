@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1aba4de50e306cd5bec31735c5442567, ..\interops\visualize\Phylip\CLI\PhylipInvoker.vb"
+﻿#Region "Microsoft.VisualBasic::f1c798235b7b5707a19aba0c7231151c, ..\interops\visualize\Phylip\CLI\PhylipInvoker.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ Public Class PhylipInvoker
         Return PhylipBin
     End Function
 End Class
-

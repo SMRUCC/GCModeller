@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::11bf798a81d3d2e99501fbc65d05799e, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Function.vb"
+﻿#Region "Microsoft.VisualBasic::630fcd29e5148e89ec6d8dc9c4a1480f, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Function.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

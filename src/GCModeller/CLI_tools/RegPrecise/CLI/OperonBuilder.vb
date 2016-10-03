@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::171eae613a0b32c2d7e973ea07151d26, ..\GCModeller\CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::e1b1131880549b24310137e6fe442e7c, ..\GCModeller\CLI_tools\RegPrecise\CLI\OperonBuilder.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -335,4 +336,3 @@ Partial Module CLI
         Loop
     End Sub
 End Module
-

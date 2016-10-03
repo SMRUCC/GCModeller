@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ae978de5699da01e4a991ece5808c35f, ..\GCModeller\data\ExternalDBSource\WebServices\EBI\wsdbfetch.vb"
+﻿#Region "Microsoft.VisualBasic::b551bee876f51f3e27d5b0eab4831ed3, ..\GCModeller\data\WebServices\EBI\wsdbfetch.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -282,4 +283,3 @@
 '		End Function
 '	End Class
 'End Namespace
-

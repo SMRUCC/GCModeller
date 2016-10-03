@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9bd732faa71276ad0c4cbdbac5dd3e49, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\autoregulator_tmp.vb"
+﻿#Region "Microsoft.VisualBasic::422abb7f6aa15e53282f9bb862f3b2f2, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\autoregulator_tmp.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

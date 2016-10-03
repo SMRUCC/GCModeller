@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d8f7b37feac305c1429c38342e6be38c, ..\interops\localblast\LocalBLAST\Service References.obsolete\EntrezUtilitiesWebService\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::e3d50898572c059b0f48e149c7ba7df8, ..\interops\localblast\LocalBLAST\Service References.obsolete\EntrezUtilitiesWebService\Reference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -4090,4 +4091,3 @@ Namespace EntrezUtilitiesWebService
         End Function
     End Class
 End Namespace
-

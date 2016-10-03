@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4342787f47aaf5b9a84ccd453bcc5cf7, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::a2a10675a00b99e7aa2a1d2cb98d83ca, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GCSkew.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1f6409dc3eaa6f30e8726d71ec91e0b, ..\R.Bioconductor\RDotNET\R.NET\DataFrameColumnAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::00d3f15106d816953fd14994a5da7593, ..\R.Bioconductor\RDotNET\R.NET\DataFrameColumnAttribute.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' Represents a column of certain data frames.
@@ -91,4 +90,3 @@ Public Class DataFrameColumnAttribute
 		Return If(Index >= 0, Index, Array.IndexOf(If(names, Empty), Name))
 	End Function
 End Class
-

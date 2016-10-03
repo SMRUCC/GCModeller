@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::725da8493d8957c4a01129e614c4aa05, ..\GCModeller\data\RCSB PDB\CifDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::a8d59d225618d039898c5fe1045a0a5a, ..\GCModeller\data\RCSB PDB\CifDictionary.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -62,4 +63,3 @@ Public Class CifDictionary
         Return CifDict
     End Function
 End Class
-

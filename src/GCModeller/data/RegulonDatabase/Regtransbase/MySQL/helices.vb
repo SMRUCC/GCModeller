@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::476366e000ea53b39ca54e22ba70a3f7, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
+﻿#Region "Microsoft.VisualBasic::e4a9afb0b28ddbab72b09ec64f2c4aac, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -113,4 +114,3 @@ End Class
 
 
 End Namespace
-

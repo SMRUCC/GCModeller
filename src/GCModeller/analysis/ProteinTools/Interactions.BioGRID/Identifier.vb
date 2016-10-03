@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::22852810306d204eb67f08178465a5d5, ..\Interactions.BioGRID\Identifier.vb"
+﻿#Region "Microsoft.VisualBasic::989e88f088f038c4806c94f30d2ac8e8, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\Identifier.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -92,4 +93,3 @@ Public Class Identifier : Inherits ClassObject
         Return Me.GetJson
     End Function
 End Class
-

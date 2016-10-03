@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::be62f40e76cf9c82567447f704f08e8d, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::c41ad19c354b2e85f92d46a72c05fd1d, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\NucleicAcid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -95,4 +96,3 @@ Public Class NucleicAcid : Inherits NucleotideModels.NucleicAcid
         Return New KeyValuePair(Of KeyValuePair(Of DNA, DNA), Double)(KEY, n)
     End Function
 End Class
-

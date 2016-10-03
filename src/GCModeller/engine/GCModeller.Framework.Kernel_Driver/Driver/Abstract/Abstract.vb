@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b769f51f1bbd4041bd578c1502702b71, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::5e69880cab4248d56057a3ffc4622e63, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\Abstract.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -80,4 +81,3 @@ Public Interface IDataSource(Of THandle, TValue)
     ''' <remarks></remarks>
     ReadOnly Property Value As TValue
 End Interface
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d5e080642edb8ccdccd64c0e525bfae8, ..\GCModeller\CLI_tools\c2\NetworkLearning\CreateNetworkStructures.vb"
+﻿#Region "Microsoft.VisualBasic::16a4e27857cc9fc98f6da9c449fe31a9, ..\GCModeller\CLI_tools\c2\NetworkLearning\CreateNetworkStructures.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -95,4 +96,3 @@ Public Class CreateNetworkStructures : Inherits RDotNET.Extensions.VisualBasic.B
         Return New CreateNetworkStructures(CreateNetwork(MEMEregulation, ChipData))
     End Function
 End Class
-

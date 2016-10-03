@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::640654591a673c9fb14a9bd3acbcb92d, ..\GCModeller\analysis\Annotation\Interpro\Tables\pfam_clan_data.vb"
+﻿#Region "Microsoft.VisualBasic::ae3143845682897c096eccc4d389eb2d, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\pfam_clan_data.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,4 +87,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5c8fb2ee8ebd3c5a8ceff97b626271bb, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::8bee24c0f89be09bd675551a6d6e0559, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\Attributes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::92da6e7ba53ad1240461b8cb1c3fbdca, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::ad3a962d131b70fc68f608515775a3d7, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

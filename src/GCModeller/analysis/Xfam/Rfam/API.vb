@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d0d35696f3f22540a9cf4e1b85b295f7, ..\GCModeller\analysis\Xfam\Rfam\API.vb"
+﻿#Region "Microsoft.VisualBasic::357dbf2e0824b852a4e6ef1da7e6fefb, ..\GCModeller\analysis\Xfam\Rfam\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -290,4 +291,3 @@ Public Module API
 
     End Function
 End Module
-

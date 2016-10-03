@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ac16de3a89938a109523851b07300f43, ..\GCModeller\analysis\CRISPR\sgRNAcas\API.vb"
+﻿#Region "Microsoft.VisualBasic::93997a748a7d40383cd4a74868b5ff77, ..\GCModeller\analysis\CRISPR\sgRNAcas\API.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -158,4 +159,3 @@ Public Module API
         Return True
     End Function
 End Module
-

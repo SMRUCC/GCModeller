@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::dd6e7a44e5e3bfb3ff32c0c03e1221b4, ..\GCModeller\CLI_tools\c2\NetworkVisualization\Circos.vb"
+﻿#Region "Microsoft.VisualBasic::65c4cb17757f59f1055041fbed52c337, ..\GCModeller\CLI_tools\c2\NetworkVisualization\Circos.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -84,4 +85,3 @@ Public Module Circos
         Return (From s In LinkList Select s Distinct).ToArray
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85dd97dabd612293233c356b53214d40, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\Serialization.vb"
+﻿#Region "Microsoft.VisualBasic::1d4f8b8b5603c65e8b2c041d7484f343, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization.vb"
 
     ' Author:
     ' 
@@ -237,4 +237,3 @@ Public Module Serialization
         Return mat
     End Function
 End Module
-

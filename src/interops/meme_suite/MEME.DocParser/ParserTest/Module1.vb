@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ff9b9232a38f4631cdf45902738a8598, ..\interops\meme_suite\MEME.DocParser\ParserTest\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::fcc75a9e4cd93f629fa1bc437c11a5c6, ..\interops\meme_suite\MEME.DocParser\ParserTest\Module1.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -32,4 +33,3 @@ Module Module1
         Call motifs.SaveAsXml("./test.xml")
     End Sub
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::95caab4a98d25483f25910094a7f1cb2, ..\GCModeller\core\Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::1d7a73d167772c93eae9d218d42f0d53, ..\GCModeller\core\Bio.Assembly\BioAssemblyExtensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

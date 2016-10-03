@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::997c3444a8a7b258c613330d2e99f36a, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\DocNodes.vb"
+﻿#Region "Microsoft.VisualBasic::d3d08f8d072c6b1fe6ce59e158cdcf39, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\GenePrediction\DocNodes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -308,4 +309,3 @@ Namespace GenePrediction.DocNodes
         End Property
     End Class
 End Namespace
-

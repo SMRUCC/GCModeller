@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4955275f6ca3971792150ad01af1ac83, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\complex_2_interactionidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::82ac91da06885cc76a04cc317f65c6db, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\complex_2_interactionidentifier.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

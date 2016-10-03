@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0e7a81d38293771a01b677cd800586de, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\MySQL.vb"
+﻿#Region "Microsoft.VisualBasic::55f8d745558c7c35c927c3690191d03c, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\MySQL.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,7 +26,6 @@
 
 #End Region
 
-
 Public Class MySQLService(Of T) : Inherits DataStorage(Of T, DataStorage.FileModel.DataSerials(Of T))
 
     Public Overloads Overrides Function WriteData(chunkbuffer As IEnumerable(Of DataStorage.FileModel.DataSerials(Of T)), url As String) As Boolean
@@ -36,4 +36,3 @@ Public Class MySQLService(Of T) : Inherits DataStorage(Of T, DataStorage.FileMod
         Throw New NotImplementedException
     End Function
 End Class
-

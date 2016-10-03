@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf836ff1e65ed3ec12cb72321055c768, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\RPackage\base\Extremes.vb"
+﻿#Region "Microsoft.VisualBasic::36b5c287cbbc49d050c3cdc26133a806, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\base\Extremes.vb"
 
     ' Author:
     ' 
@@ -114,4 +114,3 @@ Namespace SymbolBuilder.packages.base.Extremes
         End Sub
     End Class
 End Namespace
-

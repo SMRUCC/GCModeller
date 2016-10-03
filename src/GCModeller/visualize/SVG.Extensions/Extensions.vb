@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8bc5791568da8e52b8c70bbb5e3d031f, ..\GCModeller\visualize\SVG.Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2bb0cd0ef3dabfe3f368954350496ef6, ..\GCModeller\visualize\SVG.Extensions\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -77,4 +78,3 @@ Module Extensions
         End Select
     End Function
 End Module
-

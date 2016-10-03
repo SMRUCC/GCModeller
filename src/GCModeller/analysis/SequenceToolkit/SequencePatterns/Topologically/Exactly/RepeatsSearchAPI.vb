@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ada583d427d7614a7d2c1eab453ed049, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchAPI.vb"
+﻿#Region "Microsoft.VisualBasic::9e6aa8de1588b6801d877a4952f12a6a, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

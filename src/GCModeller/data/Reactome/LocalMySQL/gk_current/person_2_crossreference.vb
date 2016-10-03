@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7d2d9b2762ee0266d91977665eb8a444, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\person_2_crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::03fb75d82269ae5046c831ca6193f32d, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\person_2_crossreference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

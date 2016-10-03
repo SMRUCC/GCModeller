@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::23d9adbcdffba3885562699d93b02371, ..\GCModeller\CLI_tools\KEGG\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::7553d1bf504fcadefc02c763d9ad77b9, ..\GCModeller\CLI_tools\KEGG\Blastn.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ Public Module Blastn
     '<input type =
 
 End Module
-

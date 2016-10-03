@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71d64098fc2a103f5d4f8f0f1ad768bd, ..\R.Bioconductor\RDotNET\R.NET\SymbolicExpressionExtension.vb"
+﻿#Region "Microsoft.VisualBasic::af2f53e7848ef70d631c544ffe8a0b12, ..\R.Bioconductor\RDotNET\R.NET\SymbolicExpressionExtension.vb"
 
     ' Author:
     ' 
@@ -639,4 +639,3 @@ Public Module SymbolicExpressionExtension
         Return New Factor(expression.Engine, expression.DangerousGetHandle())
     End Function
 End Module
-

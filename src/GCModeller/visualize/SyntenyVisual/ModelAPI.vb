@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7e9e491cd0062e94b1d478d5da44e436, ..\GCModeller\visualize\SyntenyVisual\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1b4fa556cd4230177235663e6af0cf68, ..\GCModeller\visualize\SyntenyVisual\ModelAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -255,4 +256,3 @@ Public Module ModelAPI
         End If
     End Function
 End Module
-

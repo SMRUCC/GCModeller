@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f611840520d0bdaf860deb140f20c35a, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\MetaCyc\MetaCycPathways.vb"
+﻿#Region "Microsoft.VisualBasic::911cabfaaa4b4d29f3f61ee215b781ec, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\MetaCyc\MetaCycPathways.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -177,4 +178,3 @@ Public Class MetaCycPathways
         Return File
     End Function
 End Class
-

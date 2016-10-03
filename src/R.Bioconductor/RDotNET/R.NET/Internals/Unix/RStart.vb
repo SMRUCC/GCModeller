@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8245a50bcac813066503d783b9ad04a3, ..\R.Bioconductor\RDotNET\R.NET\Internals\Unix\RStart.vb"
+﻿#Region "Microsoft.VisualBasic::8875fdab4a1065fad5a5d9ef9265fd06, ..\R.Bioconductor\RDotNET\R.NET\Internals\Unix\RStart.vb"
 
     ' Author:
     ' 
@@ -64,4 +64,3 @@ Namespace Internals.Unix
 		Public NoRenviron As Boolean
 	End Structure
 End Namespace
-

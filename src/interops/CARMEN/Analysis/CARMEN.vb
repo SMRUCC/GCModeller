@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f607171999e27f8d487c6fbb14017429, ..\interops\CARMEN\Analysis\CARMEN.vb"
+﻿#Region "Microsoft.VisualBasic::068472196d160eb57ad72f47d27d7bf7, ..\interops\CARMEN\Analysis\CARMEN.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -118,4 +119,3 @@ Public Module CARMEN
         Return strData.Split(CChar(":")).Last
     End Function
 End Module
-

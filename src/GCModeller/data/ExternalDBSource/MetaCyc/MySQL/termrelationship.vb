@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::4056c933415e02ffc8602836b84ee8bf, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\termrelationship.vb"
+﻿#Region "Microsoft.VisualBasic::c9c8059652984989180a1a0abf713786, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\termrelationship.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

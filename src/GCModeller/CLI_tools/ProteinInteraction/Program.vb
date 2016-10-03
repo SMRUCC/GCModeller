@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::405eacc135f07fd75b568d78cc7399c3, ..\GCModeller\CLI_tools\ProteinInteraction\Program.vb"
+﻿#Region "Microsoft.VisualBasic::4ed71f93a4ec4be1ab5313e82d2edab1, ..\GCModeller\CLI_tools\ProteinInteraction\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -79,4 +80,3 @@ Module Program
         Call RR.Save(RRPath)
     End Sub
 End Module
-

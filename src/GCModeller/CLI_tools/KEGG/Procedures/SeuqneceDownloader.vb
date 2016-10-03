@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::60ff8092a858c1074538d6a0a06968d1, ..\GCModeller\CLI_tools\KEGG\Procedures\SeuqneceDownloader.vb"
+﻿#Region "Microsoft.VisualBasic::0a680ee83602c63e81a7901c963cccd9, ..\GCModeller\CLI_tools\KEGG\Procedures\SeuqneceDownloader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -66,4 +67,3 @@ Public Class SeuqneceDownloader : Inherits jp_kegg2
         End If
     End Sub
 End Class
-

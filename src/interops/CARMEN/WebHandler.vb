@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f4042f7df3e05c5faa7b4e8abfd8f4dd, ..\interops\CARMEN\WebHandler.vb"
+﻿#Region "Microsoft.VisualBasic::ba2d5e954395365c7833f11820efaf4e, ..\interops\CARMEN\WebHandler.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -125,4 +126,3 @@ Public Module WebHandler
         Next
     End Sub
 End Module
-

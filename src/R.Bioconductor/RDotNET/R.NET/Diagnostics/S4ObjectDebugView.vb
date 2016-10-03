@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff1701fd334ea19611e745a1a6628961, ..\R.Bioconductor\RDotNET\R.NET\Diagnostics\S4ObjectDebugView.vb"
+﻿#Region "Microsoft.VisualBasic::ad0192aefd5d6bab0ee4db0493fb2dd6, ..\R.Bioconductor\RDotNET\R.NET\Diagnostics\S4ObjectDebugView.vb"
 
     ' Author:
     ' 
@@ -45,4 +45,3 @@ Namespace Diagnostics
 		End Property
 	End Class
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::be223a8cc9e5e747deb339d040b815f6, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::04e660e537a4cbcb5a6eabcb49e6a841, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

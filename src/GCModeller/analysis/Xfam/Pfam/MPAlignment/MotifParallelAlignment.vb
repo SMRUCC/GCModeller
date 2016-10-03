@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ea0ab65b1137763af5ce5f357444ebdc, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::3f0a45ca7cb98567d83febef01a3a037, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

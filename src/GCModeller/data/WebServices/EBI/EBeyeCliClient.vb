@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::64ec86f7dcbdc75db46550ba05d72d83, ..\GCModeller\data\ExternalDBSource\WebServices\EBI\EBeyeCliClient.vb"
+﻿#Region "Microsoft.VisualBasic::a778e2c245f87728be61e40836ae8cec, ..\GCModeller\data\WebServices\EBI\EBeyeCliClient.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -533,4 +534,3 @@
 '        End Function
 '    End Class
 'End Namespace
-

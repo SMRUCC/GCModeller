@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3774e9dbb34c6d8d9e18449bdef985c7, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_ev_method_pub_link.vb"
+﻿#Region "Microsoft.VisualBasic::3e7b6ab50e8476af19e3df5514ce92fb, ..\GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_ev_method_pub_link.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

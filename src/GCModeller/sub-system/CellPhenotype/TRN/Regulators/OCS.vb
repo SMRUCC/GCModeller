@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::824ec9f7ea726fc2a184eebf4c65d4a4, ..\GCModeller\sub-system\CellPhenotype\TRN\Regulators\OCS.vb"
+﻿#Region "Microsoft.VisualBasic::4d64ccf51cfd1fa78f08dee32e660515, ..\GCModeller\sub-system\CellPhenotype\TRN\Regulators\OCS.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

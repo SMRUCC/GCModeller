@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::440e13b44316b7ff9a348c4bc5d46366, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::4a1a6ce8cd54e32550d1f5e360edf77a, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

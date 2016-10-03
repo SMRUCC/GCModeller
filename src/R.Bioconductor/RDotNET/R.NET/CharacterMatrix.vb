@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::816ac958fc4171cc60c541466d30d4c4, ..\R.Bioconductor\RDotNET\R.NET\CharacterMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::b0dd818a4c5ee45fa5a3ece9221552ff, ..\R.Bioconductor\RDotNET\R.NET\CharacterMatrix.vb"
 
     ' Author:
     ' 
@@ -138,4 +138,3 @@ Public Class CharacterMatrix
 		End Get
 	End Property
 End Class
-

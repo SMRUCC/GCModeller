@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::650ffb0d43addfdce37639542604abde, ..\GCModeller\analysis\Xfam\Pfam\Parser\PfamString\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::05f9548c9d3ccd13902fb8e6034d91ce, ..\GCModeller\analysis\Xfam\Pfam\Parser\PfamString\PfamString.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

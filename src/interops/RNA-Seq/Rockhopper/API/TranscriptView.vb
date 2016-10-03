@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6a213ba1f4f485b2fcc2b17610d10b47, ..\interops\RNA-Seq\Rockhopper\API\TranscriptView.vb"
+﻿#Region "Microsoft.VisualBasic::d91fd06830c06eb1b6ab15392350d16b, ..\interops\RNA-Seq\Rockhopper\API\TranscriptView.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -83,4 +84,3 @@ Public Class TranscriptView
     Public Property gStrand As String
 #End Region
 End Class
-

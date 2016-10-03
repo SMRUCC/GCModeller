@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::da5167f2b571c54e1a84ab892703b180, ..\GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPsFasta.vb"
+﻿#Region "Microsoft.VisualBasic::902a76799abd5aaff29665eb178771ba, ..\GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\SNPsFasta.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -101,4 +102,3 @@ Namespace SangerSNPs
         End Function
     End Module
 End Namespace
-

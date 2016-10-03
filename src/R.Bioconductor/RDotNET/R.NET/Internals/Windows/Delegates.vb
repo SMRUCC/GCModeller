@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b855ea8d44d5a5f1be158d2a0f14fe01, ..\R.Bioconductor\RDotNET\R.NET\Internals\Windows\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::b20d01f518d1e6c8d58818d145d93ec4, ..\R.Bioconductor\RDotNET\R.NET\Internals\Windows\Delegates.vb"
 
     ' Author:
     ' 
@@ -51,4 +51,3 @@ Namespace Internals.Windows
 	<UnmanagedFunctionPointer(CallingConvention.Cdecl)> _
 	Friend Delegate Sub blah7(<[In]> <MarshalAs(UnmanagedType.LPStr)> buffer As String, length As Integer, outputType As ConsoleOutputType)
 End Namespace
-

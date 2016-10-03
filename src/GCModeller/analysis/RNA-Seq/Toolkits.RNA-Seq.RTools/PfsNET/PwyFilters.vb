@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::340bf3129fbeebd12799c29684490935, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\PwyFilters.vb"
+﻿#Region "Microsoft.VisualBasic::ba72cd9e5601adc4113ecf7aacbd83dd, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\PfsNET\PwyFilters.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -172,4 +173,3 @@ Public Class PwyFilters
         Return File
     End Function
 End Class
-

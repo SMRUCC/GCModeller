@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1f51b2cb7fe23bf438cc8e7c7f55bbcc, ..\GCModeller\visualize\SVG.Extensions\Graphics.vb"
+﻿#Region "Microsoft.VisualBasic::071b6ec4458717f3480c81509f4e9ef5, ..\GCModeller\visualize\SVG.Extensions\Graphics.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -5289,4 +5290,3 @@ Public Class Graphics
 
 #End Region
 End Class
-

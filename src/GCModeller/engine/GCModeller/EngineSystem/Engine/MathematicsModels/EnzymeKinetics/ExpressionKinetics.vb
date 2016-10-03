@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b7c5ed03d9a3e1666590c5bfb7aeee94, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\MathematicsModels\EnzymeKinetics\ExpressionKinetics.vb"
+﻿#Region "Microsoft.VisualBasic::49d74e31bacdf9ea66c0aa10338daea3, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\MathematicsModels\EnzymeKinetics\ExpressionKinetics.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

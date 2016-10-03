@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::014b7aef688c34c7bfcb3591df13c7e5, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Proteins.vb"
+﻿#Region "Microsoft.VisualBasic::d79182054b9111d5fa6346cda4353300, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Proteins.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::74f8093a9d4e15d82034734e94cab12c, ..\RNA-seq\Program.vb"
+﻿#Region "Microsoft.VisualBasic::74f8093a9d4e15d82034734e94cab12c, ..\GCModeller\CLI_tools\RNA-seq\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

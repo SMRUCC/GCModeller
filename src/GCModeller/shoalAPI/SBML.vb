@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::35b6efd5bae056c4a68c02047950f8c4, ..\GCModeller\shoalAPI\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::1d30bbf0d446bd3a051bbe05701219d4, ..\GCModeller\shoalAPI\SBML.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -43,4 +44,3 @@ Module SBML
         Return LANS.SystemsBiology.Assembly.SBML.Level2.XmlFile.Load(path)
     End Function
 End Module
-

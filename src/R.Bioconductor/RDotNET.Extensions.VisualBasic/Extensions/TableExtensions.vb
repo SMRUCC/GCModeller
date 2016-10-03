@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f02ce2bc0328325a9e91d6c6ea2f37c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\R.Extension\TableExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::01e220864961b8f1b3adb73766141676, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\TableExtensions.vb"
 
     ' Author:
     ' 
@@ -172,4 +172,3 @@ Public Module TableExtensions
         Return tmp
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8b2f85c024070e1e02fc0dffd6ba5f87, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\EffectorMap.vb"
+﻿#Region "Microsoft.VisualBasic::bbb1eedc5a22c6a574e92da75a6f7646, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\EffectorMap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

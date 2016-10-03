@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5cac9802fc3c3da0cfdd9056a79858b6, ..\GCModeller\analysis\Annotation\Xfam\iPfam\LocalMySQL\pdb_protein_lig_atom_int.vb"
+﻿#Region "Microsoft.VisualBasic::288ae1d38e5691d72c2eaa7ed4935210, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\pdb_protein_lig_atom_int.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -73,4 +74,3 @@ End Class
 
 
 End Namespace
-

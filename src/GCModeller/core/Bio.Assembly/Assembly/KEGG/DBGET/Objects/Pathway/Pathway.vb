@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fd1052b21617a36e825e3449830625fa, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::c52ff89d50047fb341a4e5925cb38470, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

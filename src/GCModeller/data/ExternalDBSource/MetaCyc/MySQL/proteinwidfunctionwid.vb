@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::56460c42fcba248c39b786182f0f2aa7, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\proteinwidfunctionwid.vb"
+﻿#Region "Microsoft.VisualBasic::c6ac0bb09ae276dacd801744305bc8da, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\proteinwidfunctionwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fb182b6f632819c99f401507afd599aa, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\locus2seed.vb"
+﻿#Region "Microsoft.VisualBasic::1e6cf89996ef0533bacd5be3e4c38ffb, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\locus2seed.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -88,4 +89,3 @@ End Class
 
 
 End Namespace
-

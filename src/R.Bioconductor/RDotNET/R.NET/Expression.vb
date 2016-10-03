@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1e72fd77a9487b793ec8f38f9ca1d12, ..\R.Bioconductor\RDotNET\R.NET\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::4875c3098d71ab8b9339491025b04bab, ..\R.Bioconductor\RDotNET\R.NET\Expression.vb"
 
     ' Author:
     ' 
@@ -78,4 +78,3 @@ Public Class Expression
 		Return Not errorOccurred
 	End Function
 End Class
-

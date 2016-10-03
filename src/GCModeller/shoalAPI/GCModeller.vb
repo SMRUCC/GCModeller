@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::abf6e3cb685689039614aeb6d6993713, ..\GCModeller\shoalAPI\GCModeller.vb"
+﻿#Region "Microsoft.VisualBasic::f9290afbc1324e79d88623ef8edc8c94, ..\GCModeller\shoalAPI\GCModeller.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -44,4 +45,3 @@ Module GCModellerTools
         Return New XmlresxLoader(CellSystemPath:=Path)
     End Function
 End Module
-

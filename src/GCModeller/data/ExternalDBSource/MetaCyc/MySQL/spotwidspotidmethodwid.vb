@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::de7ce55d5d475ddb2df0c407fcc17f6a, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\spotwidspotidmethodwid.vb"
+﻿#Region "Microsoft.VisualBasic::3261656d0e2b2bea26ac397e6e7408a5, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\spotwidspotidmethodwid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fe26dba0533b3dde930124687a7520e4, ..\GCModeller\data\ExternalDBSource\ChEBI_\chebi\names.vb"
+﻿#Region "Microsoft.VisualBasic::7b773d61ff1bd887ceb03b8bbe49172d, ..\GCModeller\data\ExternalDBSource\ChEBI_\chebi\names.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -91,4 +92,3 @@ End Class
 
 
 End Namespace
-

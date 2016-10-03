@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d9479f678ad6693eaedd44dfa4a41af, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\RPackage\flashClust.vb"
+﻿#Region "Microsoft.VisualBasic::2304537f2610aff527381027d4a71961, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\flashClust.vb"
 
     ' Author:
     ' 

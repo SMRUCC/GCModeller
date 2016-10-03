@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7b961fd14ce71512aa06e44ea59630d1, ..\interops\RNA-Seq\Rockhopper\API\TSSsCategory.vb"
+﻿#Region "Microsoft.VisualBasic::c2cdff0a52082964ff3f4d7e36146da7, ..\interops\RNA-Seq\Rockhopper\API\TSSsCategory.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -434,4 +435,3 @@ End Module
 '        Call Pause()
 '    End Sub
 'End Module
-

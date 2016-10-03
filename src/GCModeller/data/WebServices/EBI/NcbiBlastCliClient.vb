@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ac81a215994d644956a2998521875b93, ..\GCModeller\data\ExternalDBSource\WebServices\EBI\NcbiBlastCliClient.vb"
+﻿#Region "Microsoft.VisualBasic::1f545ea58d6bd1e7ac0088f2519ef9f5, ..\GCModeller\data\WebServices\EBI\NcbiBlastCliClient.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -612,4 +613,3 @@
 
 '	End Class
 'End Namespace
-

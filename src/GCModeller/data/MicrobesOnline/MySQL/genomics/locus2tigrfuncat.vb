@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::16e86465619bf629594c4fc600c7a3c9, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\locus2tigrfuncat.vb"
+﻿#Region "Microsoft.VisualBasic::29d5000f91cf15487751123a3e8d4ebe, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\locus2tigrfuncat.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

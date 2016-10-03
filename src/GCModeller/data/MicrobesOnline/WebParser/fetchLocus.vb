@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::983594e3a9b0a8715964c637ba0b83d2, ..\GCModeller\data\MicrobesOnline\WebParser\fetchLocus.vb"
+﻿#Region "Microsoft.VisualBasic::92ea14882b6668a6c1d7742285562d0b, ..\GCModeller\data\MicrobesOnline\WebParser\fetchLocus.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -67,4 +68,3 @@ Public Module fetchLocus
         Return id
     End Function
 End Module
-

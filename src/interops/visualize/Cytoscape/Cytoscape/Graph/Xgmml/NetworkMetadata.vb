@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6febb92e2534240c55a1c1569c2b3a44, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\NetworkMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::3b12d302e3591a6937b9420f32824fd0, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Xgmml\NetworkMetadata.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

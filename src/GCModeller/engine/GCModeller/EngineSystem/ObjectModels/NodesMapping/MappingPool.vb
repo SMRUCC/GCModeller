@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::87247c7bf60e9208870ccca2a5e917ca, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\NodesMapping\MappingPool.vb"
+﻿#Region "Microsoft.VisualBasic::ddadb8586f5523adb19b0d32120a5c14, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\NodesMapping\MappingPool.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

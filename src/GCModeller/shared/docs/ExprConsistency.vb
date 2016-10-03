@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cc8f06aac6ee66439ce7d145c5628f40, ..\GCModeller\shared\docs\ExprConsistency.vb"
+﻿#Region "Microsoft.VisualBasic::3112154aba80b258ce589daa6537ba14, ..\GCModeller\shared\docs\ExprConsistency.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@
 '        Return ExprNormalized
 '    End Function
 'End Module
-

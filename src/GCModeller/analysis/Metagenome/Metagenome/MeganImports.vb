@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2d0c89f3ba3bd2db2a4742e13c67d06a, ..\Metagenome\Metagenome\MeganImports.vb"
+﻿#Region "Microsoft.VisualBasic::39032bdae23ee7194f4ab23650c6e1ad, ..\GCModeller\analysis\Metagenome\Metagenome\MeganImports.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::77007b4053100f6b1d3d6e5243aa309d, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
+﻿#Region "Microsoft.VisualBasic::cc7eb48390d925a3542e51cdd3a35551, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DriverAPI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -109,4 +110,3 @@ Module DriverAPI
     }
 
 End Module
-

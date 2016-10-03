@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b7412a882503585caf00c65cfb70b313, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
+﻿#Region "Microsoft.VisualBasic::337c47e73bd38432633faffa63dc9873, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\synonymtable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -84,4 +85,3 @@ End Class
 
 
 End Namespace
-

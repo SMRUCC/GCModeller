@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b07080a854bb3092a7f84ce8fe9f2e95, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\MotifScanner.vb"
+﻿#Region "Microsoft.VisualBasic::6fb3ca848f782095c76c127896b32360, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\MotifScanner.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -113,4 +114,3 @@ Public Class MotifScanner : Inherits IScanner
         End If
     End Function
 End Class
-

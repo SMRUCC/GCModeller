@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::dd9f6bc64905f128a3d7b82256e14601, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\DataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::49728598fdfaf18b2b341e564126ca1d, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\DataAdapter.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -99,4 +100,3 @@ Public Class DataAdapter(Of T, TDataSource As DataSourceHandler(Of T))
         Return "CHUNK_SIZE:= " & _innerBuffer.Count
     End Function
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::63c21cdaafac5687a650307225770bb5, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::1eaac1ed5b02a6214761b7c8199f16ac, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\Regulator.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -190,4 +191,3 @@ Namespace GCML_Documents.XmlElements.SignalTransductions
         End Function
     End Class
 End Namespace
-

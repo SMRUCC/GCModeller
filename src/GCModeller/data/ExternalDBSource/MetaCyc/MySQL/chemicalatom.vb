@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f0b124527b2965fda58fbd4e0b49c139, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\chemicalatom.vb"
+﻿#Region "Microsoft.VisualBasic::63630e4689b27a30fee0c34b4ce10127, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\chemicalatom.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -97,4 +98,3 @@ End Class
 
 
 End Namespace
-

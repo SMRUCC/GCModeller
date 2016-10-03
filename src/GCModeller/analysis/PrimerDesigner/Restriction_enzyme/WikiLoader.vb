@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9fd33b4cf1f26922cff02bfb13920edb, ..\GCModeller\analysis\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
+﻿#Region "Microsoft.VisualBasic::6be4bb843b9b60382e8170fd8ca909c1, ..\GCModeller\analysis\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

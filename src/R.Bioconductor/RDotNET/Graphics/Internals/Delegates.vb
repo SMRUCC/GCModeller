@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e15c4a136cbb5ef8ed7e58c46d5b580, ..\R.Bioconductor\RDotNET\Graphics\Internals\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::b863530d6eaa553de75b8f9b58d10c56, ..\R.Bioconductor\RDotNET\Graphics\Internals\Delegates.vb"
 
     ' Author:
     ' 
@@ -47,4 +47,3 @@ Namespace Graphics.Internals
     <UnmanagedFunctionPointer(CallingConvention.Cdecl)> _
     Friend Delegate Sub GEkillDevice(dev As IntPtr)
 End Namespace
-

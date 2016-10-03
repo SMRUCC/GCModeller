@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::02339caa0be0b67250ad565e9830fd76, ..\interops\meme_suite\MEME.DocParser\XmlOutput\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::1f2f3865dd33848ab1dd15d50bcdc3d9, ..\interops\meme_suite\MEME.DocParser\XmlOutput\MEME.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::20cbf7984a1166997937c39e032b8329, ..\interops\RNA-Seq\BOW\BOW\BWA.vb"
+﻿#Region "Microsoft.VisualBasic::9e57e58fe924391e029894548cd07548, ..\interops\RNA-Seq\BOW\BOW\BWA.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -427,4 +428,3 @@ Public Module BWA
     End Function
 
 End Module
-

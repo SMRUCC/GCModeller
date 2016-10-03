@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::566b415785ae5cf44547994e0ef56f8b, ..\GCModeller\visualize\GCModeller.DataVisualization\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::f461e58dca5432e3eba4e881037cf9f8, ..\GCModeller\visualize\GCModeller.DataVisualization\GCSkew.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -143,4 +144,3 @@ Public Module GCSkew
         'loci:=__getLoci(nt))
     End Function
 End Module
-

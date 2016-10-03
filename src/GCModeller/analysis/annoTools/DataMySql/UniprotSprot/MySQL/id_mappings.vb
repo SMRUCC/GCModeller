@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5f721a9e7164b91c43f2e21ede10c55d, ..\GCModeller\analysis\Annotation\UniprotSprot\MySQL\id_mappings.vb"
+﻿#Region "Microsoft.VisualBasic::2b5e805036b337bbdab3c95598d14fcb, ..\GCModeller\analysis\annoTools\DataMySql\UniprotSprot\MySQL\id_mappings.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -125,4 +126,3 @@ End Class
 
 
 End Namespace
-

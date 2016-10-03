@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fd7200d3dfa1c4562d1110b37a49d30e, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProtInDb.vb"
+﻿#Region "Microsoft.VisualBasic::5efd454b5bb47b66e6401e0bcad141cc, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProtInDb.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -103,4 +104,3 @@ Public Class ProtInDb
         Return New ProtInDb With {.ProteinChainsInfo = Files}
     End Function
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::630bd6202f105b2767eee598a5f69533, ..\GCModeller\analysis\CRISPR\CRT\Output\CRISPR.vb"
+﻿#Region "Microsoft.VisualBasic::db5621f4ba10951ea9607bf228f70069, ..\GCModeller\analysis\CRISPR\CRT\Output\CRISPR.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

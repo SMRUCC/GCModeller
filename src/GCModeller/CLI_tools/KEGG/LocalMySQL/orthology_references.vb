@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::25cd4dde20303b8102baebf43022dab3, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\orthology_references.vb"
+﻿#Region "Microsoft.VisualBasic::41951bbe560c1009317635619aeed471, ..\GCModeller\CLI_tools\KEGG\LocalMySQL\orthology_references.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

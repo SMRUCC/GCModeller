@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::bc44147ea625cfed838e52f5d6117c34, ..\GCModeller\shoalAPI\Genbank\WebServices.vb"
+﻿#Region "Microsoft.VisualBasic::3184e45d0be19108131ad36590436d7f, ..\GCModeller\shoalAPI\Genbank\WebServices.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -229,4 +230,3 @@ Public Module WebServices
         Return data.SaveTo(saveto, False)
     End Function
 End Module
-

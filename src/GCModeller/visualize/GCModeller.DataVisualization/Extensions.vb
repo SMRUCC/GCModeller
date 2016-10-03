@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d17d23544a143f52d0ababf8895b9ede, ..\GCModeller\visualize\GCModeller.DataVisualization\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::82bd1d4dcfeec4e152743473ab265d4e, ..\GCModeller\visualize\GCModeller.DataVisualization\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ Public Module Extensions
         Next
     End Sub
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f453a21b8fc9c88eb5764ce8d3f19c06, ..\GCModeller\models\SBML\Biopax\Level3\Schema\FunctionalProperty.vb"
+﻿#Region "Microsoft.VisualBasic::03c2e313a90c80ad556c6c663210220b, ..\GCModeller\models\SBML\Biopax\Level3\Schema\FunctionalProperty.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

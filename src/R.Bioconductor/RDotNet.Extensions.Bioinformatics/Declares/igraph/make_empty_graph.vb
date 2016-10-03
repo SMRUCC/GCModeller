@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b25c56a482a554be48e7c724e1f6fd11, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\igraph\make_empty_graph.vb"
+﻿#Region "Microsoft.VisualBasic::028607841baa5d023b7e4a34b8a180b9, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\igraph\make_empty_graph.vb"
 
     ' Author:
     ' 

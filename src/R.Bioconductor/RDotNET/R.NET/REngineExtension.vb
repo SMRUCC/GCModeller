@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba8dc4294403c508b6fbcbdb22b9327e, ..\R.Bioconductor\RDotNET\R.NET\REngineExtension.vb"
+﻿#Region "Microsoft.VisualBasic::2b76184f609831f27e664809359b0780, ..\R.Bioconductor\RDotNET\R.NET\REngineExtension.vb"
 
     ' Author:
     ' 
@@ -641,4 +641,3 @@ Public Module REngineExtension
         Return New REnvironment(engine, engine.GetFunction(Of Rf_allocSExp)()(SymbolicExpressionType.Environment))
     End Function
 End Module
-

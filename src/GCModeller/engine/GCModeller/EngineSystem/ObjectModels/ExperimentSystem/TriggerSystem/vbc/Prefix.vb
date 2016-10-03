@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0b24fdd7b597e29cc3df91431bc923cf, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\Prefix.vb"
+﻿#Region "Microsoft.VisualBasic::9a9e2e626d228cbd46c5ae6cb9f471fe, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\Prefix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,8 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
-
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -101,4 +100,3 @@ Public Class Prefix
         End Function
     End Class
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cc4e4c31c685656040e56bbe341b4be8, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::aed0007e39517925e1314776c09189e9, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\Abstract.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' <see cref="System.Double"></see>; <see cref="Integer"></see>; <see cref="System.Boolean"></see>
@@ -76,4 +76,3 @@ Public Interface IDataStorage : Inherits System.IDisposable
 
     Function WriteData(url As String) As Boolean
 End Interface
-

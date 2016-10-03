@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8c5facb1f4545ecdfd4fb57b088cd982, ..\interops\visualize\Phylip\MatrixFile\MatrixFile.vb"
+﻿#Region "Microsoft.VisualBasic::3dd2efd24669d586d7ab51aa35dc5555, ..\interops\visualize\Phylip\MatrixFile\MatrixFile.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

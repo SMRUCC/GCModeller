@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cf2d96edb2cb28089b5d91a7d81000d9, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\controlledvocabulary_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::efa5b407394e3302e09f5ef069e6de1c, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\controlledvocabulary_2_name.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

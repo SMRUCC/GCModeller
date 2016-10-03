@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::dff0515e80265e4fd290b36dc475b3f1, ..\interops\RNA-Seq\Rockhopper\Java\Math_lib\Lowess.vb"
+﻿#Region "Microsoft.VisualBasic::b4e44d1fedcf3ed2c0b77c9148d6fa81, ..\interops\RNA-Seq\Rockhopper\Java\Math_lib\Lowess.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -381,5 +382,3 @@ A larger smoothing span results in a smoother curve. The number of iterations ca
     End Sub
 
 End Module
-
-

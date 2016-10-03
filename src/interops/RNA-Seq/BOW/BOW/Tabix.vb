@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d1e92c7d70946170397dde39331b30ff, ..\interops\RNA-Seq\BOW\BOW\Tabix.vb"
+﻿#Region "Microsoft.VisualBasic::d264c4610ab90c4e0769a97cede3a948, ..\interops\RNA-Seq\BOW\BOW\Tabix.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -31,4 +32,3 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Public Module Tabix
 
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a0f24080c97911019bfa35e63a00e060, ..\interops\visualize\Cytoscape\Cytoscape\Cli\Cytoscape\CLI\Cli.vb"
+﻿#Region "Microsoft.VisualBasic::adf0ba8bb3d8a2dfe91c4aa94b0b3bc0, ..\interops\visualize\Cytoscape\CLI_tool\CLI\Cli.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -99,4 +100,3 @@ Module CLI
     End Function
 
 End Module
-

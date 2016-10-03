@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6ecce81ccb4e10e361075411631d415a, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_equivalentto.vb"
+﻿#Region "Microsoft.VisualBasic::47e7712c118c31d9ec7e2d0499c93ec3, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_equivalentto.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

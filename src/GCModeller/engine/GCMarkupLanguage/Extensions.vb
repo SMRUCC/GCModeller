@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a12f31e0923138b6f619304f1ff60417, ..\GCModeller\engine\GCMarkupLanguage\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::bd4ea7c55c2b187b12b2c36da2863187, ..\GCModeller\engine\GCMarkupLanguage\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -260,4 +261,3 @@ Public Module Extensions
         Return sBuilder.ToString
     End Function
 End Module
-

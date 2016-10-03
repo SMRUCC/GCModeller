@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d0310a4bfc09dae6a6613f85617128ae, ..\GCModeller\CLI_tools\gcc\Program.vb"
+﻿#Region "Microsoft.VisualBasic::007521ea6c53b948defc1313e98e6776, ..\GCModeller\CLI_tools\gcc\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -43,4 +44,3 @@ Module Program
         Call FileIO.FileSystem.CreateDirectory(Settings.LogDIR)
     End Sub
 End Module
-

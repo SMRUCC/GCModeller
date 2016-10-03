@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::043d2334151610ac8136c6dd29a260b3, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifDb\Motif.vb"
+﻿#Region "Microsoft.VisualBasic::451ab725b87c1119f30395d0f7403d14, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifDb\Motif.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

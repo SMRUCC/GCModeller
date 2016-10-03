@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9ca052f363efde37571b353115d3281b, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\locusseq.vb"
+﻿#Region "Microsoft.VisualBasic::f251fe38ef979fe1f892ee7a5b7f99e0, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\locusseq.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

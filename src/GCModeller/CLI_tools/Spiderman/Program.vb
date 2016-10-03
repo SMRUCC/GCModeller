@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cc7a385bf7bb37295266d8291800a5a2, ..\GCModeller\CLI_tools\Spiderman\Program.vb"
+﻿#Region "Microsoft.VisualBasic::d13dc29e3d9eed2977b38e478361bfe4, ..\GCModeller\CLI_tools\Spiderman\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -31,4 +32,3 @@ Module Program
         Call Settings.Initialize()
     End Sub
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::403a3baa8afda4083009c6ab2344d380, ..\GCModeller\CLI_tools\Xfam\Program.vb"
+﻿#Region "Microsoft.VisualBasic::1a1be3a4d6de7e58282e6edd3e8b5a24, ..\GCModeller\CLI_tools\Xfam\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -35,4 +36,3 @@ Module Program
         Call Settings.Session.Initialize()
     End Sub
 End Module
-

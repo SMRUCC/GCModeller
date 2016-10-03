@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::133198aa2f127af11e71a45177300c71, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\scaffoldseq.vb"
+﻿#Region "Microsoft.VisualBasic::888709a1dc71ec1633f0af6f2108ab3d, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\scaffoldseq.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -85,4 +86,3 @@ End Class
 
 
 End Namespace
-

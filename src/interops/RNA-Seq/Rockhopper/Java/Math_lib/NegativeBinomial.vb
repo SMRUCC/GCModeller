@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::504568949aa7eec8d0d64b65f7913c2a, ..\interops\RNA-Seq\Rockhopper\Java\Math_lib\NegativeBinomial.vb"
+﻿#Region "Microsoft.VisualBasic::b2910988583b9c6094f74ed069d8466b, ..\interops\RNA-Seq\Rockhopper\Java\Math_lib\NegativeBinomial.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 '
 ' * Copyright 2013 Brian Tjaden
@@ -204,4 +204,3 @@ Public Module NegativeBinomial
     End Sub
 
 End Module
-

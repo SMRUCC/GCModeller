@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::74110f4c068fb37531a3b27e1ad17117, ..\GCModeller\shared\docs\Transcript.vb"
+﻿#Region "Microsoft.VisualBasic::513124441a61579804e9937c3e0c5f0a, ..\GCModeller\shared\docs\Transcript.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

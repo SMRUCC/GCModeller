@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::62f1958f759bf8a4077e85b2936590dd, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\event_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::657b2bdec281fe3b88cf464e359a7d27, ..\GCModeller\data\Reactome\LocalMySQL\gk_current\event_2_literaturereference.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -89,4 +90,3 @@ End Class
 
 
 End Namespace
-

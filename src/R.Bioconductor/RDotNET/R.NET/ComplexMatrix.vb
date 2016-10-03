@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08b21d9314e1207c0c9ca89ffcc4b98f, ..\R.Bioconductor\RDotNET\R.NET\ComplexMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::f80b069fe1bbba27c57bd6ddfce4d6c1, ..\R.Bioconductor\RDotNET\R.NET\ComplexMatrix.vb"
 
     ' Author:
     ' 
@@ -137,4 +137,3 @@ Public Class ComplexMatrix
 		End Get
 	End Property
 End Class
-

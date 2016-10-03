@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c11649528a235e003dad218449f62160, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\datasethierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::c7771f0d691c1563120f75f5afe9079f, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\datasethierarchy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ End Class
 
 
 End Namespace
-

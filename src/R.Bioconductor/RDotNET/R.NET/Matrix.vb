@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb1cd035fbb7bea73850f4c476df1917, ..\R.Bioconductor\RDotNET\R.NET\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::ef138b84d73a1f4b5b943a17e35b3caa, ..\R.Bioconductor\RDotNET\R.NET\Matrix.vb"
 
     ' Author:
     ' 
@@ -310,4 +310,3 @@ Public MustInherit Class Matrix(Of T)
 	''' <returns>Array equivalent</returns>
 	Protected MustOverride Function GetArrayFast() As T(,)
 End Class
-

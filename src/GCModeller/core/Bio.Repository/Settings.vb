@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::21b75017618ab07dd813c6c486cb3e38, ..\GCModeller\core\Bio.Repository\Settings.vb"
+﻿#Region "Microsoft.VisualBasic::cd23231bc81ec61f255a3a3baf15eb00, ..\GCModeller\core\Bio.Repository\Settings.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,7 +26,6 @@
 
 #End Region
 
-
 Namespace My
     
     'This class allows you to handle specific events on the settings class:
@@ -36,4 +36,3 @@ Namespace My
     Partial Friend NotInheritable Class MySettings
     End Class
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::527209d1321d61d16e80c8d5a4a2619b, ..\R.Bioconductor\RDotNET\R.NET\ComplexVector.vb"
+﻿#Region "Microsoft.VisualBasic::e1495f5c3f50f378bea3926ad852f312, ..\R.Bioconductor\RDotNET\R.NET\ComplexVector.vb"
 
     ' Author:
     ' 
@@ -127,4 +127,3 @@ Public Class ComplexVector
 		End Get
 	End Property
 End Class
-

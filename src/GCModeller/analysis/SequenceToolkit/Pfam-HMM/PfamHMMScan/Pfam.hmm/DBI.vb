@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::db549f9065ec0fd07e8558dadf3ac227, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\DBI.vb"
+﻿#Region "Microsoft.VisualBasic::65ecdb39c85826ead4487aae7c79387c, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\DBI.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' Retrieve hidden Markov model (HMM) profile from PFAM database
@@ -69,4 +69,3 @@ Public Class DBI
         Dim db As New DBI(PfamA, activeSite)
     End Function
 End Class
-

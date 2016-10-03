@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a1ba4fed63d46a60ce48a8718f0eefc, ..\R.Bioconductor\RDotNET\R.NET\Closure.vb"
+﻿#Region "Microsoft.VisualBasic::0326c40b7f30ee62d48c87aa6ff08b68, ..\R.Bioconductor\RDotNET\R.NET\Closure.vb"
 
     ' Author:
     ' 
@@ -100,4 +100,3 @@ Public Class Closure
 		Return Arguments.[Select](Function(arg) arg.PrintName).ToArray()
 	End Function
 End Class
-

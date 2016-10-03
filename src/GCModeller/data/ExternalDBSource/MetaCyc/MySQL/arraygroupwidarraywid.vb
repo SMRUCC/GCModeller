@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::97301cfd91ddb8eb412e7ed9720f47bf, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\arraygroupwidarraywid.vb"
+﻿#Region "Microsoft.VisualBasic::a2510dd85d39eb5978da057ccdb853ec, ..\GCModeller\data\ExternalDBSource\MetaCyc\MySQL\arraygroupwidarraywid.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -87,4 +88,3 @@ Namespace MetaCyc.MySQL
 
 
 End Namespace
-

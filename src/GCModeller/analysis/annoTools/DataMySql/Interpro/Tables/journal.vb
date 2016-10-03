@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cd2450aeba12ae004ec2453ba684f1c0, ..\GCModeller\analysis\Annotation\Interpro\Tables\journal.vb"
+﻿#Region "Microsoft.VisualBasic::b953c0059da6998ec21427741b378588, ..\GCModeller\analysis\annoTools\DataMySql\Interpro\Tables\journal.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -90,4 +91,3 @@ End Class
 
 
 End Namespace
-

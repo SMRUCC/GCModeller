@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b5db7bf8382d38b18345e0879269b2ea, ..\GCModeller\CLI_tools\c2\Workflows\MetabolismGeneMap.vb"
+﻿#Region "Microsoft.VisualBasic::e25f1409d7b59c0cf63d5995df3403b1, ..\GCModeller\CLI_tools\c2\Workflows\MetabolismGeneMap.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -29,4 +30,3 @@ Public Class MetabolismGeneMap
     Public Property GeneId As String
     Public Property EnzymeReaction As String
 End Class
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::74230706e1d8468cdda22bc1fc1f850c, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\MathematicsModels\SVD.vb"
+﻿#Region "Microsoft.VisualBasic::3bb0616c993ca0a0d325894af02fcbd3, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\MathematicsModels\SVD.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

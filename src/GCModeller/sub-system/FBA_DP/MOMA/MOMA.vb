@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::67eb6a8cb9ba9039867de2c021c8d3bb, ..\GCModeller\sub-system\FBA_DP\MOMA\MOMA.vb"
+﻿#Region "Microsoft.VisualBasic::892d0555dc22e88ac4616ac13c88e3e5, ..\GCModeller\sub-system\FBA_DP\MOMA\MOMA.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Class MOMA
 
 End Class
-

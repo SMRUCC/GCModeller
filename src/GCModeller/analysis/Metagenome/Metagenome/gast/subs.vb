@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3c5c0c7864ce6a1e61bf424669a5884e, ..\Metagenome\Metagenome\gast\subs.vb"
+﻿#Region "Microsoft.VisualBasic::3c5c0c7864ce6a1e61bf424669a5884e, ..\GCModeller\analysis\Metagenome\Metagenome\gast\subs.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

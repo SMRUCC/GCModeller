@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::be4350b95cd1a9d6bef2174afe70b4c5, ..\interops\meme_suite\MEME\Analysis\Similarity\MotifDeltaSimilarity.vb"
+﻿#Region "Microsoft.VisualBasic::1f118acae767a2442c2b1a824841666c, ..\interops\meme_suite\MEME\Analysis\Similarity\MotifDeltaSimilarity.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

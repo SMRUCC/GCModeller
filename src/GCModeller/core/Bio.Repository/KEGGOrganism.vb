@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5ec3d102ff9e0236df2b3fb7c894b6ad, ..\GCModeller\core\Bio.Repository\KEGGOrganism.vb"
+﻿#Region "Microsoft.VisualBasic::16b7e1a822dcc932242d4a6916d8fecd, ..\GCModeller\core\Bio.Repository\KEGGOrganism.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Class KEGGOrganism
 
 End Class
-

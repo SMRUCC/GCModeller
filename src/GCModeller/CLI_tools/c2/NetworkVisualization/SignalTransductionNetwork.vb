@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6b074037d1d360d9c2e0ceaef90ce89b, ..\GCModeller\CLI_tools\c2\NetworkVisualization\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::7ce84c2f7ba346e12e60a01d3a95372a, ..\GCModeller\CLI_tools\c2\NetworkVisualization\SignalTransductionNetwork.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.Text
 Imports LANS.SystemsBiology.GCModeller.ModellingEngine.Assembly.DocumentFormat

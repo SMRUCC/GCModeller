@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::73fa99e7269c0e0aa6f1354235133f78, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\experiments.vb"
+﻿#Region "Microsoft.VisualBasic::5102bd3c2e70665a0617e5bb53765ef8, ..\GCModeller\data\RegulonDatabase\Regtransbase\MySQL\experiments.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -94,4 +95,3 @@ End Class
 
 
 End Namespace
-

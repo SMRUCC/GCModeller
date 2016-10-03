@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::85bc131d16d4ee2fbf317bdecc39b2b7, ..\GCModeller\engine\vcsm\_DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::784d921192d752201d781dac37e6e24e, ..\GCModeller\engine\vcsm\_DEBUG_MAIN.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -54,4 +55,3 @@ Module _DEBUG_MAIN
 
     End Sub
 End Module
-

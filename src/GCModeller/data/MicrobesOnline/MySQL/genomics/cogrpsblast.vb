@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b80be448e3128edbf7045289fee59ebb, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\cogrpsblast.vb"
+﻿#Region "Microsoft.VisualBasic::d1a884278d35c6ab7b5bfa69215d3ac5, ..\GCModeller\data\MicrobesOnline\MySQL\genomics\cogrpsblast.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -108,4 +109,3 @@ End Class
 
 
 End Namespace
-

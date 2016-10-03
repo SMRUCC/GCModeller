@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::11085602fcbadcce4d6d52f77127e7ef, ..\GCModeller\analysis\RegulationSignature\GeneID.vb"
+﻿#Region "Microsoft.VisualBasic::11085602fcbadcce4d6d52f77127e7ef, ..\GCModeller\analysis\bacgFingerprints\Regulation\GeneID.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fbdf269aa633d68adb0bc67448effa8b, ..\GCModeller\sub-system\FBA_DP\rFBA\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::60e5f1d68098f1e8d5d9654f183cf7af, ..\GCModeller\sub-system\FBA_DP\rFBA\DataModel.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

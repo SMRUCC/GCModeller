@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::cf3c236e82ec0a30cba5f59c9527cbea, ..\GCModeller\analysis\PrimerDesigner\Profiles\ProteinExpression.vb"
+﻿#Region "Microsoft.VisualBasic::5c35d0824df391d413e1575dd42d6251, ..\GCModeller\analysis\PrimerDesigner\Profiles\ProteinExpression.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,4 +29,3 @@
 Public Class ProteinExpression
 
 End Class
-
