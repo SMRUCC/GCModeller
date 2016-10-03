@@ -85,7 +85,7 @@ Namespace Assembly.MetaCyc.Schema
 
             Dim LQuery = (From s As String
                           In compound.CommonNames
-                          Let lev As DistResult = StatementMatches.MatchFuzzy(s, name)
+                          Let lev As DistResult = LevenshteinDistance.ComputeDistance(s, name)
                           Where Not lev Is Nothing
                           Select lev.MatchSimilarity).Max
             Return LQuery

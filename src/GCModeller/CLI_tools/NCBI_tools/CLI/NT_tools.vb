@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::0d05de300cc184de0f400bb6f7c90864, ..\GCModeller\CLI_tools\NCBI_tools\CLI\NT_tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -44,7 +45,7 @@ Partial Module CLI
 
     ' 这里主要是和处理nt数据库文件的相关工具
 
-    <ExportAPI("/nt.matches", Usage:="/nt.matches /in <nt.fasta> /list <words.txt> [/out <out.fasta>]")>
+    <ExportAPI("/nt.matches.key", Usage:="/nt.matches.key /in <nt.fasta> /list <words.txt> [/out <out.fasta>]")>
     Public Function NtKeyMatches(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim list As String = args("/list")
@@ -109,5 +110,101 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/nt.matches.name", Usage:="/nt.matches.name /in <nt.fasta> /list <names.csv> [/out <out.fasta>]")>
+    <ParameterInfo("/list", AcceptTypes:={GetType(WordTokens)})>
+    Public Function NtNameMatches(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim list As String = args("/list")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & list.BaseName & ".match/")
+        Dim names As WordTokens() = list.LoadCsv(Of WordTokens)
+        Dim writer As Dictionary(Of String, StreamWriter)
+
+        Try
+            writer = names.ToDictionary(
+                Function(x) x.name,
+                Function(x) $"{out}/{x.name.NormalizePathString}.fasta".OpenWriter(Encodings.ASCII))
+        Catch ex As Exception
+            ex = New Exception("There is duplicated name in your input list data!", ex)
+            Throw ex
+        End Try
+
+        Using stream As New StreamIterator([in])
+            For Each fasta As FastaToken In stream.ReadStream
+                Dim title As String = fasta.Attributes.Last.Trim
+                Dim ms$() = LinqAPI.Exec(Of String) <=
+ _
+                    From x As WordTokens
+                    In names.AsParallel
+                    Where x.Match(title)
+                    Select x.name
+
+                If ms.Length > 0 Then
+                    Dim data As String = fasta.GenerateDocument(120)
+
+                    For Each m As String In ms
+                        Call writer(m).WriteLine(data)
+                    Next
+
+                    Call Console.Write(".")
+                End If
+            Next
+        End Using
+
+        For Each file In writer.Values
+            Call file.Flush()
+            Call file.Close()
+            Call file.Dispose()
+        Next
+
+        Return True
+    End Function
+
+    Public Class WordTokens
+
+        Public Property name As String
+        Public Property tokens As String()
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
+        Public Function Match(title As String) As Boolean
+            If InStr(name, title, CompareMethod.Text) > 0 OrElse
+                InStr(title, name, CompareMethod.Text) > 0 Then
+                Return True
+            End If
+
+            If Similarity.Evaluate(title, name) >= 0.85 Then
+#If debug Then
+                call console.write("*")
+#End If
+                Return True
+            Else
+                Return title.IsOrdered(tokens)
+            End If
+        End Function
+
+        Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
+            For Each line As String In lines
+                Yield New WordTokens With {
+                    .name = line.Trim(" "c, ASCII.TAB),
+                    .tokens = line.Trim _
+                        .StripSymbol _
+                        .Split _
+                        .Distinct _
+                        .Where(Function(s) Not String.IsNullOrEmpty(s.Trim(vbTab))) _
+                        .ToArray
+                }
+            Next
+        End Function
+    End Class
+
+    <ExportAPI("/word.tokens", Usage:="/word.tokens /in <list.txt> [/out <out.csv>]")>
+    Public Function GetWordTokens(args As CommandLine) As Integer
+        Dim list$ = args("/in")
+        Dim out$ = args.GetValue("/out", list.TrimSuffix & ".csv")
+        Dim words$() = list.ReadAllLines
+        Return WordTokens.GetTokens(words).ToArray.SaveTo(out).CLICode
+    End Function
 End Module
 

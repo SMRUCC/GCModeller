@@ -54,7 +54,7 @@ Public Module IQueryExtensions
             For Each desc As String In products
                 gene = PTT.GetGeneByDescription(
                     Function(productValue) _
-                        FuzzyMatchString.Equals(desc, productValue, cut:=cut)).FirstOrDefault
+                        FuzzyMatching(desc, productValue, cutoff:=cut)).FirstOrDefault
 
                 If Not gene Is Nothing Then
                     Exit For
