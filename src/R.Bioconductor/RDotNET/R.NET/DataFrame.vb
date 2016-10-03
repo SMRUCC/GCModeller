@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11ca50fb08e764a5f77998349b0ceb3d, ..\R.Bioconductor\RDotNET\R.NET\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::9081cf687f1ca7ae8b45eff96d26b684, ..\R.Bioconductor\RDotNET\R.NET\DataFrame.vb"
 
     ' Author:
     ' 
@@ -284,4 +284,3 @@ Public Class DataFrame
 		Return New DataFrameDynamicMeta(parameter, Me)
 	End Function
 End Class
-

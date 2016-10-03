@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a37b3b93a19ce17e037eac1472e1e7e4, ..\R.Bioconductor\RDotNET\R.NET\RawVector.vb"
+﻿#Region "Microsoft.VisualBasic::c9e811b581ea1958c7869c6a65f1bbd7, ..\R.Bioconductor\RDotNET\R.NET\RawVector.vb"
 
     ' Author:
     ' 
@@ -156,4 +156,3 @@ Public Class RawVector
 		Marshal.Copy(pointer, destination, destinationIndex, length__1)
 	End Sub
 End Class
-

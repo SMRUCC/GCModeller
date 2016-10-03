@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::135722ab347fa681103aa841a4e59d90, ..\R.Bioconductor\RDotNET\R.NET\Devices\CharacterDeviceAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::f5dc465d04b6bbc9f48a813c73ab455d, ..\R.Bioconductor\RDotNET\R.NET\Devices\CharacterDeviceAdapter.vb"
 
     ' Author:
     ' 
@@ -259,4 +259,3 @@ Namespace Devices
 		#End Region
 	End Class
 End Namespace
-

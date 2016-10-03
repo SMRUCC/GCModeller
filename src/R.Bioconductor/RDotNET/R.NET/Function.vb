@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48725a19c7b6dcf8b24a755e8968af66, ..\R.Bioconductor\RDotNET\R.NET\Function.vb"
+﻿#Region "Microsoft.VisualBasic::f820fd9ed4b2084ad6bab0f7675d4ee7, ..\R.Bioconductor\RDotNET\R.NET\Function.vb"
 
     ' Author:
     ' 
@@ -140,4 +140,3 @@ Public MustInherit Class [Function]
 		End Using
 	End Function
 End Class
-

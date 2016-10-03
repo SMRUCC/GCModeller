@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aece2f835467f83c82646c9230987938, ..\R.Bioconductor\RDotNET\R.NET\S4Object.vb"
+﻿#Region "Microsoft.VisualBasic::91e4e7da24a977ea3176d60f6c73a073, ..\R.Bioconductor\RDotNET\R.NET\S4Object.vb"
 
     ' Author:
     ' 
@@ -163,4 +163,3 @@ Public Class S4Object
 
 
 End Class
-

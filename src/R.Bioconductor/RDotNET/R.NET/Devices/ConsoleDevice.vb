@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c83aa6e14cbf6542b0fa3a965aa8bf3, ..\R.Bioconductor\RDotNET\R.NET\Devices\ConsoleDevice.vb"
+﻿#Region "Microsoft.VisualBasic::d9f64290695f7a1205ca28bb111dd1a0, ..\R.Bioconductor\RDotNET\R.NET\Devices\ConsoleDevice.vb"
 
     ' Author:
     ' 
@@ -240,4 +240,3 @@ Namespace Devices
 		#End Region
 	End Class
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7825a89dc0e62d78f81d636ef5aaf9dc, ..\R.Bioconductor\RDotNET\R.NET\Internals\Unix\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::b4747bafa4f004c4b70ad3b667f3c303, ..\R.Bioconductor\RDotNET\R.NET\Internals\Unix\Delegates.vb"
 
     ' Author:
     ' 
@@ -78,4 +78,3 @@ Namespace Internals.Unix
 	<UnmanagedFunctionPointer(CallingConvention.Cdecl)> _
 	Friend Delegate Function ptr_R_addhistory([call] As IntPtr, operation As IntPtr, args As IntPtr, environment As IntPtr) As IntPtr
 End Namespace
-

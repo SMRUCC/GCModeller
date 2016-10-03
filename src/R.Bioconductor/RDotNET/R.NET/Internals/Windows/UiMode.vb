@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1281ec1d45cb3b21147072593b01a34, ..\R.Bioconductor\RDotNET\R.NET\Internals\Windows\UiMode.vb"
+﻿#Region "Microsoft.VisualBasic::e2548efdc16625c9e35fbe499006a8fa, ..\R.Bioconductor\RDotNET\R.NET\Internals\Windows\UiMode.vb"
 
     ' Author:
     ' 
@@ -45,4 +45,3 @@ Namespace Internals.Windows
 		LinkDll
 	End Enum
 End Namespace
-

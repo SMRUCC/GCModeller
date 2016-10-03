@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a0df9dad2a74cca710d82743da82d02, ..\R.Bioconductor\RDotNET\R.NET\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::fa008d2b6b760a7e75094cbe46566ee1, ..\R.Bioconductor\RDotNET\R.NET\Vector.vb"
 
     ' Author:
     ' 
@@ -250,4 +250,3 @@ Public MustInherit Class Vector(Of T)
 		Return DataSize * index
 	End Function
 End Class
-

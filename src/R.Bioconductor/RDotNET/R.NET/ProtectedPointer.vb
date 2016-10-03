@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db8b277fd11048366b978139cd71fa1e, ..\R.Bioconductor\RDotNET\R.NET\ProtectedPointer.vb"
+﻿#Region "Microsoft.VisualBasic::1b5fe798eca5244dc35bf1af646eccef, ..\R.Bioconductor\RDotNET\R.NET\ProtectedPointer.vb"
 
     ' Author:
     ' 
@@ -65,4 +65,3 @@ Friend Class ProtectedPointer
 		Return p.sexp
 	End Operator
 End Class
-

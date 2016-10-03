@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fba16d38b56c38710651d7e6f4950889, ..\R.Bioconductor\RDotNET\Graphics\RasterExtension.vb"
+﻿#Region "Microsoft.VisualBasic::bd1b09c55cd3fc4723bdeb6bda0cd978, ..\R.Bioconductor\RDotNET\Graphics\RasterExtension.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Graphics
 

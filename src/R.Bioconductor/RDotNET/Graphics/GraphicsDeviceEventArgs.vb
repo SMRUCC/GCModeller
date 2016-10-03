@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68714f3669f36daba8895bb682dc47d1, ..\R.Bioconductor\RDotNET\Graphics\GraphicsDeviceEventArgs.vb"
+﻿#Region "Microsoft.VisualBasic::0f101c5c4eaf2fbf8191340782b6745f, ..\R.Bioconductor\RDotNET\Graphics\GraphicsDeviceEventArgs.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Graphics
 

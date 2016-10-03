@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a96c580906cca534d12f69e0c0f87b5, ..\R.Bioconductor\RDotNET\R.NET\Diagnostics\DataFrameDebugView.vb"
+﻿#Region "Microsoft.VisualBasic::8071c629305eb34be5fcebc148def3e0, ..\R.Bioconductor\RDotNET\R.NET\Diagnostics\DataFrameDebugView.vb"
 
     ' Author:
     ' 
@@ -45,4 +45,3 @@ Namespace Diagnostics
 		End Property
 	End Class
 End Namespace
-

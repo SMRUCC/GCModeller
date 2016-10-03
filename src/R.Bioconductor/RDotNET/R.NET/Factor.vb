@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c772042a03d3f00d354f0e6a616cba42, ..\R.Bioconductor\RDotNET\R.NET\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::ad56e2c66561a92ea611b9052837d518, ..\R.Bioconductor\RDotNET\R.NET\Factor.vb"
 
     ' Author:
     ' 
@@ -160,4 +160,3 @@ Public Class Factor
 		End If
 	End Sub
 End Class
-

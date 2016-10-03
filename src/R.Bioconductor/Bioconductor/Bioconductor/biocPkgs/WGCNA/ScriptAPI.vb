@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c752f0b7cded2323b84ca88ffbdceb7a, ..\R.Bioconductor\Bioconductor\Bioconductor\biocPkgs\WGCNA\ScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::c90f06721acd5a2ffedebc764dd59413, ..\R.Bioconductor\Bioconductor\Bioconductor\biocPkgs\WGCNA\ScriptAPI.vb"
 
     ' Author:
     ' 
@@ -84,4 +84,3 @@ Namespace WGCNA
         End Function
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbc0f5c8285cb9cb366c5dba21ee138d, ..\R.Bioconductor\RDotNET\R.NET\LogicalMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::ee94fece0b295d207c963154d48094c9, ..\R.Bioconductor\RDotNET\R.NET\LogicalMatrix.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Public Class LogicalMatrix
 		End Get
 	End Property
 End Class
-

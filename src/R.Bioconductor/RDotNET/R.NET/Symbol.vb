@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ca3bc2d1e508044a1be938fad863754, ..\R.Bioconductor\RDotNET\R.NET\Symbol.vb"
+﻿#Region "Microsoft.VisualBasic::9c85a331f3676ad17016705b224a0d14, ..\R.Bioconductor\RDotNET\R.NET\Symbol.vb"
 
     ' Author:
     ' 
@@ -91,4 +91,3 @@ Public Class Symbol
 		Return Marshal.OffsetOf(GetType(SEXPREC), "u").ToInt32() + Marshal.OffsetOf(GetType(symsxp), fieldName).ToInt32()
 	End Function
 End Class
-

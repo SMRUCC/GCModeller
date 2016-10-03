@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46a2d8daf083c7c1d2f979154c5b1b4a, ..\R.Bioconductor\RDotNET\R.NET\DataFrameRowAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::190ae4801d7df912b3eec71782d2c7c9, ..\R.Bioconductor\RDotNET\R.NET\DataFrameRowAttribute.vb"
 
     ' Author:
     ' 
@@ -74,4 +74,3 @@ Public Class DataFrameRowAttribute
         Next
 	End Sub
 End Class
-

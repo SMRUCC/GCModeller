@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6311b0c4ca5e43ec24c1e483c63b9557, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\NodeAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::8071571c54c497a5012ad039e37130d5, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Wrappers\BnLearn\NodeAbstract.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace bnlearn
 

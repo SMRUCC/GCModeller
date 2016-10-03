@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::927be148ee898c6e6fd6d96da654f07d, ..\R.Bioconductor\RDotNET\R.NET\Devices\ICharacterDevice.vb"
+﻿#Region "Microsoft.VisualBasic::1f60e284ce4e7dce6cc05d075e3e5213, ..\R.Bioconductor\RDotNET\R.NET\Devices\ICharacterDevice.vb"
 
     ' Author:
     ' 
@@ -166,4 +166,3 @@ Namespace Devices
 		Function AddHistory([call] As Language, operation As SymbolicExpression, args As Pairlist, environment As REnvironment) As SymbolicExpression
 	End Interface
 End Namespace
-

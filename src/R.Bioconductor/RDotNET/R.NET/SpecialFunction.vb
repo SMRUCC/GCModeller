@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95184ddd3013fc3e854266926c163b81, ..\R.Bioconductor\RDotNET\R.NET\SpecialFunction.vb"
+﻿#Region "Microsoft.VisualBasic::5fd270fc00080abf7bf2bf819a626597, ..\R.Bioconductor\RDotNET\R.NET\SpecialFunction.vb"
 
     ' Author:
     ' 
@@ -61,4 +61,3 @@ Public Class SpecialFunction
 		Throw New NotSupportedException()
 	End Function
 End Class
-

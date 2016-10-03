@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ac3a7c013aeeb822b69eff68e3eef99, ..\R.Bioconductor\RDotNET\R.NET\Internals\Windows\RStart.vb"
+﻿#Region "Microsoft.VisualBasic::63bddfbd5fd25a0abe31fb7d6a44da04, ..\R.Bioconductor\RDotNET\R.NET\Internals\Windows\RStart.vb"
 
     ' Author:
     ' 
@@ -60,4 +60,3 @@ Namespace Internals.Windows
 		Public WriteConsoleEx As blah7
 	End Structure
 End Namespace
-

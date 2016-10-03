@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ef087aea5bf1e68b10f1493cfbdad5e, ..\R.Bioconductor\RDotNET\Graphics\Point.vb"
+﻿#Region "Microsoft.VisualBasic::9fa087b2e8604451fc586ba4dc80196f, ..\R.Bioconductor\RDotNET\Graphics\Point.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Graphics
 

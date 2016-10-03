@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4925cbeda74dc125ba55bdc0c6b6585d, ..\R.Bioconductor\RDotNET\R.NET\RawMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::9cf1015f6738303e0e927e3c4d649577, ..\R.Bioconductor\RDotNET\R.NET\RawMatrix.vb"
 
     ' Author:
     ' 
@@ -127,4 +127,3 @@ Public Class RawMatrix
 		End Get
 	End Property
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5988314f5d8de9c8c5df192840836df9, ..\R.Bioconductor\RDotNET\R.NET\Internals\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::688747c15b7828ff7a9d92164a67cdc3, ..\R.Bioconductor\RDotNET\R.NET\Internals\Delegates.vb"
 
     ' Author:
     ' 
@@ -243,4 +243,3 @@ Namespace Internals
 	<UnmanagedFunctionPointer(CallingConvention.Cdecl)> _
 	Friend Delegate Sub R_gc()
 End Namespace
-

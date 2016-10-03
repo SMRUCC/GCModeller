@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e0baf9bd2f53616d3204a628c39256a, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\RPackage\Graphics\grDevices\images.vb"
+﻿#Region "Microsoft.VisualBasic::3aedf6c13d0036b80e0ecefe8f783a34, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\grDevices\images.vb"
 
     ' Author:
     ' 
@@ -155,4 +155,3 @@ Namespace SymbolBuilder.packages.grDevices
         End Sub
     End Class
 End Namespace
-

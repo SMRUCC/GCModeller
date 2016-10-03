@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa7e7f01b2b46702f3be6ce488ecacf1, ..\R.Bioconductor\RDotNET\R.NET\ParseException.vb"
+﻿#Region "Microsoft.VisualBasic::6c0e40a748272733a78001e5d06b6e3e, ..\R.Bioconductor\RDotNET\R.NET\ParseException.vb"
 
     ' Author:
     ' 
@@ -108,4 +108,3 @@ Public Class ParseException
 		info.AddValue(ErrorStatementFieldName, Me.m_errorStatement)
 	End Sub
 End Class
-

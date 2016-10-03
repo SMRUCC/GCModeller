@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85884caeed6b694741ccb70e95081eaa, ..\R.Bioconductor\RDotNET\R.NET\InternalString.vb"
+﻿#Region "Microsoft.VisualBasic::aa70a8daca1b32f657787ed0086f9443, ..\R.Bioconductor\RDotNET\R.NET\InternalString.vb"
 
     ' Author:
     ' 
@@ -89,4 +89,3 @@ Public Class InternalString
 		Return Marshal.PtrToStringAnsi(pointer)
 	End Function
 End Class
-

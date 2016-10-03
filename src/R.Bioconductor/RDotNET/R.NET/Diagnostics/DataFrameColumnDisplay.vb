@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b57a1975fe308612200550efcebdc42c, ..\R.Bioconductor\RDotNET\R.NET\Diagnostics\DataFrameColumnDisplay.vb"
+﻿#Region "Microsoft.VisualBasic::ad2f6099f8a464704c9015978f334421, ..\R.Bioconductor\RDotNET\R.NET\Diagnostics\DataFrameColumnDisplay.vb"
 
     ' Author:
     ' 
@@ -68,4 +68,3 @@ Namespace Diagnostics
 		End Property
 	End Class
 End Namespace
-

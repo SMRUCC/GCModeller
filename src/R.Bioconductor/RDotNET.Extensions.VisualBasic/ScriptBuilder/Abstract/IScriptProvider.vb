@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bc959a2c1ed0e5c4979348f07dc3ddc, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\Abstract\IScriptProvider.vb"
+﻿#Region "Microsoft.VisualBasic::0b8cc752f1e51ccf9893151e4c900183, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\Abstract\IScriptProvider.vb"
 
     ' Author:
     ' 

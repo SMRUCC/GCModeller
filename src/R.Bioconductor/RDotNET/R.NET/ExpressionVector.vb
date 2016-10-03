@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::972861b7d8a75344b0a6560cbaa5ba94, ..\R.Bioconductor\RDotNET\R.NET\ExpressionVector.vb"
+﻿#Region "Microsoft.VisualBasic::fa6720cf29c15faa44389af7502f2bbb, ..\R.Bioconductor\RDotNET\R.NET\ExpressionVector.vb"
 
     ' Author:
     ' 
@@ -109,4 +109,3 @@ Public Class ExpressionVector
 		End Get
 	End Property
 End Class
-

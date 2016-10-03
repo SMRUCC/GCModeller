@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5aab2e14fb38afc80a5cdffbc9a773b, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Services\RPackage\dynamicTreeCut\dynamicTreeCut.vb"
+﻿#Region "Microsoft.VisualBasic::1b8a3b474b655043fbdc9cbc03b4bafb, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\dynamicTreeCut\dynamicTreeCut.vb"
 
     ' Author:
     ' 
@@ -48,4 +48,3 @@ Namespace SymbolBuilder.packages.dynamicTreeCut
         End Function
     End Module
 End Namespace
-

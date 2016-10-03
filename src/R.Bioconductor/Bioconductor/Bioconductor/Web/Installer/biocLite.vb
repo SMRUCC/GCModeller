@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f5f1d91ec8bf79263e720ed262cc193, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\Installer\biocLite.vb"
+﻿#Region "Microsoft.VisualBasic::a4f41e691503c1f2dbee80b96ee54d1f, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\Installer\biocLite.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Namespace Web.Installer
 

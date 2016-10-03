@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f94f023a3eba020236c29a63e87d5d60, ..\R.Bioconductor\RDotNET\R.NET\Language.vb"
+﻿#Region "Microsoft.VisualBasic::b1c40925b68d1eb218ea425f10a8ab2a, ..\R.Bioconductor\RDotNET\R.NET\Language.vb"
 
     ' Author:
     ' 
@@ -57,4 +57,3 @@ Public Class Language
 		End Get
 	End Property
 End Class
-

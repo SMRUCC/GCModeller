@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f9908c21aad8f05443de60bb60e6571, ..\R.Bioconductor\RDotNET\R.NET\DataFrameRow.vb"
+﻿#Region "Microsoft.VisualBasic::59fafe923c6d2ba6dd3f2a0d5a70b790, ..\R.Bioconductor\RDotNET\R.NET\DataFrameRow.vb"
 
     ' Author:
     ' 
@@ -167,4 +167,3 @@ Public Class DataFrameRow
 		Return True
 	End Function
 End Class
-
