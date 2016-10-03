@@ -57,6 +57,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
                        SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression,
                        SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork)
+Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' 将MEME所分析出来的调控信息附加到代谢途径的网络图之中

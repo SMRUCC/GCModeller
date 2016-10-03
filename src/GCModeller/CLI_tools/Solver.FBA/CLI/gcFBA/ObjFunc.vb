@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.FBA_DP
 Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
 Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT

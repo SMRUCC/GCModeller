@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports Microsoft.VisualBasic.Text
 
 Namespace Analysis.Similarity.TOMQuery
 
@@ -134,7 +135,7 @@ Namespace Analysis.Similarity.TOMQuery
                                     param As Parameters) As SW_HSP()
             Dim method = TomTOm.GetMethod(param.Method)
             Dim alignment = (From out As SW_HSP
-                             In sw.HSP.ToArray(Function(x) x.__alignInvoke(query, subject, method, param), Parallel:=param.Parallel)
+                             In sw.HSP.ToArray(Function(x) x.__alignInvoke(query, subject, method, param), parallel:=param.Parallel)
                              Where Not out Is Nothing
                              Select out).ToArray
             Return alignment

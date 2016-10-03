@@ -52,6 +52,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Model.Network.Regulons.MotifCluster
+Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 
@@ -236,7 +237,7 @@ Partial Module CLI
         '将Entity和sites位点联系起来
         Dim asso = (From x In resultSet Select x, sites = QueryHash(x.Name)).ToArray
         Dim merges = (From gene In (From x In asso Select __expends(x.x, x.sites)).MatrixToList Select gene Group gene By gene.Name Into Group).ToArray
-        Dim result As EntityLDM() = merges.ToArray(Function(x) __merges(x.Group.ToArray), Parallel:=True)
+        Dim result As EntityLDM() = merges.ToArray(Function(x) __merges(x.Group.ToArray), parallel:=True)
 
         Call result.SaveTo(out & "/resultSet.Csv")
 

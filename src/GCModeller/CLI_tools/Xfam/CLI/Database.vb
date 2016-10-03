@@ -28,6 +28,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.Xfam.Rfam
 
 Partial Module CLI

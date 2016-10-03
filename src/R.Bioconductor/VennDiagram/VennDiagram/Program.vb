@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Text
 
 Module Program
 

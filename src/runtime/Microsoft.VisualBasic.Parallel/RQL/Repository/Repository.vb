@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Linq.Framework.Provider
 Imports Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI
 Imports Microsoft.VisualBasic.RQL.StorageTek
 Imports Microsoft.VisualBasic.Serialization.JSON.JsonContract
+Imports Microsoft.VisualBasic.Text
 
 Namespace Linq
 

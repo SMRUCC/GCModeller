@@ -46,6 +46,7 @@ Imports xCytoscape.GCModeller.FileSystem.KEGG.Directories
 Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
+Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 

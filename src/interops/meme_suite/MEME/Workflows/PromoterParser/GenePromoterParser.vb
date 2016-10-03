@@ -38,6 +38,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports Microsoft.VisualBasic.Text
 
 Namespace Workflows.PromoterParser
 

@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.genomics.Visualize.Cytoscape
+Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 
