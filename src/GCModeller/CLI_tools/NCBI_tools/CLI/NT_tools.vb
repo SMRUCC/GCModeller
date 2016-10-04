@@ -187,7 +187,7 @@ Partial Module CLI
 #End If
                 Return True
             Else
-                Return title.IsOrdered(tokens)
+                Return title.IsOrdered(tokens, False, True)
             End If
         End Function
 
