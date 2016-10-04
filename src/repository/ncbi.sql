@@ -18,6 +18,20 @@ USE `ncbi`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `gi2taxid`
+--
+
+DROP TABLE IF EXISTS `gi2taxid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gi2taxid` (
+  `gi` int(11) NOT NULL,
+  `taxid` int(11) NOT NULL,
+  PRIMARY KEY (`gi`,`taxid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `nt`
 --
 
@@ -29,6 +43,7 @@ CREATE TABLE `nt` (
   `db` varchar(32) NOT NULL,
   `uid` varchar(32) NOT NULL,
   `description` tinytext NOT NULL,
+  `taxid` int(11) NOT NULL COMMENT 'taxonomy id',
   PRIMARY KEY (`gi`),
   UNIQUE KEY `gi_UNIQUE` (`gi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='nt sequence database';
@@ -75,4 +90,4 @@ CREATE TABLE `taxonomy` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-04 19:49:12
+-- Dump completed on 2016-10-04 20:02:09

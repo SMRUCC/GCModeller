@@ -1,0 +1,55 @@
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Text
+Imports Oracle.LinuxCompatibility.MySQL
+Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports mysqlClient = Oracle.LinuxCompatibility.MySQL.MySQL
+
+''' <summary>
+''' 向数据库之中导入NT数据的操作
+''' </summary>
+Public Module ImportsNT
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="mysql"></param>
+    ''' <param name="nt$"></param>
+    ''' <param name="EXPORT$">序列数据所保存的文件夹</param>
+    <Extension>
+    Public Sub [Imports](mysql As mysqlClient, nt$, EXPORT$)
+        Dim writer As New Dictionary(Of IndexWriter)
+
+        For Each seq As FastaToken In New StreamIterator(nt).ReadStream
+            For Each h In NTheader.ParseNTheader(seq)
+                Dim nt_header As New mysql.NCBI.nt With {
+                    .db = h.db,
+                    .description = MySqlEscaping(h.description),
+                    .gi = h.gi,
+                    .uid = h.uid
+                }
+                Dim index$ = nt_header.Index
+
+                If Not writer.ContainsKey(index) Then
+                    writer(index) = New IndexWriter(
+                        EXPORT,
+                        nt_header.db.ToLower,
+                        index)
+                End If
+
+                Call mysql.ExecInsert(nt_header)
+                Call writer(index).Write(seq.SequenceData, h)
+            Next
+        Next
+    End Sub
+
+    <Extension>
+    Public Function Index$(nt As mysql.NCBI.nt)
+        Dim gi = Mid(CStr(nt.gi), 1, 2)
+        If gi.Length = 1 Then
+            gi = gi & "0"
+        End If
+        Return nt.db.ToLower & "-" & gi
+    End Function
+End Module
