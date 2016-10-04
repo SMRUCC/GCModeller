@@ -24,15 +24,17 @@ Public Class Index : Inherits IndexAbstract
 
     Public Structure BlockRange
 
-        Dim start&, end&
+        Dim start&, len%
 
         Public Overrides Function ToString() As String
-            Return $"{start} --> {end&}"
+            Return $"{start} --> {start& + len}"
         End Function
     End Structure
 
-    Sub New(uid$, Data$)
-        Dim path$ = $"{Data}/{uid}.nt"
+    Sub New(Data$, db$, index$)
+        MyBase.New(index$)
+
+        Dim path$ = $"{Data}/{db}/{index}.nt"
         __handle = New StreamReader(File.OpenRead(path), Encoding.ASCII)
     End Sub
 
