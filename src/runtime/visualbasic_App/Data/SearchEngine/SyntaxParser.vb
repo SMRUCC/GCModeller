@@ -66,9 +66,12 @@ Public Module SyntaxParser
         Return False
     End Function
 
+    Const Marks As Char = "'"c
+
     Public Function Parser(query$) As List(Of Token(Of Tokens))
         Dim tklist As New List(Of Token(Of Tokens))
         Dim quotOpen As Boolean
+        Dim markOpen As Boolean
         Dim escape As Boolean
         Dim tmp As New List(Of Char)
         Dim getOp As Boolean
@@ -77,7 +80,7 @@ Public Module SyntaxParser
         Do While Not t.EndRead
             Dim c As Char = +t
 
-            If c = ASCII.Quot Then
+            If c = ASCII.Quot AndAlso Not markOpen Then
                 If escape Then
                     tmp += c
                     escape = False
@@ -93,7 +96,7 @@ Public Module SyntaxParser
                     End If
                 End If
             ElseIf c = " "c OrElse c = ASCII.TAB Then
-                If Not quotOpen AndAlso Not escape Then
+                If Not quotOpen AndAlso Not escape AndAlso Not markOpen Then
                     tklist += New Token(Of Tokens)(Tokens.AnyTerm, New String(tmp))
                     tmp.Clear()
                 Else
@@ -113,11 +116,41 @@ Public Module SyntaxParser
                     Continue Do
                 End If
 
+                If c = Marks Then
+                    If escape Then
+                        escape = False
+                    Else
+                        Dim ismarkClose As Boolean = markOpen
+
+                        markOpen = Not markOpen
+
+                        If ismarkClose Then  ' 这里的这个双引号是结束符
+                            tklist += New Token(Of Tokens)(Tokens.AnyTerm, New String(tmp))
+                            tmp.Clear()
+                        End If
+                    End If
+                End If
+
+                If markOpen Then
+                    If c = "\"c Then
+                        escape = Not escape
+                    Else
+                        If escape Then
+                            escape = Not escape
+                        End If
+                    End If
+                    Continue Do
+                End If
+
                 If c = stackOpen Then
                     tklist += New Token(Of Tokens)(Tokens.stackOpen, "(")
                     tmp.Clear()
                     Continue Do
                 ElseIf c = stackClose Then
+                    If tmp.Last = stackClose Then
+                        tmp.RemoveLast
+                    End If
+
                     tklist += New Token(Of Tokens)(Tokens.AnyTerm, New String(tmp))
                     tklist += New Token(Of Tokens)(Tokens.stackClose, ")")
                     tmp.Clear()
@@ -174,7 +207,6 @@ Public Module SyntaxParser
     Public Enum Tokens
         AnyTerm
         MustTerm
-        Field
         op_AND
         op_NOT
         op_OR
