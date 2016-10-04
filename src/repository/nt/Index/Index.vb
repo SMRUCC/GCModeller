@@ -37,7 +37,7 @@ Public Class Index : Inherits IndexAbstract
         MyBase.New(index$)
 
         Dim path$ = $"{Data}/{db}/{index}.nt"
-        __handle = New BinaryDataReader(File.OpenRead(path))
+        __handle = path.OpenBinaryReader
         Call MakeIndex(path:=$"{Data}/index/{db}/{index}.index")
         __handle.Seek(Scan0, SeekOrigin.Begin)
     End Sub
