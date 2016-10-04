@@ -169,6 +169,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImportsNT.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -184,6 +185,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="mysql\NCBI\gi2taxid.vb" />
     <Compile Include="mysql\NCBI\nt.vb" />
     <Compile Include="mysql\NCBI\rank_names.vb" />
     <Compile Include="mysql\NCBI\taxonomy.vb" />
