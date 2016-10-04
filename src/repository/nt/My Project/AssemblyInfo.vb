@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Model_Repository")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("Model_Repository")> 
-<Assembly: AssemblyCopyright("Copyright ©  2014")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("NCBI data repository system")>
+<Assembly: AssemblyDescription("NCBI data repository system")>
+<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyProduct("nt_repo")>
+<Assembly: AssemblyCopyright("Copyright © xieguigang 2016")>
+<Assembly: AssemblyTrademark("GCModeller")>
 
 <Assembly: ComVisible(False)>
 

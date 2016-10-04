@@ -401,7 +401,7 @@
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayMappingTool.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\Rpt.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTT.vb" />
-    <Compile Include="Assembly\NCBI\SeqDump\Gene.vb" />
+    <Compile Include="Assembly\NCBI\SeqDump\nt.vb" />
     <Compile Include="BioAssemblyExtensions.vb" />
     <Compile Include="IQueryExtensions.vb" />
     <Compile Include="ProteinModel\DomainObject.vb" />
