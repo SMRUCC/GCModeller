@@ -119,6 +119,8 @@ Partial Module CLI
         Dim names As WordTokens() = list.LoadCsv(Of WordTokens)
         Dim writer As Dictionary(Of String, StreamWriter)
 
+        Const UNKNOWN$ = "#UNKNOWN"
+
         Try
             writer = names.ToDictionary(
                 Function(x) x.name,
@@ -126,7 +128,10 @@ Partial Module CLI
         Catch ex As Exception
             ex = New Exception("There is duplicated name in your input list data!", ex)
             Throw ex
+        Finally
         End Try
+
+        Call writer.Add(UNKNOWN, $"{out}/{UNKNOWN}.fasta".OpenWriter(Encodings.ASCII))
 
         Using stream As New StreamIterator([in])
             For Each fasta As FastaToken In stream.ReadStream
@@ -138,14 +143,16 @@ Partial Module CLI
                     Where x.Match(title)
                     Select x.name
 
-                If ms.Length > 0 Then
-                    Dim data As String = fasta.GenerateDocument(120)
+                Dim data As String = fasta.GenerateDocument(120)
 
+                If ms.Length > 0 Then
                     For Each m As String In ms
-                        Call writer(m).WriteLine(data)
+                        Call writer(m).WriteLine(Data)
                     Next
 
                     Call Console.Write(".")
+                Else
+                    Call writer(UNKNOWN).WriteLine(Data)
                 End If
             Next
         End Using
@@ -180,7 +187,7 @@ Partial Module CLI
 #End If
                 Return True
             Else
-                Return title.IsOrdered(tokens)
+                Return title.IsOrdered(tokens, False, True)
             End If
         End Function
 

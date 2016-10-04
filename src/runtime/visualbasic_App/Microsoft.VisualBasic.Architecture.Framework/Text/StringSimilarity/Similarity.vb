@@ -135,11 +135,11 @@ Namespace Text.Similarity
         End Function
 
         <Extension>
-        Public Function TokenOrders(s1$(), s2 As IEnumerable(Of String), Optional caseSensitive As Boolean = False) As Integer()
+        Public Function TokenOrders(s1$(), s2 As IEnumerable(Of String), Optional caseSensitive As Boolean = False, Optional fuzzy As Boolean = True) As Integer()
             Dim orders As New List(Of Integer)
 
             For Each t$ In s2
-                orders += s1.Located(t$, caseSensitive)
+                orders += s1.Located(t$, caseSensitive, fuzzy)
             Next
 
             Return orders
@@ -150,16 +150,25 @@ Namespace Text.Similarity
             Return s1.IsOrdered(s2.Split, caseSensitive)
         End Function
 
+        ''' <summary>
+        ''' 查看<paramref name="s2"/>之中的字符串的顺序是否是在<paramref name="s1"/>之中按顺序排序的
+        ''' </summary>
+        ''' <param name="s1$"></param>
+        ''' <param name="s2$"></param>
+        ''' <param name="caseSensitive"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function IsOrdered(s1$(), s2$(), Optional caseSensitive As Boolean = False) As Boolean
-            Dim orders%() = s1.TokenOrders(s2, caseSensitive)
+        Public Function IsOrdered(s1$(), s2$(), Optional caseSensitive As Boolean = False, Optional fuzzy As Boolean = True) As Boolean
+            Dim orders%() = s1.TokenOrders(s2, caseSensitive, fuzzy)
             orders = orders.Where(Function(x) x <> -1).ToArray
 
-            If orders.Length <= 1 Then
+            If orders.Length = 0 Then  ' 这里是完全比对不上的情况，则肯定是False
                 Return False
             End If
 
+            ' 还有一个比对上的怎么办？？？
             If orders.SequenceEqual(orders.OrderBy(Function(x) x)) Then
+                ' 假若排序前和排序后的元素仍然每一个元素都相等，则是说明s2是和s1的排序是一样的
                 Return True
             Else
                 Return False
@@ -172,8 +181,8 @@ Namespace Text.Similarity
         End Function
 
         <Extension>
-        Public Function IsOrdered(s1$, s2$(), Optional caseSensitive As Boolean = False) As Boolean
-            Return s1.Split.IsOrdered(s2$, caseSensitive)
+        Public Function IsOrdered(s1$, s2$(), Optional caseSensitive As Boolean = False, Optional fuzzy As Boolean = True) As Boolean
+            Return s1.Split.IsOrdered(s2$, caseSensitive, fuzzy)
         End Function
 
         Public Function StringSelection(query As String, collection As IEnumerable(Of String), Optional cutoff# = 0.6, Optional ignoreCase As Boolean = True, Optional tokenBased As Boolean = False) As String
