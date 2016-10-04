@@ -1,10 +1,10 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text
+Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports mysqlClient = Oracle.LinuxCompatibility.MySQL.MySQL
-Imports Oracle.LinuxCompatibility.MySQL
 
 ''' <summary>
 ''' 向数据库之中导入NT数据的操作

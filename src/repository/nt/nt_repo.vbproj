@@ -169,6 +169,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IndexWriter.vb" />
+    <Compile Include="Index.vb" />
     <Compile Include="ImportsNT.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
