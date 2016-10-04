@@ -44,6 +44,6 @@ Public Module ImportsNT
 
     <Extension>
     Public Function Index$(nt As mysql.NCBI.nt)
-        Return nt.db.ToLower & "-" & Mid(nt.gi.ToString, 1, 2)
+        Return nt.db.ToLower & "-" & Mid(CStr(nt.gi), 1, 1)
     End Function
 End Module

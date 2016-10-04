@@ -87,16 +87,27 @@ Namespace Assembly.NCBI.SequenceDump
 
         Public Shared Iterator Function ParseNTheader(fa As FastaToken) As IEnumerable(Of NTheader)
             Dim attrs$() = fa.Attributes
-            Dim splits = attrs.Split(5%)
+            Dim splits$()() = attrs.Skip(1).Split(4%)
+            Dim trimGI As Boolean = splits.Length > 1
 
             For Each b As String() In splits
+                Dim descr$ = Strings.Trim(b(3))
+
                 Yield New NTheader With {
-                    .gi = b(1),
-                    .db = b(2),
-                    .uid = b(3),
-                    .description = b(4)
+                    .gi = b(0),
+                    .db = b(1),
+                    .uid = b(2),
+                    .description = If(trimGI, Trim(descr), descr)
                 }
             Next
+        End Function
+
+        Private Shared Function Trim(s As String) As String
+            Dim gi$ = Mid(s, s.Length - 1)
+            If String.Equals("gi", gi$, StringComparison.OrdinalIgnoreCase) Then
+                s = Mid(s, 1, s.Length - 2)
+            End If
+            Return s
         End Function
     End Structure
 End Namespace
