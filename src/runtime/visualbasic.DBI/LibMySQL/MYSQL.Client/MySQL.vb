@@ -492,7 +492,7 @@ Public Class MySQL : Implements IDisposable
     End Operator
 
     ''' <summary>
-    ''' ``mysql.Connect(cnn)``
+    ''' ``mysql.Connect(cnn)``, 返回-1表示与数据库服务器通信失败
     ''' </summary>
     ''' <param name="mysql"></param>
     ''' <param name="cnn"></param>

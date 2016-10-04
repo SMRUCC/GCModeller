@@ -24,6 +24,12 @@ Public Class Index : Inherits IndexAbstract
     ''' </summary>
     ReadOnly __index As New SortedDictionary(Of String, BlockRange)
 
+    Public ReadOnly Property Size As Long
+        Get
+            Return __handle.Length
+        End Get
+    End Property
+
     Public Structure BlockRange
 
         Dim start&, len%

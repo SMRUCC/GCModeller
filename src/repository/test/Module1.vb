@@ -7,6 +7,20 @@ Module Module1
 
     Sub Main()
 
+        Dim cnn As New ConnectionUri With {
+            .Database = "ncbi",
+            .IPAddress = "127.0.0.1",
+            .Password = "1234",
+            .User = "root",
+            .ServicesPort = 3306
+        }
+
+        Dim engine As New QueryEngine(cnn)
+
+        Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
+
+        MsgBox(size)
+
         'Try
         '    Dim reader = "X:\cache".OpenBinaryReader
         'Catch ex As Exception
@@ -16,13 +30,7 @@ Module Module1
 
         Call testIndex()
 
-        Dim cnn As New ConnectionUri With {
-            .Database = "ncbi",
-            .IPAddress = "127.0.0.1",
-            .Password = "1234",
-            .User = "root",
-            .ServicesPort = 3306
-        }
+
         Dim mysql As New MySQL(cnn)
 
         Call mysql.[Imports]("D:\GCModeller\src\repository\data\test_virus_nt.fna", "D:\GCModeller\src\repository\data\DATA\")
