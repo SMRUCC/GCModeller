@@ -42,6 +42,10 @@ Namespace Assembly.NCBI
         Public Property taxid As Integer
         Public Property name As String
         Public Property rank As String
+        ''' <summary>
+        ''' 当前的节点的父节点的编号: ``<see cref="taxid"/>``
+        ''' </summary>
+        ''' <returns></returns>
         Public Property parent As String
         Public Property children As List(Of Integer)
 
