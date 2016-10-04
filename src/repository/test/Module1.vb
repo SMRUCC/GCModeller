@@ -5,9 +5,6 @@ Imports SMRUCC.genomics.Data.Repository.NCBI
 Module Module1
 
     Sub Main()
-
-        Call testIndex()
-
         Dim cnn As New ConnectionUri With {
             .Database = "ncbi",
             .IPAddress = "127.0.0.1",
@@ -18,8 +15,7 @@ Module Module1
         Dim mysql As New MySQL(cnn)
 
         Call mysql.[Imports]("D:\GCModeller\src\repository\data\test_virus_nt.fna", "D:\GCModeller\src\repository\data\DATA\")
-
-
+        Call testIndex()
     End Sub
 
 

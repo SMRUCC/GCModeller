@@ -42,6 +42,10 @@ Public Module ImportsNT
                 Call writer(index).Write(seq.SequenceData, h)
             Next
         Next
+
+        For Each file In writer.Values
+            Call file.Dispose()
+        Next
     End Sub
 
     <Extension>
