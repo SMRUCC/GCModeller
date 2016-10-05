@@ -40,6 +40,11 @@ Public Class QueryEngine
         Return __nt.Values.Sum(Function(i) i.Size)
     End Function
 
+    ''' <summary>
+    ''' 请参考搜索引擎的语法，假若查询里面含有符号的话，会被当作分隔符来看待，所以假若符号也要被匹配出来的话，需要添加双引号
+    ''' </summary>
+    ''' <param name="query$"></param>
+    ''' <returns></returns>
     Public Iterator Function Search(query$) As IEnumerable(Of FastaToken)
         Dim expression As Expression = Build(query$)
 

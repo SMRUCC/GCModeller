@@ -82,7 +82,7 @@ Public Class TitleIndex : Inherits IndexAbstract
             Yield New NamedValue(Of String) With {
                 .Name = gi,
                 .x = value,
-                .Description = gi
+                .Description = Me.gi
             }
         Next
 

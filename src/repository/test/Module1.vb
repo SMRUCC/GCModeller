@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Data.Repository.NCBI
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Module1
 
@@ -11,6 +12,13 @@ Module Module1
         Dim engine As New QueryEngine()
 
         Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
+
+        Dim fasta As New FastaFile(engine.Search("""1-OP3-PA-USA-2006"""))
+
+        Call fasta.Save("x:\gggg.fa")
+
+
+        Pause()
 
         Call testIndex()
 
