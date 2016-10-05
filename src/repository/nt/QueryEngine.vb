@@ -17,6 +17,9 @@ Public Class QueryEngine
         End If
     End Sub
 
+    Sub New()
+    End Sub
+
     Public Function ScanSeqDatabase(DATA$) As Long
         For Each db$ In ls - l - r - lsDIR <= DATA
             Dim name$ = db$.BaseName

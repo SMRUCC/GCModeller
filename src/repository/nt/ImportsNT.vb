@@ -18,7 +18,7 @@ Public Module ImportsNT
     ''' <param name="nt$"></param>
     ''' <param name="EXPORT$">序列数据所保存的文件夹</param>
     <Extension>
-    Public Sub [Imports](mysql As mysqlClient, nt$, EXPORT$)
+    Public Sub [Imports](mysql As mysqlClient, nt$, EXPORT$, Optional writeMysql As Boolean = True)
         Dim writer As New Dictionary(Of IndexWriter)
         Dim titles As New Dictionary(Of TitleWriter)
 
@@ -53,7 +53,10 @@ Public Module ImportsNT
                         index)
                 End If
 
-                Call mysql.ExecInsert(nt_header)
+                If writeMysql Then
+                    Call mysql.ExecInsert(nt_header)
+                End If
+
                 Call writer(index).Write(seq.SequenceData, h)
                 Call titles(index).Write(h)
             Next

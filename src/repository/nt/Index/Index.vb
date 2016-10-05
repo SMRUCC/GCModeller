@@ -17,31 +17,27 @@ Public Class Index : Inherits IndexAbstract
     Public ReadOnly Property URI As String
 
     ''' <summary>
-    ''' 序列文件的文件句柄
-    ''' </summary>
-    ReadOnly __handle As BinaryDataReader
-    ''' <summary>
     ''' ``{nt_gi, <see cref="BlockRange"/>}``.(序列数据的读取范围)
     ''' </summary>
     ReadOnly __index As New SortedDictionary(Of String, BlockRange)
+    ReadOnly __reader As ReaderProvider
 
     Public ReadOnly Property Size As Long
-        Get
-            Return __handle.Length
-        End Get
-    End Property
 
     Sub New(Data$, db$, index$)
         MyBase.New(index$)
 
         Dim path$ = $"{Data}/{db}/{index}.nt"
-        __handle = path.OpenBinaryReader
+        URI = path
+        Size = FileIO.FileSystem.GetFileInfo(URI).Length
         Call MakeIndex(path:=$"{Data}/index/{db}/{index}.index")
-        __handle.Seek(Scan0, SeekOrigin.Begin)
+        __reader = New ReaderProvider(URI,,)
     End Sub
 
     Private Sub MakeIndex(path$)
-        Using indexReader As New BinaryDataReader(File.OpenRead(path$), Encodings.ASCII)
+        Using indexReader As New BinaryDataReader(File.OpenRead(path$), Encodings.ASCII),
+            __handle As New BinaryDataReader(File.OpenRead(URI), Encodings.ASCII)
+
             Dim start&, len%
             Dim gi_start&, gi_end&, gi_len%
             Dim gi$
@@ -72,16 +68,16 @@ Public Class Index : Inherits IndexAbstract
         End If
 
         Dim range As BlockRange = __index(gi$)
+        Dim value As String = Nothing
 
-        SyncLock __handle
-            Call __handle.Seek(range.start, SeekOrigin.Begin)
-            Return New String(__handle.ReadChars(range.len))
-        End SyncLock
+        Call __reader.Read(Sub(__handle)
+                               Call __handle.Seek(range.start, SeekOrigin.Begin)
+                               value = New String(__handle.ReadChars(range.len))
+                           End Sub)
+        Return value
     End Function
 
     Protected Overrides Sub Dispose(disposing As Boolean)
-        __handle.Close()
-        __handle.Dispose()
         MyBase.Dispose(disposing)
     End Sub
 End Class
