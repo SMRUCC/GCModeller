@@ -1,0 +1,2 @@
+L48547.1	RHVCP Rabbit haemorrhagic disease virus capsid protein mRNA, complete cds
+EF219380.1	Israel acute paralysis virus of bees, complete genome

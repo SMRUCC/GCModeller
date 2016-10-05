@@ -1,0 +1,10 @@
+KP418928.1	Acute bee paralysis virus isolate F11_2_Apis_M capsid protein gene, partial cds
+KP418930.1	Acute bee paralysis virus isolate F11_4_Apis_M capsid protein gene, partial cds
+KP418932.1	Acute bee paralysis virus isolate B12_1_Bter_M capsid protein gene, partial cds
+KP418933.1	Acute bee paralysis virus isolate B12_2_Bter_M capsid protein gene, partial cds
+KP418934.1	Acute bee paralysis virus isolate B12_3_Bter_M capsid protein gene, partial cds
+KP418929.1	Acute bee paralysis virus isolate F11_3_Apis_M capsid protein gene, partial cds
+KP418931.1	Acute bee paralysis virus isolate F11_5_Apis_M capsid protein gene, partial cds
+KP025950.1	Acute bee paralysis virus strain Benin-S100 clone IAPVst100_pl1 capsid protein gene, partial cds
+KP025951.1	Acute bee paralysis virus strain Benin-S100 clone IAPVst100_pl4 capsid protein gene, partial cds
+KP025952.1	Acute bee paralysis virus strain Benin-S100 clone IAPVst100_pl6 capsid protein gene, partial cds

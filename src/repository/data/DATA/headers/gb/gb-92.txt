@@ -1,0 +1,5 @@
+AF210435.1	AF210435 Hepatitis G virus isolate acuteB28-GR 5' untranslated region, partial sequence
+AF210436.1	AF210436 Hepatitis G virus isolate acuteB40-GR 5' untranslated region, partial sequence
+AF210437.1	AF210437 Hepatitis G virus isolate acuteB58-GR 5' untranslated region, partial sequence
+AF210438.1	AF210438 Hepatitis G virus isolate acuteC18-GR 5' untranslated region, partial sequence
+AF210439.1	AF210439 Hepatitis G virus isolate acuteC33-GR 5' untranslated region, partial sequence

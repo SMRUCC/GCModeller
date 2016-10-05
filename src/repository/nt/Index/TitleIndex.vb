@@ -14,6 +14,12 @@ Public Class TitleIndex : Inherits IndexAbstract
         End Get
     End Property
 
+    Public ReadOnly Property giKeys As IEnumerable(Of String)
+        Get
+            Return __index.Keys
+        End Get
+    End Property
+
     Public Sub New(DATA$, db$, uid$)
         MyBase.New(uid)
 

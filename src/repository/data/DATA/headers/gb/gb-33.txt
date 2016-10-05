@@ -1,0 +1,19 @@
+AY152709.1	Acute bee paralysis virus structural protein gene, partial cds
+AY152710.1	Acute bee paralysis virus isolate aa structural protein gene, partial cds
+AF486072.2	Acute bee paralysis virus isolate Hungary 1, complete genome
+AF486073.2	Acute bee paralysis virus isolate Poland 1, complete genome
+HM348899.1	Hepatitis C virus subtype 1b isolate ACUTEN1_1763 NS5A protein gene, partial cds
+HM349122.1	Hepatitis C virus subtype 1a isolate ACUTEN4_1986 NS5A protein gene, partial cds
+HM350553.1	Hepatitis C virus subtype 1b isolate acuteH1_0001 polyprotein gene, partial cds
+HM350554.1	Hepatitis C virus subtype 1b isolate acuteH2_0002 polyprotein gene, partial cds
+HM350557.1	Hepatitis C virus subtype 1b isolate acuteH5_0005 polyprotein gene, partial cds
+HM350559.1	Hepatitis C virus subtype 1b isolate acuteH8_0007 polyprotein gene, partial cds
+HM350555.1	Hepatitis C virus subtype 1b isolate acuteH3_0003 polyprotein gene, partial cds
+HM350556.1	Hepatitis C virus subtype 1b isolate acuteH4_0004 polyprotein gene, partial cds
+HM350558.1	Hepatitis C virus subtype 1b isolate acuteH7_0006 polyprotein gene, partial cds
+HM350733.1	Hepatitis C virus subtype 1a isolate ACUTEH3_0181 polyprotein gene, partial cds
+HM350735.1	Hepatitis C virus subtype 1a isolate ACUTEH9_0183 polyprotein gene, partial cds
+HM351775.1	Hepatitis C virus subtype 1a isolate ACUTEC1_1223 polyprotein gene, partial cds
+HM351776.1	Hepatitis C virus subtype 1a isolate ACUTEC2_1224 polyprotein gene, partial cds
+HQ833201.1	Israel acute paralysis virus of bees isolate IAPV-244-POLAND-2010 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+HQ833202.1	Israel acute paralysis virus of bees isolate IAPV-520-POLAND-2010 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds

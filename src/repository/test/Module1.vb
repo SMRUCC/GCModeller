@@ -6,6 +6,7 @@ Imports SMRUCC.genomics.Data.Repository.NCBI
 Module Module1
 
     Sub Main()
+        Call testIndex()
 
         Dim cnn As New ConnectionUri With {
             .Database = "ncbi",
@@ -15,11 +16,11 @@ Module Module1
             .ServicesPort = 3306
         }
 
-        Dim engine As New QueryEngine(cnn)
+        'Dim engine As New QueryEngine(cnn)
 
-        Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
+        'Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
 
-        MsgBox(size)
+        'MsgBox(size)
 
         'Try
         '    Dim reader = "X:\cache".OpenBinaryReader
@@ -27,13 +28,10 @@ Module Module1
         '    Call ex.PrintException
         'End Try
 
-
-        Call testIndex()
-
-
         Dim mysql As New MySQL(cnn)
 
         Call mysql.[Imports]("D:\GCModeller\src\repository\data\test_virus_nt.fna", "D:\GCModeller\src\repository\data\DATA\")
+        Call testIndex()
     End Sub
 
 
@@ -45,6 +43,16 @@ Module Module1
 
         For Each gi$ In nt.Keys
             Call (nt(gi$) = index.ReadNT_by_gi(gi$)).__DEBUG_ECHO  ' 测试NCBI数据库索引服务能否正确读取序列数据
+        Next
+
+        file = "D:\GCModeller\src\repository\data\DATA\headers\gb\gb-18.txt".ReadAllLines
+        nt = file.Select(Function(s) s.Split(ASCII.TAB)).ToDictionary(Function(x) x.First, Function(x) x.Last)
+
+        Dim titleIndex As New TitleIndex("D:\GCModeller\src\repository\data\DATA\", "gb", "gb-18")
+
+
+        For Each gi$ In titleIndex.giKeys
+            Call titleIndex.ReadHeader_by_gi(gi$).__DEBUG_ECHO
         Next
 
         Pause()

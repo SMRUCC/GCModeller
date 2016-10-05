@@ -1,0 +1,54 @@
+M69085.1	EHDNS1G Epizootic haemorrhagic disease virus NS1 gene, complete cds
+M69091.1	EHDNS2G Epizootic haemorrhagic disease virus, NS2 gene, complete cds
+M76616.1	EHDVP3 Epizootic haemorrhagic disease virus VP3 protein large segment (L3) RNA, complete cds
+HQ655562.1	Israel acute paralysis virus of bees strain DVE28-OP3-PA-USA-2007 capsid protein gene, partial cds
+HQ655572.1	Israel acute paralysis virus of bees strain 24-3-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655573.1	Israel acute paralysis virus of bees strain OZ107-AUSTRALIA-2007 capsid protein gene, partial cds
+HQ655570.1	Israel acute paralysis virus of bees strain 23-1-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655574.1	Israel acute paralysis virus of bees strain AS2-TX-USA-2007 capsid protein gene, partial cds
+HQ655575.1	Israel acute paralysis virus of bees strain AS21-TX-USA-2007 capsid protein gene, partial cds
+HQ655576.1	Israel acute paralysis virus of bees strain AS5-TX-USA-2007 capsid protein gene, partial cds
+HQ655577.1	Israel acute paralysis virus of bees strain BF1-TX-USA-2007 capsid protein gene, partial cds
+HQ655578.1	Israel acute paralysis virus of bees strain BF6-TX-USA-2007 capsid protein gene, partial cds
+HQ655579.1	Israel acute paralysis virus of bees strain 20-TX-USA-2007 capsid protein gene, partial cds
+HQ877382.1	Acute bee paralysis virus strain M50/2010 capsid protein gene, partial cds
+HQ877383.1	Acute bee paralysis virus strain U135/2010 capsid protein gene, partial cds
+HQ877384.1	Acute bee paralysis virus strain U159/2010 capsid protein gene, partial cds
+HQ877385.1	Acute bee paralysis virus strain M49/2010 capsid protein gene, partial cds
+HQ877386.1	Acute bee paralysis virus strain M47/2010 capsid protein gene, partial cds
+HQ877387.1	Acute bee paralysis virus strain M22/2010 capsid protein gene, partial cds
+HQ877388.1	Acute bee paralysis virus strain R7/2008 capsid protein gene, partial cds
+HQ877389.1	Acute bee paralysis virus strain R9/2008 capsid protein gene, partial cds
+HQ877390.1	Acute bee paralysis virus strain M95/2010 capsid protein gene, partial cds
+HQ877391.1	Acute bee paralysis virus strain R8/2008 capsid protein gene, partial cds
+HQ877392.1	Acute bee paralysis virus strain R4/2007 capsid protein gene, partial cds
+HQ877393.1	Acute bee paralysis virus strain M48/2010 capsid protein gene, partial cds
+HQ877394.1	Acute bee paralysis virus strain M99/2010 capsid protein gene, partial cds
+HQ877395.1	Acute bee paralysis virus strain M17/2010 capsid protein gene, partial cds
+HQ877396.1	Acute bee paralysis virus strain R16/2009 capsid protein gene, partial cds
+HQ877397.1	Acute bee paralysis virus strain M113/2010 capsid protein gene, partial cds
+HQ877398.1	Acute bee paralysis virus strain M37/2010 capsid protein gene, partial cds
+HQ877399.1	Acute bee paralysis virus strain M22/2010 RNA-dependent RNA polymerase gene, partial cds
+HQ877400.1	Acute bee paralysis virus strain R8/2008 RNA-dependent RNA polymerase gene, partial cds
+HQ877401.1	Acute bee paralysis virus strain R7/2008 RNA-dependent RNA polymerase gene, partial cds
+HQ877402.1	Acute bee paralysis virus strain R4/2007 RNA-dependent RNA polymerase gene, partial cds
+HQ877403.1	Acute bee paralysis virus strain M95/2010 RNA-dependent RNA polymerase gene, partial cds
+HQ877404.1	Acute bee paralysis virus strain M99/2010 RNA-dependent RNA polymerase gene, partial cds
+HQ877405.1	Acute bee paralysis virus strain R16/2009 RNA-dependent RNA polymerase gene, partial cds
+HQ877406.1	Acute bee paralysis virus strain M37/2010 RNA-dependent RNA polymerase gene, partial cds
+HQ450765.1	Israel acute paralysis virus of bees isolate IAPV-164-POLAND-2010 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+HQ450766.1	Israel acute paralysis virus of bees isolate IAPV-86-POLAND-2009 RNA-dependent RNA polymerase and structural polyprotein genes, partial cds
+HQ655563.1	Israel acute paralysis virus of bees strain 1-1-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655564.1	Israel acute paralysis virus of bees strain 20-3-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655565.1	Israel acute paralysis virus of bees strain 20-1-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655566.1	Israel acute paralysis virus of bees strain 21-1-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655567.1	Israel acute paralysis virus of bees strain 21-2-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655568.1	Israel acute paralysis virus of bees strain 21-3-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655569.1	Israel acute paralysis virus of bees strain 21-4-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655571.1	Israel acute paralysis virus of bees strain 24-1-OP3-PA-USA-2006 capsid protein gene, partial cds
+HQ655580.1	Israel acute paralysis virus of bees strain Augochlora_pura-PDA116-PA-L1-USA-2007 capsid protein gene, partial cds
+HQ655581.1	Israel acute paralysis virus of bees strain Bombus_ternarius-PDA117HT-BC-CANADA-2007 capsid protein gene, partial cds
+HQ655582.1	Israel acute paralysis virus of bees strain Bombus_vagans-PDA110A-PA-L2-USA-2007 capsid protein gene, partial cds
+HQ655583.1	Israel acute paralysis virus of bees strain Vespula_vulgaris-PDA107A-PA-L2-USA-2007 capsid protein gene, partial cds
+HQ655584.1	Israel acute paralysis virus of bees strain Vespula_vulgaris-PDA108A-PA-L1-USA-2007 capsid protein gene, partial cds
+HQ655585.1	Israel acute paralysis virus of bees strain Vespula_vulgaris-PDA112-PA-L2-USA-2007 capsid protein gene, partial cds

@@ -1,0 +1,16 @@
+EU292210.1	Acute bee paralysis virus isolate F6 capsid protein gene, partial cds
+EU264131.1	Hepatitis B virus isolate Acute231 S protein (S) gene, partial cds
+EU264132.1	Hepatitis B virus isolate Acute205 S protein (S) gene, partial cds
+EU264133.1	Hepatitis B virus isolate Acute157 S protein (S) gene, partial cds
+EU264134.1	Hepatitis B virus isolate Acute22 S protein (S) gene, partial cds
+EU264135.1	Hepatitis B virus isolate Acute89 S protein (S) gene, partial cds
+EU264136.1	Hepatitis B virus isolate Acute104 S protein (S) gene, partial cds
+EU264137.1	Hepatitis B virus isolate Acute113 S protein (S) gene, partial cds
+EU264138.1	Hepatitis B virus isolate Acute79 S protein (S) gene, partial cds
+EU264139.1	Hepatitis B virus isolate Acute42 S protein (S) gene, partial cds
+EU264140.1	Hepatitis B virus isolate Acute125 S protein (S) gene, partial cds
+EU264141.1	Hepatitis B virus isolate Acute126 S protein (S) gene, partial cds
+EU264142.1	Hepatitis B virus isolate Acute132 S protein (S) gene, partial cds
+EU218534.1	Israel acute paralysis virus of bees from USA, complete genome
+EU224279.1	Israel acute paralysis virus of bees from USA, complete genome
+EU224280.1	Israel acute paralysis virus of bees from USA, complete genome

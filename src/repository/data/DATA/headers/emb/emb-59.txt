@@ -1,0 +1,3 @@
+X59000.1	Epizootic haemorrhagic disease virus gene for non-structural glycoprotein NS1
+X51708.1	Dengue-2 virus RNA for capsid protein, partial, from a case of dengue haemorrhagic fever (M1)
+X51711.1	Dengue-2 virus RNA for membrane protein, partial, from a case of dengue haemorrhagic fever (M1)

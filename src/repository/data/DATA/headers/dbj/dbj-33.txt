@@ -1,0 +1,3 @@
+AB002690.1	Subacute sclerosing panencephalitis virus gene for M protein, complete cds, strain Osaka-2, viral complementary strand
+AB641816.1	Israeli acute paralysis virus VP1 gene for capsid protein, partial cds, isolate: Japan-Acj-I
+AB641817.1	Israeli acute paralysis virus VP1 gene for capsid protein, partial cds, isolate: Japan-Acj-N

@@ -1,0 +1,4 @@
+FJ225112.1	Israel acute paralysis virus of bees isolate JAI1 nonfunctional polyprotein gene, partial sequence
+FJ225113.1	Israel acute paralysis virus of bees isolate JAI2 nonfunctional polyprotein gene, partial sequence
+FJ225114.1	Israel acute paralysis virus of bees isolate JAI3 nonfunctional polyprotein gene, partial sequence
+FJ225115.1	Israel acute paralysis virus of bees isolate JAI4 nonfunctional polyprotein gene, partial sequence

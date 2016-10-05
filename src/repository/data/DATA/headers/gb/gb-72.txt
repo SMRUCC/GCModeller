@@ -1,0 +1,14 @@
+KJ123674.1	Israeli acute paralysis virus isolate A polymerase polyprotein gene, partial cds
+KJ123675.1	Israeli acute paralysis virus isolate B polymerase polyprotein gene, partial cds
+KJ123677.1	Israeli acute paralysis virus isolate D polymerase polyprotein gene, partial cds
+KJ123684.1	Israeli acute paralysis virus isolate K polymerase polyprotein gene, partial cds
+KJ123685.1	Israeli acute paralysis virus isolate L polymerase polyprotein gene, partial cds
+KJ123687.1	Israeli acute paralysis virus isolate N polymerase polyprotein gene, partial cds
+KJ123676.1	Israeli acute paralysis virus isolate C polymerase polyprotein gene, partial cds
+KJ123678.1	Israeli acute paralysis virus isolate E polymerase polyprotein gene, partial cds
+KJ123679.1	Israeli acute paralysis virus isolate F polymerase polyprotein gene, partial cds
+KJ123680.1	Israeli acute paralysis virus isolate G polymerase polyprotein gene, partial cds
+KJ123683.1	Israeli acute paralysis virus isolate J polymerase polyprotein gene, partial cds
+KJ123681.1	Israeli acute paralysis virus isolate H polymerase polyprotein gene, partial cds
+KJ123682.1	Israeli acute paralysis virus isolate I polymerase polyprotein gene, partial cds
+KJ123686.1	Israeli acute paralysis virus isolate M polymerase polyprotein gene, partial cds

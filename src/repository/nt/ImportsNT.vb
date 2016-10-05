@@ -22,6 +22,14 @@ Public Module ImportsNT
         Dim writer As New Dictionary(Of IndexWriter)
         Dim titles As New Dictionary(Of TitleWriter)
 
+        Try
+            Call FileIO.FileSystem.DeleteDirectory(
+                EXPORT$,
+                FileIO.DeleteDirectoryOption.DeleteAllContents)
+        Catch ex As Exception
+
+        End Try
+
         For Each seq As FastaToken In New StreamIterator(nt).ReadStream
             For Each h In NTheader.ParseNTheader(seq)
                 Dim nt_header As New mysql.NCBI.nt With {
