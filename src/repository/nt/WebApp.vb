@@ -51,7 +51,7 @@ Public Class RepositoryWebApp : Inherits WebApp
     End Structure
 
     <[GET](GetType(FastaToken))>
-    <ExportAPI("/DATA/downloads.vbs")>
+    <ExportAPI("/DATA/Download.fasta")>
     Public Function Downloads(request As HttpRequest, response As HttpResponse) As Boolean
         Dim task$ = request.URLParameters("task")
         Dim args As QueryTask = __tasks(task$)
@@ -73,7 +73,7 @@ Public Class RepositoryWebApp : Inherits WebApp
         Dim id$
 
         SyncLock __uid
-            id = (+__uid)
+            id = (+__uid).FormatZero("00000")
         End SyncLock
 
         SyncLock __tasks
@@ -83,7 +83,7 @@ Public Class RepositoryWebApp : Inherits WebApp
             }
         End SyncLock
 
-        Dim url As String = $"./downloads.vbs?task={id$}"
+        Dim url As String = $"./Download.fasta?task={id$}"
 
         Call response.Redirect(url)
         Call $"Download task was redirect to {url}".Warning

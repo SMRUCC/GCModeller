@@ -57,6 +57,7 @@ Public Class QueryEngine
                      Let expression As Expression = Build(query$)
                      Let def As IObject = db.GetDef
                      Select db.EnumerateTitles _
+                         .AsParallel _
                          .Where(Function(x) expression.Evaluate(def, x))
 
         For Each x As NamedValue(Of String) In LQuery.MatrixAsIterator
