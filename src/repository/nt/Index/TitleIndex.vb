@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Text
 
@@ -63,6 +64,30 @@ Public Class TitleIndex : Inherits IndexAbstract
             Loop
         End Using
     End Sub
+
+    ''' <summary>
+    ''' ``{gi, title}``
+    ''' </summary>
+    ''' <returns></returns>
+    Public Iterator Function EnumerateTitles() As IEnumerable(Of NamedValue(Of String))
+        Dim reader As BinaryDataReader = __handle.Open  ' 打开数据I/O的指针
+
+        For Each gi As String In __index.Keys
+            Dim block As BlockRange = __index(gi)
+            Dim value$
+
+            reader.Seek(block.start, SeekOrigin.Begin)
+            value = New String(reader.ReadChars(block.len))
+
+            Yield New NamedValue(Of String) With {
+                .Name = gi,
+                .x = value,
+                .Description = gi
+            }
+        Next
+
+        Call __handle.Cleanup(reader)
+    End Function
 
     Public Function ReadHeader_by_gi(gi$) As String
         If Not __index.ContainsKey(gi$) Then

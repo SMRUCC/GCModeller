@@ -28,6 +28,36 @@ Public Class ReaderProvider
     End Sub
 
     ''' <summary>
+    ''' 请使用<see cref="Cleanup"/>方法来释放资源
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function Open() As BinaryDataReader
+        If __bufferedReader Is Nothing Then
+            Dim file As New FileStream(
+                URI,
+                mode:=FileMode.Open,
+                access:=FileAccess.Read,
+                share:=FileShare.Read)
+            Return New BinaryDataReader(file, __encoding)
+        Else
+            Return __bufferedReader
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 使用这个清理方法来释放<see cref="Open"/>打开的指针
+    ''' </summary>
+    ''' <param name="reader"></param>
+    Public Sub Cleanup(reader As BinaryDataReader)
+        If __bufferedReader Is Nothing OrElse (Not __bufferedReader Is reader) Then
+            Call reader.Close()
+            Call reader.Dispose()
+        Else
+            ' 这个是内存的缓存，不能够释放
+        End If
+    End Sub
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="run">

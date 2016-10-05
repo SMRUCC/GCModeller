@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Data.Repository.NCBI
@@ -6,6 +7,11 @@ Imports SMRUCC.genomics.Data.Repository.NCBI
 Module Module1
 
     Sub Main()
+
+        Dim engine As New QueryEngine()
+
+        Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
+
         Call testIndex()
 
         Dim cnn As New ConnectionUri With {
@@ -16,9 +22,7 @@ Module Module1
             .ServicesPort = 3306
         }
 
-        'Dim engine As New QueryEngine(cnn)
 
-        'Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
 
         'MsgBox(size)
 
@@ -50,6 +54,9 @@ Module Module1
 
         Dim titleIndex As New TitleIndex("D:\GCModeller\src\repository\data\DATA\", "gb", "gb-18")
 
+        For Each s In titleIndex.EnumerateTitles
+            Call s.GetJson.__DEBUG_ECHO
+        Next
 
         For Each gi$ In titleIndex.giKeys
             Call titleIndex.ReadHeader_by_gi(gi$).__DEBUG_ECHO
