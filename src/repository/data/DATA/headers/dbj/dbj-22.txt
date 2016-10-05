@@ -1,0 +1,3 @@
+D00495.1	PEVBK Subacute sclerosing panencephalitis virus (strain Biken) gene for matrix protein, complete cds
+D00493.1	PEVN1 Subacute sclerosing panencephalitis virus (strain Niigata-1) gene for matrix protein, complete cds
+D00494.1	PEVZH Subacute sclerosing panencephalitis virus (strain ZH) gene for matrix protein, complete cds

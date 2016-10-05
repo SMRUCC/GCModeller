@@ -1,0 +1,12 @@
+X66134.1	Haemorrhagic septicema virus mRNA for envelope protein
+AJ130915.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate 860/94
+AJ130916.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate F 13.02.97
+AJ130917.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate 2p51
+AJ130918.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate 4p101
+AJ130919.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene isolate 1p40
+AJ130920.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate 1p50
+AJ130922.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate 5927
+AJ130923.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate H16/7/95
+AJ130924.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate H17/2/95
+AJ130925.1	Viral haemorrhagic septicaemia virus partial nucleoprotein (N) gene, isolate PhrgElbay93
+AJ130926.1	Viral haemorrhagic septicaemia virus partial mRNA for nucleoprotein, isolate PcodAK93

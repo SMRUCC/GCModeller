@@ -1,0 +1,3 @@
+AF150629.1	AF150629 Acute bee paralysis virus, complete genome
+KT717338.1	Israeli acute paralysis virus RNA-dependent RNA polymerase mRNA, partial cds
+KU563736.1	Acute bee paralysis virus isolate 1-11 RNA-dependent RNA polymerase gene, partial cds

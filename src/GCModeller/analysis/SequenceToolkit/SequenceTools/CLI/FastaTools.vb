@@ -52,6 +52,38 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
 
+    <ExportAPI("/Compare.By.Locis", Usage:="/Compare.By.Locis /file1 <file1.fasta> /file2 </file2.fasta>")>
+    Public Function CompareFile(args As CommandLine) As Integer
+        Dim f1$ = args("/file1")
+        Dim f2$ = args("/file2")
+        Dim fa1 As New FastaFile(f1$)
+        Dim fa2 As New FastaFile(f2$)
+
+        If fa1.NumberOfFasta <> fa2.NumberOfFasta Then
+            Call $"file1:={fa1.NumberOfFasta}, file2:={fa2.NumberOfFasta} is not equals!".Warning
+        End If
+
+        Dim f2Dict = (From x In fa2 Let id = x.Attributes.First.Split.First Select x, id Group By id Into Group).ToDictionary(Function(x) x.id)
+
+        For Each x In fa1
+            Dim id = x.Attributes.First.Split.First
+            If Not f2Dict.ContainsKey(id) Then
+                Call $"{x.Title} is not exists in  ""{f2}""".__DEBUG_ECHO
+            End If
+        Next
+
+        Dim f1Dict = (From x In fa1 Let id = x.Attributes.First.Split.First Select x, id Group By id Into Group).ToDictionary(Function(x) x.id)
+
+        For Each x In fa2
+            Dim id = x.Attributes.First.Split.First
+            If Not f1Dict.ContainsKey(id) Then
+                Call $"{x.Title} is not exists in  ""{f1}""".__DEBUG_ECHO
+            End If
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/Select.By_Locus",
                Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/out <out.fasta>]")>
     Public Function SelectByLocus(args As CommandLine) As Integer

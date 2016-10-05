@@ -1,18 +1,27 @@
 ﻿Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Data.Repository.NCBI
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Module1
 
     Sub Main()
 
-        'Try
-        '    Dim reader = "X:\cache".OpenBinaryReader
-        'Catch ex As Exception
-        '    Call ex.PrintException
-        'End Try
+        Call ASCII.Symbols.GetJson.__DEBUG_ECHO
 
+
+        Dim engine As New QueryEngine()
+
+        Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
+
+        Dim fasta As New FastaFile(engine.Search("""1-OP3-PA-USA-2006"" OR ""C11-OP12-TX-USA-2007"""))
+
+        Call fasta.Save("x:\gggg.fa")
+
+
+        Pause()
 
         Call testIndex()
 
@@ -23,9 +32,21 @@ Module Module1
             .User = "root",
             .ServicesPort = 3306
         }
+
+
+
+        'MsgBox(size)
+
+        'Try
+        '    Dim reader = "X:\cache".OpenBinaryReader
+        'Catch ex As Exception
+        '    Call ex.PrintException
+        'End Try
+
         Dim mysql As New MySQL(cnn)
 
         Call mysql.[Imports]("D:\GCModeller\src\repository\data\test_virus_nt.fna", "D:\GCModeller\src\repository\data\DATA\")
+        Call testIndex()
     End Sub
 
 
@@ -37,6 +58,23 @@ Module Module1
 
         For Each gi$ In nt.Keys
             Call (nt(gi$) = index.ReadNT_by_gi(gi$)).__DEBUG_ECHO  ' 测试NCBI数据库索引服务能否正确读取序列数据
+        Next
+
+        file = "D:\GCModeller\src\repository\data\DATA\headers\gb\gb-18.txt".ReadAllLines
+        nt = file.Select(Function(s) s.Split(ASCII.TAB)).ToDictionary(Function(x) x.First, Function(x) x.Last)
+
+        Dim titleIndex As New TitleIndex("D:\GCModeller\src\repository\data\DATA\", "gb", "gb-18")
+
+        For Each s In titleIndex.EnumerateTitles
+            Call s.GetJson.__DEBUG_ECHO
+        Next
+
+        For Each gi$ In titleIndex.giKeys
+            Call titleIndex.ReadHeader_by_gi(gi$).__DEBUG_ECHO
+        Next
+
+        For Each tag In nt.Keys
+            Call (nt(tag) = titleIndex.ReadHeader_by_locus_Tag(tag)).__DEBUG_ECHO
         Next
 
         Pause()

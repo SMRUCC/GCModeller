@@ -18,8 +18,17 @@ Public Module ImportsNT
     ''' <param name="nt$"></param>
     ''' <param name="EXPORT$">序列数据所保存的文件夹</param>
     <Extension>
-    Public Sub [Imports](mysql As mysqlClient, nt$, EXPORT$)
+    Public Sub [Imports](mysql As mysqlClient, nt$, EXPORT$, Optional writeMysql As Boolean = True)
         Dim writer As New Dictionary(Of IndexWriter)
+        Dim titles As New Dictionary(Of TitleWriter)
+
+        Try
+            Call FileIO.FileSystem.DeleteDirectory(
+                EXPORT$,
+                FileIO.DeleteDirectoryOption.DeleteAllContents)
+        Catch ex As Exception
+
+        End Try
 
         For Each seq As FastaToken In New StreamIterator(nt).ReadStream
             For Each h In NTheader.ParseNTheader(seq)
@@ -37,13 +46,26 @@ Public Module ImportsNT
                         nt_header.db.ToLower,
                         index)
                 End If
+                If Not titles.ContainsKey(index) Then
+                    titles(index) = New TitleWriter(
+                        EXPORT,
+                        nt_header.db.ToLower,
+                        index)
+                End If
 
-                Call mysql.ExecInsert(nt_header)
+                If writeMysql Then
+                    Call mysql.ExecInsert(nt_header)
+                End If
+
                 Call writer(index).Write(seq.SequenceData, h)
+                Call titles(index).Write(h)
             Next
         Next
 
         For Each file In writer.Values
+            Call file.Dispose()
+        Next
+        For Each file In titles.Values
             Call file.Dispose()
         Next
     End Sub

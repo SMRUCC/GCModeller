@@ -1,0 +1,10 @@
+HQ874619.1	Israel acute paralysis virus of bees isolate IAPV.Bi1 polymerase polyprotein gene, partial cds
+HQ874620.1	Israel acute paralysis virus of bees isolate IAPV.Bi3 polymerase polyprotein gene, partial cds
+HQ874621.1	Israel acute paralysis virus of bees isolate IAPV.Bi2 polymerase polyprotein gene, partial cds
+HQ874622.1	Israel acute paralysis virus of bees isolate IAPV.Bi4 polymerase polyprotein gene, partial cds
+HQ874623.1	Israel acute paralysis virus of bees isolate IAPV.Bi5 polymerase polyprotein gene, partial cds
+HQ874624.1	Israel acute paralysis virus of bees isolate IAPV.Bt1 polymerase polyprotein gene, partial cds
+HQ874625.1	Israel acute paralysis virus of bees isolate IAPV.Bt2 polymerase polyprotein gene, partial cds
+HQ874626.1	Israel acute paralysis virus of bees isolate IAPV.Bt3 polymerase polyprotein gene, partial cds
+HQ874627.1	Israel acute paralysis virus of bees isolate IAPV.Bt4 polymerase polyprotein gene, partial cds
+HQ874628.1	Israel acute paralysis virus of bees isolate IAPV.Bt5 polymerase polyprotein gene, partial cds

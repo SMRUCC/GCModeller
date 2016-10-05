@@ -1,0 +1,11 @@
+AY230513.1	Acute bee paralysis virus isolate aa capsid protein gene, partial cds
+AY230514.1	Acute bee paralysis virus hive 50 isolate capsid protein gene, partial cds
+GU722203.1	Acute bee paralysis virus isolate Jordan 1 nonfunctional capsid protein gene, partial sequence
+GU934326.1	LNras*SN acutely transforming retrovirus, complete sequence
+HM228890.1	Acute bee paralysis virus isolate TM-f1ab genomic sequence
+HM228891.1	Acute bee paralysis virus isolate TM-f2ab genomic sequence
+HM228892.1	Acute bee paralysis virus isolate TM-f22ab genomic sequence
+HM228893.1	Acute bee paralysis virus isolate GF-f1ab genomic sequence
+HM228894.1	Acute bee paralysis virus isolate GF-f3ab genomic sequence
+HM228895.1	Acute bee paralysis virus isolate GF-f5ab genomic sequence
+GQ153938.1	Chlamys acute necrobiotic virus, complete genome

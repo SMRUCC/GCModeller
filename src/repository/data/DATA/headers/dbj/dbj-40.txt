@@ -1,0 +1,12 @@
+AB745494.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: China-1_iapv
+AB745495.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: China-2_iapv
+AB745496.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: China-3_iapv
+AB745497.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: China-4_iapv
+AB745498.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: China-5_iapv
+AB745499.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: Japan-1_iapv
+AB745500.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: Japan-2_iapv
+AB745501.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: Japan-3_iapv
+AB745502.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: Japan-4_iapv
+AB745503.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: Japan-5_iapv
+AB745504.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: Japan-6_iapv
+AB745505.1	Israeli acute paralysis virus RdRP genes for RNA dependent RNA polymerase, structural protein, partial cds, isolate: Japan-7_iapv

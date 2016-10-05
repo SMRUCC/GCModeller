@@ -1,0 +1,2 @@
+D37775.1	PEVL1 Subacute sclerosing panencephalitis virus (strain Case B) mRNA for RNA dependent RNA polymerase, complete cds
+D37776.1	PEVL2 Subacute sclerosing panencephalitis virus (strain Case K) mRNA for RNA dependent RNA polymerase, complete cds
