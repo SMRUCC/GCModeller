@@ -25,8 +25,12 @@ Public Class QueryEngine
     End Sub
 
     Public Function ScanSeqDatabase(DATA$) As Long
-        For Each db$ In ls - l - r - lsDIR <= DATA
+        For Each db$ In ls - l - lsDIR <= DATA
             Dim name$ = db$.BaseName
+
+            If name.TextEquals("headers") OrElse name.TextEquals("index") Then
+                Continue For
+            End If
 
             Call $"Loading {name}...".__DEBUG_ECHO
 
