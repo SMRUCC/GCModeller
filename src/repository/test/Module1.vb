@@ -9,11 +9,14 @@ Module Module1
 
     Sub Main()
 
+        Call ASCII.Symbols.GetJson.__DEBUG_ECHO
+
+
         Dim engine As New QueryEngine()
 
         Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
 
-        Dim fasta As New FastaFile(engine.Search("""1-OP3-PA-USA-2006"""))
+        Dim fasta As New FastaFile(engine.Search("""1-OP3-PA-USA-2006"" OR ""C11-OP12-TX-USA-2007"""))
 
         Call fasta.Save("x:\gggg.fa")
 
