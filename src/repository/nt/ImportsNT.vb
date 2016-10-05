@@ -20,6 +20,7 @@ Public Module ImportsNT
     <Extension>
     Public Sub [Imports](mysql As mysqlClient, nt$, EXPORT$)
         Dim writer As New Dictionary(Of IndexWriter)
+        Dim titles As New Dictionary(Of TitleWriter)
 
         For Each seq As FastaToken In New StreamIterator(nt).ReadStream
             For Each h In NTheader.ParseNTheader(seq)
@@ -37,13 +38,23 @@ Public Module ImportsNT
                         nt_header.db.ToLower,
                         index)
                 End If
+                If Not titles.ContainsKey(index) Then
+                    titles(index) = New TitleWriter(
+                        EXPORT,
+                        nt_header.db.ToLower,
+                        index)
+                End If
 
                 Call mysql.ExecInsert(nt_header)
                 Call writer(index).Write(seq.SequenceData, h)
+                Call titles(index).Write(h)
             Next
         Next
 
         For Each file In writer.Values
+            Call file.Dispose()
+        Next
+        For Each file In titles.Values
             Call file.Dispose()
         Next
     End Sub

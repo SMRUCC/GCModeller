@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Text
 ''' 序列数据的索引服务
 ''' </summary>
 Public Class Index : Inherits IndexAbstract
+    Implements IDisposable
 
     ''' <summary>
     ''' 索引文件的文件路径
@@ -77,4 +78,10 @@ Public Class Index : Inherits IndexAbstract
             Return New String(__handle.ReadChars(range.len))
         End SyncLock
     End Function
+
+    Protected Overrides Sub Dispose(disposing As Boolean)
+        __handle.Close()
+        __handle.Dispose()
+        MyBase.Dispose(disposing)
+    End Sub
 End Class

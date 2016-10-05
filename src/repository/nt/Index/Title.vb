@@ -5,8 +5,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 
-Public Class TitleWriter
-    Inherits IndexAbstract
+Public Class TitleWriter : Inherits IndexAbstract
     Implements IDisposable
 
     ReadOnly __titles As BinaryDataWriter
