@@ -169,6 +169,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Index\BlockRange.vb" />
+    <Compile Include="Index\TitleIndex.vb" />
     <Compile Include="Index\Title.vb" />
     <Compile Include="QueryEngine.vb" />
     <Compile Include="Index\IndexAbstract.vb" />
