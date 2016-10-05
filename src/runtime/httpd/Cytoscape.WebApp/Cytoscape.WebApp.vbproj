@@ -122,13 +122,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}</Project>
+    <ProjectReference Include="..\..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HTTPServer\SMRUCC.HTTPInternal\SMRUCC.HTTPInternal.vbproj">
-      <Project>{FBFC1455-B232-4F16-AFC7-4054A8B864AB}</Project>
-      <Name>SMRUCC.HTTPInternal</Name>
+    <ProjectReference Include="..\HTTPServer\SMRUCC.HTTPInternal\SMRUCC.WebCloud.HTTPInternal.vbproj">
+      <Project>{fbfc1455-b232-4f16-afc7-4054a8b864ab}</Project>
+      <Name>SMRUCC.WebCloud.HTTPInternal</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

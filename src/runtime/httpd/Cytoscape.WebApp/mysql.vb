@@ -1,11 +1,11 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports SMRUCC.HTTPInternal.AppEngine
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods
-Imports SMRUCC.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.HTTPInternal.Platform
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 <[Namespace]("mysql")>
-Public Class mysql : Inherits SMRUCC.HTTPInternal.AppEngine.WebApp
+Public Class mysql : Inherits SMRUCC.WebCloud.HTTPInternal.AppEngine.WebApp
 
     Public Sub New(main As PlatformEngine)
         Call MyBase.New(main)
