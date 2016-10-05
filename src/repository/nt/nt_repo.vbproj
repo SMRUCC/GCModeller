@@ -169,6 +169,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WebApp.vb" />
     <Compile Include="Index\BlockRange.vb" />
     <Compile Include="Index\TitleIndex.vb" />
     <Compile Include="Index\Title.vb" />
@@ -220,6 +221,10 @@
     <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\runtime\httpd\HTTPServer\SMRUCC.HTTPInternal\SMRUCC.WebCloud.HTTPInternal.vbproj">
+      <Project>{fbfc1455-b232-4f16-afc7-4054a8b864ab}</Project>
+      <Name>SMRUCC.WebCloud.HTTPInternal</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>

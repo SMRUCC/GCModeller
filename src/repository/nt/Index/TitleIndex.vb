@@ -43,9 +43,9 @@ Public Class TitleIndex : Inherits IndexAbstract
             Dim locus_tag$
 
             Do While Not indexReader.EndOfStream
-                gi& = indexReader.ReadInt64  ' gi编号
-                start& = indexReader.ReadInt64  ' 序列的起始位置
-                len% = indexReader.ReadInt32  ' 序列的bytes的长度
+                gi& = indexReader.ReadInt64     ' NCBI gi编号
+                start& = indexReader.ReadInt64  ' 序列的起始位置，Byte偏移量
+                len% = indexReader.ReadInt32    ' 序列的bytes的长度
 
                 gi_end& = start - tab.Length
                 gi_len% = gi_end - gi_start
