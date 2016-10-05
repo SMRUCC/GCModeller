@@ -28,6 +28,8 @@ Public Class QueryEngine
         For Each db$ In ls - l - r - lsDIR <= DATA
             Dim name$ = db$.BaseName
 
+            Call $"Loading {name}...".__DEBUG_ECHO
+
             For Each nt$ In ls - l - r - wildcards("*.nt") <= db$
                 Dim index As New Index(DATA, name, nt$.BaseName)
                 Dim title As New TitleIndex(DATA, name, nt$.BaseName)

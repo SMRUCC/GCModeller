@@ -57,7 +57,11 @@ Public Class TitleIndex : Inherits IndexAbstract
                         .start = start,
                         .len = len
                     })
-                Call __locus_tagIndex.Add(locus_tag, CStr(gi))
+                If __locus_tagIndex.ContainsKey(locus_tag) Then
+                    Call $"{locus_tag} was duplicated!".Warning
+                Else
+                    Call __locus_tagIndex.Add(locus_tag, CStr(gi))
+                End If
 
                 gi_start = start + len + lf.Length
                 __handle.Seek(gi_start, SeekOrigin.Begin)

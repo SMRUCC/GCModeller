@@ -27,8 +27,12 @@ Public Class RepositoryWebApp : Inherits WebApp
         If Not DATA$.DirectoryExists Then
             Throw New Exception(DATANotAvaliable)
         Else
+            Call $"Load database index from {DATA}".__DEBUG_ECHO
+
             __searchEngine = New QueryEngine()
             __searchEngine.ScanSeqDatabase(DATA$)
+
+            Call "Job Done!".__DEBUG_ECHO
         End If
     End Sub
 

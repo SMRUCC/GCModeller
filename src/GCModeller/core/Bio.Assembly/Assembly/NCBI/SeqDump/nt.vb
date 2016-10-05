@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -85,21 +86,41 @@ Namespace Assembly.NCBI.SequenceDump
             Return Me.GetJson
         End Function
 
-        Public Shared Iterator Function ParseNTheader(fa As FastaToken) As IEnumerable(Of NTheader)
-            Dim attrs$() = fa.Attributes
-            Dim splits$()() = attrs.Skip(1).Split(4%)
-            Dim trimGI As Boolean = splits.Length > 1
+        Public Shared Function ParseNTheader(fa As FastaToken) As IEnumerable(Of NTheader)
+            Try
+                Dim attrs$() = fa.Attributes
+                Dim splits$()() = attrs.Skip(1).Split(4%)
+                Dim trimGI As Boolean = splits.Length > 1
+                Dim out As New List(Of NTheader)
 
-            For Each b As String() In splits
-                Dim descr$ = Strings.Trim(b(3))
+                For Each b As String() In splits
+                    If b.Length = 1 Then
+                        Dim x = out.Last
+                        out(out.Count - 1) = New NTheader With {
+                            .db = x.db,
+                            .description = x.description & "|" & b(Scan0),
+                            .gi = x.gi,
+                            .uid = x.uid
+                        }
 
-                Yield New NTheader With {
-                    .gi = b(0),
-                    .db = b(1),
-                    .uid = b(2),
-                    .description = If(trimGI, Trim(descr), descr)
-                }
-            Next
+                        Continue For
+                    End If
+
+                    Dim descr$ = Strings.Trim(b(3))
+
+                    out += New NTheader With {
+                        .gi = b(0),
+                        .db = b(1),
+                        .uid = b(2),
+                        .description = If(trimGI, Trim(descr), descr)
+                    }
+                Next
+
+                Return out
+            Catch ex As Exception
+                ex = New Exception(fa.Title, ex)
+                Throw ex
+            End Try
         End Function
 
         Private Shared Function Trim(s As String) As String
