@@ -267,6 +267,10 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\repository\nt\nt_repo.vbproj">
+      <Project>{ae8d7346-7f3e-4c84-9a59-bba3cac5df41}</Project>
+      <Name>nt_repo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\visualbasic_App\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
