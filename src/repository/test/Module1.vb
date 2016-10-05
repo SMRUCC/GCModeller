@@ -55,6 +55,10 @@ Module Module1
             Call titleIndex.ReadHeader_by_gi(gi$).__DEBUG_ECHO
         Next
 
+        For Each tag In nt.Keys
+            Call (nt(tag) = titleIndex.ReadHeader_by_locus_Tag(tag)).__DEBUG_ECHO
+        Next
+
         Pause()
     End Sub
 End Module

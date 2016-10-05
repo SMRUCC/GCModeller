@@ -11,6 +11,12 @@ Public Class ReaderProvider
     ReadOnly __bufferedReader As BinaryDataReader
     ReadOnly __encoding As Encoding
 
+    Public ReadOnly Property Length As Long
+        Get
+            Return FileIO.FileSystem.GetFileInfo(URI).Length
+        End Get
+    End Property
+
     Sub New(path$, Optional encoding As Encodings = Encodings.ASCII, Optional buffered& = 1024 * 1024 * 10)
         URI = path$
         __encoding = encoding.GetEncodings
