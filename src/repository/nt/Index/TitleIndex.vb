@@ -2,6 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Text
 
 Public Class TitleIndex : Inherits IndexAbstract
@@ -68,6 +69,10 @@ Public Class TitleIndex : Inherits IndexAbstract
             Loop
         End Using
     End Sub
+
+    Public Function GetDef() As IObject
+        Return New IObject(GetType(NamedValue(Of String)))
+    End Function
 
     ''' <summary>
     ''' ``{gi, title}``

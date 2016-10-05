@@ -83,7 +83,10 @@ Public Class RepositoryWebApp : Inherits WebApp
             }
         End SyncLock
 
-        Call response.Redirect("./downloads.vbs?task=" & id)
+        Dim url As String = $"./downloads.vbs?task={id$}"
+
+        Call response.Redirect(url)
+        Call $"Download task was redirect to {url}".Warning
 
         Return True
     End Function
