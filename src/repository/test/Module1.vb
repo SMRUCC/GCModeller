@@ -9,21 +9,21 @@ Module Module1
 
     Sub Main()
 
-        Call ASCII.Symbols.GetJson.__DEBUG_ECHO
+        'Call ASCII.Symbols.GetJson.__DEBUG_ECHO
 
 
-        Dim engine As New QueryEngine()
+        'Dim engine As New QueryEngine()
 
-        Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
+        'Dim size& = engine.ScanSeqDatabase("D:\GCModeller\src\repository\data\DATA\")
 
-        Dim fasta As New FastaFile(engine.Search("""1-OP3-PA-USA-2006"" OR ""C11-OP12-TX-USA-2007"""))
+        'Dim fasta As New FastaFile(engine.Search("""1-OP3-PA-USA-2006"" OR ""C11-OP12-TX-USA-2007"""))
 
-        Call fasta.Save("x:\gggg.fa")
+        'Call fasta.Save("x:\gggg.fa")
 
 
-        Pause()
+        'Pause()
 
-        Call testIndex()
+        'Call testIndex()
 
         Dim cnn As New ConnectionUri With {
             .Database = "ncbi",
@@ -45,7 +45,7 @@ Module Module1
 
         Dim mysql As New MySQL(cnn)
 
-        Call mysql.[Imports]("D:\GCModeller\src\repository\data\test_virus_nt.fna", "D:\GCModeller\src\repository\data\DATA\")
+        Call mysql.[Imports]("D:\virus_nt\nt_NCBI_virus.fasta", "D:\virus_nt\$DATA\", False)
         Call testIndex()
     End Sub
 
