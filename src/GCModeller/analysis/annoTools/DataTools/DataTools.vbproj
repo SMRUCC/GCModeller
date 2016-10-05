@@ -210,6 +210,10 @@
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\repository\Model_Repository\Model_Repository.vbproj">
+      <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
+      <Name>Model_Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\visualbasic.DBI\SQLite_Interface\SQLite_Interface.vbproj">
       <Project>{67EAFC15-2237-494E-85D9-206E5BF71EF4}</Project>
       <Name>SQLite_Interface</Name>
@@ -225,10 +229,6 @@
     <ProjectReference Include="..\..\..\..\runtime\visualbasic_App\mime\RTF\RTF.vbproj">
       <Project>{062afa7d-1e0d-48f8-b07d-fb74aeefa5d6}</Project>
       <Name>RTF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\workbench\Model_Repository\Model_Repository.vbproj">
-      <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
-      <Name>Model_Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>

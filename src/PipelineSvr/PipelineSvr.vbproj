@@ -43,7 +43,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
+    <OutputPath>D:\GCModeller\GCModeller\bin</OutputPath>
     <DefineConstants>DEBUG=1,TRACE=1</DefineConstants>
     <DebugType>Full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -51,7 +51,7 @@
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>G:\GCModeller\GCModeller\bin</OutputPath>
+    <OutputPath>D:\GCModeller\GCModeller\bin</OutputPath>
     <DefineConstants>TRACE=1</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>None</DebugType>

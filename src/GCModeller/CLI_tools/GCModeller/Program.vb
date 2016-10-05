@@ -27,9 +27,22 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports Microsoft.VisualBasic.Data.csv
 
 Module Program
+
+    Sub New()
+        Dim path$ = App.HOME & "/Templates/repository-query.csv"
+
+        If Not path.FileExists Then
+            Call {
+                New QueryArgument With {
+                    .Name = "Example output file name",
+                    .Expression = "Test expression"
+                }
+            }.SaveTo(path)
+        End If
+    End Sub
 
     Public Function Main() As Integer
         Return New Interpreter(GetType(CLI)).Execute(App.CommandLine)

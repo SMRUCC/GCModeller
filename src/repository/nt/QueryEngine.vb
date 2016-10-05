@@ -25,8 +25,14 @@ Public Class QueryEngine
     End Sub
 
     Public Function ScanSeqDatabase(DATA$) As Long
-        For Each db$ In ls - l - r - lsDIR <= DATA
+        For Each db$ In ls - l - lsDIR <= DATA
             Dim name$ = db$.BaseName
+
+            If name.TextEquals("headers") OrElse name.TextEquals("index") Then
+                Continue For
+            End If
+
+            Call $"Loading {name}...".__DEBUG_ECHO
 
             For Each nt$ In ls - l - r - wildcards("*.nt") <= db$
                 Dim index As New Index(DATA, name, nt$.BaseName)
@@ -46,22 +52,22 @@ Public Class QueryEngine
     ''' <param name="query$"></param>
     ''' <returns></returns>
     Public Iterator Function Search(query$) As IEnumerable(Of FastaToken)
-        Dim expression As Expression = Build(query$)
+        Dim LQuery = From db As TitleIndex
+                     In __headers.Values.AsParallel
+                     Let expression As Expression = Build(query$)
+                     Let def As IObject = db.GetDef
+                     Select db.EnumerateTitles _
+                         .AsParallel _
+                         .Where(Function(x) expression.Evaluate(def, x))
 
-        For Each o As IObject In __headers.Values _
-            .Select(Function(x) x.EnumerateTitles) _
-            .MatrixAsIterator _
-            .ForEach()
+        For Each x As NamedValue(Of String) In LQuery.MatrixAsIterator
+            Dim seq$ = __nt(x.Description) _
+                .ReadNT_by_gi(gi:=x.Name)
 
-            If True = expression.Evaluate(x:=o) Then
-                Dim x As NamedValue(Of String) = DirectCast(o.x, NamedValue(Of String))
-                Dim seq$ = __nt(x.Description).ReadNT_by_gi(gi:=x.Name)
-
-                Yield New FastaToken With {
-                    .Attributes = {"gi", x.Name, x.x},
-                    .SequenceData = seq
-                }
-            End If
+            Yield New FastaToken With {
+                .Attributes = {"gi", x.Name, x.x},
+                .SequenceData = seq
+            }
         Next
     End Function
 End Class

@@ -1,4 +1,7 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
@@ -27,20 +30,63 @@ Public Class RepositoryWebApp : Inherits WebApp
         If Not DATA$.DirectoryExists Then
             Throw New Exception(DATANotAvaliable)
         Else
+            Call $"Load database index from {DATA}".__DEBUG_ECHO
+
             __searchEngine = New QueryEngine()
             __searchEngine.ScanSeqDatabase(DATA$)
+
+            Call "Job Done!".__DEBUG_ECHO
         End If
     End Sub
 
-    <[POST](GetType(FastaToken))>
+    Dim __uid As New Uid
+
+    Public Structure QueryTask
+
+        Public query$, break%
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Structure
+
+    <[GET](GetType(FastaToken))>
+    <ExportAPI("/DATA/Download.fasta")>
+    Public Function Downloads(request As HttpRequest, response As HttpResponse) As Boolean
+        Dim task$ = request.URLParameters("task")
+        Dim args As QueryTask = __tasks(task$)
+
+        For Each result In __searchEngine.Search(args.query$)
+            Call response.WriteLine(result.GenerateDocument(args.break))
+        Next
+
+        Return True
+    End Function
+
+    Dim __tasks As New Dictionary(Of String, QueryTask)
+
+    <[POST](GetType(String))>
     <ExportAPI("/DATA/search.vbs")>
     Public Function InvokeQuery(request As HttpPOSTRequest, response As HttpResponse) As Boolean
         Dim query$ = request.POSTData(NameOf(query))
         Dim break% = CInt(Val(request.POSTData(NameOf(break))))
+        Dim id$
 
-        For Each result In __searchEngine.Search(query$)
-            Call response.WriteLine(result.GenerateDocument(break))
-        Next
+        SyncLock __uid
+            id = (+__uid).FormatZero("00000")
+        End SyncLock
+
+        SyncLock __tasks
+            __tasks(id) = New QueryTask With {
+                .break = break,
+                .query = query
+            }
+        End SyncLock
+
+        Dim url As String = $"./Download.fasta?task={id$}"
+
+        Call response.Redirect(url)
+        Call $"Download task was redirect to {url}".Warning
 
         Return True
     End Function

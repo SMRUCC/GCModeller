@@ -2,6 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Text
 
 Public Class TitleIndex : Inherits IndexAbstract
@@ -57,13 +58,21 @@ Public Class TitleIndex : Inherits IndexAbstract
                         .start = start,
                         .len = len
                     })
-                Call __locus_tagIndex.Add(locus_tag, CStr(gi))
+                If __locus_tagIndex.ContainsKey(locus_tag) Then
+                    Call $"{locus_tag} was duplicated!".Warning
+                Else
+                    Call __locus_tagIndex.Add(locus_tag, CStr(gi))
+                End If
 
                 gi_start = start + len + lf.Length
                 __handle.Seek(gi_start, SeekOrigin.Begin)
             Loop
         End Using
     End Sub
+
+    Public Function GetDef() As IObject
+        Return New IObject(GetType(NamedValue(Of String)))
+    End Function
 
     ''' <summary>
     ''' ``{gi, title}``
