@@ -163,17 +163,6 @@ Public Module CLI
 
     Sub New()
         Call Settings.Initialize()
-
-        Dim path$ = App.HOME & "/Templates/repository-query.csv"
-
-        If Not path.FileExists Then
-            Call {
-                New QueryArgument With {
-                    .Name = "Example output file name",
-                    .Expression = "Test expression"
-                }
-            }.SaveTo(path)
-        End If
     End Sub
 
     Public Function MultipleAlignment(args As CommandLine) As Integer
