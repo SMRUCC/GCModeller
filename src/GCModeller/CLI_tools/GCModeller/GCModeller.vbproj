@@ -271,10 +271,6 @@
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\workbench\Model_Repository\RQL\RQL.vbproj">
-      <Project>{88D39AC9-03C2-4A1A-9818-ADE7FD90576D}</Project>
-      <Name>RQL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\analysis\annoTools\BASys\BASys.vbproj">
       <Project>{6FA98FE3-4504-4D7A-A454-C5E8CF46EB21}</Project>
       <Name>BASys</Name>
@@ -322,10 +318,6 @@
     <ProjectReference Include="..\..\..\interops\visualize\Phylip\Phylip.vbproj">
       <Project>{00073db7-bcd2-4aac-8e8c-142b1b30efd5}</Project>
       <Name>Phylip</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\workbench\Model_Repository\Model_Repository.vbproj">
-      <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
-      <Name>Model_Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\analysis\ProteinTools\ProteinTools.Family\ProteinTools.Family.vbproj">
       <Project>{f5fc5f93-f929-496f-9cf9-8607203b9545}</Project>

@@ -39,10 +39,10 @@ Partial Module CLI
         Return Installer.Install([in], args.GetBoolean("/refresh")).CLICode
     End Function
 
-    <ExportAPI("-imports", Usage:="-imports <genbank_file/genbank_directory>")>
-    Public Function [Imports](argvs As CommandLine) As Integer
-        Return RQL.API.ImportsGBK(argvs.Parameters.First).CLICode
-    End Function
+    '<ExportAPI("-imports", Usage:="-imports <genbank_file/genbank_directory>")>
+    'Public Function [Imports](argvs As CommandLine) As Integer
+    '    Return RQL.API.ImportsGBK(argvs.Parameters.First).CLICode
+    'End Function
 
     <ExportAPI("--install-COGs",
                Info:="Install the COGs database into the GCModeller database.",
