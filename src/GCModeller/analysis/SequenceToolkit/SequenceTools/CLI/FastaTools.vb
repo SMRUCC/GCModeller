@@ -91,17 +91,20 @@ Partial Module Utilities
         Dim fa As String = args("/fa")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & ".fasta")
         Dim fasta As FastaToken() =
-            StreamIterator.SeqSource(fa, "*.faa", "*.fasta", "*.fsa", "*.fa").ToArray
+            StreamIterator.SeqSource(fa, {"*.faa", "*.fasta", "*.fsa", "*.fa"}).ToArray
         Dim locus As String() = [in].ReadAllLines
 
         Call $"Found {fasta.Length} fasta files in source DIR  {fa}".__DEBUG_ECHO
 
-        Dim seqHash As Dictionary(Of String, FastaToken()) = (From x
-                                                              In fasta
-                                                              Let uid As String = x.Attributes.First.Split.First.Trim
-                                                              Select x,
-                                                                uid
-                                                              Group x By uid Into Group).ToDictionary(Function(x) x.uid, Function(x) x.Group.ToArray)
+        Dim seqHash As Dictionary(Of String, FastaToken()) =
+            (From x As FastaToken
+             In fasta
+             Let uid As String = x.Attributes.First.Split.First.Trim
+             Select x,
+                 uid
+             Group x By uid Into Group) _
+                .ToDictionary(Function(x) x.uid,
+                              Function(x) x.Group.ToArray)
         Call $"Files loads {seqHash.Count} sequence...".__DEBUG_ECHO
 
         Dim LQuery As IEnumerable(Of FastaToken()) = From sId As String
