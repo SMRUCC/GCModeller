@@ -24,15 +24,25 @@ Public Module Extensions
         Next
     End Function
 
+    ''' <summary>
+    ''' Open file handle failure, perhaps there are duplicated name in your query data and this may cause error on Windows file system!
+    ''' </summary>
+    Const DuplicatedName$ = "Open file handle failure, perhaps there are duplicated name in your query data and this may cause error on Windows file system!"
+
     <Extension>
     Public Function BatchSearch(source As IEnumerable(Of FastaToken), arguments As IEnumerable(Of NamedValue(Of String)), out$) As Boolean
         Dim expressions As New Dictionary(Of Expression, StreamWriter)
         Dim def As New IObject(GetType(Text))
 
-        For Each query In arguments
-            Dim path$ = out & $"/{query.Name.NormalizePathString}.fasta"
-            expressions.Add(query.x.Build, path.OpenWriter(Encodings.ASCII))
-        Next
+        Try
+            For Each query In arguments
+                Dim path$ = out & $"/{query.Name.NormalizePathString}.fasta"
+                expressions.Add(query.x.Build, path.OpenWriter(Encodings.ASCII))
+            Next
+        Catch ex As Exception
+            ex = New Exception(DuplicatedName, ex)
+            Throw ex
+        End Try
 
         For Each fa As FastaToken In source
             Dim title As New Text With {
