@@ -115,7 +115,13 @@ Namespace SequenceModel.FASTA
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 默认的Fasta文件拓展名列表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared ReadOnly Property DefaultSuffix As String() = {"*.fasta", "*.fa", "*.fsa", "*.fas"}
+
+        ''' <summary>
+        ''' 全部都是使用<see cref="StreamIterator"/>对象来进行读取的
         ''' </summary>
         ''' <param name="handle">File path or directory.</param>
         ''' <returns></returns>
@@ -125,6 +131,10 @@ Namespace SequenceModel.FASTA
                     Yield fa
                 Next
             Else
+                If ext.IsNullOrEmpty Then
+                    ext = DefaultSuffix
+                End If
+
                 For Each file As String In ls - l - r - wildcards(ext) <= handle
                     For Each nt As FastaToken In New StreamIterator(file).ReadStream
                         Yield nt

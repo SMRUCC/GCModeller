@@ -102,7 +102,7 @@ Namespace Regtransbase.WebServices
                         i += 1
                         Fsa.Attributes = New String() {String.Format("lcl{0}", i), TempList}
 
-                        Call FileIO.FileSystem.WriteAllText(FileSaved, Fsa.GenerateDocument(LineBreak:=60) & vbCrLf, append:=True)
+                        Call FileIO.FileSystem.WriteAllText(FileSaved, Fsa.GenerateDocument(lineBreak:=60) & vbCrLf, append:=True)
                         Call FsaFile.Add(item:=Fsa)
                     Catch ex As Exception
                         Dim Err = String.Format("[KEGG_DBGET_QUERY_EXCEPTION] [Regulog={0}] [KEGG_ENTRY={1}:{2}]" & vbCrLf, Item.Key, RegulatorEntry.SpeciesId, RegulatorId)
@@ -145,7 +145,7 @@ Namespace Regtransbase.WebServices
                                         i += 1
                                         Fsa.Attributes = New String() {String.Format("lcl{0}", i), TempList}
 
-                                        Call FileIO.FileSystem.WriteAllText(FileSaved, Fsa.GenerateDocument(LineBreak:=60) & vbCrLf, append:=True)
+                                        Call FileIO.FileSystem.WriteAllText(FileSaved, Fsa.GenerateDocument(lineBreak:=60) & vbCrLf, append:=True)
                                         Call FsaFile.Add(item:=Fsa)
                                     End If
                                 End If
@@ -176,7 +176,7 @@ Namespace Regtransbase.WebServices
                         i += 1
                         TempObject.Attributes = New String() {String.Format("lcl{0}", i), TempList}
 
-                        Call FileIO.FileSystem.WriteAllText(FileSaved, TempObject.GenerateDocument(LineBreak:=60) & vbCrLf, append:=True)
+                        Call FileIO.FileSystem.WriteAllText(FileSaved, TempObject.GenerateDocument(lineBreak:=60) & vbCrLf, append:=True)
                         Call FsaFile.Add(item:=TempObject)
                     End If
                 End If

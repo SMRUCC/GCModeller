@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::5734dd6b8a2d2f059a2c9ea7f0341313, ..\GCModeller\CLI_tools\GCModeller\CLI\DataVisualization.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -128,17 +129,19 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
     Public Function GetSubsetID(args As CommandLine) As Integer
         Dim subset As String() = IO.File.ReadAllLines(args("/subset"))
         Dim lstID = args("/lstID").LoadCsv(Of KeyValuePair)
-        Dim LQuery As String() =
-            LinqAPI.Exec(Of String) <= From sId As String
-                                       In subset
-                                       Let getID As String = (From x As KeyValuePair
-                                                              In lstID
-                                                              Where String.Equals(sId, x.Key, StringComparison.OrdinalIgnoreCase)
-                                                              Select x.Value).FirstOrDefault
-                                       Where Not String.IsNullOrEmpty(getID)
-                                       Select getID
+        Dim LQuery As String() = LinqAPI.Exec(Of String) <=
+ _
+            From sId As String
+            In subset
+            Let getID As String = (From x As KeyValuePair
+                                   In lstID
+                                   Where String.Equals(sId, x.Key, StringComparison.OrdinalIgnoreCase)
+                                   Select x.Value).FirstOrDefault
+            Where Not String.IsNullOrEmpty(getID)
+            Select getID
+
         Dim path As String = args("/subset").TrimSuffix & ".lstID.txt"
-        Return LQuery.FlushAllLines(path).CLICode
+        Return LQuery.FlushAllLines(path, Encodings.ASCII).CLICode
     End Function
 
     <ExportAPI("/Visual.BBH",

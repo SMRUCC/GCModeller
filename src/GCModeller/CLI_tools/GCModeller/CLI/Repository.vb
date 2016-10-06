@@ -99,7 +99,7 @@ Partial Module CLI
     Public Function ntRepositoryExports(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim DATA As String = args("/DATA")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-EXPORT/")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & DATA.BaseName & "-EXPORT/")
         Dim repo As New QueryEngine
 
         Call repo.ScanSeqDatabase(DATA)

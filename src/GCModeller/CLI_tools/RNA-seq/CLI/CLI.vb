@@ -253,9 +253,9 @@ Module CLI
                       Select x, upYet = ca > cb).ToArray
 
         Dim Up As String = out & "/" & calb.Key & "-TO-" & cblb.Key & ".Up.txt"
-        Call (From x In LQuery Where x.upYet Select x.x.locus_tag).ToArray.FlushAllLines(Up)
+        Call (From x In LQuery Where x.upYet Select x.x.locus_tag).ToArray.FlushAllLines(Up, Encodings.ASCII)
         Dim Down As String = out & "/" & calb.Key & "-TO-" & cblb.Key & ".Down.txt"
-        Call (From x In LQuery Where Not x.upYet Select x.x.locus_tag).ToArray.FlushAllLines(Down)
+        Call (From x In LQuery Where Not x.upYet Select x.x.locus_tag).ToArray.FlushAllLines(Down, Encodings.ASCII)
 
         Return 0
     End Function

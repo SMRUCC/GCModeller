@@ -82,7 +82,7 @@ Public Class DataPreparations
         Dim TempFile As String = workDir & GeneId
 
         '1.保存目标基因的蛋白质序列数据
-        Call GenomicsProteins.Takes(Function(FsaObject As FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, GeneId)).Save(TempFile)
+        Call GenomicsProteins.Select(Function(FsaObject As FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, GeneId)).Save(TempFile)
         '2.blastp搜索dip数据库中的同源蛋白，作为原始计算数据
         Call Console.WriteLine("Searching the homologous protein in the dip database for object ""{0}""...", GeneId)
         Call LocalBLAST.Blastp(TempFile, DipFsaSequence.FilePath, String.Format("{0}/blastp_{1}_vs._dip.txt", workDir, GeneId), "1e-3").Start(WaitForExit:=True)
@@ -96,7 +96,7 @@ Public Class DataPreparations
         MatchedIdCollection = MatchedIdCollection.Take(5).ToArray
 #End If
 
-        Dim TargetHomologous = DipFsaSequence.Takes(Function(FsaObject As FASTA.FastaToken) Array.IndexOf(MatchedIdCollection, FsaObject.Attributes.First.Split.First) > -1)
+        Dim TargetHomologous = DipFsaSequence.Select(Function(FsaObject As FASTA.FastaToken) Array.IndexOf(MatchedIdCollection, FsaObject.Attributes.First.Split.First) > -1)
         '将目标基因的蛋白质序列加入到最后
         Call TargetHomologous.AddRange(FASTA.FastaFile.Read(TempFile))
         TempFile = TempFile & "_alignment.fsa"
@@ -122,7 +122,7 @@ Public Class DataPreparations
         PartnersIdList = (From id As String In PartnersIdList Select id Distinct Order By id Ascending).ToList
         Call Console.WriteLine("There are {0} partner records was found in the database!", PartnersIdList.Count)
 
-        Dim TargetHomologousPartners = DipFsaSequence.Takes(Function(FsaObject As FASTA.FastaToken) PartnersIdList.IndexOf(FsaObject.Attributes.First.Split.First) > -1)
+        Dim TargetHomologousPartners = DipFsaSequence.Select(Function(FsaObject As FASTA.FastaToken) PartnersIdList.IndexOf(FsaObject.Attributes.First.Split.First) > -1)
         TempFile = workDir & GeneId & "_alignment_partners.fsa"
         Call TargetHomologousPartners.Save(TempFile)
         Call LocalBLAST.FormatDb(TempFile, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
@@ -135,7 +135,7 @@ Public Class DataPreparations
 #If DEBUG Then
         MatchedIdCollection = MatchedIdCollection.Take(10).ToArray
 #End If
-        Dim PartnerTargetHomologous = GenomicsProteins.Takes(Function(FsaObject As FASTA.FastaToken) Array.IndexOf(MatchedIdCollection, FsaObject.Attributes.First.Split.First) > -1)
+        Dim PartnerTargetHomologous = GenomicsProteins.Select(Function(FsaObject As FASTA.FastaToken) Array.IndexOf(MatchedIdCollection, FsaObject.Attributes.First.Split.First) > -1)
         Call PartnerTargetHomologous.Save(workDir & "target_genomics_proteins_homologous_partners.fsa")
         Call TargetHomologousPartners.AddRange(PartnerTargetHomologous)
         Call TargetHomologousPartners.Save()
@@ -237,8 +237,8 @@ Public Class DataPreparations
         Dim List As List(Of String) = New List(Of String)
         For Each pair In InteractionPairs.Skip(1)
             Dim itA = pair(0), itB = pair(1)
-            Dim itASeq = InteractorA.Takes(Function(FsaObject As FASTA.FastaToken) String.Equals(FsaObject.Attributes.First.Split.First, itA)).First
-            Dim itBSeq = InteractorB.Takes(Function(FsaObject As FASTA.FastaToken) String.Equals(FsaObject.Attributes.First.Split.First, itB)).First
+            Dim itASeq = InteractorA.Select(Function(FsaObject As FASTA.FastaToken) String.Equals(FsaObject.Attributes.First.Split.First, itA)).First
+            Dim itBSeq = InteractorB.Select(Function(FsaObject As FASTA.FastaToken) String.Equals(FsaObject.Attributes.First.Split.First, itB)).First
             Call List.Add(itASeq.SequenceData.ToUpper & itBSeq.SequenceData.ToUpper)
         Next
 
@@ -246,8 +246,8 @@ Public Class DataPreparations
     End Function
 
     Private Shared Function SequenceAssemble(InteractorA As FASTA.FastaFile, InteractorB As FASTA.FastaFile, InteractionPairs As KeyValuePair(Of String, String)) As KeyValuePair(Of String, String)
-        Dim itASeq = InteractorA.Takes(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Key)).First
-        Dim itBSeq = InteractorB.Takes(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Value)).First
+        Dim itASeq = InteractorA.Select(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Key)).First
+        Dim itBSeq = InteractorB.Select(Function(FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, InteractionPairs.Value)).First
         Dim result = New KeyValuePair(Of String, String)(itASeq.SequenceData.ToUpper, itBSeq.SequenceData.ToUpper)
 
         Return result
