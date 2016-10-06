@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
@@ -32,10 +33,17 @@ Public Module ImportsNT
 
         For Each seq As FastaToken In New StreamIterator(nt).ReadStream
             For Each h In NTheader.ParseNTheader(seq, throwEx:=False)
+                Dim gi& = CLng(Val(h.gi))
+
+                If CStr(gi) <> Trim(h.gi) Then
+                    Call h.GetJson.Warning
+                    Continue For
+                End If
+
                 Dim nt_header As New mysql.NCBI.nt With {
                     .db = h.db,
                     .description = MySqlEscaping(h.description),
-                    .gi = h.gi,
+                    .gi = gi,
                     .uid = h.uid
                 }
                 Dim index$ = nt_header.Index
@@ -61,6 +69,8 @@ Public Module ImportsNT
                 Call titles(index).Write(h)
             Next
         Next
+
+        Call "Database imports Job Done! Closing file handles....".__DEBUG_ECHO
 
         For Each file In writer.Values
             Call file.Dispose()
