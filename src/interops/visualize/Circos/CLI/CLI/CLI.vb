@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::bf844f58bf99f341b8cf8350a9d4c0ce, ..\interops\visualize\Circos\CLI\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
@@ -58,18 +59,18 @@ Public Module CLI
         Dim mla As String = args("/mla")
         Dim ref As String = args("/ref")
         Dim cut As Double = args.GetValue("/cut", 0.75)
-        Dim source As FastaFile = New FastaFile(mla)
+        Dim source As New FastaFile(mla)
 
         If ref.FileExists Then
             Dim refFa As FastaToken = New FastaToken(ref)
             Dim out As String = args.GetValue("/out", mla.TrimSuffix & "-" & ref.BaseName & ".NTVariations.txt")
             Dim vec = refFa.NTVariations(source, cut)
-            Return vec.FlushAllLines(out).CLICode
+            Return vec.FlushAllLines(out, Encodings.ASCII).CLICode
         Else
             Dim idx As Integer = Scripting.CastInteger(ref)
             Dim out As String = args.GetValue("/out", mla.TrimSuffix & "." & idx & ".NTVariations.txt")
             Dim vec = NTVariations(source, idx, cut)
-            Return vec.FlushAllLines(out).CLICode
+            Return vec.FlushAllLines(out, Encodings.ASCII).CLICode
         End If
     End Function
 
@@ -91,12 +92,12 @@ Public Module CLI
                           percent = NucleicAcidStaticsProperty.ATPercent(lst(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray
         Dim vector As Double() = __vectorCommon(LQuery.ToArray(Function(genome) genome.percent))
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
+        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     Private Function __propertyVector(method As NtProperty, inFasta As FastaToken, out As String, winSize As Integer, steps As Integer) As Integer
         Dim vector As Double() = method(inFasta, winSize, steps, True)
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
+        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     ''' <summary>
@@ -121,7 +122,7 @@ Public Module CLI
                           skew = SMRUCC.genomics.SequenceModel.NucleotideModels.GCSkew(inFasta(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
         Dim vector As Double() = __vectorCommon(LQuery.ToArray(Function(genome) genome.skew))
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
+        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     Private Function __vectorCommon(vectors As Double()()) As Double()

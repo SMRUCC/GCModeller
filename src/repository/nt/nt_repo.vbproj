@@ -169,6 +169,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.vb" />
     <Compile Include="WebApp.vb" />
     <Compile Include="Index\BlockRange.vb" />
     <Compile Include="Index\TitleIndex.vb" />

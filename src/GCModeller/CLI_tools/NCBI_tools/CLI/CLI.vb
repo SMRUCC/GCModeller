@@ -140,10 +140,10 @@ Module CLI
         Dim taxTree As New NcbiTaxonomyTree(tax)
         Dim notFoundTax As String = out.TrimSuffix & ".notFound.txt"
 
-        Using notFound As StreamWriter = (out.TrimSuffix & ".NotFound.fasta").OpenWriter,
+        Using notFound As StreamWriter = (out.TrimSuffix & ".NotFound.fasta").OpenWriter(Encodings.ASCII),
             writer As StreamWriter = out.OpenWriter(Encodings.ASCII),
             table As New WriteStream(Of TaxiSummary)(out.TrimSuffix & ".Csv"),
-            taxNotFoun = notFoundTax.OpenWriter
+            taxNotFoun = notFoundTax.OpenWriter(Encodings.ASCII)
 
             For Each fa As FastaToken In New StreamIterator([in]).ReadStream
                 Dim gi As Integer = CInt(Val(Regex.Match(fa.Title, "gi\|\d+", RegexICSng).Value.Split("|"c).Last))
@@ -331,41 +331,47 @@ Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Associates.Brief", Usage:="/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
+    <ExportAPI("/Associates.Brief",
+               Usage:="/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
     Public Function Associates(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim lsWords As String() = args("/ls").ReadAllLines.Where(Function(s) Not String.IsNullOrEmpty(Trim(s))).ToArray(Function(s) s.Trim.ToLower)
+        Dim lsWords$() =
+            args("/ls") _
+            .ReadAllLines _
+            .Where(Function(s) Not String.IsNullOrEmpty(Trim(s))) _
+            .ToArray(Function(s) s.Trim.ToLower)
         Dim outDIR As String = args.GetValue("/out", [in].TrimDIR & ".associates.tsv")
-        Dim index As String = args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
-        Dim output As StreamWriter = outDIR.OpenWriter
+        Dim index As String =
+            args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
 
-        For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
-            Dim data = Taxono.Load(file, index)
-            Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
+        Using output As StreamWriter = outDIR.OpenWriter(Encodings.ASCII)
+            For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
+                Dim data = Taxono.Load(file, index)
+                Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
 
-            For Each x In data
-                If x.Taxonomy Is Nothing Then
-                    Continue For
-                End If
-                For Each line As String In lsWords
-                    Dim words = line.Split ' 小写的
-                    Dim tax = x.Taxonomy.ToLower.Split
+                For Each x In data
+                    If x.Taxonomy Is Nothing Then
+                        Continue For
+                    End If
+                    For Each line As String In lsWords
+                        Dim words = line.Split ' 小写的
+                        Dim tax = x.Taxonomy.ToLower.Split
 
-                    For Each xx In tax
-                        For Each y In words
-                            Dim compare = LevenshteinDistance.ComputeDistance(xx, y)
-                            If Not compare Is Nothing AndAlso compare.Score >= 0.6 Then
-                                Call output.WriteLine(String.Join(vbTab, xx, x.Taxonomy, line, x.Values.GetJson))
-                            End If
+                        For Each xx In tax
+                            For Each y In words
+                                Dim compare = LevenshteinDistance.ComputeDistance(xx, y)
+                                If Not compare Is Nothing AndAlso compare.Score >= 0.6 Then
+                                    Call output.WriteLine(String.Join(vbTab, xx, x.Taxonomy, line, x.Values.GetJson))
+                                End If
+                            Next
                         Next
                     Next
                 Next
             Next
-        Next
 
-        output.Flush()
-        output.Close()
-        output.Dispose()
+            output.Flush()
+            output.Close()
+        End Using
 
         Return 0
     End Function
@@ -435,7 +441,7 @@ Module CLI
                     Select id
                     Group id By id Into Group).ToDictionary(Function(x) x.id, Function(x) "")
 
-        Using match As StreamWriter = out.OpenWriter
+        Using match As StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each line As String In gi2taxid.IterateAllLines
                 gi = line.Split(ASCII.TAB).First
 
