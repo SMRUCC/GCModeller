@@ -31,7 +31,7 @@ Public Module ImportsNT
         End Try
 
         For Each seq As FastaToken In New StreamIterator(nt).ReadStream
-            For Each h In NTheader.ParseNTheader(seq)
+            For Each h In NTheader.ParseNTheader(seq, throwEx:=False)
                 Dim nt_header As New mysql.NCBI.nt With {
                     .db = h.db,
                     .description = MySqlEscaping(h.description),
