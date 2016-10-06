@@ -137,7 +137,7 @@ date: {Now.ToString}
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & [in].BaseName & "/")
         Dim arguments = query.LoadCsv(Of QueryArgument)
 
-        Return StreamIterator.SeqSource(handle:=[in]) _
+        Return StreamIterator.SeqSource([in],, debug:=True) _
             .BatchSearch(arguments.Select(
                 Function(x) New NamedValue(Of String) With {
                     .Name = x.Name,

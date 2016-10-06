@@ -37,24 +37,29 @@ Public Module Extensions
         Try
             For Each query In arguments
                 Dim path$ = out & $"/{query.Name.NormalizePathString}.fasta"
-                expressions.Add(query.x.Build, path.OpenWriter(Encodings.ASCII))
+                Call expressions.Add(query.x.Build,
+                                     path.OpenWriter(Encodings.ASCII))
             Next
         Catch ex As Exception
             ex = New Exception(DuplicatedName, ex)
             Throw ex
         End Try
 
-        For Each fa As FastaToken In source
-            Dim title As New Text With {
-                .Text = fa.Title
-            }
+        Call Parallel.ForEach(
+            source,
+            Sub(fa)
+                Dim title As New Text With {
+                    .Text = fa.Title
+                }
 
-            For Each query In expressions
-                If query.Key.Evaluate(def, title) Then
-                    Call query.Value.WriteLine(fa.GenerateDocument(120))
-                End If
-            Next
-        Next
+                For Each query In expressions
+                    If query.Key.Evaluate(def, title) Then
+                        SyncLock query.Value
+                            Call query.Value.WriteLine(fa.GenerateDocument(120))
+                        End SyncLock
+                    End If
+                Next
+            End Sub)
 
         For Each file In expressions.Values
             Call file.Flush()

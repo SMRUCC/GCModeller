@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::eb15d1dd3296a1d6b72f390cb363216b, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SequenceModel.FASTA
 
@@ -125,8 +126,12 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <param name="handle">File path or directory.</param>
         ''' <returns></returns>
-        Public Shared Iterator Function SeqSource(handle As String, ParamArray ext As String()) As IEnumerable(Of FastaToken)
+        Public Shared Iterator Function SeqSource(handle As String, Optional ext As String() = Nothing, Optional debug As Boolean = False) As IEnumerable(Of FastaToken)
             If handle.FileExists Then
+                If debug Then
+                    Call "File exists, reading fasta data from file...".__DEBUG_ECHO
+                End If
+
                 For Each fa As FastaToken In New StreamIterator(handle).ReadStream
                     Yield fa
                 Next
@@ -134,8 +139,15 @@ Namespace SequenceModel.FASTA
                 If ext.IsNullOrEmpty Then
                     ext = DefaultSuffix
                 End If
+                If debug Then
+                    Call "Directory exists, reading fasta data from files in DATA directory...".__DEBUG_ECHO
+                    Call $"File types: {ext.GetJson}".__DEBUG_ECHO
+                End If
 
                 For Each file As String In ls - l - r - wildcards(ext) <= handle
+                    If debug Then
+                        Call file.ToFileURL.__DEBUG_ECHO
+                    End If
                     For Each nt As FastaToken In New StreamIterator(file).ReadStream
                         Yield nt
                     Next

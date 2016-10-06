@@ -176,7 +176,7 @@ Partial Module Utilities
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}/")
         Dim nt As IEnumerable(Of FastaToken) =
-            StreamIterator.SeqSource([in], "*.fasta", "*.fsa", "*.fa", "*.fna", "*.fas")
+            StreamIterator.SeqSource([in], {"*.fasta", "*.fsa", "*.fa", "*.fna", "*.fas"})
         Dim CLI As New List(Of String)
         Dim n As Integer = args.GetValue("/num_threads", -1)
 
