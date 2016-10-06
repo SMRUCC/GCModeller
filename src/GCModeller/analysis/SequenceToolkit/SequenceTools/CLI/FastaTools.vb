@@ -29,6 +29,7 @@
 Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -144,16 +145,25 @@ Partial Module Utilities
         Return Fasta.Save(out, Encodings.ASCII).CLICode
     End Function
 
-    <ExportAPI("/Merge.Simple", Usage:="/Merge.Simple /in <DIR> [/line.break 120 /out <out.fasta>]")>
+    <ExportAPI("/Merge.Simple",
+               Info:="This tools just merge the fasta sequence into one larger file.",
+               Usage:="/Merge.Simple /in <DIR> [/line.break 120 /out <out.fasta>]")>
     Public Function SimpleMerge(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
-        Dim lineBreak As Integer = args.GetValue("/line.break", 120)
+        Dim lineBreak As Integer =
+            args.GetValue("/line.break", 120)
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            For Each fa As FastaToken In StreamIterator.SeqSource(inDIR, debug:=True)
-                Call writer.WriteLine(fa.GenerateDocument(lineBreak))
-            Next
+            Call Tasks.Parallel.ForEach(
+                StreamIterator.SeqSource(inDIR, debug:=True),
+                Sub(fa)
+                    Dim line$ = fa.GenerateDocument(lineBreak)
+                    SyncLock writer
+                        Call writer.WriteLine(line)
+                        Call writer.Flush()
+                    End SyncLock
+                End Sub)
 
             Return 0
         End Using
