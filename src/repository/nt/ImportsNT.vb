@@ -35,7 +35,7 @@ Public Module ImportsNT
             For Each h In NTheader.ParseNTheader(seq, throwEx:=False)
                 Dim gi& = CLng(Val(h.gi))
 
-                If gi = 0& Then
+                If CStr(gi) <> Trim(h.gi) Then
                     Call h.GetJson.Warning
                     Continue For
                 End If
@@ -69,6 +69,8 @@ Public Module ImportsNT
                 Call titles(index).Write(h)
             Next
         Next
+
+        Call "Database imports Job Done! Closing file handles....".__DEBUG_ECHO
 
         For Each file In writer.Values
             Call file.Dispose()
