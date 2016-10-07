@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::e88440a8acc172e6af2e89841c90d7cd, ..\GCModeller\CLI_tools\RNA-seq\CLI\Tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
@@ -34,19 +36,17 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports RDotNET.Extensions.VisualBasic.TableExtensions
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.API
+Imports RDotNET.Extensions.VisualBasic.TableExtensions
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
-Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
@@ -54,7 +54,6 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
-Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 
@@ -465,6 +464,47 @@ Partial Module CLI
 
             Call data.Save(out, Encodings.ASCII)
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Contacts.NNN",
+               Info:="Using for contacts the reference sequence for the metagenome analysis. reference sequence was contact in one sequence by a interval ``NNNNNNNNNNNNNNNNNN``",
+               Usage:="/Contacts /in <in.fasta> [/out <out.DIR>]")>
+    Public Function Contacts(args As CommandLine) As Integer
+        Dim [in] As String = args - "/in"
+        Dim i As Integer = 1
+        Dim contigs As New List(Of SimpleSegment)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Contigs/")
+        Dim outNt As String = out & "/nt.fasta"
+        Dim outContigs As String = out & "/contigs.csv"
+        Dim il As Integer = Interval.Length
+
+        Call "".SaveTo(outNt)
+
+        Using writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate), Encoding.ASCII)
+
+            Call writer.WriteLine("> " & [in].BaseName)
+
+            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+                Call writer.Write(fa.SequenceData)
+                Call writer.Write(Interval)
+
+                Dim nx As Integer = i + fa.Length
+
+                contigs += New SimpleSegment With {
+                    .Start = i,
+                    .Ends = nx,
+                    .ID = fa.ToString,
+                    .Strand = "+"
+                }
+                i = nx + il
+
+                ' Call Console.Write(".")
+            Next
+
+            Call contigs.SaveTo(outContigs)
+        End Using
 
         Return 0
     End Function

@@ -118,47 +118,6 @@ Partial Module CLI
         Return 0
     End Function
 
-    Const Interval As String = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
-
-    <ExportAPI("/Contacts", Usage:="/Contacts /in <in.fasta> [/out <out.DIR>]")>
-    Public Function Contacts(args As CommandLine) As Integer
-        Dim [in] As String = args - "/in"
-        Dim i As Integer = 1
-        Dim contigs As New List(Of SimpleSegment)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Contigs/")
-        Dim outNt As String = out & "/nt.fasta"
-        Dim outContigs As String = out & "/contigs.csv"
-        Dim il As Integer = Interval.Length
-
-        Call "".SaveTo(outNt)
-
-        Using writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate), Encoding.ASCII)
-
-            Call writer.WriteLine("> " & [in].BaseName)
-
-            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
-                Call writer.Write(fa.SequenceData)
-                Call writer.Write(Interval)
-
-                Dim nx As Integer = i + fa.Length
-
-                contigs += New SimpleSegment With {
-                    .Start = i,
-                    .Ends = nx,
-                    .ID = fa.ToString,
-                    .Strand = "+"
-                }
-                i = nx + il
-
-                ' Call Console.Write(".")
-            Next
-
-            Call contigs.SaveTo(outContigs)
-        End Using
-
-        Return 0
-    End Function
-
     <ExportAPI("/Taxonomy.efetch", Usage:="/Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]")>
     Public Function FetchTaxnData(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
