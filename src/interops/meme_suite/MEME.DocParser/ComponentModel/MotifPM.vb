@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::eb0019f9ab0bc8769c4bb5b98808b095, ..\interops\meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
@@ -67,7 +68,13 @@ Namespace ComponentModel
             End If
             Call _innerTable.Add(nt, value)
 
-            MostPossible = (From item In _innerTable Where item.Value > 0 Select item Order By item.Value Descending).First
+            MostPossible = LinqAPI.DefaultFirst(Of KeyValuePair(Of DNA, Double)) <=
+ _
+                From t As KeyValuePair(Of DNA, Double)
+                In _innerTable
+                Where t.Value > 0
+                Select t
+                Order By t.Value Descending
         End Sub
 
         ''' <summary>
@@ -125,7 +132,13 @@ Namespace ComponentModel
         ''' <param name="s">MEME文本文件结果数据之中的概率表之中的一行文本</param>
         ''' <remarks></remarks>
         Friend Sub New(s As String)
-            Dim Tokens As String() = (From tt As String In s.Split Where Not String.IsNullOrEmpty(tt) Select tt).ToArray
+            Dim Tokens As String() = LinqAPI.Exec(Of String) <=
+ _
+                From tt As String
+                In s.Split
+                Where Not String.IsNullOrEmpty(tt)
+                Select tt
+
             Dim A = Val(Tokens(0))
             Dim T = Val(Tokens(3))
             Dim G = Val(Tokens(2))
@@ -139,7 +152,12 @@ Namespace ComponentModel
                 {DNA.dTMP, T}
             }
 
-            MostPossible = (From item In _innerTable Where item.Value > 0 Select item Order By item.Value Descending).First
+            MostPossible = LinqAPI.DefaultFirst(Of KeyValuePair(Of DNA, Double)) <=
+                From x As KeyValuePair(Of DNA, Double)
+                In _innerTable
+                Where x.Value > 0
+                Select x
+                Order By x.Value Descending
         End Sub
 
         Sub New()
@@ -155,7 +173,12 @@ Namespace ComponentModel
                 {DNA.dTMP, T}
             }
 
-            MostPossible = (From item In _innerTable Where item.Value > 0 Select item Order By item.Value Descending).First
+            MostPossible = LinqAPI.DefaultFirst(Of KeyValuePair(Of DNA, Double)) <=
+                From x
+                In _innerTable
+                Where x.Value > 0
+                Select x
+                Order By x.Value Descending
         End Sub
 
         ''' <summary>
@@ -202,7 +225,7 @@ Namespace ComponentModel
             End Get
         End Property
 
-        Public Property Address As Integer Implements IAddressHandle.Address
+        Public Property Index As Integer Implements IAddressHandle.Address
 
         ''' <summary>
         ''' 
@@ -222,10 +245,10 @@ Namespace ComponentModel
         End Function
 
         Private Shared Function __createObject(nn As MotifPM()) As MotifPM
-            Dim A = (From item As MotifPM In nn Select item._innerTable(DNA.dAMP)).ToArray.Average
-            Dim T = (From item As MotifPM In nn Select item._innerTable(DNA.dTMP)).ToArray.Average
-            Dim G = (From item As MotifPM In nn Select item._innerTable(DNA.dGMP)).ToArray.Average
-            Dim C = (From item As MotifPM In nn Select item._innerTable(DNA.dCMP)).ToArray.Average
+            Dim A# = (From x As MotifPM In nn Select x._innerTable(DNA.dAMP)).Average
+            Dim T# = (From x As MotifPM In nn Select x._innerTable(DNA.dTMP)).Average
+            Dim G# = (From x As MotifPM In nn Select x._innerTable(DNA.dGMP)).Average
+            Dim C# = (From x As MotifPM In nn Select x._innerTable(DNA.dCMP)).Average
 
             Return New MotifPM(A, T, G, C)
         End Function
