@@ -470,12 +470,12 @@ Partial Module CLI
 
     <ExportAPI("/Contacts.NNN",
                Info:="Using for contacts the reference sequence for the metagenome analysis. reference sequence was contact in one sequence by a interval ``NNNNNNNNNNNNNNNNNN``",
-               Usage:="/Contacts /in <in.fasta> [/out <out.DIR>]")>
-    Public Function Contacts(args As CommandLine) As Integer
+               Usage:="/Contacts /in <in.fasta/DIR> [/out <out.DIR>]")>
+    Public Function ContactsNNN(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim i As Integer = 1
         Dim contigs As New List(Of SimpleSegment)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Contigs/")
+        Dim out As String = args.GetValue("/out", If([in].FileExists, [in].TrimSuffix, [in].TrimDIR) & ".Contigs/")
         Dim outNt As String = out & "/nt.fasta"
         Dim outContigs As String = out & "/contigs.csv"
         Dim il As Integer = Interval.Length
@@ -483,10 +483,9 @@ Partial Module CLI
         Call "".SaveTo(outNt)
 
         Using writer As New StreamWriter(New FileStream(outNt, FileMode.OpenOrCreate), Encoding.ASCII)
-
             Call writer.WriteLine("> " & [in].BaseName)
 
-            For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+            For Each fa As FastaToken In StreamIterator.SeqSource(handle:=[in], debug:=True)
                 Call writer.Write(fa.SequenceData)
                 Call writer.Write(Interval)
 
