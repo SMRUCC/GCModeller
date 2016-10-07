@@ -16,7 +16,7 @@ Public Module ImportsNT
     ''' 
     ''' </summary>
     ''' <param name="mysql"></param>
-    ''' <param name="nt$"></param>
+    ''' <param name="nt$">文件或者文件夹</param>
     ''' <param name="EXPORT$">序列数据所保存的文件夹</param>
     <Extension>
     Public Sub [Imports](mysql As mysqlClient, nt$, EXPORT$, Optional writeMysql As Boolean = True)
@@ -31,7 +31,7 @@ Public Module ImportsNT
 
         End Try
 
-        For Each seq As FastaToken In New StreamIterator(nt).ReadStream
+        For Each seq As FastaToken In StreamIterator.SeqSource(nt, debug:=True)
             For Each h In NTheader.ParseNTheader(seq, throwEx:=False)
                 Dim gi& = CLng(Val(h.gi))
 
