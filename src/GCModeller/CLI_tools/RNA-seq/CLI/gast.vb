@@ -80,8 +80,15 @@ Partial Module CLI
 
     Const Interval As String = "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
 
-    <ExportAPI("/Contacts.Ref", Usage:="/Contacts.Ref /in <in.fasta> /maps <maps.sam> [/out <out.DIR>]")>
-    Public Function Contacts(args As CommandLine) As Integer
+    ''' <summary>
+    ''' 这个函数是在做完了一次mapping之后，进行更近一步分析用的
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Contacts.Ref",
+               Info:="This tools using for the furthering analysis when finish the first mapping.",
+               Usage:="/Contacts.Ref /in <in.fasta> /maps <maps.sam> [/out <out.DIR>]")>
+    Public Function ContactsRef(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim inSam As String = args("/maps")
         Dim i As Integer = 1
