@@ -222,7 +222,10 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.SAM.Maps",
-               Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv>]")>
+               Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv> /debug]")>
+    <ParameterInfo("/raw", True,
+                   AcceptTypes:={GetType(FastaFile), GetType(FastaToken)},
+                   Description:="When this command is processing the NNNNN contact data, just input the contigs csv file, this raw reference is not required for the contig information.")>
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
@@ -231,6 +234,7 @@ Partial Module CLI
         Dim NNNNcontig As String = args("/contigs")
         Dim genome As GenomeContextProvider(Of GeneBrief) = Nothing
         Dim tagsHash As Dictionary(Of String, String) = Nothing
+        Dim showDebug As Boolean = args.GetBoolean("/debug")
 
         If NNNNcontig.FileExists Then
             Dim contigs = NNNNcontig.LoadCsv(Of SimpleSegment)
@@ -257,11 +261,15 @@ Partial Module CLI
 
             If reads.ID <> "*" AndAlso genome IsNot Nothing Then
                 Dim loci As New NucleotideLocation(readMaps.POS, readMaps.POS + reads.SequenceData.Length, False)
-                Dim contig = genome.GetAroundRelated(loci,, 10)
+                Dim contig = genome.GetAroundRelated(loci,, 10, parallel:=True)
                 If Not contig.IsNullOrEmpty Then
                     reads.ID = contig.First.Gene.Synonym.Split.First
                     If contig.Length > 1 Then
                         Call reads.GetJson.__DEBUG_ECHO
+                    Else
+                        If showDebug Then
+                            Call reads.ID.__DEBUG_ECHO
+                        End If
                     End If
                 Else
                     Call (reads.ID & " " & loci.ToString & " not found!!!").__DEBUG_ECHO

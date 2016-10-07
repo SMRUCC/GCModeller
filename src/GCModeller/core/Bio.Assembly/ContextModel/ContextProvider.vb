@@ -198,22 +198,25 @@ Namespace ContextModel
         ''' <param name="loci"></param>
         ''' <param name="stranded"></param>
         ''' <returns></returns>
-        Private Function __delegate(loci As NucleotideLocation, stranded As Boolean) As Func(Of Strands, Integer, T())
+        Private Function __delegate(loci As NucleotideLocation, stranded As Boolean， parallel As Boolean) As Func(Of Strands, Integer, T())
             Dim strand As Strands = loci.Strand
 
             If stranded Then
                 Return AddressOf New RelationDelegate(Of T) With {
                     .dataSource = GetSource(strand),
-                    .loci = loci.Normalization
+                    .loci = loci.Normalization,
+                    .parallel = parallel
                 }.GetRelation
             Else
                 Dim asc As New RelationDelegate(Of T) With {
                     .dataSource = _forwards,
-                    .loci = loci.Normalization
+                    .loci = loci.Normalization,
+                    .parallel = parallel
                 }
                 Dim desc As New RelationDelegate(Of T) With {
                     .dataSource = _reversed,
-                    .loci = loci
+                    .loci = loci,
+                    .parallel = parallel
                 }
                 Return Function(relType, dist) desc.GetRelation(relType, dist) + (MakeList(Of T)() <= asc.GetRelation(relType, dist))
             End If
@@ -227,8 +230,8 @@ Namespace ContextModel
         ''' <param name="lociDist"></param>
         ''' <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
         ''' <remarks></remarks>
-        Public Function GetAroundRelated(loci As NucleotideLocation, Optional stranded As Boolean = True, Optional lociDist As Integer = 500) As Relationship(Of T)()
-            Dim GetRelation = __delegate(loci, stranded)
+        Public Function GetAroundRelated(loci As NucleotideLocation, Optional stranded As Boolean = True, Optional lociDist As Integer = 500, Optional parallel As Boolean = False) As Relationship(Of T)()
+            Dim GetRelation = __delegate(loci, stranded, parallel)
             Dim foundTEMP As T()
             Dim lstRelated As New List(Of Relationship(Of T))
 

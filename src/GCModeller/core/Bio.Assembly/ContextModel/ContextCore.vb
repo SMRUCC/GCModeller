@@ -41,6 +41,7 @@ Namespace ContextModel
 
         Dim dataSource As OrderSelector(Of IntTag(Of T))
         Dim loci As NucleotideLocation
+        Dim parallel As Boolean
 
         ''' <summary>
         ''' 为了提高上下文的搜索效率，只在附近的位置搜索
@@ -62,12 +63,19 @@ Namespace ContextModel
             End If
 
             Dim genes As T() =
-                LinqAPI.Exec(Of T) <= From gene As T
-                                      In result.Select(Function(x) x.x)
-                                      Let Relation As SegmentRelationships =
-                                          GetLociRelations(gene, loci)
-                                      Where Relation = relType
-                                      Select gene
+                If(parallel,
+                (LinqAPI.Exec(Of T) <= From gene As T
+                                       In result.Select(Function(x) x.x).AsParallel
+                                       Let Relation As SegmentRelationships =
+                                           GetLociRelations(gene, loci)
+                                       Where Relation = relType
+                                       Select gene),
+                 LinqAPI.Exec(Of T) <= From gene As T
+                                       In result.Select(Function(x) x.x)
+                                       Let Relation As SegmentRelationships =
+                                           GetLociRelations(gene, loci)
+                                       Where Relation = relType
+                                       Select gene)
             Return genes
         End Function
 

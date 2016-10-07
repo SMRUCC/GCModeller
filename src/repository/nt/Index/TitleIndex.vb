@@ -42,6 +42,7 @@ Public Class TitleIndex : Inherits IndexAbstract
             Dim gi&
             Dim gi_start&, gi_end&, gi_len%
             Dim locus_tag$
+            Dim gi_id$
 
             Do While Not indexReader.EndOfStream
                 gi& = indexReader.ReadInt64     ' NCBI gi编号
@@ -52,16 +53,21 @@ Public Class TitleIndex : Inherits IndexAbstract
                 gi_len% = gi_end - gi_start
                 locus_tag = __handle.ReadChars(gi_len%)
                 locus_tag = Regex.Replace(locus_tag, "\.\d*", "").ToLower
+                gi_id = CStr(gi)
 
+                If __index.ContainsKey(gi_id) Then
+                    Call __index.Remove(gi_id)
+                    Call $"gi_id:={gi_id} was duplicated in the index....".Warning
+                End If
                 Call __index.Add(
-                    CStr(gi), New BlockRange With {
+                   gi_id, New BlockRange With {
                         .start = start,
                         .len = len
                     })
                 If __locus_tagIndex.ContainsKey(locus_tag) Then
                     Call $"{locus_tag} was duplicated!".Warning
                 Else
-                    Call __locus_tagIndex.Add(locus_tag, CStr(gi))
+                    Call __locus_tagIndex.Add(locus_tag, gi_id)
                 End If
 
                 gi_start = start + len + lf.Length

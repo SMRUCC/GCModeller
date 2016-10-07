@@ -50,6 +50,11 @@ Public Class Index : Inherits IndexAbstract
                 gi_len% = gi_end - gi_start
                 gi = __handle.ReadChars(gi_len)
 
+                If __index.ContainsKey(gi) Then
+                    Call __index.Remove(gi)
+                    Call $"GI:={gi} was duplicated in the index...".Warning
+                End If
+
                 Call __index.Add(
                     gi, New BlockRange With {
                         .start = start,

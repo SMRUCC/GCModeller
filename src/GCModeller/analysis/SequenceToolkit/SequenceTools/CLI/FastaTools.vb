@@ -1,33 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::d146a548795ca0f4023c4b4a5a7c443e, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -141,6 +143,30 @@ Partial Module Utilities
             Select seqFa
         Dim Fasta As New FASTA.FastaFile(Fa)
         Return Fasta.Save(out, Encodings.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/Merge.Simple",
+               Info:="This tools just merge the fasta sequence into one larger file.",
+               Usage:="/Merge.Simple /in <DIR> [/line.break 120 /out <out.fasta>]")>
+    Public Function SimpleMerge(args As CommandLine) As Integer
+        Dim inDIR As String = args("/in")
+        Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
+        Dim lineBreak As Integer =
+            args.GetValue("/line.break", 120)
+
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            Call Tasks.Parallel.ForEach(
+                StreamIterator.SeqSource(inDIR, debug:=True),
+                Sub(fa)
+                    Dim line$ = fa.GenerateDocument(lineBreak)
+                    SyncLock writer
+                        Call writer.WriteLine(line)
+                        Call writer.Flush()
+                    End SyncLock
+                End Sub)
+
+            Return 0
+        End Using
     End Function
 
     <ExportAPI("/Merge",
