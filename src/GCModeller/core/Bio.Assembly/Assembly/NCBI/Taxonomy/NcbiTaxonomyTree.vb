@@ -75,6 +75,55 @@ Namespace Assembly.NCBI
         End Function
     End Class
 
+    Public Structure Ranks
+
+        Public species As TaxonNode(),
+            genus As TaxonNode(),
+            family As TaxonNode(),
+            order As TaxonNode(),
+            [class] As TaxonNode(),
+            phylum As TaxonNode(),
+            superkingdom As TaxonNode()
+
+        Sub New(tree As NcbiTaxonomyTree)
+            Dim species As New List(Of TaxonNode),
+                genus As New List(Of TaxonNode),
+                family As New List(Of TaxonNode),
+                order As New List(Of TaxonNode),
+                [class] As New List(Of TaxonNode),
+                phylum As New List(Of TaxonNode),
+                superkingdom As New List(Of TaxonNode)
+
+            For Each x In tree.Taxonomy
+                Select Case x.Value.rank
+                    Case NcbiTaxonomyTree.class
+                        [class] += x.Value
+                    Case NcbiTaxonomyTree.family
+                        family += x.Value
+                    Case NcbiTaxonomyTree.genus
+                        genus += x.Value
+                    Case NcbiTaxonomyTree.order
+                        order += x.Value
+                    Case NcbiTaxonomyTree.phylum
+                        phylum += x.Value
+                    Case NcbiTaxonomyTree.species
+                        species += x.Value
+                    Case NcbiTaxonomyTree.superkingdom
+                        superkingdom += x.Value
+                    Case Nothing
+                    Case Else
+                        Throw New InvalidConstraintException(x.Value.GetJson)
+                End Select
+
+                x.Value.taxid = x.Key
+            Next
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Structure
+
     ''' <summary>
     ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
     ''' ``names.dmp`` files 

@@ -29,6 +29,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -119,6 +120,29 @@ Partial Module CLI
                 Next
             End Using
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/nt.scan",
+               Usage:="/nt.scan /query <expression.csv> /DATA <nt.DIR> [/break 60 /out <out_DIR>]")>
+    Public Function NtScaner(args As CommandLine) As Integer
+        Dim query As String = args("/query")
+        Dim DATA As String = args("/DATA")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "_" & DATA.BaseName & ".csv")
+        Dim expressions = query.LoadCsv(Of QueryArgument)
+        Dim exp = expressions _
+            .Select(Function(x) New NamedValue(Of Expression) With {
+                .Name = x.Name,
+                .x = x.Expression.Build
+            }).ToDictionary
+        Dim break% = args.GetValue("/break", 60)
+
+        Call QueryEngine.ScanDatabase(
+            DATA,
+            query:=exp,
+            EXPORT:=out,
+            lineBreak:=break)
 
         Return 0
     End Function
