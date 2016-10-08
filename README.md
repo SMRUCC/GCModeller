@@ -1,4 +1,3 @@
-![](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/alpaca.svg)
 [![Github All Releases](https://img.shields.io/github/downloads/SMRUCC/GCModeller/total.svg?maxAge=2592000?style=flat-square)]()
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
 [![Build Status](https://travis-ci.org/SMRUCC/GCModeller.svg?branch=master)](https://travis-ci.org/SMRUCC/GCModeller)
@@ -9,7 +8,6 @@
 GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
 > + HOME: http://gcmodeller.org
-> + Online services: http://services.gcmodeller.org
 > + Github: https://github.com/smrucc/GCModeller
 > + SDK docs: http://docs.gcmodeller.org
 
@@ -26,23 +24,43 @@ Currently the ``R`` language hybrids programming environment just provides some 
 
 ``GCModeller`` is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits. And some common bioinformatics problem utils tools and common biological database I/O tools is also available in GCModeller for the .NET language programming.
 
-#### Data Standards
+### Directory Roadmap
++ [/GCModeller](./GCModeller) : The location of GCModeller compile output, I have config all of the project output in the path ``./GCModeller/bin/``
++ [/src](./src)
+	+ [/src/GCModeller](./src/GCModeller) : GCModeller basic library and analysis protocols
+	+ [/src/interops](./src/interops) : GCModeller tools that dependent on the external programs
+	+ [/src/R.Bioconductor](./src/R.Bioconductor) : R language hybrids environment
+	+ [/src/repository](./src/repository) : GCModeller data repository system
+	+ [/src/runtime](./src/runtime) : Third part library and VisualBasic runtime source code
++ [/tools](./tools)
+
+### Data Standards
 + GCModeller supports the ``SBML`` and ``BIOM`` data standards for exchanges the analysis and model data with other bioinformatics softwares.
 + Supports ``PSI`` data for the biological interaction network model
 + Supports ``OBO`` data for ontology database like ``go``.
 
-<a href="http://sbml.org/Main_Page"><img src="https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/sbml-logo-70.png" width=80></a> <a href="http://biom-format.org/"><img src="https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/biom-format.png" width=80></a> <a href="http://www.psidev.info/overview"><img src="./images/data_standards/PSI_logo_s.png" width=80></a> <a href="http://www.obofoundry.org/"><img src="./images/data_standards/foundrylogo.png" width=80></a>
+<a href="http://sbml.org/Main_Page"><img src="./src/GCModeller/models/images/sbml-logo-70.png" width=80></a> <a href="http://biom-format.org/"><img src="./src/GCModeller/models/images/biom-format.png" width=80></a> <a href="http://www.psidev.info/overview"><img src="./images/data_standards/PSI_logo_s.png" width=80></a> <a href="http://www.obofoundry.org/"><img src="./images/data_standards/foundrylogo.png" width=80></a>
 
-#### Gallery
+### Publications
 
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/2016-05-17.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/FUR-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pXOCGX01-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/phenotypic-bTree-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pxocgx01_blastx-lightbox.png)
+Here listing the scientific paperworks that based on the analysis services of GCModeller:
 
-##Feature tools
++ _Niu, X.-N., et al. (2015)._ **"Complete sequence and detailed analysis of the first indigenous plasmid from Xanthomonas oryzae pv. oryzicola."** BMC Microbiol 15(1): 1-15.
+
+    + **DOI:** 10.1186/s12866-015-0562-x
+    
+> Bacterial plasmids have a major impact on metabolic function and adaptation of their hosts. An indigenous plasmid was identified in a Chinese isolate (GX01) of the invasive phytopathogen Xanthomonas oryzae pv. oryzicola (Xoc), the causal agent of rice bacterial leaf streak (BLS). To elucidate the biological functions of the plasmid, we have sequenced and comprehensively annotated the plasmid.
+
+### Gallery
+
+![](./2016-05-17.png)
+![](./images/FUR-lightbox.png)
+![](./images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
+![](./images/pXOCGX01-lightbox.png)
+![](./images/phenotypic-bTree-lightbox.png)
+![](./images/pxocgx01_blastx-lightbox.png)
+
+### Feature tools
 
 *  1. NCBI localblast utility
 *  2. MEME tools combine with Regprecise database
@@ -54,13 +72,12 @@ Currently the ``R`` language hybrids programming environment just provides some 
 *  8. Cytoscape utility tools
 *  9. Motif Parallel alignment tools for the protein interaction network and family annotation
 
-The main virtual cell analysis engine is under development progress.
+**The main virtual cell analysis engine is under development progress.**
 
 Visit our project home:
 http://gcmodeller.org
 
-
-##For developers
+## For developers
 Here are some released library of the ``GCModeller`` is published on nuget, then you can install these library in ``VisualStudio`` from **Package Manager Console**:
 
 Install Microsoft VisualBasic Runtime environment library for GCModeller:
@@ -77,4 +94,4 @@ https://github.com/SMRUCC/ncbi-localblast
 
 -------------------------------------------------------------------------------------------------------------------------------
 
-Copyright &copy; [SMRUCC](http://smrucc.org) 2015. All rights reversed.
+Copyright &copy; [SMRUCC genomics](http://smrucc.org) 2016. All rights reversed.
