@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -28,7 +29,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Search.Taxonomy",
-               Usage:="/Search.Taxonomy /in <list.txt/expression.csv> /ncbi_taxonomy <taxnonmy:name/nodes.dmp> [/expression /cut 0.65 /out <out.csv>]")>
+               Usage:="/Search.Taxonomy /in <list.txt/expression.csv> /ncbi_taxonomy <taxnonmy:name/nodes.dmp> [/top 10 /expression /cut 0.65 /out <out.csv>]")>
     <ParameterInfo("/expression", True,
                    Description:="Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.")>
     <ParameterInfo("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
@@ -41,6 +42,7 @@ Partial Module CLI
         Dim output As New List(Of TaxiSummary)
         Dim isExpression As Boolean = args.GetBoolean("/expression")
         Dim evaluates As NamedValue(Of Func(Of String, Boolean))()
+        Dim top% = args.GetValue("/top", 10)
 
         If isExpression Then
             Dim list = [in].LoadCsv(Of QueryArgument)
@@ -69,8 +71,9 @@ Partial Module CLI
                 }
         End If
 
+        ' Dim ranksData As New Ranks(tree:=taxonomy)
         Dim nodes = From exp
-                    In evaluates
+                    In evaluates.AsParallel
                     Let evaluate = exp.x
                     Select name = exp.Name,
                         taxid = From k
@@ -96,6 +99,25 @@ Partial Module CLI
                 Continue For
             End If
 
+            If Not isExpression Then
+                array = array _
+                    .OrderByDescending(Function(x) x.score) _
+                    .Take(top) _
+                    .ToArray
+            Else
+                array = (From x
+                         In array.AsParallel
+                         Let dist As DistResult = ComputeDistance(
+                             group.name.ToLower,
+                             x.node.name.ToLower
+                         )
+                         Where Not dist Is Nothing
+                         Select score = dist.MatchSimilarity,
+                             x.id,
+                             node = x.node
+                         Order By score Descending).Take(top).ToArray
+            End If
+
             For Each h In array
                 Dim id% = h.id
                 Dim tree = taxonomy _
@@ -110,4 +132,9 @@ Partial Module CLI
 
         Return output.SaveTo(out).CLICode
     End Function
+
+    '<Extension>
+    'Public Function Search(data As Ranks, evaluate As Func(Of String, Double)) As (score As Double, id As Integer, node As TaxonNode)
+
+    'End Function
 End Module
