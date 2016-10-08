@@ -9,9 +9,16 @@ Imports SMRUCC.genomics.Assembly.NCBI
 
 Partial Module CLI
 
+    ReadOnly __dels As Char() = ASCII.Symbols.Join(" "c, ASCII.TAB).ToArray
+
     Private Function __getEvaluator(expression As String, compile As Boolean) As Func(Of String, Double)
         If compile Then
-            Dim exp As Expression = expression.Split(ASCII.Symbols).JoinBy(" AND ").Build
+            Dim exp As Expression = expression _
+                .Split(__dels) _
+                .Select(Function(s) s.Trim(" "c, ASCII.TAB)) _
+                .Where(Function(s) Not String.IsNullOrEmpty(s)) _
+                .JoinBy(" AND ") _
+                .Build()
             Return Function(text) If(exp.Match(text), 1.0R, 0R)
         Else
             Return Function(text) Similarity.Evaluate(text, expression)
