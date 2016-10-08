@@ -408,9 +408,21 @@ Module CLI
 
         Public Property title As String
         Public Property sequence As String
+
+        Sub New()
+        End Sub
+
+        Sub New(tree As IEnumerable(Of TaxonNode))
+            MyBase.New(tree)
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 
     Public Class ITaxon
+
         Public Property taxid As String
 
         Public Property species As String
@@ -421,6 +433,27 @@ Module CLI
         Public Property phylum As String
         Public Property superkingdom As String
         Public Property Taxonomy As String
+
+        Sub New()
+        End Sub
+
+        Sub New(tree As IEnumerable(Of TaxonNode))
+            Dim data = TaxonNode.ToHash(tree)
+
+            With Me
+                .class = data.TryGetValue(NcbiTaxonomyTree.class)
+                .family = data.TryGetValue(NcbiTaxonomyTree.family)
+                .genus = data.TryGetValue(NcbiTaxonomyTree.genus)
+                .order = data.TryGetValue(NcbiTaxonomyTree.order)
+                .phylum = data.TryGetValue(NcbiTaxonomyTree.phylum)
+                .species = data.TryGetValue(NcbiTaxonomyTree.species)
+                .superkingdom = data.TryGetValue(NcbiTaxonomyTree.superkingdom)
+            End With
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 
     <ExportAPI("/gi.Match",

@@ -64,7 +64,7 @@ Namespace Assembly.NCBI
             Return String.Join(delimiter, tree.ToArray(Function(x) x.name))
         End Function
 
-        Public Shared Function ToHash(tree As TaxonNode()) As Dictionary(Of String, String)
+        Public Shared Function ToHash(tree As IEnumerable(Of TaxonNode)) As Dictionary(Of String, String)
             Return (From x As TaxonNode
                     In tree
                     Where Not String.IsNullOrEmpty(x.rank)
@@ -205,7 +205,8 @@ Namespace Assembly.NCBI
                         .name = taxid2name(taxid),
                         .rank = lineTokens(2),
                         .parent = parent_taxid,
-                        .children = New List(Of Integer)
+                        .children = New List(Of Integer),
+                        .taxid = taxid
                     }
                     Call taxid2name.Remove(taxid)
                 End If
