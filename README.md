@@ -46,6 +46,9 @@ Currently the ``R`` language hybrids programming environment just provides some 
 Here listing the scientific paperworks that based on the analysis services of GCModeller:
 
 + _Niu, X.-N., et al. (2015)._ **"Complete sequence and detailed analysis of the first indigenous plasmid from Xanthomonas oryzae pv. oryzicola."** BMC Microbiol 15(1): 1-15.
+
+    + **DOI:** 10.1186/s12866-015-0562-x
+    
 > Bacterial plasmids have a major impact on metabolic function and adaptation of their hosts. An indigenous plasmid was identified in a Chinese isolate (GX01) of the invasive phytopathogen Xanthomonas oryzae pv. oryzicola (Xoc), the causal agent of rice bacterial leaf streak (BLS). To elucidate the biological functions of the plasmid, we have sequenced and comprehensively annotated the plasmid.
 
 ### Gallery
