@@ -13,7 +13,10 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 
 **Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC`` <br />
 **Development:** Microsoft VisualStudio 2015 | VisualBasic.NET<br />
-**Runtime environment:** [VisualBasic App](https://www.nuget.org/packages/VB_AppFramework/) v1.0.40 &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)
+**Runtime environment:** [VisualBasic App](https://www.nuget.org/packages/VB_AppFramework/) v1.0.40 &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)<br />
+**Installation:** ``VS2015`` is required of compiles this project. After the source code have been download, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.
+
+---------------------------------------------------------------------------------------------------
 
 <img src="http://gcmodeller.org/DNA.png" width=40 height=48 />``GCModeller`` is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for ``GCModeller`` on the large amount biological data analysis.
 
@@ -48,7 +51,7 @@ Here listing the scientific paperworks that based on the analysis services of GC
 + _Niu, X.-N., et al. (2015)._ **"Complete sequence and detailed analysis of the first indigenous plasmid from Xanthomonas oryzae pv. oryzicola."** BMC Microbiol 15(1): 1-15.
 
     + **DOI:** 10.1186/s12866-015-0562-x
-    
+
 > Bacterial plasmids have a major impact on metabolic function and adaptation of their hosts. An indigenous plasmid was identified in a Chinese isolate (GX01) of the invasive phytopathogen Xanthomonas oryzae pv. oryzicola (Xoc), the causal agent of rice bacterial leaf streak (BLS). To elucidate the biological functions of the plasmid, we have sequenced and comprehensively annotated the plasmid.
 
 ### Gallery
@@ -74,8 +77,7 @@ Here listing the scientific paperworks that based on the analysis services of GC
 
 **The main virtual cell analysis engine is under development progress.**
 
-Visit our project home:
-http://gcmodeller.org
+Visit our project home: http://gcmodeller.org
 
 ## For developers
 Here are some released library of the ``GCModeller`` is published on nuget, then you can install these library in ``VisualStudio`` from **Package Manager Console**:
@@ -92,6 +94,6 @@ The NCBI localblast analysis toolkit:
 https://github.com/SMRUCC/ncbi-localblast
 >PM>  Install-Package NCBI_localblast
 
--------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
 Copyright &copy; [SMRUCC genomics](http://smrucc.org) 2016. All rights reversed.
