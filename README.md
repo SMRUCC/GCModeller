@@ -1,4 +1,3 @@
-![](https://cdn.rawgit.com/LunaGao/BlessYourCodeTag/master/tags/alpaca.svg)
 [![Github All Releases](https://img.shields.io/github/downloads/SMRUCC/GCModeller/total.svg?maxAge=2592000?style=flat-square)]()
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
 [![Build Status](https://travis-ci.org/SMRUCC/GCModeller.svg?branch=master)](https://travis-ci.org/SMRUCC/GCModeller)
@@ -9,7 +8,6 @@
 GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
 > + HOME: http://gcmodeller.org
-> + Online services: http://services.gcmodeller.org
 > + Github: https://github.com/smrucc/GCModeller
 > + SDK docs: http://docs.gcmodeller.org
 
@@ -26,21 +24,31 @@ Currently the ``R`` language hybrids programming environment just provides some 
 
 ``GCModeller`` is a set of utility tools working on the annotation of the whole cell system, this including the whole genome regulation annotation, transcriptome analysis toolkits, metabolism pathway analysis toolkits. And some common bioinformatics problem utils tools and common biological database I/O tools is also available in GCModeller for the .NET language programming.
 
+### Directory Roadmap
++ [/GCModeller](./GCModeller) : The location of GCModeller compile output, I have config all of the project output in the path ``./GCModeller/bin/``
++ [/src](./src)
+	+ [/src/GCModeller](./src/GCModeller) : GCModeller basic library and analysis protocols
+	+ [/src/interops](./src/interops) : GCModeller tools that dependent on the external programs
+	+ [/src/R.Bioconductor](./src/R.Bioconductor) : R language hybrids environment
+	+ [/src/repository](./src/repository) : GCModeller data repository system
+	+ [/src/runtime](./src/runtime) : Third part library and VisualBasic runtime source code
++ [/tools](./tools)
+
 #### Data Standards
 + GCModeller supports the ``SBML`` and ``BIOM`` data standards for exchanges the analysis and model data with other bioinformatics softwares.
 + Supports ``PSI`` data for the biological interaction network model
 + Supports ``OBO`` data for ontology database like ``go``.
 
-<a href="http://sbml.org/Main_Page"><img src="https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/sbml-logo-70.png" width=80></a> <a href="http://biom-format.org/"><img src="https://raw.githubusercontent.com/xieguigang/GCModeller/master/src/GCModeller/models/images/biom-format.png" width=80></a> <a href="http://www.psidev.info/overview"><img src="./images/data_standards/PSI_logo_s.png" width=80></a> <a href="http://www.obofoundry.org/"><img src="./images/data_standards/foundrylogo.png" width=80></a>
+<a href="http://sbml.org/Main_Page"><img src="./src/GCModeller/models/images/sbml-logo-70.png" width=80></a> <a href="http://biom-format.org/"><img src="./src/GCModeller/models/images/biom-format.png" width=80></a> <a href="http://www.psidev.info/overview"><img src="./images/data_standards/PSI_logo_s.png" width=80></a> <a href="http://www.obofoundry.org/"><img src="./images/data_standards/foundrylogo.png" width=80></a>
 
 #### Gallery
 
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/2016-05-17.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/FUR-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pXOCGX01-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/phenotypic-bTree-lightbox.png)
-![](https://raw.githubusercontent.com/SMRUCC/GCModeller/master/images/pxocgx01_blastx-lightbox.png)
+![](./2016-05-17.png)
+![](./images/FUR-lightbox.png)
+![](./images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
+![](./images/pXOCGX01-lightbox.png)
+![](./images/phenotypic-bTree-lightbox.png)
+![](./images/pxocgx01_blastx-lightbox.png)
 
 ##Feature tools
 
@@ -77,4 +85,4 @@ https://github.com/SMRUCC/ncbi-localblast
 
 -------------------------------------------------------------------------------------------------------------------------------
 
-Copyright &copy; [SMRUCC](http://smrucc.org) 2015. All rights reversed.
+Copyright &copy; [SMRUCC genomics](http://smrucc.org) 2016. All rights reversed.
