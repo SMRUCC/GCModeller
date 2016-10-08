@@ -47,7 +47,7 @@ Partial Module CLI
     Public Function FilterExports(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim tax As New NcbiTaxonomyTree(args("/tax"))
-        Dim gi2taxid = Taxonomy.AcquireAuto(args("/gi2taxid"))
+        Dim gi2taxid = SMRUCC.genomics.Assembly.NCBI.AcquireAuto(args("/gi2taxid"))
         Dim words As String = args("/words")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & words.BaseName & ".EXPORT/")
         Dim wordList As String() = words.IterateAllLines.Select(AddressOf Trim).ToArray
