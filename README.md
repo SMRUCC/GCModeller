@@ -34,14 +34,21 @@ Currently the ``R`` language hybrids programming environment just provides some 
 	+ [/src/runtime](./src/runtime) : Third part library and VisualBasic runtime source code
 + [/tools](./tools)
 
-#### Data Standards
+### Data Standards
 + GCModeller supports the ``SBML`` and ``BIOM`` data standards for exchanges the analysis and model data with other bioinformatics softwares.
 + Supports ``PSI`` data for the biological interaction network model
 + Supports ``OBO`` data for ontology database like ``go``.
 
 <a href="http://sbml.org/Main_Page"><img src="./src/GCModeller/models/images/sbml-logo-70.png" width=80></a> <a href="http://biom-format.org/"><img src="./src/GCModeller/models/images/biom-format.png" width=80></a> <a href="http://www.psidev.info/overview"><img src="./images/data_standards/PSI_logo_s.png" width=80></a> <a href="http://www.obofoundry.org/"><img src="./images/data_standards/foundrylogo.png" width=80></a>
 
-#### Gallery
+### Publications
+
+Here listing the scientific paperworks that based on the analysis services of GCModeller:
+
++ _Niu, X.-N., et al. (2015)._ **"Complete sequence and detailed analysis of the first indigenous plasmid from Xanthomonas oryzae pv. oryzicola."** BMC Microbiol 15(1): 1-15.
+> Bacterial plasmids have a major impact on metabolic function and adaptation of their hosts. An indigenous plasmid was identified in a Chinese isolate (GX01) of the invasive phytopathogen Xanthomonas oryzae pv. oryzicola (Xoc), the causal agent of rice bacterial leaf streak (BLS). To elucidate the biological functions of the plasmid, we have sequenced and comprehensively annotated the plasmid.
+
+### Gallery
 
 ![](./2016-05-17.png)
 ![](./images/FUR-lightbox.png)
@@ -50,7 +57,7 @@ Currently the ``R`` language hybrids programming environment just provides some 
 ![](./images/phenotypic-bTree-lightbox.png)
 ![](./images/pxocgx01_blastx-lightbox.png)
 
-##Feature tools
+### Feature tools
 
 *  1. NCBI localblast utility
 *  2. MEME tools combine with Regprecise database
@@ -62,13 +69,12 @@ Currently the ``R`` language hybrids programming environment just provides some 
 *  8. Cytoscape utility tools
 *  9. Motif Parallel alignment tools for the protein interaction network and family annotation
 
-The main virtual cell analysis engine is under development progress.
+**The main virtual cell analysis engine is under development progress.**
 
 Visit our project home:
 http://gcmodeller.org
 
-
-##For developers
+## For developers
 Here are some released library of the ``GCModeller`` is published on nuget, then you can install these library in ``VisualStudio`` from **Package Manager Console**:
 
 Install Microsoft VisualBasic Runtime environment library for GCModeller:
