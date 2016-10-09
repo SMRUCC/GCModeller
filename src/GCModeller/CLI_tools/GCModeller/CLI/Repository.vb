@@ -153,6 +153,33 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Name.match.hits", Usage:="/Name.match.hits /in <list.csv> /titles <*.txt/DIR> [/out <out.csv>]")>
+    Public Function MatchHits(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim titles As String = args("/titles")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & titles.BaseName & ".csv")
+        Dim file As DocumentStream.File = DocumentStream.File.Load([in])
+        Dim list As New List(Of String)
+
+        If titles.FileExists Then
+            list += titles.IterateAllLines
+        Else
+            For Each path$ In ls - l - r - wildcards("*.txt") <= titles
+                list += path.IterateAllLines
+            Next
+        End If
+
+        For Each line In file
+            Dim name$ = line.First
+            Dim count = list _
+                .Where(Function(s) InStr(s, name, CompareMethod.Text) > 0) _
+                .Count
+            line(1) = CStr(count)
+        Next
+
+        Return file.Save(out, Encodings.UTF8).CLICode
+    End Function
+
     <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/simple /tokens 3 /n -1 /out <out.csv>]")>
     Public Function UniqueTitle(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
