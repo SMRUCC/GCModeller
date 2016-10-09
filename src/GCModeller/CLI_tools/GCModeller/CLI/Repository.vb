@@ -153,13 +153,13 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/simple /tokens 4 /n -1 /out <out.csv>]")>
+    <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/simple /tokens 3 /n -1 /out <out.csv>]")>
     Public Function UniqueTitle(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String =
-            args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & ".unique_titles.csv")
+            args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & ".unique_titles.txt")
         Dim list As New List(Of String)
-        Dim tokens As Integer = args.GetValue("/tokens", 4)
+        Dim tokens As Integer = args.GetValue("/tokens", 3)
         Dim simple As Boolean = args.GetBoolean("/simple")
 
         If [in].FileExists Then
@@ -181,6 +181,31 @@ Partial Module CLI
 
         For i As Integer = 0 To list.Count - 1
             Dim s$ = Regex.Replace(list(i), "\s{2,}", " ")
+
+            Do While Not String.IsNullOrEmpty(
+                word = Regex.Match(s, "^\d+\S*\s", RegexOptions.Multiline).Value)
+                s = s.Replace(+word, "")
+            Loop
+
+            Do While Not String.IsNullOrEmpty(
+                word = Regex.Match(s, "^\S+?:\s", RegexOptions.Multiline).Value)
+                s = s.Replace(+word, "")
+            Loop
+
+            Do While Not String.IsNullOrEmpty(
+                word = Regex.Match(s, "^\S+?\d+\s", RegexOptions.Multiline).Value)
+                s = s.Replace(+word, "")
+            Loop
+
+            Do While Not String.IsNullOrEmpty(
+                word = Regex.Match(s, "^\[\S+\]\s", RegexOptions.Multiline).Value)
+                s = s.Replace(+word, "")
+            Loop
+
+            If InStr(s, "(") = 1 OrElse InStr(s, "{") = 1 OrElse InStr(s, "[") = 1 Then
+                s = Mid(s, 2)
+            End If
+
             Dim t$() = s.Split.Take(tokens).ToArray
             Dim p As New List(Of Double)
 
@@ -220,17 +245,25 @@ Partial Module CLI
                              u = String.Join("-", x.Properties.ToArray(Function(o) CStr(o)))
                          Group By u Into Group
 
-            Return LQuery.ToArray(
-                Function(x) New NamedValue(Of String()) With {
-                    .Name = x.u _
-                        .Split("-"c) _
-                        .ToArray(Function(o) int2Words(CInt(o))) _
-                        .JoinBy(" "),
-                    .x = x.Group _
-                        .ToArray(Function(o) o.uid)
-                }).GetJson _
-                  .SaveTo(out) _
-                  .CLICode
+            'Return LQuery.ToArray(
+            '    Function(x) New NamedValue(Of String()) With {
+            '        .Name = x.u _
+            '            .Split("-"c) _
+            '            .ToArray(Function(o) int2Words(CInt(o))) _
+            '            .JoinBy(" "),
+            '        .x = x.Group _
+            '            .ToArray(Function(o) o.uid)
+            '    }).GetJson _
+            '      .SaveTo(out) _
+            '      .CLICode
+            Return LQuery.Select(
+                Function(x) x.u _
+                    .Split("-"c) _
+                    .ToArray(Function(o) int2Words(CInt(o))) _
+                    .JoinBy(" ")
+                ).OrderBy(Function(s) s) _
+                .FlushAllLines(out) _
+                .CLICode
         End If
 
         Dim n As Integer = args.GetValue("/n", data.Count * 0.1)
