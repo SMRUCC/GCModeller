@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::926938aead5510b7feec8736e1af9102, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\gdi+Device.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports System.Drawing
-Imports System.Text.RegularExpressions
-Imports System.Text
 Imports System
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports System.Reflection
-Imports System.Drawing.Drawing2D
-Imports System.Drawing.Text
 Imports System.ComponentModel
-Imports System.Drawing.Imaging
+Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Drawing.Graphics
+Imports System.Drawing.Imaging
+Imports System.Drawing.Text
+Imports System.Reflection
+Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Imaging
 
@@ -4830,7 +4830,7 @@ Namespace Imaging
         '   dy:
         '     The y-coordinate of the translation.
         Public Overrides Sub TranslateTransform(dx As Single, dy As Single)
-
+            Call Graphics.TranslateTransform(dx, dy)
         End Sub
         '
         ' Summary:
@@ -4849,12 +4849,12 @@ Namespace Imaging
         '     Member of the System.Drawing.Drawing2D.MatrixOrder enumeration that specifies
         '     whether the translation is prepended or appended to the transformation matrix.
         Public Overrides Sub TranslateTransform(dx As Single, dy As Single, order As MatrixOrder)
-
+            Call Graphics.TranslateTransform(dx, dy, order)
         End Sub
+
         Protected Overrides Sub Finalize()
-
+            Call Graphics.Dispose()
         End Sub
-
 
         '
         ' Summary:
@@ -4865,7 +4865,7 @@ Namespace Imaging
         '     This method returns a System.Drawing.Drawing2D.GraphicsContainer that represents
         '     the state of this System.Drawing.Graphics at the time of the method call.
         Public Overrides Function BeginContainer() As GraphicsContainer
-            Throw New NotImplementedException
+            Return Graphics.BeginContainer
         End Function
         '
         ' Summary:
@@ -4889,7 +4889,7 @@ Namespace Imaging
         '     This method returns a System.Drawing.Drawing2D.GraphicsContainer that represents
         '     the state of this System.Drawing.Graphics at the time of the method call.
         Public Overrides Function BeginContainer(dstrect As Rectangle, srcrect As Rectangle, unit As GraphicsUnit) As GraphicsContainer
-            Throw New NotImplementedException
+            Return Graphics.BeginContainer(dstrect, srcrect, unit)
         End Function
         '
         ' Summary:
@@ -4913,7 +4913,7 @@ Namespace Imaging
         '     This method returns a System.Drawing.Drawing2D.GraphicsContainer that represents
         '     the state of this System.Drawing.Graphics at the time of the method call.
         Public Overrides Function BeginContainer(dstrect As RectangleF, srcrect As RectangleF, unit As GraphicsUnit) As GraphicsContainer
-            Throw New NotImplementedException
+            Return Graphics.BeginContainer(dstrect, srcrect, unit)
         End Function
         '
         ' Summary:
@@ -4923,7 +4923,7 @@ Namespace Imaging
         '     An System.Object representing the cumulative graphics context.
         <EditorBrowsable(EditorBrowsableState.Never)>
         Public Overrides Function GetContextInfo() As Object
-            Throw New NotImplementedException
+            Return Graphics.GetContextInfo
         End Function
         '
         ' Summary:
@@ -4932,7 +4932,7 @@ Namespace Imaging
         ' Returns:
         '     Handle to the device context associated with this System.Drawing.Graphics.
         Public Overrides Function GetHdc() As IntPtr Implements IDeviceContext.GetHdc
-            Throw New NotImplementedException
+            Return Graphics.GetHdc
         End Function
         '
         ' Summary:
@@ -4946,7 +4946,7 @@ Namespace Imaging
         '     A System.Drawing.Color structure that represents the nearest color to the one
         '     specified with the color parameter.
         Public Overrides Function GetNearestColor(color As Color) As Color
-            Throw New NotImplementedException
+            Return Graphics.GetNearestColor(color)
         End Function
         '
         ' Summary:
@@ -4961,7 +4961,7 @@ Namespace Imaging
         '     true if the rectangle specified by the rect parameter is contained within the
         '     visible clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(rect As Rectangle) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(rect)
         End Function
         '
         ' Summary:
@@ -4976,7 +4976,7 @@ Namespace Imaging
         '     true if the rectangle specified by the rect parameter is contained within the
         '     visible clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(rect As RectangleF) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(rect)
         End Function
         '
         ' Summary:
@@ -4991,7 +4991,7 @@ Namespace Imaging
         '     true if the point specified by the point parameter is contained within the visible
         '     clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(point As PointF) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(point)
         End Function
         '
         ' Summary:
@@ -5006,7 +5006,7 @@ Namespace Imaging
         '     true if the point specified by the point parameter is contained within the visible
         '     clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(point As Point) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(point)
         End Function
         '
         ' Summary:
@@ -5024,7 +5024,7 @@ Namespace Imaging
         '     true if the point defined by the x and y parameters is contained within the visible
         '     clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(x As Single, y As Single) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(x, y)
         End Function
         '
         ' Summary:
@@ -5042,7 +5042,7 @@ Namespace Imaging
         '     true if the point defined by the x and y parameters is contained within the visible
         '     clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(x As Integer, y As Integer) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(x, y)
         End Function
         '
         ' Summary:
@@ -5066,7 +5066,7 @@ Namespace Imaging
         '     true if the rectangle defined by the x, y, width, and height parameters is contained
         '     within the visible clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(x As Single, y As Single, width As Single, height As Single) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(x, y, width, height)
         End Function
         '
         ' Summary:
@@ -5090,7 +5090,7 @@ Namespace Imaging
         '     true if the rectangle defined by the x, y, width, and height parameters is contained
         '     within the visible clip region of this System.Drawing.Graphics; otherwise, false.
         Public Overrides Function IsVisible(x As Integer, y As Integer, width As Integer, height As Integer) As Boolean
-            Throw New NotImplementedException
+            Return Graphics.IsVisible(x, y, width, height)
         End Function
         '
         ' Summary:
@@ -5116,7 +5116,7 @@ Namespace Imaging
         '     This method returns an array of System.Drawing.Region objects, each of which
         '     bounds a range of character positions within the specified string.
         Public Overrides Function MeasureCharacterRanges(text As String, font As Font, layoutRect As RectangleF, stringFormat As StringFormat) As Region()
-            Throw New NotImplementedException
+            Return Graphics.MeasureCharacterRanges(text, font, layoutRect, stringFormat)
         End Function
 
         ''' <summary>

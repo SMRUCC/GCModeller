@@ -56,13 +56,21 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--ls", Info:="Listing all of the available GCModeller CLI tools commands.")>
     Public Function List(args As CommandLine) As Integer
-        Dim execs As IEnumerable(Of String) = ls - l - wildcards("*.exe") <= App.HOME
-        Dim types = (From exe As String In execs
-                     Let def As Type = GetCLIMod(exe)
-                     Where Not def Is Nothing
-                     Select exe.BaseName,
-                         nsDef = GetEntry(def)).ToArray
-        Dim exeMAX As Integer = (From x In types Select Len(x.BaseName)).Max + 5
+        Dim execs As IEnumerable(Of String) =
+            ls - l - wildcards("*.exe") <= App.HOME
+
+        Dim types = LinqAPI.Exec(Of NamedValue(Of PackageNamespace)) <=
+ _
+            From exe As String
+            In execs
+            Let def As Type = GetCLIMod(exe)
+            Where Not def Is Nothing
+            Select New NamedValue(Of PackageNamespace) With {
+                .Name = exe.BaseName,
+                .x = GetEntry(def)
+            }
+
+        Dim exeMAX As Integer = (From x In types Select Len(x.Name)).Max + 5
 
         Call Console.WriteLine("All of the available GCModeller commands were listed below.")
         Call Console.WriteLine("For getting the available function in the GCModeller program, ")
@@ -73,8 +81,8 @@ Partial Module CLI
         Call Console.WriteLine("Listed {0} available GCModeller commands:", types.Length)
 
         For Each x In types
-            Dim exePrint As String = " " & x.BaseName & New String(" "c, exeMAX - Len(x.BaseName))
-            printf("%s%s\n", exePrint, x.nsDef.Description)
+            Dim exePrint As String = " " & x.Name & New String(" "c, exeMAX - Len(x.Name))
+            printf("%s%s\n", exePrint, x.x.Description)
         Next
 
         Return 0

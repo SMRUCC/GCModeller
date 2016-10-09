@@ -37,12 +37,15 @@ Imports SMRUCC.genomics.Interops.Visualize.Phylip
 Module Phylip
 
     Public Function MPAlignmentAsTree(aln As IEnumerable(Of MPCsvArchive)) As MatrixFile.Gendist
-
-        aln = __mapScore(aln.ToArray)
-
-        Dim QueryGroup = (From x In aln Select x Group x By x.QueryName Into Group)
-        Dim Overviews = New Overview With {
-            .Queries = QueryGroup.ToArray(Function(x) __toQueryOverview(x.QueryName, x.Group.ToArray))
+        Dim QueryGroup = From x As MPCsvArchive
+                         In __mapScore(aln.ToArray)
+                         Select x
+                         Group x By x.QueryName Into Group
+        Dim Overviews As New Overview With {
+            .Queries = QueryGroup.ToArray(
+                Function(x) __toQueryOverview(
+                    x.QueryName,
+                    x.Group.ToArray))
         }
         Dim MAT = SelfOverviewsMAT(Overviews)
         Dim Gendist = MatrixFile.Gendist.CreateMotifDistrMAT(MAT)
@@ -56,7 +59,7 @@ Module Phylip
     ''' <returns></returns>
     Private Function __mapScore(aln As MPCsvArchive()) As MPCsvArchive()
         Dim scores = aln.ToArray(Function(x) x.Score)
-        Dim mapps = scores.GenerateMapping(1000)
+        Dim mapps%() = scores.GenerateMapping(1000)
 
         For i As Integer = 0 To aln.Length - 1
             aln(i).Score = mapps(i)
@@ -69,11 +72,12 @@ Module Phylip
     Private Function __toQueryOverview(name As String, hits As MPCsvArchive()) As BLASTOutput.Views.Query
         Dim query As New BLASTOutput.Views.Query With {
             .Id = name,
-            .Hits = hits.ToArray(
-                Function(x) New BBH.BestHit With {
+            .Hits = hits _
+                .ToArray(Function(x) New BBH.BestHit With {
                     .HitName = x.HitName,
                     .identities = x.Similarity,
-                    .QueryName = x.QueryName})
+                    .QueryName = x.QueryName
+                })
         }
         Return query
     End Function

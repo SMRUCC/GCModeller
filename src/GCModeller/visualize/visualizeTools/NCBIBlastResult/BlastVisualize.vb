@@ -238,28 +238,35 @@ Namespace NCBIBlastResult
         Public Function CreateTableFromBlastOutput(<Parameter("source.dir", "The directory contains the blast output result text file.")> source As String,
                                                    <Parameter("query.id")> QueryID As String,
                                                    <Parameter("list.cds.info")> CdsInfo As IEnumerable(Of GeneDumpInfo)) As AlignmentTable
-            Dim ResourceEntries = (From Entry In source.LoadSourceEntryList({"*.txt"})
+            Dim ResourceEntries = (From Entry
+                                   In source.LoadSourceEntryList({"*.txt"})
                                    Where InStr(Entry.Key, QueryID, CompareMethod.Text) = 1
                                    Select ID = Entry.Key,
                                        Path = Entry.Value).ToArray
-            Dim LoadBlastOutput = (From Entry In ResourceEntries.AsParallel
+            Dim LoadBlastOutput = (From Entry
+                                   In ResourceEntries.AsParallel
                                    Where FileIO.FileSystem.GetFileInfo(Entry.Path).Length > 0
                                    Let Output As v228 = TryParse(Entry.Path)
                                    Select Entry.ID,
                                        Output).ToArray
-            Dim ORF As Dictionary(Of String, GeneDumpInfo) = CdsInfo.ToDictionary(Function(GeneObject) GeneObject.LocusID)
-            Dim ChunkBuffer As HitRecord() = (From EntryInfo In LoadBlastOutput
-                                              Let hits As HitRecord() = __createHits(ORF, EntryInfo.Output)
-                                              Where Not hits.IsNullOrEmpty
-                                              Select hits).MatrixToVector
-            Dim Table As AlignmentTable =
-                New AlignmentTable With {
-                    .Database = source,
-                    .Program = "LocalBLAST",
-                    .Query = QueryID,
-                    .RID = Now.ToString,
-                    .Hits = ChunkBuffer
+            Dim ORF As Dictionary(Of String, GeneDumpInfo) =
+                CdsInfo.ToDictionary(Function(g) g.LocusID)
+            Dim ChunkBuffer As HitRecord() = LinqAPI.Exec(Of HitRecord) <=
+ _
+                From EntryInfo
+                In LoadBlastOutput
+                Let hits As HitRecord() = __createHits(ORF, EntryInfo.Output)
+                Where Not hits.IsNullOrEmpty
+                Select hits
+
+            Dim Table As New AlignmentTable With {
+                .Database = source,
+                .Program = "LocalBLAST",
+                .Query = QueryID,
+                .RID = Now.ToString,
+                .Hits = ChunkBuffer
             }
+
             Return Table
         End Function
 
@@ -293,7 +300,7 @@ Namespace NCBIBlastResult
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
 
-            Dim TrimedQuery As New List(Of KeyValuePair(Of GeneDumpInfo, Double)())
+            Dim trimedQuery As New List(Of KeyValuePair(Of GeneDumpInfo, Double)())
 
             Dim p_Direction As Integer '方向
             Dim i As Integer
@@ -366,7 +373,7 @@ Namespace NCBIBlastResult
 
 CONTINUTE:
                         If Not Match Then '断裂了
-                            Call TrimedQuery.Add(TempChunk.ToArray)
+                            Call trimedQuery.Add(TempChunk.ToArray)
                             Call TempChunk.Clear()
                             Exit Do
                         End If
@@ -379,25 +386,29 @@ CONTINUTE:
                 Next
 
                 If __single Then
-                    TrimedQuery += {New KeyValuePair(Of GeneDumpInfo, Double)(Query.Query, Query.SubjectHits.First.Score.RawScore)}
+                    Dim score# = Query.SubjectHits.First.Score.RawScore
+
+                    trimedQuery += {
+                        New KeyValuePair(Of GeneDumpInfo, Double)(Query.Query, score)
+                    }
                 End If
 
                 i += 1
             Loop
 
             Return LinqAPI.Exec(Of HitRecord) <=
-                From TrimedData As KeyValuePair(Of GeneDumpInfo, Double)()
-                In TrimedQuery
+                From trimedData As KeyValuePair(Of GeneDumpInfo, Double)()
+                In trimedQuery
                 Let loci As IEnumerable(Of Integer) =
                     (LinqAPI.MakeList(Of Integer) <= From GeneObject
-                                                     In TrimedData
+                                                     In trimedData
                                                      Select {GeneObject.Key.Left, GeneObject.Key.Right})  '
                 Select New HitRecord With {
                     .QueryID = "",
                     .SubjectIDs = Blastoutput.Database,
                     .QueryStart = loci.Min,
                     .QueryEnd = loci.Max,
-                    .BitScore = TrimedData.Average(Function(x) x.Value)
+                    .BitScore = trimedData.Average(Function(x) x.Value)
                 }
         End Function
 
