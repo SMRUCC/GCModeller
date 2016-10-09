@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::cf0a55725d566628b37300e52ab91b30, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
@@ -666,9 +667,13 @@ Public Module ToolsAPI
                                             CDSInfo As IEnumerable(Of GeneDumpInfo)) As DocumentStream.File
 
         Dim p = (From item In partitions Select item Group By item.PartitioningTag Into Group).ToArray  '分组，选择蛋白质
-        Dim DeltaQuery = (From path As KeyValuePair(Of String, String)
-                          In gbExportService.LoadGbkSource(source).AsParallel
-                          Select ID = path.Key, dat = path.Value.LoadCsv(Of SiteSigma)(False).ToArray).ToArray
+        Dim DeltaQuery = (From path As NamedValue(Of String)
+                          In gbExportService _
+                              .LoadGbkSource(source) _
+                              .Values _
+                              .AsParallel
+                          Select ID = path.Name,
+                              dat = path.x.LoadCsv(Of SiteSigma)(False).ToArray).ToArray
         Throw New NotImplementedException
     End Function
 
@@ -1000,7 +1005,9 @@ Public Module ToolsAPI
     <ExportAPI("compile.delta_query")>
     Public Function Compile(source As String, saveCsv As String) As Boolean
         Dim Entry = gbExportService.LoadGbkSource(source)
-        Dim LQuery = (From item In Entry.AsParallel Select New KeyValuePair(Of String, SiteSigma())(item.Key, item.Value.LoadCsv(Of SiteSigma)(False).ToArray)).ToArray
+        Dim LQuery = (From item
+                      In Entry.Values.AsParallel
+                      Select New KeyValuePair(Of String, SiteSigma())(item.Name, item.x.LoadCsv(Of SiteSigma)(False).ToArray)).ToArray
         Dim File = __compile(LQuery)
         Return File.Save(saveCsv, False)
     End Function

@@ -198,8 +198,8 @@ Public Module ShellScriptAPI
         Dim Fasta As New FastaFile
         Dim Data As New List(Of GenomeScanResult)
 
-        For Each Path In LoadGbkSource(source)
-            Dim seq = FastaToken.LoadNucleotideData(Path.Value)
+        For Each Path In LoadGbkSource(source).Values
+            Dim seq = FastaToken.LoadNucleotideData(Path.x)
             If seq Is Nothing Then
                 Continue For
             End If
@@ -208,9 +208,9 @@ Public Module ShellScriptAPI
                 SearchProfile,
                 p:=p,
                 MinNumberOfRepeats:=MinNumRepeats)
-            Call Output.Export(dat).Save(EXPORT & "/" & Path.Key & ".csv", False)
-            Dim Xml = GenomeScanResult.CreateObject(seq, Path.Key, dat, SearchProfile)
-            Call Xml.GetXml.SaveTo(EXPORT & "/" & Path.Key & ".xml")
+            Call Output.Export(dat).Save(EXPORT & "/" & Path.Name & ".csv", False)
+            Dim Xml = GenomeScanResult.CreateObject(seq, Path.Name, dat, SearchProfile)
+            Call Xml.GetXml.SaveTo(EXPORT & "/" & Path.Name & ".xml")
             Call Fasta.AddRange(Xml.ExportFasta)
             Call Data.Add(Xml)
         Next
