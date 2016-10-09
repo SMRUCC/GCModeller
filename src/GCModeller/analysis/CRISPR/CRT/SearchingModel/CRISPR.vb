@@ -46,10 +46,10 @@ Namespace SearchingModel
     Public Class CRISPR
 
         Dim __sequenceData As NucleicAcid
-        Dim _Repeats As New List(Of Integer)
+        Dim _repeats As New List(Of Integer)
 
         Public Sub New(nt As NucleicAcid, positions As List(Of Integer), length As Integer)
-            _Repeats = positions
+            _repeats = positions
             _RepeatLength = length
             __sequenceData = nt
         End Sub
@@ -67,7 +67,7 @@ Namespace SearchingModel
         ''' <remarks></remarks>
         Public ReadOnly Property Repeats As Integer()
             Get
-                Return _Repeats.ToArray
+                Return _repeats.ToArray
             End Get
         End Property
 
@@ -76,51 +76,51 @@ Namespace SearchingModel
         End Function
 
         Public Sub AddRepeatData(val As Integer)
-            Call _Repeats.Add(New System.Nullable(Of Integer)(val))
+            Call _repeats.Add(New System.Nullable(Of Integer)(val))
         End Sub
 
         Public Sub InsertRepeatAt(val As Integer, pos As Integer)
-            Call _Repeats.Insert(pos, val)
+            Call _repeats.Insert(pos, val)
         End Sub
 
         Public Sub SetRepeatAt(val As Integer, pos As Integer)
-            _Repeats(pos) = val
+            _repeats(pos) = val
         End Sub
 
         Public Sub RemoveRepeat(val As Integer)
-            Call _Repeats.Remove(val)
+            Call _repeats.Remove(val)
         End Sub
 
         Public Function RepeatAt(i As Integer) As Integer
-            Return _Repeats(i)
+            Return _repeats(i)
         End Function
 
         Public ReadOnly Property StartLeft As Integer
             Get
-                Return _Repeats(0)
+                Return _repeats(0)
             End Get
         End Property
 
         Public Function [End]() As Integer
-            Dim lastRepeatBegin As Integer = _Repeats(_Repeats.Count - 1)
+            Dim lastRepeatBegin As Integer = _repeats(_repeats.Count - 1)
             Return lastRepeatBegin + _RepeatLength - 1
         End Function
 
         Public ReadOnly Property FirstRepeat As Integer
             Get
-                Return _Repeats(0)
+                Return _repeats(0)
             End Get
         End Property
 
         Public ReadOnly Property LastRepeat As Integer
             Get
-                Return _Repeats(_Repeats.Count - 1)
+                Return _repeats(_repeats.Count - 1)
             End Get
         End Property
 
         Public ReadOnly Property NumberOfRepeats As Integer
             Get
-                Return _Repeats.Count
+                Return _repeats.Count
             End Get
         End Property
 
@@ -137,15 +137,15 @@ Namespace SearchingModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function RepeatStringAt(i As Integer) As String
-            Dim currRepeatStartIndex As Integer = _Repeats(i)
+            Dim currRepeatStartIndex As Integer = _repeats(i)
             Dim currRepeatEndIndex As Integer = currRepeatStartIndex + _RepeatLength - 1
 
             Return __sequenceData.ReadSegment(currRepeatStartIndex, currRepeatEndIndex + 1 - currRepeatStartIndex)
         End Function
 
         Public Function SpacingAt(i As Integer) As Integer
-            Dim currRepeatEndIndex As Integer = _Repeats(i) + _RepeatLength - 1
-            Dim nextRepeatStartIndex As Integer = _Repeats(i + 1)
+            Dim currRepeatEndIndex As Integer = _repeats(i) + _RepeatLength - 1
+            Dim nextRepeatStartIndex As Integer = _repeats(i + 1)
             Dim currSpacerStartIndex As Integer = currRepeatEndIndex + 1
 
             Return currSpacerStartIndex
@@ -158,8 +158,8 @@ Namespace SearchingModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function SpacerStringAt(i As Integer) As String
-            Dim currRepeatEndIndex As Integer = _Repeats(i) + _RepeatLength - 1
-            Dim nextRepeatStartIndex As Integer = _Repeats(i + 1)
+            Dim currRepeatEndIndex As Integer = _repeats(i) + _RepeatLength - 1
+            Dim nextRepeatStartIndex As Integer = _repeats(i + 1)
             Dim currSpacerStartIndex As Integer = currRepeatEndIndex + 1
             Dim currSpacerEndIndex As Integer = nextRepeatStartIndex - 1
 

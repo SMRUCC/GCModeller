@@ -1,33 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::e20df9ca0a94dcaa152c3c8fcd745370, ..\GCModeller\analysis\CRISPR\CRT\Output\GenomeScanResult.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis.CRISPR.CRT.SearchingModel
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
@@ -43,11 +45,13 @@ Namespace Output
     ''' CRISPR位点的基因组搜索的结果，可以使用这个对象将CRISPR的结果保存为XML格式的结果文件，最后通过xlst将结果以html的形式格式化显示出来
     ''' </summary>
     ''' <remarks></remarks>
-    <XmlRoot("RepeatsSiteGenomeScanningResult", Namespace:="http://code.google.com/p/genome-in-code/motif_tools/crt")>
+    <XmlRoot("CRISPR.output", Namespace:="http://GCModeller.org/analysis/CRISPR/")>
     Public Class GenomeScanResult
 
-        Public Property FastaTitle As String
-        <XmlAttribute> Public Property Length As Integer
+        <XmlText>
+        Public Property title As String
+        <XmlAttribute>
+        Public Property Length As Integer
         Public Property KMerProfile As KmerProfile
         Public Property Sites As CRISPR()
 
@@ -57,7 +61,8 @@ Namespace Output
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Tag As String
+        <XmlAttribute>
+        Public Property Tag As String
 
         ''' <summary>
         ''' 导出每一个位点之间的重复片段的序列
@@ -65,13 +70,19 @@ Namespace Output
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ExportFasta() As FASTA.FastaFile
-            Dim LQuery = (From site As CRISPR In Sites
-                          Select (From rp As Loci
-                              In site.RepeatLocis
-                                  Let attrs As String() = New String() {String.Format("{0}_{1}_{2}", Tag, site.ID, rp.Left)}
-                                  Select New FASTA.FastaToken With {
-                                      .Attributes = attrs,
-                                      .SequenceData = rp.SequenceData})).MatrixToList
+            Dim LQuery = LinqAPI.Exec(Of FastaToken) <=
+ _
+                From site As CRISPR
+                In Sites
+                Select From rp As Loci
+                       In site.RepeatLocis
+                       Let attrs = New String() {
+                           String.Format("{0}_{1}_{2}", Tag, site.ID, rp.Left)
+                       }
+                       Select New FastaToken With {
+                           .Attributes = attrs,
+                           .SequenceData = rp.SequenceData
+                       }
 
             Return New FastaFile(LQuery)
         End Function
@@ -82,30 +93,53 @@ Namespace Output
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ExportSpacerFasta() As FastaFile
-            Dim LQuery = (From site As CRISPR In Sites
-                          Select (From sp As Loci In site.SpacerLocis
-                                  Let attrs As String() = New String() {String.Format("{0}_{1}_{2}", Tag, site.ID, sp.Left)}
-                                  Select New FastaToken With {
-                                      .Attributes = attrs,
-                                      .SequenceData = sp.SequenceData})).MatrixToList
+            Dim LQuery = LinqAPI.Exec(Of FastaToken) <=
+ _
+                From site As CRISPR
+                In Sites
+                Select From sp As Loci
+                       In site.SpacerLocis
+                       Let attrs = New String() {
+                           String.Format("{0}_{1}_{2}", Tag, site.ID, sp.Left)
+                       }
+                       Select New FastaToken With {
+                           .Attributes = attrs,
+                           .SequenceData = sp.SequenceData
+                       }
+
             Return New FastaFile(LQuery)
         End Function
 
-        Public Shared Function CreateObject(FastaSource As FastaToken, FastaTag As String, dat As IEnumerable(Of SearchingModel.CRISPR), ScanProfile As KmerProfile) As GenomeScanResult
-            Dim Result As GenomeScanResult = New GenomeScanResult With {
-                .FastaTitle = FastaSource.Title,
+        Public Shared Function CreateObject(nt As FastaToken, tag$, dat As IEnumerable(Of SearchingModel.CRISPR), ScanProfile As KmerProfile) As GenomeScanResult
+            Dim Result As New GenomeScanResult With {
+                .title = nt.Title,
                 .KMerProfile = ScanProfile,
-                .Length = FastaSource.Length,
-                .Tag = FastaTag
+                .Length = nt.Length,
+                .Tag = tag
             }
-            Result.Sites = (From item As SearchingModel.CRISPR In dat
-                            Let spaces = (From i As Integer In item.NumberOfSpacers.Sequence Select New Loci With {.Left = item.SpacingAt(i), .SequenceData = item.RepeatStringAt(i)}).ToArray
-                            Let repeats = (From i As Integer In item.NumberOfRepeats.Sequence
-                                           Select New Loci With {.Left = item.RepeatAt(i), .SequenceData = item.RepeatStringAt(i)}).ToArray
-                            Select New CRISPR With {
-                                   .Start = item.StartLeft,
-                                   .SpacerLocis = spaces,
-                                   .RepeatLocis = repeats}).ToArray.AddHandle.ToArray
+            Result.Sites = LinqAPI.Exec(Of CRISPR) <=
+ _
+                From o As SeqValue(Of SearchingModel.CRISPR)
+                In dat.SeqIterator
+                Let c As SearchingModel.CRISPR = o.obj
+                Let spaces = c.NumberOfSpacers _
+                    .Sequence _
+                    .Select(Function(i) New Loci With {
+                        .Left = c.SpacingAt(i),
+                        .SequenceData = c.RepeatStringAt(i)
+                    }).ToArray
+                Let repeats = c.NumberOfRepeats _
+                    .Sequence _
+                    .Select(Function(i) New Loci With {
+                        .Left = c.RepeatAt(i),
+                        .SequenceData = c.RepeatStringAt(i)
+                    }).ToArray
+                Select New CRISPR With {
+                    .Start = c.StartLeft,
+                    .SpacerLocis = spaces,
+                    .RepeatLocis = repeats,
+                    .ID = o.i
+                }
 
             Return Result
         End Function
