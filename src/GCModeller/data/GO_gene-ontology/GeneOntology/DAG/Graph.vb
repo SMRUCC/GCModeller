@@ -78,18 +78,22 @@ Namespace DAG
         ''' </summary>
         Const molecular_function$ = NameOf(molecular_function)
 
-        Public Iterator Function Family(id$, [namespace] As Ontologies) As IEnumerable(Of Term())
-            Dim parent As New Value(Of Term)
-            Dim ns$ = [namespace].Description
+        'Public Iterator Function Family(id$, [namespace] As Ontologies) As IEnumerable(Of Term())
+        '    Dim parent As New Value(Of Term)
+        '    Dim ns$ = [namespace].Description
 
-            For Each pid As is_a In __DAG(id$).is_a.SafeQuery
-                If (parent = __DAG(pid.uid$)).namespace = ns Then
-                    Yield parent + visits(pid.uid, ns$)
-                End If
-            Next
-        End Function
+        '    For Each pid As is_a In __DAG(id$).is_a.SafeQuery
+        '        If (parent = __DAG(pid.uid$)).namespace = ns Then
+        '            Yield parent + visits(pid.uid, ns$)
+        '        End If
+        '    Next
+        'End Function
 
-        Private Function visits(id$, namespace$) As NamedValue(Of Term)()
+        'Private Function visits(id$, namespace$) As NamedValue(Of Term)()
+
+        'End Function
+
+        Public Function Infer(a$, b$) As Relationship
 
         End Function
     End Class
