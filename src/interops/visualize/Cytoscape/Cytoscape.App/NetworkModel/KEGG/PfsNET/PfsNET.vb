@@ -1,37 +1,37 @@
-﻿#Region "Microsoft.VisualBasic::b1cfbde1b846a1246ea1531f9846568e, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\PfsNET.vb"
+﻿#Region "Microsoft.VisualBasic::f847f5c2278e858b00c720f6aad64c82, ..\interops\visualize\Cytoscape\Cytoscape.App\NetworkModel\KEGG\PfsNET\PfsNET.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
@@ -76,23 +76,32 @@ Namespace NetworkModel.PfsNET
     Public Module NetworkGenerator
 
         <ExportAPI("Creates.Network.Basaical")>
-        Public Function CreateNetwork(Data As IEnumerable(Of PfsNET)) As KeyValuePair(Of NetworkEdge(), FileStream.Node())
-            Dim EdgesBuffer As List(Of NetworkEdge) = New List(Of NetworkEdge)
-            Dim NodesBuffer As List(Of FileStream.Node) = New List(Of FileStream.Node)
+        Public Function CreateNetwork(data As IEnumerable(Of PfsNET)) As KeyValuePair(Of NetworkEdge(), FileStream.Node())
+            Dim edgesBuffer As New List(Of NetworkEdge)
+            Dim nodesBuffer As New List(Of FileStream.Node)
 
-            For Each SubNET In Data
-                Call EdgesBuffer.AddRange((From strId As String
-                                           In SubNET.SignificantGeneObjects
-                                           Select New NetworkEdge With {
-                                               .Confidence = 1,
-                                               .FromNode = strId,
-                                               .ToNode = SubNET.UniqueId,
-                                               .InteractionType = SubNET.PhenotypePair}).ToArray)
-                Call NodesBuffer.AddRange((From strId As String In SubNET.SignificantGeneObjects Select New FileStream.Node With {.NodeType = "Significant Gene", .Identifier = strId}).ToArray)
-                Call NodesBuffer.Add(New FileStream.Node With {.Identifier = SubNET.UniqueId, .NodeType = "Significant Pathway"})
+            For Each SubNET In data
+                edgesBuffer += From strId As String
+                               In SubNET.SignificantGeneObjects
+                               Select New NetworkEdge With {
+                                   .Confidence = 1,
+                                   .FromNode = strId,
+                                   .ToNode = SubNET.UniqueId,
+                                   .InteractionType = SubNET.PhenotypePair
+                               }
+                nodesBuffer += From strId As String
+                               In SubNET.SignificantGeneObjects
+                               Select New FileStream.Node With {
+                                   .NodeType = "Significant Gene",
+                                   .Identifier = strId
+                               }
+                nodesBuffer += New FileStream.Node With {
+                    .Identifier = SubNET.UniqueId,
+                    .NodeType = "Significant Pathway"
+                }
             Next
 
-            Return New KeyValuePair(Of NetworkEdge(), FileStream.Node())(EdgesBuffer.ToArray, NodesBuffer.ToArray)
+            Return New KeyValuePair(Of NetworkEdge(), FileStream.Node())(edgesBuffer.ToArray, nodesBuffer.ToArray)
         End Function
 
         <ExportAPI("Write.PfsNet")>
@@ -199,34 +208,47 @@ Namespace NetworkModel.PfsNET
         End Function
 
         Private Function CreatePathwayNetwork(ReactionList As List(Of Slots.Reaction)) As KeyValuePair(Of NetworkModel.Edge(), NetworkModel.Node())
-            Dim EdgeList As List(Of NetworkModel.Edge) = New List(Of NetworkModel.Edge)
-            Dim NodeList As List(Of NetworkModel.Node) = (From item In ReactionList Select New NetworkModel.Node With {.Identifier = item.Identifier, .NodeType = "Reaction"}).ToList
+            Dim EdgeList As New List(Of NetworkModel.Edge)
+            Dim NodeList As List(Of NetworkModel.Node) =
+                LinqAPI.MakeList(Of NetworkModel.Node) <=
+ _
+                From r As Slots.Reaction
+                In ReactionList
+                Select New NetworkModel.Node With {
+                    .Identifier = r.Identifier,
+                    .NodeType = "Reaction"
+                }
 
-            For Each Reaction In ReactionList
-                For Each Substrate As String In Reaction.Substrates
-                    Dim LQuery = (From ReactionItem In ReactionList
-                                  Let c = ReactionItem.GetCoefficient(Substrate)
-                                  Where Not Reaction.Equals(ReactionItem) AndAlso c <> 0
-                                  Select New With {.Coefficient = c, .Reaction = ReactionItem.Identifier, .Reversible = ReactionItem.Reversible}).ToArray
+            For Each reaction As Slots.Reaction In ReactionList
+                For Each Substrate As String In reaction.Substrates
+                    Dim LQuery = From r As Slots.Reaction
+                                 In ReactionList
+                                 Let c = r.GetCoefficient(Substrate)
+                                 Where Not reaction.Equals(r) AndAlso c <> 0
+                                 Select New With {
+                                     .Coefficient = c,
+                                     .Reaction = r.Identifier,
+                                     .Reversible = r.Reversible
+                                 }
 
-                    Dim Coefficient = Reaction.GetCoefficient(Substrate)
-                    Dim InteractionType As String = ""
+                    Dim coefficient% = reaction.GetCoefficient(Substrate)
+                    Dim itType As String = ""
 
-                    For Each Connected In LQuery
-                        If Connected.Coefficient > 0 Then  '在右端
-                            If Coefficient > 0 Then
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Reaction.Identifier, .ToNode = Substrate, .InteractionType = "Confluence"})
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Connected.Reaction, .ToNode = Substrate, .InteractionType = "Confluence"})
+                    For Each connected In LQuery
+                        If connected.Coefficient > 0 Then  '在右端
+                            If coefficient > 0 Then
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = reaction.Identifier, .ToNode = Substrate, .InteractionType = "Confluence"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = Substrate, .InteractionType = "Confluence"})
                                 Call NodeList.Add(New NetworkModel.Node With {.Identifier = Substrate, .NodeType = "Metabolite"})
                             Else
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Connected.Reaction, .ToNode = Reaction.Identifier, .InteractionType = "Metabolite_Flux_Flow"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = reaction.Identifier, .InteractionType = "Metabolite_Flux_Flow"})
                             End If
                         Else '在左端
-                            If Coefficient > 0 Then
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Reaction.Identifier, .ToNode = Connected.Reaction, .InteractionType = "Metabolite_Flux_Flow"})
+                            If coefficient > 0 Then
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = reaction.Identifier, .ToNode = connected.Reaction, .InteractionType = "Metabolite_Flux_Flow"})
                             Else
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = Connected.Reaction, .InteractionType = "Diffluence"})
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = Reaction.Identifier, .InteractionType = "Diffluence"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = connected.Reaction, .InteractionType = "Diffluence"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = reaction.Identifier, .InteractionType = "Diffluence"})
                                 Call NodeList.Add(New NetworkModel.Node With {.Identifier = Substrate, .NodeType = "Metabolite"})
                             End If
                         End If
