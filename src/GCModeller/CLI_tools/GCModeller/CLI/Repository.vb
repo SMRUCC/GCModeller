@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -152,56 +153,97 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/n -1 /mid <30> /out <out.csv>]")>
+    <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/simple /tokens 4 /n -1 /out <out.csv>]")>
     Public Function UniqueTitle(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim midLen% = args.GetValue("/mid", 30)
         Dim out As String =
             args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & ".unique_titles.csv")
         Dim list As New List(Of String)
+        Dim tokens As Integer = args.GetValue("/tokens", 4)
+        Dim simple As Boolean = args.GetBoolean("/simple")
 
         If [in].FileExists Then
-            list += [in].ReadAllLines
+            list += [in].ReadAllLines.Select(Function(s) s.GetTagValue(vbTab).x)
         Else
             For Each file$ In ls - l - r - wildcards("*.txt") <= [in]
-                list += [in].ReadAllLines
+                list += file$ _
+                    .ReadAllLines _
+                    .Select(Function(s) s.GetTagValue(vbTab).x)
+                Call file.__DEBUG_ECHO
             Next
         End If
 
-        If midLen > 0 Then
-            For i As Integer = 0 To list.Count - 1
-                Dim s$ = Mid(list(i), 1, midLen)
+        Dim words As New Dictionary(Of String, Integer)
+        Dim word As New Value(Of String)
+        Dim data As New List(Of Entity)
 
-                If s$.Length < midLen Then
-                    s &= New String(" "c, midLen - s$.Length)
+        Call words.Add(" ", 0)
+
+        For i As Integer = 0 To list.Count - 1
+            Dim s$ = Regex.Replace(list(i), "\s{2,}", " ")
+            Dim t$() = s.Split.Take(tokens).ToArray
+            Dim p As New List(Of Double)
+
+            For Each str As String In t$
+                If Not words.ContainsKey(word = str.ToLower) Then
+                    Call words.Add(+word, words.Count)
                 End If
 
-                list(i) = s$
+                p += CDbl(words(+word))
             Next
+
+            If p.Count < tokens Then
+                p += (tokens - p.Count) _
+                    .Sequence _
+                    .Select(Function(o) 0R)
+            End If
+
+            data += New Entity With {
+                .uid = s$,
+                .Properties = p
+            }
+        Next
+
+        Call (From x In data Select x.Properties.Length Distinct) _
+            .ToArray _
+            .GetJson _
+            .__DEBUG_ECHO
+
+        Dim int2Words = words _
+            .ToDictionary(Function(x) x.Value,
+                          Function(x) x.Key)
+
+        If simple Then
+            Dim LQuery = From x
+                         In data
+                         Select x.uid,
+                             u = String.Join("-", x.Properties.ToArray(Function(o) CStr(o)))
+                         Group By u Into Group
+
+            Call LQuery.ToArray(
+                Function(x) New NamedValue(Of String()) With {
+                    .Name = x.u _
+                        .Split("-"c) _
+                        .ToArray(Function(o) int2Words(CInt(o))) _
+                        .JoinBy(" "),
+                    .x = x.Group _
+                        .ToArray(Function(o) o.uid)
+                }).GetJson _
+                  .SaveTo(out) _
+                  .CLICode
         End If
 
-        Dim data As Entity() = LinqAPI.Exec(Of Entity) <=
- _
-            From s As String
-            In list
-            Let v As Double() =
-                s.ToArray(Function(c) CDbl(AscW(c)))
-            Select New Entity With {
-                .uid = s,
-                .Properties = v
-            }
-
-        Dim n As Integer = args.GetValue("/n", data.Length * 0.1)
+        Dim n As Integer = args.GetValue("/n", data.Count * 0.1)
         Dim cl = ClusterDataSet(n, data, )
         Dim output As New List(Of NamedValue(Of String()))
 
         For Each cluster As KMeansCluster(Of Entity) In cl
-            Dim common As Char() = cluster _
+            Dim common$() = cluster _
                 .ClusterMean _
-                .ToArray(Function(x) ChrW(CInt(x)))
+                .ToArray(Function(x) int2Words(CInt(x)))
 
             output += New NamedValue(Of String()) With {
-                .Name = New String(common),
+                .Name = String.Join(" ", common),
                 .x = cluster.ToArray(Function(x) x.uid)
             }
         Next
