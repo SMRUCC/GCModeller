@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::85e190c1e546b07d07c2d1428338bfe5, ..\GCModeller\core\Bio.Assembly\ProteinModel\DomainObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 
 Namespace ProteinModel
 
@@ -61,12 +62,14 @@ Namespace ProteinModel
         ''' <remarks></remarks>
         Public Function GetInteractionDomains(DOMINE As DOMINE.Database) As String()
             Dim Interactions = DOMINE.Interaction
-            Dim LQuery = From Interaction As DOMINE.Tables.Interaction
-                         In Interactions
-                         Let DomainId As String = Interaction.GetInteractionDomain(MyBase.Identifier)
-                         Where Not String.IsNullOrEmpty(DomainId)
-                         Select DomainId '
-            Return LQuery.ToArray
+            Dim LQuery = LinqAPI.Exec(Of String) <=
+                From Interaction As DOMINE.Tables.Interaction
+                In Interactions
+                Let DomainId As String = Interaction.GetInteractionDomain(MyBase.Identifier)
+                Where Not String.IsNullOrEmpty(DomainId)
+                Select DomainId '
+
+            Return LQuery
         End Function
 
         Sub New(SmpFile As SmpFile)
