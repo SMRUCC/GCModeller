@@ -220,7 +220,7 @@ Partial Module CLI
                              u = String.Join("-", x.Properties.ToArray(Function(o) CStr(o)))
                          Group By u Into Group
 
-            Call LQuery.ToArray(
+            Return LQuery.ToArray(
                 Function(x) New NamedValue(Of String()) With {
                     .Name = x.u _
                         .Split("-"c) _
