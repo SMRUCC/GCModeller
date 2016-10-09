@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 
-Namespace HtmlParser
+Namespace Text.HtmlParser
 
     ''' <summary>
     ''' The string parser for the table html text block
