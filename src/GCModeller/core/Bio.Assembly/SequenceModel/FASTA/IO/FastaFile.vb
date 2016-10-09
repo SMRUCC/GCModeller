@@ -344,13 +344,13 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Return False
         End Function
 
-        Public Function Take(KeyWordList As List(Of String), Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaFile
+        Public Function Take(keyWords As IEnumerable(Of String), Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaFile
             Dim result As New List(Of FastaToken)
 
-            For Each keyWord As String In KeyWordList
+            For Each keyWord As String In keyWords
                 result += From FASTA As FastaToken
                           In __innerList
-                          Where InStr(FASTA.Title, keyWord, CaseSensitive)
+                          Where InStr(FASTA.Title, keyWord, CaseSensitive) > 0
                           Select FASTA '
             Next
 
