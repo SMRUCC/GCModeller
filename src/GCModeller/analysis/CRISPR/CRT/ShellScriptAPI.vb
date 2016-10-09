@@ -94,7 +94,7 @@ This leads to a program that is easy to describe and understand; yet it is very 
       Issue:="", Volume:=8, Year:=2007, PubMed:=17577412)>
 Public Module ShellScriptAPI
 
-    Dim _innerSeacher As BoyerMooreAlgorithmSearcher = New BoyerMooreAlgorithmSearcher
+    Dim _innerSeacher As New BoyerMooreAlgorithmSearcher
 
     <ExportAPI("Boyer_Moore_pattern_exists", Info:="The subject parameter is the pattern that which will be search in the query")>
     Public Function BoyerMoore(query As String, subject As String) As Boolean
@@ -124,7 +124,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("Write.Csv.CRISPR")>
-    Public Function SaveResult(dat As IEnumerable(Of SearchingModel.CRISPR), saveto As String) As Boolean
+    Public Function SaveResult(dat As IEnumerable(Of SearchingModel.CRISPR), saveto$) As Boolean
         Return Export(dat).Save(saveto, False)
     End Function
 
@@ -136,13 +136,17 @@ Public Module ShellScriptAPI
     ''' 
     <ExportAPI("spacer.export.chromosome_map.loci")>
     Public Function ExportSpacerLoci(model As GenomeScanResult) As SegmentObject()
-        Dim LQuery = (From site As Output.CRISPR
-                      In model.Sites
-                      Let sp_sites = (From sp In site.SpacerLocis
-                                      Let loci = New NucleotideLocation(sp.Left, sp.Right, False)
-                                      Select New SegmentObject(sp.SequenceData, loci)).ToArray
-                      Select sp_sites).ToArray
-        Return LQuery.MatrixToVector
+        Dim LQuery = LinqAPI.Exec(Of SegmentObject) <=
+ _
+            From site As Output.CRISPR
+            In model.Sites
+            Let sp_sites = (From sp As Output.Loci
+                            In site.SpacerLocis
+                            Let loci = New NucleotideLocation(sp.Left, sp.Right, False)
+                            Select New SegmentObject(sp.SequenceData, loci))
+            Select sp_sites
+
+        Return LQuery
     End Function
 
     <ExportAPI("repeats.export.chromosome_map.motif_sites")>
@@ -192,16 +196,20 @@ Public Module ShellScriptAPI
 
         Dim SearchProfile As KmerProfile = profile
         Dim Fasta As New FastaFile
-        Dim Data As List(Of GenomeScanResult) = New List(Of GenomeScanResult)
+        Dim Data As New List(Of GenomeScanResult)
 
         For Each Path In LoadGbkSource(source)
-            Dim Sequence = FastaToken.LoadNucleotideData(Path.Value)
-            If Sequence Is Nothing Then
+            Dim seq = FastaToken.LoadNucleotideData(Path.Value)
+            If seq Is Nothing Then
                 Continue For
             End If
-            Dim dat = CRTMotifSearchTool.ExactKMerMatches(New NucleicAcid(Sequence), SearchProfile, p:=p, MinNumberOfRepeats:=MinNumRepeats)
+            Dim dat = CRTMotifSearchTool.ExactKMerMatches(
+                New NucleicAcid(seq),
+                SearchProfile,
+                p:=p,
+                MinNumberOfRepeats:=MinNumRepeats)
             Call Output.Export(dat).Save(EXPORT & "/" & Path.Key & ".csv", False)
-            Dim Xml = GenomeScanResult.CreateObject(Sequence, Path.Key, dat, SearchProfile)
+            Dim Xml = GenomeScanResult.CreateObject(seq, Path.Key, dat, SearchProfile)
             Call Xml.GetXml.SaveTo(EXPORT & "/" & Path.Key & ".xml")
             Call Fasta.AddRange(Xml.ExportFasta)
             Call Data.Add(Xml)

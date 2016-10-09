@@ -371,16 +371,16 @@ Namespace SearchingModel
             End If
         End Function
 
-        Public Function CheckLeftFlank(SequenceData As NucleicAcid,
-                                       candidateCRISPR As CRISPR,
-                                       minSpacerLength As Integer,
-                                       scanRange As Integer,
-                                       spacerToSpacerMaxSimilarity As Double,
-                                       confidence As Double) As CRISPR
+        Public Function CheckLeftFlank(nt As NucleicAcid, candidateCRISPR As CRISPR,
+                                       minSpacerLength%,
+                                       scanRange%,
+                                       spacerToSpacerMaxSimilarity#,
+                                       confidence#) As CRISPR
+
             Dim moreToSearch As Boolean = True
 
             While moreToSearch
-                Dim result As Integer = __sequenceScan(SequenceData, LEFT, candidateCRISPR, minSpacerLength, scanRange, confidence)
+                Dim result As Integer = __sequenceScan(nt, LEFT, candidateCRISPR, minSpacerLength, scanRange, confidence)
                 If result > 0 Then
                     candidateCRISPR.InsertRepeatAt(result, 0)
                 Else
@@ -391,16 +391,23 @@ Namespace SearchingModel
             Return candidateCRISPR
         End Function
 
-        Public Function CheckRightFlank(SequenceData As NucleicAcid,
-                                        candidateCRISPR As CRISPR,
-                                        minSpacerLength As Integer,
-                                        scanRange As Integer,
-                                        spacerToSpacerMaxSimilarity As Double,
-                                        confidence As Double) As CRISPR
+        Public Function CheckRightFlank(nt As NucleicAcid, candidateCRISPR As CRISPR,
+                                        minSpacerLength%,
+                                        scanRange%,
+                                        spacerToSpacerMaxSimilarity#,
+                                        confidence#) As CRISPR
+
             Dim moreToSearch As Boolean = True
 
             While moreToSearch
-                Dim result As Integer = __sequenceScan(SequenceData, RIGHT, candidateCRISPR, minSpacerLength, scanRange, confidence)
+                Dim result As Integer = __sequenceScan(
+                    nt,
+                    RIGHT,
+                    candidateCRISPR,
+                    minSpacerLength,
+                    scanRange,
+                    confidence)
+
                 If result > 0 Then
                     candidateCRISPR.AddRepeatData(result)
                 Else

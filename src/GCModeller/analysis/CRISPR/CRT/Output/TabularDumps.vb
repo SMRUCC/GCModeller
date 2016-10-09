@@ -1,34 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::0bd3cd02afe6ae198735241fe77d2c36, ..\GCModeller\analysis\CRISPR\CRT\Output\TabularDumps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis.CRISPR.CRT.SearchingModel
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
@@ -53,17 +56,20 @@ Namespace Output
         <ExportAPI("conserved.removes")>
         Public Function RemoveConserved(besthit As BestHit, CDSInfo As IEnumerable(Of GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
             Dim ORF = (From pro As GeneDumpInfo
-                   In CDSInfo
+                       In CDSInfo
                        Select pro
-                       Group By pro.LocusID Into Group).ToDictionary(Function(item) item.LocusID,
-                                                                 Function(item) item.Group.First)
+                       Group By pro.LocusID Into Group) _
+                            .ToDictionary(Function(x) x.LocusID,
+                                          Function(x) x.Group.First)
+
             Return RemoveConserved(besthit, ORF, data)
         End Function
 
         Public Function RemoveConserved(besthit As BestHit, ORF As Dictionary(Of String, GeneDumpInfo), data As GenomeScanResult) As GenomeScanResult
             Dim ConservedRegions = besthit.GetConservedRegions
-            Dim LQuery = (From ls As String() In ConservedRegions
-                          Let pos As Integer() = (From id As String In ls Let nn = ORF(id) Select {nn.Left, nn.Right}).ToArray.MatrixToVector
+            Dim LQuery = (From ls As String()
+                          In ConservedRegions
+                          Let pos As Integer() = (From id As String In ls Let nn = ORF(id) Select {nn.Left, nn.Right}).MatrixToVector
                           Let left As Integer = pos.Min
                           Let right As Integer = pos.Max
                           Select ORFList = ls,
@@ -72,18 +78,26 @@ Namespace Output
                           LociLeft = left,
                           LociRight = right).ToArray
             Dim locis = LQuery.ToArray(Function(x) x.Loci)
-            Dim UnConserved = (From loci In data.Sites.AsParallel
-                               Where Not (__isLocatedInConserved(loci.Start, locis) OrElse
-                               __isLocatedInConserved(loci.Right, locis))
-                               Select loci).ToArray '选取所有不落在保守区域的位点数据
-            data.Sites = UnConserved
+            Dim unConserved = LinqAPI.Exec(Of CRISPR) <=
+                From loci
+                In data.Sites.AsParallel
+                Where Not (__isLocatedInConserved(loci.Start, locis) OrElse
+                    __isLocatedInConserved(loci.Right, locis))
+                Select loci ' 选取所有不落在保守区域的位点数据
+
+            data.Sites = unConserved
+
             Return data
         End Function
 
         Private Function __isLocatedInConserved(p As Integer, loci As Location()) As Boolean
-            Dim LLLLQuery = (From item In loci Where item.ContainSite(p) Select 1).ToArray
-            If LLLLQuery.IsNullOrEmpty Then
-                '没有落在保守的片段区域
+            Dim located = LinqAPI.DefaultFirst(Of Location) <=
+                From x As Location
+                In loci
+                Where x.ContainSite(p)
+                Select x
+
+            If located Is Nothing Then ' 没有落在保守的片段区域
                 Return False
             Else
                 Return True
@@ -93,67 +107,102 @@ Namespace Output
         ''' <summary>
         ''' 请注意，这个函数的使用请务必要保证文件名除却拓展名以外都是是相同的
         ''' </summary>
-        ''' <param name="scan_source">这个是CRT的批量扫描输出的文件夹</param>
+        ''' <param name="scan">这个是CRT的批量扫描输出的文件夹</param>
         ''' <param name="besthit_source">这个是最佳双向比对的输出文件夹</param>
-        ''' <param name="export"></param>
+        ''' <param name="EXPORT"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("batch.trim_conserved", Info:="Please make sure the filename is the same between the scan_source folder and besthit_source folder!! or the result file will not be proceeded.")>
-        Public Function BatchTrimConserved(scan_source As String, besthit_source As String, Cds_info As IEnumerable(Of GeneDumpInfo), export As String) As GenomeScanResult()
-            Dim ScanningResults = (From path In scan_source.LoadSourceEntryList("*.xml")
-                                   Select path, CRISPR = path.Value.LoadXml(Of GenomeScanResult)()).ToArray.ToDictionary(Function(item) item.path.Key)
-            Dim BesthitsResults = (From path In besthit_source.LoadSourceEntryList("*.xml")
-                                   Select path, Besthit = path.Value.LoadXml(Of BestHit)()).ToArray.ToDictionary(Function(item) item.path.Key)
-            Dim ORF = (From item In Cds_info Select item Group By item.LocusID Into Group).ToArray.ToDictionary(Function(item) item.LocusID, elementSelector:=Function(item) item.Group.First)
-            Dim GroupResult = (From item In ScanningResults Where BesthitsResults.ContainsKey(item.Key) Select CRISPR = item.Value.CRISPR, Besthit = BesthitsResults(item.Key).Besthit, Entry = item.Value.path).ToArray
-            Dim LQuery = (From item In GroupResult Select item.Entry, CRISPR = RemoveConserved(item.Besthit, ORF, item.CRISPR)).ToArray
-            Dim SaveOperations = (From item In LQuery Select item.CRISPR.GetXml.SaveTo(export & "/" & item.Entry.Key & ".xml"))
+        <ExportAPI("batch.trim_conserved",
+                   Info:="Please make sure the filename is the same between the scan_source folder and besthit_source folder!! or the result file will not be proceeded.")>
+        Public Function BatchTrimConserved(scan$, besthit_source$, CDS_info As IEnumerable(Of GeneDumpInfo), EXPORT$) As GenomeScanResult()
+            Dim ScanningResults = (From path
+                                   In scan.LoadSourceEntryList("*.xml")
+                                   Let CRISPR = path.Value.LoadXml(Of GenomeScanResult)()
+                                   Select path,
+                                       CRISPR).ToDictionary(Function(x) x.path.Key)
+            Dim BesthitsResults = (From path
+                                   In besthit_source.LoadSourceEntryList("*.xml")
+                                   Let bh = path.Value.LoadXml(Of BestHit)()
+                                   Select path,
+                                       besthit = bh).ToDictionary(Function(x) x.path.Key)
+            Dim ORF = (From g As GeneDumpInfo
+                       In CDS_info
+                       Select g
+                       Group By g.LocusID Into Group) _
+                             .ToDictionary(Function(g) g.LocusID,
+                                           Function(g) g.Group.First)
+            Dim GroupResult = From x
+                              In ScanningResults
+                              Where BesthitsResults.ContainsKey(x.Key)
+                              Select CRISPR = x.Value.CRISPR,
+                                  Besthit = BesthitsResults(x.Key).besthit,
+                                  Entry = x.Value.path
+            Dim LQuery = (From x
+                          In GroupResult
+                          Select x.Entry,
+                              CRISPR = RemoveConserved(x.Besthit, ORF, x.CRISPR)).ToArray
 
-            Return (From item In LQuery Select item.CRISPR).ToArray
+            Call (From g
+                  In LQuery
+                  Let xml = EXPORT & "/" & g.Entry.Key & ".xml"
+                  Let doc = g.CRISPR.GetXml
+                  Select doc.SaveTo(xml)).ToArray
+
+            Return LQuery.ToArray(Function(x) x.CRISPR)
         End Function
 
         <ExportAPI("batch.export_csv")>
-        Public Function BatchExportCsv(source As IEnumerable(Of GenomeScanResult), export As String) As Boolean
-            Dim LQuery = (From item In source.AsParallel Select CSV = TabularDumps.Export(item.Sites), item).ToArray
-            Dim SaveLQuery = (From item In LQuery.AsParallel Select item.CSV.Save(export & "/" & item.item.Tag & ".csv", False)).ToArray
-            Return Not SaveLQuery.IsNullOrEmpty
+        Public Function BatchExportCsv(source As IEnumerable(Of GenomeScanResult), EXPORT$) As Boolean
+            Dim LQuery = From g
+                         In source.AsParallel
+                         Select CSV = TabularDumps.Export(g.Sites),
+                             g
+            Dim save = LinqAPI.Exec(Of Boolean) <=
+                From x
+                In LQuery.AsParallel
+                Let path = EXPORT & "/" & x.g.Tag & ".csv"
+                Select x.CSV.Save(path, False)
+
+            Return Not save.IsNullOrEmpty
         End Function
 
         <ExportAPI("export.csv")>
         Public Function Export(dat As IEnumerable(Of SearchingModel.CRISPR)) As DocumentStream.File
-            Dim File As DocumentStream.File = New DocumentStream.File
+            Dim out As New DocumentStream.File
 
-            Call File.AppendLine(New String() {"Position", "Repeats", "Spacer Sequence", "Repeat Length", "Spacer Length"})
-            Call File.AppendLine()
+            out += {"Position", "Repeats", "Spacer Sequence", "Repeat Length", "Spacer Length"}
+            out += {""}
 
             If dat.IsNullOrEmpty Then
-                Return File
+                Return out
             End If
 
-            For i As Integer = 0 To dat.Count - 1
-                Dim CRISPR As SearchingModel.CRISPR = dat(i)
-                Call File.AppendLine(New String() {"=====> CRISPR " & i})
+            For Each i As SeqValue(Of SearchingModel.CRISPR) In dat.SeqIterator
+                Dim CRISPR As SearchingModel.CRISPR = i
+
+                out += {"------> CRISPR " & i.i}
 
                 For j As Integer = 0 To CRISPR.NumberOfRepeats - 1
-                    Dim Row As DocumentStream.RowObject = New DocumentStream.RowObject
-                    Call Row.Add(CRISPR.RepeatAt(j) + 1)
-                    Call Row.Add(CRISPR.RepeatStringAt(j))
+                    Dim row As New RowObject
+
+                    Call row.Add(CRISPR.RepeatAt(j) + 1)
+                    Call row.Add(CRISPR.RepeatStringAt(j))
 
                     If j < CRISPR.NumberOfSpacers Then
                         Dim Spacer As String = CRISPR.SpacerStringAt(j)
 
-                        Call Row.Add(Spacer)
-                        Call Row.Add(CRISPR.RepeatStringAt(j).Length)
-                        Call Row.Add(CRISPR.SpacerStringAt(j).Length)
+                        Call row.Add(Spacer)
+                        Call row.Add(CRISPR.RepeatStringAt(j).Length)
+                        Call row.Add(CRISPR.SpacerStringAt(j).Length)
                     End If
 
-                    Call File.AppendLine(Row)
+                    out += row
                 Next
 
-                Call File.AppendLine()
+                out += {""}
             Next
 
-            Return File
+            Return out
         End Function
     End Module
 End Namespace

@@ -1,34 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::260daeda1e025d5d1fd7f0f2e5661ab2, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\CRTMotifSearchTool.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic
 
 Namespace SearchingModel
 
@@ -69,12 +69,12 @@ Namespace SearchingModel
         ''' <param name="p">
         ''' This method of extending repeats works well for CRISPRs, give an appropriate value for p.(CRT uses a default value of 75%).
         ''' </param>
-        Public Function ExactKMerMatches(SequenceData As NucleicAcid, profile As KmerProfile,
-                                         Optional p As Double = 0.75,
-                                         Optional MinNumberOfRepeats As Integer = 3) As CRISPR()
+        Public Function ExactKMerMatches(nt As NucleicAcid, profile As KmerProfile,
+                                         Optional p# = 0.75,
+                                         Optional MinNumberOfRepeats% = 3) As CRISPR()
 
             Dim CRISPRVector As New List(Of CRISPR)
-            Dim sequenceLength = SequenceData.Length
+            Dim sequenceLength = nt.Length
             Dim repeatsFound As Boolean = False
 
             If (profile.k < 6) OrElse (profile.k > 9) Then
@@ -114,8 +114,8 @@ Namespace SearchingModel
                     endSearch = beginSearch
                 End If
 
-                Dim text As String = SequenceData.ReadSegment(beginSearch, endSearch - beginSearch)
-                Dim pattern As String = SequenceData.ReadSegment(j, profile.k)
+                Dim text As String = nt.ReadSegment(beginSearch, endSearch - beginSearch)
+                Dim pattern As String = nt.ReadSegment(j, profile.k)
 
                 'if pattern is found, add it to candidate list and scan right for additional similarly spaced repeats
                 Dim patternInTextIndex As Integer = SearchTool.BoyerMooreSearch(text, pattern)
@@ -123,20 +123,20 @@ Namespace SearchingModel
                 If patternInTextIndex >= 0 Then
                     CandidateCRISPR.AddRepeatData(j)
                     CandidateCRISPR.AddRepeatData(beginSearch + patternInTextIndex)
-                    CandidateCRISPR = KMer.ScanRight(SequenceData, CandidateCRISPR, pattern, profile.minS, 24, SearchTool)
+                    CandidateCRISPR = KMer.ScanRight(nt, CandidateCRISPR, pattern, profile.minS, 24, SearchTool)
                 End If
 
                 If (CandidateCRISPR.NumberOfRepeats() >= MinNumberOfRepeats) Then
 
-                    CandidateCRISPR = KMer.GetActualRepeatLength(SequenceData, CandidateCRISPR, profile, p)    'make sure minNumRepeats is always at least 2
+                    CandidateCRISPR = KMer.GetActualRepeatLength(nt, CandidateCRISPR, profile, p)    'make sure minNumRepeats is always at least 2
 
                     Dim ActualRepeatLength As Integer = CandidateCRISPR.RepeatLength()
 
                     If (ActualRepeatLength >= profile.minR) AndAlso (ActualRepeatLength <= profile.maxR) Then
                         If KMer.HasNonRepeatingSpacers(CandidateCRISPR, spacerToSpacerMaxSimilarity) Then
                             If KMer.HasSimilarlySizedSpacers(CandidateCRISPR, spacerToSpacerLengthDiff, spacerToRepeatLengthDiff) Then
-                                CandidateCRISPR = KMer.CheckLeftFlank(SequenceData, CandidateCRISPR, profile.minS, 30, spacerToSpacerMaxSimilarity, 0.7)
-                                CandidateCRISPR = KMer.CheckRightFlank(SequenceData, CandidateCRISPR, profile.minS, 30, spacerToSpacerMaxSimilarity, 0.7)
+                                CandidateCRISPR = KMer.CheckLeftFlank(nt, CandidateCRISPR, profile.minS, 30, spacerToSpacerMaxSimilarity, 0.7)
+                                CandidateCRISPR = KMer.CheckRightFlank(nt, CandidateCRISPR, profile.minS, 30, spacerToSpacerMaxSimilarity, 0.7)
                                 CandidateCRISPR = KMer.Trim(CandidateCRISPR, profile.minR)
 
                                 Call CRISPRVector.Add(CandidateCRISPR)
@@ -149,13 +149,11 @@ Namespace SearchingModel
                         End If
                     End If
                 End If
+
                 j = j + skips
             End While
 
             Call Console.WriteLine("[Done!]")
-            'Call Console.WriteLine(New String("=", 150) & vbCrLf)
-
-            ' Call Console.WriteLine(Print(CRISPRVector))
 
             Return CRISPRVector.ToArray
         End Function
