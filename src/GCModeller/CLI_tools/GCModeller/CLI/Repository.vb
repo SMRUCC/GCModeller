@@ -27,11 +27,16 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
@@ -145,5 +150,62 @@ Partial Module CLI
             lineBreak:=break)
 
         Return 0
+    End Function
+
+    <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/n -1 /mid <30> /out <out.csv>]")>
+    Public Function UniqueTitle(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim midLen% = args.GetValue("/mid", 30)
+        Dim out As String =
+            args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & ".unique_titles.csv")
+        Dim list As New List(Of String)
+
+        If [in].FileExists Then
+            list += [in].ReadAllLines
+        Else
+            For Each file$ In ls - l - r - wildcards("*.txt") <= [in]
+                list += [in].ReadAllLines
+            Next
+        End If
+
+        If midLen > 0 Then
+            For i As Integer = 0 To list.Count - 1
+                Dim s$ = Mid(list(i), 1, midLen)
+
+                If s$.Length < midLen Then
+                    s &= New String(" "c, midLen - s$.Length)
+                End If
+
+                list(i) = s$
+            Next
+        End If
+
+        Dim data As Entity() = LinqAPI.Exec(Of Entity) <=
+ _
+            From s As String
+            In list
+            Let v As Double() =
+                s.ToArray(Function(c) CDbl(AscW(c)))
+            Select New Entity With {
+                .uid = s,
+                .Properties = v
+            }
+
+        Dim n As Integer = args.GetValue("/n", data.Length * 0.1)
+        Dim cl = ClusterDataSet(n, data, )
+        Dim output As New List(Of NamedValue(Of String()))
+
+        For Each cluster As KMeansCluster(Of Entity) In cl
+            Dim common As Char() = cluster _
+                .ClusterMean _
+                .ToArray(Function(x) ChrW(CInt(x)))
+
+            output += New NamedValue(Of String()) With {
+                .Name = New String(common),
+                .x = cluster.ToArray(Function(x) x.uid)
+            }
+        Next
+
+        Return output.GetJson.SaveTo(out).CLICode
     End Function
 End Module

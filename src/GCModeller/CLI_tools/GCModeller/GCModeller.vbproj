@@ -48,7 +48,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\GCModeller\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>GCModeller.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -175,6 +175,15 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|AnyCPU'">
+    <OutputPath>bin\Release2\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x64'">
+    <OutputPath>bin\x64\Release2\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x86'">
+    <OutputPath>bin\x86\Release2\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -278,6 +287,10 @@
     <ProjectReference Include="..\..\..\runtime\visualbasic_App\Data\SearchEngine\SearchEngine.vbproj">
       <Project>{8afbc715-5eb6-4eaf-a967-d29a5667709f}</Project>
       <Name>SearchEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Data_science\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+      <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
+      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\analysis\annoTools\BASys\BASys.vbproj">
       <Project>{6FA98FE3-4504-4D7A-A454-C5E8CF46EB21}</Project>
