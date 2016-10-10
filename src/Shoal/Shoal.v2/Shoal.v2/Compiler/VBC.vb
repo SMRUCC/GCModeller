@@ -1,5 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.LDM
-Imports Microsoft.VisualBasic.CodeDOM_VBC
+﻿Imports Microsoft.VisualBasic.Emit.CodeDOM_VBC
+Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.LDM
 
 Namespace Compiler
 

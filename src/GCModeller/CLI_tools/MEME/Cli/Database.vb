@@ -28,7 +28,6 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.DataSetHandler
 Imports SMRUCC.genomics.Analysis.Annotations.RegpreciseRegulations
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -43,7 +42,6 @@ Partial Module CLI
     ''' </summary>
     Sub New()
         Call Settings.Session.Initialize()
-        Call InitHandle()
     End Sub
 
     <ExportAPI("--Get.Intergenic",
