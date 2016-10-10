@@ -40,9 +40,10 @@ Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel
+Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Parallel
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.TableExtensions
 Imports SMRUCC.genomics
@@ -56,7 +57,6 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
-Imports Microsoft.VisualBasic.Parallel.Linq
 
 Partial Module CLI
 
@@ -305,15 +305,19 @@ Partial Module CLI
 
         If tagsHash Is Nothing Then
             Dim ref As String = args("/raw")
+
             If ref.FileExists Then
-                Dim rawRef As New FastaFile(ref)
-                tagsHash = (From x As FastaToken
-                            In rawRef
-                            Select x,
-                                sid = x.Title.Split.First
-                            Group By sid Into Group) _
-                                    .ToDictionary(Function(x) x.sid,
-                                                  Function(x) x.Group.First.x.Title.Replace(x.sid, "").Trim)
+                Using rawRef As New StreamIterator(ref)
+                    tagsHash = New Dictionary(Of String, String)
+
+                    For Each x As FastaToken In rawRef.ReadStream
+                        Dim sid$ = x.Title.Split.First
+
+                        If Not tagsHash.ContainsKey(sid) Then
+                            Call tagsHash.Add(sid, x.Title.Replace(sid, "").Trim)  ' 由于sid是唯一的，所以只需要第一个出现的就行了
+                        End If
+                    Next
+                End Using
             End If
         End If
 
