@@ -1,5 +1,5 @@
 ﻿Imports System.CodeDom
-Imports Microsoft.VisualBasic.CodeDOM_VBC
+Imports Microsoft.VisualBasic.Emit.CodeDOM_VBC
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Configuration
 
 Namespace Compiler.CodeDOM
