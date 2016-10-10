@@ -36,11 +36,13 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Parallel
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.TableExtensions
 Imports SMRUCC.genomics
@@ -54,6 +56,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
+Imports Microsoft.VisualBasic.Parallel.Linq
 
 Partial Module CLI
 
@@ -221,34 +224,15 @@ Partial Module CLI
         Return output.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Export.SAM.Maps",
-               Usage:="/Export.SAM.Maps /in <in.sam> [/contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv> /debug]")>
-    <ParameterInfo("/raw", True,
-                   AcceptTypes:={GetType(FastaFile), GetType(FastaToken)},
-                   Description:="When this command is processing the NNNNN contact data, just input the contigs csv file, this raw reference is not required for the contig information.")>
-    Public Function ExportSAMMaps(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
-        Dim reader As New SamStream([in])
-        Dim result As New List(Of SimpleSegment)
-        Dim NNNNcontig As String = args("/contigs")
-        Dim genome As GenomeContextProvider(Of GeneBrief) = Nothing
-        Dim tagsHash As Dictionary(Of String, String) = Nothing
-        Dim showDebug As Boolean = args.GetBoolean("/debug")
-
-        If NNNNcontig.FileExists Then
-            Dim contigs = NNNNcontig.LoadCsv(Of SimpleSegment)
-            Dim genes = contigs.ToArray(Function(x) x.ToPTTGene)
-            genome = New GenomeContextProvider(Of GeneBrief)(genes)
-            tagsHash = (From x As SimpleSegment
-                        In contigs
-                        Select x.ID.Split.First,
-                            x
-                        Group By First Into Group) _
-                                .ToDictionary(Function(x) x.First,
-                                              Function(x) x.Group.First.x.ID.Replace(x.First, "").Trim)
-        End If
-
+    ''' <summary>
+    ''' 导出来的结果是依靠<see cref="SimpleSegment.ID"/>属性来进行结果统计的
+    ''' </summary>
+    ''' <param name="reader"></param>
+    ''' <param name="genome"></param>
+    ''' <param name="showDebug"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Iterator Function __export(reader As SamStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
         For Each readMaps As AlignmentReads In reader.ReadBlock
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
@@ -276,8 +260,41 @@ Partial Module CLI
                 End If
             End If
 
-            result += reads
+            Yield reads
         Next
+    End Function
+
+    ''' <summary>
+    ''' 小文件适用
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Export.SAM.Maps",
+               Usage:="/Export.SAM.Maps /in <in.sam> [/large /contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv> /debug]")>
+    <ParameterInfo("/raw", True,
+                   AcceptTypes:={GetType(FastaFile), GetType(FastaToken)},
+                   Description:="When this command is processing the NNNNN contact data, just input the contigs csv file, this raw reference is not required for the contig information.")>
+    Public Function ExportSAMMaps(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
+        Dim reader As New SamStream([in])
+        Dim NNNNcontig As String = args("/contigs")
+        Dim genome As GenomeContextProvider(Of GeneBrief) = Nothing
+        Dim tagsHash As Dictionary(Of String, String) = Nothing
+        Dim showDebug As Boolean = args.GetBoolean("/debug")
+
+        If NNNNcontig.FileExists Then
+            Dim contigs = NNNNcontig.LoadCsv(Of SimpleSegment)
+            Dim genes = contigs.ToArray(Function(x) x.ToPTTGene)
+            genome = New GenomeContextProvider(Of GeneBrief)(genes)
+            tagsHash = (From x As SimpleSegment
+                        In contigs
+                        Select x.ID.Split.First,
+                            x
+                        Group By First Into Group) _
+                                .ToDictionary(Function(x) x.First,
+                                              Function(x) x.Group.First.x.ID.Replace(x.First, "").Trim)
+        End If
 
         Dim maps As New Dictionary(Of String, String) From {
  _
@@ -304,14 +321,53 @@ Partial Module CLI
             If(tagsHash Is Nothing,
             Function(s) "",
             Function(s) If(tagsHash.ContainsKey(s), tagsHash(s), ""))
-        Dim stat As NamedValue(Of Integer)() =
-            LinqAPI.Exec(Of NamedValue(Of Integer)) <= (From x As SimpleSegment
-                                                        In result
-                                                        Select x
-                                                        Group x By x.ID Into Count) _
-                   .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count) With {
-                        .Description = getValue(x.ID)
-                   })
+        Dim stat As NamedValue(Of Integer)()
+        Dim ALL As Integer
+
+        If args.GetBoolean("/large") Then
+            Using writer As New WriteStream(Of SimpleSegment)(out, maps:=maps)
+                Dim IDstats As New Dictionary(Of String, Value(Of Integer))
+
+                For Each array As SimpleSegment() In TaskPartitions.
+                    SplitIterator(
+                    reader.__export(genome, showDebug),
+                    1000)
+
+                    For Each x As SimpleSegment In array
+                        If IDstats.ContainsKey(x.ID) Then
+                            IDstats(x.ID).value += 1
+                        Else
+                            Call IDstats.Add(
+                                x.ID,
+                                New Value(Of Integer)(Scan0))
+                        End If
+                    Next
+
+                    ALL += array.Length
+
+                    Call writer.Flush(array, False)
+                Next
+
+                stat = IDstats _
+                    .Select(Function(x) New NamedValue(Of Integer)(x.Key, +x.Value) With {
+                        .Description = getValue(x.Key)
+                    })
+            End Using
+        Else
+            Dim result As New List(Of SimpleSegment)(reader.__export(genome, showDebug))
+            ' 小型样本的统计
+            stat = LinqAPI.Exec(Of NamedValue(Of Integer)) <=
+                (From x As SimpleSegment
+                 In result
+                 Select x
+                 Group x By x.ID Into Count) _
+                 .Select(Function(x) New NamedValue(Of Integer)(x.ID, x.Count) With {
+                      .Description = getValue(x.ID) ' 得到标题
+                 })
+            ALL = result.Count
+            result.SaveTo(out, maps:=maps)
+        End If
+
         Dim statOut As String = out.TrimSuffix & ".stat.Csv"
 
         Call (From x As NamedValue(Of Integer)
@@ -321,9 +377,11 @@ Partial Module CLI
                   x.Name) _
                   .ToArray(Function(x) x.gi & vbTab & x.Name) _
                   .SaveTo(statOut.TrimSuffix & ".gi_Maps.tsv")
-        Call New NamedValue(Of Integer)([in].BaseName, result.Count).Join(stat).SaveTo(statOut)
 
-        Return result.SaveTo(out, maps:=maps)
+        Return New NamedValue(Of Integer)([in].BaseName, ALL) _
+            .Join(stat) _
+            .SaveTo(statOut) _
+            .CLICode
     End Function
 
     <ExportAPI("/Associate.GI",
