@@ -41,6 +41,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL
+Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Repository.NCBI
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -87,7 +88,7 @@ Partial Module CLI
         Dim Repository As String = GCModeller.FileSystem.RepositoryRoot
         Repository &= "/CDD/"
         Dim buildFrom As String = args("/cdd")
-        Call SMRUCC.genomics.Assembly.NCBI.CDD.DbFile.BuildDb(buildFrom, Repository)
+        Call DbFile.BuildDb(buildFrom, Repository)
         Return True
     End Function
 

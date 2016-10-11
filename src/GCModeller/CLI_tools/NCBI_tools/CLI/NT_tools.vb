@@ -192,14 +192,15 @@ Partial Module CLI
         End Function
 
         Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
-            For Each line As String In lines
+            For Each line$ In lines
+
                 Yield New WordTokens With {
                     .name = line.Trim(" "c, ASCII.TAB),
                     .tokens = line.Trim _
                         .StripSymbol _
                         .Split _
                         .Distinct _
-                        .Where(Function(s) Not String.IsNullOrEmpty(s.Trim(vbTab))) _
+                        .Where(Function(s) Not String.IsNullOrEmpty(s.Trim(ASCII.TAB))) _
                         .ToArray
                 }
             Next
