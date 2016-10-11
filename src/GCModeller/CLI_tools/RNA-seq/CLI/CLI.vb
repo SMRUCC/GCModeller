@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::ec80e7beb8a21edcfee475e82fbd92a6, ..\GCModeller\CLI_tools\RNA-seq\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,10 +31,14 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.RNA_Seq
@@ -259,4 +263,45 @@ Module CLI
 
         Return 0
     End Function
+
+    <ExportAPI("/Sampling.stats",
+               Usage:="/Sampling.stats /in <expression.csv> /samples <stats.csv.DIR> [/out <out.csv>]")>
+    Public Function SamplingStats(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim samples As String = args("/samples")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & samples.BaseName & ".stats.csv")
+        Dim exps As QueryArgument() = [in].LoadCsv(Of QueryArgument)
+        Dim expression = (From x As QueryArgument
+                          In exps
+                          Select x,
+                              exp = x.Expression.Build).ToArray
+
+        For Each file As String In ls - l - r - wildcards("*.csv") <= samples
+            Dim data = file.LoadCsv(Of SampleValue)
+            Dim name$ = file.BaseName
+
+            For Each x In data
+                x.Name = x.Name & " " & x.Description
+
+                Dim LQuery = From query In expression Where query.exp.Match(x.Name) Select expo = query.x
+
+                For Each expo In LQuery
+                    expo.Data(name) = Val(expo.Data.TryGetValue(name)) + x.value
+                Next
+            Next
+        Next
+
+        Return exps.SaveTo(out).CLICode
+    End Function
+
+    Public Class SampleValue
+
+        Public Property Name As String
+        <Column("x")> Public Property value As Double
+        Public Property Description As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
 End Module

@@ -268,13 +268,15 @@ Module CLI
 
                 If taxHash.ContainsKey(key) Then
                     Dim tokens As String() = taxHash(key).Split(";"c)
-                    Dim hash As New Dictionary(Of String, String) From {{"species", tokens(6)},
-            {"genus", tokens(5)},
-            {"family", tokens(4)},
-            {"order", tokens(3)},
-            {"class", tokens(2)},
-            {"phylum", tokens(1)},
-            {"superkingdom", tokens(0)}}
+                    Dim hash As New Dictionary(Of String, String) From {
+                        {"species", tokens(6)},
+                        {"genus", tokens(5)},
+                        {"family", tokens(4)},
+                        {"order", tokens(3)},
+                        {"class", tokens(2)},
+                        {"phylum", tokens(1)},
+                        {"superkingdom", tokens(0)}
+                    }
 
                     With x
                         .class = hash.TryGetValue(NcbiTaxonomyTree.class)

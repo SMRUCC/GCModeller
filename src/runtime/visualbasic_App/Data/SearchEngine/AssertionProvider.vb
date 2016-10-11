@@ -24,11 +24,12 @@ Public Module AssertionProvider
                End Function
     End Function
 
-    Public Function ContainsAny(t As Token(Of Tokens)) As IAssertion
+    Public Function ContainsAny(t As Token(Of Tokens), Optional allowInstr As Boolean = True) As IAssertion
         Dim term$ = t.Text.GetString("'")
 
         If Not term.Contains(":"c) Then
-            Dim evaluate As Func(Of String, Boolean) = term.CompileNormalSearch
+            Dim evaluate As Func(Of String, Boolean) =
+                term.CompileNormalSearch(allowInstr)
 
             Return Function(def, obj)
                        For Each x As NamedValue(Of String) In def.EnumerateFields(obj)
@@ -51,14 +52,14 @@ Public Module AssertionProvider
             assertion = term$.CompileMustSearch
         Else
             term = term.GetString("'")
-            assertion = term.CompileNormalSearch
+            assertion = term.CompileNormalSearch(allowInstr)
         End If
 
         Dim fName$ = fieldSearch.Name.ToLower
 
         Return _
             Function(def, obj)
-                For Each key$ In def.Schema.Keys
+                For Each key$ In def.Schema.Keys   ' 因为可能会存在大小写的问题，所以在这里不可以直接对字典查询
                     If LCase(key$) = fName$ Then
                         Dim searchIn As String =
                         Scripting.ToString(
