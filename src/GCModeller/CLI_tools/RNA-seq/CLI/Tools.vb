@@ -306,6 +306,8 @@ Partial Module CLI
         If tagsHash Is Nothing Then
             Dim ref As String = args("/raw")
 
+            Call "Loading raw fasta titles....".__DEBUG_ECHO
+
             If ref.FileExists Then
                 Using rawRef As New StreamIterator(ref)
                     tagsHash = New Dictionary(Of String, String)
@@ -318,6 +320,8 @@ Partial Module CLI
                         End If
                     Next
                 End Using
+
+                Call $"{ref.ToFileURL}, Jod done!".__DEBUG_ECHO
             End If
         End If
 
@@ -355,7 +359,7 @@ Partial Module CLI
                 stat = IDstats _
                     .Select(Function(x) New NamedValue(Of Integer)(x.Key, +x.Value) With {
                         .Description = getValue(x.Key)
-                    })
+                    }).ToArray
             End Using
         Else
             Dim result As New List(Of SimpleSegment)(reader.__export(genome, showDebug))
