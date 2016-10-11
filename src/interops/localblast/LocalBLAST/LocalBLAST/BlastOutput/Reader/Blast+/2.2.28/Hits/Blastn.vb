@@ -82,8 +82,13 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 Return New BlastnHit() {}
             End If
 
-            Dim Tokens As String() = Regex.Split(str, "^>", RegexOptions.Multiline).Skip(1)
-            Dim LQuery As BlastnHit() = Tokens.Select(AddressOf BlastnTryParse).MatrixToVector
+            Dim Tokens As String() = Regex _
+                .Split(str, "^>", RegexOptions.Multiline) _
+                .Skip(1) _
+                .ToArray
+            Dim LQuery As BlastnHit() = Tokens _
+                .Select(AddressOf BlastnTryParse) _
+                .MatrixToVector
 
             Return LQuery
         End Function
