@@ -37,7 +37,11 @@ Partial Module CLI
         Next
 
         For Each x In expList
-            x.x.Data.Add("MapHits", x.bufs.JoinBy("; "))
+            x.x.Data.Add("MapHits",
+                x.bufs _
+                .Distinct _
+                .OrderBy(Function(s) s) _
+                .JoinBy("; "))
         Next
 
         Return exps.SaveTo(out).CLICode
