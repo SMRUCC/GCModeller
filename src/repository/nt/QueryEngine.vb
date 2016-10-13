@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports mysqlClient = Oracle.LinuxCompatibility.MySQL.MySQL
@@ -85,7 +86,7 @@ Public Class QueryEngine
                                   Select x
                      Dim file As StreamWriter = writer(exp.Name)
 
-                     For Each m In LQuery
+                     For Each m As NamedValue(Of String) In LQuery
                          Dim seq$ = index.ReadNT_by_gi(gi:=m.Name)
                          Dim fa As New FastaToken With {
                              .Attributes = {"gi", m.Name, m.x},
@@ -96,6 +97,8 @@ Public Class QueryEngine
                          Call file.WriteLine(line$)
                      Next
                  Next
+
+                 Call {name, nt}.GetJson.__DEBUG_ECHO
              End Sub)
 
         For Each file In writer.Values
