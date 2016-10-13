@@ -152,7 +152,7 @@ Namespace gast
             Dim gast_table As String = args.table
 
             ' USearch variables
-            Dim usearch_cmd As String = gast.usearch.CliPath
+            Dim usearch_cmd As String = gast.usearch.CLIPath
             Dim min_pctid = args.minp
             Dim max_accepts = 15
             Dim max_rejects = 200
@@ -211,7 +211,7 @@ Namespace gast
                 '#
                 '#######################################
 
-                Dim mothur_cmd As String = gast.mothur.CliPath
+                Dim mothur_cmd As String = gast.mothur.CLIPath
                 mothur &= $" ""#unique.seqs(fasta={in_filename});"""
                 '   Call LOG.run_command(mothur_cmd)
 

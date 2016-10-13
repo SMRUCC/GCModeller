@@ -145,7 +145,7 @@ Partial Module Utilities
         Dim num_threads As Integer = args.GetValue("/num_threads", -1)
         Dim task As Func(Of String, String) =
             Function(path) _
-                $"{GetType(Utilities).API(NameOf(MirrorGroups))} /in {path.CliPath} /batch /fuzzy {fuzzy}"
+                $"{GetType(Utilities).API(NameOf(MirrorGroups))} /in {path.CLIPath} /batch /fuzzy {fuzzy}"
 
         For Each file As String In ls - l - r - wildcards("*.csv") <= inDIR
             CLI += task(file)
@@ -194,7 +194,7 @@ Partial Module Utilities
                 Dim sTrans As String = If(trans, "/trans", "")
                 Dim sstranded As String = If(stranded, "/stranded", "")
                 Dim out As String = EXPORT & "/" & mirror.BaseName & ".Csv"
-                Return $"{GetType(Utilities).API(NameOf(MirrorContext))} /in {mirror.CliPath} /PTT {PTT.CliPath} {sTrans} /strand {strand} /out {out.CliPath} {sstranded} /dist {dist}"
+                Return $"{GetType(Utilities).API(NameOf(MirrorContext))} /in {mirror.CLIPath} /PTT {PTT.CLIPath} {sTrans} /strand {strand} /out {out.CLIPath} {sstranded} /dist {dist}"
             End Function
 
         Dim mirrors As String() = LinqAPI.Exec(Of String) <= (ls - l - r - wildcards("*.Csv") <= [in])

@@ -164,10 +164,10 @@ Partial Module CLI
 
                     Dim regulon As String = regulons(genome.Key)
                     Dim sitesHits As String = genome.Value
-                    Dim out As String = (outDIR & $"/{fileBaseName}/{fileBaseName}-{sitesHits.BaseName}.csv").CliPath
+                    Dim out As String = (outDIR & $"/{fileBaseName}/{fileBaseName}-{sitesHits.BaseName}.csv").CLIPath
 
                     list +=
-                    $"{GetType(CLI).API(NameOf(CORNSingleThread))} /hit {regulon.CliPath} /hit-sites {sitesHits.CliPath} /sites {self.CliPath} /ref {selfRegulon.CliPath} /out {out}"
+                    $"{GetType(CLI).API(NameOf(CORNSingleThread))} /hit {regulon.CLIPath} /hit-sites {sitesHits.CLIPath} /sites {self.CLIPath} /ref {selfRegulon.CLIPath} /out {out}"
                 Next
 
                 Return list

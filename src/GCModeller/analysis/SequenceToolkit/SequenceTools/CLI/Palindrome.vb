@@ -186,7 +186,7 @@ Partial Module Utilities
 
             Call fa.SaveTo(tmp)
 
-            CLI += $"{GetType(Utilities).API(NameOf(FuzzyMirrors))} /in {tmp.CliPath} /out {path.CliPath} /cut {cut} /max-dist {maxDist} /min {min} /max {max}"
+            CLI += $"{GetType(Utilities).API(NameOf(FuzzyMirrors))} /in {tmp.CLIPath} /out {path.CLIPath} /cut {cut} /max-dist {maxDist} /min {min} /max {max}"
         Next
 
         Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))
@@ -211,7 +211,7 @@ Partial Module Utilities
         If args.GetBoolean("/mp") Then
             Dim api As String = GetType(Utilities).API(NameOf(SearchMirrotFasta))
             Dim task As Func(Of String, String) =
-                Function(path) $"{api} /nt {path.CliPath} /out {(out & "/" & path.BaseName & ".csv").CliPath} /min {Min} /max {Max}"
+                Function(path) $"{api} /nt {path.CLIPath} /out {(out & "/" & path.BaseName & ".csv").CLIPath} /min {Min} /max {Max}"
             Dim CLI As String() =
                 LinqAPI.Exec(Of String) <= From fa As FastaToken
                                            In NT
@@ -286,7 +286,7 @@ Partial Module Utilities
     Private Function __palindromeTask(fasta As FastaToken, EXPORT As String, min As Integer, max As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
         Dim Temp As String = App.GetAppSysTempFile(".fasta", App.PID)
-        Dim CLI As String = $"--Palindrome.From.Fasta /nt {Temp.CliPath} /out {csv.CliPath} /min {min} /max {max}"
+        Dim CLI As String = $"--Palindrome.From.Fasta /nt {Temp.CLIPath} /out {csv.CLIPath} /min {min} /max {max}"
         Call fasta.SaveTo(Temp)
 
         Return CLI
@@ -335,7 +335,7 @@ Partial Module Utilities
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
         Dim Temp As String = App.GetAppSysTempFile(".fasta")
         Dim CLI As String =
-            $"--Palindrome.Imperfects /in {Temp.CliPath} /out {csv.CliPath} /min {min} /max {max} /cutoff {cutoff} /max-dist {maxDist}"
+            $"--Palindrome.Imperfects /in {Temp.CLIPath} /out {csv.CLIPath} /min {min} /max {max} /cutoff {cutoff} /max-dist {maxDist}"
         Call fasta.SaveTo(Temp)
 
         Return CLI
@@ -401,7 +401,7 @@ Partial Module Utilities
                                     maxDist As Integer) As String
         Dim csv As String = $"{EXPORT}/{fasta.Title.NormalizePathString(True)}.csv"
         Dim Temp As String = App.GetAppSysTempFile(".fasta", App.PID)
-        Dim CLI As String = $"--Hairpinks /in {Temp.CliPath} /out {csv.CliPath} /min {min} /max {max} /cutoff {cutoff} /max-dist {maxDist}"
+        Dim CLI As String = $"--Hairpinks /in {Temp.CLIPath} /out {csv.CLIPath} /min {min} /max {max} /cutoff {cutoff} /max-dist {maxDist}"
         Call fasta.SaveTo(Temp)
 
         Return CLI
@@ -417,7 +417,7 @@ Partial Module Utilities
         Dim n As Integer = args.GetValue("/num_threads", -1)
 
         For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
-            CLI += $"{GetType(Utilities).API(NameOf(FilteringMatches))} /in {file.CliPath} /min {min} /out {(out & "/" & file.BaseName & ".Csv").CliPath}"
+            CLI += $"{GetType(Utilities).API(NameOf(FilteringMatches))} /in {file.CLIPath} /min {min} /out {(out & "/" & file.BaseName & ".Csv").CLIPath}"
         Next
 
         Return App.SelfFolks(CLI, LQuerySchedule.AutoConfig(n))

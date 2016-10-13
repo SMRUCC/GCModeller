@@ -618,7 +618,7 @@ Partial Module CLI
         Dim files As IEnumerable(Of String) = ls - l - r - wildcards("*.csv") <= inDIR
         Dim task As Func(Of String, String) =
             Function(file) _
-                $"{GetType(CLI).API(NameOf(PromoterSites))} /in {file.CliPath} /out {$"{out}/{file.BaseName}.csv".CliPath}"
+                $"{GetType(CLI).API(NameOf(PromoterSites))} /in {file.CLIPath} /out {$"{out}/{file.BaseName}.csv".CLIPath}"
         Dim CLI As String() = files.ToArray(task)
         Dim n As Integer = args.GetValue("/num_threads", -1)
 

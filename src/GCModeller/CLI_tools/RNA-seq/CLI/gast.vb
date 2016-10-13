@@ -70,7 +70,7 @@ Partial Module CLI
         Dim CLI As String() =
             LinqAPI.Exec(Of String) <= From fa As String
                                        In ls - l - r - wildcards("*.fna", "*.fasta", "*.fsa", "*.fa", "*.fas") <= [in]
-                                       Select $"{api} /in {fa.CliPath} /no-suffix"
+                                       Select $"{api} /in {fa.CLIPath} /no-suffix"
         For Each arg As String In CLI
             Call arg.__DEBUG_ECHO
         Next

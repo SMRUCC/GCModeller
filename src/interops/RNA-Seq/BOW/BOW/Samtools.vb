@@ -208,7 +208,7 @@ Public Module Samtools
     ''' <returns></returns>
     <ExportAPI("faidx", Info:="Like bwa, Samtools also requires us to go through several steps before we have our data in usable form. First, we need to have Samtools generate its own index of the reference genome")>
     Public Function Indexing(<Parameter("In.Fasta")> Fasta As String) As String
-        Dim cli As String = $"faidx {Fasta.CliPath}"
+        Dim cli As String = $"faidx {Fasta.CLIPath}"
         Dim Path As String = Fasta & ".fai"
 
         Try
@@ -233,7 +233,7 @@ Public Module Samtools
     Public Function Import(<Parameter("In.Sam")> Sam As String,
                             <Parameter("In.Ref_List")> Fai As String,
                             <Parameter("Out.Bam")> Bam As String) As Boolean
-        Dim cli As String = $"import {Fai.CliPath} {Sam.CliPath} {Bam.CliPath}"
+        Dim cli As String = $"import {Fai.CLIPath} {Sam.CLIPath} {Bam.CLIPath}"
 
         Try
 
@@ -267,7 +267,7 @@ multiple output file. These files can then be merged to produce a complete sorte
                          <Parameter("out.prefix")> Out As String,
                          <Parameter("Sort.Name")> Optional SortByName As Boolean = True) As Boolean
 
-        Dim cli As String = If(SortByName, $"sort -n {Bam.CliPath} {Out.CliPath}", $"sort {Bam.CliPath} {Out.CliPath}")
+        Dim cli As String = If(SortByName, $"sort -n {Bam.CLIPath} {Out.CLIPath}", $"sort {Bam.CLIPath} {Out.CLIPath}")
 
         Try
 
@@ -291,7 +291,7 @@ look-up of data in a (sorted) SAM or BAM. Like an index on a database, the gener
 read it to more efficiently work with the data in the associated files.")>
     Public Function Index(<Parameter("in.bam")> Bam As String,
                           <Parameter("out.index")> Optional Out As String = "") As Boolean
-        Dim cli As String = If(String.IsNullOrEmpty(Out), $"index {Bam.CliPath}", $"index {Bam.CliPath} {Out.CliPath}")
+        Dim cli As String = If(String.IsNullOrEmpty(Out), $"index {Bam.CLIPath}", $"index {Bam.CLIPath} {Out.CLIPath}")
 
         Try
 
@@ -312,7 +312,7 @@ read it to more efficiently work with the data in the associated files.")>
     ''' 
     <ExportAPI("Sam2Bam", Info:="Convert the text file format mapping file into the binary format of the mapping file.")>
     Public Function Sam2Bam(Sam As String, Bam As String) As Boolean
-        Dim Cli As String = $"view -bS -o {Bam.CliPath} {Sam.CliPath}"
+        Dim Cli As String = $"view -bS -o {Bam.CLIPath} {Sam.CLIPath}"
 
         Try
             Return 0 = New Microsoft.VisualBasic.CommandLine.IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.samtools)), Cli).Run()
@@ -337,7 +337,7 @@ regions of the reference genome. Compared to a graphics based viewer like IGV,[3
 possible to jumping to different positions along reference elements (using 'g') and display help information ('?').")>
     Public Function Viewing(<Parameter("aln.bam")> Bam As String,
                             <Parameter("ref.fasta")> Optional Fasta As String = "") As Boolean
-        Dim cli As String = If(String.IsNullOrEmpty(Fasta), $"tview {Bam.CliPath}", $"tview {Bam.CliPath} {Fasta.CliPath}")
+        Dim cli As String = If(String.IsNullOrEmpty(Fasta), $"tview {Bam.CLIPath}", $"tview {Bam.CLIPath} {Fasta.CLIPath}")
 
         Try
             Return 0 = New Microsoft.VisualBasic.CommandLine.IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.samtools)), cli).Run()
@@ -363,7 +363,7 @@ to select (possibly all of it) and passes only that data through. Input is usual
 but could be sam or bam data piped from any other command. Possible uses include extracting a subset of data into a new file, 
 converting between BAM and SAM formats, and just looking at the raw file contents. The order of extracted reads is preserved.")>
     Public Function Bam2Sam(Bam As String, Sam As String) As Boolean
-        Dim Cli As String = $"view -h -o {Sam.CliPath} {Bam.CliPath}"
+        Dim Cli As String = $"view -h -o {Sam.CLIPath} {Bam.CLIPath}"
 
         Try
             Return 0 = New Microsoft.VisualBasic.CommandLine.IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.samtools)), Cli).Run()

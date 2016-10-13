@@ -371,10 +371,10 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
         Dim ScriptBuilder = (From File As KeyValuePair(Of String, String)
                                  In SAM_DIR.LoadSourceEntryList({"*.sam"})
                              Let Script As String = New String(My.Resources.HTSeq_Count_Invoked)
-                             Select Script.Replace("{$Out.Dir}", Export.CliPath) _
-                                              .Replace("{$File.Sam}", File.Value.CliPath) _
-                                              .Replace("{$GFF}", GFF.CliPath) _
-                                              .Replace("{$Mode}", Mode.CliPath) _
+                             Select Script.Replace("{$Out.Dir}", Export.CLIPath) _
+                                              .Replace("{$File.Sam}", File.Value.CLIPath) _
+                                              .Replace("{$GFF}", GFF.CLIPath) _
+                                              .Replace("{$Mode}", Mode.CLIPath) _
                                               .Replace("{$RPKM}", If(RPKM, "TRUE", "FALSE"))).ToArray
 
         Dim ShoalShell As String = Settings.Session.TryGetShoalShellBin

@@ -41,7 +41,7 @@ Namespace Runtime
         End Function
 
         Public Shared Function CreateDefaultEnvironment(scanPlugins As String) As Dynamics
-            Call Runtime.SCOM.RuntimeEnvironment.ScanPlugins($"-scan.plugins -dir {scanPlugins.CliPath}")
+            Call Runtime.SCOM.RuntimeEnvironment.ScanPlugins($"-scan.plugins -dir {scanPlugins.CLIPath}")
             Return Dynamics.CreateDefaultEnvironment
         End Function
 

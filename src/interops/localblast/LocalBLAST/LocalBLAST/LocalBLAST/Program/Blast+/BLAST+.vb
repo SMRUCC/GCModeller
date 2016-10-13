@@ -64,9 +64,9 @@ Namespace LocalBLAST.Programs
         Sub New(BlastBin As String)
             Call MyBase.New(BlastBin)
 
-            Me._makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", BlastBin).CliPath
-            Me._blastpAssembly = String.Format("{0}\blastp.exe", BlastBin).CliPath
-            Me._blastnAssembly = String.Format("{0}\blastn.exe", BlastBin).CliPath
+            Me._makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", BlastBin).CLIPath
+            Me._blastpAssembly = String.Format("{0}\blastp.exe", BlastBin).CLIPath
+            Me._blastnAssembly = String.Format("{0}\blastn.exe", BlastBin).CLIPath
         End Sub
 
         Const MAKE_BLAST_DB_PROT As String = "-dbtype prot -in ""{0}"""

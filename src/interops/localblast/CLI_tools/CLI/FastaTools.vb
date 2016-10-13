@@ -132,7 +132,7 @@ Partial Module CLI
             Call Thread.Sleep(1500)
         Next
 
-        Return App.SelfFolk($"{GetType(CLI).API(NameOf(MergeFetchTaxonData))} /in {EXPORT.CliPath}").Run
+        Return App.SelfFolk($"{GetType(CLI).API(NameOf(MergeFetchTaxonData))} /in {EXPORT.CLIPath}").Run
     End Function
 
     <ExportAPI("/Taxonomy.efetch.Merge", Usage:="/Taxonomy.efetch.Merge /in <in.DIR> [/out <out.Csv>]")>
