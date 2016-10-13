@@ -33,8 +33,15 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SequenceModel.FASTA
 
+    ''' <summary>
+    ''' 读取超大型的fasta文件所需要的一个数据对象
+    ''' </summary>
     Public Class StreamIterator : Inherits BufferedStream
 
+        ''' <summary>
+        ''' 从指定的文件之中构建一个读取超大型的fasta文件所需要的一个数据对象
+        ''' </summary>
+        ''' <param name="path"></param>
         Sub New(path As String)
             Call MyBase.New(path, maxBufferSize:=1024 * 1024 * 128)
         End Sub

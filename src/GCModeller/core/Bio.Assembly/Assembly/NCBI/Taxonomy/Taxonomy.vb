@@ -95,7 +95,7 @@ Namespace Assembly.NCBI
     Public Module Taxonomy
 
         ''' <summary>
-        ''' 根绝文件的拓展名来识别
+        ''' {gi -> taxid}.(根绝文件的拓展名来识别)
         ''' </summary>
         ''' <param name="dmp"></param>
         ''' <returns></returns>
