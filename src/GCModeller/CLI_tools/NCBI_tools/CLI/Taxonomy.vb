@@ -169,7 +169,10 @@ Partial Module CLI
                 Dim taxid% = taxids(gi)
 
                 If Not output.ContainsKey(taxid) Then
-                    Dim out$ = Mid(fa.Title.NormalizePathString, 1, 45) & ".fasta"
+                    Dim out$ = fa.Title
+                    out = Regex.Replace(out, "gi\|\d+", "").NormalizePathString(False)
+                    out = Mid(out, 1, 45) & $"-{taxid}.fasta"
+                    out = EXPORT & "/" & out
                     output.Add(taxid, out.OpenWriter(Encodings.ASCII))
                 End If
 
