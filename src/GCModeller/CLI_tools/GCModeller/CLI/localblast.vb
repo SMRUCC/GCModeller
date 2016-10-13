@@ -91,7 +91,7 @@ Partial Module CLI
             Dim data = x.bufs
 
             For Each taxid In data
-                Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid.Key)
+                Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid.Key, True)
                 Dim tree$ = TaxonNode.Taxonomy(nodes, "; ")
 
                 output += New QueryArgument With {
