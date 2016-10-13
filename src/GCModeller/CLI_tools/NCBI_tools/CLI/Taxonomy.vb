@@ -169,7 +169,7 @@ Partial Module CLI
                 Dim taxid% = taxids(gi)
 
                 If Not output.ContainsKey(taxid) Then
-                    Dim out$ = fa.Title.NormalizePathString & ".fasta"
+                    Dim out$ = Mid(fa.Title.NormalizePathString, 1, 45) & ".fasta"
                     output.Add(taxid, out.OpenWriter(Encodings.ASCII))
                 End If
 
@@ -193,7 +193,8 @@ Partial Module CLI
     Public Function SplitByTaxidBatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-Split/")
-        Dim CLI As Func(Of String, String) = Function(file) $"{GetType(CLI).API(NameOf(SplitByTaxid))} /in {file.CLIPath} /out {out.CLIPath}"
+        Dim CLI As Func(Of String, String) =
+            Function(file) $"{GetType(CLI).API(NameOf(SplitByTaxid))} /in {file.CLIPath} /out {(out & "/" & file.BaseName.Trim).CLIPath}"
         Dim n As Integer = args.GetValue("/num_threads", -1)
         Dim tasks$() = (ls - l - r - wildcards("*.fasta") <= [in]).ToArray(CLI)
 
