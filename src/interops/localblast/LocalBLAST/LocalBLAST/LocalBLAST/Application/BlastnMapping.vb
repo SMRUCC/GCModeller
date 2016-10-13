@@ -158,6 +158,8 @@ Namespace LocalBLAST.Application
             End Get
         End Property
 
+        Public Property Extensions As Dictionary(Of String, String)
+
         Public Overrides Function ToString() As String
             Return $"{Me.ReadQuery} //{MappingLocation.ToString}"
         End Function
