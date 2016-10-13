@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Assembly.NCBI.TaxonNode
 Imports SMRUCC.genomics.foundation.BIOM.v10
 
 Public Module BIOM
@@ -97,10 +98,6 @@ Public Module BIOM
         }
     End Function
 
-    'k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}
-
-    ReadOnly __BIOMPrefix As String() = {"k__", "p__", "c__", "o__", "f__", "g__", "s__"}
-
     <Extension>
     Public Function EXPORT(table As IEnumerable(Of RelativeSample)) As Json
         Dim array As Names() = LinqAPI.Exec(Of Names) <=
@@ -109,7 +106,7 @@ Public Module BIOM
             Select New Names With {
                 .NumOfSeqs = 100,
                 .Composition = x.Samples.ToDictionary(Function(xx) xx.Key, Function(xx) CStr(xx.Value * 100)),
-                .taxonomy = x.Taxonomy.Split(";"c).SeqIterator.ToArray(Function(s) __BIOMPrefix(s.i) & s.obj).JoinBy(";"),
+                .taxonomy = x.Taxonomy.Split(";"c).SeqIterator.ToArray(Function(s) BIOMPrefix(s.i) & s.obj).JoinBy(";"),
                 .Unique = x.OTU
             }
         Return array.Imports(array.Length + 10, 0)

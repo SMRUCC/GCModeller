@@ -73,6 +73,31 @@ Namespace Assembly.NCBI
                          .ToDictionary(Function(x) x.rank,
                                        Function(x) x.Group.First.name)
         End Function
+
+        ''' <summary>
+        ''' ``k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}``
+        ''' </summary>
+        Public Shared ReadOnly Property BIOMPrefix As String() = {"k__", "p__", "c__", "o__", "f__", "g__", "s__"}
+
+        Public Shared Function BuildBIOM(nodes As IEnumerable(Of TaxonNode)) As String
+            Dim data As Dictionary(Of String, String) = ToHash(nodes)
+            Dim list As New List(Of String)
+
+            For Each r$ In NcbiTaxonomyTree.stdranks.Reverse
+                If data.ContainsKey(r) Then
+                    list.Add(data(r$))
+                Else
+                    Exit For
+                End If
+            Next
+
+            SyncLock BIOMPrefix
+                Return list _
+                    .SeqIterator _
+                    .Select(Function(x) BIOMPrefix(x.i) & x.obj) _
+                    .JoinBy(";")
+            End SyncLock
+        End Function
     End Class
 
     Public Structure Ranks
@@ -161,7 +186,7 @@ Namespace Assembly.NCBI
         ''' + phylum
         ''' + superkingdom
         ''' </summary>
-        Friend Shared ReadOnly stdranks As New List(Of String) From {
+        Friend Shared ReadOnly stdranks$() = {
             "species",
             "genus",
             "family",
@@ -440,7 +465,7 @@ Namespace Assembly.NCBI
  _
                     From lvl As TaxonNode
                     In lineage
-                    Where stdranks.IndexOf(lvl.rank) > -1
+                    Where Array.IndexOf(stdranks, lvl.rank) > -1
                     Select lvl
 
                 Dim lastlevel As Integer = 0

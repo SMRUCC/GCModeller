@@ -330,7 +330,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Blastn.Maps.Taxid",
-               Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /gi2taxid <gi2taxid.dmp> [/out <out.csv>]")>
+               Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /gi2taxid <gi2taxid.dmp> [/tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
     Public Function BlastnMapsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args("/gi2taxid")
@@ -338,6 +338,12 @@ Partial Module CLI
         Dim taxids As BucketDictionary(Of Integer, Integer) = Taxonomy.AcquireAuto(gi2taxid)
         Dim maps As BlastnMapping() = [in].LoadCsv(Of BlastnMapping)
         Dim notFound As New List(Of String)
+        Dim taxDIR$ = args("/tax")
+        Dim tax As NcbiTaxonomyTree = Nothing
+
+        If taxDIR.DirectoryExists Then
+            tax = New NcbiTaxonomyTree(taxDIR)
+        End If
 
         Call "All data load done!".__DEBUG_ECHO
 
@@ -351,7 +357,18 @@ Partial Module CLI
             End If
 
             If taxids.ContainsKey(gi) Then
-                Call x.Extensions.Add("taxid", taxids(gi))
+                Dim taxid% = taxids(gi)
+
+                Call x.Extensions.Add("taxid", taxid)
+
+                If Not tax Is Nothing Then
+                    Dim nodes = tax.GetAscendantsWithRanksAndNames(taxid, True)
+                    Dim tree = TaxonNode.Taxonomy(nodes, "; ")
+                    Dim name = tax(taxid).name
+
+                    Call x.Extensions.Add("Taxonomy", name)
+                    Call x.Extensions.Add("Tree", tree)
+                End If
             Else
                 notFound += CStr(gi)
                 Call x.Reference.Warning
@@ -361,5 +378,32 @@ Partial Module CLI
         Call notFound.FlushAllLines(out.TrimSuffix & ".not-found.txt")
 
         Return maps.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/BlastnMaps.Select",
+               Usage:="/BlastnMaps.Select /in <reads.id.list.txt> /data <blastn.maps.csv> [/out <out.csv>]")>
+    Public Function SelectMaps(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim data As String = args("/data")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & data.BaseName & ".csv")
+        Dim list$() = [in].ReadAllLines
+        Dim maps As BlastnMapping() = data.LoadCsv(Of BlastnMapping)
+        Dim mapsData = (From x As BlastnMapping
+                        In maps
+                        Select x
+                        Group x By x.ReadQuery Into Group) _
+                             .ToDictionary(Function(x) x.ReadQuery,
+                                           Function(x) x.Group.ToArray)
+        Dim selects As New List(Of BlastnMapping)
+
+        For Each id$ In list
+            If mapsData.ContainsKey(id) Then
+                selects += mapsData(id)
+            Else
+                Call id.Warning
+            End If
+        Next
+
+        Return selects.SaveTo(out).CLICode
     End Function
 End Module

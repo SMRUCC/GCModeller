@@ -5,17 +5,19 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Parallel.Linq
 
 Partial Module CLI
 
@@ -202,5 +204,82 @@ Partial Module CLI
         Dim tasks$() = (ls - l - r - wildcards("*.fasta") <= [in]).ToArray(CLI)
 
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
+    End Function
+
+    Public Class OTUData : Implements sIdEnumerable
+        <Column("#OTU_num")> Public Property OTU As String Implements sIdEnumerable.Identifier
+        Public Property Data As Dictionary(Of String, String)
+
+        Sub New()
+        End Sub
+
+        Sub New(data As OTUData)
+            With Me
+                .OTU = data.OTU
+                .Data = New Dictionary(Of String, String)(data.Data)
+            End With
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    Public Class MapHits
+        <Collection("MapHits",)> Public Property MapHits As String()
+        Public Property Data As Dictionary(Of String, String)
+        Public Property taxid As Integer
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    <ExportAPI("/OTU.associated", Usage:="/OTU.associated /in <OTU.Data> /maps <mapsHit.csv> [/out <out.csv>]")>
+    Public Function OTUAssociated(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim maps As String = args("/maps")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & maps.BaseName & ".OTU.associated.csv")
+        Dim OTUData = [in].LoadCsv(Of OTUData).ToDictionary
+        Dim mapsData = maps.LoadCsv(Of MapHits)
+        Dim output As New List(Of OTUData)
+
+        For Each x As MapHits In mapsData
+            For Each OTU$ In x.MapHits
+                Dim find As New OTUData(OTUData(OTU))
+                For Each k In x.Data
+                    find.Data(k.Key) = k.Value
+                Next
+
+                output += find
+            Next
+        Next
+
+        Return output.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/OTU.Taxonomy", Usage:="/OTU.Taxonomy /in <OTU.Data> /maps <mapsHit.csv> /tax <taxonomy:nodes/names> [/out <out.csv>]")>
+    Public Function OTU_Taxonomy(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim maps As String = args("/maps")
+        Dim tax As String = args("/tax")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & maps.BaseName & ".OTU.Taxonomy.csv")
+        Dim OTUData = [in].LoadCsv(Of OTUData).ToDictionary
+        Dim mapsData = maps.LoadCsv(Of MapHits)
+        Dim output As New List(Of OTUData)
+        Dim taxonomy As New NcbiTaxonomyTree(tax)
+
+        For Each x As MapHits In mapsData
+            For Each OTU$ In x.MapHits
+                Dim find As New OTUData(OTUData(OTU))
+                For Each k In x.Data
+                    find.Data(k.Key) = k.Value
+                Next
+
+                output += find
+            Next
+        Next
+
+        Return output.SaveTo(out).CLICode
     End Function
 End Module
