@@ -35,121 +35,6 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.NCBI
 
     ''' <summary>
-    ''' The tree node calculation model for <see cref="NcbiTaxonomyTree"/>
-    ''' </summary>
-    Public Class TaxonNode
-
-        Public Property taxid As Integer
-        Public Property name As String
-        Public Property rank As String
-        ''' <summary>
-        ''' 当前的节点的父节点的编号: ``<see cref="taxid"/>``
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property parent As String
-        Public Property children As List(Of Integer)
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-
-        ''' <summary>
-        ''' 直接处理<see cref="NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(Integer, Boolean)"/>的输出数据，不需要进行额外的排序操作
-        ''' </summary>
-        ''' <param name="tree"></param>
-        ''' <param name="delimiter"></param>
-        ''' <returns></returns>
-        Public Shared Function Taxonomy(tree As TaxonNode(), Optional delimiter As String = ",") As String
-            tree = tree.Reverse.ToArray
-            Return String.Join(delimiter, tree.ToArray(Function(x) x.name))
-        End Function
-
-        Public Shared Function ToHash(tree As IEnumerable(Of TaxonNode)) As Dictionary(Of String, String)
-            Return (From x As TaxonNode
-                    In tree
-                    Where Not String.IsNullOrEmpty(x.rank)
-                    Select x
-                    Group x By x.rank Into Group) _
-                         .ToDictionary(Function(x) x.rank,
-                                       Function(x) x.Group.First.name)
-        End Function
-
-        ''' <summary>
-        ''' ``k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}``
-        ''' </summary>
-        Public Shared ReadOnly Property BIOMPrefix As String() = {"k__", "p__", "c__", "o__", "f__", "g__", "s__"}
-
-        Public Shared Function BuildBIOM(nodes As IEnumerable(Of TaxonNode)) As String
-            Dim data As Dictionary(Of String, String) = ToHash(nodes)
-            Dim list As New List(Of String)
-
-            For Each r$ In NcbiTaxonomyTree.stdranks.Reverse
-                If data.ContainsKey(r) Then
-                    list.Add(data(r$))
-                Else
-                    Exit For
-                End If
-            Next
-
-            SyncLock BIOMPrefix
-                Return list _
-                    .SeqIterator _
-                    .Select(Function(x) BIOMPrefix(x.i) & x.obj) _
-                    .JoinBy(";")
-            End SyncLock
-        End Function
-    End Class
-
-    Public Structure Ranks
-
-        Public species As TaxonNode(),
-            genus As TaxonNode(),
-            family As TaxonNode(),
-            order As TaxonNode(),
-            [class] As TaxonNode(),
-            phylum As TaxonNode(),
-            superkingdom As TaxonNode()
-
-        Sub New(tree As NcbiTaxonomyTree)
-            Dim species As New List(Of TaxonNode),
-                genus As New List(Of TaxonNode),
-                family As New List(Of TaxonNode),
-                order As New List(Of TaxonNode),
-                [class] As New List(Of TaxonNode),
-                phylum As New List(Of TaxonNode),
-                superkingdom As New List(Of TaxonNode)
-
-            For Each x In tree.Taxonomy
-                Select Case x.Value.rank
-                    Case NcbiTaxonomyTree.class
-                        [class] += x.Value
-                    Case NcbiTaxonomyTree.family
-                        family += x.Value
-                    Case NcbiTaxonomyTree.genus
-                        genus += x.Value
-                    Case NcbiTaxonomyTree.order
-                        order += x.Value
-                    Case NcbiTaxonomyTree.phylum
-                        phylum += x.Value
-                    Case NcbiTaxonomyTree.species
-                        species += x.Value
-                    Case NcbiTaxonomyTree.superkingdom
-                        superkingdom += x.Value
-                    Case Nothing
-                    Case Else
-                        Throw New InvalidConstraintException(x.Value.GetJson)
-                End Select
-
-                x.Value.taxid = x.Key
-            Next
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Structure
-
-    ''' <summary>
     ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
     ''' ``names.dmp`` files 
     ''' 
@@ -208,9 +93,9 @@ Namespace Assembly.NCBI
         ''' ``{taxid -> taxonomy_node}``
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Taxonomy As New Dictionary(Of Integer, TaxonNode)
+        Public ReadOnly Property Taxonomy As New Dictionary(Of Integer, TaxonomyNode)
 
-        Default Public ReadOnly Property GetNode(taxid%) As TaxonNode
+        Default Public ReadOnly Property GetNode(taxid%) As TaxonomyNode
             Get
                 Return _Taxonomy(taxid%)
             End Get
@@ -280,12 +165,12 @@ Namespace Assembly.NCBI
                 Dim parent_taxid As Integer = CInt(lineTokens(1))
 
                 If Taxonomy.ContainsKey(taxid) Then ': # 18204/1308852
-                    Dim x As TaxonNode = Taxonomy(taxid)
+                    Dim x As TaxonomyNode = Taxonomy(taxid)
                     x.rank = lineTokens(2)
                     x.parent = parent_taxid
                     Taxonomy(taxid) = x ' dic(taxid).Replace(rank = line[2][1:             -1], parent=parent_taxid)
                 Else ':           # 1290648/1308852
-                    Taxonomy(taxid) = New TaxonNode With {
+                    Taxonomy(taxid) = New TaxonomyNode With {
                         .name = taxid2name(taxid),
                         .rank = lineTokens(2),
                         .parent = parent_taxid,
@@ -298,7 +183,7 @@ Namespace Assembly.NCBI
                 If Taxonomy.ContainsKey(parent_taxid) Then
                     Taxonomy(parent_taxid).children.Add(taxid)
                 Else
-                    Taxonomy(parent_taxid) = New TaxonNode With {
+                    Taxonomy(parent_taxid) = New TaxonomyNode With {
                         .name = taxid2name(parent_taxid),
                         .rank = Nothing,
                         .parent = Nothing,
@@ -392,7 +277,7 @@ Namespace Assembly.NCBI
         ''' <param name="taxid"></param>
         ''' <param name="only_std_ranks"></param>
         ''' <returns></returns>
-        Public Function GetAscendantsWithRanksAndNames(taxid As Integer, Optional only_std_ranks As Boolean = False) As TaxonNode()
+        Public Function GetAscendantsWithRanksAndNames(taxid As Integer, Optional only_std_ranks As Boolean = False) As TaxonomyNode()
             If Not Taxonomy.ContainsKey(taxid) Then
                 Return {}
             Else
@@ -406,7 +291,7 @@ Namespace Assembly.NCBI
         ''' <param name="taxids"></param>
         ''' <param name="only_std_ranks"></param>
         ''' <returns></returns>
-        Public Function GetAscendantsWithRanksAndNames(taxids As IEnumerable(Of Integer), Optional only_std_ranks As Boolean = False) As Dictionary(Of Integer, TaxonNode())
+        Public Function GetAscendantsWithRanksAndNames(taxids As IEnumerable(Of Integer), Optional only_std_ranks As Boolean = False) As Dictionary(Of Integer, TaxonomyNode())
             '""" 
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
             '    >>> tree.getAscendantsWithRanksAndNames([1,562]) # doctest: +NORMALIZE_WHITESPACE
@@ -429,7 +314,7 @@ Namespace Assembly.NCBI
             '      Node(taxid=1224, rank='phylum', name='Proteobacteria'),
             '      Node(taxid=2, rank='superkingdom', name='Bacteria')]}
             '"""
-            Dim result As New Dictionary(Of Integer, TaxonNode())
+            Dim result As New Dictionary(Of Integer, TaxonomyNode())
 
             For Each taxid In taxids
                 If Not Taxonomy.ContainsKey(taxid) Then
@@ -442,9 +327,9 @@ Namespace Assembly.NCBI
             Return result
         End Function
 
-        Private Function __ascendantsWithRanksAndNames(taxid As Integer, only_std_ranks As Boolean) As TaxonNode()
-            Dim lineage As New List(Of TaxonNode) From {
-                New TaxonNode With {
+        Private Function __ascendantsWithRanksAndNames(taxid As Integer, only_std_ranks As Boolean) As TaxonomyNode()
+            Dim lineage As New List(Of TaxonomyNode) From {
+                New TaxonomyNode With {
                     .taxid = taxid,
                     .rank = Taxonomy(taxid).rank,
                     .name = Taxonomy(taxid).name
@@ -453,7 +338,7 @@ Namespace Assembly.NCBI
 
             Do While Taxonomy(taxid).parent IsNot Nothing
                 taxid = Taxonomy(taxid).parent
-                lineage += New TaxonNode With {
+                lineage += New TaxonomyNode With {
                     .taxid = taxid,
                     .rank = Taxonomy(taxid).rank,
                     .name = Taxonomy(taxid).name
@@ -461,9 +346,9 @@ Namespace Assembly.NCBI
             Loop
 
             If only_std_ranks Then
-                Dim std_lineage = LinqAPI.MakeList(Of TaxonNode) <=
+                Dim std_lineage = LinqAPI.MakeList(Of TaxonomyNode) <=
  _
-                    From lvl As TaxonNode
+                    From lvl As TaxonomyNode
                     In lineage
                     Where Array.IndexOf(stdranks, lvl.rank) > -1
                     Select lvl
@@ -536,7 +421,7 @@ Namespace Assembly.NCBI
         ''' </summary>
         ''' <param name="taxids"></param>
         ''' <returns></returns>
-        Public Function GetDescendantsWithRanksAndNames(ParamArray taxids As Integer()) As Dictionary(Of Integer, TaxonNode())
+        Public Function GetDescendantsWithRanksAndNames(ParamArray taxids As Integer()) As Dictionary(Of Integer, TaxonomyNode())
             '""" Returns the ordered list of the descendants with their respective ranks and names for a LIST of taxids.
 
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
@@ -549,14 +434,14 @@ Namespace Assembly.NCBI
             '    'Escherichia vulneris NBRC 102420'
             '"""
             '    Node = namedtuple('Node', ['taxid', 'rank', 'name'])
-            Dim result As New Dictionary(Of Integer, TaxonNode())
+            Dim result As New Dictionary(Of Integer, TaxonomyNode())
 
             For Each taxid In taxids
-                result(taxid) = LinqAPI.Exec(Of TaxonNode) <=
+                result(taxid) = LinqAPI.Exec(Of TaxonomyNode) <=
  _
                     From descendant As Integer
                     In __descendants(taxid)
-                    Select New TaxonNode With {
+                    Select New TaxonomyNode With {
                         .taxid = descendant,
                         .rank = Taxonomy(descendant).rank,
                         .name = Taxonomy(descendant).name
@@ -604,7 +489,7 @@ Namespace Assembly.NCBI
         ''' </summary>
         ''' <param name="taxid"></param>
         ''' <returns></returns>
-        Public Function GetLeavesWithRanksAndNames(taxid As Integer) As TaxonNode()
+        Public Function GetLeavesWithRanksAndNames(taxid As Integer) As TaxonomyNode()
             '""" Returns all the descendant taxids that are leaves of the tree from 
             '    a branch/clade determined by ONE taxid.
 
@@ -614,11 +499,11 @@ Namespace Assembly.NCBI
             '    Node(taxid=1266749, rank='no rank', name='Escherichia coli B1C1')
             '"""
             '   Node = namedtuple('Node', ['taxid', 'rank', 'name'])                            
-            Dim result As TaxonNode() = LinqAPI.Exec(Of TaxonNode) <=
+            Dim result As TaxonomyNode() = LinqAPI.Exec(Of TaxonomyNode) <=
  _
                 From leaf As Integer
                 In GetLeaves(taxid)
-                Select New TaxonNode With {
+                Select New TaxonomyNode With {
                     .taxid = leaf,
                     .rank = Taxonomy(leaf).rank,
                     .name = Taxonomy(leaf).name
@@ -650,9 +535,9 @@ Namespace Assembly.NCBI
             '    [2, 2157, 2759, 10239, 12884]
             '""" 
             Dim LQuery = LinqAPI.Exec(Of
-                KeyValuePair(Of Integer, TaxonNode)) <=
+                KeyValuePair(Of Integer, TaxonomyNode)) <=
  _
-                From node As KeyValuePair(Of Integer, TaxonNode)
+                From node As KeyValuePair(Of Integer, TaxonomyNode)
                 In Taxonomy
                 Where node.Value.rank = rank
                 Select node

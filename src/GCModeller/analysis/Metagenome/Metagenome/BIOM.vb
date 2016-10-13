@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
-Imports SMRUCC.genomics.Assembly.NCBI.TaxonNode
+Imports SMRUCC.genomics.Assembly.NCBI.TaxonomyNode
 Imports SMRUCC.genomics.foundation.BIOM.v10
 
 Public Module BIOM

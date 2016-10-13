@@ -108,13 +108,13 @@ Namespace gast
                     Dim title As String = seq.Title
                     Dim gi As Integer = __gi(title)
                     Dim taxid As Integer = giTaxid(gi)
-                    Dim nodes As TaxonNode() = tree.GetAscendantsWithRanksAndNames(taxid, True)
+                    Dim nodes As TaxonomyNode() = tree.GetAscendantsWithRanksAndNames(taxid, True)
 
                     If nodes.Length = 0 Then
                         Continue For
                     End If
 
-                    Dim taxonomy As String = TaxonNode.Taxonomy(nodes, ";")
+                    Dim taxonomy As String = TaxonomyNode.Taxonomy(nodes, ";")
 
                     seq = New FastaToken({title}, seq.SequenceData)
                     title = {title, taxonomy, "1"}.JoinBy(vbTab)

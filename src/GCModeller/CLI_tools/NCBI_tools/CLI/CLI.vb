@@ -116,7 +116,7 @@ Module CLI
             For Each x In LQuery
                 If taxiHash.ContainsKey(x.gi) Then
                     x.x.taxid = taxiHash(x.gi)
-                    x.x.TaxonomyTree = TaxonNode.Taxonomy(taxTree.GetAscendantsWithRanksAndNames({CInt(x.x.taxid)}, True).Values.First)
+                    x.x.TaxonomyTree = TaxonomyNode.Taxonomy(taxTree.GetAscendantsWithRanksAndNames({CInt(x.x.taxid)}, True).Values.First)
                 Else
                     Call x.gi.ToString.Warning
                 End If
@@ -152,8 +152,8 @@ Module CLI
                 If gi > 0 AndAlso taxiHash.ContainsKey(gi) Then
                     Dim taxi As Integer = taxiHash(gi)
                     Dim tree = taxTree.GetAscendantsWithRanksAndNames({taxi}, True)
-                    Dim taxonomy As String = TaxonNode.Taxonomy(tree.First.Value)
-                    Dim hash = TaxonNode.ToHash(tree.First.Value)
+                    Dim taxonomy As String = TaxonomyNode.Taxonomy(tree.First.Value)
+                    Dim hash = TaxonomyNode.ToHash(tree.First.Value)
 
 #If DEBUG Then
                     VBDebugger.Mute = True
@@ -223,7 +223,7 @@ Module CLI
                     Dim taxid As Integer = giTaxidhash(gi)
                     x.taxid = taxid
                     Dim nodes = tree.GetAscendantsWithRanksAndNames({taxid}, True)
-                    Dim hash = TaxonNode.ToHash(nodes.First.Value)
+                    Dim hash = TaxonomyNode.ToHash(nodes.First.Value)
 
                     With x
                         .class = hash.TryGetValue(NcbiTaxonomyTree.class)
@@ -415,7 +415,7 @@ Module CLI
         Sub New()
         End Sub
 
-        Sub New(tree As IEnumerable(Of TaxonNode))
+        Sub New(tree As IEnumerable(Of TaxonomyNode))
             MyBase.New(tree)
         End Sub
 
@@ -440,8 +440,8 @@ Module CLI
         Sub New()
         End Sub
 
-        Sub New(tree As IEnumerable(Of TaxonNode))
-            Dim data = TaxonNode.ToHash(tree)
+        Sub New(tree As IEnumerable(Of TaxonomyNode))
+            Dim data = TaxonomyNode.ToHash(tree)
 
             With Me
                 .class = data.TryGetValue(NcbiTaxonomyTree.class)

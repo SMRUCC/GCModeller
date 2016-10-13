@@ -92,7 +92,7 @@ Partial Module CLI
 
             For Each taxid In data
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid.Key, True)
-                Dim tree$ = TaxonNode.Taxonomy(nodes, "; ")
+                Dim tree$ = TaxonomyNode.Taxonomy(nodes, "; ")
 
                 output += New QueryArgument With {
                     .Name = x.x.Name,
