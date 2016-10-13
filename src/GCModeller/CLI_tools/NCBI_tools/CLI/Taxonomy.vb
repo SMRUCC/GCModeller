@@ -188,8 +188,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Split.By.Taxid",
-               Usage:="/Split.By.Taxid /in <nt.fasta.DIR> [/num_threads <-1> /out <outDIR>]")>
+    <ExportAPI("/Split.By.Taxid.Batch",
+               Usage:="/Split.By.Taxid.Batch /in <nt.fasta.DIR> [/num_threads <-1> /out <outDIR>]")>
     Public Function SplitByTaxidBatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-Split/")
