@@ -440,8 +440,8 @@ Namespace LocalBLAST.Programs
         ''' <remarks></remarks>
         Sub New(BlastBin As String)
             MyBase.New(BlastBin)
-            BLASTALLAssembly = (BlastBin & "/blastall.exe").CliPath
-            FormatDbAssembly = (BlastBin & "/formatdb.exe").CliPath
+            BLASTALLAssembly = (BlastBin & "/blastall.exe").CLIPath
+            FormatDbAssembly = (BlastBin & "/formatdb.exe").CLIPath
         End Sub
 
         Public Shared Widening Operator CType(BLASTBin As String) As LocalBLAST

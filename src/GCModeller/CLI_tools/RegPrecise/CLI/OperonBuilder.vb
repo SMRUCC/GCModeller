@@ -125,7 +125,7 @@ Partial Module CLI
                                       New NamedValue(Of String())(NameOf(TFs), TFs.ToArray))
         Dim task As Func(Of Dictionary(Of String, String), String) =
             Function(source) _
-                $"{api} /bbh {source(NameOf(bbh)).CliPath} /PTT {source(NameOf(PTT)).CliPath} /TF-bbh {source(NameOf(TFs)).CliPath} /out {(out & source(NameOf(PTT)).BaseName & ".regulons.csv").CliPath} /regprecise {regprecise.CliPath}"
+                $"{api} /bbh {source(NameOf(bbh)).CLIPath} /PTT {source(NameOf(PTT)).CLIPath} /TF-bbh {source(NameOf(TFs)).CLIPath} /out {(out & source(NameOf(PTT)).BaseName & ".regulons.csv").CLIPath} /regprecise {regprecise.CLIPath}"
         Dim CLI As String() = pairs.ToArray(task)
 
         Return App.SelfFolks(CLI, n)

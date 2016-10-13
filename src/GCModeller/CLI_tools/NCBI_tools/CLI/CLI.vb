@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d88a8425b07929738cde8e45dc389cbf, ..\GCModeller\CLI_tools\NCBI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -39,6 +39,7 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -487,6 +488,27 @@ Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/gi.Matchs",
+              Usage:="/gi.Matchs /in <nt.parts.fasta.DIR> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt.DIR> /num_threads <-1>]")>
+    Public Function giMatchs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim gi2taxid As String = args("/gi2taxid")
+        Dim out As String = args("/out")
+        Dim CLI As Func(Of String, String)
+        Dim n As Integer = args.GetValue("/num_threads", -1)
+
+        If String.IsNullOrEmpty(out) Then
+            CLI = Function(file) $"{GetType(CLI).API(NameOf(giMatch))} /in {file.CLIPath} /gi2taxid {gi2taxid.CLIPath}"
+        Else
+            CLI = Function(file) $"{GetType(CLI).API(NameOf(giMatch))} /in {file.CLIPath} /gi2taxid {gi2taxid.CLIPath} /out {(out & "/" & file.BaseName & ".gi_match.txt").CLIPath}"
+        End If
+
+        Dim tasks$() =
+            (ls - l - r - wildcards("*.fasta") <= [in]).ToArray(CLI)
+
+        Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function
 End Module
 

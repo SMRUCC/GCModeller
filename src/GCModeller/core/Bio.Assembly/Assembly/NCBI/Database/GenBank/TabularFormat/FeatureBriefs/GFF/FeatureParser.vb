@@ -44,7 +44,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         Public Function ToString(x As Feature) As String
             Dim attrs As String() = (From Token As KeyValuePair(Of String, String)
                                      In x.attributes
-                                     Select $"{Token.Key}={Token.Value.CliPath}").ToArray
+                                     Select $"{Token.Key}={Token.Value.CLIPath}").ToArray
             Dim attrsHash As String = String.Join(";", attrs)
             Dim tokens As String() = New String() {
                 x.seqname, x.source, x.Feature, CStr(x.start), CStr(x.Ends), x.score, x.Strand.GetBriefCode, x.frame, attrsHash

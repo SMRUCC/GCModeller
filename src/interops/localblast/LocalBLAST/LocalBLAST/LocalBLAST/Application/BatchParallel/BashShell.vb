@@ -102,8 +102,8 @@ Namespace LocalBLAST.Application.BatchParallel
             For Each sbj As String In subject
                 Dim out As String = VennDataBuilder.BuildFileName(query, sbj, outDIR)
 
-                Call script.AppendLine($"{makeblastdb} -dbtype prot -in {sbj.CliPath}")
-                Call script.AppendLine($"{blastp} -in {query.CliPath} -db {sbj.CliPath} -evalue {evalue} -out {out.CliPath}")
+                Call script.AppendLine($"{makeblastdb} -dbtype prot -in {sbj.CLIPath}")
+                Call script.AppendLine($"{blastp} -in {query.CLIPath} -db {sbj.CLIPath} -evalue {evalue} -out {out.CLIPath}")
                 Call script.AppendLine(vbCrLf)
             Next
 

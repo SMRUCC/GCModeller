@@ -141,7 +141,7 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
             Else
                 Call BatchTask(lstFiles,
                                getExe:=getThis,
-                               getCLI:=Function(x) $"/Export.Blastn /in {x.x.CliPath}",
+                               getCLI:=Function(x) $"/Export.Blastn /in {x.x.CLIPath}",
                                numThreads:=num_threads,
                                TimeInterval:=100)
             End If

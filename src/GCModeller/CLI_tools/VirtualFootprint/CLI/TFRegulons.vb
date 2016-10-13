@@ -91,7 +91,7 @@ Partial Module CLI
         Dim genomes As IEnumerable(Of String) = ls - l - r - wildcards("*.PTT") <= PTT
         Dim task As Func(Of String, String) =
             Function(genome) _
-                $"{GetType(CLI).API(NameOf(CLI.TFDensity))} /TF {TFs.CliPath} /PTT {genome.CliPath} /ranges {ranges} /out {out & $"/{genome.BaseName}.Csv"} {cis} {unstrand} /batch"
+                $"{GetType(CLI).API(NameOf(CLI.TFDensity))} /TF {TFs.CLIPath} /PTT {genome.CLIPath} /ranges {ranges} /out {out & $"/{genome.BaseName}.Csv"} {cis} {unstrand} /batch"
 
         Dim CLIs As String() = genomes.ToArray(task)
 

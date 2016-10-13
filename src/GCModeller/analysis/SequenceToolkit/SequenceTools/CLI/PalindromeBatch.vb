@@ -79,7 +79,7 @@ Partial Module Utilities
         Dim onlyPalindrome As String = If(args.GetBoolean("/Palindrome"), "/Palindrome", "")
         Dim task As Func(Of String, String) =
             Function(fa) _
-                $"{api} /in {fa.CliPath} /min {min} /max {max} /min-appears {minAp} /out {out.CliPath} /cutoff {cutoff} /max-dist {maxDist} /partitions {parts} /batch {onlyPalindrome}"
+                $"{api} /in {fa.CLIPath} /min {min} /max {max} /min-appears {minAp} /out {out.CLIPath} /cutoff {cutoff} /max-dist {maxDist} /partitions {parts} /batch {onlyPalindrome}"
         Dim CLI As String() = files.ToArray(task)
 
         Return App.SelfFolks(CLI, parallel:=n)

@@ -122,7 +122,7 @@ Partial Module CLI
         Dim entries = BuildBBHEntry(inDIR, "*.csv")
         Dim taskBuilder As Func(Of String, String, String) =
             Function(query, subject) _
-                $"{GetType(CLI).API(NameOf(BBHExport2))} /qvs {query.CliPath} /svq {subject.CliPath} /identities {identities} /coverage {coverage} /out {outDIR & "/" & query.BaseName & ".bbh.csv"} {isAll}"
+                $"{GetType(CLI).API(NameOf(BBHExport2))} /qvs {query.CLIPath} /svq {subject.CLIPath} /identities {identities} /coverage {coverage} /out {outDIR & "/" & query.BaseName & ".bbh.csv"} {isAll}"
         Dim CLI As String() =
             LinqAPI.Exec(Of String) <= From x In entries Select taskBuilder(x.Key.FilePath, x.Value.FilePath)
         Dim numT As Integer = args.GetValue("/num_threads", -1)
@@ -316,7 +316,7 @@ Partial Module CLI
         Dim [overrides] As String = If(args.GetBoolean("/overrides"), "/overrides", "")
         Dim taskBuilder As Func(Of String, String) =
             Function(blastp) _
-                $"{GetType(CLI).API(NameOf(SBHThread))} /in {blastp.CliPath} /out {(out & "/" & blastp.BaseName & ".csv").CliPath} /coverage {coverage} /identities {identities} {[overrides]}"
+                $"{GetType(CLI).API(NameOf(SBHThread))} /in {blastp.CLIPath} /out {(out & "/" & blastp.BaseName & ".csv").CLIPath} /coverage {coverage} /identities {identities} {[overrides]}"
         Dim CLI As String() =
             LinqAPI.Exec(Of String) <= From blastp As String
                                        In ls - l - r - wildcards("*.txt") <= importsDIR

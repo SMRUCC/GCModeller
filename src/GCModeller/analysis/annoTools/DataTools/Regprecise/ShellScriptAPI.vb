@@ -175,7 +175,7 @@ Call MEME.Invoke_Batch {Source}, {Export}, 0.001, 100, zoops, -dna"
             Dim Export As String = Settings.Session.SettingsFile.RepositoryRoot & "/Regprecise/MEME/Matrix/"  'MEME 程序输出的文件夹，里面应该包含着meme.txt文件
 
             If rebuildMatrix Then
-                Dim Script As String = MEME.Replace("{Source}", sites.CliPath).Replace("{Export}", Export)
+                Dim Script As String = MEME.Replace("{Source}", sites.CLIPath).Replace("{Export}", Export)
                 Call Settings.Session.FolkShoalThread(Script, Settings.Session.SettingsFile.RepositoryRoot & "/Regprecise/MEME/meme.log")
             End If
 

@@ -119,7 +119,7 @@ Public Module CLI
                 Dim gbkDIR As String = gbkHash(lkey)
 
                 query = DIR & "/query.txt"
-                CLIs += $"{GetType(CLI).API(NameOf(FetchThread))} /gbk {gbkDIR.CliPath} /query {query.CliPath} /out {out.CliPath}"
+                CLIs += $"{GetType(CLI).API(NameOf(FetchThread))} /gbk {gbkDIR.CLIPath} /query {query.CLIPath} /out {out.CLIPath}"
             End If
         Next
 
@@ -229,7 +229,7 @@ Public Module CLI
             Dim exists As String = existsDIR & "/" & genome.BacteriaGenome.name.NormalizePathString(True)
             Dim query = genome.CreateKEGGQuery
             Dim queryFile As String = outDIR & "/query.txt"
-            Dim CLI As String = $"Download.Sequence /query {queryFile.CliPath} /out {outDIR.CliToken} /source {exists.CliToken}"
+            Dim CLI As String = $"Download.Sequence /query {queryFile.CLIPath} /out {outDIR.CliToken} /source {exists.CliToken}"
 
             Call query.GetDoc.SaveTo(queryFile)
             Call New IORedirectFile(KEGG, CLI).Run()
@@ -251,7 +251,7 @@ Public Module CLI
                 Continue For
             End If
 
-            Dim CLI As String = $"/Gets.prot_motif /query {query.CliPath}"
+            Dim CLI As String = $"/Gets.prot_motif /query {query.CLIPath}"
             Call New IORedirectFile(KEGG, CLI).Run()
         Next
 

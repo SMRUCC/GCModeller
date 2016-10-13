@@ -34,12 +34,12 @@ Public Module InternalCommands
            ScriptSource,
            Sub(PathEntry As KeyValuePair(Of String, String))
                Call Threading.Thread.Sleep(5 * 1000)
-               Dim proc = Process.Start(Shoal, PathEntry.Value.CliPath) '执行脚本
+               Dim proc = Process.Start(Shoal, PathEntry.Value.CLIPath) '执行脚本
                Call proc.WaitForExit()
            End Sub)
         Else
             For Each PathEntry In ScriptSource
-                Dim proc = Process.Start(Shoal, PathEntry.Value.CliPath)  '执行脚本
+                Dim proc = Process.Start(Shoal, PathEntry.Value.CLIPath)  '执行脚本
                 Call Console.WriteLine($"[DEBUG {Now.ToString}] Execute task {PathEntry.Value.ToFileURL}.....")
                 Call proc.WaitForExit()
             Next

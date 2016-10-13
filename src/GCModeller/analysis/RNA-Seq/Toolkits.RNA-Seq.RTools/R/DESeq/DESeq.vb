@@ -435,8 +435,8 @@ Huber, W.",
             End If
 
             Dim Cli As String = If(PairedEnd,
-                $"-m HTSeq.scripts.count -r name -f bam {SAM.value.CliPath} {GFF.CliPath}",
-                $"-m HTSeq.scripts.count {SAM.value.CliPath} {GFF.CliPath}") 'bam文件还需要加一些开关来指定格式？
+                $"-m HTSeq.scripts.count -r name -f bam {SAM.value.CLIPath} {GFF.CLIPath}",
+                $"-m HTSeq.scripts.count {SAM.value.CLIPath} {GFF.CLIPath}") 'bam文件还需要加一些开关来指定格式？
             Dim HTseq As IIORedirectAbstract = New IORedirectFile(Settings.Session.SettingsFile.Python, Cli)
             Dim i As Boolean = 0 = HTseq.Run()
 

@@ -181,7 +181,7 @@ Public Module BWA
             SAI = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & System.IO.Path.GetFileNameWithoutExtension(Fastaq) & ".sai"
         End If
 
-        Dim argvs As String = String.Format(ALN_SA_COORDINATES, SAI.CliPath, Reference.CliPath, Fastaq.CliPath)
+        Dim argvs As String = String.Format(ALN_SA_COORDINATES, SAI.CLIPath, Reference.CLIPath, Fastaq.CLIPath)
         Dim IO As New Microsoft.VisualBasic.CommandLine.IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.BWA)), argv:=argvs)
 
         Call IO.Run()
@@ -210,7 +210,7 @@ Public Module BWA
 
         Dim BWA_EXE As String = CliResCommon.TryRelease(NameOf(My.Resources.BWA))
 
-        Call Console.WriteLine($"[DEBUG {Now.ToString}] BWA:  {BWA_EXE.ToFileURL.CliPath }")
+        Call Console.WriteLine($"[DEBUG {Now.ToString}] BWA:  {BWA_EXE.ToFileURL.CLIPath }")
 
         '对左右数据生成SA坐标
         Dim LeftSAI As String = FileIO.FileSystem.GetParentPath(Left) & "/" & IO.Path.GetFileNameWithoutExtension(Left) & ".sai"
@@ -314,7 +314,7 @@ Public Module BWA
             SAM = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & System.IO.Path.GetFileNameWithoutExtension(Fastaq) & ".sam"
         End If
 
-        Dim argvs As String = $"samse -f {SAM.CliPath} { Reference.CliPath} {SAI.CliPath} {Fastaq.CliPath}"
+        Dim argvs As String = $"samse -f {SAM.CLIPath} { Reference.CLIPath} {SAI.CLIPath} {Fastaq.CLIPath}"
         Dim Invoke As New Microsoft.VisualBasic.CommandLine.IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.BWA)), argvs)
         Dim i As Integer = Invoke.Run
 
@@ -339,7 +339,7 @@ Public Module BWA
             SAM = FileIO.FileSystem.GetParentPath(Reference) & "/" & IO.Path.GetFileNameWithoutExtension(Reference) & ".sam"
         End If
 
-        Dim argvs As String = $"sampe -f {SAM.CliPath} {Reference.CliPath} {LeftSAI.CliPath} {RightSAI.CliPath} {LeftFQ.CliPath} {RightFQ.CliPath}"
+        Dim argvs As String = $"sampe -f {SAM.CLIPath} {Reference.CLIPath} {LeftSAI.CLIPath} {RightSAI.CLIPath} {LeftFQ.CLIPath} {RightFQ.CLIPath}"
         Dim Invoke As New Microsoft.VisualBasic.CommandLine.IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.BWA)), argvs)
         Dim i As Integer = Invoke.Run
 

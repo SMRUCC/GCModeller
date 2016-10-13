@@ -930,9 +930,9 @@ SET_END:    Dim ends = i
                               Optional Debug As Boolean = True) As String
         Dim Circos As String = GetCircosScript()
         Call doc.Save(outDIR)
-        Call $"perl {Circos.CliPath} -conf {doc.FilePath.CliPath}{If(Debug, CircosAPI.DEBUG, "")}".SaveTo(outDIR & "/run.bat")
+        Call $"perl {Circos.CLIPath} -conf {doc.FilePath.CLIPath}{If(Debug, CircosAPI.DEBUG, "")}".SaveTo(outDIR & "/run.bat")
         Call ("#! /bin/bash" & vbCrLf &
-             $"perl {Circos.CliPath.Replace("\", "/")} -conf {doc.FilePath.CliPath.Replace("\", "/")}{If(Debug, CircosAPI.DEBUG, "")}").SaveTo(outDIR & "/run.sh")
+             $"perl {Circos.CLIPath.Replace("\", "/")} -conf {doc.FilePath.CLIPath.Replace("\", "/")}{If(Debug, CircosAPI.DEBUG, "")}").SaveTo(outDIR & "/run.sh")
 
         Return doc.FilePath
     End Function

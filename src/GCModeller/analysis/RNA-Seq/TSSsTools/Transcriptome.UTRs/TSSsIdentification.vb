@@ -96,7 +96,7 @@ and the shared number of the start site just lets you have a simple glimp on you
         Dim Files = mappings.LoadSourceEntryList({"*.csv"})
         Dim outDir As String = FileIO.FileSystem.GetDirectoryInfo(mappings & "/Enrichment.Out/").FullName
         Dim Scripts = (From file In Files.AsParallel
-                       Select script = My.Resources.TSSs_Enrichment.Replace("{reads.csv}", file.Value.CliPath).Replace("{saved.csv}", $"{outDir}/{file.Key}.csv"),
+                       Select script = My.Resources.TSSs_Enrichment.Replace("{reads.csv}", file.Value.CLIPath).Replace("{saved.csv}", $"{outDir}/{file.Key}.csv"),
                                        path = file.Value).ToArray
         Call Settings.Session.Initialize(GetType(TSSsIdentification))
         Dim LQuery = (From script

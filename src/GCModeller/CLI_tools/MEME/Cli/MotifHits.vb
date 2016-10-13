@@ -355,7 +355,7 @@ Partial Module CLI
         Dim DIRs As IEnumerable(Of String) = ls - l - lsDIR <= [in]
         Dim task As Func(Of String, String) =
             Function(DIR) _
-                $"{GetType(CLI).API(NameOf(SiteMASTScan))} /mast {DIR.CliPath} /batch /out {(out & "/" & DIR.BaseName & ".Csv").CliPath}"
+                $"{GetType(CLI).API(NameOf(SiteMASTScan))} /mast {DIR.CLIPath} /batch /out {(out & "/" & DIR.BaseName & ".Csv").CLIPath}"
         Dim CLI As String() = DIRs.ToArray(task)
         Dim num As Integer = args.GetValue("/num_threads", -1)
 
@@ -426,7 +426,7 @@ Partial Module CLI
         Dim gffFiles As IEnumerable(Of String) = ls - l - wildcards("*.gff") <= gffs
         Dim task As Func(Of String, String, String) =
             Function(site, gff) _
-                $"{GetType(CLI).API(NameOf(MotifInfo))} /loci {site.CliPath} /motifs {motifs.CliPath} /gff {gff.CliPath} /atg-dist {dist} /out {(out & "-" & site.BaseName & ".genomics_context.csv").CliPath}"
+                $"{GetType(CLI).API(NameOf(MotifInfo))} /loci {site.CLIPath} /motifs {motifs.CLIPath} /gff {gff.CLIPath} /atg-dist {dist} /out {(out & "-" & site.BaseName & ".genomics_context.csv").CLIPath}"
         Dim CLI As String() = PathMatch.Pairs(sites, gffFiles).ToArray(Function(x) task(x.Pair1, x.Pair2))
         Dim n As Integer = args.GetInt32("/num_threads")
 

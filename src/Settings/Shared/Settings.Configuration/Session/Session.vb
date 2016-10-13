@@ -222,11 +222,11 @@ The path value of the java program usually is in the location like: ""C:\Program
 
                 SettingsFile.Java = java
                 SettingsFile.Save()
-                Call Console.WriteLine($"Set up java.exe path to {java.CliPath}")
+                Call Console.WriteLine($"Set up java.exe path to {java.CLIPath}")
 
                 Return java
             Else
-                Call Console.WriteLine($"The Java path is not exists on {java.CliPath}!")
+                Call Console.WriteLine($"The Java path is not exists on {java.CLIPath}!")
                 Return ""
             End If
         End Function
@@ -241,11 +241,11 @@ The path value of the java program usually is in the location like: ""C:\Program
 
                 SettingsFile.Python = Python
                 SettingsFile.Save()
-                Call $"Set up python.exe path to {Python.CliPath}".__DEBUG_ECHO
+                Call $"Set up python.exe path to {Python.CLIPath}".__DEBUG_ECHO
 
                 Return Python
             Else
-                Call $"The {NameOf(Python)} path is not exists on {Python.CliPath}!".__DEBUG_ECHO
+                Call $"The {NameOf(Python)} path is not exists on {Python.CLIPath}!".__DEBUG_ECHO
                 Return ""
             End If
         End Function
@@ -320,7 +320,7 @@ The path value of the java program usually is in the location like: ""C:\Program
 
             Return New Microsoft.VisualBasic.CommandLine.IORedirectFile(
             ShoalShell,
-            argv:=ScriptPath.CliPath,
+            argv:=ScriptPath.CLIPath,
             stdRedirect:=STDOUT).Run
         End Function
     End Module

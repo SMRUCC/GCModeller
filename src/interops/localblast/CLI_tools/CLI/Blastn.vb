@@ -200,7 +200,7 @@ Partial Module CLI
         Dim reward As Integer = args.GetValue("/reward", -1)
         Dim task As Func(Of String, String) =
             Function(fa) _
-                $"{GetType(CLI).API(NameOf(BlastnQuery))} /query {fa.CliPath} /db {db.CliPath} /word_size {ws} /evalue {evalue} /thread /out {out.CliPath} /penalty {penalty} /reward {reward}"
+                $"{GetType(CLI).API(NameOf(BlastnQuery))} /query {fa.CLIPath} /db {db.CLIPath} /word_size {ws} /evalue {evalue} /thread /out {out.CLIPath} /penalty {penalty} /reward {reward}"
         Dim CLI As String() =
             (ls - l - r - wildcards("*.fna", "*.fa", "*.fsa", "*.fasta") <= [in]).ToArray(task)
 
@@ -219,12 +219,17 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.blastnMaps",
-               Usage:="/Export.blastnMaps /in <blastn.txt> [/out <out.csv>]")>
+               Usage:="/Export.blastnMaps /in <blastn.txt> [/best /out <out.csv>]")>
+    <ParameterInfo("/best", True,
+                   AcceptTypes:={GetType(Boolean)},
+                   Description:="Only output the first hit result for each query as best?")>
     Public Function ExportBlastnMaps(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Csv")
+        Dim best As Boolean = args.GetBoolean("/best")
+        Dim out As String = args _
+            .GetValue("/out", [in].TrimSuffix & $"{If(best, ".best", "")}.Csv")
         Dim blastn As v228 = BlastPlus.TryParseUltraLarge([in])
-        Dim maps As BlastnMapping() = MapsAPI.Export(blastn)
+        Dim maps As BlastnMapping() = MapsAPI.Export(blastn, best)
         Return maps.SaveTo(out)
     End Function
 
@@ -236,7 +241,7 @@ Partial Module CLI
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
         Dim task As Func(Of String, String) =
             Function(path) _
-                $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CliPath} /out {(out & "/" & path.BaseName & ".Csv").CliPath}"
+                $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).ToArray(task)
 
         Return App.SelfFolks(CLI, numThreads)

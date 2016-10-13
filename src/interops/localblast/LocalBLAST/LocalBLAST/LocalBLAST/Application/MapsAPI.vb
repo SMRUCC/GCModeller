@@ -152,15 +152,33 @@ Namespace LocalBLAST.Application
         ''' 从blastn日志文件之中导出fastq对基因组的比对的结果
         ''' </summary>
         ''' <param name="blastnMapping"></param>
+        ''' <param name="best">前提是query里面的hit的原有的顺序没有被破坏掉</param>
         ''' <returns></returns>
-        ''' 
         <Extension>
-        Public Function Export(blastnMapping As v228) As BlastnMapping()
-            Return Export(blastnMapping.Queries)
+        Public Function Export(blastnMapping As v228, Optional best As Boolean = False) As BlastnMapping()
+            If Not best Then _
+                Return blastnMapping.Queries.Export
+
+            Return Export(
+                blastnMapping _
+                .Queries _
+                .Select(Function(query) As Query
+                            Dim copy As New Query(query)
+
+                            If copy.SubjectHits.IsNullOrEmpty Then
+                                copy.SubjectHits = {}
+                            Else
+                                copy.SubjectHits = {
+                                    copy.SubjectHits.First
+                                }
+                            End If
+
+                            Return copy
+                        End Function))
         End Function
 
         <Extension>
-        Public Function Export(lstQuery As Query()) As BlastnMapping()
+        Public Function Export(lstQuery As IEnumerable(Of Query)) As BlastnMapping()
             Dim LQuery As BlastnMapping() =
                 LinqAPI.Exec(Of BlastnMapping) <= From query As Query
                                                   In lstQuery.AsParallel
