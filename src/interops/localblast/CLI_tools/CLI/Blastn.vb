@@ -337,6 +337,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".taxid.csv")
         Dim taxids As BucketDictionary(Of Integer, Integer) = Taxonomy.AcquireAuto(gi2taxid)
         Dim maps As BlastnMapping() = [in].LoadCsv(Of BlastnMapping)
+        Dim notFound As New List(Of String)
 
         Call "All data load done!".__DEBUG_ECHO
 
@@ -352,9 +353,12 @@ Partial Module CLI
             If taxids.ContainsKey(gi) Then
                 Call x.Extensions.Add("taxid", taxids(gi))
             Else
+                notFound += CStr(gi)
                 Call x.Reference.Warning
             End If
         Next
+
+        Call notFound.FlushAllLines(out.TrimSuffix & ".not-found.txt")
 
         Return maps.SaveTo(out).CLICode
     End Function
