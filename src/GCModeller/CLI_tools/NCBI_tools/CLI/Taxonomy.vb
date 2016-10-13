@@ -1,14 +1,21 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.Parallel.Linq
 
 Partial Module CLI
 
@@ -133,8 +140,63 @@ Partial Module CLI
         Return output.SaveTo(out).CLICode
     End Function
 
-    '<Extension>
-    'Public Function Search(data As Ranks, evaluate As Func(Of String, Double)) As (score As Double, id As Integer, node As TaxonNode)
+    <ExportAPI("/Split.By.Taxid",
+               Usage:="/Split.By.Taxid /in <nt.fasta> [/gi2taxid <gi2taxid.txt> /out <outDIR>]")>
+    Public Function SplitByTaxid(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim gi2taxid As String = args.GetValue("/gi2taxid", [in].TrimSuffix & ".txt")
+        Dim EXPORT As String = args.GetValue("/out", [in].TrimSuffix)
 
-    'End Function
+        If Not gi2taxid.FileExists Then
+            gi2taxid = gi2taxid.TrimSuffix & ".gi_match.txt"
+        End If
+        If Not gi2taxid.FileExists Then
+            Throw New Exception($"Unable found gi2taxid file for " & [in].ToFileURL)
+        End If
+
+        Dim taxids As BucketDictionary(Of Integer, Integer) =
+            Taxonomy.AcquireAuto(gi2taxid)
+        Dim output As New Dictionary(Of Integer, StreamWriter)
+
+        For Each fa As FastaToken In New StreamIterator([in]).ReadStream
+            Dim gi As Integer = CInt(
+                Regex.Match(fa.Title, "gi\|\d+") _
+                .Value _
+                .Split("|"c) _
+                .Last)
+
+            If taxids.ContainsKey(gi) Then
+                Dim taxid% = taxids(gi)
+
+                If Not output.ContainsKey(taxid) Then
+                    Dim out$ = fa.Title.NormalizePathString & ".fasta"
+                    output.Add(taxid, out.OpenWriter(Encodings.ASCII))
+                End If
+
+                Call output(taxid).WriteLine(fa.GenerateDocument(120))
+            Else
+                Call (fa.Title & " not found taxid!").PrintException
+            End If
+        Next
+
+        For Each file In output.Values
+            Call file.Flush()
+            Call file.Close()
+            Call file.Dispose()
+        Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Split.By.Taxid",
+               Usage:="/Split.By.Taxid /in <nt.fasta.DIR> [/num_threads <-1> /out <outDIR>]")>
+    Public Function SplitByTaxidBatch(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & "-Split/")
+        Dim CLI As Func(Of String, String) = Function(file) $"{GetType(CLI).API(NameOf(SplitByTaxid))} /in {file.CLIPath} /out {out.CLIPath}"
+        Dim n As Integer = args.GetValue("/num_threads", -1)
+        Dim tasks$() = (ls - l - r - wildcards("*.fasta") <= [in]).ToArray(CLI)
+
+        Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
+    End Function
 End Module
