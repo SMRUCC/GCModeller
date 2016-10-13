@@ -460,17 +460,23 @@ Module CLI
     End Class
 
     <ExportAPI("/gi.Match",
-               Usage:="/gi.Match /in <nt.parts.fasta> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
+               Usage:="/gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
     Public Function giMatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args("/gi2taxid")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gi_match.txt")
-        Dim gis As New List(Of String)
+        Dim gis As List(Of String)
         Dim gi As String
 
-        For Each seq As FastaToken In New StreamIterator([in]).ReadStream
-            gis += Regex.Match(seq.Title, "gi\|\d+", RegexICSng).Value.Split("|"c).Last
-        Next
+        If FastaFile.IsValidFastaFile([in]) Then
+            gis = New List(Of String)
+
+            For Each seq As FastaToken In New StreamIterator([in]).ReadStream
+                gis += Regex.Match(seq.Title, "gi\|\d+", RegexICSng).Value.Split("|"c).Last
+            Next
+        Else
+            gis = New List(Of String)([in].ReadAllLines)
+        End If
 
         Dim hash = (From id As String
                     In gis

@@ -652,5 +652,10 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         Public Shared Operator <(source As FastaFile, path As String) As Boolean
             Throw New NotSupportedException
         End Operator
+
+        Public Shared Function IsValidFastaFile(path As String) As Boolean
+            Dim firstLine$ = path.ReadFirstLine
+            Return firstLine.First = ">"c
+        End Function
     End Class
 End Namespace
