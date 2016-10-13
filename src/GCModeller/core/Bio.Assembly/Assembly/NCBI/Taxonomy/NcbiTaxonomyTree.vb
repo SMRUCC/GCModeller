@@ -179,7 +179,17 @@ Namespace Assembly.NCBI
             phylum As String = NameOf(phylum),
             superkingdom As String = NameOf(superkingdom)
 
+        ''' <summary>
+        ''' ``{taxid -> taxonomy_node}``
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Taxonomy As New Dictionary(Of Integer, TaxonNode)
+
+        Default Public ReadOnly Property GetNode(taxid%) As TaxonNode
+            Get
+                Return _Taxonomy(taxid%)
+            End Get
+        End Property
 
         Const sciNdeli As String = "scientific name"
 
