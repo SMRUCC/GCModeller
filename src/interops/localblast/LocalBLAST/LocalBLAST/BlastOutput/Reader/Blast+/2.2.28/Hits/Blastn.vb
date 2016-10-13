@@ -77,6 +77,12 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Const scoreFLAG As String = " Score ="
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <returns></returns>
+        ''' <remarks>非并行化的，所以会保持原有的顺序</remarks>
         Public Shared Function hitParser(str As String) As BlastnHit()
             If InStr(str, NO_HITS_FOUND) Then
                 Return New BlastnHit() {}
@@ -85,7 +91,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim Tokens As String() = Regex _
                 .Split(str, "^>", RegexOptions.Multiline) _
                 .Skip(1) _
-                .ToArray
+                .ToArray  ' 分段
             Dim LQuery As BlastnHit() = Tokens _
                 .Select(AddressOf BlastnTryParse) _
                 .MatrixToVector

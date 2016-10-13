@@ -52,6 +52,24 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         <XmlArray> Public Property SubjectHits As SubjectHit()
 
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' Value copy
+        ''' </summary>
+        ''' <param name="query"></param>
+        Sub New(query As Query)
+            With Me
+                .EffectiveSearchSpace = query.EffectiveSearchSpace
+                .Gapped = query.Gapped
+                .p = query.p
+                .QueryLength = query.QueryLength
+                .QueryName = query.QueryName
+                .SubjectHits = query.SubjectHits
+            End With
+        End Sub
+
         Public Overrides Function ToString() As String
             Return QueryName
         End Function
@@ -103,33 +121,40 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Query.SubjectHits = SubjectHit.GetItems(strText)
 
             Dim TEMP = Parameter.TryParseBlastPlusParameters(strText)
+            Dim ssp$ = Regex.Match(strText, EffectiveSearchSpaceRegexp, RegexOptions.Singleline).Value.Match("\d+")
             Query.p = TEMP(0)
             Query.Gapped = TEMP(1)
-            Query.EffectiveSearchSpace = Val(Regex.Match(strText, "Effective search space used: \d+", RegexOptions.Singleline).Value.Match("\d+"))
+            Query.EffectiveSearchSpace = Val(ssp)
 
             Return Query
         End Function
 
+        Const EffectiveSearchSpaceRegexp$ = "Effective search space used: \d+"
+
         ''' <summary>
         ''' <see cref="ReaderTypes.BLASTN"/>
         ''' </summary>
-        ''' <param name="strText"></param>
+        ''' <param name="text"></param>
         ''' <returns></returns>
-        Public Shared Function BlastnOutputParser(strText As String) As Query
-            Dim Query As Query = New Query With {
-                .QueryName = GetQueryName(strText),
-                .QueryLength = GetQueryLength(strText)
+        Public Shared Function BlastnOutputParser(text As String) As Query
+            Dim hitsBuffer As BlastnHit() = BlastnHit.hitParser(text)
+            Dim query As New Query With {
+                .QueryName = GetQueryName(text),
+                .QueryLength = GetQueryLength(text),
+                .SubjectHits = Constrain(Of SubjectHit, BlastnHit)(hitsBuffer)
             }
-            Dim hitsBuffer As BlastnHit() = BlastnHit.hitParser(strText)
 
-            Query.SubjectHits = Constrain(Of SubjectHit, BlastnHit)(hitsBuffer)
+            Dim TEMP = Parameter.TryParseBlastPlusBlastn(text)
+            Dim ssp$ = Regex _
+                .Match(text, EffectiveSearchSpaceRegexp, RegexOptions.Singleline) _
+                .Value _
+                .Match("\d+")
 
-            Dim TEMP = Parameter.TryParseBlastPlusBlastn(strText)
-            Query.p = TEMP(0)
-            Query.Gapped = TEMP(1)
-            Query.EffectiveSearchSpace = Val(Regex.Match(strText, "Effective search space used: \d+", RegexOptions.Singleline).Value.Match("\d+"))
+            query.p = TEMP(0)
+            query.Gapped = TEMP(1)
+            query.EffectiveSearchSpace = Val(ssp$)
 
-            Return Query
+            Return query
         End Function
 
         Private Shared Function GetQueryLength(text As String) As Integer

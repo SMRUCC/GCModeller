@@ -328,14 +328,17 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Function __tryParseUltraLarge(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As v228
-            Dim readsBuffer As String() = __loadData(path, CHUNK_SIZE, Encoding).ToArray
+            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, Encoding)
             Call "[Loading Job Done!] Start to regex parsing!".__DEBUG_ECHO
 
             'The regular expression parsing function just single thread, here using parallel to parsing the cache data can speed up the regular expression parsing job when dealing with the ultra large text file.
-            Dim Sections As LinkedList(Of String) = (From strLine As String In readsBuffer.AsParallel
+            Dim Sections As LinkedList(Of String) = (From strLine As String
+                                                     In readsBuffer.AsParallel
                                                      Let strData As String = strLine.Replace(oldChar:=NIL, newChar:=" "c)
                                                      Select __queryParser(strData)).MatrixToUltraLargeVector
-            Call ($"[Parsing Job Done!]  ==> {Sections.Count} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
+
+            Call ($"[Parsing Job Done!]  ==> {Sections.Count} Queries..." & vbCrLf & vbTab & vbTab &
+                "Start to loading blast query hits data...").__DEBUG_ECHO
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim queryParser As QueryParser = __getParser(path)
@@ -415,7 +418,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
             If Encoding Is Nothing Then Encoding = Encoding.UTF8    ' The default text encoding of the blast log is utf8
 
-            Using p As CBusyIndicator = New CBusyIndicator(_start:=True)
+            Using p As New CBusyIndicator(_start:=True)
                 Return __tryParseUltraLarge(Path, CHUNK_SIZE, Encoding)
             End Using
         End Function

@@ -219,12 +219,17 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.blastnMaps",
-               Usage:="/Export.blastnMaps /in <blastn.txt> [/out <out.csv>]")>
+               Usage:="/Export.blastnMaps /in <blastn.txt> [/best /out <out.csv>]")>
+    <ParameterInfo("/best", True,
+                   AcceptTypes:={GetType(Boolean)},
+                   Description:="Only output the first hit result for each query as best?")>
     Public Function ExportBlastnMaps(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Csv")
+        Dim best As Boolean = args.GetBoolean("/best")
+        Dim out As String = args _
+            .GetValue("/out", [in].TrimSuffix & $"{If(best, ".best", "")}.Csv")
         Dim blastn As v228 = BlastPlus.TryParseUltraLarge([in])
-        Dim maps As BlastnMapping() = MapsAPI.Export(blastn)
+        Dim maps As BlastnMapping() = MapsAPI.Export(blastn, best)
         Return maps.SaveTo(out)
     End Function
 
