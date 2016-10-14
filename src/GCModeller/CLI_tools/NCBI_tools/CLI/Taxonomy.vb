@@ -17,6 +17,7 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -206,25 +207,6 @@ Partial Module CLI
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function
 
-    Public Class OTUData : Implements sIdEnumerable
-        <Column("#OTU_num")> Public Property OTU As String Implements sIdEnumerable.Identifier
-        Public Property Data As Dictionary(Of String, String)
-
-        Sub New()
-        End Sub
-
-        Sub New(data As OTUData)
-            With Me
-                .OTU = data.OTU
-                .Data = New Dictionary(Of String, String)(data.Data)
-            End With
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
-
     Public Class MapHits
         <Collection("MapHits",)> Public Property MapHits As String()
         Public Property Data As Dictionary(Of String, String)
@@ -272,9 +254,11 @@ Partial Module CLI
         For Each x As MapHits In mapsData
             For Each OTU$ In x.MapHits
                 Dim find As New OTUData(OTUData(OTU))
+
                 For Each k In x.Data
                     find.Data(k.Key) = k.Value
                 Next
+                find.Data("Taxonomy") = TaxonomyNode.BuildBIOM(taxonomy.GetAscendantsWithRanksAndNames(x.taxid, True))
 
                 output += find
             Next

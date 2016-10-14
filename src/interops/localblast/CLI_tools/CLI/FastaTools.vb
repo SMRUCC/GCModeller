@@ -103,18 +103,20 @@ Partial Module CLI
                 End If
 
                 Call words.GetJson.__DEBUG_ECHO
+                Call Tasks.Parallel.ForEach(source.ReadStream,
+                    Sub(fa)
+                        For Each sKey As String In words
+                            Dim title As String = fa.Title
 
-                For Each fa As FastaToken In source.ReadStream
-                    For Each sKey As String In words
-                        Dim title As String = fa.Title
+                            If InStr(title, sKey, CompareMethod.Text) > 0 OrElse
+                                Regex.Match(title, sKey, RegexICSng).Success Then
 
-                        If InStr(title, sKey, CompareMethod.Text) > 0 OrElse
-                            Regex.Match(title, sKey, RegexICSng).Success Then
-
-                            Call file.WriteLine(fa.GenerateDocument(-1))
-                        End If
-                    Next
-                Next
+                                SyncLock file
+                                    Call file.WriteLine(fa.GenerateDocument(-1))
+                                End SyncLock
+                            End If
+                        Next
+                    End Sub)
             End If
         End Using
 
