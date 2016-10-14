@@ -406,4 +406,17 @@ Partial Module CLI
 
         Return selects.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/BlastnMaps.Select.Top", Usage:="/BlastnMaps.Select.Top /in <maps.csv> [/out <out.csv>]")>
+    Public Function TopBlastnMapReads(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-TopBest.csv")
+        Dim data = [in].LoadCsv(Of BlastnMapping)
+        Dim best = (From x As BlastnMapping
+                    In data
+                    Select x
+                    Group x By x.ReadQuery Into Group) _
+                   .ToArray(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
+        Return best.SaveTo(out).CLICode
+    End Function
 End Module
