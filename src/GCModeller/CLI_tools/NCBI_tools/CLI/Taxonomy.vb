@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
@@ -218,7 +219,8 @@ Partial Module CLI
         End Function
     End Class
 
-    <ExportAPI("/OTU.associated", Usage:="/OTU.associated /in <OTU.Data> /maps <mapsHit.csv> [/out <out.csv>]")>
+    <ExportAPI("/OTU.associated",
+               Usage:="/OTU.associated /in <OTU.Data> /maps <mapsHit.csv> [/RawMap <data_mapping.csv> /OTU_Field <""#OTU_NUM""> /out <out.csv>]")>
     Public Function OTUAssociated(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim maps As String = args("/maps")
@@ -226,6 +228,22 @@ Partial Module CLI
         Dim OTUData = [in].LoadCsv(Of OTUData).ToDictionary
         Dim mapsData = maps.LoadCsv(Of MapHits)
         Dim output As New List(Of OTUData)
+        Dim raw As String = args("/RawMap")
+        Dim fieldName As String = args("/OTU_Field")
+        Dim rawMaps As Dictionary(Of NamedValue(Of Dictionary(Of String, String)))
+
+        If raw.FileExists Then
+            rawMaps =
+                DocumentStream.DataFrame _
+                .Load(raw, Encoding.ASCII) _
+                .EnumerateData _
+                .Select(Function(row) New NamedValue(Of Dictionary(Of String, String)) With {
+                    .Name = row(fieldName),
+                    .x = row
+                }).ToDictionary
+        Else
+            rawMaps = New Dictionary(Of NamedValue(Of Dictionary(Of String, String)))
+        End If
 
         For Each x As MapHits In mapsData
             For Each OTU$ In x.MapHits
@@ -233,6 +251,13 @@ Partial Module CLI
                 For Each k In x.Data
                     find.Data(k.Key) = k.Value
                 Next
+                If rawMaps.ContainsKey(OTU$) Then
+                    Dim rawData = rawMaps(OTU$)
+
+                    For Each k In rawData.x
+                        find.Data(k.Key) = k.Value
+                    Next
+                End If
 
                 output += find
             Next

@@ -64,6 +64,7 @@ Partial Module CLI
                 copy.Data("taxid") = taxid
                 copy.Data("Taxonomy") = TaxonomyNode.BuildBIOM(nodes)
                 copy.Data("ref") = o.Reference
+                copy.Data("gi") = Regex.Match(o.Reference, "gi\|\d+").Value
 
                 output += copy
             Next
