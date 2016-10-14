@@ -330,7 +330,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Blastn.Maps.Taxid",
-               Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /gi2taxid <gi2taxid.dmp> [/tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
+               Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /gi2taxid <gi2taxid.dmp> [/trim /tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
     Public Function BlastnMapsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args("/gi2taxid")
@@ -340,6 +340,7 @@ Partial Module CLI
         Dim notFound As New List(Of String)
         Dim taxDIR$ = args("/tax")
         Dim tax As NcbiTaxonomyTree = Nothing
+        Dim trimLong As Boolean = args.GetBoolean("/trim")
 
         If taxDIR.DirectoryExists Then
             tax = New NcbiTaxonomyTree(taxDIR)
@@ -347,13 +348,16 @@ Partial Module CLI
 
         Call "All data load done!".__DEBUG_ECHO
 
-        For Each x In maps
+        For Each x As BlastnMapping In maps
             Dim gis$ = Regex.Match(x.Reference, "gi\|\d+").Value
             Dim gi% = CInt(Val(gis.Split("|"c).LastOrDefault))
 
             If gi% = 0% Then
                 Call x.Reference.PrintException
                 Continue For
+            End If
+            If trimLong Then
+                x.Reference = Mid(x.Reference, 1, 255)
             End If
 
             If taxids.ContainsKey(gi) Then
