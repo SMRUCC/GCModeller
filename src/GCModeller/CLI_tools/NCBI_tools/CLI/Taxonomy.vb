@@ -257,9 +257,15 @@ Partial Module CLI
                     For Each k In rawData.x
                         find.Data(k.Key) = k.Value
                     Next
+
+                    If rawData.x.ContainsKey("Reference") Then
+                        Dim ref = rawData.x("Reference")
+                        Dim gi = Regex.Match(ref, "gi\|\d+").Value
+                        find.Data("gi") = gi
+                    End If
                 End If
 
-                output += find
+                    output += find
             Next
         Next
 
