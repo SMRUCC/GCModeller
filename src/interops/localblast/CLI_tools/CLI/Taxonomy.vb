@@ -29,7 +29,16 @@ Partial Module CLI
         Dim output As New List(Of OTUData)
 
         For Each r In data
-            Dim reads = readsTable(r.OTU)
+            Dim reads As BlastnMapping()
+            Try
+                reads = readsTable(r.OTU)
+            Catch ex As Exception
+                ex = New Exception(r.ToString)
+                Call App.LogException(ex)
+                Call ex.PrintException
+
+                Continue For
+            End Try
 
             For Each o In reads
                 Dim copy As New OTUData(r)
@@ -38,6 +47,8 @@ Partial Module CLI
                 copy.Data("taxid") = taxid
                 copy.Data("Taxonomy") = TaxonomyNode.BuildBIOM(nodes)
                 copy.Data("ref") = o.Reference
+
+                output += copy
             Next
         Next
 
