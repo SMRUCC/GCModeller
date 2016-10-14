@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Partial Module CLI
 
     <ExportAPI("/Fasta.Filters",
-               Usage:="/Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/out <out.fasta> /p]")>
+               Usage:="/Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/tokens /out <out.fasta> /p]")>
     <ParameterInfo("/p",
                    True,
                    AcceptTypes:={GetType(Boolean)},
@@ -94,10 +94,13 @@ Partial Module CLI
                 End If
             Else
                 Dim words As String() = key.ReadAllLines ' 使用文件之中的一组关键词进行查询
-                words = words.Select(Function(s) s.Split) _
-                    .MatrixAsIterator _
-                    .Distinct _
-                    .ToArray
+
+                If args.GetBoolean("/tokens") Then
+                    words = words.Select(Function(s) s.Split) _
+                        .MatrixAsIterator _
+                        .Distinct _
+                        .ToArray
+                End If
 
                 Call words.GetJson.__DEBUG_ECHO
 
