@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::41f87eae5e96ed1541f96b115bd119c7, ..\interops\localblast\CLI_tools\CLI\COGTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -46,31 +47,35 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim locus As String = args("/locus")
         Dim out As String
+        Dim myvaCogs = inFile.LoadCsv(Of MyvaCOG)
+
         If Not locus.FileExists Then
             out = args.GetValue("/out", inFile.TrimSuffix & ".COG.Stat.Csv")
         Else
-            out = args.GetValue("/out", inFile.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(locus) & ".COG.Stat.Csv")
+            out = args.GetValue("/out", inFile.TrimSuffix & "." & locus.BaseName & ".COG.Stat.Csv")
         End If
-        Dim myvaCogs = inFile.LoadCsv(Of MyvaCOG)
 
         If locus.FileExists Then
             Dim ext As String = IO.Path.GetExtension(locus)
             Dim locusTag As String()
 
             If String.Equals(ext, ".csv", StringComparison.OrdinalIgnoreCase) Then
-                Dim temp = DocumentStream.EntityObject.LoadDataSet(locus, args.GetValue("/locusMap", "Gene"))
+                Dim temp = EntityObject.LoadDataSet(locus, args.GetValue("/locusMap", "Gene"))
                 locusTag = temp.ToArray(Function(x) x.Identifier)
             Else
                 locusTag = locus.ReadAllLines
             End If
 
-            myvaCogs = (From x As MyvaCOG In myvaCogs
-                        Where Array.IndexOf(locusTag, x.QueryName) > -1
-                        Select x).ToList
+            myvaCogs = LinqAPI.MakeList(Of MyvaCOG) <=
+                From x As MyvaCOG
+                In myvaCogs
+                Where Array.IndexOf(locusTag, x.QueryName) > -1
+                Select x
         End If
 
         Dim func As COG.Function = COG.Function.Default
-        Dim stst = COGFunc.GetClass(myvaCogs, func)
+        Dim stst As COGFunc() = COGFunc.GetClass(myvaCogs, func)
+
         Return stst.SaveTo(out).CLICode
     End Function
 
@@ -81,16 +86,17 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", opr.TrimSuffix & ".COGs.csv")
         Dim DOOR As DOOR = DOOR_API.Load(opr)
 
-        Return (LinqAPI.MakeList(Of MyvaCOG) _
-             <= From x As GeneBrief
-                In DOOR.Genes
-                Select New MyvaCOG With {
-                    .COG = x.COG_number,
-                    .MyvaCOG = x.COG_number,
-                    .QueryName = x.Synonym,
-                    .Description = x.Product,
-                    .Category = x.COG_number
-               }) >> OpenHandle(out)
+        Return (LinqAPI.MakeList(Of MyvaCOG) <=
+ _
+            From x As GeneBrief
+            In DOOR.Genes
+            Select New MyvaCOG With {
+                .COG = x.COG_number,
+                .MyvaCOG = x.COG_number,
+                .QueryName = x.Synonym,
+                .Description = x.Product,
+                .Category = x.COG_number
+ _
+            }) >> OpenHandle(out)
     End Function
-
 End Module
