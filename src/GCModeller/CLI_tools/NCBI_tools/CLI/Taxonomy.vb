@@ -266,4 +266,26 @@ Partial Module CLI
 
         Return output.SaveTo(out).CLICode
     End Function
+
+    ''' <summary>
+    ''' ref是总的数据，parts是ref里面的部分数据，则个函数则是将parts之中没有出现的都找出来
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/OTU.diff", Usage:="/OTU.diff /ref <OTU.Data1.csv> /parts <OTU.Data2.csv> [/out <out.csv>]")>
+    Public Function OTUDiff(args As CommandLine) As Integer
+        Dim ref = args("/ref")
+        Dim parts = args("/parts")
+        Dim out = args.GetValue("/out", parts.TrimSuffix & "-" & ref.BaseName & ".diff.csv")
+        Dim diff As New List(Of String)
+        Dim partsId = parts.LoadCsv(Of OTUData).Select(Function(x) x.OTU).Distinct.ToList
+
+        For Each x In ref.LoadCsv(Of OTUData)
+            If partsId.IndexOf(x.OTU) = -1 Then
+                diff += x.OTU
+            End If
+        Next
+
+        Return diff.FlushAllLines(out).CLICode
+    End Function
 End Module
