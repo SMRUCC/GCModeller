@@ -363,15 +363,15 @@ Partial Module CLI
             If taxids.ContainsKey(gi) Then
                 Dim taxid% = taxids(gi)
 
-                Call x.Extensions.Add("taxid", taxid)
+                x.Extensions("taxid") = taxid
 
                 If Not tax Is Nothing Then
                     Dim nodes = tax.GetAscendantsWithRanksAndNames(taxid, True)
                     Dim tree = TaxonomyNode.Taxonomy(nodes, "; ")
                     Dim name = tax(taxid).name
 
-                    Call x.Extensions.Add("Taxonomy", name)
-                    Call x.Extensions.Add("Tree", tree)
+                    x.Extensions("Taxonomy") = name
+                    x.Extensions("Tree") = tree
                 End If
             Else
                 notFound += CStr(gi)
