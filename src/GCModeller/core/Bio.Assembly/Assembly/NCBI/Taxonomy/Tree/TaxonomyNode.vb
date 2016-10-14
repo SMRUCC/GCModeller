@@ -64,7 +64,7 @@ Namespace Assembly.NCBI
                 If data.ContainsKey(r) Then
                     list.Add(data(r$))
                 Else
-                    Exit For
+                    list.Add("")
                 End If
             Next
 
