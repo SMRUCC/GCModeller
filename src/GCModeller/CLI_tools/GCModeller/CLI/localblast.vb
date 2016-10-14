@@ -92,7 +92,7 @@ Partial Module CLI
 
             For Each taxid In data
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid.Key, True)
-                Dim tree$ = TaxonomyNode.Taxonomy(nodes, "; ")
+                Dim tree$ = TaxonomyNode.BuildBIOM(nodes)
 
                 output += New QueryArgument With {
                     .Name = x.x.Name,
@@ -100,8 +100,8 @@ Partial Module CLI
                     .Data = New Dictionary(Of String, String) From {
                         {"taxid", taxid.Key},
                         {"MapHits", taxid.Value.Distinct.JoinBy("; ")},
-                        {"Taxonomy", taxonomy(taxid.Key).name},
-                        {"Tree", tree}
+                        {"Taxonomy.Name", taxonomy(taxid.Key).name},
+                        {"Taxonomy", tree}
                     }
                 }
             Next

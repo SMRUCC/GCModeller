@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
@@ -262,6 +263,67 @@ Partial Module CLI
 
                 output += find
             Next
+        Next
+
+        Return output.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' ref是总的数据，parts是ref里面的部分数据，则个函数则是将parts之中没有出现的都找出来
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/OTU.diff", Usage:="/OTU.diff /ref <OTU.Data1.csv> /parts <OTU.Data2.csv> [/out <out.csv>]")>
+    Public Function OTUDiff(args As CommandLine) As Integer
+        Dim ref = args("/ref")
+        Dim parts = args("/parts")
+        Dim out = args.GetValue("/out", parts.TrimSuffix & "-" & ref.BaseName & ".diff.csv")
+        Dim diff As New List(Of String)
+        Dim partsId = parts.LoadCsv(Of OTUData).Select(Function(x) x.OTU).Distinct.ToList
+
+        For Each x In ref.LoadCsv(Of OTUData)
+            If partsId.IndexOf(x.OTU) = -1 Then
+                diff += x.OTU
+            End If
+        Next
+
+        Return diff.FlushAllLines(out).CLICode
+    End Function
+
+    <ExportAPI("/Taxonomy.Tree",
+               Usage:="/Taxonomy.Tree /taxid <taxid.list.txt> /tax <ncbi_taxonomy:nodes/names> [/out <out.csv>]")>
+    Public Function TaxonomyTree(args As CommandLine) As Integer
+        Dim taxid As String = args("/taxid")
+        Dim tax As String = args("/tax")
+        Dim out As String = args.GetValue("/out", taxid.TrimSuffix & "-taxonomy.csv")
+        Dim output As New List(Of IntegerTagged(Of String))
+        Dim data As New NcbiTaxonomyTree(tax)
+        Dim taxids As NamedValue(Of Integer)()
+        Dim first = taxid.ReadFirstLine
+        Dim tokens$() = first.Split(ASCII.TAB)
+
+        If tokens.Length = 2 Then
+            taxids = LinqAPI.Exec(Of NamedValue(Of Integer)) <=
+                From s As String
+                In taxid.IterateAllLines
+                Let t As String() = s.Split(ASCII.TAB)
+                Select New NamedValue(Of Integer) With {
+                    .Name = t(Scan0),
+                    .x = CInt(Val(t(1)))
+                }
+        Else
+            taxids = taxid.IterateAllLines.ToArray(Function(s) New NamedValue(Of Integer)("", CInt(Val(s))))
+        End If
+
+        For Each x As NamedValue(Of Integer) In taxids
+            Dim nodes = data.GetAscendantsWithRanksAndNames(x.x, True)
+            Dim tree = TaxonomyNode.BuildBIOM(nodes)
+
+            output += New IntegerTagged(Of String) With {
+                .Tag = x.x%,
+                .TagStr = x.Name,
+                .value = tree
+            }
         Next
 
         Return output.SaveTo(out).CLICode
