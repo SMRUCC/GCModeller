@@ -16,6 +16,7 @@ Public Class PropertyGroup
     Public Property MyType As String
     Public Property TargetFrameworkVersion As String
     Public Property TargetFrameworkProfile
+    Public Property StartupObject As String
     Public Property PublishUrl As String
     Public Property Install As String
     Public Property InstallFrom As String
@@ -41,7 +42,10 @@ Public Class PropertyGroup
     Public Property DelaySign As String
     Public Property DebugSymbols As String
     Public Property DefineTrace As String
+    Public Property TargetZone As String
     Public Property OutputPath As String
+    Public Property GenerateManifests As String
+    Public Property ApplicationManifest As String
     Public Property DefineConstants As String
     Public Property RemoveIntegerChecks As String
     Public Property DocumentationFile As String

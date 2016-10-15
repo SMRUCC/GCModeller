@@ -231,6 +231,7 @@ Partial Module CLI
         Dim raw As String = args("/RawMap")
         Dim fieldName As String = args("/OTU_Field")
         Dim rawMaps As Dictionary(Of NamedValue(Of Dictionary(Of String, String)))
+        Dim Track As String = maps.BaseName
 
         If raw.FileExists Then
             rawMaps =
@@ -245,7 +246,7 @@ Partial Module CLI
             rawMaps = New Dictionary(Of NamedValue(Of Dictionary(Of String, String)))
         End If
 
-        For Each x As MapHits In mapsData
+        For Each x As MapHits In mapsData.Where(Function(o) Not o.MapHits.IsNullOrEmpty)
             For Each OTU$ In x.MapHits
                 Dim find As New OTUData(OTUData(OTU))
                 For Each k In x.Data
@@ -265,7 +266,8 @@ Partial Module CLI
                     End If
                 End If
 
-                    output += find
+                find.Data(NameOf(Track)) = Track
+                output += find
             Next
         Next
 
@@ -282,6 +284,7 @@ Partial Module CLI
         Dim mapsData = maps.LoadCsv(Of MapHits)
         Dim output As New List(Of OTUData)
         Dim taxonomy As New NcbiTaxonomyTree(tax)
+        Dim Track As String = maps.BaseName
 
         For Each x As MapHits In mapsData
             For Each OTU$ In x.MapHits
@@ -291,6 +294,7 @@ Partial Module CLI
                     find.Data(k.Key) = k.Value
                 Next
                 find.Data("Taxonomy") = TaxonomyNode.BuildBIOM(taxonomy.GetAscendantsWithRanksAndNames(x.taxid, True))
+                find.Data(NameOf(Track)) = Track
 
                 output += find
             Next
