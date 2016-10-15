@@ -489,6 +489,11 @@ Module CLI
 
                 If hash.ContainsKey(gi) Then
                     Call match.WriteLine(line)
+                    Call hash.Remove(gi)
+
+                    If hash.Count = 0 Then  ' 假若所有的gi号都已经匹配完毕了，则跳出循环，节省计算时间
+                        Exit For
+                    End If
                 End If
             Next
         End Using

@@ -63,7 +63,7 @@ Partial Module CLI
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid, True)
                 copy.Data("taxid") = taxid
                 copy.Data("Taxonomy") = TaxonomyNode.BuildBIOM(nodes)
-                copy.Data("ref") = o.Reference
+                copy.Data("Reference") = o.Reference
                 copy.Data("gi") = Regex.Match(o.Reference, "gi\|\d+").Value
 
                 output += copy

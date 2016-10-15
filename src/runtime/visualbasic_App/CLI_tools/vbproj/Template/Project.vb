@@ -50,6 +50,9 @@ Public Class Project : Implements ISaveHandle
     Public Function Save(Optional path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
         Dim xml As New XmlDoc(GetXml)
         xml.xmlns.xmlns = Project.xmlns
+        xml.xmlns.xsd = ""
+        xml.xmlns.xsi = ""
+        xml.encoding = XmlEncodings.UTF8
         Return xml.ToString.SaveTo(path, encoding)
     End Function
 
