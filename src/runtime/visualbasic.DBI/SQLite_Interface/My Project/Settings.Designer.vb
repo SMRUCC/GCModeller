@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.System.Data.SQLite.Linq.DataMapping.[Interface].My.MySettings
+        Friend ReadOnly Property Settings() As Global.System.Data.SQLite.Linq.My.MySettings
             Get
-                Return Global.System.Data.SQLite.Linq.DataMapping.[Interface].My.MySettings.Default
+                Return Global.System.Data.SQLite.Linq.My.MySettings.Default
             End Get
         End Property
     End Module

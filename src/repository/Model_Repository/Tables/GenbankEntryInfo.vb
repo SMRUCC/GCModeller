@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::40dfb77559013de58674688afb710099, ..\workbench\Model_Repository\Tables\GenbankEntryInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Data.Linq.Mapping
-Imports System.Data.SQLite.Linq.DataMapping.Interface.Reflector
+Imports System.Data.SQLite.Linq
+Imports System.Data.SQLite.Linq.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Namespace Tables
@@ -81,7 +82,7 @@ Namespace Tables
         ''' <remarks></remarks>
         Public Shared Function UpdateTableSchema(DB As SQLEngines.SQLiteIndex) As Boolean
             Dim TableSchema = GetType(GenbankEntryInfo)
-            Dim Data = (From item In System.Data.SQLite.Linq.DataMapping.Interface.Reflector.Load(DB.SQLiteEngine, TableSchema) Select DirectCast(item, GenbankEntryInfo)).ToArray
+            Dim Data = (From item In Reflector.Load(DB.SQLiteEngine, TableSchema) Select DirectCast(item, GenbankEntryInfo)).ToArray
             Data = (From item As GenbankEntryInfo In Data.AsParallel Let obj = item.InternalUpdateInfo(DB.RepositoryRoot) Where Not obj Is Nothing Select obj).ToArray '更新数据
             '删除原来的表
             Call DB.SQLiteEngine.DeleteTable(TableSchema)
