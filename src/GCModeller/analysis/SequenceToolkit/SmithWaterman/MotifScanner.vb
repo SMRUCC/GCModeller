@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::6fb3ca848f782095c76c127896b32360, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\MotifScanner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Linq
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -41,7 +42,10 @@ Public Class MotifScanner : Inherits IScanner
     End Sub
 
     Public Overrides Function Scan(pattern As String) As SimpleSegment()
-        Return (Scan(__nt, pattern, AddressOf Equals).ToList + Scan(__nt, Complement(pattern), AddressOf Equals)).OrderBy(Function(x) x.Start).ToArray
+        Return (Scan(__nt, pattern, AddressOf Equals).ToList +
+            Scan(__nt, Complement(pattern), AddressOf Equals)) _
+            .OrderBy(Function(x) x.Start) _
+            .ToArray
     End Function
 
     ReadOnly __rand As Random = New Random
@@ -88,7 +92,14 @@ Public Class MotifScanner : Inherits IScanner
         Dim subject As String() = nt.ToArray(Function(c) CStr(c))
         Dim GSW As New GSW(Of String)(words, subject, equals, AddressOf ToChar)
         Dim out As Output = GetOutput(GSW, 0, (2 / 3) * words.Length)
-        Return (From x In out.HSP Select New SimpleSegment With {.SequenceData = x.Subject, .Start = x.FromB, .Ends = x.ToB}).ToArray
+
+        Return LinqAPI.Exec(Of SimpleSegment) <= From x As HSP
+                                                 In out.HSP
+                                                 Select New SimpleSegment With {
+                                                     .SequenceData = x.Subject,
+                                                     .Start = x.FromB,
+                                                     .Ends = x.ToB
+                                                 }
     End Function
 
     ''' <summary>
