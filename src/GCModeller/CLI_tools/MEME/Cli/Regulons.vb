@@ -154,9 +154,9 @@ Partial Module CLI
     <ExportAPI("/Regulon.Reconstructs",
                Info:="Doing the regulon reconstruction job in batch mode.",
                Usage:="/Regulon.Reconstructs /bbh <bbh_EXPORT_csv.DIR> /genome <RegPrecise.genome.DIR> [/door <operon.door> /out <outDIR>]")>
-    <ParameterInfo("/bbh", False, Description:="A directory which contains the bbh export csv data from the localblast tool.")>
-    <ParameterInfo("/genome", False, Description:="The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.")>
-    <ParameterInfo("/door", False, Description:="Door file which is the prediction data of the bacterial operon.")>
+    <Argument("/bbh", False, Description:="A directory which contains the bbh export csv data from the localblast tool.")>
+    <Argument("/genome", False, Description:="The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.")>
+    <Argument("/door", False, Description:="Door file which is the prediction data of the bacterial operon.")>
     Public Function RegulonReconstructs(args As CommandLine) As Integer
         Dim inDIR As String = args("/bbh")
         Dim genomeDIR As String = args("/genome")

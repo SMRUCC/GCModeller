@@ -68,8 +68,8 @@ Partial Module CLI
     <ExportAPI("/MEME.Batch",
                Info:="Batch meme task by using tmod toolbox.",
                Usage:="/MEME.Batch /in <inDIR> [/out <outDIR> /evalue <1> /nmotifs <30> /mod <zoops> /maxw <100>]")>
-    <ParameterInfo("/in", False, Description:="A directory path which contains the fasta sequence for the meme motifs analysis.")>
-    <ParameterInfo("/out", True, Description:="A directory path which outputs the meme.txt data to that directory.")>
+    <Argument("/in", False, Description:="A directory path which contains the fasta sequence for the meme motifs analysis.")>
+    <Argument("/out", True, Description:="A directory path which outputs the meme.txt data to that directory.")>
     Public Function MEMEBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".MEME_OUT/")
@@ -164,7 +164,7 @@ Partial Module CLI
 
     <ExportAPI("--site.Match",
                Usage:="--site.Match /meme <meme.text> /mast <mast.xml> /out <out.csv> [/ptt <genome.ptt> /len <150,200,250,300,350,400,450,500>]")>
-    <ParameterInfo("/len", True,
+    <Argument("/len", True,
                    Description:="If not specific this parameter, then the function will trying to parsing the length value from the meme text automatically.")>
     Public Function SiteMatch(args As CommandLine) As Integer
         Dim Motifs As Motif() =

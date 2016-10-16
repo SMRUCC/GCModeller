@@ -111,7 +111,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/nt.matches.name", Usage:="/nt.matches.name /in <nt.fasta> /list <names.csv> [/out <out.fasta>]")>
-    <ParameterInfo("/list", AcceptTypes:={GetType(WordTokens)})>
+    <Argument("/list", AcceptTypes:={GetType(WordTokens)})>
     Public Function NtNameMatches(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim list As String = args("/list")

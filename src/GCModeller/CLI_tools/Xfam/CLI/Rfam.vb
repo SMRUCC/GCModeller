@@ -46,7 +46,7 @@ Partial Module CLI
 
     <ExportAPI("/Rfam",
                Usage:="/Rfam /in <blastMappings.Csv.DIR> /PTT <pttDIR> [/prefix <sp_prefix> /out <out.Rfam.csv> /offset 10 /non-directed]")>
-    <ParameterInfo("/prefix", True,
+    <Argument("/prefix", True,
                    Description:="Optional for the custom RNA id, is this parameter value is nothing, then the id prefix will be parsed from the PTT file automaticslly.")>
     Public Function RfamAnalysis(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")

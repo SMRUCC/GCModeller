@@ -49,10 +49,10 @@ Partial Module CLI
                                   "this command merge the blast log parsing result and then using the parsing result for drawing a venn diagram.",
         Usage:="merge -d <directory> -o <output_file>",
         Example:="merge -d ~/blast_besthit/ -o ~/Desktop/compared.csv")>
-    <ParameterInfo("-d",
+    <Argument("-d",
         Description:="The directory that contains some blast log parsing csv data file.",
         Example:="~/Desktop/blast/result/")>
-    <ParameterInfo("-o",
+    <Argument("-o",
         Description:="The save file name for the output result, the program willl save the merge result in the csv format",
         Example:="~/Desktop/8004_venn.csv")>
     Public Function Merge(args As CommandLine) As Integer

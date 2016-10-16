@@ -146,7 +146,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
 
     <ExportAPI("/Visual.BBH",
                Usage:="/Visual.BBH /in <bbh.Xml> /PTT <genome.PTT> /density <genomes.density.DIR> [/limits <sp-list.txt> /out <image.png>]")>
-    <ParameterInfo("/PTT", False,
+    <Argument("/PTT", False,
                    Description:="A directory which contains all of the information data files for the reference genome, 
                    this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.")>
     Public Function BBHVisual(args As CommandLine) As Integer

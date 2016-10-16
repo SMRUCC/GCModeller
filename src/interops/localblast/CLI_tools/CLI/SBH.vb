@@ -141,7 +141,7 @@ Partial Module CLI
 
     <ExportAPI("/SBH.Export.Large",
                Usage:="/SBH.Export.Large /in <blast_out.txt> [/trim-kegg /out <bbh.csv> /identities 0.15 /coverage 0.5]")>
-    <ParameterInfo("/trim-KEGG", True,
+    <Argument("/trim-KEGG", True,
                    Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
     Public Function ExportBBHLarge(args As CommandLine) As Integer
         Dim inFile As String = args("/in")

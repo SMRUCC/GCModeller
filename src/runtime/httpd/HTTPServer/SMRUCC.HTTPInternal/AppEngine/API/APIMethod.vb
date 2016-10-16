@@ -63,13 +63,13 @@ Namespace AppEngine.APIMethods
         Public MustOverride Function GetMethodHelp(EntryPoint As MethodInfo) As String
 
         Protected Function __getParameters(EntryPoint As MethodInfo) As String
-            Dim attrs As Object() = EntryPoint.GetCustomAttributes(GetType(Microsoft.VisualBasic.CommandLine.Reflection.ParameterInfo), True)
+            Dim attrs As Object() = EntryPoint.GetCustomAttributes(GetType(Microsoft.VisualBasic.CommandLine.Reflection.Argument), True)
             If attrs.IsNullOrEmpty Then
                 Return ""
             Else
                 Dim sbr As New StringBuilder("<strong>Parameters:</strong><br /><table>")
 
-                For Each param In attrs.ToArray(Function(value) DirectCast(value, Microsoft.VisualBasic.CommandLine.Reflection.ParameterInfo))
+                For Each param In attrs.ToArray(Function(value) DirectCast(value, Microsoft.VisualBasic.CommandLine.Reflection.Argument))
                     Call sbr.AppendLine($"  <tr>
     <td>{param.Name}</td>
 <td>{If(param.Optional, "<i>Optional</i>", "")}</td>

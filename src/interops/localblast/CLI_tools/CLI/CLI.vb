@@ -148,7 +148,7 @@ Module CLI
     <ExportAPI("--bbh.export",
                Info:="Batch export bbh result data from a directory.",
                Usage:="--bbh.export /in <blast_out.DIR> [/all /out <out.DIR> /single-query <queryName> /coverage <0.5> /identities 0.15]")>
-    <ParameterInfo("/all", True,
+    <Argument("/all", True,
                    Description:="If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.")>
     Public Function ExportBBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")

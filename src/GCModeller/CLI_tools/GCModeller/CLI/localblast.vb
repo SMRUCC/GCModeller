@@ -50,7 +50,7 @@ Partial Module CLI
 
     <ExportAPI("/Map.Hits.Taxonomy",
            Usage:="/Map.Hits.Taxonomy /in <query.csv> /mapping <blastnMapping.csv> /tax <taxonomy.DIR:name/nodes>[/out <out.csv>]")>
-    <ParameterInfo("/mapping", True,
+    <Argument("/mapping", True,
                    AcceptTypes:={GetType(BlastnMapping)},
                    Description:="Data frame should have a ``taxid`` field.")>
     Public Function MapHitsTaxonomy(args As CommandLine) As Integer

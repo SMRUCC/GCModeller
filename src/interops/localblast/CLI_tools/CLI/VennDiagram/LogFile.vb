@@ -47,10 +47,10 @@ Partial Module CLI
     <ExportAPI("logs_analysis", Info:="Parsing the xml format blast log into a csv data file that use for venn diagram drawing.",
         Usage:="logs_analysis -d <xml_logs_directory> -export <export_csv_file>",
         Example:="logs_analysis -d ~/xml_logs -export ~/Desktop/result.csv")>
-    <ParameterInfo("-d",
+    <Argument("-d",
         Description:="The data directory which contains the xml format blast log file, those xml format log file were generated from the 'venn -> blast' command.",
         Example:="~/xml_logs")>
-    <ParameterInfo("-export",
+    <Argument("-export",
         Description:="The save file path for the venn diagram drawing data csv file.",
         Example:="~/Documents/8004_venn.csv")>
     Public Function bLogAnalysis(args As CommandLine) As Integer
@@ -85,7 +85,7 @@ Partial Module CLI
                                  "You can also done this id parsing job using other tools.",
         Usage:="grep -i <xml_log_file> -q <script_statements> -h <script_statements>",
         Example:="grep -i C:\Users\WORKGROUP\Desktop\blast_xml_logs\1__8004_ecoli_prot.log.xml -q ""tokens | 4"" -h ""'tokens | 2';'tokens ' ' 0'""")>
-    <ParameterInfo("-q", False,
+    <Argument("-q", False,
         Description:="The parsing script for parsing the gene_id from the blast log file, this switch value is consist of sevral operation " &
                      "tokens, and each token is separate by the ';' character and the token unit in each script token should seperate by " &
                      "the ' character.\n" &
@@ -98,7 +98,7 @@ Partial Module CLI
                      "   usage:   match <regular_expression>\n" &
                      "   Example: match .+[-]\d{5}",
         Example:="'tokens | 5';'match .+[-].+'")>
-    <ParameterInfo("-h",
+    <Argument("-h",
         Description:="The parsing script for parsing the gene_id from the blast log file, this switch value is consist of sevral operation " &
                      "tokens, and each token is separate by the ';' character and the token unit in each script token should seperate by " &
                      "the ' character.\n" &

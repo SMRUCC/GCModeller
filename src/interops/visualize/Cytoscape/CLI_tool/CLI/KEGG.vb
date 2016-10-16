@@ -53,8 +53,8 @@ Partial Module CLI
 
     <ExportAPI("--mod.regulations",
                Usage:="--mod.regulations /model <KEGG.xml> /footprints <footprints.csv> /out <outDIR> [/pathway /class /type]")>
-    <ParameterInfo("/class", True, Description:="This parameter can not be co-exists with /type parameter")>
-    <ParameterInfo("/type", True, Description:="This parameter can not be co-exists with /class parameter")>
+    <Argument("/class", True, Description:="This parameter can not be co-exists with /type parameter")>
+    <Argument("/type", True, Description:="This parameter can not be co-exists with /class parameter")>
     Public Function ModuleRegulations(args As CommandLine) As Integer
         Dim Model = args("/model").LoadXml(Of XmlModel)
         Dim Footprints = args("/footprints").LoadCsv(Of PredictedRegulationFootprint)
@@ -225,7 +225,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.Mods.NET",
                Usage:="/KEGG.Mods.NET /in <mods.xml.DIR> [/out <outDIR> /pathway /footprints <footprints.Csv> /brief /cut 0 /pcc 0]")>
-    <ParameterInfo("/brief", True,
+    <Argument("/brief", True,
                    Description:="If this parameter is represented, then the program just outs the modules, all of the non-pathway genes wil be removes.")>
     Public Function ModsNET(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")

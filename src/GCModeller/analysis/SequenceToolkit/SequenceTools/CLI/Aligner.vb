@@ -52,9 +52,9 @@ Partial Module Utilities
     <ExportAPI("/nw",
                Info:="RunNeedlemanWunsch",
                Usage:="/nw /query <query.fasta> /subject <subject.fasta> [/out <out.txt>]")>
-    <ParameterInfo("/query", False, AcceptTypes:={GetType(FastaToken)})>
-    <ParameterInfo("/subject", False, AcceptTypes:={GetType(FastaToken)})>
-    <ParameterInfo("/out", True, AcceptTypes:={GetType(String)})>
+    <Argument("/query", False, AcceptTypes:={GetType(FastaToken)})>
+    <Argument("/subject", False, AcceptTypes:={GetType(FastaToken)})>
+    <Argument("/out", True, AcceptTypes:={GetType(String)})>
     Public Function NW(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")

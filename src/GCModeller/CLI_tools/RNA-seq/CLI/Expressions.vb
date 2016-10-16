@@ -50,7 +50,7 @@ Partial Module CLI
 
     <ExportAPI("/RPKM.Log2",
                Usage:="/RPKM.Log2 /in <RPKM.csv> /cond <conditions> [/out <out.csv>]")>
-    <ParameterInfo("/cond", False,
+    <Argument("/cond", False,
                    Description:="Syntax format as:  <experiment1>/<experiment2>|<experiment3>/<experiment4>|.....",
                    Example:="colR1/xcb1|colR2/xcb2")>
     Public Function Log2(args As CommandLine) As Integer

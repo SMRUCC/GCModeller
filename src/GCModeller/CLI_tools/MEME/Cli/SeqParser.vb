@@ -162,7 +162,7 @@ Partial Module CLI
 
     <ExportAPI("/Parser.Operon",
                Usage:="/Parser.Operon /in <footprint.csv> /PTT <PTTDIR> [/out <outDIR> /family /offset <50> /all]")>
-    <ParameterInfo("/family", True,
+    <Argument("/family", True,
                    Description:="Group the source by family? Or output the source in one fasta set")>
     Public Function ParserNextIterator(args As CommandLine) As Integer
         Dim inCsv As String = args("/in")

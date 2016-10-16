@@ -135,7 +135,7 @@ Namespace Interpreter.Linker
         ''' <param name="InvokedObject"></param>
         ''' <remarks></remarks>
         Public Sub ImportsInstance(Of T As Class)(InvokedObject As T)
-            Dim setValue = New SetValue(Of EntryPoints.APIEntryPoint)().GetSet(NameOf(EntryPoints.APIEntryPoint.InvokeOnObject))
+            Dim setValue = New SetValue(Of EntryPoints.APIEntryPoint)().GetSet(NameOf(EntryPoints.APIEntryPoint.target))
             Dim Commands = (From EntryPoint As EntryPoints.APIEntryPoint
                             In __allInstanceCommands(InvokedObject.GetType)
                             Select setValue(EntryPoint, InvokedObject)).ToList '解析出命令并连接目标实例对象与函数的执行入口点
