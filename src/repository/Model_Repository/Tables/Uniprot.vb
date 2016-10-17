@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Data.Linq.Mapping
-Imports System.Data.SQLite.Linq.DataMapping.Interface.QueryBuilder
+Imports System.Data.SQLite.Linq.QueryBuilder
 Imports SMRUCC.genomics.Assembly.Uniprot
 
 Public Class Uniprot : Inherits DbFileSystemObject

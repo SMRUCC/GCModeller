@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Data.Linq.Mapping
-Imports System.Data.SQLite.Linq.DataMapping.Interface.QueryBuilder
+Imports System.Data.SQLite.Linq.QueryBuilder
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.SequenceModel

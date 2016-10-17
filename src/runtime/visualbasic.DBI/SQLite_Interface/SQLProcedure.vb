@@ -1,30 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::4975f55fc6f2eab6a7715bd967a614e7, ..\SQLite_Interface\SQLProcedure.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Data
 Imports System.Data.Common
 Imports System.Data.Entity.Core
 Imports System.Data.Linq.Mapping
@@ -75,6 +76,7 @@ Public Class SQLProcedure : Implements System.IDisposable
         Dim p As Integer = Me.Load(Of TableDump).Count + 1
         Dim dumpInfo As TableDump() =
             LinqAPI.Exec(Of TableDump) <=
+ _
             From Field As SchemaCache
             In TableSchema
             Let ipk As Integer = If(Field.FieldEntryPoint.IsPrimaryKey, 1, 0)
@@ -298,8 +300,7 @@ Public Class SQLProcedure : Implements System.IDisposable
         Dim sb As StringBuilder = New StringBuilder(2048)
         Dim SchemaCache As SchemaCache() = Reflector.__getSchemaCache(Of Table)()
         Dim TableName As String = Reflector.GetTableName(Of Table)()
-        Dim SQL As String =
-            [Interface].SchemaCache.CreateTableSQL(SchemaCache, TableName)
+        Dim SQL$ = Linq.SchemaCache.CreateTableSQL(SchemaCache, TableName)
 
         Call sb.AppendLine("/* CREATE_TABLE_SCHEMA_INFORMATION */")
         Call sb.AppendLine(SQL)
@@ -309,7 +310,7 @@ Public Class SQLProcedure : Implements System.IDisposable
         Dim LQuery As String() =
             LinqAPI.Exec(Of String) <= From ItemRowObject As Table
                                        In Me.Load(Of Table)()
-                                       Select [Interface].SchemaCache.CreateInsertSQL(
+                                       Select Linq.SchemaCache.CreateInsertSQL(
                                            SchemaCache,
                                            ItemRowObject,
                                            TableName)
@@ -330,12 +331,12 @@ Public Class SQLProcedure : Implements System.IDisposable
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function DbDump(DumpFile As String) As Boolean
-        Dim Tables = (From dump As TableDump
-                      In Me.Load(Of TableDump)()
-                      Select dump
-                      Group By dump.TableName Into Group).ToArray
+        Dim Tables = From dump As TableDump
+                     In Me.Load(Of TableDump)()
+                     Select dump
+                     Group By dump.TableName Into Group
 
-        Call FileIO.FileSystem.CreateDirectory(DumpFile.ParentPath)
+        Call DumpFile.ParentPath.MkDIR
 
         For Each Table In Tables
             Dim SQLDump As String = ___SQLDump(Table.Group.ToArray)
@@ -353,7 +354,7 @@ Public Class SQLProcedure : Implements System.IDisposable
     ''' <remarks></remarks>
     Private Function ___SQLDump(Table As TableDump()) As String
         Dim TableName As String = Table(Scan0).TableName
-        Dim SQL As String = [Interface].SchemaCache.CreateTableSQL(Table)
+        Dim SQL As String = Linq.SchemaCache.CreateTableSQL(Table)
         Dim sb As New StringBuilder(2048)
 
         Call sb.AppendLine("/* CREATE_TABLE_SCHEMA_INFORMATION */")
@@ -361,7 +362,7 @@ Public Class SQLProcedure : Implements System.IDisposable
         Call sb.AppendLine()
         Call sb.AppendLine($"/* DATA_STORAGES  ""{TableName}"" */")
 
-        Dim DbReader = Me.Execute("SELECT * FROM '{0}';", TableName)
+        Dim DbReader As DbDataReader = Execute("SELECT * FROM '{0}';", TableName)
         Dim SchemaCache = (From tField As TableDump
                            In Table
                            Select Field = tField,
@@ -374,14 +375,16 @@ Public Class SQLProcedure : Implements System.IDisposable
         Dim columns As String = String.Join(", ", array)
 
         Do While DbReader.Read
-            array =
-                LinqAPI.Exec(Of String) <= From p In SchemaCache
-                                           Let value As Object = DbReader.GetValue(p.p)
-                                           Let s As String = Scripting.ToString(value)
-                                           Select $"'{s}'"
+            array = LinqAPI.Exec(Of String) <=
+ _
+                From p In SchemaCache
+                Let value As Object = DbReader.GetValue(p.p)
+                Let s As String = Scripting.ToString(value)
+                Select $"'{s}'"
+
             values = String.Join(", ", array)
 
-            Dim InsertSQL As String = $"INSERT INTO '{TableName}' ({columns}) VALUES ({values}) ;"
+            Dim InsertSQL$ = $"INSERT INTO '{TableName}' ({columns}) VALUES ({values}) ;"
             Call sb.AppendLine(InsertSQL)
         Loop
 
