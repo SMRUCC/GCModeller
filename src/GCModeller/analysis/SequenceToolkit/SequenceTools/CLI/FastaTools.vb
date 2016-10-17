@@ -262,10 +262,10 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("--segments", Usage:="--segments /regions <regions.csv> /fasta <nt.fasta> [/complement /reversed /brief-dump]")>
-    <ParameterInfo("/reversed", True, Description:="If the sequence is on the complement strand, reversed it after complement operation?")>
-    <ParameterInfo("/complement", True,
+    <Argument("/reversed", True, Description:="If the sequence is on the complement strand, reversed it after complement operation?")>
+    <Argument("/complement", True,
                           Description:="If this Boolean switch is set on, then all of the reversed strand segment will be complemenet and reversed.")>
-    <ParameterInfo("/brief-dump", True,
+    <Argument("/brief-dump", True,
                           Description:="If this parameter is set up true, then only the locus_tag of the ORF gene will be dump to the fasta sequence.")>
     Public Function GetSegments(args As CommandLine) As Integer
         Dim Regions As List(Of SimpleSegment) = args.GetObject("/regions", AddressOf LoadCsv(Of SimpleSegment))
@@ -346,9 +346,9 @@ Partial Module Utilities
     <ExportAPI("--Trim",
                Usage:="--Trim /in <in.fasta> [/case <u/l> /break <-1/int> /out <out.fasta> /brief]",
                Info:="")>
-    <ParameterInfo("/case", True,
+    <Argument("/case", True,
                    Description:="Adjust the letter case of your sequence, l for lower case and u for upper case. Default value is upper case.")>
-    <ParameterInfo("/break", True,
+    <Argument("/break", True,
                    Description:="Adjust the sequence break when this program write the fasta sequence, default is -1 which means no break, write all sequence in one line.")>
     Public Function Trim(args As CommandLine) As Integer
         Dim Input As String = args("/in")

@@ -90,9 +90,9 @@ Partial Module CLI
 
     <ExportAPI("/sbh2bbh",
                Usage:="/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
-    <ParameterInfo("/identities", True,
+    <Argument("/identities", True,
                    Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
-    <ParameterInfo("/coverage", True,
+    <Argument("/coverage", True,
                    Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
     Public Function BBHExport2(args As CommandLine) As Integer
         Dim qvs As String = args("/qvs")
@@ -219,11 +219,11 @@ Partial Module CLI
     <ExportAPI("/venn.BlastAll",
                Usage:="/venn.BlastAll /query <queryDIR> /out <outDIR> [/num_threads <-1> /evalue 10 /overrides /all /coverage <0.8> /identities <0.3>]",
                Info:="Completely paired combos blastp bbh operations for the venn diagram Or network builder.")>
-    <ParameterInfo("/num_threads", True,
+    <Argument("/num_threads", True,
                    Description:="The number of the parallel blast task in this command, default value Is -1 which means the number of the blast threads Is determined by system automatically.")>
-    <ParameterInfo("/all", True,
+    <Argument("/all", True,
                    Description:="If this parameter Is represent, then all of the paired best hit will be export, otherwise only the top best will be export.")>
-    <ParameterInfo("/query", False,
+    <Argument("/query", False,
                    Description:="Recommended format of the fasta title Is that the fasta title only contains gene locus_tag.")>
     Public Function vennBlastAll(args As CommandLine) As Integer
         Dim queryDIR As String = args("/query")
@@ -253,7 +253,7 @@ Partial Module CLI
     <ExportAPI("/venn.BBH",
                Info:="2. Build venn table And bbh data from the blastp result out Or sbh data cache.",
                Usage:="/venn.BBH /imports <blastp_out.DIR> [/skip-load /query <queryName> /all /coverage <0.6> /identities <0.3> /out <outDIR>]")>
-    <ParameterInfo("/skip-load", True,
+    <Argument("/skip-load", True,
                    Description:="If the data source in the imports directory Is already the sbh data source, then using this parameter to skip the blastp file parsing.")>
     Public Function VennBBH(args As CommandLine) As Integer
         Dim importsDIR As String = args("/imports")
@@ -305,7 +305,7 @@ Partial Module CLI
                Info:="1. [SBH_Batch] Creates the sbh cache data for the downstream bbh analysis. 
                And this batch function is suitable with any scale of the blastp sbh data output.",
                Usage:="/venn.cache /imports <blastp.DIR> [/out <sbh.out.DIR> /coverage <0.6> /identities <0.3> /num_threads <-1> /overrides]")>
-    <ParameterInfo("/num_threads", True,
+    <Argument("/num_threads", True,
                    Description:="The number of the sub process thread. -1 value is stands for auto config by the system.")>
     Public Function VennCache(args As CommandLine) As Integer
         Dim importsDIR As String = args("/imports")

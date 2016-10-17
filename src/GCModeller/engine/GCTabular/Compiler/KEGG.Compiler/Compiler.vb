@@ -60,16 +60,16 @@ Namespace KEGG.Compiler
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ParameterInfo("-kegg.compounds", Description:="The data directory of the kegg compounds for your modelling species.")>
-        <ParameterInfo("-kegg.reactions")>
-        <ParameterInfo("-mist2")>
-        <ParameterInfo("-export")>
-        <ParameterInfo("-door")>
-        <ParameterInfo("-footprints")>
-        <ParameterInfo("-kegg.pathways", Description:="The data directory of the kegg pathways data for your modelling species")>
-        <ParameterInfo("-kegg.modules")>
-        <ParameterInfo("-metacyc_all")>
-        <ParameterInfo("-chipdata")>
+        <Argument("-kegg.compounds", Description:="The data directory of the kegg compounds for your modelling species.")>
+        <Argument("-kegg.reactions")>
+        <Argument("-mist2")>
+        <Argument("-export")>
+        <Argument("-door")>
+        <Argument("-footprints")>
+        <Argument("-kegg.pathways", Description:="The data directory of the kegg pathways data for your modelling species")>
+        <Argument("-kegg.modules")>
+        <Argument("-metacyc_all")>
+        <Argument("-chipdata")>
         Public Overrides Function PreCompile(argvs As CommandLine.CommandLine) As Integer
             Dim LogFile As String = argvs("-logging")
 
@@ -139,12 +139,12 @@ Namespace KEGG.Compiler
             Return 0
         End Function
 
-        <ParameterInfo("-carmen")>
-        <ParameterInfo("-ec")>
-        <ParameterInfo("-ptt", Description:="The ptt data directory.")>
-        <ParameterInfo("-myva_cog", True, Description:="")>
-        <ParameterInfo("-metacyc")>
-        <ParameterInfo("-regprecise")>
+        <Argument("-carmen")>
+        <Argument("-ec")>
+        <Argument("-ptt", Description:="The ptt data directory.")>
+        <Argument("-myva_cog", True, Description:="")>
+        <Argument("-metacyc")>
+        <Argument("-regprecise")>
         Public Overrides Function Compile(Optional argvs As CommandLine.CommandLine = Nothing) As FileStream.XmlFormat.CellSystemXmlModel
             Call Me.CheckRequiredParameter(argvs, New String() {"-carmen", "-ec", "-mist2_strp", "-ptt", "-cross_talks", "-myva_cog", "-string-db", "-regulator_bh", "-metacyc", "-regprecise", "-species_code"}, "KEGG.Compiler::Compile()")
 
@@ -387,16 +387,16 @@ Namespace KEGG.Compiler
         End Function
 
         <ExportAPI("precompile")>
-        <ParameterInfo("-kegg.compounds", Description:="The data directory of the kegg compounds for your modelling species.")>
-        <ParameterInfo("-kegg.reactions")>
-        <ParameterInfo("-mist2")>
-        <ParameterInfo("-export")>
-        <ParameterInfo("-door")>
-        <ParameterInfo("-kegg.pathways", Description:="The data directory of the kegg pathways data for your modelling species")>
-        <ParameterInfo("-kegg.modules")>
-        <ParameterInfo("-metacyc_all")>
-        <ParameterInfo("-chipdata")>
-        <ParameterInfo("-footprints", Description:="The predicted footprint regulation data for the target bacteria genome.")>
+        <Argument("-kegg.compounds", Description:="The data directory of the kegg compounds for your modelling species.")>
+        <Argument("-kegg.reactions")>
+        <Argument("-mist2")>
+        <Argument("-export")>
+        <Argument("-door")>
+        <Argument("-kegg.pathways", Description:="The data directory of the kegg pathways data for your modelling species")>
+        <Argument("-kegg.modules")>
+        <Argument("-metacyc_all")>
+        <Argument("-chipdata")>
+        <Argument("-footprints", Description:="The predicted footprint regulation data for the target bacteria genome.")>
         Public Overloads Shared Function PreCompile([operator] As Compiler, argvs As CommandLine.CommandLine) As Integer
             Try
                 Return [operator].PreCompile(argvs)
@@ -407,12 +407,12 @@ Namespace KEGG.Compiler
         End Function
 
         <ExportAPI("compile")>
-        <ParameterInfo("-carmen")>
-        <ParameterInfo("-ec")>
-        <ParameterInfo("-ptt", Description:="The ptt data directory.")>
-        <ParameterInfo("-myva_cog", True, Description:="")>
-        <ParameterInfo("-metacyc")>
-        <ParameterInfo("-regprecise")>
+        <Argument("-carmen")>
+        <Argument("-ec")>
+        <Argument("-ptt", Description:="The ptt data directory.")>
+        <Argument("-myva_cog", True, Description:="")>
+        <Argument("-metacyc")>
+        <Argument("-regprecise")>
         Public Overloads Shared Function Compile([operator] As Compiler, argvs As CommandLine.CommandLine) As FileStream.XmlFormat.CellSystemXmlModel
             Try
                 Return [operator].Compile(argvs)

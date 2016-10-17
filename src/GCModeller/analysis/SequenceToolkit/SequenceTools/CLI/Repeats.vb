@@ -38,9 +38,9 @@ Partial Module Utilities
     <ExportAPI("Search.Batch",
                Info:="Batch search for repeats.",
                Usage:="Search.Batch /aln <alignment.fasta> [/min 3 /max 20 /min-rep 2 /out <./>]")>
-    <ParameterInfo("/aln", False,
+    <Argument("/aln", False,
                    Description:="The input fasta file should be the output of the clustal multiple alignment fasta output.")>
-    <ParameterInfo("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(RevRepeatsView)})>
+    <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(RevRepeatsView)})>
     Public Function BatchSearch(args As CommandLine) As Integer
         Dim Mla As FastaFile = args.GetObject("/aln", AddressOf FastaFile.Read)
         Dim Min As Integer = args.GetValue("/min", 3)

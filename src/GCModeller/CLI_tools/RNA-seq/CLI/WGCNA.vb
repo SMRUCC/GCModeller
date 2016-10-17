@@ -41,10 +41,10 @@ Partial Module CLI
     <ExportAPI("/WGCNA",
                Info:="Generates the cytoscape network model from WGCNA analysis.",
                Usage:="/WGCNA /data <dataExpr.csv> /anno <annotations.csv> [/out <DIR.Out> /mods <color.list> /from.DESeq /id.map <GeneId>]")>
-    <ParameterInfo("/mods", True,
+    <Argument("/mods", True,
                    Description:="Each color in this parameter value is stands for a co expression module, and this parameter controls of the module output filtering, using | character as the seperator for each module color.")>
-    <ParameterInfo("/out", True, Description:="Export directory of the WGCNA data, if this parameter value is not presents in the arguments, then the current work directory will be used.")>
-    <ParameterInfo("/data", False,
+    <Argument("/out", True, Description:="Export directory of the WGCNA data, if this parameter value is not presents in the arguments, then the current work directory will be used.")>
+    <Argument("/data", False,
                    Description:="A sets of RNA-seq RPKM expression data sets, the first row in the csv table should be the experiments or conditions, and first column in the table should be the id of the genes and each cell in the table should be the RPKM expression value of each gene in each condition.
                    The data format of the table it would be like:
                    GeneId, condi1, cond12, condi3, ....
@@ -54,12 +54,12 @@ Partial Module CLI
                    ......
 
     xyz Is the RPKM of the genes")>
-    <ParameterInfo("/anno", False, Description:="A table of the gene name annotation, the table should be in formats of
+    <Argument("/anno", False, Description:="A table of the gene name annotation, the table should be in formats of
     Id, gene_symbol
     locus1, geneName
     locus2, geneName
     ....")>
-    <ParameterInfo("/From.Deseq", True,
+    <Argument("/From.Deseq", True,
                    Description:="Is the /data matrix if comes from the DESeq analysis result output?
                    If is true, then the expression value will be extract from the original matrix file and save a new file named DESeq.dataExpr0.Csv in the out directory,
                    and last using this extracted data as the source of the WGCNA R script.")>

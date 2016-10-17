@@ -169,7 +169,7 @@ Partial Module CLI
     <ExportAPI("/Export.gb",
                Info:="Export the *.fna, *.faa, *.ptt file from the gbk file.",
                Usage:="/Export.gb /gb <genbank.gb/DIR> [/out <outDIR> /simple /batch]")>
-    <ParameterInfo("/simple", True, AcceptTypes:={GetType(Boolean)},
+    <Argument("/simple", True, AcceptTypes:={GetType(Boolean)},
                    Description:="Fasta sequence short title, which is just only contains locus_tag")>
     Public Function ExportPTTDb(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
@@ -218,7 +218,7 @@ Partial Module CLI
     <ExportAPI("/add.locus_tag",
                Info:="Add locus_tag qualifier into the feature slot.",
                Usage:="/add.locus_tag /gb <gb.gbk> /prefix <prefix> [/add.gene /out <out.gb>]")>
-    <ParameterInfo("/add.gene", True, Description:="Add gene features?")>
+    <Argument("/add.gene", True, Description:="Add gene features?")>
     Public Function AddLocusTag(args As CommandLine) As Integer
         Dim gbFile As String = args("/gb")
         Dim prefix As String = args("/prefix")

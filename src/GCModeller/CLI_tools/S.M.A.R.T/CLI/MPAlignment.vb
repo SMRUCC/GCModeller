@@ -175,8 +175,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--SelfAlign", Usage:="--SelfAlign /query <pfam-string.csv> /subject <subject.csv> /aln <mpalignment.csv> [/lstID <lstID.txt> /mp <0.65> /id <id>]")>
-    <ParameterInfo("/lstID", True, Description:="If this parameter is not empty, then the /aln parameter will be disable")>
-    <ParameterInfo("/id", True,
+    <Argument("/lstID", True, Description:="If this parameter is not empty, then the /aln parameter will be disable")>
+    <Argument("/id", True,
                           Description:="If this parameter is not null, then the record of this query or hits will be used to subset the alignment set.")>
     Public Function SelfAlign(args As CommandLine) As Integer
         Dim id As String = args("/id")

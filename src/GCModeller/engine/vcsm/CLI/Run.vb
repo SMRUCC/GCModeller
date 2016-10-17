@@ -41,28 +41,28 @@ Public Module CommandLines
     <ExportAPI("run", Info:="",
         Usage:="run -i <model_file> -mysql <mysql_connection_string> [-f <gcml/csv_tabular> -t <time> -metabolism <assembly_path> -expression <assembly_path>]",
         Example:="run -i ~/gc/ecoli.xml -t 1000 -url ""http://localhost:8080/client?user=username%password=password%database=database""")>
-    <ParameterInfo("-i", False,
+    <Argument("-i", False,
         Description:="This switch value specific the model file that the simulation engine will be load",
         Example:="~/gc/ecoli.xml")>
-    <ParameterInfo("-t", True,
+    <Argument("-t", True,
         Description:="Optional, This switch specific that the cycle number of this simulation will run, this switch value will override the time value in the loaded model file.",
         Example:="1000")>
-    <ParameterInfo("-url", False,
+    <Argument("-url", False,
         Description:="Setup the data storage service connection url string.",
         Example:="http://localhost:8080/client?user=username%password=password%database=database")>
-    <ParameterInfo("-metabolism", True,
+    <Argument("-metabolism", True,
         Description:="N/A - The engine kernel will not load the metabolism module.", Example:="")>
-    <ParameterInfo("-expression", True,
+    <Argument("-expression", True,
         Description:="N/A - The engine kernel will not load the gene expression regulation module.", Example:="")>
-    <ParameterInfo("-interval", True,
+    <Argument("-interval", True,
         Description:="This switch value specific the data commit to the mysql database server time interval, " &
                      "if your compiled model is too large you should consider set up this switch value smaller " &
                      "in order to avoid the unexpected memory out of range exception.")>
-    <ParameterInfo("-f", True,
+    <Argument("-f", True,
         Description:="This parameter specific the file format of the target input model file, default value is gcml format.")>
-    <ParameterInfo("-suppress_warn", True, Description:="T/TRUE/F/FALSE")>
-    <ParameterInfo("-suppress_error", True, Description:="T/TRUE/F/FALSE")>
-    <ParameterInfo("-suppress_periodic_message", True, Description:="T/TRUE/F/FALSE")>
+    <Argument("-suppress_warn", True, Description:="T/TRUE/F/FALSE")>
+    <Argument("-suppress_error", True, Description:="T/TRUE/F/FALSE")>
+    <Argument("-suppress_periodic_message", True, Description:="T/TRUE/F/FALSE")>
     Public Function Run(argvs As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
         Dim Configuration As String
 

@@ -42,10 +42,10 @@ Partial Module CLI
 
     <ExportAPI("/Search.Taxonomy",
                Usage:="/Search.Taxonomy /in <list.txt/expression.csv> /ncbi_taxonomy <taxnonmy:name/nodes.dmp> [/top 10 /expression /cut 0.65 /out <out.csv>]")>
-    <ParameterInfo("/expression", True,
-                   Description:="Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.")>
-    <ParameterInfo("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
-    <ParameterInfo("/in", False, AcceptTypes:={GetType(String()), GetType(QueryArgument)})>
+    <Argument("/expression", True,
+              Description:="Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.")>
+    <Argument("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
+    <Argument("/in", False, AcceptTypes:={GetType(String()), GetType(QueryArgument)})>
     Public Function SearchTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim ncbi_taxonomy As String = args("/ncbi_taxonomy")

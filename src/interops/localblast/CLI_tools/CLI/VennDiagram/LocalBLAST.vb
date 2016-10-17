@@ -43,21 +43,21 @@ Partial Module CLI
                                   "is a interop service for the NCBI blast program， you should install the blast+ program at first.",
         Usage:="blast -i <file_directory> -blast_bin <BLAST_program_directory> -program <program_type_name> [-ld <log_dir> -xld <xml_log_dir>]",
         Example:="blast -i /home/xieguigang/GCModeller/examples/blast_test/ -ld ~/Desktop/logs -xld ~/Desktop/xmls -blast_bin ~/BLAST/bin")>
-    <ParameterInfo("-i", False,
+    <Argument("-i", False,
         Description:="The input data directory which is contains the FASTA format protein amino acid sequence data file.",
         Example:="~/Desktop/8004")>
-    <ParameterInfo("-xld", True,
+    <Argument("-xld", True,
         Description:="Optional, the parsed and well organized blast log file output directory, if this switch value is not specific by " &
                      "the user then the user desktop directoy will be used as default.",
         Example:="~/Desktop/xml_logs")>
-    <ParameterInfo("-ld", True,
+    <Argument("-ld", True,
         Description:="Optional, the blastp log file output directory for the NCBI blast+ program. If this switch value is not specific " &
                      "by the user then the user desktop directory will be specific for the logs file output as default.",
         Example:="~/Desktop/logs/")>
-    <ParameterInfo("-blast_bin", False,
+    <Argument("-blast_bin", False,
         Description:="The localtion for the blast+ program, you should specific this switch value or this program will throw an exception.",
         Example:="~/BLAST/bin")>
-    <ParameterInfo("-program", False,
+    <Argument("-program", False,
         Description:="The program type name for the NCBI local blast executable assembly.",
         Example:="blast+")>
     Public Function BLASTA(args As CommandLine) As Integer

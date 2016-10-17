@@ -267,7 +267,7 @@ Partial Module CLI
     <ExportAPI("mast.compile.bulk",
                Info:="Genome wide step 1",
                Usage:="mast.compile.bulk /source <source_dir> [/ptt <genome.ptt> /atg-dist <500> /no-meme /no-regInfo /p-value 1e-3 /mast-ldm <DIR default:=GCModeller/Regprecise/MEME/MAST_LDM> /related.all]")>
-    <ParameterInfo("/no-meme", True,
+    <Argument("/no-meme", True,
                    Description:="Specific that the mast site construction will without and meme pwm MAST_LDM model.")>
     Public Function CompileMastBuck(args As CommandLine) As Integer
         Call $"Start loading mast documents from source {args("/source")}".__DEBUG_ECHO
@@ -513,7 +513,7 @@ Partial Module CLI
     <ExportAPI("regulators.bbh",
                Info:="Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.",
                Usage:="regulators.bbh /bbh <bbhDIR/bbh.index.Csv> [/save <save.csv> /direct /regulons /maps <genome.gb>]")>
-    <ParameterInfo("/regulons", True,
+    <Argument("/regulons", True,
                    Description:="The data source of the /bbh parameter is comes from the regulons bbh data.")>
     Public Function RegulatorsBBh(args As CommandLine) As Integer
         Dim KEGGFamilies = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of FastaReaders.Regulator) _
@@ -599,7 +599,7 @@ Partial Module CLI
     <ExportAPI("--build.Regulations",
                Info:="Genome wide step 2",
                Usage:="--build.Regulations /bbh <regprecise.bbhMapped.csv> /mast <mastSites.csv> [/cutoff <0.6> /out <out.csv> /sp <spName> /DOOR <genome.opr> /DOOR.extract]")>
-    <ParameterInfo("/DOOR.extract", True,
+    <Argument("/DOOR.extract", True,
                    Description:="Extract the operon structure genes after assign the operon information.")>
     Public Function Build(args As CommandLine) As Integer
         Dim bbh = RegpreciseSummary.LoadRegpreciseBBH(args("/bbh"))
@@ -715,7 +715,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--Dump.KEGG.Family", Usage:="--Dump.KEGG.Family /in <in.fasta> [/out <out.csv>]")>
-    <ParameterInfo("/in", False, Description:="The RegPrecise formated title fasta file.")>
+    <Argument("/in", False, Description:="The RegPrecise formated title fasta file.")>
     Public Function KEGGFamilyDump(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim outFile As String = args.GetValue("/out", inFile.TrimSuffix & "_KEGG.csv")

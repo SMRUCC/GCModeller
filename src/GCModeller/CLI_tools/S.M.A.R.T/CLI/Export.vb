@@ -44,10 +44,10 @@ Partial Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("export", Info:="", Usage:="export -keyword <keyword_list> [-m <any/all>] -o <export_file> [-d <db_name> -casesense <T/F>]", Example:="")>
-    <ParameterInfo("-d", False,
+    <Argument("-d", False,
         Description:="This switch value can be both a domain database name or a fasta file path.",
         Example:="")>
-    <ParameterInfo("-keyword",
+    <Argument("-keyword",
         Description:="The keyword list will be use for the sequence record search, each keyword should seperated by comma character.",
         Example:="HTH,GGDEF,Clp,REC")>
     Public Function Export(args As CommandLine) As Integer
@@ -116,7 +116,7 @@ Partial Module CLI
                                  "You can also done this id parsing job using other tools.",
         Usage:="grep -i <xml_log_file> -q <script_statements> -h <script_statements>",
         Example:="grep -i C:\Users\WORKGROUP\Desktop\blast_xml_logs\1__8004_ecoli_prot.log.xml -q ""tokens | 4"" -h ""'tokens | 2';'tokens ' ' 0'""")>
-    <ParameterInfo("-q",
+    <Argument("-q",
         Description:="The parsing script for parsing the gene_id from the blast log file, this switch value is consist of sevral operation " &
                      "tokens, and each token is separate by the ';' character and the token unit in each script token should seperate by " &
                      "the ' character.\n" &
@@ -129,7 +129,7 @@ Partial Module CLI
                      "   usage:   match <regular_expression>\n" &
                      "   Example: match .+[-]\d{5}",
         Example:="'tokens | 5';'match .+[-].+'")>
-    <ParameterInfo("-h", False,
+    <Argument("-h", False,
         Description:="The parsing script for parsing the gene_id from the blast log file, this switch value is consist of sevral operation " &
                      "tokens, and each token is separate by the ';' character and the token unit in each script token should seperate by " &
                      "the ' character.\n" &

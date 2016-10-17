@@ -224,7 +224,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.blastnMaps",
                Usage:="/Export.blastnMaps /in <blastn.txt> [/best /out <out.csv>]")>
-    <ParameterInfo("/best", True,
+    <Argument("/best", True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Only output the first hit result for each query as best?")>
     Public Function ExportBlastnMaps(args As CommandLine) As Integer

@@ -217,7 +217,7 @@ Module CLI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("-Table.Create", Usage:="-table.create -i <input_dir> -o <out_csv>")>
-    <ParameterInfo("-i", Description:="This parameter specific the source directory input of the download data.")>
+    <Argument("-i", Description:="This parameter specific the source directory input of the download data.")>
     Public Function CreateTABLE(argvs As CommandLine) As Integer
         Dim Inputs As String() = FileIO.FileSystem.GetFiles(argvs("-i"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray
         Dim GeneData = (From path As String

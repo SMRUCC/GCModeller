@@ -48,7 +48,7 @@ Partial Module CLI
 
     <ExportAPI("/Fasta.Filters",
                Usage:="/Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/tokens /out <out.fasta> /p]")>
-    <ParameterInfo("/p",
+    <Argument("/p",
                    True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option. This option only works in single key mode.")>

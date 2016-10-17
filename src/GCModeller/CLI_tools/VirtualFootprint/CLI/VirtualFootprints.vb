@@ -259,11 +259,11 @@ Partial Module CLI
     <ExportAPI("/Build.Footprints",
                Info:="Build regulations from motif log site.",
                Usage:="/Build.Footprints /motifs <motifLogs.csv> /bbh <queryHits.csv> [/hitshash /sites <motifLogSites.Xml.DIR> /out <out.csv>]")>
-    <ParameterInfo("/bbh", False,
+    <Argument("/bbh", False,
                    Description:="The bbh hit result between the RegPrecise database and annotated genome proteins. query should be the RegPrecise TF and hits should be the annotated proteins.")>
-    <ParameterInfo("/sites", True,
+    <Argument("/sites", True,
                    Description:="If this parameter not presented, then using GCModeller repository data as default.")>
-    <ParameterInfo("/hitshash", True,
+    <Argument("/hitshash", True,
                    Description:="Using hit name as the bbh hash index key? default is using query name.")>
     Public Function BuildFootprints(args As CommandLine) As Integer
         Dim xmls As IEnumerable(Of String) =

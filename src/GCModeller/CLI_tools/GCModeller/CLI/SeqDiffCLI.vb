@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("/seqdiff", Usage:="/seqdiff /in <mla.fasta> [/toplog <file-list.txt> /winsize 250 /steps 50 /slides 5 /out <out.csv>]")>
-    <ParameterInfo("/toplog", True, AcceptTypes:={GetType(String())},
+    <Argument("/toplog", True, AcceptTypes:={GetType(String())},
                    Description:="Put these directory path in the item order of:
 + hairpinks
 + perfects palindrome

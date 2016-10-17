@@ -105,9 +105,9 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/TF.Density",
                Usage:="/TF.Density /TF <TF-list.txt> /PTT <genome.PTT> [/ranges 5000 /out <out.csv> /cis /un-strand /batch]")>
-    <ParameterInfo("/TF", False,
+    <Argument("/TF", False,
                    Description:="A plant text file with the TF locus_tag list.")>
-    <ParameterInfo("/batch", True,
+    <Argument("/batch", True,
                    Description:="This function is works in batch mode.")>
     Public Function TFDensity(args As CommandLine) As Integer
         Dim TFs As String = args - "/TF"

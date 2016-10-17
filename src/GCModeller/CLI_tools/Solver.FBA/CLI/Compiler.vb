@@ -40,26 +40,26 @@ Partial Module CLI
     <ExportAPI("compile", Info:="Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.",
         Usage:="compile -i <input_file> -o <output_file>[ -if <sbml/metacyc> -of <fba/fba2> -f <objective_function> -d <max/min>]",
         Example:="compile -i /home/xieguigang/ecoli/ -o /home/xieguigang/ecoli.xml -if metacyc -of fba2 -f v2+v3 -d max")>
-    <ParameterInfo("-i", False,
+    <Argument("-i", False,
         Description:="The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch '-if'",
         Example:="/home/xieguigang/ecoli/")>
-    <ParameterInfo("-o", False,
+    <Argument("-o", False,
         Description:="The output file path of the compiled model file.",
         Example:="/home/xieguigang/ecoli.xml")>
-    <ParameterInfo("-if", True,
+    <Argument("-if", True,
         Description:="Optional, this switch specific the format of the input data source, the fba compiler just support the metacyc database and sbml model currently, default value if metacyc." & vbCrLf &
                                  " metacyc - the input compiled data source is a metacyc database;" & vbCrLf &
                                  "sbml - the input compiled data source is a standard sbml language model in level 2.",
         Example:="metacyc")>
-    <ParameterInfo("-of", True,
+    <Argument("-of", True,
         Description:="Optional, this switch specific the format of the output compiled model, it can be a standard fba model or a advanced version of fba model, defualt is a standard fba model." & vbCrLf &
                                  " fba - the output compiled model is a standard fba model;" & vbCrLf &
                                  "fba2 - the output compiled model is a advanced version of fba model.",
         Example:="fba2")>
-    <ParameterInfo("-f", True,
+    <Argument("-f", True,
         Description:="Optional, you can specific the objective function using this switch, default value is the objective function that define in the sbml model file.",
         Example:="v2+v3")>
-    <ParameterInfo("-d", True,
+    <Argument("-d", True,
         Description:="Optional, the constraint direction of the objective function in the fba model, default value is maximum the objective function." & vbCrLf &
                                  " max - the constraint direction is maximum;" & vbCrLf &
                                  " min - the constraint direction is minimum.",

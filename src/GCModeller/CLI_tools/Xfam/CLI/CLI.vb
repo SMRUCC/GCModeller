@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Module CLI
 
     <ExportAPI("/Rfam.Align", Usage:="/Rfam.Align /query <sequence.fasta> [/rfam <DIR> /out <outDIR> /num_threads -1 /ticks 1000]")>
-    <ParameterInfo("/formatdb", True,
+    <Argument("/formatdb", True,
                    Description:="If the /rfam directory parameter is specific and the database is not formatted, then this value should be TRUE for local blast. 
                    If /rfam parameter is not specific, then the program will using the system database if it is exists, and the database is already be formatted as the installation of the database is includes this formation process.")>
     Public Function RfamAlignment(args As CommandLine) As Integer

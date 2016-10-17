@@ -70,8 +70,8 @@ Module CLI
 
     <ExportAPI("-register_modules", Info:="Register the shellscript API module assembly DLL or assembly exe file to the shellscript type registry.",
         Usage:="-register_modules -path <assemnly_dll_file> [-module_name <string_name>]")>
-    <ParameterInfo("-path", False, Description:="the assembly file path of the API module that you are going to register in the shellscript type library")>
-    <ParameterInfo("-module_name", True, Description:="The module name for the register type namespace, if the target " &
+    <Argument("-path", False, Description:="the assembly file path of the API module that you are going to register in the shellscript type library")>
+    <Argument("-module_name", True, Description:="The module name for the register type namespace, if the target " &
         "assembly just have one shellscript namespace, then this switch value will override the namespace attribute value if " &
         "the value of this switch is not null, when there are more than one shellscript namespace was declared in the module, then this switch opetion will be disabled.")>
     Public Function RegisterModule(argvs As CommandLine.CommandLine) As Integer

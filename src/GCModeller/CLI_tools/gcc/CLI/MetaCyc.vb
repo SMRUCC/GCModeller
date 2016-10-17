@@ -48,10 +48,10 @@ Public Module CLI
     <ExportAPI("compile_metacyc", Info:="compile a metacyc database into a gcml(genetic clock markup language) model file.",
         Usage:="compile_metacyc -i <data_dir> -o <output_file>",
         Example:="compile_metacyc -i ~/Documents/ecoli/ -o ~/Desktop/ecoli.xml")>
-    <ParameterInfo("-i",
+    <Argument("-i",
         Description:="",
         Example:="")>
-    <ParameterInfo("-o",
+    <Argument("-o",
         Description:="",
         Example:="")>
     Public Function CompileMetaCyc(CommandLine As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
@@ -110,10 +110,10 @@ Public Module CLI
     ''' 最后将拓展的新反应规则添加进入计算机模型之中
     ''' </remarks>
     <ExportAPI("-add_rule", Usage:="-add_rule -rulefile <path> -db <datadir> -model <path> [-grep <scriptText>]")>
-    <ParameterInfo("-rulefile", Description:="a file contains some protein interaction rules", Usage:="", Example:="")>
-    <ParameterInfo("-db", Description:="original database for the target compiled model", Usage:="", Example:="")>
-    <ParameterInfo("-model", Description:="Target model file for adding some new rules", Usage:="", Example:="")>
-    <ParameterInfo("-grep", True, Description:="If null then the system will using the MeatCyc database unique-id parsing method as default.")>
+    <Argument("-rulefile", Description:="a file contains some protein interaction rules", Usage:="", Example:="")>
+    <Argument("-db", Description:="original database for the target compiled model", Usage:="", Example:="")>
+    <Argument("-model", Description:="Target model file for adding some new rules", Usage:="", Example:="")>
+    <Argument("-grep", True, Description:="If null then the system will using the MeatCyc database unique-id parsing method as default.")>
     Public Function AddRule(CommandLine As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
         Dim MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder =
             SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(CommandLine("-db"))

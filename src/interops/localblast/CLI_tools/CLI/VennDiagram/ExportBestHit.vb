@@ -54,7 +54,7 @@ Partial Module CLI
                Info:="",
                Usage:="-merge_besthit -i <input_file_list> -o <output_file> -os <original_idlist_sequence_file> [-osidx <id_column_index> -os_skip_first <T/F>]",
                Example:="")>
-    <ParameterInfo("-i", False,
+    <Argument("-i", False,
         Description:="Each file path in the filelist should be separated by a ""|"" character.",
         Usage:="-i ""file_path1|file_path2|file_path3|...""",
         Example:="")>
