@@ -394,6 +394,9 @@ Partial Module CLI
                 x.Properties("Taxonomy") = Taxonomy
                 x.Properties("Taxonomy.BIOM") = tree
                 x.Properties("taxid") = taxid
+                If taxTree.Taxonomy.ContainsKey(taxid) Then
+                    x.Properties("Tax.Name") = taxTree(taxid).name
+                End If
             Else
                 Call x.GetJson.Warning
             End If

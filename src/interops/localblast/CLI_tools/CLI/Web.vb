@@ -51,4 +51,18 @@ Partial Module CLI
 
         Return list.FlushAllLines(out).CLICode
     End Function
+
+    <ExportAPI("/AlignmentTable.TopBest",
+               Usage:="/AlignmentTable.TopBest /in <table.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.WebTools)>
+    Public Function AlignmentTableTopBest(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".top_best.csv")
+        Dim data = [in].LoadCsv(Of HitRecord)
+
+        Return HitRecord.TopBest(data) _
+            .ToArray _
+            .SaveTo(out) _
+            .CLICode
+    End Function
 End Module

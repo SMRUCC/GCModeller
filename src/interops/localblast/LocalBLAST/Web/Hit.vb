@@ -42,7 +42,7 @@ Namespace NCBIBlastResult
     ''' Fields: query id, subject ids, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
     ''' </remarks>
     <XmlType("hit", [Namespace]:="http://gcmodeller.org/visual/circos/blast_hit")>
-    Public Class HitRecord : Inherits ClassObject
+    Public Class HitRecord
 
         <XmlAttribute("query_name")>
         <Column("query id")>
@@ -95,6 +95,8 @@ Namespace NCBIBlastResult
 
         Friend DebugTag As String
 
+        Public Property Data As Dictionary(Of String, String)
+
         Public ReadOnly Property GI As String()
             Get
                 Dim GIList As String() =
@@ -109,13 +111,17 @@ Namespace NCBIBlastResult
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' 请注意，在这里是按值复制
+        ''' </summary>
+        ''' <param name="x"></param>
         Sub New(x As HitRecord)
             With Me
                 .AlignmentLength = x.AlignmentLength
                 .BitScore = x.BitScore
                 .DebugTag = x.DebugTag
                 .EValue = x.EValue
-                .Extension = x.Extension
+                .Data = New Dictionary(Of String, String)(x.Data)
                 .GapOpens = x.GapOpens
                 .Identity = x.Identity
                 .MisMatches = x.MisMatches
@@ -177,6 +183,19 @@ Namespace NCBIBlastResult
             }
 
             Return hit
+        End Function
+
+        Public Shared Iterator Function TopBest(raw As IEnumerable(Of HitRecord)) As IEnumerable(Of HitRecord)
+            Dim gg = From x As HitRecord In raw Select x Group x By x.QueryID Into Group
+
+            For Each groups In gg
+                Dim orders = From x As HitRecord
+                             In groups.Group
+                             Select x
+                             Order By x.Identity Descending
+
+                Yield orders.First
+            Next
         End Function
     End Class
 End Namespace
