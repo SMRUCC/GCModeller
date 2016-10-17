@@ -19,7 +19,7 @@ Partial Module CLI
         Dim expList = (From x As QueryArgument
                        In exps
                        Select x,
-                           query = x.Expression.Build(allowInStr:=False),
+                           query = x.Expression.Build(allowInStr:=False, anyDefault:=Tokens.op_AND),
                            bufs = New List(Of String)).ToArray
         Dim hits As New Dictionary(Of String, List(Of String))
 
@@ -62,7 +62,7 @@ Partial Module CLI
         Dim expList = (From x As QueryArgument
                        In exps
                        Select x,
-                           query = x.Expression.Build(allowInStr:=False),
+                           query = x.Expression.Build(allowInStr:=False, anyDefault:=Tokens.op_AND),
                            bufs = New Dictionary(Of Integer, List(Of String))).ToArray
         Dim hits As New Dictionary(Of String, Dictionary(Of Integer, List(Of String)))
 

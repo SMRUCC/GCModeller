@@ -1,37 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::364ae502db9c5f39a238dcb78dc847ce, ..\interops\localblast\LocalBLAST\Web\ParserAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Language.UnixBash
 
 Namespace NCBIBlastResult
 
@@ -40,31 +43,94 @@ Namespace NCBIBlastResult
     ''' </summary>
     Public Module ParserAPI
 
-        Public Function LoadDocument(path As String) As AlignmentTable
-            Dim docBuffer As String() =
-                LinqAPI.Exec(Of String) <= From s As String
-                                           In path.ReadAllLines
-                                           Where Not String.IsNullOrEmpty(s)
-                                           Select s
-            Dim head As String() = (From s As String In docBuffer Where InStr(s, "# ") = 1 Select s).ToArray
-            Dim hits As HitRecord() =
-                LinqAPI.Exec(Of HitRecord) <= From s As String
-                                              In docBuffer.Skip(head.Length).AsParallel
-                                              Select HitRecord.Mapper(s)
-            Dim headAttrs As Dictionary(Of String, String) = (From s As String In head
-                                                              Let t = Strings.Split(s, ": ")
-                                                              Select Key = t.First,
-                                                                  Value = t.Last) _
-                                                                 .ToDictionary(Function(x) x.Key,
-                                                                               Function(x) x.Value)
+        ''' <summary>
+        ''' 适用于一个文件只有一个表的时候
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        Public Function LoadDocument(path As String, Optional headerSplit As Boolean = False) As AlignmentTable
+            Dim lines$() = LinqAPI.Exec(Of String) <=
+ _
+                From s As String
+                In path.ReadAllLines
+                Where Not String.IsNullOrEmpty(s)
+                Select s
+            Dim header$() = LinqAPI.Exec(Of String) <=
+ _
+                From s As String
+                In lines
+                Where InStr(s, "# ") = 1
+                Select s
+
+            Return lines _
+                .Skip(header.Length) _
+                .ToArray _
+                .__parseTable(path$, header, headerSplit)
+        End Function
+
+        <Extension>
+        Private Function __parseTable(lines$(), path$, header$(), headerSplit As Boolean) As AlignmentTable
+            Dim hits As HitRecord() = lines _
+                .ToArray(AddressOf HitRecord.Mapper)
+            Dim headAttrs As Dictionary(Of String, String) =
+                header _
+                .Skip(1) _
+                .Select(Function(s) s.GetTagValue(": ")) _
+                .ToDictionary(Function(x) x.Name,
+                              Function(x) x.x)
+
+            If headerSplit Then
+                hits = hits _
+                    .Select(Function(x) x.SplitByHeaders) _
+                    .MatrixToVector
+            End If
+
             Return New AlignmentTable With {
                 .Hits = hits,
                 .FilePath = path,
-                .Program = head.First.Trim.Split.Last,
+                .Program = header.First.Trim.Split.Last,
                 .Query = headAttrs("# Query"),
                 .Database = headAttrs("# Database"),
                 .RID = headAttrs("# RID")
             }
+        End Function
+
+        ''' <summary>
+        ''' 当文件之中包含有多个表的时候使用
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function IterateTables(path$, headerSplit As Boolean) As IEnumerable(Of AlignmentTable)
+            Dim headers As New List(Of String)
+            Dim lines As New List(Of String)
+            Dim line As New Value(Of String)
+            Dim reader As StreamReader = path.OpenReader
+
+            Do While Not reader.EndOfStream
+                Do While (line = reader.ReadLine).First = "#"c
+                    headers += (+line)
+                Loop
+
+                lines += (+line)
+
+                Do While Not String.IsNullOrEmpty(line = reader.ReadLine) AndAlso
+                    (+line).First <> "#"c
+                    lines += (+line)
+                Loop
+
+                Yield lines.ToArray.__parseTable(path$, headers, headerSplit)
+
+                headers *= 0
+                lines *= 0
+                headers += (+line)
+
+                If String.IsNullOrEmpty(headers.First) Then
+                    Do While Not reader.EndOfStream AndAlso String.IsNullOrEmpty(line = reader.ReadLine)
+                    Loop
+                    headers += (+line)
+                End If
+            Loop
         End Function
 
         Private Function __createFromBlastn(sId As String, out As v228) As HitRecord()
@@ -76,35 +142,42 @@ Namespace NCBIBlastResult
         End Function
 
         Private Function __createFromBlastn(sId As String, hits As SubjectHit()) As HitRecord()
-            Dim LQuery As HitRecord() =
-                LinqAPI.Exec(Of HitRecord) <= From hspNT As SubjectHit
-                                              In hits
-                                              Let row As HitRecord = New HitRecord With {
-                                                  .Identity = hspNT.Score.Identities.Value,
-                                                  .DebugTag = hspNT.Name,
-                                                  .SubjectIDs = sId,
-                                                  .BitScore = hspNT.Score.RawScore,
-                                                  .QueryStart = hspNT.QueryLocation.Left,
-                                                  .QueryEnd = hspNT.QueryLocation.Right
-                                              }
-                                              Select row
+            Dim LQuery As HitRecord() = LinqAPI.Exec(Of HitRecord) <=
+ _
+                From hspNT As SubjectHit
+                In hits
+                Let row As HitRecord = New HitRecord With {
+                    .Identity = hspNT.Score.Identities.Value,
+                    .DebugTag = hspNT.Name,
+                    .SubjectIDs = sId,
+                    .BitScore = hspNT.Score.RawScore,
+                    .QueryStart = hspNT.QueryLocation.Left,
+                    .QueryEnd = hspNT.QueryLocation.Right
+                }
+                Select row
+
             Return LQuery
         End Function
 
         Public Function CreateFromBlastn(sourceDIR As String) As AlignmentTable
-            Dim Files = (From path As String
-                         In FileIO.FileSystem.GetFiles(sourceDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-                         Let XOutput As v228 = Parser.LoadBlastOutput(path)
-                         Where Not XOutput Is Nothing AndAlso
-                             Not XOutput.Queries.IsNullOrEmpty
-                         Select ID = path.BaseName,
-                             XOutput).ToArray
-            Dim LQuery As HitRecord() = (From file In Files Select __createFromBlastn(file.ID, file.XOutput)).MatrixToVector
-            Dim Tab As AlignmentTable = New AlignmentTable With {
+            Dim Files = LinqAPI.Exec(Of NamedValue(Of v228)) <=
+ _
+                From path As String
+                In ls - l - r - "*.txt" <= sourceDIR
+                Let XOutput As v228 = Parser.LoadBlastOutput(path)
+                Where Not XOutput Is Nothing AndAlso
+                    Not XOutput.Queries.IsNullOrEmpty
+                Select New NamedValue(Of v228) With {
+                    .Name = path.BaseName,
+                    .x = XOutput
+                }
+
+            Dim LQuery As HitRecord() = (From file In Files Select __createFromBlastn(file.Name, file.x)).MatrixToVector
+            Dim Tab As New AlignmentTable With {
                 .Hits = LQuery,
-                .Query = (From file In Files
-                          Let Q As Query() =
-                              file.XOutput.Queries
+                .Query = (From file As NamedValue(Of v228)
+                          In Files
+                          Let Q As Query() = file.x.Queries
                           Where Not Q.IsNullOrEmpty
                           Select Q.First.QueryName).FirstOrDefault,
                 .RID = Now.ToShortDateString,
@@ -120,30 +193,35 @@ Namespace NCBIBlastResult
                          Select ID = path.BaseName,
                              XOutput = OutputReader.TryParseOutput(path)).ToArray
             Dim LQuery As HitRecord() = (From file In Files Select file.ID.__hits(file.XOutput)).MatrixToVector
-            Dim Tab = New AlignmentTable With {
+            Dim tab As New AlignmentTable With {
                 .Hits = LQuery,
                 .Query = Files.First.XOutput.Queries.First.QueryName,
                 .RID = Now.ToShortDateString,
                 .Program = "BlastX",
                 .Database = source
             }
-            Return Tab
+            Return tab
         End Function
 
-        <Extension> Private Iterator Function __hits(id As String, out As v228_BlastX) As IEnumerable(Of HitRecord)
-            Yield (From Query As BlastX.Components.Query
-                   In out.Queries
-                   Select (From hsp As BlastX.Components.HitFragment
-                           In Query.Hits
-                           Let row As HitRecord = New HitRecord With {
-                               .Identity = hsp.Score.Identities.Value,
-                               .DebugTag = Query.SubjectName,
-                               .SubjectIDs = id,
-                               .BitScore = hsp.Score.RawScore,
-                               .QueryStart = hsp.Hsp.First.Query.Left,
-                               .QueryEnd = hsp.Hsp.Last.Query.Right
-                           }
-                           Select row).ToArray)
+        <Extension> Private Function __hits(id As String, out As v228_BlastX) As IEnumerable(Of HitRecord)
+            Return out.Queries _
+                .Select(Function(query) id.__hspHits(query)) _
+                .MatrixAsIterator
+        End Function
+
+        <Extension>
+        Private Function __hspHits(id$, query As BlastX.Components.Query) As IEnumerable(Of HitRecord)
+            Return From hsp As BlastX.Components.HitFragment
+                   In query.Hits
+                   Let row As HitRecord = New HitRecord With {
+                       .Identity = hsp.Score.Identities.Value,
+                       .DebugTag = query.SubjectName,
+                       .SubjectIDs = id,
+                       .BitScore = hsp.Score.RawScore,
+                       .QueryStart = hsp.Hsp.First.Query.Left,
+                       .QueryEnd = hsp.Hsp.Last.Query.Right
+                   }
+                   Select row
         End Function
     End Module
 End Namespace

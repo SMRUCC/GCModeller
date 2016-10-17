@@ -197,9 +197,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\BBH.vb" />
     <Compile Include="CLI\Blastn.vb" />
     <Compile Include="CLI\FastaTools.vb" />
+    <Compile Include="CLI\Web.vb" />
     <Compile Include="CLI\Taxonomy.vb" />
     <Compile Include="CLI\VennDiagram\ExportBestHit.vb" />
     <Compile Include="CLI\VennDiagram\LocalBLAST.vb" />

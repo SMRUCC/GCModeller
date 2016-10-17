@@ -28,6 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -41,7 +42,7 @@ Namespace NCBIBlastResult
     ''' Fields: query id, subject ids, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
     ''' </remarks>
     <XmlType("hit", [Namespace]:="http://gcmodeller.org/visual/circos/blast_hit")>
-    Public Class HitRecord : Inherits ClassObject
+    Public Class HitRecord
 
         <XmlAttribute("query_name")>
         <Column("query id")>
@@ -55,6 +56,12 @@ Namespace NCBIBlastResult
         <XmlAttribute("hits")>
         <Column("subject ids")>
         Public Property SubjectIDs As String
+
+        <Column("query acc.ver")>
+        Public Property QueryAccVer As String
+        <Column("subject acc.ver")>
+        Public Property SubjectAccVer As String
+
         <XmlAttribute>
         <Column("% identity")>
         Public Property Identity As Double
@@ -88,12 +95,59 @@ Namespace NCBIBlastResult
 
         Friend DebugTag As String
 
+        Public Property Data As Dictionary(Of String, String)
+
         Public ReadOnly Property GI As String()
             Get
-                Dim GIList As String() = Regex.Matches(Me.SubjectIDs, "gi\|\d+").ToArray(Function(s) s.Split("|"c).Last)
+                Dim GIList As String() =
+                    Regex.Matches(Me.SubjectIDs, "gi\|\d+") _
+                         .ToArray(Function(s)
+                                      Return s.Split("|"c).Last
+                                  End Function)
                 Return GIList
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' 请注意，在这里是按值复制
+        ''' </summary>
+        ''' <param name="x"></param>
+        Sub New(x As HitRecord)
+            With Me
+                .AlignmentLength = x.AlignmentLength
+                .BitScore = x.BitScore
+                .DebugTag = x.DebugTag
+                .EValue = x.EValue
+                .Data = New Dictionary(Of String, String)(x.Data)
+                .GapOpens = x.GapOpens
+                .Identity = x.Identity
+                .MisMatches = x.MisMatches
+                .QueryAccVer = x.QueryAccVer
+                .QueryEnd = x.QueryEnd
+                .QueryID = x.QueryID
+                .QueryStart = x.QueryStart
+                .SubjectAccVer = x.SubjectAccVer
+                .SubjectEnd = x.SubjectEnd
+                .SubjectIDs = x.SubjectIDs
+                .SubjectStart = x.SubjectStart
+            End With
+        End Sub
+
+        Public Function SplitByHeaders() As HitRecord()
+            Dim tokens$() = SubjectIDs.Split(";"c)
+            Dim out As New List(Of HitRecord)
+
+            For Each t$ In tokens
+                out += New HitRecord(Me) With {
+                    .SubjectIDs = t$
+                }
+            Next
+
+            Return out
+        End Function
 
         Public Overrides Function ToString() As String
             If Not String.IsNullOrEmpty(DebugTag) Then
@@ -110,23 +164,38 @@ Namespace NCBIBlastResult
         ''' <returns></returns>
         Public Shared Function Mapper(s As String) As HitRecord
             Dim tokens As String() = Strings.Split(s, vbTab)
-            Dim Hit As HitRecord = New HitRecord
-            Dim p As New Pointer(Scan0)
+            Dim i As int = Scan0
+            Dim hit As New HitRecord With {
+                .QueryID = tokens(++i),
+                .SubjectIDs = tokens(++i),
+                .QueryAccVer = tokens(++i),
+                .SubjectAccVer = tokens(++i),
+                .Identity = Val(tokens(++i)),
+                .AlignmentLength = Val(tokens(++i)),
+                .MisMatches = Val(tokens(++i)),
+                .GapOpens = Val(tokens(++i)),
+                .QueryStart = Val(tokens(++i)),
+                .QueryEnd = Val(tokens(++i)),
+                .SubjectStart = Val(tokens(++i)),
+                .SubjectEnd = Val(tokens(++i)),
+                .EValue = Val(tokens(++i)),
+                .BitScore = Val(tokens(++i))
+            }
 
-            Hit.QueryID = tokens(++p)
-            Hit.SubjectIDs = tokens(++p)
-            Hit.Identity = Val(tokens(++p))
-            Hit.AlignmentLength = Val(tokens(++p))
-            Hit.MisMatches = Val(tokens(++p))
-            Hit.GapOpens = Val(tokens(++p))
-            Hit.QueryStart = Val(tokens(++p))
-            Hit.QueryEnd = Val(tokens(++p))
-            Hit.SubjectStart = Val(tokens(++p))
-            Hit.SubjectEnd = Val(tokens(++p))
-            Hit.EValue = Val(tokens(++p))
-            Hit.BitScore = Val(tokens(++p))
+            Return hit
+        End Function
 
-            Return Hit
+        Public Shared Iterator Function TopBest(raw As IEnumerable(Of HitRecord)) As IEnumerable(Of HitRecord)
+            Dim gg = From x As HitRecord In raw Select x Group x By x.QueryID Into Group
+
+            For Each groups In gg
+                Dim orders = From x As HitRecord
+                             In groups.Group
+                             Select x
+                             Order By x.Identity Descending
+
+                Yield orders.First
+            Next
         End Function
     End Class
 End Namespace

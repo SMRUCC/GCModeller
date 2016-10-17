@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
@@ -362,5 +363,45 @@ Partial Module CLI
         Next
 
         Return output.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Taxonomy.Data",
+             Usage:="/Taxonomy.Data /data <data.csv> /field.gi <GI> /gi2taxid <gi2taxid.list.txt> /tax <ncbi_taxonomy:nodes/names> [/out <out.csv>]")>
+    Public Function TaxonomyTreeData(args As CommandLine) As Integer
+        Dim gi2taxid As String = args("/gi2taxid")
+        Dim tax As String = args("/tax")
+        Dim dataFile = args("/data")
+        Dim giFieldName = args("/field.gi")
+        Dim out As String = args.GetValue("/out", dataFile.TrimSuffix & "-taxonomy.csv")
+        Dim data As EntityObject() =
+            dataFile _
+            .LoadCsv(Of EntityObject)(maps:=New Dictionary(Of String, String) From {
+                {giFieldName, NameOf(EntityObject.Identifier)}
+            })
+        Dim giMapTaxid As BucketDictionary(Of Integer, Integer) =
+            AcquireAuto(gi2taxid)
+        Dim taxTree As New NcbiTaxonomyTree(tax)
+
+        For Each x As EntityObject In data
+            Dim gi% = CInt(x.Identifier)
+
+            If giMapTaxid.ContainsKey(gi%) Then
+                Dim taxid% = giMapTaxid(gi%)
+                Dim nodes = taxTree.GetAscendantsWithRanksAndNames(taxid, True)
+                Dim tree$ = TaxonomyNode.BuildBIOM(nodes)
+                Dim Taxonomy$ = TaxonomyNode.Taxonomy(nodes)
+
+                x.Properties("Taxonomy") = Taxonomy
+                x.Properties("Taxonomy.BIOM") = tree
+                x.Properties("taxid") = taxid
+                If taxTree.Taxonomy.ContainsKey(taxid) Then
+                    x.Properties("Tax.Name") = taxTree(taxid).name
+                End If
+            Else
+                Call x.GetJson.Warning
+            End If
+        Next
+
+        Return data.SaveTo(out).CLICode
     End Function
 End Module
