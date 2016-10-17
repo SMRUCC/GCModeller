@@ -55,6 +55,12 @@ Namespace NCBIBlastResult
         <XmlAttribute("hits")>
         <Column("subject ids")>
         Public Property SubjectIDs As String
+
+        <Column("query acc.ver")>
+        Public Property QueryAccVer As String
+        <Column("subject acc.ver")>
+        Public Property SubjectAccVer As String
+
         <XmlAttribute>
         <Column("% identity")>
         Public Property Identity As Double
@@ -110,23 +116,25 @@ Namespace NCBIBlastResult
         ''' <returns></returns>
         Public Shared Function Mapper(s As String) As HitRecord
             Dim tokens As String() = Strings.Split(s, vbTab)
-            Dim Hit As HitRecord = New HitRecord
-            Dim p As New Pointer(Scan0)
+            Dim i As int = Scan0
+            Dim hit As New HitRecord With {
+                .QueryID = tokens(++i),
+                .SubjectIDs = tokens(++i),
+                .QueryAccVer = tokens(++i),
+                .SubjectAccVer = tokens(++i),
+                .Identity = Val(tokens(++i)),
+                .AlignmentLength = Val(tokens(++i)),
+                .MisMatches = Val(tokens(++i)),
+                .GapOpens = Val(tokens(++i)),
+                .QueryStart = Val(tokens(++i)),
+                .QueryEnd = Val(tokens(++i)),
+                .SubjectStart = Val(tokens(++i)),
+                .SubjectEnd = Val(tokens(++i)),
+                .EValue = Val(tokens(++i)),
+                .BitScore = Val(tokens(++i))
+            }
 
-            Hit.QueryID = tokens(++p)
-            Hit.SubjectIDs = tokens(++p)
-            Hit.Identity = Val(tokens(++p))
-            Hit.AlignmentLength = Val(tokens(++p))
-            Hit.MisMatches = Val(tokens(++p))
-            Hit.GapOpens = Val(tokens(++p))
-            Hit.QueryStart = Val(tokens(++p))
-            Hit.QueryEnd = Val(tokens(++p))
-            Hit.SubjectStart = Val(tokens(++p))
-            Hit.SubjectEnd = Val(tokens(++p))
-            Hit.EValue = Val(tokens(++p))
-            Hit.BitScore = Val(tokens(++p))
-
-            Return Hit
+            Return hit
         End Function
     End Class
 End Namespace
