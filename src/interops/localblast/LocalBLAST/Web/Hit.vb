@@ -28,6 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -96,10 +97,51 @@ Namespace NCBIBlastResult
 
         Public ReadOnly Property GI As String()
             Get
-                Dim GIList As String() = Regex.Matches(Me.SubjectIDs, "gi\|\d+").ToArray(Function(s) s.Split("|"c).Last)
+                Dim GIList As String() =
+                    Regex.Matches(Me.SubjectIDs, "gi\|\d+") _
+                         .ToArray(Function(s)
+                                      Return s.Split("|"c).Last
+                                  End Function)
                 Return GIList
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(x As HitRecord)
+            With Me
+                .AlignmentLength = x.AlignmentLength
+                .BitScore = x.BitScore
+                .DebugTag = x.DebugTag
+                .EValue = x.EValue
+                .Extension = x.Extension
+                .GapOpens = x.GapOpens
+                .Identity = x.Identity
+                .MisMatches = x.MisMatches
+                .QueryAccVer = x.QueryAccVer
+                .QueryEnd = x.QueryEnd
+                .QueryID = x.QueryID
+                .QueryStart = x.QueryStart
+                .SubjectAccVer = x.SubjectAccVer
+                .SubjectEnd = x.SubjectEnd
+                .SubjectIDs = x.SubjectIDs
+                .SubjectStart = x.SubjectStart
+            End With
+        End Sub
+
+        Public Function SplitByHeaders() As HitRecord()
+            Dim tokens$() = SubjectIDs.Split(";"c)
+            Dim out As New List(Of HitRecord)
+
+            For Each t$ In tokens
+                out += New HitRecord(Me) With {
+                    .SubjectIDs = t$
+                }
+            Next
+
+            Return out
+        End Function
 
         Public Overrides Function ToString() As String
             If Not String.IsNullOrEmpty(DebugTag) Then

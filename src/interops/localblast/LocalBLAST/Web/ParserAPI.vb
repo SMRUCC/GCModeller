@@ -48,7 +48,7 @@ Namespace NCBIBlastResult
         ''' </summary>
         ''' <param name="path"></param>
         ''' <returns></returns>
-        Public Function LoadDocument(path As String) As AlignmentTable
+        Public Function LoadDocument(path As String, Optional headerSplit As Boolean = False) As AlignmentTable
             Dim lines$() = LinqAPI.Exec(Of String) <=
  _
                 From s As String
@@ -65,11 +65,11 @@ Namespace NCBIBlastResult
             Return lines _
                 .Skip(header.Length) _
                 .ToArray _
-                .__parseTable(path$, header)
+                .__parseTable(path$, header, headerSplit)
         End Function
 
         <Extension>
-        Private Function __parseTable(lines$(), path$, header$()) As AlignmentTable
+        Private Function __parseTable(lines$(), path$, header$(), headerSplit As Boolean) As AlignmentTable
             Dim hits As HitRecord() = lines _
                 .ToArray(AddressOf HitRecord.Mapper)
             Dim headAttrs As Dictionary(Of String, String) =
@@ -78,6 +78,12 @@ Namespace NCBIBlastResult
                 .Select(Function(s) s.GetTagValue(": ")) _
                 .ToDictionary(Function(x) x.Name,
                               Function(x) x.x)
+
+            If headerSplit Then
+                hits = hits _
+                    .Select(Function(x) x.SplitByHeaders) _
+                    .MatrixToVector
+            End If
 
             Return New AlignmentTable With {
                 .Hits = hits,
@@ -95,7 +101,7 @@ Namespace NCBIBlastResult
         ''' <param name="path$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function IterateTables(path$) As IEnumerable(Of AlignmentTable)
+        Public Iterator Function IterateTables(path$, headerSplit As Boolean) As IEnumerable(Of AlignmentTable)
             Dim headers As New List(Of String)
             Dim lines As New List(Of String)
             Dim line As New Value(Of String)
@@ -113,7 +119,7 @@ Namespace NCBIBlastResult
                     lines += (+line)
                 Loop
 
-                Yield lines.ToArray.__parseTable(path$, headers)
+                Yield lines.ToArray.__parseTable(path$, headers, headerSplit)
 
                 headers *= 0
                 lines *= 0

@@ -6,14 +6,15 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Partial Module CLI
 
     <ExportAPI("/Export.AlignmentTable",
-               Usage:="/Export.AlignmentTable /in <alignment.txt> [/split /out <outDIR/file>]")>
+               Usage:="/Export.AlignmentTable /in <alignment.txt> [/split /header.split /out <outDIR/file>]")>
     <Group(CLIGrouping.WebTools)>
     Public Function ExportWebAlignmentTable(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim isSplit As Boolean = args.GetBoolean("/split")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix)
+        Dim headerSplit? = args.GetBoolean("/header.split")
         Dim tables As IEnumerable(Of AlignmentTable) =
-            [in].IterateTables
+            [in].IterateTables(headerSplit)
 
         If isSplit Then
             out = out & "-EXPORT/"
