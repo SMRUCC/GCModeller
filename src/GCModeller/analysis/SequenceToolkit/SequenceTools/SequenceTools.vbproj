@@ -192,6 +192,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\Aligner.vb" />
     <Compile Include="CLI\SNP.vb" />
     <Compile Include="CLI\PalindromeBatch.vb" />

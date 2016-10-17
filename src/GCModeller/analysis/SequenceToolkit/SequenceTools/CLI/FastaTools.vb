@@ -147,16 +147,19 @@ Partial Module Utilities
 
     <ExportAPI("/Merge.Simple",
                Info:="This tools just merge the fasta sequence into one larger file.",
-               Usage:="/Merge.Simple /in <DIR> [/line.break 120 /out <out.fasta>]")>
+               Usage:="/Merge.Simple /in <DIR> [/exts <default:*.fasta,*.fa> /line.break 120 /out <out.fasta>]")>
+    <GroupAttribute(CLIGrouping.FastaTools)>
     Public Function SimpleMerge(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
         Dim lineBreak As Integer =
             args.GetValue("/line.break", 120)
+        Dim exts As String() =
+            args.GetValue("/exts", "*.fasta,*.fa").Split(","c)
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             Call Tasks.Parallel.ForEach(
-                StreamIterator.SeqSource(inDIR, debug:=True),
+                StreamIterator.SeqSource(inDIR, ext:=exts, debug:=True),
                 Sub(fa)
                     Dim line$ = fa.GenerateDocument(lineBreak)
                     SyncLock writer

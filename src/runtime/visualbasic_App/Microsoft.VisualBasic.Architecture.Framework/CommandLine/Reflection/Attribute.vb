@@ -263,7 +263,7 @@ Namespace CommandLine.Reflection
     ''' </summary>
     ''' 
     <AttributeUsage(AttributeTargets.Method, AllowMultiple:=True, Inherited:=True)>
-    Public Class Group : Inherits CLIToken
+    Public Class GroupAttribute : Inherits CLIToken
 
         Public Sub New(name As String)
             MyBase.New(name)
@@ -279,7 +279,7 @@ Namespace CommandLine.Reflection
     ''' </summary>
     ''' 
     <AttributeUsage(AttributeTargets.Class, AllowMultiple:=True, Inherited:=True)>
-    Public Class GroupingAttribute : Inherits Group
+    Public Class GroupingAttribute : Inherits GroupAttribute
 
         ''' <summary>
         ''' 当前的这一功能分组的详细描述信息
