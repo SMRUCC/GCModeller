@@ -55,34 +55,34 @@ Namespace NCBIBlastResult
                 In path.ReadAllLines
                 Where Not String.IsNullOrEmpty(s)
                 Select s
+            Dim header$() = LinqAPI.Exec(Of String) <=
+ _
+                From s As String
+                In lines
+                Where InStr(s, "# ") = 1
+                Select s
 
-            Return lines.__parseTable(path$)
+            Return lines _
+                .Skip(header.Length) _
+                .ToArray _
+                .__parseTable(path$, header)
         End Function
 
         <Extension>
-        Private Function __parseTable(lines$(), path$) As AlignmentTable
-            Dim head As String() =
-                LinqAPI.Exec(Of String) <= From s As String
-                                           In lines
-                                           Where InStr(s, "# ") = 1
-                                           Select s
-            Dim hits As HitRecord() =
-                LinqAPI.Exec(Of HitRecord) <= From s As String
-                                              In lines.Skip(head.Length)
-                                              Select HitRecord.Mapper(s)
+        Private Function __parseTable(lines$(), path$, header$()) As AlignmentTable
+            Dim hits As HitRecord() = lines _
+                .ToArray(AddressOf HitRecord.Mapper)
             Dim headAttrs As Dictionary(Of String, String) =
-                (From s As String
-                 In head
-                 Let t = Strings.Split(s, ": ")
-                 Select Key = t.First,
-                     Value = t.Last) _
-                     .ToDictionary(Function(x) x.Key,
-                                   Function(x) x.Value)
+                header _
+                .Skip(1) _
+                .Select(Function(s) s.GetTagValue(": ")) _
+                .ToDictionary(Function(x) x.Name,
+                              Function(x) x.x)
 
             Return New AlignmentTable With {
                 .Hits = hits,
                 .FilePath = path,
-                .Program = head.First.Trim.Split.Last,
+                .Program = header.First.Trim.Split.Last,
                 .Query = headAttrs("# Query"),
                 .Database = headAttrs("# Database"),
                 .RID = headAttrs("# RID")
@@ -96,24 +96,34 @@ Namespace NCBIBlastResult
         ''' <returns></returns>
         <Extension>
         Public Iterator Function IterateTables(path$) As IEnumerable(Of AlignmentTable)
+            Dim headers As New List(Of String)
             Dim lines As New List(Of String)
             Dim line As New Value(Of String)
             Dim reader As StreamReader = path.OpenReader
 
-            Do While True
+            Do While Not reader.EndOfStream
                 Do While (line = reader.ReadLine).First = "#"c
-                    lines += (+line)
+                    headers += (+line)
                 Loop
+
+                lines += (+line)
 
                 Do While Not String.IsNullOrEmpty(line = reader.ReadLine) AndAlso
                     (+line).First <> "#"c
-                    lines += (+lines)
+                    lines += (+line)
                 Loop
 
-                Yield lines.ToArray.__parseTable(path$)
+                Yield lines.ToArray.__parseTable(path$, headers)
 
-                lines.Clear()
-                lines += (+line)
+                headers *= 0
+                lines *= 0
+                headers += (+line)
+
+                If String.IsNullOrEmpty(headers.First) Then
+                    Do While Not reader.EndOfStream AndAlso String.IsNullOrEmpty(line = reader.ReadLine)
+                    Loop
+                    headers += (+line)
+                End If
             Loop
         End Function
 

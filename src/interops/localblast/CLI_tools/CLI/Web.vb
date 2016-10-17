@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 
-Partial Module Web
+Partial Module CLI
 
     <ExportAPI("/Export.AlignmentTable",
                Usage:="/Export.AlignmentTable /in <alignment.txt> [/split /out <outDIR/file>]")>
