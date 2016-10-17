@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 
 Partial Module CLI
@@ -32,5 +33,22 @@ Partial Module CLI
         End If
 
         Return 0
+    End Function
+
+    <ExportAPI("/Export.AlignmentTable.giList",
+               Usage:="/Export.AlignmentTable.giList /in <table.csv> [/out <gi.txt>]")>
+    <Group(CLIGrouping.WebTools)>
+    Public Function ParseAlignmentTableGIlist(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-gi-list.txt")
+        Dim table = [in].LoadCsv(Of HitRecord)
+        Dim list$() = table _
+            .Select(Function(x) x.GI) _
+            .MatrixAsIterator _
+            .Distinct _
+            .OrderBy(Function(s) s) _
+            .ToArray
+
+        Return list.FlushAllLines(out).CLICode
     End Function
 End Module
