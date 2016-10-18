@@ -390,6 +390,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/subset", Usage:="/subset /lstID <lstID.txt> /fa <source.fasta>")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function SubSet(args As CommandLine) As Integer
         Dim lstID As String() = IO.File.ReadAllLines(args("/lstID"))
         Dim fa As New FASTA.FastaFile(args("/fa"))
@@ -406,6 +407,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Split", Usage:="/Split /in <in.fasta> [/n <4096> /out <outDIR>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function Split(args As CommandLine) As Integer
         Dim inFa As String = args("/in")
         Dim out As String = args.GetValue("/out", inFa.TrimSuffix & "/")
@@ -424,6 +426,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Get.Locis", Usage:="/Get.Locis /in <locis.csv> /nt <genome.nt.fasta> [/out <outDIR>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function GetSimpleSegments(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim nt As String = args("/nt")
@@ -444,6 +447,7 @@ Partial Module Utilities
     <ExportAPI("/Distinct",
                Info:="Distinct fasta sequence by sequence content.",
                Usage:="/Distinct /in <in.fasta> [/out <out.fasta> /by_Uid <uid_regexp>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function Distinct(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Distinct.fasta")
@@ -480,6 +484,7 @@ Partial Module Utilities
 
     <ExportAPI("/Gff.Sites",
                Usage:="/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function GffSites(args As CommandLine) As Integer
         Dim [in] As String = args("/fna")
         Dim sites As String = args("/gff")

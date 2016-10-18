@@ -175,13 +175,13 @@ Namespace CommandLine.Reflection
             Call sb.AppendLine(ListAllCommandsPrompt)
             Call sb.AppendLine()
 
-            If markdown Then
-                Call sb.AppendLine("|Function API|Info|")
-                Call sb.AppendLine("|------------|----|")
-            End If
-
             Dim gg As New Grouping(CLI:=App)
             Dim print = Sub(list As IEnumerable(Of APIEntryPoint))
+                            If markdown Then
+                                Call sb.AppendLine("|Function API|Info|")
+                                Call sb.AppendLine("|------------|----|")
+                            End If
+
                             For Each API As APIEntryPoint In list
                                 If Not markdown Then
                                     Dim indent% = 3 + nameMaxLen - Len(API.Name)

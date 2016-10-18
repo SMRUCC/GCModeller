@@ -54,6 +54,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
                EMailLink:="xie.guigang@gcmodeller.org",
                Debugging:="http://gcmodeller.org")>
 <GroupingDefine(CLIGrouping.FastaTools, Description:=CLIGrouping.FastaToolsDescription)>
+<GroupingDefine(CLIGrouping.PalindromeTools, Description:=CLIGrouping.PalindromeToolsDescription)>
 Public Module Utilities
 
     <ExportAPI("-321",
