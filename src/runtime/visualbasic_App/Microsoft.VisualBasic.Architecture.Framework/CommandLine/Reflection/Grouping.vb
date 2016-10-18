@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace CommandLine
 
-    Public Class Grouping
+    Public Class Grouping : Implements IEnumerable(Of Groups)
 
         Public Class Groups : Inherits GroupingAttribute
 
@@ -81,6 +81,16 @@ Namespace CommandLine
 
         Public Overrides Function ToString() As String
             Return GroupData.Keys.ToArray.GetJson
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of Groups) Implements IEnumerable(Of Groups).GetEnumerator
+            For Each x In GroupData.Values
+                Yield x
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
         End Function
     End Class
 End Namespace
