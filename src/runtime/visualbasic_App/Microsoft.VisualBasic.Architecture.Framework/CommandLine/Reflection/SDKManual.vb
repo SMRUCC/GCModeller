@@ -199,6 +199,10 @@ Namespace CommandLine.Reflection
                             Call sb.AppendLine()
                         End Sub
 
+            If markdown Then
+                Call sb.AppendLine("##### Generic function API list")
+            End If
+
             Dim undefines = gg.GroupData(undefined)
 
             Call print(undefines.Data)
@@ -207,7 +211,12 @@ Namespace CommandLine.Reflection
                 .Where(Function(list) list.Name <> undefined) _
                 .SeqIterator(offset:=1)
 
-                Call sb.AppendLine($"{g.i}. {g.obj.Name}")
+                If markdown Then
+                    Call sb.AppendLine($"##### {g.i}. {g.obj.Name}")
+                Else
+                    Call sb.AppendLine($"{g.i}. {g.obj.Name}")
+                End If
+
                 Call sb.AppendLine(Trim(g.obj.Description))
                 Call sb.AppendLine()
 
