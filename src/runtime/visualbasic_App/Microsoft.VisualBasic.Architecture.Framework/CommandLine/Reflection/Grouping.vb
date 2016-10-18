@@ -8,7 +8,7 @@ Namespace CommandLine
 
     Public Class Grouping : Implements IEnumerable(Of Groups)
 
-        Public Class Groups : Inherits GroupingAttribute
+        Public Class Groups : Inherits GroupingDefineAttribute
 
             ''' <summary>
             ''' 这个分组之中的API列表
@@ -16,7 +16,7 @@ Namespace CommandLine
             ''' <returns></returns>
             Public Property Data As APIEntryPoint()
 
-            Public Sub New(attr As GroupingAttribute)
+            Public Sub New(attr As GroupingDefineAttribute)
                 MyBase.New(attr.Name)
 
                 Description = attr.Description
@@ -29,13 +29,13 @@ Namespace CommandLine
         ''' 
         ''' </summary>
         ''' <param name="CLI">
-        ''' 主要是需要从这个类型定义之中得到<see cref="GroupingAttribute"/>数据
+        ''' 主要是需要从这个类型定义之中得到<see cref="GroupingDefineAttribute"/>数据
         ''' </param>
         Sub New(CLI As Interpreter)
             Dim type As Type = CLI.Type
             Dim gs = From x As Object
-                     In type.GetCustomAttributes(GetType(GroupingAttribute), True)
-                     Select DirectCast(x, GroupingAttribute)
+                     In type.GetCustomAttributes(GetType(GroupingDefineAttribute), True)
+                     Select DirectCast(x, GroupingDefineAttribute)
             Dim api = (From x As APIEntryPoint
                        In CLI.APIList
                        Let g As GroupAttribute() = x.EntryPoint _
@@ -51,7 +51,7 @@ Namespace CommandLine
 
             GroupData = New Dictionary(Of String, Groups)
 
-            For Each g As GroupingAttribute In gs
+            For Each g As GroupingDefineAttribute In gs
                 If api.ContainsKey(g.Name) Then
                     Dim apiList As APIEntryPoint() = api(g.Name)
 
@@ -69,7 +69,7 @@ Namespace CommandLine
 
             If api.Count > 0 Then
                 For Each g In api
-                    Dim gK As New GroupingAttribute(g.Key)
+                    Dim gK As New GroupingDefineAttribute(g.Key)
 
                     Call GroupData.Add(
                         g.Key, New Groups(gK) With {
