@@ -47,13 +47,16 @@ Partial Module CLI
         Dim inDIR As String = args - "/in"
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".contents.Csv")
         Dim files As IEnumerable(Of String) =
-            ls - l - r - wildcards(ext) <= inDIR
+            ls - l - r - ext <= inDIR
         Dim content As NamedValue(Of String)() =
             LinqAPI.Exec(Of NamedValue(Of String)) <= From file As String
                                                       In files
                                                       Let name As String = file.BaseName
                                                       Let genome As String = file.ParentDirName
-                                                      Select New NamedValue(Of String)(genome, name)
+                                                      Select New NamedValue(Of String) With {
+                                                          .Name = name,
+                                                          .x = genome
+                                                      }
         Return content.SaveTo(out).CLICode
     End Function
 End Module
@@ -72,8 +75,15 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 <ExportAPI("/Print", Usage:="/Print /in <inDIR> [/ext <ext> /out <out.Csv>]")>
+<Group("Function Group Name")>
+<Argument("/in", AcceptTypes:={GetType(String)}, Description:="The input directory path.")>
+<Argument("/out", True, AcceptTypes:={GetType(NamedValue(Of String))}, Description:="The output csv data.")>
 Public Function CLI_API(args As CommandLine) As Integer
 ```
+
++ ``ExportAPI`` attribute that flag this function will be exposed to your user as a CLI command.
++ ``Group`` attribute that can grouping this API into a function group
++ ``Argument`` attribute that records the help information of the parameter in the CLI.
 
 ### Using the VisualBasic CommandLine Parser
 For learn how to using the ``CommandLine`` Parser, we first lean the syntax of the VisualBasic commandline arguments.
@@ -256,6 +266,29 @@ For Each file As String In ls - l - r - wildcards("*.csv") <= DIR
     ' blablabla
 Next
 ```
+In the newer version of this VB runtime, the wildcards can be simplify as a string or string array if you are not feeling confused with this syntax example:
+
+```vbnet
+Imports Microsoft.VisualBasic.Language.UnixBash
+
+' A more simple version of the syntax 
+Return (ls - l - r - "*.csv" <= DIR) _
+      .Select(AddressOf ODEsOut.LoadFromDataFrame) _
+      .Sampling(eigenvector, partN)
+      
+' Or used in For Loop
+For Each file$ In ls - l - r - {"*.csv", "*.tsv"} <= DIR
+    ' blablabla
+Next
+```
+
+## Type char coding style
+
+###### Recommended
+It is recommended that using type char in the parameter declaring of a function or method
+
+###### Not Recommended
+Not recommended that using type char for Property, Field or local variable declaring.
 
 ## VisualBasic identifer names
 
@@ -590,7 +623,7 @@ Return result</pre>
 </td>
 </tr>
     <tr><td>json</td><td>json, JSON</td><td>
-<pre>Dim JSON As String = (ls -l -r -wildcards("*.json") <= DIR).GetJson</pre>
+<pre>Dim JSON As String = (ls -l -r -"*.json" <= DIR).GetJson</pre>
 </td>
 </tr>
     <tr><td>data frame</td><td>df, ds, data</td><td>
@@ -610,5 +643,23 @@ net += New Edge With {
 Return net >> Open("./test.net/")
 </pre>
 </td>
+</tr>
+<tr>
+<td>A line of text in a text file</td>
+<td>line</td>
+<td><pre>Dim line$ = path.ReadFirstLine</pre></td>
+</tr>
+<tr>
+<td>Lambda expression parameter</td>
+<td><li>For generic object, using name: <pre>x, o;</pre></li>
+<li>For numeric object, using name: <pre>x, y, z, a, b, c, n, i;</pre></li>
+<li>For string and char, using name: <pre>s, c;</pre></li>
+<li>For System.Type, using name: <pre>t</pre></li></td>
+<td><pre>Dim result = array.Select(Function(x) x.Name)
+Dim value = array _
+    .Select(Function(x) x.value) _
+    .Select(Function(t) t.FullName) _
+    .JoinBy("+")
+</pre></td>
 </tr>
 </table>

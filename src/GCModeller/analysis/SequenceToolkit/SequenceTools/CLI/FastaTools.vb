@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Partial Module Utilities
 
     <ExportAPI("/Compare.By.Locis", Usage:="/Compare.By.Locis /file1 <file1.fasta> /file2 </file2.fasta>")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function CompareFile(args As CommandLine) As Integer
         Dim f1$ = args("/file1")
         Dim f2$ = args("/file2")
@@ -88,6 +89,7 @@ Partial Module Utilities
 
     <ExportAPI("/Select.By_Locus",
                Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/out <out.fasta>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function SelectByLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim fa As String = args("/fa")
@@ -121,6 +123,7 @@ Partial Module Utilities
     <ExportAPI("/To_Fasta",
                Usage:="/To_Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]",
                Info:="Convert the sequence data in a excel annotation file into a fasta sequence file.")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function ToFasta(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Fasta")
@@ -175,6 +178,7 @@ Partial Module Utilities
     <ExportAPI("/Merge",
                Usage:="/Merge /in <fasta.DIR> [/out <out.fasta> /trim /unique /ext <*.fasta> /brief]",
                Info:="Only search for 1 level folder, dit not search receve.")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function Merge(args As CommandLine) As Integer
         Dim inDIR As String = args.GetFullDIRPath("/in")
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
@@ -210,6 +214,7 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("-segment",
                Usage:="-segment /fasta <Fasta_Token> [-loci <loci>] [/left <left> /length <length> /right <right> [/reverse]] [/ptt <ptt> /geneID <gene_id> /dist <distance> /downstream] -o <saved> [-line.break 100]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function GetSegment(args As CommandLine) As Integer
         Dim FastaFile As String = args("/fasta")
         Dim Loci As String = args("-loci")
@@ -270,6 +275,7 @@ Partial Module Utilities
                           Description:="If this Boolean switch is set on, then all of the reversed strand segment will be complemenet and reversed.")>
     <Argument("/brief-dump", True,
                           Description:="If this parameter is set up true, then only the locus_tag of the ORF gene will be dump to the fasta sequence.")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function GetSegments(args As CommandLine) As Integer
         Dim Regions As List(Of SimpleSegment) = args.GetObject("/regions", AddressOf LoadCsv(Of SimpleSegment))
         Dim Fasta As New FASTA.FastaToken(args("/fasta"))
@@ -353,6 +359,7 @@ Partial Module Utilities
                    Description:="Adjust the letter case of your sequence, l for lower case and u for upper case. Default value is upper case.")>
     <Argument("/break", True,
                    Description:="Adjust the sequence break when this program write the fasta sequence, default is -1 which means no break, write all sequence in one line.")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function Trim(args As CommandLine) As Integer
         Dim Input As String = args("/in")
         Dim UpperCase As Boolean = Not String.Equals("l", args.GetValue("/case", "u"), StringComparison.OrdinalIgnoreCase)
@@ -383,6 +390,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/subset", Usage:="/subset /lstID <lstID.txt> /fa <source.fasta>")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function SubSet(args As CommandLine) As Integer
         Dim lstID As String() = IO.File.ReadAllLines(args("/lstID"))
         Dim fa As New FASTA.FastaFile(args("/fa"))
@@ -399,6 +407,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Split", Usage:="/Split /in <in.fasta> [/n <4096> /out <outDIR>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function Split(args As CommandLine) As Integer
         Dim inFa As String = args("/in")
         Dim out As String = args.GetValue("/out", inFa.TrimSuffix & "/")
@@ -417,6 +426,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Get.Locis", Usage:="/Get.Locis /in <locis.csv> /nt <genome.nt.fasta> [/out <outDIR>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function GetSimpleSegments(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim nt As String = args("/nt")
@@ -437,6 +447,7 @@ Partial Module Utilities
     <ExportAPI("/Distinct",
                Info:="Distinct fasta sequence by sequence content.",
                Usage:="/Distinct /in <in.fasta> [/out <out.fasta> /by_Uid <uid_regexp>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function Distinct(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Distinct.fasta")
@@ -473,6 +484,7 @@ Partial Module Utilities
 
     <ExportAPI("/Gff.Sites",
                Usage:="/Gff.Sites /fna <genomic.fna> /gff <genome.gff> [/out <out.fasta>]")>
+    <Group(CLIGrouping.FastaTools)>
     Public Function GffSites(args As CommandLine) As Integer
         Dim [in] As String = args("/fna")
         Dim sites As String = args("/gff")
