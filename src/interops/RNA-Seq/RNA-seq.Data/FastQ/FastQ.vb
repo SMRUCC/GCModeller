@@ -43,16 +43,21 @@ Namespace Fastaq
     ''' <remarks>
     ''' A FASTQ file normally uses four lines per sequence.
     ''' 
-    ''' Line 1 begins with a '@' character and is followed by a sequence identifier and an optional description (like a FASTA title line).
-    ''' Line 2 is the raw sequence letters.
-    ''' Line 3 begins with a '+' character and is optionally followed by the same sequence identifier (and any description) again.
-    ''' Line 4 encodes the quality values for the sequence in Line 2, and must contain the same number of symbols as letters in the sequence.
+    ''' + Line 1 begins with a '@' character and is followed by a sequence identifier and an optional description (like a FASTA title line).
+    ''' + Line 2 is the raw sequence letters.
+    ''' + Line 3 begins with a '+' character and is optionally followed by the same sequence identifier (and any description) again.
+    ''' + Line 4 encodes the quality values for the sequence in Line 2, and must contain the same number of symbols as letters in the sequence.
     ''' 
-    ''' 一条Fastaq序列文件通常使用4行代表一条序列数据：
-    ''' 第一行： 起始于@字符，后面跟随着序列的标识符，以及一段可选的摘要描述信息
-    ''' 第二行： 原始的序列
-    ''' 第三行： 起始于+符号，与第一行的作用类似
-    ''' 第四行： 编码了第二行的序列数据的质量高低，长度与第二行相同
+    ''' > + header
+    ''' > + seuqnece
+    ''' > + ``+``
+    ''' > + quality
+    ''' 
+    ''' 一条FastQ序列文件通常使用4行代表一条序列数据：
+    ''' + 第一行： 起始于@字符，后面跟随着序列的标识符，以及一段可选的摘要描述信息
+    ''' + 第二行： 原始的序列
+    ''' + 第三行： 起始于+符号，与第一行的作用类似
+    ''' + 第四行： 编码了第二行的序列数据的质量高低，长度与第二行相同
     ''' </remarks>
     Public Class FastQ : Inherits ISequenceModel
         Implements IAbstractFastaToken
