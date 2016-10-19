@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("/Install.genbank", Usage:="/Install.genbank /imports <all_genbanks.DIR> [/refresh]")>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function InstallGenbank(args As CommandLine) As Integer
         Dim [in] As String = args - "/imports"
         Return Installer.Install([in], args.GetBoolean("/refresh")).CLICode
@@ -62,6 +63,7 @@ Partial Module CLI
     <ExportAPI("--install-COGs",
                Info:="Install the COGs database into the GCModeller database.",
                Usage:="--install-COGs /COGs <Dir.COGs>")>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function InstallCOGs(args As CommandLine) As Integer
         Dim COGsDir As String = args("/COGs")
         Dim protFasta As String = FileIO.FileSystem.GetFiles(COGsDir,
@@ -84,6 +86,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--install-CDD", Usage:="--install-CDD /cdd <cdd.DIR>")>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function InstallCDD(args As CommandLine) As Integer
         Dim Repository As String = GCModeller.FileSystem.RepositoryRoot
         Repository &= "/CDD/"
@@ -93,6 +96,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("--install.ncbi_nt", Usage:="--install.ncbi_nt /nt <nt.fasta/DIR> [/EXPORT <DATA_dir>]")>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function Install_NCBI_nt(args As CommandLine) As Integer
         Dim nt As String = args("/nt")
         Dim EXPORT$ = args.GetValue(
@@ -107,6 +111,7 @@ Partial Module CLI
 
     <ExportAPI("/nt.repository.query", Usage:="/nt.repository.query /query <arguments.csv> /DATA <DATA_dir> [/out <out_DIR>]")>
     <Argument("/query", AcceptTypes:={GetType(QueryArgument)})>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function ntRepositoryExports(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim DATA As String = args("/DATA")
@@ -133,6 +138,7 @@ Partial Module CLI
 
     <ExportAPI("/nt.scan",
                Usage:="/nt.scan /query <expression.csv> /DATA <nt.DIR> [/break 60 /out <out_DIR>]")>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function NtScaner(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim DATA As String = args("/DATA")
@@ -155,6 +161,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Name.match.hits", Usage:="/Name.match.hits /in <list.csv> /titles <*.txt/DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function MatchHits(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim titles As String = args("/titles")
@@ -182,6 +189,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/simple /tokens 3 /n -1 /out <out.csv>]")>
+    <Group(CLIGrouping.RepositoryTools)>
     Public Function UniqueTitle(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String =

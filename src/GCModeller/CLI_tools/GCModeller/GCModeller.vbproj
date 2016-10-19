@@ -209,6 +209,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\localblast.vb" />
     <Compile Include="CLI\SeqDiffCLI.vb" />
     <Compile Include="CLI\SeqDiff.vb" />

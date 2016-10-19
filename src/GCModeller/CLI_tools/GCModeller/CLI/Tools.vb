@@ -44,6 +44,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("/Located.AppData")>
+    <Group(CLIGrouping.GCModellerAppTools)>
     Public Function LocatedAppData(args As CommandLine) As Integer
         Call System.Diagnostics.Process.Start(App.ProductSharedDIR.ParentPath)
         Return 0
@@ -55,6 +56,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--ls", Info:="Listing all of the available GCModeller CLI tools commands.")>
+    <Group(CLIGrouping.GCModellerAppTools)>
     Public Function List(args As CommandLine) As Integer
         Dim execs As IEnumerable(Of String) =
             ls - l - wildcards("*.exe") <= App.HOME
@@ -89,6 +91,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/init.manuals", Usage:="/init.manuals")>
+    <Group(CLIGrouping.GCModellerAppTools)>
     Public Function InitManuals(args As CommandLine) As Integer
         Dim execs As IEnumerable(Of String) = ls - l - wildcards("*.exe") <= App.HOME
         Dim tools As String() =
