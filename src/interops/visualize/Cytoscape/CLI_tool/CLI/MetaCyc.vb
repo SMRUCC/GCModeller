@@ -36,6 +36,7 @@ Partial Module CLI
 
     <ExportAPI("/Net.rFBA",
                Usage:="/Net.rFBA /in <metacyc.sbml> /fba.out <flux.Csv> [/out <outDIR>]")>
+    <Group(CLIGrouping.MetaCyc)>
     Public Function net_rFBA(args As CommandLine) As Integer
         Dim inSBML As String = args("/in")
         Dim fbaResult As String = args("/fba.out")

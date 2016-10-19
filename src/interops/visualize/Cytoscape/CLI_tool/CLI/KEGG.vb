@@ -55,6 +55,7 @@ Partial Module CLI
                Usage:="--mod.regulations /model <KEGG.xml> /footprints <footprints.csv> /out <outDIR> [/pathway /class /type]")>
     <Argument("/class", True, Description:="This parameter can not be co-exists with /type parameter")>
     <Argument("/type", True, Description:="This parameter can not be co-exists with /class parameter")>
+    <Group(CLIGrouping.KEGGTools)>
     Public Function ModuleRegulations(args As CommandLine) As Integer
         Dim Model = args("/model").LoadXml(Of XmlModel)
         Dim Footprints = args("/footprints").LoadCsv(Of PredictedRegulationFootprint)
@@ -202,6 +203,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/reaction.NET", Usage:="/reaction.NET [/model <xmlModel.xml> /source <rxn.DIR> /out <outDIR>]")>
+    <Group(CLIGrouping.KEGGTools)>
     Public Function ReactionNET(args As CommandLine) As Integer
         Dim source As String = TryGetSource(args("/source"), AddressOf GetReactions)
         Dim model As String = args("/model")
@@ -227,6 +229,7 @@ Partial Module CLI
                Usage:="/KEGG.Mods.NET /in <mods.xml.DIR> [/out <outDIR> /pathway /footprints <footprints.Csv> /brief /cut 0 /pcc 0]")>
     <Argument("/brief", True,
                    Description:="If this parameter is represented, then the program just outs the modules, all of the non-pathway genes wil be removes.")>
+    <Group(CLIGrouping.KEGGTools)>
     Public Function ModsNET(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim isPathway As Boolean = args.GetBoolean("/pathway")

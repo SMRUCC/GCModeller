@@ -42,6 +42,7 @@ Imports Microsoft.VisualBasic.Text
 Partial Module CLI
 
     <ExportAPI("--graph.regulates", Usage:="--graph.regulates /footprint <footprints.csv> [/trim]")>
+    <Group(CLIGrouping.RegulationNetwork)>
     Public Function SimpleRegulation(args As CommandLine) As Integer
         Dim input As String = args("/footprint")
         Dim footprints = input.LoadCsv(Of PredictedRegulationFootprint)
@@ -88,6 +89,7 @@ Partial Module CLI
     <ExportAPI("/NetModel.TF_regulates",
                Info:="Builds the regulation network between the TF.",
                Usage:="/NetModel.TF_regulates /in <footprints.csv> [/out <outDIR> /cut 0.45]")>
+    <Group(CLIGrouping.RegulationNetwork)>
     Public Function TFNet(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim footprints = inFile.LoadCsv(Of PredictedRegulationFootprint)

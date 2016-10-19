@@ -58,6 +58,7 @@ Partial Module CLI
     <ExportAPI("/Phenotypes.KEGG",
                Info:="Regulator phenotype relationship cluster from virtual footprints.",
                Usage:="/Phenotypes.KEGG /mods <KEGG_Modules/Pathways.DIR> /in <VirtualFootprints.csv> [/pathway /out <outCluster.csv>]")>
+    <Group(CLIGrouping.KEGGPhenotype)>
     Public Function KEGGModulesPhenotypeRegulates(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim modsDIR As String = args("/mods")
@@ -108,6 +109,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/net.model", Usage:="/net.model /model <kegg.xmlModel.xml> [/out <outDIR> /not-trim]")>
+    <Group(CLIGrouping.KEGGPhenotype)>
     Public Function BuildModelNet(args As CommandLine) As Integer
         Dim model As String = args("/model")
         Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
@@ -117,6 +119,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/net.pathway", Usage:="/net.pathway /model <kegg.pathway.xml> [/out <outDIR> /trim]")>
+    <Group(CLIGrouping.KEGGPhenotype)>
     Public Function PathwayNet(args As CommandLine) As Integer
         Dim model As String = args("/model")
         Dim out As String = args.GetValue("/out", model.TrimSuffix & ".NET/")
@@ -132,6 +135,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/modNET.Simple",
                Usage:="/modNET.Simple /in <mods/pathway_DIR> [/out <outDIR> /pathway]")>
+    <Group(CLIGrouping.KEGGPhenotype)>
     Public Function SimpleModesNET(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim outDIR As String = args.GetValue("/out", inDIR & "-SimpleModsNET/")
