@@ -41,6 +41,7 @@ Partial Module Utilities
     <Argument("/in", False, AcceptTypes:={GetType(FastaFile)}, Description:="")>
     <Argument("/ref", True, AcceptTypes:={GetType(Integer)})>
     <Argument("/pure", True, AcceptTypes:={GetType(Boolean)})>
+    <Group(CLIGrouping.SNPTools)>
     Public Function SNP(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim pure As Boolean = args.GetBoolean("/pure")
@@ -52,6 +53,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Time.Diffs", Usage:="/Time.Diffs /in <aln.fasta> [/out <out.csv>]")>
+    <Group(CLIGrouping.SNPTools)>
     Public Function TimeDiffs(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".time_variation.csv")

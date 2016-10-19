@@ -55,6 +55,7 @@ Partial Module Utilities
     <Argument("/query", False, AcceptTypes:={GetType(FastaToken)})>
     <Argument("/subject", False, AcceptTypes:={GetType(FastaToken)})>
     <Argument("/out", True, AcceptTypes:={GetType(String)})>
+    <Group(CLIGrouping.Aligner)>
     Public Function NW(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
@@ -64,6 +65,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/align", Usage:="/align /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
+    <Group(CLIGrouping.Aligner)>
     Public Function Align2(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
@@ -79,6 +81,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("--align", Usage:="--align /query <query.fasta> /subject <subject.fasta> [/out <out.DIR> /cost <0.7>]")>
+    <Group(CLIGrouping.Aligner)>
     Public Function Align(args As CommandLine) As Integer
         Dim cost As Double = args.GetValue(Of Double)("/cost", 0.7)
         Dim query = FASTA.FastaFile.Read(args("/query"))
@@ -122,6 +125,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("--align.Self", Usage:="--align.Self /query <query.fasta> /out <out.DIR> [/cost 0.75]")>
+    <Group(CLIGrouping.Aligner)>
     Public Function AlignSelf(args As CommandLine) As Integer
         Dim query As New FASTA.FastaFile(args("/query"))
         Dim outDIR As String = args("/out")
@@ -186,6 +190,7 @@ Partial Module Utilities
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Clustal.Cut", Usage:="/Clustal.Cut /in <in.fasta> [/left 0.1 /right 0.1 /out <out.fasta>]")>
+    <Group(CLIGrouping.Aligner)>
     Public Function CutMlAlignment(args As CommandLine) As Integer
         Dim aln As New Patterns.Clustal.Clustal(args("/in"))
         Dim left As Double = args.GetValue("/left", 0.1)
@@ -212,6 +217,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
+    <Group(CLIGrouping.Aligner)>
     Public Function gwANI(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
@@ -223,6 +229,7 @@ Partial Module Utilities
 
     <ExportAPI("/Sigma",
                Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
+    <Group(CLIGrouping.Aligner)>
     Public Function Sigma(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Sigma.Csv")

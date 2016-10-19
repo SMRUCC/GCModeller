@@ -54,6 +54,7 @@ Partial Module CLI
 
     <ExportAPI("/TF.Regulons",
                Usage:="/TF.Regulons /bbh <tf.bbh.csv> /footprints <regulations.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.TFRegulonTools)>
     Public Function TFRegulons(args As CommandLine) As Integer
         Dim [in] As String = args("/bbh")
         Dim footprints As String = args("/footprints")
@@ -81,6 +82,7 @@ Partial Module CLI
 
     <ExportAPI("/TF.Density.Batch",
                Usage:="/TF.Density.Batch /TF <TF-list.txt> /PTT <genome.PTT.DIR> [/ranges 5000 /out <out.DIR> /cis /un-strand]")>
+    <Group(CLIGrouping.TFRegulonTools)>
     Public Function TFDensityBatch(args As CommandLine) As Integer
         Dim TFs As String = args("/TF")
         Dim PTT As String = args("/PTT")
@@ -109,6 +111,7 @@ Partial Module CLI
                    Description:="A plant text file with the TF locus_tag list.")>
     <Argument("/batch", True,
                    Description:="This function is works in batch mode.")>
+    <Group(CLIGrouping.TFRegulonTools)>
     Public Function TFDensity(args As CommandLine) As Integer
         Dim TFs As String = args - "/TF"
         Dim PTT As String = args - "/PTT"
@@ -145,6 +148,7 @@ Partial Module CLI
     <ExportAPI("/Sites.Pathways",
                Info:="[Type 1] Grouping sites loci by pathway",
                Usage:="/Sites.Pathways /pathway <KEGG.DIR> /sites <simple_segment.Csv.DIR> [/out <out.DIR>]")>
+    <Group(CLIGrouping.TFRegulonTools)>
     Public Function PathwaySites(args As CommandLine) As Integer
         Dim [in] As String = args("/pathway")
         Dim sites As String = args("/sites")
@@ -194,6 +198,7 @@ Partial Module CLI
     <ExportAPI("/Sites.Regulons",
                Info:="[Type 2]",
                Usage:="/Sites.Regulons /regulon <RegPrecise.Regulon.Csv> /sites <simple_segment.Csv.DIR> [/map <genome.PTT> /out <out.DIR>]")>
+    <Group(CLIGrouping.TFRegulonTools)>
     Public Function RegulonSites(args As CommandLine) As Integer
         Dim regulon As String = args("/regulon")
         Dim sites As String = args("/sites")
@@ -252,6 +257,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Density.Mappings",
                Usage:="/Density.Mappings /in <density.Csv> [/scale 100 /out <out.PTT>]")>
+    <Group(CLIGrouping.TFRegulonTools)>
     Public Function ContextMappings(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.PTT")

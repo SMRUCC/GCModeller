@@ -41,6 +41,7 @@ Partial Module Utilities
     <Argument("/aln", False,
                    Description:="The input fasta file should be the output of the clustal multiple alignment fasta output.")>
     <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(RevRepeatsView)})>
+    <Group(CLIGrouping.RepeatsTools)>
     Public Function BatchSearch(args As CommandLine) As Integer
         Dim Mla As FastaFile = args.GetObject("/aln", AddressOf FastaFile.Read)
         Dim Min As Integer = args.GetValue("/min", 3)
@@ -55,6 +56,7 @@ Partial Module Utilities
 
     <ExportAPI("Repeats.Density",
                Usage:="Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]")>
+    <Group(CLIGrouping.RepeatsTools)>
     Public Function RepeatsDensity(args As CommandLine) As Integer
         Dim DIR As String = args("/dir")
         Dim size As Integer = args.GetInt32("/size")
@@ -64,6 +66,7 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("rev-Repeats.Density", Usage:="rev-Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]")>
+    <Group(CLIGrouping.RepeatsTools)>
     Public Function revRepeatsDensity(args As CommandLine) As Integer
         Dim DIR As String = args("/dir")
         Dim size As Integer = args.GetInt32("/size")
@@ -74,6 +77,7 @@ Partial Module Utilities
 
     <ExportAPI("/Write.Seeds",
                Usage:="/Write.Seeds /out <out.dat> [/prot /max <20>]")>
+    <Group(CLIGrouping.RepeatsTools)>
     Public Function WriteSeeds(args As CommandLine) As Integer
         Dim isProt As Boolean = args.GetBoolean("/prot")
         Dim out As String = args("/out")
