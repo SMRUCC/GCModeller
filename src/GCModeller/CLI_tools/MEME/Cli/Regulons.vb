@@ -42,6 +42,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Partial Module CLI
 
     <ExportAPI("/Regulon.Test", Usage:="/Regulon.Test /in <meme.txt> /reg <genome.bbh.regulon.xml> /bbh <maps.bbh.Csv>")>
+    <Group(CLIGrouping.RegulonTools)>
     Public Function RegulonTest(args As CommandLine) As Integer
         Dim inMEME As String = args("/in")
         Dim inRegulon As String = args("/reg")
@@ -98,6 +99,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Regulon.Reconstruct", Usage:="/Regulon.Reconstruct /bbh <bbh.csv> /genome <RegPrecise.genome.xml> /door <operon.door> [/out <outfile.csv>]")>
+    <Group(CLIGrouping.RegulonTools)>
     Public Function RegulonReconstruct(args As CommandLine) As Integer
         Dim bbh As String = args("/bbh")
         Dim genome As String = args("/genome")
@@ -113,6 +115,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Regulon.Reconstruct2", Usage:="/Regulon.Reconstruct2 /bbh <bbh.csv> /genome <RegPrecise.genome.DIR> /door <operons.opr> [/out <outDIR>]")>
+    <Group(CLIGrouping.RegulonTools)>
     Public Function RegulonReconstructs2(args As CommandLine) As Integer
         Dim bbh As String = args("/bbh")
         Dim genome As String = args("/genome")
@@ -157,6 +160,7 @@ Partial Module CLI
     <Argument("/bbh", False, Description:="A directory which contains the bbh export csv data from the localblast tool.")>
     <Argument("/genome", False, Description:="The directory which contains the RegPrecise bacterial genome downloads data from the RegPrecise web server.")>
     <Argument("/door", False, Description:="Door file which is the prediction data of the bacterial operon.")>
+    <Group(CLIGrouping.RegulonTools)>
     Public Function RegulonReconstructs(args As CommandLine) As Integer
         Dim inDIR As String = args("/bbh")
         Dim genomeDIR As String = args("/genome")
@@ -194,6 +198,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/regulon.export", Usage:="/regulon.export /in <sw-tom_out.DIR> /ref <regulon.bbh.xml.DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.RegulonTools)>
     Public Function ExportRegulon(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim refDIR As String = args("/ref")

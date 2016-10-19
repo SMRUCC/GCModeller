@@ -1,50 +1,71 @@
 ---
 title: CARMEN
 tags: [maunal, tools]
-date: 7/27/2016 6:40:15 PM
+date: 2016/10/19 16:38:30
 ---
 # GCModeller [version 1.0.0.0]
-**Module AssemblyName**: file:///G:/GCModeller/manual/bin/CARMEN.exe
-**Root namespace**: CARMENTools.CLI
+> 
+
+<!--more-->
+
+**CARMEN**
+__
+Copyright ?  2015
+
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/CARMEN.exe
+**Root namespace**: ``CARMENTools.CLI``
 
 
 All of the command that available in this program has been list below:
 
+##### Generic function API list
 |Function API|Info|
 |------------|----|
-|/Export.Anno||
-|--lstId.Downloads|Download the Avaliable organism name And available pathways' name.|
-|--Reconstruct.KEGG.Online||
+|[/Export.Anno](#/Export.Anno)||
+|[--lstId.Downloads](#--lstId.Downloads)|Download the Avaliable organism name And available pathways' name.|
+|[--Reconstruct.KEGG.Online](#--Reconstruct.KEGG.Online)||
 
-## Commands
+
+
+
+## CLI API list
 --------------------------
-##### Help for command '/Export.Anno':
+<h3 id="/Export.Anno"> 1. /Export.Anno</h3>
 
-**Prototype**: CARMENTools.CLI::Int32 ExportAnno(Microsoft.VisualBasic.CommandLine.CommandLine)
 
+**Prototype**: ``CARMENTools.CLI::Int32 ExportAnno(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+CARMEN /Export.Anno /in <inDIR> [/out <out.Csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\CARMEN.exe /Export.Anno /in <inDIR> [/out <out.Csv>]
-  Example:      CARMEN /Export.Anno 
+###### Example
+```bash
+CARMEN
 ```
+<h3 id="--lstId.Downloads"> 2. --lstId.Downloads</h3>
 
-##### Help for command '--lstId.Downloads':
+Download the Avaliable organism name And available pathways' name.
+**Prototype**: ``CARMENTools.CLI::Int32 DownloadList(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
-**Prototype**: CARMENTools.CLI::Int32 DownloadList(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Usage
+```bash
+CARMEN --lstId.Downloads [/o <out.DIR>]
 ```
-  Information:  Download the Avaliable organism name And available pathways' name.
-  Usage:        G:\GCModeller\manual\bin\CARMEN.exe --lstId.Downloads [/o <out.DIR>]
-  Example:      CARMEN --lstId.Downloads 
+###### Example
+```bash
+CARMEN
 ```
+<h3 id="--Reconstruct.KEGG.Online"> 3. --Reconstruct.KEGG.Online</h3>
 
-##### Help for command '--Reconstruct.KEGG.Online':
 
-**Prototype**: CARMENTools.CLI::Int32 Reconstruct(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``CARMENTools.CLI::Int32 Reconstruct(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+CARMEN --Reconstruct.KEGG.Online /sp <organism> [/pathway <KEGG.pathwayId> /out <outDIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\CARMEN.exe --Reconstruct.KEGG.Online /sp <organism> [/pathway <KEGG.pathwayId> /out <outDIR>]
-  Example:      CARMEN --Reconstruct.KEGG.Online 
+###### Example
+```bash
+CARMEN
 ```
-

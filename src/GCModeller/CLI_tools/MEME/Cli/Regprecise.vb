@@ -78,6 +78,7 @@ Partial Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/CORN", Usage:="/CORN /in <operons.csv> /mast <mastDIR> /PTT <genome.ptt> [/out <out.csv>]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function CORN(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim mastDIR As String = args("/mast")
@@ -142,6 +143,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/LDM.MaxW", Usage:="/LDM.MaxW [/in <sourceDIR>]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function LDMMaxLen(args As CommandLine) As Integer
         Dim source As String = args.GetValue("/in", GCModeller.FileSystem.GetMotifLDM)
         Dim LDM = (From x As String
@@ -154,6 +156,7 @@ Partial Module CLI
 
     <ExportAPI("/BBH.Select.Regulators", Info:="Select bbh result for the regulators in RegPrecise database from the regulon bbh data.",
                Usage:="/BBH.Select.Regulators /in <bbh.csv> /db <regprecise_downloads.DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function SelectRegulatorsBBH(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim DbDIR As String = args("/db")
@@ -176,6 +179,7 @@ Partial Module CLI
 
     <ExportAPI("Download.Regprecise", Info:="Download Regprecise database from Web API",
                Usage:="Download.Regprecise [/work ./ /save <saveXml>]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function DownloadRegprecise2(args As CommandLine) As Integer
         Dim WORK As String = args.GetValue("/work", App.CurrentDirectory & "/RegpreciseDownloads/")
         Dim Db As TranscriptionFactors = WebAPI.Download(WORK)
@@ -192,6 +196,7 @@ Partial Module CLI
     <ExportAPI("wGet.Regprecise",
                Info:="Download Regprecise database from REST API",
                Usage:="wGet.Regprecise [/repository-export <dir.export, default: ./> /updates]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function DownloadRegprecise(args As CommandLine) As Integer
         Dim Updates As Boolean = args.GetBoolean("/updates")
         Dim Export As String = args.GetValue(Of String)("/repository-export", "./")
@@ -201,6 +206,7 @@ Partial Module CLI
     <ExportAPI("Regprecise.Compile",
                Usage:="Regprecise.Compile [<repository>]",
                Info:="The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn't know how to set this value, please leave it blank.")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function CompileRegprecise(args As CommandLine) As Integer
         Dim repository As String = args.Tokens.Get(1)
         If String.IsNullOrEmpty(repository) Then
@@ -223,6 +229,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("mast.compile",
                Usage:="mast.compile /mast <mast.xml> /ptt <genome.ptt> [/no-meme /no-regInfo /p-value 1e-3 /mast-ldm <DIR default:=GCModeller/Regprecise/MEME/MAST_LDM> /atg-dist 250]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function CompileMast(args As CommandLine) As Integer
         Dim PTT As TabularFormat.PTT = TabularFormat.PTT.Load(args("/ptt"))
         Dim mast As XmlOutput.MAST.MAST =
@@ -269,6 +276,7 @@ Partial Module CLI
                Usage:="mast.compile.bulk /source <source_dir> [/ptt <genome.ptt> /atg-dist <500> /no-meme /no-regInfo /p-value 1e-3 /mast-ldm <DIR default:=GCModeller/Regprecise/MEME/MAST_LDM> /related.all]")>
     <Argument("/no-meme", True,
                    Description:="Specific that the mast site construction will without and meme pwm MAST_LDM model.")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function CompileMastBuck(args As CommandLine) As Integer
         Call $"Start loading mast documents from source {args("/source")}".__DEBUG_ECHO
 
@@ -375,6 +383,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("--mapped-Back", Usage:="--mapped-Back /meme <meme.text> /mast <mast.xml> /ptt <genome.ptt> [/out <out.csv> /offset <10> /atg-dist <250>]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function SiteMappedBack(args As CommandLine) As Integer
         Dim MEME As String = args("/meme")
         Dim mastXml As String = args("/mast")
@@ -473,6 +482,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("regulators.compile", Info:="Regprecise regulators data source compiler.")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function RegulatorsCompile() As Integer
         Dim regulatorsRepository As String = RegpreciseRoot & "/Fasta/Regulators/"
         Dim regulators As FastaReaders.Regulator() =
@@ -515,6 +525,7 @@ Partial Module CLI
                Usage:="regulators.bbh /bbh <bbhDIR/bbh.index.Csv> [/save <save.csv> /direct /regulons /maps <genome.gb>]")>
     <Argument("/regulons", True,
                    Description:="The data source of the /bbh parameter is comes from the regulons bbh data.")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function RegulatorsBBh(args As CommandLine) As Integer
         Dim KEGGFamilies = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of FastaReaders.Regulator) _
             .ToDictionary(Function(prot) prot.KEGG)
@@ -601,6 +612,7 @@ Partial Module CLI
                Usage:="--build.Regulations /bbh <regprecise.bbhMapped.csv> /mast <mastSites.csv> [/cutoff <0.6> /out <out.csv> /sp <spName> /DOOR <genome.opr> /DOOR.extract]")>
     <Argument("/DOOR.extract", True,
                    Description:="Extract the operon structure genes after assign the operon information.")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function Build(args As CommandLine) As Integer
         Dim bbh = RegpreciseSummary.LoadRegpreciseBBH(args("/bbh"))
         Dim mastSites As IEnumerable(Of MastSites) = RegpreciseSummary.LoadMEME(args("/mast"))
@@ -629,6 +641,7 @@ Partial Module CLI
 
     <ExportAPI("--build.Regulations.From.Motifs",
                Usage:="--build.Regulations.From.Motifs /bbh <regprecise.bbhMapped.csv> /motifs <motifSites.csv> [/cutoff <0.6> /sp <spName> /out <out.csv>]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function BuildFromMotifSites(args As CommandLine) As Integer
         Dim bbh = RegpreciseSummary.LoadRegpreciseBBH(args("/bbh"))
         Dim motifSites = args("/motifs").LoadCsv(Of MotifSite)
@@ -645,6 +658,7 @@ Partial Module CLI
 
     <ExportAPI("--TCS.Regulations",
                Usage:="--TCS.Regulations /TCS <DIR.TCS.csv> /modules <DIR.mod.xml> /regulations <virtualfootprint.csv>")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function TCSRegulations(args As CommandLine) As Integer
         Dim TCS = FileIO.FileSystem.GetFiles(args("/TCS"), FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
             .ToArray(Function(file) _
@@ -671,6 +685,7 @@ Partial Module CLI
 
     <ExportAPI("--TCS.Module.Regulations",
                Usage:="--TCS.Module.Regulations /MiST2 <MiST2.xml> /footprint <footprints.csv> /Pathways <KEGG_Pathways.DIR>")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function TCSRegulateModule(args As CommandLine) As Integer
         Dim MiST2 = args("/MiST2").LoadXml(Of MiST2)
         Dim footprints = args("/footprint").LoadCsv(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
@@ -716,6 +731,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--Dump.KEGG.Family", Usage:="--Dump.KEGG.Family /in <in.fasta> [/out <out.csv>]")>
     <Argument("/in", False, Description:="The RegPrecise formated title fasta file.")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function KEGGFamilyDump(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim outFile As String = args.GetValue("/out", inFile.TrimSuffix & "_KEGG.csv")
@@ -725,6 +741,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Build.FamilyDb", Usage:="/Build.FamilyDb /prot <RegPrecise.prot.fasta> /pfam <pfam-string.csv> [/out <out.Xml>]")>
+    <Group(CLIGrouping.RegPreciseTools)>
     Public Function BuildFamilyDb(args As CommandLine) As Integer
         Dim prot As String = args("/prot")
         Dim pfam As String = args("/pfam")

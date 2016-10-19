@@ -1,402 +1,534 @@
 ---
 title: VirtualFootprint
 tags: [maunal, tools]
-date: 7/27/2016 6:40:31 PM
+date: 2016/10/19 16:38:39
 ---
 # GCModeller [version 1.0.0.0]
-**Module AssemblyName**: file:///G:/GCModeller/manual/bin/VirtualFootprint.exe
-**Root namespace**: xVirtualFootprint.CLI
+> 
+
+<!--more-->
+
+**VirtualFootprint gene expression regulation network reconstruct tools**
+_VirtualFootprint gene expression regulation network reconstruct tools_
+Copyright ? http://services.gcmodeller.org 2016
+
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/VirtualFootprint.exe
+**Root namespace**: ``xVirtualFootprint.CLI``
 
 
 All of the command that available in this program has been list below:
 
+##### Generic function API list
 |Function API|Info|
 |------------|----|
-|/Build.Footprints|Build regulations from motif log site.|
-|/Density.Mappings||
-|/Export.Footprints.Sites|Exports the motif sites from the virtual footprints sites.|
-|/Export.Primer|[SSR name], [Forward primer], [Reverse primer]|
-|/Filter.Promoter.Sites||
-|/Filter.PromoterSites.Batch||
-|/Intersect||
-|/KEGG.Regulons||
-|/Logs.Cast.Footprints||
-|/MAST_Sites.Screen||
-|/MAST_Sites.Screen2||
-|/Merge.Footprints||
-|/Merge.Regulons||
-|/Merge.Sites|Merge the segment loci sites within the specific length offset ranges.|
-|/Motif.From.MAL||
-|/restrict_enzyme.builds||
-|/scan|Sanning genome sequence with a specific motif meme model.|
-|/Sites.Pathways|[Type 1] Grouping sites loci by pathway|
-|/Sites.Regulons|[Type 2]|
-|/Test.Footprints||
-|/Test.Footprints.2||
-|/TF.Density||
-|/TF.Density.Batch||
-|/TF.Regulons||
-|/TF.Sites||
-|/Trim.Regulates||
-|/Trim.Regulons||
-|/Trim.Strand|Removes all of the sites which is on the different strand with the tag gene.|
-|/Write.Network||
+|[/Build.Footprints](#/Build.Footprints)|Build regulations from motif log site.|
+|[/Export.Footprints.Sites](#/Export.Footprints.Sites)|Exports the motif sites from the virtual footprints sites.|
+|[/Filter.Promoter.Sites](#/Filter.Promoter.Sites)||
+|[/Filter.PromoterSites.Batch](#/Filter.PromoterSites.Batch)||
+|[/gc.outliers](#/gc.outliers)||
+|[/Intersect](#/Intersect)||
+|[/KEGG.Regulons](#/KEGG.Regulons)||
+|[/Logs.Cast.Footprints](#/Logs.Cast.Footprints)||
+|[/MAST_Sites.Screen](#/MAST_Sites.Screen)||
+|[/MAST_Sites.Screen2](#/MAST_Sites.Screen2)||
+|[/Merge.Footprints](#/Merge.Footprints)||
+|[/Merge.Regulons](#/Merge.Regulons)||
+|[/Merge.Sites](#/Merge.Sites)|Merge the segment loci sites within the specific length offset ranges.|
+|[/Motif.From.MAL](#/Motif.From.MAL)||
+|[/scan](#/scan)|Sanning genome sequence with a specific motif meme model.|
+|[/Test.Footprints](#/Test.Footprints)||
+|[/Test.Footprints.2](#/Test.Footprints.2)||
+|[/TF.Sites](#/TF.Sites)||
+|[/Trim.Regulates](#/Trim.Regulates)||
+|[/Trim.Regulons](#/Trim.Regulons)||
+|[/Trim.Strand](#/Trim.Strand)|Removes all of the sites which is on the different strand with the tag gene.|
+|[/Write.Network](#/Write.Network)||
 
-## Commands
+
+##### 1. TF/Regulon tools
+
+
+|Function API|Info|
+|------------|----|
+|[/Density.Mappings](#/Density.Mappings)||
+|[/Sites.Pathways](#/Sites.Pathways)|[Type 1] Grouping sites loci by pathway|
+|[/Sites.Regulons](#/Sites.Regulons)|[Type 2]|
+|[/TF.Density](#/TF.Density)||
+|[/TF.Density.Batch](#/TF.Density.Batch)||
+|[/TF.Regulons](#/TF.Regulons)||
+
+
+##### 2. Primer Designer
+
+
+|Function API|Info|
+|------------|----|
+|[/Export.Primer](#/Export.Primer)|[SSR name], [Forward primer], [Reverse primer]|
+|[/restrict_enzyme.builds](#/restrict_enzyme.builds)||
+
+
+
+
+## CLI API list
 --------------------------
-##### Help for command '/Build.Footprints':
+<h3 id="/Build.Footprints"> 1. /Build.Footprints</h3>
 
-**Prototype**: xVirtualFootprint.CLI::Int32 BuildFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)
+Build regulations from motif log site.
+**Prototype**: ``xVirtualFootprint.CLI::Int32 BuildFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+VirtualFootprint /Build.Footprints /motifs <motifLogs.csv> /bbh <queryHits.csv> [/hitshash /sites <motifLogSites.Xml.DIR> /out <out.csv>]
 ```
-  Information:  Build regulations from motif log site.
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Build.Footprints /motifs <motifLogs.csv> /bbh <queryHits.csv> [/hitshash /sites <motifLogSites.Xml.DIR> /out <out.csv>]
-  Example:      VirtualFootprint /Build.Footprints 
-```
-
-
-
-  Parameters information:
-```
-    /bbh
-    Description:  The bbh hit result between the RegPrecise database and annotated genome proteins. query should be the RegPrecise TF and hits should be the annotated proteins.
-
-    Example:      /bbh ""
-
-   [/sites]
-    Description:  If this parameter not presented, then using GCModeller repository data as default.
-
-    Example:      /sites ""
-
-   [/hitshash]
-    Description:  Using hit name as the bbh hash index key? default is using query name.
-
-    Example:      /hitshash ""
-
-
+###### Example
+```bash
+VirtualFootprint
 ```
 
-#### Accepted Types
+
+
+#### Parameters information:
 ##### /bbh
-##### /sites
-##### /hitshash
-##### Help for command '/Density.Mappings':
+The bbh hit result between the RegPrecise database and annotated genome proteins. query should be the RegPrecise TF and hits should be the annotated proteins.
 
-**Prototype**: xVirtualFootprint.CLI::Int32 ContextMappings(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Density.Mappings /in <density.Csv> [/scale 100 /out <out.PTT>]
-  Example:      VirtualFootprint /Density.Mappings 
-```
-
-##### Help for command '/Export.Footprints.Sites':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 ExportFasta(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  Exports the motif sites from the virtual footprints sites.
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Export.Footprints.Sites /in <virtualfootprints> [/TF <locus_tag> /offset <group-offset> /out <outDIR/fasta>]
-  Example:      VirtualFootprint /Export.Footprints.Sites 
-```
+##### [/sites]
+If this parameter not presented, then using GCModeller repository data as default.
 
-##### Help for command '/Export.Primer':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 ExportPrimer(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  [SSR name], [Forward primer], [Reverse primer]
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Export.Primer /in <primer.csv/DIR> [/out <out.DIR> /batch]
-  Example:      VirtualFootprint /Export.Primer 
-```
+##### [/hitshash]
+Using hit name as the bbh hash index key? default is using query name.
 
-##### Help for command '/Filter.Promoter.Sites':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 PromoterSites(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Filter.Promoter.Sites /in <motifLog.Csv> [/out <out.csv>]
-  Example:      VirtualFootprint /Filter.Promoter.Sites 
+##### Accepted Types
+###### /bbh
+###### /sites
+###### /hitshash
+<h3 id="/Density.Mappings"> 2. /Density.Mappings</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 ContextMappings(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Density.Mappings /in <density.Csv> [/scale 100 /out <out.PTT>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Export.Footprints.Sites"> 3. /Export.Footprints.Sites</h3>
+
+Exports the motif sites from the virtual footprints sites.
+**Prototype**: ``xVirtualFootprint.CLI::Int32 ExportFasta(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Export.Footprints.Sites /in <virtualfootprints> [/TF <locus_tag> /offset <group-offset> /out <outDIR/fasta>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Export.Primer"> 4. /Export.Primer</h3>
+
+[SSR name], [Forward primer], [Reverse primer]
+**Prototype**: ``xVirtualFootprint.CLI::Int32 ExportPrimer(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Export.Primer /in <primer.csv/DIR> [/out <out.DIR> /batch]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Filter.Promoter.Sites"> 5. /Filter.Promoter.Sites</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 PromoterSites(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Filter.Promoter.Sites /in <motifLog.Csv> [/out <out.csv>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Filter.PromoterSites.Batch"> 6. /Filter.PromoterSites.Batch</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 PromoterSitesBatch(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Filter.PromoterSites.Batch /in <motifLogs.DIR> [/num_threads <-1> /out <out.DIR>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/gc.outliers"> 7. /gc.outliers</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 Outliers(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /gc.outliers /mal <mal.fasta> [/q <quantiles:0.95,0.99,1> /method <gcskew/gccontent,default:gccontent> /out <out.csv> /win 250 /steps 50 /slides 5]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Intersect"> 8. /Intersect</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 Intersection(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Intersect /s1 <footprints.csv> /s2 <footprints.csv> [/out <out.csv> /strict]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/KEGG.Regulons"> 9. /KEGG.Regulons</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 KEGGRegulons(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /KEGG.Regulons /in <footprints.csv> /mods <KEGG.mods.DIR> [/pathway /out <out.csv>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Logs.Cast.Footprints"> 10. /Logs.Cast.Footprints</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 CastLogAsFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Logs.Cast.Footprints /in <motifLogs.Csv> [/out <out.csv>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/MAST_Sites.Screen"> 11. /MAST_Sites.Screen</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 SiteScreens(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /MAST_Sites.Screen /in <mast_sites.csv> /operons <regprecise.operons.csv> [/out <out.csv>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/MAST_Sites.Screen2"> 12. /MAST_Sites.Screen2</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 SiteScreens2(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /MAST_Sites.Screen2 /in <mast_sites.csv> [/n <2> /offset <30> /out <out.csv>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Merge.Footprints"> 13. /Merge.Footprints</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 MergeFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Merge.Footprints /in <inDIR> [/out <out.csv> /trim]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Merge.Regulons"> 14. /Merge.Regulons</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 MergeRegulonsExport(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Merge.Regulons /in <regulons.bbh.inDIR> [/out <out.csv>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Merge.Sites"> 15. /Merge.Sites</h3>
+
+Merge the segment loci sites within the specific length offset ranges.
+**Prototype**: ``xVirtualFootprint.CLI::Int32 MergeSites(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Merge.Sites /in <segments.Csv> [/nt <nt.fasta> /out <out.csv> /offset <10>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Motif.From.MAL"> 16. /Motif.From.MAL</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 MotifFromMAL(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Motif.From.MAL /in <clustal.fasta> /out <outDIR>
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/restrict_enzyme.builds"> 17. /restrict_enzyme.builds</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 BuildEnzymeDb(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /restrict_enzyme.builds [/source <html_DIR> /out <out.json>]
+```
+###### Example
+```bash
+VirtualFootprint
 ```
 
-##### Help for command '/Filter.PromoterSites.Batch':
 
-**Prototype**: xVirtualFootprint.CLI::Int32 PromoterSitesBatch(Microsoft.VisualBasic.CommandLine.CommandLine)
 
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Filter.PromoterSites.Batch /in <motifLogs.DIR> [/num_threads <-1> /out <out.DIR>]
-  Example:      VirtualFootprint /Filter.PromoterSites.Batch 
-```
+#### Parameters information:
+##### [/source]
+Default using the data source from Wikipedia.
 
-##### Help for command '/Intersect':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 Intersection(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Intersect /s1 <footprints.csv> /s2 <footprints.csv> [/out <out.csv> /strict]
-  Example:      VirtualFootprint /Intersect 
-```
+##### [/out]
+Enzyme database was writing to the GCModeller repository by default.
 
-##### Help for command '/KEGG.Regulons':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 KEGGRegulons(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /KEGG.Regulons /in <footprints.csv> /mods <KEGG.mods.DIR> [/pathway /out <out.csv>]
-  Example:      VirtualFootprint /KEGG.Regulons 
+##### Accepted Types
+###### /source
+###### /out
+<h3 id="/scan"> 18. /scan</h3>
+
+Sanning genome sequence with a specific motif meme model.
+**Prototype**: ``xVirtualFootprint.CLI::Int32 Scanner(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /scan /motif <meme.txt> /nt <genome.fasta> [/PTT <genome.ptt> /atg-dist <250> /out <out.csv>]
 ```
-
-##### Help for command '/Logs.Cast.Footprints':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 CastLogAsFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Logs.Cast.Footprints /in <motifLogs.Csv> [/out <out.csv>]
-  Example:      VirtualFootprint /Logs.Cast.Footprints 
+<h3 id="/Sites.Pathways"> 19. /Sites.Pathways</h3>
+
+[Type 1] Grouping sites loci by pathway
+**Prototype**: ``xVirtualFootprint.CLI::Int32 PathwaySites(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Sites.Pathways /pathway <KEGG.DIR> /sites <simple_segment.Csv.DIR> [/out <out.DIR>]
 ```
-
-##### Help for command '/MAST_Sites.Screen':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 SiteScreens(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /MAST_Sites.Screen /in <mast_sites.csv> /operons <regprecise.operons.csv> [/out <out.csv>]
-  Example:      VirtualFootprint /MAST_Sites.Screen 
+<h3 id="/Sites.Regulons"> 20. /Sites.Regulons</h3>
+
+[Type 2]
+**Prototype**: ``xVirtualFootprint.CLI::Int32 RegulonSites(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Sites.Regulons /regulon <RegPrecise.Regulon.Csv> /sites <simple_segment.Csv.DIR> [/map <genome.PTT> /out <out.DIR>]
 ```
-
-##### Help for command '/MAST_Sites.Screen2':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 SiteScreens2(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /MAST_Sites.Screen2 /in <mast_sites.csv> [/n <2> /offset <30> /out <out.csv>]
-  Example:      VirtualFootprint /MAST_Sites.Screen2 
+<h3 id="/Test.Footprints"> 21. /Test.Footprints</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TestFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Test.Footprints /in <virtualfootprints.csv> /opr <regulon-operons.csv> [/out <out.csv>]
 ```
-
-##### Help for command '/Merge.Footprints':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 MergeFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Merge.Footprints /in <inDIR> [/out <out.csv> /trim]
-  Example:      VirtualFootprint /Merge.Footprints 
+<h3 id="/Test.Footprints.2"> 22. /Test.Footprints.2</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TestFootprints2(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Test.Footprints.2 /in <virtualfootprints.csv> [/out <out.csv> /n 2]
 ```
-
-##### Help for command '/Merge.Regulons':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 MergeRegulonsExport(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Merge.Regulons /in <regulons.bbh.inDIR> [/out <out.csv>]
-  Example:      VirtualFootprint /Merge.Regulons 
+<h3 id="/TF.Density"> 23. /TF.Density</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TFDensity(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /TF.Density /TF <TF-list.txt> /PTT <genome.PTT> [/ranges 5000 /out <out.csv> /cis /un-strand /batch]
 ```
-
-##### Help for command '/Merge.Sites':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 MergeSites(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  Merge the segment loci sites within the specific length offset ranges.
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Merge.Sites /in <segments.Csv> [/nt <nt.fasta> /out <out.csv> /offset <10>]
-  Example:      VirtualFootprint /Merge.Sites 
-```
-
-##### Help for command '/Motif.From.MAL':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 MotifFromMAL(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Motif.From.MAL /in <clustal.fasta> /out <outDIR>
-  Example:      VirtualFootprint /Motif.From.MAL 
-```
-
-##### Help for command '/restrict_enzyme.builds':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 BuildEnzymeDb(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /restrict_enzyme.builds [/source <html_DIR> /out <out.json>]
-  Example:      VirtualFootprint /restrict_enzyme.builds 
+###### Example
+```bash
+VirtualFootprint
 ```
 
 
 
-  Parameters information:
-```
-       [/source]
-    Description:  Default using the data source from Wikipedia.
-
-    Example:      /source ""
-
-   [/out]
-    Description:  Enzyme database was writing to the GCModeller repository by default.
-
-    Example:      /out ""
-
-
-```
-
-#### Accepted Types
-##### /source
-##### /out
-##### Help for command '/scan':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 Scanner(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  Sanning genome sequence with a specific motif meme model.
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /scan /motif <meme.txt> /nt <genome.fasta> [/PTT <genome.ptt> /atg-dist <250> /out <out.csv>]
-  Example:      VirtualFootprint /scan 
-```
-
-##### Help for command '/Sites.Pathways':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 PathwaySites(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  [Type 1] Grouping sites loci by pathway
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Sites.Pathways /pathway <KEGG.DIR> /sites <simple_segment.Csv.DIR> [/out <out.DIR>]
-  Example:      VirtualFootprint /Sites.Pathways 
-```
-
-##### Help for command '/Sites.Regulons':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 RegulonSites(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  [Type 2]
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Sites.Regulons /regulon <RegPrecise.Regulon.Csv> /sites <simple_segment.Csv.DIR> [/map <genome.PTT> /out <out.DIR>]
-  Example:      VirtualFootprint /Sites.Regulons 
-```
-
-##### Help for command '/Test.Footprints':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TestFootprints(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Test.Footprints /in <virtualfootprints.csv> /opr <regulon-operons.csv> [/out <out.csv>]
-  Example:      VirtualFootprint /Test.Footprints 
-```
-
-##### Help for command '/Test.Footprints.2':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TestFootprints2(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Test.Footprints.2 /in <virtualfootprints.csv> [/out <out.csv> /n 2]
-  Example:      VirtualFootprint /Test.Footprints.2 
-```
-
-##### Help for command '/TF.Density':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TFDensity(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /TF.Density /TF <TF-list.txt> /PTT <genome.PTT> [/ranges 5000 /out <out.csv> /cis /un-strand /batch]
-  Example:      VirtualFootprint /TF.Density 
-```
-
-
-
-  Parameters information:
-```
-    /TF
-    Description:  A plant text file with the TF locus_tag list.
-
-    Example:      /TF ""
-
-   [/batch]
-    Description:  This function is works in batch mode.
-
-    Example:      /batch ""
-
-
-```
-
-#### Accepted Types
+#### Parameters information:
 ##### /TF
-##### /batch
-##### Help for command '/TF.Density.Batch':
+A plant text file with the TF locus_tag list.
 
-**Prototype**: xVirtualFootprint.CLI::Int32 TFDensityBatch(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /TF.Density.Batch /TF <TF-list.txt> /PTT <genome.PTT.DIR> [/ranges 5000 /out <out.DIR> /cis /un-strand]
-  Example:      VirtualFootprint /TF.Density.Batch 
-```
-
-##### Help for command '/TF.Regulons':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TFRegulons(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /TF.Regulons /bbh <tf.bbh.csv> /footprints <regulations.csv> [/out <out.csv>]
-  Example:      VirtualFootprint /TF.Regulons 
-```
+##### [/batch]
+This function is works in batch mode.
 
-##### Help for command '/TF.Sites':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TFMotifSites(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /TF.Sites /bbh <bbh.Csv> /RegPrecise <RegPrecise.Xmls.DIR> [/hitHash /out <outDIR>]
-  Example:      VirtualFootprint /TF.Sites 
+##### Accepted Types
+###### /TF
+###### /batch
+<h3 id="/TF.Density.Batch"> 24. /TF.Density.Batch</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TFDensityBatch(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /TF.Density.Batch /TF <TF-list.txt> /PTT <genome.PTT.DIR> [/ranges 5000 /out <out.DIR> /cis /un-strand]
 ```
-
-##### Help for command '/Trim.Regulates':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TrimRegulates(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Trim.Regulates /in <virtualfootprint.csv> [/out <out.csv> /cut 0.65]
-  Example:      VirtualFootprint /Trim.Regulates 
+<h3 id="/TF.Regulons"> 25. /TF.Regulons</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TFRegulons(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /TF.Regulons /bbh <tf.bbh.csv> /footprints <regulations.csv> [/out <out.csv>]
 ```
-
-##### Help for command '/Trim.Regulons':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TrimRegulon(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Trim.Regulons /in <regulons.csv> /pcc <pccDIR/sp_code> [/out <out.csv> /cut 0.65]
-  Example:      VirtualFootprint /Trim.Regulons 
+<h3 id="/TF.Sites"> 26. /TF.Sites</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TFMotifSites(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /TF.Sites /bbh <bbh.Csv> /RegPrecise <RegPrecise.Xmls.DIR> [/hitHash /out <outDIR>]
 ```
-
-##### Help for command '/Trim.Strand':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 TrimStrand(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  Removes all of the sites which is on the different strand with the tag gene.
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Trim.Strand /in <segments.Csv> /PTT <genome.ptt> [/out <out.csv>]
-  Example:      VirtualFootprint /Trim.Strand 
+<h3 id="/Trim.Regulates"> 27. /Trim.Regulates</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TrimRegulates(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Trim.Regulates /in <virtualfootprint.csv> [/out <out.csv> /cut 0.65]
 ```
-
-##### Help for command '/Write.Network':
-
-**Prototype**: xVirtualFootprint.CLI::Int32 SaveNetwork(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+VirtualFootprint
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\VirtualFootprint.exe /Write.Network /in <regulons.csv> [/out <netDIR>]
-  Example:      VirtualFootprint /Write.Network 
-```
+<h3 id="/Trim.Regulons"> 28. /Trim.Regulons</h3>
 
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TrimRegulon(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Trim.Regulons /in <regulons.csv> /pcc <pccDIR/sp_code> [/out <out.csv> /cut 0.65]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Trim.Strand"> 29. /Trim.Strand</h3>
+
+Removes all of the sites which is on the different strand with the tag gene.
+**Prototype**: ``xVirtualFootprint.CLI::Int32 TrimStrand(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Trim.Strand /in <segments.Csv> /PTT <genome.ptt> [/out <out.csv>]
+```
+###### Example
+```bash
+VirtualFootprint
+```
+<h3 id="/Write.Network"> 30. /Write.Network</h3>
+
+
+**Prototype**: ``xVirtualFootprint.CLI::Int32 SaveNetwork(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+VirtualFootprint /Write.Network /in <regulons.csv> [/out <netDIR>]
+```
+###### Example
+```bash
+VirtualFootprint
+```

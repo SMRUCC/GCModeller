@@ -1,147 +1,190 @@
 ---
 title: Shoal
 tags: [maunal, tools]
-date: 7/27/2016 6:40:26 PM
+date: 2016/10/19 16:38:37
 ---
 # ShoalShell [version 1.2.258.2033]
-**Module AssemblyName**: file:///G:/GCModeller/manual/bin/Shoal.exe
-**Root namespace**: Microsoft.VisualBasic.Shoal.CLI
+> This module define the shoal commandlines for the command line interpreter.
+
+<!--more-->
+
+**ShoalShell Command Line Interpreter**
+_*.shl_
+Copyright ? xie.guigang@gmail.com 2014
+
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Shoal.exe
+**Root namespace**: ``Microsoft.VisualBasic.Shoal.CLI``
 
 
 All of the command that available in this program has been list below:
 
+##### Generic function API list
 |Function API|Info|
 |------------|----|
-|/debug|Start the shoal shell in debug output mode.|
-|::|Execute one script line, this command is useful for the shoal API development and debugging.|
-|~|Start the shoal shell in the current directory, not using the directory in the profile data.|
-|--logs.show||
-|-register_modules|Register the shellscript API module assembly DLL or assembly exe file to the shellscript type registry.|
-|-scan.plugins|Scanning all of the avaliable shoal plugin modules in the specific directory and install all of them into the shoal registry.|
-|set|Setting up the shoal environment variables, you can using var command to view all of the avaliable variable in the shoal shell.|
-|-start|Start the shoal shell using the user custom data.|
-|var|Get the environment variable value in the shoal shell, if a variable name is not specific, then the shoal will list all of the variable value in shoal.|
-|--version|Print the version of the shoal shell in the console.|
+|[/debug](#/debug)|Start the shoal shell in debug output mode.|
+|[::](#::)|Execute one script line, this command is useful for the shoal API development and debugging.|
+|[~](#~)|Start the shoal shell in the current directory, not using the directory in the profile data.|
+|[--logs.show](#--logs.show)||
+|[-register_modules](#-register_modules)|Register the shellscript API module assembly DLL or assembly exe file to the shellscript type registry.|
+|[-scan.plugins](#-scan.plugins)|Scanning all of the avaliable shoal plugin modules in the specific directory and install all of them into the shoal registry.|
+|[set](#set)|Setting up the shoal environment variables, you can using var command to view all of the avaliable variable in the shoal shell.|
+|[-start](#-start)|Start the shoal shell using the user custom data.|
+|[var](#var)|Get the environment variable value in the shoal shell, if a variable name is not specific, then the shoal will list all of the variable value in shoal.|
+|[--version](#--version)|Print the version of the shoal shell in the console.|
 
-## Commands
+
+
+
+## CLI API list
 --------------------------
-##### Help for command '/debug':
+<h3 id="/debug"> 1. /debug</h3>
 
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 DEBUG(Microsoft.VisualBasic.CommandLine.CommandLine)
+Start the shoal shell in debug output mode.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 DEBUG(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Shoal /debug listener_port <listen_port> [-work <working_Dir>]
 ```
-  Information:  Start the shoal shell in debug output mode.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe /debug listener_port <listen_port> [-work <working_Dir>]
-  Example:      Shoal /debug 
+###### Example
+```bash
+Shoal
+```
+<h3 id="::"> 2. ::</h3>
+
+Execute one script line, this command is useful for the shoal API development and debugging.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Shell(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Shoal :: <scriptline>
+```
+###### Example
+```bash
+Shoal shoal :: "hello world!" -> msgbox title "This is a hello world tesing example!"
+```
+<h3 id="~"> 3. ~</h3>
+
+Start the shoal shell in the current directory, not using the directory in the profile data.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Start()``
+
+###### Usage
+```bash
+Shoal
+```
+###### Example
+```bash
+Shoal
+```
+<h3 id="--logs.show"> 4. --logs.show</h3>
+
+
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 ShowLogs()``
+
+###### Usage
+```bash
+Shoal
+```
+###### Example
+```bash
+Shoal
+```
+<h3 id="-register_modules"> 5. -register_modules</h3>
+
+Register the shellscript API module assembly DLL or assembly exe file to the shellscript type registry.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 RegisterModule(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Shoal -register_modules -path <assemnly_dll_file> [-module_name <string_name>]
+```
+###### Example
+```bash
+Shoal
 ```
 
-##### Help for command '::':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 Shell(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  Execute one script line, this command is useful for the shoal API development and debugging.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe :: <scriptline>
-  Example:      Shoal :: shoal :: "hello world!" -> msgbox title "This is a hello world tesing example!"
-```
-
-##### Help for command '~':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 Start()
-
-```
-  Information:  Start the shoal shell in the current directory, not using the directory in the profile data.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe 
-  Example:      Shoal ~ 
-```
-
-##### Help for command '--logs.show':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 ShowLogs()
-
-```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe 
-  Example:      Shoal --logs.show 
-```
-
-##### Help for command '-register_modules':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 RegisterModule(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  Register the shellscript API module assembly DLL or assembly exe file to the shellscript type registry.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe -register_modules -path <assemnly_dll_file> [-module_name <string_name>]
-  Example:      Shoal -register_modules 
-```
 
 
-
-  Parameters information:
-```
-    -path
-    Description:  the assembly file path of the API module that you are going to register in the shellscript type library
-
-    Example:      -path ""
-
-   [-module_name]
-    Description:  The module name for the register type namespace, if the target assembly just have one shellscript namespace, then this switch value will override the namespace attribute value if the value of this switch is not null, when there are more than one shellscript namespace was declared in the module, then this switch opetion will be disabled.
-
-    Example:      -module_name ""
-
-
-```
-
-#### Accepted Types
+#### Parameters information:
 ##### -path
-##### -module_name
-##### Help for command '-scan.plugins':
+the assembly file path of the API module that you are going to register in the shellscript type library
 
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 ScanPlugins(Microsoft.VisualBasic.CommandLine.CommandLine)
-
-```
-  Information:  Scanning all of the avaliable shoal plugin modules in the specific directory and install all of them into the shoal registry.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe -scan.plugins -dir <dir>[ -ext *.*/*.dll/*.exe/*.lib /top_only /clean]
-  Example:      Shoal -scan.plugins -scan.plugins -dir ./ -ext *.dll
-```
-
-##### Help for command 'set':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 SetValue(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  Setting up the shoal environment variables, you can using var command to view all of the avaliable variable in the shoal shell.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe set <var_Name> <string_value>
-  Example:      Shoal set set lastdirasinit true
-```
+##### [-module_name]
+The module name for the register type namespace, if the target assembly just have one shellscript namespace, then this switch value will override the namespace attribute value if the value of this switch is not null, when there are more than one shellscript namespace was declared in the module, then this switch opetion will be disabled.
 
-##### Help for command '-start':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 Start(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  Start the shoal shell using the user custom data.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe -start -init_dir <inits_dir> -registry <regustry_xml> -imports <dll_paths>
-  Example:      Shoal -start 
+##### Accepted Types
+###### -path
+###### -module_name
+<h3 id="-scan.plugins"> 6. -scan.plugins</h3>
+
+Scanning all of the avaliable shoal plugin modules in the specific directory and install all of them into the shoal registry.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 ScanPlugins(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Shoal -scan.plugins -dir <dir>[ -ext *.*/*.dll/*.exe/*.lib /top_only /clean]
 ```
-
-##### Help for command 'var':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 GetValue(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Example
+```bash
+Shoal -scan.plugins -dir ./ -ext *.dll
 ```
-  Information:  Get the environment variable value in the shoal shell, if a variable name is not specific, then the shoal will list all of the variable value in shoal.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe var [<var_Name>]
-  Example:      Shoal var var registry_location
+<h3 id="set"> 7. set</h3>
+
+Setting up the shoal environment variables, you can using var command to view all of the avaliable variable in the shoal shell.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 SetValue(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Shoal set <var_Name> <string_value>
 ```
-
-##### Help for command '--version':
-
-**Prototype**: Microsoft.VisualBasic.Shoal.CLI::Int32 Version()
-
+###### Example
+```bash
+Shoal set lastdirasinit true
 ```
-  Information:  Print the version of the shoal shell in the console.
-  Usage:        G:\GCModeller\manual\bin\Shoal.exe 
-  Example:      Shoal --version 
-```
+<h3 id="-start"> 8. -start</h3>
 
+Start the shoal shell using the user custom data.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Start(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Shoal -start -init_dir <inits_dir> -registry <regustry_xml> -imports <dll_paths>
+```
+###### Example
+```bash
+Shoal
+```
+<h3 id="var"> 9. var</h3>
+
+Get the environment variable value in the shoal shell, if a variable name is not specific, then the shoal will list all of the variable value in shoal.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 GetValue(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Shoal var [<var_Name>]
+```
+###### Example
+```bash
+Shoal var registry_location
+```
+<h3 id="--version"> 10. --version</h3>
+
+Print the version of the shoal shell in the console.
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Version()``
+
+###### Usage
+```bash
+Shoal
+```
+###### Example
+```bash
+Shoal
+```

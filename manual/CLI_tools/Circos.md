@@ -1,94 +1,127 @@
 ---
 title: Circos
 tags: [maunal, tools]
-date: 7/27/2016 6:40:15 PM
+date: 2016/10/19 16:38:30
 ---
 # GCModeller [version 1.0.0.0]
-**Module AssemblyName**: file:///G:/GCModeller/manual/bin/Circos.exe
-**Root namespace**: Circos_CLITools.CLI
+> Tools for generates the circos drawing model file for the circos perl script.
+
+<!--more-->
+
+**Circos CLI interface Utility**
+_Circos CLI interface Utility_
+Copyright ?  2015
+
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Circos.exe
+**Root namespace**: ``Circos_CLITools.CLI``
 
 
 All of the command that available in this program has been list below:
 
+##### Generic function API list
 |Function API|Info|
 |------------|----|
-|/Alignment.Dumps||
-|/DOOR.COGs||
-|/MGA2Myva||
-|/NT.Variation||
-|/Regulons.Dumps||
-|--AT.Percent||
-|--GC.Skew||
+|[/Alignment.Dumps](#/Alignment.Dumps)||
+|[/DOOR.COGs](#/DOOR.COGs)||
+|[/MGA2Myva](#/MGA2Myva)||
+|[/NT.Variation](#/NT.Variation)||
+|[/Regulons.Dumps](#/Regulons.Dumps)||
+|[--AT.Percent](#--AT.Percent)||
+|[--GC.Skew](#--GC.Skew)||
 
-## Commands
+
+
+
+## CLI API list
 --------------------------
-##### Help for command '/Alignment.Dumps':
+<h3 id="/Alignment.Dumps"> 1. /Alignment.Dumps</h3>
 
-**Prototype**: Circos_CLITools.CLI::Int32 AlignmentTableDump(Microsoft.VisualBasic.CommandLine.CommandLine)
 
+**Prototype**: ``Circos_CLITools.CLI::Int32 AlignmentTableDump(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Circos /Alignment.Dumps /in <inDIR> [/out <out.Xml>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Circos.exe /Alignment.Dumps /in <inDIR> [/out <out.Xml>]
-  Example:      Circos /Alignment.Dumps 
+###### Example
+```bash
+Circos
 ```
+<h3 id="/DOOR.COGs"> 2. /DOOR.COGs</h3>
 
-##### Help for command '/DOOR.COGs':
 
-**Prototype**: Circos_CLITools.CLI::Int32 DOOR_COGs(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``Circos_CLITools.CLI::Int32 DOOR_COGs(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Circos /DOOR.COGs /DOOR <genome.opr> [/out <out.COGs.Csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Circos.exe /DOOR.COGs /DOOR <genome.opr> [/out <out.COGs.Csv>]
-  Example:      Circos /DOOR.COGs 
+###### Example
+```bash
+Circos
 ```
+<h3 id="/MGA2Myva"> 3. /MGA2Myva</h3>
 
-##### Help for command '/MGA2Myva':
 
-**Prototype**: Circos_CLITools.CLI::Int32 MGA2Myva(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``Circos_CLITools.CLI::Int32 MGA2Myva(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Circos /MGA2Myva /in <mga_cog.csv> [/out <myva_cog.csv> /map <genome.gb>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Circos.exe /MGA2Myva /in <mga_cog.csv> [/out <myva_cog.csv> /map <genome.gb>]
-  Example:      Circos /MGA2Myva 
+###### Example
+```bash
+Circos
 ```
+<h3 id="/NT.Variation"> 4. /NT.Variation</h3>
 
-##### Help for command '/NT.Variation':
 
-**Prototype**: Circos_CLITools.CLI::Int32 NTVariation(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``Circos_CLITools.CLI::Int32 NTVariation(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Circos /NT.Variation /mla <fasta.fa> [/ref <index/fasta.fa, 0> /out <out.txt> /cut 0.75]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Circos.exe /NT.Variation /mla <fasta.fa> [/ref <index/fasta.fa, 0> /out <out.txt> /cut 0.75]
-  Example:      Circos /NT.Variation 
+###### Example
+```bash
+Circos
 ```
+<h3 id="/Regulons.Dumps"> 5. /Regulons.Dumps</h3>
 
-##### Help for command '/Regulons.Dumps':
 
-**Prototype**: Circos_CLITools.CLI::Int32 DumpNames(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``Circos_CLITools.CLI::Int32 DumpNames(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Circos /Regulons.Dumps /in <genomes.bbh.DIR> /ptt <genome.ptt> [/out <out.Csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Circos.exe /Regulons.Dumps /in <genomes.bbh.DIR> /ptt <genome.ptt> [/out <out.Csv>]
-  Example:      Circos /Regulons.Dumps 
+###### Example
+```bash
+Circos
 ```
+<h3 id="--AT.Percent"> 6. --AT.Percent</h3>
 
-##### Help for command '--AT.Percent':
 
-**Prototype**: Circos_CLITools.CLI::Int32 ATContent(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``Circos_CLITools.CLI::Int32 ATContent(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Circos --AT.Percent /in <in.fasta> [/win_size <200> /step <25> /out <out.txt>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Circos.exe --AT.Percent /in <in.fasta> [/win_size <200> /step <25> /out <out.txt>]
-  Example:      Circos --AT.Percent 
+###### Example
+```bash
+Circos
 ```
+<h3 id="--GC.Skew"> 7. --GC.Skew</h3>
 
-##### Help for command '--GC.Skew':
 
-**Prototype**: Circos_CLITools.CLI::Int32 GCSkew(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``Circos_CLITools.CLI::Int32 GCSkew(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Circos --GC.Skew /in <in.fasta> [/win_size <200> /step <25> /out <out.txt>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Circos.exe --GC.Skew /in <in.fasta> [/win_size <200> /step <25> /out <out.txt>]
-  Example:      Circos --GC.Skew 
+###### Example
+```bash
+Circos
 ```
-

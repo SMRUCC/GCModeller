@@ -1,424 +1,593 @@
 ---
 title: Cytoscape
 tags: [maunal, tools]
-date: 7/27/2016 6:40:16 PM
+date: 2016/10/19 16:38:30
 ---
 # GCModeller [version 1.0.0.0]
-**Module AssemblyName**: file:///G:/GCModeller/manual/bin/Cytoscape.exe
-**Root namespace**: xCytoscape.CLI
+> Cytoscape model generator and visualization tools utils for GCModeller
+
+<!--more-->
+
+**Cytoscape model generator and visualization tools utils**
+_Cytoscape model generator and visualization tools utils_
+Copyright ? GPL3 2015
+
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Cytoscape.exe
+**Root namespace**: ``xCytoscape.CLI``
 
 
 All of the command that available in this program has been list below:
 
+##### Generic function API list
 |Function API|Info|
 |------------|----|
-|/BBH.Simple||
-|/bbh.Trim.Indeitites||
-|/BLAST.Network||
-|/BLAST.Network.MetaBuild||
-|/Build.Tree.NET||
-|/Build.Tree.NET.COGs||
-|/Build.Tree.NET.DEGs||
-|/Build.Tree.NET.KEGG_Modules||
-|/Build.Tree.NET.KEGG_Pathways||
-|/Build.Tree.NET.Merged_Regulons||
-|/Build.Tree.NET.TF||
-|/KEGG.Mods.NET||
-|/MAT2NET||
-|/modNET.Simple||
-|/Motif.Cluster||
-|/Motif.Cluster.Fast||
-|/Motif.Cluster.Fast.Sites||
-|/Motif.Cluster.MAT||
-|/net.model||
-|/net.pathway||
-|/Net.rFBA||
-|/NetModel.TF_regulates|Builds the regulation network between the TF.|
-|/Phenotypes.KEGG|Regulator phenotype relationship cluster from virtual footprints.|
-|/reaction.NET||
-|/Tree.Cluster|This method is not recommended.|
-|/Tree.Cluster.rFBA||
-|-Draw|Drawing a network image visualization based on the generate network layout from the officials cytoscape software.|
-|--graph.regulates||
-|--mod.regulations||
-|--TCS||
+|[/associate](#/associate)||
+|[/Build.Tree.NET](#/Build.Tree.NET)||
+|[/Build.Tree.NET.COGs](#/Build.Tree.NET.COGs)||
+|[/Build.Tree.NET.DEGs](#/Build.Tree.NET.DEGs)||
+|[/Build.Tree.NET.KEGG_Modules](#/Build.Tree.NET.KEGG_Modules)||
+|[/Build.Tree.NET.KEGG_Pathways](#/Build.Tree.NET.KEGG_Pathways)||
+|[/Build.Tree.NET.Merged_Regulons](#/Build.Tree.NET.Merged_Regulons)||
+|[/Build.Tree.NET.TF](#/Build.Tree.NET.TF)||
+|[/Motif.Cluster](#/Motif.Cluster)||
+|[/Motif.Cluster.Fast](#/Motif.Cluster.Fast)||
+|[/Motif.Cluster.Fast.Sites](#/Motif.Cluster.Fast.Sites)||
+|[/Motif.Cluster.MAT](#/Motif.Cluster.MAT)||
+|[/replace](#/replace)||
+|[/Tree.Cluster](#/Tree.Cluster)|This method is not recommended.|
+|[/Tree.Cluster.rFBA](#/Tree.Cluster.rFBA)||
+|[-Draw](#-Draw)|Drawing a network image visualization based on the generate network layout from the officials cytoscape software.|
 
-## Commands
+
+##### 1. Metagenomics tools
+
+
+|Function API|Info|
+|------------|----|
+|[/BBH.Simple](#/BBH.Simple)||
+|[/bbh.Trim.Indeitites](#/bbh.Trim.Indeitites)||
+|[/BLAST.Network](#/BLAST.Network)||
+|[/BLAST.Network.MetaBuild](#/BLAST.Network.MetaBuild)||
+|[/MAT2NET](#/MAT2NET)||
+
+
+##### 2. KEGG tools
+
+
+|Function API|Info|
+|------------|----|
+|[/KEGG.Mods.NET](#/KEGG.Mods.NET)||
+|[/reaction.NET](#/reaction.NET)||
+|[--mod.regulations](#--mod.regulations)||
+
+
+##### 3. KEGG phenotype network analysis tools
+
+
+|Function API|Info|
+|------------|----|
+|[/modNET.Simple](#/modNET.Simple)||
+|[/net.model](#/net.model)||
+|[/net.pathway](#/net.pathway)||
+|[/Phenotypes.KEGG](#/Phenotypes.KEGG)|Regulator phenotype relationship cluster from virtual footprints.|
+
+
+##### 4. MetaCyc pathway network tools
+
+
+|Function API|Info|
+|------------|----|
+|[/Net.rFBA](#/Net.rFBA)||
+
+
+##### 5. TF/Regulon network tools
+
+
+|Function API|Info|
+|------------|----|
+|[/NetModel.TF_regulates](#/NetModel.TF_regulates)|Builds the regulation network between the TF.|
+|[--graph.regulates](#--graph.regulates)||
+
+
+##### 6. Bacterial TCS network tools
+
+
+|Function API|Info|
+|------------|----|
+|[--TCS](#--TCS)||
+
+
+
+
+## CLI API list
 --------------------------
-##### Help for command '/BBH.Simple':
+<h3 id="/associate"> 1. /associate</h3>
 
-**Prototype**: xCytoscape.CLI::Int32 SimpleBBH(Microsoft.VisualBasic.CommandLine.CommandLine)
 
+**Prototype**: ``xCytoscape.CLI::Int32 Assciates(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+Cytoscape /associate /in <net.csv> /nodes <nodes.csv> [/out <out.net.DIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /BBH.Simple /in <sbh.csv> [/evalue <evalue: 1e-5> /out <out.bbh.csv>]
-  Example:      Cytoscape /BBH.Simple 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/BBH.Simple"> 2. /BBH.Simple</h3>
 
-##### Help for command '/bbh.Trim.Indeitites':
 
-**Prototype**: xCytoscape.CLI::Int32 BBHTrimIdentities(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 SimpleBBH(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /BBH.Simple /in <sbh.csv> [/evalue <evalue: 1e-5> /out <out.bbh.csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /bbh.Trim.Indeitites /in <bbh.csv> [/identities <0.3> /out <out.csv>]
-  Example:      Cytoscape /bbh.Trim.Indeitites 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/bbh.Trim.Indeitites"> 3. /bbh.Trim.Indeitites</h3>
 
-##### Help for command '/BLAST.Network':
 
-**Prototype**: xCytoscape.CLI::Int32 GenerateBlastNetwork(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BBHTrimIdentities(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /bbh.Trim.Indeitites /in <bbh.csv> [/identities <0.3> /out <out.csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /BLAST.Network /in <inFile> [/out <outDIR> /type <default:blast_out; values: blast_out, sbh, bbh> /dict <dict.xml>]
-  Example:      Cytoscape /BLAST.Network 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/BLAST.Network"> 4. /BLAST.Network</h3>
 
-##### Help for command '/BLAST.Network.MetaBuild':
 
-**Prototype**: xCytoscape.CLI::Int32 MetaBuildBLAST(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 GenerateBlastNetwork(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /BLAST.Network /in <inFile> [/out <outDIR> /type <default:blast_out; values: blast_out, sbh, bbh> /dict <dict.xml>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /BLAST.Network.MetaBuild /in <inDIR> [/out <outDIR> /dict <dict.xml>]
-  Example:      Cytoscape /BLAST.Network.MetaBuild 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/BLAST.Network.MetaBuild"> 5. /BLAST.Network.MetaBuild</h3>
 
-##### Help for command '/Build.Tree.NET':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildTreeNET(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 MetaBuildBLAST(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /BLAST.Network.MetaBuild /in <inDIR> [/out <outDIR> /dict <dict.xml>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Build.Tree.NET /in <cluster.csv> [/out <outDIR> /brief /FamilyInfo <regulons.DIR>]
-  Example:      Cytoscape /Build.Tree.NET 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Build.Tree.NET"> 6. /Build.Tree.NET</h3>
 
-##### Help for command '/Build.Tree.NET.COGs':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildTreeNETCOGs(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildTreeNET(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Build.Tree.NET /in <cluster.csv> [/out <outDIR> /brief /FamilyInfo <regulons.DIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Build.Tree.NET.COGs /cluster <cluster.csv> /COGs <myvacog.csv> [/out <outDIR>]
-  Example:      Cytoscape /Build.Tree.NET.COGs 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Build.Tree.NET.COGs"> 7. /Build.Tree.NET.COGs</h3>
 
-##### Help for command '/Build.Tree.NET.DEGs':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildTreeNET_DEGs(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildTreeNETCOGs(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Build.Tree.NET.COGs /cluster <cluster.csv> /COGs <myvacog.csv> [/out <outDIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Build.Tree.NET.DEGs /in <cluster.csv> /up <locus.txt> /down <locus.txt> [/out <outDIR> /brief]
-  Example:      Cytoscape /Build.Tree.NET.DEGs 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Build.Tree.NET.DEGs"> 8. /Build.Tree.NET.DEGs</h3>
 
-##### Help for command '/Build.Tree.NET.KEGG_Modules':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildTreeNET_KEGGModules(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildTreeNET_DEGs(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Build.Tree.NET.DEGs /in <cluster.csv> /up <locus.txt> /down <locus.txt> [/out <outDIR> /brief]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Build.Tree.NET.KEGG_Modules /in <cluster.csv> /mods <modules.XML.DIR> [/out <outDIR> /brief /trim]
-  Example:      Cytoscape /Build.Tree.NET.KEGG_Modules 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Build.Tree.NET.KEGG_Modules"> 9. /Build.Tree.NET.KEGG_Modules</h3>
 
-##### Help for command '/Build.Tree.NET.KEGG_Pathways':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildTreeNET_KEGGPathways(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildTreeNET_KEGGModules(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Build.Tree.NET.KEGG_Modules /in <cluster.csv> /mods <modules.XML.DIR> [/out <outDIR> /brief /trim]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Build.Tree.NET.KEGG_Pathways /in <cluster.csv> /mods <pathways.XML.DIR> [/out <outDIR> /brief /trim]
-  Example:      Cytoscape /Build.Tree.NET.KEGG_Pathways 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Build.Tree.NET.KEGG_Pathways"> 10. /Build.Tree.NET.KEGG_Pathways</h3>
 
-##### Help for command '/Build.Tree.NET.Merged_Regulons':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildTreeNET_MergeRegulons(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildTreeNET_KEGGPathways(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Build.Tree.NET.KEGG_Pathways /in <cluster.csv> /mods <pathways.XML.DIR> [/out <outDIR> /brief /trim]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Build.Tree.NET.Merged_Regulons /in <cluster.csv> /family <family_Hits.Csv> [/out <outDIR> /brief]
-  Example:      Cytoscape /Build.Tree.NET.Merged_Regulons 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Build.Tree.NET.Merged_Regulons"> 11. /Build.Tree.NET.Merged_Regulons</h3>
 
-##### Help for command '/Build.Tree.NET.TF':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildTreeNetTF(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildTreeNET_MergeRegulons(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Build.Tree.NET.Merged_Regulons /in <cluster.csv> /family <family_Hits.Csv> [/out <outDIR> /brief]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Build.Tree.NET.TF /in <cluster.csv> /maps <TF.Regprecise.maps.Csv> /map <keyvaluepair.xml> /mods <kegg_modules.DIR> [/out <outDIR> /brief /cuts 0.8]
-  Example:      Cytoscape /Build.Tree.NET.TF 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Build.Tree.NET.TF"> 12. /Build.Tree.NET.TF</h3>
 
-##### Help for command '/KEGG.Mods.NET':
 
-**Prototype**: xCytoscape.CLI::Int32 ModsNET(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildTreeNetTF(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Build.Tree.NET.TF /in <cluster.csv> /maps <TF.Regprecise.maps.Csv> /map <keyvaluepair.xml> /mods <kegg_modules.DIR> [/out <outDIR> /brief /cuts 0.8]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /KEGG.Mods.NET /in <mods.xml.DIR> [/out <outDIR> /pathway /footprints <footprints.Csv> /brief /cut 0 /pcc 0]
-  Example:      Cytoscape /KEGG.Mods.NET 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/KEGG.Mods.NET"> 13. /KEGG.Mods.NET</h3>
 
 
+**Prototype**: ``xCytoscape.CLI::Int32 ModsNET(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
-  Parameters information:
+###### Usage
+```bash
+Cytoscape /KEGG.Mods.NET /in <mods.xml.DIR> [/out <outDIR> /pathway /footprints <footprints.Csv> /brief /cut 0 /pcc 0]
+```
+###### Example
+```bash
+Cytoscape
 ```
-       [/brief]
-    Description:  If this parameter is represented, then the program just outs the modules, all of the non-pathway genes wil be removes.
+
+
 
-    Example:      /brief ""
+#### Parameters information:
+##### [/brief]
+If this parameter is represented, then the program just outs the modules, all of the non-pathway genes wil be removes.
 
+###### Example
+```bash
 
 ```
+##### Accepted Types
+###### /brief
+<h3 id="/MAT2NET"> 14. /MAT2NET</h3>
 
-#### Accepted Types
-##### /brief
-##### Help for command '/MAT2NET':
 
-**Prototype**: xCytoscape.CLI::Int32 MatrixToNetwork(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 MatrixToNetwork(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /MAT2NET /in <mat.csv> [/out <net.csv> /cutoff 0]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /MAT2NET /in <mat.csv> [/out <net.csv> /cutoff 0]
-  Example:      Cytoscape /MAT2NET 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/modNET.Simple"> 15. /modNET.Simple</h3>
 
-##### Help for command '/modNET.Simple':
 
-**Prototype**: xCytoscape.CLI::Int32 SimpleModesNET(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 SimpleModesNET(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /modNET.Simple /in <mods/pathway_DIR> [/out <outDIR> /pathway]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /modNET.Simple /in <mods/pathway_DIR> [/out <outDIR> /pathway]
-  Example:      Cytoscape /modNET.Simple 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Motif.Cluster"> 16. /Motif.Cluster</h3>
 
-##### Help for command '/Motif.Cluster':
 
-**Prototype**: xCytoscape.CLI::Int32 MotifCluster(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 MotifCluster(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Motif.Cluster /query <meme.txt/MEME_OUT.DIR> /LDM <LDM-name/xml.path> [/clusters <3> /out <outCsv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Motif.Cluster /query <meme.txt/MEME_OUT.DIR> /LDM <LDM-name/xml.path> [/clusters <3> /out <outCsv>]
-  Example:      Cytoscape /Motif.Cluster 
+###### Example
+```bash
+Cytoscape
 ```
 
 
 
-  Parameters information:
-```
-       [/clusters]
-    Description:  If the expects clusters number is greater than the maps number, then the maps number divid 2 is used.
-
-    Example:      /clusters ""
+#### Parameters information:
+##### [/clusters]
+If the expects clusters number is greater than the maps number, then the maps number divid 2 is used.
 
+###### Example
+```bash
 
 ```
+##### Accepted Types
+###### /clusters
+<h3 id="/Motif.Cluster.Fast"> 17. /Motif.Cluster.Fast</h3>
 
-#### Accepted Types
-##### /clusters
-##### Help for command '/Motif.Cluster.Fast':
 
-**Prototype**: xCytoscape.CLI::Int32 FastCluster(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 FastCluster(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Motif.Cluster.Fast /query <meme_OUT.DIR> [/LDM <ldm-DIR> /out <outDIR> /map <gb.gbk> /maxw -1 /ldm_loads]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Motif.Cluster.Fast /query <meme_OUT.DIR> [/LDM <ldm-DIR> /out <outDIR> /map <gb.gbk> /maxw -1 /ldm_loads]
-  Example:      Cytoscape /Motif.Cluster.Fast 
+###### Example
+```bash
+Cytoscape
 ```
 
 
 
-  Parameters information:
-```
-       [/maxw]
-    Description:  If this parameter value is not set, then no motif in the query will be filterd, or all of the width greater then the width value will be removed.
-                   If a filterd is necessary, value of 52 nt is recommended as the max width of the motif in the RegPrecise database is 52.
+#### Parameters information:
+##### [/maxw]
+If this parameter value is not set, then no motif in the query will be filterd, or all of the width greater then the width value will be removed.
+If a filterd is necessary, value of 52 nt is recommended as the max width of the motif in the RegPrecise database is 52.
 
-    Example:      /maxw ""
+###### Example
+```bash
 
-
 ```
+##### Accepted Types
+###### /maxw
+<h3 id="/Motif.Cluster.Fast.Sites"> 18. /Motif.Cluster.Fast.Sites</h3>
 
-#### Accepted Types
-##### /maxw
-##### Help for command '/Motif.Cluster.Fast.Sites':
 
-**Prototype**: xCytoscape.CLI::Int32 MotifClusterSites(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 MotifClusterSites(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Motif.Cluster.Fast.Sites /in <meme.txt.DIR> [/out <outDIR> /LDM <ldm-DIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Motif.Cluster.Fast.Sites /in <meme.txt.DIR> [/out <outDIR> /LDM <ldm-DIR>]
-  Example:      Cytoscape /Motif.Cluster.Fast.Sites 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Motif.Cluster.MAT"> 19. /Motif.Cluster.MAT</h3>
 
-##### Help for command '/Motif.Cluster.MAT':
 
-**Prototype**: xCytoscape.CLI::Int32 ClusterMatrix(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 ClusterMatrix(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Motif.Cluster.MAT /query <meme_OUT.DIR> [/LDM <ldm-DIR> /clusters 5 /out <outDIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Motif.Cluster.MAT /query <meme_OUT.DIR> [/LDM <ldm-DIR> /clusters 5 /out <outDIR>]
-  Example:      Cytoscape /Motif.Cluster.MAT 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/net.model"> 20. /net.model</h3>
 
-##### Help for command '/net.model':
 
-**Prototype**: xCytoscape.CLI::Int32 BuildModelNet(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 BuildModelNet(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /net.model /model <kegg.xmlModel.xml> [/out <outDIR> /not-trim]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /net.model /model <kegg.xmlModel.xml> [/out <outDIR> /not-trim]
-  Example:      Cytoscape /net.model 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/net.pathway"> 21. /net.pathway</h3>
 
-##### Help for command '/net.pathway':
 
-**Prototype**: xCytoscape.CLI::Int32 PathwayNet(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 PathwayNet(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /net.pathway /model <kegg.pathway.xml> [/out <outDIR> /trim]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /net.pathway /model <kegg.pathway.xml> [/out <outDIR> /trim]
-  Example:      Cytoscape /net.pathway 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Net.rFBA"> 22. /Net.rFBA</h3>
 
-##### Help for command '/Net.rFBA':
 
-**Prototype**: xCytoscape.CLI::Int32 net_rFBA(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 net_rFBA(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Net.rFBA /in <metacyc.sbml> /fba.out <flux.Csv> [/out <outDIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Net.rFBA /in <metacyc.sbml> /fba.out <flux.Csv> [/out <outDIR>]
-  Example:      Cytoscape /Net.rFBA 
+###### Example
+```bash
+Cytoscape
 ```
-
-##### Help for command '/NetModel.TF_regulates':
+<h3 id="/NetModel.TF_regulates"> 23. /NetModel.TF_regulates</h3>
 
-**Prototype**: xCytoscape.CLI::Int32 TFNet(Microsoft.VisualBasic.CommandLine.CommandLine)
+Builds the regulation network between the TF.
+**Prototype**: ``xCytoscape.CLI::Int32 TFNet(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /NetModel.TF_regulates /in <footprints.csv> [/out <outDIR> /cut 0.45]
 ```
-  Information:  Builds the regulation network between the TF.
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /NetModel.TF_regulates /in <footprints.csv> [/out <outDIR> /cut 0.45]
-  Example:      Cytoscape /NetModel.TF_regulates 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Phenotypes.KEGG"> 24. /Phenotypes.KEGG</h3>
 
-##### Help for command '/Phenotypes.KEGG':
+Regulator phenotype relationship cluster from virtual footprints.
+**Prototype**: ``xCytoscape.CLI::Int32 KEGGModulesPhenotypeRegulates(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
-**Prototype**: xCytoscape.CLI::Int32 KEGGModulesPhenotypeRegulates(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Usage
+```bash
+Cytoscape /Phenotypes.KEGG /mods <KEGG_Modules/Pathways.DIR> /in <VirtualFootprints.csv> [/pathway /out <outCluster.csv>]
 ```
-  Information:  Regulator phenotype relationship cluster from virtual footprints.
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Phenotypes.KEGG /mods <KEGG_Modules/Pathways.DIR> /in <VirtualFootprints.csv> [/pathway /out <outCluster.csv>]
-  Example:      Cytoscape /Phenotypes.KEGG 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/reaction.NET"> 25. /reaction.NET</h3>
 
-##### Help for command '/reaction.NET':
 
-**Prototype**: xCytoscape.CLI::Int32 ReactionNET(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 ReactionNET(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /reaction.NET [/model <xmlModel.xml> /source <rxn.DIR> /out <outDIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /reaction.NET [/model <xmlModel.xml> /source <rxn.DIR> /out <outDIR>]
-  Example:      Cytoscape /reaction.NET 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/replace"> 26. /replace</h3>
 
-##### Help for command '/Tree.Cluster':
 
-**Prototype**: xCytoscape.CLI::Int32 TreeCluster(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 replaceName(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /replace /in <net.csv> /nodes <nodes.Csv> /out <out.Csv>
 ```
-  Information:  This method is not recommended.
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Tree.Cluster /in <in.MAT.csv> [/out <out.cluster.csv> /Locus.Map <Name>]
-  Example:      Cytoscape /Tree.Cluster 
+###### Example
+```bash
+Cytoscape
 ```
-
-##### Help for command '/Tree.Cluster.rFBA':
+<h3 id="/Tree.Cluster"> 27. /Tree.Cluster</h3>
 
-**Prototype**: xCytoscape.CLI::Int32 rFBATreeCluster(Microsoft.VisualBasic.CommandLine.CommandLine)
+This method is not recommended.
+**Prototype**: ``xCytoscape.CLI::Int32 TreeCluster(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Tree.Cluster /in <in.MAT.csv> [/out <out.cluster.csv> /Locus.Map <Name>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe /Tree.Cluster.rFBA /in <in.flux.pheno_OUT.Csv> [/out <out.cluster.csv>]
-  Example:      Cytoscape /Tree.Cluster.rFBA 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="/Tree.Cluster.rFBA"> 28. /Tree.Cluster.rFBA</h3>
 
-##### Help for command '-Draw':
 
-**Prototype**: xCytoscape.CLI::Int32 DrawingInvoke(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 rFBATreeCluster(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape /Tree.Cluster.rFBA /in <in.flux.pheno_OUT.Csv> [/out <out.cluster.csv>]
 ```
-  Information:  Drawing a network image visualization based on the generate network layout from the officials cytoscape software.
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe -draw /network <net_file> /parser <xgmml/cyjs> [-size <width,height> -out <out_image> /style <style_file> /style_parser <vizmap/json>]
-  Example:      Cytoscape -Draw 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="-Draw"> 29. -Draw</h3>
 
-##### Help for command '--graph.regulates':
+Drawing a network image visualization based on the generate network layout from the officials cytoscape software.
+**Prototype**: ``xCytoscape.CLI::Int32 DrawingInvoke(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
-**Prototype**: xCytoscape.CLI::Int32 SimpleRegulation(Microsoft.VisualBasic.CommandLine.CommandLine)
-
+###### Usage
+```bash
+Cytoscape -draw /network <net_file> /parser <xgmml/cyjs> [-size <width,height> -out <out_image> /style <style_file> /style_parser <vizmap/json>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe --graph.regulates /footprint <footprints.csv> [/trim]
-  Example:      Cytoscape --graph.regulates 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="--graph.regulates"> 30. --graph.regulates</h3>
 
-##### Help for command '--mod.regulations':
 
-**Prototype**: xCytoscape.CLI::Int32 ModuleRegulations(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``xCytoscape.CLI::Int32 SimpleRegulation(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+Cytoscape --graph.regulates /footprint <footprints.csv> [/trim]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe --mod.regulations /model <KEGG.xml> /footprints <footprints.csv> /out <outDIR> [/pathway /class /type]
-  Example:      Cytoscape --mod.regulations 
+###### Example
+```bash
+Cytoscape
 ```
+<h3 id="--mod.regulations"> 31. --mod.regulations</h3>
 
 
+**Prototype**: ``xCytoscape.CLI::Int32 ModuleRegulations(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
-  Parameters information:
+###### Usage
+```bash
+Cytoscape --mod.regulations /model <KEGG.xml> /footprints <footprints.csv> /out <outDIR> [/pathway /class /type]
 ```
-       [/class]
-    Description:  This parameter can not be co-exists with /type parameter
+###### Example
+```bash
+Cytoscape
+```
 
-    Example:      /class ""
 
-   [/type]
-    Description:  This parameter can not be co-exists with /class parameter
 
-    Example:      /type ""
+#### Parameters information:
+##### [/class]
+This parameter can not be co-exists with /type parameter
 
+###### Example
+```bash
 
 ```
-
-#### Accepted Types
-##### /class
-##### /type
-##### Help for command '--TCS':
+##### [/type]
+This parameter can not be co-exists with /class parameter
 
-**Prototype**: xCytoscape.CLI::Int32 TCS(Microsoft.VisualBasic.CommandLine.CommandLine)
+###### Example
+```bash
 
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\Cytoscape.exe --TCS /in <TCS.csv.DIR> /regulations <TCS.virtualfootprints> /out <outForCytoscape.xml> [/Fill-pcc]
-  Example:      Cytoscape --TCS 
-```
+##### Accepted Types
+###### /class
+###### /type
+<h3 id="--TCS"> 32. --TCS</h3>
 
 
+**Prototype**: ``xCytoscape.CLI::Int32 TCS(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
-  Parameters information:
+###### Usage
+```bash
+Cytoscape --TCS /in <TCS.csv.DIR> /regulations <TCS.virtualfootprints> /out <outForCytoscape.xml> [/Fill-pcc]
+```
+###### Example
+```bash
+Cytoscape
 ```
-       [/Fill-pcc]
-    Description:  If the predicted regulation data did'nt contains pcc correlation value, then you can using this parameter to fill default value 0.6 or just left it default as ZERO
 
-    Example:      /Fill-pcc ""
 
 
-```
+#### Parameters information:
+##### [/Fill-pcc]
+If the predicted regulation data did'nt contains pcc correlation value, then you can using this parameter to fill default value 0.6 or just left it default as ZERO
 
-#### Accepted Types
-##### /Fill-pcc
+###### Example
+```bash
+
+```
+##### Accepted Types
+###### /Fill-pcc

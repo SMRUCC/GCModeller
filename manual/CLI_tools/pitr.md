@@ -1,160 +1,253 @@
 ---
 title: pitr
 tags: [maunal, tools]
-date: 7/27/2016 6:40:22 PM
+date: 2016/10/19 16:38:34
 ---
 # ProteinInteraction [version 1.0.0.0]
-**Module AssemblyName**: file:///G:/GCModeller/manual/bin/pitr.exe
-**Root namespace**: ProteinTools.Interactions.CLI
+> Tools for analysis the protein interaction relationship.
+
+<!--more-->
+
+**ProteinInteraction**
+__
+Copyright ? 蓝思生物信息工程师工作站 2014
+
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/pitr.exe
+**Root namespace**: ``ProteinTools.Interactions.CLI``
 
 
 All of the command that available in this program has been list below:
 
+##### Generic function API list
 |Function API|Info|
 |------------|----|
-|--align.LDM||
-|--Contacts||
-|--CrossTalks.Probability||
-|--Db.From.Exists||
-|--domain.Interactions||
-|--interact.TCS||
-|--Merge.Pfam||
-|--predicts.TCS||
-|--Profiles.Create||
-|--ProtFasta.Downloads||
-|--ProtFasta.Downloads.Batch||
-|--signature||
-|--SwissTCS.Downloads||
+|[/BioGRID.Id.types](#/BioGRID.Id.types)||
+|[/BioGRID.selects](#/BioGRID.selects)||
+|[/STRING.selects](#/STRING.selects)||
+|[--align.LDM](#--align.LDM)||
+|[--Contacts](#--Contacts)||
+|[--CrossTalks.Probability](#--CrossTalks.Probability)||
+|[--Db.From.Exists](#--Db.From.Exists)||
+|[--domain.Interactions](#--domain.Interactions)||
+|[--interact.TCS](#--interact.TCS)||
+|[--Merge.Pfam](#--Merge.Pfam)||
+|[--predicts.TCS](#--predicts.TCS)||
+|[--Profiles.Create](#--Profiles.Create)||
+|[--ProtFasta.Downloads](#--ProtFasta.Downloads)||
+|[--ProtFasta.Downloads.Batch](#--ProtFasta.Downloads.Batch)||
+|[--signature](#--signature)||
+|[--SwissTCS.Downloads](#--SwissTCS.Downloads)||
 
-## Commands
+
+
+
+## CLI API list
 --------------------------
-##### Help for command '--align.LDM':
+<h3 id="/BioGRID.Id.types"> 1. /BioGRID.Id.types</h3>
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 GenerateModel(Microsoft.VisualBasic.CommandLine.CommandLine)
 
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 BioGridIdTypes(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+pitr /BioGRID.Id.types /in <BIOGRID-IDENTIFIERS.tsv> [/out <out.txt>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --align.LDM /in <source.fasta>
-  Example:      pitr --align.LDM 
+###### Example
+```bash
+pitr
 ```
+<h3 id="/BioGRID.selects"> 2. /BioGRID.selects</h3>
 
-##### Help for command '--Contacts':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 Contacts(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 BioGRIDSelects(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr /BioGRID.selects /in <in.DIR/*.Csv> /key <GeneId> /links <BioGRID-links.mitab.txt> [/out <out.DIR/*.Csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --Contacts /in <in.DIR>
-  Example:      pitr --Contacts 
+###### Example
+```bash
+pitr
 ```
+<h3 id="/STRING.selects"> 3. /STRING.selects</h3>
 
-##### Help for command '--CrossTalks.Probability':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 CrossTalksCal(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 STRINGSelects(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr /STRING.selects /in <in.DIR/*.Csv> /key <GeneId> /links <links.txt> /maps <maps_id.tsv> [/out <out.DIR/*.Csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --CrossTalks.Probability /query <pfam-string.csv> /swiss <swissTCS_pfam-string.csv> [/out <out.CrossTalks.csv> /test <queryName>]
-  Example:      pitr --CrossTalks.Probability 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--align.LDM"> 4. --align.LDM</h3>
 
-##### Help for command '--Db.From.Exists':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 DbMergeFromExists(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 GenerateModel(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --align.LDM /in <source.fasta>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --Db.From.Exists /aln <clustal-aln.DIR> /pfam <pfam-string.csv>
-  Example:      pitr --Db.From.Exists 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--Contacts"> 5. --Contacts</h3>
 
-##### Help for command '--domain.Interactions':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 DomainInteractions(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 Contacts(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --Contacts /in <in.DIR>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --domain.Interactions /pfam <pfam-string.csv> /swissTCS <swissTCS.DIR>
-  Example:      pitr --domain.Interactions 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--CrossTalks.Probability"> 6. --CrossTalks.Probability</h3>
 
-##### Help for command '--interact.TCS':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 TCSParser(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 CrossTalksCal(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --CrossTalks.Probability /query <pfam-string.csv> /swiss <swissTCS_pfam-string.csv> [/out <out.CrossTalks.csv> /test <queryName>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --interact.TCS /door <door.opr> /MiST2 <mist2.xml> /swiss <tcs.csv.DIR> /out <out.DIR>
-  Example:      pitr --interact.TCS 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--Db.From.Exists"> 7. --Db.From.Exists</h3>
 
-##### Help for command '--Merge.Pfam':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 MergePfam(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 DbMergeFromExists(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --Db.From.Exists /aln <clustal-aln.DIR> /pfam <pfam-string.csv>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --Merge.Pfam /in <in.DIR>
-  Example:      pitr --Merge.Pfam 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--domain.Interactions"> 8. --domain.Interactions</h3>
 
-##### Help for command '--predicts.TCS':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 Predicts(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 DomainInteractions(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --domain.Interactions /pfam <pfam-string.csv> /swissTCS <swissTCS.DIR>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --predicts.TCS /pfam <pfam-string.csv> /prot <prot.fasta> /Db <interaction.xml>
-  Example:      pitr --predicts.TCS 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--interact.TCS"> 9. --interact.TCS</h3>
 
-##### Help for command '--Profiles.Create':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 CreateProfiles(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 TCSParser(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --interact.TCS /door <door.opr> /MiST2 <mist2.xml> /swiss <tcs.csv.DIR> /out <out.DIR>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --Profiles.Create /MiST2 <MiST2.xml> /pfam <pfam-string.csv> [/out <out.csv>]
-  Example:      pitr --Profiles.Create 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--Merge.Pfam"> 10. --Merge.Pfam</h3>
 
-##### Help for command '--ProtFasta.Downloads':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 ProtFastaDownloads(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 MergePfam(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --Merge.Pfam /in <in.DIR>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --ProtFasta.Downloads /in <sp.DIR>
-  Example:      pitr --ProtFasta.Downloads 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--predicts.TCS"> 11. --predicts.TCS</h3>
 
-##### Help for command '--ProtFasta.Downloads.Batch':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 ProtFastaDownloadsBatch(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 Predicts(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --predicts.TCS /pfam <pfam-string.csv> /prot <prot.fasta> /Db <interaction.xml>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --ProtFasta.Downloads.Batch /in <sp.DIR.Source>
-  Example:      pitr --ProtFasta.Downloads.Batch 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--Profiles.Create"> 12. --Profiles.Create</h3>
 
-##### Help for command '--signature':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 SignatureGenerates(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 CreateProfiles(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --Profiles.Create /MiST2 <MiST2.xml> /pfam <pfam-string.csv> [/out <out.csv>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --signature /in <aln.fasta> [/p-cut <0.95>]
-  Example:      pitr --signature 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--ProtFasta.Downloads"> 13. --ProtFasta.Downloads</h3>
 
-##### Help for command '--SwissTCS.Downloads':
 
-**Prototype**: ProteinTools.Interactions.CLI::Int32 DownloadEntireDb(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 ProtFastaDownloads(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+pitr --ProtFasta.Downloads /in <sp.DIR>
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\pitr.exe --SwissTCS.Downloads /out <out.DIR>
-  Example:      pitr --SwissTCS.Downloads 
+###### Example
+```bash
+pitr
 ```
+<h3 id="--ProtFasta.Downloads.Batch"> 14. --ProtFasta.Downloads.Batch</h3>
 
+
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 ProtFastaDownloadsBatch(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+pitr --ProtFasta.Downloads.Batch /in <sp.DIR.Source>
+```
+###### Example
+```bash
+pitr
+```
+<h3 id="--signature"> 15. --signature</h3>
+
+
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 SignatureGenerates(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+pitr --signature /in <aln.fasta> [/p-cut <0.95>]
+```
+###### Example
+```bash
+pitr
+```
+<h3 id="--SwissTCS.Downloads"> 16. --SwissTCS.Downloads</h3>
+
+
+**Prototype**: ``ProteinTools.Interactions.CLI::Int32 DownloadEntireDb(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+pitr --SwissTCS.Downloads /out <out.DIR>
+```
+###### Example
+```bash
+pitr
+```

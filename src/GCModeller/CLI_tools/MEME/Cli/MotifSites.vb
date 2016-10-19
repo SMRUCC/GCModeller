@@ -48,6 +48,7 @@ Partial Module CLI
     <ExportAPI("/Export.MotifSites",
                Info:="Motif iteration step 1",
                Usage:="/Export.MotifSites /in <meme.txt> [/out <outDIR> /batch]")>
+    <Group(CLIGrouping.MotifSitesTools)>
     Public Function ExportTestMotifs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim batch As Boolean = args.GetBoolean("/batch")
@@ -88,6 +89,7 @@ Partial Module CLI
     <ExportAPI("/Export.Similarity.Hits",
                Info:="Motif iteration step 2",
                Usage:="/Export.Similarity.Hits /in <inDIR> [/out <out.Csv>]")>
+    <Group(CLIGrouping.MotifSitesTools)>
     Public Function LoadSimilarityHits(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimEnd("\"c, "/"c) & ".SimilarityHits.Csv")
@@ -174,6 +176,7 @@ Partial Module CLI
     <ExportAPI("/Similarity.Union",
                Info:="Motif iteration step 3",
                Usage:="/Similarity.Union /in <preSource.fasta.DIR> /meme <meme.txt.DIR> /hits <similarity_hist.Csv> [/out <out.DIR>]")>
+    <Group(CLIGrouping.MotifSitesTools)>
     Public Function UnionSimilarity(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim meme As String = args - "/meme"
