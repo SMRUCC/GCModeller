@@ -42,6 +42,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Partial Module Utilities
 
     <ExportAPI("/check.attrs", Usage:="/check.attrs /in <in.fasta> /n <attrs.count> [/all]")>
+    <Group(CLIGrouping.PalindromeBatchTaskTools)>
     Public Function CheckHeaders(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim n As Integer = args("/n")
@@ -64,6 +65,7 @@ Partial Module Utilities
     <ExportAPI("/Palindrome.BatchTask",
                Usage:="/Palindrome.BatchTask /in <in.DIR> [/num_threads 4 /min 3 /max 20 /min-appears 2 /cutoff <0.6> /Palindrome /max-dist <1000 (bp)> /partitions <-1> /out <out.DIR>]")>
     <Argument("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
+    <Group(CLIGrouping.PalindromeBatchTaskTools)>
     Public Function PalindromeBatchTask(args As CommandLine) As Integer
         Dim inDIR As String = args - "/in"
         Dim min As Integer = args.GetValue("/min", 3)
@@ -95,6 +97,7 @@ Partial Module Utilities
     <Argument("/in", False,
                    Description:="This is a single sequence fasta file.")>
     <Argument("/Palindrome", True, Description:="Only search for Palindrome, not includes the repeats data.")>
+    <Group(CLIGrouping.PalindromeBatchTaskTools)>
     Public Function PalindromeWorkflow(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim min As Integer = args.GetValue("/min", 3)

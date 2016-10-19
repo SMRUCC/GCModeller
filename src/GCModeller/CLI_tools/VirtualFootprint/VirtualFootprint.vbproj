@@ -192,6 +192,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\Sites.vb" />
     <Compile Include="CLI\TFRegulons.vb" />
     <Compile Include="CLI\PrimerTools.vb" />

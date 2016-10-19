@@ -49,6 +49,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("/Print", Usage:="/Print /in <inDIR> [/ext <ext> /out <out.Csv>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function Print(args As CommandLine) As Integer
         Dim ext As String = args.GetValue("/ext", "*.*")
         Dim inDIR As String = args - "/in"
@@ -65,6 +66,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.gpff", Usage:="/Export.gpff /in <genome.gpff> /gff <genome.gff> [/out <out.PTT>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function EXPORTgpff(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".PTT")
@@ -95,6 +97,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.gpffs", Usage:="/Export.gpffs [/in <inDIR>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function EXPORTgpffs(args As CommandLine) As Integer
         Dim inDIR As String = args.GetValue("/in", App.CurrentDirectory)
         Dim gpffs As IEnumerable(Of String) = ls - l - r - wildcards("*.gpff") <= inDIR
@@ -129,6 +132,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Copy.PTT", Usage:="/Copy.PTT /in <inDIR> [/out <outDIR>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function CopyPTT(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim EXPORT As String = args.GetValue("/out", inDIR & "-Copy/")
@@ -145,6 +149,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Merge.faa", Usage:="/Merge.faa /in <DIR> /out <out.fasta>")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function MergeFaa(args As CommandLine) As Integer
         Dim inDIR As String = args - "/in"
         Dim out As String = args.GetValue("/out", inDIR & "/faa.fasta")
@@ -158,6 +163,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.BlastX", Usage:="/Export.BlastX /in <blastx.txt> [/out <out.csv>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function ExportBlastX(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".blastx.csv")
@@ -171,6 +177,7 @@ Partial Module CLI
                Usage:="/Export.gb /gb <genbank.gb/DIR> [/out <outDIR> /simple /batch]")>
     <Argument("/simple", True, AcceptTypes:={GetType(Boolean)},
                    Description:="Fasta sequence short title, which is just only contains locus_tag")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function ExportPTTDb(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
         Dim batch As Boolean = args.GetBoolean("/batch")
@@ -219,6 +226,7 @@ Partial Module CLI
                Info:="Add locus_tag qualifier into the feature slot.",
                Usage:="/add.locus_tag /gb <gb.gbk> /prefix <prefix> [/add.gene /out <out.gb>]")>
     <Argument("/add.gene", True, Description:="Add gene features?")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function AddLocusTag(args As CommandLine) As Integer
         Dim gbFile As String = args("/gb")
         Dim prefix As String = args("/prefix")
@@ -254,6 +262,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/add.names", Usage:="/add.names /anno <anno.csv> /gb <genbank.gbk> [/out <out.gbk> /tag <overrides_name>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function AddNames(args As CommandLine) As Integer
         Dim inFile As String = args("/anno")
         Dim gbFile As String = args("/gb")

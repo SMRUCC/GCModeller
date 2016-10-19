@@ -54,6 +54,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Blastp.BBH.Query",
                Usage:="/Blastp.BBH.Query /query <query.fasta> /hit <hit.source> [/out <outDIR> /overrides /num_threads <-1>]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function BlastpBBHQuery(args As CommandLine) As Integer
         Dim [in] As String = args("/query")
         Dim subject As String = args("/hit")
@@ -72,6 +73,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Select.Meta", Usage:="/Select.Meta /in <meta.Xml> /bbh <bbh.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function SelectsMeta(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim bbh As String = args("/bbh")
@@ -94,6 +96,7 @@ Partial Module CLI
                    Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
     <Argument("/coverage", True,
                    Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function BBHExport2(args As CommandLine) As Integer
         Dim qvs As String = args("/qvs")
         Dim svq As String = args("/svq")
@@ -112,6 +115,7 @@ Partial Module CLI
 
     <ExportAPI("/SBH.BBH.Batch",
                Usage:="/SBH.BBH.Batch /in <sbh.DIR> [/identities <-1> /coverage <-1> /all /out <bbh.DIR> /num_threads <-1>]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function SBH_BBH_Batch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim identities As Double = args.GetValue("/identities", -1.0R)
@@ -136,6 +140,7 @@ Partial Module CLI
 
     <ExportAPI("/bbh.Export",
                Usage:="/bbh.Export /query <query.blastp_out> /subject <subject.blast_out> [/trim /out <bbh.csv> /evalue 1e-3 /coverage 0.85 /identities 0.3]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function BBHExportFile(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
@@ -171,6 +176,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/SBH.Trim", Usage:="/SBH.Trim /in <sbh.csv> /evalue <evalue> [/identities 0.15 /coverage 0.5 /out <out.csv>]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function SBHTrim(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim evalue As Double = args.GetDouble("/evalue")
@@ -202,6 +208,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BBH.Merge", Usage:="/BBH.Merge /in <inDIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function MergeBBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".bbh.Csv")
@@ -225,6 +232,7 @@ Partial Module CLI
                    Description:="If this parameter Is represent, then all of the paired best hit will be export, otherwise only the top best will be export.")>
     <Argument("/query", False,
                    Description:="Recommended format of the fasta title Is that the fasta title only contains gene locus_tag.")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function vennBlastAll(args As CommandLine) As Integer
         Dim queryDIR As String = args("/query")
         Dim out As String = args("/out")
@@ -255,6 +263,7 @@ Partial Module CLI
                Usage:="/venn.BBH /imports <blastp_out.DIR> [/skip-load /query <queryName> /all /coverage <0.6> /identities <0.3> /out <outDIR>]")>
     <Argument("/skip-load", True,
                    Description:="If the data source in the imports directory Is already the sbh data source, then using this parameter to skip the blastp file parsing.")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function VennBBH(args As CommandLine) As Integer
         Dim importsDIR As String = args("/imports")
         Dim all As Boolean = args.GetBoolean("/all")
@@ -276,6 +285,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/venn.sbh.thread",
                Usage:="/venn.sbh.thread /in <blastp.txt> [/out <out.sbh.csv> /coverage <0.6> /identities <0.3> /overrides]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function SBHThread(args As CommandLine) As Integer
         Dim blastp As String = args("/in")
         Dim out As String = args.GetValue("/out", blastp.TrimSuffix & ".sbh.csv")
@@ -307,6 +317,7 @@ Partial Module CLI
                Usage:="/venn.cache /imports <blastp.DIR> [/out <sbh.out.DIR> /coverage <0.6> /identities <0.3> /num_threads <-1> /overrides]")>
     <Argument("/num_threads", True,
                    Description:="The number of the sub process thread. -1 value is stands for auto config by the system.")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function VennCache(args As CommandLine) As Integer
         Dim importsDIR As String = args("/imports")
         Dim coverage As Double = args.GetValue("/coverage", 0.6)
@@ -332,6 +343,7 @@ Partial Module CLI
 
     <ExportAPI("/locus.Selects",
                Usage:="/locus.Selects /locus <locus.txt> /bh <bbhindex.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function LocusSelects(args As CommandLine) As Integer
         Dim [in] As String = args("/locus")
         Dim bh As String = args("/bh")
@@ -343,6 +355,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.Locus", Usage:="/Export.Locus /in <sbh/bbh_DIR> [/hit /out <out.txt>]")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function ExportLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim isHit As Boolean = args.GetBoolean("/hit")

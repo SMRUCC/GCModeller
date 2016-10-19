@@ -47,6 +47,7 @@ Partial Module CLI
               Description:="Search the taxonomy text by using query expression? If this set true, then the input should be a expression csv file.")>
     <Argument("/cut", True, Description:="This parameter will be disabled when ``/expression`` is presents.")>
     <Argument("/in", False, AcceptTypes:={GetType(String()), GetType(QueryArgument)})>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function SearchTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim ncbi_taxonomy As String = args("/ncbi_taxonomy")
@@ -148,6 +149,7 @@ Partial Module CLI
 
     <ExportAPI("/Split.By.Taxid",
                Usage:="/Split.By.Taxid /in <nt.fasta> [/gi2taxid <gi2taxid.txt> /out <outDIR>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function SplitByTaxid(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args.GetValue("/gi2taxid", [in].TrimSuffix & ".txt")
@@ -199,6 +201,7 @@ Partial Module CLI
 
     <ExportAPI("/Split.By.Taxid.Batch",
                Usage:="/Split.By.Taxid.Batch /in <nt.fasta.DIR> [/num_threads <-1> /out <outDIR>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function SplitByTaxidBatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-Split/")
@@ -222,6 +225,7 @@ Partial Module CLI
 
     <ExportAPI("/OTU.associated",
                Usage:="/OTU.associated /in <OTU.Data> /maps <mapsHit.csv> [/RawMap <data_mapping.csv> /OTU_Field <""#OTU_NUM""> /out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function OTUAssociated(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim maps As String = args("/maps")
@@ -276,6 +280,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/OTU.Taxonomy", Usage:="/OTU.Taxonomy /in <OTU.Data> /maps <mapsHit.csv> /tax <taxonomy:nodes/names> [/out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function OTU_Taxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim maps As String = args("/maps")
@@ -310,6 +315,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/OTU.diff", Usage:="/OTU.diff /ref <OTU.Data1.csv> /parts <OTU.Data2.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function OTUDiff(args As CommandLine) As Integer
         Dim ref = args("/ref")
         Dim parts = args("/parts")
@@ -328,6 +334,7 @@ Partial Module CLI
 
     <ExportAPI("/Taxonomy.Tree",
                Usage:="/Taxonomy.Tree /taxid <taxid.list.txt> /tax <ncbi_taxonomy:nodes/names> [/out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function TaxonomyTree(args As CommandLine) As Integer
         Dim taxid As String = args("/taxid")
         Dim tax As String = args("/tax")
@@ -366,7 +373,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Taxonomy.Data",
-             Usage:="/Taxonomy.Data /data <data.csv> /field.gi <GI> /gi2taxid <gi2taxid.list.txt> /tax <ncbi_taxonomy:nodes/names> [/out <out.csv>]")>
+               Usage:="/Taxonomy.Data /data <data.csv> /field.gi <GI> /gi2taxid <gi2taxid.list.txt> /tax <ncbi_taxonomy:nodes/names> [/out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function TaxonomyTreeData(args As CommandLine) As Integer
         Dim gi2taxid As String = args("/gi2taxid")
         Dim tax As String = args("/tax")

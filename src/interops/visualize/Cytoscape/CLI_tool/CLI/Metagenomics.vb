@@ -42,6 +42,7 @@ Partial Module CLI
 
     <ExportAPI("/bbh.Trim.Indeitites",
                Usage:="/bbh.Trim.Indeitites /in <bbh.csv> [/identities <0.3> /out <out.csv>]")>
+    <Group(CLIGrouping.Metagenomics)>
     Public Function BBHTrimIdentities(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim identities As Double = args.GetValue("/identities", 0.3)
@@ -58,6 +59,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BBH.Simple", Usage:="/BBH.Simple /in <sbh.csv> [/evalue <evalue: 1e-5> /out <out.bbh.csv>]")>
+    <Group(CLIGrouping.Metagenomics)>
     Public Function SimpleBBH(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out ", inFile.TrimSuffix & ".bbh.simple.Csv")
@@ -83,6 +85,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BLAST.Network", Usage:="/BLAST.Network /in <inFile> [/out <outDIR> /type <default:blast_out; values: blast_out, sbh, bbh> /dict <dict.xml>]")>
+    <Group(CLIGrouping.Metagenomics)>
     Public Function GenerateBlastNetwork(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix)
@@ -114,6 +117,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BLAST.Network.MetaBuild", Usage:="/BLAST.Network.MetaBuild /in <inDIR> [/out <outDIR> /dict <dict.xml>]")>
+    <Group(CLIGrouping.Metagenomics)>
     Public Function MetaBuildBLAST(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".MetaBuild")
@@ -124,6 +128,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/MAT2NET", Usage:="/MAT2NET /in <mat.csv> [/out <net.csv> /cutoff 0]")>
+    <Group(CLIGrouping.Metagenomics)>
     Public Function MatrixToNetwork(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network.Csv")

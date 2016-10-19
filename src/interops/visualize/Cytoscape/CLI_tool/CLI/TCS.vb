@@ -44,6 +44,7 @@ Partial Module CLI
                Usage:="--TCS /in <TCS.csv.DIR> /regulations <TCS.virtualfootprints> /out <outForCytoscape.xml> [/Fill-pcc]")>
     <Argument("/Fill-pcc", True,
                    Description:="If the predicted regulation data did'nt contains pcc correlation value, then you can using this parameter to fill default value 0.6 or just left it default as ZERO")>
+    <Group(CLIGrouping.TCS)>
     Public Function TCS(args As CommandLine) As Integer
         Dim TCSDir As String = args("/in")
         Dim regulations As String = args("/regulations")

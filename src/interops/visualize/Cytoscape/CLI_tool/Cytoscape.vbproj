@@ -196,6 +196,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\KEGGPhenotypes.vb" />
     <Compile Include="CLI\Metagenomics.vb" />
     <Compile Include="CLI\MetaCyc.vb" />

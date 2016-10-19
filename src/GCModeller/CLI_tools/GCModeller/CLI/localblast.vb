@@ -10,6 +10,7 @@ Partial Module CLI
 
     <ExportAPI("/Map.Hits",
                Usage:="/Map.Hits /in <query.csv> /mapping <blastnMapping.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.LocalblastTools)>
     Public Function MapHits(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim mapping As String = args("/mapping")
@@ -53,6 +54,7 @@ Partial Module CLI
     <Argument("/mapping", True,
                    AcceptTypes:={GetType(BlastnMapping)},
                    Description:="Data frame should have a ``taxid`` field.")>
+    <Group(CLIGrouping.LocalblastTools)>
     Public Function MapHitsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim mapping As String = args("/mapping")
