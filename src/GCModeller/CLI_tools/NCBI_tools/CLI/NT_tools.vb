@@ -46,6 +46,7 @@ Partial Module CLI
     ' 这里主要是和处理nt数据库文件的相关工具
 
     <ExportAPI("/nt.matches.key", Usage:="/nt.matches.key /in <nt.fasta> /list <words.txt> [/out <out.fasta>]")>
+    <Group(CLIGrouping.NTTools)>
     Public Function NtKeyMatches(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim list As String = args("/list")
@@ -112,6 +113,7 @@ Partial Module CLI
 
     <ExportAPI("/nt.matches.name", Usage:="/nt.matches.name /in <nt.fasta> /list <names.csv> [/out <out.fasta>]")>
     <Argument("/list", AcceptTypes:={GetType(WordTokens)})>
+    <Group(CLIGrouping.NTTools)>
     Public Function NtNameMatches(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim list As String = args("/list")
@@ -166,48 +168,8 @@ Partial Module CLI
         Return True
     End Function
 
-    Public Class WordTokens
-
-        Public Property name As String
-        Public Property tokens As String()
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-
-        Public Function Match(title As String) As Boolean
-            If InStr(name, title, CompareMethod.Text) > 0 OrElse
-                InStr(title, name, CompareMethod.Text) > 0 Then
-                Return True
-            End If
-
-            If Similarity.Evaluate(title, name) >= 0.85 Then
-#If debug Then
-                call console.write("*")
-#End If
-                Return True
-            Else
-                Return title.IsOrdered(tokens, False, True)
-            End If
-        End Function
-
-        Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
-            For Each line$ In lines
-
-                Yield New WordTokens With {
-                    .name = line.Trim(" "c, ASCII.TAB),
-                    .tokens = line.Trim _
-                        .StripSymbol _
-                        .Split _
-                        .Distinct _
-                        .Where(Function(s) Not String.IsNullOrEmpty(s.Trim(ASCII.TAB))) _
-                        .ToArray
-                }
-            Next
-        End Function
-    End Class
-
     <ExportAPI("/word.tokens", Usage:="/word.tokens /in <list.txt> [/out <out.csv>]")>
+    <Group(CLIGrouping.NTTools)>
     Public Function GetWordTokens(args As CommandLine) As Integer
         Dim list$ = args("/in")
         Dim out$ = args.GetValue("/out", list.TrimSuffix & ".csv")
@@ -216,3 +178,44 @@ Partial Module CLI
     End Function
 End Module
 
+
+Public Class WordTokens
+
+    Public Property name As String
+    Public Property tokens As String()
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+
+    Public Function Match(title As String) As Boolean
+        If InStr(name, title, CompareMethod.Text) > 0 OrElse
+                InStr(title, name, CompareMethod.Text) > 0 Then
+            Return True
+        End If
+
+        If Similarity.Evaluate(title, name) >= 0.85 Then
+#If DEBUG Then
+            Call Console.Write("*")
+#End If
+            Return True
+        Else
+            Return title.IsOrdered(tokens, False, True)
+        End If
+    End Function
+
+    Public Shared Iterator Function GetTokens(lines As IEnumerable(Of String)) As IEnumerable(Of WordTokens)
+        For Each line$ In lines
+
+            Yield New WordTokens With {
+                    .name = line.Trim(" "c, ASCII.TAB),
+                    .tokens = line.Trim _
+                        .StripSymbol _
+                        .Split _
+                        .Distinct _
+                        .Where(Function(s) Not String.IsNullOrEmpty(s.Trim(ASCII.TAB))) _
+                        .ToArray
+                }
+        Next
+    End Function
+End Class

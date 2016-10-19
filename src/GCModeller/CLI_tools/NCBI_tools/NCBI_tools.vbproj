@@ -182,6 +182,7 @@
     <Compile Include="CLI\NT_tools.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\Exports.vb" />
+    <Compile Include="CLIGrouping.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
