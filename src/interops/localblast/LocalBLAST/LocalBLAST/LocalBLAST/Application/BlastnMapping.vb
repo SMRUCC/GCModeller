@@ -158,6 +158,7 @@ Namespace LocalBLAST.Application
             End Get
         End Property
 
+        <Meta(GetType(String))>
         Public Property Extensions As Dictionary(Of String, String)
 
         Public Overrides Function ToString() As String

@@ -46,6 +46,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Partial Module CLI
 
@@ -242,15 +243,16 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.blastnMaps.Batch",
-               Usage:="/Export.blastnMaps.Batch /in <blastn_out.DIR> [/out <out.DIR> /num_threads <-1>]")>
+               Usage:="/Export.blastnMaps.Batch /in <blastn_out.DIR> [/best /out <out.DIR> /num_threads <-1>]")>
     <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMapsBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-blastnMaps/")
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
+        Dim best = If(args.GetBoolean("/best"), "/best", "")
         Dim task As Func(Of String, String) =
             Function(path) _
-                $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
+                $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} {best} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).ToArray(task)
 
         Return App.SelfFolks(CLI, numThreads)
@@ -432,5 +434,30 @@ Partial Module CLI
                     Group x By x.ReadQuery Into Group) _
                    .ToArray(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
         Return best.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/BlastnMaps.Summery", Usage:="/BlastnMaps.Summery /in <in.DIR> [/split ""-"" /out <out.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
+    Public Function BlastnMapsSummery(args As CommandLine) As Integer
+        Dim inDIR As String = args("/in")
+        Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".BlastnMaps.Summery.csv")
+        Dim deli$ = args.GetValue("/split", "-")
+
+        Const track$ = NameOf(track)
+
+        Using write As New WriteStream(Of BlastnMapping)(out,,, {track})
+            For Each file$ In ls - l - r - "*.csv" <= inDIR
+                Dim data = file.LoadCsv(Of BlastnMapping)
+                Dim name$ = Strings.Split(file.BaseName, deli).JoinBy(", ")
+
+                For Each x In data
+                    x.Extensions(track) = name
+                Next
+
+                Call write.Flush(data)
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module
