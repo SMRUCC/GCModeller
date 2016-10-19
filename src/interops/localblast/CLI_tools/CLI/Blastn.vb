@@ -46,6 +46,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Partial Module CLI
 
@@ -432,5 +433,30 @@ Partial Module CLI
                     Group x By x.ReadQuery Into Group) _
                    .ToArray(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
         Return best.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/BlastnMaps.Summery", Usage:="/BlastnMaps.Summery /in <in.DIR> [/split ""-"" /out <out.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
+    Public Function BlastnMapsSummery(args As CommandLine) As Integer
+        Dim inDIR As String = args("/in")
+        Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".BlastnMaps.Summery.csv")
+        Dim deli$ = args.GetValue("/split", "-")
+
+        Const track$ = NameOf(track)
+
+        Using write As New WriteStream(Of BlastnMapping)(out,,, {track})
+            For Each file$ In ls - l - r - "*.csv" <= inDIR
+                Dim data = file.LoadCsv(Of BlastnMapping)
+                Dim name$ = Strings.Split(file.BaseName, deli).JoinBy(", ")
+
+                For Each x In data
+                    x.Extensions(track) = name
+                Next
+
+                Call write.Flush(data)
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module
