@@ -1,0 +1,1 @@
+If you are running GCModeller on a Linux/macOS platform, please install the latest mono environment first, and then run script **[install.sh](./install.sh)** for configuring the runtime.
