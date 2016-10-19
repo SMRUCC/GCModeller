@@ -243,15 +243,16 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.blastnMaps.Batch",
-               Usage:="/Export.blastnMaps.Batch /in <blastn_out.DIR> [/out <out.DIR> /num_threads <-1>]")>
+               Usage:="/Export.blastnMaps.Batch /in <blastn_out.DIR> [/best /out <out.DIR> /num_threads <-1>]")>
     <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMapsBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-blastnMaps/")
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
+        Dim best = If(args.GetBoolean("/best"), "/best", "")
         Dim task As Func(Of String, String) =
             Function(path) _
-                $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
+                $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} {best} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).ToArray(task)
 
         Return App.SelfFolks(CLI, numThreads)
