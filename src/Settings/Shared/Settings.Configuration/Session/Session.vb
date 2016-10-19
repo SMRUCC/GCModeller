@@ -143,7 +143,7 @@ Namespace Settings
         ''' <remarks></remarks>
         Public ReadOnly Property SettingsDIR As String
             Get
-                Return File.DefaultXmlFile.ParentDirName
+                Return File.DefaultXmlFile.ParentPath
             End Get
         End Property
 
