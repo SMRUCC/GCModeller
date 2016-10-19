@@ -1,50 +1,71 @@
 ---
 title: PhenoTree
 tags: [maunal, tools]
-date: 7/27/2016 6:40:21 PM
+date: 2016/10/19 16:38:33
 ---
 # GCModeller [version 1.0.0.0]
-**Module AssemblyName**: file:///G:/GCModeller/manual/bin/PhenoTree.exe
-**Root namespace**: PhenoTree.CLI
+> Cellular phenotype analysis tools.
+
+<!--more-->
+
+**PhenoTree**
+__
+Copyright ?  2016
+
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/PhenoTree.exe
+**Root namespace**: ``PhenoTree.CLI``
 
 
 All of the command that available in this program has been list below:
 
+##### Generic function API list
 |Function API|Info|
 |------------|----|
-|/Cluster.Genes.Phenotype||
-|/Parts.COGs||
-|/venn.Matrix||
+|[/Cluster.Genes.Phenotype](#/Cluster.Genes.Phenotype)||
+|[/Parts.COGs](#/Parts.COGs)||
+|[/venn.Matrix](#/venn.Matrix)||
 
-## Commands
+
+
+
+## CLI API list
 --------------------------
-##### Help for command '/Cluster.Genes.Phenotype':
+<h3 id="/Cluster.Genes.Phenotype"> 1. /Cluster.Genes.Phenotype</h3>
 
-**Prototype**: PhenoTree.CLI::Int32 GenePhenoClusters(Microsoft.VisualBasic.CommandLine.CommandLine)
 
+**Prototype**: ``PhenoTree.CLI::Int32 GenePhenoClusters(Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+PhenoTree /Cluster.Genes.Phenotype /sites <motifSites.csv> [/out <out.tree_cluster.csv> /parallel]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\PhenoTree.exe /Cluster.Genes.Phenotype /sites <motifSites.csv> [/out <out.tree_cluster.csv> /parallel]
-  Example:      PhenoTree /Cluster.Genes.Phenotype 
+###### Example
+```bash
+PhenoTree
 ```
+<h3 id="/Parts.COGs"> 2. /Parts.COGs</h3>
 
-##### Help for command '/Parts.COGs':
 
-**Prototype**: PhenoTree.CLI::Int32 PartitioningCOGs(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``PhenoTree.CLI::Int32 PartitioningCOGs(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+PhenoTree /Parts.COGs /cluster <btree.clusters.csv> /myva <COGs.csv> [/depth <-1> /out <EXPORT_DIR>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\PhenoTree.exe /Parts.COGs /cluster <btree.clusters.csv> /myva <COGs.csv> [/depth <-1> /out <EXPORT_DIR>]
-  Example:      PhenoTree /Parts.COGs 
+###### Example
+```bash
+PhenoTree
 ```
+<h3 id="/venn.Matrix"> 3. /venn.Matrix</h3>
 
-##### Help for command '/venn.Matrix':
 
-**Prototype**: PhenoTree.CLI::Int32 VennMatrix(Microsoft.VisualBasic.CommandLine.CommandLine)
+**Prototype**: ``PhenoTree.CLI::Int32 VennMatrix(Microsoft.VisualBasic.CommandLine.CommandLine)``
 
+###### Usage
+```bash
+PhenoTree /venn.Matrix /besthits <besthits.xml.DIR> [/query <sp.name> /limits -1 /out <out.txt>]
 ```
-  Information:  
-  Usage:        G:\GCModeller\manual\bin\PhenoTree.exe /venn.Matrix /besthits <besthits.xml.DIR> [/query <sp.name> /limits -1 /out <out.txt>]
-  Example:      PhenoTree /venn.Matrix 
+###### Example
+```bash
+PhenoTree
 ```
-

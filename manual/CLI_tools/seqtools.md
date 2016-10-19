@@ -1,13 +1,18 @@
-﻿# GCModeller [version 3.0.2456.4506]
+---
+title: seqtools
+tags: [maunal, tools]
+date: 2016/10/19 16:38:36
+---
+# GCModeller [version 3.0.2456.4506]
 > Sequence operation utilities
 
 <!--more-->
 
 **Sequence search tools and sequence operation tools**
 _Sequence search tools and sequence operation tools_
-Copyright © xie.guigang@gcmodeller.org 2014
+Copyright ? xie.guigang@gcmodeller.org 2014
 
-**Module AssemblyName**: file:///D:/GCModeller/GCModeller/bin/seqtools.exe
+**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/seqtools.exe
 **Root namespace**: ``seqtools.Utilities``
 
 ------------------------------------------------------------
@@ -29,36 +34,13 @@ All of the command that available in this program has been list below:
 ##### Generic function API list
 |Function API|Info|
 |------------|----|
-|[/align](#/align)||
-|[/check.attrs](#/check.attrs)||
-|[/Clustal.Cut](#/Clustal.Cut)||
-|[/gwANI](#/gwANI)||
 |[/Loci.describ](#/Loci.describ)|Testing|
 |[/logo](#/logo)|* Drawing the sequence logo from the clustal alignment result.|
-|[/Mirrors.Context](#/Mirrors.Context)|This function will convert the mirror data to the simple segment object data|
-|[/Mirrors.Context.Batch](#/Mirrors.Context.Batch)|This function will convert the mirror data to the simple segment object data|
-|[/Mirrors.Group](#/Mirrors.Group)||
-|[/Mirrors.Group.Batch](#/Mirrors.Group.Batch)||
-|[/nw](#/nw)|RunNeedlemanWunsch|
-|[/Palindrome.BatchTask](#/Palindrome.BatchTask)||
-|[/Palindrome.Workflow](#/Palindrome.Workflow)||
-|[/Sigma](#/Sigma)||
-|[/SimpleSegment.AutoBuild](#/SimpleSegment.AutoBuild)||
-|[/SimpleSegment.Mirrors](#/SimpleSegment.Mirrors)||
-|[/SimpleSegment.Mirrors.Batch](#/SimpleSegment.Mirrors.Batch)||
-|[/SNP](#/SNP)||
-|[/Time.Diffs](#/Time.Diffs)||
-|[/Write.Seeds](#/Write.Seeds)||
 |[-321](#-321)|Polypeptide sequence 3 letters to 1 lettes sequence.|
-|[--align](#--align)||
-|[--align.Self](#--align.Self)||
 |[-complement](#-complement)||
 |[--Drawing.ClustalW](#--Drawing.ClustalW)||
 |[-pattern_search](#-pattern_search)|Parsing the sequence segment from the sequence source using regular expression.|
-|[Repeats.Density](#Repeats.Density)||
 |[-reverse](#-reverse)||
-|[rev-Repeats.Density](#rev-Repeats.Density)||
-|[Search.Batch](#Search.Batch)|Batch search for repeats.|
 |[--translates](#--translates)|Translates the ORF gene as protein sequence. If any error was output from the console, please using > operator dump the output to a log file for the analysis.|
 
 
@@ -105,6 +87,64 @@ Tools command that using for finding Palindrome sites.
 |[--Palindrome.Imperfects](#--Palindrome.Imperfects)||
 |[--PerfectPalindrome.Filtering](#--PerfectPalindrome.Filtering)||
 |[--ToVector](#--ToVector)||
+
+
+##### 3. Sequence Aligner
+
+
+|Function API|Info|
+|------------|----|
+|[/align](#/align)||
+|[/Clustal.Cut](#/Clustal.Cut)||
+|[/gwANI](#/gwANI)||
+|[/nw](#/nw)|RunNeedlemanWunsch|
+|[/Sigma](#/Sigma)||
+|[--align](#--align)||
+|[--align.Self](#--align.Self)||
+
+
+##### 4. Palindrome batch task tools
+
+
+|Function API|Info|
+|------------|----|
+|[/check.attrs](#/check.attrs)||
+|[/Palindrome.BatchTask](#/Palindrome.BatchTask)||
+|[/Palindrome.Workflow](#/Palindrome.Workflow)||
+
+
+##### 5. Nucleotide Sequence Property Calculation tools
+
+
+|Function API|Info|
+|------------|----|
+|[/Mirrors.Context](#/Mirrors.Context)|This function will convert the mirror data to the simple segment object data|
+|[/Mirrors.Context.Batch](#/Mirrors.Context.Batch)|This function will convert the mirror data to the simple segment object data|
+|[/Mirrors.Group](#/Mirrors.Group)||
+|[/Mirrors.Group.Batch](#/Mirrors.Group.Batch)||
+|[/SimpleSegment.AutoBuild](#/SimpleSegment.AutoBuild)||
+|[/SimpleSegment.Mirrors](#/SimpleSegment.Mirrors)||
+|[/SimpleSegment.Mirrors.Batch](#/SimpleSegment.Mirrors.Batch)||
+
+
+##### 6. SNP search tools
+
+
+|Function API|Info|
+|------------|----|
+|[/SNP](#/SNP)||
+|[/Time.Diffs](#/Time.Diffs)||
+
+
+##### 7. Sequence Repeats Loci Search
+
+
+|Function API|Info|
+|------------|----|
+|[/Write.Seeds](#/Write.Seeds)||
+|[Repeats.Density](#Repeats.Density)||
+|[rev-Repeats.Density](#rev-Repeats.Density)||
+|[Search.Batch](#Search.Batch)|Batch search for repeats.|
 
 
 
