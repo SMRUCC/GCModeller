@@ -53,6 +53,7 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -89,7 +90,7 @@ Partial Module CLI
     Public Function Fq2fa(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
-        Dim fastaq As FastaqFile = FastaqFile.Load([in])
+        Dim fastaq As FastQFile = FastQFile.Load([in])
         Dim fasta As FastaFile = fastaq.ToFasta
         Return fasta.Save(out, Encodings.ASCII)
     End Function
@@ -99,7 +100,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim kmax As Integer = args.GetInt32("/kmax")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ",kmax=" & kmax & ".Csv")
-        Dim fq As FastaqFile = FastaqFile.Load([in])
+        Dim fq As FastQFile = FastQFile.Load([in])
         Dim vectors = fq.Transform
         Dim Crude = vectors.InitializePartitions(kmax)
         Dim ppppp = Crude.First.PartitionProbability
@@ -580,5 +581,21 @@ Partial Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/Merge.FastQ", Usage:="/Merge.FastQ /in <in.DIR> [/out <out.fq>]")>
+    Public Function MergeFastQ(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".fq")
+
+        Using write As StreamWriter = out.OpenWriter
+            For Each fq$ In ls - l - r - {"*.fastq", "*.fq", "*.fq1", "*.fq2"} <= [in]
+                For Each line As FastQ In Fastaq.ReadAllLines(fq$)
+                    Call write.WriteLine(line.AsReadsNode)
+                Next
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module

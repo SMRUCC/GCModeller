@@ -188,8 +188,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contig.vb" />
-    <Compile Include="Fastaq\Fastaq.vb" />
-    <Compile Include="Fastaq\FastaqFile.vb" />
+    <Compile Include="FastQ\Stream.vb" />
+    <Compile Include="FastQ\FastQ.vb" />
+    <Compile Include="FastQ\FastQFile.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>

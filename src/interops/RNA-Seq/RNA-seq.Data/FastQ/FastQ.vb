@@ -1,32 +1,30 @@
 ﻿#Region "Microsoft.VisualBasic::912a59448a212923931c7cb09636821b, ..\interops\RNA-Seq\RNA-seq.Data\Fastaq\Fastaq.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
-' http://en.wikipedia.org/wiki/FASTQ_format
 
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -40,6 +38,7 @@ Namespace Fastaq
     ''' high-throughput sequencing instruments such as the Illumina Genome Analyzer.
     ''' 
     ''' There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used.
+    ''' (http://en.wikipedia.org/wiki/FASTQ_format)
     ''' </summary>
     ''' <remarks>
     ''' A FASTQ file normally uses four lines per sequence.
@@ -55,7 +54,7 @@ Namespace Fastaq
     ''' 第三行： 起始于+符号，与第一行的作用类似
     ''' 第四行： 编码了第二行的序列数据的质量高低，长度与第二行相同
     ''' </remarks>
-    Public Class Fastaq : Inherits ISequenceModel
+    Public Class FastQ : Inherits ISequenceModel
         Implements IAbstractFastaToken
 
         ''' <summary>
@@ -93,7 +92,7 @@ Namespace Fastaq
         Public Const QUANTITY_ORDERS As String = "!""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
         Public Shared Function GetQuantityOrder(q As Char) As Integer
-            Return Fastaq.QUANTITY_ORDERS.IndexOf(q)
+            Return FastQ.QUANTITY_ORDERS.IndexOf(q)
         End Function
 
         ''' <summary>
@@ -107,8 +106,8 @@ Namespace Fastaq
         ''' markers (these characters can also occur in the quality string).[2] An example of a tools that break the 4 line convention 
         ''' is vcfutils.pl from samtools.[3]
         ''' </remarks>
-        Public Shared Function FastaqParser(str As String()) As Fastaq
-            Dim Fastaq As New Fastaq With {
+        Public Shared Function FastaqParser(str As String()) As FastQ
+            Dim Fastaq As New FastQ With {
                 .SequenceData = str(1),
                 .SEQ_ID = FastaqIdentifier.IDParser(str(0)),
                 .SEQ_ID2 = FastaqIdentifier.IDParser(str(2)),

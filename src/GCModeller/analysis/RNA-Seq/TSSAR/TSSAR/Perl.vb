@@ -304,8 +304,8 @@ Public Module Perl
     End Function
 
     <ExportAPI("Read.Fastaq")>
-    Public Function LoadFastaq(Path As String) As FastaqFile
-        Return FastaqFile.Load(Path)
+    Public Function LoadFastaq(Path As String) As FastQFile
+        Return FastQFile.Load(Path)
     End Function
 
     <ExportAPI("Read.SAM")>
