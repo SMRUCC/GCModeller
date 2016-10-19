@@ -1,10 +1,13 @@
 #!/bin/sh
 
-for fn in *; do
-    if [ -d $fn ]; then
-        echo "$fn is a directory"
-    fi
+cd ./bin
+
+DIR="$PWD"
+
+for fn in *.exe; do
     if [ -f $fn ]; then
-        echo "$fn is a file"
+        $(mono "$DIR/$fn" "/linux-bash")
     fi
 done
+
+cd ..
