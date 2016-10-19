@@ -50,6 +50,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("/Export.Blastn", Usage:="/Export.Blastn /in <in.txt> [/out <out.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastn(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Csv")
@@ -160,6 +161,7 @@ Partial Module CLI
 
     <ExportAPI("/blastn.Query",
                Usage:="/blastn.Query /query <query.fna> /db <db.DIR> [/thread /evalue 1e-5 /word_size <-1> /out <out.DIR>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function BlastnQuery(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim DbDIR As String = args("/db")
@@ -194,6 +196,7 @@ Partial Module CLI
 
     <ExportAPI("/blastn.Query.All",
                Usage:="/blastn.Query.All /query <query.fasta.DIR> /db <db.DIR> [/skip-format /evalue 10 /word_size <-1> /out <out.DIR> /parallel /penalty <penalty> /reward <reward>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function BlastnQueryAll(args As CommandLine) As Integer
         Dim [in] As String = args("/query")
         Dim db As String = args("/db")
@@ -227,6 +230,7 @@ Partial Module CLI
     <Argument("/best", True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Only output the first hit result for each query as best?")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMaps(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim best As Boolean = args.GetBoolean("/best")
@@ -239,6 +243,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.blastnMaps.Batch",
                Usage:="/Export.blastnMaps.Batch /in <blastn_out.DIR> [/out <out.DIR> /num_threads <-1>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMapsBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-blastnMaps/")
@@ -253,6 +258,7 @@ Partial Module CLI
 
     <ExportAPI("/Export.blastnMaps.littles",
                Usage:="/Export.blastnMaps.littles /in <blastn.txt.DIR> [/out <out.csv.DIR>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMapsSmall(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-BlastnMaps/")
@@ -270,6 +276,7 @@ Partial Module CLI
 
     <ExportAPI("/Chromosomes.Export",
                Usage:="/Chromosomes.Export /reads <reads.fasta/DIR> /maps <blastnMappings.Csv/DIR> [/out <outDIR>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function ChromosomesBlastnResult(args As CommandLine) As Integer
         Dim [in] As String = args("/reads")
         Dim maps As String = args("/maps")
@@ -331,6 +338,7 @@ Partial Module CLI
 
     <ExportAPI("/Blastn.Maps.Taxid",
                Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /gi2taxid <gi2taxid.dmp> [/trim /tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function BlastnMapsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args("/gi2taxid")
@@ -386,6 +394,7 @@ Partial Module CLI
 
     <ExportAPI("/BlastnMaps.Select",
                Usage:="/BlastnMaps.Select /in <reads.id.list.txt> /data <blastn.maps.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function SelectMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim data As String = args("/data")
@@ -412,6 +421,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/BlastnMaps.Select.Top", Usage:="/BlastnMaps.Select.Top /in <maps.csv> [/out <out.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
     Public Function TopBlastnMapReads(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-TopBest.csv")

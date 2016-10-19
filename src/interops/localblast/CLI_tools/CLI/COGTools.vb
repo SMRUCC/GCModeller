@@ -43,6 +43,7 @@ Partial Module CLI
 
     <ExportAPI("/COG.Statics",
                Usage:="/COG.Statics /in <myva_cogs.csv> [/locus <locus.txt/csv> /locuMap <Gene> /out <out.csv>]")>
+    <Group(CLIGrouping.COGTools)>
     Public Function COGStatics(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim locus As String = args("/locus")
@@ -81,6 +82,7 @@ Partial Module CLI
 
     <ExportAPI("/EXPORT.COGs.from.DOOR",
                Usage:="/EXPORT.COGs.from.DOOR /in <DOOR.opr> [/out <out.csv>]")>
+    <Group(CLIGrouping.COGTools)>
     Public Function ExportDOORCogs(args As CommandLine) As Integer
         Dim opr As String = args("/in")
         Dim out As String = args.GetValue("/out", opr.TrimSuffix & ".COGs.csv")
