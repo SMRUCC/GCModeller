@@ -61,6 +61,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Parser.RegPrecise.Operons",
                Usage:="/Parser.RegPrecise.Operons /operon <operons.Csv> /PTT <PTT_DIR> [/corn /DOOR <genome.opr> /id <null> /locus <union/initx/locus, default:=union> /out <outDIR>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserRegPreciseOperon(args As CommandLine) As Integer
         Dim [in] As String = args - "/operon"
         Dim PTT_DIR As String = args - "/PTT"
@@ -164,6 +165,7 @@ Partial Module CLI
                Usage:="/Parser.Operon /in <footprint.csv> /PTT <PTTDIR> [/out <outDIR> /family /offset <50> /all]")>
     <Argument("/family", True,
                    Description:="Group the source by family? Or output the source in one fasta set")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserNextIterator(args As CommandLine) As Integer
         Dim inCsv As String = args("/in")
         Dim PTT_DIR As String = args("/PTT")
@@ -234,6 +236,7 @@ Partial Module CLI
 
     <ExportAPI("/Parser.MAST",
                Usage:="/Parser.MAST /sites <mastsites.csv> /ptt <genome-context.pttDIR> /door <genome.opr> [/out <outDIR>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserMAST(args As CommandLine) As Integer
         Dim PTT As String = args("/ptt")
         Dim door As String = args("/door")
@@ -256,6 +259,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.DEGs", Usage:="/Parser.DEGs /degs <deseq2.csv> /PTT <genomePTT.DIR> /door <genome.opr> /out <out.DIR> [/log-fold 2]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserDEGs(args As CommandLine) As Integer
         Dim diff As String = args("/degs")
         Dim PTT As String = args("/ptt")
@@ -272,6 +276,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.Log2", Usage:="/Parser.Log2 /in <log2.csv> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/factor 1 /out <outDIR>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserLog2(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim PTT As String = args("/PTT")
@@ -293,6 +298,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.Locus", Usage:="/Parser.Locus /locus <locus.txt> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/out <out.DIR>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function ParserLocus(args As CommandLine) As Integer
         Dim locus As String = args("/locus")
         Dim PTT As String = args("/ptt")
@@ -307,6 +313,7 @@ Partial Module CLI
     '' 这一部分是生成MEME分析所需要的上游序列的程序
 
     <ExportAPI("/Parser.Regulon", Usage:="/Parser.Regulon /inDIR <regulons.inDIR> /out <fasta.outDIR> /PTT <genomePTT.DIR> [/door <genome.opr>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function RegulonParser(args As CommandLine) As Integer
         Dim inDIR As String = args("/inDIR")
         Dim out As String = args("/out")
@@ -324,6 +331,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.Regulon.Merged", Usage:="/Parser.Regulon.Merged /in <merged.Csv> /out <fasta.outDIR> /PTT <genomePTT.DIR> [/DOOR <genome.opr>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function RegulonParser3(args As CommandLine) As Integer
         Dim inCsv As String = args("/in")
         Dim out As String = args.GetValue("/out", inCsv.TrimSuffix & ".MEME.fa/")
@@ -344,6 +352,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Parser.Regulon.gb", Usage:="/Parser.Regulon.gb /inDIR <regulons.inDIR> /out <fasta.outDIR> /gb <genbank.gbk> [/door <genome.opr>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function RegulonParser2(args As CommandLine) As Integer
         Dim inDIR As String = args("/inDIR")
         Dim out As String = args("/out")
@@ -362,6 +371,7 @@ Partial Module CLI
 
     <ExportAPI("/Parser.Pathway",
                Usage:="/Parser.Pathway /KEGG.Pathways <KEGG.pathways.DIR> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function PathwayParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Pathways")
         Dim PTT_DIR As String = args("/PTT")
@@ -377,6 +387,7 @@ Partial Module CLI
 
     <ExportAPI("/Parser.Modules",
                Usage:="/Parser.Modules /KEGG.Modules <KEGG.modules.DIR> /PTT <genomePTT.DIR> /DOOR <genome.opr> [/locus <union/initx/locus, default:=union> /out <fasta.outDIR>]")>
+    <Group(CLIGrouping.MEMESeqParser)>
     Public Function ModuleParser(args As CommandLine) As Integer
         Dim pathwayDIR As String = args("/KEGG.Modules")
         Dim PTT_DIR As String = args("/PTT")

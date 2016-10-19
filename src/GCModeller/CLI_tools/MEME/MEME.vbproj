@@ -196,6 +196,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CLIGrouping.vb" />
     <Compile Include="CLI\MotifSimilarity\TomTomIteration.vb" />
     <Compile Include="CLI\MotifSimilarity\MEME_TOM.vb" />
     <Compile Include="CLI\MotifSites.vb" />

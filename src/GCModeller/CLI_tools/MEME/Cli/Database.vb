@@ -46,6 +46,7 @@ Partial Module CLI
 
     <ExportAPI("--Get.Intergenic",
                Usage:="--Get.Intergenic /PTT <genome.ptt> /nt <genome.fasta> [/o <out.fasta> /len 100 /strict]")>
+    <Group(CLIGrouping.DatabaseTools)>
     Public Function GetIntergenic(args As CommandLine) As Integer
         Dim len As Integer = args.GetValue("/len", 100)
         Dim strict As Boolean = args.GetBoolean("/strict")
@@ -58,12 +59,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.Regprecise.Motifs")>
+    <Group(CLIGrouping.DatabaseTools)>
     Public Function ExportRegpreciseMotifs(args As CommandLine) As Integer
         Call Compiler.SitesFamilyCategory(GCModeller.FileSystem.RegpreciseRoot)
         Return 0
     End Function
 
     <ExportAPI("/MAST_LDM.Build", Usage:="/MAST_LDM.Build /source <sourceDIR> [/out <exportDIR:=./> /evalue <1e-3>]")>
+    <Group(CLIGrouping.DatabaseTools)>
     Public Function BuildPWMDb(args As CommandLine) As Integer
         Dim inDIR As String = args("/source")
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/MAST_LDM." & FileIO.FileSystem.GetDirectoryInfo(inDIR).Name)
