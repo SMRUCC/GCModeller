@@ -75,16 +75,30 @@ Partial Module CLI
         Dim exeMAX As Integer = (From x In types Select Len(x.Name)).Max + 5
 
         Call Console.WriteLine("All of the available GCModeller commands were listed below.")
+        Call Console.WriteLine()
         Call Console.WriteLine("For getting the available function in the GCModeller program, ")
         Call Console.WriteLine("try typing:    <command> ?")
         Call Console.WriteLine("For getting the manual document in the GCModeller program,")
         Call Console.WriteLine("try typing:    <command> man")
         Call Console.WriteLine(vbCrLf)
         Call Console.WriteLine("Listed {0} available GCModeller commands:", types.Length)
+        Call Console.WriteLine()
 
         For Each x In types
             Dim exePrint As String = " " & x.Name & New String(" "c, exeMAX - Len(x.Name))
-            printf("%s%s\n", exePrint, x.x.Description)
+            Dim lines$() = Paragraph _
+                .Split(x.x.Description, 60) _
+                .ToArray
+
+            Console.WriteLine("{0}{1}", exePrint, lines.FirstOrDefault)
+
+            If lines.Length > 1 Then
+                Dim indent As New String(" "c, exeMAX + 1)
+
+                For Each line$ In lines.Skip(1)
+                    Console.WriteLine("{0}{1}", indent, line$)
+                Next
+            End If
         Next
 
         Return 0
