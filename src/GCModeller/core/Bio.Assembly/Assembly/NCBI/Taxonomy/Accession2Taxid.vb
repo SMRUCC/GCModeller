@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -15,22 +16,32 @@ Namespace Assembly.NCBI
         End Function
 
         <Extension>
-        Private Iterator Function __loadData(DIR$) As IEnumerable(Of NamedValue(Of Integer))
+        Public Iterator Function ReadFile(file$) As IEnumerable(Of NamedValue(Of Integer))
             Dim line$
             Dim tokens$()
 
-            For Each file$ In ls - l - r - "*.dmp" <= DIR
-                Using reader = file.OpenReader
-                    Do While Not reader.EndOfStream
-                        line = reader.ReadLine
-                        tokens = line.Split(ASCII.TAB)
+            Using reader As StreamReader = file.OpenReader
+                Call reader.ReadLine() ' skip first line, headers
 
-                        Yield New NamedValue(Of Integer) With {
-                            .Name = tokens(Scan0),
-                            .x = CInt(Val(tokens(1)))
-                        }
-                    Loop
-                End Using
+                Do While Not reader.EndOfStream
+                    line = reader.ReadLine
+                    tokens = line.Split(ASCII.TAB)
+
+                    ' accession       accession.version       taxid   gi
+                    Yield New NamedValue(Of Integer) With {
+                        .Name = tokens(Scan0),
+                        .x = CInt(Val(tokens(2)))
+                    }
+                Loop
+            End Using
+        End Function
+
+        <Extension>
+        Private Iterator Function __loadData(DIR$) As IEnumerable(Of NamedValue(Of Integer))
+            For Each file$ In ls - l - r - "*.*" <= DIR
+                For Each x In file.ReadFile
+                    Yield x
+                Next
             Next
         End Function
     End Module
