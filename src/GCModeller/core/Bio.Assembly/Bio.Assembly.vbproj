@@ -332,6 +332,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureKeys.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Accession2Taxid.vb" />
+    <Compile Include="Assembly\NCBI\Taxonomy\TaxidMaps.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\Ranks.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb" />

@@ -26,8 +26,10 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -36,8 +38,9 @@ Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -46,9 +49,6 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports System.IO
-Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 
@@ -341,18 +341,24 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Blastn.Maps.Taxid",
-               Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /gi2taxid <gi2taxid.dmp> [/trim /tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
+               Usage:="/Blastn.Maps.Taxid /in <blastnMapping.csv> /2taxid <acc2taxid.tsv/gi2taxid.dmp> [/gi2taxid /trim /tax <NCBI_taxonomy:nodes/names> /out <out.csv>]")>
     <Group(CLIGrouping.BlastnTools)>
+    <Argument("/gi2taxid", True, AcceptTypes:={GetType(Boolean)}, Description:="The 2taxid data source is comes from gi2taxid, by default is acc2taxid.")>
     Public Function BlastnMapsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim gi2taxid As String = args("/gi2taxid")
+        Dim x2taxid As String = args("/2taxid")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".taxid.csv")
-        Dim taxids As BucketDictionary(Of Integer, Integer) = Taxonomy.AcquireAuto(gi2taxid)
+        Dim is_gi2taxid As Boolean = args.GetBoolean("/gi2taxid")
         Dim maps As BlastnMapping() = [in].LoadCsv(Of BlastnMapping)
         Dim notFound As New List(Of String)
         Dim taxDIR$ = args("/tax")
         Dim tax As NcbiTaxonomyTree = Nothing
         Dim trimLong As Boolean = args.GetBoolean("/trim")
+        Dim taxid As New Value(Of Integer)
+        Dim mapping As TaxidMaps.Mapping = If(
+            is_gi2taxid,
+            TaxidMaps.MapByGI(x2taxid),
+            TaxidMaps.MapByAcc(x2taxid))
 
         If taxDIR.DirectoryExists Then
             tax = New NcbiTaxonomyTree(taxDIR)
@@ -360,25 +366,41 @@ Partial Module CLI
 
         Call "All data load done!".__DEBUG_ECHO
 
-        For Each x As BlastnMapping In maps
-            Dim gis$ = Regex.Match(x.Reference, "gi\|\d+").Value
-            Dim gi% = CInt(Val(gis.Split("|"c).LastOrDefault))
+        Dim taxidFromRef As Func(Of BlastnMapping, Integer)
 
-            If gi% = 0% Then
-                Call x.Reference.PrintException
-                Continue For
-            End If
+        If is_gi2taxid Then
+            taxidFromRef = Function(x)
+                               Dim gis$ = Regex.Match(x.Reference, "gi\|\d+").Value
+                               Dim gi$ = gis.Split("|"c).LastOrDefault
+
+                               If String.IsNullOrEmpty(gi) Then
+                                   Call x.Reference.PrintException
+                                   Return -1
+                               End If
+                               Return mapping(gi)
+                           End Function
+        Else
+            taxidFromRef = Function(x)
+                               Dim acc$ = GetAccessionId(x.Reference)
+
+                               If String.IsNullOrEmpty(acc) Then
+                                   Call x.Reference.PrintException
+                                   Return -1
+                               End If
+                               Return mapping(acc)
+                           End Function
+        End If
+
+        For Each x As BlastnMapping In maps
             If trimLong Then
                 x.Reference = Mid(x.Reference, 1, 255)
             End If
 
-            If taxids.ContainsKey(gi) Then
-                Dim taxid% = taxids(gi)
-
-                x.Extensions("taxid") = taxid
+            If (taxid = taxidFromRef(x)) > -1 Then
+                x.Extensions("taxid") = +taxid
 
                 If Not tax Is Nothing Then
-                    Dim nodes = tax.GetAscendantsWithRanksAndNames(taxid, True)
+                    Dim nodes = tax.GetAscendantsWithRanksAndNames(+taxid, True)
                     Dim tree = TaxonomyNode.BuildBIOM(nodes)
                     Dim name = tax(taxid).name
 
@@ -386,7 +408,7 @@ Partial Module CLI
                     x.Extensions("Taxonomy") = tree
                 End If
             Else
-                notFound += CStr(gi)
+                notFound += CStr(x.Reference)
                 Call x.Reference.Warning
             End If
         Next
