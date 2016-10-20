@@ -247,7 +247,7 @@ Public Module TMod
 
         '可能还有一些没有被覆盖掉，则在这里讲这些对象取出来进行subsample
         Dim Sampled = (From fa As FASTA.FastaToken
-                       In (From item In LQuery Select item.fasta.ToArray).MatrixAsIterator
+                       In (From item In LQuery Select item.fasta.ToArray).IteratesALL
                        Select fa.Title Distinct).ToArray
         Dim UnSampled = (From fa As FASTA.FastaToken
                          In source.AsParallel

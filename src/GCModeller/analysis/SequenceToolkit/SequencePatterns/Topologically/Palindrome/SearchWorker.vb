@@ -61,7 +61,7 @@ Namespace Topologically
             Dim Sites As PalindromeLoci() = currentStat.ToArray(
                 Function(loci) Palindrome.CreatePalindrome(
                     loci, SequenceData),
-                    Parallel:=True).MatrixAsIterator.TrimNull
+                    Parallel:=True).IteratesALL.TrimNull
             Call _ResultSet.Add(Sites)
         End Sub
     End Class
@@ -112,7 +112,7 @@ Namespace Topologically
                 Function(loci) _
                     Palindrome.CreateMirrors(
                         loci,
-                        SequenceData), Parallel:=True).MatrixAsIterator.TrimNull
+                        SequenceData), Parallel:=True).IteratesALL.TrimNull
 
             Call _ResultSet.Add(Sites)
         End Sub

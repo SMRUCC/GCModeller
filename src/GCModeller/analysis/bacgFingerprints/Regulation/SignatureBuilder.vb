@@ -248,7 +248,7 @@ Namespace RegulationSignature
             ' 排序KEGG Pathway部分的数据
             Dim DisAssembly = (From KO_Gene In (From Gene In KOHash Select (From KO_ID As String
                                                                             In Gene.Value.KO
-                                                                            Select KO_ID, GeneObject = Gene).ToArray).MatrixToList
+                                                                            Select KO_ID, GeneObject = Gene).ToArray).Unlist
                                Select KO_Gene
                                Group KO_Gene By KO_Gene.KO_ID Into Group).ToArray
 

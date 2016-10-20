@@ -163,11 +163,11 @@ Namespace CEG
                                                                End Try
                                                            End Function()
                                              Where Not Cluster.IsNullOrEmpty
-                                             Select Cluster).ToArray.MatrixToList
+                                             Select Cluster).ToArray.Unlist
                           Select Bacteria, ClusterNT = (From Region As EssentialGeneCluster
                                                         In ClusterData.AsParallel
                                                         Select setValue(Region, Bacteria.ID)).ToArray).ToArray
-            Dim CEGCluster = (From Bacteria In LQuery Select Bacteria.ClusterNT).ToArray.MatrixToVector
+            Dim CEGCluster = (From Bacteria In LQuery Select Bacteria.ClusterNT).ToArray.ToVector
             Return CEGCluster
         End Function
 
@@ -194,8 +194,8 @@ Namespace CEG
                                                           In Genome.Group
                                                           Let g = New NucleotideModels.NucleicAcid(ClusterRegion)
                                                           Select Idx = i,
-                                                              Delta = 1000 * Sigma(f, g), ClusterRegion).ToArray).ToArray).MatrixToVector
-            Dim GroupData = (From Region In (From Data In LQuery Select Data.DeltaValue).MatrixAsIterator Select Region Group Region By Region.ClusterRegion.Species Into Group).ToArray '按照标尺基因组进行分组
+                                                              Delta = 1000 * Sigma(f, g), ClusterRegion).ToArray).ToArray).ToVector
+            Dim GroupData = (From Region In (From Data In LQuery Select Data.DeltaValue).IteratesALL Select Region Group Region By Region.ClusterRegion.Species Into Group).ToArray '按照标尺基因组进行分组
             Dim CsvObject As New DocumentStream.File
             Call CsvObject.AppendLine({"#Tag", "Cluster.ID"})
             Call CsvObject.First.AddRange((From Region In TestGenomePartitions Select Region.PartitioningTag).ToArray)
@@ -340,7 +340,7 @@ Namespace CEG
 
             Dim ClusterRegion = (From Cluster In GeneClusterList.AsParallel
                                  Where Not Cluster.IsNullOrEmpty
-                                 Let pList = (From Gene In Cluster Select New Integer() {Gene.Location.Left, Gene.Location.Right}).ToArray.MatrixToList
+                                 Let pList = (From Gene In Cluster Select New Integer() {Gene.Location.Left, Gene.Location.Right}).ToArray.Unlist
                                  Select ClusterID = String.Join("_", (From Gene In Cluster Select Gene.Gene).ToArray) & "|" & String.Join(",", (From Gene In Cluster Select Gene.Synonym).ToArray), pList.Max, pList.Min).ToArray
             Dim NtRegions = (From Cluster In ClusterRegion Select Cluster, NtData = Reader.TryParse(Cluster.Min, Cluster.Max - Cluster.Min), Cluster.ClusterID).ToArray
             Dim ClusterData = (From Cluster In NtRegions

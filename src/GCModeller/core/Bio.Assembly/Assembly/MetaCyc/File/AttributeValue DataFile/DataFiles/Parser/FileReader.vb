@@ -72,7 +72,7 @@ Namespace Assembly.MetaCyc.File
             lines = path.ReadAllLines
             first = lines.First
             prop = GetDbProperty(lines)
-            lines = GetData(lines).ToArray.MatrixToVector
+            lines = GetData(lines).ToArray.ToVector
 
             Return ""
         End Function

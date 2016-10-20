@@ -130,7 +130,7 @@ Partial Module CLI
                           Delta,
                           Delta2,
                           OffSet)
-                      Select MotifSites.Mast(NtSequence)).MatrixToList
+                      Select MotifSites.Mast(NtSequence)).Unlist
         Dim Out As String = args("/out")
         If String.IsNullOrEmpty(Out) Then
             Out = $"{Nt}.{IO.Path.GetFileNameWithoutExtension(Motif)}.csv"
@@ -352,12 +352,12 @@ Partial Module CLI
                           Let len As Integer = DocumentFormat.MEME.Text.GetLength([set].memeFile)
                           Select HtmlMatching.Match([set].sites, PTT, len) _
                               .ToArray(Function(site) setTag(site, [set].set.Key))).ToArray
-            chunkBuffer = LQuery.MatrixToList
+            chunkBuffer = LQuery.Unlist
         Else
             Dim LQuery = (From [set]
                           In ResultSet
                           Select [set].sites.ToArray(Function(site) setTag(site, [set].set.Key))).ToArray
-            chunkBuffer = LQuery.MatrixToList
+            chunkBuffer = LQuery.Unlist
         End If
 
         If Not GCModeller.FileSystem.IsNullOrEmpty AndAlso
@@ -370,7 +370,7 @@ Partial Module CLI
                 Function(site) setValue(site, Regulations.GetMotifFamily(site.uid.Split("|"c).Get(Scan0))))
         End If
 
-        Dim novelSites = ResultSet.ToArray(Function([set]) [set].novels).MatrixToList.TrimNull
+        Dim novelSites = ResultSet.ToArray(Function([set]) [set].novels).Unlist.TrimNull
         Call novelSites.SaveTo(out.TrimSuffix & ".novels.csv")
         Return chunkBuffer.SaveTo(out).CLICode
     End Function
@@ -420,12 +420,12 @@ Partial Module CLI
                        Select file.LoadXml(Of BacteriaGenome)
         Dim RfamSitesLQuery = (From x In loadFile.AsParallel
                                Let rfam = (From regulator In x.Regulons.Regulators Where regulator.Type = Regulator.Types.RNA Select regulator)
-                               Select (From rna In rfam Select rna.Family, rna.RegulatorySites).ToArray).MatrixToList
+                               Select (From rna In rfam Select rna.Family, rna.RegulatorySites).ToArray).Unlist
         Dim RfamCategory = (From x In RfamSitesLQuery
                             Select x
                             Group x By x.Family Into Group) _
                                  .ToDictionary(Function(x) x.Family,
-                                               Function(x) x.Group.ToArray(Function(xx) xx.RegulatorySites).MatrixToList)
+                                               Function(x) x.Group.ToArray(Function(xx) xx.RegulatorySites).Unlist)
         For Each cat In RfamCategory
             Dim path As String = $"{out}/{cat.Key}.fasta"
             Dim fa As New FastaFile(cat.Value)

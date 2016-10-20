@@ -88,7 +88,7 @@ Namespace Assembly.Expasy.Database
                               In Enzymes
                               Where InStr(enz.Identification, ECNumber) = 1
                               Select enz.SwissProt).ToArray
-                Return LQuery.MatrixAsIterator.Distinct.ToArray
+                Return LQuery.IteratesALL.Distinct.ToArray
             Else
                 Return (From id As String
                         In Enzymes.GetItem(ECNumber).SwissProt
@@ -101,7 +101,7 @@ Namespace Assembly.Expasy.Database
         Public Function TryExportUniprotFasta(data As IEnumerable(Of Uniprot.UniprotFasta)) As FASTA.FastaFile
             Dim UniprotIDs As String() = (From enz As Enzyme
                                           In Me.Enzymes
-                                          Select enz.SwissProt).MatrixAsIterator.Distinct.ToArray
+                                          Select enz.SwissProt).IteratesALL.Distinct.ToArray
             Dim LQuery As IEnumerable(Of FASTA.FastaToken) = From fa As Uniprot.UniprotFasta
                                                              In data.AsParallel
                                                              Where Array.IndexOf(UniprotIDs, fa.UniprotID)
@@ -139,7 +139,7 @@ Namespace Assembly.Expasy.Database
             Classes = (From enz As Enzyme
                        In Enzymes
                        Select CsvExport.Enzyme.CreateObject(enz)).ToArray
-            SwissProt = Enzymes.Select(AddressOf CsvExport.SwissProt.CreateObjects).MatrixToVector
+            SwissProt = Enzymes.Select(AddressOf CsvExport.SwissProt.CreateObjects).ToVector
         End Sub
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean

@@ -182,7 +182,7 @@ Namespace CytoscapeGraphView
 
                 For Each Node In Graph.Nodes
                     Dim Orthology = refMap.GetReaction(Node("KEGG_ENTRY").Value).SSDBs
-                    Dim KO_sp As String() = (From Entry In (From ort In Orthology Select ort.Value).ToArray.MatrixToList Select Entry.SpeciesId Distinct).ToArray
+                    Dim KO_sp As String() = (From Entry In (From ort In Orthology Select ort.Value).ToArray.Unlist Select Entry.SpeciesId Distinct).ToArray
                     Dim ColorList = (From sp As String In KO_sp Where Colors.ContainsKey(sp) Select sp, sp_Color = Colors(sp)).ToArray
                     Dim Color As Color
 

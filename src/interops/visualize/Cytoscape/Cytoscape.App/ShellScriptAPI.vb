@@ -126,7 +126,7 @@ Public Module ShellScriptAPI
                                 Select ID = String.Format("[{0}] {1}", xId, refRxn.Entry),
                                     DataModel = refRxn.ReactionModel,
                                     refRxnX = refRxn,
-                                    EcNum = xId)).MatrixAsIterator
+                                    EcNum = xId)).IteratesALL
 
         Dim Graph As Graph = Graph.CreateObject(RefMap.Name.Replace("<br>", ""), "KEGG reference map data", RefMap.Description.Replace("<br>", ""))
         Graph.ID = RefMap.EntryId
@@ -174,7 +174,7 @@ Public Module ShellScriptAPI
                                         .source = Graph.GetNode(rxn.ID).id,
                                         .target = Graph.GetNode(target.ID).id,
                                         .Label = Compound.First}).ToArray
-                       Select Edges).ToArray.MatrixToVector.AddHandle '从rxn的右边到target的左边形成一条边
+                       Select Edges).ToArray.ToVector.AddHandle '从rxn的右边到target的左边形成一条边
         Return Graph
     End Function
 

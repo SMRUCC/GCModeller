@@ -469,7 +469,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                                                                 Let p2 As String = pName & ".Class2"
                                                                 Let a = TabularArchives.SubNetTable.CreateObject(dataParsed.Key, p1, DictPathwayBriefs)
                                                                 Let b = TabularArchives.SubNetTable.CreateObject(dataParsed.Value, p2, DictPathwayBriefs)
-                                                                Select {a, b}.MatrixAsIterator
+                                                                Select {a, b}.IteratesALL
             Return LQuery
         End Function
 
@@ -537,7 +537,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         Public Function LoadResult(testfile As String) As PfsNET()
             Dim strLines As String() = IO.File.ReadAllLines(testfile)
             Dim result = SubnetParser.TryParse(strLines)
-            Dim data = {result.Key, result.Value}.MatrixToVector
+            Dim data = {result.Key, result.Value}.ToVector
             Return data
         End Function
 

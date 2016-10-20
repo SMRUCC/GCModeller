@@ -176,7 +176,7 @@ Partial Module CLI
             New DocumentStream.File + {"locusId"}.Join(modRegulators.Keys)
         Dim union As String() = modRegulators _
             .Select(Function(x) x.Value) _
-            .MatrixAsIterator _
+            .IteratesALL _
             .Distinct _
             .OrderBy(Function(sId) sId).ToArray
 

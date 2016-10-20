@@ -108,7 +108,7 @@ Partial Module CLI
                                   Where Not x.GeneNames.IsNullOrEmpty
                                   Select From name
                                              In x.GeneNames
-                                         Select name, node = x).MatrixAsIterator
+                                         Select name, node = x).IteratesALL
                        Select o
                        Group o By o.name Into Group).ToDictionary(
                        Function(x) x.name,

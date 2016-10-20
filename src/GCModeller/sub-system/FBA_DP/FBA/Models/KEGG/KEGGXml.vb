@@ -75,7 +75,7 @@ Namespace Models
             array = (From x As Equation
                      In _reactions.Values.AsParallel
                      Select x.GetMetabolites.ToArray(
-                         Function(m) m.Identifier)).MatrixAsIterator.Distinct.ToArray
+                         Function(m) m.Identifier)).IteratesALL.Distinct.ToArray
             allCompounds = New ReadOnlyCollection(Of String)(array)
         End Sub
 
@@ -96,7 +96,7 @@ Namespace Models
                           In locus
                           Let map As Nodes.EC_Mapping = _model.GetMaps(x)
                           Where Not map Is Nothing
-                          Select map.ECMaps.ToArray(Function(m) m.Reactions).MatrixAsIterator).MatrixAsIterator
+                          Select map.ECMaps.ToArray(Function(m) m.Reactions).IteratesALL).IteratesALL
             Dim rxns As String() = LQuery.Distinct.ToArray
             Call SetObjectiveFunc(factors:=rxns)
         End Sub

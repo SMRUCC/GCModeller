@@ -77,7 +77,7 @@ Partial Module CLI
                          Let sites As Site() = x.Value.Sites
                          Let regs As String() = (From site As Site
                                                  In sites
-                                                 Select RegDb.GetRegulators(site.Name)).MatrixAsIterator.Distinct.ToArray
+                                                 Select RegDb.GetRegulators(site.Name)).IteratesALL.Distinct.ToArray
                          Select x, regs).ToArray
         Dim mapsRegulates = (From x In Regulates
                              Let mapped As bbhMappings() = (From map As bbhMappings In bbhMaps
@@ -93,7 +93,7 @@ Partial Module CLI
                        Where sourceLDM.ContainsKey(hit.Query) AndAlso
                            LDM.ContainsKey(hit.Subject)
                        Let query = sourceLDM(hit.Query), subject = LDM(hit.Subject)
-                       Select __buildRegulates(query, subject, PTT, correlations, mapsRegulates)).MatrixAsIterator.TrimNull
+                       Select __buildRegulates(query, subject, PTT, correlations, mapsRegulates)).IteratesALL.TrimNull
         Return results.SaveTo(out).CLICode
     End Function
 
@@ -116,7 +116,7 @@ Partial Module CLI
             ' 没有被Mapping到的调控因子，则只返回位点数据
             Return query.Sites.ToArray(Function(x) __siteToFootprint(x, query.Uid, motif, subject, PTT))
         Else
-            Return query.Sites.ToArray(Function(x) __siteToRegulation(x, query.Uid, motif, subject, PTT, correlates, mapsRegulates)).MatrixToVector
+            Return query.Sites.ToArray(Function(x) __siteToRegulation(x, query.Uid, motif, subject, PTT, correlates, mapsRegulates)).ToVector
         End If
     End Function
 

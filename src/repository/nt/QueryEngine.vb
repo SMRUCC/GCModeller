@@ -122,7 +122,7 @@ Public Class QueryEngine
                          .AsParallel _
                          .Where(Function(x) expression.Evaluate(def, x))
 
-        For Each x As NamedValue(Of String) In LQuery.MatrixAsIterator
+        For Each x As NamedValue(Of String) In LQuery.IteratesALL
             Dim seq$ = __nt(x.Description) _
                 .ReadNT_by_gi(gi:=x.Name)
 

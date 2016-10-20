@@ -226,7 +226,7 @@ Public Module API
         Dim allGenes As New PTT(Genbank.ORF_PTT.GeneObjects.Join(Genbank.RNARnt.GeneObjects))
         Dim LQuery = (From file As String In lstMappings.AsParallel
                       Select RfamAnalysis(file, RfamDb, allGenes, reader, sourceDirect)).ToArray
-        Dim result As Rfamily() = LQuery.MatrixToVector
+        Dim result As Rfamily() = LQuery.ToVector
         Call $"Start to assign locusId for {result.Length} predicted RNA sites...".__DEBUG_ECHO
         result = __assignPrefix(locusPrefix, allGenes, result, offset)
         Return result

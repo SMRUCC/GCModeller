@@ -354,7 +354,7 @@ Partial Module CLI
                                Where Not fa.IsNullOrEmpty
                                Select fa.ToArray(Function(x) New With {
                                    .Id = x.Attributes.First.Split.First.Split(":"c).Last,
-                                   .fa = x})).ToArray.MatrixToList
+                                   .fa = x})).ToArray.Unlist
                     Select x
                     Group x By x.Id Into Group) _
                       .ToDictionary(Function(x) x.Id, elementSelector:=Function(x) x.Group.First.fa)

@@ -128,7 +128,7 @@ Module CLI
         Next
 
         Dim Allbbh = (From hitPair As BiDirectionalBesthit
-                      In ParsingTask.ToArray(Function(sp) sp.bbh).MatrixAsIterator.AsParallel
+                      In ParsingTask.ToArray(Function(sp) sp.bbh).IteratesALL.AsParallel
                       Where hitPair.Matched
                       Select hitPair).ToArray  ' 最后将所有的结果进行合并然后保存
         Dim inDIR As String = FileIO.FileSystem.GetParentPath(entries.First.Key.FilePath)
@@ -287,7 +287,7 @@ Module CLI
     Public Function Copys(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
         Dim gbs = FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.gbk", "*.gb") _
-            .ToArray(Function(s) GBFF.File.LoadDatabase(s), parallel:=True).MatrixAsIterator
+            .ToArray(Function(s) GBFF.File.LoadDatabase(s), parallel:=True).IteratesALL
         Dim out As String = args.GetValue("/out", inDIR & ".fasta/")
 
         For Each gb As GBFF.File In gbs

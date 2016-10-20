@@ -58,7 +58,7 @@ Partial Module CLI
                      Select From rg As String
                             In x.Regulators
                             Select rg,
-                                opr = x).MatrixAsIterator
+                                opr = x).IteratesALL
         Dim oprHash As Dictionary(Of String, RegPreciseOperon()) =
             (From x
              In oprRG

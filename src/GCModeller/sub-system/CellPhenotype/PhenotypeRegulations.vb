@@ -168,7 +168,7 @@ Public Module PhenotypeRegulations
     Private Function __exportTCS_CrossTalks(TAG As String, Data As Dictionary(Of String, Double), Network As CrossTalks()) As Graph
         Dim Edges = (From item In Network Select New CrossTalk With {.FromNode = item.Kinase, .ToNode = item.Regulator, .Confidence = Math.Min(Data(item.Kinase), Data(item.Regulator)) * item.Probability}).ToArray
         Dim Nodes = (From item In Network Select {New CrossTalk.TCS_GeneObject With {.Identifier = item.Kinase, .Quantity = Data(item.Kinase), .NodeType = "Kinase"},
-                                                  New CrossTalk.TCS_GeneObject With {.Identifier = item.Regulator, .NodeType = "RR", .Quantity = Data(item.Regulator)}}).ToArray.MatrixToVector
+                                                  New CrossTalk.TCS_GeneObject With {.Identifier = item.Regulator, .NodeType = "RR", .Quantity = Data(item.Regulator)}}).ToArray.ToVector
 
         Return ExportToFile.Export(Nodes, Edges, "TCS_CrossTalks_Network =" & TAG)
     End Function
@@ -297,7 +297,7 @@ Public Module PhenotypeRegulations
                      In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
                      Let Csv = DocumentStream.File.FastLoad(path, Parallel:=False)
                      Select Csv).ToArray '获取同一批次的蒙特卡洛计算实验之中所得到的所有的计算样本
-        Dim RankMapping = (From obj In (From Csv In Cache.AsParallel Select (From row In Csv Let ID As String = row.First Where ID.First <> "#"c Let data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray Select New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = data}).ToArray).ToArray.MatrixToList Select obj Group By obj.UniqueId Into Group).ToArray
+        Dim RankMapping = (From obj In (From Csv In Cache.AsParallel Select (From row In Csv Let ID As String = row.First Where ID.First <> "#"c Let data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray Select New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = data}).ToArray).ToArray.Unlist Select obj Group By obj.UniqueId Into Group).ToArray
         Dim GetModalLevel = (From GeneObject In RankMapping.AsParallel Select __levelMapping(GeneObject.Group.ToArray, p:=Level)).ToArray
         '重新生成一个Csv文件
         Dim CsvMatrix As File =
@@ -306,7 +306,7 @@ Public Module PhenotypeRegulations
              Let IDCol As String() = {GeneObject.UniqueId}
              Let DataCols As String() = (From n As Integer In GeneObject.Samples Select CStr(n)).ToArray
              Let Row As String()() = {IDCol, DataCols}
-             Let RowData = Row.MatrixToList
+             Let RowData = Row.Unlist
              Select CType(RowData, RowObject)).ToArray
         Return CsvMatrix
     End Function
@@ -351,7 +351,7 @@ Public Module PhenotypeRegulations
                          Where ID.First <> "#"c
                          Let Data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray
                          Select New CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = Data}).ToArray
-        Dim Vector = (From data0Expr In DataChunk Select data0Expr.Samples).ToArray.MatrixToList
+        Dim Vector = (From data0Expr In DataChunk Select data0Expr.Samples).ToArray.Unlist
         Dim Ranking As Integer() = GenerateMapping(Vector, Level)
         Dim ChunkBuffer As Integer() = New Integer(DataChunk.First.Samples.Length - 1) {}
         Dim ChunkList As New List(Of DataSerials(Of Integer))
@@ -446,7 +446,7 @@ Public Module PhenotypeRegulations
         Dim SamplesId = (From item In SamplesAverage Select item.UniqueId).ToArray '获取所有基因的初始输入
         Dim Uniques = (From item In inits Where Array.IndexOf(SamplesId, item.locusId) = -1 Select item).ToArray
 
-        Return {LQuery, Uniques}.MatrixToVector      '返回并集
+        Return {LQuery, Uniques}.ToVector      '返回并集
     End Function
 
     Sub New()
@@ -585,7 +585,7 @@ Public Module PhenotypeRegulations
         Dim Csv = (From item In Result Select SubNetTable.CreateObject(item.PfsNET, PhenotypeName:=item.Regulator, PathwayBrief:=PathwayDict))
         Dim Output = (From item As SubNetTable()
                       In Csv.AsParallel
-                      Select RTools.PfsNET.KEGGPathwaysPhenotypeAnalysis(item, KEGGPathways)).ToArray.MatrixToVector
+                      Select RTools.PfsNET.KEGGPathwaysPhenotypeAnalysis(item, KEGGPathways)).ToArray.ToVector
         Output = KEGGPhenotypes.CalculateContributions(Output)
         Call ExportCytoscape(Output, FileIO.FileSystem.GetParentPath(saveto) & "/Network/")
         Return Output.SaveTo(saveto, False)
@@ -655,11 +655,11 @@ Public Module PhenotypeRegulations
         Dim Phenotypes = (From strPhenotype As String In (From item In Pathways Select item.Category Distinct).AsParallel
                           Let PhenotypeRelateGene = (From item In Pathways Where String.Equals(item.Category, strPhenotype)
                                                      Where Not item.PathwayGenes.IsNullOrEmpty
-                                                     Select item.PathwayGenes).MatrixToVector.Distinct.ToArray
+                                                     Select item.PathwayGenes).ToVector.Distinct.ToArray
                           Let PhenoTypeRegulators = (From locusId As String
                                                      In PhenotypeRelateGene
                                                      Let GeneRegulators = (From item In Scores Where String.Equals(item.InteractorB, locusId) Select item).ToArray
-                                                     Select GeneRegulators).MatrixToVector
+                                                     Select GeneRegulators).ToVector
                           Select New __phenotype With {
                               .Phenotype = strPhenotype,
                               .regulateGenes = PhenotypeRelateGene,
@@ -709,16 +709,16 @@ Public Module PhenotypeRegulations
         Dim Regulators As String() = RegulationData.GetRegulators
         Dim Phenotypes = (From strPhenotype As String
                           In (From item In Pathways Select item.Category Distinct).ToArray.AsParallel
-                          Let PhenotypeRelateGene = (From item In Pathways Where String.Equals(item.Category, strPhenotype) Where Not item.PathwayGenes.IsNullOrEmpty Select item.PathwayGenes).ToArray.MatrixToVector.Distinct.ToArray
-                          Let PhenoTypeRegulators = (From GeneId As String In PhenotypeRelateGene Let GeneRegulators = (From item In RegulationData Where String.Equals(item.LocusId, GeneId) Let RegulatorIdColection = item.Regulators Select RegulatorIdColection).ToArray.MatrixToVector Select GeneRegulators).ToArray.MatrixToVector
+                          Let PhenotypeRelateGene = (From item In Pathways Where String.Equals(item.Category, strPhenotype) Where Not item.PathwayGenes.IsNullOrEmpty Select item.PathwayGenes).ToArray.ToVector.Distinct.ToArray
+                          Let PhenoTypeRegulators = (From GeneId As String In PhenotypeRelateGene Let GeneRegulators = (From item In RegulationData Where String.Equals(item.LocusId, GeneId) Let RegulatorIdColection = item.Regulators Select RegulatorIdColection).ToArray.ToVector Select GeneRegulators).ToArray.ToVector
                           Select Phenotype = strPhenotype, PhenotypeRelateGene, RegulatorCounts = PhenoTypeRegulators.Count, PhenoTypeRegulators).ToArray
         Dim LQuery = (From phenotype In Phenotypes
-                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.FromNode = RegulatorId, .InteractionType = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.MatrixToVector
+                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.FromNode = RegulatorId, .InteractionType = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.ToVector
         Dim RegulatorNodes = (From RegulatorId As String In Regulators Select New FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
         Dim PhenotypeNodes = (From phenotype In Phenotypes Select New FileStream.Node With {.Identifier = phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
 
         Call LQuery.SaveTo(EXPORT & "/Edges.csv", False)
-        Call {RegulatorNodes, PhenotypeNodes}.MatrixToVector.SaveTo(EXPORT & "/Nodes.csv", False)
+        Call {RegulatorNodes, PhenotypeNodes}.ToVector.SaveTo(EXPORT & "/Nodes.csv", False)
 
         Return True
     End Function
@@ -735,12 +735,12 @@ Public Module PhenotypeRegulations
                                                                  In Pathways
                                                                  Where String.Equals(item.Category, strPhenotype) AndAlso
                                                                      Not item.PathwayGenes.IsNullOrEmpty
-                                                                 Select item.PathwayGenes).MatrixToVector.Distinct.ToArray
+                                                                 Select item.PathwayGenes).ToVector.Distinct.ToArray
                           Let PhenoTypeRankedRegulators = (From GeneId As String In PhenotypeRelateGene
                                                            Let GeneRegulators As RankRegulations() = (From item As RankRegulations In RankedRegulations
                                                                                                       Where Array.IndexOf(item.GeneCluster, GeneId) > -1
                                                                                                       Select item).ToArray
-                                                           Select GeneRegulators).MatrixToVector
+                                                           Select GeneRegulators).ToVector
                           Let PhenotypeRegulators = (From item As RankRegulations
                                                      In PhenoTypeRankedRegulators
                                                      Select RankScore = item.RankScore,
@@ -750,7 +750,7 @@ Public Module PhenotypeRegulations
                               numOfRegulator = PhenotypeRegulators.Length,
                               PhenotypeRegulators).ToArray
         Dim EvaluateRanks = (From Phenotype In Phenotypes Let Regulators = (From RegulatorId As String
-                                                                            In (From item In Phenotype.PhenotypeRegulators Select item.Regulators).ToArray.MatrixToVector.Distinct.ToArray
+                                                                            In (From item In Phenotype.PhenotypeRegulators Select item.Regulators).ToArray.ToVector.Distinct.ToArray
                                                                             Let rs = (From item In Phenotype.PhenotypeRegulators Where Array.IndexOf(item.Regulators, RegulatorId) > -1 Select item.RankScore).ToArray.Sum
                                                                             Select RankedScore = rs, Regulator = RegulatorId).ToArray
                              Let cutoff = If(Regulators.IsNullOrEmpty, 0, (From Regulator In Regulators Select Regulator.RankedScore).ToArray.Max * Rank_score_cutoff)
@@ -764,7 +764,7 @@ Public Module PhenotypeRegulations
                                                 .FromNode = Regulator.Regulator,
                                                 .ToNode = Phenotype.Phenotype,
                                                 .Confidence = Regulator.RankedScore,
-                                                .InteractionType = "Phenotype.Regulations"}).ToArray).ToArray.MatrixToVector
+                                                .InteractionType = "Phenotype.Regulations"}).ToArray).ToArray.ToVector
         Dim PhenotypeNodes = (From Phenotype
                               In EvaluateRanks
                               Select New FileStream.Node With {
@@ -775,10 +775,10 @@ Public Module PhenotypeRegulations
                                                In Phenotype.Regulators
                                                Select New FileStream.Node With {
                                                    .Identifier = Regulator.Regulator,
-                                                   .NodeType = "Regulator"}).ToArray).ToArray.MatrixToVector
+                                                   .NodeType = "Regulator"}).ToArray).ToArray.ToVector
 
         Call PhenotypeRegulations.SaveTo(Export & "/Edges.csv", False)
-        Call {PhenotypeNodes, PhenotypeRegulatorNodes}.MatrixToVector.SaveTo(Export & "/Nodes.csv", False)
+        Call {PhenotypeNodes, PhenotypeRegulatorNodes}.ToVector.SaveTo(Export & "/Nodes.csv", False)
 
         Dim DetailsCsv As DocumentStream.File = New DocumentStream.File
         Call DetailsCsv.Add(New String() {"Phenotype", "Rank Scores"})
@@ -807,7 +807,7 @@ Public Module PhenotypeRegulations
                                       Let FamilyList = RegulatorFamilies(item.Value).Family
                                       Select (From Family
                                               In FamilyList
-                                              Select Family, item.Key).ToArray).ToArray.MatrixToVector
+                                              Select Family, item.Key).ToArray).ToArray.ToVector
                       Let UniqueFamily = (From item In Families Select item.Family.ToLower Distinct).ToArray
                       Select phenotype = Phenotype.Key, FamilyScores = (From Family As String
                                                                         In UniqueFamily
@@ -851,17 +851,17 @@ Public Module PhenotypeRegulations
     Public Function ExportCytoscapeNetwork(SignificantPhenotypeRegulations As File, ExportDIR As String) As Boolean
         Dim PhenotypeRegulations = (From Line In SignificantPhenotypeRegulations.Skip(1).AsParallel Where Not String.IsNullOrEmpty(Line.Last) Select Phenotype = Line.First, Regulators = (From item In Strings.Split(Line.Last, "; ") Select Regulator = item.Split(CChar("(")).First, Score = Val(Regex.Match(item, "\d+\.\d+").Value)).ToArray).ToArray
         Dim Phenotypes = (From item In PhenotypeRegulations.AsParallel Select New FileStream.Node With {.Identifier = item.Phenotype, .NodeType = "PhenotypePathway"}).ToArray
-        Dim PhenotypeSignificantRegulators = (From RegulatorId As String In (From item In PhenotypeRegulations Select (From Regulator In item.Regulators Select Regulator.Regulator).ToArray).ToArray.MatrixToVector.Distinct.ToArray.AsParallel Select New FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
+        Dim PhenotypeSignificantRegulators = (From RegulatorId As String In (From item In PhenotypeRegulations Select (From Regulator In item.Regulators Select Regulator.Regulator).ToArray).ToArray.ToVector.Distinct.ToArray.AsParallel Select New FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
         Dim PhenotypeRegulationsEdges = (From Phenotype In PhenotypeRegulations.AsParallel
                                          Select (From Regulator In Phenotype.Regulators
                                                  Select New NetworkEdge With {
                                                      .FromNode = Regulator.Regulator,
                                                      .ToNode = Phenotype.Phenotype,
                                                      .InteractionType = "PhenotypeRegulation",
-                                                     .Confidence = Regulator.Score}).ToArray).ToArray.MatrixToVector
+                                                     .Confidence = Regulator.Score}).ToArray).ToArray.ToVector
 
         Call PhenotypeRegulationsEdges.SaveTo(String.Format("{0}/Edges.csv", ExportDIR), False)
-        Call {Phenotypes, PhenotypeSignificantRegulators}.MatrixToVector.SaveTo(ExportDIR & "/Nodes.csv", False)
+        Call {Phenotypes, PhenotypeSignificantRegulators}.ToVector.SaveTo(ExportDIR & "/Nodes.csv", False)
 
         Return True
     End Function

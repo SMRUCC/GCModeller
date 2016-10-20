@@ -9,7 +9,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Partial Module CLI
 
     <ExportAPI("/Map.Hits",
-               Usage:="/Map.Hits /in <query.csv> /mapping <blastnMapping.csv> [/out <out.csv>]")>
+               Usage:="/Map.Hits /in <query.csv> /mapping <blastnMapping.csv> [/split.Samples /sample.Name <filedName,default:=track> /out <out.csv>]")>
     <Group(CLIGrouping.LocalblastTools)>
     Public Function MapHits(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -22,7 +22,12 @@ Partial Module CLI
                        Select x,
                            query = x.Expression.Build(allowInStr:=False, anyDefault:=Tokens.op_AND),
                            bufs = New List(Of String)).ToArray
-        Dim hits As New Dictionary(Of String, List(Of String))
+        Dim hits As New Dictionary(Of String, List(Of String))  ' maphits列表
+        Dim splitSamples As Boolean = args.GetBoolean("/split.Samples")
+        Dim fileTrack = args.GetValue("/sample.Name", "track")
+        Dim expData = exps.ToDictionary
+
+        Const mapHitsPrefix$ = "Map.Hits."
 
         For Each x In expList
             hits.Add(x.x.Name, x.bufs)
@@ -33,8 +38,19 @@ Partial Module CLI
                          Where x.query.Match(hit.Reference)
                          Select x.x.Name
 
-            For Each n In LQuery
-                hits(n).Add(hit.ReadQuery)
+            For Each n$ In LQuery
+                Call hits(n).Add(hit.ReadQuery)
+
+                If splitSamples Then
+                    Dim name$ = hit.Extensions.TryGetValue(fileTrack)
+                    name$ = mapHitsPrefix & name
+
+                    If Not expData(n$).Data.ContainsKey(name) Then
+                        Call expData(n$).Data.Add(name, "")
+                    End If
+                    expData(n$).Data(name) =
+                        expData(n$).Data(name) & "; " & hit.ReadQuery
+                End If
             Next
         Next
 
@@ -44,6 +60,19 @@ Partial Module CLI
                 .Distinct _
                 .OrderBy(Function(s) s) _
                 .JoinBy("; "))
+        Next
+        For Each x In exps
+            For Each k$ In x.Data.Keys _
+                .Where(Function(s) InStr(s, mapHitsPrefix) > 0) _
+                .ToArray ' 避免出现错误: Collection was modified; enumeration operation may not execute.
+
+                x.Data(k$) = x.Data(k$) _
+                    .Split(";"c) _
+                    .Select(AddressOf Trim) _
+                    .Where(Function(s) Not String.IsNullOrEmpty(s)) _
+                    .Distinct _
+                    .JoinBy("; ")
+            Next
         Next
 
         Return exps.SaveTo(out).CLICode

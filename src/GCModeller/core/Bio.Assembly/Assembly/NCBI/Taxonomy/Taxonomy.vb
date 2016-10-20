@@ -151,7 +151,7 @@ Namespace Assembly.NCBI
                     Dim tokens As String() = line.Split(tab)
                     Dim byts As Byte() = tokens _
                         .Select(Function(s) CInt(s)) _
-                        .ToArray(AddressOf BitConverter.GetBytes).MatrixToVector
+                        .ToArray(AddressOf BitConverter.GetBytes).ToVector
                     Call writer.BaseStream.Write(byts, Scan0, byts.Length)
                 Next
             End Using

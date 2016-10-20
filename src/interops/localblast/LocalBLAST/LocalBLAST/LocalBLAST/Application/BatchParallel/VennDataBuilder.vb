@@ -162,7 +162,7 @@ Namespace LocalBLAST.Application.BatchParallel
                 Comb(Of String).CreateCompleteObjectPairs(Files)
             Dim taskList As Func(Of String)() = LinqAPI.Exec(Of Func(Of String)) <=
                 From task As KeyValuePair(Of String, String)
-                In clist.MatrixAsIterator.AsParallel
+                In clist.IteratesALL.AsParallel
                 Let taskHandle As Func(Of String) =
                     Function() blastTask(
                         query:=task.Key, subject:=task.Value, evalue:=evalue,

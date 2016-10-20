@@ -88,7 +88,7 @@ Namespace Analysis.MotifScans
         <XmlElement> Public Property Matches As MotifHits()
 
         Public Function ToFootprints() As IEnumerable(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
-            Return Matches.ToArray(Function(x) x.GetFootprints).MatrixAsIterator
+            Return Matches.ToArray(Function(x) x.GetFootprints).IteratesALL
         End Function
     End Class
 
@@ -114,7 +114,7 @@ Namespace Analysis.MotifScans
                           Let footprints = (From site As MotifSiteHit
                                             In MAST
                                             Select __toFootprints(x, site))
-                          Select footprints).MatrixAsIterator.MatrixToVector
+                          Select footprints).IteratesALL.ToVector
             Return LQuery
         End Function
 
@@ -141,8 +141,8 @@ Namespace Analysis.MotifScans
             Dim LQuery = (From x As MatchResult In Footprints.AsParallel
                           Select (From site As GenomeMotifFootPrints.PredictedRegulationFootprint
                                   In x.ToFootprints
-                                  Select site.FillSites(DOOR, mapsHash))).MatrixToVector
-            Return LQuery.MatrixAsIterator
+                                  Select site.FillSites(DOOR, mapsHash))).ToVector
+            Return LQuery.IteratesALL
         End Function
     End Class
 End Namespace

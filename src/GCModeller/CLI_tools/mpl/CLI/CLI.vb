@@ -158,7 +158,7 @@ Default is not, default checks right side and left side.")>
                       Let lstPfam = lstId.ToArray(Function(sId) subject(sId), where:=Function(sId) subject.ContainsKey(sId))
                       Select (From sbj As PfamString
                               In lstPfam
-                              Select PfamStringEquals(x, sbj, equals))).MatrixAsIterator
+                              Select PfamStringEquals(x, sbj, equals))).IteratesALL
         Dim swap As Boolean = args.GetBoolean("/swap")
         Dim resultOut As MPCsvArchive() = LQuery.ToArray(Function(x) x.ToRow)
 

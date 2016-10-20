@@ -188,7 +188,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
             Call "Start to export all upstream loci sites.....".__DEBUG_ECHO
             Transcripts = Transcriptome.UTRs.GenomicsContext(LociData, PTT, ATG).ToList
         Else
-            Transcripts = (From loc In LociData.AsParallel Select GenomeContext(loc, PTT, ATG)).ToArray.MatrixToList
+            Transcripts = (From loc In LociData.AsParallel Select GenomeContext(loc, PTT, ATG)).ToArray.Unlist
         End If
 
         Call $"Genome context associate job done!  ....... {sw.ElapsedMilliseconds}ms. ".__DEBUG_ECHO

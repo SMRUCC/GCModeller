@@ -102,7 +102,7 @@ Partial Module CLI
                                               Function(type) (From mmFam As String
                                                               In (From mmod
                                                                   In type.Group.ToArray
-                                                                  Select mmod.mm.Value).MatrixAsIterator
+                                                                  Select mmod.mm.Value).IteratesALL
                                                               Select mmFam
                                                               Group mmFam By mmFam Into Count) _
                                                                  .ToDictionary(Function(mmfam) mmfam.mmFam,

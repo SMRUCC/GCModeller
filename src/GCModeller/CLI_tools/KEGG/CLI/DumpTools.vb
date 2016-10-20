@@ -57,7 +57,7 @@ Partial Module CLI
         Dim buffer = IO.File.ReadAllLines(input).ToArray(Function(x) Strings.Split(x, vbTab))
         Dim tbl = buffer.ToArray(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.Get(1)})
         Dim brite = BriteHEntry.Pathway.LoadDictionary
-        Dim LQuery = (From prot In tbl Select __queryKO(prot.Key, prot.Value, brite)).ToArray.MatrixToList
+        Dim LQuery = (From prot In tbl Select __queryKO(prot.Key, prot.Value, brite)).ToArray.Unlist
         Return LQuery.SaveTo(input.TrimSuffix & ".KO.csv")
     End Function
 
@@ -89,7 +89,7 @@ Partial Module CLI
         Dim KO As String() = inHits.ToArray([CType]:=Function(x) x.KO, where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)).Distinct.ToArray
         Dim brite = BriteHEntry.Pathway.LoadDictionary
         Dim name As String = IO.Path.GetFileNameWithoutExtension(infile)
-        Dim anno = KO.ToArray(Function(sKO) __queryKO(name, sKO, brite)).MatrixToList
+        Dim anno = KO.ToArray(Function(sKO) __queryKO(name, sKO, brite)).Unlist
         Call anno.SaveTo(out)
     End Sub
 
@@ -174,7 +174,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
                           Group x By x.SpeciesId Into Group) _
                              .ToDictionary(Function(x) x.SpeciesId, elementSelector:=Function(x) x.Group.ToArray)
         Dim refId As String() = refKEGG.ToArray(Function(x) x.SpeciesId).Distinct.ToArray
-        Dim LQuery = (From sId As String In refId Where sourceDict.ContainsKey(sId) Select sourceDict(sId)).ToArray.MatrixToList
+        Dim LQuery = (From sId As String In refId Where sourceDict.ContainsKey(sId) Select sourceDict(sId)).ToArray.Unlist
         Dim outFa As FastaFile = New FastaFile(LQuery)
 
         If args.GetBoolean("/brief") Then  ' 将基因号去除，只保留三字母的基因组编号，因为在做16S_rRNA进化树的时候，只需要一个基因就可以了

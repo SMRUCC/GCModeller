@@ -114,7 +114,7 @@ Partial Module CLI
 
     Private Function __memeTOMQuery(query As String, out As String, threshold As Double, cost As Double, method As String) As Similarity.TOMQuery.CompareResult()
         Dim result = Similarity.TOMQuery.TomTOm.CompareBest(query, method, cost, threshold)
-        Dim LQuery = (From x In result Select x.Value.ToArray(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(x.Key, hit.Key, hit.Value))).MatrixToVector
+        Dim LQuery = (From x In result Select x.Value.ToArray(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(x.Key, hit.Key, hit.Value))).ToVector
         Dim html As New StringBuilder(4096)
 
         Call LQuery.SaveTo($"{out}/TomQuery.Csv")

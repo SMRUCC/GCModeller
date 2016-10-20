@@ -129,7 +129,7 @@ Rodionov, D. A.", Volume:=14)>
                                                      Where String.Equals(reg.LocusTag.Key, sId)
                                                      Select reg).ToArray).ToArray
             Dim LQuery = (From Line In DistinctedRegulators
-                          Let Sites = (From item In Line.ddata Select item.RegulatorySites).MatrixToVector
+                          Let Sites = (From item In Line.ddata Select item.RegulatorySites).ToVector
                           Let DistinctedSites = (From SiteId As String In (From item In Sites Select item.UniqueId Distinct).ToArray Let site = Sites.GetItem(SiteId) Select site).ToArray
                           Select Regulator = Line.ddata.First,
                               DistinctedSites).ToArray
@@ -186,7 +186,7 @@ Rodionov, D. A.", Volume:=14)>
         Public Function RegpreciseRegulatorMatch(Regprecise As TranscriptionFactors, bbh As IEnumerable(Of BiDirectionalBesthit)) As Matches()
             Dim LQuery = (From BacteriaGenome As BacteriaGenome In Regprecise.BacteriaGenomes.AsParallel
                           Select BacteriaGenome.__matches(bbh)).ToArray
-            Return LQuery.MatrixToVector
+            Return LQuery.ToVector
         End Function
 
         <Extension>

@@ -65,7 +65,7 @@ Public Module CompilerShellScriptAPI
         Dim IDList As String() = {
             (From protein In MiST2.MajorModules.First.OneComponent Select protein.Identifier).ToArray,
             (From protein In MiST2.MajorModules.First.Chemotaxis Select protein.Identifier).ToArray
-        }.MatrixToVector
+        }.ToVector
 
         Dim Profile = (From strId As String
                        In (From strValue As String In IDList Select strValue Distinct Order By strValue Ascending).ToArray

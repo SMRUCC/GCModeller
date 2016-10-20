@@ -71,7 +71,7 @@ Namespace RegulatesGraph
                                                                              Function(gg) gg.Group.ToArray(Function(ggg) ggg.Locus_tag)))
             Dim Edges As PathwayRegulates() = LQuery.ToArray(
                 Function(site) site.Value.ToArray(
-                Function(obj, target) __regulates(site.Key, obj, target))).MatrixToVector
+                Function(obj, target) __regulates(site.Key, obj, target))).ToVector
             Dim Nodes = LQuery.ToArray(AddressOf __node).Join(modDetails.ToArray(AddressOf __node))
             Dim doc = ExportToFile.Export(Nodes, Edges)
             Return doc

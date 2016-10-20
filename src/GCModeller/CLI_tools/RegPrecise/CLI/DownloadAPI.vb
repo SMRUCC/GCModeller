@@ -278,7 +278,7 @@ Public Module CLI
             Function(g) g.Regulons.Regulators.ToArray(
             Function(x) x.SiteMore),
             Function(g) Not g.Regulons Is Nothing AndAlso
-                        Not g.Regulons.Regulators.IsNullOrEmpty).MatrixAsIterator.Distinct.ToArray
+                        Not g.Regulons.Regulators.IsNullOrEmpty).IteratesALL.Distinct.ToArray
         Dim list As List(Of String) = (App.SysTemp & "/process.txt").ReadAllLines.ToList
 
         For Each url In sites.SeqIterator

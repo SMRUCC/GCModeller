@@ -27,7 +27,7 @@ Partial Module CLI
         Else
             Return tables _
                 .Select(Function(x) x.Hits) _
-                .MatrixToList _
+                .Unlist _
                 .SaveTo(out & ".csv") _
                 .CLICode
         End If
@@ -44,7 +44,7 @@ Partial Module CLI
         Dim table = [in].LoadCsv(Of HitRecord)
         Dim list$() = table _
             .Select(Function(x) x.GI) _
-            .MatrixAsIterator _
+            .IteratesALL _
             .Distinct _
             .OrderBy(Function(s) s) _
             .ToArray

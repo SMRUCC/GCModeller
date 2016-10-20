@@ -65,12 +65,12 @@ Namespace HTML
                            Select (From api As Interpreter.Linker.APIHandler.APIEntryPoint
                                    In obj.API
                                    Select ns = obj,
-                                       api).ToArray).ToArray.MatrixToList
+                                       api).ToArray).ToArray.Unlist
             Dim AllFunctions = (From obj In AllAPIs.AsParallel Select (From func As Interpreter.Linker.APIHandler.SignedFuncEntryPoint
                                                                        In obj.api.ToArray
                                                                        Select func,
                                                                            obj.api,
-                                                                           obj.ns).ToArray).ToArray.MatrixToList
+                                                                           obj.ns).ToArray).ToArray.Unlist
             Dim TypeGroups = (From obj In AllFunctions.AsParallel
                               Select obj
                               Group obj By Name = PageName(obj.func.EntryPoint.EntryPoint.ReturnType) Into Group).ToArray

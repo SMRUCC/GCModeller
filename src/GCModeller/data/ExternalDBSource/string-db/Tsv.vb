@@ -126,7 +126,7 @@ Namespace StringDB.Tsv
                                    Function(x) x.Group.ToArray)
             Dim ToHash As Dictionary(Of String, linksDetail()) = (
                 From x As linksDetail
-                In FromHash.Values.MatrixAsIterator
+                In FromHash.Values.IteratesALL
                 Select x
                 Group x By x.protein2 Into Group) _
                      .ToDictionary(Function(x) x.protein2,

@@ -94,7 +94,7 @@ Partial Module CLI
     Private Function __getRegulators(name As String, RegDb As Regulations) As String()
         Dim LDM = GCModeller.FileSystem.GetMotifLDM(name).LoadXml(Of AnnotationModel)
         Dim sites = LDM.Sites.ToArray(Function(site) site.Name)
-        Dim regulators = sites.ToArray(Function(sId) RegDb.GetRegulators(sId)).MatrixToVector
+        Dim regulators = sites.ToArray(Function(sId) RegDb.GetRegulators(sId)).ToVector
         Return regulators
     End Function
 

@@ -217,7 +217,7 @@ GET_ID:
         Dim pfSubSet As Pfam.PfamString.PfamString() =
             (From x In query Where Array.IndexOf(lstId, x.ProteinId) > -1 Select x).ToArray
         Call pfSubSet.Add((From x In subject Where Array.IndexOf(lstId, x.ProteinId) > -1 Select x).ToArray)
-        Dim alnResult = (From x In pfSubSet Select (From y In pfSubSet Select Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(x, y, cut)).ToArray).MatrixToList
+        Dim alnResult = (From x In pfSubSet Select (From y In pfSubSet Select Pfam.ProteinDomainArchitecture.MPAlignment.PfamStringEquals(x, y, cut)).ToArray).Unlist
         Return Pfam.ProteinDomainArchitecture.MPAlignment.AlignmentOutput2Csv(alnResult).SaveTo(path)
     End Function
 End Module

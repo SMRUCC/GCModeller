@@ -134,7 +134,7 @@ Namespace Asymmetric
                         .SendMessage(request, node.Value) ' 请注意这里需要使用节点的证书来加密请求，否则节点会直接拒绝请求
                 Where result.Protocol = HTTP_RFC.RFC_OK
                 Select result.LoadObject(Of Microsoft.VisualBasic.Net.IPEndPoint())(AddressOf LoadFromXml)).ToArray
-            Dim list As Microsoft.VisualBasic.Net.IPEndPoint() = LQuery.MatrixToVector
+            Dim list As Microsoft.VisualBasic.Net.IPEndPoint() = LQuery.ToVector
             Return list
         End Function
 

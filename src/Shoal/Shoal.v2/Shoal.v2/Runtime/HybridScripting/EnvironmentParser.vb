@@ -47,7 +47,7 @@ Namespace Runtime.HybridsScripting
                                   In attributes
                                   Let Entry As TEntryType = DirectCast(attr, TEntryType)
                                   Select New KeyValuePair(Of TEntryType, MethodInfo)(Entry, LoadHandle)).ToArray).ToArray
-            Return LQuery.MatrixToVector
+            Return LQuery.ToVector
         End Function
 
         Private Function GetEntry(TypeInfo As System.Type, EntryType As InterfaceTypes) As MethodInfo

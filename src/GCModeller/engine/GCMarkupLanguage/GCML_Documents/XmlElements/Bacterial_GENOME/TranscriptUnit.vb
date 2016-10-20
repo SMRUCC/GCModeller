@@ -166,7 +166,7 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
                 Return Nothing
             End If
 
-            Return (From item In RegulatedMotifs Let value = item.Regulators Select value).ToArray.MatrixToVector
+            Return (From item In RegulatedMotifs Let value = item.Regulators Select value).ToArray.ToVector
         End Function
 
         Public Function _add_Regulator(motifId As String, Regulator As SignalTransductions.Regulator) As Boolean Implements I_BiologicalProcess_EventHandle._add_Regulator
@@ -181,7 +181,7 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
             End If
 
             Dim Site As MotifSite = MotifSites.First
-            Site.Regulators = {Site.Regulators, New SignalTransductions.Regulator() {Regulator}.ToList}.MatrixToList
+            Site.Regulators = {Site.Regulators, New SignalTransductions.Regulator() {Regulator}.ToList}.Unlist
             Return True
         End Function
 

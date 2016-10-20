@@ -97,7 +97,7 @@ Namespace BlastAPI
                              .ToDictionary(Function(g) g.genomeID,
                                            Function(g) g.Group.ToArray(Function(gp) gp.pathValue))
 
-            Call (From genome In selecteds Select genome.Besthits).MatrixAsIterator.SaveTo(EXPORT & "/Besthits.csv", False)
+            Call (From genome In selecteds Select genome.Besthits).IteratesALL.SaveTo(EXPORT & "/Besthits.csv", False)
             Call "Start to copy genome proteins data...".__DEBUG_ECHO
             Call (From genome In selecteds Select __innerCopy(LoadORFres, EXPORT, genome.ID)).ToArray
             Call "Job done!".__DEBUG_ECHO

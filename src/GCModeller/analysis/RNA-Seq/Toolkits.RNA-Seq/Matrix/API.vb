@@ -118,7 +118,7 @@ Namespace dataExprMAT
                                     Let lstId As String() = (From col As String In dat.LstExperiments
                                                              Where InStr(col, briefID) > 0
                                                              Select col).ToArray
-                                    Select lstId).ToArray.MatrixToList.Distinct.ToArray
+                                    Select lstId).ToArray.Unlist.Distinct.ToArray
             Dim Dict As Dictionary(Of String, Double()) = dat.ToDictionary
             Dim buffer As New List(Of String)
 
@@ -163,7 +163,7 @@ Namespace dataExprMAT
                 IdList = lstLocusId.Intersection
             Else
                 IdList = (From strId As String
-                          In lstLocusId.MatrixAsIterator
+                          In lstLocusId.IteratesALL
                           Where Not String.IsNullOrEmpty(strId)
                           Select strId.ToUpper.Trim  ' 为什么会多了几个基因号？？ 是大小写还是有空格的问题？
                           Distinct).ToArray
@@ -265,7 +265,7 @@ Namespace dataExprMAT
             Next
             lstLocus = (From sId As String In lstLocus Select sId Distinct).ToList
 
-            Dim lstBriefs = LQuery.MatrixToList
+            Dim lstBriefs = LQuery.Unlist
             Dim DictPathwayBrief As Dictionary(Of String, String) = New Dictionary(Of String, String)
 
             For Each sId As String In lstLocus

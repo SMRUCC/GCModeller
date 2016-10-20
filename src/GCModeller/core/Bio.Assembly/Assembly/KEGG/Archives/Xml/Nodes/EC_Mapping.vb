@@ -97,11 +97,11 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
                                 Select (From gene As KeyValuePair In Pathway.Genes
                                         Let EC As String() = gene.Value.EcParser
                                         Select locusId = gene.Key,
-                                            EC).ToArray).ToArray).MatrixToVector.MatrixAsIterator
+                                            EC).ToArray).ToArray).ToVector.IteratesALL
             Dim gLst = (From GG In (From GO In gECs
                                     Select GO
                                     Group GO By GO.locusId Into Group)
-                        Let EC As String() = (From s In GG.Group Select s.EC).MatrixAsIterator.Distinct.ToArray
+                        Let EC As String() = (From s In GG.Group Select s.EC).IteratesALL.Distinct.ToArray
                         Where Not StringHelpers.IsNullOrEmpty(EC)
                         Select GG.locusId,
                             EC).ToArray

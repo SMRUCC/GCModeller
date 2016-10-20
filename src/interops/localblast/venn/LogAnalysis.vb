@@ -74,7 +74,7 @@ Namespace BlastAPI
 
         Private Function GetMainidList(datasets As IEnumerable(Of DocumentStream.File)) As String()
             Dim List As List(Of String) =
-                New List(Of String)(MatrixAsIterator(From doc As DocumentStream.File
+                New List(Of String)(IteratesALL(From doc As DocumentStream.File
                                                      In datasets
                                                      Select doc.Column(Scan0)))
             List = (From Id As String

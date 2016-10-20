@@ -241,7 +241,7 @@ Namespace Assembly.NCBI.COG
                                      Let categories As COGCategories() = GetCategories(gene.COG)
                                      Select (From cat As COGCategories In categories
                                              Select geneId = gene.Identifier,
-                                                 category = GetCategory(gene.COG)).ToArray).MatrixToList
+                                                 category = GetCategory(gene.COG)).ToArray).Unlist
                           Select geneid = x.geneId,
                               category = x.category
                           Group By category Into Group).ToArray

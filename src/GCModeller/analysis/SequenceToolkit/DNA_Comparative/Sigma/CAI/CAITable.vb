@@ -44,7 +44,7 @@ Public Class CAITable : Inherits ClassObject
             _biasTable = value
             _BiasList = (From codon In _biasTable
                          Select (From subitem In codon.Value.BiasFrequency
-                                 Select New KeyValuePair(Of Char, KeyValuePairObject(Of Codon, Double))(codon.Key, New KeyValuePairObject(Of Codon, Double)(subitem.Key, subitem.Value)))).MatrixToVector
+                                 Select New KeyValuePair(Of Char, KeyValuePairObject(Of Codon, Double))(codon.Key, New KeyValuePairObject(Of Codon, Double)(subitem.Key, subitem.Value)))).ToVector
         End Set
     End Property
 

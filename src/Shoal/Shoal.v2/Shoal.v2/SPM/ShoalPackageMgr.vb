@@ -128,8 +128,8 @@ Namespace SPM
                 Return DbValue
             End If
 
-            Dim Tokens = DbValue.Split(";"c).ToArray(Function(name) name.Split(","c)).MatrixToList
-            Dim mToken = Merge.Split(";"c).ToArray(Function(name) name.Split(","c)).MatrixToList
+            Dim Tokens = DbValue.Split(";"c).ToArray(Function(name) name.Split(","c)).Unlist
+            Dim mToken = Merge.Split(";"c).ToArray(Function(name) name.Split(","c)).Unlist
             Dim Values As List(Of String) = Tokens.Join(mToken)
             Dim GroupName = (From name As String
                              In Values

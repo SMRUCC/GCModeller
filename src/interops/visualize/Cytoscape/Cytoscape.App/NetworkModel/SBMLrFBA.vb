@@ -66,13 +66,13 @@ Namespace NetworkModel
             Dim allCompounds = (From x As Reaction
                                 In nZ
                                 Select x.GetMetabolites.Select(
-                                    Function(xx) xx.species)).MatrixAsIterator.Distinct.ToArray
+                                    Function(xx) xx.species)).IteratesALL.Distinct.ToArray
             Dim nodes = allCompounds.ToArray(
                 Function(x) New Node With {
                     .Identifier = x,
                     .NodeType = "Metabolite"})
             Dim fluxNodes As Node() = nZ.ToArray(Function(x) __flux2Node(x, fluxValue))
-            Dim edges As NetworkEdge() = nZ.Select(AddressOf __flux2Edges).MatrixToVector
+            Dim edges As NetworkEdge() = nZ.Select(AddressOf __flux2Edges).ToVector
             Return New Network With {
                 .Edges = edges,
                 .Nodes = nodes.Join(fluxNodes).ToArray

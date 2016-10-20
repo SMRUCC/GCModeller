@@ -75,7 +75,7 @@ Public Module RelativeStatics
                     .Samples = (From o As KeyValuePair(Of String, Double)
                                 In (From x As View
                                     In gg
-                                    Select x.Samples.ToArray).MatrixAsIterator
+                                    Select x.Samples.ToArray).IteratesALL
                                 Select o
                                 Group o By o.Key Into Group) _
                                      .ToDictionary(Function(x) x.Key,

@@ -59,7 +59,7 @@ Public Module ModelAPI
                           Select From hit As Hit
                                  In x.Hits
                                  Select hit.HitName,
-                                     x.QueryName).MatrixAsIterator
+                                     x.QueryName).IteratesALL
             __refMaps = (From x In LQuery
                          Select x
                          Group x By x.HitName Into Group) _

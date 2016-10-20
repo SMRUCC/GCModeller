@@ -160,7 +160,7 @@ Namespace Compiler.Components
             Dim RP = (From item In Ptt.GeneObjects Where InStr(item.Product, "30S ribosomal protein") = 1 Select item.Gene).ToArray
             Dim LQuery = (From strId As String
                           In _16SrRNA
-                          Let get_Components = {RP, New String() {strId & "_16SrRNA"}}.MatrixToVector
+                          Let get_Components = {RP, New String() {strId & "_16SrRNA"}}.ToVector
                           Select New FileStream.ProteinAssembly With {
                                      .Lambda = 0.8, .p_Dynamics_K = 1,
                                      .ProteinComplexes = "SSU",
@@ -199,7 +199,7 @@ Namespace Compiler.Components
 
             For Each item In _5SrRNA
                 Call LSU.AddRange((From Id As String In _23SrRNA
-                                   Let get_Components = {RP, New String() {item & "_5SrRNA", Id & "_23SrRNA"}}.MatrixToVector
+                                   Let get_Components = {RP, New String() {item & "_5SrRNA", Id & "_23SrRNA"}}.ToVector
                                    Select New FileStream.ProteinAssembly With
                                           {
                                               .Lambda = 0.8, .p_Dynamics_K = 1, .ProteinComplexes = "LSU",

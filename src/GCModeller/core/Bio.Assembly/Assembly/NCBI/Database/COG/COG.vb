@@ -57,7 +57,7 @@ Namespace Assembly.NCBI.COG
 
         Public Shared Function GetClass(Of T As ICOGDigest)(source As IEnumerable(Of T), func As [Function]) As COGFunc()
             Dim hash = func.Categories.ToArray(
-                Function(x) x.ToArray).MatrixAsIterator _
+                Function(x) x.ToArray).IteratesALL _
                         .ToDictionary(Function(x) x.COG.First,
                                       Function(x) New With {
                                         .fun = x,

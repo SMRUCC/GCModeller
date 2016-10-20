@@ -75,7 +75,7 @@ READ_CDD_DIR:
         Dim Domains = (From x As Pfam.PfamString.PfamString
                        In input
                        Where Not StringHelpers.IsNullOrEmpty(x.Domains)
-                       Select x.Domains.ToArray(Function(name) name.Split(":"c).First)).ToArray.MatrixToList.Distinct.ToArray
+                       Select x.Domains.ToArray(Function(name) name.Split(":"c).First)).ToArray.Unlist.Distinct.ToArray
 
         Domains = (From name As String In Domains Select name Order By name Ascending).ToArray
 

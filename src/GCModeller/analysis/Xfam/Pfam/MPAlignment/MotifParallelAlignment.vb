@@ -86,7 +86,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
                                                 Hit,
                                                 highlyScoringThreshold))).ToArray
 
-            Return DomainAlignments.MatrixToList
+            Return DomainAlignments.Unlist
         End Function
 
         <ExportAPI("Align.Output2Csv")>
@@ -125,7 +125,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
                                             In item.HitsPfamString
                                             Select Algorithm.PfamStringEquals(item.QueryPfamString, Hit, highlyScoringThreshold)).ToArray).ToArray
 
-            Return DomainAlignments.MatrixToList
+            Return DomainAlignments.Unlist
         End Function
 
         ''' <summary>

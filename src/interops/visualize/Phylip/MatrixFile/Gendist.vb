@@ -111,7 +111,7 @@ Namespace MatrixFile
                        Let ID As String = Mid(strLine, 1, 10).Trim, strData As String = Mid(strLine, 11).Trim
                        Let Value As String() = strData.Split
                        Let Row As String()() = {New String() {ID}, Value}
-                       Select CType(Row.MatrixToList, RowObject)).ToArray
+                       Select CType(Row.Unlist, RowObject)).ToArray
 
             Dim MATList As New List(Of RowObject)
             Call MATList.Add(New String() {"GENOME_ID"})

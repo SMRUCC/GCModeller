@@ -167,7 +167,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                                       In Regex.Matches(strData, REGEX_DBLINK, RegexOptions.IgnoreCase)
                                       Select m.Value).ToArray
             Dim LQuery As IEnumerable(Of DBLink()) = From s As String In Tokens Select TryParse(s)
-            Return New DBLinks(LQuery.MatrixAsIterator)
+            Return New DBLinks(LQuery.IteratesALL)
         End Function
 
         Private Shared Function TryParse(str As String) As DBLink()

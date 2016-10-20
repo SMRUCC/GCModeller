@@ -150,7 +150,7 @@ Namespace ComparativeAlignment
 
             Dim Font As Font = New Font(FontFace.MicrosoftYaHei, FontSize)
             Dim TitleDrawingFont As New Font("Microsoft YaHei", 20)
-            Dim MaxLengthTitleSize As System.Drawing.Size = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.MatrixToList
+            Dim MaxLengthTitleSize As System.Drawing.Size = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
                                                              Select str
                                                              Order By Len(str) Descending).First.MeasureString(TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
 
@@ -169,7 +169,7 @@ Namespace ComparativeAlignment
             Dim RegionData1 = __invokeDrawing(Model.Query, Device, Length, MaxLengthTitleSize, Height, TitleDrawingFont, Font, Type2Arrow, color_overrides)
             Dim RegionData2 As Dictionary(Of String, Rectangle)
 
-            Dim Links As List(Of GeneLink) = (From itemfff In (From ItemLinks In Model.links Select ItemLinks Group By ItemLinks.genome1 Into Group).ToArray Let id = (From nnn In itemfff.Group Select nnn.genome2).ToArray Let idComb = Microsoft.VisualBasic.ComponentModel.Comb(Of String).CreateCompleteObjectPairs(id) Select (From nnnnn In idComb Select (From jjjjjj In nnnnn Select New ComparativeGenomics.GeneLink With {.genome1 = jjjjjj.Key, .genome2 = jjjjjj.Value}).ToArray).ToArray).ToArray.MatrixToList.MatrixToList
+            Dim Links As List(Of GeneLink) = (From itemfff In (From ItemLinks In Model.links Select ItemLinks Group By ItemLinks.genome1 Into Group).ToArray Let id = (From nnn In itemfff.Group Select nnn.genome2).ToArray Let idComb = Microsoft.VisualBasic.ComponentModel.Comb(Of String).CreateCompleteObjectPairs(id) Select (From nnnnn In idComb Select (From jjjjjj In nnnnn Select New ComparativeGenomics.GeneLink With {.genome1 = jjjjjj.Key, .genome2 = jjjjjj.Value}).ToArray).ToArray).ToArray.Unlist.Unlist
             Call Links.AddRange(Model.links)
 
             If DefaultColor = Nothing Then
@@ -288,7 +288,7 @@ Namespace ComparativeAlignment
                 Query = IO.Path.GetFileNameWithoutExtension(Query)
             End If
             Dim hitsID = (From path As String In FileIO.FileSystem.GetFiles(Subject_Fasta, FileIO.SearchOption.SearchTopLevelOnly, "*.txt", "*.fasta", "*.fsa")
-                          Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Attributes.First).ToArray).MatrixToVector
+                          Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Attributes.First).ToArray).ToVector
             Dim bir = (From item In bbhFiles Where String.Equals(Query, item.logEntry.HitName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             Dim queryBBH = (From item In bbhFiles Where String.Equals(Query, item.logEntry.QueryName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             '创建BBH数据，生成 gene link
@@ -327,7 +327,7 @@ Namespace ComparativeAlignment
                 .ToDictionary(Function(x) x.Key,
                               Function(x) DirectCast(New SolidBrush(x.Value), Brush))
             Dim COGsBrush As ICOGsBrush = loadPTT.Select(Function(x) x.GeneObjects) _
-                                                 .MatrixAsIterator _
+                                                 .IteratesALL _
                                                  .COGsColorBrush(, COGColors)
             Dim LQuery As GenomeModel() =
                 loadPTT.ToArray(Function(x) ModelAPI.CreateObject(x.GeneObjects,
@@ -346,7 +346,7 @@ Namespace ComparativeAlignment
             Next
 
             QueryModel.genes = (From item In QueryModel.genes Where Array.IndexOf(QueryIDList, item.locus_tag) > -1 Select item).ToArray
-            Dim ql = (From item In QueryModel.genes Select New Integer() {item.Left, item.Right}).ToArray.MatrixToList
+            Dim ql = (From item In QueryModel.genes Select New Integer() {item.Left, item.Right}).ToArray.Unlist
             QueryModel.Length = ql.Max - ql.Min
 
             Dim Min As Double = ql.Min
@@ -366,7 +366,7 @@ Namespace ComparativeAlignment
 
             Dim Models = (From DrawingModel In LQuery Select DrawingModel Order By DrawingModel.genes.Count Descending).ToArray '绘图的时候按照比对上的数目的多少来进行排序
             Dim MaxGenomeLength = (From DrawingModel As ComparativeGenomics.GenomeModel In Models
-                                   Let LociList As List(Of Integer) = (From GeneObject In DrawingModel.genes Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.MatrixToList
+                                   Let LociList As List(Of Integer) = (From GeneObject In DrawingModel.genes Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.Unlist
                                    Select LociList.Max - LociList.Min).ToArray.Max
 
             QueryModel.Length = Math.Max(QueryModel.Length, MaxGenomeLength)
@@ -391,7 +391,7 @@ Namespace ComparativeAlignment
                                       LinkWith As Func(Of String, String, Boolean),
                                       maxLen As Integer) As ComparativeGenomics.GenomeModel
 
-            Dim SubjectLength = (From GeneObject In subject.genes Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.MatrixToList
+            Dim SubjectLength = (From GeneObject In subject.genes Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.Unlist
             subject.Length = QueryModel.Length '定长
 
             '按照最佳比对结果找出空缺的长度
@@ -509,7 +509,7 @@ POSITIONNING:
             Dim HHKBr As Brush = New SolidBrush(hhk_color)
 
 
-            For Each Genome In {model.aligns, New ComparativeGenomics.GenomeModel() {model.Query}}.MatrixToList
+            For Each Genome In {model.aligns, New ComparativeGenomics.GenomeModel() {model.Query}}.Unlist
                 For Each Gene In Genome.genes
                     If InStr(Gene.geneName, "hybrid", CompareMethod.Text) > 0 Then
                         Gene.Color = HHKBr
@@ -566,7 +566,7 @@ POSITIONNING:
 
             Do While DF.Read
                 Dim Genes = (From p As Integer In Orders Let s As String = DF.GetValue(p) Where Not String.IsNullOrEmpty(s) Select s).ToArray
-REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of String).CreateObject(Genes).CombList.MatrixToList
+REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of String).CreateObject(Genes).CombList.Unlist
                 Combs = (From cb As KeyValuePair(Of String, String)
                      In Combs
                          Where Not (cb.Key.First = "/"c OrElse cb.Value.First = "/"c) Select cb).ToList
@@ -575,7 +575,7 @@ REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of 
                                      Select New Orthology With {.genome1 = cb.Key, .genome2 = cb.Value}).ToArray)
                 Genes = (From ID As String In Genes Where Not ID.First = "/"c Select ID).ToArray
                 If Genes.Count = 1 And Combs.IsNullOrEmpty Then
-                    Genes = {Genes, PreGeneCombs}.MatrixToVector
+                    Genes = {Genes, PreGeneCombs}.ToVector
                     GoTo REPEAT
                 End If
                 PreGeneCombs = Genes
@@ -610,7 +610,7 @@ REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of 
                                                     Select setValue(Subject, TempList(i))
             End If
 
-            Dim HitsID As String() = (From goLink In Model.links Select New String() {goLink.genome1, goLink.genome2}).ToArray.MatrixToList.Distinct.ToArray
+            Dim HitsID As String() = (From goLink In Model.links Select New String() {goLink.genome1, goLink.genome2}).ToArray.Unlist.Distinct.ToArray
             Dim LinkWith = Function(Id__1 As String, id___2 As String) As Boolean
                                Dim LinksLQuery = (From goLink In Links Where goLink.Equals(Id__1, id___2) Select goLink).ToArray
                                Return Not LinksLQuery.IsNullOrEmpty
@@ -623,7 +623,7 @@ REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of 
             Dim QueryModel = Model.Query
             Dim QueryLength = (From GeneObject As ComparativeGenomics.GeneObject
                            In QueryModel.genes
-                               Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.MatrixToList
+                               Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.Unlist
             QueryModel.Length = QueryLength.Max - QueryLength.Min
 
             Dim Min As Double = QueryLength.Min
@@ -642,7 +642,7 @@ REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of 
                        In Model.aligns
                            Let Loci As List(Of Integer) = (From Gene As ComparativeGenomics.GeneObject
                                                        In GenomeDrawingModel.genes
-                                                           Select New Integer() {Gene.Left, Gene.Right}).ToArray.MatrixToList
+                                                           Select New Integer() {Gene.Left, Gene.Right}).ToArray.Unlist
                            Select Loci.Max - Loci.Min).ToList
 
             Model.Query.Length = Math.Max(Model.Query.Length, QueryLength.Max)
@@ -656,7 +656,7 @@ REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of 
             Model.aligns = (From Genome In Model.aligns.AsParallel Select __internalFilter(Genome, Model.Query, LinkWith, maxLen:=Model.Query.Length)).ToArray
 
             If IgnoreOffset Then
-                QueryLength = (From item In QueryModel.genes Select New Integer() {item.Left, item.Right}).ToArray.MatrixToList
+                QueryLength = (From item In QueryModel.genes Select New Integer() {item.Left, item.Right}).ToArray.Unlist
                 QueryModel.Length = QueryLength.Max - QueryLength.Min
                 Min = QueryLength.Min
 

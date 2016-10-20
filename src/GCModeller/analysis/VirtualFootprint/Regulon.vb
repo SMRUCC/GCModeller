@@ -82,7 +82,7 @@ Public Class RegPreciseRegulon
 
         For Each xGroup In Regulations
             Dim toNodes As String() =
-                xGroup.Group.ToArray(Function(x) x.Members).MatrixToList.Distinct.ToArray
+                xGroup.Group.ToArray(Function(x) x.Members).Unlist.Distinct.ToArray
             For Each member As String In toNodes
                 Dim edge As New NetworkEdge With {
                     .FromNode = xGroup.Regulator,
@@ -107,10 +107,10 @@ Public Class RegPreciseRegulon
 
     Private Shared Function __merge(source As IEnumerable(Of Regulator)) As RegPreciseRegulon
         Dim __1st = source.First
-        Dim regulates = (From x In source Select x.Regulates.ToArray(Function(xx) xx.LocusId)).MatrixToList
+        Dim regulates = (From x In source Select x.Regulates.ToArray(Function(xx) xx.LocusId)).Unlist
         Dim effectors = (From x In source Select x.Effector Distinct).ToArray
         Dim hits = (From x In source Select x.LocusTag.Value Distinct Order By Value Ascending).ToArray
-        Dim sites = (From x In source Select x.RegulatorySites.ToArray(Function(xx) xx.UniqueId)).MatrixToList
+        Dim sites = (From x In source Select x.RegulatorySites.ToArray(Function(xx) xx.UniqueId)).Unlist
         Dim regulon As New RegPreciseRegulon With {
             .Family = __1st.Family,
             .BiologicalProcess = __1st.BiologicalProcess,
@@ -130,7 +130,7 @@ Public Class RegPreciseRegulon
                      Select xml.LoadXml(Of BacteriaGenome)).ToArray
         Dim regulons = (From x As BacteriaGenome In loads
                         Where x.NumOfRegulons > 0
-                        Select x.Regulons.Regulators).MatrixToList
+                        Select x.Regulons.Regulators).Unlist
         Dim Groups = (From xx In (From x As Regulator
                                   In regulons
                                   Select x,
@@ -145,7 +145,7 @@ Public Class RegPreciseRegulon
         Dim LQuery = (From x
                       In Groups.AsParallel
                       Select x.parts.Values.ToArray(
-                          Function(xx) RegPreciseRegulon.Merge(xx))).MatrixToList.MatrixToVector
+                          Function(xx) RegPreciseRegulon.Merge(xx))).Unlist.ToVector
         Return LQuery
     End Function
 End Class

@@ -115,7 +115,7 @@ Namespace ProteinModel
             Else
                 Dim lstInteracts As IEnumerable(Of String) = (From motif As DomainObject
                                                               In Me.Domains
-                                                              Select motif.GetInteractionDomains(DOMINE)).MatrixAsIterator
+                                                              Select motif.GetInteractionDomains(DOMINE)).IteratesALL
                 Return lstInteracts.Distinct.ToArray
             End If
         End Function

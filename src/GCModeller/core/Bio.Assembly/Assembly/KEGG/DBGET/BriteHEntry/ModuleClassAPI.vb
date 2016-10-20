@@ -89,7 +89,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             __getName = getName
             _geneHash = geneHash
 
-            _Modules = _geneHash.Values.MatrixAsIterator.Distinct.ToArray
+            _Modules = _geneHash.Values.IteratesALL.Distinct.ToArray
             _modHash = Modules.ToDictionary
         End Sub
 
@@ -152,7 +152,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                           Select (From g As String
                                   In genes
                                   Select g,
-                                  modX = x)).MatrixAsIterator
+                                  modX = x)).IteratesALL
             Dim Groups = (From x
                           In LQuery
                           Select x

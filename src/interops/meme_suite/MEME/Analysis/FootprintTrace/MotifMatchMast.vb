@@ -299,10 +299,10 @@ Namespace Analysis.FootprintTraceAPI
 
         <ExportAPI("Compile.Batch")>
         Public Function BatchCompileDirectly(res As Dictionary(Of String, String)) As MotifSiteHit()
-            Dim LQuery = (From x In res Select CompileDirectly(x.Key, x.Value)).MatrixAsIterator
+            Dim LQuery = (From x In res Select CompileDirectly(x.Key, x.Value)).IteratesALL
             Dim RegPrecise As TranscriptionFactors =
                 GCModeller.FileSystem.RegPrecise.RegPreciseRegulations.LoadXml(Of TranscriptionFactors)
-            LQuery = (From site As MotifSiteHit In LQuery Select RegPrecise.__fill(site)).MatrixAsIterator.ToArray
+            LQuery = (From site As MotifSiteHit In LQuery Select RegPrecise.__fill(site)).IteratesALL.ToArray
             Return DirectCast(LQuery, MotifSiteHit())
         End Function
 
@@ -339,7 +339,7 @@ Namespace Analysis.FootprintTraceAPI
             Dim masts As MotifSiteHit() = (From DIR As String In DIRs
                                            Let mast As MAST = (DIR & "/mast.xml").LoadXml(Of MAST)(ThrowEx:=False)
                                            Where Not mast Is Nothing
-                                           Select mast.MotifMatchCompile(trace:=source)).MatrixToVector
+                                           Select mast.MotifMatchCompile(trace:=source)).ToVector
             Dim MEMEDoc = MEME_TEXT.SafelyLoad(MEME)
             If masts.IsNullOrEmpty Then
                 Return New MatchResult With {
@@ -392,7 +392,7 @@ Namespace Analysis.FootprintTraceAPI
                     Continue For
                 End If
 
-                Dim sites As MotifSiteHit() = x.Segments.ToArray(AddressOf __toSites).MatrixToVector
+                Dim sites As MotifSiteHit() = x.Segments.ToArray(AddressOf __toSites).ToVector
                 Dim RegPrecise As String = x.name.Split("|"c).First
 
                 For Each site As MotifSiteHit In sites

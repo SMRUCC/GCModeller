@@ -99,7 +99,7 @@ Namespace Framework.Provider
                          Where Not entries.IsNullOrEmpty
                          Select entries
 
-            For Each x As TypeEntry In LQuery.MatrixAsIterator       'Update exists registry item or insrt new item into the table
+            For Each x As TypeEntry In LQuery.IteratesALL       'Update exists registry item or insrt new item into the table
                 Call _typeHash.Remove(x.name)
                 Call _typeHash.Add(x.name, x)  'Insert new record.(添加数据)
             Next

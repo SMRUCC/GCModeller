@@ -89,9 +89,9 @@ Module CLI
         Dim reverse As Boolean = args.GetBoolean("/reverse")
         Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
-        Dim LQuery = (From x In query Where subject.ContainsKey(x.Key) Select __diff(x.Value, subject(x.Key))).ToArray.MatrixToList
+        Dim LQuery = (From x In query Where subject.ContainsKey(x.Key) Select __diff(x.Value, subject(x.Key))).ToArray.Unlist
         Dim path As String = args("/query").TrimSuffix & $".diff__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
-        Dim exclude = (From x In query Where Not subject.ContainsKey(x.Key) Select x.Value).ToArray.MatrixToList
+        Dim exclude = (From x In query Where Not subject.ContainsKey(x.Key) Select x.Value).ToArray.Unlist
         Call LQuery.SaveTo(path)
         path = args("/query").TrimSuffix & $".excludes__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
         Return exclude.SaveTo(path).CLICode

@@ -71,7 +71,7 @@ Public Module GenesCOExpr
                             Select TransID = ExperimentsTag(idx),
                                 EachGeneLevels = GenerateMapping(Level:=Level, data:=(From GeneSample In GeneExpressions Select GeneSample.ChunkBuffer(idx)).ToArray)).ToArray
         Call Console.WriteLine("Encodings.....")
-        Dim Encodes = New EncodingServices(GeneIDList, Levels:=(From obj In Transactions Select obj.EachGeneLevels).ToArray.MatrixToList.Distinct.ToArray)
+        Dim Encodes = New EncodingServices(GeneIDList, Levels:=(From obj In Transactions Select obj.EachGeneLevels).ToArray.Unlist.Distinct.ToArray)
         Call Console.WriteLine("There are {0} transaction tokens!", Encodes.CodeMappings.Count)
         Call Console.WriteLine("Encoding transactions....")
         Dim EncodesTransaction = Encodes.TransactionEncoding((From Trans In Transactions Select New Transaction With {.TransactionName = Trans.TransID, .Values = Trans.EachGeneLevels}).ToArray)

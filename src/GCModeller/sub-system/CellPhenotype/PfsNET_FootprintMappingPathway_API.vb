@@ -122,7 +122,7 @@ Module PfsNET_FootprintMappingPathway_API
                                              Array.IndexOf(GeneIdList, item.ToNode) > -1
                                          Select (From pwyID As String
                                                  In item.Pathways
-                                                 Select String.Join(vbTab, pwyID, item.FromNode, item.ToNode)).ToArray).MatrixAsIterator.Distinct.ToArray
+                                                 Select String.Join(vbTab, pwyID, item.FromNode, item.ToNode)).ToArray).IteratesALL.Distinct.ToArray
         Dim file3 As String = __fileName("FOOTPRINT_PATHWAY_NETWORK_file3")
 
         Dim InternalCreateMatrix = Function(data As ExprSamples()) As String()
@@ -165,7 +165,7 @@ Module PfsNET_FootprintMappingPathway_API
                       In Result
                       Let p1 = SubNetTable.CreateObject(item.Phenotype1, item.DataTag & ".Class1", Pathways, 1)
                       Let p2 = SubNetTable.CreateObject(item.Phenotype2, item.DataTag & ".Class2", Pathways, 2)
-                      Select {p1, p2}.MatrixToList).ToArray.MatrixToVector
+                      Select {p1, p2}.Unlist).ToArray.ToVector
         Dim KEGGCategory = KEGGPhenotypes.PhenotypeAssociations(LQuery, KEGG.Archives.Csv.Pathway.CreateObjects(Model.KEGG_Pathways))
         Return KEGGCategory
     End Function
@@ -232,7 +232,7 @@ Module PfsNET_FootprintMappingPathway_API
         Dim FiltedNetwork As String() = (From Edge As SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction
                                          In Network.Edges
                                          Where Array.IndexOf(GeneIdList, Edge.FromNode) > -1 AndAlso Array.IndexOf(GeneIdList, Edge.ToNode) > -1
-                                         Select (From pwyID As String In Edge.Pathways Select String.Join(vbTab, pwyID, Edge.FromNode, Edge.ToNode)).ToArray).ToArray.MatrixToVector.Distinct.ToArray
+                                         Select (From pwyID As String In Edge.Pathways Select String.Join(vbTab, pwyID, Edge.FromNode, Edge.ToNode)).ToArray).ToArray.ToVector.Distinct.ToArray
 
         Dim File3 As String = __fileName("GenomeProgrammingInfoNetwork.File3")
         Dim InternalCreateMatrix = Function(data As ExprSamples()) As String()

@@ -402,7 +402,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
                         Order By obj.Index Ascending).ToList
             End If
 
-            Dim Partitions As List(Of DocumentFormat.Transcript) = (From x As ReadsCount In Trim.AsParallel Select __site(x, readsLen, sharedReads)).MatrixToList
+            Dim Partitions As List(Of DocumentFormat.Transcript) = (From x As ReadsCount In Trim.AsParallel Select __site(x, readsLen, sharedReads)).Unlist
             Partitions = (From x In Partitions Where Not x Is Nothing Select x).ToList
             Dim genomeSeeds = __genomeAssumption(Partitions, genomeSize)
             Return genomeSeeds

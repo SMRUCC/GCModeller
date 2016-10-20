@@ -158,7 +158,7 @@ Namespace ContextModel
                SegmentRelationships.UpStreamOverlap,
                 LociDelegate.GetRelation(SegmentRelationships.UpStreamOverlap, ATGDistance))
             Dim array = {UpStreams, UpStreamOverlaps}
-            Dim data0 = array.ToArray(Function(x) x.Value.ToArray(Function(g) New Relationship(Of T)(g, x.Key))).MatrixToList
+            Dim data0 = array.ToArray(Function(x) x.Value.ToArray(Function(g) New Relationship(Of T)(g, x.Key))).Unlist
             Return data0.ToArray
         End Function
 

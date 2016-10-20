@@ -114,7 +114,7 @@ Namespace Analysis
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetUnConservedRegions(conserved As IReadOnlyList(Of String())) As String()
-            Dim index As List(Of String) = conserved.MatrixToList
+            Dim index As List(Of String) = conserved.Unlist
             Dim LQuery As String() = LinqAPI.Exec(Of String) <=
  _
                 From hit As HitCollection
@@ -174,7 +174,7 @@ Namespace Analysis
             Get
                 Dim LQuery = From hitData As HitCollection In hits Select hitData.Hits
                 Dim groups = From hitData As Hit
-                             In LQuery.MatrixAsIterator
+                             In LQuery.IteratesALL
                              Where Not String.IsNullOrEmpty(hitData.HitName)
                              Select hitData
                              Group By hitData.tag Into Group
@@ -201,7 +201,7 @@ Namespace Analysis
         ''' <remarks></remarks>
         Public Function TrimEmpty(p As Double) As BestHit
             Dim LQuery As IEnumerable(Of Hit) =
-                Me.hits.Select(Function(hit) hit.Hits).MatrixAsIterator
+                Me.hits.Select(Function(hit) hit.Hits).IteratesALL
             Dim Grouped = (From hit As Hit
                            In LQuery
                            Where Not String.IsNullOrEmpty(hit.HitName)
@@ -294,7 +294,7 @@ Namespace Analysis
             Dim LQuery As IEnumerable(Of Hit) =
                 hits _
                 .Select(Function(hit) hit.Hits) _
-                .MatrixAsIterator
+                .IteratesALL
             Dim grouped = (From hit As Hit
                            In LQuery
                            Where Not String.IsNullOrEmpty(hit.HitName)
@@ -338,7 +338,7 @@ Namespace Analysis
                                     IsHit = Not String.IsNullOrEmpty(subHit.HitName)
 
             Dim SourceLQuery = From query
-                               In source.MatrixAsIterator
+                               In source.IteratesALL
                                Select query
                                Group By query.Tag Into Group
             Dim OrderByHits = (From x

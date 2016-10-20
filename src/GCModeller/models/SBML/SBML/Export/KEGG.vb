@@ -51,7 +51,7 @@ Namespace ExportServices
                 (From x In allCompounds.AsParallel
                  Select (From xx As Specie In x.Value
                          Select xx,
-                             x.Key)).MatrixAsIterator.ToDictionary(Function(x) x.xx.ID,
+                             x.Key)).IteratesALL.ToDictionary(Function(x) x.xx.ID,
                                                                    Function(x) x.Key)
             Dim source = (From x As Reaction In model.Model.listOfReactions
                           Where Meta2KEGG.Exists(x)

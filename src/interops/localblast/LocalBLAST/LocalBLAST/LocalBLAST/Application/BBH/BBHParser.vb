@@ -129,7 +129,7 @@ Namespace LocalBLAST.Application.BBH
                          (From o As BiDirectionalBesthit
                           In x.Group
                           Where Not String.IsNullOrEmpty(o.HitName)
-                          Select o).ToArray)).MatrixToVector
+                          Select o).ToArray)).ToVector
         End Function
 
         ''' <summary>

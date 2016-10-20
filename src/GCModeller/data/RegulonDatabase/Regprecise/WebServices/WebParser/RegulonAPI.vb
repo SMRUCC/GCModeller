@@ -143,7 +143,7 @@ Namespace Regprecise
                                     Operons As DOOR) As Regulator()
             Dim LQuery As Regulator() = (From x As Regulator
                                          In Regprecise.Regulons.Regulators
-                                         Select mappings.Reconstruct(regulon:=x, DOOR:=Operons)).MatrixToVector
+                                         Select mappings.Reconstruct(regulon:=x, DOOR:=Operons)).ToVector
             Return LQuery
         End Function
 
@@ -237,7 +237,7 @@ Namespace Regprecise
                        Group x By x.OperonID Into Group) _
                             .ToArray(Function(x) New Operon With {
                                 .sId = x.Group.First.OperonID,
-                                .Members = x.Group.ToArray(Function(name) mapHash(name.Synonym)).MatrixToVector})
+                                .Members = x.Group.ToArray(Function(name) mapHash(name.Synonym)).ToVector})
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
                 If String.IsNullOrEmpty(gene.Function) Then

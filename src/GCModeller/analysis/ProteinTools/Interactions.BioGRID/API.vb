@@ -74,7 +74,7 @@ Public Module API
                                Function(o) o.x))
         Dim ToHash As Dictionary(Of String, ALLmitab()) = (
             From x As ALLmitab
-            In FromHash.Values.MatrixAsIterator
+            In FromHash.Values.IteratesALL
             Select x,
                 sid = x.B.Split(":"c).Last
             Group By sid Into Group) _

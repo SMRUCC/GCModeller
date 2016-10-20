@@ -274,13 +274,13 @@ Public Module Views
         Dim SitesGroup = (From site In sites Select site Group site By site.Synonym Into Group).ToArray.ToDictionary(Function(obj) obj.Synonym, elementSelector:=Function(obj) obj.Group.ToArray)
         Dim Reader = New SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader(NT)
 
-        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.DiffDown).ToArray.MatrixToList.Distinct.ToArray) _
+        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.DiffDown).ToArray.Unlist.Distinct.ToArray) _
                 .Save($"{Export}/TSSs+Promoters{Length}/{NameOf(DESeq2.DESeqCOGs.DiffDown)}.fasta")
-        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.DiffUp).ToArray.MatrixToList.Distinct.ToArray) _
+        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.DiffUp).ToArray.Unlist.Distinct.ToArray) _
                 .Save($"{Export}/TSSs+Promoters{Length}/{NameOf(DESeq2.DESeqCOGs.DiffUp)}.fasta")
-        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.IdenticalHigh).ToArray.MatrixToList.Distinct.ToArray) _
+        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.IdenticalHigh).ToArray.Unlist.Distinct.ToArray) _
                 .Save($"{Export}/TSSs+Promoters{Length}/{NameOf(DESeq2.DESeqCOGs.IdenticalHigh)}.fasta")
-        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.IdenticalLow).ToArray.MatrixToList.Distinct.ToArray) _
+        Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.IdenticalLow).ToArray.Unlist.Distinct.ToArray) _
                 .Save($"{Export}/TSSs+Promoters{Length}/{NameOf(DESeq2.DESeqCOGs.IdenticalLow)}.fasta")
 
         Return True
@@ -297,7 +297,7 @@ Public Module Views
                                   In sites
                               Let sequence As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = __Export(site_loci, Length, Reader)
                               Where Not sequence Is Nothing
-                              Select sequence).ToArray).ToArray.MatrixToList
+                              Select sequence).ToArray).ToArray.Unlist
         Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
     End Function
 

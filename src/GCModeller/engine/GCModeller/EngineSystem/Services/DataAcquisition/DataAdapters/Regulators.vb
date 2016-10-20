@@ -43,7 +43,7 @@ Namespace EngineSystem.Services.DataAcquisition.DataAdapters
                                Where Not Model.MotifSites.IsNullOrEmpty
                                Select (From item
                                        In Model.MotifSites
-                                       Select (From n In item.Regulators Select n.EntityBaseType).ToArray).ToArray.MatrixToVector).ToArray.MatrixToVector
+                                       Select (From n In item.Regulators Select n.EntityBaseType).ToArray).ToArray.ToVector).ToArray.ToVector
             Me._Regulators = (From item As ObjectModels.Entity.Compound In ChunkBuffer Select item Distinct).ToArray
         End Sub
 

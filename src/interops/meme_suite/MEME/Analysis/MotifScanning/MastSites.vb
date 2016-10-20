@@ -175,7 +175,7 @@ Namespace Analysis.MotifScans
                 .GetSet(NameOf(Analysis.MotifScans.MastSites.Family))
             Dim result As Analysis.MotifScans.MastSites() =
                 LinqAPI.Exec(Of Analysis.MotifScans.MastSites) <= From site As Analysis.MotifScans.MastSites
-                                                                  In mastSites.MatrixAsIterator
+                                                                  In mastSites.IteratesALL
                                                                   Where Not site Is Nothing  ' 由于过滤操作可能会出现空值，这些空值都是被过滤掉的位点，已经不需要了
                                                                   Select setValue(site, FamilyName)
             Return result
@@ -211,7 +211,7 @@ Namespace Analysis.MotifScans
                 NameOf(Analysis.MotifScans.MastSites.Family)
             Dim result As MastSites() =
                 LinqAPI.Exec(Of MastSites) <= From site As MastSites
-                                              In mastSites.MatrixAsIterator.MatrixToVector
+                                              In mastSites.IteratesALL.ToVector
                                               Select setValue(site, FamilyName)
             Return result
         End Function
@@ -302,7 +302,7 @@ Namespace Analysis.MotifScans
 
             Dim pwmSite As AnnotationModel = pwms(id)
             Dim sites As Integer() = (From siteId As Integer
-                                      In pwmSite.Sites.ToArray(Function(siteRef) __getsVIMSSID(siteRef.Name, pwmSites)).MatrixToList
+                                      In pwmSite.Sites.ToArray(Function(siteRef) __getsVIMSSID(siteRef.Name, pwmSites)).Unlist
                                       Select siteId
                                       Distinct).ToArray
             Dim regulators As Integer()() = pwmSite.Sites.ToArray(Function(siteRef) siteRef.Regulators)
@@ -313,7 +313,7 @@ Namespace Analysis.MotifScans
                               Select vsmID
                               Distinct
                               Order By vsmID Ascending).ToArray
-            mastSite.Regulators = (From vsmID As Integer In regulators.MatrixToList
+            mastSite.Regulators = (From vsmID As Integer In regulators.Unlist
                                    Select vsmID
                                    Distinct
                                    Order By vsmID Ascending).ToArray

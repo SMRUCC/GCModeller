@@ -82,7 +82,7 @@ Partial Module CLI
                            In x.Properties.Values
                            Where Math.Abs(p) >= factor
                            Select p).FirstOrDefault > 0
-                      Select dataSets(x.Identifier)).MatrixAsIterator
+                      Select dataSets(x.Identifier)).IteratesALL
         Return LQuery > out
     End Function
 

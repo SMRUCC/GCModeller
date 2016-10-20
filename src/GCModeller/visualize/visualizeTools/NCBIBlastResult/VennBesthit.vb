@@ -69,7 +69,7 @@ Namespace NCBIBlastResult
 
             Dim TagFont As New Font(FontFace.Ubuntu, 12, FontStyle.Bold)
             Dim Dict = ExpressionMatrix.MatrixDrawing.CreateAlphabetTagSerials((From item In bh.hits.First.Hits Select item.tag).ToArray)
-            Dim MaxIdLength = (From s As String In (From item In List Let mat = New String()() {New String() {item.QueryName}, (From nnnnn In item.Hits Select nnnnn.HitName).ToArray} Let id_cols As String() = mat.MatrixToVector Select id_cols).ToArray.MatrixToVector Select s Order By Len(s) Descending).First.MeasureString(TagFont)
+            Dim MaxIdLength = (From s As String In (From item In List Let mat = New String()() {New String() {item.QueryName}, (From nnnnn In item.Hits Select nnnnn.HitName).ToArray} Let id_cols As String() = mat.ToVector Select id_cols).ToArray.ToVector Select s Order By Len(s) Descending).First.MeasureString(TagFont)
             Dim DotSize = New Size(MaxIdLength.Width + 5, MaxIdLength.Height + 10)
             Dim Gr = (New Size((List.First.Hits.Count + 2) * DotSize.Width + 4 * Margin, (List.Count + 8) * DotSize.Height + 2 * Margin + List.First.Hits.Length * (MaxIdLength.Height + 3))).CreateGDIDevice()
             Dim X As Integer = Margin + MaxIdLength.Width, Y As Integer = Margin * 1.3

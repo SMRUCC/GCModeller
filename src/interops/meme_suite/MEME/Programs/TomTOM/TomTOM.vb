@@ -178,7 +178,7 @@ Genome Biol. 2007;8(2):R24.",
                          Select From x As LDM.Motif
                             In motif.Value
                                 Select id = $"{motif.Key}.{x.Id}",
-                                x).MatrixAsIterator _
+                                x).IteratesALL _
                                 .ToDictionary(Function(x) x.id,
                                               Function(x) x.x)
             Dim LQuery As MotifMatch() =

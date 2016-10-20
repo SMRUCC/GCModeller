@@ -47,7 +47,7 @@ Namespace Models
 
             Dim lstMetabolite = (From Flux As DataModel.FluxObject
                                  In _dataModels.Values
-                                 Select Flux.Substrates).MatrixAsIterator
+                                 Select Flux.Substrates).IteratesALL
             Me.allCompounds = New ReadOnlyCollection(Of String)((From sId As String In lstMetabolite Select sId Distinct Order By sId Ascending).ToArray)
         End Sub
 

@@ -152,7 +152,7 @@ Namespace Topologically
         Public Shared Function CreateDocument(data As Generic.IEnumerable(Of Repeats)) As Topologically.RepeatsLoci()
             Dim LQuery = (From line As Repeats
                           In data.AsParallel
-                          Select line.GenerateDocumentSegment).ToArray.MatrixToList
+                          Select line.GenerateDocumentSegment).ToArray.Unlist
             Return (From loci As RepeatsLoci
                     In LQuery
                     Where Not loci Is Nothing

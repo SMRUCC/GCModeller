@@ -133,7 +133,7 @@ Namespace RegpreciseRegulations
                                                      SvqDict:=LQuery)
                                                  Where Not bbhData.IsNullOrEmpty
                                                  Select bbhData) _
-                                                    .MatrixAsIterator _
+                                                    .IteratesALL _
                                                     .Where(Function(item) item.Matched) _
                                                     .ToArray
             Return BBH
@@ -183,7 +183,7 @@ Call MEME.Invoke_Batch {Source}, {Export}, 0.001, 100, zoops, -dna"
             Dim Regulations As Regulations = regulationsXml.LoadXml(Of Regulations)
             Dim LQuery = (From file As String
                           In FileIO.FileSystem.GetFiles(Export, FileIO.SearchOption.SearchTopLevelOnly, "*.txt").AsParallel
-                          Select AnnotationModel.LoadDocument(file)).MatrixToList
+                          Select AnnotationModel.LoadDocument(file)).Unlist
             Dim setValue = New SetValue(Of AnnotationModel) <= NameOf(AnnotationModel.Sites)
             Dim assignRegulations As AnnotationModel() =
                 LinqAPI.Exec(Of AnnotationModel) <= From motif As AnnotationModel

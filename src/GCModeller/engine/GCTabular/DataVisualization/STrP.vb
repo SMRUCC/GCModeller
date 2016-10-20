@@ -129,7 +129,7 @@ Namespace DataVisualization
         End Function
 
         Private Shared Function GenerateNetwork(Regulation As FileStream.TranscriptUnit) As Interactions()
-            Dim LQuery = (From Id As String In Regulation.OperonGenes Select (From motif As String In Regulation.Motifs Select New Interactions With {.FromNode = motif, .ToNode = Id, .InteractionType = "Regulates"}).ToArray).ToArray.MatrixToVector
+            Dim LQuery = (From Id As String In Regulation.OperonGenes Select (From motif As String In Regulation.Motifs Select New Interactions With {.FromNode = motif, .ToNode = Id, .InteractionType = "Regulates"}).ToArray).ToArray.ToVector
             Return LQuery
         End Function
 

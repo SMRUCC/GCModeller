@@ -53,7 +53,7 @@ Namespace Workflows.PromoterParser
             Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(_DOOR, method)
             Dim uniOpr As String() = (From sId As String
                                       In regulates
-                                      Select GetDOORUni(sId)).MatrixAsIterator.Distinct.ToArray
+                                      Select GetDOORUni(sId)).IteratesALL.Distinct.ToArray
             Dim fa = Me.GetSequenceById(uniOpr, len)
             Return fa
         End Function

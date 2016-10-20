@@ -206,7 +206,7 @@ Namespace BlastAPI
 
             Dim LQuery As IEnumerable(Of String) = (From Path As PathEntry
                                                 In Subjects.AsParallel
-                                                    Select __bbh(Path, Query, Evalue, EXPORT, Handle, [Overrides])).MatrixAsIterator
+                                                    Select __bbh(Path, Query, Evalue, EXPORT, Handle, [Overrides])).IteratesALL
             Return LQuery.ToArray(AddressOf LogNameParser)
         End Function
 
@@ -240,7 +240,7 @@ Namespace BlastAPI
                                 As <FunctionReturns("The file log path which is not integrity.")> String()
 
             Dim Files As IEnumerable(Of String) = ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa") <= Input
-            Dim ComboList = Comb(Of String).CreateCompleteObjectPairs(Files).MatrixAsIterator
+            Dim ComboList = Comb(Of String).CreateCompleteObjectPairs(Files).IteratesALL
 
             Call FileIO.FileSystem.CreateDirectory(EXPORT)
 

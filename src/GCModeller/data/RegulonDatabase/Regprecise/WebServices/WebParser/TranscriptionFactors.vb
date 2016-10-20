@@ -90,7 +90,7 @@ Namespace Regprecise
                 Dim RegulatorySites = (From FastaObject As FastaReaders.Site
                                        In FastaReaders.Site.CreateObject(RegulatorSites)
                                        Select FastaObject.ToFastaObject).ToArray
-                Regulator.RegulatorySites = {RegulatorySites, Regulator.RegulatorySites}.MatrixToVector
+                Regulator.RegulatorySites = {RegulatorySites, Regulator.RegulatorySites}.ToVector
             End If
 
             Return True
@@ -163,7 +163,7 @@ Namespace Regprecise
                                       Select RegulatorId = Regulator.LocusTag.Key,
                                           Regulator.Family,
                                           Species = Strings.Split(Regulator.Regulog.Key, " - ").Last,
-                                          Tfbs_siteInfo = site).ToArray).ToArray.MatrixToVector
+                                          Tfbs_siteInfo = site).ToArray).ToArray.ToVector
             Dim LQuery = (From Tfbs As Integer
                           In TFBS_sites.Sequence.AsParallel
                           Let SiteInfo = TFBS_sites(Tfbs)
@@ -179,7 +179,7 @@ Namespace Regprecise
             Dim LQuery = (From BacteriaGenome As BacteriaGenome
                           In Me.BacteriaGenomes.AsParallel
                           Select BacteriaGenome.Regulons.Regulators).ToArray
-            Return LQuery.MatrixToVector
+            Return LQuery.ToVector
         End Function
 
         ''' <summary>
@@ -193,7 +193,7 @@ Namespace Regprecise
                           In Me.BacteriaGenomes.AsParallel
                           Select genome.Regulons.Regulators).ToArray
             Return (From reg As Regulator
-                    In LQuery.MatrixAsIterator.AsParallel
+                    In LQuery.IteratesALL.AsParallel
                     Where reg.Type = Type
                     Select reg).ToArray
         End Function
@@ -209,7 +209,7 @@ Namespace Regprecise
                           Select g.Regulons.Regulators.ToArray(Function(x) (From site As Regtransbase.WebServices.FastaObject
                                                                             In x.RegulatorySites
                                                                             Select uid = $"{site.LocusTag}:{site.Position}",
-                                                                                x.LocusId)).MatrixAsIterator).MatrixAsIterator
+                                                                                x.LocusId)).IteratesALL).IteratesALL
             Dim Groups = (From x In LQuery
                           Select x
                           Group x By x.uid Into Group) _

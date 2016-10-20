@@ -433,14 +433,14 @@ PWM models were constructed For the most abundantly encountered motifs, includin
                                                       MEME As IEnumerable(Of Motif),
                                                       Optional Length As Integer = 150) As Transcript()
             Dim MEMESites = (From site As Site
-                             In (From obj As Motif In MEME.AsParallel Select obj.Sites).MatrixAsIterator
+                             In (From obj As Motif In MEME.AsParallel Select obj.Sites).IteratesALL
                              Select site
                              Group site By site.Site Into Group) _
                                   .ToDictionary(Function(obj) obj.Site,
                                                 Function(obj) obj.Group.ToArray)
             Dim LQuery = (From Transcript As Transcript
                           In Transcripts.AsParallel
-                          Select MEMEPredictedTSSsAssociations(Transcript, PTT, MEMESites, Length)).MatrixToVector
+                          Select MEMEPredictedTSSsAssociations(Transcript, PTT, MEMESites, Length)).ToVector
             Return LQuery
         End Function
 

@@ -59,7 +59,7 @@ Namespace Pattern
                          Select Segment
                          Order By Segment.First.First Ascending '
 
-            Dim df As New File(LQuery.MatrixAsIterator)
+            Dim df As New File(LQuery.IteratesALL)
 
             Return df
         End Function

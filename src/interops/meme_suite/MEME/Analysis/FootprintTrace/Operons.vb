@@ -95,7 +95,7 @@ Namespace Analysis.FootprintTraceAPI
                           Where x.InitX.getBoolean
                           Select x,
                               opr = DOOR.GetOperon(x.ORF))
-            Dim expands = (From x In LQuery Select x.x.__expands(x.opr, coors)).MatrixAsIterator
+            Dim expands = (From x In LQuery Select x.x.__expands(x.opr, coors)).IteratesALL
             Dim cuts = (From x As PredictedRegulationFootprint
                         In expands.AsParallel
                         Where Math.Abs(x.Pcc) >= cut OrElse

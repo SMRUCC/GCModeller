@@ -123,7 +123,7 @@ Public Module ToolsAPI
                                                  Let Loci = New IntRange((From ORF As GeneBrief
                                                                           In pInfo.Group.Select(Function(x) x.ORF)
                                                                           Let pt As NucleotideLocation = ORF.Location
-                                                                          Select {pt.Left, pt.Right}).MatrixAsIterator)
+                                                                          Select {pt.Left, pt.Right}).IteratesALL)
                                                  Let St As Integer = Loci.Max
                                                  Let SP As Integer = Loci.Min
                                                  Let Sequence As String = Reader.GetSegmentSequence(SP, St)
@@ -157,7 +157,7 @@ Public Module ToolsAPI
                                    Let pInfo2 As PartitioningData = data(j)
                                    Let nt2 = New NucleotideModels.NucleicAcid(pInfo2)
                                    Let Delta As String = (1000 * DNA_Comparative.Sigma(nt1, nt2)).ToString
-                                   Select Idx = i, j, Delta)).MatrixToList '为了保证顺序，这里也不可以使用并行化
+                                   Select Idx = i, j, Delta)).Unlist '为了保证顺序，这里也不可以使用并行化
 
         For Each Row In DeltaLQuery
             Call Row.GetJson.__DEBUG_ECHO
@@ -451,7 +451,7 @@ Public Module ToolsAPI
                                   .LociRight = right,
                                   .SequenceData = seq,
                                   .ORFList = (From nnnn In genome.ORF Select nnnn.LocusID).ToArray,
-                                  .PartitioningTag = item.Key}).ToArray).MatrixToList
+                                  .PartitioningTag = item.Key}).ToArray).Unlist
 
         Dim removed = CType((From item In LQuery.AsParallel Where String.Equals(CType(item.GenomeID, String), CType(besthit.sp, String), CType(StringComparison.OrdinalIgnoreCase, StringComparison)) Select item).ToArray, PartitioningData())
         For Each item In removed
@@ -601,7 +601,7 @@ Public Module ToolsAPI
     Private Function __group(besthits As HitCollection()) As KeyValuePair(Of String, Hit())()
         Dim gr = (From o In (From nn As HitCollection
                              In besthits
-                             Select (From nnnnnnnn In nn.Hits Select nnnnnnnn).ToArray).MatrixToList
+                             Select (From nnnnnnnn In nn.Hits Select nnnnnnnn).ToArray).Unlist
                   Select o
                   Group o By o.tag Into Group).ToArray
         Dim gd = (From iteddm In gr Select iteddm.tag, hits = (From fd In iteddm.Group.ToArray Where Not String.IsNullOrEmpty(fd.HitName) Select fd).ToArray).ToArray
@@ -641,7 +641,7 @@ Public Module ToolsAPI
                                    FASTA)
         Dim CAILQuery = (From item In LQueryLoadFasta.AsParallel
                          Let InternalId As String = item.ID
-                         Select __compileCAIBIASCalculationThread(item.FASTA, workTEMP, InternalId)).MatrixToVector
+                         Select __compileCAIBIASCalculationThread(item.FASTA, workTEMP, InternalId)).ToVector
 
         Dim Csv = __compileCAI(data:=CAILQuery)
         Return Csv
@@ -1034,7 +1034,7 @@ Public Module ToolsAPI
 
             Dim MAT = Comb(Of FastaToken).CreateCompleteObjectPairs(FastaObjects)
             Dim ChunkBuffer = (From pairedList In MAT
-                               Select pairedList.__calculates(windowsSize, EXPORT)).MatrixToList
+                               Select pairedList.__calculates(windowsSize, EXPORT)).Unlist
 
             Call Console.WriteLine("All data calculation job done!, grouping data!")
             Dim grouped = (From item In ChunkBuffer Select item Group By item.Key Into Group).ToArray
@@ -1083,7 +1083,7 @@ Public Module ToolsAPI
 
         Dim MAT = Comb(Of FastaToken).CreateCompleteObjectPairs(FastaObjects)
         Dim ChunkBuffer = (From pairedList In MAT.AsParallel
-                           Select __calculate(windowsSize, EXPORT, pairedList)).MatrixToList
+                           Select __calculate(windowsSize, EXPORT, pairedList)).Unlist
 
         Call Console.WriteLine("All data calculation job done!, grouping data!")
         Dim grouped = (From item In ChunkBuffer Select item Group By item.Key Into Group).ToArray

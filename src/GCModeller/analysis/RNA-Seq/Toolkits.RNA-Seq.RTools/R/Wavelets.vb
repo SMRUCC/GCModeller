@@ -321,7 +321,7 @@ Imports RDotNET.SymbolicExpressionExtension
                          Let IDCol As String() = New String() {signal.ID}
                          Let expr As String() = (From n In signal.dwt.W.Last Select s = n.ToString).ToArray
                          Let row = New String()() {IDCol, expr}
-                         Select CType(Microsoft.VisualBasic.MatrixToList(row), DocumentStream.RowObject)).ToArray   '重新生成数据文件
+                         Select CType(Microsoft.VisualBasic.Unlist(row), DocumentStream.RowObject)).ToArray   '重新生成数据文件
         Dim MAT = CType(MATLQuery, DocumentStream.File)
         Return MAT
     End Function
@@ -338,7 +338,7 @@ Imports RDotNET.SymbolicExpressionExtension
 
                                                                                            Return Chunkbuffer
                                                                                        End Function() Select row.ID, InternalDiff).ToArray
-        Dim MAT = (From row In Diff Let colID = New String() {row.ID} Let data As String() = (From n In row.InternalDiff Select s = n.ToString).ToArray Let datRow As String()() = {colID, data} Select CType(datRow.MatrixToList, DocumentStream.RowObject)).ToArray
+        Dim MAT = (From row In Diff Let colID = New String() {row.ID} Let data As String() = (From n In row.InternalDiff Select s = n.ToString).ToArray Let datRow As String()() = {colID, data} Select CType(datRow.Unlist, DocumentStream.RowObject)).ToArray
         Dim CSV = CType(MAT, DocumentStream.File)
         Return CSV
     End Function

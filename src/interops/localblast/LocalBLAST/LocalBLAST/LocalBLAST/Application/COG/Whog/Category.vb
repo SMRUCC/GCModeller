@@ -52,7 +52,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
                 Dim LQuery = (From item In value Select New KeyValuePair(Of String, String())(item.Key, item.Value.Split)).ToArray
                 _IdList = value
                 IdTokens = LQuery
-                _lstLocus = (From item In LQuery Let IdList As String() = item.Value Select IdList).ToArray.MatrixToVector
+                _lstLocus = (From item In LQuery Let IdList As String() = item.Value Select IdList).ToArray.ToVector
             End Set
         End Property
 

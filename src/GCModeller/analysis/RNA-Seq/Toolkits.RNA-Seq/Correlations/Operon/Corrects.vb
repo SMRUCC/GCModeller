@@ -60,7 +60,7 @@ Namespace Operon
 #End If
             Dim LQuery = DOOR.DOOROperonView.Operons.ToArray(Function(operon) __correctOperon(operon, PCC, pccCutoff))  ' 首先假设Door数据库之中的操纵子之中的基因之间的距离是合理的正确的
             Dim lstCorrected As SMRUCC.genomics.Assembly.DOOR.Operon() =
-                (From x In LQuery.MatrixToList Select x Order By x.Key Ascending).ToArray
+                (From x In LQuery.Unlist Select x Order By x.Key Ascending).ToArray
             Return lstCorrected
         End Function
 

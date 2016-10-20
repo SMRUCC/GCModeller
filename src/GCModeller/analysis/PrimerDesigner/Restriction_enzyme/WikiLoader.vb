@@ -50,7 +50,7 @@ Namespace Restriction_enzyme
             Dim files = FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.html", "*.htm")
             Dim LQuery = (From page As String
                           In files'.AsParallel
-                          Select page.HTMLParser).MatrixToVector
+                          Select page.HTMLParser).ToVector
             Return LQuery
         End Function
 

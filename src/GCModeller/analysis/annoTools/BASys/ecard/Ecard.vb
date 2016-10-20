@@ -87,7 +87,7 @@ Public Class Ecard : Inherits ClassObject
         Dim tag As NamedValue(Of String) = Nothing
         Dim tokens = ecardParser.ParseFile(path, tag).ToArray
         Dim keys As String() = tokens.Select(
-            Function(x) x.Keys).MatrixAsIterator.Distinct.ToArray
+            Function(x) x.Keys).IteratesALL.Distinct.ToArray
         Dim schema = EcardValue.Schema
         Dim values As EcardValue() = tokens.ToArray(
             Function(x) EcardValue.[New](x, schema))

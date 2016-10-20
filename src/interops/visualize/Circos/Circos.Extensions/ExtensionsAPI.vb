@@ -109,7 +109,7 @@ Public Module ExtensionsAPI
     Public Function FromRegulons(DIR As String, PTT As PTT, Optional requiredMaps As Boolean = False) As HighlightLabel
         Dim bbh = (From file As String
                    In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-                   Select file.LoadXml(Of BacteriaGenome).Regulons.Regulators).ToArray.MatrixToList
+                   Select file.LoadXml(Of BacteriaGenome).Regulons.Regulators).ToArray.Unlist
         If requiredMaps Then
             Dim Maps As Dictionary(Of String, String) = PTT.LocusMaps
             For Each x As Regulator In bbh
@@ -125,14 +125,14 @@ Public Module ExtensionsAPI
                       Where Not String.IsNullOrEmpty(x.Pathway)
                       Let locus As String() = x.Regulates.ToArray(Function(g) g.LocusId)
                       Let parts = ContinuouParts(locus)
-                      Select parts.ToArray(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).MatrixToList
+                      Select parts.ToArray(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).Unlist
         Dim trims = (From x In LQuery Where x.locus_tags.Length > 1 Select x Group x By x.func Into Group).ToArray
         LQuery = (From x In trims
-                  Let locus As String() = x.Group.ToArray(Function(xx) xx.locus_tags).MatrixToVector
+                  Let locus As String() = x.Group.ToArray(Function(xx) xx.locus_tags).ToVector
                   Let parts = ContinuouParts(locus)
                   Select (From part As String()
                           In parts
-                          Select New With {.func = x.func, .locus_tags = part})).MatrixToList
+                          Select New With {.func = x.func, .locus_tags = part})).Unlist
         Dim result = (From x In LQuery
                       Let g As GeneBrief = (From gg As String In x.locus_tags
                                             Where PTT.ExistsLocusId(gg)
@@ -145,7 +145,7 @@ Public Module ExtensionsAPI
             LinqAPI.Exec(Of TextTrackData) <= From x
                                               In result
                                               Let func As String() = (From s As String
-                                                                      In x.Group.Select(Function(xx) xx.func.Split(";"c)).MatrixAsIterator
+                                                                      In x.Group.Select(Function(xx) xx.func.Split(";"c)).IteratesALL
                                                                       Select s
                                                                       Distinct).ToArray
                                               Let g As GeneBrief = x.Group.First.g

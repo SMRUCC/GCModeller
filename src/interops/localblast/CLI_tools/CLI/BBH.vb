@@ -80,7 +80,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & bbh.BaseName & ".meta.Xml")
         Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
         Dim bbhs As IEnumerable(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
-        Dim uids As IEnumerable(Of String) = (From x As BBHIndex In bbhs Select {x.HitName, x.QueryName}).MatrixAsIterator.Distinct
+        Dim uids As IEnumerable(Of String) = (From x As BBHIndex In bbhs Select {x.HitName, x.QueryName}).IteratesALL.Distinct
 
         meta.hits = (From s As String
                      In uids
@@ -214,7 +214,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inDIR & ".bbh.Csv")
         Dim LQuery = (From file As String
                       In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                      Select file.LoadCsv(Of BiDirectionalBesthit)).MatrixToList
+                      Select file.LoadCsv(Of BiDirectionalBesthit)).Unlist
         Return LQuery.SaveTo(out)
     End Function
 
@@ -361,7 +361,7 @@ Partial Module CLI
         Dim isHit As Boolean = args.GetBoolean("/hit")
         Dim out As String = args.GetValue("/out", [in] & "-" & If(isHit, "hit_name", "query_name") & ".txt")
         Dim source As IEnumerable(Of BBHIndex) =
-            (ls - l - r - wildcards("*.csv") <= [in]).Select(AddressOf LoadCsv(Of BBHIndex)).MatrixAsIterator
+            (ls - l - r - wildcards("*.csv") <= [in]).Select(AddressOf LoadCsv(Of BBHIndex)).IteratesALL
         Dim locus As String()
         Dim getName As Func(Of BBHIndex, String)
         Dim test As Func(Of BBHIndex, Boolean)

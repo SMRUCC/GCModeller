@@ -60,7 +60,7 @@ Partial Module CLI
                         In memeText.Select(AddressOf MEME_TEXT.SafelyLoad)
                         Where Not x.IsNullOrEmpty
                         Select x) _
-                              .MatrixAsIterator _
+                              .IteratesALL _
                               .OrderBy(Function(x) x.uid) _
                               .ToDictionary(Function(x) trimName(x.uid) & "." & x.Id)
 #If DEBUG Then
@@ -106,7 +106,7 @@ Partial Module CLI
                        Let uid As String = grep(hit.Family) & "." & hit.Target
                        Where memeHash.ContainsKey(uid)
                        Select memeHash(uid).Sites.Select(Function(x) x.ToFasta(uid))
-        Dim fasta As New FASTA.FastaFile(query.ToList + hitSites.MatrixAsIterator)
+        Dim fasta As New FASTA.FastaFile(query.ToList + hitSites.IteratesALL)
         Return fasta
     End Function
 End Module

@@ -94,8 +94,8 @@ Namespace PfsNET.TabularArchives
         ''' <returns></returns>
         ''' <remarks></remarks>
         Private Shared Function __weights(data As KEGGPhenotypes()) As KEGGPhenotypes()
-            Dim w As Double = data.Select(Function(x) x.weights).MatrixAsIterator.Sum
-            Dim w2 As Double = data.Select(Function(x) x.weight2).MatrixAsIterator.Sum
+            Dim w As Double = data.Select(Function(x) x.weights).IteratesALL.Sum
+            Dim w2 As Double = data.Select(Function(x) x.weight2).IteratesALL.Sum
 
             For Each phe As KEGGPhenotypes In data
                 phe.Percentage = phe.weights.Sum / w * 100
@@ -108,7 +108,7 @@ Namespace PfsNET.TabularArchives
         Public Shared Function ExportCytoscape(data As IEnumerable(Of KEGGPhenotypes), saveDIR As String) As Boolean
             Dim Edges = (From item In data Select String.Format("""{0}"",{1},{2}", item.PhenotypePair.Split(CChar(".")).First, item.Category, 100 - item.PValue * 100)).ToArray
             Dim Nodes = {(From item In data Select String.Format("{0},Regulator", item.PhenotypePair.Split(CChar(".")).First) Distinct).ToArray,
-                         (From item In data Select String.Format("""{0}"",CellPhenotype", item.Category) Distinct).ToArray}.MatrixToVector
+                         (From item In data Select String.Format("""{0}"",CellPhenotype", item.Category) Distinct).ToArray}.ToVector
             Dim Csv As StringBuilder = New StringBuilder(1024)
             Call Csv.AppendLine("fromNode,toNode,weight")
             For Each Line In Edges

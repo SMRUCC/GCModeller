@@ -249,7 +249,7 @@ Namespace DataVisualization.DynamicMap
             Dim ChunkBuffer = (From Line As CentralDogma
                                In LQuery
                                Let Regulators = Line.get_Regulators
-                               Select Regulators).ToArray.MatrixToVector
+                               Select Regulators).ToArray.ToVector
 
             Return (From Regulator In ChunkBuffer Where Regulator.Quantity >= 1 Select Regulator).ToArray
         End Function
