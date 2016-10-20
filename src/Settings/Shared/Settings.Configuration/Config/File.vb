@@ -138,7 +138,7 @@ GCModeller Dev-Team</README>.SaveTo(_repositoryRoot & "/readme.txt")
             Return Settings.Programs.MPAlignment.GetValue(Me)
         End Function
 
-        Public Shared ReadOnly Property DefaultXmlFile As String = My.Application.Info.DirectoryPath & "\Settings\Settings.xml"
+        Public Shared ReadOnly Property DefaultXmlFile As String = App.HOME & "/.settings/Settings.xml"
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Text.Encoding = Nothing) As Boolean
             If String.IsNullOrEmpty(FilePath) Then

@@ -26,10 +26,12 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
@@ -179,5 +181,40 @@ Public Module CLI
 
     Public Function MultipleAlignment(args As CommandLine) As Integer
 
+    End Function
+
+    ''' <summary>
+    ''' 只是对文本文件进行合并处理
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Merge.Files",
+               Info:="Tools that works on the text files merged.",
+               Usage:="/Merge.Files /in <in.DIR> [/trim /ext <*.txt> /out <out.txt>]")>
+    Public Function FileMerges(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim ext As String = args.GetValue("/ext", "*.txt")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".txt")
+        Dim exts = ext.Split(","c).ToArray(AddressOf Trim)
+        Dim trimNull = args.GetBoolean("/trim")
+
+        Using writer As StreamWriter = out.OpenWriter
+            For Each file$ In ls - l - r - exts <= [in]
+                If trimNull Then
+                    For Each line$ In file _
+                        .IterateAllLines _
+                        .Where(Function(s) Not String.IsNullOrEmpty(s))
+
+                        Call writer.WriteLine(line)
+                    Next
+                Else
+                    For Each line$ In file.IterateAllLines
+                        Call writer.WriteLine(line)
+                    Next
+                End If
+            Next
+
+            Return 0
+        End Using
     End Function
 End Module
