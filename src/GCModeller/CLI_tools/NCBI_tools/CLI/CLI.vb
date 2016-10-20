@@ -48,10 +48,12 @@ Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <PackageNamespace("NCBI_tools.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gcmodeller.org")>
+<GroupingDefine(CLIGrouping.GITools, Description:=CLIGrouping.GIWasObsoleted)>
 Module CLI
 
     <ExportAPI("/Build_gi2taxi",
                Usage:="/Build_gi2taxi /in <gi2taxi.dmp> [/out <out.dat>]")>
+    <Group(CLIGrouping.GITools)>
     Public Function Build_gi2taxi(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".bin")
@@ -59,6 +61,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Export.GI", Usage:="/Export.GI /in <ncbi:nt.fasta> [/out <out.csv>]")>
+    <Group(CLIGrouping.GITools)>
     Public Function ExportGI(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gi.Csv")
@@ -85,6 +88,7 @@ Module CLI
 
     <ExportAPI("/Associate.Taxonomy",
            Usage:="/Associate.Taxonomy /in <in.DIR> /tax <ncbi_taxonomy:names,nodes> /gi2taxi <gi2taxi.bin> [/gi <nt.gi.csv> /out <out.DIR>]")>
+    <Group(CLIGrouping.GITools)>
     Public Function AssociateTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim tax As String = args("/tax")
@@ -132,6 +136,7 @@ Module CLI
 
     <ExportAPI("/Nt.Taxonomy",
                Usage:="/Nt.Taxonomy /in <nt.fasta> /gi2taxi <gi2taxi.bin> /tax <ncbi_taxonomy:names,nodes> [/out <out.fasta>]")>
+    <Group(CLIGrouping.GITools)>
     Public Function NtTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxi As String = args("/gi2taxi")
@@ -200,6 +205,7 @@ Module CLI
 
     <ExportAPI("/Assign.Taxonomy",
                Usage:="/Assign.Taxonomy /in <in.DIR> /gi <regexp> /index <fieldName> /tax <NCBI nodes/names.dmp> /gi2taxi <gi2taxi.txt/bin> [/out <out.DIR>]")>
+    <Group(CLIGrouping.GITools)>
     Public Function AssignTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args.GetFullDIRPath("/in")
         Dim regexp As String = args("/gi")
@@ -461,6 +467,7 @@ Module CLI
 
     <ExportAPI("/gi.Match",
                Usage:="/gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]")>
+    <Group(CLIGrouping.GITools)>
     Public Function giMatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args("/gi2taxid")
@@ -503,6 +510,7 @@ Module CLI
 
     <ExportAPI("/gi.Matchs",
               Usage:="/gi.Matchs /in <nt.parts.fasta.DIR> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt.DIR> /num_threads <-1>]")>
+    <Group(CLIGrouping.GITools)>
     Public Function giMatchs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args("/gi2taxid")
