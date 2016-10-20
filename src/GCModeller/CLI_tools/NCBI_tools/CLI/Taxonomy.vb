@@ -147,7 +147,7 @@ Partial Module CLI
         Return output.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Split.By.Taxid",
+    <ExportAPI("/Split.By.Taxid", Info:="Split the input fasta file by taxid grouping.",
                Usage:="/Split.By.Taxid /in <nt.fasta> [/gi2taxid <gi2taxid.txt> /out <outDIR>]")>
     <Group(CLIGrouping.TaxonomyTools)>
     <Group(CLIGrouping.GITools)>
@@ -333,7 +333,7 @@ Partial Module CLI
         Return diff.FlushAllLines(out).CLICode
     End Function
 
-    <ExportAPI("/Taxonomy.Tree",
+    <ExportAPI("/Taxonomy.Tree", Info:="Output taxonomy query info by a given NCBI taxid list.",
                Usage:="/Taxonomy.Tree /taxid <taxid.list.txt> /tax <ncbi_taxonomy:nodes/names> [/out <out.csv>]")>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function TaxonomyTree(args As CommandLine) As Integer

@@ -43,6 +43,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("/Filter.Exports",
+               Info:="String similarity match of the fasta title with given terms for search and export by taxonomy.",
                Usage:="/Filter.Exports /in <nt.fasta> /tax <taxonomy_DIR> /gi2taxid <gi2taxid.txt> /words <list.txt> [/out <out.DIR>]")>
     <Group(CLIGrouping.ExportTools)>
     <Group(CLIGrouping.GITools)>

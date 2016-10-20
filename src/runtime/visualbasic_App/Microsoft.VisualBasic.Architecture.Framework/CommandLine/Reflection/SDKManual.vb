@@ -40,6 +40,7 @@ Imports Microsoft.VisualBasic.Scripting.TokenIcer.Prefix
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.SoftwareToolkits
 Imports Microsoft.VisualBasic.Terminal.Utility
+Imports Microsoft.VisualBasic.Text
 
 Namespace CommandLine.Reflection
 
@@ -173,11 +174,30 @@ Namespace CommandLine.Reflection
                 .Select(Function(x) Len(x.Name)) _
                 .Max
 
+            If Not markdown Then
+                Dim descr = Microsoft.VisualBasic.App _
+                    .Info _
+                    .ProductDescription
+
+                descr = Trim(descr)
+
+                Call sb.AppendLine(New String("="c, descr.Length))
+                Call sb.AppendLine(descr)
+                Call sb.AppendLine(New String("="c, descr.Length))
+                Call sb.AppendLine()
+
+                For Each line$ In Paragraph.Split(App.Info.Description, 110)
+                    Call sb.AppendLine(line$)
+                Next
+
+                Call sb.AppendLine()
+            End If
+
             Call sb.AppendLine(ListAllCommandsPrompt)
             Call sb.AppendLine()
 
             Dim gg As New Grouping(CLI:=App)
-            Dim print = Sub(list As IEnumerable(Of APIEntryPoint))
+            Dim print = Sub(list As IEnumerable(Of APIEntryPoint), left$)
                             If markdown Then
                                 Call sb.AppendLine("|Function API|Info|")
                                 Call sb.AppendLine("|------------|----|")
@@ -187,9 +207,18 @@ Namespace CommandLine.Reflection
                                 If Not markdown Then
                                     Dim indent% = 3 + nameMaxLen - Len(API.Name)
                                     Dim blank$ = New String(c:=" "c, count:=indent)
-                                    Dim line$ = $" {API.Name}:  {blank}{API.Info}"
+                                    Dim lines As String() = Paragraph _
+                                        .Split(API.Info, 90 - nameMaxLen) _
+                                        .ToArray
+                                    Dim line$ = $"{left}{API.Name}:  {blank}{lines.FirstOrDefault}"
 
                                     Call sb.AppendLine(line)
+
+                                    If lines.Length > 1 Then
+                                        For Each line$ In lines.Skip(1)
+                                            Call sb.AppendLine(left & New String(" ", nameMaxLen + 6) & line$)
+                                        Next
+                                    End If
                                 Else
                                     Call sb.AppendLine(
                                         $"|[{API.Name}](#{API.Name})|{API.Info}|")
@@ -206,7 +235,12 @@ Namespace CommandLine.Reflection
 
             Dim undefines = gg.GroupData(undefined)
 
-            Call print(undefines.Data)
+            Call print(undefines.Data, " ")
+
+            If Not markdown Then
+                Call sb.AppendLine("API list that with functional grouping")
+                Call sb.AppendLine()
+            End If
 
             For Each g As SeqValue(Of Groups) In gg _
                 .Where(Function(list) list.Name <> undefined) _
@@ -218,13 +252,27 @@ Namespace CommandLine.Reflection
                     Call sb.AppendLine($"{g.i}. {g.obj.Name}")
                 End If
 
-                Call sb.AppendLine(Trim(g.obj.Description))
-                Call sb.AppendLine()
+                Dim describ$ = Trim(g.obj.Description)
+                Dim indent As New String(" "c, (g.i & ". ").Length)
 
-                Call print(g.obj.Data)
+                If Not String.IsNullOrEmpty(describ) Then
+                    Call sb.AppendLine()
+
+                    If markdown Then
+                        Call sb.AppendLine(describ)
+                    Else
+                        For Each line$ In Paragraph.Split(describ, 110)
+                            Call sb.AppendLine(indent & line)
+                        Next
+                    End If
+                End If
+
+                Call sb.AppendLine()
+                Call sb.AppendLine()
+                Call print(g.obj.Data, left:=indent)
             Next
 
-            Return sb.ToString
+            Return sb.ToString.Trim(ASCII.CR, ASCII.LF, " "c)
         End Function
 
         Public Const ListAllCommandsPrompt As String = "All of the command that available in this program has been list below:"
