@@ -60,7 +60,7 @@ Public Module CLI
                Usage:="var [varName]",
                Example:="")>
     <Argument("[VarName]", True,
-                   Description:="If this value is null, then the program will prints all of the variables in the gcmodeller config file or when the variable is presents in the database, only the config value of the specific variable will be display.")>
+              Description:="If this value is null, then the program will prints all of the variables in the gcmodeller config file or when the variable is presents in the database, only the config value of the specific variable will be display.")>
     Public Function Var(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
             If args.Parameters.Length = 0 Then 'list all setting items
