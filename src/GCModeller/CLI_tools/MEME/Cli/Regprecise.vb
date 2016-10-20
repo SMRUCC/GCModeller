@@ -172,8 +172,8 @@ Partial Module CLI
         Dim RegPrecise = (From file As String
                           In FileIO.FileSystem.GetFiles(DbDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                           Select file.LoadXml(Of Regprecise.BacteriaGenome)).ToArray
-        Dim regulators As String() = RegPrecise.ToArray(Function(x) x.ListRegulators).MatrixToVector
-        Dim regBBH = (From sId As String In regulators.AsParallel Where dict.ContainsKey(sId) Select dict(sId)).ToArray.MatrixToList
+        Dim regulators As String() = RegPrecise.ToArray(Function(x) x.ListRegulators).ToVector
+        Dim regBBH = (From sId As String In regulators.AsParallel Where dict.ContainsKey(sId) Select dict(sId)).ToArray.Unlist
         Return regBBH.SaveTo(out)
     End Function
 
@@ -261,7 +261,7 @@ Partial Module CLI
                      Select site,
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
-        Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.MatrixToList
+        Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
         Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
     End Function
 
@@ -286,7 +286,7 @@ Partial Module CLI
         Call $"Start compile {masts.Length} mast documents...".__DEBUG_ECHO
         Dim sites As MastSites()  ' 导出扫描得到的位点
         If args.GetBoolean("/no-meme") Then
-            sites = masts.ToArray(Function(mast) MastSites.Compile(mast), Parallel:=True).MatrixToVector
+            sites = masts.ToArray(Function(mast) MastSites.Compile(mast), Parallel:=True).ToVector
         Else
             Dim pwmFa As String = RegpreciseRoot & "/MEME/pwm"
             Dim mastLDM As String = args.GetValue("/mast-ldm", MotifLDM)
@@ -300,7 +300,7 @@ Partial Module CLI
                 mast,
                 mastLDM,
                 faDIR:=pwmFa),
-                Parallel:=True).MatrixToVector
+                Parallel:=True).ToVector
         End If
 
         Dim pvalue As Double = args.GetValue("/p-value", 0.001)  ' 过滤掉不需要的位点
@@ -359,7 +359,7 @@ Partial Module CLI
                      Select site,
                          genes = site.GetRelatedUpstream(PTT, atgDist)).ToArray
         Call "Extract duplicated genes".__DEBUG_ECHO
-        Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.MatrixToList
+        Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
         Dim trims = (From site As MastSites
                      In LQuery
                      Where Math.Abs(site.ATGDist) <= atgDist AndAlso  ' Not site.HasEmptyMappings AndAlso  这一个条件和no-meme有冲突
@@ -401,14 +401,14 @@ Partial Module CLI
 
         ' 只需要将mast文档里面的位置取出来就可以了
         ' 由于只是扫描自己的基因组，所以mast文档里面只有一条序列的
-        Dim sites As MastSites() = mastHits.ToArray(Function(seq) __compile(seq, MEMEMotifs, offset)).MatrixToVector
+        Dim sites As MastSites() = mastHits.ToArray(Function(seq) __compile(seq, MEMEMotifs, offset)).ToVector
         Dim table = (From site As MastSites
                      In sites.AsParallel
                      Where Not site Is Nothing
                      Select site,
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
-        Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.MatrixToList
+        Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
         Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
     End Function
 
@@ -491,7 +491,7 @@ Partial Module CLI
                                        "*.fasta").ToArray(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaToken.Load(fasta)))
         Dim regprecise = FileIO.FileSystem.GetFiles(RegpreciseRoot & "/regulators/",
                                                     FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(
-                                                    Function(xml) xml.LoadXml(Of JSONLDM.regulator())).MatrixToList
+                                                    Function(xml) xml.LoadXml(Of JSONLDM.regulator())).Unlist
         Dim regpreciseGroup = (From regulator In regprecise
                                Where Not regulator Is Nothing AndAlso
                                    Not String.IsNullOrEmpty(regulator.locusTag)
@@ -543,7 +543,7 @@ Partial Module CLI
                                 Where Not regulon Is Nothing AndAlso
                                     Not regulon.Regulons Is Nothing AndAlso
                                     Not regulon.Regulons.Regulators.IsNullOrEmpty
-                                Select regulon.Regulons.Regulators).MatrixAsIterator
+                                Select regulon.Regulons.Regulators).IteratesALL
                 bbhs = regulons.ToArray(
                     Function(x) New BBH.BBHIndex With {
                         .HitName = x.LocusTag.Key,
@@ -551,7 +551,7 @@ Partial Module CLI
             Else
                 bbhs = FileIO.FileSystem.GetFiles(
                     args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray(
-                        Function(csv) csv.LoadCsv(Of BBH.BBHIndex)).MatrixToList
+                        Function(csv) csv.LoadCsv(Of BBH.BBHIndex)).Unlist
             End If
         End If
 
@@ -662,7 +662,7 @@ Partial Module CLI
     Public Function TCSRegulations(args As CommandLine) As Integer
         Dim TCS = FileIO.FileSystem.GetFiles(args("/TCS"), FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
             .ToArray(Function(file) _
-                     file.LoadCsv(Of SwissTCS.CrossTalks)).MatrixToList
+                     file.LoadCsv(Of SwissTCS.CrossTalks)).Unlist
         Dim mods = FileIO.FileSystem.GetFiles(args("/modules"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
             .ToArray(Function(file) file.LoadCsv(Of bGetObject.Module))
         Dim ModsRegulation = args("/regulations").LoadCsv(Of PredictedRegulationFootprint)
@@ -715,7 +715,7 @@ Partial Module CLI
 
         For Each pwy In pwyGroup
             For Each subPwy In pwy.cate
-                Dim genes = subPwy.Group.ToArray(Function(x) x.pwy.GetPathwayGenes).MatrixToList.Distinct.ToArray
+                Dim genes = subPwy.Group.ToArray(Function(x) x.pwy.GetPathwayGenes).Unlist.Distinct.ToArray
                 Dim fLQuery = (From regu In LQuery Where Array.IndexOf(genes, regu.ORF) > -1 Select regu).ToArray
                 Call Csv.Add(pwy.Class, subPwy.Category, CStr(fLQuery.Length))
             Next
@@ -753,7 +753,7 @@ Partial Module CLI
                                          Select (From s As String
                                                  In fs
                                                  Select Family = s.ToLower.Trim,
-                                                     TF = x).ToArray).ToArray.MatrixToList
+                                                     TF = x).ToArray).ToArray.Unlist
                             Select reg
                             Group reg By reg.Family Into Group).ToArray
         Dim pfamHash = (From x As Pfam.PfamString.PfamString
@@ -775,7 +775,7 @@ Partial Module CLI
     End Function
 
     Private Function __getFamily(l As String, source As FastaReaders.Regulator()) As String
-        Dim all = (From x In source Select x.KEGGFamily.Replace("\", "/").Split("/"c)).MatrixToList.Distinct.ToArray
+        Dim all = (From x In source Select x.KEGGFamily.Replace("\", "/").Split("/"c)).Unlist.Distinct.ToArray
         Dim LQuery = (From x In all Where String.Equals(l, x, StringComparison.OrdinalIgnoreCase) Select x).FirstOrDefault
         If String.IsNullOrEmpty(LQuery) Then
             LQuery = l

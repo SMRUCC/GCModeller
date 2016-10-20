@@ -50,7 +50,7 @@ Namespace Interpro.Xml
                           Select (From d As DbXref
                                   In inter.member_list
                                   Where String.Equals(d.db, "PFAM", StringComparison.OrdinalIgnoreCase)
-                                  Select d.dbkey).ToArray).ToArray.MatrixToVector
+                                  Select d.dbkey).ToArray).ToArray.ToVector
 
             Return New Family With {
                 .Interpro = interpro.id,

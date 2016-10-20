@@ -110,7 +110,7 @@ Namespace Analysis
 #If DEBUG Then
             footprints = sites.ToArray(Function(site) __createSites(site, regulators, correlations, regDB)).MatrixToVector
 #Else
-            footprints = sites.ToArray(Function(site) __createSites(site, regulators, correlations, regDB), Parallel:=True).MatrixToVector
+            footprints = sites.ToArray(Function(site) __createSites(site, regulators, correlations, regDB), Parallel:=True).ToVector
 #End If
             Return footprints
         End Function
@@ -138,7 +138,7 @@ Namespace Analysis
 #If DEBUG Then
             footprints = sites.ToArray(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).MatrixToVector
 #Else
-            footprints = sites.ToArray(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff), Parallel:=True).MatrixToVector
+            footprints = sites.ToArray(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff), Parallel:=True).ToVector
 #End If
             Return footprints
         End Function

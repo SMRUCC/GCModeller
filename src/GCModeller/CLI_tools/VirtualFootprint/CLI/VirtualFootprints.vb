@@ -167,7 +167,7 @@ Partial Module CLI
                                   Where Not x.Regulators.IsNullOrEmpty
                                   Select (From n As String
                                           In x.Regulators
-                                          Select n, operon = x)).MatrixAsIterator
+                                          Select n, operon = x)).IteratesALL
                        Select o
                        Group o By o.n Into Group) _
                             .ToDictionary(Function(x) x.n,
@@ -197,7 +197,7 @@ Partial Module CLI
                           Select (From sid As String
                                   In x.Operon
                                   Select sid,
-                                      opr = x)).MatrixAsIterator
+                                      opr = x)).IteratesALL
             Dim hash = (From x In LQuery
                         Select x
                         Order By x.sid Ascending
@@ -303,14 +303,14 @@ Partial Module CLI
                            In siteLog.Sites
                            Let uid As String = $"{site.LocusTag}:{site.Position}"
                            Where RegPrecise.ContainsKey(uid)
-                           Select RegPrecise(uid)).MatrixAsIterator.Distinct
+                           Select RegPrecise(uid)).IteratesALL.Distinct
                       Select (From TF As String
                               In TFs
                               Where hitsHash.ContainsKey(TF)   ' bbh 没有比对上去的记录，则跳过这个位点
                               Let maps As String() = hitsHash(TF)
                               Select (From TF_locus As String
                                       In maps   ' 生成footprint位点
-                                      Select __copy(x, TF, TF_locus, siteLog.Family)).ToArray).MatrixAsIterator).MatrixAsIterator
+                                      Select __copy(x, TF, TF_locus, siteLog.Family)).ToArray).IteratesALL).IteratesALL
         Return LQuery.ToArray
     End Function
 
@@ -528,7 +528,7 @@ Partial Module CLI
                                   In bp
                                   Where Not proc.IsBlank
                                   Select bioProc = proc.Trim,
-                                      site = x).MatrixAsIterator
+                                      site = x).IteratesALL
             For Each gr In (From x In Familys Select x Group x By x.bioProc Into Group)
                 Dim source As MotifLog() = gr.Group.ToArray(Function(x) x.site)
                 Dim Groups = source.Groups(offset)
@@ -564,7 +564,7 @@ Partial Module CLI
                           Let g As BacteriaGenome = xml.LoadXml(Of BacteriaGenome)
                           Where Not (g.Regulons Is Nothing OrElse
                               g.Regulons.Regulators.IsNullOrEmpty)
-                          Select tfs = g.Regulons.Regulators).MatrixAsIterator
+                          Select tfs = g.Regulons.Regulators).IteratesALL
         Dim reghash = (From x As Regulator
                        In regulators
                        Select x

@@ -71,7 +71,7 @@ Imports SMRUCC.genomics.InteractionModel
         Dim Y As Integer = Margin
         Dim X As Integer = Margin
 
-        Dim GroupData = (From item In (From row In Data Select (From obj In row.dat Select row.ID, obj.ChunkBuffer, obj.Tag).ToArray).ToArray.MatrixToList Select item Group By item.Tag Into Group).ToArray
+        Dim GroupData = (From item In (From row In Data Select (From obj In row.dat Select row.ID, obj.ChunkBuffer, obj.Tag).ToArray).ToArray.Unlist Select item Group By item.Tag Into Group).ToArray
         Dim ReGen = (From gr In GroupData Select GeneID = gr.Tag, Expr = (From item In gr.Group.ToArray Select sd = New SerialsData With {.Tag = item.ID, .ChunkBuffer = item.ChunkBuffer} Order By sd.Tag Ascending).ToArray).ToArray
         Dim InvokeDrawingLQuery = (From item In ReGen Select GeneID = item.GeneID, res = __directDrawing(item.Expr)).ToArray
         Dim IDFont = New Font(FontFace.MicrosoftYaHei, 12)
@@ -93,12 +93,12 @@ Imports SMRUCC.genomics.InteractionModel
         Dim IDc = IDList.ToArray
         Dim Data = (From path In source.LoadSourceEntryList({"*.csv"}).AsParallel Select ID = path.Key, dat = (From row In DataServicesExtension.LoadData(path.Value) Where Array.IndexOf(IDc, row.Tag) > -1 Select row).ToArray).ToArray
         Data = (From row In Data.AsParallel Select ID = row.ID, dat = (From obj In row.dat Select sd = CalculateOffset(obj) Order By sd.Tag Ascending).ToArray).ToArray '数据视图转换
-        Dim GroupData = (From item In (From row In Data Select (From obj In row.dat Select row.ID, obj.ChunkBuffer, obj.Tag).ToArray).ToArray.MatrixToList Select item Group By item.Tag Into Group).ToArray
+        Dim GroupData = (From item In (From row In Data Select (From obj In row.dat Select row.ID, obj.ChunkBuffer, obj.Tag).ToArray).ToArray.Unlist Select item Group By item.Tag Into Group).ToArray
         Dim ReGen = (From gr In GroupData Select GeneID = gr.Tag, Expr = (From item In gr.Group.ToArray Select sd = New SerialsData With {.Tag = item.ID, .ChunkBuffer = item.ChunkBuffer} Order By sd.Tag Ascending).ToArray).ToArray
         Dim CSV As New DocumentStream.File
 
         For Each Gene In ReGen
-            Dim Chunk = (From Experiment In Gene.Expr Select Experiment.ChunkBuffer).MatrixToList
+            Dim Chunk = (From Experiment In Gene.Expr Select Experiment.ChunkBuffer).Unlist
             Dim Mapping = GenerateMapping(Chunk) '映射水平
             Dim i As Integer = 0
             Dim Levels = (From n In Mapping Select n Distinct Order By n Ascending).ToArray

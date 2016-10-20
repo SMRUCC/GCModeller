@@ -142,7 +142,7 @@ Namespace Workflows.PromoterParser
             Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(DOOR, method)
             Dim Genes As String() = (From gene As String
                                      In locus
-                                     Select GetDOORUni(gene)).MatrixAsIterator.Distinct.ToArray
+                                     Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
             Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
                                 Dim Path As String
                                 If String.IsNullOrEmpty(tag) Then
@@ -185,7 +185,7 @@ Namespace Workflows.PromoterParser
             Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(DoorOperon, method)
 
             For Each [mod] As bGetObject.Module In Modules
-                Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).MatrixAsIterator.Distinct.ToArray
+                Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
                 Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
                                     Dim Path As String = $"{EXPORT}/{len}/{[mod].EntryId}.fasta"
                                     Dim Seqs = Genes.ToArray(Function(id) src(id)).ToList
@@ -228,7 +228,7 @@ Namespace Workflows.PromoterParser
             Dim prefix As String = IO.Path.GetFileNameWithoutExtension(EXPORT)
 
             For Each [mod] As bGetObject.Pathway In Modules
-                Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).MatrixAsIterator.Distinct.ToArray
+                Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
                 Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
                                     Dim Path As String = $"{EXPORT}/{prefix}-{len}/{[mod].EntryId}.fasta"
                                     Dim Seqs = (From id As String In Genes Where src.ContainsKey(id) Select src(id)).ToList  ' 由于会存在有RNA基因，所以这里需要额外注意一下

@@ -115,7 +115,7 @@ Partial Module Utilities
                                                      In locus
                                                      Where seqHash.ContainsKey(sId)
                                                      Select seqHash(sId)
-        Dim outFa As New FastaFile(LQuery.MatrixAsIterator)
+        Dim outFa As New FastaFile(LQuery.IteratesALL)
 
         Return outFa.Save(out, Encodings.ASCII)
     End Function

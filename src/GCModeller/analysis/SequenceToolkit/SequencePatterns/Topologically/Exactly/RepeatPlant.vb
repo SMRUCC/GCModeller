@@ -128,7 +128,7 @@ Namespace Topologically
                            Select (From site As Integer
                                    In obj.LociProvider
                                    Select site,
-                                       obj.Hot).ToArray).MatrixToList
+                                       obj.Hot).ToArray).Unlist
             Dim src = (From t In (From site In Extract
                                   Select site
                                   Group site By site.site Into Group)

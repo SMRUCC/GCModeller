@@ -92,7 +92,7 @@ Partial Module CLI
         End If
 
         For Each kMod In Networks
-            Dim Edges = kMod.Value.Nodes.ToArray(Function(x) regulations.TryGetValue(x.Identifier)).MatrixToList
+            Dim Edges = kMod.Value.Nodes.ToArray(Function(x) regulations.TryGetValue(x.Identifier)).Unlist
             Dim Path As String = $"{outDIR}/{kMod.Key}/"
 
             If Edges.IsNullOrEmpty Then
@@ -123,7 +123,7 @@ Partial Module CLI
                             .ToDictionary(Function(x) x.Class,
                                           Function(x) x.Group.ToArray(
                                           Function(xx) xx.Pathways.ToArray(
-                                          Function(xxx) networks.TryGetValue(xxx.EntryId))).MatrixToList)
+                                          Function(xxx) networks.TryGetValue(xxx.EntryId))).Unlist)
         Dim dict As Dictionary(Of String, ______NETWORK__) = classes.ToDictionary(Function(x) x.Key,
                                                                                   Function(x) __mergeCommon(x.Value))
         Return dict
@@ -145,16 +145,16 @@ Partial Module CLI
                             .ToDictionary(Function(x) x.Category, elementSelector:=
                                           Function(x) x.Group.ToArray(
                                           Function(xx) xx.Pathways.ToArray(
-                                          Function(xxx) networks.TryGetValue(xxx.EntryId))).MatrixToList)
+                                          Function(xxx) networks.TryGetValue(xxx.EntryId))).Unlist)
         Dim dict = classes.ToDictionary(Function(x) x.Key,
                                         Function(x) __mergeCommon(x.Value))
         Return dict
     End Function
 
     Private Function __mergeCommon(source As Generic.IEnumerable(Of ______NETWORK__)) As ______NETWORK__
-        Dim Nods = source.ToArray(Function(x) x.Nodes, where:=Function(x) Not x Is Nothing).MatrixToList
+        Dim Nods = source.ToArray(Function(x) x.Nodes, where:=Function(x) Not x Is Nothing).Unlist
         Dim Edges As List(Of FileStream.NetworkEdge) =
-            source.ToArray(Function(x) x.Edges, where:=Function(x) Not x Is Nothing).MatrixToList
+            source.ToArray(Function(x) x.Edges, where:=Function(x) Not x Is Nothing).Unlist
 
         Dim __nodes = (From node
                        In (From node As FileStream.Node
@@ -265,9 +265,9 @@ Partial Module CLI
                                    Where Array.IndexOf(rhaves, x.ToNode) > -1
                                    Select x).FirstOrDefault Is Nothing
                             Select m).ToArray
-                nulls = New FileStream.Network + Trim.ToArray(Function(x) x.Group).MatrixAsIterator ' 添加新的网络节点
+                nulls = New FileStream.Network + Trim.ToArray(Function(x) x.Group).IteratesALL ' 添加新的网络节点
                 net -= nulls.Edges  ' 删除旧的网络节点
-                nulls += net <= nulls.Edges.ToArray(Function(x) {x.FromNode, x.ToNode}).MatrixAsIterator
+                nulls += net <= nulls.Edges.ToArray(Function(x) {x.FromNode, x.ToNode}).IteratesALL
                 net -= nulls.Nodes
             End If
         End If

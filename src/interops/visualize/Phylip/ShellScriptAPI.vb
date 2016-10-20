@@ -79,7 +79,7 @@ Public Module ShellScriptAPI
         Dim EntryLQuery = (From Entry In EntriesList
                            Let InternalLinkLabel = __linkLabel(Entry.Name, Entry.Genbanks)
                            Where Not InternalLinkLabel.IsNullOrEmpty
-                           Select InternalLinkLabel).MatrixToList
+                           Select InternalLinkLabel).Unlist
         For Each NodeLabel As String In TreeNodeLabels
             Dim FindEntry = (From Entry In EntryLQuery.AsParallel Where InStr(Entry.Key, NodeLabel) = 1 Select Entry).ToArray
             '还必须要在Csv去重复的数据源之中存在

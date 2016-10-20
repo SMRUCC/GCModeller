@@ -166,7 +166,7 @@ and the shared number of the start site just lets you have a simple glimp on you
                       Let Lines = IO.File.ReadAllLines(file)
                       Select (From line As String In Lines
                               Let Tokens As String() = Strings.Split(line, vbTab)
-                              Select ID = Tokens(Scan0), Expr = CInt(Val(Tokens(1)))).ToArray).ToArray.MatrixToList
+                              Select ID = Tokens(Scan0), Expr = CInt(Val(Tokens(1)))).ToArray).ToArray.Unlist
         Dim ExprRaw = (From obj In LQuery
                        Select obj
                        Group obj By obj.ID Into Group).ToArray.ToDictionary(Function(obj) obj.ID, elementSelector:=Function(obj) (From nn In obj.Group Select nn.Expr).ToArray.Sum)

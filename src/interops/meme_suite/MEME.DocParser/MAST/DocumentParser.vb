@@ -215,7 +215,7 @@ Namespace DocumentFormat.MAST.HTML
             Dim LQuery As MEME.HTML.MEMEOutput()() = (From motif As MEME.HTML.Motif
                                                      In MEME.Motifs
                                                       Select __createMEMEOutPut(MEME.ObjectId, motif, MAST)).ToArray
-            Dim result As MEME.HTML.MEMEOutput() = LQuery.MatrixToVector
+            Dim result As MEME.HTML.MEMEOutput() = LQuery.ToVector
             Return result
         End Function
 

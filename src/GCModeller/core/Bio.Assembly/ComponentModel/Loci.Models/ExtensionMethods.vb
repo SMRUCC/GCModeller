@@ -90,7 +90,7 @@ Namespace ComponentModel.Loci
                                   Order By GroupTag Ascending).ToArray
             Dim l_GroupOperation = (From GroupTag As String
                                     In (From item In GroupOperation Select item.GroupTag Distinct).AsParallel
-                                    Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).MatrixToVector
+                                    Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).ToVector
                                     Select GroupTag, TagedLocation).ToArray
             lc = (From item In l_GroupOperation.AsParallel
                   Select If(item.TagedLocation.Count = 1, item.TagedLocation.First, LociAPI.Merge(item.TagedLocation))).ToArray
@@ -118,7 +118,7 @@ Namespace ComponentModel.Loci
                                   Order By GroupTag Ascending).ToArray
             Dim l_GroupOperation = (From GroupTag As String
                               In (From item In GroupOperation Select item.GroupTag Distinct).ToArray
-                                    Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).ToArray.MatrixToVector
+                                    Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).ToArray.ToVector
                                     Select GroupTag, TagedLocation).ToArray
             lc = (From item In l_GroupOperation Select If(item.TagedLocation.Count = 1, item.TagedLocation.First, LociAPI.Merge(item.TagedLocation))).ToArray
             Return lc.ToArray

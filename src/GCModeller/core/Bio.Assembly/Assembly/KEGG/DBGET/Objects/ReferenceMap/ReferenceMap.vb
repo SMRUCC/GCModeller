@@ -104,7 +104,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         End Function
 
         Public Overrides Function GetPathwayGenes() As String()
-            Dim LQuery = (From g In Me.ReferenceGenes Select (From nn In g.Value Select nn.Key.Split(CChar(":")).Last)).MatrixToVector
+            Dim LQuery = (From g In Me.ReferenceGenes Select (From nn In g.Value Select nn.Key.Split(CChar(":")).Last)).ToVector
             Return LQuery
         End Function
 
@@ -201,7 +201,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             Dim LQuery As KeyValuePair() =
                 Regex.Matches(str, DB_LINK_PATTERN) _
                     .ToArray(AddressOf __parserLinks) _
-                    .MatrixToVector
+                    .ToVector
             Return LQuery
         End Function
 

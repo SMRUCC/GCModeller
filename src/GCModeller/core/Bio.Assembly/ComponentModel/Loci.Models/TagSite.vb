@@ -81,7 +81,7 @@ Namespace ComponentModel.Loci.Abstract
             Dim locis As IEnumerable(Of GroupResult(Of T, String)) =
                 (From x
                  In Grouping'.AsParallel
-                 Select x.Group.__innerGroup(offset, tag:=x.tag)).MatrixAsIterator
+                 Select x.Group.__innerGroup(offset, tag:=x.tag)).IteratesALL
 
             For Each x As GroupResult(Of T, String) In locis
                 Yield x

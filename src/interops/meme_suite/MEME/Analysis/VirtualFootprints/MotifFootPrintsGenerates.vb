@@ -202,13 +202,13 @@ Namespace Analysis.GenomeMotifFootPrints
                                                     Let DoorList = (From fp_Data As PredictedRegulationFootprint In OperonData
                                                                     Where String.Equals(fp_Data.ORF, GeneId) OrElse Array.IndexOf(fp_Data.StructGenes, GeneId) > -1
                                                                     Select fp_Data.DoorId).ToArray
-                                                    Select DoorList).ToArray.MatrixToVector.Distinct.ToArray  '首先根据代谢途径之中的基因的信息得到相关的操纵子的编号信息
+                                                    Select DoorList).ToArray.ToVector.Distinct.ToArray  '首先根据代谢途径之中的基因的信息得到相关的操纵子的编号信息
             Dim LQuery = (From fp_Data As PredictedRegulationFootprint In data.AsParallel
                           Where Array.IndexOf(pwyGeneObjs, fp_Data.ORF) > -1
                           Select fp_Data).ToList   '得到代谢途径之中的基因的调控数据
             Call LQuery.AddRange((From GeneId As String In pwyGeneObjs.AsParallel
                                   Let OperonFirst = (From item In OperonData Where Array.IndexOf(item.StructGenes, GeneId) > -1 Select item).ToArray
-                                  Select OperonFirst).ToArray.MatrixToVector)  '代谢途径的基因所在的操纵子的第一个基因
+                                  Select OperonFirst).ToArray.ToVector)  '代谢途径的基因所在的操纵子的第一个基因
 
             Dim Grouped = (From fp_Data As PredictedRegulationFootprint
                            In LQuery
@@ -220,7 +220,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                     Where GeneID_List.Count / PathwayRelatedOperon.Count >= 0.65
                                     Select MotifId = groupItem.Key, groupItem.Value).ToArray       '从分组的数据之中筛选出基因的数目站代谢途径的65以上的motif分组，则该分组为可能的正确的数据
 
-            Call chunkBuffer.AddRange((From item In GetPossibleMoitf Select item.Value).ToArray.MatrixToVector)
+            Call chunkBuffer.AddRange((From item In GetPossibleMoitf Select item.Value).ToArray.ToVector)
 
             For Each item In GetPossibleMoitf
                 Call Grouped.Remove(item.MotifId)
@@ -285,7 +285,7 @@ Namespace Analysis.GenomeMotifFootPrints
                           Let MASTDoc As MASTHtml = MAST.HTML.LoadDocument(docPath, FootPrintMode:=True)
                           Let ObjectId As String = FileIO.FileSystem.GetDirectoryInfo(Path).Name
                           Let MEME_doc As MEMEHtml = MEME.HTML.LoadDocument($"{MEME_OUT}/{ObjectId}/meme.html")
-                          Select MAST.HTML.MatchMEMEAndMast(MEME_doc, MASTDoc)).MatrixToVector
+                          Select MAST.HTML.MatchMEMEAndMast(MEME_doc, MASTDoc)).ToVector
             Return LQuery
         End Function
 
@@ -322,7 +322,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                  MastEntry,
                                  GenomeSequence,
                                  GeneBriefInformation,
-                                 ATGDistance)).ToArray.MatrixToList
+                                 ATGDistance)).ToArray.Unlist
             If FilterPromoter Then Footprint = (From fp As VirtualFootprints
                                                 In Footprint
                                                 Where fp.Distance < 0
@@ -585,7 +585,7 @@ Namespace Analysis.GenomeMotifFootPrints
             Dim SequenceData = NucleicAcid.CreateObject(GenomeBrief.GenomeFasta.SequenceData).CreateReader
             Dim LQuery = (From item As MEMEOutput
                           In data.AsParallel
-                          Select PredictedRegulationFootprint.__createRegulationObject(item, SequenceData, GenomeBrief, ignoreDirection, ATGDistance)).ToArray.MatrixToVector
+                          Select PredictedRegulationFootprint.__createRegulationObject(item, SequenceData, GenomeBrief, ignoreDirection, ATGDistance)).ToArray.ToVector
             Dim DoorOperonPromoters = (From Operon As SMRUCC.genomics.Assembly.DOOR.Operon
                                        In DOOR_API.Load(Door).DOOROperonView.Operons
                                        Select PromoterGene = Operon.InitialX.Synonym,
@@ -640,7 +640,7 @@ Namespace Analysis.GenomeMotifFootPrints
 
             '将物种前缀去除
             Dim MatchData = (From item In RegulatorMatches.AsParallel Select New KeyValuePair(Of String, String)(item.HitName.Split(CChar(":")).Last, item.QueryName)).ToArray
-            Dim MatchedRegulators = (From Regulation In LQuery.AsParallel Select MatchRegulator(Regulation, MotifEntries, MatchData, GetPcc)).ToArray.MatrixToList  '.AsParallel
+            Dim MatchedRegulators = (From Regulation In LQuery.AsParallel Select MatchRegulator(Regulation, MotifEntries, MatchData, GetPcc)).ToArray.Unlist  '.AsParallel
             Dim AssignPathwayPhenotypesResult = (From Regulation As PredictedRegulationFootprint
                                                  In MatchedRegulators.AsParallel
                                                  Select AssignPhenotype(Regulation)).ToArray
@@ -740,7 +740,7 @@ Namespace Analysis.GenomeMotifFootPrints
         Public Function MergeFootprints(DIR As String) As PredictedRegulationFootprint()
             Dim LQuery = (From file As String
                           In DIR.EnumerateFiles("*.csv")
-                          Select file.LoadCsv(Of PredictedRegulationFootprint)).MatrixAsIterator
+                          Select file.LoadCsv(Of PredictedRegulationFootprint)).IteratesALL
             Return LQuery.ToArray
         End Function
 
@@ -756,7 +756,7 @@ Namespace Analysis.GenomeMotifFootPrints
 
         <ExportAPI("Hash")>
         <Extension> Private Function CreateEntryDictionary(data As IEnumerable(Of MotifDb.MotifFamily)) As Dictionary(Of MotifDb.Motif)
-            Dim ChunkBuffer = (From Family In data Select Family.Motifs).MatrixAsIterator
+            Dim ChunkBuffer = (From Family In data Select Family.Motifs).IteratesALL
             Return ChunkBuffer.ToDictionary
         End Function
 

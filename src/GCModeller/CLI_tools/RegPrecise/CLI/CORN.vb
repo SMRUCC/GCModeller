@@ -179,7 +179,7 @@ Partial Module CLI
             CLI = (ls - l - r - wildcards("*.csv") <= sitesDIR) _
                 .Select(AddressOf BaseName) _
                 .Select(build) _
-                .MatrixToVector
+                .ToVector
         Else
             CLI = build(name)
         End If
@@ -356,7 +356,7 @@ Partial Module CLI
                                                                   Select From r As RegPreciseOperon
                                                                          In hits
                                                                          Where Array.IndexOf(r.Operon, gene) > -1
-                                                                         Select r).MatrixAsIterator   ' 得到包含有这个基因的所有的操纵子列表
+                                                                         Select r).IteratesALL   ' 得到包含有这个基因的所有的操纵子列表
 
                 For Each candRef As RegPreciseOperon In LQuery
                     If String.Equals(bbh, candRef.bbhUID, StringComparison.OrdinalIgnoreCase) Then
@@ -448,7 +448,7 @@ Partial Module CLI
                            In x.df
                            Select x.BaseName,
                                __logs = log.__logs([long]),
-                               support = log.tags("support")).MatrixAsIterator
+                               support = log.tags("support")).IteratesALL
         Dim GroupLogs = (From x In data
                          Select x
                          Group x By x.__logs Into Group).ToArray

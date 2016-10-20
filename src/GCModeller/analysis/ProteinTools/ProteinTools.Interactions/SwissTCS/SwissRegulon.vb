@@ -188,9 +188,9 @@ Namespace SwissTCS
 
         <ExportAPI("Matrix.CrossTalks")>
         Public Function CreateCrossTalks(dirHisK As String, dirRR As String) As DocumentStream.File
-            Dim HisKList = (From Path As String In FileIO.FileSystem.GetFiles(dirHisK) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.MatrixToVector
-            Dim RRList = (From Path As String In FileIO.FileSystem.GetFiles(dirRR) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.MatrixToVector
-            Dim ChunkBuffer As CrossTalks() = {HisKList, RRList}.MatrixToVector
+            Dim HisKList = (From Path As String In FileIO.FileSystem.GetFiles(dirHisK) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.ToVector
+            Dim RRList = (From Path As String In FileIO.FileSystem.GetFiles(dirRR) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.ToVector
+            Dim ChunkBuffer As CrossTalks() = {HisKList, RRList}.ToVector
 
             Call $"{HisKList.Length} hisK and {RRList.Length} respone regulator...".__DEBUG_ECHO
 
@@ -225,12 +225,12 @@ Namespace SwissTCS
                                             In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.csv").AsParallel
                                             Let data = path.LoadCsv(Of CrossTalks)(False)
                                             Where Not data.IsNullOrEmpty
-                                            Select data.ToArray).ToArray.MatrixToVector
+                                            Select data.ToArray).ToArray.ToVector
             Dim lstId As String() = {(From cTk As CrossTalks
                                       In profiles
                                       Select cTk.Kinase).ToArray, (From cTk As CrossTalks
                                                                    In profiles
-                                                                   Select cTk.Regulator).ToArray}.MatrixToVector.Distinct.ToArray
+                                                                   Select cTk.Regulator).ToArray}.ToVector.Distinct.ToArray
             lstId = (From sId As String
                      In lstId
                      Let Trimed As String = __trim(sId)

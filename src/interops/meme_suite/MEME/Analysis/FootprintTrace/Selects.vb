@@ -50,7 +50,7 @@ Namespace Analysis.FootprintTraceAPI
             Dim memeHash As Dictionary(Of AnnotationModel) = AnnotationModel.LoadMEMEOUT(MEME)
             Dim LQuery = (From x As MatchResult
                           In trace.Footprints
-                          Select x.Select(memeHash)).MatrixToVector
+                          Select x.Select(memeHash)).ToVector
             Return LQuery
         End Function
 

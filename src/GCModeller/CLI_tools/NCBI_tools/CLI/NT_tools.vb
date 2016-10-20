@@ -63,7 +63,7 @@ Partial Module CLI
                            Select From w As String
                                   In ws
                                   Select termLine = line,
-                                      word = w).MatrixAsIterator
+                                      word = w).IteratesALL
              Select term
              Group term.termLine By term.word Into Group) _
                 .ToDictionary(Function(x) x.word,

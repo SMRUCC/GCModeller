@@ -199,7 +199,7 @@ Namespace Analysis.Similarity.TOMQuery
             Dim LQuery = (From x As MotifScans.AnnotationModel
                           In query.AsParallel
                           Select CompareBest(x, similarity, param)).ToArray
-            Dim resultSet = (From x In LQuery.MatrixToList Where x.Match Select x).ToArray
+            Dim resultSet = (From x In LQuery.Unlist Where x.Match Select x).ToArray
             Return resultSet
         End Function
     End Module

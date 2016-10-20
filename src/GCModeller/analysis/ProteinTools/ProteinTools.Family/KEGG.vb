@@ -62,7 +62,7 @@ Public Module KEGG
                               In family
                               Select stringPfam = PfamString.CreateObject(x),'.InvokeSet(NameOf(PfamString.SequenceData), seqDict(x.ProteinId)),
                                   subX.ToLower,
-                                  subX).ToArray).MatrixToVector _
+                                  subX).ToArray).ToVector _
                      .GroupBy(Function(x) x.ToLower) _
                      .ToArray(Function(x) Family.FileSystem.Family.CreateObject(x.First.subX, x.ToArray(Function(xx) xx.stringPfam))) _
                      .OrderBy(Function(x) x.Family).ToArray

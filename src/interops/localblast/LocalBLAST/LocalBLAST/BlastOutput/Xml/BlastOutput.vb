@@ -128,7 +128,7 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
             Dim hits = query.Hits.ToArray(Function(x) __toHit(x, query))
             Return New Views.Query With {
                 .Id = queryName,
-                .Hits = hits.MatrixToVector
+                .Hits = hits.ToVector
             }
         End Function
 

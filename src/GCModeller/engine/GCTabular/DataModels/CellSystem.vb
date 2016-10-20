@@ -416,7 +416,7 @@ Namespace DataModel
             Dim TempChunk = (From item As GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit
                              In Model.BacteriaGenome.TransUnits
                              Where Not item.RegulatedMotifs.IsNullOrEmpty
-                             Select TFList = (From rn In (From regulator In item.RegulatedMotifs Select regulator.Regulators).ToArray.MatrixToVector Select rn.Identifier).ToArray,
+                             Select TFList = (From rn In (From regulator In item.RegulatedMotifs Select regulator.Regulators).ToArray.ToVector Select rn.Identifier).ToArray,
                                     TranscriptionModel = item).ToArray
 
             Call SubstrateList.Clear()
@@ -607,7 +607,7 @@ Namespace DataModel
                                                                                                               .Weight = weight,
                                                                                                               .Regulates = motifId}).ToList
                                                                      End Function()
-                                            Select __createRegulators).ToArray.MatrixToList
+                                            Select __createRegulators).ToArray.Unlist
                           Select New GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.MotifSite With
                                  {
                                      .MotifName = regulation.motif.Internal_GUID, .SitePosition = regulation.motif.Position, .Regulators = regulators}).ToList     '生成motif数据并返回

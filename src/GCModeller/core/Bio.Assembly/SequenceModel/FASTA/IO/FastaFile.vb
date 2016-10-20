@@ -642,7 +642,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Operator
 
         Public Overloads Shared Operator +(FASTA As FastaFile, source As IEnumerable(Of IEnumerable(Of FastaToken))) As FastaFile
-            Return FASTA + source.MatrixAsIterator
+            Return FASTA + source.IteratesALL
         End Operator
 
         Public Shared Operator >(source As FastaFile, path As String) As Boolean

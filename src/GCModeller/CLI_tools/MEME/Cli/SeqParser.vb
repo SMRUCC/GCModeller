@@ -98,7 +98,7 @@ Partial Module CLI
                         Select (From TF As String
                                 In x.Regulators
                                 Select TF,
-                                    sid = locus)).MatrixAsIterator
+                                    sid = locus)).IteratesALL
         Dim Groups = (From x In regulons
                       Select x  ' 对每一个operon的第一个基因按照TF进行分组
                       Group x By x.TF Into Group) _
@@ -196,7 +196,7 @@ Partial Module CLI
                          Select (From family In x.Family
                                  Let uid As String = $"{x.Regulator}-{x.Family}"
                                  Select uid,
-                                     family.Group.ToArray)).MatrixAsIterator _
+                                     family.Group.ToArray)).IteratesALL _
                                         .ToDictionary(Function(x) x.uid,
                                                       Function(x) x.ToArray)
         Else

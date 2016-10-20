@@ -65,7 +65,7 @@ Module CRISPRPhylogeneticTree
 
     <ExportAPI("crispr.export_motif")>
     Public Function ExportMotifFasta(dat As Generic.IEnumerable(Of GenomeScanResult)) As FastaFile
-        Dim LQuery = (From item In dat.AsParallel Select item.ExportFasta.ToArray).MatrixToList
+        Dim LQuery = (From item In dat.AsParallel Select item.ExportFasta.ToArray).Unlist
         Return New FastaFile(LQuery)
     End Function
 

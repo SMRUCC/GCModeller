@@ -210,7 +210,7 @@ Public Module ReadsMap
         '频数统计
         Dim HistoneGram = (From loci
                            In TSSPossibleLocation.AsParallel
-                           Select loci.LociSequence).MatrixAsIterator _
+                           Select loci.LociSequence).IteratesALL _
                                                     .Distinct _
                                                     .ToDictionary(Function(i) i,
                                                                   Function(i) New Value(Of Integer))

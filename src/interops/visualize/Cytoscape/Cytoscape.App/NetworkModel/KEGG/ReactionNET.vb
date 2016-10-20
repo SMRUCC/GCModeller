@@ -73,7 +73,7 @@ Namespace NetworkModel.KEGG
                             Select (From cp As CompoundSpecieReference
                                     In LDM.GetMetabolites
                                     Select cp.Identifier,
-                                        rxn = x)).MatrixAsIterator
+                                        rxn = x)).IteratesALL
             Dim hash = (From x In preCache
                         Select x
                         Group x By x.Identifier Into Group) _
@@ -111,7 +111,7 @@ Namespace NetworkModel.KEGG
                                          .Properties = New Dictionary(Of String, String) From {{"associate", x.Value.Length}}})
             Call nodes.AddRange(nodeTmp)
 
-            Dim edges As FileStream.NetworkEdge() = cpHash.ToArray(Function(x) __buildNET(x.Key, x.Value), Parallel:=True).MatrixToVector
+            Dim edges As FileStream.NetworkEdge() = cpHash.ToArray(Function(x) __buildNET(x.Key, x.Value), Parallel:=True).ToVector
 
             Return New FileStream.Network With {
                 .Edges = edges.ToArray,
@@ -129,10 +129,10 @@ Namespace NetworkModel.KEGG
                                                                                 .ToDictionary(Function(x) x.Entry,
                                                                                               Function(x) x.Group.ToArray)
             Dim mapsSource = (From x As String
-                              In maps.ToArray(Function(xx) xx.ECMaps.ToArray(Function(xxx) xxx.Reactions)).MatrixAsIterator.MatrixAsIterator
+                              In maps.ToArray(Function(xx) xx.ECMaps.ToArray(Function(xxx) xxx.Reactions)).IteratesALL.IteratesALL
                               Where source.ContainsKey(x)
-                              Select source(x)).MatrixAsIterator
-            Dim rxns = (From x In source.Values.MatrixAsIterator
+                              Select source(x)).IteratesALL
+            Dim rxns = (From x In source.Values.IteratesALL
                         Where StringHelpers.IsNullOrEmpty(x.ECNum)
                         Select x).Join(mapsSource).ToArray
             Dim net As FileStream.Network = BuildNET(rxns)

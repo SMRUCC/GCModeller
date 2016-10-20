@@ -75,7 +75,7 @@ Partial Module CLI
                     Select (From g As String   ' 有些基因是有多个COG值的，这个情况还不清楚如何处理
                             In x.locus
                             Select g,
-                                cogCat = x)).MatrixAsIterator.GroupBy(Function(x) x.g) _
+                                cogCat = x)).IteratesALL.GroupBy(Function(x) x.g) _
                                             .ToDictionary(Function(x) x.Key,
                                                           Function(x) x.First.cogCat)
 
@@ -110,7 +110,7 @@ Partial Module CLI
             source = AnnotationModel.LoadDocument(query)
         Else
             Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-            source = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).MatrixToVector
+            source = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).ToVector
         End If
 
         If Not name.FileExists Then
@@ -168,7 +168,7 @@ Partial Module CLI
 
         Dim param As New Parameters
         Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-        Dim source As AnnotationModel() = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).MatrixToVector
+        Dim source As AnnotationModel() = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).ToVector
         Dim result As Dictionary(Of String, EntityLDM) =
             source.ToArray(Function(x) New EntityLDM With {.Name = x.Uid, .Properties = New Dictionary(Of String, Double)}) _
                   .ToDictionary(Function(x) x.Name)
@@ -232,12 +232,12 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inDIR)
         Dim loads = (From file As String
                      In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
-                     Select AnnotationModel.LoadDocument(file)).MatrixToList
+                     Select AnnotationModel.LoadDocument(file)).Unlist
         Dim resultSet As EntityLDM() = __clusterFastCommon(loads, args("/ldm"))
         Dim QueryHash As Dictionary(Of AnnotationModel) = loads.ToDictionary
         '将Entity和sites位点联系起来
         Dim asso = (From x In resultSet Select x, sites = QueryHash(x.Name)).ToArray
-        Dim merges = (From gene In (From x In asso Select __expends(x.x, x.sites)).MatrixToList Select gene Group gene By gene.Name Into Group).ToArray
+        Dim merges = (From gene In (From x In asso Select __expends(x.x, x.sites)).Unlist Select gene Group gene By gene.Name Into Group).ToArray
         Dim result As EntityLDM() = merges.ToArray(Function(x) __merges(x.Group.ToArray), parallel:=True)
 
         Call result.SaveTo(out & "/resultSet.Csv")
@@ -323,7 +323,7 @@ Partial Module CLI
             source = files.ToArray(Function(x) x.LoadXml(Of AnnotationModel))
         Else
             Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-            source = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).MatrixToVector
+            source = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).ToVector
         End If
 
         If Not String.IsNullOrEmpty(args("/map")) Then
@@ -480,7 +480,7 @@ Partial Module CLI
     ''' <param name="mods"></param>
     ''' <returns></returns>
     Private Function __getMods(keys As String(), mods As bGetObject.Module(), cats As Dictionary(Of String, BriteHEntry.Module), ByRef modSum As Dictionary(Of String, Integer)) As String()
-        Dim LQuery = (From id As String In keys Select (From x In mods Where x.ContainsReaction(id) Select x)).MatrixAsIterator
+        Dim LQuery = (From id As String In keys Select (From x In mods Where x.ContainsReaction(id) Select x)).IteratesALL
         Dim mIds = (From x In LQuery Select x.BriteId Group By BriteId Into Count).ToArray
         Dim catQuery = (From x In mIds Select [mod] = cats(x.BriteId).SubCategory, x.Count Group By [mod] Into Group).ToArray
         Dim orders = (From x In catQuery
@@ -797,7 +797,7 @@ Partial Module CLI
                             In FileIO.FileSystem.GetFiles(args("/familyinfo"), FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                             Let regs = file.LoadXml(Of BacteriaGenome).Regulons
                             Where Not regs Is Nothing OrElse regs.Regulators.IsNullOrEmpty
-                            Select regs.Regulators).ToArray.MatrixToVector
+                            Select regs.Regulators).ToArray.ToVector
             FamilyHash = (From x As Regulator In regulons
                           Let uid As String = x.LocusId & "." & x.LocusTag.Value.Replace(":", "_")
                           Select x,

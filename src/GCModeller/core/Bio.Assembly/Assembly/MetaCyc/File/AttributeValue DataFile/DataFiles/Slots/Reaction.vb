@@ -241,7 +241,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
 
         Public Function IsTransportReaction() As Boolean
             Dim LQuery = (From strLine As String
-                          In Me._innerHash.Values.MatrixAsIterator
+                          In Me._innerHash.Values.IteratesALL
                           Where Regex.Match(strLine, "\[\^COMPARTMENT - .+?\]").Success
                           Select strLine).FirstOrDefault
             Return Not String.IsNullOrEmpty(LQuery)

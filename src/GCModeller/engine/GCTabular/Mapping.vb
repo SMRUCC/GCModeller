@@ -352,7 +352,7 @@ Public Class Mapping : Implements System.IDisposable
                               In Regprecise.BacteriaGenomes
                               Select (From regulator In item.Regulons.Regulators
                                       Where Not String.IsNullOrEmpty(regulator.Effector)
-                                      Select regulator.Effector.ToLower.Trim).ToArray).ToArray.MatrixToVector.ToList
+                                      Select regulator.Effector.ToLower.Trim).ToArray).ToArray.ToVector.ToList
 
         Dim TempChunk As String() = (From strId As String In EffectorIdList Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-")) Select strId Distinct Order By strId Ascending).ToArray
         Call EffectorIdList.Clear()

@@ -41,7 +41,7 @@ Public Module Genotype
 
     ReadOnly __all As KeyValuePair(Of Char, Char)() =
         Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}) _
-                     .MatrixAsIterator _
+                     .IteratesALL _
                      .ToArray
 
     <Extension>
@@ -169,7 +169,7 @@ Public Module Genotype
         Dim out As New DocumentStream.File
         Dim array As GenotypeDetails() = source.ToArray()
         Dim allTag As String() = array.ToArray(Function(x) x.Population.Split(":"c).Last)
-        Dim all = Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).MatrixAsIterator
+        Dim all = Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).IteratesALL
         Dim head As New RowObject From {"types"}
 
         For Each tag As String In allTag

@@ -90,7 +90,7 @@ Namespace Analysis
 
         Public Function MatchedTargetRegulator(ExportFile As DocumentStream.File, BestMatches As RegpreciseMPBBH()) As MatchedResult()
             Dim ChunkBuffer As MatchedResult() = ExportFile.AsDataSource(Of MatchedResult)(False)
-            Dim MatchLQuery = (From Match As MatchedResult In ChunkBuffer.AsParallel Select Process(Match, BestMatches)).ToArray.MatrixToVector
+            Dim MatchLQuery = (From Match As MatchedResult In ChunkBuffer.AsParallel Select Process(Match, BestMatches)).ToArray.ToVector
             Return MatchLQuery
         End Function
 
@@ -121,7 +121,7 @@ Namespace Analysis
             Dim dictMotif = Motifs.ToDictionary(Function(motif) motif.Id)
             Dim LQuery = (From seq As DocumentFormat.XmlOutput.MAST.SequenceDescript
                           In MastXml.Sequences.SequenceList
-                          Select __match(dictMotif, seq)).ToArray.MatrixToVector.TrimNull
+                          Select __match(dictMotif, seq)).ToArray.ToVector.TrimNull
             Return LQuery
         End Function
 
@@ -225,11 +225,11 @@ Namespace Analysis
         Private Function __match(Motifs As Dictionary(Of String, MEME.LDM.Motif),
                                  seq As DocumentFormat.XmlOutput.MAST.SequenceDescript) As MotifSite()
             Dim resultSet = seq.Segments.ToArray(Function(site) __match(Motifs, site, seq.name))
-            Return resultSet.MatrixToVector
+            Return resultSet.ToVector
         End Function
 
         Private Function __match(Motifs As Dictionary(Of String, MEME.LDM.Motif), site As XmlOutput.MAST.Segment, uid As String) As MotifSite()
-            Return site.Hits.ToArray(Function(loci) __match(Motifs, loci, uid)).MatrixToVector
+            Return site.Hits.ToArray(Function(loci) __match(Motifs, loci, uid)).ToVector
         End Function
 
         Private Function __match(Motifs As Dictionary(Of String, MEME.LDM.Motif), site As XmlOutput.MAST.HitResult, uid As String) As MotifSite()
@@ -303,7 +303,7 @@ Namespace Analysis
                 From motif As MEMEOutput
                 In result
                 Select __createMotifSiteInfo(Of GeneDumpInfo)(
-                    motif, Reader, GeneBriefInformation:=cdsInfo)).ToArray.MatrixToVector
+                    motif, Reader, GeneBriefInformation:=cdsInfo)).ToArray.ToVector
 
             Return Footprints
         End Function
@@ -451,7 +451,7 @@ Namespace Analysis
                                In (From item In MatchedRegulations Select item.TF Distinct).ToArray
                                Let RegulatedGenes = (From item As MatchedResult In MatchedRegulations
                                                      Where String.Equals(Regulator, item.TF)
-                                                     Select item.OperonGeneIds).MatrixToVector.Distinct
+                                                     Select item.OperonGeneIds).ToVector.Distinct
                                Select Regulator, RegulatedGenes).ToArray
             Dim PathwayFunctions As Dictionary(Of String, BriteHEntry.Pathway) =
                 BriteHEntry.Pathway.LoadFromResource.ToDictionary(Function(item) item.EntryId)
@@ -461,7 +461,7 @@ Namespace Analysis
                                                                Select (From Pathway In Pathways
                                                                        Where Not Pathway.Genes.IsNullOrEmpty AndAlso Pathway.IsContainsGeneObject(RegulatedGeneId)
                                                                        Let [Class] As BriteHEntry.Pathway = PathwayFunctions(Regex.Match(Pathway.EntryId, "\d{5}").Value)
-                                                                       Select Pathway.EntryId, [Class].Category).ToArray).ToArray.MatrixToVector
+                                                                       Select Pathway.EntryId, [Class].Category).ToArray).ToArray.ToVector
                                       Select Regulator.Regulator, RegulatePhenotypes = RegulatedPathways).ToArray
             Dim CsvFile As DocumentStream.File = New DocumentStream.File
             Dim Head As DocumentStream.RowObject = New DocumentStream.RowObject From {"Regulator", "Family"}
@@ -483,7 +483,7 @@ Namespace Analysis
             Call CsvFile.AppendRange((From Line In st
                                       Let Counts = (From item In Line Select CStr(item.Counts)).ToArray
                                       Let Array = New String()() {New String() {Line.First.RegulatorTF, ""}, Counts}
-                                      Let value = Array.MatrixToVector
+                                      Let value = Array.ToVector
                                       Select CType(value, RowObject)).ToArray)
 
             st = st.MatrixTranspose

@@ -114,7 +114,7 @@ Imports Microsoft.VisualBasic.Data.csv
                                  Let IDCol As String() = New String() {row.Tag}
                                  Let DataCol As String() = (From n In row Select s = n.ToString).ToArray
                                  Let RowData As String()() = New String()() {IDCol, DataCol}
-                                 Select CType(RowData.MatrixToList, DocumentStream.RowObject)).ToArray
+                                 Select CType(RowData.Unlist, DocumentStream.RowObject)).ToArray
         Dim Csv = CType(RowGenerateLQuery, DocumentStream.File)
         Return Csv
     End Function

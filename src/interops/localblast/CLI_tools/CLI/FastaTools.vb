@@ -97,7 +97,7 @@ Partial Module CLI
 
                 If args.GetBoolean("/tokens") Then
                     words = words.Select(Function(s) s.Split) _
-                        .MatrixAsIterator _
+                        .IteratesALL _
                         .Distinct _
                         .ToArray
                 End If

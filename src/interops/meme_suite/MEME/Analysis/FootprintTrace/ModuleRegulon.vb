@@ -177,7 +177,7 @@ Namespace Analysis.FootprintTraceAPI
                                      mapsHash As Dictionary(Of String, bbhMappings())) As IEnumerable(Of PredictedRegulationFootprint)
             Dim LQuery = (From site As PredictedRegulationFootprint
                           In motif.GetFootprints
-                          Select site.FillSites(DOOR, mapsHash)).MatrixToVector
+                          Select site.FillSites(DOOR, mapsHash)).ToVector
             Return LQuery
         End Function
 

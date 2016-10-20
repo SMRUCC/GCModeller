@@ -364,7 +364,7 @@ BASAL_EXPRESSION:
             Me._semi_Decays_delta = If(Is_RegulatorType, conf.Regulator_Decays, conf.Enzyme_Decays)
             Me.Conf = conf
             Return (From regulator As RegulationExpression
-                    In (From site As SiteInfo In Me.RegulatorySites Select site.Regulators).ToArray.MatrixToList
+                    In (From site As SiteInfo In Me.RegulatorySites Select site.Regulators).ToArray.Unlist
                     Select regulator.SetConfigs(conf)).ToArray.Length
         End Function
     End Class

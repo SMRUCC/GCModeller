@@ -72,7 +72,7 @@ Namespace RegpreciseRegulations
                                                               .SequenceData = item.SequenceData}).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)).ToArray
             Call FileIO.FileSystem.CreateDirectory(RepositoryRoot)
 
-            Dim FastaFile = CType((From item In Fasta Select item.FastaData.ToArray).ToArray.MatrixToVector, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
+            Dim FastaFile = CType((From item In Fasta Select item.FastaData.ToArray).ToArray.ToVector, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
             DbFile = Model_Repository.Regprecise.DBPath(RepositoryRoot)
             Call FastaFile.Save(DbFile)  '路径都是一样的
             Dim MD5 As String = SecurityString.GetFileHashString(DbFile)
@@ -221,7 +221,7 @@ Namespace RegpreciseRegulations
             Dim BBH As NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit() = (From species In QvsBHData.AsParallel
                                                                                             Let bbhData = InternalCreateBBH(species.spcode, Qvs:=species.bh, SvqDict:=LQuery)
                                                                                             Where Not bbhData.IsNullOrEmpty
-                                                                                            Select bbhData).ToArray.MatrixToVector
+                                                                                            Select bbhData).ToArray.ToVector
             BBH = (From item In BBH Where item.Matched Select item).ToArray
             Return BBH
         End Function

@@ -145,7 +145,7 @@ Namespace Regtransbase.WebServices
         Public Property Description As String
 
         Public Function Export() As FASTA.FastaToken()
-            Return Logs.Select(Function(x) x.TFBSs.ExportMotifs).MatrixToVector
+            Return Logs.Select(Function(x) x.TFBSs.ExportMotifs).ToVector
         End Function
 
         ''' <summary>

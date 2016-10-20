@@ -41,7 +41,7 @@ Namespace Karyotype
         Sub New(DoorFile As String)
             Dim DOOR As DOOR = DOOR_API.Load(DoorFile)
             Me.__bands = New List(Of Band)(GenerateDocument(DOOR))
-            Me.Size = __bands.Select(Function(x) {x.start, x.end}).MatrixAsIterator.Max
+            Me.Size = __bands.Select(Function(x) {x.start, x.end}).IteratesALL.Max
             Call __karyotype()
         End Sub
 

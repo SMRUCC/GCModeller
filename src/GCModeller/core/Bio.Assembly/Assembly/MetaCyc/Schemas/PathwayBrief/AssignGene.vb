@@ -83,7 +83,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         Private Shared Function Query(EnzUniqueIdCollection As List(Of String), EnzAssignedGenes As KeyValuePair(Of String, String())()) As String()
             Dim LQuery = (From link In EnzAssignedGenes
                           Where EnzUniqueIdCollection.IndexOf(link.Key) > -1
-                          Select link.Value).MatrixToVector
+                          Select link.Value).ToVector
             Return LQuery
         End Function
 

@@ -261,7 +261,7 @@ REDO:           seq = Mid(seq, i)
                                    Select If(String.IsNullOrEmpty(pairItem.Key.Precursor), New String() {value}, New String() {pairItem.Key.Precursor, value})).ToArray
                 Dim Fsa As FastaToken = New FastaToken With {
                     .SequenceData = objItem.GetSequenceData,
-                    .Attributes = stringItems.MatrixToVector
+                    .Attributes = stringItems.ToVector
                 }
                 Return Fsa
             Else

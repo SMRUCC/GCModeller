@@ -114,7 +114,7 @@ Namespace API.ImportantNodes
                                       .Regulators = (From rel As IRegulatorRegulation
                                                      In Regulations
                                                      Where Array.IndexOf(ranks.Nodes, rel.LocusId) > -1
-                                                     Select rel.Regulators).MatrixAsIterator.Distinct.ToArray,
+                                                     Select rel.Regulators).IteratesALL.Distinct.ToArray,
                                       .GeneCluster = ranks.Nodes}).ToArray
             Return RegulatorRanks
         End Function
@@ -202,7 +202,7 @@ Namespace API.ImportantNodes
                               In S.AsParallel
                               Where NDS.IndexOf(b) > -1
                               Let ia = (From a As Node In NDS Where a < b Select a).ToArray
-                              Select ia).MatrixToVector
+                              Select ia).ToVector
                 NDS = (From node As Node
                        In NDS.AsParallel
                        Where Array.IndexOf(LQuery, node) = -1

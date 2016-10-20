@@ -82,7 +82,7 @@ Namespace NCBIBlastResult
             If headerSplit Then
                 hits = hits _
                     .Select(Function(x) x.SplitByHeaders) _
-                    .MatrixToVector
+                    .ToVector
             End If
 
             Return New AlignmentTable With {
@@ -172,7 +172,7 @@ Namespace NCBIBlastResult
                     .x = XOutput
                 }
 
-            Dim LQuery As HitRecord() = (From file In Files Select __createFromBlastn(file.Name, file.x)).MatrixToVector
+            Dim LQuery As HitRecord() = (From file In Files Select __createFromBlastn(file.Name, file.x)).ToVector
             Dim Tab As New AlignmentTable With {
                 .Hits = LQuery,
                 .Query = (From file As NamedValue(Of v228)
@@ -192,7 +192,7 @@ Namespace NCBIBlastResult
                          In ls - l - r - wildcards("*.txt") <= source
                          Select ID = path.BaseName,
                              XOutput = OutputReader.TryParseOutput(path)).ToArray
-            Dim LQuery As HitRecord() = (From file In Files Select file.ID.__hits(file.XOutput)).MatrixToVector
+            Dim LQuery As HitRecord() = (From file In Files Select file.ID.__hits(file.XOutput)).ToVector
             Dim tab As New AlignmentTable With {
                 .Hits = LQuery,
                 .Query = Files.First.XOutput.Queries.First.QueryName,
@@ -206,7 +206,7 @@ Namespace NCBIBlastResult
         <Extension> Private Function __hits(id As String, out As v228_BlastX) As IEnumerable(Of HitRecord)
             Return out.Queries _
                 .Select(Function(query) id.__hspHits(query)) _
-                .MatrixAsIterator
+                .IteratesALL
         End Function
 
         <Extension>

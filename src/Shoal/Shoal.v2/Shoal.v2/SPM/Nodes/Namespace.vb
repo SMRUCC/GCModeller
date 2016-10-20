@@ -53,7 +53,7 @@ Namespace SPM.Nodes
                           Let assm As System.Reflection.Assembly = [module].Assembly.LoadAssembly
                           Let EntryType As Type = __loadTypeInfo(assm, [module].Assembly.TypeId, [module].Assembly.Path)
                           Select CommandLine.Interpreter.GetAllCommands(EntryType)).ToArray
-            Dim __loadedAPIList = APIParser(LQuery.MatrixToVector)
+            Dim __loadedAPIList = APIParser(LQuery.ToVector)
             Dim hash = __loadedAPIList.ToDictionary(Function(api) api.Name.ToLower)
             Me.__loadedEntryPoints = New SortedDictionary(Of String, APIEntryPoint)(hash)
         End Sub

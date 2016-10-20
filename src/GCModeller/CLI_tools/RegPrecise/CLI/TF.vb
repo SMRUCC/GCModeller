@@ -138,7 +138,7 @@ Partial Module CLI
         Dim all = (From x As BacteriaGenome In genomes
                    Where Not x.Regulons Is Nothing AndAlso
                        Not x.Regulons.Regulators.IsNullOrEmpty
-                   Select xx = x.Regulons.Regulators).MatrixToList
+                   Select xx = x.Regulons.Regulators).Unlist
         Dim regulators = (From regulator As Regulator In all
                           Let sid As String = regulator.LocusId
                           Where hitsHash.ContainsKey(sid)
@@ -148,10 +148,10 @@ Partial Module CLI
         Dim queryRegulators = (From qx In
                                    (From x In regulators
                                     Select (From hit As BBH.BBHIndex In x.hits
-                                            Select query = hit, x.sid, x.Family).ToArray).MatrixToList
+                                            Select query = hit, x.sid, x.Family).ToArray).Unlist
                                Select qx
                                Group qx By qx.query.QueryName Into Group).ToArray
-        bbh = (From x In queryRegulators Select x.Group.ToArray(Function(xx) xx.query)).MatrixToList
+        bbh = (From x In queryRegulators Select x.Group.ToArray(Function(xx) xx.query)).Unlist
         Call bbh.SaveTo(out & "/Regulators.bbh.csv") ' 将Regulators的bbh结果分离出来了
 
         Dim FamilyBriefs As IEnumerable(Of FamilyHit) =
@@ -176,7 +176,7 @@ Partial Module CLI
         Dim key As String = args.GetValue("/pfamKey", "query.pfam-string")
         Dim LQuery = (From x In queryRegulators
                       Let names As IEnumerable(Of String) =
-                          (From hit In x.Group Select name = hit.Family.Split("/"c)).MatrixAsIterator
+                          (From hit In x.Group Select name = hit.Family.Split("/"c)).IteratesALL
                       Select x.QueryName,
                           pfam = hitsHash(x.QueryName).First.Property(key),
                           Family = (From s As String

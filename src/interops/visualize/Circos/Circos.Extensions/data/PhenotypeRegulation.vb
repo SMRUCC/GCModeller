@@ -76,11 +76,11 @@ Namespace Documents.Karyotype
                                      In (From item In LQuery Select item.Phenotype Distinct).ToArray
                                      Let AssociatedGene As String() = (From item In LQuery
                                                                        Where String.Equals(Phenotype, item.Phenotype)
-                                                                       Select item.AssociationGenes).MatrixToVector
+                                                                       Select item.AssociationGenes).ToVector
                                      Select New KeyValuePair(Of String, String())(Phenotype, AssociatedGene)).ToArray
             Me.Regulations = (From Regulator As String
                               In (From item In Regulations Select item.TFlocusId Distinct).ToArray
-                              Let RegulatedGene = (From item In Regulations Where String.Equals(item.TFlocusId, Regulator) Select item.RegulatedGenes).MatrixToVector
+                              Let RegulatedGene = (From item In Regulations Where String.Equals(item.TFlocusId, Regulator) Select item.RegulatedGenes).ToVector
                               Select New KeyValuePair(Of String, String())(Regulator, (From strId As String
                                                                                        In RegulatedGene
                                                                                        Select strId Distinct).ToArray)).ToArray

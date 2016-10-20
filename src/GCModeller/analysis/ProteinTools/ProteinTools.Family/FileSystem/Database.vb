@@ -58,7 +58,7 @@ Namespace FileSystem
         Public Function EntireDb() As FamilyPfam
             Dim LQuery = (From entry In lstDb Select entry.Value.LoadXml(Of FamilyPfam)).ToArray
             Dim Merge As FamilyPfam = New FamilyPfam With {
-                .Family = LQuery.ToArray(Function(x) x.Family).MatrixToVector
+                .Family = LQuery.ToArray(Function(x) x.Family).ToVector
             }
             Return Merge
         End Function

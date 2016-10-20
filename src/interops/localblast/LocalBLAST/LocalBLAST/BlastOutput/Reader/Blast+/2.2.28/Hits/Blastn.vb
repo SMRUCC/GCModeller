@@ -94,7 +94,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 .ToArray  ' 分段
             Dim LQuery As BlastnHit() = Tokens _
                 .Select(AddressOf BlastnTryParse) _
-                .MatrixToVector
+                .ToVector
 
             Return LQuery
         End Function

@@ -174,7 +174,7 @@ Here are the peoples who is contributes to the algorithm or source code of GCMod
     <th>Author/Contributors</th><th> </th><th>Modules</th>
   </tr>")
             Dim getAuthors = (From authorMod
-                                  In (From obj In SPMgr.NamespaceCollection Select (From [mod] In obj.PartialModules Select [mod].Publisher, [mod]).ToArray).ToArray.MatrixToList
+                                  In (From obj In SPMgr.NamespaceCollection Select (From [mod] In obj.PartialModules Select [mod].Publisher, [mod]).ToArray).ToArray.Unlist
                               Select authorMod, author = InputHandler.ToString(authorMod.Publisher).ToLower.Trim
                               Group authorMod By author Into Group).ToArray
 
@@ -265,7 +265,7 @@ Another Shoal commercial extension project ""<strong>MiMaster</strong> (pre-alph
         End Function
 
         Private Function __getRelatedNamespaces([Namespace] As SPM.Nodes.Namespace) As String()
-            Dim LQuery = (From pm In [Namespace].PartialModules.AsParallel Let assm = pm.Assembly.LoadAssembly Let types = assm.GetTypes Select types).ToArray.MatrixToList
+            Dim LQuery = (From pm In [Namespace].PartialModules.AsParallel Let assm = pm.Assembly.LoadAssembly Let types = assm.GetTypes Select types).ToArray.Unlist
             Dim GetNames = (From type In LQuery.AsParallel
                             Let Name = type.NamespaceEntry
                             Where Not Name Is Nothing AndAlso Not String.IsNullOrEmpty(Name.Namespace) AndAlso Not Name.AutoExtract

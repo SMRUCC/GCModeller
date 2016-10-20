@@ -114,13 +114,13 @@ Public Module RegulationNetworkFromFootprints
                                                        In Regprecise
                                                        Where String.Equals(besthit.QueryName, item.ProteinId)
                                                        Let effector_cpds = besthit.Effectors
-                                                       Select effector_cpds).ToArray.MatrixToVector.Distinct.ToArray
+                                                       Select effector_cpds).ToArray.ToVector.Distinct.ToArray
                       Let mapped_effector = (From id As String
                                              In hits_effector
                                              Select (From efc As MetaCyc.Schema.EffectorMap
                                                      In Effectors
                                                      Where String.Equals(efc.Effector, id)
-                                                     Select efc).ToArray).ToArray.MatrixToVector
+                                                     Select efc).ToArray).ToArray.ToVector
                       Select mapped_effector, item).ToArray
         Dim setValue = New SetValue(Of FileStream.Regulator)().GetSet(NameOf(FileStream.Regulator.Effectors))
 

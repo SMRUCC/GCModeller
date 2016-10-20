@@ -90,7 +90,7 @@ Namespace Analysis.Similarity
 
         Private Function __createObject(Signature As String, dat As Motif()) As Motif
             Dim Motif As Motif = New Motif With {.Signature = Signature}
-            Motif.Sites = (From m In dat Select m.Sites).ToArray.MatrixToList.Distinct.ToArray
+            Motif.Sites = (From m In dat Select m.Sites).ToArray.Unlist.Distinct.ToArray
             Motif.Width = dat.First.Width
             Motif.PspMatrix = MotifPM.CreateObject((From nn In dat Select nn.PspMatrix).ToArray)
 
@@ -221,7 +221,7 @@ where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         ''' <remarks></remarks>
         <ExportAPI("MEME.Diff")> Public Function MotifDiff(<Parameter("Path.A")> a As String, <Parameter("Path.b")> b As String) As MotifCompares
             Dim Mtf = DocumentFormat.MEME.Text.Load(a), Mtg = DocumentFormat.MEME.Text.Load(b)
-            Dim LQuery = (From Mta As Motif In Mtf.AsParallel Select (From Mtb In Mtg Select Motif1 = Mta, Motif2 = Mtb, delta = Sigma(Mta, Mtb))).MatrixToVector
+            Dim LQuery = (From Mta As Motif In Mtf.AsParallel Select (From Mtb In Mtg Select Motif1 = Mta, Motif2 = Mtb, delta = Sigma(Mta, Mtb))).ToVector
             Dim Result As MotifCompares = New MotifCompares With {
                 .Motif1 = Mtf,
                 .Motif2 = Mtg,

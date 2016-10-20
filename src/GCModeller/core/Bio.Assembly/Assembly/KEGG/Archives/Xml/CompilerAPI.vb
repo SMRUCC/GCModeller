@@ -67,7 +67,7 @@ Namespace Assembly.KEGG.Archives.Xml
             Dim Model As XmlModel = New XmlModel With {
                 .Pathways = Pathways.ToArray,
                 .Modules = Modules.ToArray,
-                .Metabolome = __getAllReactions(Pathways.ToArray(Function(x) x.Pathways).MatrixAsIterator, Reactions),
+                .Metabolome = __getAllReactions(Pathways.ToArray(Function(x) x.Pathways).IteratesALL, Reactions),
                 .spCode = speciesCode
             }
             Model.EC_Mappings = EC_Mapping.Generate_ECMappings(Model)
@@ -82,10 +82,10 @@ Namespace Assembly.KEGG.Archives.Xml
 
         Private Function __getAllReactions(Modules As IEnumerable(Of bGetObject.Pathway), Reactions As IEnumerable(Of bGetObject.Reaction)) As bGetObject.Reaction()
             Dim source As bGetObject.Reaction() = Reactions.ToArray
-            Dim parts = (From bMod As bGetObject.Pathway In Modules Select MapAPI.GetReactions(bMod, source)).MatrixAsIterator
+            Dim parts = (From bMod As bGetObject.Pathway In Modules Select MapAPI.GetReactions(bMod, source)).IteratesALL
             Dim allCompounds As String() = Modules.ToArray(
                 Function(x As bGetObject.Pathway) x.Compound.ToArray(
-                Function(cp) cp.Key)).MatrixAsIterator.Distinct.ToArray
+                Function(cp) cp.Key)).IteratesALL.Distinct.ToArray
 
             Dim allNoEnzyme = (From x As bGetObject.Reaction
                                In MapAPI.GetReactions(allCompounds, source)
@@ -129,7 +129,7 @@ Namespace Assembly.KEGG.Archives.Xml
                                 Select New PwyBriteFunc With {
                                     .Class = item.Class.Class,
                                     .Category = CategoryValue,
-                                    .Pathways = (From cc In Category Select cc.dataItem).ToArray}).ToArray).MatrixToVector
+                                    .Pathways = (From cc In Category Select cc.dataItem).ToArray}).ToArray).ToVector
             Return Data
         End Function
 

@@ -185,7 +185,7 @@ Public Module API
         Dim LQuery = (From prot In protFamily
                       Select (From fm As String
                               In prot.Family
-                              Select prot.LocusId, Family = fm).ToArray).ToArray.MatrixToList
+                              Select prot.LocusId, Family = fm).ToArray).ToArray.Unlist
         Dim Groups = (From x In LQuery Select x Order By x.Family Group x By x.Family Into Group).ToArray
         Dim Csv As New File
 
@@ -206,7 +206,7 @@ Public Module API
     Private Function __trim(Family As String()) As String()
         Dim LQuery = (From s As String In Family
                       Let st As String = s.Replace("-like", "")
-                      Select st.Split("/"c)).ToArray.MatrixToList
+                      Select st.Split("/"c)).ToArray.Unlist
         Return LQuery.Distinct.ToArray
     End Function
 End Module

@@ -103,7 +103,7 @@ Public Class ReadsCount : Inherits RawStream
     End Function
 
     Public Shared Function WriteDb(Db As Generic.IEnumerable(Of ReadsCount), saveDb As String) As Boolean
-        Dim LQuery = (From x As ReadsCount In Db.AsParallel Select x.Serialize).ToArray.MatrixToList
+        Dim LQuery = (From x As ReadsCount In Db.AsParallel Select x.Serialize).ToArray.Unlist
         Return LQuery.FlushStream(saveDb)
     End Function
 

@@ -408,7 +408,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                                               Let site_id As String = site.Name
                                               Let gid As String = getsId(site_id)
                                               Select gid,
-                                                  Motif = motifX.Signature).ToArray).ToArray.MatrixToList
+                                                  Motif = motifX.Signature).ToArray).ToArray.Unlist
                           Select nn
                           Group nn By nn.gid Into Group).ToArray
             Dim File As DocumentStream.File = New DocumentStream.File
@@ -488,7 +488,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
             Next
 
             If scale <= 0 Then
-                Dim mnc = (From row In File.Skip(1) Select (From s As String In row.Skip(1) Select Val(s)).ToArray).ToArray.MatrixToList.Max
+                Dim mnc = (From row In File.Skip(1) Select (From s As String In row.Skip(1) Select Val(s)).ToArray).ToArray.Unlist.Max
                 scale = 1 / mnc
             End If
 
@@ -560,7 +560,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         <ExportAPI("Export.Motif")>
         Public Function ExportMotif(<Parameter("Path.MEME.Text")> MEME_Text As String) As MotifSite()
             Dim Motifs = DocumentFormat.MEME.Text.Load(MEME_Text)
-            Dim LQuery = (From Motif In Motifs.AsParallel Select CopyObjects(Motif)).ToArray.MatrixToList
+            Dim LQuery = (From Motif In Motifs.AsParallel Select CopyObjects(Motif)).ToArray.Unlist
             Return LQuery.ToArray
         End Function
 
@@ -568,7 +568,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         Public Function ExportMotifs(Dir As String, <Parameter("Merged")> Optional Merged As Boolean = False) As Boolean
             Dim LQuery = (From path In Dir.LoadSourceEntryList({"*.txt"}).AsParallel Select Motifs = ExportMotif(MEME_Text:=path.Value), ID = path.Key).ToArray
             If Merged Then
-                Return (From Motifs In LQuery Select Motifs.Motifs).ToArray.MatrixToList.SaveTo(Dir & "/MotifsChunk.csv", False)
+                Return (From Motifs In LQuery Select Motifs.Motifs).ToArray.Unlist.SaveTo(Dir & "/MotifsChunk.csv", False)
             Else
 
                 For Each Motif In LQuery

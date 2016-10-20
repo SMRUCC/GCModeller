@@ -64,7 +64,7 @@ Public Module CLI
                                                     Select (From ns As String
                                                             In names
                                                             Select bpName = ns,
-                                                                ns.ToLower)).MatrixAsIterator
+                                                                ns.ToLower)).IteratesALL
                                       Select name
                                       Group name By name.ToLower Into Group) _
                                            .ToArray(Function(x) x.Group.First.bpName) _

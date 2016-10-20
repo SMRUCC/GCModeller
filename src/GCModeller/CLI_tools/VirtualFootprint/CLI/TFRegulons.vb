@@ -159,7 +159,7 @@ Partial Module CLI
         Dim siteHash = (From x As SimpleSegment
                         In (ls - l - r - wildcards("*.Csv") <= sites) _
                            .Select(AddressOf LoadCsv(Of SimpleSegment)) _
-                           .MatrixAsIterator
+                           .IteratesALL
                         Let sId As String = x.ID.Split(":"c).First
                         Select sId,
                             x
@@ -207,7 +207,7 @@ Partial Module CLI
         Dim siteHash = (From x As SimpleSegment
                         In (ls - l - r - wildcards("*.Csv") <= sites) _
                         .Select(AddressOf LoadCsv(Of SimpleSegment)) _
-                        .MatrixAsIterator
+                        .IteratesALL
                         Where x.SequenceData.Length >= 8
                         Let sId As String = x.ID.Split(":"c).First
                         Select sId,
@@ -309,7 +309,7 @@ Partial Module CLI
 
         totalLen = list _
             .Select(Function(x) {x.Location.Left, x.Location.Right}) _
-            .MatrixAsIterator _
+            .IteratesALL _
             .Max
 
         Dim PTT As New PTT(list, [in].BaseName & " #" & NameOf(ContextMappings), totalLen)

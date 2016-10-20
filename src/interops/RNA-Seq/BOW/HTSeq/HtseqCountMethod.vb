@@ -150,7 +150,7 @@ Public Module HtseqCountMethod
                       Select ID, data = CountResult.Load(File)).ToArray
         Dim AllFeatures = (From Experiment In LQuery
                            Select (From obj In Experiment.data
-                                   Select FeatureGeneName = obj.Feature).ToArray).MatrixToList.Distinct.ToArray.OrderBy(Of String)(Function(str) str).ToArray
+                                   Select FeatureGeneName = obj.Feature).ToArray).Unlist.Distinct.ToArray.OrderBy(Of String)(Function(str) str).ToArray
         Dim ChunkBuffer As New DocumentStream.File
 
         '生成表头

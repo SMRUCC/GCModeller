@@ -138,7 +138,7 @@ Partial Module CLI
 
         Dim LQuery = (From x As Output
                       In result
-                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).MatrixToList
+                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
         Call LQuery.SaveTo(out & "/Query.Csv")
 
         hits = result.ToArray(Function(x) MotifHit.CreateObject(x))
@@ -167,7 +167,7 @@ Partial Module CLI
         For Each qx As String In FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
             Dim queryLDM = AnnotationModel.LoadDocument(qx)
             Dim qName As String = IO.Path.GetFileNameWithoutExtension(qx)
-            Dim subjectLDM = (From file In subjects Where InStr(file.Key, qName) = 1 Select AnnotationModel.LoadDocument(file.Value)).MatrixToList
+            Dim subjectLDM = (From file In subjects Where InStr(file.Key, qName) = 1 Select AnnotationModel.LoadDocument(file.Value)).Unlist
 
             For Each x In queryLDM
                 For Each y In subjectLDM
@@ -181,7 +181,7 @@ Partial Module CLI
 
         Dim LQuery = (From x As Output
                       In results
-                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).MatrixToList
+                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
         Call LQuery.SaveTo(outDIR & "/Compares.Csv")
 
         Dim hits = results.ToArray(Function(x) MotifHit.CreateObject(x))
@@ -209,7 +209,7 @@ Partial Module CLI
 
         Dim LQuery = (From x As Output
                       In results
-                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).MatrixToList
+                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
         Call LQuery.SaveTo(outDIR & "/Compares.Csv")
 
         Dim hits = results.ToArray(Function(x) MotifHit.CreateObject(x))
@@ -253,8 +253,8 @@ Partial Module CLI
                              params,
                              noHTML,
                              out)).ToArray
-        Call BatchTask.ToArray(Function(x) x.out).MatrixToList.SaveTo(out & "/SW-TOM.Query.csv")
-        Call BatchTask.ToArray(Function(x) x.hits).MatrixToList.SaveTo(out & "/SW-TOM.Hits.Csv")
+        Call BatchTask.ToArray(Function(x) x.out).Unlist.SaveTo(out & "/SW-TOM.Query.csv")
+        Call BatchTask.ToArray(Function(x) x.hits).Unlist.SaveTo(out & "/SW-TOM.Hits.Csv")
 
         Return 0
     End Function

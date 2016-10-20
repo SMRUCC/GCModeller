@@ -50,7 +50,7 @@ Public Module Extensions
     Public Function MASTSites(mast As XmlOutput.MAST.MAST) As SimpleSegment()
         Dim name As String = mast.Motifs.BriefName
         Dim result = mast.Sequences.SequenceList.ToArray(Function(x) x.__toSites(name))
-        Dim sites As SimpleSegment() = result.MatrixAsIterator.MatrixToVector
+        Dim sites As SimpleSegment() = result.IteratesALL.ToVector
         Return sites
     End Function
 

@@ -56,7 +56,7 @@ Partial Module CLI
                       In (From x As PfamString
                           In pfamString
                           Let motifs As ProteinModel.DomainObject() = x.GetDomainData(False)
-                          Select motifs).MatrixAsIterator
+                          Select motifs).IteratesALL
                       Select motif.Identifier
                       Group Identifier By Identifier Into Count)
         Dim result = (From x In LQuery Select x.Identifier, density = x.Count / n Order By density Descending).ToArray

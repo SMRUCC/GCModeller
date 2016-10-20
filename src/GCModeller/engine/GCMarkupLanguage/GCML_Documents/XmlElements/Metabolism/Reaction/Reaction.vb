@@ -290,7 +290,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
 
         Public ReadOnly Property Substrates As String()
             Get
-                Return {(From Metabolite In Me.Reactants Select Metabolite.Identifier).ToArray, (From Metabolite In Me.Products Select Metabolite.Identifier).ToArray}.MatrixToVector
+                Return {(From Metabolite In Me.Reactants Select Metabolite.Identifier).ToArray, (From Metabolite In Me.Products Select Metabolite.Identifier).ToArray}.ToVector
             End Get
         End Property
 

@@ -73,7 +73,7 @@ Namespace NetworkModel.KEGG
                             Select (From g As String
                                     In genes
                                     Select g,
-                                        __mod = x)).MatrixAsIterator
+                                        __mod = x)).IteratesALL
             net += (From x As T
                     In mods
                     Select New Node With {
@@ -88,7 +88,7 @@ Namespace NetworkModel.KEGG
                                                    .Confidence = 1,
                                                    .FromNode = edge.__mod.EntryId,
                                                    .ToNode = edge.g,
-                                                   .InteractionType = PathwayGene})).MatrixAsIterator
+                                                   .InteractionType = PathwayGene})).IteratesALL
             net += net.__modProperty(net.Edges)
 
             Return net

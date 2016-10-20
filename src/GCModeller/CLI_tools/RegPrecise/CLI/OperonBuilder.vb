@@ -91,8 +91,8 @@ Partial Module CLI
         Dim ooo = (From x As SeqValue(Of RegPreciseOperon())
                    In its.SeqIterator
                    Select x.i,
-                       x.obj.ToArray(Function(xx) xx.Operon).MatrixAsIterator.Distinct.ToArray,
-                       TF = x.obj.ToArray(Function(xx) xx.Regulators).MatrixAsIterator.Distinct.ToArray).ToArray
+                       x.obj.ToArray(Function(xx) xx.Operon).IteratesALL.Distinct.ToArray,
+                       TF = x.obj.ToArray(Function(xx) xx.Regulators).IteratesALL.Distinct.ToArray).ToArray
 
         Call ooo.SaveTo(out.TrimSuffix & ".Csv")
 
@@ -257,7 +257,7 @@ Partial Module CLI
         End If
 
         Dim hits As String() = members.Keys.ToArray
-        Dim locus As New List(Of String)(members.Values.MatrixAsIterator.Distinct)
+        Dim locus As New List(Of String)(members.Values.IteratesALL.Distinct)
         Dim forwards = (From x As String
                         In locus
                         Where plus.HasElement(x)

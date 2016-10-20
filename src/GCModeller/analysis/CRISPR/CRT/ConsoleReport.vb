@@ -46,7 +46,7 @@ Public Module ConsoleReport
     End Function
 
     <Extension> Private Function __print(dat As IEnumerable(Of SearchingModel.CRISPR)) As String
-        Dim positionMaxLength As Integer = Len((From c In dat Select c.Repeats).MatrixAsIterator.Max.ToString)
+        Dim positionMaxLength As Integer = Len((From c In dat Select c.Repeats).IteratesALL.Max.ToString)
         Dim RepeatsMaxLength As Integer = (From c In dat Select c.RepeatLength).Max
         Dim SpacersMaxLength As Integer = (From c In dat Select c.AverageSpacerLength).Max
         Dim sBuilder As New StringBuilder(2048)

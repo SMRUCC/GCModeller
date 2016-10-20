@@ -64,7 +64,7 @@ Public Module BIOM
             In array _
                 .Where(Function(x) x.Composition IsNot Nothing) _
                 .Select(Function(x) x.Composition.Keys) _
-                .MatrixAsIterator _
+                .IteratesALL _
                 .Distinct
             Select New column With {
                 .id = sid

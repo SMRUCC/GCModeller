@@ -73,7 +73,7 @@ Namespace Analysis
             Dim regulons = FileIO.FileSystem.GetFiles(regulonBBH, FileIO.SearchOption.SearchTopLevelOnly, "*.xml") _
                 .ToArray(Function(x) x.LoadXml(Of Regprecise.BacteriaGenome))
             Dim tomOUTs = FileIO.FileSystem.GetFiles(tomOUT, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
-                .ToArray(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).MatrixToVector
+                .ToArray(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).ToVector
             Dim tomHash = (From x As Similarity.TOMQuery.CompareResult
                            In tomOUTs
                            Select uid = IO.Path.GetFileNameWithoutExtension(x.QueryName),
@@ -83,8 +83,8 @@ Namespace Analysis
                                               Function(x) x.Group.ToArray(Function(xx) xx.x))
             Dim regulonHash = (From x In regulons
                                Where Not x.Regulons Is Nothing
-                               Select x.Regulons.Regulators.ToArray(Function(xx) New With {.uid = uid(xx), .regulon = xx})).MatrixToVector
-            Dim regulonResults = (From x In regulonHash Where tomHash.ContainsKey(x.uid) Select x.regulon.__creates(tomHash(x.uid))).MatrixToVector
+                               Select x.Regulons.Regulators.ToArray(Function(xx) New With {.uid = uid(xx), .regulon = xx})).ToVector
+            Dim regulonResults = (From x In regulonHash Where tomHash.ContainsKey(x.uid) Select x.regulon.__creates(tomHash(x.uid))).ToVector
             Return regulonResults
         End Function
 

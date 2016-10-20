@@ -285,7 +285,7 @@ Namespace Compiler
                 End If
             Next
 
-            Dim RegulatorPC_IDs = (From Regulator In Regulators.AsParallel Where Not Regulator.Effectors.IsNullOrEmpty Select Regulator.get_PCs).ToArray.MatrixToVector.Distinct.ToArray    '添加调控因子蛋白质复合物
+            Dim RegulatorPC_IDs = (From Regulator In Regulators.AsParallel Where Not Regulator.Effectors.IsNullOrEmpty Select Regulator.get_PCs).ToArray.ToVector.Distinct.ToArray    '添加调控因子蛋白质复合物
 
             For Each PC In RegulatorPC_IDs
                 Dim PC_ID As String = PC.Key
@@ -344,7 +344,7 @@ Namespace Compiler
                                                           .Kcat = System.Math.Max(5000, 10000 * RandomDouble()),
                                                           .Metabolite = item.Metabolite}).ToArray
                           Select enzCollection).ToArray
-            Me._ModelIO.Enzymes = LQuery.MatrixToList
+            Me._ModelIO.Enzymes = LQuery.Unlist
 
             EnzymeIdArray = (From enz
                 In Me._ModelIO.TransmembraneTransportation

@@ -78,7 +78,7 @@ Namespace Compiler.Components
                           In CrossTalks.Skip(1).ToArray
                           Let hisk As String = line.First
                           Let scores = line.Skip(1).ToArray
-                          Select (From p As Integer In p_cache Select New CrossTalks With {.Regulator = RR(p), .Probability = Val(scores(p)), .Kinase = hisk}).ToArray).ToArray.MatrixToList
+                          Select (From p As Integer In p_cache Select New CrossTalks With {.Regulator = RR(p), .Probability = Val(scores(p)), .Kinase = hisk}).ToArray).ToArray.Unlist
 
             Dim HisKinase As String() = Model.MisT2.MajorModules.First.TwoComponent.get_HisKinase
             RR = Model.MisT2.MajorModules.First.TwoComponent.GetRR

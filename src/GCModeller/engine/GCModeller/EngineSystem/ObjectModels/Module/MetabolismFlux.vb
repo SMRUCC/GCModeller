@@ -159,7 +159,7 @@ Namespace EngineSystem.ObjectModels.Module
         End Function
 
         Protected Friend Sub FillMetabolites(Logging As Logging.LogFile)
-            Dim array As EquationModel.CompoundSpecieReference() = {_Products, _Reactants}.MatrixToVector
+            Dim array As EquationModel.CompoundSpecieReference() = {_Products, _Reactants}.ToVector
 
             _Metabolites = (From cspref As EquationModel.CompoundSpecieReference
                             In array

@@ -107,7 +107,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Else
                 Return (From htext As BriteHText
                     In Me.CategoryItems
-                        Select s_Data = htext.GetEntries).ToArray.MatrixToVector
+                        Select s_Data = htext.GetEntries).ToArray.ToVector
             End If
         End Function
 

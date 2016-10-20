@@ -194,7 +194,7 @@ Partial Module CLI
                         Let motifs As LDM.Motif() =
                             MEME_TEXT.SafelyLoad(file, True)
                         Where Not motifs.IsNullOrEmpty
-                        Select motifs).MatrixAsIterator.ToDictionary(Function(x) x.uid)
+                        Select motifs).IteratesALL.ToDictionary(Function(x) x.uid)
 
         For Each fa As String In ls - l - wildcards("*.fasta") <= [in]
             Dim name As String = fa.BaseName

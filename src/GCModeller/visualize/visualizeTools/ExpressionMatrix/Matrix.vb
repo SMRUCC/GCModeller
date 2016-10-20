@@ -77,10 +77,10 @@ Namespace ExpressionMatrix
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function NormalMatrix(MAT As DocumentStream.File) As Image
-            Dim Tags As String() = {(From row In MAT.Skip(1) Select row.First).ToArray, MAT.First.Skip(1).ToArray}.MatrixToList.Distinct.ToArray
+            Dim Tags As String() = {(From row In MAT.Skip(1) Select row.First).ToArray, MAT.First.Skip(1).ToArray}.Unlist.Distinct.ToArray
             Dim TagDict = CreateAlphabetTagSerials(Tags)
             Dim DrawingFont As Font = New Font(FontFace.Ubuntu, 12)
-            Dim MatrixValueString = (From s As String In (From row In MAT.Skip(1) Select row.Skip(1).ToArray).MatrixToList Select s Order By Len(s) Descending).ToArray
+            Dim MatrixValueString = (From s As String In (From row In MAT.Skip(1) Select row.Skip(1).ToArray).Unlist Select s Order By Len(s) Descending).ToArray
             Dim size = MatrixValueString.First.MeasureString(DrawingFont)
             Dim MatrixValues As Double() = (From s As String In MatrixValueString Select Val(s)).ToArray
             Dim ColorValues = GeneticClock.ColorRender.GetDesityRule(MatrixValues, 100)
@@ -132,10 +132,10 @@ Namespace ExpressionMatrix
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function NormalMatrixTriangular(MAT As DocumentStream.File) As Image
-            Dim Tags As String() = {(From row In MAT.Skip(1) Select row.First).ToArray, MAT.First.Skip(1).ToArray}.MatrixToList.Distinct.ToArray
+            Dim Tags As String() = {(From row In MAT.Skip(1) Select row.First).ToArray, MAT.First.Skip(1).ToArray}.Unlist.Distinct.ToArray
             Dim TagDict As Dictionary(Of String, String) = CreateAlphabetTagSerials(Tags)
             Dim DrawingFont As Font = New Font(FontFace.Ubuntu, 12)
-            Dim MatrixValueString = (From s As String In (From row In MAT.Skip(1) Select row.Skip(1)).MatrixToList Select s Order By Len(s) Descending).ToArray
+            Dim MatrixValueString = (From s As String In (From row In MAT.Skip(1) Select row.Skip(1)).Unlist Select s Order By Len(s) Descending).ToArray
             Dim size = MatrixValueString.First.MeasureString(DrawingFont)
             Dim MatrixValues As Double() = (From s As String In MatrixValueString Select Val(s)).ToArray
             Dim ColorValues = GeneticClock.ColorRender.GetDesityRule(MatrixValues, 100)

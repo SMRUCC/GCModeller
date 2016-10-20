@@ -96,7 +96,7 @@ Namespace R
 
         Public Function cbind(d1 As DataFrameRow(), d2 As DataFrameRow()) As DataFrameRow()
             Dim LQuery = From x As DataFrameRow
-                         In d1.JoinAsIterator(d2)
+                         In d1.JoinIterates(d2)
                          Select x
                          Group By x.Name Into Group
             Dim bufs As DataFrameRow() =
@@ -139,7 +139,7 @@ Namespace R.Graph
         Public Function Frame(d As GraphEdge(), Optional directed As Boolean = True, Optional vertices As DataFrame = Nothing) As PFSNetGraph
             Dim allsId As String() = (From edge As GraphEdge
                                       In d
-                                      Select {edge.g1, edge.g2}).MatrixAsIterator.Distinct.ToArray
+                                      Select {edge.g1, edge.g2}).IteratesALL.Distinct.ToArray
             Dim nodes = (From id As String In allsId
                          Let node As PFSNetGraphNode = New PFSNetGraphNode With {
                              .Name = id

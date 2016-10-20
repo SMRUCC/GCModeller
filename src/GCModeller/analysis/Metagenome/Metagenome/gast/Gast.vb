@@ -356,7 +356,7 @@ Namespace gast
 
                         OUT.WriteLine(String.Join(vbTab, d, results(read)(0), results(read)(1), results(read)(2)))
                     Else
-                        OUT.WriteLine(String.Join(vbTab, {d}.Join(results(read)).Join({String.Join(",", refs_for(read).Sort)}).MatrixToVector))
+                        OUT.WriteLine(String.Join(vbTab, {d}.Join(results(read)).Join({String.Join(",", refs_for(read).Sort)}).ToVector))
                     End If
                 Next
             Next

@@ -71,7 +71,7 @@ Public Module MotifDraws
                       Let subs = x.Value.ToArray(Function(name) FamilyMotifs(name))
                       Select model, subs, x).ToArray
         Dim Views = (From view In (From x In LQuery.AsParallel
-                                   Select x.model.CreateViews(x.subs.MatrixToVector, x.x.Key, pheno, EXPORT)).MatrixAsIterator
+                                   Select x.model.CreateViews(x.subs.ToVector, x.x.Key, pheno, EXPORT)).IteratesALL
                      Select view
                      Order By view.MotifId Ascending).ToArray
 

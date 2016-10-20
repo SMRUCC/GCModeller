@@ -46,7 +46,7 @@ Namespace Assembly.Expasy.AnnotationsTool
                                   Select New T_EnzymeClass_BLAST_OUT With {
                                       .UniprotMatched = id,
                                       .Class = Enzyme.Identification}).ToArray).ToArray
-            Dim ChunkBuffer As T_EnzymeClass_BLAST_OUT() = LQuery.MatrixToVector
+            Dim ChunkBuffer As T_EnzymeClass_BLAST_OUT() = LQuery.ToVector
             Return ChunkBuffer
         End Function
 
@@ -191,7 +191,7 @@ Namespace Assembly.Expasy.AnnotationsTool
                              In Annotations
                              Select (From nn As String
                                      In item.CatalyticActivity
-                                     Select String.Format("[{0}] {1}", item.Identification, nn)).ToArray).MatrixToVector
+                                     Select String.Format("[{0}] {1}", item.Identification, nn)).ToArray).ToVector
             Return raw
         End Function
     End Module

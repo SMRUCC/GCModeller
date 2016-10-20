@@ -150,7 +150,7 @@ Namespace TRN
                 Dim GenerateCsv = (From row In LQuery.AsParallel
                                    Let ID As String() = {row.UniqueId}
                                    Let Data As String()() = {ID, row.DataChunk}
-                                   Select CType(Data.MatrixToList, RowObject)).ToArray
+                                   Select CType(Data.Unlist, RowObject)).ToArray
                 Dim Csv As File = CType(GenerateCsv, File)
                 Return Csv.Save(url, False)
             End Using
@@ -185,8 +185,8 @@ Namespace TRN
                           Where Not GeneExpressionEvent.RegulatorySites.IsNullOrEmpty
                           Let Regulators = (From site As KineticsModel.SiteInfo
                                             In GeneExpressionEvent.RegulatorySites
-                                            Select (From data0expr In site.Regulators Select data0expr.Regulator).ToArray).ToArray.MatrixToVector
-                          Select Regulators).ToArray.MatrixToVector.Distinct.ToArray
+                                            Select (From data0expr In site.Regulators Select data0expr.Regulator).ToArray).ToArray.ToVector
+                          Select Regulators).ToArray.ToVector.Distinct.ToArray
             Return LQuery
         End Function
 

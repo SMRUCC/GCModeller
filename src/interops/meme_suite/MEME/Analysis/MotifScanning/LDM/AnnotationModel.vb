@@ -200,9 +200,9 @@ Namespace Analysis.MotifScans
                             Let parent As String = file.ParentDirName
                             Let LDM As AnnotationModel() = AnnotationModel.LoadDocument(file, uidPrefix:=parent)
                             Select LDM)
-                models = LDMs.MatrixToList
+                models = LDMs.Unlist
             Else
-                models = files.ToArray(Function(x) AnnotationModel.LoadDocument(x), Parallel:=True).MatrixToList
+                models = files.ToArray(Function(x) AnnotationModel.LoadDocument(x), Parallel:=True).Unlist
             End If
 
             If trimMotifId Then

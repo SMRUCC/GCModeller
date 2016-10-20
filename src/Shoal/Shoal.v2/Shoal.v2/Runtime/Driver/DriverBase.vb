@@ -60,7 +60,7 @@ Namespace Runtime.DeviceDriver
                                        .Type = Handle.SupportType,
                                        .Handle = Handle,
                                        .MethodInfo = MethodInfo}).ToArray).ToArray
-            Return Methods.MatrixToVector
+            Return Methods.ToVector
         End Function
 
         Protected Shared Function GetMethods([module] As System.Type) As __TYPEHwnd()

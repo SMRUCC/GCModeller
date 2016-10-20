@@ -51,7 +51,7 @@ Partial Module CLI
         Dim out As String = args("/out")
         Dim TCSProfiles = FileIO.FileSystem.GetFiles(TCSDir, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
             .ToArray(Function(file) _
-                         file.LoadCsv(Of CrossTalks)).MatrixToList
+                         file.LoadCsv(Of CrossTalks)).Unlist
         Dim virtualFootprints = regulations.LoadCsv(Of PredictedRegulationFootprint)
 
         Dim HK As String() = (From name As String In TCSProfiles.ToArray(Function(cTk) cTk.Kinase) Select name Distinct Order By name Ascending).ToArray

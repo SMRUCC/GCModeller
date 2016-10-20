@@ -133,7 +133,7 @@ Namespace DocumentFormat.MEME.Text
             Tokens = Regex.Split(s, sp)
             s = Tokens.Last
             Tokens = s.lTokens
-            Tokens = Tokens.ToArray(Function(x) Regex.Split(x, "\s+")).MatrixToVector
+            Tokens = Tokens.ToArray(Function(x) Regex.Split(x, "\s+")).ToVector
             Tokens = (From x As String In Tokens Where Not String.IsNullOrWhiteSpace(x) Select x).ToArray
 
             Dim data = Tokens.Split(3)

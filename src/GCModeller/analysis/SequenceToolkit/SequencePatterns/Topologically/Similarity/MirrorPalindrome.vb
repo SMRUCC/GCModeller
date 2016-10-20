@@ -138,7 +138,7 @@ Namespace Topologically.SimilarityMatches
                                                  SequenceData,
                                                  _maxDist,
                                                  cut),
-                                   parallel:=True).MatrixAsIterator.TrimNull
+                                   parallel:=True).IteratesALL.TrimNull
             Call _ResultSet.Add(Sites)
         End Sub
     End Class

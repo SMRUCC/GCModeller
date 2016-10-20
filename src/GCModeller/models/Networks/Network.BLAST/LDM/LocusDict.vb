@@ -46,7 +46,7 @@ Namespace LDM
                  Let lstLocus = x.LocusId.Distinct.ToArray
                  Select (From sId As String
                          In lstLocus
-                         Select sId, x.genome).ToArray).MatrixAsIterator _
+                         Select sId, x.genome).ToArray).IteratesALL _
                              .ToDictionary(Function(x) x.sId,
                                            Function(x) x.genome)
             Return LQuery

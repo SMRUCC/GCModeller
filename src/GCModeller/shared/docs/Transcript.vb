@@ -261,7 +261,7 @@ Namespace DocumentFormat
             Dim LQuery = (From x In source Select x Group x By x.Synonym Into Group) _
                 .ToDictionary(Function(x) x.Synonym,
                               Function(array) (From x In array.Group Select x Order By x.TSSs Ascending).ToArray)
-            Dim arrayMerged As Transcript() = (From x In LQuery Select __merge(x.Value, offset)).MatrixToVector
+            Dim arrayMerged As Transcript() = (From x In LQuery Select __merge(x.Value, offset)).ToVector
             Return arrayMerged
         End Function
 

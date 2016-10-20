@@ -108,7 +108,7 @@ both of these relationships hold
             Dim LQuery = (From EntryPoint As QueryEntry
                           In EntryList
                           Select HandleDownload(EntryPoint.LocusId)).ToArray
-            Return LQuery.MatrixToVector
+            Return LQuery.ToVector
         End Function
 
         Const GENE_ENTRY As String = "<a href=""/dbget-bin/www_bget.+?>.+?</a>" '.*?<a"
@@ -211,8 +211,8 @@ both of these relationships hold
                                    In str
                                    Select (From m As Match
                                            In Regex.Matches(ss, xRef, RegexOptions.IgnoreCase + RegexOptions.Singleline)
-                                           Select m.Value)).MatrixToVector
-            Dim Values = DBs.ToArray(Function(lnk) __xRefParser(lnk)).MatrixToVector
+                                           Select m.Value)).ToVector
+            Dim Values = DBs.ToArray(Function(lnk) __xRefParser(lnk)).ToVector
             Return Values
         End Function
 
@@ -237,7 +237,7 @@ both of these relationships hold
             Dim Xmls As IEnumerable(Of String) = ls - l - wildcards("*.xml") <= source
             Dim LQuery = (From xml As String In Xmls.AsParallel
                           Let result As SSDB.OrthologREST = xml.LoadXml(Of SSDB.OrthologREST)
-                          Select SSDB.Ortholog.CreateObjects(result)).MatrixToVector
+                          Select SSDB.Ortholog.CreateObjects(result)).ToVector
             Return LQuery
         End Function
     End Module

@@ -105,7 +105,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function get_Regulators() As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.ObjectModels.Entity.Regulator(Of Transcription)()
-            Return (From item In MotifSites Select item.Regulators).ToArray.MatrixToVector
+            Return (From item In MotifSites Select item.Regulators).ToArray.ToVector
         End Function
 
         ''' <summary>
