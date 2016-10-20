@@ -203,7 +203,7 @@ Partial Module CLI
     Public Function BlastnQueryAll(args As CommandLine) As Integer
         Dim [in] As String = args("/query")
         Dim db As String = args("/db")
-        Dim evalue As String = args.GetValue("/evalue", 10)
+        Dim evalue As String = args.GetValue("/evalue", 10.0R)
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-" & db.BaseName & ".blastn.Query.All/")
         Dim ws As Integer = args.GetValue("/word_size", -1)
         Dim penalty As Integer = args.GetValue("/penalty", -1)
