@@ -47,7 +47,10 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-<PackageNamespace("NCBI_tools.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gcmodeller.org")>
+<PackageNamespace("NCBI_tools.CLI",
+                  Category:=APICategories.CLI_MAN,
+                  Description:="Tools collection for handling NCBI data, includes: nt/nr database, NCBI taxonomy analysis, OTU taxonomy analysis, genbank database, and sequence query tools.",
+                  Publisher:="xie.guigang@gcmodeller.org")>
 <GroupingDefine(CLIGrouping.GITools, Description:=CLIGrouping.GIWasObsoleted)>
 Module CLI
 
