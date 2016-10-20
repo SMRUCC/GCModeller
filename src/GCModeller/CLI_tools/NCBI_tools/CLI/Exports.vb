@@ -45,6 +45,7 @@ Partial Module CLI
     <ExportAPI("/Filter.Exports",
                Usage:="/Filter.Exports /in <nt.fasta> /tax <taxonomy_DIR> /gi2taxid <gi2taxid.txt> /words <list.txt> [/out <out.DIR>]")>
     <Group(CLIGrouping.ExportTools)>
+    <Group(CLIGrouping.GITools)>
     Public Function FilterExports(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim tax As New NcbiTaxonomyTree(args("/tax"))

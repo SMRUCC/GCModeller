@@ -150,6 +150,7 @@ Partial Module CLI
     <ExportAPI("/Split.By.Taxid",
                Usage:="/Split.By.Taxid /in <nt.fasta> [/gi2taxid <gi2taxid.txt> /out <outDIR>]")>
     <Group(CLIGrouping.TaxonomyTools)>
+    <Group(CLIGrouping.GITools)>
     Public Function SplitByTaxid(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim gi2taxid As String = args.GetValue("/gi2taxid", [in].TrimSuffix & ".txt")
@@ -375,6 +376,7 @@ Partial Module CLI
     <ExportAPI("/Taxonomy.Data",
                Usage:="/Taxonomy.Data /data <data.csv> /field.gi <GI> /gi2taxid <gi2taxid.list.txt> /tax <ncbi_taxonomy:nodes/names> [/out <out.csv>]")>
     <Group(CLIGrouping.TaxonomyTools)>
+    <Group(CLIGrouping.GITools)>
     Public Function TaxonomyTreeData(args As CommandLine) As Integer
         Dim gi2taxid As String = args("/gi2taxid")
         Dim tax As String = args("/tax")
