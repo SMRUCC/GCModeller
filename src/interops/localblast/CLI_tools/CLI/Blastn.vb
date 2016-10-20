@@ -47,6 +47,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlu
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.CLIArgumentsBuilder
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports System.IO
+Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 
@@ -455,6 +457,31 @@ Partial Module CLI
                 Next
 
                 Call write.Flush(data)
+            Next
+
+            Return 0
+        End Using
+    End Function
+
+    <ExportAPI("/BlastnMaps.Match.Taxid",
+               Usage:="/BlastnMaps.Match.Taxid /in <maps.csv> /acc2taxid <acc2taxid.DIR> [/out <out.tsv>]")>
+    <Group(CLIGrouping.BlastnTools)>
+    Public Function MatchTaxid(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim acc2taxid As String = args("/acc2taxid")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".taxid_matched.tsv")
+
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            Dim data = [in].LoadCsv(Of BlastnMapping)
+            Dim acc As IEnumerable(Of String) = data _
+                .Select(Function(x) x.Reference _
+                    .Split _
+                    .First _
+                    .Split("."c) _
+                    .First)
+
+            For Each line$ In Accession2Taxid.Matchs(acc, acc2taxid)
+                Call writer.WriteLine(line$)
             Next
 
             Return 0

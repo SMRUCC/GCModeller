@@ -57,9 +57,10 @@ Namespace Assembly.NCBI
         ''' <returns></returns>
         <Extension>
         Public Iterator Function Matchs(acc_list As IEnumerable(Of String), DIR$) As IEnumerable(Of String)
-            Dim list As Dictionary(Of String, String) =
-                acc_list.ToDictionary(Function(id) id,
-                                      Function(s) null)
+            Dim list As Dictionary(Of String, String) = acc_list _
+                .Distinct _
+                .ToDictionary(Function(id) id,
+                              Function(s) null)
             Yield {
                 "accession", "accession.version", "taxid", "gi"
             }.JoinBy(vbTab)
