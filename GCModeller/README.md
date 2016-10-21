@@ -61,3 +61,11 @@ for listing all of the avaiable CLI API in the specific tool, and by typing
 <tool_name> ??[API_name]
 ``` 
 for details help information of the API command.
+
+###### Example for getting helps
+
+```
+$ NCBI_tools ??
+```
+
+![](./images/ToolsHelp-Example.png)
