@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' 查看程序集特性的值
 
-<Assembly: AssemblyTitle("LANS GCModeller Programs Profiles Manager")> 
-<Assembly: AssemblyDescription("LANS GCModeller Programs Profiles Manager")>
+<Assembly: AssemblyTitle("SMRUCC genomics GCModeller Programs Profiles Manager")>
+<Assembly: AssemblyDescription("SMRUCC genomics GCModeller Programs Profiles Manager")>
 <Assembly: AssemblyCompany("GCModeller")>
-<Assembly: AssemblyProduct("Settings")> 
-<Assembly: AssemblyCopyright("Copyright © LANS Corp. 2014")> 
+<Assembly: AssemblyProduct("Settings")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC genomics. 2014")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 
 <Assembly: ComVisible(False)>

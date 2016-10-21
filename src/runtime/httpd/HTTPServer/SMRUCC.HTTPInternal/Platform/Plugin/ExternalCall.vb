@@ -26,15 +26,17 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Platform.Plugins
 
     Public Module ExternalCall
 
         Public Function Scan(platform As PlatformEngine) As PluginBase()
-            Dim dllFiles As String() = FileIO.FileSystem.GetFiles(App.HOME, FileIO.SearchOption.SearchTopLevelOnly, "*.dll", "*.exe").ToArray
+            Dim dllFiles As String() = (ls - l - {"*.exe", "*.dll"} <= App.HOME).ToArray
             Dim plugins As New List(Of PluginBase)
 
             For Each dll As String In dllFiles
@@ -51,10 +53,13 @@ Namespace Platform.Plugins
 
         <Extension> Private Function __getPlugins(dll As String, platform As PlatformEngine) As PluginBase()
             Dim assm As Reflection.Assembly = Reflection.Assembly.LoadFile(dll)
-            Dim types As Type() = (From typeDef As Type
-                                   In assm.GetTypes
-                                   Where typeDef.IsInheritsFrom(GetType(PluginBase)) AndAlso Not typeDef.IsAbstract
-                                   Select typeDef).ToArray
+            Dim types As Type() = LinqAPI.Exec(Of Type) <=
+                From typeDef As Type
+                In assm.GetTypes
+                Where typeDef.IsInheritsFrom(GetType(PluginBase)) AndAlso
+                    Not typeDef.IsAbstract
+                Select typeDef
+
             If types.Length = 0 Then
                 Return New PluginBase() {}
             End If

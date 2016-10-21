@@ -363,7 +363,7 @@ PLANT:          objective.Associates = IO.File.ReadAllLines(file)
             file &= ".KEGG"
         End If
         If Not String.IsNullOrEmpty(footprints) Then
-            file &= "." & footprints.GetJustFileName
+            file &= "." & footprints.BaseName
         End If
         file &= ".csv"
         Return file

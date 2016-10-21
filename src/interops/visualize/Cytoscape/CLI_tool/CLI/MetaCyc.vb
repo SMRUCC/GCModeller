@@ -40,7 +40,7 @@ Partial Module CLI
     Public Function net_rFBA(args As CommandLine) As Integer
         Dim inSBML As String = args("/in")
         Dim fbaResult As String = args("/fba.out")
-        Dim outDIR As String = args.GetValue("/out", inSBML.TrimSuffix & "-" & fbaResult.GetJustFileName & "/")
+        Dim outDIR As String = args.GetValue("/out", inSBML.TrimSuffix & "-" & fbaResult.BaseName & "/")
         Dim net = SBMLrFBA.CreateNetwork(XmlFile.Load(inSBML), SBMLrFBA.LoadFBAResult(fbaResult))
         Return net.Save(outDIR, Encodings.ASCII.GetEncodings).CLICode
     End Function

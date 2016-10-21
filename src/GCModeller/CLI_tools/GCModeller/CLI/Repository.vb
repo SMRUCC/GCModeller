@@ -188,6 +188,30 @@ Partial Module CLI
         Return file.Save(out, Encodings.UTF8).CLICode
     End Function
 
+    <ExportAPI("/Data.Copy", Usage:="/Data.Copy /imports <DIR> [/ext <*.*> /copy2 <CopyTo> /overrides]")>
+    Public Function CopyFiles(args As CommandLine) As Integer
+        Dim importsData = args("/imports")
+        Dim ext As String = args.GetValue("/ext", "*.*")
+        Dim copy2 As String = args.GetValue("/copy2", importsData.TrimDIR & "-copy2/")
+        Dim [overrides] As Boolean = args.GetBoolean("/overrides")
+
+        For Each file$ In ls - l - r - ext <= importsData
+            Dim path$ = file$
+
+            If [overrides] Then
+                path = copy2 & $"/{path.ParentDirName}-{path.FileName}"
+            Else
+                path = copy2 & "/" & path.FileName
+            End If
+
+            If Not SafeCopyTo(file, path) Then
+                Call file.PrintException
+            End If
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/title.uniques", Usage:="/title.uniques /in <*.txt/DIR> [/simple /tokens 3 /n -1 /out <out.csv>]")>
     <Group(CLIGrouping.RepositoryTools)>
     Public Function UniqueTitle(args As CommandLine) As Integer

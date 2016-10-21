@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -45,7 +46,11 @@ Partial Module CLI
         Dim subject = New FastaFile(args("/subject")).ToDictionary(Function(x) x.Title.Split.First)
         Dim AllLocus As String() = hist.ToArray(Function(x) x.QueryName).Join(hist.ToArray(Function(x) x.HitName)).Distinct.ToArray
         Dim GetFasta = (From id As String In AllLocus Where query.ContainsKey(id) Select query(id)).ToList
-        Call GetFasta.Add((From id As String In AllLocus Where subject.ContainsKey(id) Select subject(id)).ToArray)
+
+        GetFasta += From id As String
+                    In AllLocus
+                    Where subject.ContainsKey(id)
+                    Select subject(id)
 
         Dim out As String = args("/hits").TrimSuffix & ".fasta"
         Return New FastaFile(GetFasta).Save(out).CLICode

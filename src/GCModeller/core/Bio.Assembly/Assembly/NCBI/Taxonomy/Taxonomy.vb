@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
-Namespace Assembly.NCBI
+Namespace Assembly.NCBI.Taxonomy
 
     Public Class TaxiValue
 

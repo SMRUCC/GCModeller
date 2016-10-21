@@ -30,6 +30,7 @@ Imports System.Text
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Language
 
 Namespace Karyotype
 
