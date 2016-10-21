@@ -340,7 +340,7 @@ Namespace LocalBLAST.Application.BBH
                                             In bh
                                             Where String.Equals(
                                                 hit.HitName,
-                                                enzPre.UniprotMatched,
+                                                enzPre.uniprot,
                                                 StringComparison.OrdinalIgnoreCase)
                                             Select hit
 
@@ -353,7 +353,7 @@ Namespace LocalBLAST.Application.BBH
                                                                     .EValue = bhItem.evalue,
                                                                     .Identity = bhItem.identities,
                                                                     .ProteinId = bhItem.QueryName,
-                                                                    .UniprotMatched = enzPre.UniprotMatched
+                                                                    .uniprot = enzPre.uniprot
                                                                 }
                 Return Linq
             Else

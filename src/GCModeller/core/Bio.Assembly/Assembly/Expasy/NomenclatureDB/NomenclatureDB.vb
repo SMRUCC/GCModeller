@@ -135,11 +135,11 @@ Namespace Assembly.Expasy.Database
             }
         End Function
 
-        Public Sub Export(ByRef Classes As CsvExport.Enzyme(), ByRef SwissProt As CsvExport.SwissProt())
-            Classes = (From enz As Enzyme
-                       In Enzymes
-                       Select CsvExport.Enzyme.CreateObject(enz)).ToArray
-            SwissProt = Enzymes.Select(AddressOf CsvExport.SwissProt.CreateObjects).ToVector
+        Public Sub Export(ByRef Classes As csv.Enzyme(), ByRef SwissProt As csv.SwissProt())
+            Classes = Enzymes.ToArray(AddressOf csv.Enzyme.CreateObject)
+            SwissProt = Enzymes _
+                .Select(AddressOf csv.SwissProt.CreateObjects) _
+                .ToVector
         End Sub
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean

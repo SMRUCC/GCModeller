@@ -28,7 +28,7 @@
 
 Imports System.Net
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
