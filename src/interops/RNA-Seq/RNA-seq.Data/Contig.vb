@@ -69,8 +69,8 @@ Public Class Contig : Inherits NucleotideModels.Contig
     ''' <param name="Reversed">实际的方向</param>
     ''' <returns></returns>
     Public Shared Function AssemblingForward(Reads As List(Of AlignmentReads), Reversed As Boolean) As Contig
-        '由于顺序是已经从小到大排好序了的，所以在这里直接进行装配
-        Dim AssembledRead = New Contig With {
+        ' 由于顺序是已经从小到大排好序了的，所以在这里直接进行装配
+        Dim AssembledRead As New Contig With {
             .Location = New NucleotideLocation(Reads(0).POS, Reads.Last.PNEXT - 1, If(Not Reversed, Strands.Forward, Strands.Reverse)),
             .SequenceData = String.Join("", (From Read As AlignmentReads
                                              In Reads
