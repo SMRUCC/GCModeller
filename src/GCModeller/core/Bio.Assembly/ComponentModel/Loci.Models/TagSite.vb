@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Language
 
 Namespace ComponentModel.Loci.Abstract
 
