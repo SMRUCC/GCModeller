@@ -261,7 +261,8 @@
     <Compile Include="Assembly\DOOR\OperonLDM.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
-    <Compile Include="Assembly\Expasy\CsvDumps.vb" />
+    <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
+    <Compile Include="Assembly\Expasy\csv\Enzyme.vb" />
     <Compile Include="Assembly\Expasy\NomenclatureDB\Enzyme.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\Archives\Csv\Module.vb" />

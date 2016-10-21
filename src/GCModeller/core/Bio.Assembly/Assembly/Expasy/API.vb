@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::9d5b27a067904b1f755c15473eed1759, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.Expasy.AnnotationsTool
 
@@ -35,19 +36,20 @@ Namespace Assembly.Expasy.AnnotationsTool
         ''' <summary>
         ''' 从Expasy数据库之中创建基本的数据
         ''' </summary>
-        ''' <param name="Enzymes"></param>
+        ''' <param name="enzymes"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GenerateBasicDocument(Enzymes As Expasy.Database.Enzyme()) As T_EnzymeClass_BLAST_OUT()
-            Dim LQuery = (From Enzyme As Expasy.Database.Enzyme
-                          In Enzymes
-                          Select (From id As String
-                                  In Enzyme.SwissProt
-                                  Select New T_EnzymeClass_BLAST_OUT With {
-                                      .UniprotMatched = id,
-                                      .Class = Enzyme.Identification}).ToArray).ToArray
-            Dim ChunkBuffer As T_EnzymeClass_BLAST_OUT() = LQuery.ToVector
-            Return ChunkBuffer
+        Public Function GenerateBasicDocument(enzymes As Expasy.Database.Enzyme()) As T_EnzymeClass_BLAST_OUT()
+            Dim LQuery = LinqAPI.Exec(Of T_EnzymeClass_BLAST_OUT) <=
+                From x As Expasy.Database.Enzyme
+                In enzymes
+                Select From id As String
+                       In x.SwissProt
+                       Select New T_EnzymeClass_BLAST_OUT With {
+                           .uniprot = id,
+                           .Class = x.Identification
+                       }
+            Return LQuery
         End Function
 
         Public Function EnzymeClassification(data As Generic.IEnumerable(Of T_EnzymeClass_BLAST_OUT)) As T_EnzymeClass_BLAST_OUT()
@@ -84,7 +86,7 @@ Namespace Assembly.Expasy.AnnotationsTool
                 Return New T_EnzymeClass_BLAST_OUT With {
                     .ProteinId = data.First.ProteinId,
                     .Class = ECList.First,
-                    .UniprotMatched = MaxIdentitiesItem.UniprotMatched,
+                    .uniprot = MaxIdentitiesItem.uniprot,
                     .Identity = MaxIdentitiesItem.Identity,
                     .EValue = MaxIdentitiesItem.EValue
                 }
@@ -151,7 +153,7 @@ Namespace Assembly.Expasy.AnnotationsTool
                                            In QueryProteins
                                            Select New EnzymeClass With {
                                                .ProteinId = item.Key,
-                                               .Hits = (From n In item.Value Select n.UniprotMatched).ToArray,
+                                               .Hits = (From n In item.Value Select n.uniprot).ToArray,
                                                .EC_Class = (From n As T_EnzymeClass_BLAST_OUT
                                                             In item.Value
                                                             Select n.Class
@@ -166,8 +168,9 @@ Namespace Assembly.Expasy.AnnotationsTool
         End Function
 
         Public Function InvokeKEGGAnnotations(dat As IEnumerable(Of EnzymeClass), KEGGReactions As IEnumerable(Of KEGG.DBGET.bGetObject.Reaction)) As EnzymeClass()
-            Dim LQuery = (From item As EnzymeClass In dat.AsParallel
-                          Let KEGG_Annotationed As EnzymeClass = __getKEGGReaction(item, KEGGReactions)
+            Dim LQuery = (From x As EnzymeClass
+                          In dat.AsParallel
+                          Let KEGG_Annotationed As EnzymeClass = __getKEGGReaction(x, KEGGReactions)
                           Select KEGG_Annotationed).ToArray
             Return LQuery
         End Function

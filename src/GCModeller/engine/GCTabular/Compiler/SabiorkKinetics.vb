@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -97,7 +98,7 @@ Namespace Compiler.Components
 
                 For Each id As String In KEGGReactionId
                     Dim LQuery = (From Enzyme In UniprotId
-                                  Let data = SelectKinetics(EnzymeId:=Enzyme.UniprotMatched, ReactionId:=id, KineticsData:=_KineticsData)
+                                  Let data = SelectKinetics(EnzymeId:=Enzyme.uniprot, ReactionId:=id, KineticsData:=_KineticsData)
                                   Where data IsNot Nothing
                                   Select New EnzymeCatalystKineticLaw With {
                                       .Enzyme = Enzyme.ProteinId,
