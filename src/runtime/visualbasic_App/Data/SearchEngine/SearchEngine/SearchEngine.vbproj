@@ -144,6 +144,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -164,6 +166,7 @@
     <Compile Include="Adapter\Text.vb" />
     <Compile Include="Adapter\DictionaryKey.vb" />
     <Compile Include="Evaluation\AssertionProvider.vb" />
+    <Compile Include="Evaluation\Match.vb" />
     <Compile Include="QueryArgument.vb" />
     <Compile Include="Comparer.vb" />
     <Compile Include="Adapter\DataEnumerator.vb" />
