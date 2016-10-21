@@ -40,6 +40,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization
                   Description:="Cytoscape model generator and visualization tools utils for GCModeller",
                   Publisher:="xie.guigang@gcmodeller.org",
                   Url:="https://github.com/xieguigang/GCModeller.Cytoscape")>
+<GroupingDefine(CLIGrouping.KEGGPhenotype, Description:=CLIGrouping.KEGGPhenotypeDescription)>
 Module CLI
 
     <ExportAPI("-Draw",

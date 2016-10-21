@@ -53,8 +53,8 @@ Partial Module CLI
 
     <ExportAPI("--mod.regulations",
                Usage:="--mod.regulations /model <KEGG.xml> /footprints <footprints.csv> /out <outDIR> [/pathway /class /type]")>
-    <Argument("/class", True, Description:="This parameter can not be co-exists with /type parameter")>
-    <Argument("/type", True, Description:="This parameter can not be co-exists with /class parameter")>
+    <Argument("/class", True, Description:="This parameter can not be co-exists with ``/type`` parameter")>
+    <Argument("/type", True, Description:="This parameter can not be co-exists with ``/class`` parameter")>
     <Group(CLIGrouping.KEGGTools)>
     Public Function ModuleRegulations(args As CommandLine) As Integer
         Dim Model = args("/model").LoadXml(Of XmlModel)
@@ -92,15 +92,18 @@ Partial Module CLI
         End If
 
         For Each kMod In Networks
-            Dim Edges = kMod.Value.Nodes.ToArray(Function(x) regulations.TryGetValue(x.Identifier)).Unlist
+            Dim edges = kMod.Value _
+                .Nodes _
+                .ToArray(Function(x) regulations.TryGetValue(x.Identifier)) _
+                .Unlist
             Dim Path As String = $"{outDIR}/{kMod.Key}/"
 
-            If Edges.IsNullOrEmpty Then
+            If edges.IsNullOrEmpty Then
                 Continue For
             End If
 
             Call kMod.Value.Nodes.Add(regulators)
-            Call kMod.Value.Edges.Add(Edges)
+            Call kMod.Value.Edges.Add(edges)
             Call kMod.Value.Save(Path, Encodings.UTF8)
         Next
 
@@ -156,14 +159,20 @@ Partial Module CLI
         Dim Edges As List(Of FileStream.NetworkEdge) =
             source.ToArray(Function(x) x.Edges, where:=Function(x) Not x Is Nothing).Unlist
 
-        Dim __nodes = (From node
-                       In (From node As FileStream.Node
-                           In Nods
-                           Select node
-                           Group node By node.Identifier Into Group)
-                       Select New FileStream.Node With {
-                           .Identifier = node.Identifier,
-                           .NodeType = node.Group.ToArray.ToArray(Function(x) x.NodeType).Distinct.ToArray.JoinBy("; ")}).ToArray
+        Dim __nodes = LinqAPI.Exec(Of Node) <=
+            From node
+            In (From node As FileStream.Node
+                In Nods
+                Select node
+                Group node By node.Identifier Into Group)
+            Select New FileStream.Node With {
+                .Identifier = node.Identifier,
+                .NodeType = node.Group _
+                    .ToArray(Function(x) x.NodeType) _
+                    .Distinct _
+                    .ToArray _
+                    .JoinBy("; ")
+            }
         Dim __edges = (From edge As FileStream.NetworkEdge
                        In Edges
                        Select edge,
