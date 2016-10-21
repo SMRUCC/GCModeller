@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.MetaCyc.File.DataFiles.Slots
 

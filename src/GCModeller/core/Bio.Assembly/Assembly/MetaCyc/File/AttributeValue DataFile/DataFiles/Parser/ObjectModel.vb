@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.MetaCyc.File
 

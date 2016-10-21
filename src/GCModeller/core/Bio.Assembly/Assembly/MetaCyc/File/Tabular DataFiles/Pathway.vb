@@ -28,8 +28,9 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.DataTabular
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.DataTabular
 
 Namespace Assembly.MetaCyc.File.TabularDataFiles
 

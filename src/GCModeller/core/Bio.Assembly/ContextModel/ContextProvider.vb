@@ -218,7 +218,7 @@ Namespace ContextModel
                     .loci = loci,
                     .parallel = parallel
                 }
-                Return Function(relType, dist) desc.GetRelation(relType, dist) + (MakeList(Of T)() <= asc.GetRelation(relType, dist))
+                Return Function(relType, dist) desc.GetRelation(relType, dist) + (LinqAPI.MakeList(Of T)() <= asc.GetRelation(relType, dist))
             End If
         End Function
 
