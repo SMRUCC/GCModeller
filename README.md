@@ -96,5 +96,6 @@ https://github.com/SMRUCC/ncbi-localblast
 >PM>  Install-Package NCBI_localblast
 
 ----------------------------------------------------------------------------------------------------
+<img src="./images/links/osi-certified.png" width="40px"/> ![](./images/links/github.ico)
 
-Copyright &copy; [SMRUCC genomics](http://smrucc.org) 2016. All rights reversed.
+Copyleft &copy; [SMRUCC genomics](http://smrucc.org) 2016. All rights reversed.
