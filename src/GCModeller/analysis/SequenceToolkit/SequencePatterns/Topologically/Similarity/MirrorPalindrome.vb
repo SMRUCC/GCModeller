@@ -29,6 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -131,7 +132,7 @@ Namespace Topologically.SimilarityMatches
             Me._maxDist = maxDist
         End Sub
 
-        Protected Overrides Sub __postResult(currentRemoves() As String, currentStat As Microsoft.VisualBasic.List(Of String), currLen As Integer)
+        Protected Overrides Sub __postResult(currentRemoves() As String, currentStat As List(Of String), currLen As Integer)
             Dim Sites As PalindromeLoci() =
                 currentStat.ToArray(
                     Function(loci) CreateMirrors(loci,

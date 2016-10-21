@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic
 
-Namespace Assembly.NCBI
+Namespace Assembly.NCBI.Taxonomy
 
     Public Structure Ranks
 

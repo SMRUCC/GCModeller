@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -86,8 +87,9 @@ Partial Module CLI
                 Call modRegulators.Add(pwyBrite.Class, regulators)
             End If
 
-            Call regulators.Add(doc.ToArray(Function(r) r.Regulator,
-                                            Function(r) Not String.IsNullOrEmpty(r.Regulator)))
+            regulators += doc _
+                .ToArray(Function(r) r.Regulator,
+                         Function(r) Not String.IsNullOrEmpty(r.Regulator))
         Next
 
         For Each type In modRegulators.ToArray

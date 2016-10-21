@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump

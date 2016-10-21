@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
+Imports vbList = Microsoft.VisualBasic.Language.List(Of String)
 
 Namespace VennDiagram.ModelAPI
 
@@ -167,9 +168,9 @@ Namespace VennDiagram.ModelAPI
         ''' <returns></returns>
         ''' <remarks></remarks>
         Protected Overrides Function __R_script() As String
-            Dim R As ScriptBuilder = New ScriptBuilder(capacity:=5 * 1024)
-            Dim dataList As New List(Of String) ' The list elements for the venn diagram partitions
-            Dim color As New List(Of String) ' The partitions color name vector
+            Dim R As New ScriptBuilder(capacity:=5 * 1024)
+            Dim dataList As New vbList ' The list elements for the venn diagram partitions
+            Dim color As New vbList    ' The partitions color name vector
 
             For i As Integer = 0 To partitions.Length - 1
                 Dim x As Partition = partitions(i)

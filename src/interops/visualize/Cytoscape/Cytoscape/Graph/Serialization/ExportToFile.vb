@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
 Namespace CytoscapeGraphView.Serialization

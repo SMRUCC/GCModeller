@@ -27,11 +27,12 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.ISequenceModel
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Linq
 
 Namespace TrackDatas.NtProps
 

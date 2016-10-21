@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.LDM.Expressions
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.LDM.Expressions.Keywords
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.Parser.TextTokenliser
+Imports Microsoft.VisualBasic.Language
 
 Namespace Interpreter
 

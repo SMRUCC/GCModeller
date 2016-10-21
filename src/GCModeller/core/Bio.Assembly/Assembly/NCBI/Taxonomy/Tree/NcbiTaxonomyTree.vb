@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Assembly.NCBI
+Namespace Assembly.NCBI.Taxonomy
 
     ''' <summary>
     ''' Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 

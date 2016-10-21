@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Text
 
-Namespace Assembly.NCBI
+Namespace Assembly.NCBI.Taxonomy
 
     Public Module Accession2Taxid
 

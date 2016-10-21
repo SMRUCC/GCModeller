@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Assembly.NCBI
+Namespace Assembly.NCBI.Taxonomy
 
     ''' <summary>
     ''' The tree node calculation model for <see cref="NcbiTaxonomyTree"/>

@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
-Namespace Assembly.NCBI
+Namespace Assembly.NCBI.Taxonomy
 
     Public Module TaxidMaps
 

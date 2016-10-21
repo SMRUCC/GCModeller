@@ -28,11 +28,12 @@
 
 Imports System.IO
 Imports System.Text
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports FILE = System.IO.StreamWriter
 
 Namespace SangerSNPs

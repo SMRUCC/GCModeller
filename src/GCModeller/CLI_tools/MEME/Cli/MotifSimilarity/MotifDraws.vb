@@ -28,15 +28,16 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Imaging
 
 Public Module MotifDraws
 

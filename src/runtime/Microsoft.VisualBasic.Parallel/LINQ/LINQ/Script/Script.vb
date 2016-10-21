@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq.Framework.DynamicCode
+﻿Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Framework.DynamicCode
 Imports Microsoft.VisualBasic.Linq.LDM.Statements
 Imports Microsoft.VisualBasic.Linq.Script.Tokens
 Imports Microsoft.VisualBasic.Scripting

@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports vbList = Microsoft.VisualBasic.Language.List(Of String)
 
 Public Module TableExtensions
 
@@ -46,7 +47,7 @@ Public Module TableExtensions
     ''' </param>
     <Extension>
     Public Sub PushAsTable(table As DocumentStream.File, tableName As String, Optional skipFirst As Boolean = True)
-        Dim MAT As New List(Of String)
+        Dim MAT As New vbList ' 因为Language命名空间下面的C命名空间和c函数有冲突，所以在这里导入类型别名
         Dim ncol As Integer
 
         For Each row In table.Skip(1)
