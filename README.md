@@ -17,7 +17,6 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 **Runtime environment:** [VisualBasic App](https://www.nuget.org/packages/VB_AppFramework/) v1.0.40 &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)<br />
 **Installation:** ``VS2015`` is required of compiles this project. After the source code have been download, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.
 
-<a href=""><img src="./images/links/osi-certified.png" width="40px"/></a> [![](./images/links/github.ico)](https://github.com/smrucc/GCModeller)
 ---------------------------------------------------------------------------------------------------
 
 <img src="http://gcmodeller.org/DNA.png" width=40 height=48 />``GCModeller`` is an open source cloud computing platform for the geneticist and systems biology. You can easily build a local computing server cluster for ``GCModeller`` on the large amount biological data analysis.
@@ -97,5 +96,6 @@ https://github.com/SMRUCC/ncbi-localblast
 >PM>  Install-Package NCBI_localblast
 
 ----------------------------------------------------------------------------------------------------
+<img src="./images/links/osi-certified.png" width="40px"/> ![](./images/links/github.ico)
 
-Copyright &copy; [SMRUCC genomics](http://smrucc.org) 2016. All rights reversed.
+Copyleft &copy; [SMRUCC genomics](http://smrucc.org) 2016. All rights reversed.
