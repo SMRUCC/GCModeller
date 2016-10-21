@@ -76,11 +76,11 @@ Namespace Fastaq
 #Region "Implements Generic.IList(Of Fastaq)"
 
         Public Sub Add(item As FastQ) Implements ICollection(Of FastQ).Add
-
+            _innerList.Add(item)
         End Sub
 
         Public Sub Clear() Implements ICollection(Of FastQ).Clear
-
+            _innerList.Clear()
         End Sub
 
         Public Function Contains(item As FastQ) As Boolean Implements ICollection(Of FastQ).Contains
@@ -88,7 +88,7 @@ Namespace Fastaq
         End Function
 
         Public Overloads Sub CopyTo(array() As FastQ, arrayIndex As Integer) Implements ICollection(Of FastQ).CopyTo
-
+            _innerList.CopyTo(array, arrayIndex)
         End Sub
 
         Public ReadOnly Property NumOfReads As Integer Implements ICollection(Of FastQ).Count
@@ -112,7 +112,7 @@ Namespace Fastaq
         End Function
 
         Public Sub Insert(index As Integer, item As FastQ) Implements IList(Of FastQ).Insert
-
+            _innerList.Insert(index, item)
         End Sub
 
         Default Public Property Item(index As Integer) As FastQ Implements IList(Of FastQ).Item
@@ -125,12 +125,12 @@ Namespace Fastaq
         End Property
 
         Public Sub RemoveAt(index As Integer) Implements IList(Of FastQ).RemoveAt
-
+            _innerList.RemoveAt(index)
         End Sub
 #End Region
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Throw New NotImplementedException
+            Return WriteFastQ(FilePath)
         End Function
 
         ''' <summary>

@@ -42,7 +42,25 @@ Namespace Fastaq
         ''' <returns></returns>
         <Extension>
         Public Function AsReadsNode(fq As FastQ) As String
+            Dim lines$() = New String(4 - 1) {}
 
+            lines(Scan0) = fq.SEQ_ID.ToString
+            lines(1) = fq.SequenceData
+            lines(2) = fq.SEQ_ID2.ToString
+            lines(3) = fq.Quantities
+
+            Return lines.JoinBy(ASCII.LF)
+        End Function
+
+        <Extension>
+        Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$) As Boolean
+            Using file As IO.StreamWriter = save.OpenWriter(Encodings.ASCII)
+                For Each fq As FastQ In data
+                    Call file.WriteLine(fq.AsReadsNode)
+                Next
+
+                Return True
+            End Using
         End Function
     End Module
 End Namespace
