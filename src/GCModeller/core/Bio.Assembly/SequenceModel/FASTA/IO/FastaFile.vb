@@ -30,6 +30,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
@@ -45,6 +46,8 @@ Namespace SequenceModel.FASTA
     ''' (一个包含有多条序列数据的FASTA文件)
     ''' </summary>
     ''' <remarks></remarks>
+    ''' 
+    <ActiveViews(FastaToken.SampleView, type:="bash")>
     Public Class FastaFile : Inherits ITextFile
         Implements IDisposable
         Implements IEnumerable(Of FastaToken)
