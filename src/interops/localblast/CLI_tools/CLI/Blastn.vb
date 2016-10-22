@@ -245,7 +245,7 @@ Partial Module CLI
         Return maps.SaveTo(out)
     End Function
 
-    <ExportAPI("/Export.blastnMaps.Batch",
+    <ExportAPI("/Export.blastnMaps.Batch", Info:="Multiple processor task.",
                Usage:="/Export.blastnMaps.Batch /in <blastn_out.DIR> [/best /out <out.DIR> /num_threads <-1>]")>
     <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMapsBatch(args As CommandLine) As Integer
@@ -259,6 +259,40 @@ Partial Module CLI
         Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).ToArray(task)
 
         Return App.SelfFolks(CLI, numThreads)
+    End Function
+
+    <ExportAPI("/Export.blastnMaps.Write",
+               Info:="Exports large amount of blastn output files and write all data into a specific csv file.",
+               Usage:="/Export.blastnMaps.Write /in <blastn_out.DIR> [/best /out <write.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
+    <Argument("/best", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Only export the top best blastn alignment hit?")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(BlastnMapping)},
+              Description:="Blastn alignment maps data.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(String)},
+              Description:="The directory path that contains the blastn output data.")>
+    Public Function ExportBlastnMapsBatchWrite(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim best As Boolean = args.GetBoolean("/best")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & $"-blastnMaps{If(best, "-top_best", "")}.csv")
+        Dim LQuery = From path As String
+                     In (ls - l - r - wildcards("*.txt") <= [in]).AsParallel
+                     Let blastn As v228 = Parser.ParsingSizeAuto(path)
+                     Let maps = MapsAPI.Export(blastn, best, path.BaseName, False)
+                     Where Not maps.IsNullOrEmpty
+                     Select maps
+
+        Using writer As New WriteStream(Of BlastnMapping)(out,,, {"track"})
+            For Each block As BlastnMapping() In LQuery
+                Call writer.Flush(block, False)
+                Call block.First.Extensions("track").__DEBUG_ECHO
+            Next
+
+            Return 0
+        End Using
     End Function
 
     <ExportAPI("/Export.blastnMaps.littles",

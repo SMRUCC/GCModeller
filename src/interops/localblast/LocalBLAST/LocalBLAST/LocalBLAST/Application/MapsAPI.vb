@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Linq
 
 Namespace LocalBLAST.Application
 
@@ -155,34 +156,49 @@ Namespace LocalBLAST.Application
         ''' <param name="best">前提是query里面的hit的原有的顺序没有被破坏掉</param>
         ''' <returns></returns>
         <Extension>
-        Public Function Export(blastnMapping As v228, Optional best As Boolean = False) As BlastnMapping()
-            If Not best Then _
-                Return blastnMapping.Queries.Export
+        Public Function Export(blastnMapping As v228,
+                               Optional best As Boolean = False,
+                               Optional track$ = Nothing,
+                               Optional parallel As Boolean = True) As BlastnMapping()
 
-            Return Export(
-                blastnMapping _
-                .Queries _
-                .Select(Function(query) As Query
-                            Dim copy As New Query(query)
+            Dim out As BlastnMapping()
 
-                            If copy.SubjectHits.IsNullOrEmpty Then
-                                copy.SubjectHits = {}
-                            Else
-                                copy.SubjectHits = {
+            If Not best Then
+                out = blastnMapping.Queries.Export
+            Else
+                out = Export(
+                    blastnMapping _
+                    .Queries _
+                    .Select(Function(query) As Query
+                                Dim copy As New Query(query)
+
+                                If copy.SubjectHits.IsNullOrEmpty Then
+                                    copy.SubjectHits = {}
+                                Else
+                                    copy.SubjectHits = {
                                     copy.SubjectHits.First
                                 }
-                            End If
+                                End If
 
-                            Return copy
-                        End Function))
+                                Return copy
+                            End Function), parallel)
+            End If
+
+            If Not String.IsNullOrEmpty(track) Then
+                For Each x As BlastnMapping In out
+                    x.Extensions = New Dictionary(Of String, String)
+                    x.Extensions.Add(NameOf(track), track)
+                Next
+            End If
+
+            Return out
         End Function
 
         <Extension>
-        Public Function Export(lstQuery As IEnumerable(Of Query)) As BlastnMapping()
-            Dim LQuery As BlastnMapping() =
-                LinqAPI.Exec(Of BlastnMapping) <= From query As Query
-                                                  In lstQuery.AsParallel
-                                                  Select MapsAPI.CreateObject(query)
+        Public Function Export(lstQuery As IEnumerable(Of Query), Optional parallel As Boolean = True) As BlastnMapping()
+            Dim LQuery As BlastnMapping() = lstQuery _
+                .ToArray(AddressOf MapsAPI.CreateObject, parallel) _
+                .ToVector
             Return LQuery
         End Function
 
