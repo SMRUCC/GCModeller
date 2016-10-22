@@ -1,7 +1,7 @@
 ---
 title: Shoal
 tags: [maunal, tools]
-date: 2016/10/19 16:38:37
+date: 2016/10/22 12:30:18
 ---
 # ShoalShell [version 1.2.258.2033]
 > This module define the shoal commandlines for the command line interpreter.
@@ -32,28 +32,21 @@ All of the command that available in this program has been list below:
 |[var](#var)|Get the environment variable value in the shoal shell, if a variable name is not specific, then the shoal will list all of the variable value in shoal.|
 |[--version](#--version)|Print the version of the shoal shell in the console.|
 
-
-
-
 ## CLI API list
 --------------------------
 <h3 id="/debug"> 1. /debug</h3>
 
 Start the shoal shell in debug output mode.
-**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 DEBUG(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 DEBUG(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 Shoal /debug listener_port <listen_port> [-work <working_Dir>]
 ```
-###### Example
-```bash
-Shoal
-```
 <h3 id="::"> 2. ::</h3>
 
 Execute one script line, this command is useful for the shoal API development and debugging.
-**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Shell(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Shell(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -72,10 +65,6 @@ Start the shoal shell in the current directory, not using the directory in the p
 ```bash
 Shoal
 ```
-###### Example
-```bash
-Shoal
-```
 <h3 id="--logs.show"> 4. --logs.show</h3>
 
 
@@ -85,48 +74,36 @@ Shoal
 ```bash
 Shoal
 ```
-###### Example
-```bash
-Shoal
-```
 <h3 id="-register_modules"> 5. -register_modules</h3>
 
 Register the shellscript API module assembly DLL or assembly exe file to the shellscript type registry.
-**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 RegisterModule(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 RegisterModule(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 Shoal -register_modules -path <assemnly_dll_file> [-module_name <string_name>]
 ```
-###### Example
-```bash
-Shoal
-```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### -path
 the assembly file path of the API module that you are going to register in the shellscript type library
 
 ###### Example
 ```bash
-
+-path <term_string>
 ```
 ##### [-module_name]
 The module name for the register type namespace, if the target assembly just have one shellscript namespace, then this switch value will override the namespace attribute value if the value of this switch is not null, when there are more than one shellscript namespace was declared in the module, then this switch opetion will be disabled.
 
 ###### Example
 ```bash
-
+-module_name <term_string>
 ```
-##### Accepted Types
-###### -path
-###### -module_name
 <h3 id="-scan.plugins"> 6. -scan.plugins</h3>
 
 Scanning all of the avaliable shoal plugin modules in the specific directory and install all of them into the shoal registry.
-**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 ScanPlugins(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 ScanPlugins(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -139,7 +116,7 @@ Shoal -scan.plugins -dir ./ -ext *.dll
 <h3 id="set"> 7. set</h3>
 
 Setting up the shoal environment variables, you can using var command to view all of the avaliable variable in the shoal shell.
-**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 SetValue(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 SetValue(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -152,20 +129,16 @@ Shoal set lastdirasinit true
 <h3 id="-start"> 8. -start</h3>
 
 Start the shoal shell using the user custom data.
-**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Start(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Start(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 Shoal -start -init_dir <inits_dir> -registry <regustry_xml> -imports <dll_paths>
 ```
-###### Example
-```bash
-Shoal
-```
 <h3 id="var"> 9. var</h3>
 
 Get the environment variable value in the shoal shell, if a variable name is not specific, then the shoal will list all of the variable value in shoal.
-**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 GetValue(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 GetValue(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -181,10 +154,6 @@ Print the version of the shoal shell in the console.
 **Prototype**: ``Microsoft.VisualBasic.Shoal.CLI::Int32 Version()``
 
 ###### Usage
-```bash
-Shoal
-```
-###### Example
 ```bash
 Shoal
 ```

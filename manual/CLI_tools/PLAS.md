@@ -1,7 +1,7 @@
 ---
 title: PLAS
 tags: [maunal, tools]
-date: 2016/10/19 16:38:35
+date: 2016/10/22 12:30:15
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -24,15 +24,12 @@ All of the command that available in this program has been list below:
 |[Compile](#Compile)|Compile a script file or sbml file into the plas model file.|
 |[Run](#Run)|run a model file of the biochemical network system.|
 
-
-
-
 ## CLI API list
 --------------------------
 <h3 id="Compile"> 1. Compile</h3>
 
 Compile a script file or sbml file into the plas model file.
-**Prototype**: ``PLAS.CLI::Int32 Compile(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``PLAS.CLI::Int32 Compile(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -45,7 +42,7 @@ PLAS compile -i "/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-react
 <h3 id="Run"> 2. Run</h3>
 
 run a model file of the biochemical network system.
-**Prototype**: ``PLAS.CLI::Int32 Run(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``PLAS.CLI::Int32 Run(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -57,21 +54,20 @@ PLAS run -i "/home/xieguigang/proj/xcc8004.sbml" -f sbml -chart T -o "/home/xieg
 ```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### -i
 The file path of the input model file that will be run on the PLAS program.
 
 ###### Example
 ```bash
-/home/xieguigang/proj/xcc8004.sbml
+-i /home/xieguigang/proj/xcc8004.sbml
 ```
 ##### -o
 The file path of the output data file for the calculation.
 
 ###### Example
 ```bash
-/home/xieguigang/Desktop/xcc8004.csv
+-o /home/xieguigang/Desktop/xcc8004.csv
 ```
 ##### [-f]
 This parameter specific that the file format of the model file which will be run on the PLAS program.
@@ -81,7 +77,7 @@ sbml - The input file is a sbml model file, it needs to be compiled to a PLAS mo
 
 ###### Example
 ```bash
-model
+-f model
 ```
 ##### [-chart]
 Optional, This switch specific that PLAS displaying a chart windows after the calculation or not, default is F for not displaying.
@@ -90,10 +86,5 @@ F - (False) not display a chart window after the calculation.
 
 ###### Example
 ```bash
-/home/xieguigang/proj/xcc8004.sbml
+-chart /home/xieguigang/proj/xcc8004.sbml
 ```
-##### Accepted Types
-###### -i
-###### -o
-###### -f
-###### -chart

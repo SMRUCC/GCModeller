@@ -1,7 +1,7 @@
 ---
 title: SMART
 tags: [maunal, tools]
-date: 2016/10/19 16:38:37
+date: 2016/10/22 12:30:18
 ---
 # GCModeller [version 1.123.0.0]
 > SMART protein domain structure tools CLI interface.
@@ -38,205 +38,148 @@ All of the command that available in this program has been list below:
 |[pure_domain](#pure_domain)||
 |[--SelfAlign](#--SelfAlign)||
 
-
-
-
 ## CLI API list
 --------------------------
 <h3 id="--align"> 1. --align</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 Align(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 Align(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --align /query <query.csv> /subject <subject.csv> [/out <out.DIR> /inst]
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="--align.family"> 2. --align.family</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyAlign(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyAlign(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --align.family /In <In.bbh.csv> /query <query-pfam.csv> /subject <subject-pfam.csv> [/out <out.DIR> /mp <mp-align:0.65> /lev <lev-align:0.65>]
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="-build_cache"> 3. -build_cache</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 BuildCache(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 BuildCache(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART -build_cache -i <fsa_file> [-o <export_file> -db <cdd_db_name> -cdd <cdd_db_path> -grep_script <script>]
 ```
-###### Example
-```bash
-SMART
-```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### [-cdd]
 The cdd database directory, if this switch value is null then system will using the default position in the profile file.
 
 ###### Example
 ```bash
-
+-cdd <term_string>
 ```
-##### Accepted Types
-###### -cdd
 <h3 id="-buildsmart"> 4. -buildsmart</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 BuildSmart(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 BuildSmart(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
-```bash
-SMART
-```
-###### Example
 ```bash
 SMART
 ```
 <h3 id="convert"> 5. convert</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 Convert(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 Convert(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART convert -i <input_file> [-o <xml_file>]
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="export"> 6. export</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 Export(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 Export(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART export -keyword <keyword_list> [-m <any/all>] -o <export_file> [-d <db_name> -casesense <T/F>]
 ```
-###### Example
-```bash
-SMART
-```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### -d
 This switch value can be both a domain database name or a fasta file path.
 
 ###### Example
 ```bash
-
+-d <term_string>
 ```
 ##### -keyword
 The keyword list will be use for the sequence record search, each keyword should seperated by comma character.
 
 ###### Example
 ```bash
-HTH,GGDEF,Clp,REC
+-keyword HTH,GGDEF,Clp,REC
 ```
-##### Accepted Types
-###### -d
-###### -keyword
 <h3 id="--Export.Domains"> 7. --Export.Domains</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 ExportRegpreciseDomains(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 ExportRegpreciseDomains(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --Export.Domains /in <pfam-string.csv>
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="--Export.Pfam-String"> 8. --Export.Pfam-String</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 ExportPfamString(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 ExportPfamString(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --Export.Pfam-String /in <blast_out.txt>
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="--Family.Align"> 9. --Family.Align</h3>
 
 Family Annotation by MPAlignment
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyClassify(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyClassify(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --Family.Align /query <pfam-string.csv> [/threshold 0.65 /mp 0.65 /Name <null>]
 ```
-###### Example
-```bash
-SMART
-```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### [/Name]
 The database name of the aligned subject, if this value is empty or not exists in the source, then the entired Family database will be used.
 
 ###### Example
 ```bash
-
+/Name <term_string>
 ```
-##### Accepted Types
-###### /Name
 <h3 id="--Family.Domains"> 10. --Family.Domains</h3>
 
 Build the Family database for the protein family annotation by MPAlignment.
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyDomains(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyDomains(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --Family.Domains /regprecise <regulators.fasta> /pfam <pfam-string.csv>
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="--Family.Stat"> 11. --Family.Stat</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyStat(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 FamilyStat(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --Family.Stat /in <anno_out.csv>
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="grep"> 12. grep</h3>
 
 The gene id in the blast output log file are not well format for reading and program processing, so before you generate the venn diagram you should call this command to parse the gene id from the log file. You can also done this id parsing job using other tools.
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 Grep(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 Grep(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -248,8 +191,7 @@ SMART grep -i C:\Users\WORKGROUP\Desktop\blast_xml_logs\1__8004_ecoli_prot.log.x
 ```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### -q
 The parsing script for parsing the gene_id from the blast log file, this switch value is consist of sevral operation tokens, and each token is separate by the ';' character and the token unit in each script token should seperate by the ' character.
 There are two basic operation in this parsing script:
@@ -261,7 +203,7 @@ Example: match .+[-]\d{5}
 
 ###### Example
 ```bash
-'tokens | 5';'match .+[-].+'
+-q "'tokens | 5';'match .+[-].+'"
 ```
 ##### -h
 The parsing script for parsing the gene_id from the blast log file, this switch value is consist of sevral operation tokens, and each token is separate by the ';' character and the token unit in each script token should seperate by the ' character.
@@ -274,81 +216,58 @@ Example: match .+[-]\d{5}
 
 ###### Example
 ```bash
-'tokens | 5';'match .+[-].+'
+-h "'tokens | 5';'match .+[-].+'"
 ```
-##### Accepted Types
-###### -q
-###### -h
 <h3 id="--manual-Build"> 13. --manual-Build</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 ManualBuild(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 ManualBuild(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --manual-Build /pfam-string <pfam-string.csv> /name <familyName>
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="--MPAlignment"> 14. --MPAlignment</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 SBHAlignment(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 SBHAlignment(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --MPAlignment /sbh <sbh.csv> /query <pfam-string.csv> /subject <pfam-string.csv> [/mp <0.65> /out <out.csv>]
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="pure_domain"> 15. pure_domain</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 FiltePureDomain(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 FiltePureDomain(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART pure_domain -i <input_smart_log> -o <output_file>
 ```
-###### Example
-```bash
-SMART
-```
 <h3 id="--SelfAlign"> 16. --SelfAlign</h3>
 
 
-**Prototype**: ``ProteinTools.SMART.CLI::Int32 SelfAlign(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``ProteinTools.SMART.CLI::Int32 SelfAlign(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 SMART --SelfAlign /query <pfam-string.csv> /subject <subject.csv> /aln <mpalignment.csv> [/lstID <lstID.txt> /mp <0.65> /id <id>]
 ```
-###### Example
-```bash
-SMART
-```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### [/lstID]
 If this parameter is not empty, then the /aln parameter will be disable
 
 ###### Example
 ```bash
-
+/lstID <term_string>
 ```
 ##### [/id]
 If this parameter is not null, then the record of this query or hits will be used to subset the alignment set.
 
 ###### Example
 ```bash
-
+/id <term_string>
 ```
-##### Accepted Types
-###### /lstID
-###### /id

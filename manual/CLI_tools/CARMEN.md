@@ -1,7 +1,7 @@
 ---
 title: CARMEN
 tags: [maunal, tools]
-date: 2016/10/19 16:38:30
+date: 2016/10/22 12:30:08
 ---
 # GCModeller [version 1.0.0.0]
 > 
@@ -25,47 +25,32 @@ All of the command that available in this program has been list below:
 |[--lstId.Downloads](#--lstId.Downloads)|Download the Avaliable organism name And available pathways' name.|
 |[--Reconstruct.KEGG.Online](#--Reconstruct.KEGG.Online)||
 
-
-
-
 ## CLI API list
 --------------------------
 <h3 id="/Export.Anno"> 1. /Export.Anno</h3>
 
 
-**Prototype**: ``CARMENTools.CLI::Int32 ExportAnno(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``CARMENTools.CLI::Int32 ExportAnno(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 CARMEN /Export.Anno /in <inDIR> [/out <out.Csv>]
 ```
-###### Example
-```bash
-CARMEN
-```
 <h3 id="--lstId.Downloads"> 2. --lstId.Downloads</h3>
 
 Download the Avaliable organism name And available pathways' name.
-**Prototype**: ``CARMENTools.CLI::Int32 DownloadList(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``CARMENTools.CLI::Int32 DownloadList(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 CARMEN --lstId.Downloads [/o <out.DIR>]
 ```
-###### Example
-```bash
-CARMEN
-```
 <h3 id="--Reconstruct.KEGG.Online"> 3. --Reconstruct.KEGG.Online</h3>
 
 
-**Prototype**: ``CARMENTools.CLI::Int32 Reconstruct(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``CARMENTools.CLI::Int32 Reconstruct(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 CARMEN --Reconstruct.KEGG.Online /sp <organism> [/pathway <KEGG.pathwayId> /out <outDIR>]
-```
-###### Example
-```bash
-CARMEN
 ```
