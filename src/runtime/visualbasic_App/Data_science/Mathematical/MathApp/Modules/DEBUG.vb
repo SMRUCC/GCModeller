@@ -180,6 +180,8 @@ Module DEBUG
 
     Public Function Main() As Integer
 
+        Call PDFTest.betaTest()
+
         Call {
             New NamedValue(Of Integer)("s1", 123),
             New NamedValue(Of Integer)("s2", 235),
@@ -343,7 +345,7 @@ Module DEBUG
         Dim serials = {ode.FromODE("red"), ode2.FromODE("lime", DashStyle.Solid)}
 
         Call Scatter.Plot(serials).SaveAs("./cos.png")
-        Call Histogram.Plot(Histogram.FromODE(ode, ode2), stacked:=False).SaveAs("./cos.hist.png")
+        Call BarPlot.Plot(BarPlot.FromODE(ode, ode2), stacked:=False).SaveAs("./cos.hist.png")
 
         Pause()
 
