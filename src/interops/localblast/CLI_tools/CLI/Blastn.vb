@@ -262,7 +262,18 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.blastnMaps.Write",
+               Info:="Exports large amount of blastn output files and write all data into a specific csv file.",
                Usage:="/Export.blastnMaps.Write /in <blastn_out.DIR> [/best /out <write.csv>]")>
+    <Group(CLIGrouping.BlastnTools)>
+    <Argument("/best", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Only export the top best blastn alignment hit?")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(BlastnMapping)},
+              Description:="Blastn alignment maps data.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(String)},
+              Description:="The directory path that contains the blastn output data.")>
     Public Function ExportBlastnMapsBatchWrite(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim best As Boolean = args.GetBoolean("/best")
