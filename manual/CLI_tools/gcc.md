@@ -1,7 +1,7 @@
 ---
 title: gcc
 tags: [maunal, tools]
-date: 2016/10/19 16:38:31
+date: 2016/10/22 12:30:10
 ---
 # GCModeller [version 1.0.0.0]
 > gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model
@@ -25,78 +25,61 @@ All of the command that available in this program has been list below:
 |[-add_rule](#-add_rule)||
 |[compile_metacyc](#compile_metacyc)|compile a metacyc database into a gcml(genetic clock markup language) model file.|
 
-
-
-
 ## CLI API list
 --------------------------
 <h3 id="-add_replacement"> 1. -add_replacement</h3>
 
 
-**Prototype**: ``gcc.CLI::Int32 AddNewPair(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``gcc.CLI::Int32 AddNewPair(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 gcc -add_replacement -old <old_value> -new <new_value>
 ```
-###### Example
-```bash
-gcc
-```
 <h3 id="-add_rule"> 2. -add_rule</h3>
 
 
-**Prototype**: ``gcc.CLI::Int32 AddRule(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``gcc.CLI::Int32 AddRule(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 gcc -add_rule -rulefile <path> -db <datadir> -model <path> [-grep <scriptText>]
 ```
-###### Example
-```bash
-gcc
-```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### -rulefile
 a file contains some protein interaction rules
 
 ###### Example
 ```bash
-
+-rulefile <term_string>
 ```
 ##### -db
 original database for the target compiled model
 
 ###### Example
 ```bash
-
+-db <term_string>
 ```
 ##### -model
 Target model file for adding some new rules
 
 ###### Example
 ```bash
-
+-model <term_string>
 ```
 ##### [-grep]
 If null then the system will using the MeatCyc database unique-id parsing method as default.
 
 ###### Example
 ```bash
-
+-grep <term_string>
 ```
-##### Accepted Types
-###### -rulefile
-###### -db
-###### -model
-###### -grep
 <h3 id="compile_metacyc"> 3. compile_metacyc</h3>
 
 compile a metacyc database into a gcml(genetic clock markup language) model file.
-**Prototype**: ``gcc.CLI::Int32 CompileMetaCyc(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``gcc.CLI::Int32 CompileMetaCyc(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -108,22 +91,18 @@ gcc compile_metacyc -i ~/Documents/ecoli/ -o ~/Desktop/ecoli.xml
 ```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### -i
 
 
 ###### Example
 ```bash
-
+-i <term_string>
 ```
 ##### -o
 
 
 ###### Example
 ```bash
-
+-o <term_string>
 ```
-##### Accepted Types
-###### -i
-###### -o

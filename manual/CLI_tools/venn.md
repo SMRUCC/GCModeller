@@ -1,7 +1,7 @@
 ---
 title: venn
 tags: [maunal, tools]
-date: 2016/10/19 16:38:39
+date: 2016/10/22 12:30:20
 ---
 # GCModeller [version 1.3.11.2]
 > Tools for creating venn diagram model for the R program and venn diagram visualize drawing.
@@ -23,15 +23,12 @@ All of the command that available in this program has been list below:
 |------------|----|
 |[.Draw](#.Draw)|Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. The generated venn dragram will be saved as tiff file format.|
 
-
-
-
 ## CLI API list
 --------------------------
 <h3 id=".Draw"> 1. .Draw</h3>
 
 Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. The generated venn dragram will be saved as tiff file format.
-**Prototype**: ``LANS.SystemsBiology.AnalysisTools.DataVisualization.VennDiagramTools.CLI::Int32 VennDiagramA(Microsoft.VisualBasic.CommandLine.CommandLine)``
+**Prototype**: ``LANS.SystemsBiology.AnalysisTools.DataVisualization.VennDiagramTools.CLI::Int32 VennDiagramA(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
@@ -43,21 +40,20 @@ venn .Draw -i /home/xieguigang/Desktop/genomes.csv -t genome-compared -o ~/Deskt
 ```
 
 
-
-#### Parameters information:
+#### Arguments
 ##### -i
 The csv data source file for drawing the venn diagram graph.
 
 ###### Example
 ```bash
-/home/xieguigang/Desktop/genomes.csv
+-i /home/xieguigang/Desktop/genomes.csv
 ```
 ##### [-t]
 Optional, the venn diagram title text
 
 ###### Example
 ```bash
-genome-compared
+-t genome-compared
 ```
 ##### [-o]
 Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then
@@ -65,7 +61,7 @@ the program will save the generated venn diagram to user desktop folder and usin
 
 ###### Example
 ```bash
-~/Desktop/xcc8004.tiff
+-o ~/Desktop/xcc8004.tiff
 ```
 ##### [-s]
 Optional, the profile settings for the partitions in the venn diagram, each partition profile data is
@@ -75,7 +71,7 @@ from the column values and apply for each partition a randomize color.
 
 ###### Example
 ```bash
-Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD
+-s "Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD"
 ```
 ##### [-rbin]
 Optional, Set up the r bin path for drawing the venn diagram, if this switch value is not specific by the user then
@@ -87,11 +83,5 @@ get the venn diagram directly from this program.
 
 ###### Example
 ```bash
-C:\\R\\bin\\
+-rbin C:\\R\\bin\\
 ```
-##### Accepted Types
-###### -i
-###### -t
-###### -o
-###### -s
-###### -rbin
