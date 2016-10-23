@@ -130,6 +130,42 @@ Call {
 ![](./images/pie_chart.png)
 ![](./images/pie_chart_vars.png)
 
+##### Pyramid plot
+
+```vbnet
+Call Pyramid.Plot(
+    {
+        New NamedValue(Of Integer)("Eaten", 55),
+        New NamedValue(Of Integer)("Tinned", 70),
+        New NamedValue(Of Integer)("Killed", 187),
+        New NamedValue(Of Integer)("Engaged", 235),
+        New NamedValue(Of Integer)("Monster Met", 340)
+    }.FromData()) _
+     .SaveAs("./Pyramid.png")
+```
+
+![](./images/Pyramid.png)
+
+##### Simple bar plot
+PLOT DATA: [Fruit_consumption.csv](./images/Fruit_consumption.csv)
+
+```vbnet
+Dim data = csv.LoadBarData(
+    "./images/Fruit_consumption.csv",
+    {
+        "rgb(124,181,236)",
+        "rgb(67,67,72)"
+    })
+
+Call BarPlot.Plot(data) _
+    .SaveAs("./images/Fruit_consumption-bar.png")
+Call BarPlot.Plot2(data) _
+    .SaveAs("./images/Fruit_consumption-bar2.png")
+```
+
+![](./images/Fruit_consumption-bar.png)
+![](./images/Fruit_consumption-bar2.png)
+
 ##### Solving ODEs
 
 Try solving the ODEs example below:

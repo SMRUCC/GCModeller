@@ -179,7 +179,27 @@ Module DEBUG
     End Function
 
     Public Function Main() As Integer
+        Dim data = csv.LoadBarData(
+            "G:\GCModeller\src\runtime\visualbasic_App\Data_science\Mathematical\images\Fruit_consumption.csv",
+            {
+                "rgb(124,181,236)",
+                "rgb(67,67,72)"
+            })
 
+        Call BarPlot.Plot(data, New Size(1500, 1000)) _
+            .SaveAs("G:\GCModeller\src\runtime\visualbasic_App\Data_science\Mathematical\images\Fruit_consumption-bar.png")
+        Call BarPlot.Plot2(data, New Size(1500, 1000)) _
+            .SaveAs("G:\GCModeller\src\runtime\visualbasic_App\Data_science\Mathematical\images\Fruit_consumption-bar2.png")
+
+        Call Pyramid.Plot(
+            {
+                New NamedValue(Of Integer)("Eaten", 55),
+                New NamedValue(Of Integer)("Tinned", 70),
+                New NamedValue(Of Integer)("Killed", 187),
+                New NamedValue(Of Integer)("Engaged", 235),
+                New NamedValue(Of Integer)("Monster Met", 340)
+            }.FromData()) _
+             .SaveAs("./Pyramid.png")
 
         Call {
             New NamedValue(Of Integer)("s1", 123),
