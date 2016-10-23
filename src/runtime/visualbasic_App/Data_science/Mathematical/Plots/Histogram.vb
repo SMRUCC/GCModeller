@@ -9,7 +9,11 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
+Imports Microsoft.VisualBasic.Mathematical.diffEq
 
+''' <summary>
+''' 对经由函数生成的连续数据的图形表述
+''' </summary>
 Public Module Histogram
 
     ''' <summary>
@@ -19,8 +23,13 @@ Public Module Histogram
     ''' <see cref="x1"/>到<see cref="x2"/>之间的距离是直方图的宽度
     ''' </remarks>
     Public Structure HistogramData
+
         Public x1#, x2#, y#
 
+        ''' <summary>
+        ''' delta between <see cref="x1"/> and <see cref="x2"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property width As Double
             Get
                 Return x2# - x1#
@@ -32,6 +41,16 @@ Public Module Histogram
         End Function
     End Structure
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="color$">histogram bar fill color</param>
+    ''' <param name="bg$">Output image background color</param>
+    ''' <param name="size"></param>
+    ''' <param name="margin"></param>
+    ''' <param name="showGrid"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Plot(data As IEnumerable(Of HistogramData),
                          Optional color$ = "darkblue",
@@ -85,6 +104,18 @@ Public Module Histogram
         Return Plot(data, xrange, color, bg, size, margin, showGrid)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="xrange">For generates the variable value sequence for evaluate the <paramref name="expression"/></param>
+    ''' <param name="expression$">Math expression in string format</param>
+    ''' <param name="steps#">for <see cref="seq"/> function</param>
+    ''' <param name="color$">The histogram bar fill color</param>
+    ''' <param name="bg$"></param>
+    ''' <param name="size"></param>
+    ''' <param name="margin"></param>
+    ''' <param name="showGrid"></param>
+    ''' <returns></returns>
     Public Function Plot(xrange As NamedValue(Of DoubleRange), expression$,
                          Optional steps# = 0.01,
                          Optional color$ = "darkblue",
@@ -113,6 +144,7 @@ Public Module Histogram
     ''' <param name="showGrid"></param>
     ''' <param name="legendPos">The legend position on the output image.</param>
     ''' <param name="legendBorder"></param>
+    ''' <param name="alpha">Fill color alpha value, [0, 255]</param>
     ''' <returns></returns>
     <Extension>
     Public Function Plot(groups As HistogramGroup,
@@ -184,8 +216,14 @@ Public Module Histogram
         End Sub
     End Class
 
+    ''' <summary>
+    ''' The histogram serial data.
+    ''' </summary>
     Public Structure HistProfile
 
+        ''' <summary>
+        ''' The legend plot definition
+        ''' </summary>
         Public legend As Legend
         Public data As HistogramData()
 
@@ -223,4 +261,52 @@ Public Module Histogram
                 }
         End Sub
     End Structure
+
+    Public Function FromODE(odes As IEnumerable(Of ODE), Optional colors$() = Nothing) As HistogramGroup
+        Dim clData As Color() = If(
+            colors.IsNullOrEmpty,
+            ChartColors.Shuffles,
+            colors.ToArray(AddressOf ToColor))
+        Dim serials = LinqAPI.Exec(Of NamedValue(Of Color)) <=
+ _
+            From x As SeqValue(Of ODE)
+            In odes.SeqIterator
+            Select New NamedValue(Of Color) With {
+                .Name = x.obj.Id,
+                .x = clData(x.i)
+            }
+
+        Dim range As DoubleRange = odes.First.xrange
+        Dim delta# = range.Length / odes.First.y.Length
+        Dim samples = LinqAPI.Exec(Of HistProfile) <=
+ _
+            From out As SeqValue(Of ODE)
+            In odes.SeqIterator
+            Let left = New Value(Of Double)(range.Min)
+            Select New HistProfile With {
+                .legend = New Legend With {
+                    .color = serials(out.i).x.RGBExpression,
+                    .fontstyle = CSSFont.Win10Normal,
+                    .style = LegendStyles.Rectangle,
+                    .title = serials(out.i).Name
+                },
+                .data = LinqAPI.Exec(Of HistogramData) <=
+ _
+                    From i As SeqValue(Of Double)
+                    In out.obj.y.SeqIterator
+                    Let x1 As Double = left
+                    Let x2 As Double = (left = left.value + delta)
+                    Where Not i.obj.Is_NA_UHandle
+                    Select New HistogramData With {
+                        .x1 = x1,
+                        .x2 = x2,
+                        .y = i.obj
+                    }
+            }
+
+        Return New HistogramGroup With {
+            .Samples = samples,
+            .Serials = serials
+        }
+    End Function
 End Module
