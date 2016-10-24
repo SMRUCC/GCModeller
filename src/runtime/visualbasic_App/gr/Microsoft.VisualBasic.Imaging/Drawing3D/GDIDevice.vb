@@ -1,35 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::2237640c37e7aaa21a547af928a3caf1, ..\visualbasic_App\gr\Microsoft.VisualBasic.Imaging\Drawing3D\GDIDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Tasks
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Drawing3D
 
@@ -43,13 +45,19 @@ Namespace Drawing3D
         Protected models As New List(Of I3DModel)
 
         Dim _rotationThread As New UpdateThread(
-            1000, Sub()
-                      SyncLock camera
-                          camera.angleX += 0.01
-                          camera.angleY += 0.01
-                          camera.angleZ += 0.01
-                      End SyncLock
-                  End Sub)
+            200, Sub()
+                     SyncLock camera
+                         If keyRotate.X <> 0R OrElse keyRotate.Y <> 0R OrElse keyRotate.Z <> 0R Then
+                             camera.angleX += keyRotate.X
+                             camera.angleY += keyRotate.Y
+                             camera.angleZ += keyRotate.Z
+                         Else
+                             camera.angleX += 0.01
+                             camera.angleY += 0.01
+                             camera.angleZ += 0.01
+                         End If
+                     End SyncLock
+                 End Sub)
 
         Public Property AutoRotation As Boolean
             Get
@@ -129,6 +137,9 @@ Namespace Drawing3D
         End Sub
 
         Private Sub GDIDevice_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
+            e.Graphics.CompositingQuality = CompositingQuality.HighQuality
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear
+
             Call __updateGraphics(sender, g:=e.Graphics, region:=e.ClipRectangle)
         End Sub
 
@@ -190,6 +201,36 @@ Namespace Drawing3D
         Private Sub GDIDevice_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
             Dim d% = Math.Sign(e.Delta)
             camera.ViewDistance += d
+        End Sub
+
+        Dim keyRotate As Point3D
+
+        Public Sub SetAutoRotate(angle As Point3D)
+            keyRotate = angle
+            AutoRotation = True
+        End Sub
+
+        Private Sub GDIDevice_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+            AutoRotation = True
+
+            Select Case e.KeyCode
+                Case System.Windows.Forms.Keys.Up
+                    keyRotate = New Point3D(0, 1, 0)
+                Case System.Windows.Forms.Keys.Down
+                    keyRotate = New Point3D(0, -1, 0)
+                Case System.Windows.Forms.Keys.Left
+                    keyRotate = New Point3D(1, 0, 0)
+                Case System.Windows.Forms.Keys.Right
+                    keyRotate = New Point3D(-1, 0, 0)
+                Case Else
+                    ' Do Nothing
+                    AutoRotation = False
+            End Select
+        End Sub
+
+        Private Sub GDIDevice_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+            keyRotate = Nothing
+            AutoRotation = False
         End Sub
     End Class
 End Namespace
