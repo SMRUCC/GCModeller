@@ -32,17 +32,17 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.SlideWindow
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.BasicR
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Mathematical.Plots
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
 
 Public Module Scatter
 
@@ -136,7 +136,7 @@ Public Module Scatter
                             }
 
                         If legendPosition.IsEmpty Then
-                            legendPosition = New Point(CInt(size.Width * 0.8), margin.Height)
+                            legendPosition = New Point(CInt(size.Width * 0.7), margin.Height)
                         End If
 
                         Call g.DrawLegends(legendPosition, legends,,, legendBorder)
@@ -284,5 +284,43 @@ Public Module Scatter
 
         Dim serial As SerialData = FromVector(y, lineColor,,, lineWidth, ranges, title,)
         Return Plot({serial}, ,, bg)
+    End Function
+
+    Public Function Plot(points As IEnumerable(Of Point),
+                         Optional size As Size = Nothing,
+                         Optional margin As Size = Nothing,
+                         Optional lineColor$ = "black",
+                         Optional bg$ = "white",
+                         Optional title$ = "Plot Of Points",
+                         Optional lineWidth! = 5.0!,
+                         Optional ptSize! = 15.0!,
+                         Optional lineType As DashStyle = DashStyle.Solid) As Bitmap
+        Dim s As SerialData = points _
+            .FromPoints(lineColor$,
+                        title$,
+                        lineWidth!,
+                        ptSize!,
+                        lineType)
+        Return {s}.Plot(size:=size, margin:=margin, bg:=bg)
+    End Function
+
+    <Extension>
+    Public Function FromPoints(points As IEnumerable(Of Point),
+                               Optional lineColor$ = "black",
+                               Optional title$ = "Plot Of Points",
+                               Optional lineWidth! = 5.0!,
+                               Optional ptSize! = 15.0!,
+                               Optional lineType As DashStyle = DashStyle.Solid) As SerialData
+        Return New SerialData With {
+            .color = lineColor.ToColor,
+            .lineType = lineType,
+            .PointSize = ptSize,
+            .width = lineWidth,
+            .pts = points.ToArray(
+                Function(pt) New PointData With {
+                    .pt = New PointF(pt.X, pt.Y)
+            }),
+            .title = title
+        }
     End Function
 End Module
