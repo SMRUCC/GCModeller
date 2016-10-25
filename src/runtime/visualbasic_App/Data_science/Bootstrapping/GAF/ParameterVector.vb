@@ -1,6 +1,8 @@
-﻿Imports Microsoft.VisualBasic.Data.Bootstrapping.MonteCarlo
+﻿Imports System.Web.Script.Serialization
+Imports Microsoft.VisualBasic.Data.Bootstrapping.MonteCarlo
 Imports Microsoft.VisualBasic.DataMining.GAF
 Imports Microsoft.VisualBasic.DataMining.GAF.Helper
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.diffEq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -13,50 +15,94 @@ Namespace GAF
     Public Class ParameterVector
         Implements Chromosome(Of ParameterVector), ICloneable
 
-        ReadOnly random As New Random(Now.Millisecond)
+        ReadOnly random As New Random
 
-        Public Property vars As VariableModel()
-        Public Property Vector As Double()
+        Public Property vars As var()
+
+        <ScriptIgnore>
+        Public ReadOnly Property Vector As Double()
             Get
+                ' {var.Min, var.Max}).IteratesALL _
+                '_
+                '               .CopyVector(5) _
+                '                   .IteratesALL _
                 Return vars _
-                    .Select(Function(var) {var.Min, var.Max}) _
-                    .IteratesALL _
+                    .Select(Function(var) var.value) _
                     .ToArray
             End Get
-            Set(value As Double())
-                For Each var As SeqValue(Of Double()) In value _
-                    .Split(parTokens:=2) _
-                    .SeqIterator
-
-                    Dim i% = var.i
-                    vars(i).Min = var.obj(Scan0)
-                    vars(i).Max = var.obj(1)
-                Next
-            End Set
         End Property
 
+        Private Sub __setValues(value#())
+            'Dim mat = value.Split(vars.Length)
+            'Dim l% = mat(Scan0).Length
+
+            'For i As Integer = 0 To l - 1
+            '    Dim index% = i
+            '    vars(i).value = mat _
+            '        .Select(Function(v) v(index)) _
+            '        .Max + New Random().Next(vars.Length)
+            'Next
+
+            For i As Integer = 0 To value.Length - 1
+                vars(i).value = value(i)
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 按值复制
+        ''' </summary>
+        ''' <returns></returns>
         Public Function Clone() As Object Implements ICloneable.Clone
+            Dim v As var() = LinqAPI.Exec(Of var) <=
+ _
+                From var As var
+                In vars
+                Select New var(var)
+
             Return New ParameterVector With {
-                .vars = vars _
-                    .ToArray(Function(var) TryCast(var.Clone, VariableModel))
+                .vars = v
             }
         End Function
 
+        ''' <summary>
+        ''' 结果是按值复制的
+        ''' </summary>
+        ''' <param name="anotherChromosome"></param>
+        ''' <returns></returns>
         Public Function Crossover(anotherChromosome As ParameterVector) As IList(Of ParameterVector) Implements Chromosome(Of ParameterVector).Crossover
-            Dim thisClone As ParameterVector = Clone()
-            Dim otherClone As ParameterVector = anotherChromosome.Clone
-            Call random.Crossover(thisClone.Vector, otherClone.Vector)
+            Dim thisClone As ParameterVector = DirectCast(Clone(), ParameterVector)
+            Dim otherClone As ParameterVector = DirectCast(anotherChromosome.Clone, ParameterVector)
+            Dim array1#() = thisClone.Vector
+            Dim array2#() = otherClone.Vector
+
+            random.Crossover(array1, array2)
+            thisClone.__setValues(array1)
+            otherClone.__setValues(array2)
+
             Return {thisClone, otherClone}.ToList
         End Function
 
+        ''' <summary>
+        ''' 会按值复制
+        ''' </summary>
+        ''' <returns></returns>
         Public Function Mutate() As ParameterVector Implements Chromosome(Of ParameterVector).Mutate
             Dim m As ParameterVector = Clone()
-            Call m.Vector.Mutate(random)
+
+            For i As Integer = 0 To 3
+                Dim array#() = m.Vector
+
+                Call array.Mutate(random)
+                Call m.__setValues(array)
+            Next
+
             Return m
         End Function
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return vars _
+                .Select(Function(x) x.value) _
+                .JoinBy(",")
         End Function
     End Class
 End Namespace

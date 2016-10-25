@@ -10,11 +10,11 @@ Public Class Demo
         Dim population As Population(Of MyVector) = New MyVector().InitialPopulation(5000)
         Dim fitness As Fitness(Of MyVector, Double) = New MyVectorFitness()
         Dim ga As New GeneticAlgorithm(Of MyVector, Double)(population, fitness)
-        Dim out As New List(Of outPrint)
+        '   Dim out As New List(Of outPrint)
 
-        ga.AddDefaultListener(Sub(x) Call out.Add(x))
+        ga.AddDefaultListener '(Sub(x) Call out.Add(x))
         ga.Evolve(5000)
-        out.SaveTo("./outPrint.csv")
+        '   out.SaveTo("./outPrint.csv")
 
         Pause()
     End Sub
@@ -61,7 +61,7 @@ Public Class Demo
         End Property
 
         Public Overrides Function ToString() As String
-            Return Me.Vector.GetJson
+            Return Vector.JoinBy(",")
         End Function
     End Class
 
