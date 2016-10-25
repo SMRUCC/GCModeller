@@ -11,6 +11,16 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Module Testing
 
     Public Sub Run()
+
+        'Call mutate(2)
+        'Call mutate(20)
+        'Call mutate(200)
+        'Call mutate(200000)
+        'Call mutate(2 * 10 ^ -30)
+        'Call mutate(2 * 10 ^ -8)
+        'Call mutate(2 * 10 ^ 99)
+        'Call mutate(2 * 10 ^ 10)
+
         Dim model As Model = New TestModel
         Dim outPrint As List(Of outPrint) = Nothing
         Dim result = GAF.Protocol.Fitting(model, 2000, 0, 100, popSize:=1000, evolIterations:=150000, outPrint:=outPrint)

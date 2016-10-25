@@ -64,8 +64,8 @@ Namespace GAF.Helper
                     })
 
                 ' If fitness is satisfying - we can stop Genetic algorithm
-                If bestFit <= Me.threshold Then
-                    ga.Terminate()
+                If bestFit <= threshold Then
+                    Call ga.Terminate()
                 End If
             End Sub
         End Structure
