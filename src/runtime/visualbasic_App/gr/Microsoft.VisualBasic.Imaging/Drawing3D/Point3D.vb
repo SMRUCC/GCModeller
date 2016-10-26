@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe1119e19da7f0d7a30f6eb04b27427e, ..\visualbasic_App\gr\Microsoft.VisualBasic.Imaging\Drawing3D\Point3D.vb"
+﻿#Region "Microsoft.VisualBasic::b125b4020cc9b252d3c30fdb1255689c, ..\visualbasic_App\gr\Microsoft.VisualBasic.Imaging\Drawing3D\Point3D.vb"
 
     ' Author:
     ' 
@@ -40,8 +40,24 @@ Namespace Drawing3D
     ''' </summary>
     Public Structure Point3D
 
-        Public ReadOnly Property PointXY As Point
+        Public ReadOnly Property PointXY(Optional rect As Size = Nothing) As Point
             Get
+                If X > Integer.MaxValue OrElse Double.IsPositiveInfinity(X) Then
+                    X = rect.Width
+                ElseIf X < Integer.MinValue OrElse Double.IsNegativeInfinity(X) Then
+                    X = 0
+                ElseIf Double.IsNaN(x) Then
+                    X = rect.Width
+                End If
+
+                If Y > Integer.MaxValue OrElse Double.IsPositiveInfinity(Y) Then
+                    Y = rect.Height
+                ElseIf Y < Integer.MinValue OrElse Double.IsNegativeInfinity(Y) Then
+                    Y = 0
+                ElseIf Double.IsNaN(y) Then
+                    Y = rect.Height
+                End If
+
                 Return New Point(X, Y)
             End Get
         End Property

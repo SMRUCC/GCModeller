@@ -359,7 +359,7 @@ Namespace KEGG.Compiler
         End Function
 
         Private Function CheckRequiredParameter(argvs As CommandLine.CommandLine, list As String(), head As String) As Boolean
-            Dim required As String() = argvs.CheckMissingRequiredParameters(list)
+            Dim required As String() = argvs.CheckMissingRequiredArguments(list)
 
             Call _Logging.WriteLine(argvs.GetCommandsOverview)
 

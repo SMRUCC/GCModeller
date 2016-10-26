@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a22a4054a3ae98593e6f635d1260ae0, ..\visualbasic_App\Data_science\Mathematical\ODE\ODEs.vb"
+﻿#Region "Microsoft.VisualBasic::ea5b00035d368de4496eb1d1e56c6762, ..\visualbasic_App\Data_science\Mathematical\ODE\ODEs.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.BasicR
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
@@ -179,13 +179,13 @@ Public MustInherit Class ODEs
             }
 
         ' 强制进行内存回收，以应对在蒙特卡洛分析的时候的内存泄漏
-        GC.SuppressFinalize(K1)
-        GC.SuppressFinalize(K2)
-        GC.SuppressFinalize(K3)
-        GC.SuppressFinalize(K4)
-        GC.SuppressFinalize(darrayn)
-        GC.SuppressFinalize(darraynext)
-        GC.SuppressFinalize(vars)
+        'GC.SuppressFinalize(K1)
+        'GC.SuppressFinalize(K2)
+        'GC.SuppressFinalize(K3)
+        'GC.SuppressFinalize(K4)
+        'GC.SuppressFinalize(darrayn)
+        'GC.SuppressFinalize(darraynext)
+        'GC.SuppressFinalize(vars)
 
         Return New ODEsOut With {
             .x = x,

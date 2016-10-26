@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec2dfb5e927829be061fe6eb905120e2, ..\visualbasic_App\gr\Microsoft.VisualBasic.Imaging\Drawing2D\GraphicsRegion.vb"
+﻿#Region "Microsoft.VisualBasic::77c02ebf2c81bb7cf59b97918d9bc15a, ..\visualbasic_App\gr\Microsoft.VisualBasic.Imaging\Drawing2D\GraphicsRegion.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@ Namespace Drawing2D
         Public Size As Size
         Public Margin As Size
 
-        Public ReadOnly Property GraphicsRegion As Rectangle
+        Public ReadOnly Property PlotRegion As Rectangle
             Get
                 Dim topLeft As New Point(Margin.Width, Margin.Height)
                 Dim size As New Size(

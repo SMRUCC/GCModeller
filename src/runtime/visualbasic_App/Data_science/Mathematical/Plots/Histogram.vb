@@ -1,15 +1,43 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::f05e828babac57b6fbb8890761810c9c, ..\visualbasic_App\Data_science\Mathematical\Plots\Histogram.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' 对经由函数生成的连续数据的图形表述
@@ -174,7 +202,7 @@ Public Module Histogram
                    For Each block As HistogramData In hist.data
                        Dim rect As New RectangleF(
                            New PointF(block.x1, block.y),
-                           New SizeF(block.width, region.GraphicsRegion.Bottom - block.y))
+                           New SizeF(block.width, region.PlotRegion.Bottom - block.y))
                        Call g.FillRectangle(b, rect)
                        If drawRect Then
                            Call g.DrawRectangle(
@@ -310,3 +338,4 @@ Public Module Histogram
         }
     End Function
 End Module
+

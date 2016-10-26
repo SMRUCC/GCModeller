@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5252f2fb86eb17afc12ccc9576fe474c, ..\visualbasic_App\Data_science\Bootstrapping\EigenvectorBootstrapping.vb"
+﻿#Region "Microsoft.VisualBasic::223025365b1a3727afbd432a5e829ee0, ..\visualbasic_App\Data_science\Bootstrapping\EigenvectorBootstrapping.vb"
 
     ' Author:
     ' 
@@ -32,11 +32,10 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.Bootstrapping.MonteCarlo
 Imports Microsoft.VisualBasic.DataMining.KMeans
-Imports Microsoft.VisualBasic.DataMining.KMeans.Tree
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Module EigenvectorBootstrapping
@@ -137,67 +136,6 @@ Public Module EigenvectorBootstrapping
     End Function
 
     ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="data"><see cref="LoadData"/>的输出数据</param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function BinaryKMeans(data As IEnumerable(Of VectorTagged(Of Dictionary(Of String, Double))), partitionDepth As Integer, Optional [stop] As Integer = -1) As Dictionary(Of NamedValue(Of Double()), Dictionary(Of String, Double)())
-        Dim strTags As NamedValue(Of VectorTagged(Of Dictionary(Of String, Double)))() =
-            LinqAPI.Exec(Of NamedValue(Of VectorTagged(Of Dictionary(Of String, Double)))) <=
- _
-            From x As VectorTagged(Of Dictionary(Of String, Double))
-            In data.AsParallel
-            Select New NamedValue(Of VectorTagged(Of Dictionary(Of String, Double))) With {
-                .Name = x.Tag.GetJson,
-                .x = x
-            }
-
-        Call "Load data complete!".__DEBUG_ECHO
-
-        Dim uid As New Uid
-        Dim datasets As EntityLDM() = strTags.ToArray(
-            Function(x) New EntityLDM With {
-                .Name = "boot" & uid.Plus,
-                .Properties = x.x.Tag _
-                    .SeqIterator _
-                    .ToDictionary(Function(o) CStr(o.i),
-                                  Function(o) o.obj)   ' 在这里使用特征向量作为属性来进行聚类操作
-        })
-
-        Call "Creates dataset complete!".__DEBUG_ECHO
-
-        Dim clusters As EntityLDM() = datasets.TreeCluster(parallel:=True, [stop]:=[stop])
-        Dim out As New Dictionary(Of NamedValue(Of Double()), Dictionary(Of String, Double)())
-        Dim raw = (From x As NamedValue(Of VectorTagged(Of Dictionary(Of String, Double)))
-                   In strTags
-                   Select x
-                   Group x By x.Name Into Group) _
-                        .ToDictionary(Function(x) x.Name,
-                                      Function(x) x.Group.ToArray)
-        Dim treeParts = clusters.Partitioning(partitionDepth)
-
-        For Each cluster As Partition In treeParts
-            Dim key As New NamedValue(Of Double()) With {
-                .Name = cluster.Tag,
-                .x = cluster.PropertyMeans
-            } ' out之中的key
-            Dim tmp As New List(Of Dictionary(Of String, Double))   ' out之中的value
-
-            For Each x As EntityLDM In cluster.members
-                Dim rawKey As String = x.Properties.Values.ToArray.GetJson
-                Dim rawParams = raw(rawKey).ToArray(Function(o) o.x.value)
-
-                tmp += rawParams
-            Next
-
-            out(key) = tmp.ToArray
-        Next
-
-        Return out
-    End Function
-
-    ''' <summary>
     ''' 默认的特征向量: ``{data.Average, data.StdError}``
     ''' </summary>
     ''' <param name="data"></param>
@@ -238,4 +176,3 @@ End Module
 ''' <param name="data"></param>
 ''' <returns></returns>
 Public Delegate Function Eigenvector(data As Double()) As Double()
-

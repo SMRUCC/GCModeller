@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::4858748e122530d07290290a6f0aabd5, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
+﻿#Region "Microsoft.VisualBasic::0c795eaa1be8b019d71faf4a344b73ee, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -798,6 +798,9 @@ Public Module App
         Return tmp
     End Function
 
+    Public ReadOnly Property CurrentProcessTemp As String =
+        GenerateTemp(App.SysTemp & "/tmp.io", App.PID)
+
     ''' <summary>
     '''
     ''' </summary>
@@ -849,11 +852,14 @@ Public Module App
     End Function
 
     ''' <summary>
-    ''' 请注意，这个函数只能够运行.NET程序, 假若是在Linux系统之上，还需要安装mono运行时环境
+    ''' Folk helper for running the other .NET application.
+    ''' (请注意，这个函数只能够运行.NET程序, 假若是在Linux系统之上，还需要安装mono运行时环境)
     ''' </summary>
-    ''' <param name="app"></param>
-    ''' <param name="CLI"></param>
-    ''' <param name="CLR">是否为.NET程序?</param>
+    ''' <param name="app">External application file full path</param>
+    ''' <param name="CLI">Commandline string that running the application <paramref name="app$"/></param>
+    ''' <param name="CLR">Is the calling external application is a .NET application?
+    ''' (是否为.NET程序?)
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks><see cref="IORedirectFile"/>这个建议在进行外部调用的时候才使用</remarks>
     Public Function Shell(app$, CLI$, Optional CLR As Boolean = False) As IIORedirectAbstract
@@ -878,12 +884,23 @@ Public Module App
     ''' <summary>
     ''' Folk this program itself for the large amount data batch processing.
     ''' </summary>
-    ''' <param name="CLI"></param>
-    ''' <param name="parallel">小于等于零表示非并行化，单线程任务</param>
-    ''' <returns>返回任务的执行的总时长</returns>
-    '''
+    ''' <param name="CLI">Self folk processing commandline collection.</param>
+    ''' <param name="parallel">If this parameter value less than 1, then will be a single 
+    ''' thread task. Any positive value that greater than 1 will be parallel task.
+    ''' (小于等于零表示非并行化，单线程任务)
+    ''' </param>
+    ''' <param name="smart">Smart mode CPU load threshold, if the <paramref name="parallel"/> 
+    ''' parameter value is less than or equals to 1, then this parameter will be disabled.
+    ''' </param>
+    ''' <returns>
+    ''' Returns the total executation time for running this task collection.
+    ''' (返回任务的执行的总时长)
+    ''' </returns>
     <ExportAPI("Folk.Self")>
-    Public Function SelfFolks&(CLI As IEnumerable(Of String), Optional parallel% = 0)
+    Public Function SelfFolks&(CLI As IEnumerable(Of String),
+                               Optional parallel% = 0,
+                               Optional smart# = 0)
+
         Dim sw As Stopwatch = Stopwatch.StartNew
 
         If parallel <= 0 Then

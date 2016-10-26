@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::d1dcb36ca8a452c33e69a8529edbb62b, ..\visualbasic_App\Data_science\Mathematical\MathApp\Modules\DEBUG.vb"
+﻿#Region "Microsoft.VisualBasic::32754ef9dbbdf3d136f001921f5578e6, ..\visualbasic_App\Data_science\Mathematical\MathApp\Modules\DEBUG.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -43,7 +43,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.BasicR
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic
 Imports Microsoft.VisualBasic.Mathematical.Plots
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -179,7 +179,27 @@ Module DEBUG
     End Function
 
     Public Function Main() As Integer
+        Dim data = csv.LoadBarData(
+            "G:\GCModeller\src\runtime\visualbasic_App\Data_science\Mathematical\images\Fruit_consumption.csv",
+            {
+                "rgb(124,181,236)",
+                "rgb(67,67,72)"
+            })
 
+        Call BarPlot.Plot(data, New Size(1500, 1000)) _
+            .SaveAs("G:\GCModeller\src\runtime\visualbasic_App\Data_science\Mathematical\images\Fruit_consumption-bar.png")
+        Call BarPlot.Plot2(data, New Size(1500, 1000)) _
+            .SaveAs("G:\GCModeller\src\runtime\visualbasic_App\Data_science\Mathematical\images\Fruit_consumption-bar2.png")
+
+        Call Pyramid.Plot(
+            {
+                New NamedValue(Of Integer)("Eaten", 55),
+                New NamedValue(Of Integer)("Tinned", 70),
+                New NamedValue(Of Integer)("Killed", 187),
+                New NamedValue(Of Integer)("Engaged", 235),
+                New NamedValue(Of Integer)("Monster Met", 340)
+            }.FromData()) _
+             .SaveAs("./Pyramid.png")
 
         Call {
             New NamedValue(Of Integer)("s1", 123),

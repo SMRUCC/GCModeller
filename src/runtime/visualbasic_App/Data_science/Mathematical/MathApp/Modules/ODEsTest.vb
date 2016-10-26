@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::136c223d58dd335f529902ce013b348a, ..\visualbasic_App\Data_science\Mathematical\MathApp\Modules\ODEsTest.vb"
+﻿#Region "Microsoft.VisualBasic::0a25ae132e7149a473aa46fee85c6d6a, ..\visualbasic_App\Data_science\Mathematical\MathApp\Modules\ODEsTest.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.BasicR
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 
 Public Class ODEsTest : Inherits ODEs
 
@@ -48,4 +48,3 @@ Public Class ODEsTest : Inherits ODEs
         Return {P = 2, yC = 1}
     End Function
 End Class
-

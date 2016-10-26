@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2353fd417ecce94c2fe823ba4f0fd4a, ..\visualbasic_App\Data_science\Mathematical\Math\BasicR\RSyntax\Math\Poisson.vb"
+﻿#Region "Microsoft.VisualBasic::5e2838595f999ad293635bc62ea9abd2, ..\visualbasic_App\Data_science\Mathematical\Math\BasicR\RSyntax\Math\Poisson.vb"
 
     ' Author:
     ' 
@@ -127,7 +127,7 @@ Namespace SyntaxAPI.MathExtension
         ''' <param name="sd"></param>
         ''' <returns></returns>
         Public Function rnorm(n As Integer, m As Double, sd As Double) As Vector
-            Dim rand As New Random(Now.Millisecond)
+            Dim rand As New Random
             Return New Vector(
                 n.Sequence.Select(
                 Function(x) rand.NextGaussian(m, sd)))  ' 不清楚在R之中是否是这样子来实现的

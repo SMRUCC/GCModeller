@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c75f41b6893aa0813f5af6df1759dc87, ..\visualbasic_App\Data_science\Bootstrapping\boot\Program.vb"
+﻿#Region "Microsoft.VisualBasic::131360962d6d31bb5f966774c16c39cf, ..\visualbasic_App\Data_science\Bootstrapping\boot\Program.vb"
 
 ' Author:
 ' 
@@ -28,15 +28,18 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.Bootstrapping
 Imports Microsoft.VisualBasic.Data.Bootstrapping.EigenvectorBootstrapping
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Text
 
 Module Program
 
     Public Function Main() As Integer
+        Call Testing.Run()
+
         Return GetType(Program).RunCLI(App.CommandLine)
     End Function
 
@@ -89,4 +92,3 @@ Module Program
         Return 0
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db04af205fe655d5d9f5f2200e2683fe, ..\visualbasic_App\Data_science\Mathematical\Plots\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::e88458fd39741e47e9883c9e2fc07623, ..\visualbasic_App\Data_science\Mathematical\Plots\BarPlot\BarPlot.vb"
 
     ' Author:
     ' 
@@ -29,10 +29,13 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
@@ -46,12 +49,15 @@ Public Module BarPlot
                          Optional margin As Size = Nothing,
                          Optional bg$ = "white",
                          Optional showGrid As Boolean = True,
-                         Optional stacked As Boolean = False) As Bitmap
+                         Optional stacked As Boolean = False,
+                         Optional showLegend As Boolean = True,
+                         Optional legendPos As Point = Nothing,
+                         Optional legendBorder As Border = Nothing) As Bitmap
 
         Return GraphicsPlots(
             size, margin, bg,
             Sub(ByRef g, grect)
-                Dim mapper As New Scaling(data, stacked)
+                Dim mapper As New Scaling(data, stacked, False)
                 Dim n As Integer = If(
                     stacked,
                     data.Samples.Length,
@@ -102,6 +108,28 @@ Public Module BarPlot
 
                     left = x
                 Next
+
+                If showLegend Then
+                    Dim legends As Legend() = LinqAPI.Exec(Of Legend) <=
+ _
+                        From x As NamedValue(Of Color)
+                        In data.Serials
+                        Select New Legend With {
+                            .color = x.x.RGBExpression,
+                            .fontstyle = CSSFont.GetFontStyle(
+                                FontFace.MicrosoftYaHei,
+                                FontStyle.Regular,
+                                30),
+                            .style = LegendStyles.Circle,
+                            .title = x.Name
+                        }
+
+                    If legendPos.IsEmpty Then
+                        legendPos = New Point(CInt(size.Width * 0.8), margin.Height)
+                    End If
+
+                    Call g.DrawLegends(legendPos, legends,,, legendBorder)
+                End If
             End Sub)
     End Function
 

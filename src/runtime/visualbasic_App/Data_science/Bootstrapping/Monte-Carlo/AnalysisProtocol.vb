@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62865b227db296a139c63f1fd291dcad, ..\visualbasic_App\Data_science\Bootstrapping\Monte-Carlo\AnalysisProtocol.vb"
+﻿#Region "Microsoft.VisualBasic::1ecf7b7d63403b5e623e1ec526440a76, ..\visualbasic_App\Data_science\Bootstrapping\Monte-Carlo\AnalysisProtocol.vb"
 
     ' Author:
     ' 
@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Data.Bootstrapping.MonteCarlo
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.diffEq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace MonteCarlo
@@ -59,14 +59,14 @@ Namespace MonteCarlo
         End Function
 
         <Extension>
-        Public Function Gety0(def As Type) As NamedValue(Of INextRandomNumber)()
+        Public Function Gety0(def As Type) As VariableModel()
             Dim obj As Object = Activator.CreateInstance(def)
             Dim model As Model = DirectCast(obj, Model)
             Return model.yinit
         End Function
 
         <Extension>
-        Public Function GetRandomParameters(def As Type) As NamedValue(Of INextRandomNumber)()
+        Public Function GetRandomParameters(def As Type) As VariableModel()
             Dim obj As Object = Activator.CreateInstance(def)
             Dim model As Model = DirectCast(obj, Model)
             Return model.params

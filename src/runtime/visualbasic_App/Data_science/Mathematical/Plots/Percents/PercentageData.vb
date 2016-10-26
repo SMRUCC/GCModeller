@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a032ffe3db256e30ff2f69a03c92cf67, ..\visualbasic_App\gr\Microsoft.VisualBasic.Imaging\Drawing3D\Surface.vb"
+﻿#Region "Microsoft.VisualBasic::9646ebd716f02e8a54548e809ba36338, ..\visualbasic_App\Data_science\Mathematical\Plots\Percents\PercentageData.vb"
 
     ' Author:
     ' 
@@ -26,13 +26,32 @@
 
 #End Region
 
-Namespace Drawing3D
 
-    Public Class Surface
+Imports System.Drawing
+Imports Microsoft.VisualBasic.Serialization.JSON
 
-        ''' <summary>
-        ''' 请注意，在这里面的点都是有顺序分别的
-        ''' </summary>
-        Protected _vertices() As Point3D
-    End Class
-End Namespace
+''' <summary>
+''' 扇形/金字塔的数据模型
+''' </summary>
+Public Class PercentageData
+
+    ''' <summary>
+    ''' 对象在整体中所占的百分比
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Percentage As Double
+    ''' <summary>
+    ''' 对象的名称标签
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Name As String
+    ''' <summary>
+    ''' 扇形、金字塔梯形的填充颜色
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Color As Color
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+End Class
