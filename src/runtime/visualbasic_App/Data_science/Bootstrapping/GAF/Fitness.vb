@@ -84,7 +84,7 @@ Namespace GAF
         ''' 从真实的实验观察数据来构建出拟合(这个构造函数是测试用的)
         ''' </summary>
         ''' <param name="observation"></param>
-        Sub New(model As Type, observation As ODEsOut)
+        Sub New(model As Type, observation As ODEsOut, initOverrides As Dictionary(Of String, Double))
             With Me
                 .observation = observation
                 ._Model = model
@@ -94,6 +94,12 @@ Namespace GAF
             End With
 
             Call __init()
+
+            If Not initOverrides.IsNullOrEmpty Then
+                For Each k$ In initOverrides.Keys
+                    y0(k$) = initOverrides(k$)
+                Next
+            End If
         End Sub
 
         Public Function Calculate(chromosome As ParameterVector) As Double Implements Fitness(Of ParameterVector, Double).Calculate
