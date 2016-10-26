@@ -21,12 +21,24 @@ Namespace GAF
         ''' <summary>
         ''' 具体的计算模型
         ''' </summary>
-        Dim model As Type
-        Dim n%, a#, b#
+        Public ReadOnly Property Model As Type
+
         ''' <summary>
         ''' 计算的采样数
         ''' </summary>
         Dim samples%
+
+#Region "Friend visit for dump debug module and run test for fitness calc"
+
+        ''' <summary>
+        ''' ODEs y0
+        ''' </summary>
+        Friend y0 As Dictionary(Of String, Double)
+        ''' <summary>
+        ''' RK4 parameters
+        ''' </summary>
+        Friend n%, a#, b#
+#End Region
 
         Public log10Fitness As Boolean
 
@@ -37,14 +49,45 @@ Namespace GAF
         Sub New(observation As Dictionary(Of String, Double), model As Model, n%, a#, b#)
             With Me
                 .observation = model.RunTest(observation, n, a, b)
-                .model = model.GetType
+                ._Model = model.GetType
                 .n = n
                 .a = a
                 .b = b
-                .samples = n / 100
-
-                Call .model.FullName.Warning
             End With
+
+            Call __init()
+        End Sub
+
+        ''' <summary>
+        ''' 初始化一些共同的数据
+        ''' </summary>
+        Private Sub __init()
+            With Me
+                .samples = n / 100
+                .y0 = observation _
+                    .y _
+                    .Values _
+                    .ToDictionary(Function(v) v.Name,
+                                  Function(y) y.x(0))
+
+                Call .Model.FullName.Warning
+            End With
+        End Sub
+
+        ''' <summary>
+        ''' 从真实的实验观察数据来构建出拟合(这个构造函数是测试用的)
+        ''' </summary>
+        ''' <param name="observation"></param>
+        Sub New(model As Type, observation As ODEsOut)
+            With Me
+                .observation = observation
+                ._Model = model
+                .n = observation.x.Length
+                .a = observation.x(0)
+                .b = observation.x.Last
+            End With
+
+            Call __init()
         End Sub
 
         Public Function Calculate(chromosome As ParameterVector) As Double Implements Fitness(Of ParameterVector, Double).Calculate
@@ -53,7 +96,8 @@ Namespace GAF
                     .vars _
                     .ToDictionary(Function(var) var.Name,
                                   Function(var) var.value)
-            Dim out As ODEsOut = MonteCarlo.Model.RunTest(model, vars, n, a, b)  ' 通过拟合的参数得到具体的计算数据
+            Dim out As ODEsOut =
+                MonteCarlo.Model.RunTest(Model, y0, vars, n, a, b)  ' 通过拟合的参数得到具体的计算数据
             Dim fit As New List(Of Double)
             Dim NaN%
 
