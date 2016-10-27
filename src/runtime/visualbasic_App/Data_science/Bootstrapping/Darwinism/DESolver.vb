@@ -14,7 +14,6 @@ Namespace Darwinism
 
         Public Function Fitting(Of T As MonteCarlo.Model)(
                          observation As ODEsOut,
-                         N%,
                          Optional F As Double = 1,
                          Optional CR As Double = 0.5,
                          Optional threshold# = 0.1,
