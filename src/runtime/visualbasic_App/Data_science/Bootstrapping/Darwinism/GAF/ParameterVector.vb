@@ -1,7 +1,9 @@
 ﻿Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.Data.Bootstrapping.MonteCarlo
-Imports Microsoft.VisualBasic.DataMining.GAF
-Imports Microsoft.VisualBasic.DataMining.GAF.Helper
+Imports Microsoft.VisualBasic.DataMining.Darwinism
+Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF
+Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF.Helper
+Imports Microsoft.VisualBasic.DataMining.Darwinism.Models
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Calculus
@@ -14,7 +16,12 @@ Namespace GAF
     ''' </summary>
     Public Class ParameterVector
         Implements Chromosome(Of ParameterVector), ICloneable
+        Implements IIndividual
 
+        ''' <summary>
+        ''' 只需要在这里调整参数就行了，y0初始值不需要
+        ''' </summary>
+        ''' <returns></returns>
         Public Property vars As var()
 
         <ScriptIgnore>
@@ -29,6 +36,10 @@ Namespace GAF
                     .ToArray
             End Get
         End Property
+
+        Public Sub Put(i As Int32, value As Double) Implements IIndividual.Put
+            vars(i).value = value
+        End Sub
 
         Private Sub __setValues(value#())
             'Dim mat = value.Split(vars.Length)
@@ -60,6 +71,10 @@ Namespace GAF
             Return New ParameterVector With {
                 .vars = v
             }
+        End Function
+
+        Public Function Crossover(anotherChromosome As IIndividual) As IList(Of IIndividual) Implements Chromosome(Of IIndividual).Crossover
+            Return Crossover(anotherChromosome)
         End Function
 
         ''' <summary>
@@ -101,8 +116,16 @@ Namespace GAF
 
         Public Overrides Function ToString() As String
             Return vars _
-                .Select(Function(x) x.Name & ":=" & x.value) _
-                .JoinBy(",  ")
+                .Select(Function(x) x.Name & ":" & x.value) _
+                .JoinBy(";")
+        End Function
+
+        Public Function Yield(i As Int32) As Double Implements IIndividual.Yield
+            Return vars(i).value
+        End Function
+
+        Private Function Chromosome_Mutate() As IIndividual Implements Chromosome(Of IIndividual).Mutate
+            Return Mutate()
         End Function
     End Class
 End Namespace

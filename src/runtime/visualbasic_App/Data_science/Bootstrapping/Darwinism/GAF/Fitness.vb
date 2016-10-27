@@ -1,17 +1,26 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Bootstrapping.MonteCarlo
-Imports Microsoft.VisualBasic.DataMining.GAF
-Imports Microsoft.VisualBasic.DataMining.GAF.Helper
+Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF
+Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Calculus
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
 Namespace GAF
 
-    Public Class GAFfitness
+    ''' <summary>
+    ''' 计算当前的最好的参数的fitness
+    ''' </summary>
+    ''' <param name="best">当前代之中的最好的参数</param>
+    ''' <param name="fit"></param>
+    ''' <returns></returns>
+    Public Delegate Function FitnessCompute(best As ParameterVector, fit As GAFFitness) As Double
+
+    Public Class GAFFitness
         Implements Fitness(Of ParameterVector, Double)
 
         ''' <summary>
@@ -99,6 +108,8 @@ Namespace GAF
                 For Each k$ In initOverrides.Keys
                     y0(k$) = initOverrides(k$)
                 Next
+
+                Call $"Overrides y0: {initOverrides.GetJson}".__DEBUG_ECHO
             End If
         End Sub
 
@@ -108,7 +119,7 @@ Namespace GAF
                     .vars _
                     .ToDictionary(Function(var) var.Name,
                                   Function(var) var.value)
-            Dim out As ODEsOut =
+            Dim out As ODEsOut = ' y0使用实验观测值，而非突变的随机值
                 MonteCarlo.Model.RunTest(Model, y0, vars, n, a, b)  ' 通过拟合的参数得到具体的计算数据
             Dim fit As New List(Of Double)
             Dim NaN%
@@ -120,32 +131,40 @@ Namespace GAF
                            Return Array.IndexOf(Ignores, v.Name) = -1
                        End Function)
 
-                Dim sample1 = y.x.Split(samples)
-                Dim sample2 = out.y(y.Name).x.Split(samples)
+                Dim sample1 = y.x.Split(samples, echo:=False)
+                Dim sample2 = out.y(y.Name).x.Split(samples, echo:=False)
                 Dim a#()
                 Dim b#()
 
                 If log10Fitness Then
-                    a = sample1.ToArray(Function(x) Math.Log10(x.Max))
-                    b = sample2.ToArray(Function(x) Math.Log10(x.Max))
+                    a = sample1.ToArray(Function(x) log10(x.Max))
+                    b = sample2.ToArray(Function(x) log10(x.Max))
                 Else
                     a = sample1.ToArray(Function(x) x.Max)
                     b = sample2.ToArray(Function(x) x.Max)
                 End If
 
-                NaN% = b.Where(AddressOf Is_NA_UHandle).Count
+                NaN% = b.Where(AddressOf IsNaNImaginary).Count
                 fit += Math.Sqrt(FitnessHelper.Calculate(a#, b#)) ' FitnessHelper.Calculate(y.x, out.y(y.Name).x)   
             Next
 
             ' Return fit.Average
             Dim fitness# = fit.Average
 
-            If fitness.Is_NA_UHandle Then
-                fitness = Single.MaxValue
+            If fitness.IsNaNImaginary Then
+                fitness = Integer.MaxValue * 100.0R
                 fitness += NaN% * 10
             End If
 
             Return fitness
+        End Function
+
+        Private Function log10(x#) As Double
+            If x = 0R Then
+                Return -1000
+            Else
+                Return Math.Log10(Math.Abs(x))
+            End If
         End Function
     End Class
 End Namespace
