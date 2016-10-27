@@ -14,10 +14,11 @@
 ' limitations under the License.
 ' *****************************************************************************
 
-Imports Microsoft.VisualBasic.DataMining.GAF.Helper
+Imports Microsoft.VisualBasic.DataMining.Darwinism.Models
+Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.Linq
 
-Namespace GAF
+Namespace Darwinism.GAF
 
     Public Class GeneticAlgorithm(Of C As Chromosome(Of C), T As IComparable(Of T))
 
@@ -148,7 +149,7 @@ Namespace GAF
         End Sub
 
         Public Function Fitness(chromosome As C) As T
-            Return _chromosomesComparator.fit(chromosome)
+            Return _chromosomesComparator.Fitness(chromosome)
         End Function
 
         ''' <summary>

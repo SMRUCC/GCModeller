@@ -1,3 +1,4 @@
+
 ' *****************************************************************************
 ' Copyright 2012 Yuriy Lagodiuk
 ' 
@@ -14,10 +15,19 @@
 ' limitations under the License.
 ' *****************************************************************************
 
-Namespace GAF
+Imports Microsoft.VisualBasic.DataMining.Darwinism.Models
 
-    Public Interface IterartionListener(Of C As Chromosome(Of C), T As IComparable(Of T))
+Namespace Darwinism.GAF
 
-        Sub Update(environment As GeneticAlgorithm(Of C, T))
+    Public Interface Fitness(Of C As Chromosome(Of C), T As IComparable(Of T))
+
+        ''' <summary>
+        ''' Assume that chromosome1 is better than chromosome2 <br/>
+        ''' fit1 = calculate(chromosome1) <br/>
+        ''' fit2 = calculate(chromosome2) <br/>
+        ''' So the following condition must be true <br/>
+        ''' fit1.compareTo(fit2) &lt;= 0 <br/>
+        ''' </summary>
+        Function Calculate(chromosome As C) As T
     End Interface
 End Namespace

@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Bootstrapping.MonteCarlo
-Imports Microsoft.VisualBasic.DataMining.GAF
-Imports Microsoft.VisualBasic.DataMining.GAF.Helper
+Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF
+Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF.Helper
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
@@ -15,13 +15,19 @@ Namespace GAF
     ''' </summary>
     Public Module Protocol
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="array#">需要被拟合的参数列表，在这个函数里面会被修改一点产生突变</param>
+        ''' <param name="rnd"></param>
         <Extension> Public Sub Mutate(ByRef array#(), rnd As Random)
-            Dim i% = rnd.Next(array.Length)
-            Dim n# = array(i)
-            Dim power# = Math.Log10(n#) - 1
-            Dim sign% = If(rnd.NextBoolean, 1, -1)
+            Dim i% = rnd.Next(array.Length)  ' 得到需要被突变的位点在数组中的下标
+            Dim n# = Math.Abs(array(i))      ' 得到元素值，由于负数取位数的时候回出错，所以这里取绝对值，因为只需要取位数
+            Dim power# = Math.Log10(n#) - 1  ' 取位数
+            Dim sign% =
+                If(rnd.NextBoolean, 1, -1)
 
-            n += sign * (rnd.Next(10) * (10 ^ power))
+            n += sign * (rnd.Next(1000) * (1000 ^ power))
             If n.IsNaNImaginary Then
                 n = Short.MaxValue
             End If
@@ -68,18 +74,58 @@ Namespace GAF
                 evolIterations:=evolIterations,
                 fitness:=fitness,
                 outPrint:=outPrint,
-                threshold:=threshold)
+                threshold:=threshold,
+                argsInit:=Nothing)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="vars$">从模型内部定义所解析出来的需要进行拟合的参数的名称列表</param>
+        ''' <param name="popSize%"></param>
+        ''' <param name="threshold#"></param>
+        ''' <param name="evolIterations%"></param>
+        ''' <param name="fitness"></param>
+        ''' <param name="outPrint"></param>
+        ''' <param name="argsInit"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function __runInternal(vars$(), popSize%, threshold#, evolIterations%,
                                        fitness As GAFFitness,
-                                       ByRef outPrint As List(Of outPrint)) As var()
+                                       ByRef outPrint As List(Of outPrint),
+                                       argsInit As Dictionary(Of String, Double)) As var()
+
+            Dim estArgs As var()
+
+            If argsInit.IsNullOrEmpty Then
+                estArgs = vars.ToArray(
+                    Function(x) New var With {
+                        .Name = x,
+                        .value = (2 ^ x.Length) * (100000 * New Random().NextDouble)
+                    })
+            Else
+                estArgs = LinqAPI.Exec(Of var) <= From x
+                                                  In argsInit
+                                                  Where Array.IndexOf(vars, x.Key) > -1
+                                                  Select New var With {
+                                                      .Name = x.Key,
+                                                      .value = x.Value
+                                                  }
+                Dim varsData As Dictionary(Of var) =
+                    estArgs.ToDictionary
+                For Each name$ In vars
+                    If Not varsData.ContainsKey(name$) Then
+                        varsData += New var With {
+                            .Name = name,
+                            .value = (2 ^ name.Length) * (100 * New Random().NextDouble)
+                        }
+                    End If
+                Next
+            End If
 
             Dim population As Population(Of ParameterVector) =
                 New ParameterVector() With {
-                    .vars = vars.ToArray(
-                        Function(x) New var(x, (2 ^ x.Length) * (100000 * New Random().NextDouble)))
+                    .vars = estArgs
             }.InitialPopulation(popSize%)
 
             population.Parallel = True
@@ -129,7 +175,8 @@ Namespace GAF
                          Optional threshold# = 0.5,
                          Optional log10Fit As Boolean = True,
                          Optional ignores$() = Nothing,
-                         Optional initOverrides As Dictionary(Of String, Double) = Nothing) As var()
+                         Optional initOverrides As Dictionary(Of String, Double) = Nothing,
+                         Optional estArgsBase As Dictionary(Of String, Double) = Nothing) As var()
 
             Dim vars$() = Model.GetParameters(GetType(T)).ToArray  ' 对于参数估算而言，y0初始值不需要变化了，使用实验观测值
             Dim fitness As New GAFFitness(GetType(T), observation, initOverrides) With {
@@ -144,7 +191,8 @@ Namespace GAF
                 evolIterations:=evolIterations,
                 fitness:=fitness,
                 outPrint:=outPrint,
-                threshold:=threshold)
+                threshold:=threshold,
+                argsInit:=estArgsBase)
         End Function
     End Module
 End Namespace
