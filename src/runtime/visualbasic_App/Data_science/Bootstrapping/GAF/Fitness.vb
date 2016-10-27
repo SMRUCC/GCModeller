@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Calculus
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
 Namespace GAF
@@ -99,6 +100,8 @@ Namespace GAF
                 For Each k$ In initOverrides.Keys
                     y0(k$) = initOverrides(k$)
                 Next
+
+                Call $"Overrides y0: {initOverrides.GetJson}".__DEBUG_ECHO
             End If
         End Sub
 
@@ -108,7 +111,7 @@ Namespace GAF
                     .vars _
                     .ToDictionary(Function(var) var.Name,
                                   Function(var) var.value)
-            Dim out As ODEsOut =
+            Dim out As ODEsOut = ' y0使用实验观测值，而非突变的随机值
                 MonteCarlo.Model.RunTest(Model, y0, vars, n, a, b)  ' 通过拟合的参数得到具体的计算数据
             Dim fit As New List(Of Double)
             Dim NaN%
@@ -120,8 +123,8 @@ Namespace GAF
                            Return Array.IndexOf(Ignores, v.Name) = -1
                        End Function)
 
-                Dim sample1 = y.x.Split(samples)
-                Dim sample2 = out.y(y.Name).x.Split(samples)
+                Dim sample1 = y.x.Split(samples, echo:=False)
+                Dim sample2 = out.y(y.Name).x.Split(samples, echo:=False)
                 Dim a#()
                 Dim b#()
 
@@ -141,7 +144,7 @@ Namespace GAF
             Dim fitness# = fit.Average
 
             If fitness.Is_NA_UHandle Then
-                fitness = Single.MaxValue
+                fitness = Integer.MaxValue * 100.0R
                 fitness += NaN% * 10
             End If
 
