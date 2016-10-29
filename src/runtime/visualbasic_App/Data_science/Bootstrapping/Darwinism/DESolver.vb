@@ -1,9 +1,10 @@
 ﻿Imports Microsoft.VisualBasic.Data.Bootstrapping.GAF
-Imports Microsoft.VisualBasic.DataMining.Darwinism.DifferentialEvolution
-Imports Microsoft.VisualBasic.Mathematical.Calculus
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.DataMining.Darwinism
+Imports Microsoft.VisualBasic.DataMining.Darwinism.DifferentialEvolution
 Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF.Helper.ListenerHelper
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical.Calculus
 
 Namespace Darwinism
 
@@ -12,18 +13,47 @@ Namespace Darwinism
     ''' </summary>
     Public Module DESolver
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="observation"></param>
+        ''' <param name="F"></param>
+        ''' <param name="CR"></param>
+        ''' <param name="threshold#">
+        ''' 现实的曲线太复杂了，因为模型是简单方程，只能够计算出简单的曲线，所以肯定不能完全拟合，
+        ''' 最终的结果fitness也会较大，默认的0.1的fitness这个要求肯定不能够达到，
+        ''' 所以只要达到一定次数的迭代就足够了，这个fitness的阈值参数值可以设置大一些
+        ''' </param>
+        ''' <param name="maxIterations%"></param>
+        ''' <param name="PopulationSize%"></param>
+        ''' <param name="iteratePrints"></param>
+        ''' <param name="initOverrides"></param>
+        ''' <param name="isRefModel"></param>
+        ''' <param name="parallel">并行化计算要在种群的规模足够大的情况下才会有性能上的提升</param>
+        ''' <param name="ignores">在计算fitness的时候将要被忽略掉的函数变量的名称</param>
+        ''' <returns></returns>
         Public Function Fitting(Of T As MonteCarlo.Model)(
                          observation As ODEsOut,
                          Optional F As Double = 1,
                          Optional CR As Double = 0.5,
                          Optional threshold# = 0.1,
                          Optional maxIterations% = 500000,
-                         Optional PopulationSize% = 20,
+                         Optional PopulationSize% = 200,
                          Optional ByRef iteratePrints As List(Of outPrint) = Nothing,
-                         Optional initOverrides As Dictionary(Of String, Double) = Nothing) As var()
+                         Optional initOverrides As Dictionary(Of String, Double) = Nothing,
+                         Optional estArgsBase As Dictionary(Of String, Double) = Nothing,
+                         Optional ignores$() = Nothing,
+                         Optional isRefModel As Boolean = False,
+                         Optional parallel As Boolean = False) As var()
 
             Dim model As Type = GetType(T)
             Dim vars As String() = MonteCarlo.Model.GetParameters(model).ToArray
+
+            If estArgsBase.IsNullOrEmpty Then
+                estArgsBase = New Dictionary(Of String, Double)
+            End If
+
             Dim [new] As [New](Of ParameterVector) =
                 Function(seed)
                     Dim out As New ParameterVector With {
@@ -34,17 +64,23 @@ Namespace Darwinism
                     If seed Is Nothing Then
                         Return out
                     Else
-                        For Each x In out.vars
-                            Dim power# = (
-                                If(seed.Next > 0.5, 1, -1) * seed.Next(vars.Length)
-                            )
-                            x.value = 100 ^ power
+                        For Each x As var In out.vars
+                            If estArgsBase.ContainsKey(x.Name) Then
+                                x.value = estArgsBase(x.Name)
+                            Else
+                                Dim power# = (
+                                    If(seed.NextDouble > 0.5, 1, -1) * seed.Next(vars.Length)
+                                )
+                                x.value = 100 ^ power
+                            End If
                         Next
                     End If
 
                     Return out
                 End Function
-            Dim fitness As New GAFFitness(model, observation, initOverrides)
+            Dim fitness As New GAFFitness(model, observation, initOverrides, isRefModel) With {
+                .Ignores = If(ignores.IsNullOrEmpty, {}, ignores)
+            }
             Dim iterates As New List(Of outPrint)
             Dim best = DifferentialEvolution.Evolution(
                 AddressOf fitness.Calculate,
@@ -53,7 +89,8 @@ Namespace Darwinism
                 F, CR, threshold,
                 maxIterations,
                 PopulationSize,
-                AddressOf iterates.Add)
+                AddressOf iterates.Add,
+                parallel)
 
             iteratePrints = iterates
 

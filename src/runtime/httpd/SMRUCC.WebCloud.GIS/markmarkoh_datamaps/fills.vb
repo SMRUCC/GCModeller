@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Language
 
 Namespace d3js.markmarkoh_datamaps
 
@@ -57,7 +58,7 @@ Namespace d3js.markmarkoh_datamaps
                 .defaultFill = defaultFill
             }
 
-            For Each c In colors.SeqIterator
+            For Each c As SeqValue(Of Color) In colors.SeqIterator
                 Dim x As Color = c.obj
 
                 fills.fills += New NamedValue(Of String) With {

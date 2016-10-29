@@ -74,6 +74,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\Clinics_tools\InfectionDynamics\packages\System.ValueTuple.4.3.0-preview1-24530-04\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -101,6 +105,7 @@
     <Compile Include="Darwinism\GAF\Fitness.vb" />
     <Compile Include="Darwinism\GAF\Protocol.vb" />
     <Compile Include="Darwinism\GAF\ParameterVector.vb" />
+    <Compile Include="Monte-Carlo\RefModel.vb" />
     <Compile Include="Normalization.vb" />
     <Compile Include="Monte-Carlo\VariableModel.vb" />
     <Compile Include="Obsolete\Analysis.vb" />
@@ -160,6 +165,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DataFrame\+VB_DataFrame.vbproj">
@@ -178,9 +184,9 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>Microsoft.VisualBasic.Mathematical</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mathematical\ODE\Calculus_diffEq.vbproj">
+    <ProjectReference Include="..\Mathematical\ODE\ODEsSolver.vbproj">
       <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
-      <Name>Calculus_diffEq</Name>
+      <Name>ODEsSolver</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mathematical\Plots\Plots.vbproj">
       <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>
