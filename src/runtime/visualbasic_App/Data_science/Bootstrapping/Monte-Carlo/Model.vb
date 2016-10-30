@@ -98,7 +98,8 @@ Namespace MonteCarlo
         Public Shared Function RunTest(model As Type,
                                        y0 As Dictionary(Of String, Double),
                                        estimates As Dictionary(Of String, Double),
-                                       n%, a%, b%) As ODEsOut
+                                       n%, a%, b%,
+                                       Optional ref As ODEsOut = Nothing) As ODEsOut
 
             Dim parms$() = ODEs.GetParameters(model).ToArray
             Dim vars$() = ODEs.GetVariables(model).ToArray
@@ -113,6 +114,16 @@ Namespace MonteCarlo
                     Delegates.FieldSet(Of Double)(model, parm)
                 Call [set](x, estimates(parm))
             Next
+
+            If Not ref Is Nothing Then
+                Dim partTokens As Integer = n / ref.x.Length
+
+                TryCast(x, RefModel).RefValues = New ValueVector With {
+                    .Y = ref.y,
+                    .value = Scan0
+                }
+                TryCast(x, RefModel).Delta = partTokens
+            End If
 
             Return x.Solve(n, a, b, incept:=True)
         End Function
