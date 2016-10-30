@@ -109,6 +109,7 @@ Namespace Core
                 Return -1
             End Try
 
+#Const DEBUG = 0
             Call Console.WriteLine("Http Server Start listen at " & _httpListener.LocalEndpoint.ToString)
 #If DEBUG Then
             Call RunTask(AddressOf Me.OpenAPI_HOME)

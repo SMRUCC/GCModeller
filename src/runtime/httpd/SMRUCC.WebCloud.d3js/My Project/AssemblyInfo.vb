@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("httpd: SMRUCC web cloud application platform")>
-<Assembly: AssemblyDescription("httpd: SMRUCC web cloud application platform")>
-<Assembly: AssemblyCompany("GPL3")>
-<Assembly: AssemblyProduct("httpd")>
-<Assembly: AssemblyCopyright("Copyright © R&D, SMRUCC 2016. All rights reserved.")>
-<Assembly: AssemblyTrademark("GCModeller.org")>
+<Assembly: AssemblyTitle("SMRUCC.WebCloud.d3js")> 
+<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyProduct("SMRUCC.WebCloud.d3js")> 
+<Assembly: AssemblyCopyright("Copyright ©  2016")> 
+<Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("89f5d018-ad6a-49db-9880-711818dc4479")>
+<Assembly: Guid("caa2aa21-70e8-46f3-a252-0af9a6bd7419")> 
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("1.0.0.0")> 
+<Assembly: AssemblyFileVersion("1.0.0.0")> 

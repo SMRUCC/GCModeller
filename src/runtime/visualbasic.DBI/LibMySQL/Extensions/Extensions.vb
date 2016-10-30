@@ -25,11 +25,13 @@
 
 #End Region
 
+Imports System.Data.Common
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 
@@ -127,6 +129,15 @@ Public Module Extensions
             {GetType(Byte), MySqlDbType.Byte},
             {GetType([Enum]), MySqlDbType.Enum}
     }
+
+    <Extension>
+    Public Function OrdinalSchema(reader As DbDataReader) As Dictionary(Of String, Integer)
+        Dim schema As Dictionary(Of String, Integer) = reader.FieldCount _
+            .SeqIterator _
+            .ToDictionary(Function(i) reader.GetName(i),
+                          Function(x) x)
+        Return schema
+    End Function
 
     ''' <summary>
     ''' Get the data type of a field in the data table.

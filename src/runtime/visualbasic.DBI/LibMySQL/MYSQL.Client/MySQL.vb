@@ -198,24 +198,21 @@ Public Class MySQL : Implements IDisposable
     End Function
 
     Public Function ExecuteDataset(SQL As String) As MySqlDataReader
-        Using MySQL As MySqlConnection = New MySqlConnection(_UriMySQL)
-            Dim MySqlCommand As MySqlCommand = New MySqlCommand(SQL)
+        Dim MySQL As New MySqlConnection(_UriMySQL)
+        Dim MySqlCommand As New MySqlCommand(SQL) With {
+            .Connection = MySQL
+        }
 
-            MySqlCommand.Connection = MySQL
-            Try
-                Call MySQL.Open()
-                Return MySqlCommand.ExecuteReader
+        Try
+            Call MySQL.Open()
+            Return MySqlCommand.ExecuteReader
+        Catch ex As Exception
+            ex = __throwExceptionHelper(ex, SQL, False)
+            Call ex.PrintException
+            Call App.LogException(ex)
 
-            Catch ex As Exception
-                ex = __throwExceptionHelper(ex, SQL, False)
-                Call ex.PrintException
-                Call App.LogException(ex)
-
-                Return Nothing
-            End Try
-
-            MySQL.Close()
-        End Using
+            Return Nothing
+        End Try
     End Function
 
     ''' <summary>
