@@ -46,6 +46,13 @@ Namespace d3js.markmarkoh_datamaps
 
     Public Module ColorManager
 
+        ''' <summary>
+        ''' Generates css color value for Javascript reports
+        ''' </summary>
+        ''' <param name="countries"></param>
+        ''' <param name="mapName"></param>
+        ''' <param name="defaultFill"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function GetColors(countries As IEnumerable(Of NamedValue(Of Integer)),
                                   Optional mapName As String = "Jet",

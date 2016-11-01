@@ -95,6 +95,10 @@ Namespace AppEngine.APIMethods.Arguments
             Call response.WriteLine(html)
         End Sub
 
+        Public Sub WriteHTML(html As StringBuilder)
+            WriteHTML(html.ToString)
+        End Sub
+
         Private Function writeSuccess() As Boolean
             Try
                 Call __writeSuccess("text/html", Nothing)

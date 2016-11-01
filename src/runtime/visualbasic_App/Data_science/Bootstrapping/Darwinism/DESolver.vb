@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.DataMining.Darwinism.DifferentialEvolution
 Imports Microsoft.VisualBasic.DataMining.Darwinism.GAF.Helper.ListenerHelper
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Calculus
 
 Namespace Darwinism
@@ -11,7 +12,7 @@ Namespace Darwinism
     ''' <summary>
     ''' Differential Evolution estimates solver.
     ''' </summary>
-    Public Module DESolver
+    Public Module DifferentialEvolutionSolver
 
         ''' <summary>
         ''' 
@@ -45,7 +46,8 @@ Namespace Darwinism
                          Optional estArgsBase As Dictionary(Of String, Double) = Nothing,
                          Optional ignores$() = Nothing,
                          Optional isRefModel As Boolean = False,
-                         Optional parallel As Boolean = False) As var()
+                         Optional parallel As Boolean = False,
+                         Optional randomGenerator As IRandomSeeds = Nothing) As var()
 
             Dim model As Type = GetType(T)
             Dim vars As String() = MonteCarlo.Model.GetParameters(model).ToArray
@@ -53,10 +55,13 @@ Namespace Darwinism
             If estArgsBase.IsNullOrEmpty Then
                 estArgsBase = New Dictionary(Of String, Double)
             End If
+            If randomGenerator Is Nothing Then
+                randomGenerator = Function() New Random
+            End If
 
             Dim [new] As [New](Of ParameterVector) =
                 Function(seed)
-                    Dim out As New ParameterVector With {
+                    Dim out As New ParameterVector(randomGenerator) With {
                         .vars = vars _
                         .ToArray(Function(v) New var(v))
                     }
@@ -90,7 +95,8 @@ Namespace Darwinism
                 maxIterations,
                 PopulationSize,
                 AddressOf iterates.Add,
-                parallel)
+                parallel,
+                randomGenerator)
 
             iteratePrints = iterates
 

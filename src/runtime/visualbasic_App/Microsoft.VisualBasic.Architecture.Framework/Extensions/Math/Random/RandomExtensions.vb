@@ -36,6 +36,11 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Namespace Mathematical
 
     Public Delegate Function INextRandomNumber() As Double
+    ''' <summary>
+    ''' Tells the function how to generates a new random seed?
+    ''' </summary>
+    ''' <returns></returns>
+    Public Delegate Function IRandomSeeds() As Random
 
     ''' <summary>
     ''' Some extension methods for <see cref="Random"/> for creating a few more kinds of random stuff.
@@ -114,13 +119,17 @@ Namespace Mathematical
         End Function
 
         ''' <summary>
-        ''' Equally likely to return true or false. Uses <see cref="Random.Next()"/>.
+        ''' Equally likely to return true or false. Uses <see cref="Random.Next(Integer)"/>.
         ''' </summary>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' ```vbnet
+        ''' 1 > 0 OR 0 > 0
+        ''' ```
+        ''' </remarks>
         <ExportAPI("NextBoolean")>
         <Extension> Public Function NextBoolean(r As Random) As Boolean
-            Return r.[Next](2) > 0
+            Return r.[Next](2) > 0 ' 1 > 0 OR 0 > 0
         End Function
 
         ''' <summary>
