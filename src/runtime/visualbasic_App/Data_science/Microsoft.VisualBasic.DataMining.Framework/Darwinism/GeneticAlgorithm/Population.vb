@@ -31,7 +31,7 @@ Namespace Darwinism.GAF
         Dim chromosomes As New List(Of chr)(DEFAULT_NUMBER_OF_CHROMOSOMES)
 
         ''' <summary>
-        ''' ÊÇ·ñ²ÉÓÃ²¢ÐÐ¼ÆËãÄ£Ê½£¿£¿
+        ''' æ˜¯å¦ä½¿ç”¨å¹¶è¡Œæ¨¡å¼åœ¨æŽ’åºä¹‹å‰æ¥è®¡ç®—å‡ºfitness
         ''' </summary>
         ''' <returns></returns>
         Public Property Parallel As Boolean = False
@@ -85,8 +85,7 @@ Namespace Darwinism.GAF
         End Sub
 
         ''' <summary>
-        ''' ÕâÀï¿ÉÄÜÊÇÏÞËÙµÄ²½Öè£¬ÀýÈç¼ÆËãODEs£¬¿ÉÄÜ»á·Ç³£ºÄÊ±
-        ''' Ôò¿ÉÒÔÏÈÔÚÕâÀï½øÐÐ²¢ÐÐ»¯£¬¼ÆËã³öcache£¬ºóÃæ±È½ÏµÄÊ±ºòÖ±½ÓÊ¹ÓÃcache¼´¿É
+        ''' è¿™é‡Œæ˜¯ODEså‚æ•°ä¼°è®¡çš„é™é€Ÿæ­¥éª¤
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="GA"></param>
