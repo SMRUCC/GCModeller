@@ -155,7 +155,7 @@ Public Module PFSNet
             Return 1
         ElseIf y >= q2 Then
             Return (y - q2) / delta_q12
-        ElseIf q1.Is_NA_UHandle OrElse q2.Is_NA_UHandle Then
+        ElseIf q1.IsNaNImaginary OrElse q2.IsNaNImaginary Then
             Return Double.NaN
         Else
             Return 0
@@ -181,7 +181,7 @@ Public Module PFSNet
     Public Function computegenelist(w As DataFrameRow(), beta As Double) As String()
         Dim list_mask = (From w_row As DataFrameRow In w.AsParallel
                          Let x As Double() = w_row.ExperimentValues
-                         Let d = x.Sum / (From n As Double In x Let b As Integer = If(n.Is_NA_UHandle, 0, 1) Select b).Sum
+                         Let d = x.Sum / (From n As Double In x Let b As Integer = If(n.IsNaNImaginary, 0, 1) Select b).Sum
                          Where d >= beta
                          Select w_row.Name, d).ToArray
         Return (From obj In list_mask Select obj.Name).ToArray
