@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::3c921fed0694b6a9c6cfb9c17e308c6c, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
+Imports System.Drawing.Drawing2D
 
 Namespace ComparativeAlignment
 
@@ -107,7 +108,7 @@ Namespace ComparativeAlignment
 
                 If DispGeneID Then Call gdi.Graphics.DrawString(gene.locus_tag, locusFont, Brushes.DarkCyan, r.Location)
 
-                Dim TrModel As New Drawing2D.GraphicsPath
+                Dim TrModel As New GraphicsPath
                 Dim v1 As Point = New Point(RegionLeft, height - dth)
                 Dim v2 As Point = New Point(RegionLeft, height + dth)
                 Dim v3 As Point
@@ -290,7 +291,7 @@ Namespace ComparativeAlignment
             titleFont = New Font(FontFace.MicrosoftYaHei, 30, FontStyle.Bold)
 
             Dim __drawTrangle = Sub(color As Color, Direction As Integer)
-                                    Dim Tr As New Drawing2D.GraphicsPath
+                                    Dim Tr As New GraphicsPath
                                     Dim X1 As Integer = X + Direction * TrangleLength
 
                                     Call Tr.AddLine(New Point(X, Y), New Point(X1, Y - TrangleLength / 2))
