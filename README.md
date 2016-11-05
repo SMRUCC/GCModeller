@@ -45,6 +45,35 @@ Currently the ``R`` language hybrids programming environment just provides some 
 
 <a href="http://sbml.org/Main_Page"><img src="./src/GCModeller/models/images/sbml-logo-70.png" width=80></a> <a href="http://biom-format.org/"><img src="./src/GCModeller/models/images/biom-format.png" width=80></a> <a href="http://www.psidev.info/overview"><img src="./images/data_standards/PSI_logo_s.png" width=80></a> <a href="http://www.obofoundry.org/"><img src="./images/data_standards/foundrylogo.png" width=80></a>
 
+### Modules &amp; Functions
+
+GCModeller provides a set of .NET libraries and CLI tools for processing biological analysis data. Currently **GCModeller** can provides these productive ready libraries:
+
+###### 1.Basically libraries
+
++ NCBI data analysis toolkit: Genbank/Taxonomy/nt/nr database
++ Common Data: FastA database, FastQ, SAM data file I/O class
++ Biological Data Standard Supports: SBML(level 3), BIOM(level1), PSI, OBO
++ Biological Pathway Database: MetaCyc, Reactome, KEGG data tools for .NET language
+
+###### 2.Biological Data Visualization software API for .NET
+
++ Circos API(genomic visualizing), Cytoscape DataModel API(Biological network visualizing), SequenceLogo(Molecular motif site visualize)
+
+###### 3.Annotation Tools:
+
++ A complete NCBI localblast toolkit for proteins and nucleotide sequence analysis, includes parallel task library for Win/Linux Server and data analysis protocol.
++ SNP toolkit
++ Nucleotide sequence topology feature site analysis toolkit.
++ RegPrecise database tool and MEME software toolkit for the annotation of bacterial genomics regulation network.
++ Go(Gene Ontology) annotation tools
+
+###### 4.R language hybrids environment for bioinformatics
+
++ Includes basically R language API, and some R package API from CRAN and Bioconductor
+
+###### 5.WebAPI wrapper for KEGG database and RegPrecise Database
+
 ### Publications
 
 Here listing the scientific paperworks that based on the analysis services of GCModeller:
@@ -63,20 +92,6 @@ Here listing the scientific paperworks that based on the analysis services of GC
 ![](./images/pXOCGX01-lightbox.png)
 ![](./images/phenotypic-bTree-lightbox.png)
 ![](./images/pxocgx01_blastx-lightbox.png)
-
-### Feature tools
-
-*  1. NCBI localblast utility
-*  2. MEME tools combine with Regprecise database
-*  3. Circos plots utility
-*  4. Protein structure analysis tools
-*  5. KEGG database tools
-*  6. Reactome/MetaCyc database tools
-*  7. Venn diagram drawing tools
-*  8. Cytoscape utility tools
-*  9. Motif Parallel alignment tools for the protein interaction network and family annotation
-
-**The main virtual cell analysis engine is under development progress.**
 
 Visit our project home: http://gcmodeller.org
 
