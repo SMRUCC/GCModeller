@@ -48,16 +48,16 @@ Module CLIProgram
                Info:="Automatically generates visualbasic source code from the MySQL database schema dump.",
                Usage:="--reflects /sql <sql_path/std_in> [-o <output_path> /namespace <namespace> /split]",
                Example:="--reflects /sql ./test.sql /split /namespace ExampleNamespace")>
-    <ParameterInfo("/sql", False,
+    <Argument("/sql", False,
                    AcceptTypes:={GetType(String)},
                    Description:="The file path of the MySQL database schema dump file."),
-     ParameterInfo("-o", True,
+     Argument("-o", True,
                    AcceptTypes:={GetType(String)},
                    Description:="The output file path of the generated visual basic source code file from the SQL dump file ""/sql"""),
-     ParameterInfo("/namespace", True,
+     Argument("/namespace", True,
                    AcceptTypes:={GetType(String)},
                    Description:="The namespace value will be insert into the generated source code if this parameter is not null.")>
-    <ParameterInfo("/split", True,
+    <Argument("/split", True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Split the source code into sevral files and named by table name?")>
     Public Function ReflectsConvert(args As CommandLine) As Integer
