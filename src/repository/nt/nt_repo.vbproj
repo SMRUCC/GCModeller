@@ -232,6 +232,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\runtime\httpd\WebCloud\SMRUCC.HTTPInternal\SMRUCC.WebCloud.HTTPInternal.vbproj">
+      <Project>{fbfc1455-b232-4f16-afc7-4054a8b864ab}</Project>
+      <Name>SMRUCC.WebCloud.HTTPInternal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
       <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
       <Name>BinaryData</Name>
