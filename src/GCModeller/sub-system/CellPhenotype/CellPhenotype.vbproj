@@ -254,6 +254,14 @@
       <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
       <Name>Java</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\VirtualFootprint\VirtualFootprint.vbproj">
       <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
       <Name>VirtualFootprint</Name>
