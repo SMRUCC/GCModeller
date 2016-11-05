@@ -25,9 +25,9 @@ PM> Install-Package VB_AppFramework -Pre
 This project is the core lib of GCModeller, it provides the common components in the GCModeller analysis tools such as sequence model and protein structure models, some necessary interface and component class for build the bio-system model in the GCModeller.
 
 ```vb.net
-Imports LANS.SystemsBiology.ComponentModel
-Imports LANS.SystemsBiology.ContextModel
-Imports LANS.SystemsBiology.SequenceModel
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.SequenceModel
 ```
 
 This Projects includes some common used biological database reader, the database includes:
@@ -40,13 +40,13 @@ This Projects includes some common used biological database reader, the database
 All of these good staff is in the namespace:
 
 ```vb.net
-Imports LANS.SystemsBiology.Assembly.Bac_sRNA.org
-Imports LANS.SystemsBiology.Assembly.DOMINE
-Imports LANS.SystemsBiology.Assembly.DOOR
-Imports LANS.SystemsBiology.Assembly.KEGG
-Imports LANS.SystemsBiology.Assembly.MetaCyc
-Imports LANS.SystemsBiology.Assembly.NCBI
-Imports LANS.SystemsBiology.Assembly.Uniprot
+Imports SMRUCC.genomics.Assembly.Bac_sRNA.org
+Imports SMRUCC.genomics.Assembly.DOMINE
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.MetaCyc
+Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.Uniprot
 ```
 
 ### Quick guide for Read database
@@ -66,4 +66,30 @@ Dim nt As New FASTA.FastaToken(path)
 
 nt = FastaToken.Load(path)
 nt = FastaToken.LoadNucleotideData(path)
+```
+
+### NCBI taxonomy annotation data
+
+```vbnet
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+
+' Build taxonomy tree from NCBI taxonomy data
+' tax$ directory should contains files: names.dmp and nodes.dmp, 
+' which are avaliable download from NCBI ftp
+Dim tax$ = <DIR>
+Dim taxonomy As New NcbiTaxonomyTree(tax)
+
+' For gi mapping to taxid
+Dim giMapTaxid As BucketDictionary(Of Integer, Integer) =
+    Taxonomy.AcquireAuto(gi2taxid)
+    
+' For accid mapping to taxid
+Dim accMapTaxid As BucketDictionary(Of String, Integer) = 
+    Accession2Taxid.LoadAll(DIR)
+    
+' OR processing auto
+Dim mapping As TaxidMaps.Mapping = If(
+    is_gi2taxid,
+    TaxidMaps.MapByGI(x2taxid),
+    TaxidMaps.MapByAcc(x2taxid))
 ```
