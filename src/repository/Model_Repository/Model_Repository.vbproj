@@ -246,10 +246,6 @@
       <Project>{67eafc15-2237-494e-85d9-206e5bf71ef4}</Project>
       <Name>SQLite_Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Genome\" />

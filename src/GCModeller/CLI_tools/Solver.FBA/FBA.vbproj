@@ -268,10 +268,6 @@
     <Content Include="Terminal.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Data\DataFrame\+VB_DataFrame.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_DataFrame</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
       <Project>{AA24C3CF-9377-4BF6-B71D-8D452AE68C3D}</Project>
       <Name>Toolkits.RNA-Seq.RTools</Name>
@@ -295,10 +291,6 @@
     <ProjectReference Include="..\..\models\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\sub-system\FBA_DP\FBA_DP.vbproj">
       <Project>{e6979c9a-76bc-4562-a31f-f0dc7f2abfa2}</Project>

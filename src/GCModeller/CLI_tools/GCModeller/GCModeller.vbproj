@@ -282,18 +282,6 @@
       <Project>{ae8d7346-7f3e-4c84-9a59-bba3cac5df41}</Project>
       <Name>nt_repo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Data\DataFrame\+VB_DataFrame.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_DataFrame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Data\SearchEngine\SearchEngine\SearchEngine.vbproj">
-      <Project>{8afbc715-5eb6-4eaf-a967-d29a5667709f}</Project>
-      <Name>SearchEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Data_science\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
-      <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
-      <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\analysis\annoTools\BASys\BASys.vbproj">
       <Project>{6FA98FE3-4504-4D7A-A454-C5E8CF46EB21}</Project>
       <Name>BASys</Name>
@@ -325,10 +313,6 @@
     <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\visualize\Circos\Circos\Circos.vbproj">
       <Project>{5bf44c97-b7a0-47d7-9622-2f2c0c4f31a9}</Project>
