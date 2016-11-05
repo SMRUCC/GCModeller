@@ -390,7 +390,7 @@ Partial Module CLI
                 {giFieldName, NameOf(EntityObject.Identifier)}
             })
         Dim giMapTaxid As BucketDictionary(Of Integer, Integer) =
-            AcquireAuto(gi2taxid)
+            Taxonomy.AcquireAuto(gi2taxid)
         Dim taxTree As New NcbiTaxonomyTree(tax)
 
         For Each x As EntityObject In data
