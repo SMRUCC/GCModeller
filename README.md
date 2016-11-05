@@ -83,17 +83,19 @@ Visit our project home: http://gcmodeller.org
 ## For developers
 Here are some released library of the ``GCModeller`` is published on nuget, then you can install these library in ``VisualStudio`` from **Package Manager Console**:
 
-Install Microsoft VisualBasic Runtime environment library for GCModeller:
-https://github.com/xieguigang/VisualBasic_AppFramework
->PM>  Install-Package VB_AppFramework
+```bash
+# Install Microsoft VisualBasic sciBASIC# runtime via nuget:
+# https://github.com/xieguigang/sciBASIC/
+PM>  Install-Package sciBASIC -Pre
 
-The GCModeller core base library was released:
-https://github.com/SMRUCC/GCModeller.Core
->PM>  Install-Package GCModeller.Core
+# The GCModeller core base library was released:
+# https://github.com/SMRUCC/GCModeller.Core
+PM>  Install-Package GCModeller.Core
 
-The NCBI localblast analysis toolkit:
-https://github.com/SMRUCC/ncbi-localblast
->PM>  Install-Package NCBI_localblast
+# The NCBI localblast analysis toolkit:
+# https://github.com/SMRUCC/ncbi-localblast
+PM>  Install-Package NCBI_localblast
+```
 
 ----------------------------------------------------------------------------------------------------
 <img src="./images/links/osi-certified.png" width="40px"/> ![](./images/links/github.ico)
