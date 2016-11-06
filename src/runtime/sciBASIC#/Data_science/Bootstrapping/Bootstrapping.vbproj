@@ -136,18 +136,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PlotViewer\FormLoadModel.Designer.vb">
-      <DependentUpon>FormLoadModel.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PlotViewer\FormLoadModel.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PlotViewer\FormODEsViewer.Designer.vb">
-      <DependentUpon>FormODEsViewer.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PlotViewer\FormODEsViewer.vb">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -155,12 +143,6 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PlotViewer\FormLoadModel.resx">
-      <DependentUpon>FormLoadModel.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PlotViewer\FormODEsViewer.resx">
-      <DependentUpon>FormODEsViewer.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -195,10 +177,6 @@
     <ProjectReference Include="..\Mathematical\ODE\ODEsSolver.vbproj">
       <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
       <Name>ODEsSolver</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mathematical\Plots\Plots.vbproj">
-      <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>
-      <Name>Plots</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
