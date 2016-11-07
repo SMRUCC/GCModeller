@@ -190,6 +190,9 @@
     <Compile Include="Layouts\BarycentricMethod.vb" />
     <Compile Include="Layouts\ForceDirected\LayoutUpdater.vb" />
     <Compile Include="Layouts\ForceDirected\General\Triple.vb" />
+    <Compile Include="LDM\FileStream\Cytoscape.vb" />
+    <Compile Include="LDM\FileStream\Network.vb" />
+    <Compile Include="LDM\FileStream\INetComponent.vb" />
     <Compile Include="LDM\FileStream\GraphAPI.vb" />
     <Compile Include="LDM\Graph\Extensions.vb" />
     <Compile Include="LDM\Graph\Edge.vb" />
@@ -209,7 +212,7 @@
     <Compile Include="Layouts\ForceDirected\Layout\Spring.vb" />
     <Compile Include="LDM\FileStream\NameOf.vb" />
     <Compile Include="LDM\FileStream\Edge.vb" />
-    <Compile Include="LDM\FileStream\Network.vb" />
+    <Compile Include="LDM\FileStream\Network%28Of T%29.vb" />
     <Compile Include="LDM\FileStream\Node.vb" />
     <Compile Include="FindPath\Dijkstra\Dijkstra.vb" />
     <Compile Include="FindPath\PQDijkstra\BasicHeap.vb" />
@@ -222,9 +225,6 @@
     <Compile Include="FindPath\PathFinder.vb" />
     <Compile Include="TreeAPI\TREE.vb" />
     <Compile Include="TreeAPI\Operations.vb" />
-    <Compile Include="Visualize\Lines.vb" />
-    <Compile Include="Visualize\StyleMappings.vb" />
-    <Compile Include="Visualize\NetworkVisualizer.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
