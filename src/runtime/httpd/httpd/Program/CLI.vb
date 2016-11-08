@@ -30,9 +30,28 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
+<GroupingDefine(CLI.httpdServerCLI, Description:="Server CLI for running this httpd web server.")>
 Module CLI
 
-    <ExportAPI("/start", Usage:="/start [/port 80 /root <wwwroot_DIR> /threads -1 /cache]")>
+    Public Const httpdServerCLI$ = NameOf(httpdServerCLI)
+    Public Const Utility$ = NameOf(Utility)
+
+    <ExportAPI("/start",
+               Info:="Run start the httpd web server.",
+               Usage:="/start [/port 80 /root <wwwroot_DIR> /threads -1 /cache]")>
+    <Argument("/port", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="The server port of this httpd web server to listen.")>
+    <Argument("/root", True, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(String)},
+              Description:="The website html root directory path.")>
+    <Argument("/threads", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="The number of threads of the server thread pool.")>
+    <Argument("/cache", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Is this server running in file system cache mode? Not recommended for open.")>
+    <Group(httpdServerCLI)>
     Public Function Start(args As CommandLine) As Integer
         Dim port As Integer = args.GetValue("/port", 80)
         Dim HOME As String = args.GetValue("/root", App.CurrentDirectory)
@@ -45,7 +64,10 @@ Module CLI
                                   cache:=cacheMode).Run
     End Function
 
-    <ExportAPI("/run", Usage:="/run /dll <app.dll> [/port <80> /root <wwwroot_DIR>]")>
+    <ExportAPI("/run",
+               Info:="Run start the web server with specific Web App.",
+               Usage:="/run /dll <app.dll> [/port <80> /root <wwwroot_DIR>]")>
+    <Group(httpdServerCLI)>
     Public Function RunApp(args As CommandLine) As Integer
         Dim port As Integer = args.GetValue("/port", 80)
         Dim HOME As String = args.GetValue("/root", App.CurrentDirectory)
@@ -53,7 +75,15 @@ Module CLI
         Return New PlatformEngine(HOME, port, True, dll).Run
     End Function
 
-    <ExportAPI("/GET", Usage:="/GET /url [<url>/std_in] [/out <file/std_out>]")>
+    <ExportAPI("/GET",
+               Info:="Tools for http get request the content of a specific url.",
+               Usage:="/GET /url [<url>/std_in] [/out <file/std_out>]")>
+    <Argument("/url", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(String)},
+              Description:="The resource URL on the web.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              AcceptTypes:={GetType(String)},
+              Description:="The save location of your requested data file.")>
     Public Function [GET](args As CommandLine) As Integer
         Dim url As String = args.ReadInput("/url")
 
