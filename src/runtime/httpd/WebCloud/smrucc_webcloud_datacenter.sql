@@ -29,7 +29,7 @@ CREATE TABLE `app` (
   `name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,9 +45,9 @@ CREATE TABLE `subscription` (
   `hash` varchar(64) NOT NULL,
   `app` int(11) NOT NULL,
   `active` int(11) NOT NULL DEFAULT '0' COMMENT '1 OR 0',
-  PRIMARY KEY (`uid`,`email`),
+  PRIMARY KEY (`email`,`app`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,4 +90,4 @@ CREATE TABLE `visitor_stat` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-08 15:09:03
+-- Dump completed on 2016-11-08 17:27:13
