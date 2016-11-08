@@ -25,12 +25,15 @@
 
 #End Region
 
+Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports MySql.Data.MySqlClient
+Imports Oracle.LinuxCompatibility.MySQL.Reflection
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 ''' <summary>
 ''' MySql database server connection module.
@@ -117,39 +120,45 @@ Public Class MySQL : Implements IDisposable
     ''' <remarks></remarks>
     Public Function Connect(ConnectionString As String) As Double
         _UriMySQL = ConnectionString
-        _reflector = New Reflection.DbReflector(_UriMySQL.GetConnectionString)
+        _reflector = New DbReflector(_UriMySQL.GetConnectionString)
 
         Return Ping()
     End Function
 
     ''' <summary>
-    ''' Executes the query, and returns the first column of the first row in the result set returned by the query. Additional columns or rows are ignored.
+    ''' Executes the query, and returns the first column of the first row in the 
+    ''' result set returned by the query. Additional columns or rows are ignored.
+    ''' (请注意，这个函数会自动添加``LIMIT 1``限定在SQL语句末尾)
     ''' </summary>
     ''' <returns></returns>
-    ''' <param name="SQL">请手工添加 limit 1 限定</param>
+    ''' <param name="SQL">这个函数会自动添加``LIMIT 1``限定</param>
     Public Function ExecuteScalar(Of T As Class)(SQL As String) As T
-        Using MySQL As MySqlConnection = New MySqlConnection(_UriMySQL)
-            Dim MySqlCommand As MySqlCommand = New MySqlCommand(SQL)
+        Dim result As DataSet = Fetch(__limit1(SQL.Trim))
+        Dim reader As DataTableReader = result.CreateDataReader
+        Dim value As T = DbReflector.ReadFirst(Of T)(reader)
+        Return value
+    End Function
 
-            MySqlCommand.Connection = MySQL
-            Try
-                Call MySQL.Open()
+    Const LIMIT1$ = "\sLIMIT\s+1\s*;?"
 
-                Dim Result = Fetch(SQL)
-                Dim Reader = Result.CreateDataReader
-                Dim value As T = Reflection.DbReflector.ReadFirst(Of T)(Reader)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="SQL">已经被Trim过了的</param>
+    ''' <returns></returns>
+    Private Shared Function __limit1(SQL As String) As String
+        Dim limitFlag$ = Regex.Match(SQL, LIMIT1, RegexICSng).Value
 
-                Return value
-            Catch ex As Exception
-                ex = __throwExceptionHelper(ex, SQL, False)
-                Call ex.PrintException
-                Call App.LogException(ex)
+        If String.IsNullOrEmpty(limitFlag) OrElse InStrRev(SQL, limitFlag) < SQL.Length - limitFlag.Length Then
+            If SQL.Last = ";"c Then
+                SQL = Mid(SQL, 1, SQL.Length - 1)
+            End If
+            SQL = SQL & " LIMIT 1;"  ' 需要进行添加
+        Else
+            ' 已经存在了，则不需要额外的处理
+        End If
 
-                Return Nothing
-            Finally
-                Call MySQL.Close()
-            End Try
-        End Using
+        Return SQL
     End Function
 
     ''' <summary>
@@ -191,8 +200,7 @@ Public Class MySQL : Implements IDisposable
     ''' <param name="[where]">只需要给出条件WHERE表达式即可，函数会自动生成SQL查询语句</param>
     ''' <returns></returns>
     Public Function ExecuteScalarAuto(Of T As Class)([where] As String) As T
-        Dim Tbl As Reflection.DbAttributes.TableName =
-            Reflection.DbAttributes.TableName.GetTableName(Of T)
+        Dim Tbl As TableName = TableName.GetTableName(Of T)
         Dim SQL As String = $"SELECT * FROM `{Tbl.Database}`.`{Tbl.Name}` WHERE {where} LIMIT 1;"
         Return ExecuteScalar(Of T)(SQL)
     End Function
@@ -263,21 +271,24 @@ Public Class MySQL : Implements IDisposable
 
     ''' <summary>
     ''' Execute a 'SELECT' query command and then returns the query result of this sql command.
-    ''' (执行一个'SELECT'查询命令之后返回本查询命令的查询结果) 
+    ''' (执行一个'SELECT'查询命令之后返回本查询命令的查询结果。请注意，这个工具并不会自动关闭数据库连接，
+    ''' 请在使用完毕之后手工Close掉，以节省服务器资源) 
     ''' </summary>
     ''' <param name="SQL"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function Fetch(SQL As String) As DataSet
-        Dim MySql As MySqlConnection = New MySqlConnection(_UriMySQL)
-        Dim MySqlCommand As MySqlCommand = New MySqlCommand(SQL)
-        Dim Adapter As New MySqlDataAdapter()
-        Dim DataSet As DataSet = New DataSet
+        Dim MySql As New MySqlConnection(_UriMySQL)
+        Dim DataSet As New DataSet
+        Dim MySqlCommand As New MySqlCommand(SQL) With {
+            .Connection = MySql
+        }
+        Dim Adapter As New MySqlDataAdapter() With {
+            .SelectCommand = MySqlCommand
+        }
 
-        MySqlCommand.Connection = MySql
-        Adapter.SelectCommand = MySqlCommand
         Try
-            Adapter.Fill(DataSet)
+            Call Adapter.Fill(DataSet)
         Catch ex As Exception
             ex = __throwExceptionHelper(ex, SQL, False)
             Call ex.PrintException
