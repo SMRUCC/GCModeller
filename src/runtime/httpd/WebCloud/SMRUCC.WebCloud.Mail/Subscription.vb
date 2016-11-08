@@ -24,15 +24,24 @@ Public Class SubscriptionMgr
         Call MySQL.ExecInsert(user)
     End Sub
 
-    Const SQLGetUserByHash$ = "SELECT * FROM smrucc_webcloud.subscription where lower(hash) = lower('{0}');"
+    Public Sub Active(hash$)
+        Call __changeStatus(1, hash)
+    End Sub
 
-    Public Sub Remove(hash$)
+    Private Sub __changeStatus(active&, hash$)
         Dim SQL$ = String.Format(SQLGetUserByHash, hash)
         Dim user As subscription =
             MySQL.ExecuteScalar(Of subscription)(SQL)
 
         If Not user Is Nothing Then
-            Call MySQL.ExecDelete(user)
+            user.active = active
+            Call MySQL.ExecUpdate(user)
         End If
+    End Sub
+
+    Const SQLGetUserByHash$ = "SELECT * FROM smrucc_webcloud.subscription where lower(hash) = lower('{0}');"
+
+    Public Sub Remove(hash$)
+        Call __changeStatus(0, hash)
     End Sub
 End Class

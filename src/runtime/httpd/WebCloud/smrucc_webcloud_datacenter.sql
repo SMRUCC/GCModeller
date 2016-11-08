@@ -44,6 +44,7 @@ CREATE TABLE `subscription` (
   `email` varchar(128) NOT NULL,
   `hash` varchar(64) NOT NULL,
   `app` int(11) NOT NULL,
+  `active` int(11) NOT NULL DEFAULT '0' COMMENT '1 OR 0',
   PRIMARY KEY (`uid`,`email`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -89,4 +90,4 @@ CREATE TABLE `visitor_stat` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-08  2:13:57
+-- Dump completed on 2016-11-08 15:09:03

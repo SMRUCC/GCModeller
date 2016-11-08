@@ -78,7 +78,7 @@ Namespace Core
         ''' <summary>
         ''' 处理连接的线程池
         ''' </summary>
-        Dim _threadPool As Threads.ThreadPool
+        Protected _threadPool As Threads.ThreadPool
 
         ''' <summary>
         ''' Running this http server. 
@@ -124,6 +124,10 @@ Namespace Core
 
             Return 0
         End Function
+
+        Public Sub RunTask(task As Action)
+            Call _threadPool.RunTask(task)
+        End Sub
 
         Private Sub __accept()
             Try

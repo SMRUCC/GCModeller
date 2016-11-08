@@ -163,31 +163,43 @@ Namespace AppEngine
             End If
 
             Dim Methods As MethodInfo() = type.GetMethods(BindingFlags.Public Or BindingFlags.Instance)
-            Dim EntryType As Type = ExportAPIAttribute.Type
-            Dim LQuery As APIInvoker() =
-                LinqAPI.Exec(Of APIInvoker) <=
+            Dim API_DEFINE As Type = ExportAPIAttribute.Type
+            Dim listAPI = From entryPoint As MethodInfo
+                          In Methods
+                          Let attrs As Object() =
+                              entryPoint.GetCustomAttributes(attributeType:=API_DEFINE, inherit:=True)
+                          Where Not attrs.IsNullOrEmpty
+                          Let API As ExportAPIAttribute =
+                              DirectCast(attrs(Scan0), ExportAPIAttribute)
+                          Select entryPoint,
+                              API
+
+            Dim LQuery As APIInvoker() = LinqAPI.Exec(Of APIInvoker) <=
  _
-                From EntryPoint As MethodInfo
-                In Methods
-                Let attrs As Object() =
-                    EntryPoint.GetCustomAttributes(attributeType:=EntryType, inherit:=True)
-                Where Not attrs.IsNullOrEmpty
-                Let API As ExportAPIAttribute =
-                    DirectCast(attrs(Scan0), ExportAPIAttribute)       ' 由于rest服务需要返回json、所以在API的申明的时候还需要同时申明GET、POST里面所返回的json对象的类型，
+                From m
+                In listAPI
+                Let entryPoint As MethodInfo = m.entryPoint
+                Let api As ExportAPIAttribute = m.API
                 Let attr As Object =
-                    EntryPoint.GetCustomAttributes(GetType(APIMethod), True)(Scan0)
+                    entryPoint.GetCustomAttributes(GetType(APIMethod), True).Get(Scan0)
+                Let warning = VBDebugger.Assert(
+                    Not attr Is Nothing,
+                    $"Not found {GetType(APIMethod).FullName} definition on the method: {api.Name}, you should specific one of this http method custom attribute: GET/POST/DELETE.",
+                    $"API: {api.Name}")                                    ' 由于rest服务需要返回json、所以在API的申明的时候还需要同时申明GET、POST里面所返回的json对象的类型，
+                Where Not attr Is Nothing
                 Let httpMethod As APIMethod = DirectCast(attr, APIMethod)  ' 假若程序是在这里出错的话，则说明有API函数没有进行GET、POST的json类型申明，找到该函数补全即可
                 Let invoke = New APIInvoker With {
-                    .Name = API.Name.ToLower,
-                    .EntryPoint = EntryPoint,
-                    .Help = API.PrintView(HTML:=True) & $"<br /><div>{httpMethod.GetMethodHelp(EntryPoint)}</div>",
+                    .Name = api.Name.ToLower,
+                    .EntryPoint = entryPoint,
+                    .Help = api.PrintView(HTML:=True) & $"<br /><div>{httpMethod.GetMethodHelp(entryPoint)}</div>",
                     .Error404 = obj.Page404
                 }
                 Select invoke
                 Order By Len(invoke.Name) Descending
 
             Return New APPEngine With {
-                .API = LQuery.ToDictionary(Function(api) api.Name.ToLower),
+                .API = LQuery _
+                    .ToDictionary(Function(api) api.Name.ToLower),
                 ._Application = obj,
                 ._Namespace = ns
             }

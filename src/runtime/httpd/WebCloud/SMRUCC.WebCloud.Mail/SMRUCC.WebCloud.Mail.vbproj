@@ -134,6 +134,10 @@
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SMRUCC.HTTPInternal\SMRUCC.WebCloud.HTTPInternal.vbproj">
+      <Project>{fbfc1455-b232-4f16-afc7-4054a8b864ab}</Project>
+      <Name>SMRUCC.WebCloud.HTTPInternal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SMRUCC.WebCloud.DataCenter\SMRUCC.WebCloud.DataCenter.vbproj">
       <Project>{b1de5562-91d6-4aee-aa26-72ef2dfc7c75}</Project>
       <Name>SMRUCC.WebCloud.DataCenter</Name>
