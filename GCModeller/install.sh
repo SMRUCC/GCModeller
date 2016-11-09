@@ -9,7 +9,7 @@ DIR="$PWD"
 for app in *.exe; do
     if [ -f $app ]; then
 	
-		# Generates the bash shortcuts for mono running .NET app on Linux/macOS
+        # Generates the bash shortcuts for mono running .NET app on Linux/macOS
         $(mono "$DIR/$app" "/linux-bash")
     fi
 done
