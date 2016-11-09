@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Parser
 
@@ -13,6 +14,10 @@ Namespace Parser
 
         Public Sub Add(key As String, element As JsonElement)
             Call array.Add(key, element)
+        End Sub
+
+        Public Sub Add(key$, value$)
+            Call array.Add(key, New JsonValue(value))
         End Sub
 
         Default Public Overloads Property Item(key As String) As JsonElement
@@ -37,16 +42,17 @@ Namespace Parser
         End Function
 
         Public Overrides Function ToString() As String
-            Return "[" & array.Keys.JoinBy(", ") & "]"
+            Return "Class::[" & array.Keys.JoinBy(", ") & "]"
         End Function
 
-        Public Overloads Function BuildJsonString() As String
+        Public Overrides Function BuildJsonString() As String
             Dim a As New StringBuilder
+            Dim array$() = Me _
+                .array _
+                .ToArray(Function(kp) $"""{kp.Key}"": {kp.Value.BuildJsonString}")
 
             Call a.AppendLine("{")
-            For Each kp As KeyValuePair(Of String, JsonElement) In array
-                Call a.AppendLine($"{kp.Key}: {kp.Value.BuildJsonString},")
-            Next
+            Call a.AppendLine(array.JoinBy("," & vbLf))
             Call a.AppendLine("}")
 
             Return a.ToString
