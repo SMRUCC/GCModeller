@@ -127,4 +127,27 @@ Partial Module CLI
             .FormatDb(db, localblast.MolTypeProtein) _
             .Run()
     End Function
+
+    <ExportAPI("/query.cog2003-2014", Info:="Protein COG annotation by using NCBI cog2003-2014.fasta database.",
+               Usage:="/query.cog2003-2014 /query <query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out <out.DIR> /db <cog2003-2014.fasta> /blast+ <blast+/bin>]")>
+    <Group(CLIGrouping.COGTools)>
+    <Argument("/db", True, CLITypes.File,
+              AcceptTypes:={GetType(FastaFile)},
+              Description:="The file path to the database fasta file.
+              If you have config the cog2003-2014 database previously, then this argument can be omitted.")>
+    <Argument("/blast+", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The directory to the NCBI blast+ suite ``bin`` directory. If you have config this path before, then this argument can be omitted.")>
+    <Argument("/all", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="For export the bbh result, export all match or only the top best? default is only top best.")>
+    <Argument("/evalue", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="blastp e-value cutoff.")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The output directory for the work files.")>
+    Public Function COG2003_2014(args As CommandLine) As Integer
+
+    End Function
 End Module

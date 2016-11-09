@@ -81,7 +81,40 @@ For example:
 localblast /install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta
 ```
 
-And then, using command ```` for COG annotation automatically:
+And then, using command ``/query.cog2003-2014`` for COG annotation automatically:
 
 ```bash
+Help for command '/query.cog2003-2014':
+
+  Information:  Protein COG annotation by using NCBI cog2003-2014.fasta database.
+  Usage:        G:\GCModeller\GCModeller\bin\localblast.exe /query.cog2003-2014 /query <query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out <out.DIR> /db <cog2003-2014.fasta> /blast+ <blast+/bin>]
+  Example:      CLI usage example not found!
+
+  Arguments:
+  ============================
+
+  [/db]       Description:  The file path to the database fasta file.
+                            If you have config the cog2003-2014 database previously,
+                            then this argument can be omitted.
+
+              Example:      /db <file/directory>
+
+  [/blast+]   Description:  The directory to the NCBI blast+ suite ``bin`` directory. If
+                            you have config this path before, then this argument can be omitted.
+
+              Example:      /blast+ <file/directory>
+
+  [/all]      Description:  For export the bbh result, export all match or only the top best?
+                            default is only top best.
+
+              Example:      /all
+                            (bool flag does not require of argument value)
+
+  [/evalue]   Description:  blastp e-value cutoff.
+
+              Example:      /evalue <float>
+
+  [/out]      Description:  The output directory for the work files.
+
+              Example:      /out <file/directory>
 ```
