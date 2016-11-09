@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f02415852d13311faedb271da5d460a1, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
+Imports System.Reflection
 
 Namespace CytoscapeGraphView.Serialization
 
@@ -93,7 +94,7 @@ Namespace CytoscapeGraphView.Serialization
             Model.Edges = __exportEdges(Of Edge)(edges,
                                                  Nodes:=Model.Nodes.ToDictionary(Function(item) item.label),
                                                  EdgeTypeMapping:=GetType(Edge).GetDataFrameworkTypeSchema(False),
-                                                 Schema:=interMaps)
+                                                 schema:=interMaps)
             Model.Attributes = ModelAttributes
             Model.NetworkMetaData = New XGMML.NetworkMetadata With {
                 .Title = "GCModeller Exports: " & title,
@@ -174,33 +175,43 @@ Namespace CytoscapeGraphView.Serialization
             Dim mapNodes = schema.DeclaringType.GetInterfaceMap(GetType(IInteraction))
             Dim maps As New Dictionary(Of String, String)
 
-            Dim edgeMaps = (From i As Integer
-                            In mapEdge.TargetMethods.Sequence
+            Dim edgeMaps = (From i As SeqValue(Of MethodInfo)
+                            In mapEdge.TargetMethods.SeqIterator
                             Let [interface] = mapEdge.InterfaceMethods(i)
                             Where InStr([interface].Name, propGET) = 1
-                            Select [interface],
-                                mMethod = mapEdge.TargetMethods(i)) _
+                            Select ([interface]:=[interface],
+                                mMethod:=(+i))) _
                                 .ToDictionary(Function(x) x.interface.Name.Replace(propGET, ""))
-            Dim nodeMaps = (From i As Integer
-                            In mapNodes.TargetMethods.Sequence
+            Dim nodeMaps = (From i As SeqValue(Of MethodInfo)
+                            In mapNodes.TargetMethods.SeqIterator
                             Let [interface] = mapNodes.InterfaceMethods(i)
                             Where InStr([interface].Name, propGET) = 1
-                            Select [interface],
-                                mMethod = mapNodes.TargetMethods(i)) _
+                            Select ([interface]:=[interface],
+                                mMethod:=(+i))) _
                                 .ToDictionary(Function(x) x.interface.Name.Replace(propGET, ""))
 
-            Dim map = nodeMaps(NameOf(IInteraction.source)) : Call maps.Add(REFLECTION_ID_MAPPING_FROM_NODE, __getMap(map.interface, map.mMethod, schema))
-            map = nodeMaps(NameOf(IInteraction.target)) : Call maps.Add(REFLECTION_ID_MAPPING_TO_NODE, __getMap(map.interface, map.mMethod, schema))
-            map = edgeMaps(NameOf(INetworkEdge.Confidence)) : Call maps.Add(REFLECTION_ID_MAPPING_CONFIDENCE, __getMap(map.interface, map.mMethod, schema))
-            map = edgeMaps(NameOf(INetworkEdge.InteractionType)) : Call maps.Add(REFLECTION_ID_MAPPING_INTERACTION_TYPE, __getMap(map.interface, map.mMethod, schema))
+            Dim map As New Value(Of ([interface] As MethodInfo, mMethod As MethodInfo))
+
+            Call maps.Add(
+                REFLECTION_ID_MAPPING_FROM_NODE,
+                __getMap((map = nodeMaps(NameOf(IInteraction.source))).interface, (+map).mMethod, schema))
+
+            Call maps.Add(
+                REFLECTION_ID_MAPPING_TO_NODE,
+                __getMap((map = nodeMaps(NameOf(IInteraction.target))).interface, (+map).mMethod, schema))
+
+            Call maps.Add(
+                REFLECTION_ID_MAPPING_CONFIDENCE,
+                __getMap((map = edgeMaps(NameOf(INetworkEdge.Confidence))).interface, (+map).mMethod, schema))
+
+            Call maps.Add(
+                REFLECTION_ID_MAPPING_INTERACTION_TYPE,
+                __getMap((map = edgeMaps(NameOf(INetworkEdge.InteractionType))).interface, (+map).mMethod, schema))
 
             Return maps
         End Function
 
-        Private Function __getMap([interface] As Reflection.MethodInfo,
-                                  mMethod As Reflection.MethodInfo,
-                                  schema As SchemaProvider) As String
-
+        Private Function __getMap([interface] As MethodInfo, mMethod As MethodInfo, schema As SchemaProvider) As String
             Dim mapName As String = mMethod.Name.Replace(propGET, "")
             Dim mapFiled As StorageProvider = schema.GetField(mapName)
 
@@ -223,15 +234,19 @@ Namespace CytoscapeGraphView.Serialization
             End If
 
             Dim CytoscapeMapping As Dictionary(Of Type, String) = XGMML.Attribute.TypeMapping
-            Dim Mapping As Func(Of String, String) = Function(attrKey) __mapping(attrKey, typeMapping, CytoscapeMapping)
+            Dim Mapping As Func(Of String, String) =
+                Function(attrKey) __mapping(attrKey, typeMapping, CytoscapeMapping)
             Return Mapping
         End Function
 
-        Private Function __mapping(attrKey As String,
+        Private Function __mapping(attrKey$,
                                    typeMapping As Dictionary(Of String, Type),
                                    cytoscapeMapping As Dictionary(Of Type, String)) As String
             Dim type As Type = typeMapping.TryGetValue(attrKey)
-            If Not type Is Nothing AndAlso cytoscapeMapping.ContainsKey(type) Then
+
+            If Not type Is Nothing AndAlso
+                cytoscapeMapping.ContainsKey(type) Then
+
                 Return cytoscapeMapping(type)
             Else
                 Return ATTR_VALUE_TYPE_STRING
@@ -249,7 +264,8 @@ Namespace CytoscapeGraphView.Serialization
                          Select node_obj
                          Group node_obj By node_obj.label Into Group
                          Order By label Ascending ' Linq查询在这里会被执行两次，不清楚是什么原因
-            Return LQuery.Select(Function(x) x.Group) _
+            Return LQuery _
+                .Select(Function(x) x.Group) _
                 .ToArray(AddressOf DefaultFirst) _
                 .AddHandle  ' 生成节点数据并去除重复
         End Function
@@ -288,12 +304,12 @@ Namespace CytoscapeGraphView.Serialization
         End Function
 
         Private Function __exportEdges(Of Edge As INetworkEdge)(
-                                          Edges As Edge(),
-                                          Nodes As Dictionary(Of String, XGMML.Node),
-                                          EdgeTypeMapping As Dictionary(Of String, Type),
-                                          Schema As Dictionary(Of String, String)) As XGMML.Edge()
+                                         Edges As Edge(),
+                                         Nodes As Dictionary(Of String, XGMML.Node),
+                               EdgeTypeMapping As Dictionary(Of String, Type),
+                                        schema As Dictionary(Of String, String)) As XGMML.Edge()
 
-            Dim buf = __mapNodes(Edges.ExportAsPropertyAttributes(False), Schema)
+            Dim buf = __mapNodes(Edges.ExportAsPropertyAttributes(False), schema)
             Dim typeMapping As Func(Of String, String) =
                 __createTypeMapping(EdgeTypeMapping)
             Dim LQuery As XGMML.Edge() =
