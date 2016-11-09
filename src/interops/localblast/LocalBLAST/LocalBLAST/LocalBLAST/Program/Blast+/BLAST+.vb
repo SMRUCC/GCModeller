@@ -32,7 +32,9 @@ Imports Microsoft.VisualBasic.CommandLine
 Namespace LocalBLAST.Programs
 
     ''' <summary>
-    ''' 请注意：当目标FASTA序列文件的文件路径中的空格字符过多的时候，BLAST+程序组将不能够很好的工作，故而当程序出错的时候，请检查文件路径是否存在此问题
+    ''' The ``&lt;space>`` char can not exists in the input fasta file path, or blast+ program will run into an error.
+    ''' (请注意：当目标FASTA序列文件的文件路径中的空格字符过多的时候，BLAST+程序组将不能够很好的工作，故而当程序出错的时候，
+    ''' 请检查文件路径是否存在此问题)
     ''' </summary>
     ''' <remarks></remarks>
     Public Class BLASTPlus : Inherits InteropService.InteropService
