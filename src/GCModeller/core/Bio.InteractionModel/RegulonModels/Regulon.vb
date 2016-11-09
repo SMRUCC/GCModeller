@@ -1,30 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::c66a214da3097799c586cd1bbd044df3, ..\GCModeller\core\Bio.InteractionModel\RegulonModels\Regulon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
+
+Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
 
 Namespace Regulon
 
@@ -63,6 +65,9 @@ Namespace Regulon
         Public Property Regulators As String() Implements IRegulatorRegulation.Regulators
     End Class
 
+    ''' <summary>
+    ''' 1对1的特定的基因对基因的调控模型
+    ''' </summary>
     Public Interface ISpecificRegulation
         Property LocusId As String
         Property Regulator As String
@@ -89,22 +94,30 @@ Namespace Regulon
         Function GetRegulatesSites(regulator As String) As String()
     End Interface
 
+    ''' <summary>
+    ''' 带有分值的互做关系
+    ''' </summary>
     Public Structure RelationshipScore
+        Implements IInteraction
+        Implements INetworkEdge
+
+        Public Property Type As String Implements INetworkEdge.InteractionType
+
         ''' <summary>
         ''' 通常为Regulator
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property InteractorA As String
+        Public Property InteractorA As String Implements IInteraction.source
         ''' <summary>
         ''' 通常为目标调控对象
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property InteractorB As String
-        Public Property Score As Double
+        Public Property InteractorB As String Implements IInteraction.target
+        Public Property Score As Double Implements INetworkEdge.Confidence
 
         Public Function GetConnectedId(Id As String) As String
             If String.Equals(InteractorA, Id) Then
@@ -114,6 +127,10 @@ Namespace Regulon
             Else
                 Return ""
             End If
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{InteractorA}  ({Type}, {Score})    {InteractorB}"
         End Function
     End Structure
 End Namespace

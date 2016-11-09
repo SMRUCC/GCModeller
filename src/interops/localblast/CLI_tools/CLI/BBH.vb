@@ -26,7 +26,6 @@
 
 #End Region
 
-Imports System.Windows.Forms
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -34,7 +33,6 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
@@ -44,6 +42,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -53,14 +52,22 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Blastp.BBH.Query",
+               Info:="Using query fasta invoke blastp against the fasta files in a directory.
+               * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.",
                Usage:="/Blastp.BBH.Query /query <query.fasta> /hit <hit.source> [/out <outDIR> /overrides /num_threads <-1>]")>
+    <Argument("/query", False, CLITypes.File,
+              AcceptTypes:={GetType(FastaFile)},
+              Description:="The protein query fasta file.")>
+    <Argument("/hit", False, CLITypes.File,
+              AcceptTypes:={GetType(FastaFile)},
+              Description:="A directory contains the protein sequence fasta files which will be using for bbh search.")>
     <Group(CLIGrouping.BBHTools)>
     Public Function BlastpBBHQuery(args As CommandLine) As Integer
         Dim [in] As String = args("/query")
         Dim subject As String = args("/hit")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & subject.BaseName & ".BBH_OUT/")
         Dim localBlast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
-        Dim blastp As INVOKE_BLAST_HANDLE = localBlast.CreateInvokeHandle
+        Dim blastp As BlastInvoker = localBlast.CreateInvokeHandle
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
         Dim nt As Integer = args.GetValue("/num_threads", -1)
 

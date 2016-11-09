@@ -36,16 +36,18 @@ Public Module CytoscapeColor
         Dim result As Integer = 0
 
         For i As Integer = 0 To hexadecimal.Length - 1
-            result += Convert.ToInt32(GetNumberFromNotation(hexadecimal(i)) * Math.Pow(16, Convert.ToInt32(hexadecimal.Length) - (i + 1)))
+            result += Convert.ToInt32(GetNumberFromNotation(hexadecimal(i)) * Math.Pow(16, hexadecimal.Length - (i + 1)))
         Next
 
         Return Convert.ToInt32(result)
     End Function
 
     Private Function DeciamlToHexadeciaml(number As Integer) As String
-        Dim hexvalues As String() = {"0", "1", "2", "3", "4", "5",
+        Dim hexvalues As String() = {
+            "0", "1", "2", "3", "4", "5",
             "6", "7", "8", "9", "A", "B",
-            "C", "D", "E", "F"}
+            "C", "D", "E", "F"
+        }
         Dim result As String = Nothing, final As String = Nothing
         Dim [rem] As Integer = 0, div As Integer = 0
 
@@ -56,7 +58,6 @@ Public Module CytoscapeColor
             If number < 16 Then
                 Exit While
             End If
-
 
             number = (number \ 16)
         End While
@@ -98,7 +99,14 @@ Public Module CytoscapeColor
         End If
 
         For i As Integer = 0 To hexadecimal.Length - 1
-            If Not (([Char].IsDigit(hexadecimal(i))) OrElse (hexadecimal(i) = "A"c) OrElse (hexadecimal(i) = "B"c) OrElse (hexadecimal(i) = "C"c) OrElse (hexadecimal(i) = "D"c) OrElse (hexadecimal(i) = "E"c) OrElse (hexadecimal(i) = "F"c)) Then
+            If Not (([Char].IsDigit(hexadecimal(i))) OrElse
+                (hexadecimal(i) = "A"c) OrElse
+                (hexadecimal(i) = "B"c) OrElse
+                (hexadecimal(i) = "C"c) OrElse
+                (hexadecimal(i) = "D"c) OrElse
+                (hexadecimal(i) = "E"c) OrElse
+                (hexadecimal(i) = "F"c)) Then
+
                 Return False
             End If
         Next

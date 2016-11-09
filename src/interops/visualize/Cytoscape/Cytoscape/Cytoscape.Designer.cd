@@ -1,94 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.My.MySettings" Collapsed="true">
-    <Position X="25.75" Y="2.5" Width="1.5" />
+    <Position X="18.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.File" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="22.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>LSJBEIAAACDAAAAAAAAAAIAoAAGBAAACAABAABAAABA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\File.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Programs.C2" Collapsed="true">
-    <Position X="17" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\C2.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Programs.GCC" Collapsed="true">
-    <Position X="24" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCC.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Programs.GCHOST" Collapsed="true">
-    <Position X="25.75" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAAAAAAAAgAAAAAAAEAAAAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\GCHOST.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Programs.IDE" Collapsed="true">
-    <Position X="20.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAgQAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\IDE.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Programs.MPAlignment" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="24" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ABAAAICAIAAACAAEAAAAAAAAAAAACAAAAABAAEAAgAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\MPAlignment.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Programs.SMART" Collapsed="true">
-    <Position X="24" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\SMART.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Programs.STAMP" Collapsed="true">
-    <Position X="25.75" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Config\Programs\STAMP.vb</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.Regulations" Collapsed="true">
-    <Position X="22.25" Y="4.5" Width="1.5" />
+    <Position X="18.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>API\ImportantNodes\LDM.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.RankRegulations" Collapsed="true">
-    <Position X="20.5" Y="4.5" Width="1.5" />
+    <Position X="17" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAEAAAAAAEABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>API\ImportantNodes\LDM.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.NodeRank" Collapsed="true">
-    <Position X="25.75" Y="3.5" Width="1.5" />
+    <Position X="20.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAhAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>API\ImportantNodes\LDM.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs.Cyjs" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="22.25" Y="0.5" Width="1.5" />
+    <Position X="20.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAIBAAEAAABAEAAAAAAAQAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAgAIBAAEAAABAEAAAAAAAQAAAAAAAAAAAQAAAAAAQ=</HashCode>
       <FileName>Graph\Cyjs.vb</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -102,14 +44,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs.Network" Collapsed="true">
-    <Position X="17" Y="3.5" Width="1.5" />
+    <Position X="20.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
       <FileName>Graph\Cyjs.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs.Edge" Collapsed="true">
-    <Position X="20.5" Y="1.5" Width="1.5" />
+    <Position X="18.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAgAAAAA=</HashCode>
       <FileName>Graph\Cyjs.vb</FileName>
@@ -124,7 +66,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs.Node" Collapsed="true">
-    <Position X="24" Y="3.5" Width="1.5" />
+    <Position X="18.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAQAgAAAAA=</HashCode>
       <FileName>Graph\Cyjs.vb</FileName>
@@ -139,21 +81,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs.position" Collapsed="true">
-    <Position X="18.75" Y="4.5" Width="1.5" />
+    <Position X="24" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
       <FileName>Graph\Cyjs.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization.GraphicsMapper" Collapsed="true">
-    <Position X="18.75" Y="2.5" Width="1.5" />
+    <Position X="24" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Graph\Serialization\GraphicsMapper.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Node" Collapsed="true">
-    <Position X="22.25" Y="3.5" Width="1.5" />
+    <Position X="17" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACIAAAAAAAAAAAMAAIQAAAAEIAgAAQAAAAAAAAAAAA=</HashCode>
       <FileName>Graph\Visualization\Node.vb</FileName>
@@ -188,42 +130,42 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualStyle" Collapsed="true">
-    <Position X="18.75" Y="5.5" Width="1.5" />
+    <Position X="22.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAABAAAAAAAAAUAAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualStyle.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.VizMap" Collapsed="true">
-    <Position X="20.5" Y="5.5" Width="1.5" />
+    <Position X="24" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAgA=</HashCode>
       <FileName>Graph\VizMap\VizMap.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty.visualProperty" Collapsed="true">
-    <Position X="17" Y="5.5" Width="1.5" />
+    <Position X="20.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAABAAAAAQAAAAEAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty.dependency" Collapsed="true">
-    <Position X="24" Y="0.5" Width="1.5" />
+    <Position X="22.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEACAAAAAAAAAAAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty.passthroughMapping" Collapsed="true">
-    <Position X="17" Y="4.5" Width="1.5" />
+    <Position X="22.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAAAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty.discreteMapping" Collapsed="true">
-    <Position X="25.75" Y="0.5" Width="1.5" />
+    <Position X="24" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAAAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
@@ -237,14 +179,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty.continuousMapping" Collapsed="true">
-    <Position X="18.75" Y="0.5" Width="1.5" />
+    <Position X="17" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAgAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty.continuousMappingPoint" Collapsed="true">
-    <Position X="20.5" Y="0.5" Width="1.5" />
+    <Position X="18.75" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAASAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
@@ -281,7 +223,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.Graph" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="17" Y="2.5" Width="1.5" />
+    <Position X="22.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAggIAAEAAAgACAAAAAAAAYGBAIAgABEAEAAAAAAAA=</HashCode>
       <FileName>Graph\Xgmml\Graph.vb</FileName>
@@ -303,14 +245,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.InnerRDF" Collapsed="true">
-    <Position X="22.25" Y="2.5" Width="1.5" />
+    <Position X="17" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Graph\Xgmml\NetworkMetadata.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.NetworkMetadata" Collapsed="true">
-    <Position X="18.75" Y="3.5" Width="1.5" />
+    <Position X="22.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAkAgAEAEAAAAAAAAAAgAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Graph\Xgmml\NetworkMetadata.vb</FileName>
@@ -327,19 +269,19 @@
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.NodeGraphics">
     <Position X="13.5" Y="3.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAASAAAMAAAAgACAAAQQhgAQgAAAA=</HashCode>
+      <HashCode>AAAAAAAACAAAAAAAASAAAMAAAAgACAAAQQhgAQgAAAA=</HashCode>
       <FileName>Graph\Xgmml\NodeGraphics.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Tables.Edge" Collapsed="true">
-    <Position X="18.75" Y="1.5" Width="1.5" />
+    <Position X="20.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAJAEBAAAAAAQAAAAAAA=</HashCode>
       <FileName>Tabular\EdgeTable.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Tables.Node" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="20.5" Y="3.5" Width="1.5" />
+    <Position X="24" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgCQIiAAAEAAACQEAAEgACAQgBIMAQAAQAAAAAAAAAA=</HashCode>
       <FileName>Tabular\NodeTable.vb</FileName>
@@ -347,113 +289,78 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Interface Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs.IDynamicsProperty" Collapsed="true">
-    <Position X="17" Y="10" Width="1.5" />
+    <Position X="17" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Graph\Cyjs.vb</FileName>
     </TypeIdentifier>
   </Interface>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.My.Resources.Resources" Collapsed="true">
-    <Position X="17" Y="8.75" Width="1.5" />
+    <Position X="24" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.My.MySettingsProperty" Collapsed="true">
-    <Position X="22.25" Y="7.75" Width="1.5" />
+    <Position X="20.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeColor" Collapsed="true">
-    <Position X="18.75" Y="6.75" Width="1.5" />
+    <Position X="18.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>SAAAQAAAAAAAAQAAACCAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
       <FileName>Graph\Visualization\CytoscapeColor.vb</FileName>
     </TypeIdentifier>
   </Module>
-  <Module Name="SMRUCC.genomics.Visualize.Cytoscape.Settings.Session" Collapsed="true">
-    <Position X="20.5" Y="8.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAEYgAAECAAwAQABAAAAAkJIYKAEAQAAAAQAAAgRI=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.Configuration\Session\Session.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.Cytoscape.GCModeller.FileSystem.FileSystem" Collapsed="true">
-    <Position X="25.75" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>ggAAAQAAAAEAAiBIQARAAAAAACUAAAiAAAAAhEAAABA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\FileSystem.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.Cytoscape.GCModeller.FileSystem.KEGG.Directories" Collapsed="true">
-    <Position X="20.5" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAACAAAAAAAAAQAQAAgAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\KEGG\Directories.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.Cytoscape.GCModeller.FileSystem.RegPrecise.Directories" Collapsed="true">
-    <Position X="22.25" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Regprecise\Directories.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.Cytoscape.GCModeller.FileSystem.Xfam.Pfam" Collapsed="true">
-    <Position X="24" Y="7.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Xfam\Pfam.vb</FileName>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.Visualize.Cytoscape.GCModeller.FileSystem.Xfam.Rfam" Collapsed="true">
-    <Position X="18.75" Y="8.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
-      <FileName>F:\GCModeller\GCI Project\Settings\Shared\Settings.FileSystem\Xfam\Rfam.vb</FileName>
-    </TypeIdentifier>
-  </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.ImportantNodes" Collapsed="true">
-    <Position X="20.5" Y="7.75" Width="1.5" />
+    <Position X="18.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAGAAAAAAAAAAAAAAAgAAAgAABAAAAAAAAAAEAADAAA=</HashCode>
       <FileName>API\ImportantNodes\ImportantNodes.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization.ExportToFile" Collapsed="true">
-    <Position X="24" Y="6.75" Width="1.5" />
+    <Position X="20.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AGAQAAAAAgQAAACAAAAABAAAAAACAAAAAAIAAAAIABA=</HashCode>
       <FileName>Graph\Serialization\ExportToFile.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.GraphDrawing" Collapsed="true">
-    <Position X="17" Y="7.75" Width="1.5" />
+    <Position X="22.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAEAAAAAAAAAAAACAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Graph\Visualization\GraphDrawing.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.GraphExtensions" Collapsed="true">
-    <Position X="18.75" Y="7.75" Width="1.5" />
+    <Position X="24" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAACAAAAAAAAAQAAAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Graph\Xgmml\GraphExtensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.[NameOf]" Collapsed="true">
-    <Position X="17" Y="6.75" Width="1.5" />
+    <Position X="17" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEARAAAgCAEAAAAAEBAIABAEEBAAAAABAAAIAgA=</HashCode>
       <FileName>Graph\Xgmml\NameOf.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.RDFXml" Collapsed="true">
-    <Position X="25.75" Y="7.75" Width="1.5" />
+    <Position X="22.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAQAAAAAAAAEAAAAAAAAAIAAAAAAAAgAAgABA=</HashCode>
       <FileName>Graph\Xgmml\RDFXml.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="SMRUCC.genomics.Visualize.Cytoscape.API.GraphExtensions" Collapsed="true">
+    <Position X="17" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAACAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>API\GraphExtensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Font Name="Calibri" Size="8.25" />

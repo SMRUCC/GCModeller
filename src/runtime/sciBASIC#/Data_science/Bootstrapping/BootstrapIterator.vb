@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a0f829c3ea0f951d55f3983f58caff84, ..\visualbasic_App\Data_science\Bootstrapping\BootstrapIterator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Terminal.Utility
 
 ''' <summary>
 ''' 参数估计的过程之中的迭代器，这个模块内的函数主要是用来产生数据源的
@@ -58,19 +59,28 @@ Public Module BootstrapIterator
     ''' 
     <Extension>
     Public Function Bootstrapping(Of T As ODEs)(
-                                          range As PreciseRandom,
-                                           vars As IEnumerable(Of String),
-                                          yinit As IEnumerable(Of String),
-                                              k As Long,
-                                              n As Integer,
-                                              a As Integer,
-                                              b As Integer,
-                                           Optional trimNaN As Boolean = True,
-                                           Optional parallel As Boolean = False) As IEnumerable(Of ODEsOut)
+                                 range As PreciseRandom,
+                                  vars As IEnumerable(Of String),
+                                 yinit As IEnumerable(Of String),
+                                     k As Long,
+                                     n As Integer,
+                                     a As Double,
+                                     b As Double,
+                                 Optional trimNaN As Boolean = True,
+                                 Optional parallel As Boolean = False) As IEnumerable(Of ODEsOut)
 
-        Dim varList = vars.Select(Function(x) New NamedValue(Of PreciseRandom)(x, range))
-        Dim y0 = yinit.Select(Function(x) New NamedValue(Of PreciseRandom)(x, range))
-        Return GetType(T).Bootstrapping(varList, y0, k, n, a, b, trimNaN, parallel)
+        Dim varList = vars.Select(Function(x) New NamedValue(Of INextRandomNumber)(x, AddressOf range.NextNumber))
+        Dim y0 = yinit.Select(Function(x) New NamedValue(Of INextRandomNumber)(x, AddressOf range.NextNumber))
+
+        Return GetType(T).Bootstrapping(
+            vars:=varList,
+            y0:=y0,
+            k:=k,
+            n:=n,
+            a:=a,
+            b:=b,
+            trimNaN:=trimNaN,
+            parallel:=parallel)
     End Function
 
     Public Function Bootstrapping(model As Type,
@@ -78,8 +88,8 @@ Public Module BootstrapIterator
                                   yinit As IEnumerable(Of NamedValue(Of PreciseRandom)),
                                       k As Long,
                                       n As Integer,
-                                      a As Integer,
-                                      b As Integer,
+                                      a As Double,
+                                      b As Double,
                                   Optional trimNaN As Boolean = True,
                                   Optional parallel As Boolean = False) As IEnumerable(Of ODEsOut)
         Return model.Bootstrapping(
@@ -95,47 +105,93 @@ Public Module BootstrapIterator
     End Function
 
     ''' <summary>
+    ''' For populates the random system status
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="args"></param>
+    ''' <param name="y0"></param>
+    ''' <param name="k"></param>
+    ''' <param name="n"></param>
+    ''' <param name="a"></param>
+    ''' <param name="b"></param>
+    ''' <param name="trimNaN"></param>
+    ''' <param name="parallel"></param>
+    ''' <param name="echo"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Bootstrapping(model As Type,
+                                   args As Dictionary(Of String, Double),
+                                     y0 As IEnumerable(Of NamedValue(Of INextRandomNumber)),
+                                      k As Long,
+                                      n As Integer,
+                                      a As Double,
+                                      b As Double,
+                                  Optional trimNaN As Boolean = True,
+                                  Optional parallel As Boolean = False,
+                                  Optional echo As Boolean = True) As IEnumerable(Of ODEsOut)
+        Dim vars = args.Select(
+            Function(v) New NamedValue(Of INextRandomNumber) With {
+                .Name = v.Key,
+                .x = Function() v.Value  ' 在研究可能的系统状态的时候，参数值是固定不变的，只变化初始状态值y0
+            })
+        Return model.Bootstrapping(vars, y0, k, n, a, b, trimNaN, parallel, echo)
+    End Function
+
+    ''' <summary>
     ''' Bootstrapping 参数估计分析，这个函数用于生成基本的采样数据
     ''' </summary>
     ''' <param name="vars">各个参数的变化范围</param>
     ''' <param name="model">具体的求解方程组</param>
     ''' <param name="k">重复的次数</param>
-    ''' <param name="yinit">``Y0``初值</param>
+    ''' <param name="y0">
+    ''' ``Y0``初值，在进行参数估计的时候应该是被固定的，在进行系统状态分布的计算的时候才是随机的
+    ''' </param>
     ''' <param name="parallel">并行计算模式有极大的内存泄漏的危险</param>
     ''' <returns></returns>
     ''' 
     <Extension>
     Public Iterator Function Bootstrapping(model As Type,
-                                           vars As IEnumerable(Of NamedValue(Of INextRandomNumber)),
-                                          yinit As IEnumerable(Of NamedValue(Of INextRandomNumber)),
-                                              k As Long,
-                                              n As Integer,
-                                              a As Integer,
-                                              b As Integer,
+                                            vars As IEnumerable(Of NamedValue(Of INextRandomNumber)),
+                                              y0 As IEnumerable(Of NamedValue(Of INextRandomNumber)),
+                                               k As Long,
+                                               n As Integer,
+                                               a As Double,
+                                               b As Double,
                                            Optional trimNaN As Boolean = True,
                                            Optional parallel As Boolean = False,
                                            Optional echo As Boolean = True) As IEnumerable(Of ODEsOut)
 
         Dim params As NamedValue(Of INextRandomNumber)() = vars.ToArray
         Dim i&
-        Dim y0 As NamedValue(Of INextRandomNumber)() = yinit.ToArray
         Dim ps As Dictionary(Of String, Action(Of Object, Double)) =
             params _
             .Select(Function(x) x.Name) _
             .SetParameters(model)
+        Dim yinit As NamedValue(Of INextRandomNumber)() = y0.ToArray
+        Dim proc As New EventProc(k, "Bootstrapping Samples")
+
+        If echo Then
+            Call "Start bootstrapping data samples...".__DEBUG_ECHO
+        End If
 
         If parallel Then
+            proc.Capacity = k * 0.4
+
             ' memory leaks on linux
             ' 2016-9-28，可能是由于生成csv文件的时候字符串没有被正确的释放所导致内存泄漏，如果只是执行这段代码的话，经过测试没有内存泄漏的危险
 
             For Each x As ODEsOut In From it As Long ' 进行n次并行的采样计算
                                      In k.SeqIterator.AsParallel
-                                     Let odes_Out = params.iterate(model, y0, ps, n, a, b)
+                                     Let odes_Out = params.iterate(model, yinit, ps, n, a, b)
                                      Let isNaNResult As Boolean = odes_Out.HaveNaN
                                      Where If(trimNaN, Not isNaNResult, True) ' 假若不需要trim，则总是True，即返回所有数据
                                      Select odes_Out
                 i += 1L
                 Yield x
+
+                If echo Then
+                    Call proc.Tick()
+                End If
             Next
         Else
             For Each it As Long In k.SeqIterator
@@ -146,11 +202,14 @@ Public Module BootstrapIterator
                     i += 1L
                     Yield odes_Out
                 End If
+                If echo Then
+                    Call proc.Tick()
+                End If
             Next
         End If
 
         If echo Then
-            Call $"Bootstrapping populated {i} valid samples...".__DEBUG_ECHO
+            Call $"Bootstrapping populated {i}({Math.Round(100 * i / k, 2)}%) valid samples...".__DEBUG_ECHO
         End If
     End Function
 
@@ -171,8 +230,8 @@ Public Module BootstrapIterator
                             yinis As NamedValue(Of INextRandomNumber)(),
                             ps As Dictionary(Of String, Action(Of Object, Double)),
                             n As Integer,
-                            a As Integer,
-                            b As Integer) As ODEsOut
+                            a As Double,
+                            b As Double) As ODEsOut
 
         Dim odes As ODEs = DirectCast(Activator.CreateInstance(model), ODEs)
         ' Dim debug As New List(Of NamedValue(Of Double))
