@@ -104,7 +104,7 @@ Partial Module CLI
         Dim MergeFasta As New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(LoadProt)
         Call MergeFasta.Save(Merge)
 
-        Dim blast As New LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+        Dim blast As New LocalBLAST.Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
         Dim Pfam As String = GCModeller.FileSystem.CDD & "/Pfam.fasta"
         Dim out As String = Temp & "/Pfam.txt"
 

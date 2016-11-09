@@ -344,8 +344,8 @@ Public Module GenesCOExpr
                         Let regulation = If(val < 0, "repression", "activation")
                         Select New Interaction(Of ExprSamples) With {
                             .Interaction = regulation,
-                            .ObjectA = item,
-                            .ObjectB = Data(i)}).ToArray
+                            .A = item,
+                            .B = Data(i)}).ToArray
             Call RegulationList.AddRange(list)
         Next
 

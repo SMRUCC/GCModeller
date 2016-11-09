@@ -38,6 +38,8 @@ Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -100,5 +102,52 @@ Partial Module CLI
                 .Category = x.COG_number
  _
             }) >> OpenHandle(out)
+    End Function
+
+    <ExportAPI("/install.cog2003-2014",
+               Info:="Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation. 
+               This command required of the blast+ install first.",
+               Usage:="/install.cog2003-2014 /db <prot2003-2014.fasta>",
+               Example:="/install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta")>
+    <Group(CLIGrouping.COGTools)>
+    <Argument("/db", False, CLITypes.File,
+              AcceptTypes:={GetType(FastaFile)},
+              Description:="The fasta database using for COG annotation, which can be download from NCBI ftp: 
+              > ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz")>
+    Public Function InstallCOGDatabase(args As CommandLine) As Integer
+        Dim localblast As New BLASTPlus(
+            bin:=GCModeller.FileSystem.GetLocalblast)
+        Dim db$ = args("/db")
+
+        ' 保存并格式化数据库，则后面的分析就可以直接使用了
+        Settings.SettingsFile.COG2003_2014 = db.GetFullPath
+        Settings.Save()
+
+        Return localblast _
+            .FormatDb(db, localblast.MolTypeProtein) _
+            .Run()
+    End Function
+
+    <ExportAPI("/query.cog2003-2014", Info:="Protein COG annotation by using NCBI cog2003-2014.fasta database.",
+               Usage:="/query.cog2003-2014 /query <query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out <out.DIR> /db <cog2003-2014.fasta> /blast+ <blast+/bin>]")>
+    <Group(CLIGrouping.COGTools)>
+    <Argument("/db", True, CLITypes.File,
+              AcceptTypes:={GetType(FastaFile)},
+              Description:="The file path to the database fasta file.
+              If you have config the cog2003-2014 database previously, then this argument can be omitted.")>
+    <Argument("/blast+", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The directory to the NCBI blast+ suite ``bin`` directory. If you have config this path before, then this argument can be omitted.")>
+    <Argument("/all", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="For export the bbh result, export all match or only the top best? default is only top best.")>
+    <Argument("/evalue", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="blastp e-value cutoff.")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The output directory for the work files.")>
+    Public Function COG2003_2014(args As CommandLine) As Integer
+
     End Function
 End Module

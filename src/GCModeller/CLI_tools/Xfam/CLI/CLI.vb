@@ -59,7 +59,7 @@ Module CLI
             rFam = Global.Xfam.GCModeller.FileSystem.Xfam.Rfam.RfamFasta
         End If
 
-        Dim blastbin As String = GCModeller.FileSystem.GetLocalBlast
+        Dim blastbin As String = GCModeller.FileSystem.GetLocalblast
         Dim blast As New SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus(blastbin)
         Dim num_threads As Integer = args.GetValue("/num_threads", -1)
         Dim ticks As Integer = args.GetValue("/ticks", 1000)

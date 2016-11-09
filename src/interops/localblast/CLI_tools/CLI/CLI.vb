@@ -252,7 +252,9 @@ Module CLI
         Call Settings.Session.Initialize()
     End Sub
 
-    <ExportAPI("--blast.self", Usage:="--blast.self /query <query.fasta> [/blast <blast_HOME> /out <out.csv>]")>
+    <ExportAPI("--blast.self",
+               Info:="Query fasta query against itself for paralogs.",
+               Usage:="--blast.self /query <query.fasta> [/blast <blast_HOME> /out <out.csv>]")>
     Public Function SelfBlast(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim blast As String = args("/blast")

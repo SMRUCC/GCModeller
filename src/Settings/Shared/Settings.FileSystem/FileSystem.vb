@@ -256,25 +256,33 @@ Namespace GCModeller.FileSystem
 #If Not DISABLE_BUG_UNKNOWN Then
 
         ''' <summary>
-        ''' 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+        ''' This function will search for the blast+ bin directory automatically based on the 
+        ''' registry, config data and system directories.
+        ''' (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
         ''' </summary>
         ''' <returns></returns>
         ''' 
         <ExportAPI("GetLocalBlast")>
-        Public Function GetLocalBlast() As String
+        Public Function GetLocalblast() As String
             Dim blast As String = Settings.Session.SettingsFile.BlastBin
+
             If blast.DirectoryExists Then
                 Return blast
             End If
-            Dim lstPath As String() = Global.System.Environment.GetEnvironmentVariable("PATH").Split(";"c)
-            blast = (From path As String In lstPath
-                     Where InStr(path, "blast", CompareMethod.Text) > 0
-                     Select path).FirstOrDefault
+
+            Dim lstPath As String() = Environment.GetEnvironmentVariable("PATH").Split(";"c)
+
+            blast = lstPath _
+                .Where(Function(path$) InStr(path, "blast", CompareMethod.Text) > 0) _
+                .FirstOrDefault
+
             If blast.DirectoryExists Then
                 Return blast
             End If
-            Dim GetlstPath = ProgramPathSearchTool.SearchDirectory("blast", "")
-            If GetlstPath.IsNullOrEmpty Then
+
+            Dim getlstPath = ProgramPathSearchTool.SearchDirectory("blast", "")
+
+            If getlstPath.IsNullOrEmpty Then
 NO_DIR:
                 Dim exMsg As String =
                     "Unable retrive the blast program directory path!" & vbCrLf &
@@ -285,7 +293,7 @@ NO_DIR:
                 Return ""
             End If
 
-            For Each path As String In GetlstPath
+            For Each path As String In getlstPath
                 If Not FileIO.FileSystem.GetFiles(path, FileIO.SearchOption.SearchAllSubDirectories, "blastp.exe").IsNullOrEmpty Then
                     Return path & "/bin/"
                 End If

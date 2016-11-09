@@ -66,7 +66,7 @@ Partial Module CLI
         Dim [in] As String = args("/query")
         Dim subject As String = args("/hit")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & subject.BaseName & ".BBH_OUT/")
-        Dim localBlast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+        Dim localBlast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
         Dim blastp As BlastInvoker = localBlast.CreateInvokeHandle
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
         Dim nt As Integer = args.GetValue("/num_threads", -1)
@@ -251,7 +251,7 @@ Partial Module CLI
             numThreads = LQuerySchedule.Recommended_NUM_THREADS
         End If
 
-        Dim blastapp As String = GCModeller.FileSystem.GetLocalBlast
+        Dim blastapp As String = GCModeller.FileSystem.GetLocalblast
         Dim blastplus As New Programs.BLASTPlus(blastapp)
         Dim blastpHandle = blastplus.BuildBLASTP_InvokeHandle
         Dim outList = ParallelTask(queryDIR, out, evalue, blastpHandle, [overrides], numThreads)

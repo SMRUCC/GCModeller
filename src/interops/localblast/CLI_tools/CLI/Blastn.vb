@@ -173,7 +173,7 @@ Partial Module CLI
         Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & ".Blastn/")
         Dim penalty As Integer = args.GetValue("/penalty", -1)
         Dim reward As Integer = args.GetValue("/reward", -1)
-        Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast) With {
+        Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast) With {
             .BlastnOptionalArguments = New BlastnOptionalArguments With {
                 .WordSize = args.GetValue("/word_size", -1),
                 .penalty = penalty,
@@ -216,7 +216,7 @@ Partial Module CLI
             (ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= [in]).ToArray(task)
 
         If Not args.GetBoolean("/skip-format") Then
-            Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+            Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
 
             For Each subject As String In ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= db
                 Call localblast.FormatDb(subject, localblast.MolTypeNucleotide).Start(True)

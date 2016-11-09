@@ -79,7 +79,7 @@ Namespace LocalBLAST.Application.RpsBLAST
             Return DataImports.Imports(Of MGACOG)(path, vbTab)
         End Function
 
-        Public Shared Function ToMyvaCOG(source As Generic.IEnumerable(Of MGACOG)) As MyvaCOG()
+        Public Shared Function ToMyvaCOG(source As IEnumerable(Of MGACOG)) As MyvaCOG()
             Return source.ToArray(Function(x) x.ToMyvaCOG)
         End Function
     End Class
