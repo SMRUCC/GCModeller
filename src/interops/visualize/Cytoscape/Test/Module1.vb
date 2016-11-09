@@ -34,15 +34,31 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Interfaces
 Imports Microsoft.VisualBasic.Data.visualize.Network.Visualize
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.API
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
+Public Class vTable : Inherits Dictionary(Of String, String)
+
+    Public Property AA As Integer = 33333
+
+End Class
+
 Module Module1
+
+
 
     Function Main() As Integer
 
+        Dim ddd As New vTable With {.AA = 234234234}
+
+        ddd.Add("123", "ffff")
+        ddd.Add("6666", "fdasdasd")
+
+        Call ddd.GetJson.__DEBUG_ECHO
+        Pause()
         '     Dim mm As New GraphAttribute With {.RDF = New InnerRDF With {.meta = New NetworkMetadata}, .Name = RandomDouble()}
         '  Dim gf As New Graph With {.Attributes = {mm, New GraphAttribute With {.Name = Now.ToString}}}
         '   Call gf.SaveAsXml("x:\11223.xml")

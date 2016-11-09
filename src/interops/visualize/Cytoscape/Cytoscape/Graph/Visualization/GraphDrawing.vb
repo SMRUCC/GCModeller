@@ -28,9 +28,9 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports Microsoft.VisualBasic.Imaging
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
 Namespace CytoscapeGraphView
 
@@ -71,14 +71,6 @@ Namespace CytoscapeGraphView
             Dim yScale As Double = (size.Height / grSize.Height) * graph.Graphics.ScaleFactor
 
             Using GrDevice As Drawing.Graphics = Drawing.Graphics.FromImage(Bitmap)
-                GrDevice.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-                GrDevice.CompositingMode = Drawing2D.CompositingMode.SourceOver
-                GrDevice.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-                GrDevice.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
-                GrDevice.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
-                GrDevice.TextRenderingHint = Text.TextRenderingHint.ClearTypeGridFit
-                ' GrDevice.PageScale = 2
-
                 Call GrDevice.FillRectangle(Brushes.White, New Rectangle(New Point, size))
 
                 Dim Nodes = graph.Nodes.ToDictionary(Function(n) n.id,

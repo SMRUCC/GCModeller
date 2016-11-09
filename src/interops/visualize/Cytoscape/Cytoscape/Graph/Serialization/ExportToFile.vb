@@ -47,7 +47,11 @@ Namespace CytoscapeGraphView.Serialization
     ''' <remarks></remarks>
     Public Module ExportToFile
 
-        Public Function Export(Of Edge As INetworkEdge)(nodes As IEnumerable(Of FileStream.Node), edges As IEnumerable(Of Edge), Optional title As String = "NULL") As Graph
+        Public Function Export(Of Edge As INetworkEdge)(
+                                 nodes As IEnumerable(Of FileStream.Node),
+                                 edges As IEnumerable(Of Edge),
+                                 Optional title$ = "NULL") As Graph
+
             Return Export(Of FileStream.Node, Edge)(nodes.ToArray, edges.ToArray, title)
         End Function
 
@@ -56,12 +60,12 @@ Namespace CytoscapeGraphView.Serialization
         ''' </summary>
         ''' <typeparam name="Node"></typeparam>
         ''' <typeparam name="Edge"></typeparam>
-        ''' <param name="NodeList"></param>
-        ''' <param name="Edges"></param>
-        ''' <param name="Title"></param>
+        ''' <param name="nodeList"></param>
+        ''' <param name="edges"></param>
+        ''' <param name="title"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Export(Of Node As INode, Edge As INetworkEdge)(NodeList As Node(), Edges As Edge(), Optional Title As String = "NULL") As Graph
+        Public Function Export(Of Node As INode, Edge As INetworkEdge)(nodeList As Node(), edges As Edge(), Optional title$ = "NULL") As Graph
             Dim Model As Graph = New Graph With {
                     .Label = "0",
                     .ID = "1",
@@ -71,12 +75,12 @@ Namespace CytoscapeGraphView.Serialization
             Dim ModelAttributes = New GraphAttribute() {
                 New GraphAttribute With {
                     .Name = ATTR_SHARED_NAME,
-                    .Value = Title,
+                    .Value = title,
                     .Type = ATTR_VALUE_TYPE_STRING
                 },
                 New GraphAttribute With {
                     .Name = ATTR_NAME,
-                    .Value = Title,
+                    .Value = title,
                     .Type = ATTR_VALUE_TYPE_STRING
                 }
             }
@@ -85,14 +89,14 @@ Namespace CytoscapeGraphView.Serialization
 
             VBDebugger.Mute = False
 
-            Model.Nodes = __exportNodes(NodeList, GetType(Node).GetDataFrameworkTypeSchema(False))
-            Model.Edges = __exportEdges(Of Edge)(Edges,
+            Model.Nodes = __exportNodes(nodeList, GetType(Node).GetDataFrameworkTypeSchema(False))
+            Model.Edges = __exportEdges(Of Edge)(edges,
                                                  Nodes:=Model.Nodes.ToDictionary(Function(item) item.label),
                                                  EdgeTypeMapping:=GetType(Edge).GetDataFrameworkTypeSchema(False),
                                                  Schema:=interMaps)
             Model.Attributes = ModelAttributes
             Model.NetworkMetaData = New XGMML.NetworkMetadata With {
-                .Title = "GCModeller Exports: " & Title,
+                .Title = "GCModeller Exports: " & title,
                 .Description = "http://code.google.com/p/genome-in-code/cytoscape"
             }
 
@@ -101,8 +105,12 @@ Namespace CytoscapeGraphView.Serialization
             Return Model
         End Function
 
-        Public Function Export(Of Node As FileStream.Node, Edge As FileStream.NetworkEdge)(Network As FileStream.Network(Of Node, Edge), Optional Title As String = "NULL") As Graph
-            Return Export(Network.Nodes, Network.Edges, Title)
+        Public Function Export(Of Node As FileStream.Node,
+                                  Edge As FileStream.NetworkEdge)(
+                               network As FileStream.Network(Of Node, Edge),
+                               Optional title$ = "NULL") As Graph
+
+            Return Export(network.Nodes, network.Edges, title)
         End Function
 
         ''' <summary>
@@ -119,11 +127,12 @@ Namespace CytoscapeGraphView.Serialization
         ''' <remarks></remarks>
         Public Function Export(Of Node As FileStream.Node,
                                   Edge As FileStream.NetworkEdge)(
-                                  NodeList As Node(),
-                                  Edges As Edge(),
-                                  NodeTypeMapping As Dictionary(Of String, Type),
-                                  EdgeTypeMapping As Dictionary(Of String, Type),
-                                  Optional Title As String = "NULL") As Graph
+                              NodeList As Node(),
+                                 Edges As Edge(),
+                       NodeTypeMapping As Dictionary(Of String, Type),
+                       EdgeTypeMapping As Dictionary(Of String, Type),
+                              Optional Title$ = "NULL") As Graph
+
             Dim Model As New Graph With {
                 .Label = "0",
                 .ID = "1",
