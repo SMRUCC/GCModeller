@@ -63,12 +63,16 @@ Namespace LocalBLAST.Programs
         Dim _makeBlastDbAsm As String
         Dim _blastpAssembly, _blastnAssembly As String
 
-        Sub New(BlastBin As String)
-            Call MyBase.New(BlastBin)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="bin">The ``bin`` directory for the NCBI blast+ suite.</param>
+        Sub New(bin As String)
+            Call MyBase.New(bin)
 
-            Me._makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", BlastBin).CLIPath
-            Me._blastpAssembly = String.Format("{0}\blastp.exe", BlastBin).CLIPath
-            Me._blastnAssembly = String.Format("{0}\blastn.exe", BlastBin).CLIPath
+            _makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", bin).CLIPath
+            _blastpAssembly = String.Format("{0}\blastp.exe", bin).CLIPath
+            _blastnAssembly = String.Format("{0}\blastn.exe", bin).CLIPath
         End Sub
 
         Const MAKE_BLAST_DB_PROT As String = "-dbtype prot -in ""{0}"""

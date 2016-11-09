@@ -64,7 +64,7 @@ Namespace BlastAPI
 
         <ExportAPI("Blast_Plus.Handle.Creates", Info:="Creates the blastp+ program handle automaticaly from the environment variable.")>
         Public Function CreateHandle() As BLASTPlus
-            Return New BLASTPlus(GCModeller.FileSystem.GetLocalBlast)
+            Return New BLASTPlus(GCModeller.FileSystem.GetLocalblast)
         End Function
 
         <ExportAPI("Blast_Plus.Session.New()")>

@@ -50,6 +50,10 @@ Namespace Settings
         <XmlElement,
             ProfileItem(Name:="blastdb", Description:="The directory which contains the fasta sequence database files.", Type:=ValueTypes.Directory)>
         Public Property BlastDb As String
+
+        <XmlElement, ProfileItem(Name:="cog2003-2014", Description:="The prot2003-2014.fasta NCBI cog fasta database for the COG annotation.", Type:=ValueTypes.File)>
+        Public Property COG2003_2014 As String
+
         ''' <summary>
         ''' The R program install location on your computer. This property value is the directory path value like: D:\R\bin or C:\Program Files\R\bin
         ''' </summary>

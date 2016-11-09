@@ -13,7 +13,9 @@
 > + ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz
 > + ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/Readme.201610.txt
 
-### 2. BBH blastp
+### 2. COG BBH manually
+
+###### Run bbh blastp
 
 ```bash
 #!/bin/bash
@@ -41,7 +43,7 @@ echo $out
 blastp -query $cog -db $query -num_threads 20 -evalue 1e-5 -out $out &
 ```
 
-### 3. Using GCModeller for result exports
+###### Using GCModeller for result exports
 
 ```bash
 #!/bin/bash
@@ -49,4 +51,37 @@ blastp -query $cog -db $query -num_threads 20 -evalue 1e-5 -out $out &
 
 ```
 
-### 4. Directly annotate COG using GCModeller tools
+### 3. Directly annotate COG using GCModeller tools
+
+###### Install COG database
+
+First, using localblast tool, ``/install.cog2003-2014`` command for COG database install:
+```
+Help for command '/install.cog2003-2014':
+
+  Information:  Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database
+                will be using for the COG annotation.
+                This command required of the blast+ install first.
+  Usage:        G:\GCModeller\GCModeller\bin\localblast.exe /install.cog2003-2014 /db <prot2003-2014.fasta>
+  Example:      localblast /install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta
+
+  Arguments:
+  ============================
+
+   /db    Description:  The fasta database using for COG annotation, which can be download
+                        from NCBI ftp:
+                        > ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz
+
+          Example:      /db <file/directory>
+```
+
+For example:
+
+```bash
+localblast /install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta
+```
+
+And then, using command ```` for COG annotation automatically:
+
+```bash
+```

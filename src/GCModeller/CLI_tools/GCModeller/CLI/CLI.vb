@@ -91,7 +91,7 @@ Public Module CLI
     ''' <summary>
     ''' 从MYSQL数据库服务器之中导出计算数据
     ''' </summary>
-    ''' <param name="CommandLine"></param>
+    ''' <param name="args"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("export", Info:="Export the calculation data from a specific data table in the mysql database server.",
@@ -109,10 +109,10 @@ Public Module CLI
     <Argument("-mysql",
         Description:="The mysql connection string for gc program connect to a specific mysql database server.",
         Example:="http://localhost:8080/client?user=username%password=password%database=database")>
-    Public Function ExportData(CommandLine As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
-        Dim Cnn As String = CommandLine("-mysql")  '获取与MySQL服务器的连接URL
-        Dim Table As String = CommandLine("-t") '获取表名称
-        Dim Output As String = CommandLine("-o") '获取数据输出位置
+    Public Function ExportData(args As CommandLine) As Integer
+        Dim Cnn As String = args("-mysql")  '获取与MySQL服务器的连接URL
+        Dim Table As String = args("-t") '获取表名称
+        Dim Output As String = args("-o") '获取数据输出位置
         Dim ExportDirectory As Boolean = False
 
         If String.IsNullOrEmpty(Output) Then
