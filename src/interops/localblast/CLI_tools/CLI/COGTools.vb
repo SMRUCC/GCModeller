@@ -37,6 +37,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -148,6 +150,44 @@ Partial Module CLI
               AcceptTypes:={GetType(String)},
               Description:="The output directory for the work files.")>
     Public Function COG2003_2014(args As CommandLine) As Integer
+        Dim query$ = args("/query")
+        Dim evalue$ = args.GetValue("/evalue", "1e-5")
+        Dim coverage# = args.GetValue("/coverage", 0.65)
+        Dim identities# = args.GetValue("/identities", 0.85)
+        Dim isAll As Boolean = args.GetBoolean("/all")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "_cog2003-2014/")
+        Dim db$ = args.GetValue("/db", Settings.SettingsFile.COG2003_2014)
+        Dim bin$ = args.GetValue("/blast+", GCModeller.FileSystem.GetLocalblast)
+        Dim localblast As New BLASTPlus(bin$) With {
+            .NumThreads = App.CPUCoreNumbers / 2
+        }
+
+        ' running tasks
+        Dim qvs$ = out & "/" & query.BaseName & "_vs__cog2003-2014.txt"
+        Dim svq$ = out & "/cog2003-2014_vs__" & query.BaseName & ".txt"
+        Dim qvsTask As Func(Of Integer) =
+            AddressOf localblast.Blastp(query, db, qvs, evalue).Run
+        Dim svqTask = localblast.Blastp(db, query, svq, evalue)
+        Dim runTask = qvsTask.BeginInvoke(Nothing, Nothing)
+
+        Call localblast.FormatDb(query, localblast.MolTypeProtein).Run()
+        Call svqTask.Run()
+        Call qvsTask.EndInvoke(runTask)
+
+        ' 导出bbh结果
+        Dim sbh_qvs = BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(qvs).ExportAllBestHist(coverage, identities)
+        Dim sbh_svq = BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(svq).ExportAllBestHist(coverage, identities)
+
+        Call sbh_qvs.SaveTo(qvs.TrimSuffix & ".sbh.csv")
+        Call sbh_svq.SaveTo(svq.TrimSuffix & ".sbh.csv")
+
+        Dim bbh As BiDirectionalBesthit() = If(isAll,
+            BBHParser.GetDirreBhAll2(sbh_qvs, sbh_svq),
+            BBHParser.GetBBHTop(sbh_qvs, sbh_svq))
+
+        Call bbh.SaveTo(qvs.TrimSuffix & ".bbh.csv")
+
+        ' 从bbh结果之中匹配得到COG信息
 
     End Function
 End Module
