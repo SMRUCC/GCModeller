@@ -196,9 +196,14 @@ Namespace LocalBLAST.InteropService
             ASNBinary
         End Enum
 
-        Sub New(BlastBin As String)
-            Me._innerBLASTBinDIR = BlastBin
-            Me.NumThreads = 2
+        Sub New(bin As String)
+            _innerBLASTBinDIR = bin
+            NumThreads = 2
+
+            If Not bin.DirectoryExists Then
+                Dim msg$ = $"localblast bin can not be found on the file system location: {bin$}!"
+                Throw New ObjectNotFoundException(msg)
+            End If
         End Sub
 
         ''' <summary>

@@ -254,6 +254,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 encoding = BlastPlus.Parser.DefaultEncoding
             End If
 
+            Call path.FixPath
+
             Dim parser As QueryParser = __getParser(path)
             Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding)
 
@@ -270,6 +272,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             If encoding Is Nothing Then
                 encoding = BlastPlus.Parser.DefaultEncoding
             End If
+
+            Call path.FixPath
 
             Dim parser As QueryParser = __getParser(path)
             Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding)
@@ -320,7 +324,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Function
 
         ''' <summary>
-        ''' Dealing with the file size large than 2GB.(当Blast日志文件的大小大于100M的时候，可以使用这个方法进行加载，函数会自动判断日志是否为blastn还是blastp)
+        ''' Dealing with the file size large than 2GB.
+        ''' (当Blast日志文件的大小大于100M的时候，可以使用这个方法进行加载，函数会自动判断日志是否为blastn还是blastp)
         ''' </summary>
         ''' <param name="path">File path of the blast output file.</param>
         ''' <param name="CHUNK_SIZE">The parameter unit for this value is Byte, so you need to multiply the 1024*1024 to get a MB level value.
@@ -331,7 +336,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, Encoding)
             Call "[Loading Job Done!] Start to regex parsing!".__DEBUG_ECHO
 
-            'The regular expression parsing function just single thread, here using parallel to parsing the cache data can speed up the regular expression parsing job when dealing with the ultra large text file.
+            ' The regular expression parsing function just single thread, here using parallel to parsing 
+            ' the cache data can speed up the regular expression parsing job when dealing with the ultra 
+            ' large Text file.
             Dim Sections As LinkedList(Of String) = (From strLine As String
                                                      In readsBuffer.AsParallel
                                                      Let strData As String = strLine.Replace(oldChar:=NIL, newChar:=" "c)
@@ -408,18 +415,19 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <summary>
         ''' Dealing with the file size large than 2GB.(当Blast日志文件的大小大于100M的时候，可以使用这个方法进行加载，函数会自动判断日志是否为blastn还是blastp)
         ''' </summary>
-        ''' <param name="Path">File path of the blast output file.</param>
+        ''' <param name="path">File path of the blast output file.</param>
         ''' <param name="CHUNK_SIZE">The parameter unit for this value is Byte, so you need to multiply the 1024*1024 to get a MB level value.
         ''' It seems 768MB possibly is the up bound of the Utf8.GetString function. default is 64MB</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryParseUltraLarge(Path As String, Optional CHUNK_SIZE As Long = CHUNK_SIZE, Optional Encoding As Encoding = Nothing) As v228
+        Public Function TryParseUltraLarge(path$, Optional CHUNK_SIZE& = Parser.CHUNK_SIZE, Optional Encoding As Encoding = Nothing) As v228
             Call Console.WriteLine("Regular Expression parsing blast output...")
+            Call path.FixPath
 
             If Encoding Is Nothing Then Encoding = Encoding.UTF8    ' The default text encoding of the blast log is utf8
 
-            Using p As New CBusyIndicator(_start:=True)
-                Return __tryParseUltraLarge(Path, CHUNK_SIZE, Encoding)
+            Using busy As New CBusyIndicator(_start:=True)
+                Return __tryParseUltraLarge(path, CHUNK_SIZE, Encoding)
             End Using
         End Function
     End Module
