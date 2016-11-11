@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
@@ -510,6 +511,34 @@ Module CLI
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/accid2taxid.Match",
+               Usage:="/accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
+    Public Function accidMatch(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim acc2taxid As String = args("/acc2taxid")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".acc2taxid_match.txt")
+        Dim acclist As List(Of String)
+
+        If FastaFile.IsValidFastaFile([in]) Then
+            acclist = New List(Of String)
+
+            For Each seq As FastaToken In New StreamIterator([in]).ReadStream
+                acclist += seq.Title.Split.First
+            Next
+        Else
+            acclist = New List(Of String)([in].ReadAllLines)
+        End If
+
+        Dim gb_priority As Boolean = args.GetBoolean("/gb_priority")
+        Dim result = Accession2Taxid.Matchs(
+            acclist.Distinct,
+            acc2taxid,
+            debug:=True,
+            gb_priority:=gb_priority)
+        Return result.SaveTo(out, Encoding.ASCII)
     End Function
 
     <ExportAPI("/gi.Matchs",

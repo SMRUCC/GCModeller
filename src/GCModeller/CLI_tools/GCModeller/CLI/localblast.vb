@@ -1,9 +1,10 @@
-﻿Imports Microsoft.VisualBasic
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -40,7 +41,7 @@ Partial Module CLI
                          Where x.query.Match(hit.Reference)
                          Select x.x.Name
 
-            For Each n$ In LQuery
+            For Each n As String In LQuery
                 Call hits(n).Add(hit.ReadQuery)
 
                 If splitSamples Then
@@ -81,16 +82,37 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Map.Hits.Taxonomy",
-           Usage:="/Map.Hits.Taxonomy /in <query.csv> /mapping <blastnMapping.csv> /tax <taxonomy.DIR:name/nodes> [/out <out.csv>]")>
+               Usage:="/Map.Hits.Taxonomy /in <query.csv> /mapping <blastnMapping.csv/DIR> /tax <taxonomy.DIR:name/nodes> [/out <out.csv>]")>
     <Argument("/mapping", True,
-                   AcceptTypes:={GetType(BlastnMapping)},
-                   Description:="Data frame should have a ``taxid`` field.")>
+              AcceptTypes:={GetType(BlastnMapping)},
+              Description:="Data frame should have a ``taxid`` field.")>
     <Group(CLIGrouping.LocalblastTools)>
     Public Function MapHitsTaxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim mapping As String = args("/mapping")
-        Dim out As String = args _
-            .GetValue("/out", [in].TrimSuffix & "-" & mapping.BaseName & "_MapHits.csv")
+        Dim out$
+        Dim taxonomy As New NcbiTaxonomyTree(args("/tax"))
+
+        If mapping.FileExists Then
+            out = args.GetValue("/out", [in].TrimSuffix & "-" & mapping.BaseName & "_MapHits.csv")
+        Else
+            out = args.GetValue("/out", [in].TrimSuffix & "-" & mapping.BaseName & "_MapHits/")
+        End If
+
+        If mapping.FileExists Then
+            Return mapping.mapFileData([in], taxonomy, out)
+        Else
+            For Each file$ In ls - l - r - "*.csv" <= mapping
+                Dim save$ = out & "/" & [in].BaseName & "-" & file.BaseName & "_maphits.csv"
+                Call file.mapFileData([in], taxonomy, save)
+            Next
+        End If
+
+        Return 0
+    End Function
+
+    <Extension>
+    Private Function mapFileData(mapping$, in$, taxonomy As NcbiTaxonomyTree, out$) As Integer
         Dim exps = [in].LoadCsv(Of QueryArgument)
         Dim expList = (From x As QueryArgument
                        In exps
@@ -100,7 +122,7 @@ Partial Module CLI
         Dim hits As New Dictionary(Of String, Dictionary(Of Integer, List(Of String)))
 
         For Each x In expList
-            hits.Add(x.x.Name, x.bufs)
+            Call hits.Add(x.x.Name, x.bufs)
         Next
         For Each hit In mapping.LoadCsv(Of BlastnMapping)
             Dim taxid% = CInt(Val(hit.Extensions("taxid")))
@@ -109,7 +131,7 @@ Partial Module CLI
                          Where x.query.Match(hit.Reference)
                          Select x.x.Name
 
-            For Each n In LQuery
+            For Each n As String In LQuery
                 If Not hits(n).ContainsKey(taxid) Then
                     hits(n).Add(taxid, New List(Of String))
                 End If
@@ -118,7 +140,6 @@ Partial Module CLI
         Next
 
         Dim output As New List(Of QueryArgument)
-        Dim taxonomy As New NcbiTaxonomyTree(args("/tax"))
 
         For Each x In expList
             Dim data = x.bufs

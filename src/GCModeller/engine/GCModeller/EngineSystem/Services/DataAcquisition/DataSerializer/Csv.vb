@@ -95,7 +95,7 @@ Namespace EngineSystem.Services.DataAcquisition.DataSerializer
         Public Overrides Sub Close(arg As String)
             'Call EngineSystem.Services.DataExport.Export(Service:=Me).Save(Path:=_Url, LazySaved:=True)
             Dim LQuery = (From item In Me.ChunkBuffer Select item.CreateCsvData).ToArray
-            Call New File(LQuery).Save(Path:=_Url, LazySaved:=True)
+            Call New File(LQuery).Save(path:=_Url)
         End Sub
 
         ''' <summary>

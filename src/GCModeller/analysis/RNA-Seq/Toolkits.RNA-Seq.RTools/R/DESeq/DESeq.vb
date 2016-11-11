@@ -271,7 +271,7 @@ Huber, W.",
             Call sbr.Replace("{ConditionLength}", Conditions.Length)
 
             Dim DiffCsv As DocumentStream.File = __runR(sbr.ToString, directory)
-            Return DiffCsv.Save(LazySaved:=False)
+            Return DiffCsv.Save
         End Function
 
         Private Function __runR(RScript As String, directory As String) As DocumentStream.File
@@ -386,7 +386,7 @@ Huber, W.",
                 DiffCsv(i)(1) = ID(i - 1)
             Next
 
-            Call DiffCsv.Save(LazySaved:=False)
+            Call DiffCsv.Save()
 
             Return True
         End Function

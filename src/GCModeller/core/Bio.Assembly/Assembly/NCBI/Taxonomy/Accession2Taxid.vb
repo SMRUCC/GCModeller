@@ -16,6 +16,12 @@ Namespace Assembly.NCBI.Taxonomy
                                Function(x) x.x)
         End Function
 
+        ''' <summary>
+        ''' 在返回的数据之中，属性<see cref="NamedValue(Of Integer).Description"/>是原始的行数据，
+        ''' Name属性不包含有Accession的版本号
+        ''' </summary>
+        ''' <param name="file$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Iterator Function ReadFile(file$) As IEnumerable(Of NamedValue(Of Integer))
             Dim line$
@@ -39,8 +45,21 @@ Namespace Assembly.NCBI.Taxonomy
         End Function
 
         <Extension>
-        Private Iterator Function __loadData(DIR$) As IEnumerable(Of NamedValue(Of Integer))
-            For Each file$ In ls - l - r - "*.*" <= DIR
+        Private Iterator Function __loadData(DIR$, Optional gb_priority? As Boolean = False) As IEnumerable(Of NamedValue(Of Integer))
+            Dim files$() = (ls - l - r - "*.*" <= DIR).ToArray
+
+            If gb_priority Then
+                For i As Integer = 0 To files.Length - 1
+                    If files(i).BaseName.TextEquals("nucl_gb") Then ' 优先加载gb库，提升匹配查找函数的效率
+                        Call files.Swap(i, Scan0)
+                        Exit For
+                    End If
+                Next
+            End If
+
+            For Each file$ In files
+                Call file.ToFileURL.__DEBUG_ECHO
+
                 For Each x In file.ReadFile
                     Yield x
                 Next
@@ -56,23 +75,31 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <param name="DIR$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function Matchs(acc_list As IEnumerable(Of String), DIR$) As IEnumerable(Of String)
+        Public Iterator Function Matchs(acc_list As IEnumerable(Of String),
+                                        DIR$,
+                                        Optional gb_priority? As Boolean = False,
+                                        Optional debug? As Boolean = False) As IEnumerable(Of String)
+
             Dim list As Dictionary(Of String, String) = acc_list _
                 .Distinct _
-                .ToDictionary(Function(id) id,
+                .ToDictionary(Function(id) id.Split("."c).First,  ' 在这里移除版本号
                               Function(s) null)
             Yield {
                 "accession", "accession.version", "taxid", "gi"
             }.JoinBy(vbTab)
 
-            For Each x As NamedValue(Of Integer) In __loadData(DIR)
+            For Each x As NamedValue(Of Integer) In __loadData(DIR, gb_priority).AsParallel
                 If list.ContainsKey(x.Name) Then
                     Yield x.Description
 
                     If list.Count = 0 Then
                         Exit For
                     Else
-                        list.Remove(x.Name)
+                        Call list.Remove(x.Name)
+
+                        If debug Then
+                            Call x.Description.__DEBUG_ECHO
+                        End If
                     End If
                 End If
             Next
