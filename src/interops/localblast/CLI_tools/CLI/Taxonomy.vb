@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI
@@ -13,17 +13,30 @@ Imports SMRUCC.genomics.Metagenomics
 
 Partial Module CLI
 
-    <ExportAPI("/Ref.Gi.list", Usage:="/Ref.Gi.list /in <blastnMaps.csv> [/out <out.csv>]")>
+    <ExportAPI("/ref.gi.list", Usage:="/ref.gi.list /in <blastnMaps.csv/DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function GiList(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gi.list.txt")
-        Dim list$() = [in] _
-            .LoadCsv(Of BlastnMapping) _
-            .Select(Function(x) Regex _
-                .Match(x.Reference, "gi\|\d+") _
-                .Value _
-                .Split("|"c) _
-                .Last) _
+        Dim list$() = RequestData(Of BlastnMapping)(handle:=[in]) _
+            .Select(Function(x) Regex.Match(x.Reference, "gi\|\d+") _
+            .Value _
+            .Split("|"c) _
+            .Last) _
+            .Distinct _
+            .ToArray
+
+        Return list.FlushAllLines(out).CLICode
+    End Function
+
+    <ExportAPI("/ref.acc.list", Usage:="/ref.acc.list /in <blastnMaps.csv/DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
+    Public Function AccessionList(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".accid.list.txt")
+        Dim list$() = RequestData(Of BlastnMapping)(handle:=[in]) _
+            .Select(Function(x) x.Reference _
+            .Split(" "c).First) _
             .Distinct _
             .ToArray
 

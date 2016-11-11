@@ -16,6 +16,12 @@ Namespace Assembly.NCBI.Taxonomy
                                Function(x) x.x)
         End Function
 
+        ''' <summary>
+        ''' 在返回的数据之中，属性<see cref="NamedValue(Of Integer).Description"/>是原始的行数据，
+        ''' Name属性不包含有Accession的版本号
+        ''' </summary>
+        ''' <param name="file$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Iterator Function ReadFile(file$) As IEnumerable(Of NamedValue(Of Integer))
             Dim line$
@@ -59,7 +65,7 @@ Namespace Assembly.NCBI.Taxonomy
         Public Iterator Function Matchs(acc_list As IEnumerable(Of String), DIR$) As IEnumerable(Of String)
             Dim list As Dictionary(Of String, String) = acc_list _
                 .Distinct _
-                .ToDictionary(Function(id) id,
+                .ToDictionary(Function(id) id.Split("."c).First,  ' 在这里移除版本号
                               Function(s) null)
             Yield {
                 "accession", "accession.version", "taxid", "gi"
