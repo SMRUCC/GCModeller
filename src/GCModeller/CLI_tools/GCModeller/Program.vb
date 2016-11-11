@@ -46,6 +46,6 @@ Module Program
     End Sub
 
     Public Function Main() As Integer
-        Return New Interpreter(GetType(CLI)).Execute(App.CommandLine)
+        Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module
