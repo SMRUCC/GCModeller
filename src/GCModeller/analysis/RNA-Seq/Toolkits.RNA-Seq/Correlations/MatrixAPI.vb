@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::0542946e93a72fa4906f738cd2648fc2, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\MatrixAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports System.Text
 
 <[PackageNamespace]("PCC.Matrix", Publisher:="xie.guigang@gmail.com", Category:=APICategories.UtilityTools)>
 Public Module MatrixAPI
@@ -59,7 +60,7 @@ Public Module MatrixAPI
         Call "Start parsing samples data from the raw matrix...".__DEBUG_ECHO
 
         Dim sw As Stopwatch = Stopwatch.StartNew
-        Dim lstId As String() = ds.ToArray(Function(row) row.First, Parallel:=False)
+        Dim lstId As String() = ds.ToArray(Function(row) row.First, parallel:=False)
         Dim LQuery = (From row As RowObject
                       In ds.AsParallel   ' 在后面通过查字典的方式保证一一对应关系，所以这里可以使用并行化
                       Let sample As ExprSamples = ExprSamples.ConvertObject(row)
@@ -309,7 +310,7 @@ Public Module MatrixAPI
     Public Function SavePccMatrix(Pccmatrix As PccMatrix,
                                   <Parameter("Path.Save")> SaveTo As String) As DocumentStream.File
         Dim CsvResult As DocumentStream.File = ExprSamples.CreateFile(Pccmatrix.PccValues)
-        Call CsvResult.Save(SaveTo, True, System.Text.Encoding.ASCII)
+        Call CsvResult.Save(SaveTo, Encoding.ASCII)
         Return CsvResult
     End Function
 

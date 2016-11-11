@@ -220,7 +220,7 @@ Namespace Workflows
                                   End If
                               Next
 
-                              Call csvFile.Save(LazySaved:=False)
+                              Call csvFile.Save()
                           End Sub)
         End Sub
 
