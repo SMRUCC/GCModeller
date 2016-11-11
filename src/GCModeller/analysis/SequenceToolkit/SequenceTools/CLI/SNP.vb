@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module Utilities
 
     <ExportAPI("/SNP",
-               Usage:="/SNP /in <nt.fasta> [/ref 0 /pure /monomorphic]")>
+               Usage:="/SNP /in <nt.fasta> [/ref <int_index/title, default:0> /pure /monomorphic /high <0.65>]")>
     <Argument("/in", False, AcceptTypes:={GetType(FastaFile)}, Description:="")>
     <Argument("/ref", True, AcceptTypes:={GetType(Integer)})>
     <Argument("/pure", True, AcceptTypes:={GetType(Boolean)})>
@@ -50,9 +50,18 @@ Partial Module Utilities
         Dim pure As Boolean = args.GetBoolean("/pure")
         Dim monomorphic As Boolean = args.GetBoolean("/monomorphic")
         Dim nt As New FastaFile([in])
-        Dim ref As Integer = args.GetInt32("/ref")
+        Dim ref$ = args.GetValue("/ref", "0")
+        Dim high# = args.GetValue("/high", 0.65)
         Dim json As String = [in].TrimSuffix & ".SNPs.args.json"
-        Return nt.ScanSNPs(ref, pure, monomorphic).GetJson.SaveTo(json)
+        Dim vcf$ = Nothing
+
+        Call nt _
+            .ScanSNPs(ref, pure, monomorphic, vcf_output_filename:=vcf) _
+            .GetJson _
+            .SaveTo(json)
+
+        Return SNPVcf.VcfHighMutateScreens(vcf, cut:=high#) _
+            .SaveTo(vcf.TrimSuffix & $"-hight_{high}.vcf")
     End Function
 
     <ExportAPI("/Time.Mutation",

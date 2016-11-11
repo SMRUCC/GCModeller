@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::afe604e5b15fc0a1ae6cccea5ae2afc8, ..\GCModeller\analysis\SequenceToolkit\SNP\SNPVcf.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
 Public Class SNPVcf
 
@@ -52,5 +53,27 @@ Public Class SNPVcf
         Dim bufs As IEnumerable(Of String) = path.ReadAllLines.Skip(3)
         Dim out As SNPVcf() = DataImports.ImportsData(bufs).AsDataSource(Of SNPVcf)
         Return out
+    End Function
+
+    Public Shared Iterator Function VcfHighMutateScreens(path$, Optional cut# = 0.65) As IEnumerable(Of String)
+        Dim i As Integer = 0
+
+        For Each line$ In path.IterateAllLines
+            If i < 4 Then
+                i += 1
+                Yield line
+            Else
+                Dim tokens$() = line.Split(ASCII.TAB)
+                Dim m As Integer = tokens _
+                    .Skip(9) _
+                    .Select(AddressOf Val) _
+                    .Where(Function(x) x > 0) _
+                    .Count
+
+                If cut <= (m / (tokens.Length - 9)) Then
+                    Yield line
+                End If
+            End If
+        Next
     End Function
 End Class
