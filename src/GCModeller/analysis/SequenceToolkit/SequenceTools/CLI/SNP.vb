@@ -30,6 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.SNP
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -52,13 +53,18 @@ Partial Module Utilities
         Return nt.ScanSNPs(ref, pure, monomorphic).GetJson.SaveTo(json)
     End Function
 
-    <ExportAPI("/Time.Diffs", Usage:="/Time.Diffs /in <aln.fasta> [/out <out.csv>]")>
+    <ExportAPI("/Time.Mutation",
+               Info:="The ongoing time mutation of the genome sequence.",
+               Usage:="/Time.Mutation /in <aln.fasta> [/ref <default:first,other:title/index> /cumulative /out <out.csv>]")>
     <Group(CLIGrouping.SNPTools)>
     Public Function TimeDiffs(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".time_variation.csv")
-        Dim result = New FastaFile([in]).GetSeqs.GroupByDate
-        Dim T = result.ToCsvDoc.Transpose
+        Dim source As New FastaFile([in])
+        Dim result As DataSet() = source _
+            .GetSeqs(args("/ref")) _
+            .GroupByDate(args.GetBoolean("/cumulative"))
+        Dim T As DocumentStream.File = result.ToCsvDoc.Transpose
         Return T.Save(out, Encoding.ASCII)
     End Function
 End Module

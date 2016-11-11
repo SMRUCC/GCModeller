@@ -424,6 +424,7 @@
     <Compile Include="ProteinModel\DomainModels.vb" />
     <Compile Include="SequenceModel\Abstract.vb" />
     <Compile Include="SequenceModel\FASTA\Abstract.vb" />
+    <Compile Include="SequenceModel\FASTA\Extensions.vb" />
     <Compile Include="SequenceModel\FASTA\IO\KSeq.vb" />
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />

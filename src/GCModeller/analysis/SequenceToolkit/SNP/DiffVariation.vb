@@ -38,17 +38,29 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Module DiffVariation
 
     ''' <summary>
-    ''' 必须是经过对齐了的，第一条序列为参考序列
-    ''' </summary>
-    ''' <param name="aln"></param>
-    ''' <returns></returns>
     ''' 
+    ''' </summary>
+    ''' <param name="aln">必须是经过对齐了的，第一条序列为参考序列，假若参考可选参数是缺失的话</param>
+    ''' <param name="refIndex">默认是第一条序列，如果index参数是缺失的话</param>
+    ''' <returns></returns>
     <Extension>
-    Public Iterator Function GetSeqs(aln As IEnumerable(Of FastaToken)) As IEnumerable(Of KSeq)
-        Dim ref As FastaToken = aln.First
+    Public Iterator Function GetSeqs(aln As IEnumerable(Of FastaToken), Optional refIndex$ = Nothing) As IEnumerable(Of KSeq)
+        Dim source As New FastaFile(aln)
+        Dim index% = If(
+            String.IsNullOrEmpty(refIndex),
+            0,
+            source.Index(refIndex))
+
+        If index = -1 Then
+            Throw New Exception($"Reference sequence index value {refIndex} is not valid!")
+        End If
+
+        Dim ref As FastaToken = source(index%)
         Dim refs As Char() = ref.SequenceData.ToUpper.ToCharArray
 
-        For Each seq As FastaToken In aln.Skip(1)
+        Call source.RemoveAt(index)
+
+        For Each seq As FastaToken In source
             Dim nts As Char() = seq.SequenceData.ToUpper.ToCharArray
             Dim diffs As New List(Of SeqValue(Of NamedValue(Of Integer)))
             Dim b As Integer
@@ -78,29 +90,49 @@ Public Module DiffVariation
                 .Diffs = diffs.ToDictionary(Function(o) o.i,
                                             Function(o) o.obj)
             }
-            x.Date.Value = Regex.Match(seq.Attributes.Last, "\d{6}").Value
+            x.Date.value = Regex.Match(seq.Attributes.Last, "\d{6}").Value
 
             Yield x
         Next
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="cumulative">数据是否是按照日期的累计性的</param>
+    ''' <param name="raw">原始的分数数据</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function GroupByDate(source As IEnumerable(Of KSeq)) As DataSet()
+    Public Function GroupByDate(source As IEnumerable(Of KSeq), Optional cumulative? As Boolean = False, Optional ByRef raw As List(Of EntityObject) = Nothing) As DataSet()
         Dim LGroup = From x As KSeq
                      In source
                      Select x
-                     Group x By x.Date.Value Into Group
-                     Order By Value Ascending
+                     Group x By x.Date.value Into Group
+                     Order By value Ascending
 
-        Dim bufs = LGroup.ToArray
+        Dim bufs = LGroup.ToArray  ' 按照日期分组的序列突变数据
         Dim out As New List(Of DataSet)
         Dim aLen As Integer =
             bufs.First.Group.First.Diffs.Count
 
+        raw = New List(Of EntityObject)
+
+        Dim cumuMutates%() = New Integer(aLen - 1) {}
+        Dim cumuTotal%() = New Integer(aLen - 1) {}
+
         For Each g In bufs   ' 都是同一个年/月的
-            Dim tag As String = g.Value
+            Dim tag As String = g.value
             Dim ar As KSeq() = g.Group.ToArray
             Dim hash As New Dictionary(Of String, Double)
+            Dim rawRow As New Dictionary(Of String, String)
+
+            If Not cumulative Then
+                For i As Integer = 0 To aLen - 1
+                    cumuMutates(i) = Scan0
+                    cumuTotal(i) = Scan0
+                Next
+            End If
 
             For i As Integer = 0 To aLen - 1
                 Dim ind As Integer = i
@@ -108,14 +140,22 @@ Public Module DiffVariation
                                     In ar
                                     Let b = x.Diffs(ind).x
                                     Where b <> 0
-                                    Select 1).Count
+                                    Select 1).Count ' 当前月的突变序列数量
 
-                hash.Add((i + 1).ToString, d / ar.Length)
+                cumuMutates(i) += d
+                cumuTotal(i) += ar.Length
+
+                Call rawRow.Add((i + 1).ToString, $"{cumuMutates(i)}/{cumuTotal(i)}")
+                Call hash.Add((i + 1).ToString, cumuMutates(i) / cumuTotal(i))
             Next
 
             out += New DataSet With {
                 .Identifier = tag,
                 .Properties = hash
+            }
+            raw += New EntityObject With {
+                .Identifier = tag,
+                .Properties = rawRow
             }
 
             Call tag.__DEBUG_ECHO
