@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::fdea267aef96d5ec8386166c61765d7c, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Extensions
@@ -143,7 +144,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 #If DEBUG Then
             parallel = False
 #Else
-            parallel =  true 
+            parallel = True
 #End If
             Dim Queries As Query() = lstQuery.ToArray(Function(line) Query.TryParse(line), parallel)
             Dim BLASTOutput As v228 = New v228 With {
@@ -247,9 +248,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Function
 
         ''' <summary>
-        ''' 处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理
+        ''' File processor for the file size which is greater than 10GB.
+        ''' (处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理)
         ''' </summary>
-        Public Sub Transform(path As String, CHUNK_SIZE As Long, transform As Action(Of BlastPlus.Query), Optional encoding As Encoding = Nothing)
+        Public Sub Transform(path$, CHUNK_SIZE&, transform As Action(Of BlastPlus.Query), Optional encoding As Encoding = Nothing)
             If encoding Is Nothing Then
                 encoding = BlastPlus.Parser.DefaultEncoding
             End If
@@ -257,12 +259,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Call path.FixPath
 
             Dim parser As QueryParser = __getParser(path)
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding)
+            Dim readsBuffer As IEnumerable(Of String) =
+                __loadData(path, CHUNK_SIZE, encoding)
 
             Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
-            Call (From line As String
-                  In readsBuffer
-                  Select __blockWorker(line, transform, parser)).ToArray
+
+            For Each line$ In readsBuffer
+                Call line$.__blockWorker(transform, parser)
+            Next
         End Sub
 
         ''' <summary>
@@ -292,6 +296,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return True
         End Function
 
+        <Extension>
         Private Function __blockWorker(queryBlocks As String, transform As Action(Of Query), parser As QueryParser) As Boolean
             Dim queries As String() = __queryParser(queryBlocks.Replace(NIL, " "c))
             Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
