@@ -219,6 +219,7 @@
     <Compile Include="Analysis\Models\Besthit.vb" />
     <Compile Include="Analysis\Models\KEGG_API.vb" />
     <Compile Include="Analysis\Models\Hits.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Segment.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastXHit.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\HitFragment.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Views.vb" />
@@ -256,7 +257,7 @@
     <Compile Include="LocalBLAST\BlastOutput\Common\Segment.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\BLASTOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\BestHit.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\_2_2_26.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\v226.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\Hit.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\Query.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BlastOutput.vb" />
