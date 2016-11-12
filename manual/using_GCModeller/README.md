@@ -11,9 +11,9 @@ For learn how to using the CLI system in GCModeller tools, please view this [hel
 ##### a. Primary Annotation
 
 > The primary annotation contains these three basically steps: 
-> + alignment, perform by blastp bbh or sbh 
-> + catalog, catalog the proteins into ortholog groups
-> + profiling, quantities counting of the groups
+> + **alignment**, perform by blastp bbh or sbh 
+> + **catalog**, catalog the proteins into ortholog groups
+> + **profiling**, quantities counting of the groups
 
    1. [COG](./orthology/COG.md): Cluster of Orthologous Groups of proteins
    2. [KO](./orthology/KO.md): KEGG Orthology
