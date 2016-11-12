@@ -52,11 +52,25 @@ blastp -query $cog -db $query -num_threads 20 -evalue 1e-5 -out $out &
 
 ###### Using GCModeller for result exports
 
+Here is the example of how to construct the **bbh** result from the raw blastp output:
+
 ```bash
 #!/bin/bash
 
+# sbh1, sbh2 -> bbh
+qvs="path/to/qvs.txt"
+svg="path/to/svq.txt"
+
+# sbh commands
+
+# bbh commands
+# bbh was generated from the qvs/svq sbh result.
 
 ```
+
+###### COG catalog &amp; profiling
+
+
 
 ### 3. Directly annotate COG using GCModeller tools
 
