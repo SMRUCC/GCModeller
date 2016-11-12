@@ -49,7 +49,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
             Public Overrides Function ToString() As String
                 If Hits Is Nothing OrElse Hits.Count = 0 Then
-                    Return LocalBLAST.BLASTOutput.Standard.Query.HITS_NOT_FOUND
+                    Return Legacy.Query.HITS_NOT_FOUND
                 Else
                     Return String.Format("{0} <--> {1} ({2} hit segments.)", Query.ToString, Subject.ToString, Hits.Count)
                 End If
@@ -62,7 +62,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 <XmlElement> Public Property Hsp As LocalBLAST.BLASTOutput.ComponentModel.HitSegment()
 
                 Public Shared Function TryParse(Text As String) As Segment()
-                    If InStr(Text, LocalBLAST.BLASTOutput.Standard.Query.HITS_NOT_FOUND) > 0 Then
+                    If InStr(Text, Legacy.Query.HITS_NOT_FOUND) > 0 Then
                         Return Nothing
                     End If
 
@@ -94,9 +94,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     Tokens = Tokens.Skip(3).ToArray
 
                     Dim IdxList = (From s As String In Tokens Where InStr(s, "Query ") Select Array.IndexOf(Tokens, s)).ToArray
-                    Dim ChunkBuffer(LocalBLAST.BLASTOutput.Standard.Hit.SEQUENCE_LINE_NUMBER - 1) As String
+                    Dim ChunkBuffer(Legacy.Hit.SEQUENCE_LINE_NUMBER - 1) As String
                     For Each Index As Integer In IdxList
-                        Call Array.ConstrainedCopy(Tokens, Index, ChunkBuffer, 0, LocalBLAST.BLASTOutput.Standard.Hit.SEQUENCE_LINE_NUMBER)
+                        Call Array.ConstrainedCopy(Tokens, Index, ChunkBuffer, 0, Legacy.Hit.SEQUENCE_LINE_NUMBER)
                         Call HitSeqes.Add(TryParse(ChunkBuffer))
                     Next
 

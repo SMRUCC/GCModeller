@@ -92,7 +92,7 @@ Namespace BlastAPI
         ''' <param name="subject"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TakeBestHits(query As Standard.BLASTOutput, subject As Standard.BLASTOutput) As DocumentStream.File
+        Public Function TakeBestHits(query As IBlastOutput, subject As IBlastOutput) As DocumentStream.File
             Dim tblQuery As DocumentStream.File = query.ExportBestHit.ToCsvDoc
             Dim tblHits As DocumentStream.File = subject.ExportBestHit.ToCsvDoc
 

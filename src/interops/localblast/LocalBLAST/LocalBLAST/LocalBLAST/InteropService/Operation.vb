@@ -51,7 +51,7 @@ Namespace LocalBLAST.InteropService
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
             Select Case ProgramProfile.Name.ToLower
                 Case "localblast"
-                    Return BLASTOutput.Standard.BLASTOutput.TryParse(_InternalLastBLASTOutputFile)
+                    Return BLASTOutput.Legacy.BLASTOutput.TryParse(_InternalLastBLASTOutputFile)
                 Case "blast+"
                     Return BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
                 Case "rpsblast"

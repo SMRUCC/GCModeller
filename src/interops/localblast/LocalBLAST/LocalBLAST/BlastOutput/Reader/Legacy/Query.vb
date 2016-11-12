@@ -31,7 +31,7 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Text
 
-Namespace LocalBLAST.BLASTOutput.Standard
+Namespace LocalBLAST.BLASTOutput.Legacy
 
     Public Class Query
 
@@ -100,9 +100,9 @@ Namespace LocalBLAST.BLASTOutput.Standard
         Public Const QUERY_BLOCK_SECTION As String = "Query= .+" & QUERY_LENGTH
 
         Public Shared Function TryParse(Text As String) As Query
-            Dim QueryBlock As String = System.Text.RegularExpressions.Regex.Match(
-                    Text, Standard.Query.QUERY_BLOCK_SECTION,
-                    System.Text.RegularExpressions.RegexOptions.Singleline).Value
+            Dim QueryBlock As String = Regex.Match(
+                    Text, Legacy.Query.QUERY_BLOCK_SECTION,
+                    RegexOptions.Singleline).Value
 
             Dim Tokens = QueryBlock.Split(Chr(10))
             Dim NameBuilder As StringBuilder = New StringBuilder(128)

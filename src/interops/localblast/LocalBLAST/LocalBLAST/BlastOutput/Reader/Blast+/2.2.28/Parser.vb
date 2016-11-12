@@ -223,8 +223,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 #If DEBUG Then
             parallel = False
 #End If
-            Dim lstQuery = Sections.ToArray(Function(line) Query.BlastnOutputParser(line), parallel)
-            Dim BLASTOutput As v228 = New v228 With {
+            Dim lstQuery = Sections.ToArray(AddressOf Query.BlastnOutputParser, parallel)
+            Dim BLASTOutput As New v228 With {
                 .FilePath = LogFile & ".xml",
                 .Queries = lstQuery
             }

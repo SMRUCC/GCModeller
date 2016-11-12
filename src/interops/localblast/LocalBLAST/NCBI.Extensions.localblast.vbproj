@@ -254,11 +254,11 @@
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Query.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\v228.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Common\Segment.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Standard\BLASTOutput.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Standard\BestHit.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\BLASTOutput.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\BestHit.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\_2_2_26.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Standard\Hit.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Standard\Query.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\Hit.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\Query.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BlastOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BireHits.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb" />

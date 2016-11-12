@@ -34,13 +34,15 @@ Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Linq
 
-Namespace LocalBLAST.BLASTOutput.Standard
+Namespace LocalBLAST.BLASTOutput.Legacy
 
     ''' <summary>
     ''' An analysis tool for local blast log file.(本地BLAST日志文件分析对象)
     ''' </summary>
-    ''' <remarks></remarks>
-    Public Class BLASTOutput : Inherits LocalBLAST.BLASTOutput.IBlastOutput
+    ''' <remarks>
+    ''' Parser for the blast output format from legacy blast suite, which is before blast+ suite was released.
+    ''' </remarks>
+    Public Class BLASTOutput : Inherits IBlastOutput
         Implements System.IDisposable
 
         <XmlElement> Public Property Queries As Query()
@@ -48,10 +50,10 @@ Namespace LocalBLAST.BLASTOutput.Standard
 
         Public Shared Function TryParse(LogFile As String) As BLASTOutput
             Dim Array As String() = Regex.Split(FileIO.FileSystem.ReadAllText(LogFile),
-                                                Standard.Query.BLAST_SECTION_HEADER,
+                                                Legacy.Query.BLAST_SECTION_HEADER,
                                                 RegexOptions.Multiline)
             Dim Query = From Line As String In Array.Skip(1).AsParallel
-                        Let q = NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Query.TryParse(Line)
+                        Let q = Legacy.Query.TryParse(Line)
                         Where Not q.IsEmpty
                         Select q
                         Order By q.QueryName Ascending '

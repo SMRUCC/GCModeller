@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Text
 
-Namespace LocalBLAST.BLASTOutput.Standard
+Namespace LocalBLAST.BLASTOutput.Legacy
 
     Public Class Hit
         <XmlAttribute> Public Property Name As String
@@ -60,7 +60,7 @@ Namespace LocalBLAST.BLASTOutput.Standard
         End Function
 
         Friend Shared Function TryParse(Text As String) As Hit
-            Dim HitHeader As String = Regex.Match(Text, Standard.Hit.HIT_HEADER, RegexOptions.Singleline).Value
+            Dim HitHeader As String = Regex.Match(Text, Legacy.Hit.HIT_HEADER, RegexOptions.Singleline).Value
             Dim Tokens As String() = HitHeader.Split(Chr(10))
             Dim Length As Integer = Val(Regex.Match(Tokens.Last, "\d+").Value)
             Dim NameBuilder As StringBuilder = New StringBuilder(128)
@@ -85,9 +85,9 @@ Namespace LocalBLAST.BLASTOutput.Standard
             Tokens = Tokens.Skip(3).ToArray
 
             Dim IdxList = (From s As String In Tokens Where InStr(s, "Query:") Select Array.IndexOf(Tokens, s)).ToArray
-            Dim ChunkBuffer(Standard.Hit.SEQUENCE_LINE_NUMBER - 1) As String
+            Dim ChunkBuffer(Legacy.Hit.SEQUENCE_LINE_NUMBER - 1) As String
             For Each Index As Integer In IdxList
-                Call Array.ConstrainedCopy(Tokens, Index, ChunkBuffer, Scan0, Standard.Hit.SEQUENCE_LINE_NUMBER)
+                Call Array.ConstrainedCopy(Tokens, Index, ChunkBuffer, Scan0, Legacy.Hit.SEQUENCE_LINE_NUMBER)
                 Call HitSeqes.Add(LocalBLAST.BLASTOutput.ComponentModel.HitSegment.TryParse(ChunkBuffer))
             Next
 
