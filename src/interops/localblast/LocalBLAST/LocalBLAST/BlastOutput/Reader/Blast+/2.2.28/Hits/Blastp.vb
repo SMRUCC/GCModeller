@@ -124,19 +124,16 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Protected Const PAIRWISE$ = "Query\s+\d+\s+.+?\s+\d+.+?Sbjct\s+\d+\s+.+?\s+\d+"
 
         Public Shared Function TryParse(text As String) As SubjectHit
-            Dim name As String = Strings.Split(text, "Length=").First.TrimA
-            Dim Length As Long = CLng(text.Match("Length=\d+").RegexParseDouble)
+            Dim name As String = Strings.Split(text, "Length=").First.TrimNewLine
+            Dim l As Long = CLng(text.Match("Length=\d+").RegexParseDouble)
 
-            Dim strHsp As String() =
-                Regex.Matches(text,
-                              PAIRWISE,
-                              RegexOptions.Singleline +
-                              RegexOptions.IgnoreCase).ToArray
+            Dim strHsp$() = Regex.Matches(
+                text, PAIRWISE, RegexICSng).ToArray
 
             Dim hit As New SubjectHit With {
                 .Score = Score.TryParse(Of Score)(text),
                 .Name = name,
-                .Length = Length,
+                .Length = l,
                 .Hsp = ParseHitSegments(strHsp)
             }
 

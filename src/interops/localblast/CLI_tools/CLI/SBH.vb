@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::44fe37e8abd8971c5fccae6aa2fa88ce, ..\interops\localblast\CLI_tools\CLI\SBH.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -140,19 +141,28 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/SBH.Export.Large",
-               Usage:="/SBH.Export.Large /in <blast_out.txt> [/trim-kegg /out <bbh.csv> /identities 0.15 /coverage 0.5]")>
-    <Argument("/trim-KEGG", True,
-                   Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
+               Info:="Using this command for export the sbh result of your blastp raw data.",
+               Usage:="/SBH.Export.Large /in <blastp_out.txt> [/trim-kegg /out <sbh.csv> /identities 0.15 /coverage 0.5]")>
+    <Argument("/trim-KEGG", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The sbh result output csv file location.")>
+    <Argument("/in", False, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The blastp raw result input file path.")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function ExportBBHLarge(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".bbh.Csv")
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
         Dim idetities As Double = args.GetValue("/identities", 0.15)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
 
-        Using IO As New DocumentStream.Linq.WriteStream(Of BestHit)(out)
+        Using IO As New WriteStream(Of BestHit)(out)
             Dim handle As Action(Of Query) = IO.ToArray(Of BlastPlus.Query)(
                 Function(query) v228.SBHLines(query, coverage:=coverage, identities:=idetities))
-            Call BlastPlus.Transform(inFile, 1024 * 1024 * 128, handle)
+            Call BlastPlus.Transform(inFile, 1024 * 1024 * 256, handle)
         End Using
 
         Return 0

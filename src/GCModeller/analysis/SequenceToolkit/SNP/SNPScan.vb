@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::c6a81cb7ec8c146c3e5bbe925d92a331, ..\GCModeller\analysis\SequenceToolkit\SNP\SNPScan.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs
 Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Public Module SNPScan
@@ -116,9 +117,19 @@ Public Module SNPScan
     ''' <returns></returns>
     <Extension>
     Public Function ScanSNPs(nt As FASTA.FastaFile,
-                             refInd As Integer,
+                             refInd$,
                              Optional pureMode As Boolean = False,
-                             Optional monomorphic As Boolean = False) As SNPsAln
-        Return nt.SNPSitesGeneric(1, 1, 1, App.GetAppSysTempFile, refInd, If(pureMode, 1, 0), If(monomorphic, 1, 0))
+                             Optional monomorphic As Boolean = False,
+                             Optional ByRef vcf_output_filename$ = Nothing) As SNPsAln
+
+        Dim index% = nt.Index(refInd)
+
+        If index = -1 Then
+            Throw New EvaluateException($"{refInd} is not a valid reference....")
+        Else
+            Call $"Using {nt(index).Title} as reference...".__DEBUG_ECHO
+        End If
+
+        Return nt.SNPSitesGeneric(1, 1, 1, App.GetAppSysTempFile, index, If(pureMode, 1, 0), If(monomorphic, 1, 0), vcf_output_filename)
     End Function
 End Module

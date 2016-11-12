@@ -130,7 +130,7 @@ Namespace AppEngine.APIMethods
                           In props
                           Select prop.PropertyType,
                           prop.Name,
-                          descr = EmitReflection.Description(prop).TrimVBCrLf,
+                          descr = EmitReflection.Description(prop).TrimNewLine(""),
                           innerClass = __description(prop.PropertyType, indent & "  ")).ToArray
 
             For Each prop In values

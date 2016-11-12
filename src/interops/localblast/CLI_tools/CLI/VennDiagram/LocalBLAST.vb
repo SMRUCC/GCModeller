@@ -125,7 +125,7 @@ Partial Module CLI
     End Function
 
     Private Function ToXml(LogFile As String, SavedDir As String) As String
-        Dim Xml As Standard.BLASTOutput = Standard.BLASTOutput.TryParse(LogFile)
+        Dim Xml As Legacy.BLASTOutput = Legacy.BLASTOutput.TryParse(LogFile)
         Dim File As String = String.Format("{0}/{1}.xml", SavedDir, FileIO.FileSystem.GetName(LogFile))
         Call Xml.Save(File)
 

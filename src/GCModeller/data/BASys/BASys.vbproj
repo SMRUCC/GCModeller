@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7E6DF33F-FEB0-447F-B656-A51ACD00E888}</ProjectGuid>
+    <ProjectGuid>{6FA98FE3-4504-4D7A-A454-C5E8CF46EB21}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SMRUCC.genomics.Analysis.Annotations</RootNamespace>
-    <AssemblyName>SMRUCC.genomics.Analysis.Annotations</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Data.BASys</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Data.BASys</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,7 +48,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -56,8 +56,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -66,18 +66,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
     <OutputPath>bin\docs\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
     <OutputPath>..\..\..\..\..\manual\sdk_api\bin\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -86,7 +86,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -95,14 +95,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
     <OutputPath>bin\x86\docs\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -112,7 +112,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -122,7 +122,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Publish\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Analysis.Annotations.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.BASys.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -141,8 +141,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -161,9 +160,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interpro\Xml\DbArchive.vb" />
-    <Compile Include="Interpro\Xml\Family.vb" />
-    <Compile Include="Interpro\Xml\ToolsAPI.vb" />
+    <Compile Include="ecard\Ecard.vb" />
+    <Compile Include="Export.vb" />
+    <Compile Include="Project.vb" />
+    <Compile Include="ecard\ecardParser.vb" />
+    <Compile Include="Summary\TableBrief.vb" />
+    <Compile Include="Summary\Summary.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -179,12 +181,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Regprecise\Regprecise.vb" />
-    <Compile Include="Regprecise\ShellScriptAPI.vb" />
-    <Compile Include="Tools\AnnotationTool.vb" />
-    <Compile Include="Tools\Report\AnnotationResult.vb" />
-    <Compile Include="Tools\Report\DocumentElements.vb" />
-    <Compile Include="Tools\ShellScriptAPI.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -195,7 +191,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -207,56 +202,24 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
-      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
-      <Name>MEME.DocParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\interops\meme_suite\MEME\MEME.vbproj">
-      <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
-      <Name>MEME</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\repository\Model_Repository\Model_Repository.vbproj">
-      <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
-      <Name>Model_Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\markups\markups.vbproj">
-      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>markups</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\RTF\RTF.vbproj">
-      <Project>{062afa7d-1e0d-48f8-b07d-fb74aeefa5d6}</Project>
-      <Name>RTF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\visualbasic.DBI\SQLite_Interface\SQLite_Interface.vbproj">
-      <Project>{67EAFC15-2237-494E-85D9-206E5BF71EF4}</Project>
-      <Name>SQLite_Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
-      <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
-      <Name>RegulonDatabase</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MEME.txt" />
-  </ItemGroup>
-  <Import Project="..\..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
-  <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

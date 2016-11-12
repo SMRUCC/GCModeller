@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::87e45b0f70bdc988b80b31f1d05b3b04, ..\interops\localblast\CLI_tools\CLI\VennDiagram\LogFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
 Imports SMRUCC.genomics.Interops
 Imports Microsoft.VisualBasic.CommandLine
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Partial Module CLI
 
@@ -61,17 +62,17 @@ Partial Module CLI
         Dim ListCsv = New List(Of DocumentStream.File())  '每一个文件对中的File1位主要的文件
         For Each List In ListFile.Logs
             Dim Query = From Pair In List
-                        Select LogAnalysis.TakeBestHits(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(Pair.File1),
-                            SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(Pair.File2)) '获取BestHit
+                        Select LogAnalysis.TakeBestHits(Legacy.BLASTOutput.Load(Pair.File1),
+                            Legacy.BLASTOutput.Load(Pair.File2)) '获取BestHit
             Call ListCsv.Add(Query.ToArray)
         Next
-        Dim LastFile = SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(ListFile.Logs.Last.Last.File2)
+        Dim LastFile = Legacy.BLASTOutput.Load(ListFile.Logs.Last.Last.File2)
         Call ListCsv.Add(New DocumentStream.File() {(From Query In LastFile.Queries.AsParallel Select Query.QueryName).ToArray})
 
         Dim MergeResult = (From List In ListCsv Select LogAnalysis.Merge(dataset:=List)).ToList
         Dim Csv = CLI.__mergeFile(MergeResult)  '合并文件，获取最终绘制文氏图所需要的数据文件
 
-        Return Csv.Save(Path:=CsvFile).CLICode
+        Return Csv.Save(path:=CsvFile).CLICode
     End Function
 
     ''' <summary>
@@ -120,8 +121,7 @@ Partial Module CLI
             Return -1
         End If
 
-        Using File As SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput =
-            SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
+        Using File As Legacy.BLASTOutput = Legacy.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
             Call File.Grep(Query:=AddressOf GrepScriptQuery.Grep, Hits:=AddressOf GrepScriptHit.Grep)
         End Using
 

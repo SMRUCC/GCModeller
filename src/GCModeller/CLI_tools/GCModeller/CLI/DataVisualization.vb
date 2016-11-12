@@ -45,6 +45,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.Interops.Visualize.Phylip
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ComparativeAlignment
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics.ModelAPI
@@ -53,6 +54,7 @@ Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 Partial Module CLI
 
     <ExportAPI("/Draw.Comparative", Usage:="/Draw.Comparative /in <meta.Xml> /PTT <PTT_DIR> [/out <outDIR>]")>
+    <Group(CLIGrouping.DataVisualizeTools)>
     Public Function DrawMultipleAlignments(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
@@ -63,6 +65,7 @@ Partial Module CLI
 
     <ExportAPI("--Drawing.ClustalW",
                Usage:="--Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]")>
+    <Group(CLIGrouping.DataVisualizeTools)>
     Public Function DrawClustalW(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
@@ -75,6 +78,7 @@ Partial Module CLI
     <ExportAPI("--Drawing.ChromosomeMap",
                Info:="Drawing the chromosomes map from the PTT object as the basically genome information source.",
                Usage:="--Drawing.ChromosomeMap /ptt <genome.ptt> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
+    <Group(CLIGrouping.DataVisualizeTools)>
     Public Function DrawingChrMap(args As CommandLine) As Integer
         Dim PTT = args.GetObject("/ptt", AddressOf TabularFormat.PTT.Load)
         Dim confInf As String = args("/conf")
@@ -149,6 +153,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
     <Argument("/PTT", False,
                    Description:="A directory which contains all of the information data files for the reference genome, 
                    this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.")>
+    <Group(CLIGrouping.DataVisualizeTools)>
     Public Function BBHVisual(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim PTT As String = args("/PTT")
@@ -179,5 +184,16 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
                                                         IdentityNoColor:=False,
                                                         queryBrush:=densityQuery)
         Return res.SaveAs(out, ImageFormats.Png).CLICode
+    End Function
+
+    <ExportAPI("/Plot.GC", Usage:="/Plot.GC /in <mal.fasta> [/plot <gcskew/gccontent> /colors <Jet> /out <out.png>]")>
+    <Group(CLIGrouping.DataVisualizeTools)>
+    Public Function PlotGC(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim plot As String = args.GetValue("/plot", "gcskew")
+        Dim colors As String = args.GetValue("/colors", "Jet")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & plot & "-" & colors & ".png")
+        Dim img As Image = GCPlot.PlotGC(New FastaFile([in]), plot, 50, 50,,,,, colors:=colors)
+        Return img.SaveAs(out, ImageFormats.Png)
     End Function
 End Module

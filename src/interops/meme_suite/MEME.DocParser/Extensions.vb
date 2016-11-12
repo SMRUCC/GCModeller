@@ -60,7 +60,7 @@ Public Module Extensions
     End Function
 
     Private Function __createObject(site As Segment, trace As String) As SimpleSegment()
-        Dim sequence As String = TrimVBCrLf(site.SegmentData).Replace(vbTab, "").Trim
+        Dim sequence As String = TrimNewLine(site.SegmentData, "").Replace(vbTab, "").Trim
         Dim sites As SimpleSegment() = site.Hits.ToArray(
             Function(hit) __createObject(site.start, hit, sequence, OffSet:=5, trace:=trace))
         Return sites
@@ -75,12 +75,7 @@ Public Module Extensions
     ''' <param name="OffSet"></param>
     ''' <param name="trace"></param>
     ''' <returns></returns>
-    Private Function __createObject(start As Integer,
-                                    hit As HitResult,
-                                    sequence As String,
-                                    OffSet As Integer,
-                                    trace As String) As SimpleSegment
-
+    Private Function __createObject(start%, hit As HitResult, sequence$, OffSet%, trace$) As SimpleSegment
         Dim id As String = hit.motif.Split("_"c).Last
         Dim length As Integer = Len(hit.match) + 2 * OffSet  '为了保证在进行分子生物学实验的时候能够得到完整的片段，在这里将位点的范围扩大了10个bp
         start = hit.pos - start

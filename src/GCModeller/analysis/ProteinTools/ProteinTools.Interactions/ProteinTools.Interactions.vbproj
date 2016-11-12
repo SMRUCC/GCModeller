@@ -267,10 +267,6 @@
       <Project>{c78b848e-b5bd-49b4-aa62-01d5c0de6b16}</Project>
       <Name>NCBI.BioSystems</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Xfam\Pfam\Pfam.vbproj">
-      <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
-      <Name>Pfam</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

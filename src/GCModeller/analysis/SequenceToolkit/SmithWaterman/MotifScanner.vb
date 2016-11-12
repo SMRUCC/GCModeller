@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -51,10 +52,10 @@ Public Class MotifScanner : Inherits IScanner
     ReadOnly __rand As Random = New Random
 
     Public Overloads Function Equals(pattern As String, residue As String) As Integer
-        Dim r As Char = residue.FirstOrDefault(NIL)
+        Dim r As Char = residue.FirstOrDefault(ASCII.NUL)
 
         If pattern.Length = 1 Then
-            Dim p As Char = pattern.FirstOrDefault(NIL)
+            Dim p As Char = pattern.FirstOrDefault(ASCII.NUL)
             If p = "."c OrElse p = "N"c Then
                 Return 10
             End If
@@ -113,14 +114,14 @@ Public Class MotifScanner : Inherits IScanner
 
     Public Shared Function ToChar(s As String) As Char
         If s.Length = 1 Then
-            Dim c As Char = s.FirstOrDefault(NIL)
+            Dim c As Char = s.FirstOrDefault(ASCII.NUL)
             If c = "." Then
                 Return "N"c
             Else
                 Return c
             End If
         Else
-            Dim c As Char = s.FirstOrDefault(NIL)
+            Dim c As Char = s.FirstOrDefault(ASCII.NUL)
             Return Char.ToLower(c)
         End If
     End Function

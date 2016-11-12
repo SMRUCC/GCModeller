@@ -299,7 +299,7 @@ Namespace IO
         End Function
 
         Protected Friend Overrides Function readAllLines() As String()
-            Dim strLines As String() = (From strLine As String In Strings.Split(Me.readToEnd, vbLf) Select strLine.TrimA("")).ToArray
+            Dim strLines As String() = (From strLine As String In Strings.Split(Me.readToEnd, vbLf) Select strLine.TrimNewLine("")).ToArray
             Return strLines
         End Function
     End Class

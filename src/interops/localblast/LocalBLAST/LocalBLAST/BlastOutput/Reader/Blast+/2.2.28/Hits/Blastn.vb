@@ -101,7 +101,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Private Shared Function BlastnTryParse(Text As String) As BlastnHit()
             Dim Tokens As String() = Regex.Split(Text, "^\s*Score\s*=", RegexOptions.Multiline)
-            Dim Name As String = Strings.Split(Tokens.First, "Length=").First.TrimA
+            Dim Name As String = Strings.Split(Tokens.First, "Length=").First.TrimNewLine
             Dim hitLen As Double = Text.Match("Length=\d+").RegexParseDouble
             Dim LQuery As BlastnHit() = LinqAPI.Exec(Of BlastnHit) <=
  _

@@ -301,9 +301,9 @@
       <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
       <Name>JSON</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\markups\Markups.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\markups\markups.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>Markups</Name>
+      <Name>markups</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\RDF\RDF.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>

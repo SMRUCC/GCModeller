@@ -78,7 +78,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Let Value As String = RegexReplace(strValue.Replace(Key, ""), WebForm.HtmlFormatControl)
                 Select New NamedValue(Of String()) With {
                     .Name = Key.GetValue,
-                    .x = {Value.TrimA, strValue}
+                    .x = {Value.TrimNewLine, strValue}
                 }
             Dim allKeys As IEnumerable(Of String) = From item As NamedValue(Of String())
                                                     In fields

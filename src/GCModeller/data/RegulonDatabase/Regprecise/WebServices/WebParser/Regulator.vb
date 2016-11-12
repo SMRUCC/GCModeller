@@ -168,7 +168,7 @@ Namespace Regprecise
 
             Dim RegulogEntry As String = Regex.Match(Properties(p + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & RegulogEntry.href
-            Regulator.Regulog = KeyValuePair.CreateObject(WebAPI.GetsId(RegulogEntry).TrimA("").Replace(vbTab, "").Trim, url)
+            Regulator.Regulog = KeyValuePair.CreateObject(WebAPI.GetsId(RegulogEntry).TrimNewLine("").Replace(vbTab, "").Trim, url)
 
             Dim exportServletLnks As String() = __exportServlet(html)
             Regulator.lstOperon = Operon.OperonParser(html) 'WebAPI.GetRegulates(url:=exportServletLnks.Get(Scan0))

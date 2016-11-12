@@ -60,13 +60,14 @@ Namespace SangerSNPs
 
         <Extension>
         Public Function SNPSitesGeneric(fasta As FastaFile,
-                                    output_multi_fasta_file As Integer,
-                                    output_vcf_file As Integer,
-                                    output_phylip_file As Integer,
-                                    ByRef output_filename As String,
-                                    output_reference As Integer,
-                                    pure_mode As Integer,
-                                    output_monomorphic As Integer) As SNPsAln
+                                        output_multi_fasta_file As Integer,
+                                        output_vcf_file As Integer,
+                                        output_phylip_file As Integer,
+                                        ByRef output_filename As String,
+                                        output_reference As Integer,
+                                        pure_mode As Integer,
+                                        output_monomorphic As Integer,
+                                        Optional ByRef vcf_output_filename$ = Nothing) As SNPsAln
 
             Dim bases_for_snps As Char()() = New Char(fasta.NumberOfFasta - 1)() {}
             Dim args As New SNPsAln
@@ -78,7 +79,6 @@ Namespace SangerSNPs
             Dim output_filename_base As String = fasta.FilePath
 
             If output_vcf_file <> 0 Then
-                Dim vcf_output_filename As New String(New Char(FILENAME_MAX - 1) {})
                 vcf_output_filename = output_filename_base.TrimSuffix
                 If (output_vcf_file + output_phylip_file + output_multi_fasta_file) > 1 OrElse (output_filename Is Nothing OrElse output_filename = ControlChars.NullChar) Then
                     vcf_output_filename += ".vcf"

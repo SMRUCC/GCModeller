@@ -282,7 +282,7 @@ AAGCGAACAAATGTTCTATA"
         ''' 
         <ExportAPI("Load")>
         Public Shared Function Load(File As String, Optional deli As Char() = Nothing) As FastaToken
-            Dim lines As String() = IO.File.ReadAllLines(File)
+            Dim lines As String() = IO.File.ReadAllLines(File.FixPath)
 
             If lines.IsNullOrEmpty Then
                 Call $" {File.ToFileURL} is null or empty!".__DEBUG_ECHO

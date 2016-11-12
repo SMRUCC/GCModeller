@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Imaging
 Public Module ValueParser
 
     ''' <summary>
-    ''' default is <see cref="ImageFormat.Bmp"/>
+    ''' default is <see cref="ImageFormat.Png"/>
     ''' </summary>
     ''' <param name="format"></param>
     ''' <returns></returns>
@@ -45,7 +45,7 @@ Public Module ValueParser
         If ImagingFormats.ContainsKey(value) Then
             Return ImagingFormats(value)
         Else
-            Return ImageFormat.Bmp
+            Return ImageFormat.Png
         End If
     End Function
 

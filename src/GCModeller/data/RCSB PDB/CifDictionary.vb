@@ -41,7 +41,7 @@ Public Class CifDictionary
 
         Protected Friend Shared Function TryParse(strData As String) As Section
             Dim Tokens As String() = (From strLine As String In Strings.Split(strData, vbLf)
-                                      Let str As String = strLine.TrimA
+                                      Let str As String = strLine.TrimNewLine
                                       Where Not String.IsNullOrEmpty(str)
                                       Select str).ToArray
             Dim PairList As List(Of KeyValuePair(Of String, String)) =

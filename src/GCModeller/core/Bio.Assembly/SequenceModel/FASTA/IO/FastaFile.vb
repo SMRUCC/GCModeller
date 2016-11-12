@@ -98,7 +98,7 @@ Namespace SequenceModel.FASTA
         End Sub
 
         Sub New(path As String, Optional deli As Char() = Nothing)
-            FilePath = path
+            FilePath = path.FixPath
             _innerList = DocParser(
                 FileIO.FileSystem.ReadAllText(path),
                 If(deli.IsNullOrEmpty, {"|"c}, deli))
@@ -180,7 +180,7 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Shared Function Read(File As Path, Optional Explicit As Boolean = True, Optional deli As Char = "|"c) As FastaFile
-            If Not File.FileExists Then
+            If Not File.FixPath.FileExists Then
                 If Explicit Then
                     Throw New Exception($"File ""{File.ToFileURL}"" is not exists on the file system!")
                 Else
