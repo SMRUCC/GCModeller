@@ -224,14 +224,14 @@ Namespace Analysis.MotifScans
                                                pwms As Dictionary(Of String, AnnotationModel),
                                                pwmSites As Dictionary(Of String, Regprecise.FastaReaders.Site()),
                                                trace As String) As MastSites()
-            Dim sequence As String = TrimVBCrLf(site.SegmentData).Replace(vbTab, "").Trim
+            Dim sequence As String = TrimNewLine(site.SegmentData, "").Replace(vbTab, "").Trim
             Dim sites As MastSites() = site.Hits.ToArray(Of MastSites)(
                 Function(hit) __createObject(site.start, hit, sequence, pwms, pwmSites, offset:=5, trace:=trace))
             Return sites
         End Function
 
         Private Shared Function __createObject(site As DocumentFormat.XmlOutput.MAST.Segment, trace As String) As MastSites()
-            Dim sequence As String = TrimVBCrLf(site.SegmentData).Replace(vbTab, "").Trim
+            Dim sequence As String = TrimNewLine(site.SegmentData, "").Replace(vbTab, "").Trim
             Dim sites As MastSites() = site.Hits.ToArray(Of MastSites)(
                 Function(hit) __createObject(site.start, hit, sequence, OffSet:=5, trace:=trace))
             Return sites

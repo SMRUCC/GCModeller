@@ -222,6 +222,7 @@
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Segment.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastXHit.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\HitFragment.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\QuertTextProvider.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Views.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Common\Percentage.vb" />
     <Compile Include="LocalBLAST\BlastOutput\GrepOperation.vb" />
