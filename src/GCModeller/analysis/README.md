@@ -3,4 +3,4 @@
 Analysis tools library from GCModeller
 
 
-+ [./pipeline](./pipeline/) : For annotation pipeline
++ [./pipeline](./pipeline/) : Bash scripts for GCModeller annotation pipeline

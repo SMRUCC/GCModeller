@@ -7,6 +7,9 @@ Rational classification of proteins encoded in sequenced genomes is critical for
 > The COG database: a tool for genome-scale analysis of protein functions and evolution
 > [10.1093/nar/28.1.33](http://nar.oxfordjournals.org/content/28/1/33.full)
 
+
+Pipeline bash scripts: [../../../src/GCModeller/analysis/pipeline/cog_utils/](../../../src/GCModeller/analysis/pipeline/cog_utils/)
+
 ### 1. Download database from NCBI
 
 > FTP location: [ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/](ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/)
