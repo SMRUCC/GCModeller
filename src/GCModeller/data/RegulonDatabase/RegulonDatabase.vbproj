@@ -397,7 +397,7 @@
       <Project>{43c14bc7-22f6-4340-9af8-b01908619911}</Project>
       <Name>MicrobesOnline</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Xfam\Pfam\Pfam.vbproj">
+    <ProjectReference Include="..\Xfam\Pfam\Pfam.vbproj">
       <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
       <Name>Pfam</Name>
     </ProjectReference>

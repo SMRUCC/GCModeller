@@ -258,17 +258,9 @@
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Xfam\Rfam\Rfam.vbproj">
-      <Project>{e7e152aa-dcb6-4f05-944a-29c9e3d3c5ed}</Project>
-      <Name>Rfam</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\data\ExternalDBSource\DatabaseServices.vbproj">
       <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
       <Name>DatabaseServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\analysis\Xfam\Pfam\Pfam.vbproj">
-      <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
-      <Name>Pfam</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
