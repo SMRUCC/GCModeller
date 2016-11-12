@@ -77,18 +77,20 @@ NULL:           Call $"[{line}] ===> {NameOf(Tokens)}:=null".__DEBUG_ECHO
 
         Delegate Function ParameterParser(line As String) As Parameter
 
-        Private Shared Function __newParameter(Line As String) As Parameter
-            Dim Tokens As List(Of Double) = (From Token As String
-                                             In Line.Split
-                                             Where Not String.IsNullOrEmpty(Token)
-                                             Select Val(Token)).Join(__null) '防止出现索引出界的异常
-            Dim p As Parameter = New Parameter With {
-                .Lambda = Tokens(0),
-                .K = Tokens(1),
-                .H = Tokens(2),
-                .a = Tokens(3),
-                .alpha = Tokens(4),
-                .sigma = Tokens(5)
+        Private Shared Function __newParameter(line As String) As Parameter
+            Dim t As List(Of Double) =
+                (From k As String
+                 In line.Split
+                 Where Not String.IsNullOrEmpty(k)
+                 Select Val(k)).Join(__null) ' 防止出现索引出界的异常
+
+            Dim p As New Parameter With {
+                .Lambda = t(0),
+                .K = t(1),
+                .H = t(2),
+                .a = t(3),
+                .alpha = t(4),
+                .sigma = t(5)
             }
             Return p
         End Function

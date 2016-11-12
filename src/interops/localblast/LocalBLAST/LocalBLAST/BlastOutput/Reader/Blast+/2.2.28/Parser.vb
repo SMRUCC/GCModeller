@@ -287,7 +287,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Sub
 
         Private Function __blockWorker(queryBlocks As String, transform As Action(Of Query()), parser As QueryParser) As Boolean
-            Dim queries As String() = __queryParser(queryBlocks.Replace(NIL, " "c))
+            Dim queries As String() = __queryParser(queryBlocks.Replace(ASCII.NUL, " "c))
             Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
             Dim LQuery = (From x As String In queries.AsParallel Select parser(x)).ToArray
 
@@ -298,9 +298,12 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         <Extension>
         Private Function __blockWorker(queryBlocks As String, transform As Action(Of Query), parser As QueryParser) As Boolean
-            Dim queries As String() = __queryParser(queryBlocks.Replace(NIL, " "c))
+            Dim queries As String() = __queryParser(queryBlocks.Replace(ASCII.NUL, " "c))
             Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
-            Dim LQuery = (From x As String In queries.AsParallel Select parser(x)).ToArray
+            Dim LQuery As Query() = queries _
+                .AsParallel _
+                .Select(Function(s) parser(s)) _
+                .ToArray
 
             For Each query As Query In LQuery
                 Call transform(query)
@@ -346,7 +349,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             ' large Text file.
             Dim Sections As LinkedList(Of String) = (From strLine As String
                                                      In readsBuffer.AsParallel
-                                                     Let strData As String = strLine.Replace(oldChar:=NIL, newChar:=" "c)
+                                                     Let strData As String = strLine.Replace(oldChar:=ASCII.NUL, newChar:=" "c)
                                                      Select __queryParser(strData)).MatrixToUltraLargeVector
 
             Call ($"[Parsing Job Done!]  ==> {Sections.Count} Queries..." & vbCrLf & vbTab & vbTab &

@@ -251,7 +251,7 @@ Namespace DocumentFormat.XmlOutput.MAST
 
         Public ReadOnly Property SequenceData As String
             Get
-                Return SegmentData.TrimVBCrLf.Trim
+                Return SegmentData.TrimNewLine("").Trim
             End Get
         End Property
 

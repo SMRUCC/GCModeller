@@ -12,7 +12,7 @@
         ''' <returns></returns>
         Public ReadOnly Property IsBlankLineSyntax As Boolean
             Get
-                Return String.IsNullOrEmpty(MyBase._PrimaryExpression.TrimA)
+                Return String.IsNullOrEmpty(MyBase._PrimaryExpression.TrimNewLine)
             End Get
         End Property
 

@@ -82,7 +82,10 @@ Namespace Regprecise
 
         <Extension>
         Private Function __getEntry(value As String) As KeyValuePair
-            Dim key As String = value.GetValue.TrimVBCrLf.Trim
+            Dim key As String = value _
+                .GetValue _
+                .TrimNewLine("") _
+                .Trim
             value = RegPrecise & value.href
             Return New KeyValuePair(key, value)
         End Function

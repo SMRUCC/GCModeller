@@ -164,7 +164,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Private Shared Function GetQueryName(text As String) As String
             Dim QueryName As String = Mid(Regex.Match(text, "Query= .+?Length", RegexOptions.Singleline).Value, 8).Trim
             If Len(QueryName) > 8 Then
-                QueryName = Mid(QueryName, 1, Len(QueryName) - 8).TrimA
+                QueryName = Mid(QueryName, 1, Len(QueryName) - 8).TrimNewLine
             Else
                 Call $"This query name value is not valid!{vbCrLf}""{QueryName}""".__DEBUG_ECHO
                 QueryName = Regex.Replace(QueryName, "Length$", "", RegexOptions.IgnoreCase)

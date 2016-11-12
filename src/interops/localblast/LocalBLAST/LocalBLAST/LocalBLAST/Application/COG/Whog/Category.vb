@@ -86,7 +86,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
                 Dim sss = Strings.Split(line, ":")
                 If sss.Count = 2 Then
                     list += New KeyValuePair With {
-                        .Key = sss(0).TrimA,
+                        .Key = sss(0).TrimNewLine,
                         .Value = sss(1).Trim
                     }
                 Else

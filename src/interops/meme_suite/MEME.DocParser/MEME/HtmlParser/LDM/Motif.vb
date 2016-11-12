@@ -98,7 +98,7 @@ Namespace DocumentFormat.MEME.HTML
             p = InStr(strData, FLAG_REGULAR_EXPRESSION) + Len(FLAG_REGULAR_EXPRESSION)
             p = InStr(p, strData, "<p class=""pad"">") + 14
             strTemp = Mid(strData, p, InStr(p, strData, "</p>") - p + 1)
-            Motif.RegularExpression = strTemp.GetValue.TrimA
+            Motif.RegularExpression = strTemp.GetValue.TrimNewLine
 
             strTemp = Mid(strData, InStr(strData, "<h4>Block Diagrams ") + 50)
             strTemp = Mid(strTemp, InStr(strTemp, "<tbody>") + 7)
