@@ -73,6 +73,7 @@ Public Module GCPlot
             }
 
         Dim tick As New Font(FontFace.SegoeUI, 12)
+        Dim label As New Font(FontFace.MicrosoftYaHei, 8)
         Dim v%() = ntArray _
             .Select(Function(s) s.x) _
             .IteratesALL _
@@ -88,7 +89,10 @@ Public Module GCPlot
             .ColorSequence(colors)
 
         If size.IsEmpty Then
-            size = New Size(30000, 10000)
+            size = New Size(30000, 15000)
+        End If
+        If margin.IsEmpty Then
+            margin = New Size(350, 100)
         End If
 
         Call $"max:={v.Max}, min:={v.Min}".__DEBUG_ECHO
@@ -125,7 +129,7 @@ Public Module GCPlot
                         x += deltaX
                     Next
 
-                    Call g.DrawString(line.Name, tick, Brushes.Black, New PointF(1, y))
+                    Call g.DrawString(line.Name, label, Brushes.Black, New PointF(1, y))
 
                     plotTick = False
                     y += deltaY
