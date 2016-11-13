@@ -52,7 +52,9 @@ Public Module GCPlot
             Return mal.PlotGC(AddressOf NucleicAcidStaticsProperty.GCSkew, winSize, steps, isCircle)
         ElseIf plot.TextEquals("variation") Then
             Dim refIndex = mal.Index(ref)
-            Dim v As New Variation(mal(refIndex))
+            Dim v As New Variation(mal(refIndex)) With {
+                .Strict = False
+            }
             Call mal.RemoveAt(refIndex)
             Return mal.PlotGC(AddressOf v.NtVariation, winSize, steps, isCircle)
         Else

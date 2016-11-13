@@ -34,6 +34,7 @@ Namespace SequenceModel.Patterns
 
         Public ReadOnly Property Nt As String
         Public ReadOnly Property ref As Char()
+        Public Property Strict As Boolean = True
 
         Sub New(ref As FastaToken)
             _Nt = ref.Title
@@ -42,7 +43,7 @@ Namespace SequenceModel.Patterns
 
         Public Function NtVariation(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Dim nt As Char() = SequenceModel.SequenceData.ToUpper.Replace("N", "-")
-            Dim array As Variations() = nt.SeqIterator.ToArray(Function(base) Variation(ref(base), +base))
+            Dim array As Variations() = nt.SeqIterator.ToArray(Function(base) Variation(ref(base), +base, Strict))
             Dim blocks = array.SlideWindows(SlideWindowSize, offset:=Steps)
             Dim out As New List(Of Double)
 
@@ -51,7 +52,7 @@ Namespace SequenceModel.Patterns
                             In x.Elements
                             Select v
                             Group v By v Into Count
-                            Order By Count Descending).First.v
+                            Order By Count Descending).Last.v
                 out += CInt(type)
             Next
 
@@ -66,7 +67,7 @@ Namespace SequenceModel.Patterns
             End Try
         End Function
 
-        Public Shared Function Build(source As FastaFile, ref%) As SeqValue(Of Dictionary(Of String, Variations))()
+        Public Shared Function Build(source As FastaFile, ref%, Optional strict As Boolean = False) As SeqValue(Of Dictionary(Of String, Variations))()
             If ref < 0 Then
                 Throw New EvaluateException($"Reference index value:={ref} is not a valid index!")
             End If
@@ -105,67 +106,93 @@ Namespace SequenceModel.Patterns
                 Dim refC As Char = refSeq(i)
 
                 For Each seq As NamedValue(Of Char()) In array
-                    out(i).obj.Add(seq.Name, Variation(refC, seq.x(i)))
+                    out(i).obj.Add(seq.Name, Variation(refC, seq.x(i), strict))
                 Next
             Next
 
             Return out
         End Function
 
-        Public Shared Function Variation(ref As Char, v As Char) As Variations
+        Public Shared Function Variation(ref As Char, v As Char, strict As Boolean) As Variations
+re0:
             Select Case ref
-                Case "-"
+                Case "-"c
                     Select Case v
-                        Case "-" : Return Variations.NULL
-                        Case "A" : Return Variations.NA
-                        Case "T" : Return Variations.NT
-                        Case "G" : Return Variations.NG
-                        Case "C" : Return Variations.NC
+                        Case "-"c : Return Variations.NULL
+                        Case "A"c : Return Variations.NA
+                        Case "T"c : Return Variations.NT
+                        Case "G"c : Return Variations.NG
+                        Case "C"c : Return Variations.NC
                         Case Else
-                            Throw New Exception("nt is not valid: " & ref)
+                            If strict Then
+                                Throw New Exception("nt is not valid: " & v)
+                            Else
+                                Return Variations.NULL
+                            End If
                     End Select
-                Case "A"
+                Case "A"c
                     Select Case v
-                        Case "-" : Return Variations.NA
-                        Case "A" : Return Variations.NULL
-                        Case "T" : Return Variations.AT
-                        Case "G" : Return Variations.AG
-                        Case "C" : Return Variations.AC
+                        Case "-"c : Return Variations.NA
+                        Case "A"c : Return Variations.NULL
+                        Case "T"c : Return Variations.AT
+                        Case "G"c : Return Variations.AG
+                        Case "C"c : Return Variations.AC
                         Case Else
-                            Throw New Exception("nt is not valid: " & ref)
+                            If strict Then
+                                Throw New Exception("nt is not valid: " & v)
+                            Else
+                                Return Variations.NA
+                            End If
                     End Select
-                Case "T"
+                Case "T"c
                     Select Case v
-                        Case "-" : Return Variations.NT
-                        Case "A" : Return Variations.TA
-                        Case "T" : Return Variations.NULL
-                        Case "G" : Return Variations.TG
-                        Case "C" : Return Variations.TC
+                        Case "-"c : Return Variations.NT
+                        Case "A"c : Return Variations.TA
+                        Case "T"c : Return Variations.NULL
+                        Case "G"c : Return Variations.TG
+                        Case "C"c : Return Variations.TC
                         Case Else
-                            Throw New Exception("nt is not valid: " & ref)
+                            If strict Then
+                                Throw New Exception("nt is not valid: " & v)
+                            Else
+                                Return Variations.NT
+                            End If
                     End Select
-                Case "G"
+                Case "G"c
                     Select Case v
-                        Case "-" : Return Variations.NG
-                        Case "A" : Return Variations.GA
-                        Case "T" : Return Variations.GT
-                        Case "G" : Return Variations.NULL
-                        Case "C" : Return Variations.GC
+                        Case "-"c : Return Variations.NG
+                        Case "A"c : Return Variations.GA
+                        Case "T"c : Return Variations.GT
+                        Case "G"c : Return Variations.NULL
+                        Case "C"c : Return Variations.GC
                         Case Else
-                            Throw New Exception("nt is not valid: " & ref)
+                            If strict Then
+                                Throw New Exception("nt is not valid: " & v)
+                            Else
+                                Return Variations.NG
+                            End If
                     End Select
-                Case "C"
+                Case "C"c
                     Select Case v
-                        Case "-" : Return Variations.NC
-                        Case "A" : Return Variations.CA
-                        Case "T" : Return Variations.CT
-                        Case "G" : Return Variations.CG
-                        Case "C" : Return Variations.NULL
+                        Case "-"c : Return Variations.NC
+                        Case "A"c : Return Variations.CA
+                        Case "T"c : Return Variations.CT
+                        Case "G"c : Return Variations.CG
+                        Case "C"c : Return Variations.NULL
                         Case Else
-                            Throw New Exception("nt is not valid: " & ref)
+                            If strict Then
+                                Throw New Exception("nt is not valid: " & v)
+                            Else
+                                Return Variations.NC
+                            End If
                     End Select
                 Case Else
-                    Throw New Exception("Reference nt is not valid: " & ref)
+                    If strict Then
+                        Throw New Exception("Reference nt is not valid: " & ref)
+                    Else
+                        ref = "-"c
+                        GoTo re0
+                    End If
             End Select
         End Function
 
