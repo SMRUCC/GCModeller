@@ -257,6 +257,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\repository\DataTools\DataTools.vbproj">
+      <Project>{7E6DF33F-FEB0-447F-B656-A51ACD00E888}</Project>
+      <Name>DataTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\Model_Repository\Model_Repository.vbproj">
       <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
       <Name>Model_Repository</Name>
@@ -344,6 +348,10 @@
     <ProjectReference Include="..\..\data\WebServices\WebServices.vbproj">
       <Project>{56c6b3f0-2991-429b-baeb-86830df4ea94}</Project>
       <Name>WebServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\Xfam\Pfam\Pfam.vbproj">
+      <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
+      <Name>Pfam</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -279,6 +279,14 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\repository\DataMySql\MySqlTools.vbproj">
+      <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
+      <Name>MySqlTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\repository\DataTools\DataTools.vbproj">
+      <Project>{7e6df33f-feb0-447f-b656-a51acd00e888}</Project>
+      <Name>DataTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\nt\nt_repo.vbproj">
       <Project>{ae8d7346-7f3e-4c84-9a59-bba3cac5df41}</Project>
       <Name>nt_repo</Name>
@@ -330,6 +338,14 @@
     <ProjectReference Include="..\..\..\interops\visualize\Circos\Circos\Circos.vbproj">
       <Project>{5bf44c97-b7a0-47d7-9622-2f2c0c4f31a9}</Project>
       <Name>Circos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\BASys\BASys.vbproj">
+      <Project>{6FA98FE3-4504-4D7A-A454-C5E8CF46EB21}</Project>
+      <Name>BASys</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\Xfam\Pfam\Pfam.vbproj">
+      <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
+      <Name>Pfam</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\visualize\visualizeTools\DataVisualizationTools.vbproj">
       <Project>{7A5B87B9-4475-4B34-AB8B-30F0B068C1B7}</Project>

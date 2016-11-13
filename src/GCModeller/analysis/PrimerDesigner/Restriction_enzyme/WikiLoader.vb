@@ -100,7 +100,7 @@ Namespace Restriction_enzyme
 
         <Extension> Private Function __enzymeParser(row As String) As Enzyme
             Dim cols As String() = Regex.Matches(row.Replace("&nbsp;", " "), "<td>.+?</td>", RegexOptions.Singleline Or RegexOptions.IgnoreCase) _
-                .ToArray(Function(s) s.TrimVBCrLf.Trim)
+                .ToArray(Function(s) s.TrimNewLine("").Trim)
             Dim enzyme As New Enzyme
             Dim p As New Pointer(Of String)
 

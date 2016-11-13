@@ -100,7 +100,7 @@ Partial Module CLI
         Dim Log As String = args("-i")
         Dim Saved As String = args("-o")
 
-        Dim BlastLog As BLASTOutput.Standard.BLASTOutput = BLASTOutput.Standard.BLASTOutput.TryParse(Log)
+        Dim BlastLog As BLASTOutput.Legacy.BLASTOutput = BLASTOutput.Legacy.BLASTOutput.TryParse(Log)
         Call BlastLog.Save(Saved)
         Return 0
     End Function
@@ -151,7 +151,7 @@ Partial Module CLI
             Return -1
         End If
 
-        Using File As BLASTOutput.Standard.BLASTOutput = BLASTOutput.Standard.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
+        Using File As BLASTOutput.Legacy.BLASTOutput = BLASTOutput.Legacy.BLASTOutput.Load(XmlFile) 'Depose 操作的时候会自动保存
             Call File.Grep(AddressOf GrepScriptQuery.Grep, AddressOf GrepScriptHit.Grep)
         End Using
 

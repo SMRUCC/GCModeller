@@ -239,7 +239,7 @@ Namespace DocumentFormat.XmlOutput.MAST
         ''' <returns></returns>
         <XmlAttribute("start")> Public Property start As String
         ''' <summary>
-        ''' 里面是有回车符的，使用前请先使用<see cref="TrimVBCrLf"/>进行修剪
+        ''' 里面是有回车符的，使用前请先使用<see cref="TrimNewLine(String, String)"/>进行修剪
         ''' </summary>
         ''' <returns></returns>
         <XmlElement("data")> Public Property SegmentData As String
