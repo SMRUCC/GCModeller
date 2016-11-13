@@ -101,7 +101,9 @@ Namespace SequenceModel.Patterns
         End Function
 
         ''' <summary>
-        ''' The conservation percentage (%) Is defined as the number of genomes with the same letter on amultiple sequence alignment normalized to range from 0 to 100% for each site along the chromosome of a specific index genome.
+        ''' The conservation percentage (%) Is defined as the number of genomes with the same letter on 
+        ''' amultiple sequence alignment normalized to range from 0 to 100% for each site along the 
+        ''' chromosome of a specific index genome.
         ''' </summary>
         ''' <returns></returns>
         ''' <param name="index">参考序列在所输入的fasta序列之中的位置，默认使用第一条序列作为参考序列</param>
