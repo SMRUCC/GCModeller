@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
@@ -128,12 +129,17 @@ Partial Module Utilities
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Fasta")
         Dim attrs As String = args("/attrs")
-        Dim lstAttrs As String() = If(String.IsNullOrEmpty(attrs), {"gene", "locus_tag", "gi", "location", "product"}, attrs.Split(";"c))
+        Dim lstAttrs As String() = If(
+            String.IsNullOrEmpty(attrs),
+            {
+                "gene", "locus_tag", "gi", "location", "product"
+            },
+            attrs.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
-        Dim Csv = DocumentStream.DataFrame.CreateObject(DocumentStream.DataFrame.Load(inFile))
-        Dim readers = Csv.CreateDataSource
-        Dim attrSchema = (From x In Csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
-        Dim seqOrd As Integer = Csv.GetOrdinal(seq)
+        Dim csv As DataFrame = DocumentStream.DataFrame.CreateObject(DocumentStream.DataFrame.Load(inFile))
+        Dim readers As DynamicObjectLoader() = csv.CreateDataSource
+        Dim attrSchema = (From x In csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
+        Dim seqOrd As Integer = csv.GetOrdinal(seq)
         Dim Fa As IEnumerable(Of FastaToken) =
             From row As DynamicObjectLoader
             In readers.AsParallel

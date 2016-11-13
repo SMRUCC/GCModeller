@@ -55,7 +55,7 @@ Partial Module Utilities
         Dim out As String = If(
             [in].FileExists,
             [in].TrimSuffix,
-            [in].TrimDIR) & $"-range={range}.csv"
+            [in].TrimDIR) & $"-range={args("/range")}.csv"
 
         out = args.GetValue("/out", out)
 
