@@ -114,6 +114,14 @@ Namespace LocalBLAST.Application.RpsBLAST
             Return String.Format("[{0}] {1}", COG, QueryName)
         End Function
 
+        ''' <summary>
+        ''' ```
+        ''' query   -> <see cref="BestHit.QueryName"/>
+        ''' myvaCOG -> <see cref="BestHit.HitName"/>
+        ''' ```
+        ''' </summary>
+        ''' <param name="besthit"></param>
+        ''' <returns></returns>
         Public Shared Function CreateObject(besthit As BestHit) As MyvaCOG
             Return New MyvaCOG With {
                 .QueryName = besthit.QueryName,
