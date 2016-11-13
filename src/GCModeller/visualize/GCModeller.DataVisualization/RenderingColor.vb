@@ -57,11 +57,11 @@ Public Module RenderingColor
     Public Function CategoryMapsTextures(textures As Image(), Optional categories As String() = Nothing) As Dictionary(Of String, Brush)
         If categories.IsNullOrEmpty Then
             categories = LinqAPI.Exec(Of String) <=
-                From category As COG.Category
-                In COG.Function.Default.Categories
-                Select From [class] As KeyValuePair
+                From category As COG.Catalog
+                In COG.Function.Default.Catalogs
+                Select From [class] As KeyValuePair(Of Char, String)
                        In category.SubClasses
-                       Select [class].Key
+                       Select CStr([class].Key)
             categories = categories.Distinct.ToArray
         End If
 
@@ -137,16 +137,16 @@ Public Module RenderingColor
 
         Dim CogCategory As COG.Function =
             COG.Function.Default
-        Dim f As Double = 255 / CogCategory.Categories.Length
+        Dim f As Double = 255 / CogCategory.Catalogs.Length
         Dim R As Double = f
         Dim COGColors As New Dictionary(Of String, Color)
         Dim cl As Color
 
-        For Each cata As COG.Category In CogCategory.Categories
-            Dim f2 As Double = 255 / cata.SubClasses.Length
+        For Each cata As COG.Catalog In CogCategory.Catalogs
+            Dim f2 As Double = 255 / cata.SubClasses.Count
             Dim G As Double = f2
 
-            For Each [class] As KeyValuePair In cata.SubClasses
+            For Each [class] As KeyValuePair(Of Char, String) In cata.SubClasses
                 cl = Color.FromArgb(220, R, G, 255 * RandomDouble())
                 G += f2
 

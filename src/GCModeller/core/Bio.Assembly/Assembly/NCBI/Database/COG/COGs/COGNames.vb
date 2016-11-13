@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::8e9c28e64e764a812cfcfdeb2fb5c603, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace Assembly.NCBI.COG.COGs
@@ -63,17 +64,24 @@ Namespace Assembly.NCBI.COG.COGs
         <Column(Name:="name")> Public Property Name As String
 
         Public Shared Function LoadDocument(path As String) As COGName()
-            Dim ChunkBuffer As String()() = (From s As String
-                                             In IO.File.ReadAllLines(path).Skip(1)
-                                             Select Strings.Split(s, vbTab)).ToArray
-            Dim LQuery = (From Line As String() In ChunkBuffer.AsParallel
-                          Let COG As COGName = New COGName With {
-                              .COG = Line(0),
-                              .Func = Line(1),
-                              .Name = Line(2)
-                              }
-                          Select COG
-                          Order By COG.COG Ascending).ToArray
+            Dim buf As IEnumerable(Of String()) =
+ _
+                From s As String
+                In IO.File.ReadAllLines(path).Skip(1)
+                Select Strings.Split(s, vbTab)
+
+            Dim LQuery = LinqAPI.Exec(Of COGName) <=
+ _
+                From line As String()
+                In buf.AsParallel
+                Let COG As COGName = New COGName With {
+                    .COG = line(0),
+                    .Func = line(1),
+                    .Name = line(2)
+                }
+                Select COG
+                Order By COG.COG Ascending
+
             Return LQuery
         End Function
     End Class
@@ -109,9 +117,12 @@ Namespace Assembly.NCBI.COG.COGs
         End Function
 
         Public Shared Function LoadDoc(path As String) As COGFunc()
-            Dim Tokens = IO.File.ReadAllLines(path).Skip(1).ToArray
-            Dim Codes = Tokens.ToArray(Function(Line) New COGFunc(Line))
-            Return Codes
+            Dim tokens$() = IO.File.ReadAllLines(path) _
+                .Skip(1) _
+                .ToArray
+            Dim codes As COGFunc() = tokens _
+                .ToArray(Function(s) New COGFunc(s))
+            Return codes
         End Function
     End Class
 
@@ -161,8 +172,9 @@ Namespace Assembly.NCBI.COG.COGs
         End Function
 
         Public Shared Function LoadDoc(path As String) As Genomes()
-            Dim Tokens As String() = IO.File.ReadAllLines(path).Skip(1).ToArray
-            Dim genomes = Tokens.ToArray(Function(Line) New Genomes(Line))
+            Dim tokens As String() = IO.File.ReadAllLines(path).Skip(1).ToArray
+            Dim genomes As Genomes() = tokens _
+                .ToArray(Function(line) New Genomes(line))
             Return genomes
         End Function
     End Class
@@ -199,9 +211,12 @@ Namespace Assembly.NCBI.COG.COGs
         End Function
 
         Public Shared Function LoadDoc(path As String) As COGProt()
-            Dim Tokens As String() = IO.File.ReadAllLines(path).Skip(1).ToArray
-            Dim Prots = Tokens.ToArray(Function(Line) New COGProt(Line), Parallel:=True)
-            Return Prots
+            Dim tokens$() = IO.File.ReadAllLines(path) _
+                .Skip(1) _
+                .ToArray
+            Dim prots As COGProt() = tokens _
+                .ToArray(Function(line) New COGProt(line), parallel:=True)
+            Return prots
         End Function
     End Class
 End Namespace
