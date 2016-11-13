@@ -67,6 +67,8 @@ Namespace Topologically
         ''' <returns></returns>
         Public Property MirrorSite As String
 
+        Public Property Data As Dictionary(Of String, String)
+
         Public ReadOnly Property Mirror As Integer
             Get
                 Return Start + Len(Loci)

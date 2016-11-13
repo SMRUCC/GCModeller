@@ -81,6 +81,8 @@ Namespace Topologically
         Public Property Evolr As String
         Public Property MaxMatch As Integer
 
+        Public Property Data As Dictionary(Of String, String)
+
         Public Overrides Function ToString() As String
             Return $"{Site} <==> {Palindrome}, {Matches}"
         End Function

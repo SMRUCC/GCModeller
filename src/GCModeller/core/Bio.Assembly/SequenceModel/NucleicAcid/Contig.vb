@@ -1,40 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::4fc227f00648c4fbdc179b5be71cede7, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Contig.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.NCBI
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
 Imports SMRUCC.genomics.ContextModel
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace SequenceModel.NucleotideModels
 
@@ -82,7 +79,7 @@ Namespace SequenceModel.NucleotideModels
         End Sub
 
         ''' <summary>
-        ''' 这个构造函数已经使用<see cref="ComponentModel.Loci.NucleotideLocation.Copy()"/>函数从数据源<paramref name="mappinglocation"/>进行复制
+        ''' 这个构造函数已经使用<see cref="NucleotideLocation.Copy()"/>函数从数据源<paramref name="mappinglocation"/>进行复制
         ''' </summary>
         ''' <param name="MappingLocation"></param>
         Protected Sub New(MappingLocation As NucleotideLocation)

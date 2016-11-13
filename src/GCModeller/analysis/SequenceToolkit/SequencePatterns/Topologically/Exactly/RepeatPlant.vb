@@ -70,6 +70,8 @@ Namespace Topologically
             End Get
         End Property
 
+        Public Property Data As Dictionary(Of String, String)
+
         ''' <summary>
         ''' 每个重复的片段之间平均的间隔长度
         ''' </summary>

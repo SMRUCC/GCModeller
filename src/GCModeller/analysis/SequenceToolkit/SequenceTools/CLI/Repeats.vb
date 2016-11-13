@@ -1,39 +1,120 @@
 ﻿#Region "Microsoft.VisualBasic::1747a6a4009e8ab4f489c3b379d89664, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Repeats.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Partial Module Utilities
+
+    <ExportAPI("/Screen.sites",
+               Usage:="/Screen.sites /in <DIR/sites.csv> /range <min_bp>,<max_bp> [/type <type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome> /out <out.csv>]")>
+    <Argument("/in", AcceptTypes:={
+        GetType(RepeatsView),
+        GetType(RevRepeatsView),
+        GetType(PalindromeLoci),
+        GetType(ImperfectPalindrome)
+    })>
+    Public Function ScreenRepeats(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim range As String() = args("/range").Split(","c)
+        Dim loci As New IntRange(Val(range(Scan0)), Val(range(1)))
+        Dim type As String = args.GetValue("/type", "RepeatsView")
+        Dim out As String = If(
+            [in].FileExists,
+            [in].TrimSuffix,
+            [in].TrimDIR) & $"-range={range}.csv"
+
+        out = args.GetValue("/out", out)
+
+        If type.TextEquals(NameOf(RepeatsView)) Then
+            Dim result As New List(Of RepeatsView)
+
+            For Each part In loci.RangeSelects([in].RequestFiles(Of RepeatsView))
+                For Each x In part.x
+                    x.Data.Add("seq", part.Name)
+                Next
+
+                result += part.x
+            Next
+
+            Return result.SaveTo(out).CLICode
+
+        ElseIf type.TextEquals(NameOf(RevRepeatsView)) Then
+            Dim result As New List(Of RevRepeatsView)
+
+            For Each part In loci.RangeSelects([in].RequestFiles(Of RevRepeatsView))
+                For Each x In part.x
+                    x.Data.Add("seq", part.Name)
+                Next
+
+                result += part.x
+            Next
+
+            Return result.SaveTo(out).CLICode
+
+        ElseIf type.TextEquals(NameOf(PalindromeLoci)) Then
+            Dim result As New List(Of PalindromeLoci)
+
+            For Each part In loci.RangeSelects([in].RequestFiles(Of PalindromeLoci))
+                For Each x In part.x
+                    x.Data.Add("seq", part.Name)
+                Next
+
+                result += part.x
+            Next
+
+            Return result.SaveTo(out).CLICode
+
+        ElseIf type.TextEquals(NameOf(ImperfectPalindrome)) Then
+            Dim result As New List(Of ImperfectPalindrome)
+
+            For Each part In loci.RangeSelects([in].RequestFiles(Of ImperfectPalindrome))
+                For Each x In part.x
+                    x.Data.Add("seq", part.Name)
+                Next
+
+                result += part.x
+            Next
+
+            Return result.SaveTo(out).CLICode
+
+        Else
+            Throw New Exception("Type is invalid: " & type)
+        End If
+    End Function
 
     <ExportAPI("Search.Batch",
                Info:="Batch search for repeats.",
