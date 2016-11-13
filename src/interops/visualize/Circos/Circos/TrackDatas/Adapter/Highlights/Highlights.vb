@@ -40,7 +40,7 @@ Namespace TrackDatas.Highlights
         End Sub
 
         Protected Sub New()
-            Call MyBase.New(Nothing)
+            Call MyBase.New
         End Sub
 
         Const COG_NULL_EXCEPTION As String = "This error usually caused by the null COG data in the gene annotations. " &
