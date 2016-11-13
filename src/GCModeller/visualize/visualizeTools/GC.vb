@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Public Module GCPlot
 
@@ -44,9 +45,16 @@ Public Module GCPlot
                            Optional margin As Size = Nothing,
                            Optional bg$ = "white",
                            Optional colors$ = "Jet",
-                           Optional levels% = 100) As Bitmap
+                           Optional levels% = 100,
+                           Optional ref$ = "0") As Bitmap
+
         If plot.TextEquals("gcskew") Then
             Return mal.PlotGC(AddressOf NucleicAcidStaticsProperty.GCSkew, winSize, steps, isCircle)
+        ElseIf plot.TextEquals("variation") Then
+            Dim refIndex = mal.Index(ref)
+            Dim v As New Variation(mal(refIndex))
+            Call mal.RemoveAt(refIndex)
+            Return mal.PlotGC(AddressOf v.NtVariation, winSize, steps, isCircle)
         Else
             Return mal.PlotGC(AddressOf GCContent, winSize, steps, isCircle)
         End If

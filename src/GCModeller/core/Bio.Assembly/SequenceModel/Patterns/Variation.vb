@@ -1,5 +1,6 @@
 ﻿
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -31,9 +32,33 @@ Namespace SequenceModel.Patterns
             TC
         End Enum
 
-        Public Property Nt As SeqValue(Of Dictionary(Of String, Variations))()
+        Public ReadOnly Property Nt As String
+        Public ReadOnly Property ref As Char()
 
-        Public Shared Function Build(source As FastaFile, ref$) As Variation
+        Sub New(ref As FastaToken)
+            _Nt = ref.Title
+            _ref = ref.SequenceData.ToUpper.Replace("N", "-")
+        End Sub
+
+        Public Function NtVariation(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
+            Dim nt As Char() = SequenceModel.SequenceData.ToUpper.Replace("N", "-")
+            Dim array As Variations() = nt.SeqIterator.ToArray(Function(base) Variation(ref(base), +base))
+            Dim blocks = array.SlideWindows(SlideWindowSize, offset:=Steps)
+            Dim out As New List(Of Double)
+
+            For Each x In blocks
+                Dim type = (From v As Variations
+                            In x.Elements
+                            Select v
+                            Group v By v Into Count
+                            Order By Count Descending).First.v
+                out += CInt(type)
+            Next
+
+            Return out
+        End Function
+
+        Public Shared Function Build(source As FastaFile, ref$) As SeqValue(Of Dictionary(Of String, Variations))()
             Try
                 Return Build(source, source.Index(ref$))
             Catch ex As Exception
@@ -41,7 +66,7 @@ Namespace SequenceModel.Patterns
             End Try
         End Function
 
-        Public Shared Function Build(source As FastaFile, ref%) As Variation
+        Public Shared Function Build(source As FastaFile, ref%) As SeqValue(Of Dictionary(Of String, Variations))()
             If ref < 0 Then
                 Throw New EvaluateException($"Reference index value:={ref} is not a valid index!")
             End If
@@ -84,9 +109,7 @@ Namespace SequenceModel.Patterns
                 Next
             Next
 
-            Return New Variation With {
-                .Nt = out
-            }
+            Return out
         End Function
 
         Public Shared Function Variation(ref As Char, v As Char) As Variations
@@ -146,7 +169,7 @@ Namespace SequenceModel.Patterns
             End Select
         End Function
 
-        Public Shared Function Build(source As IEnumerable(Of FastaToken), ref$) As Variation
+        Public Shared Function Build(source As IEnumerable(Of FastaToken), ref$) As SeqValue(Of Dictionary(Of String, Variations))()
             Return Build(New FastaFile(source), ref$)
         End Function
     End Class
