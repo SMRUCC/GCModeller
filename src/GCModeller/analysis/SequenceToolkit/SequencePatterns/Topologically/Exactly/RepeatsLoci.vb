@@ -149,7 +149,7 @@ Namespace Topologically
                     .RepeatLoci = Me.SequenceData})
         End Function
 
-        Public Shared Function CreateDocument(data As Generic.IEnumerable(Of Repeats)) As Topologically.RepeatsLoci()
+        Public Shared Function CreateDocument(data As IEnumerable(Of Repeats)) As Topologically.RepeatsLoci()
             Dim LQuery = (From line As Repeats
                           In data.AsParallel
                           Select line.GenerateDocumentSegment).ToArray.Unlist
