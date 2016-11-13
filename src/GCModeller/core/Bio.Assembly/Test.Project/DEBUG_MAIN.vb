@@ -1,44 +1,46 @@
 ﻿#Region "Microsoft.VisualBasic::1994262c8357866cae2d47532f4dbb05, ..\GCModeller\core\Bio.Assembly\Test.Project\DEBUG_MAIN.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics
-Imports SMRUCC.genomics.Assembly
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Module DEBUG_MAIN
 
@@ -59,15 +61,22 @@ Module DEBUG_MAIN
 
     Sub Main()
 
-        Dim tax As New NCBI.NcbiTaxonomyTree("G:\temp\NCBI_taxonomy_tree-master\nodes.dmp", "G:\temp\NCBI_taxonomy_tree-master\names.dmp")
+        Dim a As New SimpleSegment With {.Start = 1, .Ends = 10, .SequenceData = "1234567890", .Strand = "+"}
+        Dim b As New SimpleSegment With {.Start = 5, .Ends = 8, .SequenceData = "5678", .Strand = "+"}
+        Dim c As New SimpleSegment With {.Start = 6, .Ends = 13, .SequenceData = "67890abc", .Strand = "+"}
+        Dim d As New SimpleSegment With {.Start = 11, .Ends = 15, .SequenceData = "abcde", .Strand = "+"}
+
+        Dim assembl = {a, b, c, d}.SegmentAssembler
+
+        Dim tax As New NcbiTaxonomyTree("G:\temp\NCBI_taxonomy_tree-master\nodes.dmp", "G:\temp\NCBI_taxonomy_tree-master\names.dmp")
 
         Call tax.GetParent({28384, 131567}).GetJson.__DEBUG_ECHO
         Call tax.GetRank({28384, 131567}).GetJson.__DEBUG_ECHO
         Call tax.GetChildren({28384, 131567}).GetJson.__DEBUG_ECHO
         Call tax.GetName({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetAscendantsWithRanksAndNames({1, 562}).getjson.__DEBUG_ECHO
+        Call tax.GetAscendantsWithRanksAndNames({1, 562}).GetJson.__DEBUG_ECHO
         Call tax.GetAscendantsWithRanksAndNames({562}, True).GetJson.__DEBUG_ECHO
-        Call tax.GetDescendants(208962, 566).getjson.__DEBUG_ECHO
+        Call tax.GetDescendants(208962, 566).GetJson.__DEBUG_ECHO
         Call tax.GetDescendantsWithRanksAndNames(566).GetJson.__DEBUG_ECHO
         ' Call tax.GetLeaves(1).Length.__DEBUG_ECHO
         Call tax.GetLeaves(561).Length.__DEBUG_ECHO

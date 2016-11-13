@@ -55,13 +55,28 @@ Partial Module Utilities
 
     <ExportAPI("/Sites2Fasta",
                Info:="Converts the simple segment object collection as fasta file.",
-               Usage:="/Sites2Fasta /in <segments.csv> [/out <out.fasta>]")>
+               Usage:="/Sites2Fasta /in <segments.csv> [/assemble /out <out.fasta>]")>
     <Argument("/in", AcceptTypes:={GetType(SimpleSegment)})>
     <Argument("/out", AcceptTypes:={GetType(FastaFile)})>
     Public Function Sites2Fasta(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
+        Dim assemble As Boolean = args.GetBoolean("/assemble")
+        Dim out As String = args.GetValue(
+            "/out",
+            [in].TrimSuffix & $"{If(assemble, "-assemble", "")}.fasta")
         Dim locis As SimpleSegment() = [in].LoadCsv(Of SimpleSegment)
+
+        If assemble Then
+            ' 假若存在seq元數據的畫，則按照seq分組組裝
+            Dim result As New List(Of SimpleSegment)
+
+            For Each g In locis.GroupBy(Function(s) s.ID.Split("-"c).First)
+                result += g.SegmentAssembler
+            Next
+
+            locis = result
+        End If
+
         Dim fasta As New FastaFile(locis.Select(Function(l) l.SimpleFasta))
         Return fasta.Save(out, Encodings.ASCII).CLICode
     End Function
