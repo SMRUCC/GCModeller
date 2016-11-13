@@ -30,7 +30,6 @@ Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -38,7 +37,6 @@ Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -54,6 +52,19 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
+
+    <ExportAPI("/Sites2Fasta",
+               Info:="Converts the simple segment object collection as fasta file.",
+               Usage:="/Sites2Fasta /in <segments.csv> [/out <out.fasta>]")>
+    <Argument("/in", AcceptTypes:={GetType(SimpleSegment)})>
+    <Argument("/out", AcceptTypes:={GetType(FastaFile)})>
+    Public Function Sites2Fasta(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
+        Dim locis As SimpleSegment() = [in].LoadCsv(Of SimpleSegment)
+        Dim fasta As New FastaFile(locis.Select(Function(l) l.SimpleFasta))
+        Return fasta.Save(out, Encodings.ASCII).CLICode
+    End Function
 
     <ExportAPI("/Compare.By.Locis", Usage:="/Compare.By.Locis /file1 <file1.fasta> /file2 </file2.fasta>")>
     <Group(CLIGrouping.FastaTools)>

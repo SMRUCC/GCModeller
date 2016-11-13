@@ -92,11 +92,24 @@ Public Module LociExtensions
 
     <Extension>
     Public Function ToLoci(x As Topologically.ImperfectPalindrome) As SimpleSegment
+        Dim id As String = ""
+
+        If Not x.Data Is Nothing Then
+            If x.Data.ContainsKey("seq") Then
+                id = x.Data("seq") & "-"
+            End If
+        Else
+
+        End If
+
+        id = id & $"{x.Left},{x.Paloci}"
+
         Return New SimpleSegment With {
             .Start = x.MappingLocation.Left,
             .Ends = x.MappingLocation.Right,
             .Strand = x.MappingLocation.Strand.GetBriefCode,
-            .SequenceData = x.Palindrome
+            .SequenceData = x.Palindrome,
+            .ID = id
         }
     End Function
 
