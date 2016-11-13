@@ -39,8 +39,8 @@ Namespace TrackDatas.Highlights
 
     Public Class HighlightLabel : Inherits data(Of TextTrackData)
 
-        Sub New(annoData As IEnumerable(Of IGeneBrief))
-            Call MyBase.New(__textSource(annoData))
+        Sub New(annoData As IEnumerable(Of IGeneBrief), Optional chr$ = "chr1")
+            Call MyBase.New(__textSource(annoData, chr))
         End Sub
 
         Sub New(metas As IEnumerable(Of TextTrackData))
@@ -51,7 +51,7 @@ Namespace TrackDatas.Highlights
             Call MyBase.New(Nothing)
         End Sub
 
-        Private Shared Iterator Function __textSource(annoData As IEnumerable(Of IGeneBrief)) As IEnumerable(Of TextTrackData)
+        Private Shared Iterator Function __textSource(annoData As IEnumerable(Of IGeneBrief), chr$) As IEnumerable(Of TextTrackData)
             For Each text As TextTrackData In From gene As IGeneBrief
                                               In annoData
                                               Where Not (String.IsNullOrEmpty(gene.Identifier) OrElse
@@ -59,6 +59,7 @@ Namespace TrackDatas.Highlights
                                                   String.Equals("/", gene.Identifier) OrElse
                                                   String.Equals("\", gene.Identifier))
                                               Select New TextTrackData With {
+                                                  .chr = chr,
                                                   .start = CInt(gene.Location.Left),
                                                   .end = CInt(gene.Location.Right),
                                                   .text = Regex.Replace(gene.Identifier, "\s+", "_")

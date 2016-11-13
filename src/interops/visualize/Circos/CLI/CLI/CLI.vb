@@ -67,7 +67,7 @@ Public Module CLI
             Dim vec = refFa.NTVariations(source, cut)
             Return vec.FlushAllLines(out, Encodings.ASCII).CLICode
         Else
-            Dim idx As Integer = Scripting.CastInteger(ref)
+            Dim idx As Integer = source.Index(ref)
             Dim out As String = args.GetValue("/out", mla.TrimSuffix & "." & idx & ".NTVariations.txt")
             Dim vec = NTVariations(source, idx, cut)
             Return vec.FlushAllLines(out, Encodings.ASCII).CLICode

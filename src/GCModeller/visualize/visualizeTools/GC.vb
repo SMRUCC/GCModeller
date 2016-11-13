@@ -3,11 +3,12 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Public Module GCPlot
 
@@ -44,9 +45,18 @@ Public Module GCPlot
                            Optional margin As Size = Nothing,
                            Optional bg$ = "white",
                            Optional colors$ = "Jet",
-                           Optional levels% = 100) As Bitmap
+                           Optional levels% = 100,
+                           Optional ref$ = "0") As Bitmap
+
         If plot.TextEquals("gcskew") Then
             Return mal.PlotGC(AddressOf NucleicAcidStaticsProperty.GCSkew, winSize, steps, isCircle)
+        ElseIf plot.TextEquals("variation") Then
+            Dim refIndex = mal.Index(ref)
+            Dim v As New Variation(mal(refIndex)) With {
+                .Strict = False
+            }
+            Call mal.RemoveAt(refIndex)
+            Return mal.PlotGC(AddressOf v.NtVariation, winSize, steps, isCircle)
         Else
             Return mal.PlotGC(AddressOf GCContent, winSize, steps, isCircle)
         End If
@@ -73,6 +83,7 @@ Public Module GCPlot
             }
 
         Dim tick As New Font(FontFace.SegoeUI, 12)
+        Dim label As New Font(FontFace.MicrosoftYaHei, 8)
         Dim v%() = ntArray _
             .Select(Function(s) s.x) _
             .IteratesALL _
@@ -88,7 +99,10 @@ Public Module GCPlot
             .ColorSequence(colors)
 
         If size.IsEmpty Then
-            size = New Size(30000, 10000)
+            size = New Size(30000, 15000)
+        End If
+        If margin.IsEmpty Then
+            margin = New Size(350, 100)
         End If
 
         Call $"max:={v.Max}, min:={v.Min}".__DEBUG_ECHO
@@ -125,7 +139,7 @@ Public Module GCPlot
                         x += deltaX
                     Next
 
-                    Call g.DrawString(line.Name, tick, Brushes.Black, New PointF(1, y))
+                    Call g.DrawString(line.Name, label, Brushes.Black, New PointF(1, y))
 
                     plotTick = False
                     y += deltaY

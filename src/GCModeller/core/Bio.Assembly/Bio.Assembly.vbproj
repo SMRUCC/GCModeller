@@ -207,12 +207,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|AnyCPU'">
     <OutputPath>bin\Release2\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x64'">
     <OutputPath>bin\x64\Release2\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x86'">
     <OutputPath>bin\x86\Release2\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -429,6 +432,7 @@
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
     <Compile Include="SequenceModel\NucleicAcid\mRNA.vb" />
+    <Compile Include="SequenceModel\Patterns\Variation.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\SRChain.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\Residue.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\Clustal.vb" />

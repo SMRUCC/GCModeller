@@ -66,6 +66,7 @@ Namespace TrackDatas
         End Sub
 
         Protected Sub New()
+            __source = New List(Of T)
         End Sub
 
         ''' <summary>
