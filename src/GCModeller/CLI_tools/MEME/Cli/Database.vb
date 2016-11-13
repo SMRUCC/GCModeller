@@ -1,39 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::5a2fe9128726f76dd5bfdc80c8571f54, ..\GCModeller\CLI_tools\MEME\Cli\Database.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Annotations.RegpreciseRegulations
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
@@ -73,5 +75,28 @@ Partial Module CLI
         Dim evalue As Double = args.GetValue("/evalue", 0.001)
         Call RegpreciseShellScriptAPI.BuildPWM(inDIR, out, evalue)
         Return 0
+    End Function
+
+    <ExportAPI("/Trim.MEME.Dataset",
+               Info:="Trim meme input data set for duplicated sequence and short seqeucne which its min length is smaller than the required min length.",
+               Usage:="/Trim.MEME.Dataset /in <seq.fasta> [/out <out.fasta> /minl 8 /distinct]")>
+    Public Function TrimInputs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim minl = args.GetValue("/minl", 8)
+        Dim distinct? As Boolean = args.GetBoolean("/distinct")
+        Dim out As String = [in].TrimSuffix & $"-minl={minl}{If(distinct, "-distinct", "")}.fasta"
+        out = args.GetValue("/out", out)
+
+        Dim fasta As New FastaFile([in])
+        fasta = New FastaFile(fasta.Where(Function(fa) fa.Length >= minl))
+
+        If distinct Then
+            fasta = New FastaFile(
+                fasta _
+                .GroupBy(Function(x) x.Title.Split.First) _
+                .Select(Function(g) g.First))
+        End If
+
+        Return fasta.Save(out, Encodings.ASCII)
     End Function
 End Module
