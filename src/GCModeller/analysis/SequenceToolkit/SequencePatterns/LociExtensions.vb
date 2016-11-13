@@ -150,7 +150,14 @@ Public Module LociExtensions
     ''' <returns></returns>
     <Extension>
     Public Function ConvertsAuto(df As DocumentStream.File) As SimpleSegment()
-        Dim types As Type() = {GetType(ImperfectPalindrome), GetType(RevRepeats), GetType(Repeats), GetType(PalindromeLoci)}
+        Dim types As Type() = {
+            GetType(ImperfectPalindrome),
+            GetType(RevRepeatsView),
+            GetType(RevRepeats),
+            GetType(RepeatsView),
+            GetType(Repeats),
+            GetType(PalindromeLoci)
+        }
         Dim type As Type = df.GetType(types)
         Dim handler As Func(Of DocumentStream.File, SimpleSegment()) = __types(type)
         Dim result As SimpleSegment() = handler(df)
@@ -170,6 +177,24 @@ Public Module LociExtensions
         Return df.AsDataSource(Of Repeats).ToLocis
     End Function
 
+    Private Function __revpcsv(df As DocumentStream.File) As SimpleSegment()
+        Return df.AsDataSource(Of RevRepeatsView).ToLocis
+    End Function
+
+    Private Function __rpscsv(df As DocumentStream.File) As SimpleSegment()
+        Return df.AsDataSource(Of RepeatsView).ToLocis
+    End Function
+
+    <Extension>
+    Public Function ToLocis(locis As IEnumerable(Of RepeatsView)) As SimpleSegment()
+        Return locis.Select(Function(l) l.ToLoci).ToArray
+    End Function
+
+    <Extension>
+    Public Function ToLocis(locis As IEnumerable(Of RevRepeatsView)) As SimpleSegment()
+        Return locis.Select(Function(l) l.ToLoci).ToArray
+    End Function
+
     Private Function __pl(df As DocumentStream.File) As SimpleSegment()
         Return df.AsDataSource(Of PalindromeLoci).ToLocis
     End Function
@@ -183,6 +208,8 @@ Public Module LociExtensions
         Call hash.Add(GetType(RevRepeats), AddressOf __revp)
         Call hash.Add(GetType(Repeats), AddressOf __rps)
         Call hash.Add(GetType(PalindromeLoci), AddressOf __pl)
+        Call hash.Add(GetType(RepeatsView), AddressOf __rpscsv)
+        Call hash.Add(GetType(RevRepeatsView), AddressOf __revpcsv)
 
         __types = hash
     End Sub
