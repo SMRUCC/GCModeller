@@ -101,6 +101,7 @@ Public Module LociFilter
                            Optional compare As Compares = Compares.Interval,
                            Optional returnsAll As Boolean = False,
                            Optional lenMin As Integer = 4) As IEnumerable(Of T)
+
         Return data.__filtering(
             Function(x) x.Locis,
             Sub(x, l) x.Locis = l,
