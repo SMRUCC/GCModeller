@@ -430,6 +430,6 @@ Public Module NCBILocalBlast
     <ExportAPI("Create.Myva_COG", Info:="blast_output parameter is the original blast output file path.")>
     Public Function MyvaCogClassify(blast_output As String, query_grep As String, Whog_Xml As String) As MyvaCOG()
         Dim textEngine = TextGrepScriptEngine.Compile(query_grep).Method
-        Return ClassifyCOGs.Get_MyvaCOG_Classify(blast_output, textEngine, Whog_Xml)
+        Return COGsUtils.MyvaCOGCatalog(blast_output, Whog_Xml,,, textEngine)
     End Function
 End Module

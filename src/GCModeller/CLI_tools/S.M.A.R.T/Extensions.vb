@@ -95,7 +95,7 @@ Module Extensions
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function GetAllHits(BlastLog As LocalBLAST.BLASTOutput.Standard.BLASTOutput) As String()
+    <Extension> Public Function GetAllHits(BlastLog As LocalBLAST.BLASTOutput.Legacy.BLASTOutput) As String()
         Dim List As List(Of String) = New List(Of String)
         Dim LQuery = From Query In BlastLog.Queries Where Not Query.Hits Is Nothing Select List.Append((From Hit In Query.Hits Select Hit.Name).ToArray) ' 
         LQuery = LQuery.ToArray

@@ -162,7 +162,7 @@ Huber, W.",
 
             Dim ResultView As New List(Of DESeqCOGs)
 
-            For Each cat As NCBI.COG.Category In NCBI.COG.Function.Default.Categories
+            For Each cat As NCBI.COG.Catalog In NCBI.COG.Function.Default.Catalogs
                 For Each COG In cat.SubClasses
                     Dim View As New DESeqCOGs With {
                         .Category = cat.Class,

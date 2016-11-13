@@ -29,10 +29,10 @@
 Imports System.ComponentModel
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.ComponentModel
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.NCBI.COG
 
@@ -40,53 +40,54 @@ Namespace Assembly.NCBI.COG
     '''
     ''' </summary>
     ''' <remarks>
-    ''' INFORMATION STORAGE AND PROCESSING
-    ''' [J] Translation, ribosomal structure and biogenesis
-    ''' [A] RNA processing and modification
-    ''' [K] Transcription
-    ''' [L] Replication, recombination and repair
-    ''' [B] Chromatin structure and dynamics
+    ''' ###### INFORMATION STORAGE AND PROCESSING
+    ''' + [J] Translation, ribosomal structure and biogenesis
+    ''' + [A] RNA processing and modification
+    ''' + [K] Transcription
+    ''' + [L] Replication, recombination and repair
+    ''' + [B] Chromatin structure and dynamics
     '''
-    ''' CELLULAR PROCESSES AND SIGNALING
-    ''' [D] Cell cycle control, cell division, chromosome partitioning
-    ''' [Y] Nuclear structure
-    ''' [V] Defense mechanisms
-    ''' [T] Signal transduction mechanisms
-    ''' [M] Cell wall/membrane/envelope biogenesis
-    ''' [N] Cell motility
-    ''' [Z] Cytoskeleton
-    ''' [W] Extracellular structures
-    ''' [U] Intracellular trafficking, secretion, and vesicular transport
-    ''' [O] Posttranslational modification, protein turnover, chaperones
+    ''' ###### CELLULAR PROCESSES AND SIGNALING
+    ''' + [D] Cell cycle control, cell division, chromosome partitioning
+    ''' + [Y] Nuclear structure
+    ''' + [V] Defense mechanisms
+    ''' + [T] Signal transduction mechanisms
+    ''' + [M] Cell wall/membrane/envelope biogenesis
+    ''' + [N] Cell motility
+    ''' + [Z] Cytoskeleton
+    ''' + [W] Extracellular structures
+    ''' + [U] Intracellular trafficking, secretion, and vesicular transport
+    ''' + [O] Posttranslational modification, protein turnover, chaperones
     '''
-    ''' METABOLISM
-    ''' [C] Energy production and conversion
-    ''' [G] Carbohydrate transport and metabolism
-    ''' [E] Amino acid transport and metabolism
-    ''' [F] Nucleotide transport and metabolism
-    ''' [H] Coenzyme transport and metabolism
-    ''' [I] Lipid transport and metabolism
-    ''' [P] Inorganic ion transport and metabolism
-    ''' [Q] Secondary metabolites biosynthesis, transport and catabolism
+    ''' ###### METABOLISM
+    ''' + [C] Energy production and conversion
+    ''' + [G] Carbohydrate transport and metabolism
+    ''' + [E] Amino acid transport and metabolism
+    ''' + [F] Nucleotide transport and metabolism
+    ''' + [H] Coenzyme transport and metabolism
+    ''' + [I] Lipid transport and metabolism
+    ''' + [P] Inorganic ion transport and metabolism
+    ''' + [Q] Secondary metabolites biosynthesis, transport and catabolism
     '''
-    ''' POORLY CHARACTERIZED
-    ''' [R] General function prediction only
-    ''' [S] Function unknown
-    '''
+    ''' ###### POORLY CHARACTERIZED
+    ''' + [R] General function prediction only
+    ''' + [S] Function unknown
     ''' </remarks>
     Public Class [Function]
 
-        <XmlElement> Public Property Categories As Category()
+        <XmlElement> Public Property Catalogs As Catalog()
 
         Public Function IndexOf(Id As Char) As Integer
-            For i As Integer = 0 To Categories.Count - 1
-                Dim Category = Categories(i)
-                For Each item In Category.SubClasses
-                    If String.Equals(item.Key, Id) Then
+            For i As Integer = 0 To Catalogs.Length - 1
+
+                With Catalogs(i)
+
+                    If .SubClasses.ContainsKey(Id) Then
                         Return i
                     End If
-                Next
+                End With
             Next
+
             Return -1
         End Function
 
@@ -96,8 +97,8 @@ Namespace Assembly.NCBI.COG
         ''' <returns></returns>
         ''' <param name="COG">必须是经过<see cref="BioAssemblyExtensions.GetCOGCategory(String)"/>修剪的字符串</param>
         Public Function CanbeCategoryAs(COG As String, category As COGCategories) As Boolean
-            For Each COGChar In COG
-                Dim cat = __getCategory(COGChar)
+            For Each c As Char In COG
+                Dim cat As COGCategories = __getCategory(c)
 
                 If cat > 0 Then
                     If category = CType(cat, COGCategories) Then
@@ -126,7 +127,7 @@ Namespace Assembly.NCBI.COG
         ''' <param name="cogChar"></param>
         ''' <returns></returns>
         Private Function __getCategory(cogChar As Char) As COGCategories
-            For Each [class] As COG.Category In Me._Categories  '' ??? 有BUG？？？
+            For Each [class] As COG.Catalog In Me._Catalogs  '' ??? 有BUG？？？
                 If [class].GetDescription(cogChar, "") Then
                     Return [class].Class
                 End If
@@ -165,7 +166,9 @@ Namespace Assembly.NCBI.COG
             If String.IsNullOrEmpty(COG) OrElse
                 String.Equals(COG, "-") Then
 
-                Return {COGCategories.NotAssigned}
+                Return {
+                    COGCategories.NotAssigned
+                }
             End If
 
             Return COG.ToArray(Function(x) __getCategory(x))
@@ -198,7 +201,7 @@ Namespace Assembly.NCBI.COG
 
             Dim list As New List(Of COGCategories)
 
-            For Each cat In Me.Categories
+            For Each cat In Me.Catalogs
                 If category Or cat.Class Then
                     Call list.Add(cat.Class)
                 End If
@@ -208,12 +211,12 @@ Namespace Assembly.NCBI.COG
         End Function
 
         ''' <summary>
-        '''
+        ''' COG profiling counting.
         ''' </summary>
         ''' <param name="lstId">List COG id</param>
         ''' <returns></returns>
         Public Function Statistics(lstId As String()) As Double()
-            Dim Data As Double() = New Double(Me.Categories.Length - 1) {}
+            Dim Data As Double() = New Double(Me.Catalogs.Length - 1) {}
             For Each id As String In lstId
                 If Not String.IsNullOrEmpty(id.Trim) Then
                     For Each ch In id
@@ -229,6 +232,12 @@ Namespace Assembly.NCBI.COG
             Return Data
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
         Public Overloads Function ClassCategory(Of T As ICOGDigest)(source As IEnumerable(Of T)) As Dictionary(Of COGCategories, String())
             Dim hash As New Dictionary(Of COGCategories, String()) From {  '主要是为了填满所有分类，因为source之中可能并不包含有所有的cog分类
                 {COGCategories.Genetics, New String() {}},
@@ -258,58 +267,96 @@ Namespace Assembly.NCBI.COG
         Protected Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Default COGs function catalog data
+        ''' </summary>
+        ''' <remarks>
+        ''' ###### INFORMATION STORAGE AND PROCESSING
+        ''' + [J] Translation, ribosomal structure and biogenesis
+        ''' + [A] RNA processing and modification
+        ''' + [K] Transcription
+        ''' + [L] Replication, recombination and repair
+        ''' + [B] Chromatin structure and dynamics
+        '''
+        ''' ###### CELLULAR PROCESSES AND SIGNALING
+        ''' + [D] Cell cycle control, cell division, chromosome partitioning
+        ''' + [Y] Nuclear structure
+        ''' + [V] Defense mechanisms
+        ''' + [T] Signal transduction mechanisms
+        ''' + [M] Cell wall/membrane/envelope biogenesis
+        ''' + [N] Cell motility
+        ''' + [Z] Cytoskeleton
+        ''' + [W] Extracellular structures
+        ''' + [U] Intracellular trafficking, secretion, and vesicular transport
+        ''' + [O] Posttranslational modification, protein turnover, chaperones
+        '''
+        ''' ###### METABOLISM
+        ''' + [C] Energy production and conversion
+        ''' + [G] Carbohydrate transport and metabolism
+        ''' + [E] Amino acid transport and metabolism
+        ''' + [F] Nucleotide transport and metabolism
+        ''' + [H] Coenzyme transport and metabolism
+        ''' + [I] Lipid transport and metabolism
+        ''' + [P] Inorganic ion transport and metabolism
+        ''' + [Q] Secondary metabolites biosynthesis, transport and catabolism
+        '''
+        ''' ###### POORLY CHARACTERIZED
+        ''' + [R] General function prediction only
+        ''' + [S] Function unknown
+        ''' </remarks>
         Public Shared Function [Default]() As [Function]
-            Dim Functions = New [Function] With {
-                .Categories = New Category() {
-                    New Category With {
-                        .Class = COGCategories.Genetics,
-                        .Description = "INFORMATION STORAGE AND PROCESSING",
-                        .SubClasses = New KeyValuePair() {
-                            New KeyValuePair With {.Key = "J", .Value = "Translation, ribosomal structure and biogenesis"},
-                            New KeyValuePair With {.Key = "A", .Value = "RNA processing and modification"},
-                            New KeyValuePair With {.Key = "K", .Value = "Transcription"},
-                            New KeyValuePair With {.Key = "L", .Value = "Replication, recombination and repair"},
-                            New KeyValuePair With {.Key = "B", .Value = "Chromatin structure and dynamics"}}
-            },
-                    New Category With {
-                        .Class = COGCategories.Signaling,
-                        .Description = "CELLULAR PROCESSES AND SIGNALING",
-                        .SubClasses = New KeyValuePair() {
-                            New KeyValuePair With {.Key = "D", .Value = "Cell cycle control, cell division, chromosome partitioning"},
-                            New KeyValuePair With {.Key = "Y", .Value = "Nuclear structure"},
-                            New KeyValuePair With {.Key = "V", .Value = "Defense mechanisms"},
-                            New KeyValuePair With {.Key = "T", .Value = "Signal transduction mechanisms"},
-                            New KeyValuePair With {.Key = "M", .Value = "Cell wall/membrane/envelope biogenesis"},
-                            New KeyValuePair With {.Key = "N", .Value = "Cell motility"},
-                            New KeyValuePair With {.Key = "Z", .Value = "Cytoskeleton"},
-                            New KeyValuePair With {.Key = "W", .Value = "Extracellular structures"},
-                            New KeyValuePair With {.Key = "U", .Value = "Intracellular trafficking, secretion, and vesicular transport"},
-                            New KeyValuePair With {.Key = "O", .Value = "Posttranslational modification, protein turnover, chaperones"}}
-            },
-                    New Category With {
-                        .Class = COGCategories.Metabolism,
-                        .Description = "METABOLISM",
-                        .SubClasses = New KeyValuePair() {
-                            New KeyValuePair With {.Key = "C", .Value = "Energy production and conversion"},
-                            New KeyValuePair With {.Key = "G", .Value = "Carbohydrate transport and metabolism"},
-                            New KeyValuePair With {.Key = "E", .Value = "Amino acid transport and metabolism"},
-                            New KeyValuePair With {.Key = "F", .Value = "Nucleotide transport and metabolism"},
-                            New KeyValuePair With {.Key = "H", .Value = "Coenzyme transport and metabolism"},
-                            New KeyValuePair With {.Key = "I", .Value = "Lipid transport and metabolism"},
-                            New KeyValuePair With {.Key = "P", .Value = "Inorganic ion transport and metabolism"},
-                            New KeyValuePair With {.Key = "Q", .Value = "Secondary metabolites biosynthesis, transport and catabolism"}}
-            },
-                    New Category With {
-                        .Class = COGCategories.Unclassified,
-                        .Description = "POORLY CHARACTERIZED",
-                        .SubClasses = New KeyValuePair() {
-                            New KeyValuePair With {.Key = "R", .Value = "General function prediction only"},
-                            New KeyValuePair With {.Key = "S", .Value = "Function unknown"}}
+            Dim catalogs As Catalog() = {
+                New Catalog With {
+                    .Class = COGCategories.Genetics,
+                    .Description = "INFORMATION STORAGE AND PROCESSING",
+                    .SubClasses = New Dictionary(Of Char, String) From {
+                        {"J"c, "Translation, ribosomal structure and biogenesis"},
+                        {"A"c, "RNA processing and modification"},
+                        {"K"c, "Transcription"},
+                        {"L"c, "Replication, recombination and repair"},
+                        {"B"c, "Chromatin structure and dynamics"}
+                    }
+                }, New Catalog With {
+                    .Class = COGCategories.Signaling,
+                    .Description = "CELLULAR PROCESSES AND SIGNALING",
+                    .SubClasses = New Dictionary(Of Char, String) From {
+                        {"D"c, "Cell cycle control, cell division, chromosome partitioning"},
+                        {"Y"c, "Nuclear structure"},
+                        {"V"c, "Defense mechanisms"},
+                        {"T"c, "Signal transduction mechanisms"},
+                        {"M"c, "Cell wall/membrane/envelope biogenesis"},
+                        {"N"c, "Cell motility"},
+                        {"Z"c, "Cytoskeleton"},
+                        {"W"c, "Extracellular structures"},
+                        {"U"c, "Intracellular trafficking, secretion, and vesicular transport"},
+                        {"O"c, "Posttranslational modification, protein turnover, chaperones"}
+                    }
+                }, New Catalog With {
+                    .Class = COGCategories.Metabolism,
+                    .Description = "METABOLISM",
+                    .SubClasses = New Dictionary(Of Char, String) From {
+                        {"C"c, "Energy production and conversion"},
+                        {"G"c, "Carbohydrate transport and metabolism"},
+                        {"E"c, "Amino acid transport and metabolism"},
+                        {"F"c, "Nucleotide transport and metabolism"},
+                        {"H"c, "Coenzyme transport and metabolism"},
+                        {"I"c, "Lipid transport and metabolism"},
+                        {"P"c, "Inorganic ion transport and metabolism"},
+                        {"Q"c, "Secondary metabolites biosynthesis, transport and catabolism"}
+                    }
+                }, New Catalog With {
+                    .Class = COGCategories.Unclassified,
+                    .Description = "POORLY CHARACTERIZED",
+                    .SubClasses = New Dictionary(Of Char, String) From {
+                        {"R"c, "General function prediction only"},
+                        {"S"c, "Function unknown"}
                     }
                 }
             }
-            Return Functions
+
+            Return New [Function] With {
+                .Catalogs = catalogs
+            }
         End Function
     End Class
-
 End Namespace

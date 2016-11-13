@@ -133,7 +133,7 @@ Public Module Views
         Next
 
         Dim Csv As New File
-        Dim Categories = COGCategories.Categories.ToArray(Of COGCategories)(Function(obj) obj.Class).ToList
+        Dim Categories = COGCategories.Catalogs.ToArray(Of COGCategories)(Function(obj) obj.Class).ToList
         Call Categories.Add(Assembly.NCBI.COG.COGCategories.NotAssigned)
 
         Call Csv.Add(({"Numbers Of TSSs"}).Join(Categories.ToArray(Of String)(Function(cat) cat.Description).Join({"", "Numbers Of Genes"})))

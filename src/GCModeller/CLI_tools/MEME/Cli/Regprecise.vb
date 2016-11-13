@@ -413,7 +413,7 @@ Partial Module CLI
     End Function
 
     Private Function __compile(hit As XmlOutput.MAST.Segment, MEMEMotifs As Dictionary(Of String, Motif), offset As Integer) As MastSites()
-        Dim sequence As String = hit.SegmentData.TrimVBCrLf
+        Dim sequence As String = hit.SegmentData.TrimNewLine("")
         Dim resultSet = hit.Hits.ToArray(Function(loci) __compile(loci, MEMEMotifs, sequence, offset, hit.start))
         Return resultSet
     End Function
