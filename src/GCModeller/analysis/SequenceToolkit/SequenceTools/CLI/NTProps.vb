@@ -58,7 +58,12 @@ Partial Module Utilities
     ''' <returns></returns>
     <ExportAPI("/SimpleSegment.AutoBuild",
                Usage:="/SimpleSegment.AutoBuild /in <locis.csv> [/out <out.csv>]")>
-    <Argument("/in", False, AcceptTypes:={GetType(DocumentStream.File)})>
+    <Argument("/in", False,
+              AcceptTypes:={
+                GetType(ImperfectPalindrome),
+                GetType(RevRepeats),
+                GetType(Repeats),
+                GetType(PalindromeLoci)})>
     <Argument("/out", True, AcceptTypes:={GetType(SimpleSegment)}, Out:=True)>
     <Group(CLIGrouping.NTPropertyTools)>
     Public Function ConvertsAuto(args As CommandLine) As Integer

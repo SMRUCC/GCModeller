@@ -56,12 +56,12 @@ Public Module LociFilter
 
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of RepeatsView()))) As IEnumerable(Of NamedValue(Of RepeatsView()))
-        Return range.RangeSelects(data, Function(x) x.Locis.JoinIterates(x.Left).ToArray)
+        Return range.RangeSelects(data, Function(x) {x.Left})
     End Function
 
     <Extension>
     Public Function RangeSelects(range As IntRange, data As IEnumerable(Of NamedValue(Of RevRepeatsView()))) As IEnumerable(Of NamedValue(Of RevRepeatsView()))
-        Return range.RangeSelects(data, Function(x) x.Locis.JoinIterates(x.Left).JoinIterates(x.RevLocis).Distinct.ToArray)
+        Return range.RangeSelects(data, Function(x) {x.Left})
     End Function
 
     <Extension>

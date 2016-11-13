@@ -30,14 +30,13 @@ Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -53,6 +52,19 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
+
+    <ExportAPI("/Sites2Fasta",
+               Info:="Converts the simple segment object collection as fasta file.",
+               Usage:="/Sites2Fasta /in <segments.csv> [/out <out.fasta>]")>
+    <Argument("/in", AcceptTypes:={GetType(SimpleSegment)})>
+    <Argument("/out", AcceptTypes:={GetType(FastaFile)})>
+    Public Function Sites2Fasta(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
+        Dim locis As SimpleSegment() = [in].LoadCsv(Of SimpleSegment)
+        Dim fasta As New FastaFile(locis.Select(Function(l) l.SimpleFasta))
+        Return fasta.Save(out, Encodings.ASCII).CLICode
+    End Function
 
     <ExportAPI("/Compare.By.Locis", Usage:="/Compare.By.Locis /file1 <file1.fasta> /file2 </file2.fasta>")>
     <Group(CLIGrouping.FastaTools)>
@@ -128,12 +140,17 @@ Partial Module Utilities
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Fasta")
         Dim attrs As String = args("/attrs")
-        Dim lstAttrs As String() = If(String.IsNullOrEmpty(attrs), {"gene", "locus_tag", "gi", "location", "product"}, attrs.Split(";"c))
+        Dim lstAttrs As String() = If(
+            String.IsNullOrEmpty(attrs),
+            {
+                "gene", "locus_tag", "gi", "location", "product"
+            },
+            attrs.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
-        Dim Csv = DocumentStream.DataFrame.CreateObject(DocumentStream.DataFrame.Load(inFile))
-        Dim readers = Csv.CreateDataSource
-        Dim attrSchema = (From x In Csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
-        Dim seqOrd As Integer = Csv.GetOrdinal(seq)
+        Dim csv As DataFrame = DocumentStream.DataFrame.CreateObject(DocumentStream.DataFrame.Load(inFile))
+        Dim readers As DynamicObjectLoader() = csv.CreateDataSource
+        Dim attrSchema = (From x In csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
+        Dim seqOrd As Integer = csv.GetOrdinal(seq)
         Dim Fa As IEnumerable(Of FastaToken) =
             From row As DynamicObjectLoader
             In readers.AsParallel
