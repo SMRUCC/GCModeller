@@ -56,12 +56,27 @@ Public Module GCPlot
                 .Strict = False
             }
             Call mal.RemoveAt(refIndex)
-            Return mal.PlotGC(AddressOf v.NtVariation, winSize, steps, isCircle)
+            Return mal.PlotGC(AddressOf v.NtVariation, winSize, steps, isCircle, base:="white")
         Else
             Return mal.PlotGC(AddressOf GCContent, winSize, steps, isCircle)
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="mal"></param>
+    ''' <param name="cal"></param>
+    ''' <param name="winSize%"></param>
+    ''' <param name="steps%"></param>
+    ''' <param name="isCircle"></param>
+    ''' <param name="size"></param>
+    ''' <param name="margin"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="colors$"></param>
+    ''' <param name="levels%"></param>
+    ''' <param name="base$">color code for ZERO level</param>
+    ''' <returns></returns>
     <Extension>
     Public Function PlotGC(mal As FastaFile, cal As NtProperty,
                            winSize%,
@@ -71,7 +86,8 @@ Public Module GCPlot
                            Optional margin As Size = Nothing,
                            Optional bg$ = "white",
                            Optional colors$ = "Jet",
-                           Optional levels% = 100) As Bitmap
+                           Optional levels% = 100,
+                           Optional base$ = Nothing) As Bitmap
 
         Dim ntArray As NamedValue(Of Double())() = LinqAPI.Exec(Of NamedValue(Of Double())) <=
  _
@@ -103,6 +119,10 @@ Public Module GCPlot
         End If
         If margin.IsEmpty Then
             margin = New Size(350, 100)
+        End If
+
+        If Not String.IsNullOrEmpty(base) Then
+            mapColors(Scan0) = base.ToColor
         End If
 
         Call $"max:={v.Max}, min:={v.Min}".__DEBUG_ECHO
