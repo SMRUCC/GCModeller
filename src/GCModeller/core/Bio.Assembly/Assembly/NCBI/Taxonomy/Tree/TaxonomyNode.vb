@@ -1,8 +1,7 @@
-﻿Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Python
+﻿Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Metagenomics.BIOMTaxonomy
 
 Namespace Assembly.NCBI.Taxonomy
 
@@ -45,11 +44,6 @@ Namespace Assembly.NCBI.Taxonomy
                          .ToDictionary(Function(x) x.rank,
                                        Function(x) x.Group.First.name)
         End Function
-
-        ''' <summary>
-        ''' ``k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}``
-        ''' </summary>
-        Public Shared ReadOnly Property BIOMPrefix As String() = {"k__", "p__", "c__", "o__", "f__", "g__", "s__"}
 
         ''' <summary>
         ''' <see cref="BIOMPrefix"/>
