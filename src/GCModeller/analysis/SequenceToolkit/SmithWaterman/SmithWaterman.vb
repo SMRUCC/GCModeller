@@ -66,7 +66,16 @@ Public Class SmithWaterman : Inherits GSW(Of Char)
         Return Output.CreateObject(Me, Function(x) x, cutoff, minW)
     End Function
 
-    Public Shared Function Align(query As FASTA.FastaToken, subject As FASTA.FastaToken, Optional blosum As Blosum = Nothing) As SmithWaterman
+    ''' <summary>
+    ''' Default using ``Blosum62`` matrix.
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="subject"></param>
+    ''' <param name="blosum"></param>
+    ''' <returns></returns>
+    Public Shared Function Align(query As FASTA.FastaToken,
+                                 subject As FASTA.FastaToken,
+                                 Optional blosum As Blosum = Nothing) As SmithWaterman
         Dim sw As New SmithWaterman(query.SequenceData, subject.SequenceData, blosum)
         Return sw
     End Function

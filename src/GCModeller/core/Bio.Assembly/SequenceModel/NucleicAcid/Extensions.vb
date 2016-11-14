@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::9828e761a016e85d25122e1e503dc773, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -237,5 +238,72 @@ cause an out of memory condition when calculating the LD over two very large str
 
             Return mi
         End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function SegmentAssembler(source As IEnumerable(Of SimpleSegment)) As SimpleSegment()
+            Dim strands As Dictionary(Of String, SimpleSegment()) =
+                source _
+                .GroupBy(Function(s) s.Strand) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.ToArray)
+            Dim out As New List(Of SimpleSegment)
+
+            If strands.ContainsKey("+") Then
+                Call strands("+").__assembly(out)
+            End If
+            If strands.ContainsKey("-") Then
+                Call strands("-").__assembly(out)
+            End If
+
+            Return out.ToArray
+        End Function
+
+        <Extension>
+        Private Sub __assembly(source As IEnumerable(Of SimpleSegment), ByRef out As List(Of SimpleSegment))
+            Dim list As New List(Of SimpleSegment)(source.OrderBy(Function(s) s.Start))
+
+            Do While list.Count > 0
+                Dim removes As New List(Of SimpleSegment)
+                Dim current As SimpleSegment = list(Scan0)
+
+                list.RemoveAt(Scan0)
+                current.Ends = current.Start + current.SequenceData.Length
+
+                For i As Integer = 0 To list.Count - 1
+
+                    With list(i)
+
+                        .Ends = .Start + .SequenceData.Length ' 不信任輸入的數據的右端的位置？？
+
+                        Dim loci = .MappingLocation
+
+                        If current.MappingLocation(True).Inside(loci, 0) Then
+                            removes.Add(list(i))  ' target is already includes in current, ignores
+                        ElseIf current.MappingLocation.IsOverlapping(loci) Then
+                            Dim l = current.MappingLocation.Right - loci.Left + 1   ' extends current
+                            Dim seq$ = Mid(.SequenceData, l)
+
+                            current.SequenceData &= seq
+                            current.Ends += seq.Length
+
+                            removes.Add(list(i))
+                        Else
+                            Exit For
+                        End If
+                    End With
+                Next
+
+                For Each s In removes
+                    Call list.Remove(s)
+                Next
+
+                Call out.Add(current)
+            Loop
+        End Sub
     End Module
 End Namespace

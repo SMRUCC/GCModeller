@@ -52,6 +52,7 @@ Namespace SequenceModel.FASTA
         Implements IDisposable
         Implements IEnumerable(Of FastaToken)
         Implements IList(Of FastaToken)
+        Implements ICloneable
 
         Public Overloads Shared Widening Operator CType(File As Path) As FastaFile
             Return FastaFile.Read(File)
@@ -659,6 +660,20 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         Public Shared Function IsValidFastaFile(path As String) As Boolean
             Dim firstLine$ = path.ReadFirstLine
             Return firstLine.First = ">"c
+        End Function
+
+        ''' <summary>
+        ''' 完完全全的按值複製
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Clone() As Object Implements ICloneable.Clone
+            Dim list As New List(Of FastaToken)
+
+            For Each x In Me._innerList
+                Call list.Add(x.Copy)
+            Next
+
+            Return New FastaFile(list)
         End Function
     End Class
 End Namespace

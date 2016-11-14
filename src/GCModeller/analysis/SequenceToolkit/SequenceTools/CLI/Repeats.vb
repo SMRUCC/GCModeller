@@ -39,6 +39,11 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Partial Module Utilities
 
+    ''' <summary>
+    ''' 這個函數會將文件夾之中的文件都合并到一個文件之中
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Screen.sites",
                Usage:="/Screen.sites /in <DIR/sites.csv> /range <min_bp>,<max_bp> [/type <type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome> /out <out.csv>]")>
     <Argument("/in", AcceptTypes:={

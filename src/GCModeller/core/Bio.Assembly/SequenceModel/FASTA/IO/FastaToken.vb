@@ -53,6 +53,7 @@ Namespace SequenceModel.FASTA
         Implements IAbstractFastaToken
         Implements ISaveHandle
         Implements I_FastaProvider
+        Implements ICloneable
 
         Friend Const SampleView = ">LexA
 AAGCGAACAAATGTTCTATA"
@@ -385,12 +386,10 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Function Copy() As FastaToken
-            Dim FastaObject As New FastaToken With {
-                .Attributes = New String(Me.Attributes.Count - 1) {}
-            }
-            Call Me.Attributes.CopyTo(FastaObject.Attributes, index:=Scan0)
-            FastaObject.SequenceData = Me.SequenceData
-            Return FastaObject
+            Return New FastaToken With {
+                .Attributes = Me.Attributes.ToArray,
+                .SequenceData = New String(SequenceData)
+            } ' 在這裏完完全全的按值複製
         End Function
 
         ''' <summary>
@@ -545,6 +544,10 @@ AAGCGAACAAATGTTCTATA"
 
         Public Function Save(Optional Path$ = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return SaveTo(Path, encoding.GetEncodings)
+        End Function
+
+        Public Function Clone() As Object Implements ICloneable.Clone
+            Return Copy()
         End Function
     End Class
 End Namespace
