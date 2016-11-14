@@ -422,6 +422,7 @@
     <Compile Include="Assembly\NCBI\SeqDump\nt.vb" />
     <Compile Include="BioAssemblyExtensions.vb" />
     <Compile Include="IQueryExtensions.vb" />
+    <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
     <Compile Include="Metagenomics\OTUData.vb" />
     <Compile Include="ProteinModel\DomainObject.vb" />
     <Compile Include="ProteinModel\DomainModels.vb" />
