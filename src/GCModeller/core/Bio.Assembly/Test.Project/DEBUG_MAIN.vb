@@ -61,6 +61,14 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        Dim nt As New FastaToken("H:\Xanthomonas_campestris_8004_uid15\CP000050.fna")
+
+        Dim sss = nt.CutSequenceLinear(NucleotideLocation.Parse("1434841..1435203"))
+        sss = nt.CutSequenceLinear(NucleotideLocation.Parse("complement(14113..14883)"))
+
+        sss = nt.CutSequenceCircular(New NucleotideLocation(nt.Length - 5, nt.Length, True), NucleotideLocation.Parse("complement(1..6)"))
+
+
         Dim a As New SimpleSegment With {.Start = 1, .Ends = 10, .SequenceData = "1234567890", .Strand = "+"}
         Dim b As New SimpleSegment With {.Start = 5, .Ends = 8, .SequenceData = "5678", .Strand = "+"}
         Dim c As New SimpleSegment With {.Start = 6, .Ends = 13, .SequenceData = "67890abc", .Strand = "+"}
