@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::31603529d5833ee57d6568e503fc395f, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -52,26 +53,12 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlIgnore> Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
-            Get
-                Return __sequenceParser.OriginalSequence
-            End Get
-            Set(value As String)
-                Try
-                    __sequenceParser = New SegmentReader(value)
-                Catch ex As Exception
-                    __sequenceParser = New SegmentReader(NucleicAcid.CopyNT(value))
-                    Call InvalidWarns.Warning
-                End Try
-            End Set
-        End Property
 
         ''' <summary>
         ''' The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N... 
         ''' for <see cref="SequenceData"/>
         ''' </summary>
         Const InvalidWarns As String = "The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N..."
-
-        Dim __sequenceParser As SegmentReader
 
         ''' <summary>
         ''' ``<see cref="SequenceData"/> -> index``
@@ -84,19 +71,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             End Get
         End Property
 
-        Public ReadOnly Property SequenceParser As SegmentReader
-            Get
-                Return __sequenceParser
-            End Get
-        End Property
-
         ''' <summary>
         ''' 基因组的大小
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Size As Long
+        Public ReadOnly Property Size As Integer
             Get
-                Return Len(__sequenceParser.OriginalSequence)
+                Return SequenceData.Length
             End Get
         End Property
 
@@ -105,8 +86,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetFeatureSegment(Feature As Feature) As String
-            Return __sequenceParser.TryParse(Feature.Location.ContiguousRegion).SequenceData
+        Public Function GetFeatureSegment(feature As Feature) As String
+            Dim loci As NucleotideLocation = feature.Location.ContiguousRegion
+            Return Me.CutSequenceLinear(loci).SequenceData
         End Function
 
         Public Overrides Function ToString() As String

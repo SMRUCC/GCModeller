@@ -351,10 +351,6 @@ Namespace SequenceModel.NucleotideModels
             Return New NucleicAcid With {.SequenceData = strSeq}
         End Function
 
-        Public Function CreateReader() As SegmentReader
-            Return New SegmentReader(Me)
-        End Function
-
         ''' <summary>
         ''' Gets the complement sequence of a nucleotide sequence.(获取某一条核酸序列的互补序列，但是新得到的序列并不会首尾反转)
         ''' </summary>

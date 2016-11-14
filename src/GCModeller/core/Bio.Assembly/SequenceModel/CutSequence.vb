@@ -18,14 +18,37 @@ Namespace SequenceModel
         ''' <returns></returns>
         <Extension>
         Public Function CutSequenceLinear(seq As I_PolymerSequenceModel, site As Location) As SimpleSegment
-            Dim l As Integer = site.Length + 1
-            Dim cut$ = Mid(seq.SequenceData, site.Left, l)
+            Return CutSequenceLinear(seq, site.Left, site.Right, site.ToString)
+        End Function
+
+        ''' <summary>
+        ''' 核酸分子和蛋白质分子都适用
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CutSequenceLinear(seq As I_PolymerSequenceModel, left%, right%, Optional tag$ = Nothing) As SimpleSegment
+            Dim l As Integer = (right - left) + 1
+            Dim cut$ = Mid(seq.SequenceData, left, l)
 
             Return New SimpleSegment With {
                 .SequenceData = cut,
-                .ID = site.ToString,
-                .Start = site.Left,
-                .Ends = site.Right,
+                .ID = tag,
+                .Start = left,
+                .Ends = right,
+                .Strand = "?"
+            }
+        End Function
+
+        <Extension>
+        Public Function CutSequenceBylength(seq As I_PolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
+            Dim cut$ = Mid(seq.SequenceData, left, length)
+
+            Return New SimpleSegment With {
+                .SequenceData = cut,
+                .ID = tag,
+                .Start = left,
+                .Ends = length + left - 1,
                 .Strand = "?"
             }
         End Function
