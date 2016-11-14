@@ -97,7 +97,7 @@ Public Module ToolsAPI
 
     <ExportAPI("Simple.Partition.Create")>
     Public Function CreateSimplePartition(genbank As GBFF.File, data As IEnumerable(Of ChromosomePartitioningEntry)) As PartitioningData()
-        Dim Reader As New SegmentReader(genbank.Origin.ToFasta)
+        Dim Reader As I_PolymerSequenceModel = genbank.Origin.ToFasta
         Dim dGroup = From x As ChromosomePartitioningEntry
                      In data
                      Select x
@@ -115,7 +115,7 @@ Public Module ToolsAPI
                                                    Select p.PartitioningTag).FirstOrDefault
                             Select ORF,
                                  InternalGetPTag,
-                                 SequenceData = Reader.TryParse(ORF.Location)
+                                 SequenceData = Reader.CutSequenceLinear(ORF.Location)
                             Group By InternalGetPTag Into Group
         Dim LQuery As PartitioningData() =
             LinqAPI.Exec(Of PartitioningData) <= From pInfo
@@ -126,7 +126,7 @@ Public Module ToolsAPI
                                                                           Select {pt.Left, pt.Right}).IteratesALL)
                                                  Let St As Integer = Loci.Max
                                                  Let SP As Integer = Loci.Min
-                                                 Let Sequence As String = Reader.GetSegmentSequence(SP, St)
+                                                 Let Sequence As String = Reader.CutSequenceLinear(SP, St).SequenceData
                                                  Select New PartitioningData With {
                                                      .GenomeID = genbank.Accession.AccessionId,
                                                      .LociLeft = SP,
@@ -173,18 +173,18 @@ Public Module ToolsAPI
                                        <Parameter("Column.Start")> StartTag As String,
                                        <Parameter("Column.Stop")> StopTag As String,
                                        <Parameter("Nt.Source")> Nt As FastaToken) As PartitioningData()
-        Dim Reader As New SegmentReader(Nt)
+
         Dim LQuery As PartitioningData() =
             LinqAPI.Exec(Of PartitioningData) <= From row As DynamicObjectLoader
                                                  In PartitionRaw.CreateDataSource
                                                  Let Tag As String = row(TagCol)
-                                                 Select __getSequence(row, Tag, Reader, StartTag, StopTag, Nt)
+                                                 Select __getSequence(row, Tag, Nt, StartTag, StopTag, Nt)
         Return LQuery
     End Function
 
     Private Function __getSequence(row As DynamicObjectLoader,
                                    tag As String,
-                                   Reader As SegmentReader,
+                                   Reader As I_PolymerSequenceModel,
                                    StartTag As String,
                                    <Parameter("Column.Stop")> StopTag As String,
                                    Nt As FastaToken) As PartitioningData
@@ -198,7 +198,10 @@ Public Module ToolsAPI
             Right = Right.Split.Last
         End If
 
-        Dim Seq As String = If(Join, Reader.ReadJoinLocation(Val(Left), Val(Right)), Reader.TryParse(Val(Left), Val(Right) - Val(Left)))
+        Dim Seq As String = If(Join,
+            Reader.CutSequenceCircular(Val(Left), Val(Right)),
+            Reader.CutSequenceLinear(Val(Left), Val(Right) - Val(Left))).SequenceData
+
         Return New PartitioningData With {
             .PartitioningTag = tag,
             .GenomeID = Nt.Title,
@@ -220,9 +223,9 @@ Public Module ToolsAPI
                                        <Parameter("With.Rule")> Rule As FastaToken,
                                        St As Integer,
                                        Sp As Integer) As DocumentStream.DataFrame
-        Dim Reader As New SegmentReader(Rule)
+        Dim Reader As I_PolymerSequenceModel = Rule
         Dim fa As New FastaToken With {
-            .SequenceData = Reader.TryParse(St, Sp - St)
+            .SequenceData = Reader.CutSequenceLinear(St, Sp - St).SequenceData
         }
         Dim RuleSegment As New NucleotideModels.NucleicAcid(fa)
         Dim Df = DocumentStream.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
@@ -290,7 +293,6 @@ Public Module ToolsAPI
             Return Nothing
         End If
 
-        Dim Reader As New SegmentReader(Nt)
         Dim St As Integer = dnaA.Location.Left
         Dim Sp As Integer = gyrB.Location.Right
 
@@ -302,7 +304,7 @@ Public Module ToolsAPI
         Dim RuleSegment As NucleotideModels.NucleicAcid
 
         Try
-            RuleSegment = New NucleotideModels.NucleicAcid(New FastaToken With {.SequenceData = Reader.TryParse(St, Sp - St)})
+            RuleSegment = New NucleotideModels.NucleicAcid(Nt.CutSequenceLinear(St, Sp - St))
             If RuleSegment.Length > 10 * 1000 Then
                 Call $"Location exception on (""{Nt.Title}"") parsing segment.".PrintException
                 Return Nothing
@@ -355,7 +357,7 @@ Public Module ToolsAPI
                     Continue For
                 End If
 
-                Dim Reader As New SegmentReader(Rule)
+                Dim Reader As I_PolymerSequenceModel = Rule
                 Dim St As Integer = locus.dnaA.Location.Left
                 Dim Sp As Integer = locus.gyrB.Location.Right
 
@@ -367,10 +369,7 @@ Public Module ToolsAPI
                 Dim RuleSegment As NucleotideModels.NucleicAcid
 
                 Try
-                    Dim fa As New FastaToken With {
-                        .SequenceData = Reader.TryParse(St, Sp - St)
-                    }
-                    RuleSegment = New NucleotideModels.NucleicAcid(fa)
+                    RuleSegment = New NucleotideModels.NucleicAcid(Reader.CutSequenceLinear(St, Sp - St))
                     If RuleSegment.Length > 10 * 1000 Then
                         Continue For
                     End If
@@ -396,17 +395,6 @@ Public Module ToolsAPI
         Return Df
     End Function
 
-    Private Function __safeCreates(fa As FastaToken) As SegmentReader
-        Try
-            Dim Reader = New SegmentReader(fa, False)
-            Return Reader
-        Catch ex As Exception
-            ex = New Exception(fa.Title, ex)
-            Call ex.PrintException
-            Return Nothing
-        End Try
-    End Function
-
     <ExportAPI("partition_data.create")>
     Public Function CreateChromesomePartitioningData(besthit As BestHit,
                                                      partitions As IEnumerable(Of ChromosomePartitioningEntry),
@@ -418,7 +406,7 @@ Public Module ToolsAPI
                            In resource.AsParallel
                            Let fa = FastaToken.Load(entry.Value)
                            Select ID = entry.Key,
-                               Reader = __safeCreates(fa)) _
+                               Reader = fa) _
                               .ToDictionary(Function(item) item.ID,
                                             Function(item) item.Reader)
         Dim pSource = (From part In partitions
@@ -476,7 +464,7 @@ Public Module ToolsAPI
         Return LQuery.ToArray
     End Function
 
-    Private Function __readSeq(left As Integer, right As Integer, faReader As Dictionary(Of String, SegmentReader), genomeId As String) As String
+    Private Function __readSeq(left As Integer, right As Integer, faReader As Dictionary(Of String, FastaToken), genomeId As String) As String
         If Not faReader.ContainsKey(genomeId) Then
             Call $"The genome id ""{genomeId}"" is not exists in the fasta source...".__DEBUG_ECHO
             Return ""
@@ -492,11 +480,11 @@ Public Module ToolsAPI
         End If
 
         Dim reader = faReader(genomeId)
-        Dim seq As String = If(reader Is Nothing, "", reader.GetSegmentSequence(l, r))
+        Dim seq As String = If(reader Is Nothing, "", reader.CutSequenceLinear(l, r))
         Return seq
     End Function
 
-    Private Function __readSequence(fastaReader As Dictionary(Of String, SegmentReader),
+    Private Function __readSequence(fastaReader As Dictionary(Of String, FastaToken),
                                     genomeId As String,
                                     left As Integer,
                                     right As Integer) As String
@@ -516,7 +504,7 @@ Public Module ToolsAPI
         End If
 
         Dim reader = fastaReader(genomeId)
-        Dim seq As String = If(reader Is Nothing, "", reader.GetSegmentSequence(l, r))
+        Dim seq As String = If(reader Is Nothing, "", reader.CutSequenceLinear(l, r))
         Return seq
     End Function
 

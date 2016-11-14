@@ -27,14 +27,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -60,7 +58,7 @@ Namespace TrackDatas.NtProps
             Dim LQuery As GeneObjectGC() =
                 LinqAPI.Exec(Of GeneObjectGC) <= From fa As FastaToken
                                                  In FASTA
-                                                 Let gc As Double = SegmentReader.Get_GCContent(fa.SequenceData.ToUpper)
+                                                 Let gc As Double = GCContent(fa.SequenceData.ToUpper)
                                                  Let at As Double = 1 - gc
                                                  Select New GeneObjectGC With {
                                                      .Title = fa.Attributes.First,
@@ -90,12 +88,12 @@ Namespace TrackDatas.NtProps
                     .GC_AT = (gc / at)
                     }
 
-            Dim LastSegment As List(Of DNA) = slideWins.Last.Elements.ToList
+            Dim LastSegment As New List(Of DNA)(slideWins.Last.Elements)
             Dim TempChunk As List(Of DNA)
             Dim p As Integer = LQuery.Last.start
 
             For i As Integer = 0 To LastSegment.Count - 1 Step steps
-                TempChunk = LastSegment.Skip(i).ToList
+                TempChunk = New List(Of DNA)(LastSegment.Skip(i))
                 TempChunk += NT.Take(i)
                 LQuery += New NASegment_GC With {
                             .start = p + i,

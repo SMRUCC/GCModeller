@@ -90,8 +90,8 @@ Namespace SequenceModel
         ''' <remarks>Not sure, probably success.</remarks>
         <Extension>
         Public Function CutSequenceCircular(seq As I_PolymerSequenceModel,
-                                        site As NucleotideLocation,
-                                        join As NucleotideLocation) As SimpleSegment
+                                            site As NucleotideLocation,
+                                            join As NucleotideLocation) As SimpleSegment
 
             Dim a As SimpleSegment = seq.CutSequenceLinear(site:=site)
             Dim b As SimpleSegment = seq.CutSequenceLinear(site:=join)
@@ -120,6 +120,13 @@ Namespace SequenceModel
 
                 Return out
             End If
+        End Function
+
+        <Extension>
+        Public Function CutSequenceCircular(seq As I_PolymerSequenceModel, site%, join%) As SimpleSegment
+            Return seq.CutSequenceCircular(
+                New NucleotideLocation(site, seq.SequenceData.Length),
+                New NucleotideLocation(1, join))
         End Function
     End Module
 End Namespace

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d2304fe40efaaab37db817967b136769, ..\interops\visualize\Circos\Circos\Karyotype\chrKaryotype.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize.Circos.Colors
@@ -118,7 +119,7 @@ Namespace Karyotype
         Public Shared Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaToken)) As KaryotypeChromosomes
             Dim ks As KaryotypeChromosomes = FromNts(chrs)
             Dim labels As Dictionary(Of String, Karyotype) =
-                ks.__karyotypes.ToDictionary(Function(x) x.nt.Value.Title,
+                ks.__karyotypes.ToDictionary(Function(x) x.nt.value.Title,
                                              Function(x) x)
             Dim bands As List(Of Band) =
                 LinqAPI.MakeList(Of Band) <= From x As SeqValue(Of BlastnMapping)
@@ -134,25 +135,25 @@ Namespace Karyotype
                                                  .bandY = "band" & x.i
                                              }.MapsRaw.SetValue(x.obj).As(Of Band)
 
-            Dim nts As Dictionary(Of String, SegmentReader) =
+            Dim nts As Dictionary(Of String, SimpleSegment) =
                 chrs.ToDictionary(
                 Function(x) x.Title,
-                Function(x) New SegmentReader(NucleicAcid.RemoveInvalids(x.SequenceData)))
+                Function(x) New SimpleSegment With {.SequenceData = NucleicAcid.RemoveInvalids(x.SequenceData)})
 
             Dim __getNt As Func(Of Band, FastaToken) =
                 Function(x) As FastaToken
-                    Dim map As BlastnMapping = x.MapsRaw.Value
-                    Dim nt As SegmentReader = nts(map.Reference)
+                    Dim map As BlastnMapping = x.MapsRaw.value
+                    Dim nt As SimpleSegment = nts(map.Reference)
                     Dim fragment As FastaToken =
-                        nt.TryParse(map.MappingLocation) _
-                          .GetFasta(map.ReadQuery)
+                        nt.CutSequenceLinear(map.MappingLocation) _
+                          .SimpleFasta(map.ReadQuery)
                     Return fragment
                 End Function
 
             Dim props = bands.Select(__getNt).PropertyMaps
 
             For Each band As Band In bands
-                Dim GC As Double = props.props(band.MapsRaw.Value.ReadQuery).value
+                Dim GC As Double = props.props(band.MapsRaw.value.ReadQuery).value
                 band.color = props.GC(GC)
             Next
 
