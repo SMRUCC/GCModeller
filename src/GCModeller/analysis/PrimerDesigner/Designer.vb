@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::3f2022eced1d3222e2a2bb433a8da6dd, ..\GCModeller\analysis\PrimerDesigner\Designer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 ''' <summary>
@@ -131,23 +132,23 @@ Public Class Primer
         End Get
     End Property
 
-    Dim _Template As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader
-    Dim _ReversedTemplate As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader
+    Dim _Template As I_PolymerSequenceModel
+    Dim _ReversedTemplate As I_PolymerSequenceModel
 
-    Sub New(Template As SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid)
-        _Template = New SequenceModel.NucleotideModels.SegmentReader(Template)
-        _ReversedTemplate = New SequenceModel.NucleotideModels.SegmentReader(Template.Complement)
+    Sub New(Template As NucleicAcid)
+        _Template = Template
+        _ReversedTemplate = Template.Complement
     End Sub
 
-    Public ReadOnly Property ForwardSequence As SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+    Public ReadOnly Property ForwardSequence As NucleicAcid
         Get
-            Return New SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid(SenseRestrictedSite & _Template.TryParse(Forward.Start, Forward.Ends))
+            Return New NucleicAcid(SenseRestrictedSite & _Template.CutSequenceLinear(Forward.Start, Forward.Ends))
         End Get
     End Property
 
     Public ReadOnly Property ReversedSequence As NucleicAcid
         Get
-            Return New NucleicAcid(AntisenseRestrictedSite & _ReversedTemplate.TryParse(Reversed.Start, Reversed.Ends))
+            Return New NucleicAcid(AntisenseRestrictedSite & _ReversedTemplate.CutSequenceLinear(Reversed.Start, Reversed.Ends))
         End Get
     End Property
 End Class

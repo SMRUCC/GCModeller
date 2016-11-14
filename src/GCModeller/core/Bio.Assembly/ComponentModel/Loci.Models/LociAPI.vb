@@ -123,32 +123,34 @@ Namespace ComponentModel.Loci
         ''' <summary>
         ''' Try parse NCBI sequence dump location/<see cref="NucleotideLocation.ToString()"/> dump location.
         ''' </summary>
-        ''' <param name="sLoci"></param>
+        ''' <param name="loci"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
         <ExportAPI("Loci.Parser")>
-        Public Function TryParse(sLoci As String) As NucleotideLocation
-            If InStr(sLoci, " ==> ") > 0 Then
-                Return __tryParse(sLoci)
+        Public Function TryParse(loci As String) As NucleotideLocation
+            If InStr(loci, " ==> ") > 0 Then
+                Return __tryParse(loci)
             End If
 
-            Dim nuclLoci As New NucleotideLocation
+            Dim s As Strands = If(
+                Regex.Match(loci, "complement\([^)]+\)").Success,
+                Strands.Reverse,
+                Strands.Forward)
+            Dim pos%() = LinqAPI.Exec(Of Integer) <=
+ _
+                From match As Match
+                In Regex.Matches(loci, "\d+")
+                Let n As Integer = CInt(Val(match.Value))
+                Select n
+                Order By n Ascending
 
-            If Regex.Match(sLoci, "complement\([^)]+\)").Success Then
-                nuclLoci.Strand = Strands.Reverse
-            Else
-                nuclLoci.Strand = Strands.Forward
-            End If
-
-            Dim pos As Long() =
-                LinqAPI.Exec(Of Long) <= From match As Match
-                                         In Regex.Matches(sLoci, "\d+")
-                                         Let n As Long = CType(Val(match.Value), Long)
-                                         Select n
-                                         Order By n Ascending
-            nuclLoci.Left = pos(0)
-            nuclLoci.Right = pos(1)
+            Dim nuclLoci As New NucleotideLocation With {
+                .Left = pos(0),
+                .Right = pos(1),
+                .Strand = s,
+                .UserTag = loci
+            }
 
             Return nuclLoci
         End Function

@@ -106,16 +106,22 @@ Namespace SequenceModel.NucleotideModels
             }
         End Function
 
-        Public Function SimpleFasta() As FastaToken
-            Dim title As String = ID & " " & If(
-                MappingLocation.Strand = Strands.Forward,
-                $"{Start},{Ends}",
-                $"complement({Start},{Ends})")
+        Public Function SimpleFasta(Optional title$ = Nothing) As FastaToken
+            If String.IsNullOrEmpty(title) Then
+                title = ID & " " & If(
+                    MappingLocation.Strand = Strands.Forward,
+                    $"{Start},{Ends}",
+                    $"complement({Start},{Ends})")
+            End If
 
             Return New FastaToken With {
                 .Attributes = {title},
                 .SequenceData = SequenceData
             }
         End Function
+
+        Public Shared Operator &(seq$, contig As SimpleSegment) As String
+            Return seq & contig.SequenceData
+        End Operator
     End Class
 End Namespace

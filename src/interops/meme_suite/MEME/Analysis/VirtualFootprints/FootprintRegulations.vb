@@ -133,7 +133,7 @@ Namespace Analysis.GenomeMotifFootPrints
         ''' <returns></returns>
         ''' <remarks></remarks>
         Friend Shared Function __createRegulationObject(data As MEMEOutput,
-                                                        GenomeSequence As NucleotideModels.SegmentReader,
+                                                        GenomeSequence As I_PolymerSequenceModel,
                                                         Ptt As PTTDbLoader,
                                                         IgnoreDirection As Boolean,
                                                         Optional ATGDistance As Integer = 500) As PredictedRegulationFootprint()
@@ -149,7 +149,7 @@ Namespace Analysis.GenomeMotifFootPrints
                 .Signature = data.RegularExpression
             }
 
-            Regulation.Sequence = GenomeSequence.TryParse(nnnnnnnnnnnnn.Min, Regulation.Length)
+            Regulation.Sequence = GenomeSequence.CutSequenceBylength(nnnnnnnnnnnnn.Min, Regulation.Length).SequenceData
 
             Dim RelatedGeneObjects As Relationship(Of GeneBrief)()
             '   Dim PositionRelative As SMRUCC.genomics.ComponentModel.Loci. SegmentRelationships

@@ -107,13 +107,18 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
         ReadOnly __lenBlank As Integer = __BLANK__.Length
 
+        ''' <summary>
+        ''' 用于生成gbk文档里面的一部分文档节点
+        ''' </summary>
+        ''' <param name="feature"></param>
+        ''' <returns></returns>
         <ExportAPI("ToString")>
         Public Function ToString(feature As Feature) As String
             Dim sbr As StringBuilder = New StringBuilder
             Call sbr.Append($"     {feature.KeyName}{New String(" ", __lenBlank - 6 - feature.KeyName.Length)} {feature.Location.ToString}")
             Call sbr.AppendLine()
             For Each q In feature.PairedValues
-                Call sbr.Append(__qualifierFormats($"/{q.Key}=""{q.Value}"""))
+                Call sbr.Append(__qualifierFormats($"/{q.Name}=""{q.x}"""))
             Next
 
             Return sbr.ToString

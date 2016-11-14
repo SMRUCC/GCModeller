@@ -427,6 +427,7 @@
     <Compile Include="ProteinModel\DomainObject.vb" />
     <Compile Include="ProteinModel\DomainModels.vb" />
     <Compile Include="SequenceModel\Abstract.vb" />
+    <Compile Include="SequenceModel\CutSequence.vb" />
     <Compile Include="SequenceModel\FASTA\Abstract.vb" />
     <Compile Include="SequenceModel\FASTA\Extensions.vb" />
     <Compile Include="SequenceModel\FASTA\IO\KSeq.vb" />
@@ -439,15 +440,13 @@
     <Compile Include="SequenceModel\Patterns\Clustal\Clustal.vb" />
     <Compile Include="SequenceModel\FASTA\Reflection\FastaTools.vb" />
     <Compile Include="SequenceModel\FASTA\IO\UltralargeSizeFastaReader.vb" />
-    <Compile Include="SequenceModel\NucleicAcid\Contig.vb" />
-    <Compile Include="SequenceModel\NucleicAcid\Parser\SimpleSegment.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\Contig.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\SimpleSegment.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Extensions.vb" />
-    <Compile Include="SequenceModel\NucleicAcid\Parser\SegmentObject.vb" />
-    <Compile Include="SequenceModel\NucleicAcid\Parser\InternalReader.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\SegmentObject.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Translation\Codon.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Translation\TranslTable.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Translation\TranslationTable.vb" />
-    <Compile Include="SequenceModel\NucleicAcid\Parser\SegmentReader.vb" />
     <Compile Include="SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb" />
     <Compile Include="SequenceModel\Patterns\IPatterns.vb" />
     <Compile Include="SequenceModel\Patterns\PatternsAPI.vb" />
@@ -495,7 +494,7 @@
     <Compile Include="Assembly\MetaCyc\Schemas\Reflection\TableLink.vb" />
     <Compile Include="Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\Qualifier.vb" />
-    <Compile Include="SequenceModel\NucleicAcid\NucleicAcid.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\NucleicAcid.vb" />
     <Compile Include="ComponentModel\ECNumber.vb" />
     <Compile Include="SequenceModel\FASTA\IO\FastaToken.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\AttributeValue.vb" />

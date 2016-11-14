@@ -237,10 +237,6 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             Return _RNARnt
         End Function
 
-        Public Function CreateReader() As NucleotideModels.SegmentReader
-            Return New NucleotideModels.SegmentReader(GenomeFasta)
-        End Function
-
         ''' <summary>
         ''' (*.fna)(基因组的全长序列)
         ''' </summary>

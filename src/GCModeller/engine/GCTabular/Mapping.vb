@@ -1,36 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::0c5389ca3da695990a9fc09b2c357c41, ..\GCModeller\engine\GCTabular\Mapping.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
@@ -115,7 +114,7 @@ Public Class Mapping : Implements System.IDisposable
         For i As Integer = 0 To Effectors.Count - 1
             Dim Effector = Effectors(i)
             Dim LQuery = (From Compound In Compounds.AsParallel Where IsEqually(Effector, Compound) Select Compound).ToArray
-            Dim CommonNames As List(Of String) = Effector.EffectorAlias.ToList
+            Dim CommonNames As New List(Of String)(Effector.EffectorAlias)
 
             If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
                 Dim Compound = LQuery.First
@@ -163,7 +162,7 @@ Public Class Mapping : Implements System.IDisposable
         For i As Integer = 0 To Effectors.Count - 1
             Dim Effector = Effectors(i)
             Dim LQuery = (From Compound In Mapping.AsParallel Where IsEqually(Effector, Compound) Select Compound).ToArray
-            Dim CommonNames As List(Of String) = Effector.EffectorAlias.ToList
+            Dim CommonNames As New List(Of String)(Effector.EffectorAlias)
 
             If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
                 Dim Compound = LQuery.First
@@ -303,9 +302,20 @@ Public Class Mapping : Implements System.IDisposable
         For Each strItem As String In TempChunk
             Call EffectorIdList.AddRange(Strings.Split(strItem, "; "))
         Next
-        EffectorIdList = (From strId As String In EffectorIdList Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-")) Select strId Distinct Order By strId Ascending).ToList
 
-        Dim Effectors = (From strId As String In EffectorIdList Select New MetaCyc.Schema.EffectorMap With {.Effector = strId}).ToArray
+        EffectorIdList = LinqAPI.MakeList(Of String) <= From strId As String
+                                                        In EffectorIdList
+                                                        Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-"))
+                                                        Select strId
+                                                        Distinct
+                                                        Order By strId Ascending
+
+        Dim Effectors = LinqAPI.MakeList(Of MetaCyc.Schema.EffectorMap) <=
+            From strId As String
+            In EffectorIdList
+            Select New MetaCyc.Schema.EffectorMap With {
+                .Effector = strId
+            }
 
         For Each Effector In Effectors
             Dim Tokens = Strings.Split(Effector.Effector, ", ")
@@ -344,24 +354,36 @@ Public Class Mapping : Implements System.IDisposable
                                       Order By strLine Ascending).ToArray
         Next
 
-        Return Effectors.ToList
+        Return Effectors
     End Function
 
     Public Shared Function GetEffectors(Regprecise As TranscriptionFactors) As List(Of MetaCyc.Schema.EffectorMap)
-        Dim EffectorIdList = (From item As Regprecise.BacteriaGenome
-                              In Regprecise.BacteriaGenomes
-                              Select (From regulator In item.Regulons.Regulators
-                                      Where Not String.IsNullOrEmpty(regulator.Effector)
-                                      Select regulator.Effector.ToLower.Trim).ToArray).ToArray.ToVector.ToList
+        Dim EffectorIdList = LinqAPI.MakeList(Of String) <=
+            From item As Regprecise.BacteriaGenome
+            In Regprecise.BacteriaGenomes
+            Select From regulator
+                   In item.Regulons.Regulators
+                   Where Not String.IsNullOrEmpty(regulator.Effector)
+                   Select regulator.Effector.ToLower.Trim
 
         Dim TempChunk As String() = (From strId As String In EffectorIdList Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-")) Select strId Distinct Order By strId Ascending).ToArray
         Call EffectorIdList.Clear()
         For Each strItem As String In TempChunk
             Call EffectorIdList.AddRange(Strings.Split(strItem, "; "))
         Next
-        EffectorIdList = (From strId As String In EffectorIdList Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-")) Select strId Distinct Order By strId Ascending).ToList
+        EffectorIdList = LinqAPI.MakeList(Of String) <= From strId As String
+                                                        In EffectorIdList
+                                                        Where Not (String.IsNullOrEmpty(strId) OrElse String.Equals(strId, "-"))
+                                                        Select strId
+                                                        Distinct
+                                                        Order By strId Ascending
 
-        Dim Effectors = (From strId As String In EffectorIdList Select New MetaCyc.Schema.EffectorMap With {.Effector = strId}).ToArray
+        Dim Effectors = LinqAPI.MakeList(Of MetaCyc.Schema.EffectorMap) <=
+            From strId As String
+            In EffectorIdList
+            Select New MetaCyc.Schema.EffectorMap With {
+                .Effector = strId
+            }
 
         For Each Effector In Effectors
             Dim Tokens = Strings.Split(Effector.Effector, ", ")
@@ -400,7 +422,7 @@ Public Class Mapping : Implements System.IDisposable
                                       Order By strLine Ascending).ToArray
         Next
 
-        Return Effectors.ToList
+        Return Effectors
     End Function
 
 #Region "IDisposable Support"

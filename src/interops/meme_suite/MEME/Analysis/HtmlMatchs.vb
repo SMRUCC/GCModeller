@@ -296,14 +296,14 @@ Namespace Analysis
                                    masthtml As String,
                                    genome As SequenceModel.FASTA.FastaToken,
                                    cdsInfo As IEnumerable(Of GeneDumpInfo)) As VirtualFootprints()
-            Dim Reader As SegmentReader = New SegmentReader(genome, False)
+
             Dim MAST = DocumentFormat.MAST.HTML.LoadDocument_v410(masthtml, False)
             Dim result = DocumentFormat.MAST.HTML.MatchMEMEAndMast(meme, MAST)
             Dim Footprints As VirtualFootprints() = (
                 From motif As MEMEOutput
                 In result
                 Select __createMotifSiteInfo(Of GeneDumpInfo)(
-                    motif, Reader, GeneBriefInformation:=cdsInfo)).ToArray.ToVector
+                    motif, genome, GeneBriefInformation:=cdsInfo)).ToArray.ToVector
 
             Return Footprints
         End Function

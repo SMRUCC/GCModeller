@@ -320,5 +320,9 @@ Namespace ComponentModel.Loci
                 Return Not (Left = 0 OrElse Right = 0)
             End Get
         End Property
+
+        Public Shared Function Parse(loci$) As NucleotideLocation
+            Return LociAPI.TryParse(loci)
+        End Function
     End Class
 End Namespace

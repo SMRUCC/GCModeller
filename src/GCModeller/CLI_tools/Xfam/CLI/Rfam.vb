@@ -145,7 +145,7 @@ Partial Module CLI
         Dim out As String =
             args.GetValue("/out", sites.TrimSuffix & $".{[in].BaseName}.fasta")
         Dim fa As New FASTA.FastaToken([in])
-        Dim parser As New SegmentReader(fa, LinearMolecule:=False)
+        Dim parser As I_PolymerSequenceModel = fa
         Dim seqs As New List(Of Bac_sRNA.org.Sequence)
         Dim ntTitle As String = fa.Attributes.Last.Trim
 
@@ -154,7 +154,7 @@ Partial Module CLI
                 Continue For
             End If
 
-            Dim seq As SegmentObject = parser.TryParse(hit.MappingLocation)
+            Dim seq As SimpleSegment = parser.CutSequenceLinear(hit.MappingLocation)
             Dim tag As String = $"{hit.ORF}:{hit.distance}"
             seqs += New Bac_sRNA.org.Sequence(tag, ntTitle, Strings.Split(hit.data("Query"), " ").First, seq.SequenceData, hit.MappingLocation)
         Next

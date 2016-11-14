@@ -300,7 +300,7 @@ Partial Module Utilities
         If SegmentFasta Is Nothing Then
             Return -10
         Else
-            SegmentFasta = New NucleotideModels.SegmentReader(SegmentFasta).TryParse(LociData).GetFasta
+            SegmentFasta = SegmentFasta.CutSequenceLinear(LociData).SimpleFasta
         End If
 
         Dim LineBreak As Integer = If(args.ContainsParameter("-line.break", False), args.GetInt32("-line.break"), 100)  ' 默认100个碱基换行
@@ -318,10 +318,9 @@ Partial Module Utilities
     Public Function GetSegments(args As CommandLine) As Integer
         Dim Regions As List(Of SimpleSegment) = args.GetObject("/regions", AddressOf LoadCsv(Of SimpleSegment))
         Dim Fasta As New FASTA.FastaToken(args("/fasta"))
-        Dim Reader As New SegmentReader(Fasta)
         Dim Complement As Boolean = args.GetBoolean("/complement")
         Dim reversed As Boolean = args.GetBoolean("/reversed")
-        Dim Segments = Regions.ToArray(Function(region) __fillSegment(region, Reader, Complement, reversed))
+        Dim Segments = Regions.ToArray(Function(region) __fillSegment(region, Fasta, Complement, reversed))
         Dim briefDump As Boolean = args.GetBoolean("/brief-dump")
         Dim dumpMethod As attrDump = [If](Of attrDump)(briefDump, AddressOf __attrBrief, AddressOf __attrFull)
         Dim input As String = args("/regions").TrimSuffix
@@ -362,12 +361,12 @@ Partial Module Utilities
     End Function
 
     Private Function __fillSegment(region As NucleotideModels.SimpleSegment,
-                                   reader As NucleotideModels.SegmentReader,
+                                   reader As I_PolymerSequenceModel,
                                    Complement As Boolean,
                                    Reversed As Boolean) As NucleotideModels.SimpleSegment
-        Dim seq As String =
-            reader.GetSegmentSequence(region.MappingLocation.Left + 1,
-                                      region.MappingLocation.Right + 1)
+        Dim seq As String = reader _
+            .CutSequenceLinear(region.MappingLocation.Left + 1,
+                               region.MappingLocation.Right + 1).SequenceData
 
         If region.MappingLocation.Strand = Strands.Reverse Then
             If Complement Then
@@ -471,10 +470,10 @@ Partial Module Utilities
         Dim nt As String = args("/nt")
         Dim out As String = args.GetValue("/out", [in].ParentPath)
         Dim locis As IEnumerable(Of Loci) = [in].LoadCsv(Of Loci)
-        Dim parser As New SegmentReader(New FASTA.FastaToken(nt))
+        Dim parser As I_PolymerSequenceModel = New FASTA.FastaToken(nt)
 
         For Each loci In locis
-            loci.SequenceData = parser.TryParse(loci.MappingLocation).SequenceData
+            loci.SequenceData = parser.CutSequenceLinear(loci.MappingLocation).SequenceData
         Next
 
         Call locis.SaveTo(out & $"/{[in].BaseName}.Csv")
@@ -531,12 +530,12 @@ Partial Module Utilities
             args.GetValue("/out", [in].TrimSuffix & "-" & sites.BaseName & ".fasta")
         Dim fna = FastaToken.LoadNucleotideData([in])
         Dim gff As GFF = TabularFormat.GFF.LoadDocument(sites)
-        Dim nt As New SegmentReader(fna)
+        Dim nt As I_PolymerSequenceModel = fna
         Dim result = From loci As Feature
                      In gff.Features
                      Where (Not loci.attributes.ContainsKey("gbkey")) OrElse
                          (Not String.Equals(loci.attributes("gbkey"), "Src", StringComparison.OrdinalIgnoreCase))
-                     Let seq = nt.TryParse(loci.MappingLocation)
+                     Let seq = nt.CutSequenceLinear(loci.MappingLocation)
                      Select New FastaToken With {
                          .SequenceData = seq.SequenceData,
                          .Attributes = {loci.Synonym, loci.Product, loci.MappingLocation.ToString}

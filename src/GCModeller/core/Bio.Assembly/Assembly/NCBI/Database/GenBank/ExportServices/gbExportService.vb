@@ -302,11 +302,11 @@ Namespace Assembly.NCBI.GenBank
                                         .Attributes = New String() {Entry.AccessionID},
                                         .SequenceData = GBKFF.Origin.SequenceData.ToUpper
                                     }
-                                Let Reader = New SegmentReader(GBKFF.Origin.SequenceData, False)
+                                Let reader As I_PolymerSequenceModel = GBKFF.Origin
                                 Let GeneFastaDump = CType((From GeneObject In GBKFF.Features._innerList.AsParallel
                                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                                            Let loc = GeneObject.Location.ContiguousRegion
-                                                           Let Sequence As String = Reader.GetSegmentSequence(loc.Left, loc.Right)
+                                                           Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
                                                            Select New FASTA.FastaToken With {
                                                                .Attributes = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
@@ -316,7 +316,7 @@ Namespace Assembly.NCBI.GenBank
                                     Entry,
                                     FastaDump,
                                     Plasmid,
-                                    Reader,
+                                    reader,
                                     GeneFastaDump).ToArray
 
             For Each item In ExportLQuery
@@ -451,11 +451,11 @@ Namespace Assembly.NCBI.GenBank
                 Call PlasmidList.Add(Plasmid)
                 Call Plasmid.SaveTo(String.Format("{0}/plasmids/{1}.fasta", FastaExport, gb.Accession.AccessionId))
 
-                Dim Reader As New SegmentReader(gb.Origin.SequenceData, False)
+                Dim reader As I_PolymerSequenceModel = gb.Origin
                 Dim GeneFastaDump = CType((From GeneObject In gb.Features._innerList.AsParallel
                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                            Let loc = GeneObject.Location.ContiguousRegion
-                                           Let Sequence As String = Reader.GetSegmentSequence(loc.Left, loc.Right)
+                                           Let Sequence As String = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
                                            Select New FASTA.FastaToken With {
                                                .Attributes = New String() {GeneObject.Query("locus_tag"), GeneObject.Location.ToString},
                                                .SequenceData = If(GeneObject.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
@@ -520,7 +520,7 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         <Extension>
         Public Function ExportGeneNtFasta(gb As GBFF.File, Optional geneName As Boolean = False) As FASTA.FastaFile
-            Dim Reader As New NucleotideModels.SegmentReader(gb.Origin.SequenceData, False)
+            Dim reader As I_PolymerSequenceModel = gb.Origin
             Dim list As New List(Of FASTA.FastaToken)
             Dim loc As NucleotideLocation = Nothing
             Dim attrs As String() = Nothing
@@ -546,7 +546,7 @@ Namespace Assembly.NCBI.GenBank
 
                     loc = gene.Location.ContiguousRegion
                     attrs = {locus_tag, gene.Location.ToString, products.SafeGetValue(locus_tag)?.Function}
-                    Sequence = Reader.GetSegmentSequence(loc.Left, loc.Right)
+                    Sequence = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
                     Sequence = If(gene.Location.Complement, NucleotideModels.NucleicAcid.Complement(Sequence), Sequence)
 
                     list += New FASTA.FastaToken(attrs, Sequence)
