@@ -53,6 +53,20 @@ Namespace SequenceModel
             }
         End Function
 
+        <Extension>
+        Public Function ReadComplement(seq As I_PolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
+            Dim cut$ = Mid(seq.SequenceData, left, length)
+            cut = New String(NucleicAcid.Complement(cut).Reverse.ToArray)
+
+            Return New SimpleSegment With {
+                .SequenceData = cut,
+                .ID = tag,
+                .Start = left,
+                .Ends = length + left - 1,
+                .Strand = "-"
+            }
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>

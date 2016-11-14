@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::0551f3d6a7371acb631606af7a5f1e8e, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\PlasmidComparative.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -48,7 +49,6 @@ Public Module PlasmidComparative
     <ExportAPI("Plasmid.Partitioning")>
     Public Function PlasmidPartitioning(Besthits As BestHit, CdsInfo As IEnumerable(Of GeneDumpInfo), Fasta As FastaToken) As PartitioningData()
         Dim ConservedRegions = Besthits.GetConservedRegions
-        Dim reader As New SegmentReader(Fasta, False)
         Dim ORF = (From gene As GeneDumpInfo
                    In CdsInfo
                    Select gene
@@ -74,7 +74,7 @@ Public Module PlasmidComparative
                                                      .PartitioningTag = String.Join(", ", ls),
                                                      .LociLeft = left,
                                                      .LociRight = right,
-                                                     .SequenceData = reader.GetSegmentSequence(left, right)
+                                                     .SequenceData = Fasta.CutSequenceLinear(left, right).SequenceData
                                                  }
         Return LQuery.OrderBy(Function(x) x.PartitioningTag).ToArray
     End Function

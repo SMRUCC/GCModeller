@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::357dbf2e0824b852a4e6ef1da7e6fefb, ..\GCModeller\analysis\Xfam\Rfam\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -42,6 +42,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 ''' <summary>
@@ -158,14 +159,14 @@ Public Module API
     Public Function RfamAnalysis(Rfam As Stockholm,
                                  blastn As IEnumerable(Of BlastnMapping),
                                  PTT As PTT,
-                                 reader As SegmentReader,
+                                 reader As I_PolymerSequenceModel,
                                  <Parameter("Source.Directed?")>
                                  Optional sourceDirect As Boolean = True) As Rfamily()
         Dim lstData As Rfamily() = blastn.ToArray(Function(x) __createObject(Rfam, x, PTT, reader, sourceDirect))
         Return lstData
     End Function
 
-    Private Function __createObject(Rfam As Stockholm, blastn As BlastnMapping, PTT As PTT, reader As SegmentReader, sourceDirect As Boolean) As Rfamily
+    Private Function __createObject(Rfam As Stockholm, blastn As BlastnMapping, PTT As PTT, reader As I_PolymerSequenceModel, sourceDirect As Boolean) As Rfamily
         Dim result As New Rfamily With {
             .Evalue = blastn.Evalue,
             .Hit = blastn.ReadQuery.Split.First,
@@ -178,7 +179,7 @@ Public Module API
         }
         Dim related = PTT.GetRelatedGenes(result.MappingLocation)
 
-        result.SequenceData = reader.TryParse(result.MappingLocation).SequenceData
+        result.SequenceData = reader.CutSequenceLinear(result.MappingLocation).SequenceData
         result.Location = related.ToArray(Function(x) x.ToString).JoinBy("; ")
         result.Relates = related.ToArray(Function(g) g.Gene.Synonym)
         result.rLociStrand = New String(related.ToArray(Function(g) g.Gene.Location.Strand.GetBriefCode.First))
@@ -194,7 +195,7 @@ Public Module API
     Public Function RfamAnalysis(blastn As String,
                                  Rfam As Dictionary(Of String, Stockholm),
                                  PTT As PTT,
-                                 reader As SegmentReader,
+                                 reader As I_PolymerSequenceModel,
                                  <Parameter("Source.Directed?")> Optional sourceDirect As Boolean = True) As Rfamily()
         Dim sId As String = IO.Path.GetFileNameWithoutExtension(blastn)
         Dim RfamAnno As Stockholm = Rfam(sId)
@@ -222,7 +223,7 @@ Public Module API
         Dim lstMappings As String() = FileIO.FileSystem.GetFiles(blastn, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray
         Dim RfamDb = API.LoadRfam(Rfam)
         Dim Genbank As New PTTDbLoader(PTT_DIR)
-        Dim reader = Genbank.CreateReader
+        Dim reader = Genbank.GenomeFasta
         Dim allGenes As New PTT(Genbank.ORF_PTT.GeneObjects.Join(Genbank.RNARnt.GeneObjects))
         Dim LQuery = (From file As String In lstMappings.AsParallel
                       Select RfamAnalysis(file, RfamDb, allGenes, reader, sourceDirect)).ToArray
@@ -269,7 +270,7 @@ Public Module API
         Dim RfamDb = API.LoadRfam(Rfam)
         Dim Genbank As New PTTDbLoader(PTT_DIR)
         Dim allGenes As New PTT(Genbank.ORF_PTT.GeneObjects.Join(Genbank.RNARnt.GeneObjects))
-        Return RfamAnalysis(blastn, RfamDb, allGenes, Genbank.CreateReader)
+        Return RfamAnalysis(blastn, RfamDb, allGenes, Genbank.GenomeFasta)
     End Function
 
     <ExportAPI("Rfam2GBK")>

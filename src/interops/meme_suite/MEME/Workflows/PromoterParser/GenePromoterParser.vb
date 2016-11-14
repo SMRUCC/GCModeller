@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::8a57dcd99772df23552550c9446405c6, ..\interops\meme_suite\MEME\Workflows\PromoterParser\GenePromoterParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Language
 
 Namespace Workflows.PromoterParser
 
@@ -58,7 +58,7 @@ Namespace Workflows.PromoterParser
         ''' <param name="Fasta"></param>
         ''' <remarks></remarks>
         Sub New(Fasta As FASTA.FastaToken, PTT As PTT)
-            Dim GenomeSeq As SegmentReader = New SegmentReader(Fasta, LinearMolecule:=False)
+            Dim GenomeSeq As I_PolymerSequenceModel = Fasta
 
             Promoter_100 = CreateObject(100, PTT, GenomeSeq)
             Promoter_150 = CreateObject(150, PTT, GenomeSeq)
@@ -82,7 +82,7 @@ Namespace Workflows.PromoterParser
         ''' <param name="PTT"></param>
         ''' <param name="GenomeSeq"></param>
         ''' <returns></returns>
-        Private Shared Function CreateObject(Length As Integer, PTT As PTT, GenomeSeq As SegmentReader) As Dictionary(Of String, FASTA.FastaToken)
+        Private Shared Function CreateObject(Length As Integer, PTT As PTT, GenomeSeq As I_PolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
             Dim LQuery = (From gene As ComponentModels.GeneBrief
                           In PTT.GeneObjects.AsParallel
                           Select gene.Synonym,
@@ -93,7 +93,7 @@ Namespace Workflows.PromoterParser
             Return DictData
         End Function
 
-        Private Shared Function GetFASTA(Gene As ComponentModels.GeneBrief, GenomeSeq As SegmentReader, SegmentLength As Integer) As FASTA.FastaToken
+        Private Shared Function GetFASTA(Gene As ComponentModels.GeneBrief, GenomeSeq As I_PolymerSequenceModel, SegmentLength As Integer) As FASTA.FastaToken
             Dim Location As NucleotideLocation = Gene.Location
 
             Call Location.Normalization()
@@ -106,7 +106,7 @@ Namespace Workflows.PromoterParser
 
             Dim PromoterFsa As FASTA.FastaToken = New FASTA.FastaToken With {
                 .Attributes = New String() {Gene.Synonym},
-                .SequenceData = GenomeSeq.TryParse(Location).SequenceData
+                .SequenceData = GenomeSeq.CutSequenceLinear(Location).SequenceData
             }
 
             Return PromoterFsa
@@ -151,8 +151,8 @@ Namespace Workflows.PromoterParser
                                     Path = $"{EXPORT}/{len}/{tag}.fasta"
                                 End If
 
-                                Dim Seqs = Genes.ToArray(Function(id) src(id)).ToList
-                                Call New FASTA.FastaFile(Seqs).Save(-1, Path, Encodings.ASCII)
+                                Call New FASTA.FastaFile(Genes.Select(Function(id) src(id))) _
+                                    .Save(-1, Path, Encodings.ASCII)
                             End Sub
 
             Call SaveFasta(Parser.Promoter_100, 100)
@@ -188,8 +188,8 @@ Namespace Workflows.PromoterParser
                 Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
                 Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
                                     Dim Path As String = $"{EXPORT}/{len}/{[mod].EntryId}.fasta"
-                                    Dim Seqs = Genes.ToArray(Function(id) src(id)).ToList
-                                    Call New FASTA.FastaFile(Seqs).Save(-1, Path, System.Text.Encoding.ASCII)
+                                    Call New FASTA.FastaFile(Genes.Select(Function(id) src(id))) _
+                                        .Save(-1, Path, System.Text.Encoding.ASCII)
                                 End Sub
 
                 Call SaveFasta(Parser.Promoter_100, 100)
@@ -231,8 +231,8 @@ Namespace Workflows.PromoterParser
                 Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray
                 Dim SaveFasta = Sub(src As Dictionary(Of String, FASTA.FastaToken), len As Integer)
                                     Dim Path As String = $"{EXPORT}/{prefix}-{len}/{[mod].EntryId}.fasta"
-                                    Dim Seqs = (From id As String In Genes Where src.ContainsKey(id) Select src(id)).ToList  ' 由于会存在有RNA基因，所以这里需要额外注意一下
-                                    Call New FASTA.FastaFile(Seqs).Save(-1, Path, System.Text.Encoding.ASCII)
+                                    ' 由于会存在有RNA基因，所以这里需要额外注意一下
+                                    Call New FASTA.FastaFile(From id As String In Genes Where src.ContainsKey(id) Select src(id)).Save(-1, Path, System.Text.Encoding.ASCII)
                                 End Sub
 
                 Call SaveFasta(Parser.Promoter_100, 100)
@@ -352,12 +352,16 @@ Namespace Workflows.PromoterParser
                 Call GetSequenceById(Promoter, idList:=IdenticalNormalLevel, Length:=Length).Save($"{EXPORT}/Identical/IdenticalNormalLevel_{Length}.fasta")
             Next
 
-            Dim Statics = {New GeneIDList("DiffEntiredIDList", DiffEntiredIDList), New GeneIDList("DiffUpIDList", DiffUpIDList), New GeneIDList("DiffDownIDList", DiffDownIDList),
+            Dim Statics = LinqAPI.MakeList(Of GeneIDList) <= {
+                New GeneIDList("DiffEntiredIDList", DiffEntiredIDList),
+                New GeneIDList("DiffUpIDList", DiffUpIDList),
+                New GeneIDList("DiffDownIDList", DiffDownIDList),
                 New GeneIDList("IdenticalEntiredIDList", IdenticalEntiredIDList),
                 New GeneIDList("IdenticalHighLevel", IdenticalHighLevel),
                 New GeneIDList("IdenticalLowLevel", IdenticalLowLevel),
                 New GeneIDList("IdenticalUltraLowlevel", IdenticalUltraLowlevel),
-                New GeneIDList("IdenticalNormalLevel", IdenticalNormalLevel)}.ToList
+                New GeneIDList("IdenticalNormalLevel", IdenticalNormalLevel)
+            }
 
             For Each Level In DiffUpWithFoldChangeLevels
                 Call Statics.Add(New GeneIDList($"DiffUpWithFoldChangeLevels, Level={Level.Key}", Level.Value))
@@ -466,7 +470,7 @@ Namespace Workflows.PromoterParser
                 Length = 150
             End If
 
-            Dim ListData = idList.ToList
+            Dim ListData As New List(Of String)(idList)
 
             Select Case Length
                 Case 100

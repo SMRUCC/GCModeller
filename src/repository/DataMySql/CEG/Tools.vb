@@ -62,7 +62,6 @@ Namespace CEG
         Public Function ExportClusterNt(<Parameter("Fasta.Nt")> Nt As FastaToken,
                                         <Parameter("Annotation.Ptt")> Ptt As PTT,
                                         <Parameter("Assembly.CEG")> CEG As CEG.CEGAssembly) As FastaFile
-            Dim Reader As New NucleotideModels.SegmentReader(Nt)
             Dim GetClusterLQuery = (From Cluster As CEG.GeneCluster In CEG.GeneClusters.AsParallel
                                     Let ClusterGenes = (From GeneObject As CEG.ClusterGene
                                                         In Cluster.GeneClusters
@@ -279,12 +278,12 @@ Namespace CEG
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Export.Essential.Gene.Cluster")>
-        Public Function InternalEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As SMRUCC.genomics.SequenceModel.FASTA.FastaToken,
-                                                     <Parameter("Annotation.Ptt")> Ptt As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
-                                                     <Parameter("Path.CEG.Annotation")> Annotation As Generic.IEnumerable(Of CEG.Annotation),
+        Public Function InternalEssentialGeneCluster(<Parameter("Fasta.Nt")> Nt As FastaToken,
+                                                     <Parameter("Annotation.Ptt")> Ptt As PTT,
+                                                     <Parameter("Path.CEG.Annotation")> Annotation As IEnumerable(Of CEG.Annotation),
                                                      <Parameter("ClusterGaps.Allowed")> Optional AllowedGaps As Integer = 3) As EssentialGeneCluster()
-            Dim Reader As New SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader(Nt)
-            Dim Genes = (From GeneObject As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+
+            Dim Genes = (From GeneObject As GeneBrief
                          In Ptt.GeneObjects
                          Select GeneObject
                          Order By GeneObject.Synonym Ascending).ToArray
@@ -342,14 +341,17 @@ Namespace CEG
                                  Where Not Cluster.IsNullOrEmpty
                                  Let pList = (From Gene In Cluster Select New Integer() {Gene.Location.Left, Gene.Location.Right}).ToArray.Unlist
                                  Select ClusterID = String.Join("_", (From Gene In Cluster Select Gene.Gene).ToArray) & "|" & String.Join(",", (From Gene In Cluster Select Gene.Synonym).ToArray), pList.Max, pList.Min).ToArray
-            Dim NtRegions = (From Cluster In ClusterRegion Select Cluster, NtData = Reader.TryParse(Cluster.Min, Cluster.Max - Cluster.Min), Cluster.ClusterID).ToArray
-            Dim ClusterData = (From Cluster In NtRegions
-                               Select New EssentialGeneCluster With
-                                      {
-                                          .ClusterID = Cluster.ClusterID, .Nt = Cluster.NtData,
-                                          .Sp = Cluster.Cluster.Min,
-                                          .St = Cluster.Cluster.Max,
-                                          .Species = Ptt.Title}).ToArray
+            Dim NtRegions = (From Cluster In ClusterRegion Select Cluster, NtData = Nt.CutSequenceBylength(Cluster.Min, Cluster.Max - Cluster.Min), Cluster.ClusterID).ToArray
+            Dim ClusterData = LinqAPI.Exec(Of EssentialGeneCluster) <=
+                From Cluster
+                In NtRegions
+                Select New EssentialGeneCluster With {
+                    .ClusterID = Cluster.ClusterID,
+                    .Nt = Cluster.NtData.SequenceData,
+                    .Sp = Cluster.Cluster.Min,
+                    .St = Cluster.Cluster.Max,
+                    .Species = Ptt.Title
+                }
             Call Console.WriteLine("Export the essential gene cluster operation job done!")
 
             Return ClusterData

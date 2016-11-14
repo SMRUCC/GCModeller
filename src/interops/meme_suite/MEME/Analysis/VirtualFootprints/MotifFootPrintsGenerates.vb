@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::54582f00d9e90cfe2914dcc3632fef50, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifFootPrintsGenerates.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MAST.HTML
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Analysis.GenomeMotifFootPrints
@@ -108,12 +109,10 @@ Namespace Analysis.GenomeMotifFootPrints
                               In (From item In GroupOperation Select item.GroupTag Distinct).ToArray.AsParallel
                               Select (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item).First).ToArray
 
-            Dim GenomeReader = New SegmentReader(Genome, LinearMolecule:=False)
-
             data = (From item In GroupOperation.AsParallel
                     Select If(item.possible_duplicated.Count = 1,
                         item.possible_duplicated.First,
-                        __reGenerate(item.possible_duplicated, Genome:=GenomeReader))).ToArray
+                        __reGenerate(item.possible_duplicated, Genome:=Genome))).ToArray
             Return data
         End Function
 
@@ -123,7 +122,7 @@ Namespace Analysis.GenomeMotifFootPrints
         ''' <param name="grouped">已经按照<see cref="PredictedRegulationFootprint.Starts"></see>属性进行排序</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function __reGenerate(grouped As IEnumerable(Of PredictedRegulationFootprint), Genome As SegmentReader) As PredictedRegulationFootprint
+        Private Function __reGenerate(grouped As IEnumerable(Of PredictedRegulationFootprint), Genome As I_PolymerSequenceModel) As PredictedRegulationFootprint
             'Dim RightAligned = (From item In grouped Select item Order By item.Ends Descending).First
             'Dim ReGeneratedData As PredictedRegulationFootprint = grouped.First.Clone
             'ReGeneratedData.Starts = grouped.First.Starts
@@ -305,7 +304,7 @@ Namespace Analysis.GenomeMotifFootPrints
         <ExportAPI("Footprint.Generate.From.Text")>
         Public Function FootprintMatchesTEXT(MEME_Text As String,
                                              MAST_html As String,
-                                             GenomeSequence As SegmentReader,
+                                             GenomeSequence As I_PolymerSequenceModel,
                                              GeneBriefInformation As PTT,
                                              Optional ATGDistance As Integer = 500,
                                              Optional FilterPromoter As Boolean = False) As VirtualFootprints()
@@ -322,7 +321,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                  MastEntry,
                                  GenomeSequence,
                                  GeneBriefInformation,
-                                 ATGDistance)).ToArray.Unlist
+                                 ATGDistance)).Unlist
             If FilterPromoter Then Footprint = (From fp As VirtualFootprints
                                                 In Footprint
                                                 Where fp.Distance < 0
@@ -582,7 +581,7 @@ Namespace Analysis.GenomeMotifFootPrints
                 GetPcc = AddressOf PccReader.GetPcc
             End If
 
-            Dim SequenceData = NucleicAcid.CreateObject(GenomeBrief.GenomeFasta.SequenceData).CreateReader
+            Dim SequenceData = NucleicAcid.CreateObject(GenomeBrief.GenomeFasta.SequenceData)
             Dim LQuery = (From item As MEMEOutput
                           In data.AsParallel
                           Select PredictedRegulationFootprint.__createRegulationObject(item, SequenceData, GenomeBrief, ignoreDirection, ATGDistance)).ToArray.ToVector

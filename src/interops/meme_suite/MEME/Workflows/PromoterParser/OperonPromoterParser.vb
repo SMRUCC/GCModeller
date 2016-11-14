@@ -47,8 +47,7 @@ Namespace Workflows.PromoterParser
         End Sub
 
         Private Sub InitalizeOperons(DoorFile As String, OS As String)
-            Dim GenomeSeq As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader =
-                New SequenceModel.NucleotideModels.SegmentReader(SMRUCC.genomics.SequenceModel.FASTA.FastaToken.LoadNucleotideData(OS), LinearMolecule:=False)
+            Dim GenomeSeq As FASTA.FastaToken = SMRUCC.genomics.SequenceModel.FASTA.FastaToken.LoadNucleotideData(OS)
             Dim Door As Assembly.DOOR.OperonView = Me.DoorOperonView
 
             Me.Promoter_150 = CreateObject(150, Door, GenomeSeq)
@@ -61,15 +60,13 @@ Namespace Workflows.PromoterParser
             Me.Promoter_500 = CreateObject(500, Door, GenomeSeq)
         End Sub
 
-        Private Shared Function CreateObject(SegmentLength As Integer,
-                                             Door As Assembly.DOOR.OperonView,
-                                             GenomeSeq As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader) _
-            As Dictionary(Of String, SMRUCC.genomics.SequenceModel.FASTA.FastaToken)
-
-            Dim LQuery = (From i As Integer In Door.Operons.Sequence.AsParallel
+        Private Shared Function CreateObject(SegmentLength As Integer, Door As OperonView, GenomeSeq As I_PolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
+            Dim LQuery = (From i As Integer
+                          In Door.Operons.Sequence.AsParallel
                           Let Operon = Door.Operons(i)
                           Let FirstGene = Operon.InitialX
-                          Select Operon.Key, PromoterFasta = GetFASTA(i, SegmentLength, Operon, FirstGene, GenomeSeq)).ToArray
+                          Select Operon.Key,
+                              PromoterFasta = GetFASTA(i, SegmentLength, Operon, FirstGene, GenomeSeq)).ToArray
             Dim DictData As Dictionary(Of String, SMRUCC.genomics.SequenceModel.FASTA.FastaToken) =
                 LQuery.ToDictionary(Function(obj) obj.Key, elementSelector:=Function(obj) obj.PromoterFasta)
             Return DictData
@@ -77,9 +74,9 @@ Namespace Workflows.PromoterParser
 
         Private Shared Function GetFASTA(i As Integer,
                                          SegmentLength As Integer,
-                                         Operon As Assembly.DOOR.Operon,
-                                         FirstGene As Assembly.DOOR.GeneBrief,
-                                         GenomeSeq As NucleotideModels.SegmentReader) _
+                                         Operon As Operon,
+                                         FirstGene As GeneBrief,
+                                         GenomeSeq As I_PolymerSequenceModel) _
             As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
 
             Dim PromoterFsa As SequenceModel.FASTA.FastaToken =
@@ -90,9 +87,9 @@ Namespace Workflows.PromoterParser
             Dim Location As NucleotideLocation = FirstGene.Location
 
             If Location.Strand = Strands.Forward Then '假若是正向链，则不会做任何处理
-                PromoterFsa.SequenceData = GenomeSeq.TryParse(CInt(Location.Left), SegmentLength, False) '取上游的序列
+                PromoterFsa.SequenceData = GenomeSeq.CutSequenceBylength(CInt(Location.Left), SegmentLength).SequenceData  '取上游的序列
             Else
-                PromoterFsa.SequenceData = GenomeSeq.ReadComplement(Location.Right, SegmentLength, True) '取下游，然后再反向互补
+                PromoterFsa.SequenceData = GenomeSeq.ReadComplement(Location.Right, SegmentLength).SequenceData  '取下游，然后再反向互补
             End If
 
             Return PromoterFsa
