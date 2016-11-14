@@ -77,6 +77,13 @@ Partial Module Utilities
             locis = result
         End If
 
+        Dim seqGroups = From sq
+                        In locis.GroupBy(Function(s) s.ID.Split("-"c).First)
+                        Select (From a As SimpleSegment
+                                In sq
+                                Select a
+                                Group a By a.SequenceData Into Group).Select(Function(g) g.Group.First)
+        locis = seqGroups.IteratesALL.ToArray
         Dim fasta As New FastaFile(locis.Select(Function(l) l.SimpleFasta))
         Return fasta.Save(out, Encodings.ASCII).CLICode
     End Function

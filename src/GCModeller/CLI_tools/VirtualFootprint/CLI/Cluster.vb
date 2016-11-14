@@ -30,29 +30,16 @@ Partial Module CLI
     End Function
 
     Public Function BinaryKmeans(seq As FastaFile, Optional cutoff# = 0.65, Optional minW% = 6) As EntityLDM()
-        Dim LQuery As EntityLDM()
-
-        If App.IsMicrosoftPlatform Then
-            LQuery = LinqAPI.Exec(Of EntityLDM) <=
+        Dim ms? As Boolean = App.IsMicrosoftPlatform ' optimization for linux
+        Dim LQuery As EntityLDM() = LinqAPI.Exec(Of EntityLDM) <=
  _
-                From a As FastaToken
-                In seq.AsParallel
-                Let Name As String = a.Title
-                Select New EntityLDM With {
-                    .Name = Name,
-                    .Properties = a.Cluster(seq, cutoff, minW)
-                }
-        Else  ' optimization for linux
-            LQuery = LinqAPI.Exec(Of EntityLDM) <=
- _
-                From a As KeyValuePair(Of FastaToken, FastaFile)
-                In alloacte(seq).AsParallel  ' 在這裏使用clone而非直接使用原始的對象是爲了提升linux平臺上面的并行計算效率
-                Let Name As String = a.Key.Title
-                Select New EntityLDM With {
-                    .Name = Name,
-                    .Properties = a.Key.Cluster(a.Value, cutoff, minW)
-                }
-        End If
+            From a As KeyValuePair(Of FastaToken, FastaFile)
+            In alloacte(seq, clone:=Not ms).AsParallel  ' 在這裏使用clone而非直接使用原始的對象是爲了提升linux平臺上面的并行計算效率
+            Let Name As String = a.Key.Title
+            Select New EntityLDM With {
+                .Name = Name,
+                .Properties = a.Key.Cluster(a.Value, cutoff, minW)
+            }
 
         Dim tree As EntityLDM() = LQuery.TreeCluster(True)
         Return tree
@@ -64,13 +51,18 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="seq"></param>
     ''' <returns></returns>
-    Private Iterator Function alloacte(seq As FastaFile) As IEnumerable(Of KeyValuePair(Of FastaToken, FastaFile))
+    Private Iterator Function alloacte(seq As FastaFile, clone? As Boolean) As IEnumerable(Of KeyValuePair(Of FastaToken, FastaFile))
         Dim prog As New EventProc(seq.NumberOfFasta, "Allocate Memory")
 
         For Each x As FastaToken In seq
-            Yield New KeyValuePair(Of FastaToken, FastaFile)(
-                x.Copy,
-                TryCast(seq.Clone, FastaFile))
+            If clone Then
+                Yield New KeyValuePair(Of FastaToken, FastaFile)(
+                    x.Copy, TryCast(seq.Clone, FastaFile))
+            Else
+                Yield New KeyValuePair(Of FastaToken, FastaFile)(
+                    x, New FastaFile(seq))
+            End If
+
             Call prog.Tick()
         Next
     End Function
