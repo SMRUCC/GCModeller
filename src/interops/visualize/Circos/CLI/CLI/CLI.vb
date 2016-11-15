@@ -57,7 +57,7 @@ Public Module CLI
                Usage:="/NT.Variation /mla <fasta.fa> [/ref <index/fasta.fa, 0> /out <out.txt> /cut 0.75]")>
     Public Function NTVariation(args As CommandLine) As Integer
         Dim mla As String = args("/mla")
-        Dim ref As String = args("/ref")
+        Dim ref As String = args.GetValue("/ref", "0")
         Dim cut As Double = args.GetValue("/cut", 0.75)
         Dim source As New FastaFile(mla)
 

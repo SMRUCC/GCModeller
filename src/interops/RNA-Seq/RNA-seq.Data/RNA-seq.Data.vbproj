@@ -214,6 +214,7 @@
     <Compile Include="SAM\SAM.vb" />
     <Compile Include="SAM\SamStream.vb" />
     <Compile Include="SAM\TSSs.vb" />
+    <Compile Include="Soap\SOAP.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="My Project\app.manifest" />
