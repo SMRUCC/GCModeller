@@ -7,7 +7,10 @@
         Property Site As Location
     End Interface
 
-    Public Interface IMotifSiteScore : Inherits IMotifSite
+    ''' <summary>
+    ''' This motif site have the scoring calculation value
+    ''' </summary>
+    Public Interface IMotifScoredSite : Inherits IMotifSite
 
         Property Score As Double
     End Interface

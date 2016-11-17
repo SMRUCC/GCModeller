@@ -378,6 +378,26 @@ different with the ideogram configuration document was not included in the circo
         Return circos
     End Function
 
+    <Extension>
+    Public Function AddScoredMotifs(circos As Configurations.Circos,
+                                    motifs As IEnumerable(Of IMotifScoredSite),
+                                    Optional levels% = 100,
+                                    Optional mapName$ = ColorMap.PatternJet) As Configurations.Circos
+
+        Dim sites As IMotifScoredSite() = motifs.ToArray
+        Dim motifTrack As New MotifSites(sites, levels, mapName)
+        Dim highlightLabel As New HighlightLabel(
+            (From gene As IMotifSite
+             In sites
+             Where Not String.IsNullOrEmpty(gene.Name)
+             Select gene).ToArray)
+
+        circos += New TextLabel(New HighlightLabel(highlightLabel))
+        circos += New HighLight(motifTrack)
+
+        Return circos
+    End Function
+
     ''' <summary>
     '''
     ''' </summary>

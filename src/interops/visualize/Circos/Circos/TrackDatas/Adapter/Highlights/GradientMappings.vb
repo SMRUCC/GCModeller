@@ -55,7 +55,7 @@ Namespace TrackDatas.Highlights
             __source = __initCommon(chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
 
-        Protected Shared Function __initCommon(chr As String,
+        Protected Shared Function __initCommon(chr$,
                                                d As Dictionary(Of Integer, Double),
                                                length As Integer,
                                                mapName As String,
@@ -65,14 +65,12 @@ Namespace TrackDatas.Highlights
                                                Optional steps As Integer = 0) As List(Of ValueTrackData)
             Dim values As Double() =
                 length.ToArray(Function(idx) d.TryGetValue(idx, [default]:=0))
-            Return __initCommon(chr,
-                                values,
-                                length,
-                                mapName,
-                                winSize,
-                                replaceBase,
-                                extTails,
-                                steps)
+
+            Return __initCommon(
+                chr, values, length,
+                mapName,
+                winSize, replaceBase,
+                extTails, steps)
         End Function
 
         Protected Shared Function __initCommon(chr$, values#(), len%,
