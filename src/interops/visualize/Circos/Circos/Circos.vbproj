@@ -193,6 +193,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebugGroups.vb" />
     <Compile Include="Colors\NtPropsMaps.vb" />
     <Compile Include="Colors\Mappings.vb" />
     <Compile Include="Colors\GradientMaps.vb" />
