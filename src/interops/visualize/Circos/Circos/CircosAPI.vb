@@ -528,7 +528,7 @@ different with the ideogram configuration document was not included in the circo
 
     <ExportAPI("Plots.add.Gene_Elements")>
     <Extension>
-    Public Function GenerateGeneElements(doc As Configurations.Circos,
+    Public Function AddGenbankData(doc As Configurations.Circos,
                                          GBK As GenBank.GBFF.File,
                                          Optional splitOverlaps As Boolean = False,
                                          Optional dumpAll As Boolean = False) As Configurations.Circos
