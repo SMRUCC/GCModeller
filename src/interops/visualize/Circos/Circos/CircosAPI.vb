@@ -1114,15 +1114,15 @@ SET_END:    Dim ends = i
     <Extension>
     Public Function WriteData(circos As Configurations.Circos,
                               Optional outDIR$ = "",
-                              Optional debug As Boolean = False) As String
+                              Optional debug As DebugGroups = DebugGroups.NULL) As String
 
         Dim perlRun$ = GetCircosScript().CLIPath.Replace("\", "/")
         Dim conf$ = circos.FilePath.CLIPath.Replace("\", "/")
 
         Call circos.Save(outDIR)
-        Call $"perl {perlRun} -conf {conf}{If(debug, CircosAPI.DEBUG, "")}".SaveTo(outDIR & "/run.bat")
+        Call $"perl {perlRun} -conf {conf}{debug.GetOptions}".SaveTo(outDIR & "/run.bat")
         Call ("#! /bin/bash" & vbCrLf &
-             $"perl {perlRun} -conf {conf}{If(debug, CircosAPI.DEBUG, "")}").SaveTo(outDIR & "/run.sh")
+             $"perl {perlRun} -conf {conf}{debug.GetOptions}").SaveTo(outDIR & "/run.sh")
 
         Return circos.FilePath
     End Function
@@ -1202,8 +1202,6 @@ SET_END:    Dim ends = i
         End If
         Return True
     End Function
-
-    Const DEBUG As String = " -debug_group angle,anglepos,axis,background,bezier,brush,cache,chrfilter,color,conf,counter,cover,eval,font,heatmap,ideogram,image,io,karyotype,layer,legend,link,output,parse,png,rule,scale,spacing,stats,summary,svg,text,textplace,tick,tile,timer,unit,url,zoom"
 
     <ExportAPI("Circos.Draw",
                Info:="Invoke the Perl program to drawing the circos plots. before you can using this method, you should switch the terminal
