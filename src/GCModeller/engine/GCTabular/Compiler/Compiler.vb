@@ -340,14 +340,15 @@ Namespace Compiler
                                  In Me._ModelIO.MetabolismModel
                                  Where Not enz.Enzymes.IsNullOrEmpty
                                  Select ReactionId = enz.Identifier, Enzymes = enz.Enzymes, Metabolite = enz.get_Metabolites.First).ToArray
+            Dim rand As New Random
             Dim LQuery = (From item In EnzymeIdArray.AsParallel
                           Let enzCollection = (From EnzymeId As String
                                                In item.Enzymes
                                                Select New EnzymeCatalystKineticLaw With {
                                                           .Enzyme = EnzymeId, .KineticRecord = item.ReactionId,
                                                           .PH = 7, .Temperature = 28,
-                                                          .Km = System.Math.Max(RandomDouble, 0.5),
-                                                          .Kcat = System.Math.Max(5000, 10000 * RandomDouble()),
+                                                          .Km = Math.Max(rand.NextDouble, 0.5),
+                                                          .Kcat = Math.Max(5000, 10000 * rand.NextDouble),
                                                           .Metabolite = item.Metabolite}).ToArray
                           Select enzCollection).ToArray
             Me._ModelIO.Enzymes = LQuery.Unlist
@@ -364,8 +365,8 @@ Namespace Compiler
                                         .Enzyme = Id, .KineticRecord = TrModel.ReactionId,
                                         .PH = 7,
                                         .Temperature = 28,
-                                        .Km = Math.Max(RandomDouble, 0.5),
-                                        .Kcat = System.Math.Max(5000, 10000 * RandomDouble()),
+                                        .Km = Math.Max(rand.NextDouble, 0.5),
+                                        .Kcat = Math.Max(5000, 10000 * rand.NextDouble()),
                                         .Metabolite = TrModel.Metabolite
                                     }
             Next

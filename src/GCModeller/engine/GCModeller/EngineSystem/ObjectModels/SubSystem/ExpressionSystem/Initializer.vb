@@ -104,7 +104,7 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
         End Function
 
         Public Shared Function SetupConstraint(FluxObject As EngineSystem.ObjectModels.Module.CentralDogmaInstance.BasalExpression, MetabolismSystem As EngineSystem.ObjectModels.SubSystem.MetabolismCompartment) As Integer
-            FluxObject.UPPER_BOUND = If(Global.System.Math.Abs(FluxObject.UPPER_BOUND - 0.0R) < TOLERANCE, RandomDouble() * 10, FluxObject.UPPER_BOUND / 37)
+            FluxObject.UPPER_BOUND = If(Global.System.Math.Abs(FluxObject.UPPER_BOUND - 0.0R) < TOLERANCE, Rnd() * 10, FluxObject.UPPER_BOUND / 37)
             Call FluxObject.InitializeConstraints(MetabolismSystem)
             '     Call Randomize()
             Return 0

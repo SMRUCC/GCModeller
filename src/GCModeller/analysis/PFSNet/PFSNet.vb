@@ -356,11 +356,13 @@ Public Module PFSNet
             Dim nscore = Internal_get_nscore(ccs, w1matrix1)
 
             Dim statistics As Double() = rep(False, ccs.Length)
+            Dim rand As New Random
+
             For p As Integer = 0 To ccs.Length - 1
                 Dim x = pscore(p), y = nscore(p)
                 Dim bt, lt, rt As Double
-                Dim lm As Integer = x.Length * RandomDouble()
-                Dim ln As Integer = y.Length * RandomDouble()
+                Dim lm As Integer = x.Length * rand.NextDouble()
+                Dim ln As Integer = y.Length * rand.NextDouble()
 
                 Call ALGLIB.alglib.studentttests.studentttest2(x, ln, y, lm, bt, lt, rt)
                 statistics(p) = bt

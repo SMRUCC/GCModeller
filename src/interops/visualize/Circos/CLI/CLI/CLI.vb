@@ -164,7 +164,7 @@ Public Module CLI
     End Function
 
     Public Function bg() As Integer
-        Dim doc = CircosAPI.CreateDoc
+        Dim doc = CircosAPI.CreateDataModel
         doc.chromosomes_units = "10000"
         Dim fa = New FastaToken("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.fna")
         Call CircosAPI.SetBasicProperty(doc, fa)
@@ -183,7 +183,7 @@ Public Module CLI
         Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
         Dim connector = FromVirtualFootprint(regulations, ptt, resistss)
 
-        Call Circos.CircosAPI.AddPlotElement(doc, New Connector(connector))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Connector(connector))
 
 
 
@@ -204,9 +204,9 @@ Public Module CLI
 
         Dim rMaps = New Circos.TrackDatas.Highlights.Repeat(repeats, nnnt)
 
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.HighLight(rMaps))
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
-        Call Circos.CircosAPI.AddPlotElement(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.HighLight(rMaps))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
+        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
 
         Dim ideo = doc.GetIdeogram
 

@@ -1,7 +1,7 @@
 # GCModeller.Core
 GCModeller base core assembly library on common biological database read and write I/O, is a set of individual components for the [GCModeller](https://github.com/SMRUCC/GCModeller).
 
-The library was public release avaliable at nuget via: 
+The library was public release avaliable at nuget via:
 
 ```bash
 # https://www.nuget.org/packages/GCModeller.Core/
@@ -10,14 +10,16 @@ PM>  Install-Package GCModeller.Core
 
 ###### Development
 Development of this library required of ``sciBASIC#`` runtime, which is available download at github repository:
-```
-https://github.com/xieguigang/sciBASIC
-```
 
-or install via nuget
+> https://github.com/xieguigang/sciBASIC
 
-```
-PM> Install-Package VB_AppFramework -Pre
+or install via nuget:
+
+```bash
+# github: https://github.com/xieguigang/sciBASIC#
+# nuget: https://www.nuget.org/packages/sciBASIC#
+
+PM> Install-Package sciBASIC -Pre
 ```
 
 ### Library overviews

@@ -27,19 +27,10 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace TrackDatas
-
-    Public Interface Idata
-        Property FileName As String
-        Function GetDocumentText() As String
-        Function GetEnumerator() As IEnumerable(Of ITrackData)
-    End Interface
 
     ''' <summary>
     ''' Tracks data document generator.(使用这个对象生成data文件夹之中的数据文本文件)
@@ -51,7 +42,7 @@ Namespace TrackDatas
 
         Public Property FileName As String Implements Idata.FileName
 
-        Protected __source As List(Of T)
+        Protected Friend __source As List(Of T)
 
         ''' <summary>
         ''' Gets the element type <typeparamref name="T"/>

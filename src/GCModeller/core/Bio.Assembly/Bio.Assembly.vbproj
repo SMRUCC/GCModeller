@@ -347,6 +347,7 @@
     <Compile Include="Assembly\Uniprot\UniprotFasta.vb" />
     <Compile Include="Assembly\Uniprot\IdMapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\Entry.vb" />
+    <Compile Include="ComponentModel\Loci.Models\MotifSite.vb" />
     <Compile Include="ContextModel\Context.vb" />
     <Compile Include="ContextModel\ContextCore.vb" />
     <Compile Include="ContextModel\Operon.vb" />

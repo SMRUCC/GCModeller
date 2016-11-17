@@ -80,7 +80,7 @@ Namespace TRN.KineticsModel.Regulators
                 Dim p_ef As Double = CrossTalkEffect
                 p = p * (1 - p_ef)
 
-                Dim n As Double = RandomDouble()
+                Dim n As Double = Rnd()
 
                 If n >= p Then
                     Return get_InteractionQuantity()

@@ -502,9 +502,9 @@ Namespace ChromosomeMap
         End Function
 
         Private Function __getRandomColor() As Color
-            Dim r = RandomDouble() * 255
-            Dim g = RandomDouble() * 255
-            Dim b = RandomDouble() * 255
+            Dim r = Rnd() * 255
+            Dim g = Rnd() * 255
+            Dim b = Rnd() * 255
             Return Color.FromArgb(r, g, b)
         End Function
 

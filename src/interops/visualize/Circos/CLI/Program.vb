@@ -78,7 +78,7 @@ Module Program
     Public Function Circos2016228() As Integer
         Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("G:\5.14.circos\KU527068_updated.gb")
         Dim size = gb.Origin.ToFasta.Length
-        Dim doc = Circos.CircosAPI.CreateDoc
+        Dim doc = Circos.CircosAPI.CreateDataModel
         Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=512)
 
         Dim var = IO.File.ReadAllLines("G:\5.14.circos\01.ZIKV_45_2015_updated_mafft_named.0.NTVariations.txt").ToArray(Function(n) Val(n))
@@ -89,12 +89,12 @@ Module Program
 
         var = IO.File.ReadAllLines("G:\5.14.circos\02.ZIKV_45_2015_updated_mafft_named.ATPercent.txt").ToArray(Function(n) Val(n))
         Dim AT As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, AT)
+        Call Circos.CircosAPI.AddPlotTrack(doc, AT)
 
 
         var = IO.File.ReadAllLines("G:\5.14.circos\03.ZIKV_45_2015_updated_mafft_named.GCSkew.txt").ToArray(Function(n) Val(n))
         Dim GC As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, GC)
+        Call Circos.CircosAPI.AddPlotTrack(doc, GC)
 
         doc = Circos.CircosAPI.GenerateGeneCircle(doc, "G:\5.14.circos\KU527068_ann.csv".LoadCsv(Of GeneDumpInfo), False)
 
@@ -171,7 +171,7 @@ Module Program
         '                                      New Double() {1.82441176470588, 1.62794117647058},
         '                                      New Double() {1.59264705882353, 1.40617647058823}})
 
-        Call Circos.CircosAPI.WriteData(doc, "G:\5.14.circos\circos", Debug:=False)
+        Call Circos.CircosAPI.WriteData(doc, "G:\5.14.circos\circos", debug:=False)
 
         Return 0
     End Function
@@ -180,7 +180,7 @@ Module Program
     Public Function CircosFromGBK() As Integer
         Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("C:\Users\Admin\Desktop\EBOV\EBOV\sequence.gb")
         Dim size = gb.Origin.ToFasta.Length
-        Dim doc = Circos.CircosAPI.CreateDoc
+        Dim doc = Circos.CircosAPI.CreateDataModel
         Call Circos.CircosAPI.SetBasicProperty(doc, gb.Origin.ToFasta, loophole:=512)
 
         Dim var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta.0.NTVariations.txt").ToArray(Function(n) Val(n))
@@ -191,12 +191,12 @@ Module Program
 
         var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta.ATPercent.txt").ToArray(Function(n) Val(n))
         Dim AT As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, AT)
+        Call Circos.CircosAPI.AddPlotTrack(doc, AT)
 
 
         var = IO.File.ReadAllLines("C:\Users\Admin\Desktop\EBOV\EBOV\257\EBOV_GIN_257_6_maffta.GCSkew.txt").ToArray(Function(n) Val(n))
         Dim GC As New Plots.Histogram(New NtProps.GCSkew(var, 5))
-        Call Circos.CircosAPI.AddPlotElement(doc, GC)
+        Call Circos.CircosAPI.AddPlotTrack(doc, GC)
 
         doc = Circos.CircosAPI.GenerateGeneElements(doc, gb, splitOverlaps:=False)
 

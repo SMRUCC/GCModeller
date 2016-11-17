@@ -64,7 +64,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
                 Return 0
             End If
 
-            ConstraintFlux._RegulationConstraint.Quantity = RandomDouble() * BasalLevel / Me.CompositionDelayEffect
+            ConstraintFlux._RegulationConstraint.Quantity = Rnd() * BasalLevel / Me.CompositionDelayEffect
             ConstraintFlux.Invoke()
 
             Dim V As Double = ConstraintFlux.FluxValue

@@ -220,7 +220,7 @@ Public Module InternalCommands
     <ExportAPI("___overloads_test()")>
     Public Function OverloadsTest(n As Integer) As Integer
         Call Console.WriteLine(Integer.MaxValue)
-        Call Console.WriteLine(RandomDouble() * n)
+        Call Console.WriteLine(Rnd() * n)
         Return Integer.MaxValue
     End Function
 

@@ -39,8 +39,12 @@ Namespace TrackDatas
     Public Module DataExtensions
 
         <Extension>
-        Public Function Hits(source As IEnumerable(Of BlastnMapping), karyotype As Karyotype.SkeletonInfo, Optional steps As Integer = 2048) As ValueTrackData()
-            Dim chrs As Dictionary(Of String, Karyotype.Karyotype) = karyotype.GetchrLabels(Function(x) x.chrLabel)
+        Public Function Hits(source As IEnumerable(Of BlastnMapping),
+                             karyotype As Karyotype.SkeletonInfo,
+                             Optional steps% = 2048) As ValueTrackData()
+
+            Dim chrs As Dictionary(Of String, Karyotype.Karyotype) =
+                karyotype.GetchrLabels(Function(x) x.chrLabel)
             Dim LQuery = From x As BlastnMapping
                          In source
                          Select x.MappingLocation,
@@ -61,7 +65,7 @@ Namespace TrackDatas
 
                 For Each reads In ch.Group
                     For i As Integer = reads.MappingLocation.Left To reads.MappingLocation.Right
-                        idata(i).obj.Value += 1
+                        idata(i).obj.value += 1
                     Next
                 Next
 
@@ -70,7 +74,7 @@ Namespace TrackDatas
 
                 For Each chunk In slides
                     Dim n As Integer =
-                        CInt(chunk.Elements.Select(Function(x) x.obj.Value).Average)
+                        CInt(chunk.Elements.Select(Function(x) x.obj.value).Average)
 
                     tmp += New SeqValue(Of Value(Of Integer)) With {
                         .i = chunk.Left,
@@ -85,7 +89,7 @@ Namespace TrackDatas
                             .chr = chr.chrName,
                             .start = left,
                             .end = left + steps,
-                            .value = x.obj.obj.Value
+                            .value = x.obj.obj.value
                         }
 
                 Call Console.Write(".")
@@ -210,7 +214,9 @@ Namespace TrackDatas
         End Function
 
         <Extension>
-        Public Function GetchrLabels(karyotype As Karyotype.SkeletonInfo, Optional getKey As Func(Of Karyotype.Karyotype, String) = Nothing) As Dictionary(Of String, Karyotype.Karyotype)
+        Public Function GetchrLabels(karyotype As Karyotype.SkeletonInfo,
+                                     Optional getKey As Func(Of Karyotype.Karyotype, String) = Nothing) As Dictionary(Of String, Karyotype.Karyotype)
+
             If getKey Is Nothing Then
                 getKey = Function(x) x.chrName
             End If

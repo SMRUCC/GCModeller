@@ -183,7 +183,7 @@ Namespace TRN.KineticsModel
                 'factor 值越高，表达的可能性越高，1位正常表达，值越低则表达量越低，接近于0的时候为本底表达
 
                 If _factor < 1 Then
-                    If RandomDouble() > (1 - _factor) Then 'factor数值越大，越容易发生该事件
+                    If Rnd() > (1 - _factor) Then 'factor数值越大，越容易发生该事件
                         _InternalQuantityValue += Me._LengthDelta   '低量表达依照factor的数值大小来决定表达的量
                         _RegulationValue = 1
                     Else
@@ -246,11 +246,11 @@ Namespace TRN.KineticsModel
             Dim Effects As Boolean = InternalGetMostPossibleAppearState(DLQuery)
 
             '   Call Randomize()
-            If RandomDouble() >= Conf.SiteSpecificDynamicsRegulations Then 'factor越大，则阈值越低，即事件越容易发生
+            If Rnd() >= Conf.SiteSpecificDynamicsRegulations Then 'factor越大，则阈值越低，即事件越容易发生
                 Return Effects
             Else
 BASAL_EXPRESSION:
-                Dim n = RandomDouble()
+                Dim n# = Rnd()
 
                 If n < Conf.BasalThreshold Then '默认状态是不激活，有较低的概率处于激活状态，即本底表达
                     '  Call Console.WriteLine("[DEBUG] {0} for basal expression.....", n)

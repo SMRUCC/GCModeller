@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::2b097cb8e8d018ea54dc4a570b834c8a, ..\interops\visualize\Circos\Circos\Colors\GradientMaps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Mathematical
+Imports System.Runtime.CompilerServices
 
 Namespace Colors
 
@@ -112,7 +113,8 @@ Namespace Colors
         ''' <param name="replaceBase"></param>
         ''' <returns></returns>
         <ExportAPI("Gradient.Mappings",
-               Info:="Creates a scale gradient color mappings between a vector and the circos RGB color.")>
+                   Info:="Creates a scale gradient color mappings between a vector and the circos RGB color.")>
+        <Extension>
         Public Function GradientMappings(values As IEnumerable(Of Double),
                                          Optional mapName As String = "Jet",
                                          Optional mapLevel As Integer = 512,
@@ -121,14 +123,15 @@ Namespace Colors
             If Not Double.IsNaN(offset) Then
                 values = values.Join(offset)
             End If
-#If DEBUG Then
-            Call values.FlushAllLines(App.AppSystemTemp & "/test.txt")
-#End If
+
             Dim mapLvs = values.GenerateMapping(mapLevel)
             Dim maps As New __maps(values, mapName, mapLevel, replaceBase)
+
             Call mapLvs.Max.__DEBUG_ECHO
             Call mapLvs.Min.__DEBUG_ECHO
-            Dim mappings = mapLvs.ToArray(AddressOf maps.CreateMaps)
+
+            Dim mappings As Mappings() =
+                mapLvs.ToArray(AddressOf maps.CreateMaps)
             Return mappings
         End Function
 
