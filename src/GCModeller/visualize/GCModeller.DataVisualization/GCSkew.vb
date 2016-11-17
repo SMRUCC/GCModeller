@@ -35,6 +35,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel
 
+''' <summary>
+''' plotting the GC% and GC skew curve.
+''' </summary>
 <[PackageNamespace]("NT.GC.Curve", Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module GCSkew
 

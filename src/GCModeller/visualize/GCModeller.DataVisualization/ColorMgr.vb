@@ -32,6 +32,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
+''' <summary>
+''' The color manager
+''' </summary>
 Public Class ColorMgr
 
     ''' <summary>
@@ -87,6 +90,9 @@ Public Class ColorMgr
     End Function
 End Class
 
+''' <summary>
+''' Entity to color mapper
+''' </summary>
 Public Class ClMap : Implements sIdEnumerable
 
     Public Property Identifier As String Implements sIdEnumerable.Identifier

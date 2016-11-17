@@ -28,14 +28,11 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI
-Imports SMRUCC.genomics.ComponentModel
 
 Public Module RenderingColor
 
@@ -88,18 +85,19 @@ Public Module RenderingColor
         Next
 
         '剩余的使用颜色
-        Dim ColorList As List(Of Color) = AllDotNetPrefixColors.ToList
-        categories = categories.Skip(tmpBuf.Count).ToArray
-        Dim ChunkBuffer = categories.CreateSlideWindows(Textures.Count, Textures.Count)
+        Dim ColorList As New List(Of Color)(AllDotNetPrefixColors)
+        Dim wins As SlideWindowHandle(Of String)() = categories _
+            .Skip(tmpBuf.Length) _
+            .CreateSlideWindows(Textures.Length, Textures.Length)
         Dim J As Integer = 0
 
         Do While True
-            For Each CatList In ChunkBuffer
+            For Each cats As SlideWindowHandle(Of String) In wins
                 Dim Color As Color = ColorList(J)
 
-                For i As Integer = 0 To CatList.Elements.Length - 1
-                    Dim res = TextureResourceLoader.AdjustColor(Textures(i), Color)
-                    Call hash.Add(CatList(i), New TextureBrush(res))
+                For i As Integer = 0 To cats.Elements.Length - 1
+                    Dim res As Image = TextureResourceLoader.AdjustColor(Textures(i), Color)
+                    Call hash.Add(cats(i), New TextureBrush(res))
                 Next
 
                 J += 1
@@ -114,7 +112,7 @@ Public Module RenderingColor
     ''' </summary>
     ''' <param name="categories"></param>
     ''' <returns></returns>
-    Private Function __directlyMapping(categories As String(), Textures As Image()) As Dictionary(Of String, Brush)
+    Private Function __directlyMapping(categories$(), Textures As Image()) As Dictionary(Of String, Brush)
         Dim DictData As Dictionary(Of String, Brush) = New Dictionary(Of String, Brush)
 
         For i As Integer = 0 To categories.Count - 1
@@ -130,7 +128,7 @@ Public Module RenderingColor
     ''' <param name="categories">当不为空的时候，会返回一个列表，其中空字符串会被排除掉，故而在返回值之中需要自己添加一个空值的默认颜色</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function InitCOGColors(categories As String()) As Dictionary(Of String, Color)
+    Public Function InitCOGColors(categories$()) As Dictionary(Of String, Color)
         If Not categories.IsNullOrEmpty Then
             Return GenerateColorProfiles(categories)
         End If
@@ -181,9 +179,9 @@ Public Module RenderingColor
                                  Where Not String.IsNullOrEmpty(s)
                                  Select s
 
-            Call VBMath.Randomize() : R = rand.NextDouble() * (Rs.Count - 1)
-            Call VBMath.Randomize() : G = rand.NextDouble() * (Gs.Count - 1)
-            Call VBMath.Randomize() : B = rand.NextDouble() * (Bs.Count - 1)
+            R = rand.NextDouble() * (Rs.Count - 1)
+            G = rand.NextDouble() * (Gs.Count - 1)
+            B = rand.NextDouble() * (Bs.Count - 1)
 
             Call Colors.Add(cl, Color.FromArgb(Rs(R), Gs(G), Bs(B)))
 
