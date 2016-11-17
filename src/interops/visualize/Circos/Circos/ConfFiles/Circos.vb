@@ -66,6 +66,7 @@ Namespace Configurations
     ''' </remarks>
     Public Class Circos : Inherits CircosConfig
         Implements ICircosDocument
+        Implements IEnumerable(Of ITrackPlot)
 
         ''' <summary>
         ''' The basically genome structure plots: Chromosome name, size and color definition.(基本的数据文件)
@@ -203,7 +204,7 @@ Namespace Configurations
                 If SkeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole.Value
+                Return _SkeletonKaryotype.Size - SkeletonKaryotype.LoopHole.value
             End Get
         End Property
 
@@ -220,6 +221,16 @@ Namespace Configurations
         End Property
 
         Dim _plots As New List(Of ITrackPlot)
+
+        ''' <summary>
+        ''' Gets the number of the tracks that defined in this circos model
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property NumberOfTracks As Integer
+            Get
+                Return _plots.Count
+            End Get
+        End Property
 
         Sub New()
             Call MyBase.New("circos.conf", Nothing)
@@ -253,15 +264,15 @@ Namespace Configurations
         End Function
 
         Public Overloads Shared Function CreateObject() As Circos
-            Dim CircosConfig As Circos = New Circos With {
+            Dim circos As New Circos With {
                 .Includes = New List(Of CircosConfig)
             }
 
-            Call CircosConfig.Includes.Add(CircosDistributed.ColorFontsPatterns)
-            Call CircosConfig.Includes.Add(CircosDistributed.HouseKeeping)
-            Call CircosConfig.Includes.Add(CircosDistributed.Image)
+            Call circos.Includes.Add(CircosDistributed.ColorFontsPatterns)
+            Call circos.Includes.Add(CircosDistributed.HouseKeeping)
+            Call circos.Includes.Add(CircosDistributed.Image)
 
-            Return CircosConfig
+            Return circos
         End Function
 
 #Region "默认的图形属性"
@@ -298,15 +309,15 @@ Namespace Configurations
         ''' <summary>
         ''' 强制所指定的绘图元素自动布局
         ''' </summary>
-        ''' <param name="elements"></param>
-        Public Shared Sub ForceAutoLayout(elements As ITrackPlot())
-            Dim d = 0.8 / elements.Length / 2
+        ''' <param name="tracks"></param>
+        Public Shared Sub ForceAutoLayout(tracks As ITrackPlot())
+            Dim d = 0.8 / tracks.Length / 2
             Dim p As Double = 0.95
 
-            For Each item In elements
-                item.r1 = p & "r"
+            For Each track As ITrackPlot In tracks
+                track.r1 = p & "r"
                 p -= d
-                item.r0 = p & "r"
+                track.r0 = p & "r"
                 p -= d / 5
             Next
         End Sub
@@ -345,5 +356,15 @@ Namespace Configurations
             Call circos.AddTrack(track)
             Return circos
         End Operator
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of ITrackPlot) Implements IEnumerable(Of ITrackPlot).GetEnumerator
+            For Each x As ITrackPlot In _plots
+                Yield x
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
+        End Function
     End Class
 End Namespace

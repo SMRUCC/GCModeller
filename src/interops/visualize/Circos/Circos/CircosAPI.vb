@@ -148,53 +148,56 @@ Public Module CircosAPI
     ''' then the ideogram circle will be empty on the drawing but this is different with the ideogram
     ''' configuration document was not included in the circos main configuration.
     ''' </summary>
-    ''' <param name="doc"></param>
+    ''' <param name="idg"></param>
     ''' <param name="width"></param>
     ''' <returns></returns>
     <ExportAPI("Set.Ideogram.Width", Info:="Invoke set the ideogram width in the circos plot drawing,
 if the width value is set to ZERO, then the ideogram circle will be empty on the drawing but this is
 different with the ideogram configuration document was not included in the circos main configuration.")>
-    Public Function SetIdeogramWidth(doc As Ideogram, width As Integer) As Ideogram
-        doc.Ideogram.thickness = width & "p"
+    Public Function SetIdeogramWidth(idg As Ideogram, width As Integer) As Ideogram
+        idg.Ideogram.thickness = width & "p"
 
         If width = 0 Then
-            doc.Ideogram.stroke_thickness = "0"
-            doc.Ideogram.band_stroke_thickness = "0"
+            idg.Ideogram.stroke_thickness = "0"
+            idg.Ideogram.band_stroke_thickness = "0"
         End If
 
-        Return doc
+        Return idg
     End Function
 
     ''' <summary>
     ''' Invoke set of the property value in the circos document object.
     ''' </summary>
-    ''' <param name="doc"></param>
+    ''' <param name="circos"></param>
     ''' <param name="name">The property name in the circos document object, case insensitive.</param>
     ''' <param name="value">String value of the circos document object property.</param>
     <ExportAPI("SetValue", Info:="Invoke set of the property value in the circos document object.")>
-    Public Sub setProperty(doc As Configurations.Circos,
+    Public Sub setProperty(circos As Configurations.Circos,
                            <Parameter("Name", "The property name in the circos document object, case insensitive.")>
                            name As String,
                            <Parameter("value", "String value of the circos document object property.")>
                            value As String)
-        Dim Properties As PropertyInfo() =
-            doc.GetType().GetProperties(BindingFlags.Public Or BindingFlags.Instance)
-        Dim p = (From pp As PropertyInfo
-                 In Properties
-                 Where String.Equals(pp.Name, name, StringComparison.OrdinalIgnoreCase)
-                 Select pp).FirstOrDefault
-        If p Is Nothing Then
+
+        Dim values As PropertyInfo() = circos.GetType().GetProperties(PublicProperty)
+        Dim writer As PropertyInfo = LinqAPI.DefaultFirst(Of PropertyInfo) <=
+ _
+            From wp As PropertyInfo
+            In values
+            Where String.Equals(wp.Name, name, StringComparison.OrdinalIgnoreCase)
+            Select wp
+
+        If writer Is Nothing Then
             Return
         End If
 
-        Call p.SetValue(doc, value)
+        Call writer.SetValue(circos, value)
     End Sub
 
     ''' <summary>
     ''' Invoke set the radius value of the ideogram circle.
     ''' (其他的圆圈都会发生变化，则每一次修改之后都需要重新计算圆圈的位置)
     ''' </summary>
-    ''' <param name="doc"></param>
+    ''' <param name="ideogram"></param>
     ''' <param name="r"></param>
     ''' <returns></returns>
     ''' <remarks>
@@ -203,53 +206,55 @@ different with the ideogram configuration document was not included in the circo
     ''' 1/ideogram.radius
     ''' </remarks>
     <ExportAPI("Set.Ideogram.Radius", Info:="Invoke set the radius value of the ideogram circle.")>
-    Public Function SetIdeogramRadius(doc As Configurations.Ideogram, r As Double) As Configurations.Ideogram
-        Dim PreviousRadius As Double = Val(doc.Ideogram.radius)
+    Public Function SetIdeogramRadius(ideogram As Ideogram, r As Double) As Ideogram
+        Dim PreviousRadius As Double = Val(ideogram.Ideogram.radius)
 
-        doc.Ideogram.radius = r & "r"
+        ideogram.Ideogram.radius = r & "r"
 
         Dim IR As Double = r
         Dim Max As Double = (1 / r) * 0.825
-        Dim GetRadius = Function(rd As String) As String
+        Dim getRadius = Function(rd As String) As String
                             r = Val(rd)
                             Dim f As Double = r / PreviousRadius
                             r = f * Max + IR
                             Return $"{r}r"
                         End Function
 
-        For Each Circle As ITrackPlot In doc.main.Plots
-            Circle.r0 = GetRadius(Circle.r0)
-            Circle.r1 = GetRadius(Circle.r1)
+        For Each track As ITrackPlot In ideogram.main.Plots
+            track.r0 = getRadius(track.r0)
+            track.r1 = getRadius(track.r1)
         Next
 
-        Return doc
+        Return ideogram
     End Function
 
     ''' <summary>
     ''' Invoke set the radius value of the ideogram circle.
     ''' </summary>
-    ''' <param name="doc"></param>
+    ''' <param name="circos"></param>
     ''' <param name="r"></param>
     ''' <returns></returns>
     <ExportAPI("Set.Ideogram.Radius", Info:="Invoke set the radius value of the ideogram circle.")>
-    Public Function SetIdeogramRadius(doc As Configurations.Circos, r As Double) As Configurations.Circos
-        Dim ele = GetIdeogram(doc)
-        Call SetIdeogramRadius(ele, r)
-        Return doc
+    <Extension>
+    Public Function SetIdeogramRadius(circos As Configurations.Circos, r As Double) As Configurations.Circos
+        Dim idg As Ideogram = circos.GetIdeogram
+        Call SetIdeogramRadius(idg, r)
+        Return circos
     End Function
 
     ''' <summary>
     '''
     ''' </summary>
-    ''' <param name="doc"></param>
+    ''' <param name="circos"></param>
     ''' <param name="r">从外圈到内圈的</param>
     ''' <returns></returns>
     '''
     <ExportAPI("Set.Radius")>
-    Public Function SetRadius(doc As Configurations.Circos, r As IEnumerable(Of Double())) As Configurations.Circos
+    <Extension>
+    Public Function SetRadius(circos As Configurations.Circos, r As IEnumerable(Of Double())) As Configurations.Circos
         Dim idx As Integer
 
-        For Each plot In doc.Plots
+        For Each plot In circos.Plots
             Dim rD As Double() = r(idx)
             Dim r1 = rD(0)
             Dim r2 = rD(1)
@@ -259,16 +264,17 @@ different with the ideogram configuration document was not included in the circo
             idx += 1
         Next
 
-        Return doc
+        Return circos
     End Function
 
     <ExportAPI("Set.Radius")>
-    Public Function SetRadius(doc As Configurations.Circos, rMax As Double, rMin As Double) As Configurations.Circos
-        Dim d = (rMax - rMin) / (doc.Plots.Length + 1)
+    <Extension>
+    Public Function SetRadius(circos As Configurations.Circos, rMax#, rMin#) As Configurations.Circos
+        Dim d = (rMax - rMin) / (circos.NumberOfTracks + 1)
         Dim dd = d * 0.2
         Dim r As Double = rMax - dd
 
-        For Each plot In doc.Plots
+        For Each plot In circos.Plots
             Dim r1 = r
             Dim r2 = r1 - d
 
@@ -278,7 +284,7 @@ different with the ideogram configuration document was not included in the circo
             r = r2 - dd
         Next
 
-        Return doc
+        Return circos
     End Function
 
     ''' <summary>
@@ -855,9 +861,9 @@ SET_END:    Dim ends = i
     ''' <param name="Color">The name of the color in the circos program.</param>
     ''' <returns></returns>
     <ExportAPI("Plots.Element.Set.Fill_Color", Info:="Invoke set the color of the circle element on the circos plots.")>
-    Public Function SetPlotElementFillColor(track As ITrackPlot,
-                                            <Parameter("Color", "The name of the color in the circos program.")>
-                                            Color As String) As ITrackPlot
+    Public Function SetTrackFillColor(track As ITrackPlot,
+                                      <Parameter("Color", "The name of the color in the circos program.")>
+                                      Color As String) As ITrackPlot
         track.fill_color = Color
         Return track
     End Function
@@ -866,12 +872,12 @@ SET_END:    Dim ends = i
     '''
     ''' </summary>
     ''' <param name="track"></param>
-    ''' <param name="Orientation">ori = ""in"" or ""out""</param>
+    ''' <param name="orientation">ori = ""in"" or ""out""</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Plots.Element.Set.Orientation", Info:="ori = ""in"" or ""out""")>
-    Public Function SetPlotElementOrientation(track As ITrackPlot, Orientation As String) As ITrackPlot
-        track.orientation = Orientation
+    Public Function SetTrackOrientation(track As ITrackPlot, orientation$) As ITrackPlot
+        track.orientation = orientation
         Return track
     End Function
 
@@ -1100,30 +1106,39 @@ SET_END:    Dim ends = i
     ''' <summary>
     ''' Save the circos plots configuration object as the default configuration file: circos.conf
     ''' </summary>
-    ''' <param name="doc"></param>
+    ''' <param name="circos"></param>
     ''' <param name="outDIR"></param>
-    ''' <param name="Debug"></param>
+    ''' <param name="debug"></param>
     ''' <returns></returns>
     <ExportAPI("Write.Txt.Circos", Info:="Save the circos plots configuration object as the default configuration file: circos.conf")>
-    Public Function WriteData(doc As Configurations.Circos,
-                              Optional outDIR As String = "",
-                              Optional Debug As Boolean = True) As String
-        Dim Circos As String = GetCircosScript()
-        Call doc.Save(outDIR)
-        Call $"perl {Circos.CLIPath} -conf {doc.FilePath.CLIPath}{If(Debug, CircosAPI.DEBUG, "")}".SaveTo(outDIR & "/run.bat")
-        Call ("#! /bin/bash" & vbCrLf &
-             $"perl {Circos.CLIPath.Replace("\", "/")} -conf {doc.FilePath.CLIPath.Replace("\", "/")}{If(Debug, CircosAPI.DEBUG, "")}").SaveTo(outDIR & "/run.sh")
+    <Extension>
+    Public Function WriteData(circos As Configurations.Circos,
+                              Optional outDIR$ = "",
+                              Optional debug As Boolean = False) As String
 
-        Return doc.FilePath
+        Dim perlRun$ = GetCircosScript().CLIPath.Replace("\", "/")
+        Dim conf$ = circos.FilePath.CLIPath.Replace("\", "/")
+
+        Call circos.Save(outDIR)
+        Call $"perl {perlRun} -conf {conf}{If(debug, CircosAPI.DEBUG, "")}".SaveTo(outDIR & "/run.bat")
+        Call ("#! /bin/bash" & vbCrLf &
+             $"perl {perlRun} -conf {conf}{If(debug, CircosAPI.DEBUG, "")}").SaveTo(outDIR & "/run.sh")
+
+        Return circos.FilePath
     End Function
 
+    ''' <summary>
+    ''' Gets the circos Perl script file location automatically by search on the file system.
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("Circos.pl", Info:="Gets the circos Perl script file location automatically by search on the file system.")>
     Public Function GetCircosScript() As String
-        Dim Directories = ProgramPathSearchTool.SearchDirectory("circos", "")
-        For Each Dir As String In Directories
-            Dim Files = ProgramPathSearchTool.SearchScriptFile(Dir, "circos")
-            If Not Files.IsNullOrEmpty Then
-                Return Files.First
+        Dim libs = ProgramPathSearchTool.SearchDirectory("circos", "")
+
+        For Each DIR As String In libs
+            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(DIR, "circos")
+            If Not circos.IsNullOrEmpty Then
+                Return circos.First
             End If
         Next
 
@@ -1131,19 +1146,24 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Ticks.ShowLabel")>
-    Public Sub ShowTicksLabel(doc As Configurations.Circos, value As Boolean)
-        If doc.Includes.IsNullOrEmpty Then
+    Public Sub ShowTicksLabel(circos As Configurations.Circos, value As Boolean)
+        If circos.Includes.IsNullOrEmpty Then
             Return
         End If
 
-        Dim Ticks = (From include As CircosConfig In doc.Includes.AsParallel
-                     Where InStr(include.RefPath, Configurations.Circos.TicksConf, CompareMethod.Text) > 0
-                     Select DirectCast(include, Configurations.Ticks)).First
-        If Not Ticks Is Nothing Then
+        Dim ticks = LinqAPI.DefaultFirst(Of Ticks) <=
+ _
+            From include As CircosConfig
+            In circos.Includes
+            Where InStr(include.RefPath, Configurations.Circos.TicksConf, CompareMethod.Text) > 0
+            Select DirectCast(include, Ticks)
+
+        If Not ticks Is Nothing Then
             Dim show As String = If(value, yes, no)
 
-            Ticks.show_tick_labels = show
-            For Each tick In Ticks.Ticks.Ticks
+            ticks.show_tick_labels = show
+
+            For Each tick As Nodes.Tick In ticks.Ticks.Ticks
                 tick.show_label = show
             Next
         End If
