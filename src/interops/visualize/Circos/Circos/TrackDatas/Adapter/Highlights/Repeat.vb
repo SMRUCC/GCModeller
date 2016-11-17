@@ -29,11 +29,11 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace TrackDatas.Highlights
 
@@ -42,7 +42,8 @@ Namespace TrackDatas.Highlights
         Sub New(repeat As IEnumerable(Of NtProps.Repeat), attrs As IEnumerable(Of Double))
             Dim clMaps As IdentityColors = New IdentityGradients(attrs.Min, attrs.Max, 512)
             Dim v As Double() = attrs.ToArray
-            Me.__source = New List(Of ValueTrackData)(repeat.ToArray(Function(x) __creates(x, maps:=clMaps, attrs:=v)))
+            Me.__source = New List(Of ValueTrackData)(
+                repeat.ToArray(Function(x) __creates(x, maps:=clMaps, attrs:=v)))
         End Sub
 
         Private Shared Function __creates(loci As NtProps.Repeat, maps As IdentityColors, attrs As Double()) As ValueTrackData
@@ -60,16 +61,19 @@ Namespace TrackDatas.Highlights
         End Function
 
         Sub New(repeat As IEnumerable(Of NtProps.Repeat), Optional Color As String = "Brown")
-            Me.__source =
-                LinqAPI.MakeList(Of ValueTrackData) <= From x As NtProps.Repeat
-                                                       In repeat
-                                                       Select New ValueTrackData With {
-                                                           .start = CInt(Val(x.Minimum)),
-                                                           .end = CInt(Val(x.Maximum)),
-                                                           .formatting = New Formatting With {
-                                                               .fill_color = Color
-                                                           }
-                                                       }
+            Me.__source = LinqAPI.MakeList(Of ValueTrackData) <=
+ _
+                From x As NtProps.Repeat
+                In repeat
+                Let left = CInt(Val(x.Minimum))
+                Let right = CInt(Val(x.Maximum))
+                Select New ValueTrackData With {
+                    .start = left,
+                    .end = right,
+                    .formatting = New Formatting With {
+                        .fill_color = Color
+                    }
+                }
         End Sub
     End Class
 End Namespace

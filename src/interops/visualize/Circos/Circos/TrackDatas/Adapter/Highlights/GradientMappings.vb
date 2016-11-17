@@ -29,13 +29,13 @@
 Imports System.Drawing
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Visualize.Circos.Colors
-Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Visualize.Circos.Colors
 
 Namespace TrackDatas.Highlights
 
@@ -76,14 +76,11 @@ Namespace TrackDatas.Highlights
                                 steps)
         End Function
 
-        Protected Shared Function __initCommon(chr As String,
-                                               values As Double(),
-                                   length As Integer,
-                                   mapName As String,
-                                   winSize As Integer,
-                                   replaceBase As Boolean,
-                                   extTails As Boolean,
-                                   Optional steps As Integer = 0) As List(Of ValueTrackData)
+        Protected Shared Function __initCommon(chr$, values#(), len%,
+                                               mapName$, winSize%,
+                                               replaceBase As Boolean,
+                                               extTails As Boolean,
+                                               Optional steps% = 0) As List(Of ValueTrackData)
             Dim avgs As Double()
 
             Call $"  >>{GetType(GradientMappings).FullName}   min= {values.Min};   max={values.Max};  @{mapName}".__DEBUG_ECHO
@@ -95,10 +92,10 @@ Namespace TrackDatas.Highlights
                 avgs = values
             End If
 
-            Dim colors As Mappings() =
-                GradientMaps.GradientMappings(avgs,
-                                              mapName,
-                                              replaceBase:=replaceBase)
+            Dim colors As Mappings() = GradientMaps.GradientMappings(
+                avgs, mapName,
+                replaceBase:=replaceBase)
+
             Dim out As List(Of ValueTrackData)
 
             If winSize > 0 Then
@@ -140,7 +137,8 @@ Namespace TrackDatas.Highlights
                 Optional extTails As Boolean = False, Optional chr As String = "chr1")
             Dim d As Dictionary(Of Integer, Double) =
                 values.Sequence.ToDictionary(Function(i) i, Function(i) values(i))
-            Me.__source = __initCommon(chr, d, length, mapName, winSize, replaceBase, extTails)
+            Me.__source = __initCommon(
+                chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
 
         Sub New(values As IEnumerable(Of ValueTrackData),

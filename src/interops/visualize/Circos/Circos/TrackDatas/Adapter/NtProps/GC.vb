@@ -73,33 +73,34 @@ Namespace TrackDatas.NtProps
         Public Function GetGCContentForGENOME(FASTA As FastaToken, winSize As Integer, steps As Integer) As NASegment_GC()
             Dim NT As DNA() = NucleicAcid.CreateObject(FASTA.SequenceData).ToArray
             Dim slideWins As SlideWindowHandle(Of DNA)() =
-            NT.CreateSlideWindows(slideWindowSize:=winSize, offset:=steps)
-            Dim LQuery As List(Of NASegment_GC) =
-            LinqAPI.MakeList(Of NASegment_GC) <=
-                From Segment In slideWins
-                Let gc As Double = Segment.Elements.GC_Content
+                NT.CreateSlideWindows(slideWindowSize:=winSize, offset:=steps)
+            Dim LQuery As List(Of NASegment_GC) = LinqAPI.MakeList(Of NASegment_GC) <=
+ _
+                From seg As SlideWindowHandle(Of DNA)
+                In slideWins
+                Let gc As Double = seg.GC_Content
                 Let at As Double = 1 - gc
                 Select New NASegment_GC With {
-                    .start = Segment.Left,
-                    .end = Segment.Right,
-                    .length = Segment.Length,
+                    .start = seg.Left,
+                    .end = seg.Right,
+                    .length = seg.Length,
                     .value = gc,
                     .AT = at,
                     .GC_AT = (gc / at)
-                    }
+                }
 
             Dim LastSegment As New List(Of DNA)(slideWins.Last.Elements)
-            Dim TempChunk As List(Of DNA)
+            Dim tmp As List(Of DNA)
             Dim p As Integer = LQuery.Last.start
 
             For i As Integer = 0 To LastSegment.Count - 1 Step steps
-                TempChunk = New List(Of DNA)(LastSegment.Skip(i))
-                TempChunk += NT.Take(i)
+                tmp = New List(Of DNA)(LastSegment.Skip(i))
+                tmp += NT.Take(i)
                 LQuery += New NASegment_GC With {
                             .start = p + i,
                             .length = winSize,
                             .end = p + i + winSize,
-                            .value = TempChunk.GC_Content
+                            .value = tmp.GC_Content
                 }
             Next
 

@@ -261,8 +261,13 @@ Namespace ComponentModel.Loci
             End If
         End Operator
 
+        ''' <summary>
+        ''' <see cref="Left"/>, <see cref="Right"/> offset a length value and then construct a new <see cref="Location"/> value.
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
         Public Function OffSet(value As Integer) As Location
-            Return New Location(Me.Left + value, Me.Right + value)
+            Return New Location(Left + value, Right + value)
         End Function
     End Class
 End Namespace

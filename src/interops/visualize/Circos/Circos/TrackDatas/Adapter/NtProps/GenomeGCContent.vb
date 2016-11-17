@@ -27,10 +27,10 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 
 Namespace TrackDatas.NtProps
 

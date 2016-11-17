@@ -210,9 +210,13 @@
     <Compile Include="Karyotype\Abstract.vb" />
     <Compile Include="Karyotype\Karyotype.vb" />
     <Compile Include="TrackDatas\Adapter\DataExtensions.vb" />
+    <Compile Include="TrackDatas\TrackDatas\Idata.vb" />
     <Compile Include="TrackDatas\TrackDatas\data.vb" />
     <Compile Include="TrackDatas\TrackDatas\Extensions.vb" />
-    <Compile Include="TrackDatas\TrackDatas\TrackData.vb" />
+    <Compile Include="TrackDatas\TrackDatas\TrackData\TrackModel.vb" />
+    <Compile Include="TrackDatas\TrackDatas\TrackData\Tracks.vb" />
+    <Compile Include="TrackDatas\TrackDatas\TrackData\link.vb" />
+    <Compile Include="TrackDatas\TrackDatas\TrackData\TrackData.vb" />
     <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
     <Compile Include="Colors\ColorAPI.vb" />
     <Compile Include="TrackDatas\Adapter\NtProps\GCSkew.vb" />

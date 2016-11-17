@@ -35,12 +35,6 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace TrackDatas
 
-    Public Interface Idata
-        Property FileName As String
-        Function GetDocumentText() As String
-        Function GetEnumerator() As IEnumerable(Of ITrackData)
-    End Interface
-
     ''' <summary>
     ''' Tracks data document generator.(使用这个对象生成data文件夹之中的数据文本文件)
     ''' </summary>

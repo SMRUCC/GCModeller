@@ -27,8 +27,8 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace TrackDatas
 
