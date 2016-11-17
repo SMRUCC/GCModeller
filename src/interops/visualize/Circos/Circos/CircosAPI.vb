@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::6312870b61952d012c2e3ca9f9888133, ..\interops\visualize\Circos\Circos\CircosAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -57,6 +57,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
@@ -358,7 +359,23 @@ different with the ideogram configuration document was not included in the circo
     <ExportAPI("Plots.New.Seperator",
                Info:="Creates a new seperator object in the circos plot with the specific width of the line, default is ZERO, not display.")>
     Public Function PlotsSeperatorLine(Length As Integer, Optional width As Integer = 0) As Nodes.Plots.SeperatorCircle
-        Return New Nodes.Plots.SeperatorCircle(Length, width)
+        Return New SeperatorCircle(Length, width)
+    End Function
+
+    <Extension>
+    Public Function AddMotifSites(circos As Configurations.Circos, motifs As IEnumerable(Of IMotifSite)) As Configurations.Circos
+        Dim sites As IMotifSite() = motifs.ToArray
+        Dim motifTrack As New MotifSites(sites)
+        Dim highlightLabel As New HighlightLabel(
+            (From gene As IMotifSite
+             In sites
+             Where Not String.IsNullOrEmpty(gene.Name)
+             Select gene).ToArray)
+
+        circos += New TextLabel(New HighlightLabel(highlightLabel))
+        circos += New HighLight(motifTrack)
+
+        Return circos
     End Function
 
     ''' <summary>
@@ -374,6 +391,7 @@ different with the ideogram configuration document was not included in the circo
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Plots.add.Gene_Circle")>
+    <Extension>
     Public Function GenerateGeneCircle(doc As Configurations.Circos,
                                        anno As IEnumerable(Of GeneDumpInfo),
                                        <Parameter("Gene.Name.Only")> Optional onlyGeneName As Boolean = True,
@@ -386,11 +404,13 @@ different with the ideogram configuration document was not included in the circo
                                        Optional snuggleRefine As Boolean = False,
                                        Optional splitOverlaps As Boolean = False) As Configurations.Circos
 
-        Dim COGVector As String() =
-            LinqAPI.Exec(Of String) <= From gene As GeneDumpInfo
-                                       In anno.AsParallel
-                                       Select gene.COG
-                                       Distinct
+        Dim COGVector$() = LinqAPI.Exec(Of String) <=
+ _
+            From gene As GeneDumpInfo
+            In anno
+            Select gene.COG
+            Distinct
+
         Dim Colors As Dictionary(Of String, String) =
             CircosColor.ColorProfiles(COGVector)
 
@@ -399,17 +419,20 @@ different with the ideogram configuration document was not included in the circo
 
         If DisplayName Then Call __addDisplayName(onlyGeneName, IDRegex, anno, doc, snuggleRefine)
 
-        Dim Document As HighLight() = __geneHighlights(anno, Colors, Strands.Forward, splitOverlaps)
+        Dim highlightsTrack As HighLight() =
+            __geneHighlights(anno, Colors, Strands.Forward, splitOverlaps)
 
-        If Not Document.IsNullOrEmpty Then
-            If Document.Length = 1 AndAlso Not Document.First.Highlights.IsNullOrEmpty Then
-                Dim Docc = Document(Scan0)
-                Docc.r0 = "0.86r"
-                Docc.r1 = "0.90r"
+        If Not highlightsTrack.IsNullOrEmpty Then
+            If highlightsTrack.Length = 1 AndAlso
+                Not highlightsTrack.First.Highlights.IsNullOrEmpty Then
 
-                Call doc.AddTrack(Docc)
+                Dim htrack As HighLight = highlightsTrack(Scan0)
+                htrack.r0 = "0.86r"
+                htrack.r1 = "0.90r"
+
+                Call doc.AddTrack(htrack)
             Else
-                For Each circle In Document
+                For Each circle As HighLight In highlightsTrack
                     If circle.Highlights.IsNullOrEmpty Then
                         Continue For
                     End If
@@ -418,19 +441,21 @@ different with the ideogram configuration document was not included in the circo
             End If
         End If
 
-        Document = __geneHighlights(anno, Colors, Strands.Reverse, splitOverlaps)
+        highlightsTrack = __geneHighlights(anno, Colors, Strands.Reverse, splitOverlaps)
 
-        If Not Document.IsNullOrEmpty Then
-            If Document.Length = 1 AndAlso Not Document.First.Highlights.IsNullOrEmpty Then
-                Dim Docc = Document(Scan0)
-                Docc.r0 = "0.82r"
-                Docc.r1 = "0.86r"
-                Docc.fill_color = "blue"
-                Docc.orientation = "out"
+        If Not highlightsTrack.IsNullOrEmpty Then
+            If highlightsTrack.Length = 1 AndAlso
+                Not highlightsTrack.First.Highlights.IsNullOrEmpty Then
 
-                Call doc.AddTrack(Docc)
+                Dim hTrack As HighLight = highlightsTrack(Scan0)
+                hTrack.r0 = "0.82r"
+                hTrack.r1 = "0.86r"
+                hTrack.fill_color = "blue"
+                hTrack.orientation = "out"
+
+                Call doc.AddTrack(hTrack)
             Else
-                For Each circle In Document
+                For Each circle In highlightsTrack
                     If circle.Highlights.IsNullOrEmpty Then
                         Continue For
                     End If
@@ -443,42 +468,53 @@ different with the ideogram configuration document was not included in the circo
     End Function
 
     <ExportAPI("Plots.add.Gradients")>
-    Public Function AddGradientMappings(doc As Configurations.Circos,
+    Public Function AddGradientMappings(circos As Configurations.Circos,
                                         values As IEnumerable(Of Double),
                                         Optional mapName As String = "Jet",
                                         Optional winSize As Integer = 32,
                                         Optional replaceBase As Boolean = False,
                                         Optional extTails As Boolean = False) As Configurations.Circos
-        Dim node = New GradientMappings(values, doc.Size, mapName, winSize, replaceBase, extTails)
-        Dim Document As New Nodes.Plots.HighLight(node)
-        Call doc.AddTrack(track:=Document)
-        Return doc
+        Dim node As New GradientMappings(
+            values, circos.Size, mapName,
+            winSize,
+            replaceBase, extTails)
+        Dim hTrack As New HighLight(node)
+        Call circos.AddTrack(track:=hTrack)
+        Return circos
     End Function
 
     <ExportAPI("Plots.add.Gradients")>
-    Public Function AddGradientMappings(doc As Configurations.Circos,
+    Public Function AddGradientMappings(circos As Configurations.Circos,
                                         values As IEnumerable(Of ILoci),
-                                        Optional mapName As String = "Jet",
-                                        Optional winSize As Integer = 32,
+                                        Optional mapName$ = "Jet",
+                                        Optional winSize% = 32,
                                         Optional replaceBase As Boolean = False,
                                         Optional extTails As Boolean = False) As Configurations.Circos
-        Dim node = New GradientMappings(values, doc.Size, mapName, winSize, replaceBase, extTails)
-        Dim Document As New Nodes.Plots.HighLight(node)
-        Call doc.AddTrack(track:=Document)
-        Return doc
+        Dim node As New GradientMappings(
+            values, circos.Size, mapName,
+            winSize,
+            replaceBase,
+            extTails)
+        Dim track As New HighLight(node)
+        Call circos.AddTrack(track:=track)
+        Return circos
     End Function
 
     <ExportAPI("Plots.add.Gene_Elements")>
+    <Extension>
     Public Function GenerateGeneElements(doc As Configurations.Circos,
                                          GBK As GenBank.GBFF.File,
                                          Optional splitOverlaps As Boolean = False,
                                          Optional dumpAll As Boolean = False) As Configurations.Circos
         Dim dump As GeneDumpInfo() = FeatureDumps(GBK, dumpAll:=dumpAll)
-        Return GenerateGeneCircle(doc, dump, splitOverlaps:=splitOverlaps)
+        Return GenerateGeneCircle(
+            doc, dump,
+            splitOverlaps:=splitOverlaps)
     End Function
 
     <ExportAPI("Plots.add.Gene_Elements")>
-    Public Function GenerateGeneElements(doc As Configurations.Circos,
+    <Extension>
+    Public Function GenerateGeneElements(circos As Configurations.Circos,
                                          GBK As GenBank.GBFF.File,
                                          COGs As IEnumerable(Of MyvaCOG),
                                          Optional splitOverlaps As Boolean = False,
@@ -490,28 +526,28 @@ different with the ideogram configuration document was not included in the circo
                     Group x By x.QueryName Into Group) _
                         .ToDictionary(Function(x) x.QueryName,
                                       Function(x) x.Group.First)
-        For Each x In dump
+        For Each x As GeneDumpInfo In dump
             If hash.ContainsKey(x.LocusID) Then
                 x.COG = hash(x.LocusID).COG
             End If
         Next
 
-        Return GenerateGeneCircle(doc, dump, splitOverlaps:=splitOverlaps)
+        Return GenerateGeneCircle(circos, dump, splitOverlaps:=splitOverlaps)
     End Function
 
     <ExportAPI("Plots.add.Sites")>
-    Public Function AddSites(doc As Configurations.Circos, sites As IEnumerable(Of NucleotideModels.Contig)) As Configurations.Circos
-        Dim dump As GeneDumpInfo() =
-            LinqAPI.Exec(Of NucleotideModels.Contig, GeneDumpInfo)(sites) <=
-           Function(site As NucleotideModels.Contig) _
-                New GeneDumpInfo With {
-                    .Location = site.MappingLocation,
-                    .LocusID = "",
-                    .CommonName = "",
-                    .GeneName = "",
-                    .ProteinId = ""
+    Public Function AddSites(circos As Configurations.Circos, sites As IEnumerable(Of Contig)) As Configurations.Circos
+        Dim genes As GeneDumpInfo() = LinqAPI.Exec(Of Contig, GeneDumpInfo) _
+ _
+            (sites) <= Function(site As Contig) New GeneDumpInfo With {
+                .Location = site.MappingLocation,
+                .LocusID = "",
+                .CommonName = "",
+                .GeneName = "",
+                .ProteinId = ""
         }
-        Return GenerateGeneCircle(doc, dump, False)
+
+        Return circos.GenerateGeneCircle(genes, False)
     End Function
 
     <ExportAPI("Plots.Variants")>
@@ -565,7 +601,8 @@ SET_END:    Dim ends = i
         Dim genesPretend = regions.ToArray(
             Function(r) New GeneDumpInfo With {
                 .Location = New NucleotideLocation(CInt(r.Value1), CInt(r.Value2)),
-                .GC_Content = CDbl(r.Value3)})
+                .GC_Content = CDbl(r.Value3)
+            })
         Dim mapsSrc As Integer() = genesPretend.ToArray(Function(g) g.GC_Content).GenerateMapping(100)
 
         For i As Integer = 0 To genesPretend.Length - 1
@@ -584,41 +621,50 @@ SET_END:    Dim ends = i
         Dim setValue = New SetValue(Of GeneDumpInfo) <= NameOf(GeneDumpInfo.LocusID)
 
         If Not onlyGeneName Then
-            Dim getID As Func(Of String, String) = If(Not String.IsNullOrEmpty(IDRegex),
+            Dim getID As Func(Of String, String) = If(
+                Not String.IsNullOrEmpty(IDRegex),
                 Function(ID As String) Regex.Match(ID, IDRegex).Value,
                 Function(ID As String) ID.Split("_"c).Last)
-            anno = (From GeneObject In anno
-                    Let uid As String = If(String.IsNullOrEmpty(GeneObject.GeneName),
-                        getID(GeneObject.LocusID),
-                        GeneObject.GeneName)
-                    Select setValue(GeneObject, uid)).ToArray
+
+            anno = LinqAPI.Exec(Of GeneDumpInfo) <= From gene As GeneDumpInfo
+                                                    In anno
+                                                    Let uid As String = If(
+                                                        String.IsNullOrEmpty(gene.GeneName),
+                                                        getID(gene.LocusID),
+                                                        gene.GeneName)
+                                                    Select setValue(gene, uid)
         Else  ' 仅仅显示基因名称
-            anno = (From GeneObject As GeneDumpInfo
-                    In anno
-                    Select setValue(GeneObject, GeneObject.GeneName)).ToArray
+            anno = LinqAPI.Exec(Of GeneDumpInfo) <=
+                From gene As GeneDumpInfo
+                In anno
+                Select setValue(gene, gene.GeneName)
         End If
 
-        Dim LabelGenes As GeneDumpInfo() =
-            LinqAPI.Exec(Of GeneDumpInfo) <= From gene As GeneDumpInfo
-                                             In anno
-                                             Where Not String.IsNullOrEmpty(gene.LocusID)
-                                             Select gene
+        Dim LabelGenes As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+ _
+            From gene As GeneDumpInfo
+            In anno
+            Where Not String.IsNullOrEmpty(gene.LocusID)
+            Select gene
 
         If LabelGenes.IsNullOrEmpty Then
             Return
         End If
 
-        Dim LabelDocument = New TextLabel(New HighlightLabel(LabelGenes))
-        LabelDocument.r0 = "0.90r"
-        LabelDocument.r1 = "0.995r"
+        Dim labels As New TextLabel(New HighlightLabel(LabelGenes)) With {
+            .r0 = "0.90r",
+            .r1 = "0.995r"
+        }
 
-        Call doc.AddTrack(LabelDocument)
+        Call doc.AddTrack(labels)
 
-        LabelDocument.snuggle_refine = If(snuggleRefine, yes, no)
+        labels.snuggle_refine = If(snuggleRefine, yes, no)
     End Sub
 
     ''' <summary>
-    ''' 生成基因组的基因片段
+    ''' 生成基因组的基因片段，因为有一个<paramref name="SplitOverlaps"/>选项，
+    ''' 所以可能会将track圈分解成若干个互不重叠的圈返回，所以返回的类型是一个
+    ''' 基因组位点高亮模型的数组
     ''' </summary>
     ''' <param name="anno"></param>
     ''' <param name="colors"></param>
@@ -922,14 +968,14 @@ SET_END:    Dim ends = i
     ''' <summary>
     ''' Adds a new circos plots element into the circos.conf object.
     ''' </summary>
-    ''' <param name="doc"></param>
-    ''' <param name="element"></param>
+    ''' <param name="circos"></param>
+    ''' <param name="track"></param>
     ''' <returns></returns>
     <ExportAPI("Adds.Plots",
                Info:="Adds a new circos plots element into the circos.conf object.")>
-    Public Function AddPlotElement(ByRef doc As Configurations.Circos, element As ITrackPlot) As Integer
-        Call doc.AddTrack(element)
-        Return doc.Plots.Length
+    Public Function AddPlotTrack(ByRef circos As Configurations.Circos, track As ITrackPlot) As Integer
+        Call circos.AddTrack(track)
+        Return circos.Plots.Length
     End Function
 
     <ExportAPI("Set.Property.Basic")>
@@ -943,29 +989,32 @@ SET_END:    Dim ends = i
     End Function
 
     <ExportAPI("Set.Property.Basic")>
-    Public Function SetBasicProperty(doc As Configurations.Circos, NT As FASTA.FastaToken, Optional loophole As Integer = 0) As Boolean
-        Return SetBasicProperty(doc, NT, Nothing, loophole)
+    Public Function SetBasicProperty(doc As Configurations.Circos, nt As FASTA.FastaToken, Optional loophole As Integer = 0) As Boolean
+        Return SetBasicProperty(doc, nt, Nothing, loophole)
     End Function
 
     ''' <summary>
     '''
     ''' </summary>
-    ''' <param name="doc"></param>
+    ''' <param name="circos"></param>
     ''' <param name="NT"></param>
-    ''' <param name="Bands"></param>
-    ''' <param name="loophole">默认为0，没有缺口</param>
+    ''' <param name="bands"></param>
+    ''' <param name="loopHole">默认为0，没有缺口</param>
     ''' <returns></returns>
     <ExportAPI("Skeleton.With.Bands")>
-    Public Function SetBasicProperty(doc As Configurations.Circos,
+    Public Function SetBasicProperty(circos As Configurations.Circos,
                                      NT As FASTA.FastaToken,
-                                     Bands As IEnumerable(Of TripleKeyValuesPair),
-                                     Optional loophole As Integer = 0) As Boolean
-        Call doc.Includes.Add(New Configurations.Ticks(Circos:=doc))
-        Call doc.Includes.Add(New Configurations.Ideogram(doc))
+                                     bands As IEnumerable(Of TripleKeyValuesPair),
+                                     Optional loopHole As Integer = 0) As Boolean
+        Call circos.Includes.Add(New Ticks(Circos:=circos))
+        Call circos.Includes.Add(New Ideogram(circos))
 
-        doc.SkeletonKaryotype = New KaryotypeChromosomes(Len(NT.SequenceData) + loophole, "white", If(Bands Is Nothing, Nothing, Bands.ToArray))
-        doc.SkeletonKaryotype.LoopHole.Value = loophole
-        doc.karyotype = "./data/genome_skeleton.txt"
+        circos.SkeletonKaryotype = New KaryotypeChromosomes(
+            Len(NT.SequenceData) + loopHole,
+            "white",
+            If(bands Is Nothing, Nothing, bands.ToArray))
+        circos.SkeletonKaryotype.LoopHole.value = loopHole
+        circos.karyotype = "./data/genome_skeleton.txt"
 
         Return True
     End Function
@@ -978,7 +1027,13 @@ SET_END:    Dim ends = i
                  Group site By site.Left Into Group).ToDictionary(
                     Function(site) site.Left,
                     Function(site) CDbl(site.Group.ToArray.Length))
+
+        VBDebugger.Mute = True
+
         Dim values = length.ToArray(Function(idx) d.TryGetValue(idx, [default]:=0))
+
+        VBDebugger.Mute = False
+
         Dim slids = values.CreateSlideWindows(10)
         Dim avgs = slids.ToArray(Function(win) win.Average)
         Return avgs

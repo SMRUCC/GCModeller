@@ -340,5 +340,10 @@ Namespace Configurations
 
             Return sb.ToString
         End Function
+
+        Public Shared Operator +(circos As Circos, track As ITrackPlot) As Circos
+            Call circos.AddTrack(track)
+            Return circos
+        End Operator
     End Class
 End Namespace
