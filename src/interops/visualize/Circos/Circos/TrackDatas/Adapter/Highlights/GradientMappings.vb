@@ -1,59 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::e595ba6b087c25109a0751d2576e426b, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\GradientMappings.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Drawing
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 
 Namespace TrackDatas.Highlights
 
     Public Class GradientMappings : Inherits Highlights
 
-        Sub New(locis As IEnumerable(Of Loci.Abstract.ILoci),
-                length As Integer,
-                mapName As String,
-                winSize As Integer,
+        Sub New(locis As IEnumerable(Of ILoci),
+                length%, mapName$, winSize%,
                 Optional replaceBase As Boolean = False,
                 Optional extTails As Boolean = False,
-                Optional chr As String = "chr1")
-            Dim d = (From site As Loci.Abstract.ILoci
-                     In locis
-                     Select site
-                     Group site By site.Left Into Group).ToDictionary(Function(site) site.Left,
-                                                                      Function(site) CDbl(site.Group.ToArray.Length))
-            Me.__source = __initCommon(chr, d, length, mapName, winSize, replaceBase, extTails)
+                Optional chr$ = "chr1")
+
+            Dim g = From site As ILoci
+                    In locis
+                    Select site
+                    Group site By site.Left Into Group
+            Dim d As Dictionary(Of Integer, Double) =
+                g.ToDictionary(
+                Function(site) site.Left,
+                Function(site) CDbl(site.Group.ToArray.Length))
+
+            __source = __initCommon(chr, d, length, mapName, winSize, replaceBase, extTails)
         End Sub
 
         Protected Shared Function __initCommon(chr As String,
@@ -99,13 +98,15 @@ Namespace TrackDatas.Highlights
             Dim out As List(Of ValueTrackData)
 
             If winSize > 0 Then
-                out = colors.ToArray(Function(site, idx) FromColorMapping(site, idx + 1, 0)).ToList
+                out = New List(Of ValueTrackData)(
+                    colors.ToArray(
+                    Function(site, idx) FromColorMapping(site, idx + 1, 0)))
             Else
                 Dim bufs As New List(Of ValueTrackData)
                 Dim i As Integer
 
                 For Each x As Mappings In colors
-                    Dim o = FromColorMapping(x, i, steps)
+                    Dim o As ValueTrackData = FromColorMapping(x, i, steps)
                     i += steps
                     bufs += o
                 Next
@@ -164,13 +165,10 @@ Namespace TrackDatas.Highlights
 
                 bufs = slides.ToArray(Function(x) x.Average)
 
-                Dim chunk = __initCommon(ch.chr,
-                                         bufs,
-                                         length,
-                                         mapName,
-                                         -1,
-                                         replaceBase,
-                                         extTails, 2048)
+                Dim chunk As List(Of ValueTrackData) = __initCommon(
+                    ch.chr, bufs, length,
+                    mapName, -1,
+                    replaceBase, extTails, 2048)
 
                 Call __source.AddRange(chunk)
             Next

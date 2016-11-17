@@ -209,6 +209,7 @@
     <Compile Include="ConfFiles\Nodes\Line\Line.vb" />
     <Compile Include="Karyotype\Abstract.vb" />
     <Compile Include="Karyotype\Karyotype.vb" />
+    <Compile Include="TrackDatas\Adapter\Highlights\MotifSites.vb" />
     <Compile Include="TrackDatas\Adapter\DataExtensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\Idata.vb" />
     <Compile Include="TrackDatas\TrackDatas\data.vb" />
@@ -225,7 +226,7 @@
     <Compile Include="TrackDatas\Adapter\Highlights\BlastMaps\BlastMaps.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\BlastMaps\IdentityColors.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Labels.vb" />
-    <Compile Include="TrackDatas\Adapter\Highlights\Gene.vb" />
+    <Compile Include="TrackDatas\Adapter\Highlights\GeneMark.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Repeat.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\GradientMappings.vb" />
     <Compile Include="TrackDatas\Adapter\Highlights\Name.vb" />

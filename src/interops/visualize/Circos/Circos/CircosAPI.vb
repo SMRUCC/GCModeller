@@ -682,31 +682,37 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     '''
     <ExportAPI("RNA.Visualize")>
+    <Extension>
     Public Function RNAVisualize(doc As Configurations.Circos, anno As PTT)
-        Dim COGVector As String() = (From GeneObject
-                                     In anno.GeneObjects.AsParallel
-                                     Select GeneObject.Product Distinct).ToArray 'RNA的数目很少，所以这里直接使用产物来替代COG来计算颜色了
+        Dim COGVector As String() = anno.GeneObjects _
+            .Select(Function(g) g.Product) _
+            .Distinct _
+            .ToArray ' RNA的数目很少，所以这里直接使用产物来替代COG来计算颜色了
         Dim Colors = CircosColor.ColorProfiles(COGVector)
         Dim setValue = New SetValue(Of GeneDumpInfo) <= NameOf(GeneDumpInfo.LocusID)
-        Dim GeneObjects = GenBank.ExportPTTAsDump(PTT:=anno)
-        GeneObjects = LinqAPI.Exec(Of GeneDumpInfo) <=
-            From obj As GeneDumpInfo
-            In GeneObjects.AsParallel
-            Select setValue(obj, obj.Function)
+        Dim genes As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
+ _
+            From gene As GeneDumpInfo
+            In anno.ExportPTTAsDump
+            Select setValue(gene, gene.Function)
 
         Dim highlightLabel As New HighlightLabel(
-            (From GeneObject In GeneObjects
-             Where Not String.IsNullOrEmpty(GeneObject.LocusID)
-             Select GeneObject).ToArray)
-        Dim LabelDocument As New Nodes.Plots.TextLabel(highlightLabel)
-        LabelDocument.r0 = "0.8r"
-        LabelDocument.r1 = "0.85r"
-        Call doc.AddTrack(LabelDocument)
+            (From gene As GeneDumpInfo
+             In genes
+             Where Not String.IsNullOrEmpty(gene.LocusID)
+             Select gene).ToArray)
+        Dim labels As New TextLabel(highlightLabel) With {
+            .r0 = "0.8r",
+            .r1 = "0.85r"
+        }
 
-        Dim Document = __geneHighlights(GeneObjects, Colors, Strands.Unknown)
-        Document.r0 = "0.75r"
-        Document.r1 = "0.78r"
-        Call doc.AddTrack(Document)
+        Call doc.AddTrack(labels)
+
+        Dim highlights = __geneHighlights(genes, Colors, Strands.Unknown)
+        highlights.r0 = "0.75r"
+        highlights.r1 = "0.78r"
+
+        Call doc.AddTrack(highlights)
 
         Return doc
     End Function

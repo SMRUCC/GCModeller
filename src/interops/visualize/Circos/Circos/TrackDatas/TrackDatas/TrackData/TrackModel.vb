@@ -3,6 +3,7 @@
 Namespace TrackDatas
 
     Public Interface ITrackData
+
         Property comment As String
         ''' <summary>
         ''' Usually Using <see cref="TrackData.ToString()"/> method for creates tracks data document.

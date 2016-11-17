@@ -42,7 +42,7 @@ Namespace TrackDatas.Highlights
     ''' </summary>
     Public Class GeneMark : Inherits Highlights
 
-        Dim COGColors As Dictionary(Of String, String)
+        Public Property COGColors As Dictionary(Of String, String)
 
         ''' <summary>
         ''' 在这里是使用直方图来显示基因的位置的
@@ -50,26 +50,37 @@ Namespace TrackDatas.Highlights
         ''' <param name="annos"></param>
         ''' <param name="Color"></param>
         Sub New(annos As IEnumerable(Of IGeneBrief), Color As Dictionary(Of String, String))
-            Me.__source =
-                LinqAPI.MakeList(Of ValueTrackData) <=
-                    From gene As IGeneBrief
-                    In annos
-                    Let COG As String = If(String.IsNullOrEmpty(gene.COG), "-", gene.COG)
-                    Let attr As ValueTrackData = New ValueTrackData With {
-                        .start = CInt(gene.Location.Left),
-                        .end = CInt(gene.Location.Right),
-                        .formatting = New Formatting With {
-                            .fill_color = If(Color.ContainsKey(COG), Color(COG), CircosColor.DefaultCOGColor)
-                            },
-                        .value = 1,
-                        .chr = "chr1"
-                        }
-                    Select attr
-            Me.COGColors = Color
+            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+ _
+                From gene As IGeneBrief
+                In annos
+                Let COG As String = If(String.IsNullOrEmpty(gene.COG), "-", gene.COG)
+                Let fill As String = If(
+                    Color.ContainsKey(COG),
+                    Color(COG),
+                    CircosColor.DefaultCOGColor)
+                Select New ValueTrackData With {
+                    .start = CInt(gene.Location.Left),
+                    .end = CInt(gene.Location.Right),
+                    .value = 1,
+                    .chr = "chr1",
+                    .formatting = New Formatting With {
+                        .fill_color = fill
+                    }
+                }
+
+            COGColors = Color
+        End Sub
+
+        ''' <summary>
+        ''' 假若使用这个构造函数的话，这个需要手工初始化<see cref="__source"/>和<see cref="COGColors"/>
+        ''' </summary>
+        Protected Sub New()
         End Sub
 
         Public Function LegendsDrawing(ref As Point, ByRef gdi As GDIPlusDeviceHandle) As Point
-            Dim COGColors = (From clProfile In Me.COGColors
+            Dim COGColors = (From clProfile
+                             In Me.COGColors
                              Select clProfile.Key,
                                  Cl = CircosColor.FromKnownColorName(clProfile.Value)) _
                                     .ToDictionary(Function(cl) cl.Key,
