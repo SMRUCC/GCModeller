@@ -368,8 +368,21 @@ different with the ideogram configuration document was not included in the circo
         Return New SeperatorCircle(Length, width)
     End Function
 
+    ''' <summary>
+    ''' <see cref="yes"/>, <see cref="no"/>
+    ''' </summary>
+    ''' <param name="b"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function AddMotifSites(circos As Configurations.Circos, motifs As IEnumerable(Of IMotifSite)) As Configurations.Circos
+    Public Function CircosOption(b As Boolean) As String
+        Return If(b, yes, no)
+    End Function
+
+    <Extension>
+    Public Function AddMotifSites(circos As Configurations.Circos,
+                                  motifs As IEnumerable(Of IMotifSite),
+                                  Optional snuggle_refine As Boolean = True) As Configurations.Circos
+
         Dim sites As IMotifSite() = motifs.ToArray
         Dim motifTrack As New MotifSites(sites)
         Dim highlightLabel As New HighlightLabel(
@@ -378,7 +391,13 @@ different with the ideogram configuration document was not included in the circo
              Where Not String.IsNullOrEmpty(gene.Name)
              Select gene).ToArray)
 
-        circos += New TextLabel(New HighlightLabel(highlightLabel))
+        Dim snuggle_refine_option As String =
+            If(snuggle_refine, yes, no)
+
+        circos += New TextLabel(New HighlightLabel(highlightLabel)) With {
+            .snuggle_refine = snuggle_refine_option,
+            .label_snuggle = .snuggle_refine
+        }
         circos += New HighLight(motifTrack)
 
         Return circos
@@ -388,7 +407,8 @@ different with the ideogram configuration document was not included in the circo
     Public Function AddScoredMotifs(circos As Configurations.Circos,
                                     motifs As IEnumerable(Of IMotifScoredSite),
                                     Optional levels% = 100,
-                                    Optional mapName$ = ColorMap.PatternJet) As Configurations.Circos
+                                    Optional mapName$ = ColorMap.PatternJet,
+                                    Optional snuggle_refine As Boolean = True) As Configurations.Circos
 
         Dim sites As IMotifScoredSite() = motifs.ToArray
         Dim motifTrack As New MotifSites(sites, levels, mapName)
@@ -398,7 +418,10 @@ different with the ideogram configuration document was not included in the circo
              Where Not String.IsNullOrEmpty(gene.Name)
              Select gene).ToArray)
 
-        circos += New TextLabel(New HighlightLabel(highlightLabel))
+        circos += New TextLabel(New HighlightLabel(highlightLabel)) With {
+            .snuggle_refine = snuggle_refine.CircosOption,
+            .label_snuggle = .snuggle_refine
+        }
         circos += New HighLight(motifTrack)
 
         Return circos
