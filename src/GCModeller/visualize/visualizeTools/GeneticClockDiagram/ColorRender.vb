@@ -234,7 +234,7 @@ Namespace GeneticClock
 
         Public Shared ReadOnly Property RandomColor(Optional alpha As Integer = 190) As Color
             Get
-                Dim R = 255 * RandomDouble(), G = 255 * RandomDouble(), B = 255 * RandomDouble()
+                Dim R = 255 * Rnd(), G = 255 * Rnd(), B = 255 * Rnd()
                 Return Color.FromArgb(alpha, baseColor:=Color.FromArgb(R, G, B))
             End Get
         End Property

@@ -150,7 +150,7 @@ Namespace AppEngine.APIMethods
                                  virtual = String.Join("/", obj.ToArray).Replace(".vb", ".vbs")).ToArray
             Dim hash As Dictionary(Of String, String) = LpreFakes.ToDictionary(
                 Function(obj) obj.source,
-                Function(obj) $"in {prefix}/{obj.virtual}:line {CInt(5000 * RandomDouble() + 100)}")
+                Function(obj) $"in {prefix}/{obj.virtual}:line {CInt(5000 * Rnd() + 100)}")
             Return hash
         End Function
 

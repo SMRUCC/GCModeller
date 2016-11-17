@@ -214,12 +214,11 @@ Public Module Perl
         '  [--winSize *INT*] [--verbose] [--noclean] [--nocluster] [-range *INT*]]
         '  [<--tmpdir> *DIR*] [--help|?] [--man]
 
-        Dim argBuilder As Dictionary(Of String, String) = New Dictionary(Of String, String) From
-            {
-                {"--libP", libP.Replace("\", "/")},
-                {"--libM", libM.Replace("\", "/")},
-                {"--tmpdir", Settings.DataCache.Replace("\", "/") & "/" & RandomDouble()}
-            }
+        Dim argBuilder As New Dictionary(Of String, String) From {
+            {"--libP", libP.Replace("\", "/")},
+            {"--libM", libM.Replace("\", "/")},
+            {"--tmpdir", Settings.DataCache.Replace("\", "/") & "/" & Rnd()}
+        }
 
         Call FileIO.FileSystem.CreateDirectory(argBuilder("--tmpdir"))
 

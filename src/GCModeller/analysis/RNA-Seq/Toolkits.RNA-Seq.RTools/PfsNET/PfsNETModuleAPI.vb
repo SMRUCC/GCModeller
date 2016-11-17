@@ -161,8 +161,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
 
         Private Function __getPath(path As String, prefix As String) As String
             If String.IsNullOrEmpty(path) Then
-                Call VBMath.Randomize()
-                path = String.Format("./{0}_pid_{1}_{2}.tmp", prefix, Process.GetCurrentProcess.Id, RandomDouble)
+                path = $"./{prefix}_pid_{App.PID}_{App.NextTempName}.tmp"
             End If
 
             Return FileIO.FileSystem.GetFileInfo(path).FullName

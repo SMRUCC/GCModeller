@@ -112,7 +112,7 @@ Namespace Assembly.NCBI.Entrez
             ''' <returns></returns>
             Private Shared Function __buildQuery(AccessionID As String, Work As String, ByRef savedGBK As String, ByRef TempScript As String) As Process
 
-                TempScript = $"{Work}/{Process.GetCurrentProcess.Id}_{RandomDouble()}_{AccessionID}.pl"
+                TempScript = $"{Work}/{Process.GetCurrentProcess.Id}_{Rnd()}_{AccessionID}.pl"
 
                 Dim p As System.Diagnostics.ProcessStartInfo = New Diagnostics.ProcessStartInfo("perl", TempScript)
                 Dim Script As StringBuilder = New StringBuilder(My.Resources.GenBankQuery) 'Perl script template

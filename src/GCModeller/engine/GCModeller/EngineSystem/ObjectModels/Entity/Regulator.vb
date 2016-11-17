@@ -69,7 +69,7 @@ Namespace EngineSystem.ObjectModels.Entity
         ''' <remarks></remarks>
         <DumpNode> Public ReadOnly Property RegulateValue As Double
             Get
-                Dim i As Double = RandomDouble()
+                Dim i As Double = Rnd()
                 Dim w As Double = get_RegulatorValue()
 
                 If w = 0.0R Then

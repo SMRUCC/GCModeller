@@ -88,7 +88,7 @@ Public Module PhenotypeRegulations
 
 #If DEBUG Then
         For i As Integer = 0 To Footprints.Count * 0.000001
-            Dim p = RandomDouble() * (Footprints.Count - 1)
+            Dim p = Rnd() * (Footprints.Count - 1)
             Call $"Regulators  {If(String.IsNullOrEmpty(Footprints(p).Regulator), "NULL", Footprints(p).Regulator)}".__DEBUG_ECHO
         Next
 #End If

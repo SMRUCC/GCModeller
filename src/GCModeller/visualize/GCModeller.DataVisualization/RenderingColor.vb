@@ -141,13 +141,14 @@ Public Module RenderingColor
         Dim R As Double = f
         Dim COGColors As New Dictionary(Of String, Color)
         Dim cl As Color
+        Dim rand As New Random
 
         For Each cata As COG.Catalog In CogCategory.Catalogs
             Dim f2 As Double = 255 / cata.SubClasses.Count
             Dim G As Double = f2
 
             For Each [class] As KeyValuePair(Of Char, String) In cata.SubClasses
-                cl = Color.FromArgb(220, R, G, 255 * RandomDouble())
+                cl = Color.FromArgb(220, R, G, 255 * rand.NextDouble())
                 G += f2
 
                 Call COGColors.Add([class].Key, cl)
@@ -173,15 +174,16 @@ Public Module RenderingColor
         Dim Gs As New List(Of Integer)(255.Sequence.Shuffles)
         Dim Bs As New List(Of Integer)(255.Sequence.Shuffles)
         Dim R, G, B As Integer
+        Dim rand As New Random
 
         For Each cl As String In From s As String
                                  In categories
                                  Where Not String.IsNullOrEmpty(s)
                                  Select s
 
-            Call VBMath.Randomize() : R = RandomDouble() * (Rs.Count - 1)
-            Call VBMath.Randomize() : G = RandomDouble() * (Gs.Count - 1)
-            Call VBMath.Randomize() : B = RandomDouble() * (Bs.Count - 1)
+            Call VBMath.Randomize() : R = rand.NextDouble() * (Rs.Count - 1)
+            Call VBMath.Randomize() : G = rand.NextDouble() * (Gs.Count - 1)
+            Call VBMath.Randomize() : B = rand.NextDouble() * (Bs.Count - 1)
 
             Call Colors.Add(cl, Color.FromArgb(Rs(R), Gs(G), Bs(B)))
 

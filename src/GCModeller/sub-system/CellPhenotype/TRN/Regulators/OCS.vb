@@ -53,7 +53,7 @@ Namespace TRN.KineticsModel.Regulators
         Public ReadOnly Property Effector As Double
             Get
                 If EffectorPathways.IsNullOrEmpty Then
-                    Dim n = RandomDouble() '没有在模型之中找到代谢物的合成的代谢途径，则可能为第二信使或者其他未知的原因，则在模型之中以很低的概率产生调控效应
+                    Dim n = Rnd() '没有在模型之中找到代谢物的合成的代谢途径，则可能为第二信使或者其他未知的原因，则在模型之中以很低的概率产生调控效应
                     If n > Conf.OCS_NONE_Effector Then
                         Return Conf.OCS_Default_EffectValue
                     Else
@@ -109,7 +109,7 @@ Namespace TRN.KineticsModel.Regulators
                 Dim p_ef As Double = Effector
                 p = p * (1 - p_ef)
 
-                Dim n As Double = RandomDouble()
+                Dim n As Double = Rnd()
 
                 If n >= p Then
                     Return get_InteractionQuantity()

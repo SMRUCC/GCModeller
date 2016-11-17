@@ -191,7 +191,7 @@ Namespace gast
 
             ' If no outfilename, Then writing To database, create tmp file To store the data
             If (out_filename.IsBlank) Then
-                out_filename = gast_table & (RandomDouble() * 9999) & ".txt"
+                out_filename = gast_table & (Rnd() * 9999) & ".txt"
             End If
 
             Using OUT As New StreamWriter(New FileStream(out_filename, FileMode.OpenOrCreate)),
