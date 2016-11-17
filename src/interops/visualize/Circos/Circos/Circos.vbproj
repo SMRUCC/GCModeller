@@ -216,7 +216,7 @@
     <Compile Include="TrackDatas\TrackDatas\Extensions.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\TrackModel.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\Tracks.vb" />
-    <Compile Include="TrackDatas\TrackDatas\TrackData\link.vb" />
+    <Compile Include="TrackDatas\TrackDatas\TrackData\LinkConnector.vb" />
     <Compile Include="TrackDatas\TrackDatas\TrackData\TrackData.vb" />
     <Compile Include="Karyotype\Adapters\PPTMarks.vb" />
     <Compile Include="Colors\ColorAPI.vb" />
