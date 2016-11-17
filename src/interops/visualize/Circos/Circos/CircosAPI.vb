@@ -1099,7 +1099,7 @@ SET_END:    Dim ends = i
     ''' </summary>
     ''' <returns><see cref="Configurations.Circos.CreateObject"/></returns>
     <ExportAPI("Circos.Document.Create", Info:="Creats a new circos plots configuration document.")>
-    Public Function CreateDoc() As Configurations.Circos
+    Public Function CreateDataModel() As Configurations.Circos
         Return Configurations.Circos.CreateObject
     End Function
 
