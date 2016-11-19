@@ -1,0 +1,775 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.NETProtocol
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.Net.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.HTTP.WebExtensions.DownloadAllLinks(System.String,System.String,System.Boolean,System.String[],System.Int32)">
+ <summary>
+ Downloads all links on the target web page and save the files to directory specific by <paramref name="Downloads"/>
+ </summary>
+ <param name="url$"></param>
+ <param name="Downloads$">Directory for save the download contents.</param>
+ <returns>返回失败的页面的url</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.APIBase.Handler(System.Int64,Microsoft.VisualBasic.Net.Protocols.RequestStream,System.Net.IPEndPoint)">
+ <summary>
+ <see cref="T:Microsoft.VisualBasic.Net.Abstract.DataRequestHandler"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserMsgPool">
+ <summary>
+ 用来缓存消息信息的用户的消息池
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserMsgPool.__msgs">
+ <summary>
+ 按照先后顺序排列的用户消息队列
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserMsgPool.Allocation(System.Int64)">
+ <summary>
+ 为新的用户分配存储空间
+ </summary>
+ <param name="uid"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserMsgPool.Push(System.Int64,Microsoft.VisualBasic.Net.Protocols.RequestStream)">
+ <summary>
+ 想用户消息池之中写入数据缓存
+ </summary>
+ <param name="uid"></param>
+ <param name="msg"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserMsgPool.Pop(System.Int64)">
+ <summary>
+ 读取一条数据
+ </summary>
+ <param name="uid"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserAPI">
+ <summary>
+ 对User client开放的协议接口，也就是用户的客户端是通过这个模块来发送消息或者读取自己的消息
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserAPI.UserHash">
+ <summary>
+ 用户编号转换为程序之中的唯一标识符
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserAPI.HashUser">
+ <summary>
+ 反向查找<see cref="P:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserAPI.UserHash"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserAPI.__userInitPOST(System.Int64,Microsoft.VisualBasic.Net.Protocols.RequestStream,System.Net.IPEndPoint)">
+ <summary>
+ 第一步，初始化哈希表
+ </summary>
+ <param name="CA"></param>
+ <param name="request">user_id</param>
+ <param name="remote"></param>
+ <returns></returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserAPI.IsValid(Microsoft.VisualBasic.Net.NETProtocol.Protocols.UserId)">
+ <summary>
+ 判断这个用户编号是否可用有效？
+ </summary>
+ <param name="id"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.UserAPI.__getData(System.Int64,Microsoft.VisualBasic.Net.Protocols.RequestStream,System.Net.IPEndPoint)">
+ <summary>
+ 用户客户端尝试得到消息数据
+ </summary>
+ <param name="CA"></param>
+ <param name="request"></param>
+ <param name="remote"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.NETProtocol.PushAPI.InvokeAPI">
+ <summary>
+ 服务器端的其他模块调用消息更新推送的接口
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.NETProtocol.PushServer">
+ <summary>
+ 保持长连接，向用户客户端发送更新消息的服务器
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.NETProtocol.PushServer.UserSocket">
+ <summary>
+ Push update notification to user client
+ </summary>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.NETProtocol.PushServer.__invokeAPI">
+ <summary>
+ 其他的服务器模块对消息推送模块进行操作更新的通道
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.NETProtocol.PushServer.__userAPI">
+ <summary>
+ 客户端进行数据读取的通道
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.NETProtocol.PushServer.__msgs">
+ <summary>
+ 用户数据缓存池
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushServer.#ctor(System.Int32,System.Int32,System.Int32)">
+ <summary>
+ 
+ </summary>
+ <param name="services">长连接socket的端口</param>
+ <param name="invoke">服务器模块工作端口</param>
+ <param name="userAPI">用户端口</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushServer.Run">
+ <summary>
+ 线程会在这里被阻塞
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushServer.PushUpdate(Microsoft.VisualBasic.Net.Protocols.RequestStream)">
+ <summary>
+ 其他的服务器模块通过API发送数据包来推送服务器上，通过这个方法写入数据缓存，然后发送消息更新
+ </summary>
+ <param name="req"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushServer.GetMsg(System.Int64)">
+ <summary>
+ 得到某一个用户的消息
+ </summary>
+ <param name="uid"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.PushServer.SendMessage(System.Int64,Microsoft.VisualBasic.Net.Protocols.RequestStream)">
+ <summary>
+ 向用户socket发送消息
+ </summary>
+ <param name="uid"></param>
+ <param name="msg"></param>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.NETProtocol.Protocols.InitPOSTBack.Portal">
+ <summary>
+ 长连接socket的端口终点
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.NETProtocol.Protocols.InvokeAPI.Protocols">
+ <summary>
+ 其他的服务器模块向消息推送服务发送更新数据的协议
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.NETProtocol.Protocols.InvokeAPI.Protocols.PushToUser">
+ <summary>
+ Push data to user
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.NETProtocol.Protocols.UserAPI">
+ <summary>
+ 用户客户端所调用的协议
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.NETProtocol.Protocols.UserAPI.Protocols.GetData">
+ <summary>
+ 获取得到推送的消息
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.Protocols.UserAPI.Uid(System.String)">
+ <summary>
+ 在服务器端调用得到用户的唯一标识符
+ </summary>
+ <param name="sId"></param>
+ <returns></returns>
+</member>
+<member name="E:Microsoft.VisualBasic.Net.NETProtocol.User.PushMessage">
+ <summary>
+ Public Event PushMessage(msg As <see cref="T:Microsoft.VisualBasic.Net.Protocols.RequestStream"/>)
+ </summary>
+ <param name="msg"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.User.#ctor(Microsoft.VisualBasic.Net.IPEndPoint,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="remote">User API的接口</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.User.__register(Microsoft.VisualBasic.Net.NETProtocol.Protocols.InitPOSTBack,Microsoft.VisualBasic.Net.NETProtocol.User)">
+ <summary>
+ 在消息推送服务器上面注册自己的句柄
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.User.__pushUpdate(System.Int64,Microsoft.VisualBasic.Net.Protocols.RequestStream)">
+ <summary>
+ 得到服务器端发送过来的更新推送的消息头
+ </summary>
+ <param name="uid"></param>
+ <param name="args"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.NETProtocol.User.__downloadMsg">
+ <summary>
+ 可能会存在多条数据
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.Captcha">
+ <summary>
+ Generate CAPTCHA graphics that you can use on websites to help authenticate users.
+ CAPTCHA is an abbreviation for Completely Automated Public Turing test to tell Computers and Humans Apart.
+ This method uses images Of words Or numbers that are, In theory, distorted And jumbled enough so that an 
+ optical character recognition program can't read them but a human should be able to do so easily.
+ 
+ (http://www.codeproject.com/Articles/43390/CAPTCHA-Graphic-in-ASP-NET)
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.Captcha.CaptchaImage">
+ <summary>
+ 返回给客户端的验证码图像
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.Captcha.CaptchaValue">
+ <summary>
+ 保存在服务器的验证码字符串
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.InternetTime.WinAPI.SYSTEMTIME">
+ <summary>
+ SYSTEMTIME structure used by SetSystemTime
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.InternetTime.LeapIndicator">
+ <summary>
+ Leap indicator field values
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.LeapIndicator.NoWarning">
+ <summary>
+ 0 - No warning
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.LeapIndicator.LastMinute61">
+ <summary>
+ 1 - Last minute has 61 seconds
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.LeapIndicator.LastMinute59">
+ <summary>
+ 2 - Last minute has 59 seconds
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.LeapIndicator.Alarm">
+ <summary>
+ 3 - Alarm condition (clock not synchronized)
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.InternetTime.Mode">
+ <summary>
+ Mode field values
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Mode.SymmetricActive">
+ <summary>
+ 1 - Symmetric active
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Mode.SymmetricPassive">
+ <summary>
+ 2 - Symmetric pasive
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Mode.Client">
+ <summary>
+ 3 - Client
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Mode.Server">
+ <summary>
+ 4 - Server
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Mode.Broadcast">
+ <summary>
+ 5 - Broadcast
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Mode.Unknown">
+ <summary>
+ 0, 6, 7 - Reserved
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.InternetTime.Stratum">
+ <summary>
+ Stratum field values
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Stratum.Unspecified">
+ <summary>
+ 0 - unspecified or unavailable
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Stratum.PrimaryReference">
+ <summary>
+ 1 - primary reference (e.g. radio-clock)
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Stratum.SecondaryReference">
+ <summary>
+ 2-15 - secondary reference (via NTP or SNTP)
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.Stratum.Reserved">
+ <summary>
+ 16-255 - reserved
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.InternetTime.SNTPClient">
+ <summary>
+ SNTPClient is a VB.NET# class designed to connect to time servers on the Internet and
+ fetch the current date and time. Optionally, it may update the time of the local system.
+ The implementation of the protocol is based on the RFC 2030.
+ 
+ Public class members:
+
+ LeapIndicator - Warns of an impending leap second to be inserted/deleted in the last
+ minute of the current day. (See the _LeapIndicator enum)
+ 
+ VersionNumber - Version number of the protocol (3 or 4).
+ 
+ Mode - Returns mode. (See the _Mode enum)
+ 
+ Stratum - Stratum of the clock. (See the _Stratum enum)
+ 
+ PollInterval - Maximum interval between successive messages
+ 
+ Precision - Precision of the clock
+ 
+ RootDelay - Round trip time to the primary reference source.
+ 
+ RootDispersion - Nominal error relative to the primary reference source.
+ 
+ ReferenceID - Reference identifier (either a 4 character string or an IP address).
+ 
+ ReferenceTimestamp - The time at which the clock was last set or corrected.
+ 
+ OriginateTimestamp - The time at which the request departed the client for the server.
+ 
+ ReceiveTimestamp - The time at which the request arrived at the server.
+ 
+ Transmit Timestamp - The time at which the reply departed the server for client.
+ 
+ RoundTripDelay - The time between the departure of request and arrival of reply.
+ 
+ LocalClockOffset - The offset of the local clock relative to the primary reference
+ source.
+ 
+ Initialize - Sets up data structure and prepares for connection.
+ 
+ Connect - Connects to the time server and populates the data structure.
+	It can also update the system time.
+ 
+ IsResponseValid - Returns true if received data is valid and if comes from
+ a NTP-compliant time server.
+ 
+ ToString - Returns a string representation of the object.
+ 
+ -----------------------------------------------------------------------------
+ Structure of the standard NTP header (as described in RFC 2030)
+                       1                   2                   3
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |LI | VN  |Mode |    Stratum    |     Poll      |   Precision   |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                          Root Delay                           |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                       Root Dispersion                         |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                     Reference Identifier                      |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                               |
+  |                   Reference Timestamp (64)                    |
+  |                                                               |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                               |
+  |                   Originate Timestamp (64)                    |
+  |                                                               |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                               |
+  |                    Receive Timestamp (64)                     |
+  |                                                               |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                               |
+  |                    Transmit Timestamp (64)                    |
+  |                                                               |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                 Key Identifier (optional) (32)                |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                               |
+  |                                                               |
+  |                 Message Digest (optional) (128)               |
+  |                                                               |
+  |                                                               |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ 
+ -----------------------------------------------------------------------------
+ 
+ SNTP Timestamp Format (as described in RFC 2030)
+                         1                   2                   3
+     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ |                           Seconds                             |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ |                  Seconds Fraction (0-padded)                  |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ 
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.SNTPDataLength">
+ <summary>
+ NTP Data Structure Length
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.SNTPData">
+ <summary>
+ NTP Data Structure (as described in RFC 2030)
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.LeapIndicator">
+ <summary>
+ Leap Indicator
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.VersionNumber">
+ <summary>
+ Version Number
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.Stratum">
+ <summary>
+ Stratum
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.PollInterval">
+ <summary>
+ Poll Interval
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.Precision">
+ <summary>
+ Precision (in milliseconds)
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.RootDelay">
+ <summary>
+ Root Delay (in milliseconds)
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.RootDispersion">
+ <summary>
+ Root Dispersion (in milliseconds)
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.ReferenceID">
+ <summary>
+ Reference Identifier
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.ReferenceTimestamp">
+ <summary>
+ Reference Timestamp
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.OriginateTimestamp">
+ <summary>
+ Originate Timestamp
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.ReceiveTimestamp">
+ <summary>
+ Receive Timestamp
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.TransmitTimestamp">
+ <summary>
+ Transmit Timestamp
+ </summary>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.DestinationTimestamp">
+ <summary>
+ Destination Timestamp
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.RoundTripDelay">
+ <summary>
+ Round trip delay (in milliseconds)
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.LocalClockOffset">
+ <summary>
+ Local clock offset (in milliseconds)
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.ComputeDate(System.Decimal)">
+ <summary>
+ Compute date, given the number of milliseconds since January 1, 1900
+ </summary>
+ <param name="milliseconds"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.GetMilliSeconds(System.Byte)">
+ <summary>
+ Compute the number of milliseconds, given the offset of a 8-byte array
+ </summary>
+ <param name="offset"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.SetDate(System.Byte,System.DateTime)">
+ <summary>
+ Compute the 8-byte array, given the date
+ </summary>
+ <param name="offset"></param>
+ <param name="dateval"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.Initialize">
+ <summary>
+ Initialize the NTPClient data
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.Connect(System.Boolean)">
+ <summary>
+ Connect to the time server and update system time
+ </summary>
+ <param name="UpdateSystemTime"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.IsResponseValid">
+ <summary>
+ Check if the response from server is valid
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.ToString">
+ <summary>
+ Converts the object to string
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.SetTime">
+ <summary>
+ Set system time according to transmit timestamp
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.InternetTime.SNTPClient.TimeServer">
+ <summary>
+ The URL of the time server we're connecting to
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Net.InternetTime.SetSystemTime">
+ <summary>
+ Synchronizing Time using baidu server
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.#ctor(System.String,System.String)">
+ <summary>
+ Specify IP address and netmask like: ``Dim ip As New IPv4("10.1.0.25","255.255.255.16")``
+ </summary>
+ <param name="symbolicIP"> </param>
+ <param name="netmask"> </param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.__checkNetMask">
+ <summary>
+ See if there are zeroes inside netmask, like: ``1111111101111`` 
+ this Is illegal, throw exception if encountered. 
+ Netmask should always have only ones, then only zeroes, 
+ like: ``11111111110000``
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.IPv4.InvalidNetmaskInitial">
+ <summary>
+ The first byte of netmask can not be less than 255
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.IPv4.IPAddress">
+ <summary>
+ Get the IP in symbolic form, i.e. xxx.xxx.xxx.xxx
+ 
+ @return
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.NumericIpToSymbolic(System.Nullable{System.Int32})">
+ <summary>
+ Get the IP in symbolic form, i.e. ``xxx.xxx.xxx.xxx``
+ </summary>
+ <param name="ip"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.NumericNetmaskToSymbolic(System.Int32)">
+ <summary>
+ Get the net mask in symbolic form, i.e. ``xxx.xxx.xxx.xxx``
+ </summary>
+ <param name="netMaskNumeric"></param>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.IPv4.Netmask">
+ <summary>
+ Get the net mask in symbolic form, i.e. ``xxx.xxx.xxx.xxx``
+ 
+ @return
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.GetCIDR(System.Int32,System.Int32)">
+ <summary>
+ Get the IP and netmask in CIDR form, i.e. ``xxx.xxx.xxx.xxx/xx``
+ </summary>
+ <param name="baseIPnumeric"></param>
+ <param name="netmaskNumeric"></param>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.IPv4.CIDR">
+ <summary>
+ Get the IP and netmask in CIDR form, i.e. xxx.xxx.xxx.xxx/xx
+ 
+ @return
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.GetAvailableIPs(System.Nullable{System.Int32})">
+ <summary>
+ Get an arry of all the IP addresses available for the IP and netmask/CIDR
+ given at initialization
+ 
+ @return
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.IPv4.hostAddressRange">
+ <summary>
+ Range of hosts
+ 
+ @return
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.IPv4.numberOfHosts">
+ <summary>
+ Returns number of hosts available in given range
+ </summary>
+ <returns> number of hosts </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Net.IPv4.WildcardMask">
+ <summary>
+ The XOR of the netmask
+ </summary>
+ <returns> wildcard mask in text form, i.e. 0.0.15.255 </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.contains(System.String)">
+ <summary>
+ Checks if the given IP address contains in subnet
+ </summary>
+ <param name="IPaddress">
+ @return </param>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPv4.contains(Microsoft.VisualBasic.Net.IPv4)">
+ <summary>
+ Does this IP range contains the specific child?
+ </summary>
+ <param name="child"></param>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.Net.IPUtils.RegexIPAddress">
+ <summary>
+ ``\A(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\z``
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Net.IPUtils.GetGeoAddress(System.String)">
+ <summary>
+ IPv4 address to long
+ </summary>
+ <param name="IPAddress"></param>
+ <returns></returns>
+ <remarks>
+ > http://www.codeproject.com/Articles/28363/How-to-convert-IP-address-to-country-name
+ 
+ #### How do I convert an IP address to an IP number?
+ 
+ IP address (IPV4) is divided into four sub-blocks. Each sub-block has a different weight number, 
+ each powered by 256. The IP number is being used in the database because it is efficient to search 
+ between a range of numbers in the database.
+ 
+ The beginning IP number and the ending IP number are calculated based on the following formula:
+ 
+ ```
+ IP Number = 16777216*w + 65536*x + 256*y + z (1)
+ ```
+ 
+ where:
+ 
+ ```
+ IP Address = w.x.y.z
+ ```
+ 
+ For example, if the IP address is ``202.186.13.4``, then its IP number is ``3401190660`` based on the above formula.
+ 
+ ```
+ IP Address = 202.186.13.4
+ ```
+ 
+ So, ``w = 202, x = 186, y = 13`` and ``z = 4``
+ 
+ ```
+ IP Number = 16777216*202 + 65536*186 + 256*13 + 4
+           = 3388997632 + 12189696 + 3328 + 4
+           = 3401190660
+ ```
+ 
+ To reverse the IP number to the IP address:
+ 
+ ```
+ w = int ( IP Number / 16777216 ) % 256
+ x = int ( IP Number / 65536 ) % 256
+ y = int ( IP Number / 256 ) % 256
+ z = int ( IP Number ) % 256
+ ```
+ 
+ where, ``%`` is the mod operator and int returns the integer part of the division.
+ </remarks>
+</member>
+</members>
+</doc>
