@@ -1,0 +1,151 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.MIME.RTF
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.MIME.RTF.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.MIME.RTF.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.MIME.RTF.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.MIME.RTF.My.Resources.Resources.gpl">
+<summary>
+  Looks up a localized string similar to                     GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU General Public License is a free, copyleft license for
+software and other kinds of works.
+
+  The licenses for most software and other practical works are designed
+to [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="T:Microsoft.VisualBasic.MIME.RTF.Font">
+ <summary>
+ Font style of the selected text region.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.RTF.Font.#ctor(System.Int32,System.String)">
+ <summary>
+ Normal font style
+ </summary>
+ <param name="size"></param>
+ <param name="Name"></param>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.MIME.RTF.FormatedRegion.HaveParFlag">
+ <summary>
+ 是否具有分段的标识符
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.MIME.RTF.Omml.HTML">
+ <summary>
+ Omml: office microsoft word xml
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.MIME.RTF.Rtf">
+ <summary>
+ Rich text format document object model.(带有格式描述信息的文本文档的对象模型)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.RTF.Rtf.#ctor(System.String,System.Int32,System.Drawing.Color)">
+ <summary>
+ 
+ </summary>
+ <param name="FontName">Font family name.(字体名称)</param>
+ <param name="Size">Font size.(字体大小)</param>
+ <param name="Color">Font Color.(字体颜色)</param>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.RTF.Rtf.SetFormat(System.Int32,System.Int32,Microsoft.VisualBasic.MIME.RTF.Font)">
+ <summary>
+ Set format value to a selected region in the text document. the previous format which was exists on the target 
+ document region will be covered by the newly format <paramref name="FontStyle"></paramref>.
+ (先前的格式会被后面设置的格式所覆盖)
+ </summary>
+ <param name="start">The region start location.</param>
+ <param name="selectLength">The formated region text length.</param>
+ <param name="FontStyle">The format will be applied on the target selected region.</param>
+ <returns></returns>
+ <remarks>
+ 目标区域<paramref name="start"></paramref> -&gt; <paramref name="selectLength"></paramref>可能与某一个设置了字体的区域重合一部分，也可能完全包含有其他的多个区域
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.RTF.Rtf.AppendText(System.String,Microsoft.VisualBasic.MIME.RTF.Font)">
+ <summary>
+ Append the target text value on to the last region of the document with the specific text format.(向文档末尾追加一段带有格式标记的文本)
+ </summary>
+ <param name="text"></param>
+ <param name="Format"></param>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.RTF.Rtf.AppendLine(System.String,Microsoft.VisualBasic.MIME.RTF.Font)">
+ <summary>
+ 向文档末尾追加一行带有格式标记的文本
+ </summary>
+ <param name="text"></param>
+ <param name="Format"></param>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.RTF.Rtf.__toRTF">
+ <summary>
+ 生成一个含有格式描述的文本文件，即将模型数据保存为rtf文档
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.MIME.RTF.Rtf.FontToken">
+ <summary>
+ ``{\f1\fnil\fcharset0 %font.name%;}``
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.RTF.Rtf.__getMetaDataStr">
+ <summary>
+ 
+ </summary>
+ <returns></returns>
+ <remarks>
+ {
+   \rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052
+   {
+     \fonttbl
+     {
+        \f0\fnil\fcharset0 Cambria;
+     }
+   }
+   {
+     \colortbl ;%cl_meta%;
+   }
+   {
+     \*\generator Msftedit 5.41.21.2510;
+   }
+ </remarks>
+</member>
+</members>
+</doc>

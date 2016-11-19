@@ -1,0 +1,508 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.Data.visualize.Network
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.PQDijkstraProvider.getInternodeTraversalCost(System.Int32,System.Int32)">
+ <summary>
+ get costs. If there is no connection, then cost is maximum.(»ñÈ¡)
+ </summary>
+ <param name="start"></param>
+ <param name="finish"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.PQDijkstraProvider.GetNearbyNodes(System.Int32)">
+ <summary>
+ »ñÈ¡ÓëÄ¿±ê½ÚµãÖ±½ÓÏàÁÚµÄËùÓÐµÄ½ÚµãµÄ±àºÅ
+ </summary>
+ <param name="startingNode"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.PQDijkstraProvider.#ctor(System.Int32)">
+ <summary>
+ ÍøÂçÖ®ÖÐµÄ½ÚµãµÄ×ÜÊýÄ¿
+ </summary>
+ <param name="totalNodes"></param>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast">
+ <summary> 
+ Implements a generalized Dijkstra's algorithm to calculate 
+ both minimum distance and minimum path. 
+ </summary> 
+ <remarks> 
+ For this algorithm, all nodes should be provided, and handled 
+ in the delegate methods, including the start and finish nodes. 
+ </remarks> 
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.NearbyNodesHint">
+ <summary> 
+ An optional delegate that can help optimize the algorithm 
+ by showing it a subset of nodes to consider. Very useful 
+ for limited connectivity graphs. (like pixels on a screen!) 
+ </summary> 
+ <param name="startingNode"> 
+ The node that is being traveled away FROM. 
+ </param> 
+ <returns> 
+ An array of nodes that might be reached from the  
+ <paramref name="startingNode"/>. 
+ </returns> 
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.InternodeTraversalCost">
+ <summary> 
+ Determines the cost of moving from a given node to another given node. 
+ </summary> 
+ <param name="start"> 
+ The node being moved away from. 
+ </param> 
+ <param name="finish"> 
+ The node that may be moved to. 
+ </param> 
+ <returns> 
+ The cost of the transition from <paramref name="start"/> to 
+ <paramref name="finish"/>, or <see cref="F:System.Int32.MaxValue"/> 
+ if the transition is impossible (i.e. there is no edge between  
+ the two nodes). 
+ </returns> 
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.#ctor(System.Int32,Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.InternodeTraversalCost,Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.NearbyNodesHint)">
+ <summary> 
+ Creates an instance of the <see cref="N:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra"/> class. 
+ </summary> 
+ <param name="totalNodeCount__1"> 
+ The total number of nodes in the graph. 
+ </param> 
+ <param name="traversalCost__2"> 
+ The delegate that can provide the cost of a transition between 
+ any two nodes. 
+ </param> 
+ <param name="hint__3"> 
+ An optional delegate that can provide a small subset of nodes 
+ that a given node may be connected to. 
+ </param> 
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.Results.#ctor(System.Int32[],System.Single[])">
+ <summary> 
+ Prepares a Dijkstra results package. 
+ </summary> 
+ <param name="minimumPath__1"> 
+ The minimum path array, where each array element index corresponds  
+ to a node designation, and the array element value is a pointer to 
+ the node that should be used to travel to this one. 
+ </param> 
+ <param name="minimumDistance__2"> 
+ The minimum distance from the starting node to the given node. 
+ </param> 
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.Results.MinimumPath">
+ The minimum path array, where each array element index corresponds  
+ to a node designation, and the array element value is a pointer to 
+ the node that should be used to travel to this one. 
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.DijkstraFast.Results.MinimumDistance">
+ The minimum distance from the starting node to the given node. 
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.Finder.GetRelativePosition(System.Int32,System.Int32)">
+ <summary>
+ a function to get relative position from one node to another
+ </summary>
+ <param name="start"></param>
+ <param name="finish"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.BinaryPriorityQueue.Push(System.Object)">
+ <summary>
+ Push an object onto the PQ
+ </summary>
+ <param name="O">The new object</param>
+ <returns>The index in the list where the object is _now_. This will change when objects are taken from or put onto the PQ.</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.BinaryPriorityQueue.Pop">
+ <summary>
+ Get the smallest object and remove it.
+ </summary>
+ <returns>The smallest object</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.BinaryPriorityQueue.Update(System.Int32)">
+ <summary>
+ Notify the PQ that the object at position i has changed
+ and the PQ needs to restore order.
+ Since you dont have access to any indexes (except by using the
+ explicit IList.this) you should not call this function without knowing exactly
+ what you do.
+ </summary>
+ <param name="i">The index of the changed object.</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.PQDijkstra.BinaryPriorityQueue.Peek">
+ <summary>
+ Get the smallest object without removing it.
+ </summary>
+ <returns>The smallest object</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.DijkstraRouteFind.#ctor(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.Connection},System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node})">
+ <summary>
+ 
+ </summary>
+ <param name="Edges">这个是有方向的</param>
+ <param name="Nodes"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Dijkstra.DijkstraRouteFind.CalculateMinCost(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node)">
+ <summary>
+ Calculates the shortest route to all the other locations
+ </summary>
+ <param name="startPos"></param>
+ <returns>List of all locations and their shortest route</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.BarycentricMethod.doLayout(Microsoft.VisualBasic.Data.visualize.Network.Graph.NetworkGraph,System.Int32,System.Drawing.Size)">
+ <summary>
+ Applies the spring embedder.
+ </summary>
+ <param name="Network"></param>
+ <param name="iterations"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.BarycentricMethod.ForceDirectedLayout(Microsoft.VisualBasic.Data.visualize.Network.Graph.NetworkGraph,System.Drawing.Size,System.Double,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="Network"></param>
+ <param name="cutoff"></param>
+ <param name="_DEBUG_EXPORT"></param>
+ <returns></returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.LayoutUpdater.__layoutGenerator.drawNode(Microsoft.VisualBasic.Data.visualize.Network.Graph.Node,Microsoft.VisualBasic.Data.visualize.Network.Layouts.AbstractVector)">
+ <summary>
+ 在这里更新节点的位置
+ </summary>
+ <param name="iNode"></param>
+ <param name="iPosition"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.Interfaces.IForceDirected.Calculate(System.Single)">
+ <summary>
+ Calculates the physics updates.
+ </summary>
+ <param name="iTimeStep"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.Interfaces.IForceDirected.EachNode(Microsoft.VisualBasic.Data.visualize.Network.Layouts.Interfaces.NodeAction)">
+ <summary>
+ 节点的经过计算之后的当前位置可以从这个方法之中获取得到
+ </summary>
+ <param name="del"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.AbstractRenderer.Draw(System.Single,System.Boolean)">
+ <summary>
+ 
+ </summary>
+ <param name="iTimeStep"><see cref="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.Interfaces.IForceDirected.Calculate(System.Single)"/></param>
+ <param name="physicsUpdate"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Layouts.AbstractRenderer.DirectDraw">
+ <summary>
+ 不计算位置而直接更新绘图
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.Layouts.ForceDirected2D">
+ <summary>
+ Layout provider engine for the 2D network graphics.
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.Layouts.LayoutPoint">
+ <summary>
+ The position of the node object in the fdg data model.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape.Edges.Data">
+ <summary>
+ Dynamics extended data
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape.Nodes.Data">
+ <summary>
+ Dynamics extended data
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network.Links(System.String)">
+ <summary>
+ 获取指定节点的连接数量
+ </summary>
+ <param name="node"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.FileStream.GraphAPI">
+ <summary>
+ Data Model Extensions
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.GraphAPI.CreateGraph``2(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network{``0,``1})">
+ <summary>
+ Transform the network data model to graph model
+ </summary>
+ <typeparam name="TNode"></typeparam>
+ <typeparam name="TEdge"></typeparam>
+ <param name="net"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.GraphAPI.CytoscapeExportAsGraph(System.String,System.String)">
+ <summary>
+ Load cytoscape exports as network graph model.
+ </summary>
+ <param name="edgesDf">``edges.csv``</param>
+ <param name="nodesDf">``nodes.csv``</param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf">
+ <summary>
+ The names value for edge type <see cref="T:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge"/> and node type <see cref="T:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node"/>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf.REFLECTION_ID_MAPPING_FROM_NODE">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge.FromNode"/>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf.REFLECTION_ID_MAPPING_TO_NODE">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge.ToNode"/>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf.REFLECTION_ID_MAPPING_CONFIDENCE">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge.Confidence"/>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge.InteractionType"/>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf.REFLECTION_ID_MAPPING_IDENTIFIER">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node.Identifier"/>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf.REFLECTION_ID_MAPPING_NODETYPE">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node.NodeType"/>
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge">
+ <summary>
+ The edge between the two nodes in the network.(节点与节点之间的相互关系)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge.GetNullDirectedGuid">
+ <summary>
+ 返回没有方向性的统一标识符
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge.SelfLoop">
+ <summary>
+ 起始节点是否是终止节点
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge.GetConnectedNode(System.String)">
+ <summary>
+ 假若存在连接则返回相对的节点，否则返回空字符串
+ </summary>
+ <param name="Node"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2">
+ <summary>
+ The network csv data information with specific type of the datamodel
+ </summary>
+ <typeparam name="T_Node"></typeparam>
+ <typeparam name="T_Edge"></typeparam>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.RemoveDuplicated">
+ <summary>
+ 移除的重复的边
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.RemoveSelfLoop">
+ <summary>
+ 移除自身与自身的边
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.Save(System.String,System.Text.Encoding)">
+ <summary>
+
+ </summary>
+ <param name="outDIR">The data directory for the data export, if the value of this directory is null then the data
+ will be exported at the current work directory.
+ (进行数据导出的文件夹，假若为空则会保存数据至当前的工作文件夹之中)</param>
+ <param name="encoding">The file encoding of the exported node and edge csv file.</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.op_Addition(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network{`0,`1},System.Collections.Generic.IEnumerable{`0})">
+ <summary>
+
+ </summary>
+ <param name="net"></param>
+ <param name="x">由于会调用ToArray，所以这里建议使用Iterator</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.op_Addition(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network{`0,`1},System.Collections.Generic.IEnumerable{`1})">
+ <summary>
+
+ </summary>
+ <param name="net"></param>
+ <param name="x">由于会调用ToArray，所以这里建议使用Iterator</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.op_Exponent(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network{`0,`1},System.String)">
+ <summary>
+ Network contains node?
+ </summary>
+ <param name="net"></param>
+ <param name="node"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.op_Exponent(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network{`0,`1},`0)">
+ <summary>
+ Network contains node?
+ </summary>
+ <param name="net"></param>
+ <param name="node"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.op_Concatenate(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network{`0,`1},System.String)">
+ <summary>
+ GET node
+ </summary>
+ <param name="net"></param>
+ <param name="node"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network`2.op_LessThanOrEqual(Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network{`0,`1},System.Collections.Generic.IEnumerable{System.String})">
+ <summary>
+ Select nodes from the network based on the input identifers <paramref name="nodes"/>
+ </summary>
+ <param name="net"></param>
+ <param name="nodes"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node">
+ <summary>
+ An node entity in the target network.(这个对象里面包含了网络之中的节点的实体的最基本的定义：节点的标识符以及节点的类型)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node.Identifier">
+ <summary>
+ 这个节点的标识符
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node.NodeType">
+ <summary>
+ Node data groups identifier.(这个节点的分组类型的定义)
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.Graph.NetworkGraph.connectedNodes">
+ <summary>
+ Returns the set of all Nodes that have emanating Edges.
+ This therefore returns all Nodes that will be visible in the drawing.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.Graph.NodeData.Neighbours">
+ <summary>
+ 与本节点相连接的其他节点的<see cref="P:Microsoft.VisualBasic.Data.visualize.Network.Graph.Node.ID">编号</see>
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.Graph.Node.#ctor(System.String,Microsoft.VisualBasic.Data.visualize.Network.Graph.NodeData)">
+ <summary>
+ 在这里是用的是unique id进行初始化，对于Display title则可以在<see cref="P:Microsoft.VisualBasic.Data.visualize.Network.Graph.GraphData.label"/>属性上面设置
+ </summary>
+ <param name="iId"></param>
+ <param name="iData"></param>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.visualize.Network.Graph.Node.ID">
+ <summary>
+ The unique id of this node
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.Abstract.INode">
+ <summary>
+ Node model in the network
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.NetworkAPI.GetConnections(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge},System.String)">
+ <summary>
+ 这个查找函数是忽略掉了方向了的
+ </summary>
+ <param name="source"></param>
+ <param name="node"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.NetworkAPI.GetNextConnects(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge},System.String)">
+ <summary>
+ 查找To关系的节点边
+ </summary>
+ <param name="source"></param>
+ <param name="from"></param>
+ <returns></returns>
+ 
+</member>
+<member name="T:Microsoft.VisualBasic.Data.visualize.Network.PathFinder`1">
+ <summary>
+ 这个似乎是有方向的
+ </summary>
+ <typeparam name="NetworkNode"></typeparam>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.PathFinder`1.MoveNextStep(`0,System.Collections.Generic.List{`0},System.String,System.String)">
+ <summary>
+ 进行递归查询
+ </summary>
+ <param name="Node"></param>
+ <param name="ends"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.visualize.Network.TreeAPI.Operations.ClusterParts(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge})">
+ <summary>
+ {最开始的节点，实体列表}
+ </summary>
+ <param name="net"></param>
+ <returns></returns>
+</member>
+</members>
+</doc>

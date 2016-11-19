@@ -1,0 +1,146 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.MIME.JSON
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.MIME.JSON.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.MIME.JSON.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.MIME.JSON.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Microsoft.VisualBasic.MIME.JSON.Parser.JsonValue">
+ <summary>
+ Primitive value.
+ (请注意，假若是字符串的话，值是未经过处理的原始字符串，可能会含有转义字符，
+ 则这个时候还需要使用<see cref="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonValue.GetStripString"/>得到最终的字符串)
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonValue.GetStripString">
+ <summary>
+ 处理转义等特殊字符串
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.MIME.JSON.Parser.JsonObject">
+ <summary>
+ Dictionary/Array in javascript
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.MIME.JSON.Parser.JsonArray.Item(System.Int32)">
+ <summary>
+ Gets/Set elements by index
+ </summary>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser">
+ <summary>
+ https://github.com/qhgz2013/VBUtil/blob/master/VBUtil/JsonParser.vb
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parse(System.String@)">
+ <summary>
+ parse string and create JSON object
+ </summary>
+ <param name="str"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parseObject(System.String@,System.Int64@)">
+ <summary>
+ parse collections of key/value
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parseArray(System.String@,System.Int64@)">
+ <summary>
+ parse list
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parseValue(System.String@,System.Int64@)">
+ <summary>
+ parse string/number/object/array/boolean/null
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parseString(System.String@,System.Int64@)">
+ <summary>
+ parse string
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parseNumber(System.String@,System.Int64@)">
+ <summary>
+ parse number
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parseBoolean(System.String@,System.Int64@)">
+ <summary>
+ parse true/false
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.parseNull(System.String@,System.Int64@)">
+ <summary>
+ parse null
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.Parser.JsonParser.skipChar(System.String@,System.Int64@)">
+ <summary>
+ skip special character
+ </summary>
+ <param name="str"></param>
+ <param name="index"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.ExtendedDictionary.__getSpecificProperties(System.Type,Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework.PropertyAccess)">
+ <summary>
+ 得到除去字典以外的所有继承类的可写、可读属性
+ </summary>
+ <param name="type"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.MIME.JSON.ExtendedDictionary.GetExtendedJson``2(``1,System.Boolean)">
+ <summary>
+ 对继承自字典对象的Class类型进行序列化处理
+ </summary>
+ <typeparam name="T"></typeparam>
+ <typeparam name="V"></typeparam>
+ <param name="obj"></param>
+ <returns></returns>
+ <remarks>
+ 1. 首先序列化字典本身
+ 2. 然后添加属性
+ </remarks>
+</member>
+</members>
+</doc>

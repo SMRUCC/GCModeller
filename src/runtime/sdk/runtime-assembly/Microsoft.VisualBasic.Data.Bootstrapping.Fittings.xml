@@ -1,0 +1,114 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.Data.Bootstrapping.Fittings
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.Data.Bootstrapping.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Data.Bootstrapping.LeastSquares">
+ <summary>
+ 曲线拟合类，只适用于线性拟合：
+ 
+ + ``y = a*x + b``
+ + ``y = a + a1*x + a2*x^2 + ... + an*x^n``
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.Bootstrapping.LeastSquares.LinearFit(Microsoft.VisualBasic.Language.List{System.Double},Microsoft.VisualBasic.Language.List{System.Double})">
+ <summary>
+ 直线拟合-一元回归,拟合的结果可以使用getFactor获取，或者使用getSlope获取斜率，getIntercept获取截距
+ </summary>
+ <param name="x">观察值的x</param>
+ <param name="y">观察值的y</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.Bootstrapping.LeastSquares.PolyFit(Microsoft.VisualBasic.Language.List{System.Double},Microsoft.VisualBasic.Language.List{System.Double},System.Int32)">
+ <summary>
+ 多项式拟合，拟合y=a0+a1*x+a2*x^2+……+apoly_n*x^poly_n
+ </summary>
+ <param name="x">观察值的x</param>
+ <param name="y">观察值的y</param>
+ <param name="poly_n">期望拟合的阶数，若poly_n=2，则y=a0+a1*x+a2*x^2</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.Bootstrapping.LeastSquares.getSeriesLength(System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+ <summary>
+ 获取两个vector的安全size
+ </summary>
+ <param name="x"></param>
+ <param name="y"></param>
+ <returns>最小的一个长度</returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.Factor">
+ <summary>
+ 拟合后的方程系数，根据阶次获取拟合方程的系数，如getFactor(2),就是获取y=a0+a1*x+a2*x^2+……+apoly_n*x^poly_n中a2的值
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.SSR">
+ <summary>
+ 回归平方和
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.SSE">
+ <summary>
+ (剩余平方和)
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.RMSE">
+ <summary>
+ RMSE均方根误差
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.FitedYlist">
+ <summary>
+ 保存拟合后的y值，在拟合时可设置为不保存节省内存
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.GetY(System.Double)">
+ <summary>
+ 根据x获取拟合方程的y值
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.Slope">
+ <summary>
+ 获取斜率
+ </summary>
+ <returns>斜率值</returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.Intercept">
+ <summary>
+ 获取截距
+ </summary>
+ <returns>截距值</returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.R_square">
+ <summary>
+ 确定系数，系数是0~1之间的数，是数理上判定拟合优度的一个量
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Data.Bootstrapping.FittedResult.FactorSize">
+ <summary>
+ 获取拟合方程系数的个数
+ </summary>
+ <returns>拟合方程系数的个数</returns>
+</member>
+</members>
+</doc>

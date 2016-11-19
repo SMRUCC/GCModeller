@@ -1,0 +1,3740 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Microsoft.VisualBasic.Mathematical
+</name>
+</assembly>
+<members>
+<member name="T:Microsoft.VisualBasic.Mathematical.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.FuncParser">
+ <summary>
+ Parser for the user define <see cref="T:Microsoft.VisualBasic.Mathematical.Func"/>.(用户自定义函数的解析器)
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.FuncParser.TryParse(System.String)">
+ <summary>
+ &lt;Function>(args) expression
+ </summary>
+ <param name="s"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Func">
+ <summary>
+ User define function.(用户自定义函数)
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Func.Name">
+ <summary>
+ 函数名
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Func.Args">
+ <summary>
+ 参数列表
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Func.Expression">
+ <summary>
+ 函数表达式
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Func.GetExpression(Microsoft.VisualBasic.Mathematical.Expression)">
+ <summary>
+ 从数据模型之中创建对象模型
+ </summary>
+ <param name="engine"></param>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Func.__callerHelper.__args">
+ <summary>
+ 默认全部都是变量
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.FuncCaller">
+ <summary>
+ Function object model.(调用函数的方法)
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.FuncCaller.#ctor(System.String,Microsoft.VisualBasic.Mathematical.IFuncEvaluate)">
+ <summary>
+ 
+ </summary>
+ <param name="Name">The function name</param>
+ <param name="evaluate">Engine handle</param>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Types.MetaExpression">
+ <summary>
+ 在<see cref="M:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression.Calculator(System.String,Microsoft.VisualBasic.Language.List{Microsoft.VisualBasic.Mathematical.Types.MetaExpression}@)"></see>之中由于移位操作的需要，需要使用类对象可以修改属性的特性来进行正常的计算，所以请不要修改为Structure类型
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Types.MetaExpression.Operator">
+ <summary>
+ 
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Types.MetaExpression.LEFT">
+ <summary>
+ 自动根据类型来计算出结果
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Types.MetaExpression.IsNumber">
+ <summary>
+ Does the expression value is a constant.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Types.MetaExpression.IsExpression">
+ <summary>
+ Does the expression Value comes from a lambda expression?
+ </summary>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Types.MetaExpression._left">
+ <summary>
+ Value is a constant.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Types.MetaExpression.__left">
+ <summary>
+ Value comes from a lambda expression
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression">
+ <summary>
+ A class object stand for a very simple mathematic expression that have no bracket or function.
+ It only contains limited operator such as +-*/\%!^ in it.
+ (一个用于表达非常简单的数学表达式的对象，在这个所表示的简单表达式之中不能够包含有任何括号或者函数，
+ 其仅包含有有限的计算符号在其中，例如：+-*/\%^!)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression.MetaList">
+ <summary>
+ A simple expression can be view as a list collection of meta expression.
+ (可以将一个简单表达式看作为一个元表达式的集合)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression.LastOperator">
+ <summary>
+ The last operator of this expression.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression.ToString">
+ <summary>
+ Debugging displaying in VS IDE
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression.Evaluate">
+ <summary>
+ Evaluate the specific simple expression class object.
+ (计算一个特定的简单表达式对象的值，这个简单表达是对象可以被重复利用的，
+ 因为引用了变量或者函数的话<see cref="T:Microsoft.VisualBasic.Mathematical.Types.MetaExpression"/>会使用lambda表达式进行求值，
+ 所以只需要改变引擎之中的环境就行了) 
+ </summary>
+ <returns>
+ Return the value of the specific simple expression object.
+ (返回目标简单表达式对象的值)
+ </returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Types.SimpleExpression.Evaluate(System.String)">
+ <summary>
+ Using the default math script expression engine.
+ </summary>
+ <param name="s"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Types.UnitExpression">
+ <summary>
+ A class object stand for a very simple mathematic expression that have no bracket or function.
+ It only contains limited operator such as +-*/\%!^ in it.
+ (一个用于表达非常简单的数学表达式的对象，在这个所表示的简单表达式之中不能够包含有任何括号或者函数，
+ 其仅包含有有限的计算符号在其中，例如：+-*/\%^!)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Types.UnitExpression.Operator">
+ <summary>
+ Arithmetic operator(运算符) 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Types.UnitExpression.LEFT">
+ <summary>
+ The number a in the function of "Arithmetic.Evaluate".
+ (函数'Arithmetic.Evaluate'中的参数'a')
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Types.UnitExpression.RIGHT">
+ <summary>
+ The number b in the function of "Arithmetic.Evaluate".
+ (函数'Arithmetic.Evaluate'中的参数'b')
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Types.UnitExpression.Evaluate">
+ <summary>
+ Calculate the value of this simple expression object.
+ (计算这一个简单表达式对象的值)
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Types.UnitExpression.op_Explicit(Microsoft.VisualBasic.Mathematical.Types.UnitExpression)~System.Double">
+ <summary>
+ Get the value of this simple expression object.
+ (计算这一个简单表达式对象的值)
+ </summary>
+ <param name="e"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Types.UnitExpression.op_Implicit(System.String)~Microsoft.VisualBasic.Mathematical.Types.UnitExpression">
+ <summary>
+ Convert the expression in the string type to this class object type.
+ (将字符串形式的简单表达式转换为本对象类型)
+ </summary>
+ <param name="expression">
+ The string type arithmetic expression, please make sure that it must be contains no blank 
+ space char exists in this string.
+ (字符串类型的算术表达式，请确保本字符串中没有任何的空格符号)
+ </param>
+ <returns></returns>
+ <exception cref="T:System.Data.DataException">Expression contains no number(表达式中没有任何数字)</exception>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.ExpressionParser">
+ <summary>
+ Parser for complex expressions
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ExpressionParser.TryParse(System.String)">
+ <summary>
+ Using defaul engine
+ </summary>
+ <param name="s"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.ExpressionParser.GetValue">
+ <summary>
+ 
+ </summary>
+ <param name="var">Constant or variable name.</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ExpressionParser.TryParse(Microsoft.VisualBasic.Emit.Marshal.Pointer{Microsoft.VisualBasic.Scripting.TokenIcer.Token{Microsoft.VisualBasic.Mathematical.Tokens}},Microsoft.VisualBasic.Mathematical.Expression)">
+ <summary>
+ 
+ </summary>
+ <param name="tokens"></param>
+ <param name="engine">The expression engine.</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ExpressionParser.TryParse(System.String,Microsoft.VisualBasic.Mathematical.ExpressionParser.GetValue,Microsoft.VisualBasic.Mathematical.IFuncEvaluate)">
+ <summary>
+ 这个解析器还需要考虑Stack的问题
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ExpressionParser.TryParse(Microsoft.VisualBasic.Emit.Marshal.Pointer{Microsoft.VisualBasic.Scripting.TokenIcer.Token{Microsoft.VisualBasic.Mathematical.Tokens}},Microsoft.VisualBasic.Mathematical.ExpressionParser.GetValue,Microsoft.VisualBasic.Mathematical.IFuncEvaluate,System.Boolean)">
+ <summary>
+ 这个解析器还需要考虑Stack的问题
+ </summary>
+ <param name="tokens"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.SimpleParser">
+ <summary>
+ Parser for simple expression
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SimpleParser.ClearOverlapOperator(System.String@)">
+ <summary>
+ 
+ </summary>
+ <param name="s"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Expression">
+ <summary>
+ Expression Evaluation Engine
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Expression.value(System.String)">
+ <summary>
+ Gets constant or variable value, but only sets variable value.
+ </summary>
+ <param name="var"></param>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Expression.DefaultEngine">
+ <summary>
+ The default expression evaluation engine.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Expression.Evaluate(System.String)">
+ <summary>
+ This shared method using the default expression engine for the evaluation.
+ </summary>
+ <param name="expr"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Expression.Evaluation(System.String)">
+ <summary>
+ Evaluate the a specific mathematics expression string to a double value, the functions, constants, 
+ bracket pairs can be include in this expression but the function are those were originally exists 
+ in the visualbasic. I'm sorry for this...
+ (对一个包含有函数、常数和匹配的括号的一个复杂表达式进行求值，但是对于表达式中的函数而言：仅能够使用在
+ VisualBaisc语言中存在的有限的几个数学函数。)  
+ </summary>
+ <param name="expr"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Expression.GetValue(System.String)">
+ <summary>
+ 先常量，后变量
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.BasicR.Helpers.MatrixMathArithmetic">
+ <summary>
+ The basics arithmetic operators' definition of matrix object in mathematics.
+ (数学意义上的基本的四则运算符号的定义)  
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.BasicR.Helpers.MatrixMathArithmetic.Arithmetic">
+ <summary>
+ +-*/\%^!
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.BasicR.Helpers.MatrixMathArithmetic.OPERATORS">
+ <summary>
+ A string constant that enumerate all of the arithmetic operators.
+ (一个枚举所有的基本运算符的字符串常数) 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.BasicR.Helpers.MatrixMathArithmetic.DOUBLE_NUMBER_REGX">
+ <summary>
+ A string constant RegularExpressions that stands a double type number.
+ (一个用于表示一个双精度类型的实数的正则表达式)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Helpers.MatrixMathArithmetic.Evaluate(System.Double,System.Double,System.Char)">
+ <summary>
+ Do a basically arithmetic calculation.
+ (进行一次简单的四则运算) 
+ </summary>
+ <param name="a"></param>
+ <param name="b"></param>
+ <param name="o">Arithmetic operator(运算符)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Helpers.MatrixMathArithmetic.Factorial(System.Double,System.Double)">
+ <summary>
+ Calculate the factorial value of a number, as this function is the part of the arithmetic operation 
+ delegate type of 'System.Func(Of Double, Double, Double)', so it must keep the form of two double 
+ parameter, well, the parameter 'b As Double' is useless.
+ (计算某一个数的阶乘值，由于这个函数是四则运算操作委托'System.Func(Of Double, Double, Double)'中的一部分，
+ 故而本函数保持着两个双精度浮点型数的函数参数的输入形式，也就是说本函数的第二个参数'b'是没有任何用途的)  
+ </summary>
+ <param name="a">The number that will be calculated(将要被计算的数字)</param>
+ <param name="b">Useless parameter 'b'(无用的参数'b')</param>
+ <returns>
+ Return the factorial value of the number 'a', if 'a' is a negative number then this function 
+ return value 1.
+ (函数返回参数'a'的阶乘计算值，假若'a'是一个负数的话，则会返回1)
+ </returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX">
+ <summary>
+ 
+ </summary>
+ <remarks>
+ Matlab里常用的矩阵运算函数  
+ %假设矩阵为A
+ det(A)求矩阵行列式
+ eig(A)求矩阵特征值或特征向量
+ inv(A)矩阵A求逆
+ pinv(A)矩阵A求伪逆
+ rank(A)求矩阵A的秩
+ svd(A)求矩阵A的奇异值或进行奇异值分解
+ gsvd(A)求矩阵A的广义奇异值
+ trace(A)求矩阵A的迹
+ schur(A)对矩阵A进行Schur分解
+ hess(A)求矩阵A的Hessenburg标准型
+ cond(A)求矩阵A的范数
+ chol(A)对矩阵A进行Cholesky分解
+ lu(A)对矩阵A进行lu分解
+ qr(A)对矩阵A进行QR分解
+ poly(A)求矩阵A的特征多项式
+ </remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.GetSize">
+ <summary>
+ 获取矩阵行数
+ </summary>
+ <returns>函数将返回矩阵的行数</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Resize(System.Int32,System.Int32)">
+ <summary>
+ 调整矩阵的大小，并保留原有的数据
+ </summary>
+ <param name="m"></param>
+ <param name="n"></param>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Number">
+ <summary>
+ 获取仅包含有一个元素的矩阵对象
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Addition(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 两个矩阵加法算符重载，矩阵元素分别相加
+ </summary>
+ <param name="a1"></param>
+ <param name="a2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Subtraction(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 两个矩阵减法算符重载，矩阵元素分别相减
+ </summary>
+ <param name="a1"></param>
+ <param name="a2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Multiply(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 两个矩阵乘法算符重载，矩阵元素分别相乘，相当于MATLAB中的   .*，要求两个矩阵维数相同，矩阵类不进行个数判断
+ </summary>
+ <param name="a1"></param>
+ <param name="a2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Division(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 两个矩阵除法算符重载，矩阵元素分别相除，相当于MATLAB中的   ./，要求两个矩阵维数相同，矩阵类不进行个数判断
+ </summary>
+ <param name="a1"></param>
+ <param name="a2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Addition(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Double)">
+ <summary>
+ 矩阵加实数算符重载，各分量分别加实数
+ </summary>
+ <param name="a1"></param>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Subtraction(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Double)">
+ <summary>
+ 矩阵减实数算符重载，各分量分别减实数
+ </summary>
+ <param name="a1"></param>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Multiply(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Double)">
+ <summary>
+ 矩阵乘以实数算符重载，各分量分别乘以实数
+ </summary>
+ <param name="a1"></param>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Division(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Double)">
+ <summary>
+ 矩阵除以实数算符重载，各分量分别除以实数
+ </summary>
+ <param name="a1"></param>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Addition(System.Double,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 实数加矩阵算符重载，各分量分别加实数
+ </summary>
+ <param name="x"></param>
+ <param name="a1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Subtraction(System.Double,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 实数减矩阵算符重载，各分量分别减实数
+ </summary>
+ <param name="x"></param>
+ <param name="a1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_Multiply(System.Double,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 实数乘矩阵算符重载，各分量分别乘以实数
+ </summary>
+ <param name="x"></param>
+ <param name="a1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_BitwiseOr(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 数学上的矩阵相乘
+ </summary>
+ <param name="a1"></param>
+ <param name="a2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.op_BitwiseOr(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 矩阵乘以向量(线性变换），即 b=Ax
+ </summary>
+ <param name="A"></param>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Transpose(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵转置操作
+ </summary>
+ <param name="A"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Transpose">
+ <summary>
+ 获取当前的矩阵对象的转置矩阵
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.SG(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵的满秩分解Math_Matrinx_SG，把矩阵K分解成一种行满秩Return_m 是m*r与列满秩的矩阵Return_n是r*n.返回值为r.r是其秩
+ </summary>
+ <param name="K">为要满秩分解的方阵</param>
+ <param name="Return_M">所求得的m*r矩阵</param>
+ <param name="Return_N">所求得的r*n矩阵</param>
+ <returns></returns>
+ <remarks>
+ 其中A为m*n的矩阵,r为A的秩.即A=Return_M*Return_N.函数执行成功返回r(也就是其秩)
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Pinv(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵的广义逆A+ ，返回m*n矩阵Return_K(,)的m。此广义逆是Moore-Penrose A+逆
+ </summary>
+ <param name="K">要求广义逆的矩阵</param>
+ <param name="Return_K">求得的广义逆矩阵</param>
+ <returns>函数执行成功返回m,其中m代表Return_K的行数</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Pinv2(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵的广义逆A-，函数执行成功返回Ret的行数,出错返回0
+ </summary>
+ <param name="K">要求广义逆的矩阵</param>
+ <param name="Erro">误差控制参数</param>
+ <param name="m">矩阵K的行数</param>
+ <param name="Ret">求得的广义逆矩阵</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.GetRank(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16)">
+ <summary>
+ 矩阵求秩，函数执行成功返回秩的大小
+ </summary>
+ <param name="K">要求秩的矩阵</param>
+ <param name="error_">误差控制参数</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.QR(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 方阵的QR分解
+ </summary>
+ <param name="K">要QR分解的矩阵，K必须是非奇异的n阶方阵</param>
+ <param name="Q">分解后的Q矩阵</param>
+ <param name="R">分解后的R矩阵</param>
+ <returns>函数执行成功返回True,失败返回False</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Schmidt(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵施密特(Schmidt)正交规范化
+ </summary>
+ <param name="K">要施密特(Schmidt)正交规范化的矩阵</param>
+ <param name="Ret">正交规范化后的矩阵</param>
+ <returns>函数执行成功返回True,失败返回False</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.EigenValue(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,System.Int16,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Boolean)">
+ <summary>
+ 方阵求特征值
+ </summary>
+ <param name="K11">要求特征值的方阵</param>
+ <param name="n">方阵K1的阶数</param>
+ <param name="LoopNumber">循环次数</param>
+ <param name="Errro">误差控制变量</param>
+ <param name="Ret">返回的特征值,Ret是是n*2的数组,第一列是实数部分,第2列为虚数部分</param>
+ <param name="IsHess">K1是否已经是上Hessenberg矩阵</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Hessenberg(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 将方阵化为上(Hessenberg)矩阵，函数成功返回Ret的阶数
+ </summary>
+ <param name="A">要化为上(Hessenberg)矩阵的矩阵</param>
+ <param name="n">为方阵A的阶数</param>
+ <param name="ret">化为上(Hessenberg)矩阵后的矩阵</param>
+ <returns>函数成功返回Ret的阶数</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.SvdSplit(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16)">
+ <summary>
+ 对矩阵A进行奇异值分解
+ </summary>
+ <param name="A">目标矩阵</param>
+ <param name="m">A矩阵的行数</param>
+ <param name="V">分解得到的一个V矩阵</param>
+ <param name="V_m">V矩阵的行数</param>
+ <param name="S">分解得到的一个S矩阵</param>
+ <param name="S_m">S矩阵的行数</param>
+ <param name="U">分解得到的一个U矩阵</param>
+ <param name="U_m">U矩阵的行数</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Cramer22(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 求Kx=B的最小二乘解
+ </summary>
+ <param name="K">是x的系数矩阵</param>
+ <param name="B">是等式右边的常数矩阵</param>
+ <param name="k_m">矩阵K的行数</param>
+ <param name="x">求解得到的解</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Det2(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 求行列式
+ </summary>
+ <param name="k">所求的n阶方阵</param>
+ <param name="N">方阵K的阶数</param>
+ <returns>函数成功返回其行列式的大小</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.SPD(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵正规、对称、正定性判断
+ </summary>
+ <param name="K">为要判断的矩阵</param>
+ <returns>函数返回-1矩阵非对称矩阵,返回0矩阵不正定,返回1矩阵正定</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.LLt(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Boolean)">
+ <summary>
+ 矩阵的LLt分解
+ </summary>
+ <param name="A">要进行LLt分解的方阵</param>
+ <param name="L">分解得到的L方阵</param>
+ <param name="is1_是否已经正定"></param>
+ <returns>函数成功返回True,失败返回False.(其中Lt是L的转置,即分解后 A=L×Lt)</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.QR22(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,System.Int16)">
+ <summary>
+ 矩阵的QR分解
+ </summary>
+ <param name="A">要QR分解的矩阵（不一定是方阵）</param>
+ <param name="Q">分解得到的Q矩阵</param>
+ <param name="R">分解得到的R矩阵</param>
+ <param name="Q_n">返回Q矩阵的列数</param>
+ <param name="R_n">返回R矩阵的列数</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.QR2(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,System.Int16)">
+ <summary>
+ 矩阵的QR分解
+ </summary>
+ <param name="A">要QR分解的矩阵(不一定是方阵)</param>
+ <param name="Q">分解得到的Q矩阵</param>
+ <param name="R">分解得到的R矩阵</param>
+ <param name="Q_n">返回Q矩阵的列数</param>
+ <param name="R_n">返回R矩阵的列数</param>
+ <returns>函数成功返回True,失败返回False.使用本函数时,A矩阵的行数不能小于列数</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.LU(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 方阵LU分解
+ </summary>
+ <param name="K">为要LU分解的方阵</param>
+ <param name="n">方阵K的阶数</param>
+ <param name="L">为分解得到的L矩阵</param>
+ <param name="U">为分解得到的U矩阵</param>
+ <returns>其意义是K=LU.函数执行成功返回True,失败返回False</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Inv2(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 矩阵求逆
+ </summary>
+ <param name="K">目标方阵</param>
+ <param name="Return_K">求得的逆矩阵</param>
+ <param name="N">方阵K的阶数</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.DetF(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 求行列式，函数执行成功返回其行列式大小.其原理是按行列式定义依次展开求解.不适合大于5阶的方阵，K的数组大小为N*N的,不然程序出错
+ </summary>
+ <param name="k">为n阶方阵</param>
+ <param name="N">为矩阵A的阶数</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Inv(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵求逆
+ </summary>
+ <param name="K">为要求逆的方阵</param>
+ <param name="Return_K">为所求得的逆</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Svd(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵奇异值
+ </summary>
+ <param name="A">为目的矩阵</param>
+ <param name="m">为A矩阵的行数</param>
+ <param name="Ret">获取到的奇异值矩阵,即返回的Ret是m*1的矩阵</param>
+ <returns>函数执行成功返回奇异值的个数,即Ret的行数,失败返回-1</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.SymTridMatrix(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,System.Boolean,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 实对称阵化为对称三对角阵
+ </summary>
+ <param name="A">目标方阵</param>
+ <param name="n">方阵A的阶数</param>
+ <param name="Is对称">不确定是否对称直接填False,对称则直接填True</param>
+ <param name="ret">返回的三对角阵</param>
+ <returns></returns>
+ <remarks>本函数采用用豪斯赫尔蒙德变换将实对称阵化为对称三对角</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Adj(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵伴随矩阵
+ </summary>
+ <param name="K">目标方阵</param>
+ <param name="n">方阵K的阶数</param>
+ <param name="Ret">获得的伴随矩阵</param>
+ <returns></returns>
+ <remarks>
+ 函数采用求代数余子式的方式进行求解,这样就存在一个问题,当目标矩阵的阶数很大的时候,本函数效率是相当慢的。
+ 建议使用左连翠提出的《伴随矩阵的新求法》里的方法进行求解。里面的方法可以求解非满秩矩阵的伴随矩阵。
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Pow(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 方阵求n次方
+ </summary>
+ <param name="A">目标方阵</param>
+ <param name="m">方阵A的阶数</param>
+ <param name="n">方阵A要求的次方数</param>
+ <param name="Ret">方阵A进行n次方后获得的返回值</param>
+ <returns></returns>
+ <remarks>
+ 注意,本代码没有采用特征值法。而是直接采用2个矩阵相乘的方法(但又不是老老实实地去乘n次),因为用程序去求一个方阵的特征值,
+ 可能运算复杂度超过了你直接对矩阵相乘的复杂度,至少在n在1000以内大概是这样。
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.PolyRoots2(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,System.Int16,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 求多项式复数根贝尔斯托(Bairstow)算法
+ </summary>
+ <param name="A">多项式系数矩阵,为1*A_n的矩阵。A中的数据依次为多项式最高项系数,次高项系数……常数项系数</param>
+ <param name="A_n">A矩阵的列数或大小</param>
+ <param name="LoopNumber">控制的循环次数</param>
+ <param name="Erro">误差控制变量</param>
+ <param name="Ret">返回的一个n*2的矩阵</param>
+ <returns>函数执行完毕返回Ret的行数</returns>
+ <remarks>
+ 对于多项式f(x)=(x^2+2x+3)(x^2-5x+9)=x^4-3x^3+2x^2+3x+27,则A(0,0)=1,A(0,1)=-3,A(0,2)=2,A(0,3)=3,A(0,4)=27,A_n=5.
+ 当执行下面的函数后,Ret是一个2×2的矩阵,即Ret(0,0)=2,Ret(0,1)=3,Ret(0,0)的2对应于(x^2+2x+3)当中2x的2,Ret(0,1)的3
+ 对应于(x^2+2x+3)当中常系数的3.用此函数前建议先把重根与实数根处理掉
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Cond(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 矩阵范数Cond及
+ </summary>
+ <param name="k">目标矩阵</param>
+ <param name="m">矩阵的行数</param>
+ <returns></returns>
+ <remarks>
+ 函数运行原理是先求矩阵的奇异值,然后用最大的奇异值除以最小的奇异值即得矩阵的范数.对于只有1行或者1列的还得另行处理.这个函数和Matlab的Cond命令一样,即2范数
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Scatter(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 构建散点图矩阵(Scatter Matrix)
+ </summary>
+ <param name="X">目标矩阵</param>
+ <param name="m">X矩阵的行数</param>
+ <param name="S">获得的散点矩阵</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.PolyDivEx(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 多项式除法
+ </summary>
+ <param name="A1">被除数存储多项式系数</param>
+ <param name="A2">除数存储多项式系数</param>
+ <param name="RetMod">求得的余数多项式系数</param>
+ <param name="Ret">求得的多项式商系数</param>
+ <param name="Erro">误差控制参数</param>
+ <returns></returns>
+ <remarks>A1/A2=Ret……RetMod</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.EigTorF(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,System.Double,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵特征值获取特征值向量
+ </summary>
+ <param name="A1">目标方阵</param>
+ <param name="A_m">矩阵A的行数</param>
+ <param name="EigValve">方阵A的一个特征值</param>
+ <param name="X">函数执行成功后得到的一个特征向量</param>
+ <remarks>
+ 函数原理:已知方阵A的一个特征值为r,则求解方程组(A-r*E)*X=0的解X即为我们的一个特征向量(这里E为单位矩阵),
+ 我们下面采用的是全选主元素法求解.但是需要注意的是,由于这个方程组是非满秩矩阵,因此在最后处理解的时候,我们
+ 总是令X解中的一个量为1(当然,你可以设置为其它数,建议设置为非0的数据),然后根据这个量导出其它的量
+ 
+ 例子:
+ a =
+  [ -1.0000000000000   0.00000000000000   0.00000000000000
+    8.00000000000000   2.00000000000000   4.00000000000000
+    8.00000000000000   3.00000000000000   3.00000000000000 ]
+
+  Math_Matrix_EigTor(a,3,6,x)'上面矩阵a的一个特征值为6,则我们执行如下的命令后求得6的特征向量x如下
+ x =
+  [ 0.00000000000000
+    1.00000000000000
+    1.00000000000000 ]
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.EigSym(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int16,System.Int16,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 求对称方阵特征值
+ </summary>
+ <param name="A">对称方阵</param>
+ <param name="n">方阵A的阶数</param>
+ <param name="Erro1">误差控制变量</param>
+ <param name="Ret">返回的特征值</param>
+ <param name="Ret_Eigenvectors">返回的特征值对应的特征向量</param>
+ <returns></returns>
+ <remarks>本代码采用雅可比过关法求解</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Mul(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵相乘
+ </summary>
+ <param name="K1">K1为矩阵乘法中左边的矩阵</param>
+ <param name="K2">为矩阵乘法中右边的矩阵</param>
+ <param name="n">代表K1的列数,K2的行数</param>
+ <param name="Return_K">执行成功后返回的乘的结果的矩阵</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Sqrt(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 矩阵求平方根（sqrtm）
+ </summary>
+ <param name="K">目标方阵</param>
+ <param name="n">方阵K的阶数</param>
+ <param name="ks">求得的平方根.即ks*ks=K</param>
+ <returns></returns>
+ <remarks>
+ 如果K可以化成K=Inv(P)*diag(R)*P,其中Inv(P)表示P的逆矩阵,diag(R)*为K的特征值组成的对角矩阵,
+ 那么ks=Inv(P)*diag(R^0.5)*P,根据对角化原理,P*K*Inv(P)=Diag(R),其中Inv(P)是特征值R对应于K
+ 的特征向量,因此我们的算法=求特征值R,如果所有R均为正实数,则求R对应的特征向量Inv(P),然后讲R每
+ 个值取根放入对角矩阵对结果相乘即可
+ 
+ 例子:
+ c =
+  [  192.291902022941   136.423323830855  -22.2582056347830   10.9878603820001
+    -176.869155076020  -120.047935463800   20.4023293672721  -16.5962890811120
+    -21.6722775306690  -60.5101175154120   135.025037886378   5.36535497517843
+     31.2279467353500   93.4954928282741  -106.961070363850   59.2865617399033  ]
+  
+ Math_Matrix_Sqrt(a,4,x)'求a平方根如下,可以进行x*x进行验证
+ x =
+  [  18.0067271094031   10.1514259204440  -0.80764239842560   0.96148324464486
+    -13.6679053566890  -5.69822839694800   0.61394536284630  -1.38430646207250
+    -3.17102914065820  -5.10751280313280   11.6191076697081   0.04254172112235
+     4.81532683312183   7.92820343443191  -5.38805756370240   8.16305909603188  ]
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.RU(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 右极分解，即F=R*U
+ </summary>
+ <param name="F">目标方阵</param>
+ <param name="n">方阵F的阶数</param>
+ <param name="R">分解得到的一个正交矩阵</param>
+ <param name="U">分解得到的一个对称正定矩阵</param>
+ <returns></returns>
+ <remarks>
+ 原理:任何一个可逆方阵均可以唯一的进行右极分解与左极分解,即F=R*U=V*R,其中U^2=T(F)*F,V^2=F*T(F)
+【其中T(F)表示F的转置】,则我们可以先通过F求得U或V,然后求R=F*Inv(U)=Inv(V)*F
+ 
+ 例子:
+ a =
+  [ 67.5919611787386     69.8554906388072     38.8768396987006     89.3106376236820
+    17.0671848194055     1.12767200969517     31.5601159499772     96.9140055109346
+    40.6681714768839     51.0876563615574     86.9885893943666     77.3506165842296
+    73.6101518727886     87.9281915202402     23.9508483670423     3.45968334165387 ]
+ 
+ Math_Matrix_RU(a,4,r,u)'进行右极分解得到如下结果
+ r =
+  [ -0.01806739003090   0.71913865214108  -0.27739456376250   0.63664949766408
+     0.45823822484909  -0.57214688695250   0.04612554269224   0.67904624212867
+    -0.09675742692290   0.20970810955629   0.95672796354849   0.17708590026142
+     0.88326786307616   0.33437989881145   0.07527225185216  -0.31939364294910  ]
+ u =
+  [ 67.6841644139219  71.9849022272286  26.4791752992667  38.3171883770002
+    71.9863924990090  89.6984480926248  36.1676400008128  26.2017432919420
+    26.4820423188876  36.1668446729677  75.6890493922576  53.9420595009903
+    38.3140405638833  26.2042694530458  53.9408769958847  135.276124831623  ]
+
+ Math_Matrix_VR(a,4,v,r)'进行左极分解得到如下结果
+ v =
+  [ 95.0902981485406     53.4500420292151     61.1182769307013     57.4613130458042
+    53.4438098825046     74.4408296746995     45.9449363126334    -13.1234428571640
+    61.1187415068155     45.9418557217637     103.699821171875     34.8450484220080
+    57.4619847804705    -13.1244040926920     34.8441839555448     95.1168377384350 ]
+ r =
+  [ -0.01835015300540     0.71939575068999    -0.27678823268990     0.63628327754090
+     0.45799761221593    -0.57191020194030     0.04534571824682     0.67953103744654
+    -0.09684035444340     0.20977163011655     0.95676617484504     0.17707600892713
+     0.88364856259618     0.33406264059053     0.07478222238892    -0.31912379017620 ]
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.VR(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 左极分解
+ </summary>
+ <param name="F">目标方阵</param>
+ <param name="n">方阵F的阶数</param>
+ <param name="V">分解得到的一个对称正定矩阵</param>
+ <param name="R">分解得到的一个正交矩阵，即F=V*R</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Hamiltonian(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 构建哈密顿矩阵
+ </summary>
+ <param name="k">m阶的对称矩阵</param>
+ <param name="m">矩阵k的行数</param>
+ <param name="ret">获得的关于矩阵K的Hamiltonian矩阵</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Lehmer(System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 构建Lehmer矩阵
+ </summary>
+ <param name="n">构建Lehmer矩阵的阶数</param>
+ <param name="k">构建的Lehmer矩阵</param>
+ <remarks>Lehmer Matrix</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.PolyMul(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 多项式乘法
+ </summary>
+ <param name="Mul1">乘数多项式系数</param>
+ <param name="Mul2">乘数多项式系数</param>
+ <param name="Ret">获得的乘积结果多项式系数</param>
+ <returns></returns>
+ <remarks>Ret=Mul1*Mul2</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.PolyDiv(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 多项式除法
+ </summary>
+ <param name="A1">被除数存储多项式系数</param>
+ <param name="A2">除数存储多项式系数</param>
+ <param name="RetMod">求得的余数多项式系数</param>
+ <param name="Ret">求得的多项式商系数</param>
+ <param name="Erro">误差控制参数</param>
+ <returns></returns>
+ <remarks>A1/A2=Ret……RetMod</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.PolyMod(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 多项式求余数
+ </summary>
+ <param name="A1">被除数多项式系数</param>
+ <param name="A2">除数多项式系数</param>
+ <param name="Ret">求得的余数多项式系数</param>
+ <param name="Erro">误差控制参数</param>
+ <returns></returns>
+ <remarks>A1%A2=Ret</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.IDFT(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 离散傅里叶变换逆变换
+ </summary>
+ <param name="k">m*2的矩阵数据(数据点)K里的第一列代表数据的实数部分,第2列代表数据的虚数部分</param>
+ <param name="m">矩阵k的行数</param>
+ <param name="Number">离散点数</param>
+ <param name="X">离散傅里叶变换逆变换的结果矩阵是Number*2的矩阵,X里的第一列代表数据的实数部分,第2列代表数据的虚数部分</param>
+ <returns>本函数执行成功返回True.本函数相当于Matlab的快速傅里叶变换逆变换函数IFFT</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.DFT(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 离散傅里叶变换
+ </summary>
+ <param name="k">m*2的矩阵数据(数据点)K里的第一列代表数据的实数部分,第2列代表数据的虚数部分</param>
+ <param name="m">矩阵k的行数</param>
+ <param name="Number">离散点数</param>
+ <param name="X">离散傅里叶变换的结果矩阵是Number*2的矩阵,X里的第一列代表数据的实数部分,第2列代表数据的虚数部分</param>
+ <returns>本函数执行成功返回True.本函数相当于Matlab的快速傅里叶变换函数FFT</returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Orth(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 求矩阵的一个正交基Orth
+ </summary>
+ <param name="k">目标矩阵</param>
+ <param name="m">k的行数</param>
+ <param name="ret">获得的一个正交基矩阵</param>
+ <returns>函数失败返回小于1的数据，成功返回ret的行数</returns>
+ <remarks>对矩阵进行svd分解即用SvdSplit得到k=usv*,则s是奇异值矩阵,可以奇异值是否为0获得矩阵的秩r,然后ret就是m*r的矩阵且其就是u里的m*r的部分值</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Magic(System.Int32,System.Double,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 幻方
+ </summary>
+ <param name="n">幻方的阶数(大于2)</param>
+ <param name="start">幻方的中最小的正整数,一般可以设置为1</param>
+ <param name="k">获得的幻方</param>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Sove2(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ 高斯全选主元素法解方程，本函数是求解AX=B这类问题的。函数采用全选主元素的高斯消元法，对于出现非满秩矩阵时(A的化简过程中的A)，
+ 只要函数有解(可能不止一组解,此时只返回一组解)，本函数都能返回其解
+ </summary>
+ <param name="A">A_m*n的矩阵</param>
+ <param name="b">B_m*1的矩阵</param>
+ <param name="A_m"></param>
+ <param name="B_m"></param>
+ <param name="X">求解得到的矩阵</param>
+ <returns></returns>
+ <remarks>
+ 例子:
+ a =
+  [ 89.7234413259306  12.9170338217714  79.9443395249286  78.1627263772128
+    62.8960442556516  63.9951517172135  2.9257326400493   57.119458800703
+    83.5902038885235  55.9411662425572  89.4671598865963  33.7297967792162 ]
+ 
+ b =
+  [ 65.2027291083721
+    54.2041894766522
+    63.722165657078   ]
+ 
+ 经过本函数后得到的解如下
+ x =
+  [ -0.826689550370445
+    0.737377350436936
+    0.646558671079671
+    1                 ]
+ 
+ 即AX=B
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.PolyGCF(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 多项式提取最大公因式
+ </summary>
+ <param name="A1">1*A1_n的存储多项式系数的矩阵</param>
+ <param name="A1_n">A1的列数</param>
+ <param name="A2">为1*A2_n的存储多项式系数的矩阵</param>
+ <param name="A2_n">A2的列数</param>
+ <param name="Ret">获得的最大公因式多项式系数</param>
+ <param name="Erro">误差控制参数</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.PolyGCFCall(Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX,System.Int32)">
+ <summary>
+ 求2个多项式的最大公因式Ret，A1为1*A1_n的矩阵，A2为1*A2_n的矩阵。函数执行后返回公因式Ret的大小
+ </summary>
+ <param name="A1"></param>
+ <param name="A1_n"></param>
+ <param name="A2"></param>
+ <param name="A2_n"></param>
+ <param name="Ret"></param>
+ <param name="Erro"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.MATRIX.Pascal(System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.MATRIX)">
+ <summary>
+ n阶帕斯卡(Pascal)矩阵  
+ </summary>
+ <param name="n">表示产生帕斯卡(Pascal)矩阵的阶数</param>
+ <param name="k">产生的n阶帕斯卡(Pascal)矩阵</param>
+ <remarks>Pascal Matrix即产生n阶的帕斯卡矩阵由杨辉三角形表组成的矩阵称为帕斯卡(Pascal)矩阵</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Parser.Matrix(System.String)">
+ <summary>
+ Parsing a matrix object from a expression string.(从一个表达式之中解析出一个矩阵)
+ </summary>
+ <param name="expression"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.BasicR.Vector">
+ <summary>
+ <see cref="T:System.Collections.Generic.List`1"/>
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.BasicR.Vector.NAN">
+ <summary>
+ <see cref="F:System.Double.NaN"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.BasicR.Vector.Inf">
+ <summary>
+ <see cref="F:System.Double.PositiveInfinity"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.BasicR.Vector.Zero">
+ <summary>
+ Only one number in the vector and its value is ZERO
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.BasicR.Vector.IsNumeric">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector`1.Dim"/>为1?即当前的向量对象是否是只包含有一个数字？
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.#ctor(System.Int32)">
+ <summary>
+ Creates vector with m element and init value set to zero
+ </summary>
+ <param name="m"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.#ctor(System.Collections.Generic.IEnumerable{System.Double})">
+ <summary>
+ Creates vector with a specific value sequence.
+ </summary>
+ <param name="data"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.#ctor(System.Collections.Generic.IEnumerable{System.Double},System.Func{System.Double,System.Double})">
+ <summary>
+ Init with transform
+ </summary>
+ <param name="x"></param>
+ <param name="apply"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.#ctor(System.Double,System.Int32)">
+ <summary>
+ Creates vector with m element and init value specific by init parameter.
+ </summary>
+ <param name="init"></param>
+ <param name="m"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Addition(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 两个向量加法算符重载，分量分别相加
+ </summary>
+ <param name="v1"></param>
+ <param name="v2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Subtraction(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 向量减法算符重载，分量分别想减
+ </summary>
+ <param name="v1"></param>
+ <param name="v2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Multiply(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 向量乘法算符重载，分量分别相乘，相当于MATLAB中的  .*算符
+ </summary>
+ <param name="v1"></param>
+ <param name="v2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Division(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 向量除法算符重载，分量分别相除，相当于MATLAB中的   ./算符
+ </summary>
+ <param name="v1"></param>
+ <param name="v2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Addition(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Double)">
+ <summary>
+ 向量减加实数，各分量分别加实数
+ </summary>
+ <param name="v1"></param>
+ <param name="a"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Subtraction(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Double)">
+ <summary>
+ 向量减实数，各分量分别减实数
+ </summary>
+ <param name="v1"></param>
+ <param name="a"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Multiply(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Double)">
+ <summary>
+ 向量 数乘，各分量分别乘以实数
+ </summary>
+ <param name="v1"></param>
+ <param name="a"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Division(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Double)">
+ <summary>
+ 向量 数除，各分量分别除以实数
+ </summary>
+ <param name="v1"></param>
+ <param name="a"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Addition(System.Double,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 实数加向量
+ </summary>
+ <param name="a"></param>
+ <param name="v1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Subtraction(System.Double,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 实数减向量
+ </summary>
+ <param name="a"></param>
+ <param name="v1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_Multiply(System.Double,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 向量 数乘
+ </summary>
+ <param name="a"></param>
+ <param name="v1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_BitwiseOr(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 向量内积
+ </summary>
+ <param name="v1"></param>
+ <param name="v2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_ExclusiveOr(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 向量外积（相当于列向量，乘以横向量）
+ </summary>
+ <param name="v1"></param>
+ <param name="v2"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_OnesComplement(Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 向量模的平方
+ </summary>
+ <param name="v1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.op_UnaryNegation(Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 负向量 
+ </summary>
+ <param name="v1"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.BasicR.Vector.ToString">
+ <summary>
+ Display member's data as json array
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.VectorMath.Sqrt(Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ abs(x) computes the absolute value of x, sqrt(x) computes the (principal) square root of x, √{x}.
+ </summary>
+ <param name="x">a numeric or complex vector or array.</param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.VectorMath.Exp(Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ log computes logarithms, by default natural logarithms, log10 computes common (i.e., base 10) logarithms, 
+ and log2 computes binary (i.e., base 2) logarithms. 
+ The general form log(x, base) computes logarithms with base base.
+ log1p(x) computes log(1+x) accurately also for |x| &lt;&lt; 1.
+ exp computes the exponential function.
+ expm1(x) computes exp(x) - 1 accurately also for |x| &lt;&lt; 1.
+ </summary>
+ <param name="x">a numeric or complex vector.</param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.VectorMath.Log(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Double)">
+ <summary>
+ 
+ </summary>
+ <param name="x">a numeric or complex vector.</param>
+ <returns></returns>
+ <param name="base">a positive or complex number: the base with respect to which logarithms are computed. Defaults to e=exp(1).</param>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.VectorMath.Trunc(Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ Rounding of Numbers
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.VectorMath.BesselI(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Boolean)">
+ <summary>
+ Bessel Functions of integer and fractional order, of first and second kind, J(nu) and Y(nu), 
+ and Modified Bessel functions (of first and third kind), I(nu) and K(nu).
+ </summary>
+ <returns>
+ Numeric vector with the (scaled, if expon.scaled = TRUE) values of the corresponding Bessel function.
+ The length of the result is the maximum of the lengths of the parameters. All parameters are recycled to that length.
+ </returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.VectorMath.Sort(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Boolean)">
+ <summary>
+ Sorting or Ordering Vectors
+ Sort (or order) a vector or factor (partially) into ascending or descending order. For ordering along more than one variable, e.g., for sorting data frames, see order.
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.VectorMath.Order(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Boolean,System.Boolean)">
+ <summary>
+ order returns a permutation which rearranges its first argument into ascending or descending order, breaking ties by further arguments. sort.list is the same, using only one argument.
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.Poisson">
+ <summary>
+ Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.Poisson.rPois(System.Int32,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
+ </summary>
+ <param name="n">number of random values to return.</param>
+ <param name="lambda">vector of (non-negative) means.</param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.Poisson.Dpois(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Boolean)">
+ <summary>
+ Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
+ </summary>
+ <param name="x">vector of (non-negative integer) quantiles.</param>
+ <param name="lambda">vector of (non-negative) means.</param>
+ <param name="log">logical; if TRUE, probabilities p are given as log(p).</param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.Normal">
+ <summary>
+ The Normal Distribution
+ Density, distribution function, quantile function and random generation for the normal distribution with mean equal to mean and standard deviation equal to sd.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.Normal.qnorm(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Int32,System.Boolean,System.Boolean)">
+ <summary>
+ 
+ </summary>
+ <param name="p">vector of probabilities.</param>
+ <param name="mean">vector of means.</param>
+ <param name="sd">vector of standard deviations.</param>
+ <param name="lowertail">logical; if TRUE (default), probabilities are P[X ≤ x] otherwise, P[X > x].</param>
+ <param name="logp">logical; if TRUE, probabilities p are given as log(p).</param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension.Normal.rnorm(System.Int32,System.Double,System.Double)">
+ <summary>
+ Returns a vector with specific parameters normal distribution of length n elements.
+ Distribution data was generated by the n length random seeds as the normal distribution 
+ inputs.
+ </summary>
+ <param name="n"></param>
+ <param name="m"></param>
+ <param name="sd"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Is.Finite(Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ is.finite and is.infinite return a vector of the same length as x, indicating which elements are finite (not infinite and not missing) or infinite.
+ </summary>
+ <param name="x">R object to be tested: the default methods handle atomic vectors.</param>
+ <returns></returns>
+ <remarks></remarks>
+ 
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI">
+ <summary>
+ R function bridge to VisualBasic
+ </summary>
+ <remarks></remarks>
+
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Missing``1(System.Collections.Generic.IEnumerable{``0})">
+ <summary>
+ Does a Formal Argument have a Value?
+ missing can be used to test whether a value was specified as an argument to a function.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="x">a formal argument.</param>
+ <returns></returns>
+ <remarks>
+ Missing(x) is only reliable if x has not been altered since entering the function: in particular it will always be false after x &lt;- match.arg(x).
+ The example shows how a plotting function can be written to work with either a pair of vectors giving x and y coordinates of points to be plotted or a single vector giving y values to be plotted against their indices.
+ Currently missing can only be used in the immediate body of the function that defines the argument, not in the body of a nested function or a local call. This may change in the future.
+ This is a ‘special’ primitive function: it must not evaluate its argument.
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Missing``1(``0)">
+ <summary>
+ Does a Formal Argument have a Value?
+ missing can be used to test whether a value was specified as an argument to a function.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="x">a formal argument.</param>
+ <returns></returns>
+ <remarks>
+ Missing(x) is only reliable if x has not been altered since entering the function: in particular it will always be false after x &lt;- match.arg(x).
+ The example shows how a plotting function can be written to work with either a pair of vectors giving x and y coordinates of points to be plotted or a single vector giving y values to be plotted against their indices.
+ Currently missing can only be used in the immediate body of the function that defines the argument, not in the body of a nested function or a local call. This may change in the future.
+ This is a ‘special’ primitive function: it must not evaluate its argument.
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.warning(System.Collections.Generic.IEnumerable{System.Object},System.Boolean,System.Boolean,System.Boolean,System.Object)">
+ <summary>
+ Generates a warning message that corresponds to its argument(s) and (optionally) the expression or function from which it was called.
+ </summary>
+ <param name="args">zero or more objects which can be coerced to character (and which are pasted together with no separator) or a single condition object.</param>
+ <param name="Call">logical, indicating if the call should become part of the warning message.</param>
+ <param name="immediate">logical, indicating if the call should be output immediately, even if getOption("warn") &lt;= 0.</param>
+ <param name="noBreaks"></param>
+ <param name="domain"></param>
+ <returns>The warning message as character string, invisibly.</returns>
+ <remarks>
+ The result depends on the value of options("warn") and on handlers established in the executing code.
+ If a condition object is supplied it should be the only argument, and further arguments will be ignored, with a message.
+ warning signals a warning condition by (effectively) calling signalCondition. If there are no handlers or if all handlers return,
+ then the value of warn = getOption("warn") is used to determine the appropriate action. If warn is negative warnings are ignored;
+ if it is zero they are stored and printed after the top–level function has completed; if it is one they are printed as they occur
+ and if it is 2 (or larger) warnings are turned into errors. Calling warning(immediate. = TRUE) turns warn &lt;= 0 into warn = 1 for this call only.
+ If warn is zero (the default), a read-only variable last.warning is created. It contains the warnings which can be printed via a call to warnings.
+ Warnings will be truncated to getOption("warning.length") characters, default 1000, indicated by [... truncated].
+ While the warning is being processed, a muffleWarning restart is available. If this restart is invoked with invokeRestart, then warning returns immediately.
+ An attempt is made to coerce other types of inputs to warning to character vectors.
+ suppressWarnings evaluates its expression in a context that ignores all warnings.
+ </remarks>
+
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Any(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector,System.Boolean)">
+ <summary>
+ Given a set of logical vectors, is at least one of the values true?
+ </summary>
+ <param name="x">zero or more logical vectors. Other objects of zero length are ignored, and the rest are coerced to logical ignoring any class.</param>
+ <param name="NaRM"></param>
+ <returns>The value is a logical vector of length one.</returns>
+ <remarks></remarks>
+
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.All(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector,System.Boolean)">
+ <summary>
+ Given a set of logical vectors, are all of the values true?
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks></remarks>
+
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Length``1(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector{``0},System.Int32)">
+ <summary>
+ Get or set the length of vectors (including lists) and factors, and of any other R object for which a method has been defined.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="x">an R object. For replacement, a vector or factor.</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Length``1(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector{``0})">
+ <summary>
+ Get or set the length of vectors (including lists) and factors, and of any other R object for which a method has been defined.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="x">an R object. For replacement, a vector or factor.</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Rep(Microsoft.VisualBasic.Mathematical.BasicR.Vector,System.Int32)">
+ <summary>
+ Replicate Elements of Vectors and Lists
+ </summary>
+ <param name="x"></param>
+ <param name="LengthOut">non-negative integer: the desired length of the output vector.</param>
+ <returns></returns>
+ <remarks></remarks>
+
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Rep(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector,System.Int32)">
+ <summary>
+ Replicate Elements of Vectors and Lists
+ </summary>
+ <param name="x"></param>
+ <param name="LengthOut">non-negative integer: the desired length of the output vector.</param>
+ <returns></returns>
+ <remarks></remarks>
+
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Paste(System.Collections.Generic.IEnumerable{System.String},System.String)">
+ <summary>
+ Concatenate Strings, Concatenate vectors after converting to character.
+ </summary>
+ <param name="args"></param>
+ <param name="sep">a character string to separate the terms. Not NA_character_.</param>
+ <returns>
+ A character vector of the concatenated values. This will be of length zero if all the objects are, unless collapse is non-NULL in which case it is a single empty string.
+ If any input into an element of the result is in UTF-8 (and none are declared with encoding "bytes", (see Encoding), that element will be in UTF-8, otherwise in the
+ current encoding in which case the encoding of the element is declared if the current locale is either Latin-1 or UTF-8, at least one of the corresponding inputs
+ (including separators) had a declared encoding and all inputs were either ASCII or declared.
+ If an input into an element is declared with encoding "bytes", no translation will be done of any of the elements and the resulting element will have encoding "bytes".
+ If collapse is non-NULL, this applies also to the second, collapsing, phase, but some translation may have been done in pasting object together in the first phase.
+ </returns>
+ <remarks></remarks>
+
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.IfElse``1(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector,Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector{``0},Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector{``0})">
+ <summary>
+ Conditional Element Selection
+ ifelse returns a value with the same shape as test which is filled with elements selected from either yes or no depending on whether the element of test is TRUE or FALSE.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="test">an object which can be coerced to logical mode.</param>
+ <param name="yes">return values for true elements of test.</param>
+ <param name="no">return values for false elements of test.</param>
+ <returns>A vector of the same length and attributes (including dimensions and "class") as test and data values from the values of yes or no. The mode of the answer
+ will be coerced from logical to accommodate first any values taken from yes and then any values taken from no.</returns>
+ <remarks>If yes or no are too short, their elements are recycled. yes will be evaluated if and only if any element of test is true, and analogously for no.
+ Missing values in test give missing values in the result.</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.PrimitiveAPI.Try``1(System.Func{``0},System.Boolean)">
+ <summary>
+ Try an Expression Allowing Error Recovery
+ try is a wrapper to run an expression that might fail and allow the user's code to handle error-recovery.
+ </summary>
+ <returns></returns>
+ <param name="silent">logical: should the report of error messages be suppressed?</param>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector">
+ <summary>
+ <see cref="T:System.Boolean"/> Array
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.True">
+ <summary>
+ Only one boolean value ``True`` in the array list
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.False">
+ <summary>
+ Only one boolean value ``False`` in the array list
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.op_Concatenate(System.Boolean,Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector)">
+ <summary>
+ And
+ </summary>
+ <param name="x"></param>
+ <param name="y"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.op_Concatenate(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector,Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector)">
+ <summary>
+ X AndAlso Y
+ </summary>
+ <param name="x"></param>
+ <param name="y"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.op_Explicit(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector)~System.Boolean">
+ <summary>
+ x(0)
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.op_BitwiseOr(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector,System.Boolean[])">
+ <summary>
+ x Or Y
+ </summary>
+ <param name="x"></param>
+ <param name="y"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.op_BitwiseOr(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector,Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector)">
+ <summary>
+ x Or Y
+ </summary>
+ <param name="x"></param>
+ <param name="y"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector.op_Explicit(Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.BooleanVector)~System.Boolean[]">
+ <summary>
+ <see cref="M:System.Collections.Generic.List`1.ToArray"/>
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector`1.Dim">
+ <summary>
+ 向量维数
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector`1.#ctor(System.Int32)">
+ <summary>
+ Initializes a new instance of the generic type vector class that
+ is empty and has the specified initial capacity.
+ </summary>
+ <param name="capacity">
+ The number of elements that the new list can initially store.
+ </param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors.GenericVector`1.GET(Microsoft.VisualBasic.Mathematical.BasicR.Vector,Microsoft.VisualBasic.Mathematical.BasicR.Vector)">
+ <summary>
+ 
+ </summary>
+ <param name="a">只有一个元素的</param>
+ <param name="b">只有一个元素的</param>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve">
+ <summary>
+ A Bezier curve is a parametric curve frequently used in computer graphics and related fields. 
+ In vector graphics, Bezier curves are used to model smooth curves that can be scaled indefinitely. 
+ There are many ways to construct a Bezier curve. This simple program uses the midpoint algorithm 
+ of constructing a Bezier curve. To show the nature of the divide and conquer approach in the 
+ algorithm, a recursive function has been used to implement the construction of the piece of 
+ Bezier curve.
+ </summary>
+ <remarks>
+ http://www.codeproject.com/Articles/223159/Midpoint-Algorithm-Divide-and-Conquer-Method-for-D
+ </remarks> 
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.BezierPoints">
+ <summary>
+ store the list of points in the bezier curve
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.InitPointsList">
+ <summary>
+ store the list of initial points
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.Iterations">
+ <summary>
+ store the number of iterations
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.ReCalculate(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Int32)">
+ <summary>
+ recreate the bezier curve.
+ </summary>
+ <param name="ctrl1">first initial point</param>
+ <param name="ctrl2">second initial point</param>
+ <param name="ctrl3">third initial point</param>
+ <param name="iteration">number of iteration of the algorithm</param>
+ <returns>the list of points in the curve</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.CreateBezier(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF)">
+ <summary>
+ create a bezier curve
+ </summary>
+ <param name="ctrl1">first initial point</param>
+ <param name="ctrl2">second initial point</param>
+ <param name="ctrl3">third initial point</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.PopulateBezierPoints(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Int32)">
+ <summary>
+ Recursivly call to construct the bezier curve with control points
+ </summary>
+ <param name="ctrl1">first control point of bezier curve segment</param>
+ <param name="ctrl2">second control point of bezier curve segment</param>
+ <param name="ctrl3">third control point of bezier curve segment</param>
+ <param name="currentIteration">the current interation of a branch</param>
+ <remarks>
+ http://www.codeproject.com/Articles/223159/Midpoint-Algorithm-Divide-and-Conquer-Method-for-D
+ </remarks> 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.MidPoint(System.Drawing.PointF,System.Drawing.PointF)">
+ <summary>
+ Find mid point
+ </summary>
+ <param name="controlPoint1">first control point</param>
+ <param name="controlPoint2">second control point</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.BezierSmoothInterpolation(System.Double[],System.Int32,System.Int32,System.Boolean)">
+ <summary>
+ 
+ </summary>
+ <param name="data"></param>
+ <param name="parallel">并行版本的</param>
+ <param name="windowSize">数据采样的窗口大小，默认大小是<paramref name="data"></paramref>的百分之1</param>
+ <returns></returns>
+ <remarks>先对数据进行采样，然后插值，最后返回插值后的平滑曲线数据以用于下一步分析</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.BezierCurve.__interpolation(System.Double[],System.Int32)">
+ <summary>
+ 
+ </summary>
+ <param name="X"></param>
+ <param name="iteration"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Interpolation.CatmullRomSpline">
+ <summary>
+ Calculates interpolated point between two points using Catmull-Rom Spline
+ </summary>
+ <remarks>https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.CatmullRomSpline.PointOnCurve(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Double)">
+ <summary>
+ Calculates interpolated point between two points using Catmull-Rom Spline</summary>
+ <remarks>
+ Points calculated exist on the spline between points two and three.</remarks>
+ <param name="p0">First Point</param>
+ <param name="p1">Second Point</param>
+ <param name="p2">Third Point</param>
+ <param name="p3">Fourth Point</param>
+ <param name="t">
+ Normalised distance between second and third point where the spline point will be calculated</param>
+ <returns>Calculated Spline Point</returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.CatmullRomSpline.CatmullRomSpline(System.Collections.Generic.IEnumerable{System.Drawing.Point},System.Double,System.Boolean)">
+ <summary>
+ Catmull-Rom splines are a family of cubic interpolating splines formulated such 
+ that the tangent at each point **Pi** Is calculated using the previous And next 
+ point on the spline
+ </summary>
+ <param name="raw"></param>
+ <param name="interpolationStep#"></param>
+ <param name="isPolygon"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.CatmullRomSpline.CatmullRomSpline(System.Collections.Generic.IEnumerable{System.Drawing.PointF},System.Double,System.Boolean)">
+ <summary>
+ Catmull-Rom splines are a family of cubic interpolating splines formulated such 
+ that the tangent at each point **Pi** Is calculated using the previous And next 
+ point on the spline
+ </summary>
+ <param name="points"></param>
+ <param name="interpolationStep#"></param>
+ <param name="isPolygon"></param>
+ <returns></returns>
+ <remarks>http://www.codeproject.com/Articles/747928/Spline-Interpolation-history-theory-and-implementa</remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Interpolation.CentripetalCatmullRomSpline">
+ <summary>
+ ###### Centripetal Catmull–Rom spline
+ 
+ In computer graphics, centripetal Catmull–Rom spline is a variant form of 
+ Catmull-Rom spline formulated by Edwin Catmull and Raphael Rom according 
+ to the work of Barry and Goldman. It is a type of interpolating spline 
+ (a curve that goes through its control points) defined by four control points
+ P0, P1, P2, P3, with the curve drawn only from P1 to P2.
+ 
+ > https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline#cite_ref-1
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.CentripetalCatmullRomSpline.CatmulRom(System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Drawing.PointF,System.Single,System.Single)">
+ <summary>
+ In computer graphics, centripetal Catmull–Rom spline is a variant form of 
+ Catmull-Rom spline formulated by Edwin Catmull and Raphael Rom according 
+ to the work of Barry and Goldman. It is a type of interpolating spline 
+ (a curve that goes through its control points) defined by four control points
+ P0, P1, P2, P3, with the curve drawn only from P1 to P2.
+ </summary>
+ <param name="pa">four control points P0, P1, P2, P3, with the curve drawn only from P1 to P2.</param>
+ <param name="alpha!">set from 0-1</param>
+ <param name="amountOfPoints!">How many points you want on the curve</param>
+ <returns>points on the Catmull curve so we can visualize them</returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Interpolation.CubicSpline">
+ <summary>
+ Cubic spline interpolation
+ </summary>
+ <remarks>
+ https://github.com/CrushedPixel/CubicSplineDemo
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.CubicSpline.RecalcSpline(System.Collections.Generic.IEnumerable{System.Drawing.PointF},System.Double)">
+ <summary>
+ 三次样本曲线插值
+ </summary>
+ <param name="source">原始数据点集合，请注意，这些数据点之间都是有顺序分别的</param>
+ <param name="expected">所期望的数据点的个数</param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Interpolation.B_Spline">
+ <summary>
+ B-spline
+ </summary>
+ <remarks>https://github.com/kerrot/B_Spline</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.B_Spline.Compute(System.Drawing.Point[],System.Int32,System.Int32)">
+ <summary>
+ B-spline curve interpolation
+ </summary>
+ <param name="ctrlPts">Control points</param>
+ <param name="degree%"></param>
+ <param name="RESOLUTION%"></param>
+ <returns></returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Interpolation.B_Spline.Compute(System.Drawing.PointF[],System.Int32,System.Int32)">
+ <summary>
+ B-spline curve interpolation
+ </summary>
+ <param name="ctrlPts">Control points</param>
+ <param name="degree%"></param>
+ <param name="RESOLUTION%"></param>
+ <returns></returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Bootstraping.Samples``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Int32)">
+ <summary>
+ bootstrap是一种非参数估计方法，它用到蒙特卡洛方法。bootstrap算法如下：
+ 假设样本容量为N
+
+ + 有放回的从样本中随机抽取N次(所以可能x1..xn中有的值会被抽取多次)，每次抽取一个元素。并将抽到的元素放到集合S中；
+ + 重复**步骤1** B次（例如``B = 100``）， 得到B个集合， 记作S1, S2,…, SB;
+ + 对每个Si （i=1,2,…,B），用蒙特卡洛方法估计随机变量的数字特征d，分别记作d1,d2,…,dB;
+ + 用d1,d2,…dB来近似d的分布；
+ 
+ 本质上，bootstrap算法是最大似然估计的一种实现，它和最大似然估计相比的优点在于，它不需要用参数来刻画总体分布。
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="source"></param>
+ <param name="N"></param>
+ <param name="B"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Bootstraping.TruncNDist(System.Int32,System.Double)">
+ <summary>
+ 
+ </summary>
+ <param name="len"></param>
+ <param name="sd"></param>
+ <returns></returns>
+ <remarks>https://github.com/mpadge/tnorm</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Bootstraping.StandardDistribution(System.Double)">
+ <summary>
+ 标准正态分布, delta = 1, u = 0
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Bootstraping.ProbabilityDensity(System.Double,System.Double,System.Double)">
+ <summary>
+ Normal Distribution.(正态分布)
+ </summary>
+ <param name="x"></param>
+ <param name="m">Mean</param>
+ <param name="sd"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Bootstraping.Distributes(System.Collections.Generic.IEnumerable{System.Double},System.Single)">
+ <summary>
+ 返回来的标签数据之中的标签是在某个区间范围内的数值集合的平均值
+ </summary>
+ <param name="data"></param>
+ <param name="base"></param>
+ <returns></returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Distributions.Beta">
+ <summary>
+ Beta distribution
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Distributions.Beta.beta(System.Double,System.Double,System.Double)">
+ <summary>
+ Beta PDF
+ </summary>
+ <param name="x#"></param>
+ <param name="alpha#"></param>
+ <param name="_beta#"></param>
+ <returns></returns>
+ <remarks>
+ https://github.com/drbenmorgan/CLHEP/blob/master/GenericFunctions/src/BetaDistribution.cc
+ 
+ 2016-10-22
+ beta distribution function test success!
+ </remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Distributions.DirichletDistribution">
+ <summary>
+ Dirichlet distribution
+ 
+ In probability and statistics, the Dirichlet distribution (after Peter Gustav Lejeune Dirichlet), often denoted 
+ {\displaystyle \operatorname {Dir} ({\boldsymbol {\alpha }})} \operatorname {Dir} ({\boldsymbol {\alpha }}), is 
+ a family of continuous multivariate probability distributions parameterized by a vector 
+ {\displaystyle {\boldsymbol {\alpha }}} {\boldsymbol {\alpha }} of positive reals. 
+ It is a multivariate generalization of the beta distribution.[1] Dirichlet distributions are very often used as 
+ prior distributions in Bayesian statistics, and in fact the Dirichlet distribution is the conjugate prior of the 
+ categorical distribution and multinomial distribution.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Distributions.DirichletDistribution.lgamma(System.Double)">
+ <summary>
+ see http://www.machinedlearnings.com/2011/06/faster-lda.html
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks>Works fun with function <see cref="M:Microsoft.VisualBasic.Mathematical.Distributions.Beta.beta(System.Double,System.Double,System.Double)"/></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Distributions.MathGamma">
+ <summary>
+ gamma function (Γ) from mathematics
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Distributions.MathGamma.lngamma(System.Double)">
+ <summary>
+ Spouge approximation (suitable for large arguments)
+ </summary>
+ <param name="z"></param>
+ <returns></returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Distributions.MathGamma.Γ(System.Double)">
+ <summary>
+ gamma function ``Γ`` from mathematics
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+ <remarks>
+ Alias for <see cref="M:Microsoft.VisualBasic.Mathematical.Distributions.MathGamma.gamma(System.Double)"/>
+ 
+ Test:
+ 
+ ```
+ > var gamma = require('gamma')
+ > gamma(5)
+ 23.999999999999996
+ > gamma(1.6)
+ 0.8935153492876909
+ ```
+ </remarks>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Distributions.MathGamma.gamma(System.Double)">
+ <summary>
+ Γ
+ </summary>
+ <param name="z"></param>
+ <returns></returns>
+ 
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Extensions.FirstDecrease(System.Collections.Generic.IEnumerable{System.Double},System.Double)">
+ <summary>
+ 返回数值序列之中的首次出现符合条件的减少的位置
+ </summary>
+ <param name="data"></param>
+ <param name="ratio"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Extensions.FirstIncrease(System.Collections.Generic.IEnumerable{System.Double},System.Double,System.Double)">
+ <summary>
+ 只对单调递增的那一部分曲线有效
+ </summary>
+ <param name="data">y值</param>
+ <param name="alpha"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Extensions.Reach(System.Collections.Generic.IEnumerable{System.Double},System.Double,System.Double)">
+ <summary>
+ 
+ </summary>
+ <param name="data"></param>
+ <param name="n"></param>
+ <param name="offset">距离目标数据点<paramref name="n"/>的正负偏移量</param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Extensions.seq(System.Double,System.Double,System.Double)">
+ <summary>
+ [Sequence Generation] Generate regular sequences. seq is a standard generic with a default method.
+ </summary>
+ <param name="From">
+ the starting and (maximal) end values of the sequence. Of length 1 unless just from is supplied as an unnamed argument.
+ </param>
+ <param name="To">
+ the starting and (maximal) end values of the sequence. Of length 1 unless just from is supplied as an unnamed argument.
+ </param>
+ <param name="By">number: increment of the sequence</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.MetaExpression`2">
+ <summary>
+ 
+ </summary>
+ <typeparam name="T">Token type</typeparam>
+ <typeparam name="O">Operator type</typeparam>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.MetaExpression`2.LEFT">
+ <summary>
+ 自动根据类型来计算出结果
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.MemoryCollection`1.Add(System.String,`0,System.Boolean,System.Boolean)">
+ <summary>
+ 名称的大小写不敏感
+ </summary>
+ <param name="Name"></param>
+ <param name="value"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Logical.Convert(System.String)">
+ <summary>
+ Convert a logical expression into a math expression
+ </summary>
+ <param name="expression"></param>
+ <returns></returns>
+ <remarks>
+ and -> *
+ or -> +
+ True -> 1
+ False -> 0
+ </remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Helpers.Variable.Variable(System.String)">
+ <summary>
+ Add a variable to the dictionary, if the variable is exists then will update its value.
+ (向字典之中添加一个变量，假若该变量存在，则更新他的值)
+ </summary>
+ <param name="Name"></param>
+ <remarks>
+ const [name] [value]
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Variable.Set(System.String,System.String)">
+ <summary>
+ Add a variable to the dictionary, if the variable is exists then will update its value.
+ (向字典之中添加一个变量，假若该变量存在，则更新他的值)
+ </summary>
+ <param name="Name"></param>
+ <remarks>
+ const [name] [value]
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Variable.Set(System.String)">
+ <summary>
+ Add a user const from the input of user on the console.
+ </summary>
+ <param name="statement"></param>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Variable.AssignValue(System.String)">
+ <summary>
+ Assign the new value for a variable
+ </summary>
+ <param name="statement">var &lt;- new_value_expression</param>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Helpers.Arithmetic">
+ <summary>
+ The basics arithmetic operators' definition.
+ (基本的四则运算符号的定义)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Helpers.Arithmetic.Arithmetic">
+ <summary>
+ +-*/\%^!
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Helpers.Arithmetic.Operators">
+ <summary>
+ A string constant that enumerate all of the arithmetic operators.
+ (一个枚举所有的基本运算符的字符串常数)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Helpers.Arithmetic.NumericRegexp">
+ <summary>
+ A string constant RegularExpressions that stands a double type number.
+ (一个用于表示一个双精度类型的实数的正则表达式)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Arithmetic.Evaluate(System.Double,System.Double,System.Char)">
+ <summary>
+ Do a basically arithmetic calculation.
+ (进行一次简单的四则运算)
+ </summary>
+ <param name="a"></param>
+ <param name="b"></param>
+ <param name="o">Arithmetic operator(运算符)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Arithmetic.Factorial(System.Double,System.Double)">
+ <summary>
+ Calculate the factorial value of a number, as this function is the part of the arithmetic operation
+ delegate type of 'System.Func(Of Double, Double, Double)', so it must keep the form of two double
+ parameter, well, the parameter 'b As Double' is useless.
+ (计算某一个数的阶乘值，由于这个函数是四则运算操作委托'System.Func(Of Double, Double, Double)'中的一部分，
+ 故而本函数保持着两个双精度浮点型数的函数参数的输入形式，也就是说本函数的第二个参数'b'是没有任何用途的)
+ </summary>
+ <param name="a">The number that will be calculated(将要被计算的数字)</param>
+ <param name="b">Useless parameter 'b'(无用的参数'b')</param>
+ <returns>
+ Return the factorial value of the number 'a', if 'a' is a negative number then this function
+ return value 1.
+ (函数返回参数'a'的阶乘计算值，假若'a'是一个负数的话，则会返回1)
+ </returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Constants.GET(System.String,System.Boolean@)">
+ <summary>
+ 常量是区分大小写的
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Constants.Add(System.String,System.Double)">
+ <summary>
+ Add a user constant to the dictionary.
+ (向字典之中添加用户自定义常数)
+ </summary>
+ <param name="Name">常数名称是大小写敏感的，变量的大小写却不敏感</param>
+ <param name="value"></param>
+ <remarks>
+ const [name] [value]
+ </remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Constants.Add(System.String,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="name"></param>
+ <param name="expr">通过计算这个表达式来得到常数值</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Constants.Add(System.String)">
+ <summary>
+ Add a user const from the input of user on the console.
+ </summary>
+ <param name="statement"></param>
+ <remarks></remarks>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Helpers.Function">
+ <summary>
+ Mathematics function calculation engine
+ (数学函数计算引擎) 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Helpers.Function.SystemPrefixFunctions">
+ <summary>
+ The mathematics calculation delegates collection with its specific name.
+ (具有特定名称的数学计算委托方法的集合) 
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Function.Evaluate(System.String,System.Double[])">
+ <summary>
+ 大小写不敏感
+ </summary>
+ <param name="name"></param>
+ <param name="args"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Function.Add(System.String)">
+ <summary>
+ Parsing the use function definition from the user input value on the console 
+ and then add it to the function dictionary.
+ (从终端上面输入的用户函数的申明语句中解析出表达式，然后将其加入到用户字典中)
+ </summary>
+ <param name="statement">[function name](args) expression</param>
+ <remarks>function [function name] expression</remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Function.Add(System.String,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="name">函数名</param>
+ <param name="expr">函数申明</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Helpers.Function.RND(System.Double,System.Double)">
+ <summary>
+ This function return a random number, you can specific the boundary of the random number in the parameters. 
+ </summary>
+ <param name="UpBound">
+ If this parameter is empty or value is zero, then return the randome number between 0 and 1.
+ (如果这个参数为空或者其值为0，那么函数就会返回0和1之间的随机数)
+ </param>
+ <param name="LowBound"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.TokenIcer.TryParse(System.String)">
+ <summary>
+ 和VisualBasic的标识符命名规则一样，变量请不要以数字开头，否则会被解析为一个数字从而产生错误的表达式
+ </summary>
+ <param name="s"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.TokenIcer.__parseDouble(System.CharEnumerator,Microsoft.VisualBasic.Language.List{System.Char}@)">
+ <summary>
+ 枚举是否已经结束？
+ </summary>
+ <param name="str"></param>
+ <param name="token"></param>
+ <returns></returns>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.UNDEFINE">
+ <summary>
+ Function Name, constant, variable
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.Operator">
+ <summary>
+ +-*/!^%
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.Number">
+ <summary>
+ <see cref="T:System.Double"/>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.Delimiter">
+ <summary>
+ ,
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.OpenBracket">
+ <summary>
+ [ or {
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.CloseBracket">
+ <summary>
+ ] or }
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.OpenStack">
+ <summary>
+ (
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.CloseStack">
+ <summary>
+ )
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Tokens.WhiteSpace">
+ <summary>
+ Space or Tab
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyEngine">
+ <summary>
+ Represents the inferential engine.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyEngine.LinguisticVariableCollection">
+ <summary>
+ A collection of linguistic variables.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyEngine.Consequent">
+ <summary>
+ The consequent variable name.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyEngine.FuzzyRuleCollection">
+ <summary>
+ A collection of rules.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyEngine.Defuzzify">
+ <summary>
+ Calculates the defuzzification value with the CoG (Center of Gravity) technique.
+ </summary>
+ <returns>The defuzzification value.</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyEngine.ToModel">
+ <summary>
+ Sets the FilePath property and saves the project into a FCL-like XML file.
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyRule">
+ <summary>
+ Represents a rule.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyRule.#ctor">
+ <summary>
+ Default constructor.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyRule.#ctor(System.String)">
+ <param name="text">The text of the rule.</param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyRule.Text">
+ <summary>
+ The text of the rule.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyRule.Value">
+ <summary>
+ The value of the rule after the evaluation process.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyRule.Conditions">
+ <summary>
+ Returns the conditions of the rule.
+ The part of the rule between IF and THEN.
+ </summary>
+ <returns>The conditions of the rule.</returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.FuzzyRuleCollection">
+ <summary>
+ Represents a collection of rules.
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable">
+ <summary>
+ Represents a linguistic variable.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.#ctor">
+ <summary>
+ Default constructor.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.#ctor(System.String)">
+ <param name="name">The name that identificates the linguistic variable.</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.#ctor(System.String,Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunctionCollection)">
+ <param name="name">The name that identificates the linguistic variable.</param>
+ <param name="membershipFunctionCollection">A membership functions collection for the lingusitic variable.</param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.Name">
+ <summary>
+ The name that identificates the linguistic variable.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.MembershipFunctionCollection">
+ <summary>
+ A membership functions collection for the lingusitic variable.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.InputValue">
+ <summary>
+ The input value for the linguistic variable.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.Fuzzify(System.String)">
+ <summary>
+ Implements the fuzzification of the linguistic variable.
+ </summary>
+ <param name="membershipFunctionName">The membership function for which fuzzify the variable.</param>
+ <returns>The degree of membership.</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.MinValue">
+ <summary>
+ Returns the minimum value of the linguistic variable.
+ </summary>
+ <returns>The minimum value of the linguistic variable.</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.MaxValue">
+ <summary>
+ Returns the maximum value of the linguistic variable.
+ </summary>
+ <returns>The maximum value of the linguistic variable.</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariable.Range">
+ <summary>
+ Returns the difference between MaxValue() and MinValue().
+ </summary>
+ <returns>The difference between MaxValue() and MinValue().</returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariableCollection">
+ <summary>
+ Represents a collection of rules.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.LinguisticVariableCollection.Find(System.String)">
+ <summary>
+ Finds a linguistic variable in a collection.
+ </summary>
+ <param name="linguisticVariableName">Linguistic variable name.</param>
+ <returns>The linguistic variable, if founded.</returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction">
+ <summary>
+ Represents a membership function.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.#ctor">
+ <summary>
+ Default constructor.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.#ctor(System.String)">
+ <param name="name">The name that identificates the membership function.</param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.#ctor(System.String,System.Double,System.Double,System.Double,System.Double)">
+ <param name="name">The name that identificates the linguistic variable.</param>
+ <param name="x0">The value of the (x0, 0) point.</param>
+ <param name="x1">The value of the (x1, 1) point.</param>
+ <param name="x2">The value of the (x2, 1) point.</param>
+ <param name="x3">The value of the (x3, 0) point.</param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.Name">
+ <summary>
+ The name that identificates the membership function.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.X0">
+ <summary>
+ The value of the (x0, 0) point.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.X1">
+ <summary>
+ The value of the (x1, 1) point.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.X2">
+ <summary>
+ The value of the (x2, 1) point.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.X3">
+ <summary>
+ The value of the (x3, 0) point.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.Value">
+ <summary>
+ The value of membership function after evaluation process.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.Centorid">
+ <summary>
+ Calculate the centroid of a trapezoidal membership function.
+ </summary>
+ <returns>The value of centroid.</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunction.Area">
+ <summary>
+ Calculate the area of a trapezoidal membership function.
+ </summary>
+ <returns>The value of area.</returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunctionCollection">
+ <summary>
+ Represents a collection of membership functions.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.MembershipFunctionCollection.Find(System.String)">
+ <summary>
+ Finds a membership function in a collection.
+ </summary>
+ <param name="membershipFunctionName">Membership function name.</param>
+ <returns>The membership function, if founded.</returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Logical.FuzzyLogic.Models.FuzzyModel.Load">
+ <summary>
+ Sets the FilePath property and loads a project from a FCL-like XML file.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Logical.Tokens.Operator">
+ <summary>
+ And Or Not Xor Nor Nand
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Logical.Tokens.Comparer">
+ <summary>
+ &lt;&lt;, &lt;, &lt;=, >, =>, >>, ~=, =, &lt;>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Logical.Tokens.WhiteSpace">
+ <summary>
+ Space or VbTab
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.LP.Equation">
+ <summary>
+ Subject to these <see cref="T:Microsoft.VisualBasic.Mathematical.LP.Equation"/>
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.LP.Solver.Solve(Microsoft.VisualBasic.Mathematical.LP.ObjectiveFunction,System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.Mathematical.LP.Equation})">
+ <summary>
+ 进行线性规划求解的快捷方式
+ </summary>
+ <param name="func"></param>
+ <param name="equations"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.LP.InputReader.readInput(System.String)">
+ <summary>
+ 这个方法是直接读取已经构件好的矩阵来初始化线性规划计算模型
+ </summary>
+ <param name="fileName"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.LP.LinearSolver.isOptimal(System.Double[])">
+ <summary>
+ Returns true if the current solution is optimal by verifying
+ if no entering basic variable is available, ie. there are no
+ negative values in the objective function 
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.LP.Tableau.PivotColumn">
+ <summary>
+ Return the index of the left-most negative variable in the objective function * 
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.LP.Tableau.getPivotRow(System.Int32)">
+ <summary>
+ Finds the index of the pivot row (leaving basic variable) by applying
+ the minimum ratio test. *
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.LP.Tableau.getColumn(System.Int32)">
+ <summary>
+ Returns the nth column of the matrix * </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.LP.Tableau.getRow(System.Int32)">
+ <summary>
+ Returns the nth row of the matrix * </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.LP.Tableau.Constraints">
+ <summary>
+ Returns a copy of constraint rows of the matrix * </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.LP.Tableau.Unbounded">
+ <summary>
+ Returns true if the model is unbounded * </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.LP.Tableau.Infeasible">
+ <summary>
+ Returns true if the problem is infeasible * </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.LP.Tableau.inProperForm">
+ <summary>
+ Returns true if the tableau is in Proper Form, ie. it has
+ exactly one basic variable per equation.
+ 
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.LP.Tableau.TableauNotProper">
+ <summary>
+ Tableau not in proper form. Repeated basic variable for equation
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition">
+ <summary>Cholesky Decomposition.
+ For a symmetric, positive definite matrix A, the Cholesky decomposition
+ is an lower triangular matrix L so that A = L*L'.
+ If the matrix is not symmetric or positive definite, the constructor
+ returns a partial decomposition and sets an internal flag that may
+ be queried by the isSPD() method.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition.L">
+ <summary>Array for internal storage of decomposition.
+ @serial internal array storage.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition.n">
+ <summary>Row and column dimension (square matrix).
+ @serial matrix dimension.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition.isspd">
+ <summary>Symmetric and positive definite flag.
+ @serial is symmetric and positive definite flag.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition.#ctor(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+ Cholesky algorithm for symmetric and positive definite matrix. returns Structure to access L and isspd flag.
+ </summary>
+ <param name="Arg">  Square, symmetric matrix.
+ </param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition.SPD">
+ <summary>Is the matrix symmetric and positive definite?</summary>
+ <returns>     true if A is symmetric and positive definite.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition.GetL">
+ <summary>Return triangular factor.</summary>
+ <returns>     L
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition.Solve(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Solve A*X = B</summary>
+ <param name="B">  A Matrix with as many rows as A and any number of columns.
+ </param>
+ <returns>     X so that L*L'*X = B
+ </returns>
+ <exception cref="T:System.ArgumentException">  Matrix row dimensions must agree.
+ </exception>
+ <exception cref="T:System.SystemException"> Matrix is not symmetric positive definite.
+ </exception>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition">
+ <summary>
+ Eigenvalues and eigenvectors of a real matrix. 
+ If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is
+ diagonal and the eigenvector matrix V is orthogonal.
+ I.e. A = V.Multiply(D.Multiply(V.Transpose())) and 
+ V.Multiply(V.Transpose()) equals the identity matrix.
+ If A is not symmetric, then the eigenvalue matrix D is block diagonal
+ with the real eigenvalues in 1-by-1 blocks and any complex eigenvalues,
+ lambda + i*mu, in 2-by-2 blocks, [lambda, mu; -mu, lambda].  The
+ columns of V represent the eigenvectors in the sense that A*V = V*D,
+ i.e. A.Multiply(V) equals V.Multiply(D).  The matrix V may be badly
+ conditioned, or even singular, so the validity of the equation
+ A = V*D*Inverse(V) depends upon V.cond().
+ 
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.n">
+ <summary>Row and column dimension (square matrix).
+ @serial matrix dimension.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.issymmetric">
+ <summary>Symmetry flag.
+ @serial internal symmetry flag.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.m_d">
+ <summary>Arrays for internal storage of eigenvalues.
+ @serial internal storage of eigenvalues.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.e">
+ <summary>Arrays for internal storage of eigenvalues.
+ @serial internal storage of eigenvalues.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.V">
+ <summary>Array for internal storage of eigenvectors.
+ @serial internal storage of eigenvectors.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.H">
+ <summary>Array for internal storage of nonsymmetric Hessenberg form.
+ @serial internal storage of nonsymmetric Hessenberg form.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.ort">
+ <summary>Working storage for nonsymmetric algorithm.
+ @serial working storage for nonsymmetric algorithm.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.#ctor(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+ Check for symmetry, then construct the eigenvalue decomposition, returns Structure to access D and V.
+ </summary>
+ <param name="Arg">Square matrix</param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.RealEigenvalues">
+ <summary>Return the real parts of the eigenvalues</summary>
+ <returns>     real(diag(D))
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.ImagEigenvalues">
+ <summary>Return the imaginary parts of the eigenvalues</summary>
+ <returns>     imag(diag(D))
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.D">
+ <summary>Return the block diagonal eigenvalue matrix</summary>
+ <returns>     D
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition.GetV">
+ <summary>Return the eigenvector matrix</summary>
+ <returns>     V
+ </returns>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix">
+ <summary>.NET GeneralMatrix class.
+ 
+ The .NET GeneralMatrix Class provides the fundamental operations of numerical
+ linear algebra.  Various constructors create Matrices from two dimensional
+ arrays of double precision floating point numbers.  Various "gets" and
+ "sets" provide access to submatrices and matrix elements.  Several methods 
+ implement basic matrix arithmetic, including matrix addition and
+ multiplication, matrix norms, and element-by-element array operations.
+ Methods for reading and printing matrices are also included.  All the
+ operations in this version of the GeneralMatrix Class involve real matrices.
+ Complex matrices may be handled in a future version.
+ 
+ Five fundamental matrix decompositions, which consist of pairs or triples
+ of matrices, permutation vectors, and the like, produce results in five
+ decomposition classes.  These decompositions are accessed by the GeneralMatrix
+ class to compute solutions of simultaneous linear equations, determinants,
+ inverses and other matrix functions.  
+ 
+ The five decompositions are:
+ 
+ + Cholesky Decomposition of symmetric, positive definite matrices.
+ + LU Decomposition of rectangular matrices.
+ + QR Decomposition of rectangular matrices.
+ + Singular Value Decomposition of rectangular matrices.
+ + Eigenvalue Decomposition of both symmetric and nonsymmetric square matrices.
+ 
+ Example of use:
+ 
+ Solve a linear system A x = b and compute the residual norm, ||b - A x||.
+ 
+ ```csharp
+ double[][] vals = {{1.,2.,3},{4.,5.,6.},{7.,8.,10.}};
+ GeneralMatrix A = new GeneralMatrix(vals);
+ GeneralMatrix b = GeneralMatrix.Random(3,1);
+ GeneralMatrix x = A.Solve(b);
+ GeneralMatrix r = A.Multiply(x).Subtract(b);
+ double rnorm = r.NormInf();
+ ```
+ </summary>
+ <author>  
+ The MathWorks, Inc. and the National Institute of Standards and Technology.
+ </author>
+ <version>  5 August 1998
+ </version>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.A">
+ <summary>Array for internal storage of elements.
+ @serial internal array storage.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.m">
+ <summary>Row and column dimensions.
+ @serial row dimension.
+ @serial column dimension.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.n">
+ <summary>Row and column dimensions.
+ @serial row dimension.
+ @serial column dimension.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.#ctor(System.Int32,System.Int32)">
+ <summary>Construct an m-by-n matrix of zeros. </summary>
+ <param name="m">   Number of rows.
+ </param>
+ <param name="n">   Number of colums.
+ </param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.#ctor(System.Int32,System.Int32,System.Double)">
+ <summary>Construct an m-by-n constant matrix.</summary>
+ <param name="m">   Number of rows.
+ </param>
+ <param name="n">   Number of colums.
+ </param>
+ <param name="s">   Fill the matrix with this scalar value.
+ </param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.#ctor(System.Double[][])">
+ <summary>Construct a matrix from a 2-D array.</summary>
+ <param name="A">   Two-dimensional array of doubles.
+ </param>
+ <exception cref="T:System.ArgumentException">   All rows must have the same length
+ </exception>
+ <seealso cref="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Create(System.Double[][])">
+ </seealso>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.#ctor(System.Double[][],System.Int32,System.Int32)">
+ <summary>Construct a matrix quickly without checking arguments.</summary>
+ <param name="A">   Two-dimensional array of doubles.
+ </param>
+ <param name="m">   Number of rows.
+ </param>
+ <param name="n">   Number of colums.
+ </param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.#ctor(System.Double[],System.Int32)">
+ <summary>Construct a matrix from a one-dimensional packed array</summary>
+ <param name="vals">One-dimensional array of doubles, packed by columns (ala Fortran).
+ </param>
+ <param name="m">   Number of rows.
+ </param>
+ <exception cref="T:System.ArgumentException">   Array length must be a multiple of m.
+ </exception>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Array">
+ <summary>Access the internal two-dimensional array.</summary>
+ <returns>     Pointer to the two-dimensional array of matrix elements.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ArrayCopy">
+ <summary>Copy the internal two-dimensional array.</summary>
+ <returns>     Two-dimensional array copy of matrix elements.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ColumnPackedCopy">
+ <summary>Make a one-dimensional column packed copy of the internal array.</summary>
+ <returns>     Matrix elements packed in a one-dimensional array by columns.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.RowPackedCopy">
+ <summary>Make a one-dimensional row packed copy of the internal array.</summary>
+ <returns>     Matrix elements packed in a one-dimensional array by rows.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.RowDimension">
+ <summary>Get row dimension.</summary>
+ <returns>     m, the number of rows.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ColumnDimension">
+ <summary>Get column dimension.</summary>
+ <returns>     n, the number of columns.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Create(System.Double[][])">
+ <summary>Construct a matrix from a copy of a 2-D array.</summary>
+ <param name="A">   Two-dimensional array of doubles.
+ </param>
+ <exception cref="T:System.ArgumentException">   All rows must have the same length
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Copy">
+ <summary>Make a deep copy of a matrix</summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.GetElement(System.Int32,System.Int32)">
+ <summary>Get a single element.</summary>
+ <param name="i">   Row index.
+ </param>
+ <param name="j">   Column index.
+ </param>
+ <returns>     A(i,j)
+ </returns>
+ <exception cref="T:System.IndexOutOfRangeException">  
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.GetMatrix(System.Int32,System.Int32,System.Int32,System.Int32)">
+ <summary>Get a submatrix.</summary>
+ <param name="i0">  Initial row index
+ </param>
+ <param name="i1">  Final row index
+ </param>
+ <param name="j0">  Initial column index
+ </param>
+ <param name="j1">  Final column index
+ </param>
+ <returns>     A(i0:i1,j0:j1)
+ </returns>
+ <exception cref="T:System.IndexOutOfRangeException">   Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.GetMatrix(System.Int32[],System.Int32[])">
+ <summary>Get a submatrix.</summary>
+ <param name="r">   Array of row indices.
+ </param>
+ <param name="c">   Array of column indices.
+ </param>
+ <returns>     A(r(:),c(:))
+ </returns>
+ <exception cref="T:System.IndexOutOfRangeException">   Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.GetMatrix(System.Int32,System.Int32,System.Int32[])">
+ <summary>Get a submatrix.</summary>
+ <param name="i0">  Initial row index
+ </param>
+ <param name="i1">  Final row index
+ </param>
+ <param name="c">   Array of column indices.
+ </param>
+ <returns>     A(i0:i1,c(:))
+ </returns>
+ <exception cref="T:System.IndexOutOfRangeException">   Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.GetMatrix(System.Int32[],System.Int32,System.Int32)">
+ <summary>Get a submatrix.</summary>
+ <param name="r">   Array of row indices.
+ </param>
+ <param name="j0">  Initial column index
+ </param>
+ <param name="j1">  Final column index
+ </param>
+ <returns>     A(r(:),j0:j1)
+ </returns>
+ <exception cref="T:System.IndexOutOfRangeException">   Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SetElement(System.Int32,System.Int32,System.Double)">
+ <summary>Set a single element.</summary>
+ <param name="i">   Row index.
+ </param>
+ <param name="j">   Column index.
+ </param>
+ <param name="s">   A(i,j).
+ </param>
+ <exception cref="T:System.IndexOutOfRangeException">  
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SetMatrix(System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Set a submatrix.</summary>
+ <param name="i0">  Initial row index
+ </param>
+ <param name="i1">  Final row index
+ </param>
+ <param name="j0">  Initial column index
+ </param>
+ <param name="j1">  Final column index
+ </param>
+ <param name="X">   A(i0:i1,j0:j1)
+ </param>
+ <exception cref="T:System.IndexOutOfRangeException">  Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SetMatrix(System.Int32[],System.Int32[],Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Set a submatrix.</summary>
+ <param name="r">   Array of row indices.
+ </param>
+ <param name="c">   Array of column indices.
+ </param>
+ <param name="X">   A(r(:),c(:))
+ </param>
+ <exception cref="T:System.IndexOutOfRangeException">  Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SetMatrix(System.Int32[],System.Int32,System.Int32,Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Set a submatrix.</summary>
+ <param name="r">   Array of row indices.
+ </param>
+ <param name="j0">  Initial column index
+ </param>
+ <param name="j1">  Final column index
+ </param>
+ <param name="X">   A(r(:),j0:j1)
+ </param>
+ <exception cref="T:System.IndexOutOfRangeException"> Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SetMatrix(System.Int32,System.Int32,System.Int32[],Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Set a submatrix.</summary>
+ <param name="i0">  Initial row index
+ </param>
+ <param name="i1">  Final row index
+ </param>
+ <param name="c">   Array of column indices.
+ </param>
+ <param name="X">   A(i0:i1,c(:))
+ </param>
+ <exception cref="T:System.IndexOutOfRangeException">  Submatrix indices
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Transpose">
+ <summary>Matrix transpose.</summary>
+ <returns>    A'
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Norm1">
+ <summary>One norm</summary>
+ <returns>    maximum column sum.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Norm2">
+ <summary>Two norm</summary>
+ <returns>    maximum singular value.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.NormInf">
+ <summary>Infinity norm</summary>
+ <returns>    maximum row sum.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.NormF">
+ <summary>Frobenius norm</summary>
+ <returns>    sqrt of sum of squares of all elements.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.UnaryMinus">
+ <summary>Unary minus</summary>
+ <returns>    -A
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Add(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>C = A + B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A + B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.AddEquals(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>A = A + B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A + B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Subtract(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>C = A - B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A - B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SubtractEquals(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>A = A - B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A - B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ArrayMultiply(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Element-by-element multiplication, C = A.*B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A.*B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ArrayMultiplyEquals(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Element-by-element multiplication in place, A = A.*B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A.*B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ArrayRightDivide(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Element-by-element right division, C = A./B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A./B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ArrayRightDivideEquals(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Element-by-element right division in place, A = A./B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A./B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ArrayLeftDivide(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Element-by-element left division, C = A.\B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A.\B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ArrayLeftDivideEquals(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Element-by-element left division in place, A = A.\B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     A.\B
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Multiply(System.Double)">
+ <summary>Multiply a matrix by a scalar, C = s*A</summary>
+ <param name="s">   scalar
+ </param>
+ <returns>     s*A
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.MultiplyEquals(System.Double)">
+ <summary>Multiply a matrix by a scalar in place, A = s*A</summary>
+ <param name="s">   scalar
+ </param>
+ <returns>     replace A by s*A
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Multiply(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Linear algebraic matrix multiplication, A * B</summary>
+ <param name="B">   another matrix
+ </param>
+ <returns>     Matrix product, A * B
+ </returns>
+ <exception cref="T:System.ArgumentException">  Matrix inner dimensions must agree.
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.op_Addition(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix,Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+  Addition of matrices
+ </summary>
+ <param name="m1"></param>
+ <param name="m2"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.op_Subtraction(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix,Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+ Subtraction of matrices
+ </summary>
+ <param name="m1"></param>
+ <param name="m2"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.op_Multiply(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix,Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+ Multiplication of matrices
+ </summary>
+ <param name="m1"></param>
+ <param name="m2"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.LUD">
+ <summary>LU Decomposition</summary>
+ <returns>     LUDecomposition
+ </returns>
+ <seealso cref="T:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition">
+ </seealso>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.QRD">
+ <summary>QR Decomposition</summary>
+ <returns>     QRDecomposition
+ </returns>
+ <seealso cref="T:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition">
+ </seealso>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.chol">
+ <summary>Cholesky Decomposition</summary>
+ <returns>     CholeskyDecomposition
+ </returns>
+ <seealso cref="T:Microsoft.VisualBasic.Mathematical.Matrix.CholeskyDecomposition">
+ </seealso>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SVD">
+ <summary>Singular Value Decomposition</summary>
+ <returns>     SingularValueDecomposition
+ </returns>
+ <seealso cref="T:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition">
+ </seealso>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Eigen">
+ <summary>Eigenvalue Decomposition</summary>
+ <returns>     EigenvalueDecomposition
+ </returns>
+ <seealso cref="T:Microsoft.VisualBasic.Mathematical.Matrix.EigenvalueDecomposition">
+ </seealso>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Solve(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Solve A*X = B</summary>
+ <param name="B">   right hand side
+ </param>
+ <returns>     solution if A is square, least squares solution otherwise
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.SolveTranspose(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Solve X*A = B, which is also A'*X' = B'</summary>
+ <param name="B">   right hand side
+ </param>
+ <returns>     solution if A is square, least squares solution otherwise.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Inverse">
+ <summary>Matrix inverse or pseudoinverse</summary>
+ <returns>     inverse(A) if A is square, pseudoinverse otherwise.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Determinant">
+ <summary>GeneralMatrix determinant</summary>
+ <returns>     determinant
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Rank">
+ <summary>GeneralMatrix rank</summary>
+ <returns>     effective numerical rank, obtained from SVD.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Condition">
+ <summary>Matrix condition (2 norm)</summary>
+ <returns>     ratio of largest to smallest singular value.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Trace">
+ <summary>Matrix trace.</summary>
+ <returns>     sum of the diagonal elements.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Random(System.Int32,System.Int32)">
+ <summary>Generate matrix with random elements</summary>
+ <param name="m">   Number of rows.
+ </param>
+ <param name="n">   Number of colums.
+ </param>
+ <returns>     An m-by-n matrix with uniformly distributed random elements.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Identity(System.Int32,System.Int32)">
+ <summary>Generate identity matrix</summary>
+ <param name="m">   Number of rows.
+ </param>
+ <param name="n">   Number of colums.
+ </param>
+ <returns>     An m-by-n matrix with ones on the diagonal and zeros elsewhere.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.CheckMatrixDimensions(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Check if size(A) == size(B) *</summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Dispose">
+ <summary>
+ Do not make this method virtual.
+ A derived class should not be able to override this method.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Dispose(System.Boolean)">
+ <summary>
+ Dispose(bool disposing) executes in two distinct scenarios.
+ If disposing equals true, the method has been called directly
+ or indirectly by a user's code. Managed and unmanaged resources
+ can be disposed.
+ If disposing equals false, the method has been called by the 
+ runtime from inside the finalizer and you should not reference 
+ other objects. Only unmanaged resources can be disposed.
+ </summary>
+ <param name="disposing"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Finalize">
+ <summary>
+ This destructor will run only if the Dispose method 
+ does not get called.
+ It gives your base class the opportunity to finalize.
+ Do not provide destructors in types derived from this class.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.Clone">
+ <summary>Clone the GeneralMatrix object.</summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix.ISerializable_GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+ <summary>
+ A method called when serializing this class
+ </summary>
+ <param name="info"></param>
+ <param name="context"></param>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition">
+ <summary>LU Decomposition.
+ For an m-by-n matrix A with m >= n, the LU decomposition is an m-by-n
+ unit lower triangular matrix L, an n-by-n upper triangular matrix U,
+ and a permutation vector piv of length m so that A(piv,:) = L*U.
+ <code> If m &lt; n, then L is m-by-m and U is m-by-n. </code>
+ The LU decompostion with pivoting always exists, even if the matrix is
+ singular, so the constructor will never fail.  The primary use of the
+ LU decomposition is in the solution of square systems of simultaneous
+ linear equations.  This will fail if IsNonSingular() returns false.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.LU">
+ <summary>Array for internal storage of decomposition.
+ @serial internal array storage.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.m">
+ <summary>Row and column dimensions, and pivot sign.
+ @serial column dimension.
+ @serial row dimension.
+ @serial pivot sign.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.n">
+ <summary>Row and column dimensions, and pivot sign.
+ @serial column dimension.
+ @serial row dimension.
+ @serial pivot sign.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.pivsign">
+ <summary>Row and column dimensions, and pivot sign.
+ @serial column dimension.
+ @serial row dimension.
+ @serial pivot sign.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.piv">
+ <summary>Internal storage of pivot vector.
+ @serial pivot vector.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.#ctor(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+ LU Decomposition, returns Structure to access L, U and piv.
+ </summary>
+ <param name="A">  Rectangular matrix
+ </param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.IsNonSingular">
+ <summary>Is the matrix nonsingular?</summary>
+ <returns>     true if U, and hence A, is nonsingular.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.L">
+ <summary>Return lower triangular factor</summary>
+ <returns>     L
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.U">
+ <summary>Return upper triangular factor</summary>
+ <returns>     U
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.Pivot">
+ <summary>Return pivot permutation vector</summary>
+ <returns>     piv
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.DoublePivot">
+ <summary>Return pivot permutation vector as a one-dimensional double array</summary>
+ <returns>     (double) piv
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.Determinant">
+ <summary>Determinant</summary>
+ <returns>     det(A)
+ </returns>
+ <exception cref="T:System.ArgumentException">  Matrix must be square
+ </exception>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.LUDecomposition.Solve(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Solve A*X = B</summary>
+ <param name="B">  A Matrix with as many rows as A and any number of columns.
+ </param>
+ <returns>     X so that L*U*X = B(piv,:)
+ </returns>
+ <exception cref="T:System.ArgumentException"> Matrix row dimensions must agree.
+ </exception>
+ <exception cref="T:System.SystemException"> Matrix is singular.
+ </exception>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition">
+ <summary>QR Decomposition.
+ For an m-by-n matrix A with m >= n, the QR decomposition is an m-by-n
+ orthogonal matrix Q and an n-by-n upper triangular matrix R so that
+ A = Q*R.
+ 
+ The QR decompostion always exists, even if the matrix does not have
+ full rank, so the constructor will never fail.  The primary use of the
+ QR decomposition is in the least squares solution of nonsquare systems
+ of simultaneous linear equations.  This will fail if IsFullRank()
+ returns false.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.QR">
+ <summary>Array for internal storage of decomposition.
+ @serial internal array storage.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.m">
+ <summary>Row and column dimensions.
+ @serial column dimension.
+ @serial row dimension.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.n">
+ <summary>Row and column dimensions.
+ @serial column dimension.
+ @serial row dimension.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.Rdiag">
+ <summary>Array for internal storage of diagonal of R.
+ @serial diagonal of R.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.#ctor(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+ QR Decomposition, computed by Householder reflections. returns Structure to access R and the Householder vectors and compute Q.
+ </summary>
+ <param name="A">   Rectangular matrix
+ </param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.FullRank">
+ <summary>Is the matrix full rank?</summary>
+ <returns>     true if R, and hence A, has full rank.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.H">
+ <summary>Return the Householder vectors</summary>
+ <returns>     Lower trapezoidal matrix whose columns define the reflections
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.R">
+ <summary>Return the upper triangular factor</summary>
+ <returns>     R
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.Q">
+ <summary>Generate and return the (economy-sized) orthogonal factor</summary>
+ <returns>     Q
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.QRDecomposition.Solve(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>Least squares solution of A*X = B</summary>
+ <param name="B">   A Matrix with as many rows as A and any number of columns.
+ </param>
+ <returns>     X that minimizes the two norm of Q*R*X-B.
+ </returns>
+ <exception cref="T:System.ArgumentException"> Matrix row dimensions must agree.
+ </exception>
+ <exception cref="T:System.SystemException"> Matrix is rank deficient.
+ </exception>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition">
+ <summary>Singular Value Decomposition.
+ <P>
+ For an m-by-n matrix A with m >= n, the singular value decomposition is
+ an m-by-n orthogonal matrix U, an n-by-n diagonal matrix S, and
+ an n-by-n orthogonal matrix V so that A = U*S*V'.</P>
+ <P>
+ The singular values, sigma[k] = S[k][k], are ordered so that
+ sigma[0] >= sigma[1] >= ... >= sigma[n-1].</P>
+ <P>
+ The singular value decompostion always exists, so the constructor will
+ never fail.  The matrix condition number and the effective numerical
+ rank can be computed from this decomposition.</P>
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.U">
+ <summary>Arrays for internal storage of U and V.
+ @serial internal storage of U.
+ @serial internal storage of V.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.V">
+ <summary>Arrays for internal storage of U and V.
+ @serial internal storage of U.
+ @serial internal storage of V.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.m_s">
+ <summary>Array for internal storage of singular values.
+ @serial internal storage of singular values.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.m">
+ <summary>Row and column dimensions.
+ @serial row dimension.
+ @serial column dimension.
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.n">
+ <summary>Row and column dimensions.
+ @serial row dimension.
+ @serial column dimension.
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.#ctor(Microsoft.VisualBasic.Mathematical.Matrix.GeneralMatrix)">
+ <summary>
+ Construct the singular value decomposition, returns Structure to access U, S and V.
+ </summary>
+ <param name="Arg">   Rectangular matrix
+ </param>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.SingularValues">
+ <summary>Return the one-dimensional array of singular values</summary>
+ <returns>     diagonal of S.
+ </returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.S">
+ <summary>Return the diagonal matrix of singular values</summary>
+ <returns>     S
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.GetU">
+ <summary>Return the left singular vectors</summary>
+ <returns>     U
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.GetV">
+ <summary>Return the right singular vectors</summary>
+ <returns>     V
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.Norm2">
+ <summary>Two norm</summary>
+ <returns>     max(S)
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.Condition">
+ <summary>Two norm condition number</summary>
+ <returns>     max(S)/min(S)
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Matrix.SingularValueDecomposition.Rank">
+ <summary>Effective numerical matrix rank</summary>
+ <returns>     Number of nonnegligible singular values.
+ </returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Quantile.Extensions.GKQuantile(System.Collections.Generic.IEnumerable{System.Int64},System.Double,System.Int32)">
+ <summary>
+ Example Usage:
+ 
+ ```vbnet
+ Dim shuffle As Long() = New Long(window_size - 1) {}
+
+ For i As Integer = 0 To shuffle.Length - 1
+     shuffle(i) = i
+ Next
+
+ shuffle = shuffle.Shuffles
+
+ Dim estimator As QuantileEstimationGK = Shuffle.GKQuantile
+ Dim quantiles As Double() = {0.5, 0.9, 0.95, 0.99, 1.0}
+
+ For Each q As Double In quantiles
+     Dim estimate As Long = estimator.query(q)
+     Dim actual As Long = Shuffle.actually(q)
+     Dim out As String = String.Format("Estimated {0:F2} quantile as {1:D} (actually {2:D})", q, estimate, actual)
+
+     Call out.__DEBUG_ECHO
+ Next
+ ```
+ </summary>
+ <param name="source"></param>
+ <param name="epsilon"></param>
+ <param name="compact_size"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Quantile.Extensions.SelectByQuantile``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Int64},System.Double[],System.Double,System.Int32)">
+ <summary>
+ Selector for object sequence that by using quantile calculation.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="data"></param>
+ <param name="getValue">
+ Object in the input sequence that can be measuring as a numeric value by using this function pointer.
+ (通过这个函数指针可以将序列之中的对象转换为可计算quantile的数值)
+ </param>
+ <param name="quantiles#"></param>
+ <param name="epsilon#"></param>
+ <param name="compact_size%"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Quantile.Extensions.Test">
+ <summary>
+ 使用示例
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Quantile.X">
+ <summary>
+ Data variables
+ </summary>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK">
+ <summary>
+ Implementation of the Greenwald and Khanna algorithm for streaming
+ calculation of epsilon-approximate quantiles.
+ 
+ See: 
+ 
+ > Greenwald and Khanna, "Space-efficient online computation of quantile summaries" in SIGMOD 2001
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.epsilon">
+ <summary>
+ Acceptable % error in percentile estimate
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.count">
+ <summary>
+ Total number of items in stream
+ </summary>
+</member>
+<member name="F:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.compact_size">
+ <summary>
+ Threshold to trigger a compaction
+ </summary>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.Quantile.QuantileEstimationGK.#ctor(System.Double,System.Int32)">
+ <summary>
+ Implementation of the Greenwald and Khanna algorithm for streaming
+ calculation of epsilon-approximate quantiles.
+ </summary>
+ <param name="epsilon">Acceptable % error in percentile estimate</param>
+ <param name="compact_size">Threshold to trigger a compaction</param>
+</member>
+<member name="T:Microsoft.VisualBasic.Mathematical.ScriptEngine">
+ <summary>
+ Math expression script engine.
+ </summary>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.ScriptEngine.Expression">
+ <summary>
+ The default expression engine.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.ScriptEngine.StatementEngine">
+ <summary>
+ all of the commands are stored at here
+ </summary>
+ <remarks>
+ .quit for do nothing and end of this program.
+ </remarks>
+</member>
+<member name="P:Microsoft.VisualBasic.Mathematical.ScriptEngine.Scripts">
+ <summary>
+ Lambda expression table.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ScriptEngine.Shell(System.String)">
+ <summary>
+ Run the simple script that stores in the <see cref="P:Microsoft.VisualBasic.Mathematical.ScriptEngine.Scripts"/> table.
+ </summary>
+ <param name="statement"></param>
+ <returns></returns>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ScriptEngine.SetVariable(System.String,System.String)">
+ <summary>
+ Set variable value
+ </summary>
+ <param name="Name"></param>
+ <param name="expr"></param>
+</member>
+<member name="M:Microsoft.VisualBasic.Mathematical.ScriptEngine.AddConstant(System.String,System.String)">
+ <summary>
+ Add constant object
+ </summary>
+ <param name="Name"></param>
+ <param name="expr"></param>
+</member>
+</members>
+</doc>
