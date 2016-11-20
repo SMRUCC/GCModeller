@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.BasicR
+Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
 
 Public Module Extensions
 
@@ -111,7 +111,7 @@ Public Module Extensions
     ''' <param name="By">number: increment of the sequence</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function seq(from#, to#, Optional by# = 0.1) As Vector
-        Return New Vector(VBMathExtensions.seq(from, [to], by))
+    Public Function seq2(from#, to#, Optional by# = 0.1) As Vector
+        Return New Vector(seq(from, [to], by))
     End Function
 End Module
