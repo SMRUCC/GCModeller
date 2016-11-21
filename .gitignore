@@ -18,6 +18,8 @@ local.properties
 .settings/
 .loadpath
 
+slnx.sqlite-journal
+slnx.sqlite
 bin-Debug/
 GCModeller-[Xx]64/
 
