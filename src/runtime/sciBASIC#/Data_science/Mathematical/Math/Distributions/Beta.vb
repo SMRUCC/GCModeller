@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71d20edc7e402022da749263008deb7c, ..\visualbasic_App\Data_science\Mathematical\Math\Distributions\Beta.vb"
+﻿#Region "Microsoft.VisualBasic::b986f98a35f424b763cf1041825d38d5, ..\sciBASIC#\Data_science\Mathematical\Math\Distributions\Beta.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@ Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Mathematical.BasicR
 Imports Microsoft.VisualBasic.Mathematical.Distributions.DirichletDistribution
+Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
 
 Namespace Distributions
 

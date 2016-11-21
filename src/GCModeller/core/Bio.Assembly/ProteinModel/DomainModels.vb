@@ -33,15 +33,35 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ProteinModel
 
+    ''' <summary>
+    ''' The simple protein domain motif model.
+    ''' </summary>
     Public Class DomainModel
         Implements sIdEnumerable, IKeyValuePairObject(Of String, Location)
+        Implements IMotifSite
 
-        Public Property DomainId As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, Location).Identifier
-        Public Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value
+        Public Property DomainId As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, Location).Identifier, IMotifSite.Type, IMotifSite.Name
+        Public Property Start As Integer
+        Public Property [End] As Integer
+
+        Private Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value, IMotifSite.Site
+            Get
+                Return New Location(Start, [End])
+            End Get
+            Set(value As Location)
+                If Not value Is Nothing Then
+                    Start = value.Left
+                    [End] = value.Right
+                End If
+            End Set
+        End Property
 
         Sub New(DomainId As String, Location As Location)
             Me.DomainId = DomainId
             Me.Location = Location
+        End Sub
+
+        Sub New()
         End Sub
 
         Public Overrides Function ToString() As String

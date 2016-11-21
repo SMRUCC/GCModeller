@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::76a78ec68cd6305bb25c66755948ed4e, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\PathSearchTool.vb"
+﻿#Region "Microsoft.VisualBasic::e62ea2c2ee0ab74864b0412618c4cb17, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\PathSearchTool.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -220,10 +220,20 @@ Public Module ProgramPathSearchTool
         End If
     End Function
 
-    <Extension>
-    Public Function FileCopy(source$, copyTo$) As Boolean
+    ''' <summary>
+    ''' Safe file copy operation
+    ''' </summary>
+    ''' <param name="source$"></param>
+    ''' <param name="copyTo$"></param>
+    ''' <returns></returns>
+    <Extension> Public Function FileCopy(source$, copyTo$) As Boolean
         Try
-            Call copyTo.ParentPath.MkDIR
+            If copyTo.FileExists Then
+                Call FileIO.FileSystem.DeleteFile(copyTo)
+            Else
+                Call copyTo.ParentPath.MkDIR
+            End If
+
             Call FileIO.FileSystem.CopyFile(source, copyTo)
         Catch ex As Exception
             ex = New Exception({source, copyTo}.GetJson, ex)

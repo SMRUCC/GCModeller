@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32d7dac4a4b578c9ce1f00616df738fa, ..\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\Language\Numeric.vb"
+﻿#Region "Microsoft.VisualBasic::634d166698d7f1065aadcf984bba262b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Numeric.vb"
 
     ' Author:
     ' 
@@ -360,6 +360,10 @@ Namespace Language
 
         Public Overloads Shared Operator >=(x As float, n As Double) As Boolean
             Return x.value >= n
+        End Operator
+
+        Public Overloads Shared Operator /(x As float, n As Double) As Double
+            Return x.value / n
         End Operator
 
         Public Shared Operator >(n As Double, x As float) As float

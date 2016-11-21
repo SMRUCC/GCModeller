@@ -310,7 +310,7 @@ Namespace Core
             ' Actually the Reflection operations method can be used at here to calling 
             ' the different API 
             Dim args As String = Mid(p.http_url, pos + 1)
-            Dim Tokens = args.requestParser
+            Dim Tokens = args.RequestParser
             Dim query As String = Tokens("query")
             Dim subject As String = Tokens("subject")
             Dim result = LevenshteinDistance.ComputeDistance(query, subject)

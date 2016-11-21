@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7eb8e44c8cf6fb52cbbcdef8b8cb6cb2, ..\visualbasic_App\Data_science\Mathematical\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::38f9a739bdd9ca1fb4fd9140a3ed8a98, ..\sciBASIC#\Data_science\Mathematical\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.BasicR
+Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
 Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Mathematical.Plots
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -168,7 +168,9 @@ Public Module Scatter
                          Optional ptSize As Single = 15,
                          Optional width As Single = 5,
                          Optional drawLine As Boolean = False) As Bitmap
-        Return {FromVector(x,,, ptSize, width)}.Plot(size, margin, bg, True, False, , drawLine)
+        Return {
+            FromVector(x,,, ptSize, width)
+        }.Plot(size, margin, bg, True, False, , drawLine)
     End Function
 
     Public Function FromVector(y As IEnumerable(Of Double),

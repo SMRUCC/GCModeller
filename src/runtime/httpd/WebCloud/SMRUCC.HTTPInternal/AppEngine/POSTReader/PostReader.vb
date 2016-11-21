@@ -104,34 +104,42 @@ Namespace AppEngine.POSTParser
                 Dim byts As Byte() = DirectCast(InputStream, MemoryStream).ToArray
                 Dim s As String = ContentEncoding.GetString(byts)
 
-                For Each x In s.postRequestParser
-                    Call Form.Add(x.Key, x.Value)
-                Next
+                _Form = s.PostUrlDataParser
             Else
-                Dim input As Stream = GetSubStream(InputStream)
-                Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
-                Dim read As New Value(Of HttpMultipart.Element)
-
-                While (read = multi_part.ReadNextElement()) IsNot Nothing
-                    Dim e = +read
-
-                    If e.Filename Is Nothing Then
-                        Dim copy As Byte() = New Byte(e.Length - 1) {}
-
-                        input.Position = e.Start
-                        input.Read(copy, 0, CInt(e.Length))
-
-                        Form.Add(e.Name, ContentEncoding.GetString(copy))
-                    Else
-                        '
-                        ' We use a substream, as in 2.x we will support large uploads streamed to disk,
-                        '
-                        Dim [sub] As New HttpPostedFile(e.Filename, e.ContentType, input, e.Start, e.Length)
-                        Files.Add(e.Name, [sub])
-                    End If
-
-                End While
+                Call __loadMultiPart(boundary)
             End If
+        End Sub
+
+        Private Sub __loadMultiPart(boundary$)
+            Dim input As Stream = GetSubStream(InputStream)
+            Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
+            Dim read As New Value(Of HttpMultipart.Element)
+            Dim str As String
+
+            While (read = multi_part.ReadNextElement()) IsNot Nothing
+                Dim data As HttpMultipart.Element = +read
+
+                If data.Filename Is Nothing Then
+                    Dim copy As Byte() = New Byte(data.Length - 1) {}
+
+                    input.Position = data.Start
+                    input.Read(copy, 0, CInt(data.Length))
+
+                    str = ContentEncoding.GetString(copy)
+                    Call Form.Add(data.Name, str)
+                Else
+                    '
+                    ' We use a substream, as in 2.x we will support large uploads streamed to disk,
+                    '
+                    Dim [sub] As New HttpPostedFile(
+                        data.Filename,
+                        data.ContentType,
+                        input,
+                        data.Start,
+                        data.Length)
+                    Call Files.Add(data.Name, [sub])
+                End If
+            End While
         End Sub
     End Class
 End Namespace

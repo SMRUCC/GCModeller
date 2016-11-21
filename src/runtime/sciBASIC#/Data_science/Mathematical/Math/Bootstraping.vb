@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa5a4b7f6c6ef5d20e94f2f4426e2a1b, ..\visualbasic_App\Data_science\Mathematical\Math\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::72bad00925d89b6b2a578a848c1b49c3, ..\sciBASIC#\Data_science\Mathematical\Math\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -28,10 +28,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.TagData
-Imports Microsoft.VisualBasic.Mathematical.BasicR
-Imports Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
+Imports Microsoft.VisualBasic.Mathematical.SyntaxAPI.MathExtension
 
 Public Module Bootstraping
 
@@ -191,9 +191,56 @@ Public Module Bootstraping
         Return c
     End Function
 
+    ''' <summary>
+    ''' ###### Z-score 标准化(zero-mean normalization)
+    ''' 也叫标准差标准化，经过处理的数据符合标准正态分布，即均值为0，标准差为1
+    ''' 其中<paramref name="m"/>为所有样本数据的均值，<paramref name="sd"/>为所有样本数据的标准差。
+    ''' </summary>
+    ''' <param name="x#">Sample data</param>
+    ''' <param name="m#">Average</param>
+    ''' <param name="sd#">STD</param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 注：是否要进行标准化，要根据具体实验定。如果特征非常稀疏，并且有大量的0（现实应用中很多特征都具有这个特点），
+    ''' ``Z-score`` 标准化的过程几乎就是一个除0的过程，结果不可预料。
+    ''' </remarks>
     Public Function Z#(x#, m#, sd#)
         Dim answer As Double = (x - m) / sd
         Return answer
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' http://blog.163.com/huai_jing@126/blog/static/171861983201321074124426/
+    ''' </remarks>
+    <Extension> Public Function Z(x As Vector) As Vector
+        Dim m# = x.Average
+        Dim delta# = x.STD
+        Dim x1 As Vector = (x - m) / delta
+        Return x1
+    End Function
+
+    ''' <summary>
+    ''' ###### 0-1标准化(0-1 normalization)
+    ''' 也叫离差标准化，是对原始数据的线性变换，使结果落到[0,1]区间
+    ''' 其中max为样本数据的最大值，min为样本数据的最小值。这种方法有一个缺陷就是当有新数据加入时，可能导致max和min的变化，需要重新定义。
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 数据的标准化（normalization）是将数据按比例缩放，使之落入一个小的特定区间。这样去除数据的单位限制，
+    ''' 将其转化为无量纲的纯数值，便于不同单位或量级的指标能够进行比较和加权。
+    ''' 其中最典型的就是0-1标准化和Z标准化
+    ''' </remarks>
+    <Extension> Public Function DeviationStandardization(x As Vector) As Vector
+        Dim max# = x.Max
+        Dim min# = x.Min
+        Dim x1 As Vector = (x - min) / (max - min)
+        Return x1
     End Function
 
     ''' <summary>
