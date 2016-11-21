@@ -104,7 +104,7 @@ Namespace AppEngine.POSTParser
                 Dim byts As Byte() = DirectCast(InputStream, MemoryStream).ToArray
                 Dim s As String = ContentEncoding.GetString(byts)
 
-                For Each x In s.postRequestParser
+                For Each x In s.PostUrlDataParser
                     Call Form.Add(x.Key, x.Value)
                 Next
             Else
