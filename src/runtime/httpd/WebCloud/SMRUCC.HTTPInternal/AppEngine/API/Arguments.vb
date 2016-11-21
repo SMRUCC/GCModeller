@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Collections.Specialized
+Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
@@ -44,7 +45,7 @@ Namespace AppEngine.APIMethods.Arguments
             End Get
         End Property
 
-        Public Property URLParameters As Dictionary(Of String, String)
+        Public Property URLParameters As NameValueCollection
 
         Sub New(request As HttpProcessor)
             HTTPMethod = request.http_method
