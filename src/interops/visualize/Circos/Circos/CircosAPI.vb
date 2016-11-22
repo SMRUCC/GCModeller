@@ -1344,7 +1344,7 @@ then you can using this method to adding the legends on your circos plots image 
 
             For Each ID As NamedValue(Of String) In AlignmentData
                 Call Device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
-                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.x)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
+                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 
                 Y += dh + 3
             Next

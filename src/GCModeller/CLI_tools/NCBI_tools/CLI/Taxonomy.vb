@@ -68,7 +68,7 @@ Partial Module CLI
                 Let exp As Expression = x.Expression.Build
                 Select New NamedValue(Of Func(Of String, Boolean)) With {
                     .Name = x.Name,
-                    .x = AddressOf exp.Match
+                    .Value = AddressOf exp.Match
                 }
 
             Call "Search in expression query mode!".__DEBUG_ECHO
@@ -82,14 +82,14 @@ Partial Module CLI
                 Let evl As Func(Of String, Boolean) = Function(s) Similarity.Evaluate(s, name) >= cutoff
                 Select New NamedValue(Of Func(Of String, Boolean)) With {
                     .Name = name,
-                    .x = evl
+                    .Value = evl
                 }
         End If
 
         ' Dim ranksData As New Ranks(tree:=taxonomy)
         Dim nodes = From exp
                     In evaluates.AsParallel
-                    Let evaluate = exp.x
+                    Let evaluate = exp.Value
                     Select name = exp.Name,
                         taxid = From k
                                 In taxonomy.Taxonomy.AsParallel
@@ -247,7 +247,7 @@ Partial Module CLI
                 .EnumerateData _
                 .Select(Function(row) New NamedValue(Of Dictionary(Of String, String)) With {
                     .Name = row(fieldName),
-                    .x = row
+                    .Value = row
                 }).ToDictionary
         Else
             rawMaps = New Dictionary(Of NamedValue(Of Dictionary(Of String, String)))
@@ -262,12 +262,12 @@ Partial Module CLI
                 If rawMaps.ContainsKey(OTU$) Then
                     Dim rawData = rawMaps(OTU$)
 
-                    For Each k In rawData.x
+                    For Each k In rawData.Value
                         find.Data(k.Key) = k.Value
                     Next
 
-                    If rawData.x.ContainsKey("Reference") Then
-                        Dim ref = rawData.x("Reference")
+                    If rawData.Value.ContainsKey("Reference") Then
+                        Dim ref = rawData.Value("Reference")
                         Dim gi = Regex.Match(ref, "gi\|\d+").Value
                         find.Data("gi") = gi
                     End If
@@ -354,18 +354,18 @@ Partial Module CLI
                 Let t As String() = s.Split(ASCII.TAB)
                 Select New NamedValue(Of Integer) With {
                     .Name = t(Scan0),
-                    .x = CInt(Val(t(1)))
+                    .Value = CInt(Val(t(1)))
                 }
         Else
             taxids = taxid.IterateAllLines.ToArray(Function(s) New NamedValue(Of Integer)("", CInt(Val(s))))
         End If
 
         For Each x As NamedValue(Of Integer) In taxids
-            Dim nodes = data.GetAscendantsWithRanksAndNames(x.x, True)
+            Dim nodes = data.GetAscendantsWithRanksAndNames(x.Value, True)
             Dim tree = TaxonomyNode.BuildBIOM(nodes)
 
             output += New IntegerTagged(Of String) With {
-                .Tag = x.x%,
+                .Tag = x.Value%,
                 .TagStr = x.Name,
                 .value = tree
             }

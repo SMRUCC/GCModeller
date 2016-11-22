@@ -661,7 +661,7 @@ Public Module ToolsAPI
                               .Values _
                               .AsParallel
                           Select ID = path.Name,
-                              dat = path.x.LoadCsv(Of SiteSigma)(False).ToArray).ToArray
+                              dat = path.Value.LoadCsv(Of SiteSigma)(False).ToArray).ToArray
         Throw New NotImplementedException
     End Function
 
@@ -995,7 +995,7 @@ Public Module ToolsAPI
         Dim Entry = gbExportService.LoadGbkSource(source)
         Dim LQuery = (From item
                       In Entry.Values.AsParallel
-                      Select New KeyValuePair(Of String, SiteSigma())(item.Name, item.x.LoadCsv(Of SiteSigma)(False).ToArray)).ToArray
+                      Select New KeyValuePair(Of String, SiteSigma())(item.Name, item.Value.LoadCsv(Of SiteSigma)(False).ToArray)).ToArray
         Dim File = __compile(LQuery)
         Return File.Save(saveCsv, False)
     End Function

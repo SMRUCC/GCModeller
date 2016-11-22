@@ -28,7 +28,7 @@ Public Class HtmlPage : Inherits ClassObject
         Dim head As String = Regex.Match(content, "---.+?---", RegexOptions.Singleline).Value
         Dim title As String = Regex.Match(head, "title:.+?$", RegexICMul).Value
 
-        title = title.GetTagValue(":").x.Trim
+        title = title.GetTagValue(":").Value.Trim
         content = Mid(content, head.Length + 1).Trim
 
         Return New HtmlPage With {

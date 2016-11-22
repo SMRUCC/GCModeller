@@ -304,14 +304,14 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                     In lstLocus
                     Select New NamedValue(Of List(Of Double)) With {
                         .Name = strId,
-                        .x = New List(Of Double)
+                        .Value = New List(Of Double)
                     }
 
             For Each experimentId As String In expIds
                 Call Chipdata.SetColumnAuto(experimentId)
 
                 For Each item In exprs
-                    Call item.x.Add(Chipdata.GetValue(locusTag:=item.Name, DEBUGInfo:=DEBUG))
+                    Call item.Value.Add(Chipdata.GetValue(locusTag:=item.Name, DEBUGInfo:=DEBUG))
                 Next
             Next
 
@@ -329,7 +329,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
             Dim sb As New StringBuilder(1024)
 
             For Each strLine In exprs
-                Call sb.AppendLine(String.Join(vbTab, strLine.Name, String.Join(vbTab, strLine.x.ToArray)))
+                Call sb.AppendLine(String.Join(vbTab, strLine.Name, String.Join(vbTab, strLine.Value.ToArray)))
             Next
 
             Call sb.Remove(sb.Length - 2, 2)

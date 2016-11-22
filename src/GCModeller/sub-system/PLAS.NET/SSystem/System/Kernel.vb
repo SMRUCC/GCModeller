@@ -185,7 +185,7 @@ Namespace Kernel
                 Call __engine.Functions.Add(declares.Declaration)
             Next
             For Each __const In script.Constant.SafeQuery
-                Call __engine.Constant.Add(__const.Name, __const.x)
+                Call __engine.Constant.Add(__const.Name, __const.Value)
             Next
 
             For Each x As var In Vars

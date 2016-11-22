@@ -11,7 +11,7 @@ Namespace Assembly.NCBI.Taxonomy
             Dim taxids As BucketDictionary(Of String, Integer) =
                 ReadFile(acc2taxid) _
                 .CreateBuckets(Function(x) x.Name,
-                               Function(x) x.x)
+                               Function(x) x.Value)
             Return Function(acc$) If(taxids.ContainsKey(acc), taxids(acc), -1)
         End Function
 

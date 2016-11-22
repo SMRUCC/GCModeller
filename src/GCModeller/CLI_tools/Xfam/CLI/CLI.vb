@@ -137,11 +137,11 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
             Dim noParallel As Boolean = args.GetBoolean("/no_parallel")
 
             If noParallel Then
-                Call lstFiles.ToArray(Function(x) __batchExportOpr(inFile:=x.x))
+                Call lstFiles.ToArray(Function(x) __batchExportOpr(inFile:=x.Value))
             Else
                 Call BatchTask(lstFiles,
                                getExe:=getThis,
-                               getCLI:=Function(x) $"/Export.Blastn /in {x.x.CLIPath}",
+                               getCLI:=Function(x) $"/Export.Blastn /in {x.Value.CLIPath}",
                                numThreads:=num_threads,
                                TimeInterval:=100)
             End If
@@ -149,7 +149,7 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
             Dim LQuery = From file As NamedValue(Of String)
                          In lstFiles
                          Select Id = file.Name,
-                             blastn = BlastPlus.Parser.TryParse(file.x)
+                             blastn = BlastPlus.Parser.TryParse(file.Value)
             Dim Exports = (From file In LQuery.AsParallel
                            Let exportData = MapsAPI.Export(file.blastn)
                            Let path As String = $"{out}/{file.Id}.csv"

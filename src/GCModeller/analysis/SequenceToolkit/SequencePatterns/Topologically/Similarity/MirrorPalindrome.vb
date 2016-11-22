@@ -97,14 +97,14 @@ Namespace Topologically.SimilarityMatches
                           In Locations
                           Let ml As NamedValue(Of Integer) =
                               __haveMirror(l, loci, Mirror, Sequence, cut, maxDist)
-                          Where ml.x > -1
+                          Where ml.Value > -1
                           Select loci,
                               ml).ToArray
             Return Result.ToArray(
                 Function(site) New PalindromeLoci With {
                     .Loci = Segment,
                     .Start = site.loci,
-                    .PalEnd = site.ml.x,
+                    .PalEnd = site.ml.Value,
                     .Palindrome = site.ml.Name,
                     .MirrorSite = Mirror
                 })

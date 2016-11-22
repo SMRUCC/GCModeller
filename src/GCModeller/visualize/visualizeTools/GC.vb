@@ -95,21 +95,21 @@ Public Module GCPlot
             In mal
             Select New NamedValue(Of Double()) With {
                 .Name = seq.Title,
-                .x = cal(seq, winSize, steps, isCircle)
+                .Value = cal(seq, winSize, steps, isCircle)
             }
 
         Dim tick As New Font(FontFace.SegoeUI, 12)
         Dim label As New Font(FontFace.MicrosoftYaHei, 8)
         Dim v%() = ntArray _
-            .Select(Function(s) s.x) _
+            .Select(Function(s) s.Value) _
             .IteratesALL _
             .GenerateMapping(levels, offset:=0)
         Dim lvMAT As NamedValue(Of Integer())() = v _
-            .Split(ntArray(Scan0).x.Length) _
+            .Split(ntArray(Scan0).Value.Length) _
             .SeqIterator _
             .ToArray(Function(i) New NamedValue(Of Integer()) With {
                 .Name = ntArray(i).Name,
-                .x = i.obj
+                .Value = i.obj
             })
         Dim mapColors As Color() = New ColorMap(levels * 2 + 1) _
             .ColorSequence(colors)
@@ -133,7 +133,7 @@ Public Module GCPlot
 
                 Dim plotWidth = grect.PlotRegion.Width
                 Dim y! = margin.Height
-                Dim deltaX! = plotWidth / lvMAT(Scan0).x.Length
+                Dim deltaX! = plotWidth / lvMAT(Scan0).Value.Length
                 Dim deltaY! = grect.PlotRegion.Height / lvMAT.Length
                 Dim plotTick As Boolean = True
 
@@ -142,7 +142,7 @@ Public Module GCPlot
                     Dim x! = margin.Width
                     Dim bp% = 1
 
-                    For Each d As Integer In line.x
+                    For Each d As Integer In line.Value
                         If d > mapColors.Length - 1 Then
                             d = mapColors.Length - 1
                         End If

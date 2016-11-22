@@ -157,7 +157,7 @@ Namespace Assembly.NCBI.GenBank
             Dim out = LQuery.Select(
                 Function(o) New NamedValue(Of String) With {
                     .Name = o.ID,
-                    .x = o.Group.First.path
+                    .Value = o.Group.First.path
                 }).ToDictionary()
             Return out
         End Function

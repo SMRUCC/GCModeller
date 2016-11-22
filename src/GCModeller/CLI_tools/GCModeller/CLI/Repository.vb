@@ -147,7 +147,7 @@ Partial Module CLI
         Dim exp = expressions _
             .Select(Function(x) New NamedValue(Of Expression) With {
                 .Name = x.Name,
-                .x = x.Expression.Build
+                .Value = x.Expression.Build
             }).ToDictionary
         Dim break% = args.GetValue("/break", 60)
 
@@ -223,12 +223,12 @@ Partial Module CLI
         Dim simple As Boolean = args.GetBoolean("/simple")
 
         If [in].FileExists Then
-            list += [in].ReadAllLines.Select(Function(s) s.GetTagValue(vbTab).x)
+            list += [in].ReadAllLines.Select(Function(s) s.GetTagValue(vbTab).Value)
         Else
             For Each file$ In ls - l - r - wildcards("*.txt") <= [in]
                 list += file$ _
                     .ReadAllLines _
-                    .Select(Function(s) s.GetTagValue(vbTab).x)
+                    .Select(Function(s) s.GetTagValue(vbTab).Value)
                 Call file.__DEBUG_ECHO
             Next
         End If
@@ -337,7 +337,7 @@ Partial Module CLI
 
             output += New NamedValue(Of String()) With {
                 .Name = String.Join(" ", common),
-                .x = cluster.ToArray(Function(x) x.uid)
+                .Value = cluster.ToArray(Function(x) x.uid)
             }
         Next
 

@@ -78,7 +78,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.v226
 
             Return New NamedValue(Of Integer) With {
                 .Name = Trim(NameBuilder.ToString),
-                .x = Length
+                .Value = Length
             }
         End Function
 

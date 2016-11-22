@@ -309,7 +309,7 @@ Namespace Analysis
                 Dim tagId As String = x.tag
 
                 If gbEntry.ContainsKey(tagId) Then
-                    Dim path As String = gbEntry(tagId).x
+                    Dim path As String = gbEntry(tagId).Value
                     Dim ext As String = FileIO.FileSystem.GetFileInfo(path).Extension
                     Dim cppath As String = copyTo & "/" & tagId & ext
 

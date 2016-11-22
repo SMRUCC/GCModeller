@@ -74,7 +74,7 @@ Partial Module CLI
             (From data As NamedValue(Of RegPreciseOperon())
              In BatchQueue.ReadQueue(Of RegPreciseOperon)(regulons)
              Let name As String = data.Name
-             Let buf As RegPreciseOperon() = data.x
+             Let buf As RegPreciseOperon() = data.Value
              Let datahash As Dictionary(Of String, RegPreciseOperon()) = (From x As RegPreciseOperon
                                                                           In buf
                                                                           Select x
@@ -104,7 +104,7 @@ Partial Module CLI
             (From file As NamedValue(Of MotifLog())
              In BatchQueue.ReadQueue(Of MotifLog)(masts)
              Let name As String = file.Name
-             Let data As IEnumerable(Of MotifLog) = file.x
+             Let data As IEnumerable(Of MotifLog) = file.Value
              Let datahash As Dictionary(Of String, Dictionary(Of String, MotifLog())) =
                  (From x As MotifLog
                   In data

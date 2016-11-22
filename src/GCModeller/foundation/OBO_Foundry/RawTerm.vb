@@ -39,7 +39,7 @@ Public Structure RawTerm
     Public Property data As NamedValue(Of String())()
 
     Public Function GetData() As Dictionary(Of String, String())
-        Return data.ToDictionary(Function(x) x.Name, Function(x) x.x)
+        Return data.ToDictionary(Function(x) x.Name, Function(x) x.Value)
     End Function
 
     Public Overrides Function ToString() As String

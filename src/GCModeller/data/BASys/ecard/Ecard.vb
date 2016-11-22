@@ -196,7 +196,7 @@ Public Structure Value
             hash = values.Select(
                 Function(s) s.GetTagValue(vbTab)).ToDictionary(
                 Function(x) x.Name,
-                Function(x) x.x)
+                Function(x) x.Value)
         ElseIf type.TextEquals("SimpleArray") Then
             array = values
         Else

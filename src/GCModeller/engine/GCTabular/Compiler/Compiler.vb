@@ -146,7 +146,7 @@ Namespace Compiler
 
             Call _Logging.WriteLine("[DEBUG] Here is the compile arguments list that user input:" & vbCrLf)
             For Each item As NamedValue(Of String) In ModelProperty
-                Call _Logging.WriteLine(String.Format("{0} --> {1}", item.Name, item.x))
+                Call _Logging.WriteLine(String.Format("{0} --> {1}", item.Name, item.Value))
             Next
 
             '     MyBase.CompiledModel.ChipData = New Microsoft.VisualBasic.ComponentModel.Href With {.Value = ModelProperty("-chipdata")}

@@ -88,7 +88,7 @@ Namespace Script
 
             Return New NamedValue(Of List(Of SEquation)) With {
                 .Name = sb.ToString,
-                .x = out
+                .Value = out
             }
         End Function
 
@@ -103,7 +103,7 @@ Namespace Script
             If Not String.IsNullOrEmpty(checked.Name) Then  ' 检测的结果有错误
                 Call printf("Trying to fix these problems.\n-----------------------------")
 
-                For Each Var As SEquation In checked.x
+                For Each Var As SEquation In checked.Value
                     CompiledModel += New var With {
                         .UniqueId = Var.x,
                         .Value = 0

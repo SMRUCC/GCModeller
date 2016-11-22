@@ -75,7 +75,7 @@ Namespace Kernel.ObjectModels
 
             Return New var With {
                 .UniqueId = tokens.Name,
-                .Value = val.Evaluation(tokens.x)
+                .Value = val.Evaluation(tokens.Value)
             }
         End Function
 
@@ -90,7 +90,7 @@ Namespace Kernel.ObjectModels
 
             Return New var With {
                 .UniqueId = Token.Name,
-                .Value = Val(Token.x)
+                .Value = Val(Token.Value)
             }
         End Operator
     End Class

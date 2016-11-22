@@ -78,7 +78,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Let Value As String = RegexReplace(strValue.Replace(Key, ""), WebForm.HtmlFormatControl)
                 Select New NamedValue(Of String()) With {
                     .Name = Key.GetValue,
-                    .x = {Value.TrimNewLine, strValue}
+                    .Value = {Value.TrimNewLine, strValue}
                 }
             Dim allKeys As IEnumerable(Of String) = From item As NamedValue(Of String())
                                                     In fields
@@ -92,8 +92,8 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                     In fields
                     Where String.Equals(Key, item.Name)
                     Select New NamedValue(Of String) With {
-                        .Name = item.x(Scan0),
-                        .x = item.x(1)
+                        .Name = item.Value(Scan0),
+                        .Value = item.Value(1)
                     }
 
                 Call _strData.Add(Key, vals)
@@ -180,7 +180,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <remarks></remarks>
         Public Function GetValue(KeyWord As String) As String()
             If _strData.ContainsKey(KeyWord) Then
-                Return _strData.Item(KeyWord).ToArray(Function(x) x.x)
+                Return _strData.Item(KeyWord).ToArray(Function(x) x.Value)
             Else
                 Return New String() {""}
             End If
@@ -188,7 +188,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
         Public Function GetRaw(Keyword As String) As String()
             If _strData.ContainsKey(Keyword) Then
-                Return _strData.Item(Keyword).ToArray(Function(x) x.x)
+                Return _strData.Item(Keyword).ToArray(Function(x) x.Value)
             Else
                 Return New String() {""}
             End If
@@ -222,7 +222,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, String())) Implements IEnumerable(Of KeyValuePair(Of String, String())).GetEnumerator
             For Each Item As KeyValuePair(Of String, NamedValue(Of String)()) In Me._strData
-                Yield New KeyValuePair(Of String, String())(Item.Key, Item.Value.ToArray(Function(obj) obj.x))
+                Yield New KeyValuePair(Of String, String())(Item.Key, Item.Value.ToArray(Function(obj) obj.Value))
             Next
         End Function
 
@@ -251,7 +251,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Public Function TryGetValue(key As String, ByRef value As String()) As Boolean Implements IReadOnlyDictionary(Of String, String()).TryGetValue
             Dim raw As NamedValue(Of String)() = Nothing
             Dim f As Boolean = _strData.TryGetValue(key, raw)
-            value = raw.ToArray(Function(obj) obj.x)
+            value = raw.ToArray(Function(obj) obj.Value)
             Return f
         End Function
 

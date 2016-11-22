@@ -51,7 +51,7 @@ Namespace DAG
         End Sub
 
         Public Overrides Function ToString() As String
-            Dim refs As String = ref.ToArray(Function(x) $"{x.Name}:{x.x}").JoinBy(", ")
+            Dim refs As String = ref.ToArray(Function(x) $"{x.Name}:{x.Value}").JoinBy(", ")
             Return $"def: ""{def}"" [{refs}]"
         End Function
     End Structure
@@ -70,7 +70,7 @@ Namespace DAG
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"synonym: ""{name}"" {type} [{synonym.Name}:{synonym.x}]"
+            Return $"synonym: ""{name}"" {type} [{synonym.Name}:{synonym.Value}]"
         End Function
     End Structure
 End Namespace

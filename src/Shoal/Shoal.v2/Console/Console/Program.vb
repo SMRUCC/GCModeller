@@ -97,7 +97,7 @@ Program files and source code was distributed under the GPL3 Licensed to "{3}", 
         Call ScriptEngine.Imports(GetType(InternalCommands))
 
         For Each item In args
-            Call ScriptEngine.MMUDevice.WriteMemory(item.Name, item.x)
+            Call ScriptEngine.MMUDevice.WriteMemory(item.Name, item.Value)
         Next
 
         Dim currentWork As String = My.Computer.FileSystem.CurrentDirectory

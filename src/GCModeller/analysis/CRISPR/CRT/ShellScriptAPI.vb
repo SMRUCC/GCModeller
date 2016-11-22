@@ -199,7 +199,7 @@ Public Module ShellScriptAPI
         Dim Data As New List(Of GenomeScanResult)
 
         For Each Path In LoadGbkSource(source).Values
-            Dim seq = FastaToken.LoadNucleotideData(Path.x)
+            Dim seq = FastaToken.LoadNucleotideData(Path.Value)
             If seq Is Nothing Then
                 Continue For
             End If
