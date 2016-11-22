@@ -62,7 +62,7 @@ Public Class SchemaCache
             Dim LQuery As String =
                 LinqAPI.DefaultFirst(Of String) <= From type As NamedValue(Of Type)
                                                    In TypeMapping.Values
-                                                   Where type.x = MyType
+                                                   Where type.Value = MyType
                                                    Select type.Name
 
             If String.IsNullOrEmpty(LQuery) Then

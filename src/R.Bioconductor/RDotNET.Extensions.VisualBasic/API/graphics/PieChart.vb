@@ -50,7 +50,7 @@ Namespace API.Graphics
                               <Parameter("Path.Save")> Optional SaveTo As String = "./pie.png") As Boolean
 
             Call $"# Simple Pie Chart
-slices <- c({String.Join(", ", (From n In slices Select CStr(n.x)).ToArray)})
+slices <- c({String.Join(", ", (From n In slices Select CStr(n.Value)).ToArray)})
 lbls   <- c({String.Join(", ", (From n In slices Select $"""{n.Name}""").ToArray)})
 {GraphicsDevice.tiff(plot:=$"pie(slices, labels = lbls, main=""{Title}"")", filename:=SaveTo, width:=3000, height:=2500)}".__call
             Return True
@@ -65,7 +65,7 @@ lbls   <- c({String.Join(", ", (From n In slices Select $"""{n.Name}""").ToArray
                 In df.Skip(1).AsParallel
                 Select New NamedValue(Of Double) With {
                     .Name = row(0),
-                    .x = Val(row(1))
+                    .Value = Val(row(1))
                 }
 
             Return LQuery
@@ -82,7 +82,7 @@ lbls   <- c({String.Join(", ", (From n In slices Select $"""{n.Name}""").ToArray
                     value As Double = Val(InputHandler.ToString(values(1)))
                 Select New NamedValue(Of Double) With {
                     .Name = name,
-                    .x = value
+                    .Value = value
                 }
 
             Return LQuery

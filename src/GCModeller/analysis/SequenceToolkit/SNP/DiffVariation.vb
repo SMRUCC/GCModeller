@@ -83,7 +83,7 @@ Public Module DiffVariation
                     .i = i.i,
                     .obj = New NamedValue(Of Integer) With {
                         .Name = nts(i.i).ToString,
-                        .x = b
+                        .Value = b
                     }
                 }
             Next
@@ -141,7 +141,7 @@ Public Module DiffVariation
                 Dim ind As Integer = i
                 Dim d As Integer = (From x As KSeq
                                     In ar
-                                    Let b = x.Diffs(ind).x
+                                    Let b = x.Diffs(ind).Value
                                     Where b <> 0
                                     Select 1).Count ' 当前月的突变序列数量
 

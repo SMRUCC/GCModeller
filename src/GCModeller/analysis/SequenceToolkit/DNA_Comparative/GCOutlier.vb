@@ -73,7 +73,7 @@ Public Module GCOutlier
                                      Optional method As NtProperty = Nothing) As IEnumerable(Of lociX)
 
         Dim data As NamedValue(Of Double())() = GCData(mla, winsize, steps, method)
-        Dim iSeq As Integer() = data(Scan0).x.Sequence.ToArray
+        Dim iSeq As Integer() = data(Scan0).Value.Sequence.ToArray
         Dim seq As lociX()() = New lociX(slideSize - 1)() {}
 
         For i As Integer = 0 To slideSize - 1
@@ -95,7 +95,7 @@ Public Module GCOutlier
                 Dim a As lociX() = seq(i.i)
 
                 For Each x In data.SeqIterator
-                    a(x.i).value = x.obj.x(i.obj)
+                    a(x.i).value = x.obj.Value(i.obj)
                     a(x.i).loci = i.obj
                 Next
 

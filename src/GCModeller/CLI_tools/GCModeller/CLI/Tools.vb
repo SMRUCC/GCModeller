@@ -69,7 +69,7 @@ Partial Module CLI
             Where Not def Is Nothing
             Select New NamedValue(Of PackageNamespace) With {
                 .Name = exe.BaseName,
-                .x = GetEntry(def)
+                .Value = GetEntry(def)
             }
 
         Dim exeMAX As Integer = (From x In types Select Len(x.Name)).Max + 5
@@ -87,7 +87,7 @@ Partial Module CLI
         For Each x In types
             Dim exePrint As String = " " & x.Name & New String(" "c, exeMAX - Len(x.Name))
             Dim lines$() = Paragraph _
-                .Split(x.x.Description, 60) _
+                .Split(x.Value.Description, 60) _
                 .ToArray
 
             Console.WriteLine("{0}{1}", exePrint, lines.FirstOrDefault)
@@ -166,7 +166,7 @@ date: {Now.ToString}
             .BatchSearch(arguments.Select(
                 Function(x) New NamedValue(Of String) With {
                     .Name = x.Name,
-                    .x = x.Expression
+                    .Value = x.Expression
                 }), out)
     End Function
 End Module

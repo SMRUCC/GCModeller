@@ -56,7 +56,7 @@ Public Class ID
     Sub New(raw As String)
         Dim value As NamedValue(Of String) = raw.GetTagValue(":")
 
-        Me.sId = value.x
+        Me.sId = value.Value
         Me.Type = StringTypes.TryGetValue(value.Name, Types.Unknown)
     End Sub
 

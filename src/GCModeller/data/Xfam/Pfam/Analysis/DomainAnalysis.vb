@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::e982107d4a48bfa979df8d03e7abb32b, ..\GCModeller\analysis\Xfam\Pfam\Analysis\DomainAnalysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -43,6 +43,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure
 
 <[PackageNamespace]("Pfam.Domain.Analysis",
                     Publisher:="xie.guigang@gcmodeller.org",
@@ -187,7 +188,7 @@ Public Module DomainAnalysis
                                              identities:=identities,
                                              offset:=offset))
 #Else
-        result = blast_output.Queries.ToArray(Function(queryHits) ToPfamString(queryHits), Parallel:=True)
+        result = blast_output.Queries.ToArray(Function(queryHits) ToPfamString(queryHits), parallel:=True)
 #End If
         If query.IsNullOrEmpty Then
             Return result
@@ -298,12 +299,11 @@ Public Module DomainAnalysis
 
             Dim SequenceData As String = Mid(sequence.SequenceData, currentDomain_p, nextDomain_p - currentDomain_p)
             Dim ss = SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman.Calculate(SequenceData)
-            Dim doData As SMRUCC.genomics.ProteinModel.DomainObject =
-                New DomainObject With {
-                    .Identifier = $"[{New String((From aa As SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.AminoAcid
-                                                  In ss
-                                                  Select aa.StructureChar).ToArray)}]",
-                    .Position = New ComponentModel.Loci.Location(currentDomain_p, nextDomain_p)
+            Dim doData As New DomainObject With {
+                .Identifier = $"[{New String((From aa As AminoAcid
+                                              In ss
+                                              Select aa.StructureChar).ToArray)}]",
+                .Position = New ComponentModel.Loci.Location(currentDomain_p, nextDomain_p)
             }
 
             Call ChunkBuffer.Add(doData)
@@ -353,17 +353,19 @@ Public Module DomainAnalysis
             }
         End If
 
-        Dim Domains As DomainModel() = DomainParser.Parser(QueryIteration,
-                                                           evalue:=evalue,
-                                                           coverage:=coverage,
-                                                           identities:=identities,
-                                                           offset:=offset)
-        Dim Protein As PfamString.PfamString = New PfamString.PfamString With {
-                .ProteinId = locusId,
-                .Description = Description,
-                .Length = QueryIteration.QueryLength,
-                .Domains = (From item In Domains Select $"{item.DomainId}:{item.DomainId}" Distinct).ToArray,
-                .PfamString = Domains.ToArray(Function(x) $"{x.DomainId}({x.Location.Left}|{x.Location.Right})").Distinct.ToArray}
+        Dim Domains As DomainModel() = DomainParser.Parser(
+            QueryIteration,
+            evalue:=evalue,
+            coverage:=coverage,
+            identities:=identities,
+            offset:=offset)
+        Dim Protein As New PfamString.PfamString With {
+            .ProteinId = locusId,
+            .Description = Description,
+            .Length = QueryIteration.QueryLength,
+            .Domains = (From d In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
+            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.Start}|{x.End})").Distinct.ToArray
+        }
         Return Protein
     End Function
 

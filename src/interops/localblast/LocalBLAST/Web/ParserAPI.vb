@@ -77,7 +77,7 @@ Namespace NCBIBlastResult
                 .Skip(1) _
                 .Select(Function(s) s.GetTagValue(": ")) _
                 .ToDictionary(Function(x) x.Name,
-                              Function(x) x.x)
+                              Function(x) x.Value)
 
             If headerSplit Then
                 hits = hits _
@@ -169,15 +169,15 @@ Namespace NCBIBlastResult
                     Not XOutput.Queries.IsNullOrEmpty
                 Select New NamedValue(Of v228) With {
                     .Name = path.BaseName,
-                    .x = XOutput
+                    .Value = XOutput
                 }
 
-            Dim LQuery As HitRecord() = (From file In Files Select __createFromBlastn(file.Name, file.x)).ToVector
+            Dim LQuery As HitRecord() = (From file In Files Select __createFromBlastn(file.Name, file.Value)).ToVector
             Dim Tab As New AlignmentTable With {
                 .Hits = LQuery,
                 .Query = (From file As NamedValue(Of v228)
                           In Files
-                          Let Q As Query() = file.x.Queries
+                          Let Q As Query() = file.Value.Queries
                           Where Not Q.IsNullOrEmpty
                           Select Q.First.QueryName).FirstOrDefault,
                 .RID = Now.ToShortDateString,

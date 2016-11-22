@@ -79,7 +79,7 @@ Namespace xref2go
  _
                 From s As NamedValue(Of String)
                 In reads.AsParallel
-                Let Tokens As String() = Strings.Split(s.x, " ; ")
+                Let Tokens As String() = Strings.Split(s.Value, " ; ")
                 Let annotation As String = Tokens(0)
                 Let id As String = Tokens(1)
                 Select New ToGo(Of uid) With {

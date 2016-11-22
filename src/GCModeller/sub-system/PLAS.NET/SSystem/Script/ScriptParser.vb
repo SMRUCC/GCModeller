@@ -47,7 +47,7 @@ Namespace Script
             Dim value = x.TokenValue.GetTagValue("=")
             Return New SEquation With {
                 .x = value.Name,
-                .Expression = value.x
+                .Expression = value.Value
             }
         End Function
 
@@ -112,7 +112,7 @@ Namespace Script
                 {})
 
             For Each x As NamedValue(Of String) In c
-                Call val.Constant.Add(x.Name, expr:=x.x)
+                Call val.Constant.Add(x.Name, expr:=x.Value)
             Next
 
             Dim inits = typeTokens(Script.Tokens.InitValue).ToArray(Function(x) var.TryParse(x.Text, val))
@@ -212,7 +212,7 @@ Namespace Script
                 .GetTagValue("'", failureNoName:=False).Name _
                 .GetTagValue("//", failureNoName:=False).Name
             Return New NamedValue(Of String) With {
-                .x = expr,
+                .Value = expr,
                 .Name = name
             }
         End Function

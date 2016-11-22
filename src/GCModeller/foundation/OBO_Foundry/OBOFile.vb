@@ -250,7 +250,7 @@ Public Class OBOFile : Implements IDisposable
                 In g
                 Select New NamedValue(Of String()) With {
                     .Name = x.id,
-                    .x = x.Group.ToArray(Function(o) o.x)
+                    .Value = x.Group.ToArray(Function(o) o.Value)
                 }
 
             Yield New RawTerm With {

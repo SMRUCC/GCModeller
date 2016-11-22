@@ -118,7 +118,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Call sbr.Append($"     {feature.KeyName}{New String(" ", __lenBlank - 6 - feature.KeyName.Length)} {feature.Location.ToString}")
             Call sbr.AppendLine()
             For Each q In feature.PairedValues
-                Call sbr.Append(__qualifierFormats($"/{q.Name}=""{q.x}"""))
+                Call sbr.Append(__qualifierFormats($"/{q.Name}=""{q.Value}"""))
             Next
 
             Return sbr.ToString

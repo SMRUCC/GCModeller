@@ -82,14 +82,14 @@ Public Class QueryEngine
                  For Each exp In query.Values
                      Dim LQuery = From x As NamedValue(Of String)
                                   In title.EnumerateTitles.AsParallel
-                                  Where exp.x.Evaluate(def, x)
+                                  Where exp.Value.Evaluate(def, x)
                                   Select x
                      Dim file As StreamWriter = writer(exp.Name)
 
                      For Each m As NamedValue(Of String) In LQuery
                          Dim seq$ = index.ReadNT_by_gi(gi:=m.Name)
                          Dim fa As New FastaToken With {
-                             .Attributes = {"gi", m.Name, m.x},
+                             .Attributes = {"gi", m.Name, m.Value},
                              .SequenceData = seq
                          }
                          Dim line$ = fa.GenerateDocument(lineBreak)
@@ -127,7 +127,7 @@ Public Class QueryEngine
                 .ReadNT_by_gi(gi:=x.Name)
 
             Yield New FastaToken With {
-                .Attributes = {"gi", x.Name, x.x},
+                .Attributes = {"gi", x.Name, x.Value},
                 .SequenceData = seq
             }
         Next

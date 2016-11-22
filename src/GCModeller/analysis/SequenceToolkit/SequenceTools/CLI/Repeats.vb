@@ -68,11 +68,11 @@ Partial Module Utilities
             Dim result As New List(Of RepeatsView)
 
             For Each part In loci.RangeSelects([in].RequestFiles(Of RepeatsView))
-                For Each x In part.x
+                For Each x In part.Value
                     x.Data.Add("seq", part.Name)
                 Next
 
-                result += part.x
+                result += part.Value
             Next
 
             Return result.SaveTo(out).CLICode
@@ -81,11 +81,11 @@ Partial Module Utilities
             Dim result As New List(Of RevRepeatsView)
 
             For Each part In loci.RangeSelects([in].RequestFiles(Of RevRepeatsView))
-                For Each x In part.x
+                For Each x In part.Value
                     x.Data.Add("seq", part.Name)
                 Next
 
-                result += part.x
+                result += part.Value
             Next
 
             Return result.SaveTo(out).CLICode
@@ -94,11 +94,11 @@ Partial Module Utilities
             Dim result As New List(Of PalindromeLoci)
 
             For Each part In loci.RangeSelects([in].RequestFiles(Of PalindromeLoci))
-                For Each x In part.x
+                For Each x In part.Value
                     x.Data.Add("seq", part.Name)
                 Next
 
-                result += part.x
+                result += part.Value
             Next
 
             Return result.SaveTo(out).CLICode
@@ -107,11 +107,11 @@ Partial Module Utilities
             Dim result As New List(Of ImperfectPalindrome)
 
             For Each part In loci.RangeSelects([in].RequestFiles(Of ImperfectPalindrome))
-                For Each x In part.x
+                For Each x In part.Value
                     x.Data.Add("seq", part.Name)
                 Next
 
-                result += part.x
+                result += part.Value
             Next
 
             Return result.SaveTo(out).CLICode

@@ -79,9 +79,9 @@ Namespace Topologically.SimilarityMatches
                              Group By obj.Name Into Group)
             Dim SeedsData = (From seed In initSeeds
                              Select seed.Name,
-                                 seed.Group.First.x) _
+                                 seed.Group.First.Value) _
                                    .ToDictionary(Function(obj) obj.Name,
-                                                 Function(obj) obj.x)
+                                                 Function(obj) obj.Value)
             Dim Seeds = (From obj In SeedsData Select obj.Key).ToArray
             Dim setValue As New SetValue(Of LociMatchedResult)
             Dim Repeats As LociMatchedResult() =
@@ -200,7 +200,7 @@ Namespace Topologically.SimilarityMatches
                                                 Select obj
                                                 Group By obj.Name Into Group) _
                                                     .ToDictionary(Function(obj) obj.Name,
-                                                                  Function(obj) obj.Group.First.x)
+                                                                  Function(obj) obj.Group.First.Value)
                            Let InternalSeedsSegment As String() = (From obj In InternalSeeds Select obj.Key).ToArray
                            Select InternalSeeds,
                                Loci,
@@ -261,7 +261,7 @@ Namespace Topologically.SimilarityMatches
                                                 Select obj
                                                 Group By obj.Name Into Group) _
                                                       .ToDictionary(Function(obj) obj.Name,
-                                                                    Function(obj) obj.Group.First.x)
+                                                                    Function(obj) obj.Group.First.Value)
                            Let InternalSeedsSegment As String() = (From obj In InternalSeeds Select obj.Key).ToArray
                            Select InternalSeeds,
                                Loci,

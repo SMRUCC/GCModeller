@@ -38,7 +38,7 @@ Namespace Metagenomics
             Dim out As New Dictionary(Of String, String)
 
             For Each x As NamedValue(Of String) In catalogs
-                Dim name$ = x.x
+                Dim name$ = x.Value
 
                 Select Case x.Name
                     Case "k" : Call out.Add(NcbiTaxonomyTree.superkingdom, name)
@@ -69,7 +69,7 @@ Namespace Metagenomics
 
             For Each x As NamedValue(Of String) In catalogs
                 If Array.IndexOf(BIOMPrefixAlt, x.Name) > -1 Then
-                    Call out.Add(x.Name, x.x)
+                    Call out.Add(x.Name, x.Value)
                 End If
             Next
 

@@ -49,7 +49,7 @@ Namespace DAG
             ParserDictionary(Of OntologyRelations)()
 
         Public Overrides Function ToString() As String
-            Return $"relationship: {type.ToString} {parent.Name}:{parent.x} ! {parentName}"
+            Return $"relationship: {type.ToString} {parent.Name}:{parent.Value} ! {parentName}"
         End Function
     End Structure
 

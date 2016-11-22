@@ -102,7 +102,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 From profileData As NamedValue(Of String)
                 In __innerList
                 Where String.Equals(profileData.Name, key)
-                Select profileData.x
+                Select profileData.Value
 
             Return LQuery
         End Function
@@ -144,7 +144,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 From pairedObj As NamedValue(Of String)
                 In __innerList
                 Where String.Equals(pairedObj.Name, key)
-                Select pairedObj.x '
+                Select pairedObj.Value '
             Return LQuery
         End Function
 
@@ -209,7 +209,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 If keyName = __innerList(i).Name Then
                     __innerList(i) = New NamedValue(Of String) With {
                         .Name = keyName,
-                        .x = value
+                        .Value = value
                     }
 
                     Return Me
@@ -233,7 +233,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Sub
 
         Public Function Contains(item As KeyValuePair(Of String, String)) As Boolean Implements ICollection(Of KeyValuePair(Of String, String)).Contains
-            Dim LQuery = (From n In __innerList Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.x) Select n.Name).FirstOrDefault
+            Dim LQuery = (From n In __innerList Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n.Name).FirstOrDefault
             Return Not LQuery Is Nothing
         End Function
 
@@ -258,7 +258,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Property
 
         Public Function Remove(item As KeyValuePair(Of String, String)) As Boolean Implements ICollection(Of KeyValuePair(Of String, String)).Remove
-            Dim LQuery = (From n In __innerList Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.x) Select n).ToArray
+            Dim LQuery = (From n In __innerList Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n).ToArray
             For Each n In LQuery
                 Call __innerList.Remove(n)
             Next
@@ -333,13 +333,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public ReadOnly Property Values As ICollection(Of String) Implements IDictionary(Of String, String).Values
             Get
-                Return (From item In __innerList Select item.x).ToArray
+                Return (From item In __innerList Select item.Value).ToArray
             End Get
         End Property
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, String)) Implements IEnumerable(Of KeyValuePair(Of String, String)).GetEnumerator
             For Each Item As NamedValue(Of String) In __innerList
-                Yield New KeyValuePair(Of String, String)(Item.Name, Item.x)
+                Yield New KeyValuePair(Of String, String)(Item.Name, Item.Value)
             Next
         End Function
 

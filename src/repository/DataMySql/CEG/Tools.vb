@@ -152,7 +152,7 @@ Namespace CEG
                           Let EntryData = InternalGetPttData(Bacteria.Path)
                           Let ClusterData = (From Entry As PathEntry
                                              In EntryData
-                                             Let Nt As FastaToken = FastaToken.Load(Entry.x)
+                                             Let Nt As FastaToken = FastaToken.Load(Entry.Value)
                                              Let Ptt = TabularFormat.PTT.Load(Entry.Name)
                                              Let Cluster = Function() As EssentialGeneCluster()
                                                                Try
@@ -234,13 +234,13 @@ Namespace CEG
             Dim LQuery = (From g
                           In Data
                           Let InternalCreateData = Function() As PathEntry
-                                                       Dim Ptt = (From Entry As PathEntry In g.Group.ToArray Where String.Equals(Entry.x.Split(CChar(".")).Last, "ptt", StringComparison.OrdinalIgnoreCase) Select Entry).ToArray
-                                                       Dim Fna = (From Entry As PathEntry In g.Group.ToArray Where String.Equals(Entry.x.Split(CChar(".")).Last, "fna", StringComparison.OrdinalIgnoreCase) Select Entry).ToArray
+                                                       Dim Ptt = (From Entry As PathEntry In g.Group.ToArray Where String.Equals(Entry.Value.Split(CChar(".")).Last, "ptt", StringComparison.OrdinalIgnoreCase) Select Entry).ToArray
+                                                       Dim Fna = (From Entry As PathEntry In g.Group.ToArray Where String.Equals(Entry.Value.Split(CChar(".")).Last, "fna", StringComparison.OrdinalIgnoreCase) Select Entry).ToArray
 
                                                        If Ptt.IsNullOrEmpty OrElse Fna.IsNullOrEmpty Then
                                                            Return Nothing
                                                        Else
-                                                           Return New PathEntry(Ptt.First.x, Fna.First.x)
+                                                           Return New PathEntry(Ptt.First.Value, Fna.First.Value)
                                                        End If
 
                                                    End Function()

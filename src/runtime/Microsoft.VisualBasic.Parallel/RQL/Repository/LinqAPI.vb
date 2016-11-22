@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports System.Collections.Specialized
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComputingServices.TaskHost
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.SecurityString.MD5Hash
@@ -55,7 +56,7 @@ Namespace Linq
         ''' </summary>
         ''' <param name="args">uid,n</param>
         ''' <returns></returns>
-        Public Function MoveNext(args As Dictionary(Of String, String)) As String
+        Public Function MoveNext(args As NameValueCollection) As String
             Dim uid As String = args(LinqAPI.uid)
             Dim n As Integer = Scripting.CastInteger(args(LinqAPI.n))
             Dim linq As LinqProvider = GetLinq(__uidMaps(uid))
@@ -69,7 +70,7 @@ Namespace Linq
         ''' </summary>
         ''' <param name="args"></param>
         ''' <returns></returns>
-        Public Overloads Function Free(args As Dictionary(Of String, String)) As String
+        Public Overloads Function Free(args As NameValueCollection) As String
             Dim uid As String = args(LinqAPI.uid)
             Call MyBase.Free(__uidMaps(uid))
             Call __uidMaps.Remove(uid)

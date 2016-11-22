@@ -94,7 +94,7 @@ Public Class Prefix
             Dim ActionsLQuery As Action() =
                 LinqAPI.Exec(Of Action) <= From token As NamedValue(Of String)
                                            In ARGV
-                                           Let Action As Action = PreifxActions(token.Name)(arg:=token.x)
+                                           Let Action As Action = PreifxActions(token.Name)(arg:=token.Value)
                                            Select Action
             Return ActionsLQuery
         End Function

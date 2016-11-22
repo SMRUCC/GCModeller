@@ -37,7 +37,7 @@ Public Module Extensions
         Try
             For Each query In arguments
                 Dim path$ = out & $"/{query.Name.NormalizePathString}.fasta"
-                Call expressions.Add(query.x.Build,
+                Call expressions.Add(query.Value.Build,
                                      path.OpenWriter(Encodings.ASCII))
             Next
         Catch ex As Exception

@@ -72,7 +72,7 @@ Namespace SequenceModel.NucleotideModels
                 In LQuery
                 Select New NamedValue(Of Double()) With {
                     .Name = g.genome.obj.ToString,
-                    .x = g.skew
+                    .Value = g.skew
                 }
         End Function
 

@@ -41,7 +41,7 @@ Public Module LociFilter
         For Each part As NamedValue(Of T()) In data
             Dim out As New List(Of T)
 
-            For Each x As T In part.x
+            For Each x As T In part.Value
                 If range.InsideAny(lociProvider(x)) Then
                     Call out.Add(x)
                 End If
@@ -49,7 +49,7 @@ Public Module LociFilter
 
             Yield New NamedValue(Of T()) With {
                 .Name = part.Name,
-                .x = out
+                .Value = out
             }
         Next
     End Function

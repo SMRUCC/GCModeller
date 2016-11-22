@@ -306,7 +306,7 @@ Namespace Interpreter
         End Function
 
         Private Function __arg(arg As NamedValue(Of String)) As KeyValuePair(Of String, InternalExpression)
-            Return New KeyValuePair(Of String, InternalExpression)(arg.Name, New InternalExpression(arg.x))
+            Return New KeyValuePair(Of String, InternalExpression)(arg.Name, New InternalExpression(arg.Value))
         End Function
 
         Public Function TryParseWiki(Expression As String, Tokens As Parser.Tokens.Token()) As LDM.Expressions.Keywords.Wiki
@@ -926,8 +926,8 @@ Namespace Interpreter
                 For Each obj In CommandLine
                     Dim pName As Parser.Tokens.ParameterName
 
-                    If Not obj.x Is Nothing AndAlso
-                        obj.x.GetType.Equals(GetType(Boolean)) AndAlso
+                    If Not obj.Value Is Nothing AndAlso
+                        obj.Value.GetType.Equals(GetType(Boolean)) AndAlso
                         IsPossibleLogicFlag(obj.Name) Then
 
                         pName = New ParameterName(ParameterName.ParameterType.BooleanSwitch, TrimParamPrefix(obj.Name))
@@ -935,7 +935,7 @@ Namespace Interpreter
                         pName = New ParameterName(ParameterName.ParameterType.Normal, obj.Name)
                     End If
 
-                    Dim pValue = New Parser.Tokens.InternalExpression(obj.x)
+                    Dim pValue = New Parser.Tokens.InternalExpression(obj.Value)
 
                     Call hash.Add(pName, pValue)
                 Next
@@ -968,7 +968,7 @@ Namespace Interpreter
 
             parameters.AddRange((From obj In params
                                  Select Name = New ParameterName(ParameterName.ParameterType.Normal, obj.Name),
-                                     value = New InternalExpression(obj.x)) _
+                                     value = New InternalExpression(obj.Value)) _
                                      .ToDictionary(Function(obj) obj.Name,
                                                    Function(obj) obj.value))
             bools = Parser.ToArray(AddressOf TrimParamPrefix)

@@ -13,7 +13,7 @@ Namespace Assembly.NCBI.Taxonomy
         Public Function LoadAll(DIR$) As BucketDictionary(Of String, Integer)
             Return DIR.__loadData _
                 .CreateBuckets(Function(x) x.Name,
-                               Function(x) x.x)
+                               Function(x) x.Value)
         End Function
 
         ''' <summary>
@@ -37,7 +37,7 @@ Namespace Assembly.NCBI.Taxonomy
                     ' accession       accession.version       taxid   gi
                     Yield New NamedValue(Of Integer) With {
                         .Name = tokens(Scan0),
-                        .x = CInt(Val(tokens(2))),
+                        .Value = CInt(Val(tokens(2))),
                         .Description = line
                     }
                 Loop

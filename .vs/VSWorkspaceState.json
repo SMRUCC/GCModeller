@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\R.Bioconductor\\datasets",
+    "\\src\\runtime"
   ],
+  "SelectedNode": "\\src\\runtime",
   "PreviewInSolutionExplorer": false
 }

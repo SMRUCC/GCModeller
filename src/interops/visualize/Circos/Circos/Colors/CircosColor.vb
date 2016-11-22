@@ -81,11 +81,11 @@ Namespace Colors
                                                                   ColorValue = Regex.Replace(strM, Tokens.First & "\s*=\s*", "").Trim.Split.First
                                                               Select New NamedValue(Of String) With {
                                                                   .Name = ClName,
-                                                                  .x = ColorValue
+                                                                  .Value = ColorValue
                                                               }
             Dim RGBValue = (From item As NamedValue(Of String)
                             In Value.AsParallel
-                            Let RGB = Regex.Match(item.x, "\d+,\d+,\d+").Value
+                            Let RGB = Regex.Match(item.Value, "\d+,\d+,\d+").Value
                             Where Not String.IsNullOrEmpty(RGB)
                             Select item,
                                 ClName = item.Name.Trim,

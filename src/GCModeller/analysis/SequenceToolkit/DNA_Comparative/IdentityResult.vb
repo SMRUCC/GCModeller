@@ -80,17 +80,17 @@ Public Class IdentityResult
                     Let sigma As Double = DifferenceMeasurement.Sigma(nt, x)
                     Select New NamedValue(Of Double) With {
                         .Name = getTag(x),
-                        .x = getValue(sigma * 1000)
+                        .Value = getValue(sigma * 1000)
                     }
             result += New NamedValue(Of Double) With {
                 .Name = getTag(nt),
-                .x = 0R
+                .Value = 0R
             }
 
             Call nt.UserTag.__DEBUG_ECHO
 
             Yield New IdentityResult With {
-                .Identities = result.ToDictionary(Function(x) x.Name, Function(x) x.x),
+                .Identities = result.ToDictionary(Function(x) x.Name, Function(x) x.Value),
                 .SeqId = nt.UserTag
             }
         Next

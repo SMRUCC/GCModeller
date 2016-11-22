@@ -44,7 +44,7 @@ Public Module ecardParser
 
         tag = New NamedValue(Of String) With {
             .Name = Strings.Split(tagLines(Scan0), vbTab).Last,
-            .x = Strings.Split(tagLines(1), vbTab).Last
+            .Value = Strings.Split(tagLines(1), vbTab).Last
         }
 
         Return tokens
@@ -94,13 +94,13 @@ Public Module ecardParser
                 Else
                     Dim tagValue = line.GetTagValue(vbTab, True)
 
-                    If tagValue.x = BlastOutput Then  ' 当前的这个节点是否是blast输出
+                    If tagValue.Value = BlastOutput Then  ' 当前的这个节点是否是blast输出
                         isBlastOutput = True
                     End If
                     If tagValue.Name = "VALUE" AndAlso isBlastOutput Then
                         ' 解析blast输出
                         out = New StringBuilder
-                        out.AppendLine(tagValue.x)
+                        out.AppendLine(tagValue.Value)
                     Else
                         If Array.IndexOf(__keys, tagValue.Name) = -1 Then
                             Call value.Append(vbCrLf & line)
@@ -108,12 +108,12 @@ Public Module ecardParser
                             If Not String.IsNullOrEmpty(lastKey) Then
                                 tmp += New NamedValue(Of String) With {
                                     .Name = lastKey,
-                                    .x = value.ToString
+                                    .Value = value.ToString
                                 }
                             End If
                             lastKey = tagValue.Name
                             value.Clear()
-                            value.Append(tagValue.x)
+                            value.Append(tagValue.Value)
                         End If
                     End If
                 End If
@@ -122,13 +122,13 @@ Public Module ecardParser
             If out IsNot Nothing AndAlso out.Length > 0 Then
                 tmp += New NamedValue(Of String) With {
                     .Name = "VALUE",
-                    .x = out.ToString
+                    .Value = out.ToString
                 }
             End If
 
             If Not String.IsNullOrEmpty(lastKey) Then
                 tmp += New NamedValue(Of String) With {
-                    .x = value.ToString,
+                    .Value = value.ToString,
                     .Name = lastKey
                 }
             End If
@@ -140,7 +140,7 @@ Public Module ecardParser
 
             Yield Groups.ToDictionary(Function(x) x.Name,
                                       Function(x) x.Group.ToArray(
-                                      Function(o) o.x))
+                                      Function(o) o.Value))
         Next
     End Function
 End Module

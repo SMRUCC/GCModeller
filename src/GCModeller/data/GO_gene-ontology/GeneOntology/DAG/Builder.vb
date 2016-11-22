@@ -59,7 +59,7 @@ Namespace DAG
 
             Return New NamedValue(Of String) With {
                 .Name = id(Scan0),
-                .x = id(1%),
+                .Value = id(1%),
                 .Description = tokens.Get(1%)
             }
         End Function

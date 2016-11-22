@@ -92,7 +92,7 @@ Namespace gast
 
                 Yield New NamedValue(Of String()) With {
                     .Name = tokens(Scan0),
-                    .x = tokens(1).Split(","c)
+                    .Value = tokens(1).Split(","c)
                 }
             Next
         End Function

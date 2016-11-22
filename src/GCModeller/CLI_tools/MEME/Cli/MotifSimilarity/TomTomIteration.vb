@@ -81,7 +81,7 @@ Partial Module CLI
         Next
 
         Dim getUids = (From x In sites
-                       Let array As String() = x.x.Select(Function(o) o.Attributes(Scan0)).OrderBy(Function(s) s).ToArray
+                       Let array As String() = x.Value.Select(Function(o) o.Attributes(Scan0)).OrderBy(Function(s) s).ToArray
                        Let uid As String = String.Join("+", array)
                        Select uid,
                            x
@@ -89,7 +89,7 @@ Partial Module CLI
 
         For Each Group In getUids
             Dim unique = Group.Group.First
-            Dim fasta As FASTA.FastaFile = unique.x.x
+            Dim fasta As FASTA.FastaFile = unique.x.Value
             Call fasta.Save(unique.x.Name, Encodings.ASCII)
         Next
 

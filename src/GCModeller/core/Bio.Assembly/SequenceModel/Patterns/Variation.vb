@@ -99,14 +99,14 @@ Namespace SequenceModel.Patterns
                     .Replace("N", "-")
                 Select New NamedValue(Of Char()) With {
                     .Name = seq.Title,
-                    .x = trimSeq.ToArray
+                    .Value = trimSeq.ToArray
                 }
 
             For i As Integer = 0 To out.Length - 1
                 Dim refC As Char = refSeq(i)
 
                 For Each seq As NamedValue(Of Char()) In array
-                    out(i).obj.Add(seq.Name, Variation(refC, seq.x(i), strict))
+                    out(i).obj.Add(seq.Name, Variation(refC, seq.Value(i), strict))
                 Next
             Next
 
