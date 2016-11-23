@@ -65,3 +65,21 @@ localblast ? /ref.gi.list
 ```
 
 ##### ncbi_tools 
+
+After you have the **gi list** or **accession id list**, then you can subset the ``gi2taxid`` or ``accessionid2taxid`` database for save your time by using command in ``ncbi_tools``:
+
+```bash
+ncbi_tools ? /gi.Match
+# Help for command '/gi.Match':
+#
+#   Information:
+#   Usage:        /home/biostack/GCModeller/NCBI_tools.exe /gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]
+#   Example:      CLI usage example not found!
+
+ncbi_tools ? /accid2taxid.Match
+# Help for command '/accid2taxid.Match':
+#
+#   Information:
+#   Usage:        /home/biostack/GCModeller/NCBI_tools.exe /accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]
+#   Example:      CLI usage example not found!
+```
