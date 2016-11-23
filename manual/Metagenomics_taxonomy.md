@@ -73,13 +73,31 @@ ncbi_tools ? /gi.Match
 # Help for command '/gi.Match':
 #
 #   Information:
-#   Usage:        /home/biostack/GCModeller/NCBI_tools.exe /gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]
+#   Usage:        /home/biostack/GCModeller/NCBI_tools /gi.Match /in <nt.parts.fasta/list.txt> /gi2taxid <gi2taxid.dmp> [/out <gi_match.txt>]
 #   Example:      CLI usage example not found!
 
 ncbi_tools ? /accid2taxid.Match
 # Help for command '/accid2taxid.Match':
 #
 #   Information:
-#   Usage:        /home/biostack/GCModeller/NCBI_tools.exe /accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]
+#   Usage:        /home/biostack/GCModeller/NCBI_tools /accid2taxid.Match /in <nt.parts.fasta/list.txt> /acc2taxid <acc2taxid.dmp/DIR> [/gb_priority /out <acc2taxid_match.txt>]
 #   Example:      CLI usage example not found!
+```
+
+At last, you have enough data for annotates the taxonomy details:
+```bash
+localblast ? /Blastn.Maps.Taxid
+# Help for command '/Blastn.Maps.Taxid':
+#
+#   Information:
+#   Usage:        /home/biostack/GCModeller/localblast /Blastn.Maps.Taxid /in <blastnMapping.csv> /2taxid <acc2taxid.tsv/gi2taxid.dmp> [/gi2taxid /trim /tax <NCBI_taxonomy:nodes/names> /out <out.csv>]
+#   Example:      CLI usage example not found!
+#
+#   Arguments:
+#   ============================
+#
+#   [/gi2taxid]   Description:  The 2taxid data source is comes from gi2taxid, by default is
+#                               acc2taxid.
+#
+#                 Example:      /gi2taxid <term_string>
 ```
