@@ -6,6 +6,22 @@ SMRUCC.genomics.Model.Network.Regulons
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Model.Network.Regulons.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Model.Network.Regulons.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Model.Network.Regulons.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Model.Network.Regulons.MotifCluster">
  <summary>
  需要先将motif映射为长度一致的实体！
@@ -28,22 +44,6 @@ SMRUCC.genomics.Model.Network.Regulons
  x.Bits + x.PWM.Average => 1+ATGC/4
  x.Bits + x.PWM.Average => 1+{0.25, 0.25, 0.25, 0.25}/4
  </summary>
-</member>
-<member name="T:SMRUCC.genomics.Model.Network.Regulons.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Model.Network.Regulons.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Model.Network.Regulons.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 <member name="M:SMRUCC.genomics.Model.Network.Regulons.NetAPI.BuildNetwork(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint},System.Double)">
  <summary>

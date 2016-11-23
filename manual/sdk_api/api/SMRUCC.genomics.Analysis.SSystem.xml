@@ -6,19 +6,6 @@ SMRUCC.genomics.Analysis.SSystem
 </name>
 </assembly>
 <members>
-<member name="P:SMRUCC.genomics.Analysis.SSystem.Compiler.Compilers">
- <summary>
- 格式名称的大小写不敏感
- </summary>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.SSystem.RunModel.IRunModel">
- <summary>
- Run model from commandline.
- </summary>
- <param name="args"></param>
- <returns></returns>
-</member>
 <member name="T:SMRUCC.genomics.Analysis.SSystem.My.Resources.Resources">
 <summary>
   A strongly-typed resource class, for looking up localized strings, etc.
@@ -35,13 +22,73 @@ SMRUCC.genomics.Analysis.SSystem
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SSystem.SBML.__generateSystem(SMRUCC.genomics.Analysis.SSystem.Script.Model)">
+<member name="P:SMRUCC.genomics.Analysis.SSystem.Compiler.Compilers">
+ <summary>
+ 格式名称的大小写不敏感
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.SSystem.RunModel.IRunModel">
+ <summary>
+ Run model from commandline.
+ </summary>
+ <param name="args"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptWriter.WriteScript(SMRUCC.genomics.Analysis.SSystem.Script.Model,System.String)">
+ <summary>
+ Generates the script text from the data model
+ </summary>
+ <param name="model"></param>
+ <param name="path"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptWriter.WriteScript(SMRUCC.genomics.Analysis.SSystem.Script.Model,System.IO.Stream@)">
+ <summary>
+ 向流指针之中写入模型数据
+ </summary>
+ <param name="model"></param>
+ <param name="s"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.SSystem.Script.SBML">
+ <summary>
+ SBML模型编译器
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.SBML.__strip">
+ <summary>
+ 需要在这里将``-``连接符替换为下划线``_``不然在解析数学表达式的时候会被当作为减号
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.SBML.__generateSystem(SMRUCC.genomics.Analysis.SSystem.Script.Model)">
  <summary>
  Generate the equation group of the target modelling system.(生成目标模型系统的方程组)
  </summary>
  <param name="Model"></param>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.SBML.__where(SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var,SMRUCC.genomics.Analysis.SSystem.Script.Model)">
+ <summary>
+ 检查目标反应物对象是否存在于模型的表达式之中
+ </summary>
+ <param name="x"></param>
+ <param name="model"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.SBML.GenerateFunction(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="Metabolite"></param>
+ <returns></returns>
+ <remarks>
+ + 在计算消耗的部分的时候，S系统方程中当前的底物是作为反应物而被消耗掉的
+ + 在计算生成的部分的时候，S系统方程之中是消耗来源的反应物而生成的当前底物
+ 
+ 故而两个方向都是取值来源为反应物
+ </remarks>
 </member>
 <member name="T:SMRUCC.genomics.Analysis.SSystem.Script.Model">
  <summary>
@@ -51,6 +98,12 @@ SMRUCC.genomics.Analysis.SSystem
 <member name="P:SMRUCC.genomics.Analysis.SSystem.Script.Model.UserFunc">
  <summary>
  The user define function.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SSystem.Script.Model.Constant">
+ <summary>
+ 假若在脚本里面，常数值是表达式，则求值的顺序会是从上到下
  </summary>
  <returns></returns>
 </member>
@@ -142,15 +195,71 @@ SMRUCC.genomics.Analysis.SSystem
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptParser.sEquationParser(Microsoft.VisualBasic.Scripting.TokenIcer.Token{SMRUCC.genomics.Analysis.SSystem.Script.Tokens})">
+ <summary>
+ 解析系统方程表达式
+ </summary>
+ <param name="x"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptParser.ExperimentParser(System.String)">
+ <summary>
+ 解析出系统的状态扰动实验表达式
+ </summary>
+ <param name="line"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptParser.ParseScript(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="scriptText">脚本的文本内容</param>
+ <returns></returns>
+ 
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptParser.ParseStream(System.IO.Stream)">
+ <summary>
+ 从文件指针或者网络数据之中解析出脚本模型
+ </summary>
+ <param name="s"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptParser.ConstantParser(Microsoft.VisualBasic.Language.Value{System.String})">
+ <summary>
+ 函数会自动去除掉表达式末尾的注释
+ </summary>
+ <param name="expr"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.ScriptParser.ConstantParser(Microsoft.VisualBasic.Scripting.TokenIcer.Token{SMRUCC.genomics.Analysis.SSystem.Script.Tokens})">
+ <summary>
+ 这里只是进行解析，并没有立即进行求值
+ </summary>
+ <param name="expr"></param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.SSystem.Script.SEquation">
  <summary>
- S-system equation.
+ S-system equation.(S-系统方程数据模型)
  </summary>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.SSystem.Script.SEquation.x">
  <summary>
  UniqueId，由于可能会存在多个过程，所以这里的值不再唯一
  </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SSystem.Script.SEquation.Expression">
+ <summary>
+ The mathematics equation of this reaction channel its dynamics
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Script.SEquation.GetModel(Microsoft.VisualBasic.Mathematical.Expression)">
+ <summary>
+ Parsing the math expression property <see cref="P:SMRUCC.genomics.Analysis.SSystem.Script.SEquation.Expression"/>
+ </summary>
+ <param name="engine"></param>
  <returns></returns>
 </member>
 <member name="M:SMRUCC.genomics.Analysis.SSystem.Script.TokenIcer.__tokenParser(System.String)">
@@ -210,9 +319,21 @@ SMRUCC.genomics.Analysis.SSystem
  CONST
  </summary>
 </member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.ODEs.RunSystem(SMRUCC.genomics.Analysis.SSystem.Script.Model)">
+ <summary>
+ 使用常微分方程组来解模型的计算
+ </summary>
+ <param name="model"></param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.SSystem.Kernel.DataAcquisition">
  <summary>
- Data service
+ Data service.(数据采集服务)
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Analysis.SSystem.Kernel.DataAcquisition.__tickCallback">
+ <summary>
+ 这个主要是调用外部接口的回调函数，这个回调函数会在一个内核循环之中采集完数据之后被触发调用
  </summary>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Expression">
@@ -230,10 +351,26 @@ SMRUCC.genomics.Analysis.SSystem
 </member>
 <member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Evaluate">
  <summary>
- Evaluate the expression value of the property <see cref="P:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Expression"></see>.(计算<see cref="P:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Expression"></see>属性表达式的值)
+ Evaluate the expression value of the property <see cref="P:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Expression"></see>.
+ (计算<see cref="P:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Expression"></see>属性表达式的值)
  </summary>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Value">
+ <summary>
+ The node states in the current network state.
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Elapsed(Microsoft.VisualBasic.Mathematical.Expression)">
+ <summary>
+ 执行一次数学运算，然后使用当前所更新的变量值更新表达式计算引擎内部的变量值
+ </summary>
+ <param name="engine"></param>
+ <returns></returns>
 </member>
 <member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.Equation.Set(SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel)">
  <summary>
@@ -258,9 +395,17 @@ SMRUCC.genomics.Analysis.SSystem
  [function name](args) expression
  </summary>
 </member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var.TryParse(System.String,Microsoft.VisualBasic.Mathematical.Expression)">
+ <summary>
+ 用来解析值是一个表达式的情况
+ </summary>
+ <param name="strData"></param>
+ <param name="val"></param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var.op_Implicit(System.String)~SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels.var">
  <summary>
- 
+ 请注意，假若值是一个表达式的话，请不要使用这个方法来解析
  </summary>
  <param name="s">Script line.(脚本行文本)</param>
  <returns></returns>
@@ -317,6 +462,18 @@ SMRUCC.genomics.Analysis.SSystem
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kicks.__getExpireds">
+ <summary>
+ 从当前正在运行的实验之中查找出过期的实验对象
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kicks.__getPendings">
+ <summary>
+ 获取正在处于等待队列的实验
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel">
  <summary>
  The simulation system kernel.
@@ -331,19 +488,19 @@ SMRUCC.genomics.Analysis.SSystem
 </member>
 <member name="F:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Kicks">
  <summary>
- Object that action the disturbing
+ Object that action the disturbing.(生物扰动实验)
  </summary>
  <remarks></remarks>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Vars">
  <summary>
- Store the system state.
+ Store the system state.(变量，也就是生化反应底物)
  </summary>
  <remarks></remarks>
 </member>
 <member name="F:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Channels">
  <summary>
- Alter the system state.
+ Alter the system state.(方程，也就是生化反应过程)
  </summary>
  <remarks></remarks>
 </member>
@@ -358,6 +515,23 @@ SMRUCC.genomics.Analysis.SSystem
  </summary>
  <remarks></remarks>
 </member>
+<member name="P:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Precision">
+ <summary>
+ 整个引擎的计算精度
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run">
+ <summary>
+ 请注意，当前的线程会被阻塞在这里直到整个计算过程完成
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Break">
+ <summary>
+ 中断执行
+ </summary>
+</member>
 <member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run(System.String,System.Double)">
  <summary>
  The file path of the compiled xml model. 
@@ -366,7 +540,7 @@ SMRUCC.genomics.Analysis.SSystem
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run(SMRUCC.genomics.Analysis.SSystem.Script.Model,System.Double)">
+<member name="M:SMRUCC.genomics.Analysis.SSystem.Kernel.Kernel.Run(SMRUCC.genomics.Analysis.SSystem.Script.Model,System.Double,System.Action{Microsoft.VisualBasic.Data.csv.DocumentStream.DataSet})">
  <summary>
  Run a compiled model.(运行一个已经编译好的模型文件)
  </summary>

@@ -6,47 +6,6 @@ SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas
 </name>
 </assembly>
 <members>
-<member name="T:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.API">
- <summary>
- sgRNAcas9 --- a tool for fast designing CRISPR sgRNA with high specificity.  
- 
- If you use this program in your research, please cite:
- Xie S, Shen B, Zhang C, Huang X * and Zhang Y *. sgRNAcas9: a software package for designing CRISPR sgRNA and evaluating potential off-target cleavage sites. PloS one, 2014
- Please send bug reports to: ssxieinfo@gmail.com
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.API.PerlScriptBin">
- <summary>
- Perl脚本程序的存放的文件夹
- </summary>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.API.sgRNAcas(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32)">
- <summary>
- sgRNAcas9 --- a tool for fast designing CRISPR sgRNA with high specificity
- </summary>
- <param name="InputFile">Input file</param>
- <param name="Length">Lenght of sgRNA</param>
- <param name="MinGC"></param>
- <param name="MaxGC"></param>
- <param name="RefGenome"></param>
- <param name="Option"></param>
- <param name="SearchModel"></param>
- <param name="OSVersion"></param>
- <param name="Mismatches"></param>
- <param name="MinOffSet"></param>
- <param name="MaxOffSet"></param>
- <param name="Output"></param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.SingleStrandResult">
- <summary>
- A.Final_report/report_protospacer_single.txt
- </summary>
- <remarks></remarks>
-</member>
 <member name="T:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.My.Resources.Resources">
 <summary>
   A strongly-typed resource class, for looking up localized strings, etc.
@@ -287,6 +246,47 @@ use Getopt::Long;
 # AUTHOR  : Xie Shengsong                                           #
 # [rest of string was truncated]&quot;;.
 </summary>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.API">
+ <summary>
+ sgRNAcas9 --- a tool for fast designing CRISPR sgRNA with high specificity.  
+ 
+ If you use this program in your research, please cite:
+ Xie S, Shen B, Zhang C, Huang X * and Zhang Y *. sgRNAcas9: a software package for designing CRISPR sgRNA and evaluating potential off-target cleavage sites. PloS one, 2014
+ Please send bug reports to: ssxieinfo@gmail.com
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.API.PerlScriptBin">
+ <summary>
+ Perl脚本程序的存放的文件夹
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.API.sgRNAcas(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32)">
+ <summary>
+ sgRNAcas9 --- a tool for fast designing CRISPR sgRNA with high specificity
+ </summary>
+ <param name="InputFile">Input file</param>
+ <param name="Length">Lenght of sgRNA</param>
+ <param name="MinGC"></param>
+ <param name="MaxGC"></param>
+ <param name="RefGenome"></param>
+ <param name="Option"></param>
+ <param name="SearchModel"></param>
+ <param name="OSVersion"></param>
+ <param name="Mismatches"></param>
+ <param name="MinOffSet"></param>
+ <param name="MaxOffSet"></param>
+ <param name="Output"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.SingleStrandResult">
+ <summary>
+ A.Final_report/report_protospacer_single.txt
+ </summary>
+ <remarks></remarks>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.Settings.File.BlastBin">
  <summary>
@@ -564,9 +564,11 @@ use Getopt::Long;
  <param name="name"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.GCModeller.FileSystem.FileSystem.GetLocalBlast">
+<member name="M:SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas.GCModeller.FileSystem.FileSystem.GetLocalblast">
  <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
  </summary>
  <returns></returns>
  

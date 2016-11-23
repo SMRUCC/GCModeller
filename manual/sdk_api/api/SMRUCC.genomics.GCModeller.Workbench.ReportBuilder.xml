@@ -6,19 +6,6 @@ SMRUCC.genomics.GCModeller.Workbench.ReportBuilder
 </name>
 </assembly>
 <members>
-<member name="M:SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.Navigation.BreadcrumbNavigation(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
- <summary>
- {display, url}
- </summary>
- <param name="nag">{display, url}</param>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.HTML">
- <summary>
- 可能会出现中文字符，所以html文档必须要以Utf8编码进行保存
- </summary>
- 
-</member>
 <member name="T:SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.My.Resources.Resources">
 <summary>
   A strongly-typed resource class, for looking up localized strings, etc.
@@ -87,6 +74,19 @@ meta.foundation-mq-xxlarge {
 		marginwidth=&quot;0&quot; 
 		style=&quot;-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; background: #fafafa; color: #222222; font-family: &apos;Helvetica&apos;, &apos;Arial&apos;, sans-serif; font-size: 14px;  [rest of string was truncated]&quot;;.
 </summary>
+</member>
+<member name="M:SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.Navigation.BreadcrumbNavigation(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+ <summary>
+ {display, url}
+ </summary>
+ <param name="nag">{display, url}</param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.GCModeller.Workbench.ReportBuilder.HTML">
+ <summary>
+ 可能会出现中文字符，所以html文档必须要以Utf8编码进行保存
+ </summary>
+ 
 </member>
 </members>
 </doc>

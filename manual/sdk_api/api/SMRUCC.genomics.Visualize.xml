@@ -6,6 +6,27 @@ SMRUCC.genomics.Visualize
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Visualize.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.DefaultTexture">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels.TSSs.Strand">
  <summary>
  链的方向决定箭头的方向，正向链箭头向右，反向链则箭头向左
@@ -593,7 +614,7 @@ SMRUCC.genomics.Visualize
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Visualize.ComparativeAlignment.ComparativeAlignment.BuildModel(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.DataFrame,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.String,System.Boolean,System.Boolean)">
+<member name="M:SMRUCC.genomics.Visualize.ComparativeAlignment.ComparativeAlignment.BuildModel(Microsoft.VisualBasic.Data.csv.DocumentStream.DataFrame,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.String,System.Boolean,System.Boolean)">
  <summary>
  数据框之中的每一行数据都表示同源基因，列表示为基因组 
  </summary>
@@ -735,7 +756,7 @@ SMRUCC.genomics.Visualize
  </summary>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Visualize.ExpressionMatrix.MatrixDrawing.NormalMatrix(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Visualize.ExpressionMatrix.MatrixDrawing.NormalMatrix(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
       tag1 tag2 tag3 tag4 ...
  tag1 ...  ...  ...  ...  ... 
@@ -748,7 +769,7 @@ SMRUCC.genomics.Visualize
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Visualize.ExpressionMatrix.MatrixDrawing.NormalMatrixTriangular(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Visualize.ExpressionMatrix.MatrixDrawing.NormalMatrixTriangular(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  绘制上三角形
  
@@ -847,6 +868,39 @@ SMRUCC.genomics.Visualize
  <param name="data"></param>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Visualize.GCPlot.PlotGC(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,System.String,System.Int32,System.Int32,System.Nullable{System.Boolean},System.Drawing.Size,System.Drawing.Size,System.String,System.String,System.Int32,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="mal"></param>
+ <param name="plot$">gcskew/gccontent</param>
+ <param name="winSize%"></param>
+ <param name="steps%"></param>
+ <param name="isCircle"></param>
+ <param name="size"></param>
+ <param name="margin"></param>
+ <param name="bg$"></param>
+ <param name="colors$"></param>
+ <param name="levels%"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Visualize.GCPlot.PlotGC(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.NtProperty,System.Int32,System.Int32,System.Nullable{System.Boolean},System.Drawing.Size,System.Drawing.Size,System.String,System.String,System.Int32,System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="mal"></param>
+ <param name="cal"></param>
+ <param name="winSize%"></param>
+ <param name="steps%"></param>
+ <param name="isCircle"></param>
+ <param name="size"></param>
+ <param name="margin"></param>
+ <param name="bg$"></param>
+ <param name="colors$"></param>
+ <param name="levels%"></param>
+ <param name="base$">color code for ZERO level</param>
+ <returns></returns>
 </member>
 <member name="F:SMRUCC.genomics.Visualize.NCBIBlastResult.BlastVisualize.ConvertFactor">
  <summary>
@@ -1003,27 +1057,6 @@ SMRUCC.genomics.Visualize
  <param name="d">步进角度</param>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Visualize.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.DefaultTexture">
-<summary>
-  Looks up a localized resource of type System.Drawing.Bitmap.
-</summary>
 </member>
 <member name="M:SMRUCC.genomics.Visualize.TextureResourceLoader.LoadTextureResource(System.Drawing.Image,System.Drawing.Size,System.Int32,System.Int32)">
  <summary>

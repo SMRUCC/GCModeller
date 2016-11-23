@@ -6,6 +6,22 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components.DownloadsAPI.Invoke(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO.XmlresxLoader,System.String)">
  <summary>
  返回所成功下载的数目
@@ -36,7 +52,7 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components.CrossTalksAnalysis.Analysis(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO.XmlresxLoader,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components.CrossTalksAnalysis.Analysis(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO.XmlresxLoader,Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  
  </summary>
@@ -229,14 +245,14 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Compiler._createProteinAssembly(Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Regulator}@,Microsoft.VisualBasic.Dictionary{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite}@)">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Compiler._createProteinAssembly(Microsoft.VisualBasic.Language.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Regulator}@,Microsoft.VisualBasic.Dictionary{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite}@)">
  <summary>
  这个方法主要是用于对于有Effector的TF生成TF的复合物，从而产生代谢组对基因表达调控的约束
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Compiler.LinkEffectors(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Compiler.LinkEffectors(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  连接效应物到调控因子之上
  </summary>
@@ -447,7 +463,7 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
 </member>
 <member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat.HrefLink.get_Path(System.String,System.String)">
  <summary>
- Generate the path value for the <see cref="M:Microsoft.VisualBasic.ComponentModel.ITextFile.Save(System.String,Microsoft.VisualBasic.TextEncodings.Encodings)"></see> method.
+ Generate the path value for the <see cref="M:Microsoft.VisualBasic.ComponentModel.ITextFile.Save(System.String,Microsoft.VisualBasic.Text.Encodings)"></see> method.
  </summary>
  <param name="root"></param>
  <param name="category"></param>
@@ -840,7 +856,7 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.RegulationNetworkFromFootprints.CompileFootprintsData(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},SMRUCC.genomics.Analysis.RNA_Seq.PccMatrix,SMRUCC.genomics.Assembly.DOOR.OperonView,Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.TranscriptUnit}@,Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.MotifSite}@,Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Regulator}@)">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.RegulationNetworkFromFootprints.CompileFootprintsData(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.RegulatesFootprints},SMRUCC.genomics.Analysis.RNA_Seq.PccMatrix,SMRUCC.genomics.Assembly.DOOR.OperonView,Microsoft.VisualBasic.Language.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.TranscriptUnit}@,Microsoft.VisualBasic.Language.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.MotifSite}@,Microsoft.VisualBasic.Language.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Regulator}@)">
  <summary>
  
  </summary>
@@ -848,7 +864,7 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  <param name="PccMatrix"></param>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.RegulationNetworkFromFootprints.MappingEffector(Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Regulator}@,Microsoft.VisualBasic.List{SMRUCC.genomics.Assembly.MetaCyc.Schema.EffectorMap},SMRUCC.genomics.Data.Regprecise.RegpreciseMPBBH[])">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.RegulationNetworkFromFootprints.MappingEffector(Microsoft.VisualBasic.Language.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Regulator}@,Microsoft.VisualBasic.Language.List{SMRUCC.genomics.Assembly.MetaCyc.Schema.EffectorMap},SMRUCC.genomics.Data.Regprecise.RegpreciseMPBBH[])">
  <summary>
  赋值给<see cref="P:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Regulator.Effectors"></see>属性
  </summary>
@@ -932,7 +948,7 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.KEGG.Compiler.Effectors.MappingEffectors(SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite},SMRUCC.genomics.Data.Regprecise.TranscriptionFactors)">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.KEGG.Compiler.Effectors.MappingEffectors(SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,System.Collections.Generic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite},SMRUCC.genomics.Data.Regprecise.TranscriptionFactors)">
  <summary>
  在当前的这个函数之中已经将MetaCyc的标识符赋值给KEGGCompound了
  </summary>
@@ -942,7 +958,7 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.KEGG.Compiler.Effectors.MappingKEGGRegprecise(System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite},Microsoft.VisualBasic.List{SMRUCC.genomics.Assembly.MetaCyc.Schema.EffectorMap})">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.KEGG.Compiler.Effectors.MappingKEGGRegprecise(System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite},System.Collections.Generic.List{SMRUCC.genomics.Assembly.MetaCyc.Schema.EffectorMap})">
  <summary>
 
  </summary>
@@ -976,7 +992,7 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.KEGG.Compiler.Reactions.CompileSmallMoleculeReactions(SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.Model.SBML.Level2.Elements.Reaction},System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite},System.String,Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite}@,Microsoft.VisualBasic.Logging.LogFile)">
+<member name="M:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.KEGG.Compiler.Reactions.CompileSmallMoleculeReactions(SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.Model.SBML.Level2.Elements.Reaction},System.Collections.Generic.Dictionary{System.String,SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite},System.String,System.Collections.Generic.List{SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.Metabolite}@,Microsoft.VisualBasic.Logging.LogFile)">
  <summary>
  编译所有不受任何酶分子催化的小分子化合物代谢反应过程
  </summary>
@@ -1144,22 +1160,6 @@ SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
  <param name="Regprecise"></param>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 <member name="P:SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Settings.File.BlastBin">
  <summary>

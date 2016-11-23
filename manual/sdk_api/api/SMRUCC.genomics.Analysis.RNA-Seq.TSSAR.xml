@@ -6,6 +6,138 @@ SMRUCC.genomics.Analysis.RNA-Seq.TSSAR
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.dskellam">
+<summary>
+  Looks up a localized string similar to dskellam &lt;- function(x, lambda1, lambda2=lambda1, log=FALSE){
+ # density (PMF) of Skellam distriubition (difference of Poissons)
+    if (missing(x)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
+    lambdas &lt;- c(lambda1,lambda2)
+    oops &lt;- !(is.finite(lambdas)&amp;(lambdas&gt;=0))
+    if(any(oops)) {
+        warning(&quot;NaNs produced&quot;)
+        lambdas[oops] &lt;- NaN
+        lambda1 &lt;- lambdas[1:length(lambda1)]
+        lambda2 &lt;- lambdas[(length(lambda1)+1):length(lambdas)]
+    }
+   # make all arg [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.dskellam_sp">
+<summary>
+  Looks up a localized string similar to dskellam.sp &lt;- function(x, lambda1, lambda2=lambda1, log=FALSE){
+ # saddlepoint density (PMF) for Skellam distribution
+  terms=1
+    if (missing(x)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
+    s &lt;- log(0.5*(x+sqrt(x^2+4*lambda1*lambda2))/lambda1)# the saddlepoint
+    K &lt;- lambda1*(exp(s)-1)+lambda2*(exp(-s)-1)	# CGF(s)
+    K2 &lt;- lambda1*exp(s)+lambda2*exp(-s)        # CGF&apos;&apos;(s)
+    if (terms&lt;1) {
+        ret &lt;- exp(K-x*s)/sqrt(2*pi*K2)         # saddlepoint density
+    } else {
+     [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.pskellam">
+<summary>
+  Looks up a localized string similar to pskellam &lt;- function(q, lambda1, lambda2=lambda1, lower.tail=TRUE, log.p=FALSE){
+ # CDF of Skellam distriubition (difference of Poissons)
+    if (missing(q)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
+    lambdas &lt;- c(lambda1,lambda2)
+    oops &lt;- !(is.finite(lambdas)&amp;(lambdas&gt;=0))
+    if(any(oops)) {
+        warning(&quot;NaNs produced&quot;)
+        lambdas[oops] &lt;- NaN
+        lambda1 &lt;- lambdas[1:length(lambda1)]
+        lambda2 &lt;- lambdas[(length(lambda1)+1):length(lambdas)]
+    }
+   # CDF [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.pskellam_sp">
+<summary>
+  Looks up a localized string similar to pskellam.sp &lt;- function(q, lambda1, lambda2=lambda1, lower.tail=TRUE, log.p=FALSE) {
+ # Luganni-Rice saddlepoint CDF with Butler&apos;s 2nd continuity correction
+    if (missing(q)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
+    if (lower.tail) {
+        xm &lt;- -floor(q)-0.5                                     # continuity corrected x
+       # distribution specific variables
+        s &lt;- log(0.5*(xm+sqrt(xm^2+4*lambda2*lambda1))/lambda2) # the saddlepoint
+        K &lt;- lambda2*(exp(s)-1)+lambda [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.qskellam">
+<summary>
+  Looks up a localized string similar to qskellam &lt;- function(p, lambda1, lambda2=lambda1, lower.tail=TRUE, log.p=FALSE){
+ # inverse CDF of Skellam distriubition (difference of Poissons)
+    if (missing(p)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
+   # make all args the same length (for subsetting)
+    lens &lt;- c(length(p),length(lambda1),length(lambda2))
+    len &lt;- max(lens)
+    if(len&gt;min(lens)) {
+        if (all(len/lens!=len%/%lens)) warning(&quot;longer object length is not a multiple of shorter object length&quot;, domain=NA)
+    [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.rskellam">
+<summary>
+  Looks up a localized string similar to rskellam &lt;- function(n, lambda1, lambda2=lambda1){
+ # Skellam random variables
+    if (missing(n)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
+    if (length(n)&gt;1) n &lt;- length(n)
+    lambda1 &lt;- rep(lambda1,length.out=n)
+    lambda2 &lt;- rep(lambda2,length.out=n)
+    oops &lt;- !(is.finite(lambda1)&amp;(lambda1&gt;=0)&amp;is.finite(lambda2)&amp;(lambda2&gt;=0))
+    if(any(oops)) warning(&quot;NaNs produced&quot;)
+    ret &lt;- rep(NaN,length.out=n)
+    n &lt;- n-sum(oops)
+    ret[!oops] &lt;- rpois(n,lambda1[!oops])-rpois(n,lam [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.TSSAR">
+<summary>
+  Looks up a localized string similar to #!/usr/bin/perl
+#Last changed Time-stamp: &lt;2013-06-10 17:00:35 fabian&gt;
+    
+use strict;
+use warnings;
+use Getopt::Long;
+use Data::Dumper;
+use Pod::Usage;
+use File::Basename;
+use File::Temp qw(tempfile);
+use vars qw/ %READS @TSS_plus @TSS_minus %coverage/;
+
+my $call = join(&quot; &quot;, $0, @ARGV);
+
+# set variables and default parameters
+my $ctdir =&apos;./&apos;;
+
+my $SamFile_Library_P =&apos;&apos;;
+my $SamFile_Library_M =&apos;&apos;;
+
+my $verbose = 0;
+my $clean = 1;
+my $score_mode = &apos;d&apos;;
+my $cluster = 1;
+my $prorata =  [rest of string was truncated]&quot;;.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.ReadsMap">
  <summary>
  统计一个rna-seq文库之中的每一个碱基的频数
@@ -191,138 +323,6 @@ SMRUCC.genomics.Analysis.RNA-Seq.TSSAR
  <returns></returns>
  <remarks></remarks>
  
-</member>
-<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.dskellam">
-<summary>
-  Looks up a localized string similar to dskellam &lt;- function(x, lambda1, lambda2=lambda1, log=FALSE){
- # density (PMF) of Skellam distriubition (difference of Poissons)
-    if (missing(x)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
-    lambdas &lt;- c(lambda1,lambda2)
-    oops &lt;- !(is.finite(lambdas)&amp;(lambdas&gt;=0))
-    if(any(oops)) {
-        warning(&quot;NaNs produced&quot;)
-        lambdas[oops] &lt;- NaN
-        lambda1 &lt;- lambdas[1:length(lambda1)]
-        lambda2 &lt;- lambdas[(length(lambda1)+1):length(lambdas)]
-    }
-   # make all arg [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.dskellam_sp">
-<summary>
-  Looks up a localized string similar to dskellam.sp &lt;- function(x, lambda1, lambda2=lambda1, log=FALSE){
- # saddlepoint density (PMF) for Skellam distribution
-  terms=1
-    if (missing(x)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
-    s &lt;- log(0.5*(x+sqrt(x^2+4*lambda1*lambda2))/lambda1)# the saddlepoint
-    K &lt;- lambda1*(exp(s)-1)+lambda2*(exp(-s)-1)	# CGF(s)
-    K2 &lt;- lambda1*exp(s)+lambda2*exp(-s)        # CGF&apos;&apos;(s)
-    if (terms&lt;1) {
-        ret &lt;- exp(K-x*s)/sqrt(2*pi*K2)         # saddlepoint density
-    } else {
-     [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.pskellam">
-<summary>
-  Looks up a localized string similar to pskellam &lt;- function(q, lambda1, lambda2=lambda1, lower.tail=TRUE, log.p=FALSE){
- # CDF of Skellam distriubition (difference of Poissons)
-    if (missing(q)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
-    lambdas &lt;- c(lambda1,lambda2)
-    oops &lt;- !(is.finite(lambdas)&amp;(lambdas&gt;=0))
-    if(any(oops)) {
-        warning(&quot;NaNs produced&quot;)
-        lambdas[oops] &lt;- NaN
-        lambda1 &lt;- lambdas[1:length(lambda1)]
-        lambda2 &lt;- lambdas[(length(lambda1)+1):length(lambdas)]
-    }
-   # CDF [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.pskellam_sp">
-<summary>
-  Looks up a localized string similar to pskellam.sp &lt;- function(q, lambda1, lambda2=lambda1, lower.tail=TRUE, log.p=FALSE) {
- # Luganni-Rice saddlepoint CDF with Butler&apos;s 2nd continuity correction
-    if (missing(q)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
-    if (lower.tail) {
-        xm &lt;- -floor(q)-0.5                                     # continuity corrected x
-       # distribution specific variables
-        s &lt;- log(0.5*(xm+sqrt(xm^2+4*lambda2*lambda1))/lambda2) # the saddlepoint
-        K &lt;- lambda2*(exp(s)-1)+lambda [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.qskellam">
-<summary>
-  Looks up a localized string similar to qskellam &lt;- function(p, lambda1, lambda2=lambda1, lower.tail=TRUE, log.p=FALSE){
- # inverse CDF of Skellam distriubition (difference of Poissons)
-    if (missing(p)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
-   # make all args the same length (for subsetting)
-    lens &lt;- c(length(p),length(lambda1),length(lambda2))
-    len &lt;- max(lens)
-    if(len&gt;min(lens)) {
-        if (all(len/lens!=len%/%lens)) warning(&quot;longer object length is not a multiple of shorter object length&quot;, domain=NA)
-    [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.rskellam">
-<summary>
-  Looks up a localized string similar to rskellam &lt;- function(n, lambda1, lambda2=lambda1){
- # Skellam random variables
-    if (missing(n)|missing(lambda1)) stop(&quot;first 2 arguments are required&quot;)
-    if (length(n)&gt;1) n &lt;- length(n)
-    lambda1 &lt;- rep(lambda1,length.out=n)
-    lambda2 &lt;- rep(lambda2,length.out=n)
-    oops &lt;- !(is.finite(lambda1)&amp;(lambda1&gt;=0)&amp;is.finite(lambda2)&amp;(lambda2&gt;=0))
-    if(any(oops)) warning(&quot;NaNs produced&quot;)
-    ret &lt;- rep(NaN,length.out=n)
-    n &lt;- n-sum(oops)
-    ret[!oops] &lt;- rpois(n,lambda1[!oops])-rpois(n,lam [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.My.Resources.Resources.TSSAR">
-<summary>
-  Looks up a localized string similar to #!/usr/bin/perl
-#Last changed Time-stamp: &lt;2013-06-10 17:00:35 fabian&gt;
-    
-use strict;
-use warnings;
-use Getopt::Long;
-use Data::Dumper;
-use Pod::Usage;
-use File::Basename;
-use File::Temp qw(tempfile);
-use vars qw/ %READS @TSS_plus @TSS_minus %coverage/;
-
-my $call = join(&quot; &quot;, $0, @ARGV);
-
-# set variables and default parameters
-my $ctdir =&apos;./&apos;;
-
-my $SamFile_Library_P =&apos;&apos;;
-my $SamFile_Library_M =&apos;&apos;;
-
-my $verbose = 0;
-my $clean = 1;
-my $score_mode = &apos;d&apos;;
-my $cluster = 1;
-my $prorata =  [rest of string was truncated]&quot;;.
-</summary>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Settings.File.BlastBin">
  <summary>
@@ -600,9 +600,11 @@ my $prorata =  [rest of string was truncated]&quot;;.
  <param name="name"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.GCModeller.FileSystem.FileSystem.GetLocalBlast">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.GCModeller.FileSystem.FileSystem.GetLocalblast">
  <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
  </summary>
  <returns></returns>
  

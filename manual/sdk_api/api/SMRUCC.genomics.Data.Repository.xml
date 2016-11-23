@@ -6,6 +6,22 @@ SMRUCC.genomics.Data.Repository
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Data.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="M:SMRUCC.genomics.Data.Installer.Install(System.String,System.Boolean)">
  <summary>
  这个函数主要是进行创建数据库的索引文件
@@ -101,22 +117,6 @@ SMRUCC.genomics.Data.Repository
  locus_tag, 索引文件的表主键
  </summary>
  <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.Data.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 <member name="M:SMRUCC.genomics.Data.DownloaderWebAPI.DownloadGBK(System.Collections.Generic.IEnumerable{System.String},System.String,System.Int32)">
  <summary>

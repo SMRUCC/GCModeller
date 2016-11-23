@@ -6,6 +6,72 @@ SMRUCC.genomics.Data.GO_OWL
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.DAG.Graph.cellular_component">
+ <summary>
+ These terms describe a component of a cell that is part of a larger object, such as an anatomical structure 
+ (e.g. rough endoplasmic reticulum or nucleus) or a gene product group (e.g. ribosome, proteasome or a protein dimer).
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.DAG.Graph.biological_process">
+ <summary>
+ A biological process term describes a series of events accomplished by one or more organized assemblies of molecular functions. 
+ Examples of broad biological process terms are "cellular physiological process" or "signal transduction". Examples of more 
+ specific terms are "pyrimidine metabolic process" or "alpha-glucoside transport". The general rule to assist in distinguishing 
+ between a biological process and a molecular function is that a process must have more than one distinct steps.
+ A biological process Is Not equivalent To a pathway. At present, the GO does Not Try To represent the dynamics Or dependencies 
+ that would be required To fully describe a pathway.
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.DAG.Graph.molecular_function">
+ <summary>
+ Molecular function terms describes activities that occur at the molecular level, such as "catalytic activity" or "binding activity". 
+ GO molecular function terms represent activities rather than the entities (molecules or complexes) that perform the actions, 
+ and do not specify where, when, or in what context the action takes place. Molecular functions generally correspond to activities 
+ that can be performed by individual gene products, but some activities are performed by assembled complexes of gene products. 
+ Examples of broad functional terms are "catalytic activity" and "transporter activity"; examples of narrower functional terms are 
+ "adenylate cyclase activity" or "Toll receptor binding".
+ It Is easy To confuse a gene product name With its molecular Function; For that reason GO molecular functions are often appended 
+ With the word "activity".
+ </summary>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.DAG.is_a">
+ <summary>
+ The is a relation forms the basic structure of GO. If we say A is a B, we mean that node A is a subtype of node B. 
+ For example, mitotic cell cycle is a cell cycle, or lyase activity is a catalytic activity. It should be noted 
+ that is a does not mean ‘is an instance of’. An ‘instance’, ontologically speaking, is a specific example of 
+ something; e.g. a cat is a mammal, but Garfield is an instance of a cat, rather than a subtype of cat. GO, like 
+ most ontologies, does not use instances, and the terms in GO represent a class of entities or phenomena, rather 
+ than specific manifestations thereof. However, if we know that cat is a mammal, we can say that every instance of 
+ cat is a mammal.
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.DAG.is_a.term">
+ <summary>
+ 父节点的实例
+ </summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.DAG.Term.is_a">
+ <summary>
+ 当前的这个term是子节点，则这个属性内的所有的节点都是这个节点的父节点
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.NCBI.gene2go">
  <summary>
  #Format: tax_id GeneID GO_ID Evidence Qualifier GO_term PubMed Category (tab is used as a separator, pound sign - start of a comment)
@@ -18,14 +84,205 @@ SMRUCC.genomics.Data.GO_OWL
  <param name="path">The doc path</param>
  <returns></returns>
 </member>
-<member name="T:SMRUCC.genomics.Data.GeneOntology.ToGo">
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.base.id">
+ <summary>
+ Every term has a term name—e.g. mitochondrion, glucose transport, amino acid binding—and a unique zero-padded seven digit 
+ identifier (often called the term accession or term accession number) prefixed by GO:, e.g. GO:0005125 or GO:0060092. 
+ The numerical portion of the ID has no inherent meaning or relation to the position of the term in the ontologies. 
+ Ranges of GO IDs are assigned to individual ontology editors or editing groups, and can thus be used to trace who added the term.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.base.namespace">
+ <summary>
+ Denotes which of the three sub-ontologies—cellular component, biological process or molecular function—the term belongs to.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.is_anonymous">
+ <summary>
+ !通常是有一定含义的字符串， 而不是数字
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.domain">
+ <summary>
+ !该关系仅对domain指定术语的亚类起作用
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.range">
+ <summary>
+ !任何具有这个关系的术语都属于range指定术语的亚类
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.is_cyclic">
+ <summary>
+ !可否构建循环作用
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.is_reflexive">
+ <summary>
+ !是否自反
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.is_symmetric">
+ <summary>
+ !是否对称
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.is_transitive">
+ <summary>
+ !传递关系？
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.inverse_of">
+ <summary>
+ !和另一关系相反。适用于原关系的两个术语，可以反方向适用另一关系。
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Typedef.transitive_over">
+ <summary>
+ !将关系传递给下一个
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.OntologyRelations.is_a">
+ <summary>
+ ```
+ is_a: GO:0048311 ! mitochondrion distribution
+ ```
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.OBO.GO_OBO">
+ <summary>
+ go.obo/go-basic.obo(Go注释功能定义文件)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.OBO.GO_OBO.LoadDocument(System.String)">
+ <summary>
+ 对于小文件可以使用这个方法来读取
+ </summary>
+ <param name="path"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.OBO.GO_OBO.Open(System.String)">
+ <summary>
+ 使用迭代器来读取大型的GO OBO文件
+ </summary>
+ <param name="path$"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.OBO.Term">
+ <summary>
+ ##### GO as a Graph
+ 
+ The Structure of GO can be described In terms Of a graph, where Each GO term Is a node, And the relationships between the terms are 
+ edges between the nodes. GO Is loosely hierarchical, With 'child' terms being more specialized than their 'parent' terms, but unlike 
+ a strict hierarchy, a term may have more than one parent term (note that the parent/child model does not hold true for all types of 
+ relation)
+ 
+ (功能定义,term相当于一个节点，节点之间的继承关系是非严格的，即某一个子节点可能会有多个父节点)
+ </summary>
+ <remarks>
+ #### Sample GO Term
+ The following Is a GO term taken from the OBO format file.
+ 
+ ```
+ id: GO : 0016049
+ name: cell growth
+ Namespace:  biological_process
+ def: "The process in which a cell irreversibly increases in size over time by accretion and biosynthetic production of matter similar to that already present." [GOC:ai]
+ subset: goslim_generic
+ subset: goslim_plant
+ subset: gosubset_prok
+ synonym: "cell expansion" RELATED []
+ synonym: "cellular growth" EXACT []
+ synonym: "growth of cell" EXACT []
+ is_a: GO:0009987 ! cellular process
+ is_a: GO:0040007 ! growth
+ relationship: part_of GO : 0008361 ! regulation of cell size
+ ```
+ </remarks>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Term.def">
+ <summary>
+ A textual description of what the term represents, plus reference(s) to the source of the information. 
+ All new terms added to the ontology must have a definition; there remains a very small set of terms 
+ from the original ontology that lack definitions, but the vast majority of terms are defined.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Term.synonym">
+ <summary>
+ Alternative words or phrases closely related in meaning to the term name, with indication of the relationship between the name 
+ and synonym given by the synonym scope. The scopes for GO synonyms are:
+ + exact
+   an exact equivalent; interchangeable With the term name
+   e.g. ornithine cycle Is an exact synonym of urea cycle
+ + broad
+   the synonym Is broader than the term name
+   e.g. cell division Is a broad synonym of cytokinesis
+ + narrow
+   the synonym Is narrower Or more precise than the term name
+   e.g. pyrimidine-dimer repair by photolyase Is a narrow synonym of photoreactive repair
+ + related
+   the terms are related In some way Not covered above
+   e.g. cytochrome bc1 complex Is a related synonym of ubiquinol-cytochrome-c reductase activity virulence Is a related synonym of pathogenesis
+ 
+ Custom synonym types are also used In the ontology. For example, a number Of synonyms are designated As systematic synonyms; 
+ synonyms Of this type are exact synonyms Of the term name.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Term.xref">
+ <summary>
+ Database cross-references, or dbxrefs, refer to identical or very similar objects in other databases. For instance, 
+ the molecular function term retinal isomerase activity is cross-referenced with the Enzyme Commission 
+ entry EC:5.2.1.3; the biological process term sulfate assimilation has the cross-reference MetaCyc:PWY-781.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Term.subset">
+ <summary>
+ Indicates that the term belongs to a designated subset of terms, e.g. one of the GO slims.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Data.GeneOntology.OBO.Term.relationship">
+ <summary>
+ One or more links that capture how the term relates to other terms in the ontology. All terms 
+ (other than the root terms representing each namespace, above) have an is a sub-class relationship 
+ to another term; for example, GO:0015758 : glucose transport is a GO:0015749 : monosaccharide transport. 
+ The Gene Ontology employs a number of other relations, including part of (e.g. GO:0031966 : 
+ mitochondrial membrane part of GO:0005740 : mitochondrial envelope) and regulates (e.g. GO:0006916 : 
+ anti-apoptosis regulates GO:0012501 : programmed cell death). The relations documentation has more 
+ information on the relations used in the ontology.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.xref2go.XrefId.#ctor(System.String)">
+ <summary>
+ Parsing from raw string
+ </summary>
+ <param name="xrefId"></param>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.xref2go.ToGo`1">
  <summary>
  The reference links between the Go database and other biological database.
  (Go数据库和其他的生物学数据库的相互之间的外键连接)
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Data.GeneOntology.ToGo.LoadDocument(System.String,System.String)">
+<member name="M:SMRUCC.genomics.Data.GeneOntology.xref2go.ToGo`1.LoadDocument(System.String,SMRUCC.genomics.Data.GeneOntology.xref2go.XrefIdTypes)">
  <summary>
  
  </summary>
@@ -34,17 +291,43 @@ SMRUCC.genomics.Data.GO_OWL
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Data.GeneOntology.AnnotationFile">
- <summary>
- go.obo(Go注释功能定义文件)
- </summary>
- <remarks></remarks>
-</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.GAF">
  <summary>
  GO Annotation File (GAF) Format 2.0
  </summary>
  <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.GAF.GAF_Heads">
+ <summary>
+ ```
+ !GOC Validation Date: 10/04/2014 $
+ !Submission Date: 10/4/2014
+ !
+ !The above ""Submission Date"" Is when the annotation project provided
+ !this file to the Gene Ontology Consortium (GOC).  The ""GOC Validation
+ !Date"" indicates when this file was last changed as a result of a GOC
+ !validation And filtering process.  
+ !
+ !Note: The contents Of this file may differ from that submitted To the
+ !GOC.The identifiers And syntax Of the file have been checked, rows of
+ !data Not meeting the standards set by the GOC have been removed. This
+ !file may also have annotations removed because the annotations for the
+ !listed Taxonomy identifier are only allowed in a file provided by
+ !another annotation project.  The original submitted file Is available from
+ !http : //www.geneontology.org/gene-associations/submission/
+ !
+ !For information on which taxon are allowed in which files please see
+ !http : //www.geneontology.org/GO.annotation.shtml#script
+ !
+ !gaf-version:  2.0
+ !Project_name: Saccharomyces Genome Database (SGD)
+ !URL :  http://www.yeastgenome.org/
+ !Contact Email:  sgd-helpdesk@lists.stanford.edu
+ !Funding :  NHGRI of US National Institutes of Health, HG001315
+ !Date :  10/04/2014 $
+ !
+ ```
+ </summary>
 </member>
 <member name="P:SMRUCC.genomics.Data.GeneOntology.GAF.DB">
  <summary>
@@ -305,8 +588,131 @@ SMRUCC.genomics.Data.GO_OWL
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.OntologyRelations">
+ <summary>
+ The ontologies of GO are structured as a graph, with terms as nodes in the graph and the relations (also know as properties) 
+ between the terms as edges. Just as each term is defined, so the relations between GO terms are also categorized and defined. 
+ This document provides a description of some of the commonly used relationships in GO: 
+ 
+ + is a (is a subtype of); 
+ + part of; 
+ + has part; 
+ + regulates, negatively regulates and positively regulates.
+ 
+ This Set Is Not exhaustive And includes only a subset Of relations used In the GO ontologies, logical definitions And annotations. 
+ For more technical information about relations And their properties used In GO And other ontologies see the OBO Relations Ontology 
+ (RO) And For relationships used In GO annotation extensions, see the GO annotation extension relations file (experimental).
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.OntologyRelations.is_a">
+ <summary>
+ ## The _is a_ relation
+ The ``Is a`` relation forms the basic Structure Of GO. If we say A Is a B, we mean that node A Is a subtype Of node B. 
+ For example, mitotic cell cycle Is a cell cycle, Or lyase activity Is a catalytic activity.
+ It should be noted that Is a does Not mean 'is an instance of’. An ‘instance’, ontologically speaking, is a specific 
+ example of something; e.g. a cat is a mammal, but Garfield is an instance of a cat, rather than a subtype of cat. GO, 
+ like most ontologies, does not use instances, and the terms in GO represent a class of entities or phenomena, rather 
+ than specific manifestations thereof. However, **if we know that cat is a mammal, we can say that every instance of cat 
+ is a mammal.**
+
+ ## Reasoning over _is a_
+ ```
+ Is a ∘Is a → Is a
+ ```
+
+ The ``Is a`` relation Is transitive, which means that If A Is a B, And B Is a C, we can infer that A Is a C.
+ 
+ (child is a parent class object.)
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.OntologyRelations.part_of">
+ <summary>
+ ## The _part of_ relationship
+ The relation **_part of_** Is used To represent part-whole relationships In the Gene Ontology. part Of has a specific meaning In GO, 
+ And a part Of relation would only be added between A And B If B Is necessarily part Of A: wherever B exists, it Is As part Of A, 
+ And the presence Of the B implies the presence Of A. However, given the occurrence Of A, we cannot say For certain that B exists.
+ 
+ ## Reasoning over part of
+ ```
+ part Of∘ part Of → part Of
+ ```
+ Like Is a, part of Is transitive: If A part Of B part Of C Then A part Of C
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.OntologyRelations.has_part">
+ <summary>
+ ## The _has part_ relationship
+ The logical complement To the part Of relation Is has part, which represents a part-whole relationship from the perspective Of the parent. 
+ As With part Of, the GO relation has part Is only used In cases where A always has B As a part, i.e. where A necessarily has part B. 
+ If A exists, B will always exist; however, If B exists, we cannot say For certain that A exists. i.e. all A have part B; some B part Of A.
+ 
+ ## Reasoning over has part
+ ```
+ has part ∘has part → has part
+ ```
+ has part Is a transitive relation; If A has part B, And B has part C, we can infer that A has part C.
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.OntologyRelations.regulates">
+ <summary>
+ ## The _regulates_ relation
+ Another common relationship In the Gene Ontology Is that where one process directly affects the manifestation Of another process Or quality, 
+ i.e. the former regulates the latter. The target Of the regulation may be another process—For example, regulation Of a pathway Or an enzymatic 
+ reaction—Or it may be a quality, such As cell size Or pH. Analogously To part Of, this relation Is used specifically To mean necessarily 
+ regulates: If both A And B are present, B always regulates A, but A may Not always be regulated by B.
+ i.e. all B regulate A; some A regulated by B.
+ </summary>
+</member>
+<member name="T:SMRUCC.genomics.Data.GeneOntology.Ontologies">
+ <summary>
+ The Gene Ontology project provides controlled vocabularies of defined terms representing gene product properties. 
+ These cover three domains: 
+ 
+ + ``Cellular Component``, the parts of a cell or its extracellular environment; 
+ + ``Molecular Function``, the elemental activities of a gene product at the molecular level, such as binding or catalysis; 
+ + ``Biological Process``, operations or sets of molecular events with a defined beginning and end, pertinent to the 
+   functioning of integrated living units: cells, tissues, organs, and organisms.
+ 
+ The GO ontology Is structured As a directed acyclic graph where Each term has defined relationships To one Or more other 
+ terms In the same domain, And sometimes To other domains. The GO vocabulary Is designed To be species-agnostic, And 
+ includes terms applicable To prokaryotes And eukaryotes, And Single And multicellular organisms.
+ 
+ In an example of GO annotation, the gene product ``cytochrome c`` can be described by the ``Molecular Function`` term 
+ ``oxidoreductase activity``, the ``Biological Process`` terms ``oxidative phosphorylation`` And ``induction of cell death``, 
+ And the ``Cellular Component`` terms ``mitochondrial matrix`` And ``mitochondrial inner membrane``.
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.Ontologies.CellularComponent">
+ <summary>
+ These terms describe a component of a cell that is part of a larger object, such as an anatomical structure 
+ (e.g. rough endoplasmic reticulum or nucleus) or a gene product group (e.g. ribosome, proteasome or a protein dimer).
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.Ontologies.BiologicalProcess">
+ <summary>
+ A biological process term describes a series of events accomplished by one or more organized assemblies of molecular functions. 
+ Examples of broad biological process terms are "cellular physiological process" or "signal transduction". Examples of more 
+ specific terms are "pyrimidine metabolic process" or "alpha-glucoside transport". The general rule to assist in distinguishing 
+ between a biological process and a molecular function is that a process must have more than one distinct steps.
+ A biological process Is Not equivalent To a pathway. At present, the GO does Not Try To represent the dynamics Or dependencies 
+ that would be required To fully describe a pathway.
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Data.GeneOntology.Ontologies.MolecularFunction">
+ <summary>
+ Molecular function terms describes activities that occur at the molecular level, such as "catalytic activity" or "binding activity". 
+ GO molecular function terms represent activities rather than the entities (molecules or complexes) that perform the actions, 
+ and do not specify where, when, or in what context the action takes place. Molecular functions generally correspond to activities 
+ that can be performed by individual gene products, but some activities are performed by assembled complexes of gene products. 
+ Examples of broad functional terms are "catalytic activity" and "transporter activity"; examples of narrower functional terms are 
+ "adenylate cyclase activity" or "Toll receptor binding".
+ It Is easy To confuse a gene product name With its molecular Function; For that reason GO molecular functions are often appended 
+ With the word "activity".
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association">
  <summary>
+ ```SQL
  
  --
  
@@ -336,11 +742,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `association` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `association` (`term_id`, `gene_product_id`, `is_not`, `role_group`, `assocdate`, `source_db_id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `association` (`term_id`, `gene_product_id`, `is_not`, `role_group`, `assocdate`, `source_db_id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `association` SET `id`='{0}', `term_id`='{1}', `gene_product_id`='{2}', `is_not`='{3}', `role_group`='{4}', `assocdate`='{5}', `source_db_id`='{6}' WHERE `id` = '{7}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_isoform">
  <summary>
+ ```SQL
  
  --
  
@@ -357,11 +793,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_isoform.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `association_isoform` WHERE `association_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_isoform.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `association_isoform` (`association_id`, `gene_product_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_isoform.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `association_isoform` (`association_id`, `gene_product_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_isoform.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `association_isoform` SET `association_id`='{0}', `gene_product_id`='{1}' WHERE `association_id` = '{2}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_property">
  <summary>
+ ```SQL
  
  --
  
@@ -382,11 +848,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_property.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `association_property` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_property.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `association_property` (`association_id`, `relationship_type_id`, `term_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_property.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `association_property` (`association_id`, `relationship_type_id`, `term_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_property.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `association_property` SET `id`='{0}', `association_id`='{1}', `relationship_type_id`='{2}', `term_id`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_qualifier">
  <summary>
+ ```SQL
  
  --
  
@@ -406,11 +902,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_qualifier.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `association_qualifier` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_qualifier.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `association_qualifier` (`association_id`, `term_id`, `value`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_qualifier.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `association_qualifier` (`association_id`, `term_id`, `value`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_qualifier.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `association_qualifier` SET `id`='{0}', `association_id`='{1}', `term_id`='{2}', `value`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_species_qualifier">
  <summary>
+ ```SQL
  
  --
  
@@ -429,11 +955,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_species_qualifier.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `association_species_qualifier` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_species_qualifier.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `association_species_qualifier` (`association_id`, `species_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_species_qualifier.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `association_species_qualifier` (`association_id`, `species_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.association_species_qualifier.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `association_species_qualifier` SET `id`='{0}', `association_id`='{1}', `species_id`='{2}' WHERE `id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.assoc_rel">
  <summary>
+ ```SQL
  
  --
  
@@ -454,11 +1010,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.assoc_rel.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `assoc_rel` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.assoc_rel.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `assoc_rel` (`from_id`, `to_id`, `relationship_type_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.assoc_rel.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `assoc_rel` (`from_id`, `to_id`, `relationship_type_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.assoc_rel.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `assoc_rel` SET `id`='{0}', `from_id`='{1}', `to_id`='{2}', `relationship_type_id`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.db">
  <summary>
+ ```SQL
  
  --
  
@@ -485,11 +1071,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.db.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `db` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.db.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `db` (`name`, `fullname`, `datatype`, `generic_url`, `url_syntax`, `url_example`, `uri_prefix`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.db.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `db` (`name`, `fullname`, `datatype`, `generic_url`, `url_syntax`, `url_example`, `uri_prefix`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.db.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `db` SET `id`='{0}', `name`='{1}', `fullname`='{2}', `datatype`='{3}', `generic_url`='{4}', `url_syntax`='{5}', `url_example`='{6}', `uri_prefix`='{7}' WHERE `id` = '{8}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.dbxref">
  <summary>
+ ```SQL
  
  --
  
@@ -516,11 +1132,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.dbxref.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `dbxref` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.dbxref.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `dbxref` (`xref_dbname`, `xref_key`, `xref_keytype`, `xref_desc`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.dbxref.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `dbxref` (`xref_dbname`, `xref_key`, `xref_keytype`, `xref_desc`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.dbxref.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `dbxref` SET `id`='{0}', `xref_dbname`='{1}', `xref_key`='{2}', `xref_keytype`='{3}', `xref_desc`='{4}' WHERE `id` = '{5}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence">
  <summary>
+ ```SQL
  
  --
  
@@ -547,11 +1193,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `evidence` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `evidence` (`code`, `association_id`, `dbxref_id`, `seq_acc`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `evidence` (`code`, `association_id`, `dbxref_id`, `seq_acc`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `evidence` SET `id`='{0}', `code`='{1}', `association_id`='{2}', `dbxref_id`='{3}', `seq_acc`='{4}' WHERE `id` = '{5}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence_dbxref">
  <summary>
+ ```SQL
  
  --
  
@@ -569,11 +1245,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence_dbxref.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `evidence_dbxref` WHERE `evidence_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence_dbxref.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `evidence_dbxref` (`evidence_id`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence_dbxref.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `evidence_dbxref` (`evidence_id`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.evidence_dbxref.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `evidence_dbxref` SET `evidence_id`='{0}', `dbxref_id`='{1}' WHERE `evidence_id` = '{2}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product">
  <summary>
+ ```SQL
  
  --
  
@@ -604,11 +1310,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product` (`symbol`, `dbxref_id`, `species_id`, `type_id`, `full_name`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product` (`symbol`, `dbxref_id`, `species_id`, `type_id`, `full_name`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product` SET `id`='{0}', `symbol`='{1}', `dbxref_id`='{2}', `species_id`='{3}', `type_id`='{4}', `full_name`='{5}' WHERE `id` = '{6}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_ancestor">
  <summary>
+ ```SQL
  
  --
  
@@ -629,11 +1365,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_ancestor.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_ancestor` WHERE `gene_product_id`='{0}' and `ancestor_id`='{1}' and `phylotree_id`='{2}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_ancestor.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_ancestor` (`gene_product_id`, `ancestor_id`, `phylotree_id`, `branch_length`, `is_transitive`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_ancestor.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_ancestor` (`gene_product_id`, `ancestor_id`, `phylotree_id`, `branch_length`, `is_transitive`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_ancestor.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_ancestor` SET `gene_product_id`='{0}', `ancestor_id`='{1}', `phylotree_id`='{2}', `branch_length`='{3}', `is_transitive`='{4}' WHERE `gene_product_id`='{5}' and `ancestor_id`='{6}' and `phylotree_id`='{7}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_count">
  <summary>
+ ```SQL
  
  --
  
@@ -657,11 +1423,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_count.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_count` WHERE `species_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_count.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_count` (`term_id`, `code`, `speciesdbname`, `species_id`, `product_count`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_count.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_count` (`term_id`, `code`, `speciesdbname`, `species_id`, `product_count`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_count.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_count` SET `term_id`='{0}', `code`='{1}', `speciesdbname`='{2}', `species_id`='{3}', `product_count`='{4}' WHERE `species_id` = '{5}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_dbxref">
  <summary>
+ ```SQL
  
  --
  
@@ -679,11 +1475,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_dbxref.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_dbxref` WHERE `gene_product_id`='{0}' and `dbxref_id`='{1}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_dbxref.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_dbxref` (`gene_product_id`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_dbxref.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_dbxref` (`gene_product_id`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_dbxref.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_dbxref` SET `gene_product_id`='{0}', `dbxref_id`='{1}' WHERE `gene_product_id`='{2}' and `dbxref_id`='{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homology">
  <summary>
+ ```SQL
  
  --
  
@@ -702,11 +1528,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homology.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_homology` WHERE `gene_product1_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homology.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_homology` (`gene_product1_id`, `gene_product2_id`, `relationship_type_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homology.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_homology` (`gene_product1_id`, `gene_product2_id`, `relationship_type_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homology.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_homology` SET `gene_product1_id`='{0}', `gene_product2_id`='{1}', `relationship_type_id`='{2}' WHERE `gene_product1_id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homolset">
  <summary>
+ ```SQL
  
  --
  
@@ -725,11 +1581,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homolset.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_homolset` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homolset.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_homolset` (`gene_product_id`, `homolset_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homolset.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_homolset` (`gene_product_id`, `homolset_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_homolset.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_homolset` SET `id`='{0}', `gene_product_id`='{1}', `homolset_id`='{2}' WHERE `id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_phylotree">
  <summary>
+ ```SQL
  
  --
  
@@ -748,11 +1634,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_phylotree.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_phylotree` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_phylotree.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_phylotree` (`gene_product_id`, `phylotree_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_phylotree.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_phylotree` (`gene_product_id`, `phylotree_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_phylotree.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_phylotree` SET `id`='{0}', `gene_product_id`='{1}', `phylotree_id`='{2}' WHERE `id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_property">
  <summary>
+ ```SQL
  
  --
  
@@ -772,11 +1688,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_property.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_property` WHERE `gene_product_id`='{0}' and `property_key`='{1}' and `property_val`='{2}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_property.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_property` (`gene_product_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_property.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_property` (`gene_product_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_property.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_property` SET `gene_product_id`='{0}', `property_key`='{1}', `property_val`='{2}' WHERE `gene_product_id`='{3}' and `property_key`='{4}' and `property_val`='{5}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_seq">
  <summary>
+ ```SQL
  
  --
  
@@ -795,11 +1741,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_seq.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_seq` WHERE `gene_product_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_seq.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_seq` (`gene_product_id`, `seq_id`, `is_primary_seq`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_seq.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_seq` (`gene_product_id`, `seq_id`, `is_primary_seq`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_seq.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_seq` SET `gene_product_id`='{0}', `seq_id`='{1}', `is_primary_seq`='{2}' WHERE `gene_product_id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_subset">
  <summary>
+ ```SQL
  
  --
  
@@ -817,11 +1793,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_subset.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_subset` WHERE `gene_product_id`='{0}' and `subset_id`='{1}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_subset.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_subset` (`gene_product_id`, `subset_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_subset.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_subset` (`gene_product_id`, `subset_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_subset.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_subset` SET `gene_product_id`='{0}', `subset_id`='{1}' WHERE `gene_product_id`='{2}' and `subset_id`='{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_synonym">
  <summary>
+ ```SQL
  
  --
  
@@ -839,11 +1845,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_synonym.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `gene_product_synonym` WHERE `gene_product_id`='{0}' and `product_synonym`='{1}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_synonym.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `gene_product_synonym` (`gene_product_id`, `product_synonym`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_synonym.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `gene_product_synonym` (`gene_product_id`, `product_synonym`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.gene_product_synonym.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `gene_product_synonym` SET `gene_product_id`='{0}', `product_synonym`='{1}' WHERE `gene_product_id`='{2}' and `product_synonym`='{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path">
  <summary>
+ ```SQL
  
  --
  
@@ -873,11 +1909,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `graph_path` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `graph_path` (`term1_id`, `term2_id`, `relationship_type_id`, `distance`, `relation_distance`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `graph_path` (`term1_id`, `term2_id`, `relationship_type_id`, `distance`, `relation_distance`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `graph_path` SET `id`='{0}', `term1_id`='{1}', `term2_id`='{2}', `relationship_type_id`='{3}', `distance`='{4}', `relation_distance`='{5}' WHERE `id` = '{6}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path2term">
  <summary>
+ ```SQL
  
  --
  
@@ -895,11 +1961,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path2term.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `graph_path2term` WHERE `graph_path_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path2term.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `graph_path2term` (`graph_path_id`, `term_id`, `rank`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path2term.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `graph_path2term` (`graph_path_id`, `term_id`, `rank`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.graph_path2term.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `graph_path2term` SET `graph_path_id`='{0}', `term_id`='{1}', `rank`='{2}' WHERE `graph_path_id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.homolset">
  <summary>
+ ```SQL
  
  --
  
@@ -924,11 +2020,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.homolset.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `homolset` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.homolset.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `homolset` (`symbol`, `dbxref_id`, `target_gene_product_id`, `taxon_id`, `type_id`, `description`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.homolset.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `homolset` (`symbol`, `dbxref_id`, `target_gene_product_id`, `taxon_id`, `type_id`, `description`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.homolset.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `homolset` SET `id`='{0}', `symbol`='{1}', `dbxref_id`='{2}', `target_gene_product_id`='{3}', `taxon_id`='{4}', `type_id`='{5}', `description`='{6}' WHERE `id` = '{7}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.instance_data">
  <summary>
+ ```SQL
  
  --
  
@@ -946,11 +2072,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.instance_data.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `instance_data` WHERE `release_name` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.instance_data.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `instance_data` (`release_name`, `release_type`, `release_notes`, `ontology_data_version`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.instance_data.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `instance_data` (`release_name`, `release_type`, `release_notes`, `ontology_data_version`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.instance_data.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `instance_data` SET `release_name`='{0}', `release_type`='{1}', `release_notes`='{2}', `ontology_data_version`='{3}' WHERE `release_name` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.intersection_of">
  <summary>
+ ```SQL
  
  --
  
@@ -971,11 +2127,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.intersection_of.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `intersection_of` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.intersection_of.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `intersection_of` (`relationship_type_id`, `term1_id`, `term2_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.intersection_of.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `intersection_of` (`relationship_type_id`, `term1_id`, `term2_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.intersection_of.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `intersection_of` SET `id`='{0}', `relationship_type_id`='{1}', `term1_id`='{2}', `term2_id`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree">
  <summary>
+ ```SQL
  
  --
  
@@ -993,11 +2179,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `phylotree` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `phylotree` (`name`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `phylotree` (`name`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `phylotree` SET `id`='{0}', `name`='{1}', `dbxref_id`='{2}' WHERE `id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree_property">
  <summary>
+ ```SQL
  
  --
  
@@ -1016,11 +2232,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree_property.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `phylotree_property` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree_property.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `phylotree_property` (`phylotree_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree_property.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `phylotree_property` (`phylotree_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.phylotree_property.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `phylotree_property` SET `id`='{0}', `phylotree_id`='{1}', `property_key`='{2}', `property_val`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_composition">
  <summary>
+ ```SQL
  
  --
  
@@ -1043,11 +2289,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_composition.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `relation_composition` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_composition.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `relation_composition` (`relation1_id`, `relation2_id`, `inferred_relation_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_composition.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `relation_composition` (`relation1_id`, `relation2_id`, `inferred_relation_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_composition.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `relation_composition` SET `id`='{0}', `relation1_id`='{1}', `relation2_id`='{2}', `inferred_relation_id`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_properties">
  <summary>
+ ```SQL
  
  --
  
@@ -1069,11 +2345,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_properties.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `relation_properties` WHERE `relationship_type_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_properties.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `relation_properties` (`relationship_type_id`, `is_transitive`, `is_symmetric`, `is_anti_symmetric`, `is_cyclic`, `is_reflexive`, `is_metadata_tag`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_properties.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `relation_properties` (`relationship_type_id`, `is_transitive`, `is_symmetric`, `is_anti_symmetric`, `is_cyclic`, `is_reflexive`, `is_metadata_tag`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.relation_properties.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `relation_properties` SET `relationship_type_id`='{0}', `is_transitive`='{1}', `is_symmetric`='{2}', `is_anti_symmetric`='{3}', `is_cyclic`='{4}', `is_reflexive`='{5}', `is_metadata_tag`='{6}' WHERE `relationship_type_id` = '{7}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq">
  <summary>
+ ```SQL
  
  --
  
@@ -1099,11 +2405,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `seq` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `seq` (`display_id`, `description`, `seq`, `seq_len`, `md5checksum`, `moltype`, `timestamp`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `seq` (`display_id`, `description`, `seq`, `seq_len`, `md5checksum`, `moltype`, `timestamp`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `seq` SET `id`='{0}', `display_id`='{1}', `description`='{2}', `seq`='{3}', `seq_len`='{4}', `md5checksum`='{5}', `moltype`='{6}', `timestamp`='{7}' WHERE `id` = '{8}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_dbxref">
  <summary>
+ ```SQL
  
  --
  
@@ -1122,11 +2458,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_dbxref.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `seq_dbxref` WHERE `seq_id`='{0}' and `dbxref_id`='{1}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_dbxref.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `seq_dbxref` (`seq_id`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_dbxref.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `seq_dbxref` (`seq_id`, `dbxref_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_dbxref.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `seq_dbxref` SET `seq_id`='{0}', `dbxref_id`='{1}' WHERE `seq_id`='{2}' and `dbxref_id`='{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_property">
  <summary>
+ ```SQL
  
  --
  
@@ -1148,11 +2514,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_property.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `seq_property` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_property.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `seq_property` (`seq_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_property.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `seq_property` (`seq_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.seq_property.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `seq_property` SET `id`='{0}', `seq_id`='{1}', `property_key`='{2}', `property_val`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.source_audit">
  <summary>
+ ```SQL
  
  --
  
@@ -1173,11 +2569,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.source_audit.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `source_audit` WHERE `source_path` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.source_audit.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `source_audit` (`source_id`, `source_fullpath`, `source_path`, `source_type`, `source_md5`, `source_parsetime`, `source_mtime`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.source_audit.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `source_audit` (`source_id`, `source_fullpath`, `source_path`, `source_type`, `source_md5`, `source_parsetime`, `source_mtime`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.source_audit.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `source_audit` SET `source_id`='{0}', `source_fullpath`='{1}', `source_path`='{2}', `source_type`='{3}', `source_md5`='{4}', `source_parsetime`='{5}', `source_mtime`='{6}' WHERE `source_path` = '{7}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.species">
  <summary>
+ ```SQL
  
  --
  
@@ -1216,11 +2642,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.species.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `species` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.species.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `species` (`ncbi_taxa_id`, `common_name`, `lineage_string`, `genus`, `species`, `parent_id`, `left_value`, `right_value`, `taxonomic_rank`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.species.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `species` (`ncbi_taxa_id`, `common_name`, `lineage_string`, `genus`, `species`, `parent_id`, `left_value`, `right_value`, `taxonomic_rank`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.species.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `species` SET `id`='{0}', `ncbi_taxa_id`='{1}', `common_name`='{2}', `lineage_string`='{3}', `genus`='{4}', `species`='{5}', `parent_id`='{6}', `left_value`='{7}', `right_value`='{8}', `taxonomic_rank`='{9}' WHERE `id` = '{10}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term">
  <summary>
+ ```SQL
  
  --
  
@@ -1250,11 +2706,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term` (`name`, `term_type`, `acc`, `is_obsolete`, `is_root`, `is_relation`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term` (`name`, `term_type`, `acc`, `is_obsolete`, `is_root`, `is_relation`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term` SET `id`='{0}', `name`='{1}', `term_type`='{2}', `acc`='{3}', `is_obsolete`='{4}', `is_root`='{5}', `is_relation`='{6}' WHERE `id` = '{7}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term">
  <summary>
+ ```SQL
  
  --
  
@@ -1278,11 +2764,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term2term` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term2term` (`relationship_type_id`, `term1_id`, `term2_id`, `complete`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term2term` (`relationship_type_id`, `term1_id`, `term2_id`, `complete`) VALUES ('{0}', '{1}', '{2}', '{3}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term2term` SET `id`='{0}', `relationship_type_id`='{1}', `term1_id`='{2}', `term2_id`='{3}', `complete`='{4}' WHERE `id` = '{5}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term_metadata">
  <summary>
+ ```SQL
  
  --
  
@@ -1303,11 +2819,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term_metadata.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term2term_metadata` WHERE `id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term_metadata.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term2term_metadata` (`relationship_type_id`, `term1_id`, `term2_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term_metadata.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term2term_metadata` (`relationship_type_id`, `term1_id`, `term2_id`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term2term_metadata.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term2term_metadata` SET `id`='{0}', `relationship_type_id`='{1}', `term1_id`='{2}', `term2_id`='{3}' WHERE `id` = '{4}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_audit">
  <summary>
+ ```SQL
  
  --
  
@@ -1324,11 +2870,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_audit.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term_audit` WHERE `term_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_audit.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term_audit` (`term_id`, `term_loadtime`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_audit.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term_audit` (`term_id`, `term_loadtime`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_audit.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term_audit` SET `term_id`='{0}', `term_loadtime`='{1}' WHERE `term_id` = '{2}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_dbxref">
  <summary>
+ ```SQL
  
  --
  
@@ -1348,11 +2924,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_dbxref.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term_dbxref` WHERE `term_id`='{0}' and `dbxref_id`='{1}' and `is_for_definition`='{2}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_dbxref.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term_dbxref` (`term_id`, `dbxref_id`, `is_for_definition`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_dbxref.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term_dbxref` (`term_id`, `dbxref_id`, `is_for_definition`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_dbxref.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term_dbxref` SET `term_id`='{0}', `dbxref_id`='{1}', `is_for_definition`='{2}' WHERE `term_id`='{3}' and `dbxref_id`='{4}' and `is_for_definition`='{5}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_definition">
  <summary>
+ ```SQL
  
  --
  
@@ -1373,11 +2979,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_definition.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term_definition` WHERE `term_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_definition.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term_definition` (`term_id`, `term_definition`, `dbxref_id`, `term_comment`, `reference`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_definition.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term_definition` (`term_id`, `term_definition`, `dbxref_id`, `term_comment`, `reference`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_definition.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term_definition` SET `term_id`='{0}', `term_definition`='{1}', `dbxref_id`='{2}', `term_comment`='{3}', `reference`='{4}' WHERE `term_id` = '{5}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_property">
  <summary>
+ ```SQL
  
  --
  
@@ -1394,11 +3030,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_property.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term_property` WHERE `term_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_property.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term_property` (`term_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_property.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term_property` (`term_id`, `property_key`, `property_val`) VALUES ('{0}', '{1}', '{2}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_property.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term_property` SET `term_id`='{0}', `property_key`='{1}', `property_val`='{2}' WHERE `term_id` = '{3}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_subset">
  <summary>
+ ```SQL
  
  --
  
@@ -1416,11 +3082,41 @@ SMRUCC.genomics.Data.GO_OWL
  
  --
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_subset.GetDeleteSQL">
+ <summary>
+ ```SQL
+ DELETE FROM `term_subset` WHERE `term_id` = '{0}';
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_subset.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term_subset` (`term_id`, `subset_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_subset.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term_subset` (`term_id`, `subset_id`) VALUES ('{0}', '{1}');
+ ```
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_subset.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term_subset` SET `term_id`='{0}', `subset_id`='{1}' WHERE `term_id` = '{2}';
+ ```
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_synonym">
  <summary>
+ ```SQL
  
  --
  
@@ -1453,30 +3149,37 @@ SMRUCC.genomics.Data.GO_OWL
  
  -- Dump completed on 2015-12-03 20:47:31
  
+ ```
  </summary>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Data.GeneOntology.Term">
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_synonym.GetDeleteSQL">
  <summary>
- 功能定义
+ ```SQL
+ DELETE FROM `term_synonym` WHERE `term_id`='{0}' and `term_synonym`='{1}';
+ ```
  </summary>
- <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_synonym.GetInsertSQL">
+ <summary>
+ ```SQL
+ INSERT INTO `term_synonym` (`term_id`, `term_synonym`, `acc_synonym`, `synonym_type_id`, `synonym_category_id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
 </member>
-<member name="P:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_synonym.GetReplaceSQL">
+ <summary>
+ ```SQL
+ REPLACE INTO `term_synonym` (`term_id`, `term_synonym`, `acc_synonym`, `synonym_type_id`, `synonym_category_id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');
+ ```
+ </summary>
 </member>
-<member name="P:SMRUCC.genomics.Data.GeneOntology.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
+<member name="M:SMRUCC.genomics.Data.GeneOntology.MySQL.Tables.term_synonym.GetUpdateSQL">
+ <summary>
+ ```SQL
+ UPDATE `term_synonym` SET `term_id`='{0}', `term_synonym`='{1}', `acc_synonym`='{2}', `synonym_type_id`='{3}', `synonym_category_id`='{4}' WHERE `term_id`='{5}' and `term_synonym`='{6}';
+ ```
+ </summary>
 </member>
 </members>
 </doc>

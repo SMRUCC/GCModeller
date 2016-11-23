@@ -6,6 +6,22 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh08
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM.ModelBaseType">
  <summary>
  All of the model file basetype definition in the GCModeller program group, all of the model file must inherits from this class object.
@@ -20,7 +36,7 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh08
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions.LoadData_Integer(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions.LoadData_Integer(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  加载<see cref="T:System.Int32"></see>类型的计算数据
  </summary>
@@ -374,22 +390,6 @@ SMRUCC.genomics.GCModeller.Framework.Kernel_Driver_v1.33_33.0.0.899__2a845d2dh08
  <param name="driver"></param>
  <param name="cycle"></param>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

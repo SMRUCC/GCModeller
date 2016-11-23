@@ -6,6 +6,22 @@ SMRUCC.genomics.Analysis.FBA_DP
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.FBA_DP.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.FBA_DP.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.FBA_DP.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.FBA_DP.BoundsOverrides">
  <summary>
  复写模型之中的流的约束条件
@@ -233,14 +249,14 @@ SMRUCC.genomics.Analysis.FBA_DP
  <param name="rpkm"></param>
  <param name="sample"></param>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA.rFBAMetabolism.__calFactor(System.String,Microsoft.VisualBasic.List{System.String})">
+<member name="M:SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA.rFBAMetabolism.__calFactor(System.String,System.Collections.Generic.List{System.String})">
  <summary>
  计算出目标基因对于反应的流量的上下限的影响大小
  </summary>
  <param name="locus"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA.rFBAMetabolism.__regImpact(System.String,Microsoft.VisualBasic.List{System.String})">
+<member name="M:SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA.rFBAMetabolism.__regImpact(System.String,System.Collections.Generic.List{System.String})">
  <summary>
  计算出调控的影响大小
  </summary>
@@ -330,22 +346,6 @@ SMRUCC.genomics.Analysis.FBA_DP
  <returns>{ObjectiveFunction, FluxDistribution()}</returns>
  <param name="script">Generated script output</param>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.FBA_DP.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.FBA_DP.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.FBA_DP.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 <member name="M:SMRUCC.genomics.Analysis.FBA_DP.rFBA.BuildModel.FixError(SMRUCC.genomics.Analysis.FBA_DP.rFBA.DataModel.CellSystem)">
  <summary>
@@ -487,7 +487,7 @@ SMRUCC.genomics.Analysis.FBA_DP
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.FBA_DP.ModelWriter.CreateObject(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32,SMRUCC.genomics.Analysis.FBA_DP.ModelWriter.Regulation[],SMRUCC.genomics.Analysis.FBA_DP.Mapping.EffectorMap[])">
+<member name="M:SMRUCC.genomics.Analysis.FBA_DP.ModelWriter.CreateObject(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Int32,SMRUCC.genomics.Analysis.FBA_DP.ModelWriter.Regulation[],SMRUCC.genomics.Analysis.FBA_DP.Mapping.EffectorMap[])">
  <summary>
  
  </summary>
@@ -967,9 +967,11 @@ SMRUCC.genomics.Analysis.FBA_DP
  <param name="name"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.FBA_DP.GCModeller.FileSystem.FileSystem.GetLocalBlast">
+<member name="M:SMRUCC.genomics.Analysis.FBA_DP.GCModeller.FileSystem.FileSystem.GetLocalblast">
  <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
  </summary>
  <returns></returns>
  

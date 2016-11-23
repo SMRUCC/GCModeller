@@ -6,10 +6,43 @@ SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.IdentityResult">
  <summary>
  核酸序列的一致性的计算结果
  </summary>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.GCOutlier">
+ <summary>
+ ``GC%``异常点分析
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.GCOutlier.OutlierAnalysis(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.FASTA.FastaToken},System.Double[],System.Int32,System.Int32,System.Int32,SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.NtProperty)">
+ <summary>
+ 计算分析DNA序列之上的特别突出的位点
+ </summary>
+ <param name="mla"></param>
+ <param name="quantiles"></param>
+ <param name="winsize"></param>
+ <param name="steps"></param>
+ <param name="slideSize"></param>
+ <param name="method"></param>
+ <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.CAITable.BiasList">
  <summary>
@@ -647,22 +680,6 @@ SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
  <param name="export"></param>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

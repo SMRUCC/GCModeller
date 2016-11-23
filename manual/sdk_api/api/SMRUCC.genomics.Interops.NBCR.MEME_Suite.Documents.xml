@@ -6,6 +6,22 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite.Documents
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Extensions.__createObject(System.Int32,SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.HitResult,System.String,System.Int32,System.String)">
  <summary>
  不做任何筛选，直接导出数据
@@ -343,7 +359,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite.Documents
  genome3
  </remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text.MEME_TEXT.Normalization(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.String,System.Int32)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text.MEME_TEXT.Normalization(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.String,System.Int32)">
  <summary>
  计算单位段长度之内的motif出现的频率的高低
  </summary>
@@ -367,7 +383,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite.Documents
  How these assumptions affect the methods will be seen in my papers on inference of phylogenies from gene frequency and continuous character data (Felsenstein, 1973b, 1981c, 1985c).
  </remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text.MEME_TEXT.DistanceNormalization(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.String,System.String)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text.MEME_TEXT.DistanceNormalization(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.String,System.String)">
  <summary>
  计算基因组之间的距离，使用这个文件之中的数据利用飞利浦软件里面的Distance matrix methods方法进行进化树的构建
  </summary>
@@ -560,7 +576,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite.Documents
 </member>
 <member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST.Segment.SegmentData">
  <summary>
- 里面是有回车符的，使用前请先使用<see cref="M:Microsoft.VisualBasic.Extensions.TrimVBCrLf(System.String)"/>进行修剪
+ 里面是有回车符的，使用前请先使用<see cref="M:Microsoft.VisualBasic.Extensions.TrimNewLine(System.String,System.String)"/>进行修剪
  </summary>
  <returns></returns>
 </member>
@@ -650,22 +666,6 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite.Documents
  <summary>
  Training-set elements
  </summary>
-</member>
-<member name="T:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

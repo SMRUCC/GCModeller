@@ -6,6 +6,33 @@ SMRUCC.genomics.Analysis.RNA-Seq.TSSsTools
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources.TSSs_Enrichment">
+<summary>
+  Looks up a localized string similar to Imports Assembler
+Imports Assembler.TSSs
+
+  Dim reads       &lt;- {reads.csv} As String                      # The reads mapping csv data file.
+      reads       &lt;- $reads -&gt; load.reads.blastnmapping /Trim   # Only perfect alignment and unique alignment data will be used to downstream analysis
+      transcripts &lt;- TSSs.Shared.Enrichment mappings $reads
+call $transcripts -&gt; Write.Csv.Transcripts SaveTo {saved.csv}.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.Transcriptome.UTRs.IdentifyUTRs">
  <summary>
  For each gene, identify its 5'UTR and 3'UTR based on the expression data.
@@ -262,33 +289,6 @@ SMRUCC.genomics.Analysis.RNA-Seq.TSSsTools
  请注意，这里的index位置是序列上面的位置，下标是从1开始的，而程序之中的数组则是从0开始的，所以需要减1才能够得到数组之中的正确位置
  </summary>
  <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.My.Resources.Resources.TSSs_Enrichment">
-<summary>
-  Looks up a localized string similar to Imports Assembler
-Imports Assembler.TSSs
-
-  Dim reads       &lt;- {reads.csv} As String                      # The reads mapping csv data file.
-      reads       &lt;- $reads -&gt; load.reads.blastnmapping /Trim   # Only perfect alignment and unique alignment data will be used to downstream analysis
-      transcripts &lt;- TSSs.Shared.Enrichment mappings $reads
-call $transcripts -&gt; Write.Csv.Transcripts SaveTo {saved.csv}.
-</summary>
 </member>
 <member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.DocumentFormat.ExtProperty.BoundaryOverlaps(SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.DocumentFormat.Transcript)">
  <summary>
@@ -626,9 +626,11 @@ call $transcripts -&gt; Write.Csv.Transcripts SaveTo {saved.csv}.
  <param name="name"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.GCModeller.FileSystem.FileSystem.GetLocalBlast">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools.GCModeller.FileSystem.FileSystem.GetLocalblast">
  <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
  </summary>
  <returns></returns>
  

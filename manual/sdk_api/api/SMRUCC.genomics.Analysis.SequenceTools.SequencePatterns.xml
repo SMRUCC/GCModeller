@@ -6,6 +6,22 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociExtensions">
  <summary>
  将序列特征的搜索结果转换为<see cref="T:SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment"/>对象类型
@@ -26,7 +42,7 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  <param name="start"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociExtensions.ConvertsAuto(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociExtensions.ConvertsAuto(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  自动根据类型转换为位点数据
  </summary>
@@ -251,22 +267,6 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  <returns></returns>
  <remarks></remarks>
  
-</member>
-<member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 <member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern.Extensions.FindLocation(System.String,System.String)">
  <summary>
@@ -538,6 +538,62 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  </summary>
  <returns></returns>
 </member>
+<member name="F:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.Compares.FromLoci">
+ <summary>
+ 比较当前点和最开始的位点的间隔
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.Compares.Interval">
+ <summary>
+ 比较的是任意两点之间的间隔
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.Filtering``1(System.Collections.Generic.IEnumerable{``0},System.Int32,SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.Compares,System.Boolean,System.Int32)">
+ <summary>
+ 筛选有效的重复片段位点
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="data"></param>
+ <param name="interval"></param>
+ <param name="compare"></param>
+ <param name="returnsAll"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.__filtering``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Int32[]},System.Action{``0,System.Int32[]},System.Int32,SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.Compares,System.Boolean,System.Int32)">
+ <summary>
+ 
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="data"></param>
+ <param name="getLocis"></param>
+ <param name="setLocis"></param>
+ <param name="interval"></param>
+ <param name="compare"></param>
+ <param name="returnsAll"></param>
+ <param name="lengthMin">重复片段的最小长度</param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.FilteringRev(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RevRepeatsView},System.Int32,SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.LociFilter.Compares,System.Boolean,System.Int32)">
+ <summary>
+ 根据<see cref="P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RevRepeatsView.RevLocis"/>来进行筛选
+ </summary>
+ <param name="data"></param>
+ <param name="interval"></param>
+ <param name="compare"></param>
+ <param name="returnsAll"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsView">
+ <summary>
+ 正向重复位点的序列模型
+ </summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsView.IntervalAverages">
+ <summary>
+ 每个重复的片段之间平均的间隔长度
+ </summary>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsView.ToVector``1(System.Collections.Generic.IEnumerable{``0},System.Int64)">
  <summary>
  返回的是基因组上面的每一个位点的热度的列表
@@ -554,6 +610,11 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  片段越长，热度越高
  </summary>
  <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RevRepeatsView">
+ <summary>
+ 反向重复序列的模型，继承于<see cref="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsView"/>模型
+ </summary>
 </member>
 <member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RevRepeats">
  <summary>
@@ -659,7 +720,7 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 </member>
 <member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsSearchAPI.BatchSearch(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,System.Int32,System.Int32,System.Int32,System.String)">
  <summary>
- Batch search for the repeats and reversed repeats sequence feature sites.
+ Batch search for the repeats and reversed repeats sequence feature sites. ``<see cref="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsView"/>`` and ``<see cref="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RevRepeatsView"/>``
  </summary>
  <param name="Mla"></param>
  <param name="Min"></param>
@@ -673,13 +734,13 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  </summary>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsSearchs.__beginInit(Microsoft.VisualBasic.List{System.String}@)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsSearchs.__beginInit(Microsoft.VisualBasic.Language.List{System.String}@)">
  <summary>
  只搜索出现的序列片段，假若短片段就已经不存在于序列之上，则后面的延伸序列肯定也不存在，则删除这部分的序列
  </summary>
  <param name="seeds"></param>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsSearchs.__postResult(System.String[],Microsoft.VisualBasic.List{System.String},System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsSearchs.__postResult(System.String[],Microsoft.VisualBasic.Language.List{System.String},System.Int32)">
  <summary>
  虽然当前的片段没有在序列上面出现，但是上一次迭代的片段却是出现的，假若序列片段没有匹配上，则上一次迭代的序列则可能为重复序列
  </summary>
@@ -691,13 +752,20 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  </summary>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SearchReversedRepeats.__postResult(System.String[],Microsoft.VisualBasic.List{System.String},System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SearchReversedRepeats.__postResult(System.String[],Microsoft.VisualBasic.Language.List{System.String},System.Int32)">
  <summary>
  虽然当前的片段没有在序列上面出现，但是上一次迭代的片段却是出现的，假若序列片段没有匹配上，则上一次迭代的序列则可能为重复序列
  </summary>
  <param name="currentRemoves"></param>
  <param name="currentStat"></param>
  <param name="currLen"></param>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SearchReversedRepeats.__getRemovedList(Microsoft.VisualBasic.Language.List{System.String}@)">
+ <summary>
+ 获取将要进行移除的片段列表
+ </summary>
+ <param name="currentStat"></param>
+ <returns></returns>
 </member>
 <member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Imperfect">
  <summary>
@@ -717,13 +785,18 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  <param name="Min"></param>
  <param name="Max"></param>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Imperfect.__postResult(System.String[],Microsoft.VisualBasic.List{System.String},System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Imperfect.__postResult(System.String[],Microsoft.VisualBasic.Language.List{System.String},System.Int32)">
  <summary>
  做blastn？？
  </summary>
  <param name="currentRemoves"></param>
  <param name="currentStat"></param>
  <param name="currLen"></param>
+</member>
+<member name="T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.ImperfectPalindrome">
+ <summary>
+ 只有一部分的序列是匹配上的回文序列
+ </summary>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.ImperfectPalindrome.Site">
  <summary>
@@ -837,6 +910,18 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
     Ussery A DNA structural atlas of extitE. coli (2000) 299907-930
  </summary>
 </member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Palindrome.SearchHairpinks(SMRUCC.genomics.SequenceModel.FASTA.FastaToken,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+ <summary>
+ 
+ </summary>
+ <param name="fa"></param>
+ <param name="min"></param>
+ <param name="max"></param>
+ <param name="cutoff"></param>
+ <param name="maxDist"></param>
+ <param name="minMatch">至少需要连续匹配这么多个碱基</param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Palindrome.HaveMirror(System.String,System.String)">
  <summary>
  Have mirror repeats?
@@ -920,7 +1005,7 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  <param name="Min"></param>
  <param name="Max"></param>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeSearchs.__postResult(System.String[],Microsoft.VisualBasic.List{System.String},System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeSearchs.__postResult(System.String[],Microsoft.VisualBasic.Language.List{System.String},System.Int32)">
  <summary>
  片段在反向链找得到自己的反向片段
  </summary>
@@ -941,7 +1026,7 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  <param name="Min"></param>
  <param name="Max"></param>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.MirrorSearchs.__postResult(System.String[],Microsoft.VisualBasic.List{System.String},System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.MirrorSearchs.__postResult(System.String[],Microsoft.VisualBasic.Language.List{System.String},System.Int32)">
  <summary>
  目标片段过后
  </summary>
@@ -957,7 +1042,7 @@ SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
  <param name="Min"></param>
  <param name="Max"></param>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SearchWorker.__getRemovedList(Microsoft.VisualBasic.List{System.String}@)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SearchWorker.__getRemovedList(Microsoft.VisualBasic.Language.List{System.String}@)">
  <summary>
  必须在还较短的时候讲不符合条件的片段删除，否则后面的序列片段会非常多
  </summary>
