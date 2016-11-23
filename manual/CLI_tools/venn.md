@@ -1,19 +1,19 @@
 ---
 title: venn
 tags: [maunal, tools]
-date: 2016/10/22 12:30:20
+date: 11/24/2016 2:54:30 AM
 ---
 # GCModeller [version 1.3.11.2]
 > Tools for creating venn diagram model for the R program and venn diagram visualize drawing.
 
 <!--more-->
 
-**Venn Diagram Data Visualization**
-_Venn Diagram Data Visualization_
-Copyright ? LANS Engineering Workstation 2013
+**Venn Diagram Data Visualization**<br/>
+_Venn Diagram Data Visualization_<br/>
+Copyright © LANS Engineering Workstation 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/venn.exe
-**Root namespace**: ``LANS.SystemsBiology.AnalysisTools.DataVisualization.VennDiagramTools.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/venn.exe<br/>
+**Root namespace**: ``LANS.SystemsBiology.AnalysisTools.DataVisualization.VennDiagramTools.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

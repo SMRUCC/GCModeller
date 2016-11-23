@@ -1,19 +1,19 @@
 ---
 title: MEME
 tags: [maunal, tools]
-date: 2016/10/22 12:30:13
+date: 11/24/2016 2:54:11 AM
 ---
 # GCModeller [version 1.34.0.2]
 > A wrapper tools for the NCBR meme tools, this is a powerfull tools for reconstruct the regulation in the bacterial genome.
 
 <!--more-->
 
-**MEME wrapper tools for reconstruct the regulation network in the bacterial genome.**
-_MEME wrapper tools for reconstruct the regulation network in the bacterial genome._
-Copyright ? SMRUCC 2015. All rights reserved.
+**MEME wrapper tools for reconstruct the regulation network in the bacterial genome.**<br/>
+_MEME wrapper tools for reconstruct the regulation network in the bacterial genome._<br/>
+Copyright © SMRUCC 2015. All rights reserved.
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/MEME.exe
-**Root namespace**: ``MEME.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/MEME.exe<br/>
+**Root namespace**: ``MEME.CLI``<br/>
 
 
 All of the command that available in this program has been list below:
@@ -60,6 +60,7 @@ All of the command that available in this program has been list below:
 |[/TOMTOM.Similarity.Batch](#/TOMTOM.Similarity.Batch)||
 |[/TomTom.Sites.Groups](#/TomTom.Sites.Groups)||
 |[/Trim.MastSite](#/Trim.MastSite)||
+|[/Trim.MEME.Dataset](#/Trim.MEME.Dataset)|Trim meme input data set for duplicated sequence and short seqeucne which its min length is smaller than the required min length.|
 |[--CExpr.WGCNA](#--CExpr.WGCNA)||
 |[--family.statics](#--family.statics)||
 |[--GetFasta](#--GetFasta)||
@@ -853,7 +854,16 @@ MEME /TomTom.Sites.Groups /in <similarity.csv> /meme <meme.DIR> [/grep <regex> /
 ```bash
 MEME /Trim.MastSite /in <mastSite.Csv> /locus <locus_tag> /correlations <DIR/name> [/out <out.csv> /cut <0.65>]
 ```
-<h3 id="--build.Regulations"> 65. --build.Regulations</h3>
+<h3 id="/Trim.MEME.Dataset"> 65. /Trim.MEME.Dataset</h3>
+
+Trim meme input data set for duplicated sequence and short seqeucne which its min length is smaller than the required min length.
+**Prototype**: ``MEME.CLI::Int32 TrimInputs(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+MEME /Trim.MEME.Dataset /in <seq.fasta> [/out <out.fasta> /minl 8 /distinct]
+```
+<h3 id="--build.Regulations"> 66. --build.Regulations</h3>
 
 Genome wide step 2
 **Prototype**: ``MEME.CLI::Int32 Build(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -872,7 +882,7 @@ Extract the operon structure genes after assign the operon information.
 ```bash
 /DOOR.extract <term_string>
 ```
-<h3 id="--build.Regulations.From.Motifs"> 66. --build.Regulations.From.Motifs</h3>
+<h3 id="--build.Regulations.From.Motifs"> 67. --build.Regulations.From.Motifs</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 BuildFromMotifSites(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -881,7 +891,7 @@ Extract the operon structure genes after assign the operon information.
 ```bash
 MEME --build.Regulations.From.Motifs /bbh <regprecise.bbhMapped.csv> /motifs <motifSites.csv> [/cutoff <0.6> /sp <spName> /out <out.csv>]
 ```
-<h3 id="--CExpr.WGCNA"> 67. --CExpr.WGCNA</h3>
+<h3 id="--CExpr.WGCNA"> 68. --CExpr.WGCNA</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 WGCNAModsCExpr(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -890,7 +900,7 @@ MEME --build.Regulations.From.Motifs /bbh <regprecise.bbhMapped.csv> /motifs <mo
 ```bash
 MEME --CExpr.WGCNA /mods <CytoscapeNodes.txt> /genome <genome.DIR|*.PTT;*.fna> /out <DIR.out>
 ```
-<h3 id="Download.Regprecise"> 68. Download.Regprecise</h3>
+<h3 id="Download.Regprecise"> 69. Download.Regprecise</h3>
 
 Download Regprecise database from Web API
 **Prototype**: ``MEME.CLI::Int32 DownloadRegprecise2(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -899,7 +909,7 @@ Download Regprecise database from Web API
 ```bash
 MEME Download.Regprecise [/work ./ /save <saveXml>]
 ```
-<h3 id="--Dump.KEGG.Family"> 69. --Dump.KEGG.Family</h3>
+<h3 id="--Dump.KEGG.Family"> 70. --Dump.KEGG.Family</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 KEGGFamilyDump(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -918,7 +928,7 @@ The RegPrecise formated title fasta file.
 ```bash
 /in <term_string>
 ```
-<h3 id="--family.statics"> 70. --family.statics</h3>
+<h3 id="--family.statics"> 71. --family.statics</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 FamilyStatics(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -927,7 +937,7 @@ The RegPrecise formated title fasta file.
 ```bash
 MEME --family.statics /sites <motifSites.csv> /mods <directory.kegg_modules>
 ```
-<h3 id="--Get.Intergenic"> 71. --Get.Intergenic</h3>
+<h3 id="--Get.Intergenic"> 72. --Get.Intergenic</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 GetIntergenic(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -936,7 +946,7 @@ MEME --family.statics /sites <motifSites.csv> /mods <directory.kegg_modules>
 ```bash
 MEME --Get.Intergenic /PTT <genome.ptt> /nt <genome.fasta> [/o <out.fasta> /len 100 /strict]
 ```
-<h3 id="--GetFasta"> 72. --GetFasta</h3>
+<h3 id="--GetFasta"> 73. --GetFasta</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 GetFasta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -945,7 +955,7 @@ MEME --Get.Intergenic /PTT <genome.ptt> /nt <genome.fasta> [/o <out.fasta> /len 
 ```bash
 MEME --GetFasta /bbh <bbhh.csv> /id <subject_id> /regprecise <regprecise.fasta>
 ```
-<h3 id="--hits.diff"> 73. --hits.diff</h3>
+<h3 id="--hits.diff"> 74. --hits.diff</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 DiffHits(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -954,7 +964,7 @@ MEME --GetFasta /bbh <bbhh.csv> /id <subject_id> /regprecise <regprecise.fasta>
 ```bash
 MEME --hits.diff /query <bbhh.csv> /subject <bbhh.csv> [/reverse]
 ```
-<h3 id="--Intersect.Max"> 74. --Intersect.Max</h3>
+<h3 id="--Intersect.Max"> 75. --Intersect.Max</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 MaxIntersection(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -963,7 +973,7 @@ MEME --hits.diff /query <bbhh.csv> /subject <bbhh.csv> [/reverse]
 ```bash
 MEME --Intersect.Max /query <bbhh.csv> /subject <bbhh.csv>
 ```
-<h3 id="--logo.Batch"> 75. --logo.Batch</h3>
+<h3 id="--logo.Batch"> 76. --logo.Batch</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 LogoBatch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -972,7 +982,7 @@ MEME --Intersect.Max /query <bbhh.csv> /subject <bbhh.csv>
 ```bash
 MEME --logo.Batch -in <inDIR> [/out <outDIR>]
 ```
-<h3 id="--mapped-Back"> 76. --mapped-Back</h3>
+<h3 id="--mapped-Back"> 77. --mapped-Back</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 SiteMappedBack(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -981,7 +991,7 @@ MEME --logo.Batch -in <inDIR> [/out <outDIR>]
 ```bash
 MEME --mapped-Back /meme <meme.text> /mast <mast.xml> /ptt <genome.ptt> [/out <out.csv> /offset <10> /atg-dist <250>]
 ```
-<h3 id="mast.compile"> 77. mast.compile</h3>
+<h3 id="mast.compile"> 78. mast.compile</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 CompileMast(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -990,7 +1000,7 @@ MEME --mapped-Back /meme <meme.text> /mast <mast.xml> /ptt <genome.ptt> [/out <o
 ```bash
 MEME mast.compile /mast <mast.xml> /ptt <genome.ptt> [/no-meme /no-regInfo /p-value 1e-3 /mast-ldm <DIR default:=GCModeller/Regprecise/MEME/MAST_LDM> /atg-dist 250]
 ```
-<h3 id="mast.compile.bulk"> 78. mast.compile.bulk</h3>
+<h3 id="mast.compile.bulk"> 79. mast.compile.bulk</h3>
 
 Genome wide step 1
 **Prototype**: ``MEME.CLI::Int32 CompileMastBuck(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1009,7 +1019,7 @@ Specific that the mast site construction will without and meme pwm MAST_LDM mode
 ```bash
 /no-meme <term_string>
 ```
-<h3 id="--modules.regulates"> 79. --modules.regulates</h3>
+<h3 id="--modules.regulates"> 80. --modules.regulates</h3>
 
 Exports the Venn diagram model for the module regulations.
 **Prototype**: ``MEME.CLI::Int32 ModuleRegulates(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1029,7 +1039,7 @@ If the fields is blank, then your should specify the /mods parameter.
 ```bash
 /in <term_string>
 ```
-<h3 id="Motif.Locates"> 80. Motif.Locates</h3>
+<h3 id="Motif.Locates"> 81. Motif.Locates</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 MotifLocites(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1038,7 +1048,7 @@ If the fields is blank, then your should specify the /mods parameter.
 ```bash
 MEME Motif.Locates -ptt <bacterial_genome.ptt> -meme <meme.txt> [/out <out.csv>]
 ```
-<h3 id="MotifScan"> 81. MotifScan</h3>
+<h3 id="MotifScan"> 82. MotifScan</h3>
 
 Scan for the motif site by using fragment similarity.
 **Prototype**: ``MEME.CLI::Int32 MotifScan(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1047,7 +1057,7 @@ Scan for the motif site by using fragment similarity.
 ```bash
 MEME MotifScan -nt <nt.fasta> /motif <motifLDM.xml/LDM_Name/FamilyName> [/delta <default:80> /delta2 <default:70> /offSet <default:5> /out <saved.csv>]
 ```
-<h3 id="--pathway.regulates"> 82. --pathway.regulates</h3>
+<h3 id="--pathway.regulates"> 83. --pathway.regulates</h3>
 
 Associates of the pathway regulation information for the predicted virtual footprint information.
 **Prototype**: ``MEME.CLI::Int32 PathwayRegulations(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1056,7 +1066,7 @@ Associates of the pathway regulation information for the predicted virtual footp
 ```bash
 MEME --pathway.regulates -footprints <virtualfootprint.csv> /pathway <DIR.KEGG.Pathways> [/out <./PathwayRegulations/>]
 ```
-<h3 id="Regprecise.Compile"> 83. Regprecise.Compile</h3>
+<h3 id="Regprecise.Compile"> 84. Regprecise.Compile</h3>
 
 The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn't know how to set this value, please leave it blank.
 **Prototype**: ``MEME.CLI::Int32 CompileRegprecise(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1065,7 +1075,7 @@ The repository parameter is a directory path which is the regprecise database ro
 ```bash
 MEME Regprecise.Compile [<repository>]
 ```
-<h3 id="regulators.bbh"> 84. regulators.bbh</h3>
+<h3 id="regulators.bbh"> 85. regulators.bbh</h3>
 
 Compiles for the regulators in the bacterial genome mapped on the regprecise database using bbh method.
 **Prototype**: ``MEME.CLI::Int32 RegulatorsBBh(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1084,7 +1094,7 @@ The data source of the /bbh parameter is comes from the regulons bbh data.
 ```bash
 /regulons <term_string>
 ```
-<h3 id="regulators.compile"> 85. regulators.compile</h3>
+<h3 id="regulators.compile"> 86. regulators.compile</h3>
 
 Regprecise regulators data source compiler.
 **Prototype**: ``MEME.CLI::Int32 RegulatorsCompile()``
@@ -1093,7 +1103,7 @@ Regprecise regulators data source compiler.
 ```bash
 MEME
 ```
-<h3 id="--site.Match"> 86. --site.Match</h3>
+<h3 id="--site.Match"> 87. --site.Match</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 SiteMatch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1112,7 +1122,7 @@ If not specific this parameter, then the function will trying to parsing the len
 ```bash
 /len <term_string>
 ```
-<h3 id="--site.Matches"> 87. --site.Matches</h3>
+<h3 id="--site.Matches"> 88. --site.Matches</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 SiteMatches(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1121,7 +1131,7 @@ If not specific this parameter, then the function will trying to parsing the len
 ```bash
 MEME --site.Matches /meme <DIR.meme.text> /mast <DIR.mast.xml> /out <out.csv> [/ptt <genome.ptt>]
 ```
-<h3 id="--site.Matches.text"> 88. --site.Matches.text</h3>
+<h3 id="--site.Matches.text"> 89. --site.Matches.text</h3>
 
 Using this function for processing the meme text output from the tmod toolbox.
 **Prototype**: ``MEME.CLI::Int32 SiteMatchesText(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1130,7 +1140,7 @@ Using this function for processing the meme text output from the tmod toolbox.
 ```bash
 MEME --site.Matches.text /meme <DIR.meme.text> /mast <DIR.mast.xml> /out <out.csv> [/ptt <genome.ptt> /fasta <original.fasta.DIR>]
 ```
-<h3 id="--site.stat"> 89. --site.stat</h3>
+<h3 id="--site.stat"> 90. --site.stat</h3>
 
 Statics of the PCC correlation distribution of the regulation
 **Prototype**: ``MEME.CLI::Int32 SiteStat(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1139,7 +1149,7 @@ Statics of the PCC correlation distribution of the regulation
 ```bash
 MEME --site.stat /in <footprints.csv> [/out <out.csv>]
 ```
-<h3 id="--TCS.Module.Regulations"> 90. --TCS.Module.Regulations</h3>
+<h3 id="--TCS.Module.Regulations"> 91. --TCS.Module.Regulations</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 TCSRegulateModule(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1148,7 +1158,7 @@ MEME --site.stat /in <footprints.csv> [/out <out.csv>]
 ```bash
 MEME --TCS.Module.Regulations /MiST2 <MiST2.xml> /footprint <footprints.csv> /Pathways <KEGG_Pathways.DIR>
 ```
-<h3 id="--TCS.Regulations"> 91. --TCS.Regulations</h3>
+<h3 id="--TCS.Regulations"> 92. --TCS.Regulations</h3>
 
 
 **Prototype**: ``MEME.CLI::Int32 TCSRegulations(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1157,7 +1167,7 @@ MEME --TCS.Module.Regulations /MiST2 <MiST2.xml> /footprint <footprints.csv> /Pa
 ```bash
 MEME --TCS.Regulations /TCS <DIR.TCS.csv> /modules <DIR.mod.xml> /regulations <virtualfootprint.csv>
 ```
-<h3 id="VirtualFootprint.DIP"> 92. VirtualFootprint.DIP</h3>
+<h3 id="VirtualFootprint.DIP"> 93. VirtualFootprint.DIP</h3>
 
 Associate the dip information with the Sigma 70 virtual footprints.
 **Prototype**: ``MEME.CLI::Int32 VirtualFootprintDIP(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1166,7 +1176,7 @@ Associate the dip information with the Sigma 70 virtual footprints.
 ```bash
 MEME VirtualFootprint.DIP vf.csv <csv> dip.csv <csv>
 ```
-<h3 id="wGet.Regprecise"> 93. wGet.Regprecise</h3>
+<h3 id="wGet.Regprecise"> 94. wGet.Regprecise</h3>
 
 Download Regprecise database from REST API
 **Prototype**: ``MEME.CLI::Int32 DownloadRegprecise(args As Microsoft.VisualBasic.CommandLine.CommandLine)``

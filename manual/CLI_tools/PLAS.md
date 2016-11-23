@@ -1,19 +1,19 @@
 ---
 title: PLAS
 tags: [maunal, tools]
-date: 2016/10/22 12:30:15
+date: 11/24/2016 2:54:16 AM
 ---
 # GCModeller [version 1.0.0.0]
 > 
 
 <!--more-->
 
-**PLAS**
-__
-Copyright ? LANS Engineering Workstation 2013
+**PLAS**<br/>
+__<br/>
+Copyright © LANS Engineering Workstation 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/PLAS.exe
-**Root namespace**: ``PLAS.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/PLAS.exe<br/>
+**Root namespace**: ``PLAS.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

@@ -1,19 +1,19 @@
 ---
 title: localblast
 tags: [maunal, tools]
-date: 2016/10/22 12:30:12
+date: 11/24/2016 2:54:10 AM
 ---
 # GCModeller [version 1.0.0.0]
 > Wrapper tools for the ncbi blast+ program and the blast output data analysis program.
 
 <!--more-->
 
-**NCBI localblast wrapper tools**
-_NCBI localblast_
-Copyright ? GPL3 2015
+**NCBI localblast wrapper tools**<br/>
+_NCBI localblast_<br/>
+Copyright © GPL3 2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/localblast.exe
-**Root namespace**: ``NCBI.localblast.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/localblast.exe<br/>
+**Root namespace**: ``NCBI.localblast.CLI``<br/>
 
 ------------------------------------------------------------
 If you are having trouble debugging this Error, first read the best practices tutorial for helpful tips that address many common problems:
@@ -43,16 +43,14 @@ All of the command that available in this program has been list below:
 |[/MAT.evalue](#/MAT.evalue)||
 |[/Paralog](#/Paralog)||
 |[/Reads.OTU.Taxonomy](#/Reads.OTU.Taxonomy)||
-|[/Ref.Gi.list](#/Ref.Gi.list)||
-|[/SBH.Export.Large](#/SBH.Export.Large)||
 |[/SSBH2BH_LDM](#/SSBH2BH_LDM)||
 |[/SSDB.Export](#/SSDB.Export)||
 |[/Taxonomy.efetch](#/Taxonomy.efetch)||
 |[/Taxonomy.efetch.Merge](#/Taxonomy.efetch.Merge)||
 |[/Venn.Single](#/Venn.Single)||
 |[--bbh.export](#--bbh.export)|Batch export bbh result data from a directory.|
-|[blast](#blast)|In order to draw as venn diagram for a specific set of genome and study the diferrence and consists between these genomes, you should do the blast operation from the protein amino aciad sequence first. The blastp operation can be performenced by the blast+ program which you can download from the NCBI website, this command is a interop service for the NCBI blast program£¬ you should install the blast+ program at first.|
-|[--blast.self](#--blast.self)||
+|[blast](#blast)|In order to draw as venn diagram for a specific set of genome and study the diferrence and consists between these genomes, you should do the blast operation from the protein amino aciad sequence first. The blastp operation can be performenced by the blast+ program which you can download from the NCBI website, this command is a interop service for the NCBI blast program, you should install the blast+ program at first.|
+|[--blast.self](#--blast.self)|Query fasta query against itself for paralogs.|
 |[-copy](#-copy)||
 |[--Export.Fasta](#--Export.Fasta)||
 |[--Export.Overviews](#--Export.Overviews)||
@@ -99,10 +97,12 @@ All of the command that available in this program has been list below:
 |------------|----|
 |[/bbh.Export](#/bbh.Export)||
 |[/BBH.Merge](#/BBH.Merge)||
-|[/Blastp.BBH.Query](#/Blastp.BBH.Query)||
+|[/Blastp.BBH.Query](#/Blastp.BBH.Query)|Using query fasta invoke blastp against the fasta files in a directory.
+               * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.|
 |[/Export.Locus](#/Export.Locus)||
 |[/locus.Selects](#/locus.Selects)||
 |[/SBH.BBH.Batch](#/SBH.BBH.Batch)||
+|[/SBH.Export.Large](#/SBH.Export.Large)|Using this command for export the sbh result of your blastp raw data.|
 |[/SBH.Trim](#/SBH.Trim)||
 |[/sbh2bbh](#/sbh2bbh)||
 |[/Select.Meta](#/Select.Meta)||
@@ -128,8 +128,9 @@ All of the command that available in this program has been list below:
 |[/Chromosomes.Export](#/Chromosomes.Export)||
 |[/Export.Blastn](#/Export.Blastn)||
 |[/Export.blastnMaps](#/Export.blastnMaps)||
-|[/Export.blastnMaps.Batch](#/Export.blastnMaps.Batch)||
+|[/Export.blastnMaps.Batch](#/Export.blastnMaps.Batch)|Multiple processor task.|
 |[/Export.blastnMaps.littles](#/Export.blastnMaps.littles)||
+|[/Export.blastnMaps.Write](#/Export.blastnMaps.Write)|Exports large amount of blastn output files and write all data into a specific csv file.|
 
 
 ##### 5. COG annotation tools
@@ -139,6 +140,18 @@ All of the command that available in this program has been list below:
 |------------|----|
 |[/COG.Statics](#/COG.Statics)||
 |[/EXPORT.COGs.from.DOOR](#/EXPORT.COGs.from.DOOR)||
+|[/install.cog2003-2014](#/install.cog2003-2014)|Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation. 
+               This command required of the blast+ install first.|
+|[/query.cog2003-2014](#/query.cog2003-2014)|Protein COG annotation by using NCBI cog2003-2014.fasta database.|
+
+
+##### 6. NCBI taxonomy tools
+
+
+|Function API|Info|
+|------------|----|
+|[/ref.acc.list](#/ref.acc.list)||
+|[/ref.gi.list](#/ref.gi.list)||
 
 ## CLI API list
 --------------------------
@@ -298,13 +311,48 @@ localblast /BlastnMaps.Summery /in <in.DIR> [/split "-" /out <out.csv>]
 ```
 <h3 id="/Blastp.BBH.Query"> 15. /Blastp.BBH.Query</h3>
 
-
+Using query fasta invoke blastp against the fasta files in a directory.
+* This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.
 **Prototype**: ``NCBI.localblast.CLI::Int32 BlastpBBHQuery(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 localblast /Blastp.BBH.Query /query <query.fasta> /hit <hit.source> [/out <outDIR> /overrides /num_threads <-1>]
 ```
+
+
+#### Arguments
+##### /query
+The protein query fasta file.
+
+###### Example
+```bash
+/query <file/directory>
+```
+##### /hit
+A directory contains the protein sequence fasta files which will be using for bbh search.
+
+###### Example
+```bash
+/hit <file/directory>
+```
+##### Accepted Types
+###### /query
+**Decalre**:  _SMRUCC.genomics.SequenceModel.FASTA.FastaFile_
+Example: 
+```bash
+>LexA
+AAGCGAACAAATGTTCTATA
+```
+
+###### /hit
+**Decalre**:  _SMRUCC.genomics.SequenceModel.FASTA.FastaFile_
+Example: 
+```bash
+>LexA
+AAGCGAACAAATGTTCTATA
+```
+
 <h3 id="/Chromosomes.Export"> 16. /Chromosomes.Export</h3>
 
 
@@ -397,7 +445,7 @@ true
 
 <h3 id="/Export.blastnMaps.Batch"> 24. /Export.blastnMaps.Batch</h3>
 
-
+Multiple processor task.
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportBlastnMapsBatch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
@@ -413,7 +461,64 @@ localblast /Export.blastnMaps.Batch /in <blastn_out.DIR> [/best /out <out.DIR> /
 ```bash
 localblast /Export.blastnMaps.littles /in <blastn.txt.DIR> [/out <out.csv.DIR>]
 ```
-<h3 id="/Export.BlastX"> 26. /Export.BlastX</h3>
+<h3 id="/Export.blastnMaps.Write"> 26. /Export.blastnMaps.Write</h3>
+
+Exports large amount of blastn output files and write all data into a specific csv file.
+**Prototype**: ``NCBI.localblast.CLI::Int32 ExportBlastnMapsBatchWrite(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+localblast /Export.blastnMaps.Write /in <blastn_out.DIR> [/best /out <write.csv>]
+```
+
+
+#### Arguments
+##### /in
+The directory path that contains the blastn output data.
+
+###### Example
+```bash
+/in <file/directory>
+# (This argument can accept the std_out from upstream app as input)
+```
+##### [/best]
+Only export the top best blastn alignment hit?
+
+###### Example
+```bash
+/best
+#(bool flag does not require of argument value)
+```
+##### [/out]
+Blastn alignment maps data.
+
+###### Example
+```bash
+/out <file/directory>
+```
+##### Accepted Types
+###### /in
+**Decalre**:  _System.String_
+Example: 
+```json
+"System.String"
+```
+
+###### /best
+**Decalre**:  _System.Boolean_
+Example: 
+```json
+true
+```
+
+###### /out
+**Decalre**:  _SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BlastnMapping_
+Example: 
+```json
+null
+```
+
+<h3 id="/Export.BlastX"> 27. /Export.BlastX</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportBlastX(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -422,7 +527,7 @@ localblast /Export.blastnMaps.littles /in <blastn.txt.DIR> [/out <out.csv.DIR>]
 ```bash
 localblast /Export.BlastX /in <blastx.txt> [/out <out.csv>]
 ```
-<h3 id="/EXPORT.COGs.from.DOOR"> 27. /EXPORT.COGs.from.DOOR</h3>
+<h3 id="/EXPORT.COGs.from.DOOR"> 28. /EXPORT.COGs.from.DOOR</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportDOORCogs(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -431,7 +536,7 @@ localblast /Export.BlastX /in <blastx.txt> [/out <out.csv>]
 ```bash
 localblast /EXPORT.COGs.from.DOOR /in <DOOR.opr> [/out <out.csv>]
 ```
-<h3 id="/Export.gb"> 28. /Export.gb</h3>
+<h3 id="/Export.gb"> 29. /Export.gb</h3>
 
 Export the *.fna, *.faa, *.ptt file from the gbk file.
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportPTTDb(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -458,7 +563,7 @@ Example:
 true
 ```
 
-<h3 id="/Export.gpff"> 29. /Export.gpff</h3>
+<h3 id="/Export.gpff"> 30. /Export.gpff</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 EXPORTgpff(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -467,7 +572,7 @@ true
 ```bash
 localblast /Export.gpff /in <genome.gpff> /gff <genome.gff> [/out <out.PTT>]
 ```
-<h3 id="/Export.gpffs"> 30. /Export.gpffs</h3>
+<h3 id="/Export.gpffs"> 31. /Export.gpffs</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 EXPORTgpffs(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -476,7 +581,7 @@ localblast /Export.gpff /in <genome.gpff> /gff <genome.gff> [/out <out.PTT>]
 ```bash
 localblast /Export.gpffs [/in <inDIR>]
 ```
-<h3 id="/Export.Locus"> 31. /Export.Locus</h3>
+<h3 id="/Export.Locus"> 32. /Export.Locus</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportLocus(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -485,7 +590,7 @@ localblast /Export.gpffs [/in <inDIR>]
 ```bash
 localblast /Export.Locus /in <sbh/bbh_DIR> [/hit /out <out.txt>]
 ```
-<h3 id="/export.prot"> 32. /export.prot</h3>
+<h3 id="/export.prot"> 33. /export.prot</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportProt(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -494,7 +599,7 @@ localblast /Export.Locus /in <sbh/bbh_DIR> [/hit /out <out.txt>]
 ```bash
 localblast /export.prot /gb <genome.gbk> [/out <out.fasta>]
 ```
-<h3 id="/Fasta.Filters"> 33. /Fasta.Filters</h3>
+<h3 id="/Fasta.Filters"> 34. /Fasta.Filters</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 Filter(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -521,7 +626,7 @@ Example:
 true
 ```
 
-<h3 id="/Identities.Matrix"> 34. /Identities.Matrix</h3>
+<h3 id="/Identities.Matrix"> 35. /Identities.Matrix</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 IdentitiesMAT(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -530,7 +635,41 @@ true
 ```bash
 localblast /Identities.Matrix /hit <sbh/bbh.csv> [/out <out.csv> /cut 0.65]
 ```
-<h3 id="/locus.Selects"> 35. /locus.Selects</h3>
+<h3 id="/install.cog2003-2014"> 36. /install.cog2003-2014</h3>
+
+Config the ``prot2003-2014.fasta`` database for GCModeller localblast tools. This database will be using for the COG annotation.
+This command required of the blast+ install first.
+**Prototype**: ``NCBI.localblast.CLI::Int32 InstallCOGDatabase(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+localblast /install.cog2003-2014 /db <prot2003-2014.fasta>
+```
+###### Example
+```bash
+localblast /install.cog2003-2014 /db /data/fasta/prot2003-2014.fasta
+```
+
+
+#### Arguments
+##### /db
+The fasta database using for COG annotation, which can be download from NCBI ftp:
+> ftp://ftp.ncbi.nlm.nih.gov/pub/COG/COG2014/data/prot2003-2014.fa.gz
+
+###### Example
+```bash
+/db <file/directory>
+```
+##### Accepted Types
+###### /db
+**Decalre**:  _SMRUCC.genomics.SequenceModel.FASTA.FastaFile_
+Example: 
+```bash
+>LexA
+AAGCGAACAAATGTTCTATA
+```
+
+<h3 id="/locus.Selects"> 37. /locus.Selects</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 LocusSelects(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -539,7 +678,7 @@ localblast /Identities.Matrix /hit <sbh/bbh.csv> [/out <out.csv> /cut 0.65]
 ```bash
 localblast /locus.Selects /locus <locus.txt> /bh <bbhindex.csv> [/out <out.csv>]
 ```
-<h3 id="/MAT.evalue"> 36. /MAT.evalue</h3>
+<h3 id="/MAT.evalue"> 38. /MAT.evalue</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 EvalueMatrix(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -548,7 +687,7 @@ localblast /locus.Selects /locus <locus.txt> /bh <bbhindex.csv> [/out <out.csv>]
 ```bash
 localblast /MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]
 ```
-<h3 id="/Merge.faa"> 37. /Merge.faa</h3>
+<h3 id="/Merge.faa"> 39. /Merge.faa</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 MergeFaa(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -557,7 +696,7 @@ localblast /MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]
 ```bash
 localblast /Merge.faa /in <DIR> /out <out.fasta>
 ```
-<h3 id="/Paralog"> 38. /Paralog</h3>
+<h3 id="/Paralog"> 40. /Paralog</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportParalog(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -566,7 +705,7 @@ localblast /Merge.faa /in <DIR> /out <out.fasta>
 ```bash
 localblast /Paralog /blastp <blastp.txt> [/coverage 0.5 /identities 0.3 /out <out.csv>]
 ```
-<h3 id="/Print"> 39. /Print</h3>
+<h3 id="/Print"> 41. /Print</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 Print(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -575,7 +714,93 @@ localblast /Paralog /blastp <blastp.txt> [/coverage 0.5 /identities 0.3 /out <ou
 ```bash
 localblast /Print /in <inDIR> [/ext <ext> /out <out.Csv>]
 ```
-<h3 id="/Reads.OTU.Taxonomy"> 40. /Reads.OTU.Taxonomy</h3>
+<h3 id="/query.cog2003-2014"> 42. /query.cog2003-2014</h3>
+
+Protein COG annotation by using NCBI cog2003-2014.fasta database.
+**Prototype**: ``NCBI.localblast.CLI::Int32 COG2003_2014(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+localblast /query.cog2003-2014 /query <query.fasta> [/evalue 1e-5 /coverage 0.65 /identities 0.85 /all /out <out.DIR> /db <cog2003-2014.fasta> /blast+ <blast+/bin>]
+```
+
+
+#### Arguments
+##### [/db]
+The file path to the database fasta file.
+If you have config the cog2003-2014 database previously, then this argument can be omitted.
+
+###### Example
+```bash
+/db <file/directory>
+```
+##### [/blast+]
+The directory to the NCBI blast+ suite ``bin`` directory. If you have config this path before, then this argument can be omitted.
+
+###### Example
+```bash
+/blast+ <file/directory>
+```
+##### [/all]
+For export the bbh result, export all match or only the top best? default is only top best.
+
+###### Example
+```bash
+/all
+#(bool flag does not require of argument value)
+```
+##### [/evalue]
+blastp e-value cutoff.
+
+###### Example
+```bash
+/evalue <float>
+```
+##### [/out]
+The output directory for the work files.
+
+###### Example
+```bash
+/out <file/directory>
+```
+##### Accepted Types
+###### /db
+**Decalre**:  _SMRUCC.genomics.SequenceModel.FASTA.FastaFile_
+Example: 
+```bash
+>LexA
+AAGCGAACAAATGTTCTATA
+```
+
+###### /blast+
+**Decalre**:  _System.String_
+Example: 
+```json
+"System.String"
+```
+
+###### /all
+**Decalre**:  _System.Boolean_
+Example: 
+```json
+true
+```
+
+###### /evalue
+**Decalre**:  _System.Double_
+Example: 
+```json
+0
+```
+
+###### /out
+**Decalre**:  _System.String_
+Example: 
+```json
+"System.String"
+```
+
+<h3 id="/Reads.OTU.Taxonomy"> 43. /Reads.OTU.Taxonomy</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ReadsOTU_Taxonomy(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -584,16 +809,25 @@ localblast /Print /in <inDIR> [/ext <ext> /out <out.Csv>]
 ```bash
 localblast /Reads.OTU.Taxonomy /in <blastnMaps.csv> /OTU <OTU_data.csv> /tax <taxonomy:nodes/names> [/out <out.csv>]
 ```
-<h3 id="/Ref.Gi.list"> 41. /Ref.Gi.list</h3>
+<h3 id="/ref.acc.list"> 44. /ref.acc.list</h3>
+
+
+**Prototype**: ``NCBI.localblast.CLI::Int32 AccessionList(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+localblast /ref.acc.list /in <blastnMaps.csv/DIR> [/out <out.csv>]
+```
+<h3 id="/ref.gi.list"> 45. /ref.gi.list</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 GiList(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
-localblast /Ref.Gi.list /in <blastnMaps.csv> [/out <out.csv>]
+localblast /ref.gi.list /in <blastnMaps.csv/DIR> [/out <out.csv>]
 ```
-<h3 id="/SBH.BBH.Batch"> 42. /SBH.BBH.Batch</h3>
+<h3 id="/SBH.BBH.Batch"> 46. /SBH.BBH.Batch</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 SBH_BBH_Batch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -602,26 +836,63 @@ localblast /Ref.Gi.list /in <blastnMaps.csv> [/out <out.csv>]
 ```bash
 localblast /SBH.BBH.Batch /in <sbh.DIR> [/identities <-1> /coverage <-1> /all /out <bbh.DIR> /num_threads <-1>]
 ```
-<h3 id="/SBH.Export.Large"> 43. /SBH.Export.Large</h3>
+<h3 id="/SBH.Export.Large"> 47. /SBH.Export.Large</h3>
 
-
+Using this command for export the sbh result of your blastp raw data.
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportBBHLarge(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
-localblast /SBH.Export.Large /in <blast_out.txt> [/trim-kegg /out <bbh.csv> /identities 0.15 /coverage 0.5]
+localblast /SBH.Export.Large /in <blastp_out.txt> [/trim-kegg /out <sbh.csv> /identities 0.15 /coverage 0.5]
 ```
 
 
 #### Arguments
+##### /in
+The blastp raw result input file path.
+
+###### Example
+```bash
+/in <file/directory>
+```
 ##### [/trim-KEGG]
 If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.
 
 ###### Example
 ```bash
-/trim-KEGG <term_string>
+/trim-KEGG
+#(bool flag does not require of argument value)
 ```
-<h3 id="/SBH.Trim"> 44. /SBH.Trim</h3>
+##### [/out]
+The sbh result output csv file location.
+
+###### Example
+```bash
+/out <file/directory>
+```
+##### Accepted Types
+###### /in
+**Decalre**:  _System.String_
+Example: 
+```json
+"System.String"
+```
+
+###### /trim-KEGG
+**Decalre**:  _System.Boolean_
+Example: 
+```json
+true
+```
+
+###### /out
+**Decalre**:  _System.String_
+Example: 
+```json
+"System.String"
+```
+
+<h3 id="/SBH.Trim"> 48. /SBH.Trim</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 SBHTrim(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -630,7 +901,7 @@ If the fasta sequence source is comes from the KEGG database, and you want to re
 ```bash
 localblast /SBH.Trim /in <sbh.csv> /evalue <evalue> [/identities 0.15 /coverage 0.5 /out <out.csv>]
 ```
-<h3 id="/sbh2bbh"> 45. /sbh2bbh</h3>
+<h3 id="/sbh2bbh"> 49. /sbh2bbh</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 BBHExport2(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -656,7 +927,7 @@ Makes a further filtering on the bbh by using this option, default value is -1, 
 ```bash
 /coverage <term_string>
 ```
-<h3 id="/Select.Meta"> 46. /Select.Meta</h3>
+<h3 id="/Select.Meta"> 50. /Select.Meta</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 SelectsMeta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -665,7 +936,7 @@ Makes a further filtering on the bbh by using this option, default value is -1, 
 ```bash
 localblast /Select.Meta /in <meta.Xml> /bbh <bbh.csv> [/out <out.csv>]
 ```
-<h3 id="/SSBH2BH_LDM"> 47. /SSBH2BH_LDM</h3>
+<h3 id="/SSBH2BH_LDM"> 51. /SSBH2BH_LDM</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 KEGGSSOrtholog2Bh(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -674,7 +945,7 @@ localblast /Select.Meta /in <meta.Xml> /bbh <bbh.csv> [/out <out.csv>]
 ```bash
 localblast /SSBH2BH_LDM /in <ssbh.csv> [/xml /coverage 0.8 /identities 0.3 /out <out.xml>]
 ```
-<h3 id="/SSDB.Export"> 48. /SSDB.Export</h3>
+<h3 id="/SSDB.Export"> 52. /SSDB.Export</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 KEGGSSDBExport(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -683,7 +954,7 @@ localblast /SSBH2BH_LDM /in <ssbh.csv> [/xml /coverage 0.8 /identities 0.3 /out 
 ```bash
 localblast /SSDB.Export /in <inDIR> [/coverage 0.8 /identities 0.3 /out <out.Xml>]
 ```
-<h3 id="/Taxonomy.efetch"> 49. /Taxonomy.efetch</h3>
+<h3 id="/Taxonomy.efetch"> 53. /Taxonomy.efetch</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 FetchTaxnData(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -692,7 +963,7 @@ localblast /SSDB.Export /in <inDIR> [/coverage 0.8 /identities 0.3 /out <out.Xml
 ```bash
 localblast /Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]
 ```
-<h3 id="/Taxonomy.efetch.Merge"> 50. /Taxonomy.efetch.Merge</h3>
+<h3 id="/Taxonomy.efetch.Merge"> 54. /Taxonomy.efetch.Merge</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 MergeFetchTaxonData(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -701,7 +972,7 @@ localblast /Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]
 ```bash
 localblast /Taxonomy.efetch.Merge /in <in.DIR> [/out <out.Csv>]
 ```
-<h3 id="/venn.BBH"> 51. /venn.BBH</h3>
+<h3 id="/venn.BBH"> 55. /venn.BBH</h3>
 
 2. Build venn table And bbh data from the blastp result out Or sbh data cache.
 **Prototype**: ``NCBI.localblast.CLI::Int32 VennBBH(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -720,7 +991,7 @@ If the data source in the imports directory Is already the sbh data source, then
 ```bash
 /skip-load <term_string>
 ```
-<h3 id="/venn.BlastAll"> 52. /venn.BlastAll</h3>
+<h3 id="/venn.BlastAll"> 56. /venn.BlastAll</h3>
 
 Completely paired combos blastp bbh operations for the venn diagram Or network builder.
 **Prototype**: ``NCBI.localblast.CLI::Int32 vennBlastAll(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -753,7 +1024,7 @@ If this parameter Is represent, then all of the paired best hit will be export, 
 ```bash
 /all <term_string>
 ```
-<h3 id="/venn.cache"> 53. /venn.cache</h3>
+<h3 id="/venn.cache"> 57. /venn.cache</h3>
 
 1. [SBH_Batch] Creates the sbh cache data for the downstream bbh analysis.
 And this batch function is suitable with any scale of the blastp sbh data output.
@@ -773,7 +1044,7 @@ The number of the sub process thread. -1 value is stands for auto config by the 
 ```bash
 /num_threads <term_string>
 ```
-<h3 id="/venn.sbh.thread"> 54. /venn.sbh.thread</h3>
+<h3 id="/venn.sbh.thread"> 58. /venn.sbh.thread</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 SBHThread(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -782,7 +1053,7 @@ The number of the sub process thread. -1 value is stands for auto config by the 
 ```bash
 localblast /venn.sbh.thread /in <blastp.txt> [/out <out.sbh.csv> /coverage <0.6> /identities <0.3> /overrides]
 ```
-<h3 id="/Venn.Single"> 55. /Venn.Single</h3>
+<h3 id="/Venn.Single"> 59. /Venn.Single</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 VennSingle(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -791,7 +1062,7 @@ localblast /venn.sbh.thread /in <blastp.txt> [/out <out.sbh.csv> /coverage <0.6>
 ```bash
 localblast /Venn.Single /in <besthits.Xml> [/out <out.csv>]
 ```
-<h3 id="--bbh.export"> 56. --bbh.export</h3>
+<h3 id="--bbh.export"> 60. --bbh.export</h3>
 
 Batch export bbh result data from a directory.
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportBBH(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -810,9 +1081,9 @@ If this all Boolean value is specific, then the program will export all hits for
 ```bash
 /all <term_string>
 ```
-<h3 id="blast"> 57. blast</h3>
+<h3 id="blast"> 61. blast</h3>
 
-In order to draw as venn diagram for a specific set of genome and study the diferrence and consists between these genomes, you should do the blast operation from the protein amino aciad sequence first. The blastp operation can be performenced by the blast+ program which you can download from the NCBI website, this command is a interop service for the NCBI blast program£¬ you should install the blast+ program at first.
+In order to draw as venn diagram for a specific set of genome and study the diferrence and consists between these genomes, you should do the blast operation from the protein amino aciad sequence first. The blastp operation can be performenced by the blast+ program which you can download from the NCBI website, this command is a interop service for the NCBI blast program, you should install the blast+ program at first.
 **Prototype**: ``NCBI.localblast.CLI::Int32 BLASTA(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
@@ -861,16 +1132,16 @@ Optional, the blastp log file output directory for the NCBI blast+ program. If t
 ```bash
 -ld ~/Desktop/logs/
 ```
-<h3 id="--blast.self"> 58. --blast.self</h3>
+<h3 id="--blast.self"> 62. --blast.self</h3>
 
-
+Query fasta query against itself for paralogs.
 **Prototype**: ``NCBI.localblast.CLI::Int32 SelfBlast(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
 localblast --blast.self /query <query.fasta> [/blast <blast_HOME> /out <out.csv>]
 ```
-<h3 id="-copy"> 59. -copy</h3>
+<h3 id="-copy"> 63. -copy</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 Copy(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -879,7 +1150,7 @@ localblast --blast.self /query <query.fasta> [/blast <blast_HOME> /out <out.csv>
 ```bash
 localblast -copy -i <index_file> -os <output_saved> [-osidx <id_column_index> -os_skip_first <T/F>]
 ```
-<h3 id="--Export.Fasta"> 60. --Export.Fasta</h3>
+<h3 id="--Export.Fasta"> 64. --Export.Fasta</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportFasta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -888,7 +1159,7 @@ localblast -copy -i <index_file> -os <output_saved> [-osidx <id_column_index> -o
 ```bash
 localblast --Export.Fasta /hits <query-hits.csv> /query <query.fasta> /subject <subject.fasta>
 ```
-<h3 id="--Export.Overviews"> 61. --Export.Overviews</h3>
+<h3 id="--Export.Overviews"> 65. --Export.Overviews</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportOverviews(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -897,7 +1168,7 @@ localblast --Export.Fasta /hits <query-hits.csv> /query <query.fasta> /subject <
 ```bash
 localblast --Export.Overviews /blast <blastout.txt> [/out <overview.csv>]
 ```
-<h3 id="--Export.SBH"> 62. --Export.SBH</h3>
+<h3 id="--Export.SBH"> 66. --Export.SBH</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportSBH(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -906,7 +1177,7 @@ localblast --Export.Overviews /blast <blastout.txt> [/out <overview.csv>]
 ```bash
 localblast --Export.SBH /in <in.DIR> /prefix <queryName> /out <out.csv> [/txt]
 ```
-<h3 id="-export_besthit"> 63. -export_besthit</h3>
+<h3 id="-export_besthit"> 67. -export_besthit</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 ExportBestHit(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -915,7 +1186,7 @@ localblast --Export.SBH /in <in.DIR> /prefix <queryName> /out <out.csv> [/txt]
 ```bash
 localblast -export_besthit -i <input_csv_file> -o <output_saved_csv>
 ```
-<h3 id="grep"> 64. grep</h3>
+<h3 id="grep"> 68. grep</h3>
 
 The gene id in the blast output log file are not well format for reading and program processing, so before you generate the venn diagram you should call this command to parse the gene id from the log file. You can also done this id parsing job using other tools.
 **Prototype**: ``NCBI.localblast.CLI::Int32 Grep(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -957,7 +1228,7 @@ Example: match .+[-]\d{5}
 ```bash
 -h "'tokens | 5';'match .+[-].+'"
 ```
-<h3 id="logs_analysis"> 65. logs_analysis</h3>
+<h3 id="logs_analysis"> 69. logs_analysis</h3>
 
 Parsing the xml format blast log into a csv data file that use for venn diagram drawing.
 **Prototype**: ``NCBI.localblast.CLI::Int32 bLogAnalysis(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -987,7 +1258,7 @@ The save file path for the venn diagram drawing data csv file.
 ```bash
 -export ~/Documents/8004_venn.csv
 ```
-<h3 id="merge"> 66. merge</h3>
+<h3 id="merge"> 70. merge</h3>
 
 This program can not use the blast parsing result for the venn diagram drawing operation, and this command is using for generate the drawing data for the venn diagram drawing command, this command merge the blast log parsing result and then using the parsing result for drawing a venn diagram.
 **Prototype**: ``NCBI.localblast.CLI::Int32 Merge(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1017,7 +1288,7 @@ The save file name for the output result, the program willl save the merge resul
 ```bash
 -o ~/Desktop/8004_venn.csv
 ```
-<h3 id="-merge_besthit"> 67. -merge_besthit</h3>
+<h3 id="-merge_besthit"> 71. -merge_besthit</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 MergeBestHits(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1036,7 +1307,7 @@ Each file path in the filelist should be separated by a "|" character.
 ```bash
 -i <term_string>
 ```
-<h3 id="--Xml2Excel"> 68. --Xml2Excel</h3>
+<h3 id="--Xml2Excel"> 72. --Xml2Excel</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 XmlToExcel(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1045,7 +1316,7 @@ Each file path in the filelist should be separated by a "|" character.
 ```bash
 localblast --Xml2Excel /in <in.xml> [/out <out.csv>]
 ```
-<h3 id="--Xml2Excel.Batch"> 69. --Xml2Excel.Batch</h3>
+<h3 id="--Xml2Excel.Batch"> 73. --Xml2Excel.Batch</h3>
 
 
 **Prototype**: ``NCBI.localblast.CLI::Int32 XmlToExcelBatch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``

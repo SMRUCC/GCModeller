@@ -1,19 +1,19 @@
 ---
 title: FBA
 tags: [maunal, tools]
-date: 2016/10/22 12:30:09
+date: 11/24/2016 2:54:05 AM
 ---
 # GCModeller [version 1.1.24.3]
 > 
 
 <!--more-->
 
-**FBA(Flux Balance Analysis) Model Solver**
-_FBA(Flux Balance Analysis) Model Solver_
-Copyright ? xie.guigang@gmail.com. 2013
+**FBA(Flux Balance Analysis) Model Solver**<br/>
+_FBA(Flux Balance Analysis) Model Solver_<br/>
+Copyright © xie.guigang@gmail.com. 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/FBA.exe
-**Root namespace**: ``FBA.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/FBA.exe<br/>
+**Root namespace**: ``FBA.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

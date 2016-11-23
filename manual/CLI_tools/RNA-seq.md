@@ -1,19 +1,19 @@
 ---
 title: RNA-seq
 tags: [maunal, tools]
-date: 2016/10/22 12:30:17
+date: 11/24/2016 2:54:19 AM
 ---
 # GCModeller [version 1.0.0.0]
 > 
 
 <!--more-->
 
-**RNA-seq data analysis**
-__
-Copyright ?  2016
+**RNA-seq data analysis**<br/>
+__<br/>
+Copyright ©  2016
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/RNA-seq.exe
-**Root namespace**: ``RNA_seq.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/RNA-seq.exe<br/>
+**Root namespace**: ``RNA_seq.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

@@ -1,19 +1,19 @@
 ---
 title: seqtools
 tags: [maunal, tools]
-date: 2016/10/22 12:30:17
+date: 11/24/2016 2:54:20 AM
 ---
 # GCModeller [version 3.0.2456.4506]
 > Sequence operation utilities
 
 <!--more-->
 
-**Sequence search tools and sequence operation tools**
-_Sequence search tools and sequence operation tools_
-Copyright ? xie.guigang@gcmodeller.org 2014
+**Sequence search tools and sequence operation tools**<br/>
+_Sequence search tools and sequence operation tools_<br/>
+Copyright © xie.guigang@gcmodeller.org 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/seqtools.exe
-**Root namespace**: ``seqtools.Utilities``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/seqtools.exe<br/>
+**Root namespace**: ``seqtools.Utilities``<br/>
 
 ------------------------------------------------------------
 If you are having trouble debugging this Error, first read the best practices tutorial for helpful tips that address many common problems:
@@ -36,6 +36,8 @@ All of the command that available in this program has been list below:
 |------------|----|
 |[/Loci.describ](#/Loci.describ)|Testing|
 |[/logo](#/logo)|* Drawing the sequence logo from the clustal alignment result.|
+|[/Screen.sites](#/Screen.sites)||
+|[/Sites2Fasta](#/Sites2Fasta)|Converts the simple segment object collection as fasta file.|
 |[-321](#-321)|Polypeptide sequence 3 letters to 1 lettes sequence.|
 |[-complement](#-complement)||
 |[--Drawing.ClustalW](#--Drawing.ClustalW)||
@@ -137,7 +139,7 @@ Tools command that using for finding Palindrome sites.
 |Function API|Info|
 |------------|----|
 |[/SNP](#/SNP)||
-|[/Time.Diffs](#/Time.Diffs)||
+|[/Time.Mutation](#/Time.Mutation)|The ongoing time mutation of the genome sequence.|
 
 
 ##### 7. Sequence Repeats Loci Search
@@ -345,6 +347,9 @@ true
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -391,6 +396,9 @@ AAGCGAACAAATGTTCTATA
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -423,6 +431,9 @@ seqtools /Mirror.Fuzzy.Batch /in <in.fasta/DIR> [/out <out.DIR> /cut 0.6 /max-di
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -530,6 +541,9 @@ seqtools /Mirrors.Nt.Trim /in <mirrors.Csv> [/out <out.Csv>]
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -655,7 +669,95 @@ Only search for Palindrome, not includes the repeats data.
 ```bash
 /Palindrome <term_string>
 ```
-<h3 id="/Select.By_Locus"> 27. /Select.By_Locus</h3>
+<h3 id="/Screen.sites"> 27. /Screen.sites</h3>
+
+
+**Prototype**: ``seqtools.Utilities::Int32 ScreenRepeats(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+seqtools /Screen.sites /in <DIR/sites.csv> /range <min_bp>,<max_bp> [/type <type,default:=RepeatsView,alt:RepeatsView,RevRepeatsView,PalindromeLoci,ImperfectPalindrome> /out <out.csv>]
+```
+
+
+#### Arguments
+##### /in
+
+###### Example
+```bash
+/in <term_string>
+```
+##### Accepted Types
+###### /in
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RepeatsView_
+Example: 
+```json
+{
+    "Data": {
+        
+    },
+    "Left": 0,
+    "Locis": [
+        0
+    ],
+    "SequenceData": "System.String"
+}
+```
+
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RevRepeatsView_
+Example: 
+```json
+{
+    "Data": {
+        
+    },
+    "Left": 0,
+    "Locis": [
+        0
+    ],
+    "SequenceData": "System.String",
+    "RevLocis": [
+        0
+    ],
+    "RevSegment": "System.String"
+}
+```
+
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci_
+Example: 
+```json
+{
+    "Data": {
+        
+    },
+    "Loci": "System.String",
+    "MirrorSite": "System.String",
+    "PalEnd": 0,
+    "Palindrome": "System.String",
+    "Start": 0
+}
+```
+
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.ImperfectPalindrome_
+Example: 
+```json
+{
+    "Data": {
+        
+    },
+    "Distance": 0,
+    "Evolr": "System.String",
+    "Left": 0,
+    "Matches": "System.String",
+    "MaxMatch": 0,
+    "Palindrome": "System.String",
+    "Paloci": 0,
+    "Score": 0,
+    "Site": "System.String"
+}
+```
+
+<h3 id="/Select.By_Locus"> 28. /Select.By_Locus</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 SelectByLocus(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -664,7 +766,7 @@ Only search for Palindrome, not includes the repeats data.
 ```bash
 seqtools /Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/out <out.fasta>]
 ```
-<h3 id="/Sigma"> 28. /Sigma</h3>
+<h3 id="/Sigma"> 29. /Sigma</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 Sigma(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -673,7 +775,7 @@ seqtools /Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/out <out.fasta>]
 ```bash
 seqtools /Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]
 ```
-<h3 id="/SimpleSegment.AutoBuild"> 29. /SimpleSegment.AutoBuild</h3>
+<h3 id="/SimpleSegment.AutoBuild"> 30. /SimpleSegment.AutoBuild</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 ConvertsAuto(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -699,13 +801,64 @@ seqtools /SimpleSegment.AutoBuild /in <locis.csv> [/out <out.csv>]
 ```
 ##### Accepted Types
 ###### /in
-**Decalre**:  _Microsoft.VisualBasic.Data.csv.DocumentStream.File_
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.ImperfectPalindrome_
 Example: 
 ```json
-header1,header2,header3,...
-A11,A12,A13,...
-B21,B22,B23,...
-......
+{
+    "Data": {
+        
+    },
+    "Distance": 0,
+    "Evolr": "System.String",
+    "Left": 0,
+    "Matches": "System.String",
+    "MaxMatch": 0,
+    "Palindrome": "System.String",
+    "Paloci": 0,
+    "Score": 0,
+    "Site": "System.String"
+}
+```
+
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.RevRepeats_
+Example: 
+```json
+{
+    "Locations": [
+        0
+    ],
+    "SequenceData": "System.String",
+    "RepeatLoci": [
+        0
+    ],
+    "RevSegment": "System.String"
+}
+```
+
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Repeats_
+Example: 
+```json
+{
+    "Locations": [
+        0
+    ],
+    "SequenceData": "System.String"
+}
+```
+
+**Decalre**:  _SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci_
+Example: 
+```json
+{
+    "Data": {
+        
+    },
+    "Loci": "System.String",
+    "MirrorSite": "System.String",
+    "PalEnd": 0,
+    "Palindrome": "System.String",
+    "Start": 0
+}
 ```
 
 ###### /out
@@ -722,7 +875,7 @@ Example:
 }
 ```
 
-<h3 id="/SimpleSegment.Mirrors"> 30. /SimpleSegment.Mirrors</h3>
+<h3 id="/SimpleSegment.Mirrors"> 31. /SimpleSegment.Mirrors</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 ConvertMirrors(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -752,6 +905,9 @@ seqtools /SimpleSegment.Mirrors /in <in.csv> [/out <out.csv>]
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -774,7 +930,7 @@ Example:
 }
 ```
 
-<h3 id="/SimpleSegment.Mirrors.Batch"> 31. /SimpleSegment.Mirrors.Batch</h3>
+<h3 id="/SimpleSegment.Mirrors.Batch"> 32. /SimpleSegment.Mirrors.Batch</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 ConvertMirrorsBatch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -783,14 +939,61 @@ Example:
 ```bash
 seqtools /SimpleSegment.Mirrors.Batch /in <in.DIR> [/out <out.DIR>]
 ```
-<h3 id="/SNP"> 32. /SNP</h3>
+<h3 id="/Sites2Fasta"> 33. /Sites2Fasta</h3>
+
+Converts the simple segment object collection as fasta file.
+**Prototype**: ``seqtools.Utilities::Int32 Sites2Fasta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+seqtools /Sites2Fasta /in <segments.csv> [/assemble /out <out.fasta>]
+```
+
+
+#### Arguments
+##### /in
+
+###### Example
+```bash
+/in <term_string>
+```
+##### /out
+
+###### Example
+```bash
+/out <term_string>
+```
+##### Accepted Types
+###### /in
+**Decalre**:  _SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment_
+Example: 
+```json
+{
+    "Complement": "System.String",
+    "Ends": 0,
+    "ID": "System.String",
+    "SequenceData": "System.String",
+    "Start": 0,
+    "Strand": "System.String"
+}
+```
+
+###### /out
+**Decalre**:  _SMRUCC.genomics.SequenceModel.FASTA.FastaFile_
+Example: 
+```bash
+>LexA
+AAGCGAACAAATGTTCTATA
+```
+
+<h3 id="/SNP"> 34. /SNP</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 SNP(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
-seqtools /SNP /in <nt.fasta> [/ref 0 /pure /monomorphic]
+seqtools /SNP /in <nt.fasta> [/ref <int_index/title, default:0> /pure /monomorphic /high <0.65>]
 ```
 
 
@@ -837,7 +1040,7 @@ Example:
 true
 ```
 
-<h3 id="/Split"> 33. /Split</h3>
+<h3 id="/Split"> 35. /Split</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 Split(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -846,7 +1049,7 @@ true
 ```bash
 seqtools /Split /in <in.fasta> [/n <4096> /out <outDIR>]
 ```
-<h3 id="/subset"> 34. /subset</h3>
+<h3 id="/subset"> 36. /subset</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 SubSet(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -855,16 +1058,16 @@ seqtools /Split /in <in.fasta> [/n <4096> /out <outDIR>]
 ```bash
 seqtools /subset /lstID <lstID.txt> /fa <source.fasta>
 ```
-<h3 id="/Time.Diffs"> 35. /Time.Diffs</h3>
+<h3 id="/Time.Mutation"> 37. /Time.Mutation</h3>
 
-
+The ongoing time mutation of the genome sequence.
 **Prototype**: ``seqtools.Utilities::Int32 TimeDiffs(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
 
 ###### Usage
 ```bash
-seqtools /Time.Diffs /in <aln.fasta> [/out <out.csv>]
+seqtools /Time.Mutation /in <aln.fasta> [/ref <default:first,other:title/index> /cumulative /out <out.csv>]
 ```
-<h3 id="/To_Fasta"> 36. /To_Fasta</h3>
+<h3 id="/To_Fasta"> 38. /To_Fasta</h3>
 
 Convert the sequence data in a excel annotation file into a fasta sequence file.
 **Prototype**: ``seqtools.Utilities::Int32 ToFasta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -873,7 +1076,7 @@ Convert the sequence data in a excel annotation file into a fasta sequence file.
 ```bash
 seqtools /To_Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]
 ```
-<h3 id="/Write.Seeds"> 37. /Write.Seeds</h3>
+<h3 id="/Write.Seeds"> 39. /Write.Seeds</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 WriteSeeds(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -882,7 +1085,7 @@ seqtools /To_Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;lo
 ```bash
 seqtools /Write.Seeds /out <out.dat> [/prot /max <20>]
 ```
-<h3 id="-321"> 38. -321</h3>
+<h3 id="-321"> 40. -321</h3>
 
 Polypeptide sequence 3 letters to 1 lettes sequence.
 **Prototype**: ``seqtools.Utilities::Int32 PolypeptideBriefs(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -891,7 +1094,7 @@ Polypeptide sequence 3 letters to 1 lettes sequence.
 ```bash
 seqtools -321 /in <sequence.txt> [/out <out.fasta>]
 ```
-<h3 id="--align"> 39. --align</h3>
+<h3 id="--align"> 41. --align</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 Align(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -900,7 +1103,7 @@ seqtools -321 /in <sequence.txt> [/out <out.fasta>]
 ```bash
 seqtools --align /query <query.fasta> /subject <subject.fasta> [/out <out.DIR> /cost <0.7>]
 ```
-<h3 id="--align.Self"> 40. --align.Self</h3>
+<h3 id="--align.Self"> 42. --align.Self</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 AlignSelf(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -909,7 +1112,7 @@ seqtools --align /query <query.fasta> /subject <subject.fasta> [/out <out.DIR> /
 ```bash
 seqtools --align.Self /query <query.fasta> /out <out.DIR> [/cost 0.75]
 ```
-<h3 id="-complement"> 41. -complement</h3>
+<h3 id="-complement"> 43. -complement</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 Complement(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -918,7 +1121,7 @@ seqtools --align.Self /query <query.fasta> /out <out.DIR> [/cost 0.75]
 ```bash
 seqtools -complement -i <input_fasta> [-o <output_fasta>]
 ```
-<h3 id="--Drawing.ClustalW"> 42. --Drawing.ClustalW</h3>
+<h3 id="--Drawing.ClustalW"> 44. --Drawing.ClustalW</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 DrawClustalW(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -927,7 +1130,7 @@ seqtools -complement -i <input_fasta> [-o <output_fasta>]
 ```bash
 seqtools --Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]
 ```
-<h3 id="--Hairpinks"> 43. --Hairpinks</h3>
+<h3 id="--Hairpinks"> 45. --Hairpinks</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 Hairpinks(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -951,6 +1154,9 @@ seqtools --Hairpinks /in <in.fasta> [/out <out.csv> /min <6> /max <7> /cutoff 3 
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Distance": 0,
     "Evolr": "System.String",
     "Left": 0,
@@ -963,7 +1169,7 @@ Example:
 }
 ```
 
-<h3 id="--Hairpinks.batch.task"> 44. --Hairpinks.batch.task</h3>
+<h3 id="--Hairpinks.batch.task"> 46. --Hairpinks.batch.task</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 HairpinksBatch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -972,7 +1178,7 @@ Example:
 ```bash
 seqtools --Hairpinks.batch.task /in <in.fasta> [/out <outDIR> /min <6> /max <7> /cutoff <0.6> /max-dist <35 (bp)> /num_threads <-1>]
 ```
-<h3 id="--ImperfectsPalindrome.batch.Task"> 45. --ImperfectsPalindrome.batch.Task</h3>
+<h3 id="--ImperfectsPalindrome.batch.Task"> 47. --ImperfectsPalindrome.batch.Task</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 BatchSearchImperfectsPalindrome(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -981,7 +1187,7 @@ seqtools --Hairpinks.batch.task /in <in.fasta> [/out <outDIR> /min <6> /max <7> 
 ```bash
 seqtools --ImperfectsPalindrome.batch.Task /in <in.fasta> /out <outDir> [/min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /num_threads <-1>]
 ```
-<h3 id="--Mirror.From.Fasta"> 46. --Mirror.From.Fasta</h3>
+<h3 id="--Mirror.From.Fasta"> 48. --Mirror.From.Fasta</h3>
 
 Mirror Palindrome, search from a fasta file.
 **Prototype**: ``seqtools.Utilities::Int32 SearchMirrotFasta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1009,7 +1215,7 @@ Example:
 AAGCGAACAAATGTTCTATA
 ```
 
-<h3 id="--Mirror.From.NT"> 47. --Mirror.From.NT</h3>
+<h3 id="--Mirror.From.NT"> 49. --Mirror.From.NT</h3>
 
 Mirror Palindrome, and this function is for the debugging test
 **Prototype**: ``seqtools.Utilities::Int32 SearchMirrotNT(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1033,6 +1239,9 @@ seqtools --Mirror.From.NT /nt <nt-sequence> /out <out.csv> [/min <3> /max <20>]
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -1041,7 +1250,7 @@ Example:
 }
 ```
 
-<h3 id="--Palindrome.batch.Task"> 48. --Palindrome.batch.Task</h3>
+<h3 id="--Palindrome.batch.Task"> 50. --Palindrome.batch.Task</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 BatchSearchPalindrome(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1050,7 +1259,7 @@ Example:
 ```bash
 seqtools --Palindrome.batch.Task /in <in.fasta> /out <outDir> [/min <3> /max <20> /num_threads <-1>]
 ```
-<h3 id="--Palindrome.From.FASTA"> 49. --Palindrome.From.FASTA</h3>
+<h3 id="--Palindrome.From.FASTA"> 51. --Palindrome.From.FASTA</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 SearchPalindromeFasta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1089,6 +1298,9 @@ AAGCGAACAAATGTTCTATA
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -1097,7 +1309,7 @@ Example:
 }
 ```
 
-<h3 id="--Palindrome.From.NT"> 50. --Palindrome.From.NT</h3>
+<h3 id="--Palindrome.From.NT"> 52. --Palindrome.From.NT</h3>
 
 This function is just for debugger test, /nt parameter is the nucleotide sequence data as ATGCCCC
 **Prototype**: ``seqtools.Utilities::Int32 SearchPalindromeNT(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1121,6 +1333,9 @@ seqtools --Palindrome.From.NT /nt <nt-sequence> /out <out.csv> [/min <3> /max <2
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Loci": "System.String",
     "MirrorSite": "System.String",
     "PalEnd": 0,
@@ -1129,7 +1344,7 @@ Example:
 }
 ```
 
-<h3 id="--Palindrome.Imperfects"> 51. --Palindrome.Imperfects</h3>
+<h3 id="--Palindrome.Imperfects"> 53. --Palindrome.Imperfects</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 ImperfectPalindrome(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1138,7 +1353,7 @@ Example:
 ```bash
 seqtools --Palindrome.Imperfects /in <in.fasta> [/out <out.csv> /min <3> /max <20> /cutoff <0.6> /max-dist <1000 (bp)> /partitions <-1>]
 ```
-<h3 id="-pattern_search"> 52. -pattern_search</h3>
+<h3 id="-pattern_search"> 54. -pattern_search</h3>
 
 Parsing the sequence segment from the sequence source using regular expression.
 **Prototype**: ``seqtools.Utilities::Int32 PatternSearchA(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1185,7 +1400,7 @@ gbk - The input sequence data file is a NCBI genbank flat file.
 ```bash
 -f fsa
 ```
-<h3 id="--PerfectPalindrome.Filtering"> 53. --PerfectPalindrome.Filtering</h3>
+<h3 id="--PerfectPalindrome.Filtering"> 55. --PerfectPalindrome.Filtering</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 FilterPerfectPalindrome(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1209,6 +1424,9 @@ seqtools --PerfectPalindrome.Filtering /in <inDIR> [/min <8> /out <outDIR>]
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Distance": 0,
     "Evolr": "System.String",
     "Left": 0,
@@ -1221,7 +1439,7 @@ Example:
 }
 ```
 
-<h3 id="Repeats.Density"> 54. Repeats.Density</h3>
+<h3 id="Repeats.Density"> 56. Repeats.Density</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 RepeatsDensity(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1230,7 +1448,7 @@ Example:
 ```bash
 seqtools Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]
 ```
-<h3 id="-reverse"> 55. -reverse</h3>
+<h3 id="-reverse"> 57. -reverse</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 Reverse(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1239,7 +1457,7 @@ seqtools Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> 
 ```bash
 seqtools -reverse -i <input_fasta> [-o <output_fasta>]
 ```
-<h3 id="rev-Repeats.Density"> 56. rev-Repeats.Density</h3>
+<h3 id="rev-Repeats.Density"> 58. rev-Repeats.Density</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 revRepeatsDensity(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1248,7 +1466,7 @@ seqtools -reverse -i <input_fasta> [-o <output_fasta>]
 ```bash
 seqtools rev-Repeats.Density /dir <dir> /size <size> /ref <refName> [/out <out.csv> /cutoff <default:=0>]
 ```
-<h3 id="Search.Batch"> 57. Search.Batch</h3>
+<h3 id="Search.Batch"> 59. Search.Batch</h3>
 
 Batch search for repeats.
 **Prototype**: ``seqtools.Utilities::Int32 BatchSearch(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1279,6 +1497,9 @@ The input fasta file should be the output of the clustal multiple alignment fast
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Left": 0,
     "Locis": [
         0
@@ -1291,6 +1512,9 @@ Example:
 Example: 
 ```json
 {
+    "Data": {
+        
+    },
     "Left": 0,
     "Locis": [
         0
@@ -1303,7 +1527,7 @@ Example:
 }
 ```
 
-<h3 id="-segment"> 58. -segment</h3>
+<h3 id="-segment"> 60. -segment</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 GetSegment(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1312,7 +1536,7 @@ Example:
 ```bash
 seqtools -segment /fasta <Fasta_Token> [-loci <loci>] [/left <left> /length <length> /right <right> [/reverse]] [/ptt <ptt> /geneID <gene_id> /dist <distance> /downstream] -o <saved> [-line.break 100]
 ```
-<h3 id="--segments"> 59. --segments</h3>
+<h3 id="--segments"> 61. --segments</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 GetSegments(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1345,7 +1569,7 @@ If this parameter is set up true, then only the locus_tag of the ORF gene will b
 ```bash
 /brief-dump <term_string>
 ```
-<h3 id="--ToVector"> 60. --ToVector</h3>
+<h3 id="--ToVector"> 62. --ToVector</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 ToVector(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1354,7 +1578,7 @@ If this parameter is set up true, then only the locus_tag of the ORF gene will b
 ```bash
 seqtools --ToVector /in <in.DIR> /min <4> /max <8> /out <out.txt> /size <genome.size>
 ```
-<h3 id="--translates"> 61. --translates</h3>
+<h3 id="--translates"> 63. --translates</h3>
 
 Translates the ORF gene as protein sequence. If any error was output from the console, please using > operator dump the output to a log file for the analysis.
 **Prototype**: ``seqtools.Utilities::Int32 Translates(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -1390,7 +1614,7 @@ http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html/index.cgi?chapter=tgencod
 ```bash
 /transl_table <term_string>
 ```
-<h3 id="--Trim"> 62. --Trim</h3>
+<h3 id="--Trim"> 64. --Trim</h3>
 
 
 **Prototype**: ``seqtools.Utilities::Int32 Trim(args As Microsoft.VisualBasic.CommandLine.CommandLine)``

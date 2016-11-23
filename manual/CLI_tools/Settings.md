@@ -1,19 +1,19 @@
 ---
 title: Settings
 tags: [maunal, tools]
-date: 2016/10/22 12:30:17
+date: 11/24/2016 2:54:22 AM
 ---
 # Settings [version 1.0.0.0]
 > GCModeller configuration console.
 
 <!--more-->
 
-**SMRUCC genomics GCModeller Programs Profiles Manager**
-_SMRUCC genomics GCModeller Programs Profiles Manager_
-Copyright ? SMRUCC genomics. 2014
+**SMRUCC genomics GCModeller Programs Profiles Manager**<br/>
+_SMRUCC genomics GCModeller Programs Profiles Manager_<br/>
+Copyright © SMRUCC genomics. 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Settings.exe
-**Root namespace**: ``GCModeller.Configuration.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/Settings.exe<br/>
+**Root namespace**: ``GCModeller.Configuration.CLI``<br/>
 
 
 All of the command that available in this program has been list below:
