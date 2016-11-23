@@ -46,4 +46,22 @@ localblast ? /Export.blastnMaps
 
 The parameter ``/best`` if is enable, then localblast tool will export **only the top best** hit of each query, if not, then all of the hits result will be export.
 
+Once you have export the blastn query result, then you can export the **gi list** or **accession id list** for subset the x2taxid(``gi2taxid``, ``accessionid2taxid``) database:
+
+```bash
+localblast ? /ref.acc.list
+# Help for command '/ref.acc.list':
+#
+#   Information:
+#   Usage:        /home/biostack/GCModeller/localblast /ref.acc.list /in <blastnMaps.csv/DIR> [/out <out.csv>]
+#   Example:      CLI usage example not found!
+
+localblast ? /ref.gi.list
+# Help for command '/ref.gi.list':
+#
+#   Information:
+#   Usage:        /home/biostack/GCModeller/localblast /ref.gi.list /in <blastnMaps.csv/DIR> [/out <out.csv>]
+#   Example:      CLI usage example not found!
+```
+
 ##### ncbi_tools 
