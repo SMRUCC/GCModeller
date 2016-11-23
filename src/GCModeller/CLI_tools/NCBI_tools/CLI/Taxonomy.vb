@@ -415,4 +415,65 @@ Partial Module CLI
 
         Return data.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/Taxonomy.Maphits.Overview",
+               Usage:="/Taxonomy.Maphits.Overview /in <in.DIR> [/out <out.csv>]")>
+    <Group(CLIGrouping.TaxonomyTools)>
+    Public Function TaxidMapHitViews(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".overviews.csv")
+        Dim data = MapHit.SamplesView([in]).ToArray
+        Return data.SaveTo(out).CLICode
+    End Function
+
+    Public Class MapHit : Inherits MapHits
+
+        Public Property Name As String
+
+        <Column("Taxonomy.Name")>
+        Public Property TaxonomyName As String
+        Public Property Taxonomy As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
+        Public Shared Iterator Function SamplesView(DIR$) As IEnumerable(Of MapHit)
+            Dim data As New List(Of NamedValue(Of MapHit()))
+
+            For Each file$ In ls - l - r - "*.csv" <= DIR
+                data += New NamedValue(Of MapHit()) With {
+                    .Name = file.BaseName,
+                    .Value = file.LoadCsv(Of MapHit)
+                }
+            Next
+
+            ' grouping by taxid
+            Dim tg = (From x As NamedValue(Of MapHit())
+                      In data
+                      Select x.Value _
+                          .Select(Function(o) (sample:=x.Name, taxid:=o))) _
+                          .IteratesALL _
+                          .GroupBy(Function(x) x.taxid.taxid)
+
+            For Each tax In tg
+                Dim out As (sample$, taxid As MapHit)() = tax.ToArray
+                Dim samples As Dictionary(Of String, String) =
+                    out _
+                    .GroupBy(Function(x) x.sample) _
+                    .ToDictionary(Function(x) x.Key,
+                                  Function(x) x.Select(
+                                  Function(m) m.taxid.MapHits.Length).Sum.ToString)
+
+                Yield New MapHit With {
+                    .MapHits = tax.Select(Function(x) x.taxid.MapHits).IteratesALL.Distinct.ToArray,
+                    .taxid = tax.Key,
+                    .Name = out(Scan0).taxid.Name,
+                    .Taxonomy = out(Scan0).taxid.Taxonomy,
+                    .TaxonomyName = out(Scan0).taxid.TaxonomyName,
+                    .Data = samples
+                }
+            Next
+        End Function
+    End Class
 End Module
