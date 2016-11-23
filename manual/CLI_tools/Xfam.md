@@ -1,19 +1,19 @@
 ---
 title: Xfam
 tags: [maunal, tools]
-date: 2016/10/22 12:30:21
+date: 11/24/2016 2:54:34 AM
 ---
 # GCModeller [version 1.0.0.0]
 > Xfam Tools (Pfam, Rfam, iPfam)
 
 <!--more-->
 
-**Xfam Tools (Pfam, Rfam, iPfam)**
-_Xfam Tools (Pfam, Rfam, iPfam)_
-Copyright ? xie.guigang@gcmodeller.org 2015
+**Xfam Tools (Pfam, Rfam, iPfam)**<br/>
+_Xfam Tools (Pfam, Rfam, iPfam)_<br/>
+Copyright © xie.guigang@gcmodeller.org 2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/Xfam.exe
-**Root namespace**: ``Xfam.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/Xfam.exe<br/>
+**Root namespace**: ``Xfam.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

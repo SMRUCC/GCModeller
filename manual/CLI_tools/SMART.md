@@ -1,19 +1,19 @@
 ---
 title: SMART
 tags: [maunal, tools]
-date: 2016/10/22 12:30:18
+date: 11/24/2016 2:54:26 AM
 ---
 # GCModeller [version 1.123.0.0]
 > SMART protein domain structure tools CLI interface.
 
 <!--more-->
 
-**(SMART) Simple Protein Modular Architecture Research Analysis Tool**
-_(SMART) Simple Protein Modular Architecture Research Analysis Tool_
-Copyright ? LANS Corp. 2014
+**(SMART) Simple Protein Modular Architecture Research Analysis Tool**<br/>
+_(SMART) Simple Protein Modular Architecture Research Analysis Tool_<br/>
+Copyright © LANS Corp. 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/SMART.exe
-**Root namespace**: ``ProteinTools.SMART.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/SMART.exe<br/>
+**Root namespace**: ``ProteinTools.SMART.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

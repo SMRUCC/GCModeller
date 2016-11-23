@@ -1,19 +1,19 @@
 ---
 title: pitr
 tags: [maunal, tools]
-date: 2016/10/22 12:30:15
+date: 11/24/2016 2:54:15 AM
 ---
 # ProteinInteraction [version 1.0.0.0]
 > Tools for analysis the protein interaction relationship.
 
 <!--more-->
 
-**ProteinInteraction**
-__
-Copyright ? À¶Ë¼ÉúÎïÐÅÏ¢¹¤³ÌÊ¦¹¤×÷Õ¾ 2014
+**ProteinInteraction**<br/>
+__<br/>
+Copyright © ???????????? 2014
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/pitr.exe
-**Root namespace**: ``ProteinTools.Interactions.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/pitr.exe<br/>
+**Root namespace**: ``ProteinTools.Interactions.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

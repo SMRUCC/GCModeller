@@ -1,19 +1,19 @@
 ---
 title: GCModeller
 tags: [maunal, tools]
-date: 2016/10/22 12:30:11
+date: 11/24/2016 2:54:08 AM
 ---
 # GCModeller [version 1.0.2.3]
 > 
 
 <!--more-->
 
-**GCModeller administer cli console**
-_GCModeller administer cli console_
-Copyright ? À¶Ë¼ÉúÎïÐÅÏ¢¹¤³ÌÊ¦¹¤×÷Õ¾ 2013
+**GCModeller administer cli console**<br/>
+_GCModeller administer cli console_<br/>
+Copyright © ???????????? 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/GCModeller.exe
-**Root namespace**: ``xGCModeller.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/GCModeller.exe<br/>
+**Root namespace**: ``xGCModeller.CLI``<br/>
 
 
 All of the command that available in this program has been list below:
@@ -22,15 +22,11 @@ All of the command that available in this program has been list below:
 |Function API|Info|
 |------------|----|
 |[/Data.Copy](#/Data.Copy)||
-|[/Draw.Comparative](#/Draw.Comparative)||
 |[/Export.Basys](#/Export.Basys)||
 |[/Merge.Files](#/Merge.Files)|Tools that works on the text files merged.|
 |[/Merge.Table](#/Merge.Table)||
 |[/Search.Fasta](#/Search.Fasta)||
 |[/seqdiff](#/seqdiff)||
-|[/Visual.BBH](#/Visual.BBH)||
-|[--Drawing.ChromosomeMap](#--Drawing.ChromosomeMap)|Drawing the chromosomes map from the PTT object as the basically genome information source.|
-|[--Drawing.ClustalW](#--Drawing.ClustalW)||
 |[export](#export)|Export the calculation data from a specific data table in the mysql database server.|
 |[--Gendist.From.Self.Overviews](#--Gendist.From.Self.Overviews)||
 |[--Gendist.From.SelfMPAlignment](#--Gendist.From.SelfMPAlignment)||
@@ -41,7 +37,19 @@ All of the command that available in this program has been list below:
 |[--user.create](#--user.create)||
 
 
-##### 1. GCModeller Application Utilities
+##### 1. Biological Data Visualization Tools
+
+
+|Function API|Info|
+|------------|----|
+|[/Draw.Comparative](#/Draw.Comparative)||
+|[/Plot.GC](#/Plot.GC)||
+|[/Visual.BBH](#/Visual.BBH)||
+|[--Drawing.ChromosomeMap](#--Drawing.ChromosomeMap)|Drawing the chromosomes map from the PTT object as the basically genome information source.|
+|[--Drawing.ClustalW](#--Drawing.ClustalW)||
+
+
+##### 2. GCModeller Application Utilities
 
 
 |Function API|Info|
@@ -51,7 +59,7 @@ All of the command that available in this program has been list below:
 |[--ls](#--ls)|Listing all of the available GCModeller CLI tools commands.|
 
 
-##### 2. GCModeller repository database tools
+##### 3. GCModeller repository database tools
 
 
 |Function API|Info|
@@ -66,7 +74,7 @@ All of the command that available in this program has been list below:
 |[--install-COGs](#--install-COGs)|Install the COGs database into the GCModeller database.|
 
 
-##### 3. Localblast analysis tools
+##### 4. Localblast analysis tools
 
 
 |Function API|Info|
@@ -146,7 +154,7 @@ GCModeller /Map.Hits /in <query.csv> /mapping <blastnMapping.csv> [/split.Sample
 
 ###### Usage
 ```bash
-GCModeller /Map.Hits.Taxonomy /in <query.csv> /mapping <blastnMapping.csv> /tax <taxonomy.DIR:name/nodes> [/out <out.csv>]
+GCModeller /Map.Hits.Taxonomy /in <query.csv> /mapping <blastnMapping.csv/DIR> /tax <taxonomy.DIR:name/nodes> [/out <out.csv>]
 ```
 
 
@@ -234,7 +242,16 @@ Example:
 ```bash
 GCModeller /nt.scan /query <expression.csv> /DATA <nt.DIR> [/break 60 /out <out_DIR>]
 ```
-<h3 id="/Search.Fasta"> 14. /Search.Fasta</h3>
+<h3 id="/Plot.GC"> 14. /Plot.GC</h3>
+
+
+**Prototype**: ``xGCModeller.CLI::Int32 PlotGC(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
+
+###### Usage
+```bash
+GCModeller /Plot.GC /in <mal.fasta> [/plot <gcskew/gccontent> /colors <Jet> /out <out.png>]
+```
+<h3 id="/Search.Fasta"> 15. /Search.Fasta</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 SearchFasta(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -266,7 +283,7 @@ Example:
 }
 ```
 
-<h3 id="/seqdiff"> 15. /seqdiff</h3>
+<h3 id="/seqdiff"> 16. /seqdiff</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 SeqDiffCLI(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -299,7 +316,7 @@ Example:
 ]
 ```
 
-<h3 id="/title.uniques"> 16. /title.uniques</h3>
+<h3 id="/title.uniques"> 17. /title.uniques</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 UniqueTitle(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -308,7 +325,7 @@ Example:
 ```bash
 GCModeller /title.uniques /in <*.txt/DIR> [/simple /tokens 3 /n -1 /out <out.csv>]
 ```
-<h3 id="/Visual.BBH"> 17. /Visual.BBH</h3>
+<h3 id="/Visual.BBH"> 18. /Visual.BBH</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 BBHVisual(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -328,7 +345,7 @@ this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.
 ```bash
 /PTT <term_string>
 ```
-<h3 id="--Drawing.ChromosomeMap"> 18. --Drawing.ChromosomeMap</h3>
+<h3 id="--Drawing.ChromosomeMap"> 19. --Drawing.ChromosomeMap</h3>
 
 Drawing the chromosomes map from the PTT object as the basically genome information source.
 **Prototype**: ``xGCModeller.CLI::Int32 DrawingChrMap(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -337,7 +354,7 @@ Drawing the chromosomes map from the PTT object as the basically genome informat
 ```bash
 GCModeller --Drawing.ChromosomeMap /ptt <genome.ptt> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]
 ```
-<h3 id="--Drawing.ClustalW"> 19. --Drawing.ClustalW</h3>
+<h3 id="--Drawing.ClustalW"> 20. --Drawing.ClustalW</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 DrawClustalW(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -346,7 +363,7 @@ GCModeller --Drawing.ChromosomeMap /ptt <genome.ptt> [/conf <config.inf> /out <d
 ```bash
 GCModeller --Drawing.ClustalW /in <align.fasta> [/out <out.png> /dot.Size 10]
 ```
-<h3 id="export"> 20. export</h3>
+<h3 id="export"> 21. export</h3>
 
 Export the calculation data from a specific data table in the mysql database server.
 **Prototype**: ``xGCModeller.CLI::Int32 ExportData(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -386,7 +403,7 @@ Default is desktop directory and table name combination
 ```bash
 -o ~/Desktop/
 ```
-<h3 id="--Gendist.From.Self.Overviews"> 21. --Gendist.From.Self.Overviews</h3>
+<h3 id="--Gendist.From.Self.Overviews"> 22. --Gendist.From.Self.Overviews</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 SelfOverviewAsMAT(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -395,7 +412,7 @@ Default is desktop directory and table name combination
 ```bash
 GCModeller --Gendist.From.Self.Overviews /blast_out <blast_out.txt>
 ```
-<h3 id="--Gendist.From.SelfMPAlignment"> 22. --Gendist.From.SelfMPAlignment</h3>
+<h3 id="--Gendist.From.SelfMPAlignment"> 23. --Gendist.From.SelfMPAlignment</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 SelfMPAlignmentAsMAT(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -404,7 +421,7 @@ GCModeller --Gendist.From.Self.Overviews /blast_out <blast_out.txt>
 ```bash
 GCModeller --Gendist.From.SelfMPAlignment /aln <mpalignment.csv>
 ```
-<h3 id="--Get.Subset.lstID"> 23. --Get.Subset.lstID</h3>
+<h3 id="--Get.Subset.lstID"> 24. --Get.Subset.lstID</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 GetSubsetID(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -413,7 +430,7 @@ GCModeller --Gendist.From.SelfMPAlignment /aln <mpalignment.csv>
 ```bash
 GCModeller --Get.Subset.lstID /subset <lstID.txt> /lstID <lstID.csv>
 ```
-<h3 id="help"> 24. help</h3>
+<h3 id="help"> 25. help</h3>
 
 Show help information about this program.
 **Prototype**: ``xGCModeller.CLI::Int32 About()``
@@ -426,7 +443,7 @@ GCModeller gc help
 ```bash
 GCModeller gc help
 ```
-<h3 id="--install.MYSQL"> 25. --install.MYSQL</h3>
+<h3 id="--install.MYSQL"> 26. --install.MYSQL</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 InstallMySQL(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -435,7 +452,7 @@ GCModeller gc help
 ```bash
 GCModeller --install.MYSQL /user <userName> /pass <password> /repository <host_ipAddress> [/port 3306 /database <GCModeller>]
 ```
-<h3 id="--install.ncbi_nt"> 26. --install.ncbi_nt</h3>
+<h3 id="--install.ncbi_nt"> 27. --install.ncbi_nt</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 Install_NCBI_nt(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -444,7 +461,7 @@ GCModeller --install.MYSQL /user <userName> /pass <password> /repository <host_i
 ```bash
 GCModeller --install.ncbi_nt /nt <nt.fasta/DIR> [/EXPORT <DATA_dir>]
 ```
-<h3 id="--install-CDD"> 27. --install-CDD</h3>
+<h3 id="--install-CDD"> 28. --install-CDD</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 InstallCDD(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -453,7 +470,7 @@ GCModeller --install.ncbi_nt /nt <nt.fasta/DIR> [/EXPORT <DATA_dir>]
 ```bash
 GCModeller --install-CDD /cdd <cdd.DIR>
 ```
-<h3 id="--install-COGs"> 28. --install-COGs</h3>
+<h3 id="--install-COGs"> 29. --install-COGs</h3>
 
 Install the COGs database into the GCModeller database.
 **Prototype**: ``xGCModeller.CLI::Int32 InstallCOGs(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -462,7 +479,7 @@ Install the COGs database into the GCModeller database.
 ```bash
 GCModeller --install-COGs /COGs <Dir.COGs>
 ```
-<h3 id="--Interpro.Build"> 29. --Interpro.Build</h3>
+<h3 id="--Interpro.Build"> 30. --Interpro.Build</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 BuildFamilies(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -471,7 +488,7 @@ GCModeller --install-COGs /COGs <Dir.COGs>
 ```bash
 GCModeller --Interpro.Build /xml <interpro.xml>
 ```
-<h3 id="--ls"> 30. --ls</h3>
+<h3 id="--ls"> 31. --ls</h3>
 
 Listing all of the available GCModeller CLI tools commands.
 **Prototype**: ``xGCModeller.CLI::Int32 List(args As Microsoft.VisualBasic.CommandLine.CommandLine)``
@@ -480,7 +497,7 @@ Listing all of the available GCModeller CLI tools commands.
 ```bash
 GCModeller
 ```
-<h3 id="--user.create"> 31. --user.create</h3>
+<h3 id="--user.create"> 32. --user.create</h3>
 
 
 **Prototype**: ``xGCModeller.CLI::Int32 Register(args As Microsoft.VisualBasic.CommandLine.CommandLine)``

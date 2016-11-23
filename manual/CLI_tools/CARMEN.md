@@ -1,19 +1,19 @@
 ---
 title: CARMEN
 tags: [maunal, tools]
-date: 2016/10/22 12:30:08
+date: 11/24/2016 2:54:03 AM
 ---
 # GCModeller [version 1.0.0.0]
 > 
 
 <!--more-->
 
-**CARMEN**
-__
-Copyright ?  2015
+**CARMEN**<br/>
+__<br/>
+Copyright ©  2015
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/CARMEN.exe
-**Root namespace**: ``CARMENTools.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/CARMEN.exe<br/>
+**Root namespace**: ``CARMENTools.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

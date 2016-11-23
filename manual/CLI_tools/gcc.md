@@ -1,19 +1,19 @@
 ---
 title: gcc
 tags: [maunal, tools]
-date: 2016/10/22 12:30:10
+date: 11/24/2016 2:54:06 AM
 ---
 # GCModeller [version 1.0.0.0]
 > gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model
 
 <!--more-->
 
-**GCModeller Modelling console and model compiler**
-_GCModeller Modelling console and model compiler (GCModellerÄ£ÐÍÎÄ¼þ±àÒë¹¤¾ß)_
-Copyright ? À¶Ë¼ÉúÎïÐÅÏ¢¹¤³ÌÊ¦¹¤×÷Õ¾ 2013
+**GCModeller Modelling console and model compiler**<br/>
+_GCModeller Modelling console and model compiler (GCModeller????????)_<br/>
+Copyright © ???????????? 2013
 
-**Module AssemblyName**: file:///E:/GCModeller/GCModeller/bin/gcc.exe
-**Root namespace**: ``gcc.CLI``
+**Module AssemblyName**: file:///G:/GCModeller/GCModeller/bin/gcc.exe<br/>
+**Root namespace**: ``gcc.CLI``<br/>
 
 
 All of the command that available in this program has been list below:

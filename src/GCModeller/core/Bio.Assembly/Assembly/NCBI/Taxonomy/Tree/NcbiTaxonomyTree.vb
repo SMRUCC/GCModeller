@@ -95,9 +95,18 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <returns></returns>
         Public ReadOnly Property Taxonomy As New Dictionary(Of Integer, TaxonomyNode)
 
+        ''' <summary>
+        ''' 当<paramref name="taxid"/>不存在的时候，这个只读属性会返回空值
+        ''' </summary>
+        ''' <param name="taxid%"></param>
+        ''' <returns></returns>
         Default Public ReadOnly Property GetNode(taxid%) As TaxonomyNode
             Get
-                Return _Taxonomy(taxid%)
+                If Not Taxonomy.ContainsKey(taxid) Then
+                    Return Nothing
+                Else
+                    Return _Taxonomy(taxid%)
+                End If
             End Get
         End Property
 
