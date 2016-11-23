@@ -953,5 +953,10 @@ $Revision: 138450 $
   attri [rest of string was truncated]&quot;;.
 </summary>
 </member>
+<member name="T:SMRUCC.genomics.Model.NCBI.BioSystems.Sys_set">
+ <summary>
+ 
+ </summary>
+</member>
 </members>
 </doc>

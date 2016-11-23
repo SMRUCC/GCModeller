@@ -6,6 +6,112 @@ SMRUCC.genomics.Analysis.CellPhenotype
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.ExpressionMAT">
+<summary>
+  Looks up a localized string similar to imports Analysis_Tools.Phenotype.Regulations
+imports Framework.Extensions
+
+$dir
+$gene
+
+csv &lt;- $dir -&gt; expressionmatrix.create
+$csv &gt; ./Export/$gene.MAT.csv
+ .
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.KernelDriver">
+<summary>
+  Looks up a localized string similar to Imports Analysis_Tools.Phenotype.Regulations
+Imports MEME.app.genome_Footprints
+Imports GCModeller.Compiler.GCML.Csvx
+Imports IO_Device.Csv
+Imports GCModeller.Assembly.File.IO
+
+# This script file is using for running the GCModeller DFL binary network engine kernel.
+
+# ----------------------------------------------------------------------------------------------------------
+#         Script file input parameters
+# ------------------------------------------------------------------------------------- [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.KernelDriver___GeneMutation__MonteCarlo">
+<summary>
+  Looks up a localized string similar to Imports Analysis_Tools.Phenotype.Regulations
+Imports MEME.app.genome_Footprints
+Imports GCModeller.Compiler.GCML.Csvx
+Imports IO_Device.Csv
+Imports GCModeller.Assembly.File.IO
+
+# This script file is using for running the GCModeller DFL binary network engine kernel.
+
+# ----------------------------------------------------------------------------------------------------------
+#         Script file input parameters
+# ------------------------------------------------------------------------------------- [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.pfsnet_kegg_pathways">
+<summary>
+  Looks up a localized string similar to imports assemblyfile.io
+imports analysis.chipdata
+imports pfsnet
+imports kegg
+
+$chipdata
+$save
+pathways &lt;- &quot;[pathways]&quot;
+java_filter &lt;- &quot;[java_filter]&quot;
+
+$pathways ~ read.csv.kegg_pathways
+
+call pfsnet session.initialize $java_filter
+
+chipdata &lt;- read.chipdata $chipdata
+
+experiment1 &lt;- try_parse_string_vector &quot;1,2,3,4,5,6,7,8,9,10&quot;
+experiment2 &lt;- try_parse_string_vector &quot;11,12,13,14,15,16,17,18,19,20&quot;
+
+geneidlist &lt;- pathway_genelist.create_from pathwaydata $pathways
+file1 &lt;- expression_mat [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.PfsNETCellularNetwork">
+<summary>
+  Looks up a localized string similar to Imports PfsNET
+
+# Set up data files in the program with String.Format function
+  MAT1 &lt;- {0}
+  MAT2 &lt;- {1} 
+   NET &lt;- {2}
+
+# PfsNET evaluation parameters   
+ $Beta
+ $t1
+ $t2
+ $n
+
+Call Session.Initialize
+ 
+# Invoke the PfsNET evaluation and save data to file
+Result &lt;- PfsNET.Evaluate File1 $MAT1 File2 $MAT2 File3 $NET b $Beta t1 $t1 t2 $t2 n $n
+$Result &gt; {3}/{4}.xml.
+</summary>
+</member>
 <member name="P:SMRUCC.genomics.Analysis.CellPhenotype.TRN.Configs.SiteSpecificDynamicsRegulations">
  <summary>
  这个参数值调整调控事件的发生概率阈值的高低，则阈值越低，即调控事件越容易发生
@@ -484,9 +590,9 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <summary>
  footprint途径是经过比较野生型和突变体在同一个滑窗的时间段之内的表达差异而得到的
  </summary>
- <param name="WT">必须是经过<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.PfsNET_FootprintMappingPathway_API.CreateExpressionWindows(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32,System.Int32)"></see>方法所创建出来的滑窗数据</param>
+ <param name="WT">必须是经过<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.PfsNET_FootprintMappingPathway_API.CreateExpressionWindows(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Int32,System.Int32)"></see>方法所创建出来的滑窗数据</param>
  <param name="netModel">用于生成文件三</param>
- <param name="Mutation">必须是经过<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.PfsNET_FootprintMappingPathway_API.CreateExpressionWindows(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32,System.Int32)"></see>方法所创建出来的滑窗数据</param>
+ <param name="Mutation">必须是经过<see cref="M:SMRUCC.genomics.Analysis.CellPhenotype.PfsNET_FootprintMappingPathway_API.CreateExpressionWindows(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Int32,System.Int32)"></see>方法所创建出来的滑窗数据</param>
  <returns></returns>
  <remarks></remarks>
  
@@ -509,7 +615,7 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PfsNET_FootprintMappingPathway_API.CreateExpressionWindows(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32,System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PfsNET_FootprintMappingPathway_API.CreateExpressionWindows(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Int32,System.Int32)">
  <summary>
  
  </summary>
@@ -518,112 +624,6 @@ SMRUCC.genomics.Analysis.CellPhenotype
  <param name="offset">大于0的一个数</param>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.ExpressionMAT">
-<summary>
-  Looks up a localized string similar to imports Analysis_Tools.Phenotype.Regulations
-imports Framework.Extensions
-
-$dir
-$gene
-
-csv &lt;- $dir -&gt; expressionmatrix.create
-$csv &gt; ./Export/$gene.MAT.csv
- .
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.KernelDriver">
-<summary>
-  Looks up a localized string similar to Imports Analysis_Tools.Phenotype.Regulations
-Imports MEME.app.genome_Footprints
-Imports GCModeller.Compiler.GCML.Csvx
-Imports IO_Device.Csv
-Imports GCModeller.Assembly.File.IO
-
-# This script file is using for running the GCModeller DFL binary network engine kernel.
-
-# ----------------------------------------------------------------------------------------------------------
-#         Script file input parameters
-# ------------------------------------------------------------------------------------- [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.KernelDriver___GeneMutation__MonteCarlo">
-<summary>
-  Looks up a localized string similar to Imports Analysis_Tools.Phenotype.Regulations
-Imports MEME.app.genome_Footprints
-Imports GCModeller.Compiler.GCML.Csvx
-Imports IO_Device.Csv
-Imports GCModeller.Assembly.File.IO
-
-# This script file is using for running the GCModeller DFL binary network engine kernel.
-
-# ----------------------------------------------------------------------------------------------------------
-#         Script file input parameters
-# ------------------------------------------------------------------------------------- [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.pfsnet_kegg_pathways">
-<summary>
-  Looks up a localized string similar to imports assemblyfile.io
-imports analysis.chipdata
-imports pfsnet
-imports kegg
-
-$chipdata
-$save
-pathways &lt;- &quot;[pathways]&quot;
-java_filter &lt;- &quot;[java_filter]&quot;
-
-$pathways ~ read.csv.kegg_pathways
-
-call pfsnet session.initialize $java_filter
-
-chipdata &lt;- read.chipdata $chipdata
-
-experiment1 &lt;- try_parse_string_vector &quot;1,2,3,4,5,6,7,8,9,10&quot;
-experiment2 &lt;- try_parse_string_vector &quot;11,12,13,14,15,16,17,18,19,20&quot;
-
-geneidlist &lt;- pathway_genelist.create_from pathwaydata $pathways
-file1 &lt;- expression_mat [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CellPhenotype.My.Resources.Resources.PfsNETCellularNetwork">
-<summary>
-  Looks up a localized string similar to Imports PfsNET
-
-# Set up data files in the program with String.Format function
-  MAT1 &lt;- {0}
-  MAT2 &lt;- {1} 
-   NET &lt;- {2}
-
-# PfsNET evaluation parameters   
- $Beta
- $t1
- $t2
- $n
-
-Call Session.Initialize
- 
-# Invoke the PfsNET evaluation and save data to file
-Result &lt;- PfsNET.Evaluate File1 $MAT1 File2 $MAT2 File3 $NET b $Beta t1 $t1 t2 $t2 n $n
-$Result &gt; {3}/{4}.xml.
-</summary>
 </member>
 <member name="T:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations">
  <summary>
@@ -640,7 +640,7 @@ $Result &gt; {3}/{4}.xml.
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.ExportTCSCrossTalksCytoscape(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO.XmlresxLoader,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.String)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.ExportTCSCrossTalksCytoscape(SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO.XmlresxLoader,Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.String)">
  <summary>
  将计算得到的矩阵数据之中导出TCS的CrossTalk的Cytoscape的网络XML文件，并分别保存至<paramref name="Export_to"></paramref>所指定的文件夹之下
  </summary>
@@ -677,7 +677,7 @@ $Result &gt; {3}/{4}.xml.
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.__ranking(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.__ranking(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Int32)">
  <summary>
  
  </summary>
@@ -695,7 +695,7 @@ $Result &gt; {3}/{4}.xml.
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateMutationInit(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput},Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.PhenotypeRegulations.CreateMutationInit(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.CellPhenotype.TRN.NetworkInput},Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Int32)">
  <summary>
  将野生型的蒙特卡洛实验数据之中的后半部分的稳定状态的数据转换为网络输入
  </summary>
@@ -1017,9 +1017,11 @@ $Result &gt; {3}/{4}.xml.
  <param name="name"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.GCModeller.FileSystem.FileSystem.GetLocalBlast">
+<member name="M:SMRUCC.genomics.Analysis.CellPhenotype.GCModeller.FileSystem.FileSystem.GetLocalblast">
  <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
  </summary>
  <returns></returns>
  

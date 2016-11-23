@@ -6,6 +6,70 @@ SMRUCC.genomics.Interops.RNA-Seq.BOW
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.bcftools">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.bgzip">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.BWA">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.HTSeq_Count_Invoked">
+<summary>
+  Looks up a localized string similar to Imports htseq-count
+
+  Out.Dir &lt;- {$Out.Dir}
+ File.Sam &lt;- {$File.Sam}
+    Table &lt;- htseq-count SAM $File.Sam Gff {$GFF} Mode {$Mode} RPKM {$RPKM}
+ File.Sam &lt;- basename $File.Sam
+
+# Write Table Data to the specific data output directory.
+$Table &gt; $Out.Dir/$File.Sam.txt.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.razip">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.s2b">
+<summary>
+  Looks up a localized string similar to samtools view -h -o out.sam in.bam.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.samtools">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.tabix">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Interops.RNA_Seq.BOW.BWA">
  <summary>
  Program: bwa (alignment via Burrows-Wheeler transformation)
@@ -392,70 +456,6 @@ SMRUCC.genomics.Interops.RNA-Seq.BOW
  <param name="GFF_Forwards"></param>
  <returns></returns>
  
-</member>
-<member name="T:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.bcftools">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.bgzip">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.BWA">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.HTSeq_Count_Invoked">
-<summary>
-  Looks up a localized string similar to Imports htseq-count
-
-  Out.Dir &lt;- {$Out.Dir}
- File.Sam &lt;- {$File.Sam}
-    Table &lt;- htseq-count SAM $File.Sam Gff {$GFF} Mode {$Mode} RPKM {$RPKM}
- File.Sam &lt;- basename $File.Sam
-
-# Write Table Data to the specific data output directory.
-$Table &gt; $Out.Dir/$File.Sam.txt.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.razip">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.s2b">
-<summary>
-  Looks up a localized string similar to samtools view -h -o out.sam in.bam.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.samtools">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.My.Resources.Resources.tabix">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
 </member>
 <member name="P:SMRUCC.genomics.Interops.RNA_Seq.BOW.Settings.File.BlastBin">
  <summary>

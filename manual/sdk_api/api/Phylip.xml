@@ -6,6 +6,22 @@ Phylip
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Interops.Visualize.Phylip.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.Visualize.Phylip.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.Visualize.Phylip.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile.NeighborMatrix">
  <summary>
  
@@ -172,7 +188,7 @@ Phylip
  <param name="docBuilder"></param>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile.MatrixFile.CreateObject``1(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile.MatrixFile.CreateObject``1(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  这个构造函数只是对<see cref="F:SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile.MatrixFile._innerMATRaw"/>域进行赋值，适合于所有phylip矩阵文件对象的构建
  </summary>
@@ -601,7 +617,7 @@ Phylip
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.Visualize.Phylip.ShellScriptAPI.NeighborMatrixFromVennMatrix(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Interops.Visualize.Phylip.ShellScriptAPI.NeighborMatrixFromVennMatrix(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  从已经生成的韦恩矩阵之中生成距离矩阵
  </summary>
@@ -614,22 +630,6 @@ Phylip
  </summary>
  <param name="overview"></param>
  <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.Interops.Visualize.Phylip.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.Visualize.Phylip.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.Visualize.Phylip.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

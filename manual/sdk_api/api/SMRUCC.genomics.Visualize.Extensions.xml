@@ -6,12 +6,33 @@ SMRUCC.genomics.Visualize.Extensions
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Visualize.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="M:SMRUCC.genomics.Visualize.ValueParser.GetSaveImageFormat(System.String)">
  <summary>
- default is <see cref="P:System.Drawing.Imaging.ImageFormat.Bmp"/>
+ default is <see cref="P:System.Drawing.Imaging.ImageFormat.Png"/>
  </summary>
  <param name="format"></param>
  <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Visualize.ColorMgr">
+ <summary>
+ The color manager
+ </summary>
 </member>
 <member name="F:SMRUCC.genomics.Visualize.ColorMgr.__entityMaps">
  <summary>
@@ -42,6 +63,11 @@ SMRUCC.genomics.Visualize.Extensions
  <param name="category"><see cref="P:SMRUCC.genomics.Visualize.ClMap.map"/></param>
  <returns></returns>
 </member>
+<member name="T:SMRUCC.genomics.Visualize.ClMap">
+ <summary>
+ Entity to color mapper
+ </summary>
+</member>
 <member name="M:SMRUCC.genomics.Visualize.Extensions.DrawingCOGColors(System.Drawing.Graphics@,System.Collections.Generic.Dictionary{System.String,System.Drawing.Brush},System.Drawing.Point,System.Drawing.Font,System.Int32,System.Int32)">
  <summary>
  绘制COG分类的颜色，请注意，对于没有COG颜色分类的，情使用空字符串来替代
@@ -49,6 +75,11 @@ SMRUCC.genomics.Visualize.Extensions
  <param name="gdi"></param>
  <remarks></remarks>
  
+</member>
+<member name="T:SMRUCC.genomics.Visualize.GCSkew">
+ <summary>
+ plotting the GC% and GC skew curve.
+ </summary>
 </member>
 <member name="M:SMRUCC.genomics.Visualize.GCSkew.InvokeDrawingGCContent(System.Drawing.Image,SMRUCC.genomics.SequenceModel.FASTA.FastaToken,System.Drawing.Point,System.Int32)">
  <summary>
@@ -82,22 +113,6 @@ SMRUCC.genomics.Visualize.Extensions
  <returns></returns>
  <remarks></remarks>
  
-</member>
-<member name="T:SMRUCC.genomics.Visualize.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Visualize.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 <member name="M:SMRUCC.genomics.Visualize.RenderingColor.CategoryMapsTextures(System.Drawing.Image[],System.String[])">
  <summary>

@@ -6,6 +6,22 @@ SMRUCC.genomics.Analysis.AnnotationTools.MySql
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.Annotations.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.Annotations.CEG.Annotation">
  <summary>
  CEG看家基因的功能注释数据
@@ -332,7 +348,7 @@ SMRUCC.genomics.Analysis.AnnotationTools.MySql
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.CorrsDbAPI.WriteDatabase(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,Oracle.LinuxCompatibility.MySQL.ConnectionUri)">
+<member name="M:SMRUCC.genomics.Analysis.Annotations.CorrsDbAPI.WriteDatabase(Microsoft.VisualBasic.Data.csv.DocumentStream.File,Oracle.LinuxCompatibility.MySQL.ConnectionUri)">
  <summary>
  这个函数是自动计算WGCNA相关性的
  </summary>
@@ -341,7 +357,7 @@ SMRUCC.genomics.Analysis.AnnotationTools.MySql
  <returns></returns>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.CorrsDbAPI.WriteDatabase(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.String,Oracle.LinuxCompatibility.MySQL.ConnectionUri)">
+<member name="M:SMRUCC.genomics.Analysis.Annotations.CorrsDbAPI.WriteDatabase(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.String,Oracle.LinuxCompatibility.MySQL.ConnectionUri)">
  <summary>
  
  </summary>
@@ -2143,22 +2159,6 @@ SMRUCC.genomics.Analysis.AnnotationTools.MySql
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Analysis.Annotations.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
 <member name="T:SMRUCC.genomics.Analysis.Annotations.Xfam.Rfam.MySQL.Tables.alignment_and_tree">
  <summary>
  
@@ -2417,6 +2417,131 @@ SMRUCC.genomics.Analysis.AnnotationTools.MySql
  </summary>
  <remarks></remarks>
 </member>
+<member name="T:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem">
+ <summary>
+ 
+ </summary>
+ <remarks>由于可能会修改参数然后在调用的这种情况出现，所以这里的数据可能需要实时更新，所以不再使用属性的简写形式了</remarks>
+ 
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.TryGetSource(System.String,System.Func{System.String})">
+ <summary>
+ 这个是为了加载数据而构建的，故而假若数据源不存在的话就会返回备用的
+ </summary>
+ <param name="source"></param>
+ <param name="alt"></param>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.RepositoryRoot">
+ <summary>
+ The root directory for stores the GCModeller database such as fasta sequence for annotation.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.RegpreciseRoot">
+ <summary>
+ &lt;RepositoryRoot>/Regprecise/
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.MotifLDM">
+ <summary>
+ &lt;RegpreciseRoot>/MEME/MAST_LDM/
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.Regulations">
+ <summary>
+ regulations.xml文件在GCModeller数据库之中的位置
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.IsNullOrEmpty">
+ <summary>
+ 配置文件之中是否包含有GCModeller数据库的位置的路径参数
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.KEGGFamilies">
+ <summary>
+ Regprecise数据库之中的调控因子蛋白质的摘要Dump信息
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.CDD">
+ <summary>
+ NCBI CDD数据库的文件夹位置
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetRepositoryRoot">
+ <summary>
+ The root directory for stores the GCModeller database such as fasta sequence for annotation.
+ </summary>
+ <returns></returns>
+ 
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetMotifLDM">
+ <summary>
+ &lt;RegpreciseRoot>/MEME/MAST_LDM/
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetMotifLDM(System.String)">
+ <summary>
+ &lt;RegpreciseRoot>/MEME/MAST_LDM/
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetRegulations">
+ <summary>
+ regulations.xml文件在GCModeller数据库之中的位置
+ </summary>
+ <returns></returns>
+ 
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.IsRepositoryNullOrEmpty">
+ <summary>
+ 配置文件之中是否包含有GCModeller数据库的位置的路径参数
+ </summary>
+ <returns></returns>
+ 
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetPfamDb(System.String)">
+ <summary>
+ 默认返回NCBI CDD数据库之中的Pfam数据库
+ </summary>
+ <param name="name"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetLocalblast">
+ <summary>
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
+ </summary>
+ <returns></returns>
+ 
+</member>
+<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.KEGG.Directories.GetReactions">
+ <summary>
+ /KEGG/Reactions/
+ </summary>
+ <returns></returns>
+ 
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.RegPrecise.Directories.Motif_PWM">
+ <summary>
+ Directory of  /Regprecise/MEME/Motif_PWM/
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.RegPrecise.Directories.RegPreciseRegulations">
+ <summary>
+ <see cref="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetRepositoryRoot"/> &amp; "/Regprecise/RegPrecise.Xml"
+ </summary>
+ <returns></returns>
+</member>
 <member name="P:SMRUCC.genomics.Analysis.Annotations.Settings.File.BlastBin">
  <summary>
  Blast程序组所在的文件夹
@@ -2595,129 +2720,6 @@ SMRUCC.genomics.Analysis.AnnotationTools.MySql
  <param name="STDOUT">Standard output redirect to this file. Facility the GCModeller debugging.</param>
  <returns></returns>
  
-</member>
-<member name="T:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem">
- <summary>
- 
- </summary>
- <remarks>由于可能会修改参数然后在调用的这种情况出现，所以这里的数据可能需要实时更新，所以不再使用属性的简写形式了</remarks>
- 
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.TryGetSource(System.String,System.Func{System.String})">
- <summary>
- 这个是为了加载数据而构建的，故而假若数据源不存在的话就会返回备用的
- </summary>
- <param name="source"></param>
- <param name="alt"></param>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.RepositoryRoot">
- <summary>
- The root directory for stores the GCModeller database such as fasta sequence for annotation.
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.RegpreciseRoot">
- <summary>
- &lt;RepositoryRoot>/Regprecise/
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.MotifLDM">
- <summary>
- &lt;RegpreciseRoot>/MEME/MAST_LDM/
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.Regulations">
- <summary>
- regulations.xml文件在GCModeller数据库之中的位置
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.IsNullOrEmpty">
- <summary>
- 配置文件之中是否包含有GCModeller数据库的位置的路径参数
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.KEGGFamilies">
- <summary>
- Regprecise数据库之中的调控因子蛋白质的摘要Dump信息
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.CDD">
- <summary>
- NCBI CDD数据库的文件夹位置
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetRepositoryRoot">
- <summary>
- The root directory for stores the GCModeller database such as fasta sequence for annotation.
- </summary>
- <returns></returns>
- 
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetMotifLDM">
- <summary>
- &lt;RegpreciseRoot>/MEME/MAST_LDM/
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetMotifLDM(System.String)">
- <summary>
- &lt;RegpreciseRoot>/MEME/MAST_LDM/
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetRegulations">
- <summary>
- regulations.xml文件在GCModeller数据库之中的位置
- </summary>
- <returns></returns>
- 
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.IsRepositoryNullOrEmpty">
- <summary>
- 配置文件之中是否包含有GCModeller数据库的位置的路径参数
- </summary>
- <returns></returns>
- 
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetPfamDb(System.String)">
- <summary>
- 默认返回NCBI CDD数据库之中的Pfam数据库
- </summary>
- <param name="name"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetLocalBlast">
- <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
- </summary>
- <returns></returns>
- 
-</member>
-<member name="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.KEGG.Directories.GetReactions">
- <summary>
- /KEGG/Reactions/
- </summary>
- <returns></returns>
- 
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.RegPrecise.Directories.Motif_PWM">
- <summary>
- Directory of  /Regprecise/MEME/Motif_PWM/
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.RegPrecise.Directories.RegPreciseRegulations">
- <summary>
- <see cref="M:SMRUCC.genomics.Analysis.Annotations.GCModeller.FileSystem.FileSystem.GetRepositoryRoot"/> &amp; "/Regprecise/RegPrecise.Xml"
- </summary>
- <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Analysis.Annotations.MySQLExtensions.MySQL">
  <summary>

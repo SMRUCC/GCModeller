@@ -6,6 +6,624 @@ SMRUCC.genomics.Core
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08001">
+<summary>
+  Looks up a localized string similar to +D	Biochemical compound
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Compounds with Biological Roles&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08001
+#NAME        Metabolite
+#DEFINITION  Compounds with biological roles
+#---&gt;
+!
+A&lt;b&gt;Organic acids&lt;/b&gt;
+B  Carboxylic acids [Fig]
+C    Monocarboxylic acids
+D      C00058  Formate; Methanoate
+D      C00033  Acetate; Ethanoate
+D      C00163  Propionate; Propanoate
+D      C00246  Butyrate; Butanoate
+D      C00803  Valerate; Pentano [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08002">
+<summary>
+  Looks up a localized string similar to +E	Lipid
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Lipids&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08002
+#NAME        Lipid
+#DEFINITION  Lipids
+#---&gt;
+!
+A&lt;b&gt;FA  Fatty acyls&lt;/b&gt;
+B  FA01 Fatty Acids and Conjugates
+C    FA0101 Straight chain fatty acids
+D      C00058  Formic acid
+D      C00033  Acetic acid
+D      C00163  Propanoic acid
+D      C00246  Butanoic acid
+D      C00803  Pentanoic acid
+D      C01585  Hexanoic acid
+D      C17714  Heptanoic acid
+D      C06423  Oct [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08003">
+<summary>
+  Looks up a localized string similar to +D
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Phytochemical Compounds&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08003
+#NAME        Phytochemical Compounds
+#DEFINITION  Phytochemical Compounds
+#---&gt;
+!
+A&lt;b&gt;Alkaloids&lt;/b&gt;
+B  Alkaloids derived from ornithine
+C    Pyrrolidine alkaloids
+D      C06179  Hygrine
+D      C11359  (-)-Hygrine
+D      C06521  Cuscohygrine
+D      C10152  (-)-Hygroline
+D      C10172  Stachydrine
+D      C08283  Homostachydrine
+D      C10151  3-Hydroxyst [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08005">
+<summary>
+  Looks up a localized string similar to +C	Peptide
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Bioactive Peptides&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08005
+#NAME        Peptide
+#DEFINITION  Bioactive Peptides
+#---&gt;
+!
+A&lt;b&gt;Neuropeptides&lt;/b&gt;
+B  Tachykinin
+C    C16094  Substance P
+C    C16095  Neuropeptide K
+C    C16096  Neuropeptide gamma
+C    C16097  Neurokinin A
+C    C16098  Neurokinin B
+C    C16099  Endokinin A/B
+C    C16100  Endokinin C
+C    C16101  Endokinin D
+B  Neurotensin
+C    C01836  Neurotensin
+ [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08006">
+<summary>
+  Looks up a localized string similar to +C	Environmental compound
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; Endocrine Disrupting Compounds&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08006
+#NAME        EDC
+#DEFINITION  Endocrine disrupting compounds
+#---&gt;
+!
+A&lt;b&gt;Pesticides and herbicides&lt;/b&gt;
+B  Carbamate pesticides
+C    C11015  Aldicarb
+C    C10896  Benlate
+C    C07491  Carbaryl
+C    C11196  Methomyl
+C    C10981  Vinclozolin
+B  Dithiocarbamate pesticides
+C    C15225  Mancozeb
+C    C15231  Maneb
+C    C18144   [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08007">
+<summary>
+  Looks up a localized string similar to +D
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; Pesticides&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08007
+#NAME        Pesticides
+#DEFINITION  Pesticides
+#---&gt;
+!
+A&lt;b&gt;Pesticides&lt;/b&gt;
+B  Fungicides
+C    Aliphatic nitrogen fungicides
+D      C18498  Cymoxanil
+D      C18723  Dodine
+D      C18568  Iminoctadine acetate
+C    Amide fungicides
+D      C18581  Amisulbrom
+D      C10929  Benalaxyl
+D      C18547  Boscalid
+D      C11255  Carboxin
+D      C10932  Carpropamid
+D      C185 [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08008">
+<summary>
+  Looks up a localized string similar to +C	Carcinogen	Cancer site
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Carcinogens&lt;/h2&gt;
+%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--&gt;&lt;/style&gt;
+#&lt;!---
+#ENTRY       br08008
+#NAME        Carcinogen
+#DEFINITION  Carcinogens
+#---&gt;
+!
+A&lt;b&gt;G [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08009">
+<summary>
+  Looks up a localized string similar to +D
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Natural toxins&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08009
+#NAME        Natural toxins
+#DEFINITION  Natural toxins
+#---&gt;
+!
+A&lt;b&gt;Fungal toxins&lt;/b&gt;
+B  Mushroom toxins
+C    Alkaloids
+D      C07473  Muscarine
+D      C08311  Muscimol
+D      C19959  Orellanine
+D      C08312  Psilocin
+D      C07576  Psilocybin
+C    Cyclic peptides
+D      C08438  alpha-Amanitin
+D      C08439  Phalloidin
+C    Terpenoids
+D      C19957  Fasciculol [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08010">
+<summary>
+  Looks up a localized string similar to +E	Compound	Remark
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Target-based Classification of Compounds&lt;/h2&gt;
+%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--&gt;&lt;/style&gt;
+#&lt;!---
+#ENTRY       br08010
+#DEFINITION  Target-based classification [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08201">
+<summary>
+  Looks up a localized string similar to 
+!
+A&lt;b&gt;1. Oxidoreductase reactions&lt;/b&gt;
+B  1.1  Acting on the CH-OH group of donors
+C    1.1.1  With NAD+ or NADP+ as acceptor
+D      1.1.1.1
+E        R00623  Primary alcohol + NAD+ &lt;=&gt; Aldehyde + NADH + H+
+E        R00624  Secondary alcohol + NAD+ &lt;=&gt; Ketone + NADH + H+
+E        R00754  Ethanol + NAD+ &lt;=&gt; Acetaldehyde + NADH + H+
+E        R02124  Retinol + NAD+ &lt;=&gt; Retinal + NADH + H+
+E        R02878  1-Octanol + NAD+ &lt;=&gt; 1-Octanal + NADH + H+
+E        R04805  3alpha,7alpha,26-Trihydroxy-5beta-cholestane +  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.br08901">
+<summary>
+  Looks up a localized string similar to +C	Map number
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Pathway Maps&lt;/h2&gt;
+#&lt;!---
+#ENTRY       br08901
+#NAME        Pathway
+#DEFINITION  KEGG pathway maps
+#---&gt;
+!
+A&lt;b&gt;Metabolism&lt;/b&gt;
+B  Global and overview maps
+C    01100  Metabolic pathways
+C    01110  Biosynthesis of secondary metabolites
+C    01120  Microbial metabolism in diverse environments
+C    01130  Biosynthesis of antibiotics
+C    01200  Carbon metabolism
+C    01210  2-Oxocarboxylic acid m [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.GenBankQuery">
+<summary>
+  Looks up a localized string similar to use Bio::DB::GenBank;
+use Bio::Seq;
+
+# Download and search gbk
+my $gb     = new Bio::DB::GenBank(); 
+my $gbk    = $gb-&gt;get_Seq_by_acc(&apos;[$ACCESSION_ID]&apos;); 
+my $seq_io = Bio::SeqIO-&gt;new(-format =&gt; &apos;genbank&apos;, -file =&gt; &quot;&gt;[$SAVED_FILE]&quot;);
+
+# Call Write FileStream 
+$seq_io-&gt;write_seq($gbk);.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.ko00001">
+<summary>
+  Looks up a localized string similar to +D	KO
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Orthology (KO)&lt;/h2&gt;
+#&lt;!---
+#ENTRY       ko00001
+#NAME        KO
+#DEFINITION  KEGG Orthology (KO)
+#---&gt;
+!
+A&lt;b&gt;Metabolism&lt;/b&gt;
+B
+B  &lt;b&gt;Overview&lt;/b&gt;
+C    01200 Carbon metabolism [PATH:ko01200]
+D      K00844  HK; hexokinase [EC:2.7.1.1]
+D      K12407  GCK; glucokinase [EC:2.7.1.2]
+D      K00845  glk; glucokinase [EC:2.7.1.2]
+D      K00886  ppgK; polyphosphate glucokinase [EC:2.7.1.63]
+D      K08074  ADPG [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.ko00002_keg">
+<summary>
+  Looks up a localized string similar to +E	Module
+#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Modules&lt;/h2&gt;
+#&lt;!---
+#ENTRY       ko00002
+#NAME        Module
+#DEFINITION  KEGG modules
+#---&gt;
+!
+A&lt;b&gt;Pathway module&lt;/b&gt;
+B
+B  &lt;b&gt;Energy metabolism&lt;/b&gt;
+C    Carbon fixation
+D      M00165  Reductive pentose phosphate cycle (Calvin cycle) [PATH:map01200 map00710]
+E        K00855  PRK, prkB; phosphoribulokinase [EC:2.7.1.19]
+E        K01601  rbcL; ribulose-bisphosphate carboxylase large chain [EC:4.1.1. [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.MiST2">
+<summary>
+  Looks up a localized string similar to Pfam AccessionId,Signaling domain ID,Domain name,Kind,Function,Marker
+PF01339,CheB_methylest,CheB_methylest,chemotaxis,Chemotaxis,Yes
+PF04509,CheC,CheC,chemotaxis,Chemotaxis,Yes
+PF03975,CheD,CheD,chemotaxis,Chemotaxis,Yes
+PF01739,CheR,CheR,chemotaxis,Chemotaxis,Yes
+PF03705,CheR_N,CheR_N,chemotaxis,Chemotaxis,Yes
+PF01584,CheW,CheW,chemotaxis,Chemotaxis,Yes
+PF09078,CheY-binding,CheY-binding,chemotaxis,Chemotaxis,Yes
+PF04344,CheZ,CheZ,chemotaxis,Chemotaxis,Yes
+PF02895,H-kinase_dim,H-kinase_dim,chemota [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.String1">
+<summary>
+  Looks up a localized string similar to Test.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_1">
+<summary>
+  Looks up a localized string similar to transl_table=1
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_10">
+<summary>
+  Looks up a localized string similar to transl_table=10
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA C Cys  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_11">
+<summary>
+  Looks up a localized string similar to transl_table=11
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_12">
+<summary>
+  Looks up a localized string similar to transl_table=12
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG S Ser i    CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_13">
+<summary>
+  Looks up a localized string similar to transl_table=13
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_14">
+<summary>
+  Looks up a localized string similar to transl_table=14
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA Y Tyr      TGA W Trp  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_16">
+<summary>
+  Looks up a localized string similar to transl_table=16
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+TTG L Leu      TCG S Ser      TAG L Leu      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_2">
+<summary>
+  Looks up a localized string similar to transl_table=2
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_21">
+<summary>
+  Looks up a localized string similar to transl_table=21
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_22">
+<summary>
+  Looks up a localized string similar to transl_table=22
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA * Ter      TAA * Ter      TGA * Ter  
+TTG L Leu      TCG S Ser      TAG L Leu      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_23">
+<summary>
+  Looks up a localized string similar to transl_table=23
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA * Ter      TCA S Ser      TAA * Ter      TGA * Ter  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_24">
+<summary>
+  Looks up a localized string similar to transl_table=24
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_25">
+<summary>
+  Looks up a localized string similar to transl_table=25
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA G Gly  
+TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_3">
+<summary>
+  Looks up a localized string similar to transl_table=3
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT T Thr      CCT P Pro      CAT H His      CGT R Arg  
+CTC T Thr      CCC P Pro      CAC H His      CGC R Arg  
+CTA T Thr      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG T Thr      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_4">
+<summary>
+  Looks up a localized string similar to transl_table=4
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu i    TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_5">
+<summary>
+  Looks up a localized string similar to transl_table=5
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_6">
+<summary>
+  Looks up a localized string similar to transl_table=6
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA Q Gln      TGA * Ter  
+TTG L Leu      TCG S Ser      TAG Q Gln      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_9">
+<summary>
+  Looks up a localized string similar to transl_table=9
+
+TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+
+CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+
+ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+</summary>
+</member>
 <member name="M:SMRUCC.genomics.Assembly.Bac_sRNA.org.Sequence.#ctor(System.String,System.String,System.String,System.String,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
  <summary>
  
@@ -165,9 +783,23 @@ SMRUCC.genomics.Core
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="T:SMRUCC.genomics.Assembly.DOOR.DOOR_API">
+ <summary>
+ We present a database DOOR (Database for prOkaryotic OpeRons) containing computationally predicted operons of all the sequenced prokaryotic genomes. 
+ All the operons In DOOR are predicted Using our own prediction program, which was ranked To be the best among 14 operon prediction programs by a recent independent review. 
+ Currently, the DOOR database contains operons for 675 prokaryotic genomes, And supports a number of search capabilities to facilitate easy access And utilization of the information stored in it. 
+ 
+ + (1) Querying the database: the database provides a search capability For a user To find desired operons And associated information through multiple querying methods. 
+ + (2) Searching For similar operons: the database provides a search capability For a user To find operons that have similar composition And Structure To a query operon. 
+ + (3) Prediction Of cis-regulatory motifs: the database provides a capability For motif identification In the promoter regions Of a user-specified group Of possibly coregulated operons, Using motif-finding tools. 
+ + (4) Operons For RNA genes: the database includes operons For RNA genes. (5) OperonWiki: the database provides a wiki page (OperonWiki) To facilitate interactions between users And the developer Of the database. 
+ 
+ We believe that DOOR provides a useful resource To many biologists working On bacteria And archaea, which can be accessed at http://csbl1.bmb.uga.edu/OperonDB.
+ </summary>
+</member>
 <member name="M:SMRUCC.genomics.Assembly.DOOR.DOOR_API.GetOprFirst(System.String,SMRUCC.genomics.Assembly.DOOR.DOOR)">
  <summary>
- 
+ Gets the first gene in the operon of the struct gene that inputs from the parameter.
  </summary>
  <param name="struct">操纵子里面的某一个结构基因成员的基因编号</param>
  <returns></returns>
@@ -366,7 +998,7 @@ SMRUCC.genomics.Core
  <summary>
  从Expasy数据库之中创建基本的数据
  </summary>
- <param name="Enzymes"></param>
+ <param name="enzymes"></param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -1009,10 +1641,24 @@ SMRUCC.genomics.Core
  </summary>
  <returns></returns>
 </member>
+<member name="M:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.EntryAPI.__fillClass(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.KEGGOrganism)">
+ <summary>
+ 从上往下填充物种分类信息
+ </summary>
+ <param name="org"></param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.EntryAPI.GetOrganismList">
  <summary>
  Gets the latest KEGG organism list from query the KEGG database.
  </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.EntryAPI.FromResource(System.String)">
+ <summary>
+ Data from the external resources.
+ </summary>
+ <param name="url"></param>
  <returns></returns>
 </member>
 <member name="T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.KEGGOrganism">
@@ -1300,6 +1946,11 @@ SMRUCC.genomics.Core
  http://www.genome.jp/dbget-bin/www_bget?
  </summary>
 </member>
+<member name="T:SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB.Modules">
+ <summary>
+ Downloader for <see cref="T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Module"/>
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB.Pathways">
  <summary>
  LinkDB Search for KEGG pathways
@@ -1335,6 +1986,7 @@ SMRUCC.genomics.Core
  <remarks>
  The example format as:
  
+ ```
  Nostoc sp. PCC 7120
  #
  alr4156
@@ -1344,7 +1996,20 @@ SMRUCC.genomics.Core
  all2134
  all2133
  ......
+ ```
  </remarks>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.KEGG.WebServices.QuerySource.genome">
+ <summary>
+ The genome name.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.KEGG.WebServices.QuerySource.locusId">
+ <summary>
+ The list of gene locus id that using for the query.
+ </summary>
+ <returns></returns>
 </member>
 <member name="M:SMRUCC.genomics.Assembly.KEGG.WebServices.QuerySource.QuerySpCode(System.Boolean)">
  <summary>
@@ -1407,6 +2072,12 @@ SMRUCC.genomics.Core
  <summary>
  Entry, {trim_formatted, non-process}
  </summary>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers.WebForm.References">
+ <summary>
+ Reference list of this biological object
+ </summary>
+ <returns></returns>
 </member>
 <member name="M:SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers.WebForm.RegexReplace(System.String,System.String[])">
  <summary>
@@ -4602,39 +5273,38 @@ SMRUCC.genomics.Core
 
  </summary>
  <remarks>
- INFORMATION STORAGE AND PROCESSING
- [J] Translation, ribosomal structure and biogenesis
- [A] RNA processing and modification
- [K] Transcription
- [L] Replication, recombination and repair
- [B] Chromatin structure and dynamics
+ ###### INFORMATION STORAGE AND PROCESSING
+ + [J] Translation, ribosomal structure and biogenesis
+ + [A] RNA processing and modification
+ + [K] Transcription
+ + [L] Replication, recombination and repair
+ + [B] Chromatin structure and dynamics
 
- CELLULAR PROCESSES AND SIGNALING
- [D] Cell cycle control, cell division, chromosome partitioning
- [Y] Nuclear structure
- [V] Defense mechanisms
- [T] Signal transduction mechanisms
- [M] Cell wall/membrane/envelope biogenesis
- [N] Cell motility
- [Z] Cytoskeleton
- [W] Extracellular structures
- [U] Intracellular trafficking, secretion, and vesicular transport
- [O] Posttranslational modification, protein turnover, chaperones
+ ###### CELLULAR PROCESSES AND SIGNALING
+ + [D] Cell cycle control, cell division, chromosome partitioning
+ + [Y] Nuclear structure
+ + [V] Defense mechanisms
+ + [T] Signal transduction mechanisms
+ + [M] Cell wall/membrane/envelope biogenesis
+ + [N] Cell motility
+ + [Z] Cytoskeleton
+ + [W] Extracellular structures
+ + [U] Intracellular trafficking, secretion, and vesicular transport
+ + [O] Posttranslational modification, protein turnover, chaperones
 
- METABOLISM
- [C] Energy production and conversion
- [G] Carbohydrate transport and metabolism
- [E] Amino acid transport and metabolism
- [F] Nucleotide transport and metabolism
- [H] Coenzyme transport and metabolism
- [I] Lipid transport and metabolism
- [P] Inorganic ion transport and metabolism
- [Q] Secondary metabolites biosynthesis, transport and catabolism
+ ###### METABOLISM
+ + [C] Energy production and conversion
+ + [G] Carbohydrate transport and metabolism
+ + [E] Amino acid transport and metabolism
+ + [F] Nucleotide transport and metabolism
+ + [H] Coenzyme transport and metabolism
+ + [I] Lipid transport and metabolism
+ + [P] Inorganic ion transport and metabolism
+ + [Q] Secondary metabolites biosynthesis, transport and catabolism
 
- POORLY CHARACTERIZED
- [R] General function prediction only
- [S] Function unknown
-
+ ###### POORLY CHARACTERIZED
+ + [R] General function prediction only
+ + [S] Function unknown
  </remarks>
 </member>
 <member name="M:SMRUCC.genomics.Assembly.NCBI.COG.Function.CanbeCategoryAs(System.String,SMRUCC.genomics.Assembly.NCBI.COG.COGCategories)">
@@ -4674,10 +5344,57 @@ SMRUCC.genomics.Core
 </member>
 <member name="M:SMRUCC.genomics.Assembly.NCBI.COG.Function.Statistics(System.String[])">
  <summary>
-
+ COG profiling counting.
  </summary>
  <param name="lstId">List COG id</param>
  <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.COG.Function.ClassCategory``1(System.Collections.Generic.IEnumerable{``0})">
+ <summary>
+ 
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="source"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.COG.Function.Default">
+ <summary>
+ Default COGs function catalog data
+ </summary>
+ <remarks>
+ ###### INFORMATION STORAGE AND PROCESSING
+ + [J] Translation, ribosomal structure and biogenesis
+ + [A] RNA processing and modification
+ + [K] Transcription
+ + [L] Replication, recombination and repair
+ + [B] Chromatin structure and dynamics
+
+ ###### CELLULAR PROCESSES AND SIGNALING
+ + [D] Cell cycle control, cell division, chromosome partitioning
+ + [Y] Nuclear structure
+ + [V] Defense mechanisms
+ + [T] Signal transduction mechanisms
+ + [M] Cell wall/membrane/envelope biogenesis
+ + [N] Cell motility
+ + [Z] Cytoskeleton
+ + [W] Extracellular structures
+ + [U] Intracellular trafficking, secretion, and vesicular transport
+ + [O] Posttranslational modification, protein turnover, chaperones
+
+ ###### METABOLISM
+ + [C] Energy production and conversion
+ + [G] Carbohydrate transport and metabolism
+ + [E] Amino acid transport and metabolism
+ + [F] Nucleotide transport and metabolism
+ + [H] Coenzyme transport and metabolism
+ + [I] Lipid transport and metabolism
+ + [P] Inorganic ion transport and metabolism
+ + [Q] Secondary metabolites biosynthesis, transport and catabolism
+
+ ###### POORLY CHARACTERIZED
+ + [R] General function prediction only
+ + [S] Function unknown
+ </remarks>
 </member>
 <member name="T:SMRUCC.genomics.Assembly.NCBI.COG.COGs.COGs">
  <summary>
@@ -4748,7 +5465,7 @@ SMRUCC.genomics.Core
  
  </summary>
  <param name="Fasta">prot2003-2014.fasta</param>
- <param name="Export">数据按照基因组分组到处的结果所保存的文件夹</param>
+ <param name="EXPORT">数据按照基因组分组到处的结果所保存的文件夹</param>
  <returns></returns>
  
 </member>
@@ -5080,7 +5797,7 @@ SMRUCC.genomics.Core
  <summary>
  将GBK文件之中的基因的位置数据导出为PTT格式的数据
  </summary>
- <param name="Genbank">导出gene和RNA部分的数据</param>
+ <param name="genbank">导出gene和RNA部分的数据</param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -5570,6 +6287,13 @@ SMRUCC.genomics.Core
  </summary>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.GbkWriter.ToString(SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature)">
+ <summary>
+ 用于生成gbk文档里面的一部分文档节点
+ </summary>
+ <param name="feature"></param>
+ <returns></returns>
 </member>
 <member name="T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.IgbComponent">
  <summary>
@@ -6223,13 +6947,14 @@ SMRUCC.genomics.Core
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader.#ctor(System.String)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader.#ctor(System.String,System.Boolean)">
  <summary>
  请注意，通过这个构造函数只能够读取一个数据库的数据，假若一个文件夹里面同时包含有了基因组数据和质粒的数据，则不推荐使用这个函数进行构造加载
  </summary>
  <param name="DIR"></param>
+ <param name="simplify">数据库是精简版的，有些文件是缺失的</param>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader.GetGeneUniqueId(System.String)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader.GetGeneUniqueId(System.String,System.String)">
  <summary>
  基因序列中的pid似乎是无效的，都一样的，只能通过location来获取序列的标识号了
  </summary>
@@ -6452,12 +7177,64 @@ SMRUCC.genomics.Core
  <remarks></remarks>
 
 </member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.TaxonNode">
+<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.NTheader">
  <summary>
- The tree node calculation model for <see cref="T:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree"/>
+ The fasta header of the nt database.
  </summary>
 </member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree">
+<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Protein">
+ <summary>
+ NCBI genbank title format fasta parser
+ </summary>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Nucleotide">
+ <summary>
+ NCBI genbank title format fasta parser
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Accession2Taxid.ReadFile(System.String)">
+ <summary>
+ 在返回的数据之中，属性<see cref="P:Microsoft.VisualBasic.ComponentModel.DataSourceModel.NamedValue`1.Description"/>是原始的行数据，
+ Name属性不包含有Accession的版本号
+ </summary>
+ <param name="file$"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Accession2Taxid.Matchs(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+ <summary>
+ 这个函数所返回来的数据之中是包含有表头的
+ </summary>
+ <param name="acc_list"></param>
+ <param name="DIR$"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode">
+ <summary>
+ The tree node calculation model for <see cref="T:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree"/>
+ </summary>
+</member>
+<member name="P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.parent">
+ <summary>
+ 当前的节点的父节点的编号: ``<see cref="P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.taxid"/>``
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.Taxonomy(SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode[],System.String)">
+ <summary>
+ 直接处理<see cref="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(System.Int32,System.Boolean)"/>的输出数据，不需要进行额外的排序操作
+ </summary>
+ <param name="tree"></param>
+ <param name="delimiter"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.BuildBIOM(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode})">
+ <summary>
+ <see cref="P:SMRUCC.genomics.Metagenomics.BIOMTaxonomy.BIOMPrefix"/>
+ </summary>
+ <param name="nodes"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree">
  <summary>
  Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
  ``names.dmp`` files 
@@ -6485,7 +7262,7 @@ SMRUCC.genomics.Core
  And ``nodes.dmp`` files In a Python dictionnary which can be used To retrieve lineages, descendants, etc ...
  </remarks>
 </member>
-<member name="F:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.stdranks">
+<member name="F:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.stdranks">
  <summary>
  + species
  + genus
@@ -6496,7 +7273,13 @@ SMRUCC.genomics.Core
  + superkingdom
  </summary>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.#ctor(System.Object)">
+<member name="P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.Taxonomy">
+ <summary>
+ ``{taxid -> taxonomy_node}``
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.#ctor(System.String)">
  <summary>
  Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
  ``names.dmp`` files 
@@ -6510,7 +7293,7 @@ SMRUCC.genomics.Core
  
  </summary>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.#ctor(System.String,System.String)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.#ctor(System.String,System.String)">
  <summary>
  Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and 
  ``names.dmp`` files 
@@ -6526,14 +7309,14 @@ SMRUCC.genomics.Core
  <param name="nodes_filename"></param>
  <param name="names_filename"></param>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetParent(System.Int32[])">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetParent(System.Int32[])">
  <summary>
  Returns parent id
  </summary>
  <param name="taxids"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(System.Int32,System.Boolean)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(System.Int32,System.Boolean)">
  <summary>
  使用这个函数得到物种的具体分类，返回来的数据是从小到大排列的
  </summary>
@@ -6541,7 +7324,7 @@ SMRUCC.genomics.Core
  <param name="only_std_ranks"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(System.Collections.Generic.IEnumerable{System.Int32},System.Boolean)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetAscendantsWithRanksAndNames(System.Collections.Generic.IEnumerable{System.Int32},System.Boolean)">
  <summary>
  使用这个函数得到物种的具体分类，返回来的数据是从小到大排列的
  </summary>
@@ -6549,7 +7332,7 @@ SMRUCC.genomics.Core
  <param name="only_std_ranks"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetDescendants(System.Int32[])">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetDescendants(System.Int32[])">
  <summary>
  Returns all the descendant taxids from a branch/clade 
  of a list of taxids : all nodes (leaves or not) of the 
@@ -6558,14 +7341,14 @@ SMRUCC.genomics.Core
  <param name="taxids"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetDescendantsWithRanksAndNames(System.Int32[])">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetDescendantsWithRanksAndNames(System.Int32[])">
  <summary>
  Returns the ordered list of the descendants with their respective ranks and names for a LIST of taxids.
  </summary>
  <param name="taxids"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetLeaves(System.Int32)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetLeaves(System.Int32)">
  <summary>
  Returns all the descendant taxids that are leaves of the tree from 
  a branch/clade determined by ONE taxid.
@@ -6573,7 +7356,7 @@ SMRUCC.genomics.Core
  <param name="taxid"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetLeavesWithRanksAndNames(System.Int32)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetLeavesWithRanksAndNames(System.Int32)">
  <summary>
  Returns all the descendant taxids that are leaves of the tree from 
  a branch/clade determined by ONE taxid.
@@ -6581,7 +7364,7 @@ SMRUCC.genomics.Core
  <param name="taxid"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.GetTaxidsAtRank(System.String)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.GetTaxidsAtRank(System.String)">
  <summary>
  Returns all the taxids that are at a specified rank: 
  
@@ -6594,7 +7377,7 @@ SMRUCC.genomics.Core
  <param name="rank"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.preorderTraversal(System.Int32,System.Boolean)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.preorderTraversal(System.Int32,System.Boolean)">
  <summary>
  Prefix (Preorder) visit of the tree: https://en.wikipedia.org/wiki/Tree_traversal
  </summary>
@@ -6602,7 +7385,7 @@ SMRUCC.genomics.Core
  <param name="only_leaves"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.NcbiTaxonomyTree.flatten(System.Collections.IEnumerable)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.flatten(System.Collections.IEnumerable)">
  <summary>
  ```
  >>> flatten([1 , [2, 2], [2, [3, 3, 3]]]) 
@@ -6612,7 +7395,7 @@ SMRUCC.genomics.Core
  <param name="seq"></param>
  <returns></returns>
 </member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.TaxonomyWeb">
+<member name="T:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyWeb">
  <summary>
  The Taxonomy Database is a curated classification and nomenclature for all of the organisms in the 
  public sequence databases. This currently represents about 10% of the described species of life 
@@ -6623,48 +7406,48 @@ SMRUCC.genomics.Core
  please consult the relevant scientific literature for the most reliable information.
  </remarks>
 </member>
-<member name="F:SMRUCC.genomics.Assembly.NCBI.TaxonomyWeb.TaxonomyWebURL">
+<member name="F:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyWeb.TaxonomyWebURL">
  <summary>
  http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi
  </summary>
 </member>
-<member name="P:SMRUCC.genomics.Assembly.NCBI.TaxiValue.x">
+<member name="P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxiValue.x">
  <summary>
  Other tag value
  </summary>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.TaxiValue.BuildHash(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.NCBI.TaxiValue})">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxiValue.BuildHash(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxiValue})">
  <summary>
  {gi, title}
  </summary>
  <returns></returns>
 </member>
-<member name="P:SMRUCC.genomics.Assembly.NCBI.TaxonValue.Rank">
+<member name="P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonValue.Rank">
  <summary>
  Class level
  </summary>
  <returns></returns>
 </member>
-<member name="P:SMRUCC.genomics.Assembly.NCBI.TaxonValue.sp">
+<member name="P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonValue.sp">
  <summary>
  ``gi -> gbff.head``
  </summary>
  <returns></returns>
 </member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.Taxonomy">
+<member name="T:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Taxonomy">
  <summary>
  Build Taxonomy tree from NCBI genbank data.
  </summary>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.AcquireAuto(System.String)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Taxonomy.AcquireAuto(System.String)">
  <summary>
- 根绝文件的拓展名来识别
+ {gi -> taxid}.(根绝文件的拓展名来识别)
  </summary>
  <param name="dmp"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Hash_gi2Taxi(System.String)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Taxonomy.Hash_gi2Taxi(System.String)">
  <summary>
  Probably you should do the match in the bash first by using script"
  
@@ -6679,7 +7462,7 @@ SMRUCC.genomics.Core
  <param name="dmp"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Archive(System.String,System.String)">
+<member name="M:SMRUCC.genomics.Assembly.NCBI.Taxonomy.Taxonomy.Archive(System.String,System.String)">
  <summary>
  将文本数据库转换为二进制数据库已减少文件体积和加快文件的加载速度
  </summary>
@@ -6755,16 +7538,6 @@ SMRUCC.genomics.Core
  查询某一个蛋白质或者基因对象所返回的结果数据下载入口点
  </summary>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Protein">
- <summary>
- NCBI genbank title format fasta parser
- </summary>
-</member>
-<member name="T:SMRUCC.genomics.Assembly.NCBI.SequenceDump.Gene">
- <summary>
- NCBI genbank title format fasta parser
- </summary>
 </member>
 <member name="T:SMRUCC.genomics.Assembly.Uniprot.UniprotFasta">
  <summary>
@@ -6910,481 +7683,10 @@ SMRUCC.genomics.Core
  <remarks></remarks>
  
 </member>
-<member name="T:SMRUCC.genomics.ContextModel.Context">
+<member name="T:SMRUCC.genomics.ComponentModel.Loci.IMotifScoredSite">
  <summary>
- Context model of a specific genomics feature site.
+ This motif site have the scoring calculation value
  </summary>
-</member>
-<member name="F:SMRUCC.genomics.ContextModel.Context.Feature">
- <summary>
- Current feature site
- </summary>
-</member>
-<member name="F:SMRUCC.genomics.ContextModel.Context.Upstream">
- <summary>
- <see cref="F:SMRUCC.genomics.ContextModel.Context.Feature"/> its upstream region with a specific length
- </summary>
-</member>
-<member name="F:SMRUCC.genomics.ContextModel.Context.Downstream">
- <summary>
- <see cref="F:SMRUCC.genomics.ContextModel.Context.Feature"/> its downstream region with a specific length
- </summary>
-</member>
-<member name="F:SMRUCC.genomics.ContextModel.Context.Tag">
- <summary>
- The user custom tag data for this feature site.
- </summary>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.Context.GetRelation(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean)">
- <summary>
- Get relationship between target <see cref="T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation"/> with current feature site.
- </summary>
- <param name="loci"></param>
- <param name="stranded">Get <see cref="T:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships"/> ignored of nucleotide <see cref="T:SMRUCC.genomics.ComponentModel.Loci.Strands"/>?</param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.Context.__relUnstrand(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
- <summary>
- Get <see cref="T:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships"/> ignored of nucleotide <see cref="T:SMRUCC.genomics.ComponentModel.Loci.Strands"/>.
- </summary>
- <param name="loci"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.Context.ToString">
- <summary>
- Get tags data
- </summary>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.ContextModel.RelationDelegate`1">
- <summary>
- The working core of the genomics context provider.
- </summary>
- <typeparam name="T"></typeparam>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.RelationDelegate`1.GetRelation(SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships,System.Int32)">
- <summary>
- 为了提高上下文的搜索效率，只在附近的位置搜索
- 对于正向，是从小到大排序的
- </summary>
- <param name="relType"></param>
- <param name="dist"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.RelationDelegate`1.GetATGRelation(SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships,System.Int32)">
- <summary>
- 
- </summary>
- <param name="relType"></param>
- <param name="ATGdist"></param>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.ContextModel.GenomeContextProvider`1">
- <summary>
- 基因组上下文计算工具，一般使用<see cref="T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT"/>或者<see cref="T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF"/>文件作为数据源.
- 
- ```vbnet
- Dim PTT As <see cref="T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT"/> = TabularFormat.PTT.Load("G:\Xanthomonas_campestris_8004_uid15\CP000050.ptt")
- Dim genome As New <see cref="T:SMRUCC.genomics.ContextModel.GenomeContextProvider`1"/>(Of GeneBrief)(PTT)
- Dim loci As New <see cref="T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation"/>(3834400, 3834450) ' XC_3200, XC_3199, KEGG测试成功
- Dim rels = genome.GetAroundRelated(loci, False)
- 
- rels = genome.GetAroundRelated(loci, True)
- ```
- </summary>
- <typeparam name="T"></typeparam>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetInnerAntisense(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,SMRUCC.genomics.ComponentModel.Loci.Strands)">
- <summary>
- 获取某一个指定的位点在基因组之中的内部反向的基因的集合
- </summary>
- <param name="source"></param>
- <param name="LociStart"></param>
- <param name="LociEnds"></param>
- <param name="Strand"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetRelatedGenes(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief},System.Int32,System.Int32,System.Int32)">
- <summary>
- Gets the related genes on a specific loci site location.(函数获取某一个给定的位点附近的所有的有关联的基因对象。
- 请注意，这个函数仅仅是依靠于两个位点之间的相互位置关系来判断的，
- 并没有判断链的方向，假若需要判断链的方向，请在调用本函数之前就将参数<paramref name="datasource"/>按照链的方向筛选出来)
- </summary>
- <param name="DataSource"></param>
- <param name="LociStart"></param>
- <param name="LociEnds"></param>
- <param name="ATGDistance"></param>
- <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetRelatedGenes(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32,System.Boolean)">
- <summary>
- Gets the related genes on a specific loci site location.(函数获取某一个给定的位点附近的所有的有关联的基因对象。
- 请注意，这个函数仅仅是依靠于两个位点之间的相互位置关系来判断的，
- 并没有判断链的方向，假若需要判断链的方向，请在调用本函数之前就将参数<paramref name="source"/>按照链的方向筛选出来)
- </summary>
- <param name="source"></param>
- <param name="start"></param>
- <param name="ends"></param>
- <param name="ATGDist"></param>
- <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetRelatedUpstream(System.Collections.Generic.IEnumerable{`0},SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Int32)">
- <summary>
- <see cref="F:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships.UpStreamOverlap"/> and 
- <see cref="F:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships.UpStream"/>
- </summary>
- <param name="source"></param>
- <param name="Loci"></param>
- <param name="ATGDistance"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetSource(SMRUCC.genomics.ComponentModel.Loci.Strands)">
- <summary>
- Gets the stranded gene object data source.
- </summary>
- <param name="strand"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.__delegate(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean)">
- <summary>
- Creates the anonymous function pointer for the relationship <see cref="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetAroundRelated(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean,System.Int32)"/>
- </summary>
- <param name="loci"></param>
- <param name="stranded"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetAroundRelated(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean,System.Int32)">
- <summary>
- Gets the related genes on a specific loci site location.(函数获取某一个给定的位点附近的所有的有关联的基因对象。
- 请注意，这个函数仅仅是依靠于两个位点之间的相互位置关系来判断的，
- 假若这个参数<param name="stranded"></param>为真，假若需要判断链的方向)
- </summary>
- <param name="lociDist"></param>
- <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.ContextModel.TFDensity">
- <summary>
- Calculates the relative density of the TF on each gene on the genome.
- </summary>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.TFDensity.Density``1(SMRUCC.genomics.ContextModel.IGenomicsContextProvider{``0},System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Boolean)">
- <summary>
- Although this function name means calculate the relative density of the TF on the genome for each gene, 
- but you can also calculate any type of gene its density on the genome.
- (虽然名称是调控因子的密度，但是也可以用作为其他类型的基因的密度的计算，
- 这个函数是非顺式的，即只要在ATG前面的范围内或者TGA后面的范围内出现都算存在)
- </summary>
- <typeparam name="T"></typeparam>
- <param name="genome"></param>
- <param name="TF"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.TFDensity.DensityCis``1(SMRUCC.genomics.ContextModel.IGenomicsContextProvider{``0},System.Collections.Generic.IEnumerable{System.String},System.Int32)">
- <summary>
- 顺式调控，只有TF出现在上游，并且二者链方向相同才算存在
- </summary>
- <typeparam name="T"></typeparam>
- <param name="genome">Bacteria genomic context provider.</param>
- <param name="TF">The TF locus_tag list.</param>
- <param name="ranges">
- This value is set to 20000bp is more perfect works on the bacteria genome, probably...
- </param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.TFDensity.__getCisGenes``1(``0,``0[],System.Int32)">
- <summary>
- 查找当前的基因的上游符合距离范围内的TF目标
- </summary>
- <typeparam name="T"></typeparam>
- <param name="g"></param>
- <param name="TFs"></param>
- <param name="ranges"></param>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.ContextModel.Density">
- <summary>
- Genomics context relative abundance
- </summary>
-</member>
-<member name="P:SMRUCC.genomics.ContextModel.Density.locus_tag">
- <summary>
- The gene locus_tag identifier
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.ContextModel.Density.Abundance">
- <summary>
- The specific features on the genome its relative abundance relative to this gene <see cref="P:SMRUCC.genomics.ContextModel.Density.locus_tag"/>
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.ContextModel.Density.product">
- <summary>
- Current gene object its function annotation.
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.ContextModel.IGenomicsContextProvider`1.AllFeatures">
- <summary>
- Listing all of the features loci sites on the genome. 
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.IGenomicsContextProvider`1.GetRelatedGenes(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean,System.Int32)">
- <summary>
- 获取某一个位点在位置上有相关联系的基因
- </summary>
- <param name="loci"></param>
- <param name="unstrand"></param>
- <param name="ATGDist"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.IGenomicsContextProvider`1.GetStrandFeatures(SMRUCC.genomics.ComponentModel.Loci.Strands)">
- <summary>
- Gets all of the feature sites on the specific <see cref="T:SMRUCC.genomics.ComponentModel.Loci.Strands"/> nucleotide sequence
- </summary>
- <param name="strand"></param>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.ContextModel.Relationship`1">
- <summary>
- 描述位点在基因组上面的位置，可以使用<see cref="M:SMRUCC.genomics.ContextModel.Relationship`1.ToString"/>函数获取得到位置描述
- </summary>
- <typeparam name="T"></typeparam>
-</member>
-<member name="P:SMRUCC.genomics.ContextModel.Relationship`1.Gene">
- <summary>
- Target gene object
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.ContextModel.Relationship`1.locus_tag">
- <summary>
- <see cref="P:Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable.Identifier"/>
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.Relationship`1.ToString">
- <summary>
- Gets loci location relationship description with this <see cref="P:SMRUCC.genomics.ContextModel.Relationship`1.Gene"/> object.
- (位置关系的描述信息)
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.IsBlankSegment(SMRUCC.genomics.ComponentModel.IGeneBrief)">
- <summary>
- 判断本对象是否是由<see cref="M:SMRUCC.genomics.ContextModel.LocationDescriptions.BlankSegment``1(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)"></see>方法所生成的空白片段
- </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.GetLociRelations``1(``0,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
- <summary>
- Get the loci relationship between the target gene and the specific feature loci.
- </summary>
- <typeparam name="T"></typeparam>
- <param name="gene"></param>
- <param name="nucl"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.ATGDistance``1(``0,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
- <summary>
- Calculate the ATG distance between the target gene and the specific feature loci.
- </summary>
- <typeparam name="T"></typeparam>
- <param name="gene"></param>
- <param name="nucl"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.GetATGDistance(SMRUCC.genomics.ComponentModel.Loci.Location,SMRUCC.genomics.ComponentModel.IGeneBrief)">
- <summary>
- Calculates the ATG distance between the target gene and a loci segment on.(计算位点相对于某一个基因的ATG距离)
- </summary>
- <param name="loci"></param>
- <param name="gene"></param>
- <returns>总是计算最大的距离</returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.LocationDescription``1(SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships,``0)">
- <summary>
- Gets the loci location description data.
- </summary>
- <typeparam name="T"></typeparam>
- <param name="posi"></param>
- <param name="data"></param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.LICENSE">
- <summary>
- ᶘ ᵒᴥᵒᶅ？？？？
- </summary>
- <remarks>
-  _______           _______
- く__,.ヘヽ.　　　　/　,ー､ 〉
-　　＼ ', !-─‐-i　/　/´
- 　 ／｀ｰ'　　　 L/／｀ヽ､
-  /　 ／,　 /|　 ,　 ,　　　 ',
-  ｲ 　/ /-‐/　ｉ　L_ ﾊ ヽ!　 i
-   ﾚ ﾍ 7ｲ｀ﾄ　 ﾚ'ｧ-ﾄ､!ハ|　 |
-  !,/7 'ゞ'　　 ´i__rﾊiソ| 　 |　　　
-  |.从"　　_　　 ,,,, / |./ 　 |
-  ﾚ'| i＞.､,,__　_,.イ / 　.i 　|
-    ﾚ'| | / k_７_/ﾚ'ヽ,　ﾊ.　|
-　　 | |/i 〈|/　 i　,.ﾍ |　i　|
-　　　.|/ /　ｉ： 　 ﾍ!　　＼　|
- 　 　 kヽ>､ﾊ 　 _,.ﾍ､ 　 /､!
-　　　 !'〈//｀Ｔ´', ＼ ｀'7'ｰr'
-　　　 ﾚ'ヽL__|___i,___,ンﾚ|ノ
-　　 　　　ﾄ-,/　|___./
-　　 　　　'ｰ'　　!_,.:
- </remarks>
-</member>
-<member name="P:SMRUCC.genomics.LICENSE.GPL3">
-<summary>
-  Looks up a localized string similar to                     GNU GENERAL PUBLIC LICENSE
-                       Version 3, 29 June 2007
-
- Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;
- Everyone is permitted to copy and distribute verbatim copies
- of this license document, but changing it is not allowed.
-
-                            Preamble
-
-  The GNU General Public License is a free, copyleft license for
-software and other kinds of works.
-
-  The licenses for most software and other practical works are designed
-to take away yo [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="M:SMRUCC.genomics.LICENSE.GithubRepository">
- <summary>
- https://github.com/SMRUCC/GCModeller.Core
- </summary>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.DBLinkBuilder.IDBLink.GetFormatValue">
- <summary>
- 将对象模型转换为含有格式的字符串的值用以写入文件之中
- </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.ComponentModel.EquaionModel.IEquation`1.Reactants">
- <summary>
- On the equation left side.
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.ComponentModel.EquaionModel.IEquation`1.Products">
- <summary>
- On the equation right side.
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.GetMetabolites">
- <summary>
- 得到这个代谢反应过程之中的所有的代谢物，即左边加右边
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.GetCoEfficient(System.String)">
- <summary>
- 获取得到某个代谢物在本反应过程之中的化学计量数；
- [
- 左边，返回负数；
- 右边，返回正数；
- 不存在则返回0。
- ]
- </summary>
- <param name="ID"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.Produce(`0)">
- <summary>
- 
- </summary>
- <param name="Metabolite">Id</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.Produce(System.String)">
- <summary>
- 
- </summary>
- <param name="Metabolite">Metabolite.Species</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.Consume(System.String)">
- <summary>
- 
- </summary>
- <param name="Metabolite">Metabolite.Species</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.ToString">
- <summary>
- Equation expression
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equivalence.Equals``1(SMRUCC.genomics.ComponentModel.EquaionModel.Equation{``0},SMRUCC.genomics.ComponentModel.EquaionModel.Equation{``0},System.Func{``0,``0,System.Boolean,System.Boolean},System.Boolean)">
- <summary>
- 
- </summary>
- <typeparam name="T"></typeparam>
- <param name="a"></param>
- <param name="b"></param>
- <param name="cpEquals">反应物的等价性的判断方法</param>
- <param name="strict"></param>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes.Equation">
- <summary>
- 默认类型的反应表达式的数据结构
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.ComponentModel.IGeneBrief">
- <summary>
- The basically information of a gene object.(这个接口对象表示了一个在计算机程序之中的最基本的基因信息的载体对象)
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.ComponentModel.ICOGDigest">
- <summary>
- The COG annotation data of the genes.(基因对象的COG注释结果)
- </summary>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.ComponentModel.ICOGDigest.COG">
- <summary>
- The gene object COG classification.(COG功能分类)
- </summary>
- <value></value>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.ComponentModel.ICOGDigest.Product">
- <summary>
- The protein function annotation data of the gene coding product.(所编码的蛋白质产物的功能注释)
- </summary>
- <value></value>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.ComponentModel.ICOGDigest.Length">
- <summary>
- The nucleotide sequence length.(基因的长度)
- </summary>
- <value></value>
- <returns></returns>
- <remarks></remarks>
 </member>
 <member name="T:SMRUCC.genomics.ComponentModel.Loci.Abstract.ITagSite">
  <summary>
@@ -7486,7 +7788,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <summary>
  Try parse NCBI sequence dump location/<see cref="M:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation.ToString"/> dump location.
  </summary>
- <param name="sLoci"></param>
+ <param name="loci"></param>
  <returns></returns>
  <remarks></remarks>
 
@@ -7855,6 +8157,133 @@ to take away yo [rest of string was truncated]&quot;;.
  <param name="Delimiter"></param>
  <returns></returns>
 </member>
+<member name="M:SMRUCC.genomics.ComponentModel.Loci.Location.OffSet(System.Int32)">
+ <summary>
+ <see cref="P:SMRUCC.genomics.ComponentModel.Loci.Location.Left"/>, <see cref="P:SMRUCC.genomics.ComponentModel.Loci.Location.Right"/> offset a length value and then construct a new <see cref="T:SMRUCC.genomics.ComponentModel.Loci.Location"/> value.
+ </summary>
+ <param name="value"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.DBLinkBuilder.IDBLink.GetFormatValue">
+ <summary>
+ 将对象模型转换为含有格式的字符串的值用以写入文件之中
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.ComponentModel.EquaionModel.IEquation`1.Reactants">
+ <summary>
+ On the equation left side.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.ComponentModel.EquaionModel.IEquation`1.Products">
+ <summary>
+ On the equation right side.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.GetMetabolites">
+ <summary>
+ 得到这个代谢反应过程之中的所有的代谢物，即左边加右边
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.GetCoEfficient(System.String)">
+ <summary>
+ 获取得到某个代谢物在本反应过程之中的化学计量数；
+ [
+ 左边，返回负数；
+ 右边，返回正数；
+ 不存在则返回0。
+ ]
+ </summary>
+ <param name="ID"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.Produce(`0)">
+ <summary>
+ 
+ </summary>
+ <param name="Metabolite">Id</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.Produce(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="Metabolite">Metabolite.Species</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.Consume(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="Metabolite">Metabolite.Species</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equation`1.ToString">
+ <summary>
+ Equation expression
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ComponentModel.EquaionModel.Equivalence.Equals``1(SMRUCC.genomics.ComponentModel.EquaionModel.Equation{``0},SMRUCC.genomics.ComponentModel.EquaionModel.Equation{``0},System.Func{``0,``0,System.Boolean,System.Boolean},System.Boolean)">
+ <summary>
+ 
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="a"></param>
+ <param name="b"></param>
+ <param name="cpEquals">反应物的等价性的判断方法</param>
+ <param name="strict"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes.Equation">
+ <summary>
+ 默认类型的反应表达式的数据结构
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.ComponentModel.IGeneBrief">
+ <summary>
+ The basically information of a gene object.(这个接口对象表示了一个在计算机程序之中的最基本的基因信息的载体对象)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.ComponentModel.ICOGDigest">
+ <summary>
+ The COG annotation data of the genes.(基因对象的COG注释结果)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.ComponentModel.ICOGDigest.COG">
+ <summary>
+ The gene object COG classification.(COG功能分类)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.ComponentModel.ICOGDigest.Product">
+ <summary>
+ The protein function annotation data of the gene coding product.(所编码的蛋白质产物的功能注释)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.ComponentModel.ICOGDigest.Length">
+ <summary>
+ The nucleotide sequence length.(基因的长度)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
 <member name="M:SMRUCC.genomics.ComponentModel.PathwayBrief.GetPathwayGenes">
  <summary>
  Gets the pathway related genes.
@@ -7972,6 +8401,362 @@ to take away yo [rest of string was truncated]&quot;;.
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="T:SMRUCC.genomics.ContextModel.Context">
+ <summary>
+ Context model of a specific genomics feature site.
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.ContextModel.Context.Feature">
+ <summary>
+ Current feature site
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.ContextModel.Context.Upstream">
+ <summary>
+ <see cref="F:SMRUCC.genomics.ContextModel.Context.Feature"/> its upstream region with a specific length
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.ContextModel.Context.Downstream">
+ <summary>
+ <see cref="F:SMRUCC.genomics.ContextModel.Context.Feature"/> its downstream region with a specific length
+ </summary>
+</member>
+<member name="F:SMRUCC.genomics.ContextModel.Context.Tag">
+ <summary>
+ The user custom tag data for this feature site.
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.Context.GetRelation(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean)">
+ <summary>
+ Get relationship between target <see cref="T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation"/> with current feature site.
+ </summary>
+ <param name="loci"></param>
+ <param name="stranded">Get <see cref="T:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships"/> ignored of nucleotide <see cref="T:SMRUCC.genomics.ComponentModel.Loci.Strands"/>?</param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.Context.__relUnstrand(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
+ <summary>
+ Get <see cref="T:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships"/> ignored of nucleotide <see cref="T:SMRUCC.genomics.ComponentModel.Loci.Strands"/>.
+ </summary>
+ <param name="loci"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.Context.ToString">
+ <summary>
+ Get tags data
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.ContextModel.RelationDelegate`1">
+ <summary>
+ The working core of the genomics context provider.
+ </summary>
+ <typeparam name="T"></typeparam>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.RelationDelegate`1.GetRelation(SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships,System.Int32)">
+ <summary>
+ 为了提高上下文的搜索效率，只在附近的位置搜索
+ 对于正向，是从小到大排序的
+ </summary>
+ <param name="relType"></param>
+ <param name="dist"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.RelationDelegate`1.GetATGRelation(SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships,System.Int32)">
+ <summary>
+ 
+ </summary>
+ <param name="relType"></param>
+ <param name="ATGdist"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.ContextModel.GenomeContextProvider`1">
+ <summary>
+ 基因组上下文计算工具，一般使用<see cref="T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT"/>或者<see cref="T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF"/>文件作为数据源.
+ 
+ ```vbnet
+ Dim PTT As <see cref="T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT"/> = TabularFormat.PTT.Load("G:\Xanthomonas_campestris_8004_uid15\CP000050.ptt")
+ Dim genome As New <see cref="T:SMRUCC.genomics.ContextModel.GenomeContextProvider`1"/>(Of GeneBrief)(PTT)
+ Dim loci As New <see cref="T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation"/>(3834400, 3834450) ' XC_3200, XC_3199, KEGG测试成功
+ Dim rels = genome.GetAroundRelated(loci, False)
+ 
+ rels = genome.GetAroundRelated(loci, True)
+ ```
+ </summary>
+ <typeparam name="T"></typeparam>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetInnerAntisense(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,SMRUCC.genomics.ComponentModel.Loci.Strands)">
+ <summary>
+ 获取某一个指定的位点在基因组之中的内部反向的基因的集合
+ </summary>
+ <param name="source"></param>
+ <param name="LociStart"></param>
+ <param name="LociEnds"></param>
+ <param name="Strand"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetRelatedGenes(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief},System.Int32,System.Int32,System.Int32)">
+ <summary>
+ Gets the related genes on a specific loci site location.(函数获取某一个给定的位点附近的所有的有关联的基因对象。
+ 请注意，这个函数仅仅是依靠于两个位点之间的相互位置关系来判断的，
+ 并没有判断链的方向，假若需要判断链的方向，请在调用本函数之前就将参数<paramref name="datasource"/>按照链的方向筛选出来)
+ </summary>
+ <param name="DataSource"></param>
+ <param name="LociStart"></param>
+ <param name="LociEnds"></param>
+ <param name="ATGDistance"></param>
+ <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetRelatedGenes(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32,System.Boolean)">
+ <summary>
+ Gets the related genes on a specific loci site location.(函数获取某一个给定的位点附近的所有的有关联的基因对象。
+ 请注意，这个函数仅仅是依靠于两个位点之间的相互位置关系来判断的，
+ 并没有判断链的方向，假若需要判断链的方向，请在调用本函数之前就将参数<paramref name="source"/>按照链的方向筛选出来)
+ </summary>
+ <param name="source"></param>
+ <param name="start"></param>
+ <param name="ends"></param>
+ <param name="ATGDist"></param>
+ <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetRelatedUpstream(System.Collections.Generic.IEnumerable{`0},SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Int32)">
+ <summary>
+ <see cref="F:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships.UpStreamOverlap"/> and 
+ <see cref="F:SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships.UpStream"/>
+ </summary>
+ <param name="source"></param>
+ <param name="Loci"></param>
+ <param name="ATGDistance"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetSource(SMRUCC.genomics.ComponentModel.Loci.Strands)">
+ <summary>
+ Gets the stranded gene object data source.
+ </summary>
+ <param name="strand"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.__delegate(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean,System.Boolean)">
+ <summary>
+ Creates the anonymous function pointer for the relationship <see cref="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetAroundRelated(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean,System.Int32,System.Boolean)"/>
+ </summary>
+ <param name="loci"></param>
+ <param name="stranded"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.GenomeContextProvider`1.GetAroundRelated(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean,System.Int32,System.Boolean)">
+ <summary>
+ Gets the related genes on a specific loci site location.(函数获取某一个给定的位点附近的所有的有关联的基因对象。
+ 请注意，这个函数仅仅是依靠于两个位点之间的相互位置关系来判断的，
+ 假若这个参数<param name="stranded"></param>为真，假若需要判断链的方向)
+ </summary>
+ <param name="lociDist"></param>
+ <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.ContextModel.TFDensity">
+ <summary>
+ Calculates the relative density of the TF on each gene on the genome.
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.TFDensity.Density``1(SMRUCC.genomics.ContextModel.IGenomicsContextProvider{``0},System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Boolean)">
+ <summary>
+ Although this function name means calculate the relative density of the TF on the genome for each gene, 
+ but you can also calculate any type of gene its density on the genome.
+ (虽然名称是调控因子的密度，但是也可以用作为其他类型的基因的密度的计算，
+ 这个函数是非顺式的，即只要在ATG前面的范围内或者TGA后面的范围内出现都算存在)
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="genome"></param>
+ <param name="TF"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.TFDensity.DensityCis``1(SMRUCC.genomics.ContextModel.IGenomicsContextProvider{``0},System.Collections.Generic.IEnumerable{System.String},System.Int32)">
+ <summary>
+ 顺式调控，只有TF出现在上游，并且二者链方向相同才算存在
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="genome">Bacteria genomic context provider.</param>
+ <param name="TF">The TF locus_tag list.</param>
+ <param name="ranges">
+ This value is set to 20000bp is more perfect works on the bacteria genome, probably...
+ </param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.TFDensity.__getCisGenes``1(``0,``0[],System.Int32)">
+ <summary>
+ 查找当前的基因的上游符合距离范围内的TF目标
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="g"></param>
+ <param name="TFs"></param>
+ <param name="ranges"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.ContextModel.Density">
+ <summary>
+ Genomics context relative abundance
+ </summary>
+</member>
+<member name="P:SMRUCC.genomics.ContextModel.Density.locus_tag">
+ <summary>
+ The gene locus_tag identifier
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.ContextModel.Density.Abundance">
+ <summary>
+ The specific features on the genome its relative abundance relative to this gene <see cref="P:SMRUCC.genomics.ContextModel.Density.locus_tag"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.ContextModel.Density.product">
+ <summary>
+ Current gene object its function annotation.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.ContextModel.IGenomicsContextProvider`1.AllFeatures">
+ <summary>
+ Listing all of the features loci sites on the genome. 
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.IGenomicsContextProvider`1.GetRelatedGenes(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean,System.Int32)">
+ <summary>
+ 获取某一个位点在位置上有相关联系的基因
+ </summary>
+ <param name="loci"></param>
+ <param name="unstrand"></param>
+ <param name="ATGDist"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.IGenomicsContextProvider`1.GetStrandFeatures(SMRUCC.genomics.ComponentModel.Loci.Strands)">
+ <summary>
+ Gets all of the feature sites on the specific <see cref="T:SMRUCC.genomics.ComponentModel.Loci.Strands"/> nucleotide sequence
+ </summary>
+ <param name="strand"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.ContextModel.Relationship`1">
+ <summary>
+ 描述位点在基因组上面的位置，可以使用<see cref="M:SMRUCC.genomics.ContextModel.Relationship`1.ToString"/>函数获取得到位置描述
+ </summary>
+ <typeparam name="T"></typeparam>
+</member>
+<member name="P:SMRUCC.genomics.ContextModel.Relationship`1.Gene">
+ <summary>
+ Target gene object
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.ContextModel.Relationship`1.locus_tag">
+ <summary>
+ <see cref="P:Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable.Identifier"/>
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.Relationship`1.ToString">
+ <summary>
+ Gets loci location relationship description with this <see cref="P:SMRUCC.genomics.ContextModel.Relationship`1.Gene"/> object.
+ (位置关系的描述信息)
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.IsBlankSegment(SMRUCC.genomics.ComponentModel.IGeneBrief)">
+ <summary>
+ 判断本对象是否是由<see cref="M:SMRUCC.genomics.ContextModel.LocationDescriptions.BlankSegment``1(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)"></see>方法所生成的空白片段
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.GetLociRelations``1(``0,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
+ <summary>
+ Get the loci relationship between the target gene and the specific feature loci.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="gene"></param>
+ <param name="nucl"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.ATGDistance``1(``0,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
+ <summary>
+ Calculate the ATG distance between the target gene and the specific feature loci.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="gene"></param>
+ <param name="nucl"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.GetATGDistance(SMRUCC.genomics.ComponentModel.Loci.Location,SMRUCC.genomics.ComponentModel.IGeneBrief)">
+ <summary>
+ Calculates the ATG distance between the target gene and a loci segment on.(计算位点相对于某一个基因的ATG距离)
+ </summary>
+ <param name="loci"></param>
+ <param name="gene"></param>
+ <returns>总是计算最大的距离</returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.ContextModel.LocationDescriptions.LocationDescription``1(SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships,``0)">
+ <summary>
+ Gets the loci location description data.
+ </summary>
+ <typeparam name="T"></typeparam>
+ <param name="posi"></param>
+ <param name="data"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.LICENSE">
+ <summary>
+ ᶘ ᵒᴥᵒᶅ？？？？
+ </summary>
+ <remarks>
+  _______           _______
+ く__,.ヘヽ.　　　　/　,ー､ 〉
+　　＼ ', !-─‐-i　/　/´
+ 　 ／｀ｰ'　　　 L/／｀ヽ､
+  /　 ／,　 /|　 ,　 ,　　　 ',
+  ｲ 　/ /-‐/　ｉ　L_ ﾊ ヽ!　 i
+   ﾚ ﾍ 7ｲ｀ﾄ　 ﾚ'ｧ-ﾄ､!ハ|　 |
+  !,/7 'ゞ'　　 ´i__rﾊiソ| 　 |　　　
+  |.从"　　_　　 ,,,, / |./ 　 |
+  ﾚ'| i＞.､,,__　_,.イ / 　.i 　|
+    ﾚ'| | / k_７_/ﾚ'ヽ,　ﾊ.　|
+　　 | |/i 〈|/　 i　,.ﾍ |　i　|
+　　　.|/ /　ｉ： 　 ﾍ!　　＼　|
+ 　 　 kヽ>､ﾊ 　 _,.ﾍ､ 　 /､!
+　　　 !'〈//｀Ｔ´', ＼ ｀'7'ｰr'
+　　　 ﾚ'ヽL__|___i,___,ンﾚ|ノ
+　　 　　　ﾄ-,/　|___./
+　　 　　　'ｰ'　　!_,.:
+ </remarks>
+</member>
+<member name="P:SMRUCC.genomics.LICENSE.GPL3">
+<summary>
+  Looks up a localized string similar to                     GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU General Public License is a free, copyleft license for
+software and other kinds of works.
+
+  The licenses for most software and other practical works are designed
+to take away yo [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="M:SMRUCC.genomics.LICENSE.GithubRepository">
+ <summary>
+ https://github.com/SMRUCC/GCModeller.Core
+ </summary>
+</member>
 <member name="M:SMRUCC.genomics.BioAssemblyExtensions.IsUnknown(System.Char)">
  <summary>
  Current nt base is a unknown base?
@@ -8063,6 +8848,38 @@ to take away yo [rest of string was truncated]&quot;;.
  <param name="cut">字符串匹配相似度的最小的阈值</param>
  <returns></returns>
 </member>
+<member name="P:SMRUCC.genomics.Metagenomics.BIOMTaxonomy.BIOMPrefix">
+ <summary>
+ ``k__{x.superkingdom};p__{x.phylum};c__{x.class};o__{x.order};f__{x.family};g__{x.genus};s__{x.species}``
+ </summary>
+</member>
+<member name="P:SMRUCC.genomics.Metagenomics.BIOMTaxonomy.BIOMPrefixAlt">
+ <summary>
+ 
+ </summary>
+ <returns></returns>
+ <remarks>
+ Example:
+ 
+ ```
+ no rank__cellular organisms;superkingdom__Eukaryota;no rank__Opisthokonta;kingdom__Fungi;subkingdom__Dikarya;phylum__Ascomycota;no rank__saccharomyceta;subphylum__Pezizomycotina;no rank__leotiomyceta;no rank__dothideomyceta;class__Dothideomycetes;no rank__Dothideomycetes incertae sedis;order__Botryosphaeriales;family__Botryosphaeriaceae;genus__Macrophomina;species__Macrophomina phaseolina;no rank__Macrophomina phaseolina MS6
+ ```
+ </remarks>
+</member>
+<member name="M:SMRUCC.genomics.Metagenomics.BIOMTaxonomy.TaxonomyParser(System.String)">
+ <summary>
+ For <see cref="P:SMRUCC.genomics.Metagenomics.BIOMTaxonomy.BIOMPrefix"/>
+ </summary>
+ <param name="taxonomy$"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Metagenomics.BIOMTaxonomy.TaxonomyParserAlt(System.String)">
+ <summary>
+ For <see cref="P:SMRUCC.genomics.Metagenomics.BIOMTaxonomy.BIOMPrefixAlt"/>
+ </summary>
+ <param name="taxonomy$"></param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.ProteinModel.DomainObject">
  <summary>
  Domain identifier + Domain Location
@@ -8081,6 +8898,11 @@ to take away yo [rest of string was truncated]&quot;;.
  <param name="DOMINE"></param>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.ProteinModel.DomainModel">
+ <summary>
+ The simple protein domain motif model.
+ </summary>
 </member>
 <member name="T:SMRUCC.genomics.ProteinModel.Protein">
  <summary>
@@ -8167,6 +8989,44 @@ to take away yo [rest of string was truncated]&quot;;.
  </summary>
  <returns></returns>
 </member>
+<member name="T:SMRUCC.genomics.SequenceModel.CutSequence">
+ <summary>
+ Cut sequence for DNA/protein
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.CutSequence.CutSequenceLinear(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.ComponentModel.Loci.Location)">
+ <summary>
+ 核酸分子和蛋白质分子都适用
+ </summary>
+ <param name="seq"></param>
+ <param name="site"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.CutSequence.CutSequenceLinear(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,System.Int32,System.Int32,System.String)">
+ <summary>
+ 核酸分子和蛋白质分子都适用
+ </summary>
+ <param name="seq"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.CutSequence.CutSequenceLinear(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
+ <summary>
+ 
+ </summary>
+ <param name="seq"></param>
+ <param name="loci"></param>
+ <returns></returns>
+ <remarks>Tested by XC_1184/XC_0012, no problem.</remarks>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.CutSequence.CutSequenceCircular(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
+ <summary>
+ <paramref name="site"/> at the end of nt sequence join with <paramref name="join"/> location to consist a completed gene. 
+ </summary>
+ <param name="seq"></param>
+ <param name="site">环状的分子只能够是DNA分子，所以这里是核酸序列的位置</param>
+ <returns></returns>
+ <remarks>Not sure, probably success.</remarks>
+</member>
 <member name="T:SMRUCC.genomics.SequenceModel.FASTA.IAbstractFastaToken">
  <summary>
  The fasta object is a sequence model object with a specific title to identify the sequence and a sequence data property to represents the specific molecule.
@@ -8189,10 +9049,29 @@ to take away yo [rest of string was truncated]&quot;;.
  </summary>
  <returns></returns>
 </member>
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.Extensions.Index(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,System.String)">
+ <summary>
+ 函数返回-1表示找不到
+ </summary>
+ <param name="fasta"></param>
+ <param name="idx$">对index的描述，可以是title也可以直接是index数字</param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.SequenceModel.FASTA.KSeq">
  <summary>
  
  </summary>
+</member>
+<member name="T:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator">
+ <summary>
+ 读取超大型的fasta文件所需要的一个数据对象
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.#ctor(System.String)">
+ <summary>
+ 从指定的文件之中构建一个读取超大型的fasta文件所需要的一个数据对象
+ </summary>
+ <param name="path"></param>
 </member>
 <member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.ReadStream">
  <summary>
@@ -8200,7 +9079,7 @@ to take away yo [rest of string was truncated]&quot;;.
  </summary>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.__loops(Microsoft.VisualBasic.List{System.String})">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.__loops(System.Collections.Generic.List{System.String})">
  <summary>
  Loops on each block of data
  </summary>
@@ -8214,9 +9093,15 @@ to take away yo [rest of string was truncated]&quot;;.
  <param name="size"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.SeqSource(System.String,System.String[])">
+<member name="P:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.DefaultSuffix">
  <summary>
- 
+ 默认的Fasta文件拓展名列表
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator.SeqSource(System.String,System.String[],System.Boolean)">
+ <summary>
+ 全部都是使用<see cref="T:SMRUCC.genomics.SequenceModel.FASTA.StreamIterator"/>对象来进行读取的
  </summary>
  <param name="handle">File path or directory.</param>
  <returns></returns>
@@ -8338,6 +9223,7 @@ to take away yo [rest of string was truncated]&quot;;.
  (一个包含有多条序列数据的FASTA文件)
  </summary>
  <remarks></remarks>
+ 
 </member>
 <member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.#ctor(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.FASTA.FastaToken})">
  <summary>
@@ -8360,7 +9246,7 @@ to take away yo [rest of string was truncated]&quot;;.
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(System.String,System.Boolean)">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(System.String,System.Boolean,System.Char)">
  <summary>
  Load the fasta file from the local filesystem.
  </summary>
@@ -8377,7 +9263,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.ParseDocument(System.String)">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.ParseDocument(System.String,System.Char[])">
  <summary>
  Try parsing a fasta file object from the text file content <paramref name="doc"></paramref>
  </summary>
@@ -8403,6 +9289,13 @@ to take away yo [rest of string was truncated]&quot;;.
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Select(System.Func{SMRUCC.genomics.SequenceModel.FASTA.FastaToken,System.Boolean})">
+ <summary>
+ Where Selector
+ </summary>
+ <param name="prediction"></param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Save(System.String,System.Text.Encoding)">
  <summary>
  Save the fasta file into the local filesystem.
@@ -8411,7 +9304,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <param name="encoding">不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式</param>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Save(System.Int32,System.String,Microsoft.VisualBasic.TextEncodings.Encodings)">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Save(System.Int32,System.String,Microsoft.VisualBasic.Text.Encodings)">
  <summary>
  Save the fasta file into the local filesystem.
  </summary>
@@ -8457,7 +9350,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.SaveData``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Text.Encoding)">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.SaveData``1(System.Collections.Generic.IEnumerable{``0},System.String,Microsoft.VisualBasic.Text.Encodings)">
  <summary>
  可以使用这个方法来作为通用的继承与fasta对象的集合的序列的数据保存工作
  </summary>
@@ -8465,6 +9358,12 @@ to take away yo [rest of string was truncated]&quot;;.
  <param name="data"></param>
  <param name="path"></param>
  <param name="encoding"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Clone">
+ <summary>
+ 完完全全的按值複製
+ </summary>
  <returns></returns>
 </member>
 <member name="T:SMRUCC.genomics.SequenceModel.FASTA.FastaToken">
@@ -8550,12 +9449,12 @@ to take away yo [rest of string was truncated]&quot;;.
  (从一条序列的FASTA文件之中加载一条核酸序列，当含有非法字符的时候，会返回空文件)
  </summary>
  <param name="path"></param>
- <param name="Explicit">当拥有空格数据的时候，假若参数为真，则会返回空文件，反之不会做任何处理</param>
+ <param name="strict">当拥有空格数据的时候，假若参数为真，则会返回空文件，反之不会做任何处理</param>
  <returns></returns>
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.Load(System.String)">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.Load(System.String,System.Char[])">
  <summary>
  Load a single sequence fasta file object, if the target file path is not exists on the file system or 
  the file format is not correct, then this function will returns a null object value. 
@@ -8566,7 +9465,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.ParseFromStream(System.Collections.Generic.IEnumerable{System.String})">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.ParseFromStream(System.Collections.Generic.IEnumerable{System.String},System.Char[])">
  <summary>
  Parsing a fasta sequence object from a collection of string value.(从字符串数据之中解析出Fasta序列数据)
  </summary>
@@ -8575,7 +9474,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.TryParse(System.String)">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.TryParse(System.String,System.Char)">
  <summary>
  Try parsing a fasta sequence object from a string chunk value.(尝试从一个字符串之中解析出一个fasta序列数据)
  </summary>
@@ -8584,7 +9483,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.GenerateDocument(System.Int32,System.Boolean)">
+<member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.GenerateDocument(System.Int32,System.Boolean,System.Boolean)">
  <summary>
  Generate a FASTA file data text string.(将这个FASTA对象转换为文件格式以方便进行存储)
  </summary>
@@ -8592,11 +9491,11 @@ to take away yo [rest of string was truncated]&quot;;.
  因为在继承类之中可能会复写ToString函数以生成不同的标题格式，则可以使用这个参数来决定是否使用复写的格式。</param>
  <returns></returns>
  <remarks></remarks>
- <param name="LineBreak">大于0的数值会换行，小于或者等于0的数值不会换行</param>
+ <param name="lineBreak">大于0的数值会换行，小于或者等于0的数值不会换行</param>
 </member>
 <member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.Equals(System.Object)">
  <summary>
- The Fasta sequence equals on both sequence data and title information.
+ The Fasta sequence equals on both sequence data and title information.(值比较来判断是否相等)
  </summary>
  <param name="obj"></param>
  <returns></returns>
@@ -8637,7 +9536,7 @@ to take away yo [rest of string was truncated]&quot;;.
  <summary>
  Convert the specific feature data in Genbank database into a fasta sequence.
  </summary>
- <param name="Feature">只是从这个特性对象之中得到蛋白质序列</param>
+ <param name="feature">只是从这个特性对象之中得到蛋白质序列</param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -8649,6 +9548,11 @@ to take away yo [rest of string was truncated]&quot;;.
  (目标FASTA对象必须为核酸序列，否则返回空值)</param>
  <remarks></remarks>
  
+</member>
+<member name="F:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.InvalidComplementSource">
+ <summary>
+ Data type miss match: the sequence information is a protein sequence, can not get complement sequence.
+ </summary>
 </member>
 <member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.op_Explicit(SMRUCC.genomics.SequenceModel.FASTA.FastaToken)~System.String">
  <summary>
@@ -8669,7 +9573,7 @@ to take away yo [rest of string was truncated]&quot;;.
 </member>
 <member name="M:SMRUCC.genomics.SequenceModel.FASTA.FastaToken.SaveTo(System.Int32,System.String,System.Text.Encoding)">
  <summary>
- Save the current fasta sequence object into the file system. <param name="LineBreak"></param> smaller than 1 will means no line break in the saved fasta sequence.
+ Save the current fasta sequence object into the file system. <param name="lineBreak"></param> smaller than 1 will means no line break in the saved fasta sequence.
  </summary>
  <param name="Path"></param>
  <param name="encoding"></param>
@@ -8833,6 +9737,13 @@ to take away yo [rest of string was truncated]&quot;;.
  </remarks>
  
 </member>
+<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.Extensions.SegmentAssembler(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment})">
+ <summary>
+ 
+ </summary>
+ <param name="source"></param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentObject">
  <summary>
  片段数据，包含有在目标核酸链之上的位置信息以及用户给这个片段的自定义的标签信息
@@ -8882,132 +9793,6 @@ to take away yo [rest of string was truncated]&quot;;.
  <summary>
  获取目标核酸片段的GC含量值，假设已经全部转换为大写字母
  </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader">
- <summary>
- The reader of the nucleotide sequence loci segment.(核酸链上面的一个片段区域的读取对象，注意，这个数据结构都是以正义链为标准的)
- </summary>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.InternalReader.GetSegmentSequenceValue(System.Int64,System.Int64,System.Boolean,System.Boolean)">
- <summary>
- A method for getting a DNA segment on this DNA sequence.(获取本DNA序列之上的一个序列片段的方法)
- </summary>
- <param name="Start">The segment start point.(开始的位点)</param>
- <param name="Length">The length of this segment.(片段的长度)</param>
- <param name="DirectionDownstream">可选参数，向Start位点的上游取片段还是向Start位点的下游取片段，默认取下游片段</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.InternalReader.ReadDownStream(System.Int64,System.Int64,System.Boolean)">
- <summary>
- 在取序列的时候请注意位置：对于Mid函数与数组操作而言，Mid函数的开始下标是从1开始的，所以对于第一个碱基，其在字符数组之中为第一个元素，下表为零，但是在字符串之中，下标为1
- </summary>
- <param name="Start"></param>
- <param name="Length"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.InternalReader.__readSpanningCircularDNA(System.Int32,System.Int32)">
- <summary>
- 当读取器读取到DNA片段的末尾的时候，可能会长度不够读取目标长度了，假若序列对象为环状分子，则可以使用这个方法来读取连续的序列数据
- </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.SequenceData">
- <summary>
- 返回当前阅读区域之中的序列数据，请尽量使用本属性读取序列数据，但是请小心的通过本属性写入数据，因为每一次写入数据，都会重置内部的<see cref="F:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader._innerNTsource"></see>对象的值
- </summary>
- <value></value>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.OriginalSequence">
- <summary>
- 这个属性是原始的完整的序列数据
- </summary>
- <value></value>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.#ctor(SMRUCC.genomics.SequenceModel.FASTA.FastaToken,System.Boolean)">
- <summary>
- 
- </summary>
- <param name="NucleicAcid"></param>
- <param name="LinearMolecule">本DNA分子是否为线状的分子</param>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.#ctor(SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid,SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation,System.Boolean)">
- <summary>
- 
- </summary>
- <param name="SequenceData"></param>
- <param name="Location"></param>
- <param name="LinearMolecule">是否为环状的DNA分子，默认为线状的DNA分子</param>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.#ctor(SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid,System.Boolean)">
- <summary>
- 
- </summary>
- <param name="SequenceData"></param>
- <param name="LinearMolecule">
- Does this DNA sequence is a circular DNA molecule or a linear DNA molecule, default it is a linear DNA molecule.(是否为环状的DNA分子，默认为线形)
- </param>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.GetSegmentSequence(System.Int32,System.Int32)">
- <summary>
- 按照给定的位置来获取序列片段，请注意，这个函数仅仅是针对正义链的
- 例如：Left=10,  Right=50，则函数会取出10-50bp这个区间的长度为41个碱基的序列片段
- </summary>
- <param name="Left"></param>
- <param name="Right"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.TryParse(System.Int32,System.Int32,System.Boolean,System.Boolean)">
- <summary>
- Try get the nucleotide sequence from a specific start point with a certen length.(这个函数仅仅是解析正向链的序列数据的)
- </summary>
- <param name="Start">This should be the left position of the target segment.</param>
- <param name="SegLength">Segment length of the target sequence.</param>
- <param name="directionDownstream">是否是截取下游的序列数据</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.ReadJoinLocation(System.Int32,System.Int32)">
- <summary>
- <paramref name="St"></paramref> to End Join 1 to <paramref name="Sp"></paramref>
- </summary>
- <param name="St"></param>
- <param name="Sp"></param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.TryParse(SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)">
- <summary>
- Try parsing the DNA sequence using a specific nucleotide loci value.(假若序列是在反向链之上，在反向链之上，则会自动进行互补反向)
- </summary>
- <param name="Location">位点的位置，由于一般情况之下右边的位置的值是大于左边的位置的值的</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.ReadComplement(System.Int32,System.Int32,System.Boolean)">
- <summary>
- 首先按照正向链的方法取出序列片段，然后在进行互补反向得到反向链的序列片段数据，这个方法是专门用于读取反向序列的
- </summary>
- <param name="Start"></param>
- <param name="Length"></param>
- <param name="directionDownstream"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader.FrameMoveForward(System.Int32)">
- <summary>
- 以当前的位置为参考向前移动一段<paramref name="internal"></paramref>距离
- </summary>
- <param name="internal"></param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -9236,11 +10021,33 @@ to take away yo [rest of string was truncated]&quot;;.
  <remarks></remarks>
  
 </member>
+<member name="T:SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty">
+ <summary>
+ NucleicAcid sequence property calculator
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.GCData(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.FASTA.FastaToken},System.Int32,System.Int32,SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.NtProperty)">
+ <summary>
+ 批量计算出GCSkew或者GC%
+ </summary>
+ <param name="nts"></param>
+ <param name="winSize"></param>
+ <param name="steps"></param>
+ <param name="method"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.GC_Content(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.NucleotideModels.DNA})">
+ <summary>
+ Calculate the GC content of the target sequence data.
+ </summary>
+ <param name="seq"></param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.GetCompositionVector(System.Char[],System.Double@,System.Double@,System.Double@,System.Double@)">
  <summary>
  A, T, G, C
  </summary>
- <param name="Sequence"></param>
+ <param name="seq"></param>
  <param name="pA"></param>
  <param name="pT"></param>
  <param name="pG"></param>
@@ -9282,6 +10089,16 @@ to take away yo [rest of string was truncated]&quot;;.
  <remarks></remarks>
  
 </member>
+<member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.GCContent(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,System.Int32,System.Int32,System.Boolean)">
+ <summary>
+ Calculate the GC content of the target sequence data.
+ </summary>
+ <param name="SequenceModel"></param>
+ <param name="SlideWindowSize"></param>
+ <param name="Steps"></param>
+ <param name="Circular"></param>
+ <returns></returns>
+</member>
 <member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.__contentCommon(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,System.Int32,System.Int32,System.Boolean,System.Char[])">
  <summary>
  
@@ -9295,10 +10112,11 @@ to take away yo [rest of string was truncated]&quot;;.
 </member>
 <member name="M:SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty.GCSkew(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,System.Int32,System.Int32,System.Boolean)">
  <summary>
- Calculation the GC skew of a specific nucleotide acid sequence.(对核酸链分子计算GC偏移量，请注意，当某一个滑窗区段内的GC是相等的话，则会出现正无穷)
+ Calculation the GC skew of a specific nucleotide acid sequence.
+ (对核酸链分子计算GC偏移量，请注意，当某一个滑窗区段内的GC是相等的话，则会出现正无穷)
  </summary>
  <param name="SequenceModel">Target sequence object should be a nucleotide acid sequence.(目标对象必须为核酸链分子)</param>
- <param name="Circular"></param>
+ <param name="isCircular"></param>
  <returns>返回的矩阵是每一个核苷酸碱基上面的GC偏移量</returns>
  <remarks></remarks>
  
@@ -9448,6 +10266,11 @@ to take away yo [rest of string was truncated]&quot;;.
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="F:SMRUCC.genomics.SequenceModel.Patterns.Variation.Variations.NULL">
+ <summary>
+ No changes
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.SequenceModel.Patterns.Clustal.SR">
  <summary>
  Semi-Residue(半残基，出现概率不是百分之百的)
@@ -9571,7 +10394,9 @@ to take away yo [rest of string was truncated]&quot;;.
 </member>
 <member name="M:SMRUCC.genomics.SequenceModel.Patterns.PatternsAPI.NTVariations(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,System.Int32,System.Double)">
  <summary>
- The conservation percentage (%) Is defined as the number of genomes with the same letter on amultiple sequence alignment normalized to range from 0 to 100% for each site along the chromosome of a specific index genome.
+ The conservation percentage (%) Is defined as the number of genomes with the same letter on 
+ amultiple sequence alignment normalized to range from 0 to 100% for each site along the 
+ chromosome of a specific index genome.
  </summary>
  <returns></returns>
  <param name="index">参考序列在所输入的fasta序列之中的位置，默认使用第一条序列作为参考序列</param>
@@ -10017,624 +10842,6 @@ to take away yo [rest of string was truncated]&quot;;.
  </summary>
  <param name="SequenceData"></param>
  <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08001">
-<summary>
-  Looks up a localized string similar to +D	Biochemical compound
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Compounds with Biological Roles&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08001
-#NAME        Metabolite
-#DEFINITION  Compounds with biological roles
-#---&gt;
-!
-A&lt;b&gt;Organic acids&lt;/b&gt;
-B  Carboxylic acids [Fig]
-C    Monocarboxylic acids
-D      C00058  Formate; Methanoate
-D      C00033  Acetate; Ethanoate
-D      C00163  Propionate; Propanoate
-D      C00246  Butyrate; Butanoate
-D      C00803  Valerate; Pentano [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08002">
-<summary>
-  Looks up a localized string similar to +E	Lipid
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Lipids&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08002
-#NAME        Lipid
-#DEFINITION  Lipids
-#---&gt;
-!
-A&lt;b&gt;FA  Fatty acyls&lt;/b&gt;
-B  FA01 Fatty Acids and Conjugates
-C    FA0101 Straight chain fatty acids
-D      C00058  Formic acid
-D      C00033  Acetic acid
-D      C00163  Propanoic acid
-D      C00246  Butanoic acid
-D      C00803  Pentanoic acid
-D      C01585  Hexanoic acid
-D      C17714  Heptanoic acid
-D      C06423  Oct [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08003">
-<summary>
-  Looks up a localized string similar to +D
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Phytochemical Compounds&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08003
-#NAME        Phytochemical Compounds
-#DEFINITION  Phytochemical Compounds
-#---&gt;
-!
-A&lt;b&gt;Alkaloids&lt;/b&gt;
-B  Alkaloids derived from ornithine
-C    Pyrrolidine alkaloids
-D      C06179  Hygrine
-D      C11359  (-)-Hygrine
-D      C06521  Cuscohygrine
-D      C10152  (-)-Hygroline
-D      C10172  Stachydrine
-D      C08283  Homostachydrine
-D      C10151  3-Hydroxyst [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08005">
-<summary>
-  Looks up a localized string similar to +C	Peptide
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Bioactive Peptides&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08005
-#NAME        Peptide
-#DEFINITION  Bioactive Peptides
-#---&gt;
-!
-A&lt;b&gt;Neuropeptides&lt;/b&gt;
-B  Tachykinin
-C    C16094  Substance P
-C    C16095  Neuropeptide K
-C    C16096  Neuropeptide gamma
-C    C16097  Neurokinin A
-C    C16098  Neurokinin B
-C    C16099  Endokinin A/B
-C    C16100  Endokinin C
-C    C16101  Endokinin D
-B  Neurotensin
-C    C01836  Neurotensin
- [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08006">
-<summary>
-  Looks up a localized string similar to +C	Environmental compound
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; Endocrine Disrupting Compounds&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08006
-#NAME        EDC
-#DEFINITION  Endocrine disrupting compounds
-#---&gt;
-!
-A&lt;b&gt;Pesticides and herbicides&lt;/b&gt;
-B  Carbamate pesticides
-C    C11015  Aldicarb
-C    C10896  Benlate
-C    C07491  Carbaryl
-C    C11196  Methomyl
-C    C10981  Vinclozolin
-B  Dithiocarbamate pesticides
-C    C15225  Mancozeb
-C    C15231  Maneb
-C    C18144   [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08007">
-<summary>
-  Looks up a localized string similar to +D
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; Pesticides&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08007
-#NAME        Pesticides
-#DEFINITION  Pesticides
-#---&gt;
-!
-A&lt;b&gt;Pesticides&lt;/b&gt;
-B  Fungicides
-C    Aliphatic nitrogen fungicides
-D      C18498  Cymoxanil
-D      C18723  Dodine
-D      C18568  Iminoctadine acetate
-C    Amide fungicides
-D      C18581  Amisulbrom
-D      C10929  Benalaxyl
-D      C18547  Boscalid
-D      C11255  Carboxin
-D      C10932  Carpropamid
-D      C185 [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08008">
-<summary>
-  Looks up a localized string similar to +C	Carcinogen	Cancer site
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Carcinogens&lt;/h2&gt;
-%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--&gt;&lt;/style&gt;
-#&lt;!---
-#ENTRY       br08008
-#NAME        Carcinogen
-#DEFINITION  Carcinogens
-#---&gt;
-!
-A&lt;b&gt;G [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08009">
-<summary>
-  Looks up a localized string similar to +D
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Natural toxins&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08009
-#NAME        Natural toxins
-#DEFINITION  Natural toxins
-#---&gt;
-!
-A&lt;b&gt;Fungal toxins&lt;/b&gt;
-B  Mushroom toxins
-C    Alkaloids
-D      C07473  Muscarine
-D      C08311  Muscimol
-D      C19959  Orellanine
-D      C08312  Psilocin
-D      C07576  Psilocybin
-C    Cyclic peptides
-D      C08438  alpha-Amanitin
-D      C08439  Phalloidin
-C    Terpenoids
-D      C19957  Fasciculol [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08010">
-<summary>
-  Looks up a localized string similar to +E	Compound	Remark
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Target-based Classification of Compounds&lt;/h2&gt;
-%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--&gt;&lt;/style&gt;
-#&lt;!---
-#ENTRY       br08010
-#DEFINITION  Target-based classification [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08201">
-<summary>
-  Looks up a localized string similar to 
-!
-A&lt;b&gt;1. Oxidoreductase reactions&lt;/b&gt;
-B  1.1  Acting on the CH-OH group of donors
-C    1.1.1  With NAD+ or NADP+ as acceptor
-D      1.1.1.1
-E        R00623  Primary alcohol + NAD+ &lt;=&gt; Aldehyde + NADH + H+
-E        R00624  Secondary alcohol + NAD+ &lt;=&gt; Ketone + NADH + H+
-E        R00754  Ethanol + NAD+ &lt;=&gt; Acetaldehyde + NADH + H+
-E        R02124  Retinol + NAD+ &lt;=&gt; Retinal + NADH + H+
-E        R02878  1-Octanol + NAD+ &lt;=&gt; 1-Octanal + NADH + H+
-E        R04805  3alpha,7alpha,26-Trihydroxy-5beta-cholestane +  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.br08901">
-<summary>
-  Looks up a localized string similar to +C	Map number
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Pathway Maps&lt;/h2&gt;
-#&lt;!---
-#ENTRY       br08901
-#NAME        Pathway
-#DEFINITION  KEGG pathway maps
-#---&gt;
-!
-A&lt;b&gt;Metabolism&lt;/b&gt;
-B  Global and overview maps
-C    01100  Metabolic pathways
-C    01110  Biosynthesis of secondary metabolites
-C    01120  Microbial metabolism in diverse environments
-C    01130  Biosynthesis of antibiotics
-C    01200  Carbon metabolism
-C    01210  2-Oxocarboxylic acid m [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.GenBankQuery">
-<summary>
-  Looks up a localized string similar to use Bio::DB::GenBank;
-use Bio::Seq;
-
-# Download and search gbk
-my $gb     = new Bio::DB::GenBank(); 
-my $gbk    = $gb-&gt;get_Seq_by_acc(&apos;[$ACCESSION_ID]&apos;); 
-my $seq_io = Bio::SeqIO-&gt;new(-format =&gt; &apos;genbank&apos;, -file =&gt; &quot;&gt;[$SAVED_FILE]&quot;);
-
-# Call Write FileStream 
-$seq_io-&gt;write_seq($gbk);.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.ko00001">
-<summary>
-  Looks up a localized string similar to +D	KO
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Orthology (KO)&lt;/h2&gt;
-#&lt;!---
-#ENTRY       ko00001
-#NAME        KO
-#DEFINITION  KEGG Orthology (KO)
-#---&gt;
-!
-A&lt;b&gt;Metabolism&lt;/b&gt;
-B
-B  &lt;b&gt;Overview&lt;/b&gt;
-C    01200 Carbon metabolism [PATH:ko01200]
-D      K00844  HK; hexokinase [EC:2.7.1.1]
-D      K12407  GCK; glucokinase [EC:2.7.1.2]
-D      K00845  glk; glucokinase [EC:2.7.1.2]
-D      K00886  ppgK; polyphosphate glucokinase [EC:2.7.1.63]
-D      K08074  ADPG [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.ko00002_keg">
-<summary>
-  Looks up a localized string similar to +E	Module
-#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Modules&lt;/h2&gt;
-#&lt;!---
-#ENTRY       ko00002
-#NAME        Module
-#DEFINITION  KEGG modules
-#---&gt;
-!
-A&lt;b&gt;Pathway module&lt;/b&gt;
-B
-B  &lt;b&gt;Energy metabolism&lt;/b&gt;
-C    Carbon fixation
-D      M00165  Reductive pentose phosphate cycle (Calvin cycle) [PATH:map01200 map00710]
-E        K00855  PRK, prkB; phosphoribulokinase [EC:2.7.1.19]
-E        K01601  rbcL; ribulose-bisphosphate carboxylase large chain [EC:4.1.1. [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.MiST2">
-<summary>
-  Looks up a localized string similar to Pfam AccessionId,Signaling domain ID,Domain name,Kind,Function,Marker
-PF01339,CheB_methylest,CheB_methylest,chemotaxis,Chemotaxis,Yes
-PF04509,CheC,CheC,chemotaxis,Chemotaxis,Yes
-PF03975,CheD,CheD,chemotaxis,Chemotaxis,Yes
-PF01739,CheR,CheR,chemotaxis,Chemotaxis,Yes
-PF03705,CheR_N,CheR_N,chemotaxis,Chemotaxis,Yes
-PF01584,CheW,CheW,chemotaxis,Chemotaxis,Yes
-PF09078,CheY-binding,CheY-binding,chemotaxis,Chemotaxis,Yes
-PF04344,CheZ,CheZ,chemotaxis,Chemotaxis,Yes
-PF02895,H-kinase_dim,H-kinase_dim,chemota [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.String1">
-<summary>
-  Looks up a localized string similar to Test.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_1">
-<summary>
-  Looks up a localized string similar to transl_table=1
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
-TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_10">
-<summary>
-  Looks up a localized string similar to transl_table=10
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA C Cys  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_11">
-<summary>
-  Looks up a localized string similar to transl_table=11
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
-TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_12">
-<summary>
-  Looks up a localized string similar to transl_table=12
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG S Ser i    CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_13">
-<summary>
-  Looks up a localized string similar to transl_table=13
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_14">
-<summary>
-  Looks up a localized string similar to transl_table=14
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA Y Tyr      TGA W Trp  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_16">
-<summary>
-  Looks up a localized string similar to transl_table=16
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
-TTG L Leu      TCG S Ser      TAG L Leu      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_2">
-<summary>
-  Looks up a localized string similar to transl_table=2
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_21">
-<summary>
-  Looks up a localized string similar to transl_table=21
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_22">
-<summary>
-  Looks up a localized string similar to transl_table=22
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA * Ter      TAA * Ter      TGA * Ter  
-TTG L Leu      TCG S Ser      TAG L Leu      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_23">
-<summary>
-  Looks up a localized string similar to transl_table=23
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA * Ter      TCA S Ser      TAA * Ter      TGA * Ter  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_24">
-<summary>
-  Looks up a localized string similar to transl_table=24
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_25">
-<summary>
-  Looks up a localized string similar to transl_table=25
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA G Gly  
-TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_3">
-<summary>
-  Looks up a localized string similar to transl_table=3
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT T Thr      CCT P Pro      CAT H His      CGT R Arg  
-CTC T Thr      CCC P Pro      CAC H His      CGC R Arg  
-CTA T Thr      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG T Thr      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_4">
-<summary>
-  Looks up a localized string similar to transl_table=4
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu i    TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_5">
-<summary>
-  Looks up a localized string similar to transl_table=5
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_6">
-<summary>
-  Looks up a localized string similar to transl_table=6
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA Q Gln      TGA * Ter  
-TTG L Leu      TCG S Ser      TAG Q Gln      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.My.Resources.Resources.transl_table_9">
-<summary>
-  Looks up a localized string similar to transl_table=9
-
-TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
-TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
-TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
-TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
-
-CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
-CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
-CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
-CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
-
-ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
-</summary>
 </member>
 </members>
 </doc>

@@ -6,6 +6,22 @@ SMRUCC.genomics.Interops.NCBI.Extensions
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.LocalBLAST.BLAST(System.String[],System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.InteropService.InitializeParameter)">
  <summary>
 
@@ -121,7 +137,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <summary>
  通过query查找的是reference的对象
  </summary>
- <param name="QueryName"></param>
+ <param name="queryName"></param>
  <returns></returns>
 </member>
 <member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BestHit.GetTopHits">
@@ -248,6 +264,299 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v226.v226">
+ <summary>
+ 2.2.26版本的Blast+程序的日志输出文件
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.HitFragment.ReadingFrameOffSet">
+ <summary>
+ ORF阅读框的偏移碱基数
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.Query.FilteringSegments(System.Double)">
+ <summary>
+ 这个函数过滤掉所有过短的比对片段
+ </summary>
+ <returns></returns>
+ <param name="p">0-1之间的数，用于表示长度的百分比</param>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.OutputReader.TryParseOutput(System.String)">
+ <summary>
+ Try load the blastx output file data.(尝试使用这个方法来加载blastx的输出数据)
+ </summary>
+ <param name="Path">The file path of the blastx output file.(blastx输出文件的文件路径)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.QuertTextProvider.QueryDatas">
+ <summary>
+ 這個函數所返回的是已經解析好的query文本部分
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.ParsingSizeAuto(System.String,System.Text.Encoding)">
+ <summary>
+ The parser worker will be select automatically based on the blast output file size.
+ (当blast的输出文件非常大的时候，会自动选择分片段解析读取的方法工作)
+ </summary>
+ <param name="path"></param>
+ <param name="encoding"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.UltraLarge(System.String)">
+ <summary>
+ 判断文件的大小是否是输入超大的文件类型的
+ </summary>
+ <param name="path"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.__fileSizeTooLarge(System.String)">
+ <summary>
+ 单条字符串的最大长度好像只有700MB的内存左右
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.LoadBlastOutput(System.String)">
+ <summary>
+ Load the blast output from a local file, if the exceptions happened during the data loading process, then a 
+ null value will be return.
+ (读取blast日志文件，当发生错误的时候，函数返回空值)
+ </summary>
+ <param name="path">The file path of the blast output</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(System.String,System.Text.Encoding)">
+ <summary>
+ Log file size smaller than 512MB is recommended using this loading method, if the log file size is large than 512MB, 
+ please using the method <see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(System.String,System.Int64,System.Text.Encoding)"></see>.
+ (当blast输出的日志文件比较小的时候，可以使用当前的这个方法进行读取)
+ </summary>
+ <param name="Path">Original plant text file path of the blast output file.</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.ReaderTypes">
+ <summary>
+ + BLASTP
+ + BLASTN
+ + BLASTX
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.GetType(System.String,System.Text.Encoding)">
+ <summary>
+ The target blast output text file is from the blastp or blastn?
+ </summary>
+ <param name="path"></param>
+ <param name="Encoding"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseBlastnOutput(System.String)">
+ <summary>
+ Load the blastn output data.(读取blastn日志输出的数据.)
+ </summary>
+ <param name="Path">The blastn output file path.</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.CHUNK_SIZE">
+ <summary>
+ It seems 768MB possibly is the up bound of the Utf8.GetString function.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.Transform(System.String,System.Int64,System.Action{SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query},System.Text.Encoding)">
+ <summary>
+ File processor for the file size which is greater than 10GB.
+ (处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理)
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.Transform(System.String,System.Int64,System.Action{SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query[]},System.Text.Encoding)">
+ <summary>
+ 处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.__getParser(System.String)">
+ <summary>
+ 获取blastn或者blastp的解析器
+ </summary>
+ <param name="path"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.__tryParseUltraLarge(System.String,System.Int64,System.Text.Encoding)">
+ <summary>
+ Dealing with the file size large than 2GB.
+ (当Blast日志文件的大小大于100M的时候，可以使用这个方法进行加载，函数会自动判断日志是否为blastn还是blastp)
+ </summary>
+ <param name="path">File path of the blast output file.</param>
+ <param name="CHUNK_SIZE">The parameter unit for this value is Byte, so you need to multiply the 1024*1024 to get a MB level value.
+ It seems 768MB possibly is the up bound of the Utf8.GetString function. default is 64MB</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(System.String,System.Int64,System.Text.Encoding)">
+ <summary>
+ Dealing with the file size large than 2GB.(当Blast日志文件的大小大于100M的时候，可以使用这个方法进行加载，函数会自动判断日志是否为blastn还是blastp)
+ </summary>
+ <param name="path">File path of the blast output file.</param>
+ <param name="CHUNK_SIZE">The parameter unit for this value is Byte, so you need to multiply the 1024*1024 to get a MB level value.
+ It seems 768MB possibly is the up bound of the Utf8.GetString function. default is 64MB</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastnHit._referStrand">
+ <summary>
+ 参考链的方向
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastnHit.hitParser(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="str"></param>
+ <returns></returns>
+ <remarks>非并行化的，所以会保持原有的顺序</remarks>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.Length">
+ <summary>
+ hit蛋白质序列的全长
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.QueryLocation">
+ <summary>
+ Hit position on the query sequence.
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.LengthHit">
+ <summary>
+ 高分区的hit片段的长度
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.GetItems(System.String)">
+ <summary>
+
+ </summary>
+ <param name="text"></param>
+ <returns></returns>
+ <remarks>请不要在这里使用.AsParallel拓展方法，以保持各个片段的顺序关系</remarks>
+</member>
+<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary.Charts">
+ <summary>
+ Number of letters in database
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary.NWThreshold">
+ <summary>
+ Neighboring words threshold
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary.Window">
+ <summary>
+ Window for multiple hits
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.QueryLength">
+ <summary>
+ Protein length of <see cref="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.QueryName">the target query protein</see>.
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.#ctor(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query)">
+ <summary>
+ Value copy
+ </summary>
+ <param name="query"></param>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.GetBesthits(System.Double,System.Double)">
+ <summary>
+ 导出所有符合条件的最佳匹配
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.TryParse(System.String)">
+ <summary>
+ <see cref="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.ReaderTypes.BLASTP"/>
+ </summary>
+ <param name="strText"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.BlastnOutputParser(System.String)">
+ <summary>
+ <see cref="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.ReaderTypes.BLASTN"/>
+ </summary>
+ <param name="text"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228">
+ <summary>
+ 2.2.28版本的BLAST+程序的日志输出文件
+ </summary>
+ <remarks>
+ 默认的文件编码是<see cref="P:System.Text.Encoding.UTF8"/>
+ </remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.ExportBestHit(System.Double,System.Double)">
+ <summary>
+ 从本日志文件之中导出BestHit表格(单项最佳的)
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.__generateLine(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query,System.Double,System.Double)">
+ <summary>
+ 导出最佳的符合条件的
+ </summary>
+ <param name="query"></param>
+ <param name="coverage"></param>
+ <param name="identities"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.SBHLines(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query,System.Double,System.Double)">
+ <summary>
+ 导出所有符合条件的
+ </summary>
+ <param name="Query"></param>
+ <param name="coverage"></param>
+ <param name="identities"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.ExportOverview">
+ <summary>
+ 不做任何筛选，导出所有的比对信息
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.ExportAllBestHist(System.Double,System.Double)">
+ <summary>
+ Exports all of the hits which it meet the condition of threshold.(导出所有的单项最佳)
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.CheckIntegrity(SMRUCC.genomics.SequenceModel.FASTA.FastaFile)">
+ <summary>
+ 根据Query检查完整性
+ </summary>
+ <param name="source">主要是使用到Query序列之中的Title属性</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
 <member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views.Overview">
  <summary>
  方便程序调试的一个对象数据结构
@@ -332,256 +641,13 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.OutputReader.TryParseOutput(System.String)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput.Grep(Microsoft.VisualBasic.Text.TextGrepMethod,Microsoft.VisualBasic.Text.TextGrepMethod)">
  <summary>
- Try load the blastx output file data.(尝试使用这个方法来加载blastx的输出数据)
+ Trim for uid/locus_tag
  </summary>
- <param name="Path">The file path of the blastx output file.(blastx输出文件的文件路径)</param>
+ <param name="QueryGrepMethod"></param>
+ <param name="HitsGrepMethod"></param>
  <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.Query.FilteringSegments(System.Double)">
- <summary>
- 这个函数过滤掉所有过短的比对片段
- </summary>
- <returns></returns>
- <param name="p">0-1之间的数，用于表示长度的百分比</param>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components.HitFragment.ReadingFrameOffSet">
- <summary>
- ORF阅读框的偏移碱基数
- </summary>
- <value></value>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.ParsingSizeAuto(System.String,System.Text.Encoding)">
- <summary>
- The parser worker will be select automatically based on the blast output file size.
- (当blast的输出文件非常大的时候，会自动选择分片段解析读取的方法工作)
- </summary>
- <param name="path"></param>
- <param name="encoding"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.__fileSizeTooLarge(System.String)">
- <summary>
- 单条字符串的最大长度好像只有700MB的内存左右
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.LoadBlastOutput(System.String)">
- <summary>
- Load the blast output from a local file, if the exceptions happened during the data loading process, then a 
- null value will be return.
- (读取blast日志文件，当发生错误的时候，函数返回空值)
- </summary>
- <param name="path">The file path of the blast output</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(System.String,System.Text.Encoding)">
- <summary>
- Log file size smaller than 512MB is recommended using this loading method, if the log file size is large than 512MB, please using the method <see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(System.String,System.Int64,System.Text.Encoding)"></see>.
- (当blast输出的日志文件比较小的时候，可以使用当前的这个方法进行读取)
- </summary>
- <param name="Path">Original plant text file path of the blast output file.</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.GetType(System.String,System.Text.Encoding)">
- <summary>
- The target blast output text file is from the blastp or blastn?
- </summary>
- <param name="path"></param>
- <param name="Encoding"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseBlastnOutput(System.String)">
- <summary>
- Load the blastn output data.(读取blastn日志输出的数据.)
- </summary>
- <param name="Path">The blastn output file path.</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.CHUNK_SIZE">
- <summary>
- It seems 768MB possibly is the up bound of the Utf8.GetString function.
- </summary>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.Transform(System.String,System.Int64,System.Action{SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query},System.Text.Encoding)">
- <summary>
- 处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理
- </summary>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.Transform(System.String,System.Int64,System.Action{SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query[]},System.Text.Encoding)">
- <summary>
- 处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理
- </summary>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.__getParser(System.String)">
- <summary>
- 获取blastn或者blastp的解析器
- </summary>
- <param name="path"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.__tryParseUltraLarge(System.String,System.Int64,System.Text.Encoding)">
- <summary>
- Dealing with the file size large than 2GB.(当Blast日志文件的大小大于100M的时候，可以使用这个方法进行加载，函数会自动判断日志是否为blastn还是blastp)
- </summary>
- <param name="path">File path of the blast output file.</param>
- <param name="CHUNK_SIZE">The parameter unit for this value is Byte, so you need to multiply the 1024*1024 to get a MB level value.
- It seems 768MB possibly is the up bound of the Utf8.GetString function. default is 64MB</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParseUltraLarge(System.String,System.Int64,System.Text.Encoding)">
- <summary>
- Dealing with the file size large than 2GB.(当Blast日志文件的大小大于100M的时候，可以使用这个方法进行加载，函数会自动判断日志是否为blastn还是blastp)
- </summary>
- <param name="Path">File path of the blast output file.</param>
- <param name="CHUNK_SIZE">The parameter unit for this value is Byte, so you need to multiply the 1024*1024 to get a MB level value.
- It seems 768MB possibly is the up bound of the Utf8.GetString function. default is 64MB</param>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.Length">
- <summary>
- hit蛋白质序列的全长
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.QueryLocation">
- <summary>
- Hit position on the query sequence.
- </summary>
- <returns></returns>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.LengthHit">
- <summary>
- 高分区的hit片段的长度
- </summary>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.SubjectHit.GetItems(System.String)">
- <summary>
-
- </summary>
- <param name="text"></param>
- <returns></returns>
- <remarks>请不要在这里使用.AsParallel拓展方法，以保持各个片段的顺序关系</remarks>
-</member>
-<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary.Charts">
- <summary>
- Number of letters in database
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary.NWThreshold">
- <summary>
- Neighboring words threshold
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.ParameterSummary.Window">
- <summary>
- Window for multiple hits
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus._2_2_26">
- <summary>
- 2.2.26版本的Blast+程序的日志输出文件
- </summary>
- <remarks></remarks>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.QueryLength">
- <summary>
- Protein length of <see cref="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.QueryName">the target query protein</see>.
- </summary>
- <value></value>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.GetBesthits(System.Double,System.Double)">
- <summary>
- 导出所有符合条件的最佳匹配
- </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.TryParse(System.String)">
- <summary>
- <see cref="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.ReaderTypes.BLASTP"/>
- </summary>
- <param name="strText"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query.BlastnOutputParser(System.String)">
- <summary>
- <see cref="F:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Parser.ReaderTypes.BLASTN"/>
- </summary>
- <param name="strText"></param>
- <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228">
- <summary>
- 2.2.28版本的BLAST+程序的日志输出文件
- </summary>
- <remarks>
- 默认的文件编码是<see cref="P:System.Text.Encoding.UTF8"/>
- </remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.ExportBestHit(System.Double,System.Double)">
- <summary>
- 从本日志文件之中导出BestHit表格(单项最佳的)
- </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.__generateLine(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query,System.Double,System.Double)">
- <summary>
- 导出最佳的符合条件的
- </summary>
- <param name="query"></param>
- <param name="coverage"></param>
- <param name="identities"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.SBHLines(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query,System.Double,System.Double)">
- <summary>
- 导出所有符合条件的
- </summary>
- <param name="Query"></param>
- <param name="coverage"></param>
- <param name="identities"></param>
- <returns></returns>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.ExportOverview">
- <summary>
- 不做任何筛选，导出所有的比对信息
- </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.ExportAllBestHist(System.Double,System.Double)">
- <summary>
- Exports all of the hits which it meet the condition of threshold.(导出所有的单项最佳)
- </summary>
- <returns></returns>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228.CheckIntegrity(SMRUCC.genomics.SequenceModel.FASTA.FastaFile)">
- <summary>
- 根据Query检查完整性
- </summary>
- <param name="QuerySource">主要是使用到Query序列之中的Title属性</param>
- <returns></returns>
- <remarks></remarks>
 </member>
 <member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput.LoadFromFile(System.String)">
  <summary>
@@ -630,20 +696,22 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput">
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.BLASTOutput">
  <summary>
  An analysis tool for local blast log file.(本地BLAST日志文件分析对象)
  </summary>
- <remarks></remarks>
+ <remarks>
+ Parser for the blast output format from legacy blast suite, which is before blast+ suite was released.
+ </remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.ExportBestHit(System.Double,System.Double)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.BLASTOutput.ExportBestHit(System.Double,System.Double)">
  <summary>
  获取本日志文件中的最好的序列比对匹配结果
  </summary>
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Query.QueryName">
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.Query.QueryName">
  <summary>
  目标查询序列的名称
  </summary>
@@ -651,7 +719,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Query.Length">
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.Query.Length">
  <summary>
  目标查询序列的长度
  </summary>
@@ -659,7 +727,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.Query.Hits">
+<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Legacy.Query.Hits">
  <summary>
  目标查询序列的匹配序列列表
  </summary>
@@ -723,14 +791,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  
 </member>
-<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder">
- <summary>
- The batch blast module for the preparations of the Venn diagram drawing data model.(为文氏图的绘制准备数据的批量blast模块)
- </summary>
- <remarks>这里面的方法都是完全的两两组合的BBH</remarks>
-
-</member>
-<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.INVOKE_BLAST_HANDLE">
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker">
  <summary>
  The formatdb and blast operation should be include in this function pointer.(在这个句柄之中必须要包含有formatdb和blast这两个步骤)
  </summary>
@@ -741,6 +802,13 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns>返回blast的日志文件名</returns>
  <remarks></remarks>
 </member>
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder">
+ <summary>
+ The batch blast module for the preparations of the Venn diagram drawing data model.(为文氏图的绘制准备数据的批量blast模块)
+ </summary>
+ <remarks>这里面的方法都是完全的两两组合的BBH</remarks>
+
+</member>
 <member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.RecommendedThreads">
  <summary>
  The recommended num_threads parameter for the blast operation base on the current system hardware information.
@@ -750,30 +818,30 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.INVOKE_BLAST_HANDLE,System.Boolean)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker,System.Boolean)">
  <summary>
 
  </summary>
  <param name="input">输入的文件夹，fasta序列的文件拓展名必须要为*.fasta或者*.fsa</param>
  <param name="EXPORT">结果导出的文件夹，导出blast日志文件</param>
- <param name="InvokedBLASTAction">所执行的blast命令，函数返回日志文件名</param>
+ <param name="localblast">所执行的blast命令，函数返回日志文件名</param>
  <remarks></remarks>
 
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder_p(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.INVOKE_BLAST_HANDLE,System.Boolean)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder_p(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker,System.Boolean)">
  <summary>
- The parallel edition for the invoke function <see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.INVOKE_BLAST_HANDLE,System.Boolean)"></see>.(<see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.INVOKE_BLAST_HANDLE,System.Boolean)"></see>的并行版本)
+ The parallel edition for the invoke function <see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker,System.Boolean)"></see>.(<see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker,System.Boolean)"></see>的并行版本)
  </summary>
  <param name="input"></param>
  <param name="EXPORT"></param>
  <param name="evalue"></param>
- <param name="InvokedBLASTAction"></param>
+ <param name="localblast"></param>
  <remarks></remarks>
 
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.ParallelTask(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.INVOKE_BLAST_HANDLE,System.Boolean,System.Int32)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.ParallelTask(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker,System.Boolean,System.Int32)">
  <summary>
- 这个函数相比较于<see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder_p(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.INVOKE_BLAST_HANDLE,System.Boolean)"/>更加高效
+ 这个函数相比较于<see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.VennDataBuilder.TaskBuilder_p(System.String,System.String,System.String,SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.BlastInvoker,System.Boolean)"/>更加高效
  </summary>
  <param name="inputDIR"></param>
  <param name="outDIR"></param>
@@ -851,7 +919,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <param name="hits">假设这里面的hits都是通过了cutoff了的数据</param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.GetDirreBhAll2(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.GetDirreBhAll2(Microsoft.VisualBasic.Data.csv.DocumentStream.File,Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  导出所有的双向最佳比对结果
  </summary>
@@ -863,7 +931,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  </remarks>
 
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.BBHTop(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.BBHTop(Microsoft.VisualBasic.Data.csv.DocumentStream.File,Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  获取双向的最佳匹配结果.(只取出第一个最好的结果)
  </summary>
@@ -873,7 +941,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <remarks></remarks>
 
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.GetDirreBhAll(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.GetDirreBhAll(Microsoft.VisualBasic.Data.csv.DocumentStream.File,Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  导出所有的双向最佳比对结果，只要能够在双方的列表之中匹配上，则认为是最佳双向匹配
  </summary>
@@ -885,7 +953,7 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  </remarks>
 
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.get_DiReBh(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BBHParser.get_DiReBh(Microsoft.VisualBasic.Data.csv.DocumentStream.File,Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  获取双向的最佳匹配结果.(只取出第一个最好的结果)
  </summary>
@@ -1148,13 +1216,13 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <param name="hitMapping"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.MapsAPI.Export(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.MapsAPI.Export(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228,System.Boolean,System.String,System.Boolean)">
  <summary>
  从blastn日志文件之中导出fastq对基因组的比对的结果
  </summary>
  <param name="blastnMapping"></param>
+ <param name="best">前提是query里面的hit的原有的顺序没有被破坏掉</param>
  <returns></returns>
- 
 </member>
 <member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.MapsAPI.TrimAssembly(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BlastnMapping})">
  <summary>
@@ -1192,6 +1260,16 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG.CreateObject(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)">
+ <summary>
+ ```
+ query   -> <see cref="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.I_BlastQueryHit.QueryName"/>
+ myvaCOG -> <see cref="P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.I_BlastQueryHit.HitName"/>
+ ```
+ </summary>
+ <param name="besthit"></param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.Whog.Whog">
  <summary>
  Cog Category
@@ -1206,19 +1284,31 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.ClassifyCOGs">
+<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.COGsUtils">
  <summary>
  Cog分类操作
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.ClassifyCOGs.#ctor(System.String,System.String)">
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.COGsUtils.MyvaCOGCatalog(System.String,System.String,System.Double,System.Double,Microsoft.VisualBasic.Text.TextGrepMethod)">
  <summary>
  
  </summary>
- <param name="Blastbin"></param>
- <param name="rpsCOG_db">Cog数据库</param>
- <remarks></remarks>
+ <param name="blastp">raw blastp output file path.</param>
+ <param name="descriptParser"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.COGsUtils.MyvaCOGCatalog(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit},System.String,Microsoft.VisualBasic.Text.TextGrepMethod)">
+ <summary>
+ <see cref="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST.MyvaCOG.CreateObject(SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)"/>
+ </summary>
+ <param name="bbh"></param>
+ <param name="whogXml"></param>
+ <param name="descriptParser">
+ 解析出來的是query protein的fasta標題裏面的功能注釋信息
+ </param>
+ <returns></returns>
+ 
 </member>
 <member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.PartialBestBLAST">
  <summary>
@@ -2110,7 +2200,9 @@ SMRUCC.genomics.Interops.NCBI.Extensions
 </member>
 <member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus">
  <summary>
- 请注意：当目标FASTA序列文件的文件路径中的空格字符过多的时候，BLAST+程序组将不能够很好的工作，故而当程序出错的时候，请检查文件路径是否存在此问题
+ The ``&lt;space>`` char can not exists in the input fasta file path, or blast+ program will run into an error.
+ (请注意：当目标FASTA序列文件的文件路径中的空格字符过多的时候，BLAST+程序组将不能够很好的工作，故而当程序出错的时候，
+ 请检查文件路径是否存在此问题)
  </summary>
  <remarks></remarks>
 </member>
@@ -2127,6 +2219,12 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  </summary>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus.#ctor(System.String)">
+ <summary>
+ 
+ </summary>
+ <param name="bin">The ``bin`` directory for the NCBI blast+ suite.</param>
 </member>
 <member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs.BLASTPlus.Blastp(System.String,System.String,System.String,System.String)">
  <summary>
@@ -2987,22 +3085,6 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NCBI.Extensions.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
 <member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.AlignmentTable.DescriptionSubstituted(SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports.gbEntryBrief[])">
  <summary>
  按照GI编号进行替换
@@ -3065,6 +3147,20 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  从NCBI网站之中下载的比对结果的表格文本文件之中进行数据的解析操作
  </summary>
 </member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.ParserAPI.LoadDocument(System.String,System.Boolean)">
+ <summary>
+ 适用于一个文件只有一个表的时候
+ </summary>
+ <param name="path"></param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.ParserAPI.IterateTables(System.String,System.Boolean)">
+ <summary>
+ 当文件之中包含有多个表的时候使用
+ </summary>
+ <param name="path$"></param>
+ <returns></returns>
+</member>
 <member name="T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.HitRecord">
  <summary>
  在目标基因组之上的blast hit的结果
@@ -3080,6 +3176,12 @@ SMRUCC.genomics.Interops.NCBI.Extensions
  <value></value>
  <returns></returns>
  <remarks></remarks>
+</member>
+<member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.HitRecord.#ctor(SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.HitRecord)">
+ <summary>
+ 请注意，在这里是按值复制
+ </summary>
+ <param name="x"></param>
 </member>
 <member name="M:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.HitRecord.Mapper(System.String)">
  <summary>

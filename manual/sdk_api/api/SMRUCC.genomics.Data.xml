@@ -6,6 +6,22 @@ SMRUCC.genomics.Data
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Data.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.ChEBI.Tables.autogen_structures">
  <summary>
  
@@ -5462,6 +5478,34 @@ SMRUCC.genomics.Data
  </summary>
  <remarks></remarks>
 </member>
+<member name="F:SMRUCC.genomics.Data.SabiorkKineticLaws.SABIORK.URL_SABIORK_KINETIC_LAWS_QUERY">
+ <summary>
+ http://sabiork.h-its.org/sabioRestWebServices/kineticLaws?kinlawids=
+ </summary>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.Tsv.Actions">
+ <summary>
+ interaction types for protein links
+ </summary>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.Tsv.linksDetail">
+ <summary>
+ protein network data (incl. subscores per channel); commercial entities require a license.	
+ </summary>
+</member>
+<member name="M:SMRUCC.genomics.Data.StringDB.Tsv.linksDetail.Selects(System.Collections.Generic.IEnumerable{Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject},System.Collections.Generic.IEnumerable{SMRUCC.genomics.Data.StringDB.Tsv.linksDetail},System.Collections.Generic.Dictionary{System.String,System.String})">
+ <summary>
+ 
+ </summary>
+ <param name="source"></param>
+ <param name="maps"></param>
+ <returns></returns>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.Tsv.entrez_gene_id_vs_string">
+ <summary>
+ separate identifier mapping files, for several frequently used name_spaces...
+ </summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.StringDB.StrPNet.Assembler">
  <summary>
  
@@ -5561,17 +5605,171 @@ SMRUCC.genomics.Data
  <param name="NodeId"></param>
  <returns></returns>
 </member>
-<member name="T:SMRUCC.genomics.Data.StringDB.MIF25.EntrySet">
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Database.Json">
  <summary>
- net:sf:psidev:mi/http://psidev.sourceforge.net/mi/rel25/src/MIF25.xsd
+ JSON format either as a list of hashes/dictionaries, or as a plain list (if there is only one value to be returned per record)
  </summary>
+ <remarks></remarks>
 </member>
-<member name="P:SMRUCC.genomics.Data.StringDB.MIF25.EntrySet.FirstInstance">
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Database.tsv">
  <summary>
- 仅当<see cref="F:SMRUCC.genomics.Data.StringDB.MIF25.EntrySet._innerList"/>之中包含有元素的时候，这个变量才不为空值
+ Tab separated values, with a header line
  </summary>
+ <remarks></remarks>
 </member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI">
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Database.tsvNoHeader">
+ <summary>
+ Tab separated values, without header line
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Database.psiMi">
+ <summary>
+ The interaction network in PSI-MI 2.5 XML format
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Database.psiMiTab">
+ <summary>
+ Tab-delimited form of PSI-MI (similar to tsv, modeled after the IntAct specification. (Easier to parse, but contains less information than the XML format.)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Database.Image">
+ <summary>
+ The network image
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.resolve">
+ <summary>
+ List of items that match (in name or identifier) the query item
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.resolveList">
+ <summary>
+ List of items that match (in name or identifier) the query items
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.abstracts">
+ <summary>
+ List of abstracts that contain the query item
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.abstractsList">
+ <summary>
+ List of abstracts that contain any of the query items
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.interactors">
+ <summary>
+ List of interaction partners for the query item
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.interactorsList">
+ <summary>
+ List of interaction partners for any of the query items
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.actions">
+ <summary>
+ Action partners for the query item
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.actionsList">
+ <summary>
+ Action partners for any of the query items
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.interactions">
+ <summary>
+ Interaction network in PSI-MI 2.5 format or PSI-MI-TAB format (similar to tsv)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.interactionsList">
+ <summary>
+ Interaction network as above, but for a list of identifiers
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.network">
+ <summary>
+ The network image for the query item
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:SMRUCC.genomics.Data.StringDB.WebAPI.Request.networkList">
+ <summary>
+ The network image for the query items
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.identifier">
+ <summary>
+ required parameter for single item, e.g. DRD1_HUMAN
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.identifiers">
+ <summary>
+ required parameter for multiple items, e.g.DRD1_HUMAN%0DDRD2_HUMAN
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.format">
+ <summary>
+ + For resolve requests: only-ids get the list of only the STRING identifiers (full by default) 
+ + For abstract requests: use colon pmids for alternative shapes of the pubmed identifier
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.species">
+ <summary>
+ Taxon identifiers (e.g. Human 9606, see: http://www.uniprot.org/taxonomy)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.limit">
+ <summary>
+ Maximum number of nodes to return, e.g 10.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.required_score">
+ <summary>
+ Threshold of significance to include a interaction, a number between 0 and 1000
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.additional_network_nodes">
+ <summary>
+ Number of additional nodes in network (ordered by score), e.g./ 10
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.network_flavor">
+ <summary>
+ The style of edges in the network. evidence for colored multilines. confidence for 
+ singled lines where hue correspond to confidence score. (actions for stitch only)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.Request.Parameter.caller_identity">
+ <summary>
+ Your identifier for us.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:SMRUCC.genomics.Data.StringDB.WebAPI.StringAPI">
  <summary>
  STRING has an application programming interface (API) which enables you to get the data without using the 
  graphical user interface of the web page. The API is convenient if you need to programmatically access some 
@@ -5589,210 +5787,32 @@ SMRUCC.genomics.Data
  <remarks></remarks>
  
 </member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.StringDb">
+<member name="P:SMRUCC.genomics.Data.StringDB.WebAPI.StringAPI.StringDb">
  <summary>
  Main entry point of STRING
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.StringEMBL">
+<member name="P:SMRUCC.genomics.Data.StringDB.WebAPI.StringAPI.StringEMBL">
  <summary>
  Alternative entry point of STRING
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.StitchEMBL">
+<member name="P:SMRUCC.genomics.Data.StringDB.WebAPI.StringAPI.StitchEMBL">
  <summary>
  The sister database of STRING
  </summary>
  <remarks></remarks>
 </member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Json">
- <summary>
- JSON format either as a list of hashes/dictionaries, or as a plain list (if there is only one value to be returned per record)
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.tsv">
- <summary>
- Tab separated values, with a header line
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.tsvNoHeader">
- <summary>
- Tab separated values, without header line
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.psiMi">
- <summary>
- The interaction network in PSI-MI 2.5 XML format
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.psiMiTab">
- <summary>
- Tab-delimited form of PSI-MI (similar to tsv, modeled after the IntAct specification. (Easier to parse, but contains less information than the XML format.)
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Image">
- <summary>
- The network image
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.resolve">
- <summary>
- List of items that match (in name or identifier) the query item
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.resolveList">
- <summary>
- List of items that match (in name or identifier) the query items
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.abstracts">
- <summary>
- List of abstracts that contain the query item
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.abstractsList">
- <summary>
- List of abstracts that contain any of the query items
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.interactors">
- <summary>
- List of interaction partners for the query item
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.interactorsList">
- <summary>
- List of interaction partners for any of the query items
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.actions">
- <summary>
- Action partners for the query item
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.actionsList">
- <summary>
- Action partners for any of the query items
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.interactions">
- <summary>
- Interaction network in PSI-MI 2.5 format or PSI-MI-TAB format (similar to tsv)
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.interactionsList">
- <summary>
- Interaction network as above, but for a list of identifiers
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.network">
- <summary>
- The network image for the query item
- </summary>
- <remarks></remarks>
-</member>
-<member name="F:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.networkList">
- <summary>
- The network image for the query items
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.identifier">
- <summary>
- required parameter for single item, e.g. DRD1_HUMAN
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.identifiers">
- <summary>
- required parameter for multiple items, e.g.DRD1_HUMAN%0DDRD2_HUMAN
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.format">
- <summary>
- For resolve requests: only-ids get the list of only the STRING identifiers (full by default) For abstract requests: use colon pmids for alternative shapes of the pubmed identifier
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.species">
- <summary>
- Taxon identifiers (e.g. Human 9606, see: http://www.uniprot.org/taxonomy)
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.limit">
- <summary>
- Maximum number of nodes to return, e.g 10.
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.required_score">
- <summary>
- Threshold of significance to include a interaction, a number between 0 and 1000
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.additional_network_nodes">
- <summary>
- Number of additional nodes in network (ordered by score), e.g./ 10
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.network_flavor">
- <summary>
- The style of edges in the network. evidence for colored multilines. confidence for singled lines where hue correspond to confidence score. (actions for stitch only)
- </summary>
- <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Data.StringDB.StringAPI.Database.Format.Request.Parameter.caller_identity">
- <summary>
- Your identifier for us.
- </summary>
- <remarks></remarks>
-</member>
-<member name="M:SMRUCC.genomics.Data.StringDB.StringAPI.DownloadInteractions(System.Collections.Generic.IEnumerable{System.String},System.String)">
+<member name="M:SMRUCC.genomics.Data.StringDB.WebAPI.StringAPI.DownloadInteractions(System.Collections.Generic.IEnumerable{System.String},System.String)">
  <summary>
  
  </summary>
- <param name="IdList"></param>
+ <param name="idList"></param>
  <returns>返回成功的个数</returns>
  <remarks>http://string-db.org/api/psi-mi/interactions?identifier=XC_1184</remarks>
  
-</member>
-<member name="T:SMRUCC.genomics.Data.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Data.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

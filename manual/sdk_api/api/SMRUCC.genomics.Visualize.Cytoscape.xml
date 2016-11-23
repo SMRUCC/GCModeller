@@ -6,6 +6,22 @@ SMRUCC.genomics.Visualize.Cytoscape
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Visualize.Cytoscape.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Visualize.Cytoscape.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Visualize.Cytoscape.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.Regulations">
  <summary>
  从footprint之中导出来的Cytoscape的网络数据文件
@@ -102,9 +118,9 @@ SMRUCC.genomics.Visualize.Cytoscape
  </summary>
  <typeparam name="Node"></typeparam>
  <typeparam name="Edge"></typeparam>
- <param name="NodeList"></param>
- <param name="Edges"></param>
- <param name="Title"></param>
+ <param name="nodeList"></param>
+ <param name="edges"></param>
+ <param name="title"></param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -281,22 +297,6 @@ SMRUCC.genomics.Visualize.Cytoscape
  <returns></returns>
  <remarks></remarks>
  
-</member>
-<member name="T:SMRUCC.genomics.Visualize.Cytoscape.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Visualize.Cytoscape.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Visualize.Cytoscape.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

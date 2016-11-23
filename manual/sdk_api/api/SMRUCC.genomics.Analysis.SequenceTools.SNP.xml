@@ -6,13 +6,38 @@ SMRUCC.genomics.Analysis.SequenceTools.SNP
 </name>
 </assembly>
 <members>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.DiffVariation.GetSeqs(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.FASTA.FastaToken})">
+<member name="T:SMRUCC.genomics.Analysis.SequenceTools.SNP.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SNP.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SNP.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.DiffVariation.GetSeqs(System.Collections.Generic.IEnumerable{SMRUCC.genomics.SequenceModel.FASTA.FastaToken},System.String)">
  <summary>
- 必须是经过对齐了的，第一条序列为参考序列
- </summary>
- <param name="aln"></param>
- <returns></returns>
  
+ </summary>
+ <param name="aln">必须是经过对齐了的，第一条序列为参考序列，假若参考可选参数是缺失的话</param>
+ <param name="refIndex">默认是第一条序列，如果index参数是缺失的话</param>
+ <returns></returns>
+</member>
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.DiffVariation.GroupByDate(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Analysis.SequenceTools.SNP.KSeq},System.Nullable{System.Boolean},Microsoft.VisualBasic.Language.List{Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject}@)">
+ <summary>
+ 
+ </summary>
+ <param name="source"></param>
+ <param name="cumulative">数据是否是按照日期的累计性的</param>
+ <param name="raw">原始的分数数据</param>
+ <returns></returns>
 </member>
 <member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs.SNPsAlignment.DetectSNPs(System.String@,System.Int32,System.Int32,SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs.SNPsAln@)">
  <summary>
@@ -145,7 +170,7 @@ SMRUCC.genomics.Analysis.SequenceTools.SNP
  <param name="nt">可以不经过任何处理，程序在这里会自动使用clustal进行对齐操作</param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.SNPScan.ScanSNPs(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,System.Int32,System.Boolean,System.Boolean)">
+<member name="M:SMRUCC.genomics.Analysis.SequenceTools.SNP.SNPScan.ScanSNPs(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,System.String,System.Boolean,System.Boolean,System.String@)">
  <summary>
  Scan snp sites from the given fasta sequence file.
  </summary>
@@ -168,22 +193,6 @@ SMRUCC.genomics.Analysis.SequenceTools.SNP
  
  </summary>
  <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.SequenceTools.SNP.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SNP.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.SequenceTools.SNP.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

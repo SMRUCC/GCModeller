@@ -6,6 +6,116 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.BaSAR">
+<summary>
+  Looks up a localized string similar to ##################################################################################
+# BaSAR package 
+# Emma Granqvist, Matthew Hartley and Richard J Morris
+##################################################################################
+
+require(polynom)
+require(orthopolynom)
+
+##################################################################################
+# Basic functions
+##################################################################################
+
+.BSA.linspace &lt;- function(vstart, ve [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.DEseq2_Template">
+<summary>
+  Looks up a localized string similar to ## RNA-seq analysis with DESeq2
+## xie.guigang xie.guigang@gcmodeller.org
+
+# RNA-seq data from GSE52202
+# http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse52202. All patients with
+# ALS, 4 with C9 expansion (&quot;exp&quot;), 4 controls without expansion (&quot;ctl&quot;)
+
+
+
+
+
+# Import &amp; pre-process ----------------------------------------------------
+
+# Import data from raw featureCounts
+countData &lt;- read.csv(&quot;{countData.MAT.csv}&quot;)
+
+# Remove first columns (geneID)
+countData &lt;- countData[ ,2:ncol(countData [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.filter">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.Invoke_DESeq2">
+<summary>
+  Looks up a localized string similar to library(&apos;DESeq2&apos;)
+
+dir.source                  &lt;- &quot;&lt;DIR.Source&gt;&quot;,
+
+sampleFiles                 &lt;- c(&lt;*.SAM_FILE_LIST&gt;);
+sampleCondition             &lt;- c(&lt;Conditions_Corresponding_TO_SampleFiles&gt;);
+sampleTable                 &lt;- data.frame(sampleName=sampleFiles, fileName=sampleFiles, condition=sampleCondition)
+ddsHTSeq                    &lt;- DESeqDataSetFromHTSeqCount(sampleTable=sampleTable, directory=dir.source, design=~condition)
+colData(ddsHTSeq)$condition &lt;- factor(colData(ddsHTSeq)$condition, l [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.onLoad">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.pfsnet">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.pfsnet_not_rJava">
+<summary>
+  Looks up a localized resource of type System.Byte[].
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.WGCNA">
+<summary>
+  Looks up a localized string similar to # inits variables
+
+# If necessary, change the path below to the directory where the data files are stored.
+# &quot;.&quot; means current directory. On Windows use a forward slash / instead of the usual \.
+    workingDir = &quot;[WORK]&quot;;
+       exprCsv = &quot;[dataExpr]&quot;;
+       TOMsave = &quot;[TOMsave]&quot;;
+ annotationCsv = &quot;[Annotations.csv]&quot;;
+   
+# Display the current working directory
+getwd();
+setwd(workingDir);
+
+# Load the package
+library(WGCNA);
+library(flashClust);
+
+# The following setting is important, do not [rest of string was truncated]&quot;;.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Analysis.RNA_Seq.Correlation2">
  <summary>
  基因表达相关性的本地文件数据库服务
@@ -165,7 +275,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT.MatrixFrame.Load(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT.MatrixFrame.Load(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  Load expression data from a csv docuemnt stream.
  </summary>
@@ -233,7 +343,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT.ExprSamples.ConvertObject(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.RowObject)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT.ExprSamples.ConvertObject(Microsoft.VisualBasic.Data.csv.DocumentStream.RowObject)">
  <summary>
  Convert the data line in the csv file into a object model in the pcc matrix(将Csv文件之中的数据行转换为对象模型)
  </summary>
@@ -327,7 +437,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <param name="from"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.ToSamples(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Boolean)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.ToSamples(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Boolean)">
  <summary>
  将目标芯片数据转换为每一个基因的计算样本，在本方法之中没有涉及到将目标数据集计算为相关系数矩阵的操作
  </summary>
@@ -348,7 +458,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.CreatePccMAT(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Boolean)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.CreatePccMAT(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Boolean)">
  <summary>
  对每一个基因对之间计算皮尔森相关系数，并返回得到的矩阵
  </summary>
@@ -357,7 +467,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.CreateSPccMAT(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Boolean)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.CreateSPccMAT(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Boolean)">
  <summary>
  计算得到斯皮尔曼相关性矩阵
  </summary>
@@ -366,7 +476,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.CreateCorrelationMatrix(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Double,System.Double,System.Double,System.Double,System.Boolean)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.MatrixAPI.CreateCorrelationMatrix(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Double,System.Double,System.Double,System.Double,System.Boolean)">
  <summary>
  计算PCC和SPCC的混合矩阵，这个函数会首先计算PCC，当PCC的值过低的时候，会计算SPCC的值来替代
  </summary>
@@ -535,7 +645,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GenesCOExpr.CalculateRegulations(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.Int32)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GenesCOExpr.CalculateRegulations(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.Int32)">
  <summary>
  首先进行关联分析，然后根据转录组数据筛选出调控事件
  </summary>
@@ -543,7 +653,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GenesCOExpr.CalculateRegulations(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GenesCOExpr.CalculateRegulations(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  首先进行关联分析，然后根据转录组数据筛选出调控事件
  </summary>
@@ -551,7 +661,7 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GenesCOExpr.Calculate(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GenesCOExpr.Calculate(Microsoft.VisualBasic.Data.csv.DocumentStream.File)">
  <summary>
  Calculate the coefficient matrix of the gene expression profile data for co-expression analysis.(计算基因表达的相关性矩阵，用于基因共转录分析)
  </summary>
@@ -597,116 +707,6 @@ SMRUCC.genomics.Analysis.Toolkits.RNA-Seq
  <param name="CutOffValue">范围在0-1之间的最小阈值，建议取值0.6</param>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.BaSAR">
-<summary>
-  Looks up a localized string similar to ##################################################################################
-# BaSAR package 
-# Emma Granqvist, Matthew Hartley and Richard J Morris
-##################################################################################
-
-require(polynom)
-require(orthopolynom)
-
-##################################################################################
-# Basic functions
-##################################################################################
-
-.BSA.linspace &lt;- function(vstart, ve [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.DEseq2_Template">
-<summary>
-  Looks up a localized string similar to ## RNA-seq analysis with DESeq2
-## xie.guigang xie.guigang@gcmodeller.org
-
-# RNA-seq data from GSE52202
-# http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse52202. All patients with
-# ALS, 4 with C9 expansion (&quot;exp&quot;), 4 controls without expansion (&quot;ctl&quot;)
-
-
-
-
-
-# Import &amp; pre-process ----------------------------------------------------
-
-# Import data from raw featureCounts
-countData &lt;- read.csv(&quot;{countData.MAT.csv}&quot;)
-
-# Remove first columns (geneID)
-countData &lt;- countData[ ,2:ncol(countData [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.filter">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.Invoke_DESeq2">
-<summary>
-  Looks up a localized string similar to library(&apos;DESeq2&apos;)
-
-dir.source                  &lt;- &quot;&lt;DIR.Source&gt;&quot;,
-
-sampleFiles                 &lt;- c(&lt;*.SAM_FILE_LIST&gt;);
-sampleCondition             &lt;- c(&lt;Conditions_Corresponding_TO_SampleFiles&gt;);
-sampleTable                 &lt;- data.frame(sampleName=sampleFiles, fileName=sampleFiles, condition=sampleCondition)
-ddsHTSeq                    &lt;- DESeqDataSetFromHTSeqCount(sampleTable=sampleTable, directory=dir.source, design=~condition)
-colData(ddsHTSeq)$condition &lt;- factor(colData(ddsHTSeq)$condition, l [rest of string was truncated]&quot;;.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.onLoad">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.pfsnet">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.pfsnet_not_rJava">
-<summary>
-  Looks up a localized resource of type System.Byte[].
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.RNA_Seq.My.Resources.Resources.WGCNA">
-<summary>
-  Looks up a localized string similar to # inits variables
-
-# If necessary, change the path below to the directory where the data files are stored.
-# &quot;.&quot; means current directory. On Windows use a forward slash / instead of the usual \.
-    workingDir = &quot;[WORK]&quot;;
-       exprCsv = &quot;[dataExpr]&quot;;
-       TOMsave = &quot;[TOMsave]&quot;;
- annotationCsv = &quot;[Annotations.csv]&quot;;
-   
-# Display the current working directory
-getwd();
-setwd(workingDir);
-
-# Load the package
-library(WGCNA);
-library(flashClust);
-
-# The following setting is important, do not [rest of string was truncated]&quot;;.
-</summary>
 </member>
 <member name="T:SMRUCC.genomics.Analysis.RNA_Seq.PccMatrix">
  <summary>
@@ -1022,9 +1022,11 @@ library(flashClust);
  <param name="name"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GCModeller.FileSystem.FileSystem.GetLocalBlast">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.GCModeller.FileSystem.FileSystem.GetLocalblast">
  <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
  </summary>
  <returns></returns>
  

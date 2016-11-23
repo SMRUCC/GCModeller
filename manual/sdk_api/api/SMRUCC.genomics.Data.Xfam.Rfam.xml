@@ -6,6 +6,58 @@ SMRUCC.genomics.Data.Xfam.Rfam
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources.rfam_scan">
+<summary>
+  Looks up a localized string similar to #!/usr/bin/perl
+
+use warnings;
+use strict;
+use Getopt::Long;
+
+#use Bio::SearchIO;
+use Bio::SeqIO;
+#use Bio::FeatureIO;
+use Bio::SeqFeature::Generic;
+use Bio::Tools::GFF;
+use IO::File;
+
+my( $local, 
+    $global,
+    $blastdb,
+    $thresh,
+    $noclean,
+    $help,
+    $outfile,
+    $nobig,
+    @exclude,
+    $verbose,
+    );
+
+my $VERSION = &apos;1.0&apos;;
+my $blastcut = 0.01;
+my $outputfmt = &apos;gff&apos;;
+my $filter = &apos;ncbi&apos;;
+my $starttime = `date`;
+chomp $starttime;
+my $cmdline = $0.&apos; &apos;.join( &apos; [rest of string was truncated]&quot;;.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Data.Xfam.Rfam.API">
  <summary>
  Rfam is a database of structure-annotated multiple sequence alignments,
@@ -349,58 +401,6 @@ SMRUCC.genomics.Data.Xfam.Rfam
  Command line used To calibrate the model (Rfam only, release 12.0 And later)
  </summary>
  <returns></returns>
-</member>
-<member name="T:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Data.Xfam.Rfam.My.Resources.Resources.rfam_scan">
-<summary>
-  Looks up a localized string similar to #!/usr/bin/perl
-
-use warnings;
-use strict;
-use Getopt::Long;
-
-#use Bio::SearchIO;
-use Bio::SeqIO;
-#use Bio::FeatureIO;
-use Bio::SeqFeature::Generic;
-use Bio::Tools::GFF;
-use IO::File;
-
-my( $local, 
-    $global,
-    $blastdb,
-    $thresh,
-    $noclean,
-    $help,
-    $outfile,
-    $nobig,
-    @exclude,
-    $verbose,
-    );
-
-my $VERSION = &apos;1.0&apos;;
-my $blastcut = 0.01;
-my $outputfmt = &apos;gff&apos;;
-my $filter = &apos;ncbi&apos;;
-my $starttime = `date`;
-chomp $starttime;
-my $cmdline = $0.&apos; &apos;.join( &apos; [rest of string was truncated]&quot;;.
-</summary>
 </member>
 </members>
 </doc>

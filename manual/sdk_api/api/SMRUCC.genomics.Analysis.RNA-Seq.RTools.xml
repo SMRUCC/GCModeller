@@ -543,7 +543,7 @@ library(flashClust);
  easyRNASeq包也可以用来生成这种数据
  </remarks>
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2.DESeq.DESeq2(Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File,System.String,System.String,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2.DESeq.DESeq2(Microsoft.VisualBasic.Data.csv.DocumentStream.File,System.String,System.String,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT)">
  <summary>
  使用这个函数进行分析
  </summary>
@@ -565,7 +565,7 @@ library(flashClust);
  <returns></returns>
  
 </member>
-<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2.DESeq.HTSeqCount(System.String,System.String,System.Boolean)">
+<member name="M:SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2.DESeq.HTSeqCount(Microsoft.VisualBasic.Language.Value{System.String},System.String,System.Boolean)">
  <summary>
  
  </summary>

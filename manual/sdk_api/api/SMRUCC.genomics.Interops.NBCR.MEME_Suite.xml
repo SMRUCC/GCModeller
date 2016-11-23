@@ -6,6 +6,22 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="T:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI.Selects">
  <summary>
  从计算出来的footprint数据之中选出motif用来进行聚类操作
@@ -457,7 +473,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  全局比对
  </summary>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.TomVisual.VisualLevEdit(SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.AnnotationModel,SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.AnnotationModel,Microsoft.VisualBasic.DistResult,System.Boolean)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery.TomVisual.VisualLevEdit(SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.AnnotationModel,SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans.AnnotationModel,Microsoft.VisualBasic.Text.DistResult,System.Boolean)">
  <summary>
  可视化motif之间的Levenshtein相似度编辑矩阵
  </summary>
@@ -659,7 +675,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint.__createRegulationObject(SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML.MEMEOutput,SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader,System.Boolean,System.Int32)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint.__createRegulationObject(SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML.MEMEOutput,SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTTDbLoader,System.Boolean,System.Int32)">
  <summary>
  当具有重叠数据的时候，会返回多个对象拷贝
  </summary>
@@ -691,7 +707,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifFootPrintsGenerates.__reGenerate(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint},SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifFootPrintsGenerates.__reGenerate(System.Collections.Generic.IEnumerable{SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint},SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel)">
  <summary>
  
  </summary>
@@ -730,7 +746,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <remarks></remarks>
  
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifFootPrintsGenerates.FootprintMatchesTEXT(System.String,System.String,SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,System.Int32,System.Boolean)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.MotifFootPrintsGenerates.FootprintMatchesTEXT(System.String,System.String,SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,System.Int32,System.Boolean)">
  <summary>
  
  </summary>
@@ -1688,7 +1704,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <param name="EXPORT"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70.TrimStrictOverlap(SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief,System.Int32)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70.TrimStrictOverlap(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief,System.Int32)">
  <summary>
  不管链的方向，只要发生了重叠就必须要剪裁
  </summary>
@@ -1697,7 +1713,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <param name="GeneObject"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70.OverlapCommon(SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief[],SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief,System.Int32)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70.OverlapCommon(SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief[],SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief,System.Int32)">
  <summary>
  严格或者非严格实际上就只是数据源不同：
  严格的灰同时检查两条链，所以数据是整个PTT文件
@@ -1708,7 +1724,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <param name="GeneObject"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70.TrimNotStrictOverlap(SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief,System.Int32)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.IntergenicSigma70.TrimNotStrictOverlap(SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief,System.Int32)">
  <summary>
  只要目标位点和基因不在同一条链之上，就不算是重叠
  
@@ -1783,7 +1799,7 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <param name="Fasta"></param>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.GenePromoterParser.CreateObject(System.Int32,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentReader)">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser.GenePromoterParser.CreateObject(System.Int32,SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,SMRUCC.genomics.SequenceModel.I_PolymerSequenceModel)">
  <summary>
  解析出所有基因前面的序列片段
  </summary>
@@ -1917,22 +1933,6 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <param name="Matches">从STAMP服务器获取的匹配数据</param>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 <member name="P:SMRUCC.genomics.Interops.NBCR.MEME_Suite.Settings.File.BlastBin">
  <summary>
@@ -2210,9 +2210,11 @@ SMRUCC.genomics.Interops.NBCR.MEME_Suite
  <param name="name"></param>
  <returns></returns>
 </member>
-<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.GCModeller.FileSystem.FileSystem.GetLocalBlast">
+<member name="M:SMRUCC.genomics.Interops.NBCR.MEME_Suite.GCModeller.FileSystem.FileSystem.GetLocalblast">
  <summary>
- 会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误
+ This function will search for the blast+ bin directory automatically based on the 
+ registry, config data and system directories.
+ (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
  </summary>
  <returns></returns>
  

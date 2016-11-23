@@ -6,6 +6,22 @@ SMRUCC.genomics.Analysis.CRISPR.CRT
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.Analysis.CRISPR.CRT.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CRISPR.CRT.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.Analysis.CRISPR.CRT.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="P:SMRUCC.genomics.Analysis.CRISPR.CRT.Output.Loci.Left">
  <summary>
  起始位置
@@ -80,9 +96,9 @@ SMRUCC.genomics.Analysis.CRISPR.CRT
  <summary>
  请注意，这个函数的使用请务必要保证文件名除却拓展名以外都是是相同的
  </summary>
- <param name="scan_source">这个是CRT的批量扫描输出的文件夹</param>
+ <param name="scan">这个是CRT的批量扫描输出的文件夹</param>
  <param name="besthit_source">这个是最佳双向比对的输出文件夹</param>
- <param name="export"></param>
+ <param name="EXPORT"></param>
  <returns></returns>
  <remarks></remarks>
 </member>
@@ -357,22 +373,6 @@ SMRUCC.genomics.Analysis.CRISPR.CRT
  <param name="p"></param>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.Analysis.CRISPR.CRT.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CRISPR.CRT.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.Analysis.CRISPR.CRT.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>

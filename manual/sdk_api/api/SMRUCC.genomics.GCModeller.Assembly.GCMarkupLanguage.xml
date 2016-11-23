@@ -6,6 +6,22 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 </name>
 </assembly>
 <members>
+<member name="T:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
 <member name="P:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.FBACompatibility.Vector.Identifier">
  <summary>
  The Unique ID property for the metabolite.
@@ -171,7 +187,7 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Builder.ExpressionFluxBuilder.Link(SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject,SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript[],Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript})">
+<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Builder.ExpressionFluxBuilder.Link(SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject,SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript[],System.Collections.Generic.List{SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript})">
  <summary>
  将一个基因对象与相应的转录产物想联系起来
  </summary>
@@ -202,7 +218,7 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
  </summary>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Builder.MappingBuilder.LinkGene(System.String,Microsoft.VisualBasic.List{SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein.IEnzyme},System.Int32)">
+<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Builder.MappingBuilder.LinkGene(System.String,System.Collections.Generic.List{SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein.IEnzyme},System.Int32)">
  <summary>
  蛋白质复合物对基因对象的连接的递归算法
  </summary>
@@ -847,7 +863,7 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.MetacycObjectFindingMethods.IndexOf(Microsoft.VisualBasic.List{SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction},System.String)">
+<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.MetacycObjectFindingMethods.IndexOf(System.Collections.Generic.List{SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction},System.String)">
  <summary>
  获取指定UniqueId的生化反应对象的句柄值
  </summary>
@@ -863,7 +879,7 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions.Takes(SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject[],Microsoft.VisualBasic.List{System.String})">
+<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions.Takes(SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.GeneObject[],System.Collections.Generic.List{System.String})">
  <summary>
  使用基因标号从基因列表之中提取出一个基因对象的集合
  </summary>
@@ -872,7 +888,7 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions.Select(Microsoft.VisualBasic.List{SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein.IEnzyme},System.String)">
+<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions.Select(System.Collections.Generic.List{SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein.IEnzyme},System.String)">
  <summary>
  Query target enzyme object using its unique id property from a enzyme list.(依照对象的UniqueId属性在酶催化剂分子列表之中查找出目标对象)
  </summary>
@@ -881,7 +897,7 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
  <returns></returns>
  <remarks></remarks>
 </member>
-<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions.AsMetabolites(Microsoft.VisualBasic.List{System.String})">
+<member name="M:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.Extensions.AsMetabolites(System.Collections.Generic.List{System.String})">
  <summary>
  将Unique列表转换为代谢物的引用类型列表
  </summary>
@@ -991,22 +1007,6 @@ SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
  <value></value>
  <returns></returns>
  <remarks></remarks>
-</member>
-<member name="T:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.My.Resources.Resources">
-<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.My.Resources.Resources.ResourceManager">
-<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member>
-<member name="P:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.My.Resources.Resources.Culture">
-<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
 </member>
 </members>
 </doc>
