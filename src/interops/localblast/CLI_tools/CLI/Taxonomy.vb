@@ -44,12 +44,23 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Reads.OTU.Taxonomy",
-               Usage:="/Reads.OTU.Taxonomy /in <blastnMaps.csv> /OTU <OTU_data.csv> /tax <taxonomy:nodes/names> [/out <out.csv>]")>
+               Info:="If the blastnmapping data have the duplicated OTU tags, then this function will makes a copy of the duplicated OTU tag data. top-best data will not.",
+               Usage:="/Reads.OTU.Taxonomy /in <blastnMaps.csv> /OTU <OTU_data.csv> /tax <taxonomy:nodes/names> [/fill.empty /out <out.csv>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(BlastnMapping)},
+              Description:="This input data should have a column named ``taxid`` for the taxonomy information.")>
+    <Argument("/fill.empty", True, AcceptTypes:={GetType(Boolean)},
+              Description:="If this options is true, then this function will only fill the rows which have an empty ``Taxonomy`` field column.")>
+    <Argument("/OTU", False, AcceptTypes:={GetType(OTUData)})>
+    <Group(CLIGrouping.TaxonomyTools)>
     Public Function ReadsOTU_Taxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim OTU As String = args("/OTU")
         Dim tax As String = args("/tax")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & OTU.BaseName & ".Taxonomy.csv")
+        Dim fillEmpty As Boolean = args.GetBoolean("/fill.empty")
+        Dim out As String = args.GetValue(
+            "/out",
+            [in].TrimSuffix & "-" & OTU.BaseName & $".Taxonomy{If(fillEmpty, ".fillEmpty", "")}.csv")
         Dim maps = [in].LoadCsv(Of BlastnMapping)
         Dim data = OTU.LoadCsv(Of OTUData)
         Dim taxonomy As New NcbiTaxonomyTree(tax)
@@ -62,17 +73,24 @@ Partial Module CLI
         Dim output As New List(Of OTUData)
         Dim diff As New List(Of String)
 
-        For Each r In data
-            Dim reads As BlastnMapping()
-            Try
-                reads = readsTable(r.OTU)
-            Catch ex As Exception
+        For Each r As OTUData In data
+            If fillEmpty Then
+                If Not String.IsNullOrEmpty(r.Data.TryGetValue("Taxonomy")) Then
+                    ' 包含有这个值，则不进行关联，直接添加进入输出数据之中
+                    output += r
+                    Continue For
+                End If
+            End If
+
+                Dim reads As BlastnMapping() = readsTable.TryGetValue(r.OTU)
+
+            If reads.IsNullOrEmpty Then
                 ' 由于可能是从所有的数据data之中匹配部分maps的数据，所以肯定会出现找不到的对象，在这里记录下来就行了，不需要报错
                 diff += r.OTU
                 Continue For
-            End Try
+            End If
 
-            For Each o In reads
+            For Each o As BlastnMapping In reads
                 Dim copy As New OTUData(r)
                 Dim taxid% = CInt(o.Extensions("taxid"))
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid, True)

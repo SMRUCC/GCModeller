@@ -185,6 +185,7 @@
   <ItemGroup>
     <Compile Include="d3js\color\rgb.vb" />
     <Compile Include="d3js\interpolate\rgb.vb" />
+    <Compile Include="Drawing2D\Colors\OfficeColorThemes.vb" />
     <Compile Include="Drawing2D\Colors\ColorBrewer.vb" />
     <Compile Include="Drawing2D\Colors\Designer.vb" />
     <Compile Include="Drawing2D\Colors\Legend.vb" />
@@ -265,6 +266,10 @@
     <None Include="Resources\DefaultTexture.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Data_science\Mathematical\Math\Microsoft.VisualBasic.Mathematical.vbproj">
+      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
+      <Name>Microsoft.VisualBasic.Mathematical</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
@@ -279,6 +284,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\colorbrewer.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OfficeThemes\Default_Office.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OfficeThemes\Default_Office2007-2010.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OfficeThemes\Default_Slipstream.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

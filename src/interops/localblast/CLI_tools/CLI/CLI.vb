@@ -277,7 +277,10 @@ Module CLI
         Return hits.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/export.prot", Usage:="/export.prot /gb <genome.gbk> [/out <out.fasta>]")>
+    <ExportAPI("/Export.Prot",
+               Info:="Export all of the protein sequence from the genbank database file.",
+               Usage:="/Export.Prot /gb <genome.gb> [/out <out.fasta>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function ExportProt(args As CommandLine) As Integer
         Dim gb As String = args("/gb")
         Dim out As String = args.GetValue("/out", gb.TrimSuffix & "_prot.fasta")
@@ -287,6 +290,7 @@ Module CLI
     End Function
 
     <ExportAPI("/Copys", Usage:="/Copys /imports <DIR> [/out <outDIR>]")>
+    <Group(CLIGrouping.GenbankTools)>
     Public Function Copys(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
         Dim gbs = FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.gbk", "*.gb") _

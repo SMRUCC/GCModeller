@@ -47,11 +47,16 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Partial Module CLI
 
     <ExportAPI("/Fasta.Filters",
+               Info:="Filter the fasta sequence subset from a larger fasta database by using the regexp for match on the fasta title.",
                Usage:="/Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/tokens /out <out.fasta> /p]")>
+    <Argument("/key", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(String), GetType(String())},
+              Description:="A regexp string term that will be using for title search or file path of a text file contains lines of regexp.")>
     <Argument("/p",
                    True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Using the parallel edition?? If GCModeller running in a 32bit environment, do not use this option. This option only works in single key mode.")>
+    <Group(CLIGrouping.BBHTools)>
     Public Function Filter(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim key As String = args("/key")
@@ -123,7 +128,10 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Taxonomy.efetch", Usage:="/Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]")>
+    <ExportAPI("/Taxonomy.efetch",
+               Info:="Fetch the taxonomy information of the fasta sequence from NCBI web server.",
+               Usage:="/Taxonomy.efetch /in <nt.fasta> [/out <out.DIR>]")>
+    <Group(CLIGrouping.WebTools)>
     Public Function FetchTaxnData(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".Taxonomy.efetch/")
@@ -141,6 +149,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Taxonomy.efetch.Merge", Usage:="/Taxonomy.efetch.Merge /in <in.DIR> [/out <out.Csv>]")>
+    <Group(CLIGrouping.WebTools)>
     Public Function MergeFetchTaxonData(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in] & "/Taxonomy.efetch.Merge.Csv")
