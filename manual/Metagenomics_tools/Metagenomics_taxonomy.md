@@ -11,7 +11,7 @@
   
 ### Blastn query of NCBI nt
 
-This is the standard blastn steps by using ncbi blast+ suite:
+This is the standard blastn steps by using ncbi blast+ suite query your 16S/18S rRNA against nt database for the taxonomy annotations:
 
 + First, format ncbi nt fasta database by
 ```bash
