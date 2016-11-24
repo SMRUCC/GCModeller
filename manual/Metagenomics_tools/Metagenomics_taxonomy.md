@@ -13,6 +13,39 @@
 
 This is the standard blastn steps by using ncbi blast+ suite query your 16S/18S rRNA against nt database for the taxonomy annotations:
 
+###### NOTE
+For save your time, you can using ``/Fasta.Filters`` command in GCModeller localblast tool for subset the nt database:
+
+```bash
+localblast ? /Fasta.Filters
+# Help for command '/Fasta.Filters':
+#
+#   Information:  Filter the fasta sequence subset from a larger fasta database 
+#                 by using the regexp for match on the fasta title.
+#   Usage:        /home/biostack/GCModeller/localblast /Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/tokens /out <out.fasta> /p]
+#   Example:      CLI usage example not found!
+#
+#   Arguments:
+#   ============================
+#
+#   [/p]   Description:  Using the parallel edition?? If GCModeller running in a 32bit
+#                        environment, do not use this option. This option only works in
+#                        single key mode.
+#
+#          Example:      /p <term_string>
+```
+
+Example:
+
+```bash
+# Match all fasta in nt database that have word: 16s
+/home/biostack/GCModeller/localblast /Fasta.Filters /in "/path/to/nt /key "16s"
+
+# Match all fasta in nt database that have word: 18s
+/home/biostack/GCModeller/localblast /Fasta.Filters /in "/path/to/nt /key "18s"
+```
+
+###### blast+
 + First, format ncbi nt fasta database by
 ```bash
 makeblastdb -in "/path/to/nt" -dbtype nucl
