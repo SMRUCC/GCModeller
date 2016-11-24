@@ -311,6 +311,30 @@ Partial Module CLI
         Return output.SaveTo(out).CLICode
     End Function
 
+    <ExportAPI("/OTU.Taxonomy.Replace", Info:="Using ``MapHits`` property",
+               Usage:="/OTU.Taxonomy.Replace /in <otu.table.csv> /maps <maphits.csv> [/out <out.csv>]")>
+    Public Function OTUTaxonomyReplace(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim maps As String = args("/maps")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & maps.BaseName & "_taxonomy_replaced.csv")
+        Dim OTUs = [in].LoadCsv(Of OTUData)
+        Dim mapsData = maps.LoadCsv(Of MapHit)
+        Dim hash = OTUs.ToDictionary
+
+        For Each x In mapsData
+            For Each tag$ In x.MapHits
+                If hash.ContainsKey(tag) Then
+                    hash(tag).Data(NameOf(MapHit.Taxonomy)) = x.Taxonomy
+                End If
+            Next
+        Next
+
+        Return hash.Values _
+            .ToArray _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     ''' <summary>
     ''' ref是总的数据，parts是ref里面的部分数据，则个函数则是将parts之中没有出现的都找出来
     ''' </summary>
@@ -332,6 +356,16 @@ Partial Module CLI
         Next
 
         Return diff.FlushAllLines(out).CLICode
+    End Function
+
+    <ExportAPI("/MapHits.list", Usage:="/MapHits.list /in <in.csv> [/out <out.txt>]")>
+    <Argument("/in", AcceptTypes:={GetType(MapHits), GetType(MapHit)})>
+    Public Function GetMapHitsList(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim data = [in].LoadCsv(Of MapHits)
+        Dim list$() = data.Select(Function(x) x.MapHits).IteratesALL.Distinct.ToArray
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".maphits.list.txt")
+        Return list.FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     <ExportAPI("/Taxonomy.Tree", Info:="Output taxonomy query info by a given NCBI taxid list.",

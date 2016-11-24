@@ -4,9 +4,17 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Metagenomics
 
+    ''' <summary>
+    ''' <see cref="OTUData.Data"/> that associated with <see cref="OTUData.OTU"/> tag
+    ''' </summary>
     Public Class OTUData : Implements sIdEnumerable
 
-        <Column(Name:="#OTU_num")> Public Property OTU As String Implements sIdEnumerable.Identifier
+        ''' <summary>
+        ''' ``#OTU_num``
+        ''' </summary>
+        ''' <returns></returns>
+        <Column(Name:="#OTU_num")>
+        Public Property OTU As String Implements sIdEnumerable.Identifier
         Public Property Data As Dictionary(Of String, String)
 
         Sub New()

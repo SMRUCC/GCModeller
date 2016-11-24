@@ -122,7 +122,11 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Select.By_Locus",
-               Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/out <out.fasta>]")>
+               Info:="Select fasta sequence by local_tag.",
+               Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/reverse /out <out.fasta>]")>
+    <Argument("/reverse",
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this option is enable, then all of the sequence that not appeared in the list will be output.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function SelectByLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -145,10 +149,11 @@ Partial Module Utilities
                               Function(x) x.Group.ToArray)
         Call $"Files loads {seqHash.Count} sequence...".__DEBUG_ECHO
 
-        Dim LQuery As IEnumerable(Of FastaToken()) = From sId As String
-                                                     In locus
-                                                     Where seqHash.ContainsKey(sId)
-                                                     Select seqHash(sId)
+        Dim LQuery As IEnumerable(Of FastaToken()) =
+            From sId As String
+            In locus
+            Where seqHash.ContainsKey(sId)
+            Select seqHash(sId)
         Dim outFa As New FastaFile(LQuery.IteratesALL)
 
         Return outFa.Save(out, Encodings.ASCII)
