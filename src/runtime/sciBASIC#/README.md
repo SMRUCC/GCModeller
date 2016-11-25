@@ -71,12 +71,39 @@ Imports Microsoft.VisualBasic.Mathematical.Plots
 
 ![](./Data_science/Mathematical/images/Bubble.png)
 ![](./Data_science/Mathematical/images/pie_chart_vars.png)
-![](./Data_science/Mathematical/images/37_number_of_observation_on_barplot.png)
+
+###### Stacked Barplot
+![](./Data_science/Mathematical/images/FigurePlot-Reference-Unigenes.absolute.level1.png)
+
+```vbnet
+' Plots metagenome taxonomy profiles annotation result using barplot
+Dim taxonomy As BarDataGroup = csv.LoadBarData(
+    "./FigurePlot-Reference-Unigenes.absolute.level1.csv",
+    "Paired:c8") ' Using color brewer color profiles
+
+Call BarPlot.Plot(
+    taxonomy,
+    New Size(2000, 1400),
+    stacked:=True,
+    legendFont:=New Font(FontFace.BookmanOldStyle, 18)) _
+    .SaveAs("./FigurePlot-Reference-Unigenes.absolute.level1.png")
+```
 
 ###### Histogram Plot of beta-PDF
 <a href="./Data_science/Mathematical/data/beta-PDF/">![](./Data_science/Mathematical/data/beta-PDF/beta_hist.png)</a>
 
 ![](./Data_science/Mathematical/images/heatmap.png)
+
+```vbnet
+Dim data = DataSet.LoadDataSet("./Quick_correlation_matrix_heatmap/mtcars.csv")
+
+Call data.CorrelatesNormalized() _
+    .Plot(mapName:="Jet",  ' Using internal color theme 'Jet'
+          mapLevels:=20,
+          legendFont:=New Font(FontFace.BookmanOldStyle, 32)) _
+    .SaveAs("./images/heatmap.png")
+```
+
 > ###### Microsoft.VisualBasic.Mathematical.Plots.Heatmap::Plot(IEnumerable(Of NamedValue(Of Dictionary(Of String, Double))), Color(), Integer, String, Boolean, Size, Size, String, String, String) As Bitmap
 >
 > Heatmap data source from R dataset [``mtcars``](./Data_science/Mathematical/Quick_correlation_matrix_heatmap/mtcars.csv) and calculates [the Pearson correlations](./Microsoft.VisualBasic.Architecture.Framework/Extensions/Math/Correlations.vb):

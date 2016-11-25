@@ -35,8 +35,27 @@ Namespace Drawing2D.Colors
 
     Public Module Legends
 
+        ''' <summary>
+        ''' Draw color legend for the color sequnece
+        ''' </summary>
+        ''' <param name="designer"></param>
+        ''' <param name="title$">The legend title</param>
+        ''' <param name="min$"></param>
+        ''' <param name="max$"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="haveUnmapped"></param>
+        ''' <param name="lsize"></param>
+        ''' <param name="lmargin"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function ColorMapLegend(designer As Color(), title$, min$, max$, Optional bg$ = "transparent", Optional haveUnmapped As Boolean = True, Optional lsize As Size = Nothing, Optional lmargin As Size = Nothing) As Bitmap
+        Public Function ColorMapLegend(designer As Color(),
+                                       title$,
+                                       min$, max$,
+                                       Optional bg$ = "transparent",
+                                       Optional haveUnmapped As Boolean = True,
+                                       Optional lsize As Size = Nothing,
+                                       Optional lmargin As Size = Nothing,
+                                       Optional titleFont As Font = Nothing) As Bitmap
             If lsize.IsEmpty Then
                 lsize = New Size(800, 1000)
             End If
@@ -45,14 +64,17 @@ Namespace Drawing2D.Colors
             End If
 
             Return GraphicsPlots(
-                lsize, lmargin, bg,
+                lsize, lmargin,
+                bg,
                 Sub(ByRef g, region)
                     Dim graphicsRegion As Rectangle = region.PlotRegion
                     Dim size As Size = region.Size
                     Dim margin As Size = region.Margin
                     Dim grayHeight As Integer = size.Height * 0.05
                     Dim y As Single
-                    Dim font As New Font(FontFace.MicrosoftYaHei, 42)
+                    Dim font As Font = If(titleFont Is Nothing,
+                        New Font(FontFace.MicrosoftYaHei, 36),
+                        titleFont)
                     Dim fSize As SizeF
                     Dim pt As Point
                     Dim rectWidth As Integer = 150
@@ -62,8 +84,8 @@ Namespace Drawing2D.Colors
 
                     Call g.DrawString(title, font, Brushes.Black, New Point(margin.Width, 0))
 
+                    font = New Font(FontFace.BookmanOldStyle, 24)
                     y = margin.Height * 2
-                    font = New Font(FontFace.MicrosoftYaHei, 32)
 
                     Call g.DrawString(max, font, Brushes.Black, New Point(left, y))
 
@@ -77,8 +99,7 @@ Namespace Drawing2D.Colors
 
                     fSize = g.MeasureString(min, font)
                     Call g.DrawString(
-                    min,
-                    font,
+                    min, font,
                     Brushes.Black,
                     New Point(left, If(designer.Length > 100, d, 0) + y - fSize.Height))
 
@@ -87,10 +108,9 @@ Namespace Drawing2D.Colors
                     pt = New Point(
                     left,
                     y - (grayHeight - fSize.Height) / 2)
-                    Call g.FillRectangle(
-                    Brushes.LightGray,
-                    New Rectangle(New Point(margin.Width, y),
-                                  New Size(rectWidth, grayHeight)))
+                    Call g.FillRectangle(Brushes.LightGray,
+                                         New Rectangle(New Point(margin.Width, y),
+                                                       New Size(rectWidth, grayHeight)))
                     Call g.DrawString("Unknown", font, Brushes.Black, pt)
                 End Sub)
         End Function

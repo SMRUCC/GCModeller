@@ -78,6 +78,20 @@ Call Bubble _
 
 ![](./images/heatmap.png)
 
+Using colorbrewer theme:
+
+```vbnet
+Dim data = DataSet.LoadDataSet("./Quick_correlation_matrix_heatmap/mtcars.csv")
+
+Call data.CorrelatesNormalized() _
+    .Plot(mapName:="PRGn:c6",  ' Using colorbrewer theme
+          mapLevels:=20,
+          legendFont:=New Font(FontFace.BookmanOldStyle, 32)) _
+    .SaveAs("./images/heatmap-colorbrewer-PRGn-c6.png")
+```
+
+![](./images/heatmap-colorbrewer-PRGn-c6.png)
+
 ##### Scatter & Histogram Plot
 
 ```vbnet
@@ -172,7 +186,7 @@ Call BarPlot.Plot2(data) _
 
 ###### Stacked bar plot
 
-![](./images/Fruit_consumption-bar-stacked.png)
+![](./images/FigurePlot-Reference-Unigenes.absolute.level1.png)
 
 ##### Solving ODEs
 
