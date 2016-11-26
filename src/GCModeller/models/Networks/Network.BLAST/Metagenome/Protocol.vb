@@ -90,11 +90,17 @@ Namespace Metagenome
         ''' <returns></returns>
         <Extension>
         Public Iterator Function BuildMatrix(blastn As v228, Optional identities# = 0.3, Optional coverage# = 0.3) As IEnumerable(Of DataSet)
-            For Each query As Query In blastn.Queries
+            For Each query As Query In blastn.Queries  ' 因为是blastn所以可能会存在一部分比对上的结果，所以会出现重复的片段，在这里取出identities最高的
                 Dim besthits As SubjectHit() = query.GetBesthits(coverage:=coverage, identities:=identities)
+                Dim distinct = From x As SubjectHit
+                               In besthits
+                               Select x
+                               Group x By x.Name Into Group
                 Dim similarity As Dictionary(Of String, Double) =
-                    besthits.ToDictionary(Function(h) h.Name,
-                                          Function(h) h.Score.Identities.Value)
+                    distinct.ToDictionary(Function(h) h.Name,
+                                          Function(h) h.Group.OrderBy(
+                                          Function(x) x.Score.Identities.Value) _
+                                                  .Last.Score.Identities.Value)
                 Yield New DataSet With {
                     .Identifier = query.QueryName,
                     .Properties = similarity

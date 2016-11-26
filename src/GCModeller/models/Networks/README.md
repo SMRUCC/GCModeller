@@ -59,3 +59,13 @@ Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
     Return network.Save(EXPORT, Encodings.ASCII).CLICode
 End Function
 ```
+
+##### CLI usage Example
+
+###### For legacy GI nt headers
+
+```bash
+/home/biostack/GCModeller/Cytoscape /BLAST.Metagenome.SSU.Network /net "./OTUs_18S-network.txt" /tax "./OTU-18S.best.Csv" /x2taxid "./gi_taxid_nucl.dmp" /taxonomy "./taxdmp" /gi2taxid
+```
+
+###### For new accession nt header

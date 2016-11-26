@@ -166,7 +166,7 @@ Partial Module CLI
 
     <ExportAPI("/BLAST.Metagenome.SSU.Network",
                Info:="> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28",
-               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp/DIR> /taxonomy <ncbi_taxonomy:names,nodes> [/gi2taxid /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
+               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp/DIR> /taxonomy <ncbi_taxonomy:names,nodes> [/skip-exists /gi2taxid /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
     <Group(CLIGrouping.Metagenomics)>
     Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
         Dim net$ = args("/net")
@@ -180,6 +180,7 @@ Partial Module CLI
         Dim taxdata As BlastnMapping() = tax.LoadCsv(Of BlastnMapping)
         Dim gi2taxid As Boolean = args.GetBoolean("/gi2taxid")
         Dim x2taxid As String = args("/x2taxid")
+        Dim skipExists As Boolean = args.GetBoolean("/skip-exists")
         Dim xid$() = taxdata _
             .Select(Function(x) x.Reference) _
             .ToArray(TaxidMaps.GetParser(gi2taxid))
@@ -190,12 +191,19 @@ Partial Module CLI
         Dim CLI$
 
         If gi2taxid Then
-            CLI = $"/gi.Match /in {(+out).CLIPath} /gi2taxid {x2taxid.CLIPath} /out {(out = EXPORT & "/gi2taxid.txt").CLIPath}"
+            CLI = $"/gi.Match /in {(+out).CLIPath} /gi2taxid {x2taxid.CLIPath} /out {(out = EXPORT & "/gi2taxid.dmp").CLIPath}"
         Else
-            CLI = $"/accid2taxid.Match /in {(+out).CLIPath} /acc2taxid {x2taxid.CLIPath} /gb_priority /out {(out = EXPORT & "/gi2taxid.txt").CLIPath}"
+            CLI = $"/accid2taxid.Match /in {(+out).CLIPath} /acc2taxid {x2taxid.CLIPath} /gb_priority /out {(out = EXPORT & "/acc2taxid.dmp").CLIPath}"
         End If
 
-        Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+        If (+out).FileExists Then
+            If skipExists Then
+            Else
+                Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+            End If
+        Else
+            Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+        End If
 
         ' step1
         Dim notFound As New List(Of String)
@@ -205,14 +213,15 @@ Partial Module CLI
             notFound:=notFound,
             taxonomy:=New NcbiTaxonomyTree(taxonomy))
 
-        Call notFound.FlushAllLines(EXPORT & "/taxonomy_notfound.txt")
-
         ' step2
         Dim matrix As IEnumerable(Of DataSet) =
             netdata.BuildMatrix(identities, coverage)
 
         ' step3
         Dim network As Network = BuildNetwork(matrix, ssuTax)
+
+        ' 第一步的iterator直到第三布的时候才会被执行，所以这个列表要放在最后面保存，否则会没有数据
+        Call notFound.FlushAllLines(EXPORT & "/taxonomy_notfound.txt")
 
         Return network.Save(EXPORT, Encodings.ASCII).CLICode
     End Function
