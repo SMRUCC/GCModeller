@@ -60,7 +60,96 @@ Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
 End Function
 ```
 
-##### CLI usage Example
+##### CLI usage Tutorials
+
+###### 1. Preparing the 16S/18S database
+About screen all of the 16S/18S sequence from nt database using command tool:
+
+```bash
+localblast ? /Fasta.Filters
+# Help for command '/Fasta.Filters':
+#
+#   Information:  Filter the fasta sequence subset from a larger fasta database by using the regexp for match
+#                 on the fasta title.
+#   Usage:        /home/biostack/GCModeller/localblast /Fasta.Filters /in <nt.fasta> /key <regex/list.txt> [/tokens /out <out.fasta> /p]
+#   Example:      CLI usage example not found!
+#
+#   Arguments:
+#   ============================
+#
+#    /key    Description:  A regexp string term that will be using for title search or file
+#                          path of a text file contains lines of regexp.
+#
+#            Example:      /key <file/directory>
+#                          (This argument can accept the std_out from upstream app as input)
+#
+#   [/p]     Description:  Using the parallel edition?? If GCModeller running in a 32bit
+#                          environment, do not use this option. This option only works in
+#                          single key mode.
+#
+#            Example:      /p <term_string>
+
+# Example as
+
+# For screen all of the 18S and 16S sequence, using
+localblast /Fasta.Filters /in "/biostack/database/nt" /key "18S|16S"
+
+# For screen only the 16S sequence, using
+localblast /Fasta.Filters /in "/biostack/database/nt" /key "16S"
+```
+
+###### 2. Taxonomy reference mapping
+
+The you can mapping you metagenome data on the ``18S/16S`` fasta for achieve of the taxonomy information:
+
++ For OTU data, using NCBI blast+ ``blastn`` mapping
++ For reads fastq data, using ``bwa`` or ``bowtie2``
+
+###### 3. Export mapping result using GCModeller tools
+
++ **For blastn of OTU data**, using command:
+
+```bash
+localblast ? /Export.blastnMaps
+# Help for command '/Export.blastnMaps':
+#
+#   Information:
+#   Usage:        /home/biostack/GCModeller/localblast /Export.blastnMaps /in <blastn.txt> [/best /out <out.csv>]
+#   Example:      CLI usage example not found!
+#
+#   Arguments:
+#   ============================
+#
+#   [/best]   Description:  Only output the first hit result for each query as best?
+#
+#             Example:      /best <term_string>
+
+# Example as
+localblast /Export.blastnMaps /in "/home/gx-guilin.16s.txt" /best
+```
+
++ **For bwa/bowtie2 of fastq reads**, using command tool:
+
+```bash
+rna-seq ? /Export.SAM.Maps
+# Help for command '/Export.SAM.Maps':
+#
+#   Information:
+#   Usage:        /home/biostack/GCModeller/RNA-seq /Export.SAM.Maps /in <in.sam> [/large /contigs <NNNN.contig.Csv> /raw <ref.fasta> /out <out.Csv> /debug]
+#   Example:      CLI usage example not found!
+#
+#   Arguments:
+#   ============================
+#
+#   [/raw]   Description:  When this command is processing the NNNNN contact data, just
+#                          input the contigs csv file, this raw reference is not required
+#                          for the contig information.
+#
+#            Example:      /raw <term_string>
+
+# Example as
+/RNA-seq /Export.SAM.Maps /in "/home/gx-guilin.16s.sam" /large /raw "/biostack/database/nt-16S.fasta"
+```
 
 ###### For legacy GI nt headers
 
