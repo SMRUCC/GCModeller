@@ -166,7 +166,7 @@ Partial Module CLI
 
     <ExportAPI("/BLAST.Metagenome.SSU.Network",
                Info:="> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28",
-               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp/DIR> /taxonomy <ncbi_taxonomy:names,nodes> [/skip-exists /gi2taxid /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
+               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp/DIR> /taxonomy <ncbi_taxonomy:names,nodes> [/skip-exists /gi2taxid /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
     <Group(CLIGrouping.Metagenomics)>
     Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
         Dim net$ = args("/net")
@@ -184,6 +184,7 @@ Partial Module CLI
         Dim xid$() = taxdata _
             .Select(Function(x) x.Reference) _
             .ToArray(TaxidMaps.GetParser(gi2taxid))
+        Dim theme$ = args.GetValue("/theme-color", "Paired:c12")
 
         Call xid.FlushAllLines(out = EXPORT & "/reference_xid.txt")
 
@@ -218,7 +219,7 @@ Partial Module CLI
             netdata.BuildMatrix(identities, coverage)
 
         ' step3
-        Dim network As Network = BuildNetwork(matrix, ssuTax)
+        Dim network As Network = BuildNetwork(matrix, ssuTax, theme)
 
         ' 第一步的iterator直到第三布的时候才会被执行，所以这个列表要放在最后面保存，否则会没有数据
         Call notFound.FlushAllLines(EXPORT & "/taxonomy_notfound.txt")
