@@ -1,14 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
     "\\src\\interops",
     "\\src\\interops\\localblast",
     "\\src\\interops\\localblast\\CLI_tools",
     "\\src\\interops\\localblast\\CLI_tools\\CLI",
     "\\src\\R.Bioconductor\\datasets",
-    "\\src\\runtime"
+    "\\src\\runtime",
+    "\\src\\runtime\\sciBASIC#"
   ],
-  "SelectedNode": "\\src\\interops\\localblast\\CLI_tools\\CLI\\CLI.vb",
   "PreviewInSolutionExplorer": false
 }

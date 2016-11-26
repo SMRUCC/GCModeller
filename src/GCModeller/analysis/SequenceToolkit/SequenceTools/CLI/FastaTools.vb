@@ -405,31 +405,38 @@ Partial Module Utilities
     <Group(CLIGrouping.FastaTools)>
     Public Function Trim(args As CommandLine) As Integer
         Dim Input As String = args("/in")
-        Dim UpperCase As Boolean = Not String.Equals("l", args.GetValue("/case", "u"), StringComparison.OrdinalIgnoreCase)
+        Dim UPPERCase As Boolean = Not String.Equals("l", args.GetValue("/case", "u"), StringComparison.OrdinalIgnoreCase)
         Dim break As Integer = args.GetValue("/break", -1)
         Dim out As String = args.GetValue("/out", Input.TrimSuffix & "-Trim.fasta")
-        Dim Fasta As FastaFile = FastaFile.Read(Input)
+        Dim fasta As New StreamIterator(Input)
         Dim brief As Boolean = args.GetBoolean("/brief")
 
-        Fasta = New FastaFile(From fa As FastaToken
-                              In Fasta
-                              Where Not String.IsNullOrEmpty(fa.SequenceData.Trim)
-                              Select fa) ' 过滤掉零长度的序列
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            For Each seq As FastaToken In fasta _
+                .ReadStream _
+                .Where(Function(fa) Not String.IsNullOrEmpty(Trim(fa.SequenceData))) ' 过滤掉零长度的序列
 
-        Dim setSeq = New SetValue(Of FastaToken) <= NameOf(FastaToken.SequenceData)
+                With seq
+                    If UPPERCase Then
+                        .SequenceData = .SequenceData.ToUpper
+                    Else
+                        .SequenceData = .SequenceData.ToLower
+                    End If
 
-        If UpperCase Then
-            Fasta = New FastaFile(Fasta.ToArray(Function(fa) setSeq(fa, fa.SequenceData.ToUpper)))
-        Else
-            Fasta = New FastaFile(Fasta.ToArray(Function(fa) setSeq(fa, fa.SequenceData.ToLower)))
-        End If
+                    If brief Then
+                        .Attributes = {
+                            .Attributes.First
+                        }
+                    End If
 
-        If brief Then
-            Dim setAttrs = New SetValue(Of FastaToken) <= NameOf(FastaToken.Attributes)
-            Fasta = New FastaFile(Fasta.ToArray(Function(fa) setAttrs(fa, {fa.Attributes.First})))
-        End If
+                    out = .GenerateDocument(break)
+                End With
 
-        Return Fasta.Save(break, out, Encoding.ASCII)
+                Call writer.WriteLine(out)
+            Next
+        End Using
+
+        Return 0
     End Function
 
     <ExportAPI("/subset", Usage:="/subset /lstID <lstID.txt> /fa <source.fasta>")>

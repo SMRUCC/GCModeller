@@ -401,37 +401,14 @@ Partial Module CLI
 
         Call "All data load done!".__DEBUG_ECHO
 
-        Dim taxidFromRef As Func(Of BlastnMapping, Integer)
-
-        If is_gi2taxid Then
-            taxidFromRef = Function(x)
-                               Dim gis$ = Regex.Match(x.Reference, "gi\|\d+").Value
-                               Dim gi$ = gis.Split("|"c).LastOrDefault
-
-                               If String.IsNullOrEmpty(gi) Then
-                                   Call x.Reference.PrintException
-                                   Return -1
-                               End If
-                               Return mapping(gi)
-                           End Function
-        Else
-            taxidFromRef = Function(x)
-                               Dim acc$ = GetAccessionId(x.Reference)
-
-                               If String.IsNullOrEmpty(acc) Then
-                                   Call x.Reference.PrintException
-                                   Return -1
-                               End If
-                               Return mapping(acc)
-                           End Function
-        End If
+        Dim taxidFromRef As Mapping = Reference2Taxid(mapping, is_gi2taxid)
 
         For Each x As BlastnMapping In maps
             If trimLong Then
                 x.Reference = Mid(x.Reference, 1, 255)
             End If
 
-            If (taxid = taxidFromRef(x)) > -1 Then
+            If (taxid = taxidFromRef(x.Reference)) > -1 Then
                 x.Extensions("taxid") = +taxid
 
                 If Not tax Is Nothing Then

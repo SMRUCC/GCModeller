@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 
 <PackageNamespace("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
@@ -188,17 +189,29 @@ Public Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' ###### 2016-11-26: 合并fasta文件的时候会出现问题？ 已解决，是输出的文件的textEncoding的问题，fasta文件应该是ASCII的
+    ''' ```
+    ''' BLAST options error: D:\11.24\Aedes-Anopheles-Culex.fasta does not match input format type, default input type is FASTA
+    ''' ```
+    ''' </remarks>
     <ExportAPI("/Merge.Files",
-               Info:="Tools that works on the text files merged.",
-               Usage:="/Merge.Files /in <in.DIR> [/trim /ext <*.txt> /out <out.txt>]")>
+               Info:="Tools that works on the text files merge operation. This tool is usually used for merge of the fasta files into a larger fasta file.",
+               Usage:="/Merge.Files /in <in.DIR> [/trim /ext <*.txt> /encoding <ascii> /out <out.txt>]")>
+    <Group(CLIGrouping.GCModellerAppTools)>
+    <Argument("/encoding", True, CLITypes.String,
+              AcceptTypes:={GetType(Encodings)},
+              Description:="Specific the output text file encoding value, default is ASCII encoding. Fasta file merge must be ASCII encoding output")>
     Public Function FileMerges(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim ext As String = args.GetValue("/ext", "*.txt")
-        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".txt")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ext.Replace("*", ""))
         Dim exts = ext.Split(","c).ToArray(AddressOf Trim)
         Dim trimNull = args.GetBoolean("/trim")
+        Dim encoding As String = args.GetValue("/encoding", "ascii")
+        Dim encodings As Encodings = encoding.ParseEncodingsName
 
-        Using writer As StreamWriter = out.OpenWriter
+        Using writer As StreamWriter = out.OpenWriter(encodings)
             For Each file$ In ls - l - r - exts <= [in]
                 If trimNull Then
                     For Each line$ In file _

@@ -395,7 +395,12 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' Save the fasta file into the local filesystem.
         ''' </summary>
         ''' <param name="Path"></param>
-        ''' <param name="encoding">不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式</param>
+        ''' <param name="encoding">
+        ''' 不同的程序会对这个由要求，例如
+        ''' + meme程序在linux系统之中要求序列文件为unicode编码格式
+        ''' + 而windows版本的meme程序则要求ascii格式，
+        ''' + blast+则要求必须为ASCII编码格式的。
+        ''' </param>
         ''' <remarks></remarks>
         Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encodings = Encodings.ASCII) As Boolean
             Try

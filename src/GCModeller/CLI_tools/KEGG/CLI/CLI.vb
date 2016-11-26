@@ -128,7 +128,7 @@ Module CLI
 
         For Each seq As FastaToken In query
             Dim path As String = $"{out}/{seq.Title.NormalizePathString(False)}.csv"
-            Dim result = KEGG_tools.Blastn.Submit(seq)
+            Dim result = Global.KEGG_tools.Blastn.Submit(seq)
             Call result.SaveTo(path)
         Next
 
