@@ -1,8 +1,11 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
@@ -157,6 +160,23 @@ Namespace Metagenome
                             .JoinBy("-")
                     }
                 Next
+            Next
+
+            Dim taxids As String() = nodes _
+                .Select(Function(x) x.NodeType) _
+                .Distinct _
+                .ToArray
+            Dim colors As Dictionary(Of String, String) =
+                Designer _
+                .GetColors("Paired:c12", taxids.Length) _
+                .Select(AddressOf ColorTranslator.ToHtml) _
+                .SeqIterator _
+                .ToDictionary(Function(c) taxids(c.i),
+                              Function(c) c.obj)  ' 手工设置颜色会非常麻烦，当物种的数量非常多的时候，则在这里可以进行手工生成
+
+            For Each node As Node In nodes
+                node.Properties("display") = $"({node.Identifier}) {node.Properties("taxonomyName")}"
+                node.Properties("color") = colors(node.NodeType)
             Next
 
             Return New FileStream.Network With {
