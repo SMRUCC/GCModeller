@@ -1,39 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::7af52f23cc41cfdb83dd6c87f3b94ef0, ..\interops\visualize\Cytoscape\CLI_tool\CLI\Metagenomics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
-Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Model.Network.BLAST.API
 Imports SMRUCC.genomics.Model.Network.BLAST.BBHAPI
 Imports SMRUCC.genomics.Model.Network.BLAST.LDM
@@ -156,5 +159,25 @@ Partial Module CLI
         Next
 
         Return net.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/BLAST.Metagenome.SSU.Network",
+               Info:="> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28",
+               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp> /taxonomy <ncbi_taxonomy:names,nodes> [/gi2taxid /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
+    Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
+        Dim net$ = args("/net")
+        Dim tax$ = args("/tax")
+        Dim taxonomy$ = args("/taxonomy")
+        Dim identities As Double = args.GetValue("/identities", 0.3)
+        Dim coverage As Double = args.GetValue("/coverage", 0.3)
+        Dim out$ = args.GetValue("/out", net.TrimSuffix & "-" & tax.BaseName & "-metagenome-network/")
+        Dim netdata As v228 = BlastPlus.Parser.ParsingSizeAuto(net)
+        Dim taxdata As BlastnMapping() = tax.LoadCsv(Of BlastnMapping)
+        Dim gi2taxid As Boolean = args.GetBoolean("/gi2taxid")
+        Dim xid$() = taxdata _
+            .Select(Function(x) x.Reference) _
+            .ToArray(TaxidMaps.GetParser(gi2taxid))
+
+
     End Function
 End Module

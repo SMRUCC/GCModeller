@@ -80,9 +80,11 @@ Namespace Metagenome
         Const Taxonomy$ = NameOf(Taxonomy)
 
         ''' <summary>
+        ''' ###### step 2
+        ''' 
         ''' 低于给定的阈值的hit都会被丢弃
         ''' </summary>
-        ''' <param name="blastn"></param>
+        ''' <param name="blastn">SSU的fasta文件自己对自己的比对结果</param>
         ''' <param name="identities#"></param>
         ''' <param name="coverage#"></param>
         ''' <returns></returns>
@@ -101,6 +103,8 @@ Namespace Metagenome
         End Function
 
         ''' <summary>
+        ''' ###### step 3
+        ''' 
         ''' 节点的颜色分类以及边的颜色分类是通过taxid分组来进行的
         ''' </summary>
         ''' <param name="matrix"><see cref="BuildMatrix"/></param>

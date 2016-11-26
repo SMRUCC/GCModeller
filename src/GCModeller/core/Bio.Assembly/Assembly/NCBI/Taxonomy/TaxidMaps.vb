@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Text
 
 Namespace Assembly.NCBI.Taxonomy
 
@@ -32,27 +33,30 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <param name="is_gi2taxid"></param>
         ''' <returns></returns>
         Public Function Reference2Taxid(mapping As Mapping, is_gi2taxid As Boolean) As Mapping
+            Dim parser As Func(Of String, String) = (GetParser(is_gi2taxid))
+
+            Return Function(ref)
+                       Dim xid$ = parser(ref)
+
+                       If String.IsNullOrEmpty(xid) Then
+                           Call ref.PrintException
+                           Return -1
+                       Else
+                           Return mapping(xid)
+                       End If
+                   End Function
+        End Function
+
+        Public Function GetParser(is_gi2taxid As Boolean) As Func(Of String, String)
             If is_gi2taxid Then
                 Return Function(ref$)
                            Dim gis$ = Regex.Match(ref, "gi\|\d+").Value
                            Dim gi$ = gis.Split("|"c).LastOrDefault
 
-                           If String.IsNullOrEmpty(gi) Then
-                               Call ref.PrintException
-                               Return -1
-                           End If
-                           Return mapping(gi)
+                           Return gi
                        End Function
             Else
-                Return Function(ref$)
-                           Dim acc$ = GetAccessionId(ref)
-
-                           If String.IsNullOrEmpty(acc) Then
-                               Call ref.PrintException
-                               Return -1
-                           End If
-                           Return mapping(acc)
-                       End Function
+                Return AddressOf GetAccessionId
             End If
         End Function
 
