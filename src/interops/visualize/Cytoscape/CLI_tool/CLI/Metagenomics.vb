@@ -166,7 +166,7 @@ Partial Module CLI
 
     <ExportAPI("/BLAST.Metagenome.SSU.Network",
                Info:="> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28",
-               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp/DIR> /taxonomy <ncbi_taxonomy:names,nodes> [/skip-exists /gi2taxid /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
+               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt/blastnmapping.csv> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp/DIR> /taxonomy <ncbi_taxonomy:names,nodes> [/skip-exists /gi2taxid /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
     <Group(CLIGrouping.Metagenomics)>
     Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
         Dim net$ = args("/net")
@@ -176,7 +176,6 @@ Partial Module CLI
         Dim coverage As Double = args.GetValue("/coverage", 0.3)
         Dim EXPORT$ = args.GetValue("/out", net.TrimSuffix & "-" & tax.BaseName & "-metagenome-network/")
         Dim out As New Value(Of String)
-        Dim netdata As v228 = BlastPlus.Parser.ParsingSizeAuto(net)
         Dim taxdata As BlastnMapping() = tax.LoadCsv(Of BlastnMapping)
         Dim gi2taxid As Boolean = args.GetBoolean("/gi2taxid")
         Dim x2taxid As String = args("/x2taxid")
@@ -215,8 +214,16 @@ Partial Module CLI
             taxonomy:=New NcbiTaxonomyTree(taxonomy))
 
         ' step2
-        Dim matrix As IEnumerable(Of DataSet) =
-            netdata.BuildMatrix(identities, coverage)
+        Dim matrix As IEnumerable(Of DataSet)
+
+        If net.ReadFirstLine.Matched("BLASTN \d+\.\d+\.", RegexICSng) Then  ' blastn raw data
+            Dim netdata As v228 = BlastPlus.Parser.ParsingSizeAuto(net)
+            matrix = netdata.BuildMatrix(identities, coverage)
+        Else
+            Dim maps As IEnumerable(Of BlastnMapping) =
+                net.AsLinq(Of BlastnMapping)(parallel:=True)
+            matrix = maps.BuildMatrix(identities, coverage)
+        End If
 
         ' step3
         Dim network As Network = BuildNetwork(matrix, ssuTax, theme)

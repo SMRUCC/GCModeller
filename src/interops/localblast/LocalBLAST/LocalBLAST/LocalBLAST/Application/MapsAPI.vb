@@ -38,6 +38,10 @@ Namespace LocalBLAST.Application
 
     Public Module MapsAPI
 
+        <Extension> Public Function GetCoverage(map As BlastnMapping) As Double
+            Return Math.Abs(map.QueryRight - map.QueryLeft) / map.QueryLength
+        End Function
+
         Public Function Where(full As Boolean,
                               perfect As Boolean,
                               unique As Boolean,

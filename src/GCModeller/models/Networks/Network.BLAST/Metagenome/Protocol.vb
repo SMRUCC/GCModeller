@@ -112,6 +112,38 @@ Namespace Metagenome
         End Function
 
         ''' <summary>
+        ''' ###### step 2
+        ''' </summary>
+        ''' <param name="blastn"></param>
+        ''' <param name="identities#"></param>
+        ''' <param name="coverage#"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function BuildMatrix(blastn As IEnumerable(Of BlastnMapping), Optional identities# = 0.3, Optional coverage# = 0.3) As IEnumerable(Of DataSet)
+            Dim g = From x As BlastnMapping
+                    In blastn
+                    Where x.Identities >= identities AndAlso
+                        x.GetCoverage >= coverage
+                    Select x
+                    Group x By x.ReadQuery Into Group
+
+            For Each query In g
+                Dim distinct = From x As BlastnMapping
+                               In query.Group
+                               Select x
+                               Group x By x.Reference Into Group
+                Dim similarity As Dictionary(Of String, Double) =
+                    distinct.ToDictionary(Function(h) h.Reference,
+                                          Function(h) h.Group.OrderBy(
+                                          Function(x) x.Identities).Last.Identities)
+                Yield New DataSet With {
+                    .Identifier = query.ReadQuery,
+                    .Properties = similarity
+                }
+            Next
+        End Function
+
+        ''' <summary>
         ''' ###### step 3
         ''' 
         ''' 节点的颜色分类以及边的颜色分类是通过taxid分组来进行的

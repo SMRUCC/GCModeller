@@ -240,9 +240,21 @@ Partial Module CLI
         Dim best As Boolean = args.GetBoolean("/best")
         Dim out As String = args _
             .GetValue("/out", [in].TrimSuffix & $"{If(best, ".best", "")}.Csv")
-        Dim blastn As v228 = BlastPlus.TryParseUltraLarge([in])
-        Dim maps As BlastnMapping() = MapsAPI.Export(blastn, best)
-        Return maps.SaveTo(out)
+
+        If FileSystem.FileLen([in]) > 2L * 1024L * 1024L * 1024L Then
+            ' 超大
+            Using IO As New WriteStream(Of BlastnMapping)(out, metaKeys:={})
+                Dim handle As Action(Of Query) =
+                    IO.ToArray(Of Query)(AddressOf MapsAPI.CreateObject)
+                Call BlastPlus.Transform(in$, 1024 * 1024 * 256L, handle)
+            End Using
+        Else
+            Dim blastn As v228 = BlastPlus.TryParseUltraLarge([in])
+            Dim maps As BlastnMapping() = MapsAPI.Export(blastn, best)
+            Return maps.SaveTo(out)
+        End If
+
+        Return 0
     End Function
 
     <ExportAPI("/Export.blastnMaps.Batch", Info:="Multiple processor task.",
