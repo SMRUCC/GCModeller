@@ -182,7 +182,9 @@ Partial Module CLI
         Dim skipExists As Boolean = args.GetBoolean("/skip-exists")
         Dim xid$() = taxdata _
             .Select(Function(x) x.Reference) _
-            .ToArray(TaxidMaps.GetParser(gi2taxid))
+            .Select(TaxidMaps.GetParser(gi2taxid)) _
+            .Distinct _
+            .ToArray
         Dim theme$ = args.GetValue("/theme-color", "Paired:c12")
 
         Call xid.FlushAllLines(out = EXPORT & "/reference_xid.txt")
