@@ -161,6 +161,21 @@ Namespace LocalBLAST.Application
         <Meta(GetType(String))>
         Public Property Extensions As Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' 不存在的键名会返回空值
+        ''' </summary>
+        ''' <param name="key$"></param>
+        ''' <returns></returns>
+        Default Public ReadOnly Property Data(key$) As String
+            Get
+                If Extensions.ContainsKey(key) Then
+                    Return Extensions(key)
+                Else
+                    Return Nothing
+                End If
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return $"{Me.ReadQuery} //{MappingLocation.ToString}"
         End Function

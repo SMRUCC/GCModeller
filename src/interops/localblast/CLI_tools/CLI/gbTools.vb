@@ -61,7 +61,10 @@ Partial Module CLI
                                                       In files
                                                       Let name As String = file.BaseName
                                                       Let genome As String = file.ParentDirName
-                                                      Select New NamedValue(Of String)(genome, name)
+                                                      Select New NamedValue(Of String) With {
+                                                          .Name = genome,
+                                                          .Value = name
+                                                      }
         Return content.SaveTo(out).CLICode
     End Function
 
