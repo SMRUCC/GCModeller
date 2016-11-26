@@ -118,9 +118,10 @@ Namespace Metagenome
         ''' </summary>
         ''' <param name="matrix"><see cref="BuildMatrix"/></param>
         ''' <param name="taxid"><see cref="TaxonomyMaps"/></param>
+        ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
         ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
         <Extension>
-        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping)) As FileStream.Network
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping), Optional theme$ = "Paired:c12") As FileStream.Network
             Dim nodes As New List(Of Node)
             Dim edges As New List(Of NetworkEdge)
             Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
@@ -140,8 +141,10 @@ Namespace Metagenome
                 }
 
                 With nodes.Last
-                    Call .Properties.Add(NameOf(taxonomy.Taxonomy), taxonomy.Taxonomy)
-                    Call .Properties.Add(NameOf(taxonomy.taxonomyName), taxonomy.taxonomyName)
+                    Call .Properties.Add(
+                        NameOf(taxonomy.taxonomyName), taxonomy.taxonomyName)
+                    Call .Properties.Add(
+                        NameOf(taxonomy.Taxonomy), taxonomy.Taxonomy)
                 End With
 
                 For Each hit In SSU.Properties
@@ -154,6 +157,7 @@ Namespace Metagenome
                         .FromNode = SSU.Identifier,
                         .ToNode = hit.Key,
                         .Confidence = hit.Value,
+                        .Properties = New Dictionary(Of String, String),
                         .InteractionType = type _
                             .OrderBy(Function(t) t) _
                             .Distinct _
@@ -162,27 +166,58 @@ Namespace Metagenome
                 Next
             Next
 
-            Dim taxids As String() = nodes _
-                .Select(Function(x) x.NodeType) _
-                .Distinct _
-                .ToArray
-            Dim colors As Dictionary(Of String, String) =
-                Designer _
-                .GetColors("Paired:c12", taxids.Length) _
-                .Select(AddressOf ColorTranslator.ToHtml) _
-                .SeqIterator _
-                .ToDictionary(Function(c) taxids(c.i),
-                              Function(c) c.obj)  ' 手工设置颜色会非常麻烦，当物种的数量非常多的时候，则在这里可以进行手工生成
-
-            For Each node As Node In nodes
-                node.Properties("display") = $"({node.Identifier}) {node.Properties("taxonomyName")}"
-                node.Properties("color") = colors(node.NodeType)
-            Next
+            Call theme$.__styleNetwork(nodes, edges)
 
             Return New FileStream.Network With {
                 .Nodes = nodes,
                 .Edges = edges
             }
         End Function
+
+        ''' <summary>
+        ''' Apply color style for taxonomy group
+        ''' </summary>
+        ''' <param name="theme$">Color theme name</param>
+        ''' <param name="nodes"></param>
+        ''' <param name="edges"></param>
+        ''' 
+        <Extension>
+        Private Sub __styleNetwork(theme$, ByRef nodes As List(Of Node), ByRef edges As List(Of NetworkEdge))
+            Dim taxids As String() = nodes _
+                .Select(Function(x) x.NodeType) _
+                .Distinct _
+                .ToArray
+            Dim colors As Dictionary(Of String, String) =
+                Designer _
+                .GetColors(theme, taxids.Length) _
+                .Select(AddressOf ColorTranslator.ToHtml) _
+                .SeqIterator _
+                .ToDictionary(Function(c) taxids(c.i),
+                              Function(c) c.obj)  ' 手工设置颜色会非常麻烦，当物种的数量非常多的时候，则在这里可以进行手工生成
+            Dim colorPaired As Color()
+            Dim color As (r#, g#, b#)
+
+            For Each edge As NetworkEdge In edges
+                taxids = edge.InteractionType.Split("-"c)
+                colorPaired = taxids _
+                    .ToArray(Function(t) colors(t)) _
+                    .Select(AddressOf ColorTranslator.FromHtml) _
+                    .ToArray
+                color = (
+                    colorPaired.Average(Function(c) c.R),
+                    colorPaired.Average(Function(c) c.G),
+                    colorPaired.Average(Function(c) c.B))
+                edge.Properties("color") = ColorTranslator.ToHtml(
+                    Drawing.Color.FromArgb(
+                        CInt(color.r),
+                        CInt(color.g),
+                        CInt(color.b)))
+            Next
+
+            For Each node As Node In nodes
+                node.Properties("display") = $"({node.Identifier}) {node.Properties("taxonomyName")}"
+                node.Properties("color") = colors(node.NodeType)
+            Next
+        End Sub
     End Module
 End Namespace
