@@ -153,7 +153,7 @@ Namespace Metagenome
         ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
         ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
         <Extension>
-        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping), Optional theme$ = "Paired:c12") As FileStream.Network
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.Network
             Dim nodes As New List(Of Node)
             Dim edges As New List(Of NetworkEdge)
             Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
@@ -163,40 +163,24 @@ Namespace Metagenome
                 taxonomyTypes.Add(SSU.ReadQuery, tax)
             Next
 
-            For Each SSU As DataSet In matrix ' 从矩阵之中构建出网络的数据模型
-                Dim taxonomy = taxonomyTypes(SSU.Identifier)
+            Dim unknown As (taxid%, taxonomyName$, Taxonomy As String) = (-100, "unknown", "unknown")
 
-                nodes += New Node With {
-                    .Identifier = SSU.Identifier,
-                    .NodeType = taxonomy.taxid,
-                    .Properties = New Dictionary(Of String, String)
-                }
+            If parallel Then
+                Dim LQuery = From ssu As DataSet
+                             In matrix.AsParallel
+                             Select ssu.__subNetwork(unknown, taxonomyTypes)
 
-                With nodes.Last
-                    Call .Properties.Add(
-                        NameOf(taxonomy.taxonomyName), taxonomy.taxonomyName)
-                    Call .Properties.Add(
-                        NameOf(taxonomy.Taxonomy), taxonomy.Taxonomy)
-                End With
-
-                For Each hit In SSU.Properties
-                    Dim type%() = {
-                        taxonomy.taxid,
-                        taxonomyTypes(hit.Key).taxid
-                    }
-
-                    edges += New NetworkEdge With {
-                        .FromNode = SSU.Identifier,
-                        .ToNode = hit.Key,
-                        .Confidence = hit.Value,
-                        .Properties = New Dictionary(Of String, String),
-                        .InteractionType = type _
-                            .OrderBy(Function(t) t) _
-                            .Distinct _
-                            .JoinBy("-")
-                    }
+                For Each x In LQuery
+                    nodes += x.Node
+                    edges += x.edges
                 Next
-            Next
+            Else
+                For Each SSU As DataSet In matrix ' 从矩阵之中构建出网络的数据模型
+                    Dim pops = SSU.__subNetwork(unknown, taxonomyTypes)
+                    nodes += pops.node
+                    edges += pops.edges
+                Next
+            End If
 
             Call theme$.__styleNetwork(nodes, edges)
 
@@ -204,6 +188,55 @@ Namespace Metagenome
                 .Nodes = nodes,
                 .Edges = edges
             }
+        End Function
+
+        <Extension>
+        Private Function __subNetwork(ssu As DataSet,
+                                  unknown As (taxid%, taxonomyName$, Taxonomy As String),
+                            taxonomyTypes As Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))) _
+                                          As (node As Node, edges As IEnumerable(Of NetworkEdge))
+
+            Dim taxonomy As (taxid%, taxonomyName$, taxonomy As String)
+            Dim edges As New List(Of NetworkEdge)
+
+            If taxonomyTypes.ContainsKey(ssu.Identifier) Then
+                taxonomy = taxonomyTypes(ssu.Identifier)
+            Else
+                taxonomy = unknown
+            End If
+
+            Dim node As New Node With {
+                .Identifier = ssu.Identifier,
+                .NodeType = taxonomy.taxid,
+                .Properties = New Dictionary(Of String, String)
+            }
+
+            With node
+                Call .Properties.Add(
+                    NameOf(taxonomy.taxonomyName), taxonomy.taxonomyName)
+                Call .Properties.Add(
+                    NameOf(taxonomy.taxonomy), taxonomy.taxonomy)
+            End With
+
+            For Each hit In ssu.Properties
+                Dim type%() = {
+                    taxonomy.taxid,
+                    taxonomyTypes(hit.Key).taxid
+                }
+
+                edges += New NetworkEdge With {
+                    .FromNode = ssu.Identifier,
+                    .ToNode = hit.Key,
+                    .Confidence = hit.Value,
+                    .Properties = New Dictionary(Of String, String),
+                    .InteractionType = type _
+                        .OrderBy(Function(t) t) _
+                        .Distinct _
+                        .JoinBy("-")
+                }
+            Next
+
+            Return (node, edges)
         End Function
 
         ''' <summary>

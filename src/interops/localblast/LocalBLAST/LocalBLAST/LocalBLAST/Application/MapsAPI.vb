@@ -38,6 +38,13 @@ Namespace LocalBLAST.Application
 
     Public Module MapsAPI
 
+        ''' <summary>
+        ''' ```vbnet
+        ''' Math.Abs(map.QueryRight - map.QueryLeft) / map.QueryLength
+        ''' ```
+        ''' </summary>
+        ''' <param name="map"></param>
+        ''' <returns></returns>
         <Extension> Public Function GetCoverage(map As BlastnMapping) As Double
             Return Math.Abs(map.QueryRight - map.QueryLeft) / map.QueryLength
         End Function
