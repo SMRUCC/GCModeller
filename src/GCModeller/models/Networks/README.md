@@ -167,3 +167,55 @@ Download all database files in directory: ftp://ftp.ncbi.nlm.nih.gov/pub/taxonom
 Cytoscape /BLAST.Metagenome.SSU.Network /net "/home/gx-guilin.contigs.network.txt" /tax "/home/gx-guilin.16s.Best.Csv" /x2taxid "/biostack/database/accession2taxid/" /taxonomy "./taxdmp"
 ```
 
+![](./images/outputs.png)
+
+Application will generates 5 outputs:
+
+|File Name                |Description|
+|-------------------------|-----------|
+|**taxonomy_notfound.txt**|The reference title which can not found its corresponding taxonomy information|
+|**gi2taxid.dmp** or **acc2taxid.dmp**|The subset of gi2taxid/accession2taxid data of your network data.|
+|**network-edges.csv**    |Cytoscape network model|
+|**nodes.csv**            |Nodes table of your network|
+|**reference_xid.txt**    |The ``GI`` list or ``accession Id`` of your network mapped 16S/18S sequence|
+
+#### 6. Imports network into Cytoscape and network visualization
+
+###### a. Run Cytoscape, and imports network data by using menu:
+
++ Import -> Network -> File -> ``network-edges.csv``
++ Import -> Table   -> File -> ``nodes.csv``
+
+![](./images/cytoscape/Imports-Network-and-nodes.png)
+![](./images/cytoscape/Select-network-file.png)
+
+###### b. Mapping fields
+
+For mapping the fields of the network edge, select:
+
++ fromNode -> source
++ toNode -> target
+
+![](./images/cytoscape/Imports-Network.png)
+
+###### c. Trim network
+
+Trim the network duplicated edges by using:
+
++ Edit -> Remove Duplicated Edges -> Ignore Edge Directions
++ Edit -> Remove Self-Loops
+
+![](./images/cytoscape/Trim-network.png)
+
+###### d. Style your network
+
+The node color have already mapping to taxonomy group, you can select the mapped style by click on the ``Style`` and select ``Node``, change the node ``Fill Color`` using mapping: 
+
++ **MappingType**: Passthrough Mapping
++ **Column**: color
+
+![](./images/cytoscape/Node-colors.png)
+
+At last, you can styling the network on node shaps, edges, layouts, and whatever you want!
+
+![](./images/example.png)
