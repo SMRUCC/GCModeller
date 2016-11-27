@@ -3,7 +3,7 @@
 ### Preparing 16S/18S database
 
 ### Reads content profiling between samples
-### Mapping 16S/18S sequence assembled data OTU/scaffold/contigs
+### Mapping 16S/18S sequence assembled data OTU
 
 
 ### Assign OTU samples with taxonomy information
