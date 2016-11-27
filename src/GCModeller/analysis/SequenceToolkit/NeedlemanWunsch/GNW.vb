@@ -28,6 +28,7 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' Needleman-Wunsch Algorithm
@@ -216,12 +217,12 @@ Public Class NeedlemanWunsch(Of T)
             output.Write(">SEQUENCE_1|Score:")
             output.Write(Me.Score)
             output.WriteLine()
-            output.Write(Me.getAligned1(0))
+            output.Write(New String(Me.getAligned1(0).ToArray(__toChar)))
             output.WriteLine()
             output.Write(">SEQUENCE_2|Score:")
             output.Write(Me.Score)
             output.WriteLine()
-            output.Write(Me.getAligned2(0))
+            output.Write(New String(Me.getAligned2(0).ToArray(__toChar)))
         Else
             For i As Integer = 0 To Me.NumberOfAlignments - 1
                 output.Write(">SEQUENCE_1|Alignment:")
@@ -229,14 +230,14 @@ Public Class NeedlemanWunsch(Of T)
                 output.Write("|Score:")
                 output.Write(Me.Score)
                 output.WriteLine()
-                output.Write(Me.getAligned1(0))
+                output.Write(New String(Me.getAligned1(i).ToArray(__toChar)))
                 output.WriteLine()
                 output.Write(">SEQUENCE_2|Alignment:")
                 output.Write(i + 1)
                 output.Write("|Score:")
                 output.Write(Me.Score)
                 output.WriteLine()
-                output.Write(Me.getAligned2(0))
+                output.Write(New String(Me.getAligned2(i).ToArray(__toChar)))
                 output.WriteLine()
             Next
         End If

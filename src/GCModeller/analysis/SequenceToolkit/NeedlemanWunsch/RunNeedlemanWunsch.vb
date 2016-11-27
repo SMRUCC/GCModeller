@@ -73,7 +73,9 @@ Public Module RunNeedlemanWunsch
                 Console.WriteLine("--------------------------------")
                 Console.WriteLine("Alignment-Score = " & nw.Score)
             Else
-                nw.writeAlignment(output, True)
+                SyncLock output
+                    Call nw.writeAlignment(output, True)
+                End SyncLock
             End If
         Else
             If output Is Nothing Then
@@ -87,7 +89,9 @@ Public Module RunNeedlemanWunsch
                 Console.WriteLine("--------------------------------")
                 Console.WriteLine("Alignment-Score = " & nw.Score)
             Else
-                nw.writeAlignment(output, False)
+                SyncLock output
+                    Call nw.writeAlignment(output, False)
+                End SyncLock
             End If
         End If
 
