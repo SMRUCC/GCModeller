@@ -98,27 +98,30 @@ Public Module BIOM
     End Function
 
     <Extension>
-    Public Function EXPORT(table As IEnumerable(Of RelativeSample)) As Json
+    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False) As Json
+        Dim getTax As Func(Of String, String)
+
+        If alreadyBIOMTax Then
+            getTax = Function(s) s
+        Else
+            getTax = Function(tax) tax _
+                .Split(";"c) _
+                .SeqIterator _
+                .ToArray(Function(s) BIOMPrefix(s.i) & s.obj) _
+                .JoinBy(";")
+        End If
+
         Dim array As Names() = LinqAPI.Exec(Of Names) <=
-            From x As RelativeSample
+            From x As OTUData
             In table
             Select New Names With {
                 .NumOfSeqs = 100,
-                .Composition = x.Samples.ToDictionary(Function(xx) xx.Key, Function(xx) CStr(xx.Value * 100)),
-                .taxonomy = x.Taxonomy.Split(";"c).SeqIterator.ToArray(Function(s) BIOMPrefix(s.i) & s.obj).JoinBy(";"),
+                .Composition = x.Data.ToDictionary(
+                    Function(xx) xx.Key,
+                    Function(xx) CStr(Val(xx.Value) * 100)),
+                .taxonomy = getTax(x.Taxonomy),
                 .Unique = x.OTU
             }
         Return array.Imports(array.Length + 10, 0)
     End Function
-
-    Public Class RelativeSample
-        <Column("#OTU_num")> Public Property OTU As String
-        Public Property Taxonomy As String
-        <Meta(GetType(Double))>
-        Public Property Samples As Dictionary(Of String, Double)
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
 End Module

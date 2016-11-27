@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::828bb1699d43723b7ec1caf22ae6f428, ..\GCModeller\CLI_tools\RNA-seq\CLI\gast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
@@ -38,6 +39,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
@@ -163,13 +165,43 @@ Partial Module CLI
         Return result.SaveTo(out).CLICode
     End Function
 
+    <ExportAPI("/Cluster.OTUs", Usage:="/Cluster.OTUs /in <contigs.fasta> [/similarity <default:97> /out <outDIR>]")>
+    Public Function ClusterOTU(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim similarity As Double = args.GetValue("/similarity", 97.0#)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-OTUS.{similarity}/")
+        Dim contigs As New FastaFile([in])
+
+        Using alignment As StreamWriter = (out & "/NeedlemanWunsch.txt").OpenWriter
+            Dim OTUs = contigs.BuildOTUClusters(alignment, similarity)
+            Dim table As New List(Of OTUData)
+
+            Using OTUSeqs As StreamWriter = (out & "/OTUs.fasta").OpenWriter(Encodings.ASCII)
+
+                For Each OTU As NamedValue(Of String()) In OTUs
+                    table += New OTUData With {
+                        .OTU = OTU.Name,
+                        .Data = New Dictionary(Of String, String) From {
+                            {"cluster", OTU.Value.JoinBy("; ")}
+                        }
+                    }
+                    Call OTUSeqs.WriteLine(OTU.Description)
+                Next
+            End Using
+
+            Return table.SaveTo(out & "/OTUs.csv").CLICode
+        End Using
+    End Function
+
     <ExportAPI("/Export.Megan.BIOM",
-               Usage:="/Export.Megan.BIOM /in <relative.table.csv> [/out <out.json.biom>]")>
+               Usage:="/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.json.biom>]")>
+    <Argument("/in", False, AcceptTypes:={GetType(OTUData)})>
     Public Function ExportToMegan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom")
-        Dim data As RelativeSample() = [in].LoadCsv(Of RelativeSample)()
-        Dim result = data.EXPORT
+        Dim rebuildBIOM As Boolean = args.GetBoolean("/rebuildBIOM.tax")
+        Dim data As OTUData() = [in].LoadCsv(Of OTUData)()
+        Dim result = data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM)
         Return result.GetJson.SaveTo(out).CLICode
     End Function
 
@@ -179,7 +211,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim EXPORT As String =
             args.GetValue("/out", [in].TrimSuffix & ".EXPORT/")
-        Dim source As RelativeSample() = [in].LoadCsv(Of RelativeSample)
+        Dim source As OTUData() = [in].LoadCsv(Of OTUData)
         Return source.ExportByRanks(EXPORT)
     End Function
 

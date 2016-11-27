@@ -127,7 +127,7 @@ Public Class NeedlemanWunschArguments(Of T)
         __toChar = toChar
     End Sub
 
-    ReadOnly __toChar As Func(Of T, Char)
+    Protected ReadOnly __toChar As Func(Of T, Char)
     ReadOnly __equals As IEquals(Of T)
 
     ''' <summary>
