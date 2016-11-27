@@ -209,41 +209,36 @@ Public Class NeedlemanWunsch(Of T)
 
     ''' <summary>
     ''' This funktion provide a easy way to write a computed alignment into a fasta file </summary>
-    ''' <param name="outFile"> </param>
+    ''' <param name="output"> </param>
     ''' <param name="single"> </param>
-    Public Sub writeAlignment(outFile As String, [single] As Boolean)
-        Using outputFile As New FileStream(outFile, FileMode.OpenOrCreate)
-            Using output As New StreamWriter(outputFile)
-
-                If [single] Then
-                    output.Write(">SEQUENCE_1|Score:")
-                    output.Write(Me.Score)
-                    output.WriteLine()
-                    output.Write(Me.getAligned1(0))
-                    output.WriteLine()
-                    output.Write(">SEQUENCE_2|Score:")
-                    output.Write(Me.Score)
-                    output.WriteLine()
-                    output.Write(Me.getAligned2(0))
-                Else
-                    For i As Integer = 0 To Me.NumberOfAlignments - 1
-                        output.Write(">SEQUENCE_1|Alignment:")
-                        output.Write(i + 1)
-                        output.Write("|Score:")
-                        output.Write(Me.Score)
-                        output.WriteLine()
-                        output.Write(Me.getAligned1(0))
-                        output.WriteLine()
-                        output.Write(">SEQUENCE_2|Alignment:")
-                        output.Write(i + 1)
-                        output.Write("|Score:")
-                        output.Write(Me.Score)
-                        output.WriteLine()
-                        output.Write(Me.getAligned2(0))
-                        output.WriteLine()
-                    Next
-                End If
-            End Using
-        End Using
+    Public Sub writeAlignment(output As StreamWriter, [single] As Boolean)
+        If [single] Then
+            output.Write(">SEQUENCE_1|Score:")
+            output.Write(Me.Score)
+            output.WriteLine()
+            output.Write(Me.getAligned1(0))
+            output.WriteLine()
+            output.Write(">SEQUENCE_2|Score:")
+            output.Write(Me.Score)
+            output.WriteLine()
+            output.Write(Me.getAligned2(0))
+        Else
+            For i As Integer = 0 To Me.NumberOfAlignments - 1
+                output.Write(">SEQUENCE_1|Alignment:")
+                output.Write(i + 1)
+                output.Write("|Score:")
+                output.Write(Me.Score)
+                output.WriteLine()
+                output.Write(Me.getAligned1(0))
+                output.WriteLine()
+                output.Write(">SEQUENCE_2|Alignment:")
+                output.Write(i + 1)
+                output.Write("|Score:")
+                output.Write(Me.Score)
+                output.WriteLine()
+                output.Write(Me.getAligned2(0))
+                output.WriteLine()
+            Next
+        End If
     End Sub
 End Class

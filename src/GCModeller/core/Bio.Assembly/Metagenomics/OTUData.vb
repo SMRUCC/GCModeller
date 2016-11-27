@@ -15,6 +15,11 @@ Namespace Metagenomics
         ''' <returns></returns>
         <Column(Name:="#OTU_num")>
         Public Property OTU As String Implements sIdEnumerable.Identifier
+        ''' <summary>
+        ''' Usually this property is the BIOM format taxonomy information
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Taxonomy As String
         Public Property Data As Dictionary(Of String, String)
 
         Sub New()
