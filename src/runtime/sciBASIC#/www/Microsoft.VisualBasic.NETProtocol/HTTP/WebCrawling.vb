@@ -34,7 +34,10 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML
 
 Namespace HTTP
 
-    Public Module WebExtensions
+    ''' <summary>
+    ''' 只会爬取HTML
+    ''' </summary>
+    Public Module WebCrawling
 
         Const InvokeJavascript$ = "javascript:void(0);"
 
@@ -104,7 +107,7 @@ Namespace HTTP
                 End If
             Next
 
-            Dim page As String = url.GET(DoNotRetry404:=True)
+            Dim page As String = url.GET(doNotRetry404:=True)
             Dim links$() = Regex _
                 .Matches(page, "<a .*?href="".+?"".*?>", RegexICSng) _
                 .ToArray(AddressOf href)
@@ -185,7 +188,7 @@ Namespace HTTP
                     Yield failed
                 Next
             Else
-                Dim page As String = url.GET(DoNotRetry404:=True)
+                Dim page As String = url.GET(doNotRetry404:=True)
 
                 If String.IsNullOrEmpty(page) Then
                     Yield url
