@@ -164,12 +164,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.Megan.BIOM",
-               Usage:="/Export.Megan.BIOM /in <relative.table.csv> [/out <out.json.biom>]")>
+               Usage:="/Export.Megan.BIOM /in <relative.table.csv> [/rebuildBIOM.tax /out <out.json.biom>]")>
+    <Argument("/in", False, AcceptTypes:={GetType(RelativeSample)})>
     Public Function ExportToMegan(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".biom")
+        Dim rebuildBIOM As Boolean = args.GetBoolean("/rebuildBIOM.tax")
         Dim data As RelativeSample() = [in].LoadCsv(Of RelativeSample)()
-        Dim result = data.EXPORT
+        Dim result = data.EXPORT(alreadyBIOMTax:=Not rebuildBIOM)
         Return result.GetJson.SaveTo(out).CLICode
     End Function
 
