@@ -39,7 +39,7 @@ Namespace d3js.markmarkoh_datamaps
         ''' </summary>
         ''' <returns></returns>
         Public Function GetJson() As String
-            Dim keys As String() = fills.Values.ToArray(Function(x) $"""{x.Name}"": ""{x.x}""")
+            Dim keys As String() = fills.Values.ToArray(Function(x) $"""{x.Name}"": ""{x.value}""")
             Return "{ defaultFill: """ & defaultFill & """, " & String.Join(", ", keys) & " }"
         End Function
     End Class
@@ -60,7 +60,9 @@ Namespace d3js.markmarkoh_datamaps
 
             Dim colors = ColorMapsExtensions.ColorSequence
             Dim data = countries.ToArray
-            Dim levels = data.Select(Function(x) x.x).GenerateMapping(colors.Length)
+            Dim levels%() = data _
+                .Select(Function(x) x.Value) _
+                .GenerateMapping(colors.Length)
             Dim fills As New MapFills With {
                 .defaultFill = defaultFill
             }
@@ -70,7 +72,7 @@ Namespace d3js.markmarkoh_datamaps
 
                 fills.fills += New NamedValue(Of String) With {
                     .Name = "c" & c.i.ToString,
-                    .x = $"rgb({x.R},{x.G},{x.B})"
+                    .value = $"rgb({x.R},{x.G},{x.B})"
                 }
             Next
 
@@ -82,7 +84,7 @@ Namespace d3js.markmarkoh_datamaps
 
                 dataKeys += New NamedValue(Of fill) With {
                     .Name = c,
-                    .x = New fill With {
+                    .Value = New fill With {
                         .fillKey = k
                     }
                 }.NamedProperty
