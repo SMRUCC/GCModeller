@@ -1,13 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\interops",
     "\\src\\interops\\localblast",
-    "\\src\\interops\\localblast\\CLI_tools",
-    "\\src\\interops\\localblast\\CLI_tools\\CLI",
-    "\\src\\R.Bioconductor\\datasets",
     "\\src\\runtime",
-    "\\src\\runtime\\sciBASIC#"
+    "\\src\\runtime\\sciBASIC#",
+    "\\src\\runtime\\sciBASIC#\\Data_science",
+    "\\src\\runtime\\sciBASIC#\\Data_science\\Bootstrapping",
+    "\\src\\runtime\\sciBASIC#\\Data_science\\Bootstrapping\\Darwinism",
+    "\\src\\runtime\\sciBASIC#\\Data_science\\Bootstrapping\\Darwinism\\GAF"
   ],
+  "SelectedNode": "\\src\\runtime\\sciBASIC#\\Data_science\\Bootstrapping\\Darwinism\\GAF\\Protocol.vb",
   "PreviewInSolutionExplorer": false
 }
