@@ -41,11 +41,11 @@ Public Class FormODEsViewer
     Dim defines As New Dictionary(Of String, Double)
     Dim vars As New Dictionary(Of String, PictureBox)
     Dim inputs As New Dictionary(Of String, TextBox)
+    Dim currentSelect As PictureBox
 
     Private Sub LoadModelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadModelToolStripMenuItem.Click
         Using file As New OpenFileDialog With {
-            .Filter = "Application Module(*.dll)|*.dll|.NET Application(*.exe)|*.exe",
-            .InitialDirectory = App.HOME
+            .Filter = "Application Module(*.dll)|*.dll|.NET Application(*.exe)|*.exe"
         }
             If file.ShowDialog = DialogResult.OK Then
                 Using loader As New FormLoadModel() With {
@@ -79,7 +79,8 @@ Public Class FormODEsViewer
                             FlowLayoutPanel2.Controls.Add(vars(var))
 
                             AddHandler pic.Click, Sub(picBox, arg)
-                                                      PictureBox1.BackgroundImage = DirectCast(picBox, PictureBox).BackgroundImage
+                                                      currentSelect = DirectCast(picBox, PictureBox)
+                                                      PictureBox1.BackgroundImage = currentSelect.BackgroundImage
                                                   End Sub
                         Next
 
@@ -141,6 +142,10 @@ Public Class FormODEsViewer
             End Try
         Next
 
+        If Not currentSelect Is Nothing Then
+            PictureBox1.BackgroundImage = currentSelect.BackgroundImage
+        End If
+
         ToolStripProgressBar1.Value = 100
     End Sub
 
@@ -193,7 +198,7 @@ Public Class FormODEsViewer
             .Filter = "Excel(*.csv)|*.csv"
         }
             If file.ShowDialog = DialogResult.OK Then
-                With ODEsOut.LoadFromDataFrame(file.FileName)
+                With ODEsOut.LoadFromDataFrame(file.FileName, noVars:=True)
                     Dim x#() = .x
 
                     ref = .y _
