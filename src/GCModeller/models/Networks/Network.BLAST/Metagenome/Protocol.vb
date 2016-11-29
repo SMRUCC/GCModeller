@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
@@ -50,7 +51,7 @@ Namespace Metagenome
 
             End If
 
-            Return list
+            Return list.Distinct.ToArray
         End Function
 
         ''' <summary>
@@ -100,7 +101,7 @@ Namespace Metagenome
                         Call .Reference.Warning
                         Call notFound.Add(.Reference)
 
-                        .Extensions(Protocol.taxid) = -100  ' 找不到具体的物种分类数据的
+                        .Extensions(Protocol.taxid) = Integer.MaxValue  ' 找不到具体的物种分类数据的
                         .Extensions(Protocol.taxonomyName) = "unknown"
                         .Extensions(Protocol.Taxonomy) = "unknown"
                     End If
@@ -206,7 +207,10 @@ Namespace Metagenome
 
             Dim nodes As New List(Of Node)
             Dim edges As New List(Of NetworkEdge)
-            Dim unknown As (taxid%, taxonomyName$, Taxonomy As String) = (-100, "unknown", "unknown")
+
+            ' 2016-11-29
+            ' 使用负数来表示unknown的taxid会在后面分配颜色，按照-重新分割的时候出现key not found的问题，所以这里用integer的最大值来避免出现这个问题
+            Dim unknown As (taxid%, taxonomyName$, Taxonomy As String) = (Integer.MaxValue, "unknown", "unknown")
 
             If parallel Then
                 Dim LQuery = From ssu As DataSet
@@ -214,18 +218,18 @@ Namespace Metagenome
                              Select ssu.__subNetwork(unknown, taxonomyTypes)
 
                 For Each x In LQuery
-                    Nodes += x.node
+                    nodes += x.node
                     edges += x.edges
                 Next
             Else
                 For Each SSU As DataSet In matrix ' 从矩阵之中构建出网络的数据模型
                     Dim pops = SSU.__subNetwork(unknown, taxonomyTypes)
-                    Nodes += pops.node
+                    nodes += pops.node
                     edges += pops.edges
                 Next
             End If
 
-            Call theme$.__styleNetwork(Nodes, edges)
+            Call theme$.__styleNetwork(nodes, edges)
 
             Return New FileStream.Network With {
                 .Nodes = nodes,
@@ -283,20 +287,24 @@ Namespace Metagenome
             End With
 
             For Each hit In ssu.Properties
+                Dim hitType% = If(taxonomyTypes.ContainsKey(hit.Key),
+                    taxonomyTypes(hit.Key).taxid,
+                    unknown.taxid)  ' 有些是没有能够注释出任何物种信息的
                 Dim type%() = {
                     taxonomy.taxid,
-                    taxonomyTypes(hit.Key).taxid
+                    hitType
                 }
+                Dim interacts = type _
+                    .OrderBy(Function(t) t) _
+                    .Distinct _
+                    .JoinBy("-")
 
                 edges += New NetworkEdge With {
                     .FromNode = ssu.Identifier,
                     .ToNode = hit.Key,
                     .Confidence = hit.Value,
                     .Properties = New Dictionary(Of String, String),
-                    .InteractionType = type _
-                        .OrderBy(Function(t) t) _
-                        .Distinct _
-                        .JoinBy("-")
+                    .InteractionType = interacts
                 }
             Next
 
