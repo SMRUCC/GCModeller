@@ -9,6 +9,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace Metagenome
 
@@ -163,6 +164,17 @@ Namespace Metagenome
                 taxonomyTypes.Add(SSU.ReadQuery, tax)
             Next
 
+            Return matrix.__buildNetwork(taxonomyTypes, theme, parallel)
+        End Function
+
+        <Extension>
+        Private Function __buildNetwork(matrix As IEnumerable(Of DataSet),
+                                        taxonomyTypes As Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String)),
+                                        theme$,
+                                        parallel As Boolean) As FileStream.Network
+
+            Dim nodes As New List(Of Node)
+            Dim edges As New List(Of NetworkEdge)
             Dim unknown As (taxid%, taxonomyName$, Taxonomy As String) = (-100, "unknown", "unknown")
 
             If parallel Then
@@ -171,23 +183,44 @@ Namespace Metagenome
                              Select ssu.__subNetwork(unknown, taxonomyTypes)
 
                 For Each x In LQuery
-                    nodes += x.Node
+                    Nodes += x.node
                     edges += x.edges
                 Next
             Else
                 For Each SSU As DataSet In matrix ' 从矩阵之中构建出网络的数据模型
                     Dim pops = SSU.__subNetwork(unknown, taxonomyTypes)
-                    nodes += pops.node
+                    Nodes += pops.node
                     edges += pops.edges
                 Next
             End If
 
-            Call theme$.__styleNetwork(nodes, edges)
+            Call theme$.__styleNetwork(Nodes, edges)
 
             Return New FileStream.Network With {
                 .Nodes = nodes,
                 .Edges = edges
             }
+        End Function
+
+        ''' <summary>
+        ''' ###### step 3
+        ''' 
+        ''' 节点的颜色分类以及边的颜色分类是通过taxid分组来进行的
+        ''' </summary>
+        ''' <param name="matrix"><see cref="BuildMatrix"/></param>
+        ''' <param name="taxid">Using the exists OTU taxonomy annotation data.</param>
+        ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
+        ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
+        <Extension>
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of OTUData), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.Network
+            Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
+
+            For Each SSU As OTUData In taxid
+                Dim tax = (CInt(SSU.Data(Protocol.taxid)), SSU.Data(Protocol.taxonomyName), SSU.Taxonomy)
+                taxonomyTypes.Add(SSU.OTU, tax)
+            Next
+
+            Return matrix.__buildNetwork(taxonomyTypes, theme, parallel)
         End Function
 
         <Extension>
