@@ -23,6 +23,37 @@ Namespace Metagenome
     Public Module Protocol
 
         ''' <summary>
+        ''' 重新直接生成
+        ''' </summary>
+        ''' <param name="taxData"></param>
+        ''' <param name="gi2taxid"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Dump_x2taxid(taxData As IEnumerable(Of BlastnMapping), gi2taxid As Boolean) As String()
+            Dim list As New List(Of String)
+            Dim parser = TaxidMaps.GetParser(gi2taxid)
+
+            If gi2taxid Then
+
+                For Each x In taxData
+                    list += parser(x.Reference) & vbTab & x("taxid")
+                Next
+
+            Else
+
+                list += Accession2Taxid.Acc2Taxid_Header
+
+                For Each x In taxData
+                    Dim acc$ = parser(x.Reference)
+                    list += acc & vbTab & (acc & ".1") & vbTab & x("taxid") & vbTab & 0
+                Next
+
+            End If
+
+            Return list
+        End Function
+
+        ''' <summary>
         ''' ###### step 1
         ''' </summary>
         ''' <param name="source"></param>

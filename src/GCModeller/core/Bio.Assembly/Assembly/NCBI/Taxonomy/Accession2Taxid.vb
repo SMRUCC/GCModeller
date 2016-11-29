@@ -68,6 +68,8 @@ Namespace Assembly.NCBI.Taxonomy
 
         Const null$ = Nothing
 
+        Public Const Acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
+
         ''' <summary>
         ''' 这个函数所返回来的数据之中是包含有表头的
         ''' </summary>
