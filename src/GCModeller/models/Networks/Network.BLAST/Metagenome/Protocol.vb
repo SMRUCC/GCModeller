@@ -6,9 +6,11 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace Metagenome
 
@@ -20,6 +22,37 @@ Namespace Metagenome
     ''' 3. 输出网络模型: ``query -> fromNode, subject -> toNode, taxid -> type(color)``
     ''' </summary>
     Public Module Protocol
+
+        ''' <summary>
+        ''' 重新直接生成
+        ''' </summary>
+        ''' <param name="taxData"></param>
+        ''' <param name="gi2taxid"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Dump_x2taxid(taxData As IEnumerable(Of BlastnMapping), gi2taxid As Boolean) As String()
+            Dim list As New List(Of String)
+            Dim parser = TaxidMaps.GetParser(gi2taxid)
+
+            If gi2taxid Then
+
+                For Each x In taxData
+                    list += parser(x.Reference) & vbTab & x("taxid")
+                Next
+
+            Else
+
+                list += Accession2Taxid.Acc2Taxid_Header
+
+                For Each x In taxData
+                    Dim acc$ = parser(x.Reference)
+                    list += acc & vbTab & (acc & ".1") & vbTab & x("taxid") & vbTab & 0
+                Next
+
+            End If
+
+            Return list.Distinct.ToArray
+        End Function
 
         ''' <summary>
         ''' ###### step 1
@@ -68,7 +101,7 @@ Namespace Metagenome
                         Call .Reference.Warning
                         Call notFound.Add(.Reference)
 
-                        .Extensions(Protocol.taxid) = -100  ' 找不到具体的物种分类数据的
+                        .Extensions(Protocol.taxid) = Integer.MaxValue  ' 找不到具体的物种分类数据的
                         .Extensions(Protocol.taxonomyName) = "unknown"
                         .Extensions(Protocol.Taxonomy) = "unknown"
                     End If
@@ -163,7 +196,21 @@ Namespace Metagenome
                 taxonomyTypes.Add(SSU.ReadQuery, tax)
             Next
 
-            Dim unknown As (taxid%, taxonomyName$, Taxonomy As String) = (-100, "unknown", "unknown")
+            Return matrix.__buildNetwork(taxonomyTypes, theme, parallel)
+        End Function
+
+        <Extension>
+        Private Function __buildNetwork(matrix As IEnumerable(Of DataSet),
+                                        taxonomyTypes As Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String)),
+                                        theme$,
+                                        parallel As Boolean) As FileStream.Network
+
+            Dim nodes As New List(Of Node)
+            Dim edges As New List(Of NetworkEdge)
+
+            ' 2016-11-29
+            ' 使用负数来表示unknown的taxid会在后面分配颜色，按照-重新分割的时候出现key not found的问题，所以这里用integer的最大值来避免出现这个问题
+            Dim unknown As (taxid%, taxonomyName$, Taxonomy As String) = (Integer.MaxValue, "unknown", "unknown")
 
             If parallel Then
                 Dim LQuery = From ssu As DataSet
@@ -171,7 +218,7 @@ Namespace Metagenome
                              Select ssu.__subNetwork(unknown, taxonomyTypes)
 
                 For Each x In LQuery
-                    nodes += x.Node
+                    nodes += x.node
                     edges += x.edges
                 Next
             Else
@@ -188,6 +235,27 @@ Namespace Metagenome
                 .Nodes = nodes,
                 .Edges = edges
             }
+        End Function
+
+        ''' <summary>
+        ''' ###### step 3
+        ''' 
+        ''' 节点的颜色分类以及边的颜色分类是通过taxid分组来进行的
+        ''' </summary>
+        ''' <param name="matrix"><see cref="BuildMatrix"/></param>
+        ''' <param name="taxid">Using the exists OTU taxonomy annotation data.</param>
+        ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
+        ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
+        <Extension>
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of OTUData), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.Network
+            Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
+
+            For Each SSU As OTUData In taxid
+                Dim tax = (CInt(SSU.Data(Protocol.taxid)), SSU.Data(Protocol.taxonomyName), SSU.Taxonomy)
+                taxonomyTypes.Add(SSU.OTU, tax)
+            Next
+
+            Return matrix.__buildNetwork(taxonomyTypes, theme, parallel)
         End Function
 
         <Extension>
@@ -219,20 +287,24 @@ Namespace Metagenome
             End With
 
             For Each hit In ssu.Properties
+                Dim hitType% = If(taxonomyTypes.ContainsKey(hit.Key),
+                    taxonomyTypes(hit.Key).taxid,
+                    unknown.taxid)  ' 有些是没有能够注释出任何物种信息的
                 Dim type%() = {
                     taxonomy.taxid,
-                    taxonomyTypes(hit.Key).taxid
+                    hitType
                 }
+                Dim interacts = type _
+                    .OrderBy(Function(t) t) _
+                    .Distinct _
+                    .JoinBy("-")
 
                 edges += New NetworkEdge With {
                     .FromNode = ssu.Identifier,
                     .ToNode = hit.Key,
                     .Confidence = hit.Value,
                     .Properties = New Dictionary(Of String, String),
-                    .InteractionType = type _
-                        .OrderBy(Function(t) t) _
-                        .Distinct _
-                        .JoinBy("-")
+                    .InteractionType = interacts
                 }
             Next
 

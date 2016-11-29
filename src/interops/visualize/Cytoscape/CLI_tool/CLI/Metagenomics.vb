@@ -44,6 +44,7 @@ Imports SMRUCC.genomics.Model.Network.BLAST.BBHAPI
 Imports SMRUCC.genomics.Model.Network.BLAST.LDM
 Imports SMRUCC.genomics.Model.Network.BLAST.Metagenome
 
+
 Partial Module CLI
 
     <ExportAPI("/bbh.Trim.Indeitites",
@@ -166,7 +167,7 @@ Partial Module CLI
 
     <ExportAPI("/BLAST.Metagenome.SSU.Network",
                Info:="> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28",
-               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt/blastnmapping.csv> /tax <ssu-nt.blastnMaps.csv> /x2taxid <x2taxid.dmp/DIR> /taxonomy <ncbi_taxonomy:names,nodes> [/skip-exists /gi2taxid /parallel /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
+               Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt/blastnmapping.csv> /tax <ssu-nt.blastnMaps.csv> /taxonomy <ncbi_taxonomy:names,nodes> [/x2taxid <x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
     <Group(CLIGrouping.Metagenomics)>
     Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
         Dim net$ = args("/net")
@@ -187,6 +188,7 @@ Partial Module CLI
             .ToArray
         Dim theme$ = args.GetValue("/theme-color", "Paired:c12")
         Dim parallel As Boolean = args.GetBoolean("/parallel")
+        Dim taxBuildin As Boolean = args.GetBoolean("/tax-build-in")
 
         Call xid.FlushAllLines(out = EXPORT & "/reference_xid.txt")
 
@@ -199,13 +201,23 @@ Partial Module CLI
             CLI = $"/accid2taxid.Match /in {(+out).CLIPath} /acc2taxid {x2taxid.CLIPath} /gb_priority /out {(out = EXPORT & "/acc2taxid.dmp").CLIPath}"
         End If
 
-        If (+out).FileExists Then
+        If (+out).FileExists(ZERO_Nonexists:=True) Then
             If skipExists Then
+                ' 已经存在数据了，则直接忽略掉
             Else
                 Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
             End If
         Else
-            Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+            If taxBuildin Then
+                ' 重新直接生成
+                If taxdata(Scan0).Extensions.ContainsKey("taxid") Then
+                    Call taxdata.Dump_x2taxid(gi2taxid).FlushAllLines(out)
+                Else
+                    Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+                End If
+            Else
+                Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+            End If
         End If
 
         ' step1
