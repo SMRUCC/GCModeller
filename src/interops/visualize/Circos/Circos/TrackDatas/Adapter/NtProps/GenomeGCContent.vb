@@ -95,6 +95,7 @@ Namespace TrackDatas.NtProps
             For Each x In slides.SeqIterator
                 out(x.i) = x.obj.First
                 out(x.i).value = x.obj.Average(Function(o) o.value)
+                out(x.i).end = x.obj.Last.end
             Next
 
             Return out

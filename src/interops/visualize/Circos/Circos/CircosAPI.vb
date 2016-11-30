@@ -133,6 +133,8 @@ Bitmap or vector images can be created from GFF-style data inputs and hierarchic
 circos - generate circularly composited information graphics")>
 Public Module CircosAPI
 
+
+
     <ExportAPI("IdentityColors")>
     Public Function IdentityColors([default] As String) As IdentityColors
         Return New IdentityLevels([default])
@@ -1208,6 +1210,15 @@ SET_END:    Dim ends = i
     <ExportAPI("Ticks.Remove", Info:="Removes the ticks label from the circos docuemnt node.")>
     Public Function RemoveTicks(doc As Configurations.Circos) As Boolean
         Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
+    End Function
+
+    <Extension>
+    Public Function RemoveStroke(Of Track As ITrackPlot)(t As Track) As Track
+        t.thickness = "0p"
+        t.stroke_color = t.fill_color
+        t.stroke_thickness = "0"
+
+        Return t
     End Function
 
     Private Function __includesRemoveCommon(conf As String, doc As Configurations.Circos) As Boolean
