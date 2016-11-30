@@ -133,16 +133,6 @@ Namespace ComponentModel.Loci
             Return LociAPI.Equals(loci, Me, offsets)
         End Function
 
-        ''' <summary>
-        ''' 将这个位点对象转换为每一个残基位点的位置对象，可能有些无聊
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetResiduesLoci() As Integer()
-            Dim LeftBase As Integer = Math.Min(Left, Right)
-            Dim LQuery As Integer() = (From i As Integer In Me.FragmentSize.Sequence Select i + LeftBase).ToArray
-            Return LQuery
-        End Function
-
         Public Shared Operator <>(a As Location, b As Location) As Boolean
             Return Not a = b
         End Operator

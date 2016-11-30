@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::9ca323ea35e39fb2ccd824eaae7a67a7, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\ExtensionMethods.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Location
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Namespace ComponentModel.Loci
 
@@ -125,12 +126,14 @@ Namespace ComponentModel.Loci
         End Function
 
         ''' <summary>
-        ''' 这个方法在Pfam蛋白质结构域分析的时候非常有用
+        ''' 这个方法在Pfam蛋白质结构域分析的时候非常有用，
+        ''' 请注意，这个方法仅仅会延伸片段的第一个对象，和第一个位点对象合并的位点都会出现在<see cref="Location.Extension"/>属性之中
         ''' </summary>
         ''' <param name="source">必须是已经按照<see cref="Left"></see>进行从小到大排序操作的数据</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function FragmentAssembly(source As Generic.IEnumerable(Of Location), lenOffset As Integer) As Location()
+        <Extension>
+        Public Function FragmentAssembly(source As IEnumerable(Of Location), lenOffset As Integer) As Location()
             If source.IsNullOrEmpty Then
                 Return New Location() {}
             End If
@@ -142,29 +145,35 @@ Namespace ComponentModel.Loci
             End If
         End Function
 
-        Private Function __assembly(source As Generic.IEnumerable(Of Location), lenOffset As Integer) As Location()
-            Dim lstLoci As List(Of Location) = New List(Of Location)
+        Private Function __assembly(source As IEnumerable(Of Location), lenOffset As Integer) As Location()
+            Dim lstLoci As New List(Of Location)
             Dim current As Location = source.First
-            Dim getNext As Boolean = False
+            Dim raw As New List(Of Location)(source.Skip(1))
+            Dim n As New Value(Of Location)
 
-            For Each n As Location In source.Skip(1)
+            Do While raw.Count > 0
+                current = raw(Scan0)
+                raw.RemoveAt(Scan0)
 
-                If getNext Then
-                    current = n : getNext = False
-                    Continue For
+                If current.Extension Is Nothing Then
+                    current.Extension = New ExtendedProps
                 End If
 
-                If current.InsideOrOverlapWith(n, WithOffSet:=lenOffset) Then
-                    If current.Right < n.Right Then
-                        current.Right = n.Right
+                Do While current.InsideOrOverlapWith(n = raw(Scan0), WithOffSet:=lenOffset)
+                    If current.Right < (+n).Right Then
+                        current.Right = (+n).Right
                     End If
-                Else
-                    Call lstLoci.Add(current)
-                    getNext = True
-                End If
-            Next
 
-            Call lstLoci.Add(current)
+                    current.Extension.DynamicHash(
+                        current.Extension.DynamicHash _
+                        .Properties _
+                        .Count) = +n
+
+                    Call raw.RemoveAt(Scan0)
+                Loop
+
+                Call lstLoci.Add(current)
+            Loop
 
             Return lstLoci.ToArray
         End Function

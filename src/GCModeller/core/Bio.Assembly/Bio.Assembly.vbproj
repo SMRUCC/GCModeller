@@ -347,7 +347,8 @@
     <Compile Include="Assembly\Uniprot\UniprotFasta.vb" />
     <Compile Include="Assembly\Uniprot\IdMapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\Entry.vb" />
-    <Compile Include="ComponentModel\Loci.Models\MotifSite.vb" />
+    <Compile Include="ComponentModel\Loci.Models\LociSites\Extensions.vb" />
+    <Compile Include="ComponentModel\Loci.Models\LociSites\MotifSite.vb" />
     <Compile Include="ContextModel\Context.vb" />
     <Compile Include="ContextModel\ContextCore.vb" />
     <Compile Include="ContextModel\Operon.vb" />
@@ -368,7 +369,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\GFF.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GeneBrief.vb" />
     <Compile Include="ContextModel\GenomicsContext.vb" />
-    <Compile Include="ComponentModel\Loci.Models\TagSite.vb" />
+    <Compile Include="ComponentModel\Loci.Models\LociSites\TagSite.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociAPI.vb" />
     <Compile Include="ComponentModel\Loci.Models\Nucleotide\SegmentRelationships.vb" />
     <Compile Include="ContextModel\Relationship.vb" />
@@ -381,7 +382,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ComponentModel\Loci.Models\Interfaces.vb" />
-    <Compile Include="ComponentModel\Loci.Models\LociModel.vb" />
+    <Compile Include="ComponentModel\Loci.Models\LociSites\LociModel.vb" />
     <Compile Include="ComponentModel\Loci.Models\ExtensionMethods.vb" />
     <Compile Include="ComponentModel\Loci.Models\Nucleotide\NucleotideLocation.vb" />
     <Compile Include="ComponentModel\PathwayBrief.vb" />
