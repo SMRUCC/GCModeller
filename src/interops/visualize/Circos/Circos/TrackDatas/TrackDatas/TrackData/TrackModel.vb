@@ -2,6 +2,9 @@
 
 Namespace TrackDatas
 
+    ''' <summary>
+    ''' 通常是使用<see cref="Object.ToString"/>方法来生成数据文件之中的行数据的
+    ''' </summary>
     Public Interface ITrackData
 
         Property comment As String

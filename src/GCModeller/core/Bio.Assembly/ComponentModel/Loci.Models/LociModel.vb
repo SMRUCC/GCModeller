@@ -31,14 +31,42 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace ComponentModel.Loci
 
+    ''' <summary>
+    ''' 带标签的位置信息，只不过这个位点的位置信息是展开的
+    ''' </summary>
     Public Class Loci : Implements ILocationComponent
+        Implements IMotifSite
 
-        Public Property TagData As String
+        Public Property TagData As String Implements IMotifSite.Type, IMotifSite.Name
         Public Property Left As Integer Implements ILocationComponent.Left
         Public Property Right As Integer Implements ILocationComponent.Right
+
+        Private Property Site As Location Implements IMotifSite.Site
+            Get
+                Return New Location(Left, Right)
+            End Get
+            Set(value As Location)
+                With value
+                    Left = .Left
+                    Right = .Right
+                End With
+            End Set
+        End Property
 
         Public Overrides Function ToString() As String
             Return TagData
         End Function
     End Class
+
+    ''' <summary>
+    ''' 带标签的位点信息，只不过这个位点的位置信息是构建好的
+    ''' </summary>
+    Public Structure MotifSite
+        Implements IMotifSite
+
+        Public Property Name As String Implements IMotifSite.Name
+        Public Property Site As Location Implements IMotifSite.Site
+        Public Property Type As String Implements IMotifSite.Type
+
+    End Structure
 End Namespace

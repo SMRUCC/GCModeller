@@ -381,7 +381,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ComponentModel\Loci.Models\Interfaces.vb" />
-    <Compile Include="ComponentModel\Loci.Models\Loci.vb" />
+    <Compile Include="ComponentModel\Loci.Models\LociModel.vb" />
     <Compile Include="ComponentModel\Loci.Models\ExtensionMethods.vb" />
     <Compile Include="ComponentModel\Loci.Models\Nucleotide\NucleotideLocation.vb" />
     <Compile Include="ComponentModel\PathwayBrief.vb" />

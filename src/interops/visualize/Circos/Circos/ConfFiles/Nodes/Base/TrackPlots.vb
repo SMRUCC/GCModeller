@@ -76,6 +76,7 @@ Namespace Configurations.Nodes.Plots
         Property fill_color As String
         Property stroke_thickness As String
         Property stroke_color As String
+        Property thickness As String
 
         ReadOnly Property TracksData As Idata
 
@@ -134,7 +135,7 @@ Namespace Configurations.Nodes.Plots
         ''' ``etc/tracks/histogram.conf`` In the Circos distribution.
         ''' </summary>
         ''' <returns></returns>
-        <Circos> Public Property thickness As String = "2p"
+        <Circos> Public Property thickness As String = "2p" Implements ITrackPlot.thickness
         <Circos> Public Property stroke_thickness As String = "0" Implements ITrackPlot.stroke_thickness
         <Circos> Public Property stroke_color As String = "grey" Implements ITrackPlot.stroke_color
 

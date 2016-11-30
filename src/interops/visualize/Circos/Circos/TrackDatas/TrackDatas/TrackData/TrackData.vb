@@ -40,6 +40,10 @@ Namespace TrackDatas
     ''' 
     ''' The definition Of a data point within a track Is based On the genomic range, 
     ''' which Is a combination Of chromosome And start/End position.
+    ''' 
+    ''' (请注意，最终的行数据都是使用<see cref="ToString"/>方法来生成的，<see cref="__trackData"/>
+    ''' 生成的只是绘图的原始数据，最终的style以及formats是在<see cref="ToString"/>之中合成的，所以
+    ''' 请不要轻易的重写继承类的<see cref="ToString"/>方法)
     ''' </summary>
     ''' <remarks>
     ''' Data for tracks is loaded from a plain-text file. Each data point is stored on a separate line, except for links which use two lines per link.

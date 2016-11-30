@@ -133,6 +133,8 @@ Bitmap or vector images can be created from GFF-style data inputs and hierarchic
 circos - generate circularly composited information graphics")>
 Public Module CircosAPI
 
+
+
     <ExportAPI("IdentityColors")>
     Public Function IdentityColors([default] As String) As IdentityColors
         Return New IdentityLevels([default])
@@ -378,6 +380,18 @@ different with the ideogram configuration document was not included in the circo
         Return If(b, yes, no)
     End Function
 
+    ''' <summary>
+    ''' Mapping details:
+    ''' 
+    ''' ```
+    ''' <see cref="IMotifSite.Type"/> -> <see cref="Color"/>
+    ''' <see cref="IMotifSite.Name"/> -> display title label
+    ''' ```
+    ''' </summary>
+    ''' <param name="circos"></param>
+    ''' <param name="motifs"></param>
+    ''' <param name="snuggle_refine"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function AddMotifSites(circos As Configurations.Circos,
                                   motifs As IEnumerable(Of IMotifSite),
@@ -561,14 +575,15 @@ different with the ideogram configuration document was not included in the circo
             splitOverlaps:=splitOverlaps)
     End Function
 
-    <ExportAPI("Plots.add.Gene_Elements")>
+    <ExportAPI("Plots.add.genes_track")>
     <Extension>
-    Public Function GenerateGeneElements(circos As Configurations.Circos,
-                                         GBK As GenBank.GBFF.File,
-                                         COGs As IEnumerable(Of MyvaCOG),
-                                         Optional splitOverlaps As Boolean = False,
-                                         Optional dumpAll As Boolean = False) As Configurations.Circos
-        Dim dump As GeneDumpInfo() = FeatureDumps(GBK, dumpAll:=dumpAll)
+    Public Function AddGeneInfoTrack(circos As Configurations.Circos,
+                                        gbk As GenBank.GBFF.File,
+                                       COGs As IEnumerable(Of MyvaCOG),
+                     Optional splitOverlaps As Boolean = False,
+                     Optional dumpAll As Boolean = False) As Configurations.Circos
+
+        Dim dump As GeneDumpInfo() = FeatureDumps(gbk, dumpAll:=dumpAll)
         Dim hash = (From x As MyvaCOG
                     In COGs
                     Select x
@@ -630,6 +645,7 @@ different with the ideogram configuration document was not included in the circo
             Loop
 SET_END:    Dim ends = i
             Dim chun As Double() = New Double(ends - start - 1) {}
+
             Call Array.ConstrainedCopy(pre, start, chun, Scan0, chun.Length)
 
             Dim aavg As Double
@@ -752,7 +768,6 @@ SET_END:    Dim ends = i
                               Let r = gene.Location.GetRelationship(gg.Location)
                               Where Not gg.Equals(gene) AndAlso (
                                   r = SegmentRelationships.Cover OrElse
-                                  r = SegmentRelationships.DownStreamOverlap OrElse
                                   r = SegmentRelationships.Equals OrElse
                                   r = SegmentRelationships.InnerAntiSense OrElse
                                   r = SegmentRelationships.Inside)
@@ -1195,6 +1210,15 @@ SET_END:    Dim ends = i
     <ExportAPI("Ticks.Remove", Info:="Removes the ticks label from the circos docuemnt node.")>
     Public Function RemoveTicks(doc As Configurations.Circos) As Boolean
         Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
+    End Function
+
+    <Extension>
+    Public Function RemoveStroke(Of Track As ITrackPlot)(t As Track) As Track
+        t.thickness = "0p"
+        t.stroke_color = t.fill_color
+        t.stroke_thickness = "0"
+
+        Return t
     End Function
 
     Private Function __includesRemoveCommon(conf As String, doc As Configurations.Circos) As Boolean

@@ -26,12 +26,9 @@
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.ISequenceModel
 
 Namespace TrackDatas.NtProps
 
@@ -41,18 +38,15 @@ Namespace TrackDatas.NtProps
     ''' <remarks></remarks>
     Public Class GCSkew : Inherits data(Of ValueTrackData)
 
-        Sub New(SequenceModel As I_PolymerSequenceModel,
-                SlideWindowSize As Integer,
-                Steps As Integer,
-                Circular As Boolean,
+        Sub New(nt As I_PolymerSequenceModel,
+                slideWinSize As Integer,
+                steps As Integer,
+                isCircular As Boolean,
                 Optional chr As String = "chr1")
-            Call MyBase.New(
-                __sourceGC(chr,
-                         NucleotideModels.GCSkew(SequenceModel,
-                                                 SlideWindowSize,
-                                                 Steps,
-                                                 Circular),
-                         Steps))
+            Call MyBase.New(__sourceGC(
+                 chr,
+                 NucleotideModels.GCSkew(nt, slideWinSize, steps, isCircular),
+                 steps))
         End Sub
 
         Sub New(data As IEnumerable(Of Double), [step] As Integer, Optional chr As String = "chr1")
