@@ -120,7 +120,7 @@ Namespace TrackDatas.Highlights
         ''' <param name="sites"></param>
         ''' <param name="colors$">The color theme name</param>
         ''' <param name="chr$"></param>
-        Sub New(sites As IEnumerable(Of IMotifSite), Optional colors$ = ColorMap.PatternJet, Optional chr$ = "chr1")
+        Sub New(sites As IEnumerable(Of IMotifSite), Optional colors$ = "Paired:c10", Optional chr$ = "chr1")
             Dim locis As IMotifSite() = sites.ToArray
             Dim types$() = locis _
               .Select(Function(x) x.Type) _

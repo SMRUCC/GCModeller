@@ -121,7 +121,7 @@ Namespace ComponentModel.Loci
                               In (From item In GroupOperation Select item.GroupTag Distinct).ToArray
                                     Let TagedLocation = (From item In GroupOperation Where String.Equals(GroupTag, item.GroupTag) Select item.Possible_Duplicated).ToArray.ToVector
                                     Select GroupTag, TagedLocation).ToArray
-            lc = (From item In l_GroupOperation Select If(item.TagedLocation.Count = 1, item.TagedLocation.First, LociAPI.Merge(item.TagedLocation))).ToArray
+            lc = (From item In l_GroupOperation Select If(item.TagedLocation.Length = 1, item.TagedLocation.First, LociAPI.Merge(item.TagedLocation))).ToArray
             Return lc.ToArray
         End Function
 
@@ -156,7 +156,11 @@ Namespace ComponentModel.Loci
                 raw.RemoveAt(Scan0)
 
                 If current.Extension Is Nothing Then
+                    ' 需要在离开前初始化，否则上一层调用函数会因为空引用出错
                     current.Extension = New ExtendedProps
+                End If
+                If raw.Count = 0 Then
+                    Exit Do
                 End If
 
                 Do While current.InsideOrOverlapWith(n = raw(Scan0), WithOffSet:=lenOffset)
@@ -170,6 +174,10 @@ Namespace ComponentModel.Loci
                         .Count) = +n
 
                     Call raw.RemoveAt(Scan0)
+
+                    If raw.Count = 0 Then
+                        Exit Do
+                    End If
                 Loop
 
                 Call lstLoci.Add(current)
