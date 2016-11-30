@@ -573,14 +573,15 @@ different with the ideogram configuration document was not included in the circo
             splitOverlaps:=splitOverlaps)
     End Function
 
-    <ExportAPI("Plots.add.Gene_Elements")>
+    <ExportAPI("Plots.add.genes_track")>
     <Extension>
-    Public Function GenerateGeneElements(circos As Configurations.Circos,
-                                         GBK As GenBank.GBFF.File,
-                                         COGs As IEnumerable(Of MyvaCOG),
-                                         Optional splitOverlaps As Boolean = False,
-                                         Optional dumpAll As Boolean = False) As Configurations.Circos
-        Dim dump As GeneDumpInfo() = FeatureDumps(GBK, dumpAll:=dumpAll)
+    Public Function AddGeneInfoTrack(circos As Configurations.Circos,
+                                        gbk As GenBank.GBFF.File,
+                                       COGs As IEnumerable(Of MyvaCOG),
+                     Optional splitOverlaps As Boolean = False,
+                     Optional dumpAll As Boolean = False) As Configurations.Circos
+
+        Dim dump As GeneDumpInfo() = FeatureDumps(gbk, dumpAll:=dumpAll)
         Dim hash = (From x As MyvaCOG
                     In COGs
                     Select x
@@ -642,6 +643,7 @@ different with the ideogram configuration document was not included in the circo
             Loop
 SET_END:    Dim ends = i
             Dim chun As Double() = New Double(ends - start - 1) {}
+
             Call Array.ConstrainedCopy(pre, start, chun, Scan0, chun.Length)
 
             Dim aavg As Double

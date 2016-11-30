@@ -27,14 +27,13 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Visualize.Circos.Colors
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
-Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 
 Namespace TrackDatas.Highlights
@@ -91,6 +90,10 @@ Namespace TrackDatas.Highlights
                 .Distinct _
                 .ToArray
 
+            Call __motifSitesCommon(locis, color, chr)
+        End Sub
+
+        Private Sub __motifSitesCommon(locis As IMotifSite(), color As Dictionary(Of String, String), chr$)
             COGColors = color
             __source = LinqAPI.MakeList(Of ValueTrackData) <=
                 From site As IMotifSite
@@ -109,6 +112,28 @@ Namespace TrackDatas.Highlights
                         .fill_color = fill
                     }
                 }
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="sites"></param>
+        ''' <param name="colors$">The color theme name</param>
+        ''' <param name="chr$"></param>
+        Sub New(sites As IEnumerable(Of IMotifSite), Optional colors$ = ColorMap.PatternJet, Optional chr$ = "chr1")
+            Dim locis As IMotifSite() = sites.ToArray
+            Dim types$() = locis _
+              .Select(Function(x) x.Type) _
+              .Distinct _
+              .ToArray
+            Dim colorlist As Color() = Designer.FromSchema(colors, types.Length)
+            Dim colorData As Dictionary(Of String, String) =
+                types _
+                .SeqIterator _
+                .ToDictionary(Function(name) name.obj,
+                              Function(color) colorlist(color.i).RGBExpression)
+
+            Call __motifSitesCommon(locis, colorData, chr)
         End Sub
 
         ''' <summary>
