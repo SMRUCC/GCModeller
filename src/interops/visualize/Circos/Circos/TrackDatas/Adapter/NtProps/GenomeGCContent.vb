@@ -85,7 +85,7 @@ Namespace TrackDatas.NtProps
 
             For Each x As NASegment_GC In data
                 For Each i% In seq(x.start, x.end, 1)
-                    out(i).value = (out(i).value + x.value) / 2
+                    out(i - 1).value = (out(i - 1).value + x.value) / 2
                 Next
             Next
 

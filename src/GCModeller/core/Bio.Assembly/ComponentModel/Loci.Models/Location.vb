@@ -129,18 +129,14 @@ Namespace ComponentModel.Loci
             Return Me
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="loci"></param>
+        ''' <param name="offsets">当这个大于零的时候会进行模糊匹配</param>
+        ''' <returns></returns>
         Public Overloads Function Equals(loci As Location, Optional offsets As Integer = 0) As Boolean
             Return LociAPI.Equals(loci, Me, offsets)
-        End Function
-
-        ''' <summary>
-        ''' 将这个位点对象转换为每一个残基位点的位置对象，可能有些无聊
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetResiduesLoci() As Integer()
-            Dim LeftBase As Integer = Math.Min(Left, Right)
-            Dim LQuery As Integer() = (From i As Integer In Me.FragmentSize.Sequence Select i + LeftBase).ToArray
-            Return LQuery
         End Function
 
         Public Shared Operator <>(a As Location, b As Location) As Boolean
@@ -185,9 +181,15 @@ Namespace ComponentModel.Loci
                 ContainSite(loci.Right) Then
                 Return True
             Else
-                Return ContainSite(loci.Left + offSet) AndAlso
-                    ContainSite(loci.Right - offSet)
+                For i As Integer = 1 To offSet
+                    If ContainSite(loci.Left + i) AndAlso
+                        ContainSite(loci.Right - i) Then
+                        Return True
+                    End If
+                Next
             End If
+
+            Return False
         End Function
 
         ''' <summary>
@@ -197,10 +199,17 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function InsideOrOverlapWith(b As Location, WithOffSet As Integer) As Boolean
-            If ContainSite(b.Left - WithOffSet) OrElse ContainSite(b.Right + WithOffSet) Then
-                Return True
+            If ContainSite(b.Left) OrElse ContainSite(b.Right) Then
+                Return True ' at least is overlaps
             End If
-            Return ContainSite(b.Left) OrElse ContainSite(b.Right)
+
+            For i As Integer = 1 To WithOffSet
+                If ContainSite(b.Left - i) OrElse ContainSite(b.Right + i) Then
+                    Return True
+                End If
+            Next
+
+            Return False
         End Function
 
         Public ReadOnly Property Center As Integer
@@ -262,7 +271,8 @@ Namespace ComponentModel.Loci
         End Operator
 
         ''' <summary>
-        ''' <see cref="Left"/>, <see cref="Right"/> offset a length value and then construct a new <see cref="Location"/> value.
+        ''' <see cref="Left"/>, <see cref="Right"/> offset a length value and 
+        ''' then construct a new <see cref="Location"/> value.
         ''' </summary>
         ''' <param name="value"></param>
         ''' <returns></returns>
