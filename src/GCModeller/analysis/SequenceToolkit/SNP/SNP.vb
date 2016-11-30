@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 ''' <summary>
 ''' SNP site
@@ -60,6 +61,8 @@ Imports Microsoft.VisualBasic.Language
 ''' + Variant Sequences
 ''' </remarks>
 Public Class SNP : Inherits ClassObject
+    Implements IMotifSite
+    Implements IMotifScoredSite
 
     <Column("Sequence Name")>
     Public Property Name As String
@@ -67,20 +70,20 @@ Public Class SNP : Inherits ClassObject
     <Column("Max (original sequence)")> Public Property Right As Integer
     Public Property Length As Integer
     Public Property Change As String
-    Public Property Coverage As Double
+    Public Property Coverage As Double Implements IMotifScoredSite.Score
 
     <Column("# Intervals")>
     Public Property Intervals As Integer
     <Column("Length (with gaps)")>
     Public Property TotalLength As Integer
     <Column("Polymorphism Type")>
-    Public Property PolymorphismType As String
+    Public Property PolymorphismType As String Implements IMotifSite.Type
     <Column("Variant Nucleotide(s)")>
     Public Property VariantNucleotides As String
 
     Public Property StrandBias As Double
     <Column("Strand-Bias >50% P-value")>
-    Public Property SignificantStrandBias
+    Public Property SignificantStrandBias As String
     <Column("Variant Frequency")>
     Public Property VariantFrequency As Double
     <Column("Variant Raw Frequency")>
@@ -97,7 +100,7 @@ Public Class SNP : Inherits ClassObject
     Public Property product As String
     <Column("Protein Effect")>
     Public Property ProteinEffect As String
-    Public Property protein_id As String
+    Public Property protein_id As String Implements IMotifSite.Name
 
     ''' <summary>
     ''' 这个SNP位点可能引起的氨基酸序列上面的残基的变化
@@ -122,4 +125,15 @@ Public Class SNP : Inherits ClassObject
     <Column("Codon Change")>
     Public Property CodonChange As String
 
+    Private Property Site As Location Implements IMotifSite.Site
+        Get
+            Return New Location(Left, Right)
+        End Get
+        Set(value As Location)
+            With value
+                Left = .Left
+                Right = .Right
+            End With
+        End Set
+    End Property
 End Class

@@ -752,7 +752,6 @@ SET_END:    Dim ends = i
                               Let r = gene.Location.GetRelationship(gg.Location)
                               Where Not gg.Equals(gene) AndAlso (
                                   r = SegmentRelationships.Cover OrElse
-                                  r = SegmentRelationships.DownStreamOverlap OrElse
                                   r = SegmentRelationships.Equals OrElse
                                   r = SegmentRelationships.InnerAntiSense OrElse
                                   r = SegmentRelationships.Inside)
