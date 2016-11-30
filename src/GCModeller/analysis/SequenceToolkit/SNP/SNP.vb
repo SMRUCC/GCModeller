@@ -33,11 +33,31 @@ Imports Microsoft.VisualBasic.Language
 ''' SNP site
 ''' </summary>
 ''' <remarks>
-''' Min (original sequence)	Max (original sequence)	Change	Coverage	
-''' Polymorphism Type	Reference Nucleotide(s)	Variant Frequency	
-''' Variant Nucleotide(s)	Amino Acid Change	CDS	CDS Codon Number	
-''' CDS Interval	CDS Position	CDS Position Within Codon	Codon Change	
-''' gene	note	product	Protein Effect	protein_id	Variant Raw Frequency	Variant Sequences
+''' ###### 2016-11-30
+''' Column names corrected as the list:
+''' 
+''' + Min (original sequence)	
+''' + Max (original sequence)	
+''' + Change	
+''' + Coverage	
+''' + Polymorphism Type	
+''' + Reference Nucleotide(s)	
+''' + Variant Frequency	
+''' + Variant Nucleotide(s)	
+''' + Amino Acid Change	
+''' + CDS	
+''' + CDS Codon Number	
+''' + CDS Interval	
+''' + CDS Position	
+''' + CDS Position Within Codon	
+''' + Codon Change	
+''' + gene	
+''' + note	
+''' + product	
+''' + Protein Effect	
+''' + protein_id	
+''' + Variant Raw Frequency	
+''' + Variant Sequences
 ''' </remarks>
 Public Class SNP : Inherits ClassObject
 
