@@ -72,7 +72,13 @@ Namespace TrackDatas.NtProps
         ''' <param name="data"></param>
         ''' <param name="len%">The genome nt length</param>
         ''' <returns></returns>
-        Public Shared Function FillData(data As IEnumerable(Of NASegment_GC), len%, Optional slidWinSize% = 250, Optional steps% = 250, Optional chr$ = "chr1") As NASegment_GC()
+        Public Shared Function FillData(data As IEnumerable(Of NASegment_GC),
+                                        len%,
+                                        Optional slidWinSize% = 250,
+                                        Optional steps% = 250,
+                                        Optional chr$ = "chr1",
+                                        Optional usingAvg As Boolean = True) As NASegment_GC()
+
             Dim out As NASegment_GC() = New NASegment_GC(len - 1) {}
 
             For i As Integer = 0 To out.Length - 1
@@ -92,11 +98,20 @@ Namespace TrackDatas.NtProps
             Dim slides = out.SlideWindows(slidWinSize, steps).ToArray
 
             out = New NASegment_GC(slides.Length - 1) {}
+
             For Each x In slides.SeqIterator
                 out(x.i) = x.obj.First
                 out(x.i).value = x.obj.Average(Function(o) o.value)
                 out(x.i).end = x.obj.Last.end
             Next
+
+            If usingAvg Then
+                Dim avg# = out.Average(Function(x) x.value)
+
+                For Each x In out
+                    x.value -= avg#
+                Next
+            End If
 
             Return out
         End Function

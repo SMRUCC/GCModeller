@@ -153,7 +153,7 @@ Namespace Colors
             End If
         End Function
 
-        Public ReadOnly Property DefaultCOGColor As String = CircosColor.FromColor(Color.Brown)
+        Public ReadOnly Property DefaultCOGColor As String = Color.Brown.RGBExpression
 
         ''' <summary>
         ''' Gets circos color name from the .NET color object R,G,B value.

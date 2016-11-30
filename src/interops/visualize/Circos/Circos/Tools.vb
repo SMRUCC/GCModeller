@@ -32,7 +32,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations
 
 Module Tools
 
-    Public ReadOnly Property currentDir As String =
+    Public ReadOnly Property currentDIR As String =
         FileIO.FileSystem.CurrentDirectory.Replace("\", "/") & "/"
 
     ''' <summary>
@@ -50,7 +50,7 @@ Module Tools
     End Function
 
     Public Function TrimPath(url As String) As String
-        Dim refPath As String = url.Replace("\", "/").Replace(currentDir, "")
+        Dim refPath As String = url.Replace("\", "/").Replace(currentDIR, "")
         Return refPath
     End Function
 
