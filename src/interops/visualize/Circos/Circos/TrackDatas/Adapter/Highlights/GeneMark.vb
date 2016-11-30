@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::7bc26d5c0089f51276e92d43c71c2661, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Gene.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,8 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 
 Namespace TrackDatas.Highlights
 
@@ -70,6 +72,43 @@ Namespace TrackDatas.Highlights
                 }
 
             COGColors = Color
+        End Sub
+
+        ''' <summary>
+        ''' 直接从motif位点构建，这个模型并不显示标签信息
+        ''' 使用<see cref="HighLight"/>生成track数据
+        ''' 
+        ''' ```vbnet
+        ''' Dim track As New HighLight(New GeneMark(genes, colors))
+        ''' ```
+        ''' </summary>
+        ''' <param name="sites"></param>
+        ''' <param name="color"></param>
+        Sub New(sites As IEnumerable(Of IMotifSite), color As Dictionary(Of String, String), Optional chr$ = "chr1")
+            Dim locis As IMotifSite() = sites.ToArray
+            Dim types$() = locis _
+                .Select(Function(x) x.Type) _
+                .Distinct _
+                .ToArray
+
+            COGColors = color
+            __source = LinqAPI.MakeList(Of ValueTrackData) <=
+                From site As IMotifSite
+                In locis
+                Let COG = If(String.IsNullOrEmpty(site.Type), "-", site.Type)
+                Let fill = If(
+                    color.ContainsKey(COG),
+                    color(COG),
+                    CircosColor.DefaultCOGColor)
+                Select New ValueTrackData With {
+                    .start = site.Site.Left,
+                    .end = site.Site.Right,
+                    .value = 1,
+                    .chr = chr,
+                    .formatting = New Formatting With {
+                        .fill_color = fill
+                    }
+                }
         End Sub
 
         ''' <summary>

@@ -378,6 +378,18 @@ different with the ideogram configuration document was not included in the circo
         Return If(b, yes, no)
     End Function
 
+    ''' <summary>
+    ''' Mapping details:
+    ''' 
+    ''' ```
+    ''' <see cref="IMotifSite.Type"/> -> <see cref="Color"/>
+    ''' <see cref="IMotifSite.Name"/> -> display title label
+    ''' ```
+    ''' </summary>
+    ''' <param name="circos"></param>
+    ''' <param name="motifs"></param>
+    ''' <param name="snuggle_refine"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function AddMotifSites(circos As Configurations.Circos,
                                   motifs As IEnumerable(Of IMotifSite),
