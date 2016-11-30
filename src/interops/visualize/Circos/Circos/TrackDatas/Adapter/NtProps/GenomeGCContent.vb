@@ -26,6 +26,9 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -41,6 +44,10 @@ Namespace TrackDatas.NtProps
                 __sourceGC(nt, If(SegmentLength <= 0, 10, SegmentLength), steps, avg))
         End Sub
 
+        ''' <summary>
+        ''' 请注意``chr``的值
+        ''' </summary>
+        ''' <param name="data"></param>
         Sub New(data As IEnumerable(Of NASegment_GC))
             MyBase.New(data)
         End Sub
@@ -57,6 +64,40 @@ Namespace TrackDatas.NtProps
             Next
 
             Return source
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="len%">The genome nt length</param>
+        ''' <returns></returns>
+        Public Shared Function FillData(data As IEnumerable(Of NASegment_GC), len%, Optional slidWinSize% = 250, Optional steps% = 250, Optional chr$ = "chr1") As NASegment_GC()
+            Dim out As NASegment_GC() = New NASegment_GC(len - 1) {}
+
+            For i As Integer = 0 To out.Length - 1
+                out(i) = New NASegment_GC With {
+                    .start = i,
+                    .end = i,
+                    .chr = chr
+                }
+            Next
+
+            For Each x As NASegment_GC In data
+                For Each i% In seq(x.start, x.end, 1)
+                    out(i).value = (out(i).value + x.value) / 2
+                Next
+            Next
+
+            Dim slides = out.SlideWindows(slidWinSize, steps).ToArray
+
+            out = New NASegment_GC(slides.Length - 1) {}
+            For Each x In slides.SeqIterator
+                out(x.i) = x.obj.First
+                out(x.i).value = x.obj.Average(Function(o) o.value)
+            Next
+
+            Return out
         End Function
 
         Public Overrides Function ToString() As String

@@ -140,9 +140,5 @@ Namespace TrackDatas.NtProps
         ''' </summary>
         ''' <returns></returns>
         Public Property length As Integer
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
     End Class
 End Namespace
