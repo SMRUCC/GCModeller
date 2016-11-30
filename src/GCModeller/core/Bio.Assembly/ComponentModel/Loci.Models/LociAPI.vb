@@ -42,23 +42,37 @@ Namespace ComponentModel.Loci
         ''' 直接合并相邻的一个位点集合到一个新的更加长的位点
         ''' </summary>
         ''' <typeparam name="TLocation"></typeparam>
-        ''' <param name="groupedData"></param>
+        ''' <param name="grouped">
+        ''' 其实在这里是直接将最小的左端和最大的右端合并构成一个更大范围的location
+        ''' </param>
         ''' <returns></returns>
-        Public Function Merge(Of TLocation As Location)(groupedData As IEnumerable(Of TLocation)) As TLocation
-            Dim RightAligned As TLocation = (From objLoci As TLocation
-                                             In groupedData
-                                             Select objLoci
-                                             Order By objLoci.Right Descending).First
-            Dim clSite As TLocation = groupedData.First.Clone
-            clSite.Left = groupedData.First.Left
-            clSite.Right = RightAligned.Right
-            Return clSite
+        <Extension>
+        Public Function MergeJoins(Of TLocation As Location)(grouped As IEnumerable(Of TLocation)) As TLocation
+            Dim Ralign As TLocation() = LinqAPI.Exec(Of TLocation) <=
+                From l As TLocation
+                In grouped
+                Select l
+                Order By l.Right Descending
+            Dim Lalign As TLocation() = LinqAPI.Exec(Of TLocation) <=
+                From l As TLocation
+                In grouped
+                Select l
+                Order By l.Left Ascending
+
+            Dim clone As TLocation = grouped.First.Clone
+            clone.Left = Lalign.First.Left
+            clone.Right = Ralign.Last.Right
+            Return clone
         End Function
 
         ''' <summary>
-        ''' Gets the location relationship of two loci segments.(判断获取两个位点片段之间的位置关系，请注意，这个函数只依靠左右位置来判断关系，假若对核酸链的方向有要求在调用本函数之前请确保二者在同一条链之上)
+        ''' Gets the location relationship of two loci segments.
+        ''' (判断获取两个位点片段之间的位置关系，请注意，这个函数只依靠左右位置来判断关系，
+        ''' 假若对核酸链的方向有要求在调用本函数之前请确保二者在同一条链之上)
         ''' </summary>
-        ''' <param name="lcl">在计算之前请先调用<see cref="Location.Normalization()"/>方法来修正</param>
+        ''' <param name="lcl">
+        ''' 在计算之前请先调用<see cref="Location.Normalization()"/>方法来修正
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
@@ -156,7 +170,9 @@ Namespace ComponentModel.Loci
         End Function
 
         ''' <summary>
+        ''' ```
         ''' 388739 ==> 389772 #Forward
+        ''' ```
         ''' </summary>
         ''' <param name="s_Loci"></param>
         ''' <returns></returns>

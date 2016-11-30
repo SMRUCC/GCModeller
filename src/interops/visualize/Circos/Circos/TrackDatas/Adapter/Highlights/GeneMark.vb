@@ -123,9 +123,9 @@ Namespace TrackDatas.Highlights
         Sub New(sites As IEnumerable(Of IMotifSite), Optional colors$ = "Paired:c10", Optional chr$ = "chr1")
             Dim locis As IMotifSite() = sites.ToArray
             Dim types$() = locis _
-              .Select(Function(x) x.Type) _
-              .Distinct _
-              .ToArray
+                .Select(Function(x) x.Type.Split("+"c).Distinct.JoinBy("_")) _
+                .Distinct _
+                .ToArray
             Dim colorlist As Color() = Designer.FromSchema(colors, types.Length)
             Dim colorData As Dictionary(Of String, String) =
                 types _
