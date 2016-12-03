@@ -7,7 +7,7 @@
 _httpd: SMRUCC web cloud application platform_<br/>
 Copyright © R&D, SMRUCC 2016. All rights reserved.
 
-**Module AssemblyName**: file:///C:/Users/Admin/OneDrive/Zika-News/ftp_publish/httpd.exe<br/>
+**Module AssemblyName**: file:///G:/GCModeller/src/runtime/httpd/HTTP_SERVER/demo/bin/httpd.exe<br/>
 **Root namespace**: ``SMRUCC.REST.CLI``<br/>
 
 
