@@ -53,6 +53,25 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
 
+    <ExportAPI("/Count", Usage:="/Count /in <data.fasta>")>
+    Public Function Count(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim n As Integer
+        Dim line As New Value(Of String)
+
+        Using reader As StreamReader = [in].OpenReader
+            Do While Not reader.EndOfStream
+                If Not String.IsNullOrEmpty(line = reader.ReadLine) AndAlso (+line).First = ">"c Then
+                    n += 1
+                End If
+            Loop
+
+            Call Console.WriteLine(n)
+        End Using
+
+        Return 0
+    End Function
+
     <ExportAPI("/Sites2Fasta",
                Info:="Converts the simple segment object collection as fasta file.",
                Usage:="/Sites2Fasta /in <segments.csv> [/assemble /out <out.fasta>]")>
