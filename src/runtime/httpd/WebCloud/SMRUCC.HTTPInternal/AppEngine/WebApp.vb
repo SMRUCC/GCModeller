@@ -41,7 +41,7 @@ Namespace AppEngine
 
         Public ReadOnly Property wwwroot As String
             Get
-                Return PlatformEngine.HOME.FullName
+                Return PlatformEngine.wwwroot.FullName
             End Get
         End Property
 

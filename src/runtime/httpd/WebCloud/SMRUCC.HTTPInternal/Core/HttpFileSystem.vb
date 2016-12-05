@@ -48,7 +48,12 @@ Namespace Core
 #Else
     Public Class HttpFileSystem : Inherits HttpServer
 #End If
-        Public ReadOnly Property HOME As DirectoryInfo
+
+        ''' <summary>
+        ''' The home directory of the website. where the ``index.html`` was located.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property wwwroot As DirectoryInfo
         ''' <summary>
         ''' {url, mapping path}
         ''' </summary>
@@ -89,7 +94,7 @@ Namespace Core
             End If
 
             _nullExists = nullExists
-            HOME = FileIO.FileSystem.GetDirectoryInfo(root)
+            wwwroot = FileIO.FileSystem.GetDirectoryInfo(root)
             FileIO.FileSystem.CurrentDirectory = root
             _virtualMappings = New Dictionary(Of String, String)
 
@@ -100,13 +105,13 @@ Namespace Core
             End If
 
             If cache Then
-                _cache = CachedFile.CacheAllFiles(HOME.FullName)
+                _cache = CachedFile.CacheAllFiles(wwwroot.FullName)
                 '    .ToDictionary(Function(x) x.Key.ToLower,
                 '                  Function(x) x.Value)
                 _cacheMode = True
                 _cacheUpdate = New UpdateThread(1000 * 60 * 30,
                      Sub()
-                         For Each file In CachedFile.CacheAllFiles(HOME.FullName)
+                         For Each file In CachedFile.CacheAllFiles(wwwroot.FullName)
                              _cache(file.Key) = file.Value
                          Next
                      End Sub)
@@ -212,7 +217,7 @@ Namespace Core
 
             If Not String.IsNullOrEmpty(rm) Then
                 res = res.Replace(rm, "")
-                Return HOME.FullName
+                Return wwwroot.FullName
             End If
 
             Dim mapDIR As String = FileIO.FileSystem.GetParentPath(res).ToLower.Replace("\", "/")
@@ -228,7 +233,7 @@ Namespace Core
                         Return mapDIR
                     End If
                 Next
-                mapDIR = HOME.FullName
+                mapDIR = wwwroot.FullName
             End If
             Return mapDIR
         End Function
@@ -351,7 +356,7 @@ Namespace Core
         End Sub
 
         Private Function __request404() As String
-            Dim _404 As String = HOME.FullName & "/404.html"
+            Dim _404 As String = wwwroot.FullName & "/404.html"
 
             If _404.FileExists Then
                 _404 = FileIO.FileSystem.ReadAllText(_404)

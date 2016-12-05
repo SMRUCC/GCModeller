@@ -2,14 +2,16 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\interops",
-    "\\src\\interops\\localblast",
+    "\\src\\GCModeller",
+    "\\src\\GCModeller\\analysis",
+    "\\src\\GCModeller\\analysis\\SequenceToolkit",
+    "\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools",
+    "\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI",
     "\\src\\runtime",
-    "\\src\\runtime\\sciBASIC#",
-    "\\src\\runtime\\sciBASIC#\\Data_science",
-    "\\src\\runtime\\sciBASIC#\\Data_science\\Bootstrapping",
-    "\\src\\runtime\\sciBASIC#\\Data_science\\Bootstrapping\\Darwinism",
-    "\\src\\runtime\\sciBASIC#\\Data_science\\Bootstrapping\\Darwinism\\GAF"
+    "\\src\\runtime\\httpd",
+    "\\src\\runtime\\httpd\\httpd",
+    "\\src\\runtime\\httpd\\httpd\\Program"
   ],
+  "SelectedNode": "\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\FastaTools.vb",
   "PreviewInSolutionExplorer": false
 }
