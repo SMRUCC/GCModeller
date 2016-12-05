@@ -38,23 +38,23 @@ Module CLI
 
     <ExportAPI("/start",
                Info:="Run start the httpd web server.",
-               Usage:="/start [/port 80 /root <wwwroot_DIR> /threads -1 /cache]")>
+               Usage:="/start [/port 80 /wwwroot <wwwroot_DIR> /threads -1 /cache]")>
     <Argument("/port", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
               Description:="The server port of this httpd web server to listen.")>
-    <Argument("/root", True, CLITypes.File, PipelineTypes.std_in,
+    <Argument("/wwwroot", True, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(String)},
               Description:="The website html root directory path.")>
     <Argument("/threads", True, CLITypes.Integer,
               AcceptTypes:={GetType(Integer)},
-              Description:="The number of threads of the server thread pool.")>
+              Description:="The number of threads of this web server its thread pool.")>
     <Argument("/cache", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Is this server running in file system cache mode? Not recommended for open.")>
     <Group(httpdServerCLI)>
     Public Function Start(args As CommandLine) As Integer
         Dim port As Integer = args.GetValue("/port", 80)
-        Dim HOME As String = args.GetValue("/root", App.CurrentDirectory)
+        Dim HOME As String = args.GetValue("/wwwroot", App.CurrentDirectory)
         Dim threads As Integer = args.GetValue("/threads", -1)
         Dim cacheMode As Boolean = args.GetBoolean("/cache")
 
@@ -66,11 +66,11 @@ Module CLI
 
     <ExportAPI("/run",
                Info:="Run start the web server with specific Web App.",
-               Usage:="/run /dll <app.dll> [/port <80> /root <wwwroot_DIR>]")>
+               Usage:="/run /dll <app.dll> [/port <80> /wwwroot <wwwroot_DIR>]")>
     <Group(httpdServerCLI)>
     Public Function RunApp(args As CommandLine) As Integer
         Dim port As Integer = args.GetValue("/port", 80)
-        Dim HOME As String = args.GetValue("/root", App.CurrentDirectory)
+        Dim HOME As String = args.GetValue("/wwwroot", App.CurrentDirectory)
         Dim dll As String = args.GetValue("/dll", "")
         Return New PlatformEngine(HOME, port, True, dll).Run
     End Function
