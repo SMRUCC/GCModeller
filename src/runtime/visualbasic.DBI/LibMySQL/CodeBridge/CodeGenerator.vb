@@ -25,13 +25,13 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Language
-Imports System.Runtime.CompilerServices
 Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 ''' <summary>
@@ -53,6 +53,8 @@ Public Module CodeGenerator
     ''' <param name="name"></param>
     ''' <returns></returns>
     Public Function TrimKeyword(name As String) As String
+        name = name.Replace("-", "_")  ' mysql之中允许在名称中使用-，但是vb并不允许，在这里替换掉
+
         If InStr(VBKeywords, $"|{name.ToLower}|", CompareMethod.Text) > 0 Then
             Return $"[{name}]"
         Else
