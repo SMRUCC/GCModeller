@@ -45,7 +45,7 @@ Namespace FileStream
         Implements IMetabolite
         Implements FLuxBalanceModel.IMetabolite
 
-        <Column("Unique-Id")> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Identifier
+        <Column("Unique-Id")> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
         <Column("Mol.Weight")>
         Public Property MolWeight As Double
         <Column("KEGG.Compound")>

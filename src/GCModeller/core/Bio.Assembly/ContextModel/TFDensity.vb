@@ -148,9 +148,9 @@ Namespace ContextModel
                 Let sides As T() = getTF(gene.Location.Strand)
                 Let related As T() = getRelated(gene, sides, ranges)
                 Select New Density With {
-                    .locus_tag = gene.Identifier,
+                    .locus_tag = gene.Key,
                     .Abundance = related.Length / numTotal,
-                    .Hits = related.ToArray(Function(g) g.Identifier),
+                    .Hits = related.ToArray(Function(g) g.Key),
                     .loci = gene.Location,
                     .product = gene.Product
                 }

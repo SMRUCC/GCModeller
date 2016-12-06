@@ -76,7 +76,7 @@ Namespace Assembly.MetaCyc.Schema
         End Function
 
         Public Overloads Function Equals(name As String, compound As ICompoundObject) As Double
-            If String.Equals(name, compound.Identifier, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(name, compound.Key, StringComparison.OrdinalIgnoreCase) Then
                 Return 100
             End If
             If String.Equals(name, compound.locusId, StringComparison.OrdinalIgnoreCase) Then
@@ -107,7 +107,7 @@ Namespace Assembly.MetaCyc.Schema
                 If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
                     Dim Compound = LQuery.First
 
-                    Effector.MetaCycId = Compound.Identifier.ToUpper
+                    Effector.MetaCycId = Compound.Key.ToUpper
 
                     If Not Compound.CommonNames.IsNullOrEmpty Then
                         Effector.CommonName = (From strName As String In Compound.CommonNames Select strName Order By Len(strName) Ascending).First
@@ -136,7 +136,7 @@ Namespace Assembly.MetaCyc.Schema
                 Next
             End If
 
-            If IsEqually(Effector.Identifier, Compound) Then
+            If IsEqually(Effector.Key, Compound) Then
                 Return True
             Else
                 If Effector.CommonNames.IsNullOrEmpty Then
@@ -148,7 +148,7 @@ Namespace Assembly.MetaCyc.Schema
         End Function
 
         Private Shared Function IsEqually(Effector As String, Compound As ICompoundObject) As Boolean
-            If String.Equals(Effector, Compound.Identifier, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(Effector, Compound.Key, StringComparison.OrdinalIgnoreCase) Then
                 Return True
             Else
                 For Each strName As String In Compound.CommonNames

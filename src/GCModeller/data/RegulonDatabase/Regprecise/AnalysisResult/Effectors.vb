@@ -49,7 +49,7 @@ Namespace Regprecise
 
         Public Function Fill(compound As ICompoundObject) As Effectors
             If String.IsNullOrEmpty(MetaCyc) Then
-                MetaCyc = compound.Identifier
+                MetaCyc = compound.Key
             End If
             Return Me
         End Function

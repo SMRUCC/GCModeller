@@ -58,7 +58,7 @@ Namespace Level2.Elements
         End Sub
 
         Sub New(x As ICompoundSpecies)
-            species = x.Identifier
+            species = x.Key
             stoichiometry = x.StoiChiometry
         End Sub
 

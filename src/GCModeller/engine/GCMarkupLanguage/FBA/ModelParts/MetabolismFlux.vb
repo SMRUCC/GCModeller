@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 Namespace FBACompatibility
 
     Public Class MetabolismFlux : Implements FLuxBalanceModel.I_ReactionModel(Of speciesReference)
-        <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.I_ReactionModel(Of speciesReference).Identifier
+        <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.I_ReactionModel(Of speciesReference).Key
         <XmlAttribute> Public Property UPPER_BOUND As Double
         <XmlAttribute> Public Property LOWER_BOUND As Double
         <XmlAttribute> Public Property ObjectiveCoefficient As Double
@@ -71,7 +71,7 @@ Namespace FBACompatibility
 
         Public Shared Function Convert(Flux As FLuxBalanceModel.I_ReactionModel(Of speciesReference)) As MetabolismFlux
             Return New FBACompatibility.MetabolismFlux With {
-                .Identifier = Flux.Identifier,
+                .Identifier = Flux.Key,
                 .LOWER_BOUND = Flux.LOWER_BOUND,
                 .UPPER_BOUND = Flux.UPPER_BOUND,
                 .Name = Flux.Name,

@@ -43,7 +43,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <DumpNode> <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Identifier
+        <DumpNode> <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
         <DumpNode> <XmlElement("COMMON-NAME", Namespace:="http://code.google.com/p/genome-in-code/virtualcell_model/GCMarkupLanguage/")>
         Public Property CommonName As String
         <DumpNode> <XmlAttribute> Public Property Compartment As String

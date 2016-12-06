@@ -846,7 +846,7 @@ Public Module ToolsAPI
         Dim sitesData = (From site In LoadData.First.Value.AsParallel
                          Let lstName As String() = (From item As IGeneBrief
                                                     In Query.GetObjects(site.Site, direction:=Strands.Unknown)
-                                                    Select item.Identifier).ToArray
+                                                    Select item.Key).ToArray
                          Select New KeyValuePair(Of Integer, String())(site.Site, lstName)).ToArray
         '加载基因组双向BLAST同源片段染色数据
         Dim LoadCRendering = render_source.LoadXml(Of BestHit)() ' (From path As String In FileIO.FileSystem.GetFiles(render_source, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel

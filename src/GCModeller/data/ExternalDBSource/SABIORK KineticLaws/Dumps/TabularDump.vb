@@ -48,7 +48,7 @@ Namespace SabiorkKineticLaws.TabularDump
     Public Class CompoundSpecie : Inherits SabiorkEntity
         Implements ICompoundObject
 
-        <Column("kegg.compound")> Public Property KEGG_Compound As String Implements ICompoundObject.Identifier, ICompoundObject.locusId
+        <Column("kegg.compound")> Public Property KEGG_Compound As String Implements ICompoundObject.Key, ICompoundObject.locusId
 
         Public Overrides Function ToString() As String
             Return CommonNames.First

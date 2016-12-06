@@ -70,7 +70,7 @@ Namespace FileStream
         End Function
     End Class
 
-    Public Class Regulator : Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue
+    Public Class Regulator : Implements INamedValue
 
         ''' <summary>
         ''' <see cref="TranscriptUnit">目标转录单元对象</see>的<see cref="MotifSite.Internal_GUID"></see>
@@ -85,7 +85,7 @@ Namespace FileStream
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property ProteinId As String Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue.Identifier
+        Public Property ProteinId As String Implements INamedValue.Key
         Public Property Pcc As Double
         ''' <summary>
         ''' 请使用本属性来判断是否为蛋白质复合物，为<see cref="Metabolite.Identifier"></see>属性值

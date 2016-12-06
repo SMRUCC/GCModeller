@@ -32,7 +32,7 @@ Public Module Extensions
 
     <Extension> Public Function GetHandle(Of T)(DynamicsExpression As Framework.Kernel_Driver.IDynamicsExpression(Of T)) As Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle
         Return New Framework.Kernel_Driver.DataStorage.FileModel.ObjectHandle With {
-            .Identifier = DynamicsExpression.Identifier,
+            .Identifier = DynamicsExpression.Key,
             .Handle = DynamicsExpression.Address
         }
     End Function

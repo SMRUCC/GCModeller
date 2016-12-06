@@ -47,7 +47,7 @@ Namespace ChromosomeMap.DrawingModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property LocusTag As String Implements ICOGDigest.Identifier
+        Public Property LocusTag As String Implements ICOGDigest.Key
         ''' <summary>
         ''' 基因名称
         ''' </summary>

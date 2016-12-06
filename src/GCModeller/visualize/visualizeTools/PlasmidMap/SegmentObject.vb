@@ -47,7 +47,7 @@ Namespace PlasmidMap.DrawingModels
         Public Property Color As System.Drawing.Color
         Public Property CommonName As String Implements IGeneBrief.COG
         Public Property FunctionalAnnotation As String Implements IGeneBrief.Product
-        Public Property LocusTag As String Implements IGeneBrief.Identifier
+        Public Property LocusTag As String Implements IGeneBrief.Key
         Public Property Left As Integer
         Public Property Right As Integer
         Public Property GenomeLength As Integer Implements IGeneBrief.Length

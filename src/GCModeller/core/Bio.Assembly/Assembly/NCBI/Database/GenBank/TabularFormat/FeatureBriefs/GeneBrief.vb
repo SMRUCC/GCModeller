@@ -98,7 +98,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
             obj.COG = COG
             obj.Length = Length
             obj.Product = Product
-            obj.Identifier = Synonym
+            obj.Key = Synonym
 
             Return obj
         End Function
@@ -128,7 +128,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                 .Length = g.Length,
                 .Location = g.Location,
                 .Product = g.Product,
-                .Synonym = g.Identifier
+                .Synonym = g.Key
             }
         End Function
 

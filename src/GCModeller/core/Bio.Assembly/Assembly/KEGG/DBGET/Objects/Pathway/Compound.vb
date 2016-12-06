@@ -39,7 +39,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     <XmlRoot("KEGG.Compound", Namespace:="http://www.kegg.jp/dbget-bin/www_bget?cpd:compound_id")>
     Public Class Compound : Implements ICompoundObject
 
-        Public Overridable Property Entry As String Implements ICompoundObject.Identifier, ICompoundObject.locusId
+        Public Overridable Property Entry As String Implements ICompoundObject.Key, ICompoundObject.locusId
         Public Property CommonNames As String() Implements ICompoundObject.CommonNames
         Public Property Formula As String
         Public Property MolWeight As Double

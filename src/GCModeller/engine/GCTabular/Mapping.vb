@@ -167,7 +167,7 @@ Public Class Mapping : Implements System.IDisposable
             If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
                 Dim Compound = LQuery.First
 
-                Effector.MetaCycId = Compound.Identifier.ToUpper
+                Effector.MetaCycId = Compound.Key.ToUpper
                 Call CommonNames.AddRange(Compound.CommonNames)
             End If
 
@@ -212,7 +212,7 @@ Public Class Mapping : Implements System.IDisposable
     End Function
 
     Private Shared Function IsEquals(Effector As String, Compound As MetaCyc.Schema.ICompoundObject) As Boolean
-        If String.Equals(Effector.ToUpper, Compound.Identifier) Then
+        If String.Equals(Effector.ToUpper, Compound.Key) Then
             Return True
         Else
             For Each strName As String In Compound.CommonNames

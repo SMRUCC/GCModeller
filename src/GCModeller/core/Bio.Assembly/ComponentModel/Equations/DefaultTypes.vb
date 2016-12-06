@@ -33,14 +33,14 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
 
     Public Class CompoundSpecieReference : Implements ICompoundSpecies
         <XmlAttribute> Public Property StoiChiometry As Double Implements ICompoundSpecies.StoiChiometry
-        <XmlAttribute> Public Property Identifier As String Implements ICompoundSpecies.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements ICompoundSpecies.Key
 
         Sub New()
         End Sub
 
         Sub New(x As ICompoundSpecies)
             StoiChiometry = x.StoiChiometry
-            Identifier = x.Identifier
+            Identifier = x.Key
         End Sub
 
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean
@@ -77,10 +77,10 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 idMaps As Dictionary(Of String, String),
                 canReverse As Boolean)
             Reactants = left.ToArray(Function(x) New CompoundSpecieReference With {
-                                         .Identifier = idMaps(x.Identifier),
+                                         .Identifier = idMaps(x.Key),
                                          .StoiChiometry = x.StoiChiometry})
             Products = right.ToArray(Function(x) New CompoundSpecieReference With {
-                                         .Identifier = idMaps(x.Identifier),
+                                         .Identifier = idMaps(x.Key),
                                          .StoiChiometry = x.StoiChiometry})
             Reversible = canReverse
         End Sub

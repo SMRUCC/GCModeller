@@ -77,10 +77,10 @@ Namespace Assembly.MetaCyc.Schema
 
         Private Shared Function __newMap(cps As ICompoundObject) As EffectorMap
             Return New EffectorMap With {
-                .Effector = cps.Identifier,
+                .Effector = cps.Key,
                 .EffectorAlias = cps.CommonNames,
                 ._CHEBI = cps.CHEBI,
-                .KEGGCompound = cps.Identifier,
+                .KEGGCompound = cps.Key,
                 ._PUBCHEM = cps.PUBCHEM
             }
         End Function

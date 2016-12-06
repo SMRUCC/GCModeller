@@ -64,14 +64,14 @@ Namespace Assembly.NCBI.COG
                                         .count = New List(Of String)})
             Dim locus = source.ToArray(
                 Function(x) New With {
-                    x.Identifier,
+                    x.Key,
                      .COG = Strings.UCase([Function].__trimCOGs(x.COG))})
 
             hash.Add("-", New With {.fun = __notAssigned(), .count = New List(Of String)})
 
             For Each x In locus
                 For Each c As Char In x.COG
-                    hash(c).count.Add(x.Identifier)
+                    hash(c).count.Add(x.Key)
                 Next
             Next
 

@@ -165,7 +165,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         Public Iterator Function GetEnumerator() As Global.System.Collections.Generic.IEnumerator(Of Global.System.Collections.Generic.KeyValuePair(Of String, TFluxObject)) Implements Global.System.Collections.Generic.IEnumerable(Of Global.System.Collections.Generic.KeyValuePair(Of String, TFluxObject)).GetEnumerator
             For i As Integer = 0 To _DynamicsExprs.Count - 1
                 Dim Item = _DynamicsExprs(i)
-                Yield New KeyValuePair(Of String, TFluxObject)(Item.Identifier, Item)
+                Yield New KeyValuePair(Of String, TFluxObject)(Item.Key, Item)
             Next
         End Function
 
@@ -179,7 +179,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
         Public Function ContainsKey(key As String) As Boolean Implements Global.System.Collections.Generic.IReadOnlyDictionary(Of String, TFluxObject).ContainsKey
             If KeyCollection.IsNullOrEmpty Then
-                KeyCollection = (From item In _DynamicsExprs Select item.Identifier).ToArray
+                KeyCollection = (From item In _DynamicsExprs Select name = item.Key).ToArray
             End If
 
             Dim f As Boolean = Array.IndexOf(KeyCollection, key) > -1
@@ -189,7 +189,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         Default Public ReadOnly Property Item(key As String) As TFluxObject Implements Global.System.Collections.Generic.IReadOnlyDictionary(Of String, TFluxObject).Item
             Get
                 If KeyCollection.IsNullOrEmpty Then
-                    KeyCollection = (From FluxObject In _DynamicsExprs Select FluxObject.Identifier).ToArray
+                    KeyCollection = (From FluxObject In _DynamicsExprs Select name = FluxObject.Key).ToArray
                 End If
 
                 Dim i = Array.IndexOf(KeyCollection, key)
@@ -199,19 +199,19 @@ Namespace EngineSystem.ObjectModels.SubSystem
             End Get
         End Property
 
-        Public ReadOnly Property Keys As Global.System.Collections.Generic.IEnumerable(Of String) Implements Global.System.Collections.Generic.IReadOnlyDictionary(Of String, TFluxObject).Keys
+        Public ReadOnly Property Keys As IEnumerable(Of String) Implements IReadOnlyDictionary(Of String, TFluxObject).Keys
             Get
                 If KeyCollection.IsNullOrEmpty Then
-                    KeyCollection = (From FluxObject In _DynamicsExprs Select FluxObject.Identifier).ToArray
+                    KeyCollection = (From FluxObject In _DynamicsExprs Select FluxObject.Key).ToArray
                 End If
 
                 Return KeyCollection
             End Get
         End Property
 
-        Public Function TryGetValue(key As String, ByRef value As TFluxObject) As Boolean Implements Global.System.Collections.Generic.IReadOnlyDictionary(Of String, TFluxObject).TryGetValue
+        Public Function TryGetValue(key As String, ByRef value As TFluxObject) As Boolean Implements IReadOnlyDictionary(Of String, TFluxObject).TryGetValue
             If KeyCollection.IsNullOrEmpty Then
-                KeyCollection = (From FluxObject In _DynamicsExprs Select FluxObject.Identifier).ToArray
+                KeyCollection = (From FluxObject In _DynamicsExprs Select name = FluxObject.Key).ToArray
             End If
 
             Dim i = Array.IndexOf(KeyCollection, key)
@@ -235,7 +235,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 #End Region
 
         Public Overridable Function get_DataSerializerHandles() As HandleF() Implements IDataSource.Get_DataSerializerHandles
-            Dim LQuery = (From FluxObject In Me.NetworkComponents Select New HandleF With {.Identifier = FluxObject.Identifier, .Handle = FluxObject.Address}).ToArray
+            Dim LQuery = (From FluxObject In Me.NetworkComponents Select New HandleF With {.Identifier = FluxObject.Key, .Handle = FluxObject.Address}).ToArray
             Return LQuery
         End Function
 
