@@ -189,7 +189,7 @@ Public Module CLI
 
         Dim cog = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\output.MyvaCOG.csv".LoadCsv(Of MyvaCOG)
         Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.gb")
-        doc = Circos.CircosAPI.GenerateGeneElements(doc, gb, cog, splitOverlaps:=False)
+        doc = Circos.CircosAPI.AddGeneInfoTrack(doc, gb, cog, splitOverlaps:=False)
         Dim tbl = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.ED.Blastn.Xml".LoadXml(Of AlignmentTable)
         Dim iddd = (From x In tbl.Hits Select x.Identity).ToArray
         Dim tblColor = CircosAPI.IdentityColors(iddd.Min, iddd.Max, 512)
