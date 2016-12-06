@@ -46,7 +46,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
     ''' For comparative ChIP-Seq, the features might be binding region from a pre-determined list.
     ''' </summary>
     Public Class Feature : Inherits Contig
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IGeneBrief
         Implements ILocationComponent
 
@@ -197,7 +197,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' 请注意，这个属性不是基因号
         ''' </summary>
         ''' <returns></returns>
-        Public Property ID As String Implements sIdEnumerable.Identifier
+        Public Property ID As String Implements INamedValue.Key
             Get
                 Return attributes.TryGetValue("id")
             End Get

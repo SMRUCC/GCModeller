@@ -43,7 +43,7 @@ Namespace EngineSystem.ObjectModels.Entity
     ''' <remarks></remarks>
     Public Class Compound : Inherits ObjectModel
         Implements IAddressHandle
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IDataSourceEntity
 
         <DumpNode>
@@ -207,7 +207,7 @@ Namespace EngineSystem.ObjectModels.Entity
         End Sub
 #End Region
 
-        Public Overrides Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Overrides Property Identifier As String Implements INamedValue.Key
 
         Public Overridable ReadOnly Property SerialsHandle As HandleF Implements IDataSourceEntity.SerialsHandle
             Get

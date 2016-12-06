@@ -43,9 +43,9 @@ Namespace ComponentModel.EquaionModel
             End If
 
             If strict Then
-                Return String.Equals(b.Identifier, a.Identifier, StringComparison.Ordinal)
+                Return b.Key = a.Key
             Else
-                Return String.Equals(b.Identifier, a.Identifier, StringComparison.OrdinalIgnoreCase)
+                Return String.Equals(b.Key, a.Key, StringComparison.OrdinalIgnoreCase)
             End If
         End Function
 

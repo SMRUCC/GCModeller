@@ -45,7 +45,7 @@ Namespace FileStream
         Implements IMetabolite
         Implements FLuxBalanceModel.IMetabolite
 
-        <Column("Unique-Id")> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Identifier
+        <Column("Unique-Id")> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
         <Column("Mol.Weight")>
         Public Property MolWeight As Double
         <Column("KEGG.Compound")>
@@ -181,7 +181,7 @@ Namespace FileStream
 
         Public Class MappingComponentModel : Implements ICompoundObject
 
-            Public Property Identifier As String Implements sIdEnumerable.Identifier
+            Public Property Identifier As String Implements INamedValue.Key
 
             Public Property CHEBI As String() Implements ICompoundObject.CHEBI
             Public Property CommonNames As String() Implements ICompoundObject.CommonNames

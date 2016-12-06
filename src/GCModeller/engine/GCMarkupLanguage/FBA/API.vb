@@ -41,7 +41,7 @@ Namespace FBACompatibility
             Dim Model As Model = New Model
             Model.Reactions = (From flux In SBMl2.MetabolismNetwork
                                Select New MetabolismFlux With {
-                                   .Identifier = flux.Identifier,
+                                   .Identifier = flux.Key,
                                    .LOWER_BOUND = flux.LOWER_BOUND,
                                    .UPPER_BOUND = flux.UPPER_BOUND}).ToArray
             Model.MAT = (From metabolite As FLuxBalanceModel.IMetabolite

@@ -107,10 +107,10 @@ Public Module PhenoCoefficient
                 Call hash(gene.locus).Add(gene.GetLevel(name))
             Next
             For Each flux As Pheno In fluxs
-                If Not hash.ContainsKey(flux.Identifier) Then
-                    Call hash.Add(flux.Identifier, New List(Of Double))
+                If Not hash.ContainsKey(flux.Key) Then
+                    Call hash.Add(flux.Key, New List(Of Double))
                 End If
-                Call hash(flux.Identifier).Add(flux.Properties(name))
+                Call hash(flux.Key).Add(flux.Properties(name))
             Next
         Next
 
@@ -168,7 +168,7 @@ Public Module PhenoCoefficient
         }
 
         For Each flux As PhenoOUT In fluxs
-            Call gSample.Properties.Add(flux.Identifier, MAT.GetValue(locus, flux.Identifier))
+            Call gSample.Properties.Add(flux.Key, MAT.GetValue(locus, flux.Key))
         Next
 
         Return gSample

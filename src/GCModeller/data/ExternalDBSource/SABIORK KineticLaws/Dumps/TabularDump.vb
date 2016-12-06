@@ -36,9 +36,9 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace SabiorkKineticLaws.TabularDump
 
-    Public MustInherit Class SabiorkEntity : Implements sIdEnumerable
+    Public MustInherit Class SabiorkEntity : Implements INamedValue
 
-        Public Property SabiorkId As String Implements sIdEnumerable.Identifier
+        Public Property SabiorkId As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String
             Return SabiorkId
@@ -48,7 +48,7 @@ Namespace SabiorkKineticLaws.TabularDump
     Public Class CompoundSpecie : Inherits SabiorkEntity
         Implements ICompoundObject
 
-        <Column("kegg.compound")> Public Property KEGG_Compound As String Implements ICompoundObject.Identifier, ICompoundObject.locusId
+        <Column("kegg.compound")> Public Property KEGG_Compound As String Implements ICompoundObject.Key, ICompoundObject.locusId
 
         Public Overrides Function ToString() As String
             Return CommonNames.First

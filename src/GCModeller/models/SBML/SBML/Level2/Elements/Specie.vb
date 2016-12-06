@@ -45,7 +45,7 @@ Namespace Level2.Elements
         ''' <remarks></remarks>
         <Escaped>
         <XmlAttribute("id")>
-        Public Overrides Property ID As String Implements IMetabolite.Identifier
+        Public Overrides Property ID As String Implements IMetabolite.Key
         <XmlAttribute("initialAmount")>
         Public Property InitialAmount As Double Implements IMetabolite.InitializeAmount
         <Escaped>

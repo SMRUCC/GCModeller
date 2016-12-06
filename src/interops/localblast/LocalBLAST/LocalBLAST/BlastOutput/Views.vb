@@ -123,8 +123,8 @@ Namespace LocalBLAST.BLASTOutput.Views
         End Function
     End Class
 
-    Public Structure Query : Implements sIdEnumerable
-        <XmlAttribute> Public Property Id As String Implements sIdEnumerable.Identifier
+    Public Structure Query : Implements INamedValue
+        <XmlAttribute> Public Property Id As String Implements INamedValue.Key
         <XmlElement> Public Property Hits As BestHit()
 
         Public Overrides Function ToString() As String

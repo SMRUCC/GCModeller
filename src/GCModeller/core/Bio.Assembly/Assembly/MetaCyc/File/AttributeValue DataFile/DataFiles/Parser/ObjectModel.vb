@@ -39,9 +39,9 @@ Namespace Assembly.MetaCyc.File
     ''' 每一个数据文件里面的每一个对象的模型
     ''' </summary>
     Public Class ObjectModel : Inherits DynamicPropertyBase(Of String())
-        Implements sIdEnumerable
+        Implements INamedValue
 
-        Public Property uid As String Implements sIdEnumerable.Identifier
+        Public Property uid As String Implements INamedValue.Key
 
         Const UNIQUE_ID As String = "UNIQUE-ID"
 

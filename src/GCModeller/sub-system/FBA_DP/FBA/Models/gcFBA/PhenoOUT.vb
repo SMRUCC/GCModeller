@@ -75,10 +75,10 @@ Namespace Models.rFBA
     End Class
 
     Public Class RPKMStat : Inherits DynamicPropertyBase(Of Double)
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IPhenoOUT
 
-        Public Property Locus As String Implements sIdEnumerable.Identifier
+        Public Property Locus As String Implements INamedValue.Key
         <Meta(GetType(Double))> Public Overrides Property Properties As Dictionary(Of String, Double)
             Get
                 Return MyBase.Properties

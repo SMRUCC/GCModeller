@@ -4,10 +4,10 @@ Imports Microsoft.VisualBasic.LINQ.Framework
 
 Namespace Script
 
-    Public Class Variable : Implements sIdEnumerable
+    Public Class Variable : Implements INamedValue
         Implements IEnumerable
 
-        Public Property Name As String Implements sIdEnumerable.Identifier
+        Public Property Name As String Implements INamedValue.Key
         Public Property Data As IEnumerable
 
         Public Overrides Function ToString() As String

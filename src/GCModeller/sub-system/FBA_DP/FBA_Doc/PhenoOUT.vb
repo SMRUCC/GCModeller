@@ -55,6 +55,6 @@ Namespace Models.rFBA
         End Property
     End Class
 
-    Public Interface IPhenoOUT : Inherits sIdEnumerable, IDynamicMeta(Of Double)
+    Public Interface IPhenoOUT : Inherits INamedValue, IDynamicMeta(Of Double)
     End Interface
 End Namespace

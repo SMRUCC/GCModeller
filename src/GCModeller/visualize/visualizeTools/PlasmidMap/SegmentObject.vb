@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic
 
 Namespace PlasmidMap.DrawingModels
 
-    Public Class SegmentObject : Implements sIdEnumerable, IGeneBrief
+    Public Class SegmentObject : Implements INamedValue, IGeneBrief
 
         ''' <summary>
         ''' 0表示没有方向，1表示正向，-1表示反向
@@ -47,7 +47,7 @@ Namespace PlasmidMap.DrawingModels
         Public Property Color As System.Drawing.Color
         Public Property CommonName As String Implements IGeneBrief.COG
         Public Property FunctionalAnnotation As String Implements IGeneBrief.Product
-        Public Property LocusTag As String Implements IGeneBrief.Identifier
+        Public Property LocusTag As String Implements IGeneBrief.Key
         Public Property Left As Integer
         Public Property Right As Integer
         Public Property GenomeLength As Integer Implements IGeneBrief.Length

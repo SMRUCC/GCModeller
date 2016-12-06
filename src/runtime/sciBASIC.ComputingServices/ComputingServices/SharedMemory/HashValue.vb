@@ -35,13 +35,13 @@ Namespace SharedMemory
     ''' <summary>
     ''' The shared variable on the remote machine.
     ''' </summary>
-    Public Class HashValue : Implements sIdEnumerable
+    Public Class HashValue : Implements INamedValue
 
         ''' <summary>
         ''' The variable name
         ''' </summary>
         ''' <returns></returns>
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         ''' <summary>
         ''' variable value
         ''' </summary>
@@ -75,13 +75,13 @@ Namespace SharedMemory
     ''' <summary>
     ''' Variable value for the network transfer
     ''' </summary>
-    Public Structure Argv : Implements sIdEnumerable
+    Public Structure Argv : Implements INamedValue
 
         ''' <summary>
         ''' The variable name
         ''' </summary>
         ''' <returns></returns>
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         ''' <summary>
         ''' Json value, and the type information is also included in this property.
         ''' </summary>

@@ -27,9 +27,7 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -40,7 +38,6 @@ Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
 Imports SMRUCC.genomics.SequenceModel.SAM
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap
@@ -103,9 +100,9 @@ Public Module ReadsMap
         Config.Resolution = $"{Ranges.FragmentSize + Config.Margin * 4},{Config.Margin * 2}"
 
         '频数统计
-        Dim HistoneGram = Ranges.GetResiduesLoci.ToDictionary(Function(i) i, Function(i) New Value(Of Integer))
+        Dim HistoneGram = Ranges.ToDictionary(Function(i) i, Function(i) New Value(Of Integer))
         Dim LQuery = (From Read In Reads.AsParallel
-                      Let loci = CreateLoci(Read).GetResiduesLoci
+                      Let loci = CreateLoci(Read).ToArray
                       Select (From i As Long In loci Where HistoneGram.ContainsKey(i) Select i).ToArray)
 
         For Each ReadCoverage In LQuery
@@ -206,7 +203,7 @@ Public Module ReadsMap
                                    Select strand = Gene.Location.Strand,
                                        ID = Gene.Synonym,
                                        Loci,
-                                       LociSequence = Loci.GetResiduesLoci).ToArray
+                                       LociSequence = Loci.ToArray).ToArray
         '频数统计
         Dim HistoneGram = (From loci
                            In TSSPossibleLocation.AsParallel
@@ -216,7 +213,7 @@ Public Module ReadsMap
                                                                   Function(i) New Value(Of Integer))
         Dim LQuery = From read As AlignmentReads
                      In SAM.AlignmentsReads.AsParallel
-                     Let loci As Integer() = CreateLoci(read).GetResiduesLoci
+                     Let loci As Integer() = CreateLoci(read).ToArray
                      Select (From i As Long
                              In loci
                              Where HistoneGram.ContainsKey(i)

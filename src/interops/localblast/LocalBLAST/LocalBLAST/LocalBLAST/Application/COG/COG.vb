@@ -40,9 +40,9 @@ Namespace LocalBLAST.Application.RpsBLAST
     ''' COG output data from http://weizhong-lab.ucsd.edu/metagenomic-analysis/server/
     ''' </summary>
     Public Class MGACOG
-        Implements sIdEnumerable, ICOGDigest, IQueryHits
+        Implements INamedValue, ICOGDigest, IQueryHits
 
-        <Column("#Query")> Public Property QueryName As String Implements IBlastHit.locusId, sIdEnumerable.Identifier
+        <Column("#Query")> Public Property QueryName As String Implements IBlastHit.locusId, INamedValue.Key
         Public Property Hit As String Implements IBlastHit.Address, ICOGDigest.COG
         <Column("E-value")> Public Property Evalue As Double
         Public Property Score As Double
@@ -89,9 +89,9 @@ Namespace LocalBLAST.Application.RpsBLAST
     ''' </summary>
     ''' <remarks></remarks>
     Public Class MyvaCOG
-        Implements sIdEnumerable, ICOGDigest, IQueryHits
+        Implements INamedValue, ICOGDigest, IQueryHits
 
-        <Column("query_name")> Public Property QueryName As String Implements sIdEnumerable.Identifier, IBlastHit.locusId
+        <Column("query_name")> Public Property QueryName As String Implements INamedValue.Key, IBlastHit.locusId
         Public Property Length As Integer Implements ICOGDigest.Length
         <Column("cog_myva")> Public Property MyvaCOG As String
 

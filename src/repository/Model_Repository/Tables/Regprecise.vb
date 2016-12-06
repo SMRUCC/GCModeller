@@ -91,13 +91,13 @@ End Class
 ''' > xcb:XC_1184|Family|Regulates|Regulog|Definition
 ''' </summary>
 Public Class Regulator
-    Implements sIdEnumerable, I_PolymerSequenceModel
+    Implements INamedValue, I_PolymerSequenceModel
 
     ''' <summary>
     ''' &lt;(KEGG)species_code>:&lt;locusTag>
     ''' </summary>
     ''' <returns></returns>
-    Public Property KEGG As String Implements sIdEnumerable.Identifier
+    Public Property KEGG As String Implements INamedValue.Key
     Public Property Sites As String()
     Public Property Family As String
     Public Property Regulog As String

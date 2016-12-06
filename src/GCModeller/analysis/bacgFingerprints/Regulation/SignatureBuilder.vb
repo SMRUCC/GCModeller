@@ -69,7 +69,7 @@ Namespace RegulationSignature
                 KEGG_Pathways As IEnumerable(Of bGetObject.Pathway),
                 COG As IEnumerable(Of ICOGDigest))
 
-            Dim COGHash = COG.ToDictionary(Function(Gene) Gene.Identifier)
+            Dim COGHash = COG.ToDictionary(Function(Gene) Gene.Key)
             Dim GenomeHash As Dictionary(Of String, GeneObject) =
                 PTT.GeneObjects.ToDictionary(Function(Gene) Gene.Synonym,
                                              Function(Gene) New GeneObject With {

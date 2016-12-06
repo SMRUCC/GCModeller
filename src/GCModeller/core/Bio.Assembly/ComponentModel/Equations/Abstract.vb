@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel.EquaionModel
 
-    Public Interface ICompoundSpecies : Inherits sIdEnumerable
+    Public Interface ICompoundSpecies : Inherits INamedValue
         Property StoiChiometry As Double
     End Interface
 

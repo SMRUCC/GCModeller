@@ -77,9 +77,9 @@ Namespace ComponentModel.EquaionModel
             Dim Groups = (From x As T
                           In value
                           Select x
-                          Group x By x.Identifier.ToLower Into Group)
+                          Group x By x.Key.ToLower Into Group)
             Dim hash As Dictionary(Of String, T()) =
-                Groups.ToDictionary(Function(x) x.Group.First.Identifier,
+                Groups.ToDictionary(Function(x) x.Group.First.Key,
                                     Function(x) x.Group.ToArray)
             Return hash
         End Function
@@ -121,11 +121,11 @@ Namespace ComponentModel.EquaionModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Produce(metabolite As T) As Boolean
-            Return __rightHash.ContainsKey(metabolite.Identifier)
+            Return __rightHash.ContainsKey(metabolite.Key)
         End Function
 
         Public Function Consume(metabolite As T) As Boolean
-            Return __leftHash.ContainsKey(metabolite.Identifier)
+            Return __leftHash.ContainsKey(metabolite.Key)
         End Function
 
         ''' <summary>

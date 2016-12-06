@@ -39,7 +39,7 @@ Namespace Assembly.Expasy.Database
     ''' 使用Uniprot编号为主的酶分类数据记录
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Enzyme : Implements sIdEnumerable
+    Public Class Enzyme : Implements INamedValue
 
         ''' <summary>
         ''' (ID)  EC编号
@@ -48,7 +48,7 @@ Namespace Assembly.Expasy.Database
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute("EC_ID", Namespace:="http://code.google.com/p/genome-in-code/mapping/expasy")>
-        Public Property Identification As String Implements sIdEnumerable.Identifier
+        Public Property Identification As String Implements INamedValue.Key
 
         ''' <summary>
         ''' (DE)  (official name)         

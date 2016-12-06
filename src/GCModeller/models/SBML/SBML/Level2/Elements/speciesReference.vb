@@ -46,7 +46,7 @@ Namespace Level2.Elements
         ''' </summary>
         ''' <remarks></remarks>
         <Escaped> <XmlAttribute()>
-        Public Property species As String Implements sIdEnumerable.Identifier
+        Public Property species As String Implements INamedValue.Key
         ''' <summary>
         ''' (化学计量数)
         ''' </summary>
@@ -58,7 +58,7 @@ Namespace Level2.Elements
         End Sub
 
         Sub New(x As ICompoundSpecies)
-            species = x.Identifier
+            species = x.Key
             stoichiometry = x.StoiChiometry
         End Sub
 

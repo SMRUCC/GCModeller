@@ -58,7 +58,7 @@ Namespace TrackDatas.Highlights
 
         Private Shared Function __textSource(annoData As IEnumerable(Of IGeneBrief), chr$) As IEnumerable(Of TextTrackData)
             Return __textSource(annoData, chr,
-                   Function(g) g.Identifier,
+                   Function(g) g.Key,
                    Function(g) g.Location.Normalization)
         End Function
 

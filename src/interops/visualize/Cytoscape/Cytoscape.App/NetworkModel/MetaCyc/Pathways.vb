@@ -115,9 +115,9 @@ Namespace NetworkModel
             Nodes = NodeList.ToArray
         End Sub
 
-        Public Class Pathway : Implements sIdEnumerable
+        Public Class Pathway : Implements INamedValue
 
-            Public Property Identifier As String Implements sIdEnumerable.Identifier
+            Public Property Identifier As String Implements INamedValue.Key
             Public Property ReactionCounts As Integer
             Public Property EnzymeCounts As Integer
             Public Property CommonName As String

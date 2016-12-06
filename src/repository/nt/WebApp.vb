@@ -25,7 +25,7 @@ Public Class RepositoryWebApp : Inherits WebApp
     Public Sub New(main As PlatformEngine)
         MyBase.New(main)
 
-        Dim DATA$ = App.GetVariables("DATA").FirstOrDefault
+        Dim DATA$ = App.GetVariable("DATA")
 
         If Not DATA$.DirectoryExists Then
             Throw New Exception(DATANotAvaliable)

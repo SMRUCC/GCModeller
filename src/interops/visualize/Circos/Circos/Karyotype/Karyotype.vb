@@ -93,13 +93,13 @@ Namespace Karyotype
     ''' </remarks>
     Public Class Karyotype : Inherits ClassObject
         Implements IKaryotype
-        Implements sIdEnumerable
+        Implements INamedValue
 
         ''' <summary>
         ''' Id
         ''' </summary>
         ''' <returns></returns>
-        Public Property chrName As String Implements IKaryotype.chrName, sIdEnumerable.Identifier
+        Public Property chrName As String Implements IKaryotype.chrName, INamedValue.Key
         ''' <summary>
         ''' Display name title labels
         ''' </summary>

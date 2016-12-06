@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Data.csv
     ''' 带标签的实验样品数据
     ''' </summary>
     ''' <remarks></remarks>
-    Public Structure SerialsData : Implements sIdEnumerable
+    Public Structure SerialsData : Implements INamedValue
         Implements IEnumerable(Of Double)
         Implements IKeyValuePairObject(Of String, Double())
 
@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Tag As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, Double()).Identifier
+        Public Property Tag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Double()).Identifier
         ''' <summary>
         ''' 该样品的实验数据
         ''' </summary>

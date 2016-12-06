@@ -63,7 +63,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
         ''' <returns></returns>
         ''' <remarks>为了实现IReaction接口的需要所进行的属性值的复写</remarks>
         <XmlAttribute("UniqueId")>
-        Public Overrides Property Identifier As String Implements FLuxBalanceModel.I_ReactionModel(Of CompoundSpeciesReference).Identifier
+        Public Overrides Property Identifier As String Implements FLuxBalanceModel.I_ReactionModel(Of CompoundSpeciesReference).Key
             Get
                 Return MyBase.Identifier
             End Get

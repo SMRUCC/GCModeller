@@ -35,9 +35,9 @@ Namespace Motif
     ''' <summary>
     ''' Regular expression model for the motifs
     ''' </summary>
-    Public Class MotifPattern : Implements sIdEnumerable
+    Public Class MotifPattern : Implements INamedValue
 
-        Public Property Id As String Implements sIdEnumerable.Identifier
+        Public Property Id As String Implements INamedValue.Key
         Public Property Expression As String
         Public Property Motif As String
         Public Property Width As Integer

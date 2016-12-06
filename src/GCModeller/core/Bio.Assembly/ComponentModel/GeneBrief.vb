@@ -42,7 +42,7 @@ Namespace ComponentModel
     ''' The COG annotation data of the genes.(基因对象的COG注释结果)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Interface ICOGDigest : Inherits sIdEnumerable
+    Public Interface ICOGDigest : Inherits INamedValue
 
         ''' <summary>
         ''' The gene object COG classification.(COG功能分类)

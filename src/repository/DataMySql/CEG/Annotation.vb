@@ -38,7 +38,7 @@ Namespace CEG
     ''' CEG看家基因的功能注释数据
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Annotation : Implements sIdEnumerable
+    Public Class Annotation : Implements INamedValue
 
         ''' <summary>
         ''' 本看家基因在CEG数据库之中的唯一编号
@@ -46,7 +46,7 @@ Namespace CEG
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property GId As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property GId As String Implements INamedValue.Key
         ''' <summary>
         ''' 基因名
         ''' </summary>

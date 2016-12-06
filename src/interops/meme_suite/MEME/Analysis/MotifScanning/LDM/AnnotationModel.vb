@@ -40,7 +40,7 @@ Namespace Analysis.MotifScans
     ''' <summary>
     ''' MAST_LDM for motif annotation.
     ''' </summary>
-    Public Class AnnotationModel : Implements sIdEnumerable
+    Public Class AnnotationModel : Implements INamedValue
 
         <XmlAttribute> Public Property Evalue As Double
         Public Property Sites As Site()
@@ -58,7 +58,7 @@ Namespace Analysis.MotifScans
         End Property
         <XmlAttribute> Public Property Width As Integer
         Public Property PWM As ResidueSite()
-        <XmlAttribute> Public Property Uid As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property Uid As String Implements INamedValue.Key
         <XmlAttribute> Public Property Expression As String
         <XmlAttribute("bp")> Public Property SourceLen As Integer
 

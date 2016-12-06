@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace DESeq2
 
-    Public Class ExprStats : Implements IDynamicMeta(Of String), IReadOnlyId, sIdEnumerable
+    Public Class ExprStats : Implements IDynamicMeta(Of String), IReadOnlyId, INamedValue
 
         Public Const LEVEL As String = "[Level]"
         Public Const STATS As String = "[stat]"
@@ -44,7 +44,7 @@ Namespace DESeq2
         ''' </summary>
         Public Const LEVEL2 As String = "[Level2]"
 
-        Public Property locus As String Implements IReadOnlyId.Identity, sIdEnumerable.Identifier
+        Public Property locus As String Implements IReadOnlyId.Identity, INamedValue.Key
         Public Property log2FoldChange As Double
 
         ''' <summary>

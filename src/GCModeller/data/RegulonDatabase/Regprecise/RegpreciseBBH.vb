@@ -40,7 +40,7 @@ Namespace Regprecise
 
     Public Class RegpreciseBBH : Inherits BiDirectionalBesthit
 
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IRegulatorMatched
 
         ''' <summary>
@@ -49,7 +49,7 @@ Namespace Regprecise
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column("LocusId")> Public Overrides Property QueryName As String Implements sIdEnumerable.Identifier,
+        <Column("LocusId")> Public Overrides Property QueryName As String Implements INamedValue.Key,
             IRegulatorMatched.locusId
             Get
                 Return MyBase.QueryName
@@ -90,7 +90,7 @@ Namespace Regprecise
     Public Class RegpreciseMPBBH : Inherits RegpreciseBBH
 
         Implements IMPAlignmentResult
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IRegulatorMatched
 
 #Region "Public Property"

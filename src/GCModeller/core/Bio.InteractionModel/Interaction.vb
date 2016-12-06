@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Linq
 ''' 默认的的相互作用的方向为从A到B
 ''' </summary>
 ''' <remarks></remarks>
-Public Class Interaction(Of T As sIdEnumerable)
+Public Class Interaction(Of T As INamedValue)
     Implements IInteraction
 
     Public Property A As T
@@ -53,19 +53,19 @@ Public Class Interaction(Of T As sIdEnumerable)
 
     Public Property source As String Implements IInteraction.source
         Get
-            Return A.Identifier
+            Return A.Key
         End Get
         Set(value As String)
-            A.Identifier = value
+            A.Key = value
         End Set
     End Property
 
     Public Property target As String Implements IInteraction.target
         Get
-            Return B.Identifier
+            Return B.Key
         End Get
         Set(value As String)
-            B.Identifier = value
+            B.Key = value
         End Set
     End Property
 
@@ -74,9 +74,9 @@ Public Class Interaction(Of T As sIdEnumerable)
             If A Is Nothing AndAlso B Is Nothing Then
                 Return ""
             ElseIf A Is Nothing Then
-                Return B.Identifier
+                Return B.Key
             Else
-                Return A.Identifier
+                Return A.Key
             End If
         End If
 
@@ -92,13 +92,13 @@ Public Class Interaction(Of T As sIdEnumerable)
     ''' <remarks></remarks>
     Public Overloads Function Equals(objA As T, objB As T, Optional directed? As Boolean = False) As Boolean
         If Not directed Then
-            Return (String.Equals(objA.Identifier, A.Identifier) AndAlso
-                String.Equals(objB.Identifier, B.Identifier)) OrElse
-                (String.Equals(objB.Identifier, A.Identifier) AndAlso
-                String.Equals(objA.Identifier, B.Identifier))
+            Return (String.Equals(objA.Key, A.Key) AndAlso
+                String.Equals(objB.Key, B.Key)) OrElse
+                (String.Equals(objB.Key, A.Key) AndAlso
+                String.Equals(objA.Key, B.Key))
         Else
-            Return String.Equals(objA.Identifier, A.Identifier) AndAlso
-                String.Equals(objB.Identifier, B.Identifier)
+            Return String.Equals(objA.Key, A.Key) AndAlso
+                String.Equals(objB.Key, B.Key)
         End If
     End Function
 
@@ -112,10 +112,10 @@ Public Class Interaction(Of T As sIdEnumerable)
     ''' <remarks></remarks>
     Public Overloads Function Equals(objA As String, objB As String, Optional directed? As Boolean = False) As Boolean
         If Not directed Then
-            Return (String.Equals(objA, A.Identifier) AndAlso String.Equals(objB, B.Identifier)) OrElse
-                       (String.Equals(objB, A.Identifier) AndAlso String.Equals(objA, B.Identifier))
+            Return (String.Equals(objA, A.Key) AndAlso String.Equals(objB, B.Key)) OrElse
+                       (String.Equals(objB, A.Key) AndAlso String.Equals(objA, B.Key))
         Else
-            Return String.Equals(objA, A.Identifier) AndAlso String.Equals(objB, B.Identifier)
+            Return String.Equals(objA, A.Key) AndAlso String.Equals(objB, B.Key)
         End If
     End Function
 

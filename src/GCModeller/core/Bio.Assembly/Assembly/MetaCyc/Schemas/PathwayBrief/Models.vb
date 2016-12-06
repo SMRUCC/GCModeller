@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic
 
 Namespace Assembly.MetaCyc.Schema.PathwayBrief
 
-    <XmlType("pwy")> Public Class Pathway : Implements sIdEnumerable
+    <XmlType("pwy")> Public Class Pathway : Implements INamedValue
         Public Property MetaCycBaseType As Slots.Pathway
         ''' <summary> 
         ''' 本代谢途径是否为一个超途径
@@ -77,7 +77,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             End If
         End Function
 
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
     End Class
 
     Public Class PathwayBrief : Inherits ComponentModel.PathwayBrief

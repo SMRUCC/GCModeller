@@ -31,12 +31,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ObjectModels
 
-    Public Class Metabolite : Implements IMetabolite, sIdEnumerable
+    Public Class Metabolite : Implements IMetabolite, INamedValue
 
         Public Property ChEBI As String() Implements IMetabolite.ChEBI
         Public Property KEGGCompound As String Implements IMetabolite.KEGGCompound
 
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         Public Property CommonNames As String()
         Public Property MetaboliteType As MetaboliteTypes
 

@@ -34,10 +34,10 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 Namespace Components
 
     Public Class Specie : Inherits IPartsBase
-        Implements sIdEnumerable
+        Implements INamedValue
 
         <Escaped> <XmlAttribute>
-        Public Overrides Property id As String Implements sIdEnumerable.Identifier
+        Public Overrides Property id As String Implements INamedValue.Key
 
         <Escaped>
         <XmlAttribute("compartment")>

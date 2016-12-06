@@ -11,7 +11,7 @@ Namespace Framework.Provider
     ''' item in the type registry table
     ''' </summary>
     ''' <remarks>方法和类型是分开的</remarks>
-    Public Class TypeEntry : Implements sIdEnumerable
+    Public Class TypeEntry : Implements INamedValue
 
         ''' <summary>
         ''' 类型的简称或者别称，即本属性为LINQEntity自定义属性中的构造函数的参数
@@ -19,7 +19,7 @@ Namespace Framework.Provider
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property name As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property name As String Implements INamedValue.Key
         ''' <summary>
         ''' Full type name for the target LINQ entity type. Assembly!typeFullName (目标LINQEntity集合中的类型全称)
         ''' </summary>

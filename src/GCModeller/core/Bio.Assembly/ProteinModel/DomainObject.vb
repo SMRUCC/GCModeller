@@ -38,7 +38,7 @@ Namespace ProteinModel
     ''' Domain identifier + Domain Location
     ''' </summary>
     Public Class DomainObject : Inherits SmpFile
-        Implements sIdEnumerable
+        Implements INamedValue
 
         Public Property Position As Location
         Public Property EValue As Double

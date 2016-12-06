@@ -93,9 +93,9 @@ End Class
 ''' <summary>
 ''' Entity to color mapper
 ''' </summary>
-Public Class ClMap : Implements sIdEnumerable
+Public Class ClMap : Implements INamedValue
 
-    Public Property Identifier As String Implements sIdEnumerable.Identifier
+    Public Property Identifier As String Implements INamedValue.Key
     Public Property map As String
 
     Public Overrides Function ToString() As String

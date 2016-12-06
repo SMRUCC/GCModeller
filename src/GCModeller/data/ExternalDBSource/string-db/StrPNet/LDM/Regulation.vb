@@ -36,7 +36,7 @@ Namespace StringDB.StrPNet
     ''' 本类型可以通过CSV模块兼容CSV表格类型的计算模型
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class TFRegulation : Implements sIdEnumerable
+    Public Class TFRegulation : Implements INamedValue
 
         ''' <summary>
         ''' 通常为属性<see cref="SMRUCC.genomics.Assembly.Door.GeneBrief.OperonID"></see>的这个编号值
@@ -45,7 +45,7 @@ Namespace StringDB.StrPNet
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Column("Operon-Id")> Public Property OperonId As String
-        <Column("Regulator")> Public Property Regulator As String Implements sIdEnumerable.Identifier
+        <Column("Regulator")> Public Property Regulator As String Implements INamedValue.Key
         <CollectionAttribute("Operon-Genes")> Public Property OperonGenes As String()
         Public Property PromoterGene As String
         ''' <summary>

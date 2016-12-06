@@ -38,7 +38,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
     ''' Genbank数据库的简要信息Csv表格
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class gbEntryBrief : Implements sIdEnumerable
+    Public Class gbEntryBrief : Implements INamedValue
 
         Public Property Definition As String
         Public Property Length As Integer
@@ -46,7 +46,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         ''' 基因组的编号
         ''' </summary>
         ''' <returns></returns>
-        Public Property Locus As String Implements sIdEnumerable.Identifier
+        Public Property Locus As String Implements INamedValue.Key
         Public Property AccessionID As String
         Public Property GI As String
         Public Property Organism As String

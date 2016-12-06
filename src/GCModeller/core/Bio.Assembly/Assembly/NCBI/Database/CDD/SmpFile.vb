@@ -45,7 +45,7 @@ Namespace Assembly.NCBI.CDD
 
 #Region "Public Property & Constants"
 
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements I_PolymerSequenceModel
 
         <XmlAttribute>
@@ -69,7 +69,7 @@ Namespace Assembly.NCBI.CDD
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute>
-        Public Overridable Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Key
         <XmlAttribute("name")>
         Public Property CommonName As String
 

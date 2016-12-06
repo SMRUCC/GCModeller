@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 
 Namespace Assembly.MetaCyc.Schema
 
-    Public Interface ICompoundObject : Inherits sIdEnumerable
+    Public Interface ICompoundObject : Inherits INamedValue
         Property CommonNames As String()
         Property PUBCHEM As String
         Property CHEBI As String()
@@ -45,9 +45,9 @@ Namespace Assembly.MetaCyc.Schema
     ''' Regprecise Effector与MetaCyc Compounds Mapping
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class EffectorMap : Implements sIdEnumerable, ICompoundObject
+    Public Class EffectorMap : Implements INamedValue, ICompoundObject
 
-        Public Property Effector As String Implements sIdEnumerable.Identifier
+        Public Property Effector As String Implements INamedValue.Key
         ''' <summary>
         ''' <see cref="ICompoundObject.CommonNames"></see>
         ''' </summary>
@@ -77,10 +77,10 @@ Namespace Assembly.MetaCyc.Schema
 
         Private Shared Function __newMap(cps As ICompoundObject) As EffectorMap
             Return New EffectorMap With {
-                .Effector = cps.Identifier,
+                .Effector = cps.Key,
                 .EffectorAlias = cps.CommonNames,
                 ._CHEBI = cps.CHEBI,
-                .KEGGCompound = cps.Identifier,
+                .KEGGCompound = cps.Key,
                 ._PUBCHEM = cps.PUBCHEM
             }
         End Function

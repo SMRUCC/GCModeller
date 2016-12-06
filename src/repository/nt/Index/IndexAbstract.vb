@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Public MustInherit Class IndexAbstract
-    Implements sIdEnumerable
+    Implements INamedValue
     Implements IDisposable
 
     Dim __gi As String
@@ -11,7 +11,7 @@ Public MustInherit Class IndexAbstract
     ''' 只读
     ''' </summary>
     ''' <returns></returns>
-    Public Property gi As String Implements sIdEnumerable.Identifier
+    Public Property gi As String Implements INamedValue.Key
         Get
             Return __gi
         End Get

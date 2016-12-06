@@ -56,7 +56,7 @@ Namespace GCML_Documents.ComponentModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Identifier As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
             Get
                 Return _ObjectBaseType.species
             End Get

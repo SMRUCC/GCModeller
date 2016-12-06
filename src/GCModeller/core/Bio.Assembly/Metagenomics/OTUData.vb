@@ -7,14 +7,14 @@ Namespace Metagenomics
     ''' <summary>
     ''' <see cref="OTUData.Data"/> that associated with <see cref="OTUData.OTU"/> tag
     ''' </summary>
-    Public Class OTUData : Implements sIdEnumerable
+    Public Class OTUData : Implements INamedValue
 
         ''' <summary>
         ''' ``#OTU_num``
         ''' </summary>
         ''' <returns></returns>
         <Column(Name:="#OTU_num")>
-        Public Property OTU As String Implements sIdEnumerable.Identifier
+        Public Property OTU As String Implements INamedValue.Key
         ''' <summary>
         ''' Usually this property is the BIOM format taxonomy information
         ''' </summary>

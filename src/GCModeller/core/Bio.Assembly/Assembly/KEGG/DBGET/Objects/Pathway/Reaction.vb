@@ -41,9 +41,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' KEGG reaction annotation data.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Reaction : Implements sIdEnumerable
+    Public Class Reaction : Implements INamedValue
 
-        <XmlAttribute> Public Property Entry As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property Entry As String Implements INamedValue.Key
         Public Property CommonNames As String()
         Public Property Definition As String
         Public Property Equation As String

@@ -41,7 +41,7 @@ Namespace FBACompatibility
         ''' The Unique ID property for the metabolite.
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
 
         Public Overrides Function ToString() As String
             Return Identifier

@@ -40,10 +40,10 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
     ''' </summary>
     ''' <remarks></remarks>
     <XmlType("MetaCyc-Slot-Object")>
-    Public Class [Object] : Implements sIdEnumerable
+    Public Class [Object] : Implements INamedValue
 
         <MetaCycField(Name:="UNIQUE-ID")> <XmlAttribute>
-        Public Overridable Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Key
 
         ''' <summary>
         ''' (Common-Name) This slot defines the primary name by which an object is known 

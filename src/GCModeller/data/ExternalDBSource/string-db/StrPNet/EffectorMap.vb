@@ -36,10 +36,10 @@ Namespace StringDB.StrPNet
     ''' Regprecise Effector与MetaCyc Compounds Mapping
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class EffectorMap : Implements sIdEnumerable
+    Public Class EffectorMap : Implements INamedValue
 
         <Column("regprecise-effector")>
-        Public Property Effector As String Implements sIdEnumerable.Identifier
+        Public Property Effector As String Implements INamedValue.Key
         Public Property MetaCycId As String
         <Collection("Effector-Alias")>
         Public Property EffectorAlias As String()

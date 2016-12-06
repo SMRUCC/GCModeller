@@ -108,7 +108,7 @@ Namespace Workflows
                 Call matchedFile.Add(firstrow)
                 Call matchedFile.AppendRange(create)
 
-                Call matchedFile.Save(String.Format("{0}/{1}", Dir, FileIO.FileSystem.GetName(File.FilePath)), False)
+                '  Call matchedFile.Save(String.Format("{0}/{1}", Dir, FileIO.FileSystem.GetName(File.FilePath)), False)
             End Sub
 
             Private Function __createAction(row As RowObject) As RowObject
@@ -186,7 +186,7 @@ Namespace Workflows
                 Call motifFile.AppendRange(item)
             Next
 
-            File = String.Format("{0}/{1}", Dir, name)
+            '   File = String.Format("{0}/{1}", Dir, name)
             Console.WriteLine("writing file {0}", File.ToFileURL)
             Call motifFile.Save(File, False)
         End Sub

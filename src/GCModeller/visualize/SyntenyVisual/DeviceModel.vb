@@ -111,9 +111,9 @@ End Class
 ''' <summary>
 ''' 由于这里是通过html来控制标题的显示格式的，所以在这里需要注意将文本里面的&lt;起始转义为&amp;lt;
 ''' </summary>
-Public Class Title : Implements sIdEnumerable
+Public Class Title : Implements INamedValue
 
-    Public Property key As String Implements sIdEnumerable.Identifier
+    Public Property key As String Implements INamedValue.Key
     ''' <summary>
     ''' 用来控制标题格式的html文本
     ''' </summary>

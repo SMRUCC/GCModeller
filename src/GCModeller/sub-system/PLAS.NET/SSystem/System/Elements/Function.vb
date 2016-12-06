@@ -34,12 +34,12 @@ Namespace Kernel.ObjectModels
     ''' <summary>
     ''' User define function
     ''' </summary>
-    Public Structure [Function] : Implements sIdEnumerable
+    Public Structure [Function] : Implements INamedValue
 
         ''' <summary>
         ''' The function name
         ''' </summary>
-        <XmlAttribute> Public Property Name As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property Name As String Implements INamedValue.Key
 
         ''' <summary>
         ''' [function name](args) expression

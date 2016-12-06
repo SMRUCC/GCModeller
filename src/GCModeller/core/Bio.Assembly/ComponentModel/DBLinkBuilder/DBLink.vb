@@ -34,9 +34,9 @@ Namespace ComponentModel.DBLinkBuilder
 
     Public Class DBLink : Implements IKeyValuePairObject(Of String, String)
         Implements IDBLink
-        Implements sIdEnumerable
+        Implements INamedValue
 
-        Public Property DBName As String Implements IKeyValuePairObject(Of String, String).Identifier, sIdEnumerable.Identifier, IDBLink.locusId
+        Public Property DBName As String Implements IKeyValuePairObject(Of String, String).Identifier, INamedValue.Key, IDBLink.locusId
         Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.Address
 
         Public Overrides Function ToString() As String

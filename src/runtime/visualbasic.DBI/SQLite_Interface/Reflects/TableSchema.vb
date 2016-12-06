@@ -28,10 +28,10 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 
-Public Class TableSchema : Implements sIdEnumerable
+Public Class TableSchema : Implements INamedValue
     Implements IEnumerable(Of SchemaCache)
 
-    Public Property TableName As String Implements sIdEnumerable.Identifier
+    Public Property TableName As String Implements INamedValue.Key
     Public Property DatabaseFields As SchemaCache()
 
     ''' <summary>

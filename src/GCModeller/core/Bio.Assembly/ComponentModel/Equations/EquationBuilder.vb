@@ -84,14 +84,14 @@ Namespace ComponentModel.EquaionModel
                 Dim tokens As String() = token.Trim.Split
                 If tokens.Length > 1 Then
                     CompoundSpecie.StoiChiometry = Scripting.CTypeDynamic(Of Double)(tokens(Scan0))
-                    CompoundSpecie.Identifier = token
+                    CompoundSpecie.Key = token
                 Else
                     CompoundSpecie.StoiChiometry = 1
-                    CompoundSpecie.Identifier = token
+                    CompoundSpecie.Key = token
                 End If
             Else
                 CompoundSpecie.StoiChiometry = Val(SC)
-                CompoundSpecie.Identifier = Trim(token.Replace(SC, ""))
+                CompoundSpecie.Key = Trim(token.Replace(SC, ""))
             End If
 
             Return CompoundSpecie
@@ -154,7 +154,7 @@ Namespace ComponentModel.EquaionModel
         End Sub
 
         Private Sub AppendSides(sBuilder As StringBuilder, Compounds As ICompoundSpecies())
-            Call Compounds.__appendSide(sBuilder, Function(x) x.StoiChiometry, Function(x) x.Identifier)
+            Call Compounds.__appendSide(sBuilder, Function(x) x.StoiChiometry, Function(x) x.Key)
         End Sub
     End Module
 End Namespace

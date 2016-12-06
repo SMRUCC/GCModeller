@@ -140,7 +140,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                     Start As Integer) As TFootprint
 
             If Relation = SegmentRelationships.UpStream OrElse Relation = SegmentRelationships.Inside Then
-                PredictedRegulation.ORF = GeneSegment.Identifier
+                PredictedRegulation.ORF = GeneSegment.Key
                 PredictedRegulation.ORFDirection = If(GeneSegment.Location.Strand = Strands.Forward, "+", "-")
                 PredictedRegulation.Distance = If(GeneSegment.Location.Strand = Strands.Forward,
                                                   Start - GeneSegment.Location.Left,

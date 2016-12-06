@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::3644526f54c776497ca35a8afc095f18, ..\workbench\Model_Repository\Tables\DbFileSystemObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Data.Linq.Mapping
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 ''' <summary>
 ''' The object which its entry information was stores in the repository database but data stores on the filesystem. 
@@ -34,12 +35,12 @@ Imports System.Data.Linq.Mapping
 ''' <remarks></remarks>
 Public MustInherit Class DbFileSystemObject
 
-    Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable
+    Implements INamedValue
     Implements DbFileSystemObject.DescriptionData
 
-    <Column(dbtype:="varchar(2048)", name:="definition")> Public Property Definition As String Implements DescriptionData.Description
-    <Column(DbType:="varchar(128)", Name:="locus_id")> Public Property LocusID As String Implements DescriptionData.locusId, Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable.Identifier
-    <Column(dbtype:="varchar(1024)", name:="md5_hash")> Public Property MD5Hash As String
+    <Column(DbType:="varchar(2048)", Name:="definition")> Public Property Definition As String Implements DescriptionData.Description
+    <Column(DbType:="varchar(128)", Name:="locus_id")> Public Property LocusID As String Implements DescriptionData.locusId, INamedValue.Key
+    <Column(DbType:="varchar(1024)", Name:="md5_hash")> Public Property MD5Hash As String
 
     ''' <summary>
     ''' 本对象所指向的文件不存在或者哈希值比对不上，都会返回False

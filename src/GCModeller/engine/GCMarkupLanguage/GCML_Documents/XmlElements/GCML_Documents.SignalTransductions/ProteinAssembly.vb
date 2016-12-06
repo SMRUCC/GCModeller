@@ -37,7 +37,7 @@ Namespace GCML_Documents.XmlElements.SignalTransductions
     ''' </summary>
     ''' <remarks></remarks>
     Public Class ProteinAssembly : Inherits Reaction
-        Implements sIdEnumerable
+        Implements INamedValue
 
 #Region "Public Properties"
         ''' <summary>

@@ -41,7 +41,7 @@ Namespace Motif.Patterns
     ''' 使用正则表达式来表示序列的模式
     ''' </summary>
     Public Class PatternExpression
-        Implements sIdEnumerable
+        Implements INamedValue
 
         Public Property RangeExpr As Token(Of Tokens)()
 
@@ -56,7 +56,7 @@ Namespace Motif.Patterns
             End Set
         End Property
 
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
 
         Dim __motif As Residue()
         Dim __regex As Regex

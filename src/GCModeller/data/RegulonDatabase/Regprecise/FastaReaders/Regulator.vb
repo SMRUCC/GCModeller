@@ -38,13 +38,13 @@ Namespace Regprecise.FastaReaders
     ''' > xcb:XC_1184|Family|Regulates|Regulog|Definition
     ''' </summary>
     Public Class Regulator : Inherits FASTA.FastaToken
-        Implements sIdEnumerable
+        Implements INamedValue
 
         ''' <summary>
         ''' &lt;(KEGG)species_code>:&lt;locusTag>
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGG As String Implements sIdEnumerable.Identifier
+        Public Property KEGG As String Implements INamedValue.Key
             Get
                 Return _kegg
             End Get

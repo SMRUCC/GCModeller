@@ -30,7 +30,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports MEME.Analysis
 Imports MEME.GCModeller.FileSystem.FileSystem
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -49,14 +48,10 @@ Imports SMRUCC.genomics.Assembly.MiST2
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Data.Xfam
-Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
 Imports SMRUCC.genomics.Interops.NBCR
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI
@@ -66,7 +61,6 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -544,10 +538,10 @@ Partial Module CLI
                                     Not regulon.Regulons Is Nothing AndAlso
                                     Not regulon.Regulons.Regulators.IsNullOrEmpty
                                 Select regulon.Regulons.Regulators).IteratesALL
-                bbhs = regulons.ToArray(
+                bbhs = regulons.ToList(
                     Function(x) New BBH.BBHIndex With {
                         .HitName = x.LocusTag.Key,
-                        .QueryName = x.LocusTag.Value}).ToList
+                        .QueryName = x.LocusTag.Value})
             Else
                 bbhs = FileIO.FileSystem.GetFiles(
                     args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray(
@@ -555,13 +549,14 @@ Partial Module CLI
             End If
         End If
 
-        Dim bbhsPaired = (From pair As BBH.BBHIndex
-                          In bbhs.AsParallel
-                          Let regEntry As String = __getEntry(pair, direct)
-                          Where pair.Matched AndAlso regprecise.ContainsKey(regEntry)
-                          Select pair,
-                              reg = regprecise(regEntry),
-                              KEGGFamily = KEGGFamilies(regEntry)).ToList
+        Dim bbhsPaired = From pair As BBH.BBHIndex
+                         In bbhs.AsParallel
+                         Let regEntry As String = __getEntry(pair, direct)
+                         Where pair.Matched AndAlso regprecise.ContainsKey(regEntry)
+                         Select pair,
+                             reg = regprecise(regEntry),
+                             KEGGFamily = KEGGFamilies(regEntry)
+
         Dim result As bbhMappings() = bbhsPaired.ToArray(
             Function(regulator) New bbhMappings With {
                 .definition = regulator.reg.Definition,
@@ -666,10 +661,12 @@ Partial Module CLI
         Dim mods = FileIO.FileSystem.GetFiles(args("/modules"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
             .ToArray(Function(file) file.LoadCsv(Of bGetObject.Module))
         Dim ModsRegulation = args("/regulations").LoadCsv(Of PredictedRegulationFootprint)
-        ModsRegulation = (From regulates As PredictedRegulationFootprint
-                          In ModsRegulation
-                          Where Not String.IsNullOrEmpty(regulates.Regulator)
-                          Select regulates).ToList
+        ModsRegulation = LinqAPI.MakeList(Of PredictedRegulationFootprint) <=
+            From regulates As PredictedRegulationFootprint
+            In ModsRegulation
+            Where Not String.IsNullOrEmpty(regulates.Regulator)
+            Select regulates
+
         ' 所有的双组分系统的反应调控蛋白
         Dim RR As String() = TCS.ToArray(Function(cTk) cTk.Regulator).Distinct.ToArray
         '  Dim RRMods As Dictionary(Of String, String()) =      ' 调控的代谢途径
@@ -688,7 +685,7 @@ Partial Module CLI
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function TCSRegulateModule(args As CommandLine) As Integer
         Dim MiST2 = args("/MiST2").LoadXml(Of MiST2)
-        Dim footprints = args("/footprint").LoadCsv(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
+        Dim footprints = args("/footprint").LoadCsv(Of PredictedRegulationFootprint)
         Dim Pathways = FileIO.FileSystem.GetFiles(args("/pathways"),
                                                   FileIO.SearchOption.SearchAllSubDirectories,
                                                   "*.xml").ToArray(

@@ -37,7 +37,7 @@ Namespace DocumentFormat.MEME.LDM
     ''' 生成<see cref="motif"/>位点的序列
     ''' </summary>
     Public Class Site : Inherits SequenceModel.ISequenceBuilder
-        Implements sIdEnumerable
+        Implements INamedValue
 
         ''' <summary>
         ''' Site name，该目标序列的Fasta文件的文件头，一般是基因号
@@ -45,7 +45,7 @@ Namespace DocumentFormat.MEME.LDM
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Overrides Property Name As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Overrides Property Name As String Implements INamedValue.Key
         ''' <summary>
         ''' 位点的序列
         ''' </summary>

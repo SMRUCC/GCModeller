@@ -172,7 +172,7 @@ Namespace FileStream.XmlFormat
         End Function
     End Class
 
-    Public Class ResourceNode : Implements sIdEnumerable
+    Public Class ResourceNode : Implements INamedValue
 
 #Region "GCML data storage location"
 
@@ -182,7 +182,7 @@ Namespace FileStream.XmlFormat
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property TYPE_ID As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property TYPE_ID As String Implements INamedValue.Key
 
         ''' <summary>
         '''  The data storage directory name.(数据文件的存储目录)

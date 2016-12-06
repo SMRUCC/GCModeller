@@ -35,9 +35,9 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Data.csv
 
-Public Class SeqDiff : Implements sIdEnumerable
+Public Class SeqDiff : Implements INamedValue
 
-    Public Property uid As String Implements sIdEnumerable.Identifier
+    Public Property uid As String Implements INamedValue.Key
     Public Property Tag As String
     Public Property Location As String
     Public Property Host As String

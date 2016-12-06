@@ -41,7 +41,7 @@ Namespace Assembly.MiST2
     ''' <remarks></remarks>
     '''
     Public Class Transducin : Inherits Protein
-        Implements sIdEnumerable
+        Implements INamedValue
 
         <XmlElement> Public Property Inputs As String()
         <XmlElement> Public Property Outputs As String()
