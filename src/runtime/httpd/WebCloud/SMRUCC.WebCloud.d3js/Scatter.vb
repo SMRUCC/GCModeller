@@ -10,9 +10,9 @@ Public Class serialData
 End Class
 
 Public Structure date_count
-    Implements sIdEnumerable
+    Implements INamedValue
 
-    Public Property [date] As String Implements sIdEnumerable.Identifier
+    Public Property [date] As String Implements INamedValue.Identifier
     Public Property count As Integer
 
     Public Overrides Function ToString() As String

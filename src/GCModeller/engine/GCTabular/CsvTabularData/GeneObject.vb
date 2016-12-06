@@ -37,7 +37,7 @@ Namespace FileStream
     ''' Gene Annotiation
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneObject : Implements sIdEnumerable
+    Public Class GeneObject : Implements INamedValue
 
         ''' <summary>
         ''' NCBI gene accession id
@@ -45,7 +45,7 @@ Namespace FileStream
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Identifier
         Public Property GeneName As String
         Public Property COG As String
 

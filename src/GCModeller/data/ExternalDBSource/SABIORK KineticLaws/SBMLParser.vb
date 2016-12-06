@@ -36,9 +36,9 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace SabiorkKineticLaws.SBMLParser
 
-    Public Class CompoundSpecie : Implements sIdEnumerable
+    Public Class CompoundSpecie : Implements INamedValue
 
-        Public Property Id As String Implements sIdEnumerable.Identifier
+        Public Property Id As String Implements INamedValue.Identifier
         Public Property Name As String
         Public Property Identifiers As String()
         Public Property modifierType As String

@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComparativeAlignment
 
-    Public Structure ColorLegend : Implements sIdEnumerable
+    Public Structure ColorLegend : Implements INamedValue
 
         Public Property color As Color
 
@@ -42,7 +42,7 @@ Namespace ComparativeAlignment
             Me.color = color
         End Sub
 
-        Public Property type As String Implements sIdEnumerable.Identifier
+        Public Property type As String Implements INamedValue.Identifier
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

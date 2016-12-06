@@ -43,7 +43,7 @@ Namespace dataExprMAT
     ''' <remarks></remarks>
     Public Class ExprSamples : Inherits Streams.Array.Double
         Implements IKeyValuePairObject(Of String, Double())
-        Implements sIdEnumerable, IEnumerable(Of Double)
+        Implements INamedValue, IEnumerable(Of Double)
 
         Public Sub New()
         End Sub
@@ -54,7 +54,7 @@ Namespace dataExprMAT
         End Sub
 
         <XmlAttribute("Id")>
-        Public Property locusId As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, Double()).Identifier
+        Public Property locusId As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, Double()).Identifier
         Public Overrides Property Values As Double() Implements IKeyValuePairObject(Of String, Double()).Value
 
         Public Overrides Function ToString() As String

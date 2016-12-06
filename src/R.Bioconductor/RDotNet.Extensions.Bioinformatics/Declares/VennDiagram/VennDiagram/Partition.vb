@@ -36,13 +36,13 @@ Namespace VennDiagram.ModelAPI
     ''' A partition in the venn diagram.
     ''' </summary>
     Public Class Partition : Inherits ClassObject
-        Implements sIdEnumerable
+        Implements INamedValue
 
         ''' <summary>
         ''' The name of this partition
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Name As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property Name As String Implements INamedValue.Identifier
         ''' <summary>
         ''' The color string of the partition
         ''' </summary>

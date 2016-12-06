@@ -36,7 +36,7 @@ Namespace Assembly.DOOR
     ''' </summary>
     ''' <remarks></remarks>
     Public Class Operon : Inherits KeyValuePairObject(Of String, GeneBrief())
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IReadOnlyDictionary(Of String, GeneBrief)
 
         ''' <summary>
@@ -45,7 +45,7 @@ Namespace Assembly.DOOR
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Property Key As String Implements sIdEnumerable.Identifier
+        Public Overrides Property Key As String Implements INamedValue.Identifier
             Get
                 Return MyBase.Key
             End Get

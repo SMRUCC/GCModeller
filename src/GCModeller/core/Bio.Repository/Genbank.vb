@@ -291,7 +291,7 @@ Public Class Genbank : Inherits ClassObject
 End Class
 
 Public Class GeneInfo
-    Implements IKeyedEntity(Of String), sIdEnumerable
+    Implements IKeyedEntity(Of String), INamedValue
 
     ''' <summary>
     ''' 基因组的编号
@@ -302,7 +302,7 @@ Public Class GeneInfo
     ''' 基因的编号
     ''' </summary>
     ''' <returns></returns>
-    Public Property locus_tag As String Implements sIdEnumerable.Identifier, IKeyedEntity(Of String).Key
+    Public Property locus_tag As String Implements INamedValue.Identifier, IKeyedEntity(Of String).Key
     ''' <summary>
     ''' /gene="基因名"
     ''' </summary>
@@ -330,7 +330,7 @@ Public Class GeneInfo
     End Function
 End Class
 
-Public Class GenbankIndex : Implements IKeyedEntity(Of String), sIdEnumerable
+Public Class GenbankIndex : Implements IKeyedEntity(Of String), INamedValue
 
     ''' <summary>
     ''' DIR name
@@ -342,7 +342,7 @@ Public Class GenbankIndex : Implements IKeyedEntity(Of String), sIdEnumerable
     ''' locus_tag, 索引文件的表主键
     ''' </summary>
     ''' <returns></returns>
-    Public Property AccId As String Implements IKeyedEntity(Of String).Key, sIdEnumerable.Identifier
+    Public Property AccId As String Implements IKeyedEntity(Of String).Key, INamedValue.Identifier
     Public Property definition As String
 
     Public Function Gbk(DIR As String) As GBFF.File

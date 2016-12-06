@@ -34,11 +34,11 @@ Imports System.Data.Linq.Mapping
 ''' <remarks></remarks>
 Public MustInherit Class DbFileSystemObject
 
-    Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable
+    Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue
     Implements DbFileSystemObject.DescriptionData
 
     <Column(dbtype:="varchar(2048)", name:="definition")> Public Property Definition As String Implements DescriptionData.Description
-    <Column(DbType:="varchar(128)", Name:="locus_id")> Public Property LocusID As String Implements DescriptionData.locusId, Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable.Identifier
+    <Column(DbType:="varchar(128)", Name:="locus_id")> Public Property LocusID As String Implements DescriptionData.locusId, Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue.Identifier
     <Column(dbtype:="varchar(1024)", name:="md5_hash")> Public Property MD5Hash As String
 
     ''' <summary>

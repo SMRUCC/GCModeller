@@ -51,11 +51,11 @@ Namespace FLuxBalanceModel
         ReadOnly Property Metabolites As Generic.IEnumerable(Of IMetabolite)
     End Interface
 
-    Public Interface IMetabolite : Inherits sIdEnumerable
+    Public Interface IMetabolite : Inherits INamedValue
         Property InitializeAmount As Double
     End Interface
 
-    Public Interface I_ReactionModel(Of T_Ref As ICompoundSpecies) : Inherits sIdEnumerable, IEquation(Of T_Ref)
+    Public Interface I_ReactionModel(Of T_Ref As ICompoundSpecies) : Inherits INamedValue, IEquation(Of T_Ref)
 
         ''' <summary>
         ''' Query in this reaction object that the specific metabolite is exists in this reaction or not.

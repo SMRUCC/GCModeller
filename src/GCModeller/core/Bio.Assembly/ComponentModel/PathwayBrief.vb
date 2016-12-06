@@ -33,10 +33,10 @@ Namespace ComponentModel
 
     Public MustInherit Class PathwayBrief
         Implements IKeyValuePairObject(Of String, String)
-        Implements sIdEnumerable
+        Implements INamedValue
 
         <XmlAttribute>
-        Public Overridable Property EntryId As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, String).Identifier
+        Public Overridable Property EntryId As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, String).Identifier
         Public Property Description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>

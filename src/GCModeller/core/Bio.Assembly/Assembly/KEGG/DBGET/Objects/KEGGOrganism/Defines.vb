@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Text.Similarity
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
-    Public Class Organism : Implements sIdEnumerable
+    Public Class Organism : Implements INamedValue
 
         <XmlAttribute> Public Property Kingdom As String
         <XmlAttribute> Public Property Phylum As String
@@ -50,7 +50,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' KEGG里面的物种的简称代码
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property KEGGId As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property KEGGId As String Implements INamedValue.Identifier
         ''' <summary>
         ''' FTP url on NCBI
         ''' </summary>

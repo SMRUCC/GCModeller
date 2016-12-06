@@ -56,7 +56,7 @@ Public MustInherit Class Expression
         End Get
     End Property
 
-    Public Property Identifier As String Implements sIdEnumerable.Identifier
+    Public Property Identifier As String Implements INamedValue.Identifier
     Public Property Handle As Integer Implements IAddressHandle.Address
 
 #Region "IDisposable Support"
@@ -96,7 +96,7 @@ End Class
 ''' </summary>
 ''' <remarks></remarks>
 Public MustInherit Class Variable : Implements IAddressHandle
-    Implements sIdEnumerable
+    Implements INamedValue
 
     ''' <summary>
     ''' The location pointer of this variable node in the network system.
@@ -120,7 +120,7 @@ Public MustInherit Class Variable : Implements IAddressHandle
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <XmlAttribute> Public Property UniqueId As String Implements sIdEnumerable.Identifier
+    <XmlAttribute> Public Property UniqueId As String Implements INamedValue.Identifier
 
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' To detect redundant calls

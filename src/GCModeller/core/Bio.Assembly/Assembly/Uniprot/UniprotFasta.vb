@@ -57,13 +57,13 @@ Namespace Assembly.Uniprot
     ''' </summary>
     ''' <remarks>http://www.uniprot.org/help/fasta-headers</remarks>
     Public Class UniprotFasta : Inherits FASTA.FastaToken
-        Implements sIdEnumerable
+        Implements INamedValue
 
         ''' <summary>
         ''' UniqueIdentifier Is the primary accession number of the UniProtKB entry.
         ''' </summary>
         ''' <returns></returns>
-        Public Property UniprotID As String Implements sIdEnumerable.Identifier
+        Public Property UniprotID As String Implements INamedValue.Identifier
         ''' <summary>
         ''' EntryName Is the entry name of the UniProtKB entry.
         ''' </summary>

@@ -42,9 +42,9 @@ Namespace Level2.Elements
         End Function
     End Structure
 
-    Public Class parameter : Implements sIdEnumerable
+    Public Class parameter : Implements INamedValue
 
-        <XmlAttribute()> Public Property id As String Implements sIdEnumerable.Identifier
+        <XmlAttribute()> Public Property id As String Implements INamedValue.Identifier
         <XmlAttribute()> Public Property value As Double
         <XmlAttribute()> Public Property units As String
 

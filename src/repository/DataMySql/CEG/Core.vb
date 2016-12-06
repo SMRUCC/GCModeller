@@ -35,7 +35,7 @@ Namespace CEG
     ''' ceg_core.csv
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Core : Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable
+    Public Class Core : Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue
 
         ''' <summary>
         ''' 依靠本属性进行Group操作
@@ -45,7 +45,7 @@ Namespace CEG
         ''' <remarks></remarks>
         <XmlAttribute> <Column("access_num")> Public Property AccessNum As String
         <XmlAttribute> <Column("gid")> Public Property GId As String _
-            Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable.Identifier
+            Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue.Identifier
         <XmlAttribute> <Column("koid")> Public Property KOId As String
         <XmlAttribute> <Column("cogid")> Public Property COGId As String
         <XmlAttribute> <Column("hprd_nid")> Public Property Hprd_nId As String

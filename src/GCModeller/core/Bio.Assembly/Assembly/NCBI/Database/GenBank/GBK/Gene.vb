@@ -37,12 +37,12 @@ Imports Microsoft.VisualBasic
 Namespace Assembly.NCBI.GenBank.GBFF
 
     Public Class GeneObject
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IKeyValuePairObject(Of String, Feature())
         Implements ITripleKeyValuesPair(Of String, String, Feature())
 
         Public Property Gene As String Implements ITripleKeyValuesPair(Of String, String, Feature()).Value2
-        Public Property LocusTag As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, Feature()).Identifier,
+        Public Property LocusTag As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, Feature()).Identifier,
             ITripleKeyValuesPair(Of String, String, Feature()).Identifier
         Public Property Features As Feature() Implements IKeyValuePairObject(Of String, Feature()).Value,
             ITripleKeyValuesPair(Of String, String, Feature()).Address

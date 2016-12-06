@@ -33,10 +33,10 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
 Namespace StringDB.StrPNet.TCS
 
-    Public Class SensorInducers : Implements sIdEnumerable
+    Public Class SensorInducers : Implements INamedValue
 
         <Column("Sensor")> <XmlAttribute>
-        Public Property SensorId As String Implements sIdEnumerable.Identifier
+        Public Property SensorId As String Implements INamedValue.Identifier
         <Collection("Inducers")> <XmlElement>
         Public Property Inducers As String()
 

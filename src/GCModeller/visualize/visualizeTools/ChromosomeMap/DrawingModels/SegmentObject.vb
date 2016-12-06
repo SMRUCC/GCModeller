@@ -38,7 +38,7 @@ Namespace ChromosomeMap.DrawingModels
     ''' 染色体上面的一个基因的绘图模型
     ''' </summary>
     Public Class SegmentObject : Inherits MapModelCommon
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements IGeneBrief
 
         ''' <summary>

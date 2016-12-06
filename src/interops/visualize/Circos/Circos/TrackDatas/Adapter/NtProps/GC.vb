@@ -109,9 +109,9 @@ Namespace TrackDatas.NtProps
     End Module
 
     Public Class GeneObjectGC : Inherits NASegment_GC
-        Implements sIdEnumerable
+        Implements INamedValue
 
-        Public Property Title As String Implements sIdEnumerable.Identifier
+        Public Property Title As String Implements INamedValue.Identifier
     End Class
 
     ''' <summary>

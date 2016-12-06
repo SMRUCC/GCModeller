@@ -81,7 +81,7 @@ Public Module KeyValuePairExtensions
     ''' <param name="source"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ToDictionary(Of T As sIdEnumerable)(source As IEnumerable(Of T)) As Dictionary(Of T)
+    Public Function ToDictionary(Of T As INamedValue)(source As IEnumerable(Of T)) As Dictionary(Of T)
         Dim hash As Dictionary(Of T) = New Dictionary(Of T)
         Dim i As Integer = 0
 

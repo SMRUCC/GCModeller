@@ -181,7 +181,7 @@ Namespace FileStream
 
         Public Class MappingComponentModel : Implements ICompoundObject
 
-            Public Property Identifier As String Implements sIdEnumerable.Identifier
+            Public Property Identifier As String Implements INamedValue.Identifier
 
             Public Property CHEBI As String() Implements ICompoundObject.CHEBI
             Public Property CommonNames As String() Implements ICompoundObject.CommonNames

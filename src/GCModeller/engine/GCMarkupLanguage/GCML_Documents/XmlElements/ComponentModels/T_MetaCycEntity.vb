@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Namespace GCML_Documents.ComponentModels
 
     Public MustInherit Class T_MetaCycEntity(Of T As Slots.Object)
-        Implements sIdEnumerable
+        Implements INamedValue
 
         <XmlIgnore> Friend BaseType As T
 
@@ -43,7 +43,7 @@ Namespace GCML_Documents.ComponentModels
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute("UniqueId")>
-        Public Overridable Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Identifier
 
         Public Overrides Function ToString() As String
             Return Identifier

@@ -40,9 +40,9 @@ Namespace DataStorage.FileModel
     Public Class ObjectHandle : Inherits ClassObject
         Implements IKeyValuePairObject(Of String, Integer)
         Implements IAddressHandle
-        Implements sIdEnumerable
+        Implements INamedValue
 
-        Public Property Identifier As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, Integer).Identifier
+        Public Property Identifier As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, Integer).Identifier
         Public Property Handle As Integer Implements IAddressHandle.Address, IKeyValuePairObject(Of String, Integer).Value
 
 #Region "IDisposable Support"

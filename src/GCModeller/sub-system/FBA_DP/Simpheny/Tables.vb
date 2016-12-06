@@ -128,9 +128,9 @@ Namespace Simpheny
     ''' 代谢过程的模型
     ''' </summary>
     Public Class RXN : Inherits ProjectElement
-        Implements sIdEnumerable
+        Implements INamedValue
 
-        <Column("REACTION-ID")> Public Property ReactionId As String Implements sIdEnumerable.Identifier
+        <Column("REACTION-ID")> Public Property ReactionId As String Implements INamedValue.Identifier
         <Column("ABBREVIATION")> Public Property Abbreviation As String
         <Column("OFFICIAL NAME")> Public Property OfficialName As String
         <Column("REVERSIBLE")> Public Property Reversible As Boolean

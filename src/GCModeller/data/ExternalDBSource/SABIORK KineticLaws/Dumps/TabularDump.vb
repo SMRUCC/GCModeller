@@ -36,9 +36,9 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace SabiorkKineticLaws.TabularDump
 
-    Public MustInherit Class SabiorkEntity : Implements sIdEnumerable
+    Public MustInherit Class SabiorkEntity : Implements INamedValue
 
-        Public Property SabiorkId As String Implements sIdEnumerable.Identifier
+        Public Property SabiorkId As String Implements INamedValue.Identifier
 
         Public Overrides Function ToString() As String
             Return SabiorkId

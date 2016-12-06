@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Linq
 ''' 默认的的相互作用的方向为从A到B
 ''' </summary>
 ''' <remarks></remarks>
-Public Class Interaction(Of T As sIdEnumerable)
+Public Class Interaction(Of T As INamedValue)
     Implements IInteraction
 
     Public Property A As T

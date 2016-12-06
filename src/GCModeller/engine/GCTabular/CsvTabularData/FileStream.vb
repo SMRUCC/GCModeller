@@ -40,9 +40,9 @@ Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 
 Namespace FileStream
 
-    Public Class Pathway : Implements sIdEnumerable
+    Public Class Pathway : Implements INamedValue
 
-        <Column("UniqueId")> Public Property Identifier As String Implements sIdEnumerable.Identifier
+        <Column("UniqueId")> Public Property Identifier As String Implements INamedValue.Identifier
         <CollectionAttribute("MetabolismFlux")> Public Property MetabolismFlux As String()
         <Column("Comments")> Public Property Comment As String
 
@@ -58,7 +58,7 @@ Namespace FileStream
         Public Property Temperature As Double
     End Class
 
-    Public Class ProteinAssembly : Implements sIdEnumerable
+    Public Class ProteinAssembly : Implements INamedValue
 
         <Collection("ProteinComponents", "; ")> Public Property ProteinComponents As String()
 
@@ -68,7 +68,7 @@ Namespace FileStream
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property ProteinComplexes As String Implements sIdEnumerable.Identifier
+        Public Property ProteinComplexes As String Implements INamedValue.Identifier
         Public Property Upper_Bound As Double
 
         ''' <summary>
@@ -90,7 +90,7 @@ Namespace FileStream
     ''' Product of <see cref="TranscriptUnit"></see> transcription event
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Transcript : Implements sIdEnumerable
+    Public Class Transcript : Implements INamedValue
 
         ''' <summary>
         ''' <seealso cref="Metabolite.Identifier"></seealso> for itself in the table of <see cref="Metabolite"></see>
@@ -101,7 +101,7 @@ Namespace FileStream
         Public Property UniqueId As String
         Public Property Lamda As Double
 
-        Public Property Template As String Implements sIdEnumerable.Identifier
+        Public Property Template As String Implements INamedValue.Identifier
 
         ''' <summary>
         ''' <seealso cref="Metabolite.Identifier"></seealso> for its protein product.
@@ -129,8 +129,8 @@ Namespace FileStream
         End Function
     End Class
 
-    Public Class Protein : Implements sIdEnumerable
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+    Public Class Protein : Implements INamedValue
+        Public Property Identifier As String Implements INamedValue.Identifier
         Public Property ECNumber As String
         <Column("Lambda")> Public Property Lambda As Double
         <CollectionAttribute("Polypeptide.Composition", "; ")> Public Property PolypeptideCompositionVector As Integer()
@@ -142,8 +142,8 @@ Namespace FileStream
         End Function
     End Class
 
-    Public Class MetabolismFlux : Implements sIdEnumerable
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+    Public Class MetabolismFlux : Implements INamedValue
+        Public Property Identifier As String Implements INamedValue.Identifier
         Public Property Equation As String
             Get
                 Return _Equation

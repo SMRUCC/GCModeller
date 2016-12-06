@@ -53,7 +53,7 @@ Namespace Assembly.MetaCyc.Schema
                 End Get
             End Property
 
-            Public Property Identifier As String Implements sIdEnumerable.Identifier
+            Public Property Identifier As String Implements INamedValue.Identifier
                 Get
                     Return MyBase.PropertyValue
                 End Get

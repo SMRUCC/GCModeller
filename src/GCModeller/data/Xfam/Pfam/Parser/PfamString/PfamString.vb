@@ -45,10 +45,10 @@ Namespace PfamString
     ''' <remarks></remarks>
     '''
     <XmlType("PfamString", [Namespace]:="http://gcmodeller.org/tools/sanger-pfam/prot_struct")>
-    Public Class PfamString : Implements sIdEnumerable
+    Public Class PfamString : Implements INamedValue
 
         <XmlAttribute> <Column("ProteinId")>
-        Public Property ProteinId As String Implements sIdEnumerable.Identifier
+        Public Property ProteinId As String Implements INamedValue.Identifier
         ''' <summary>
         ''' The protein sequence length
         ''' </summary>

@@ -46,7 +46,7 @@ Namespace Level2.Elements
         ''' </summary>
         ''' <remarks></remarks>
         <Escaped> <XmlAttribute()>
-        Public Property species As String Implements sIdEnumerable.Identifier
+        Public Property species As String Implements INamedValue.Identifier
         ''' <summary>
         ''' (化学计量数)
         ''' </summary>

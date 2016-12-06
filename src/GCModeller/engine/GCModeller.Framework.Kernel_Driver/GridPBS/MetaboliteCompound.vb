@@ -37,10 +37,10 @@ Namespace GridPBS
     ''' <remarks></remarks>
     Public Structure MetaboliteCompound
         Implements IAddressHandle
-        Implements sIdEnumerable
+        Implements INamedValue
 
         Public Property Handle As Integer Implements IAddressHandle.Address
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Identifier
         Public Property Quantity As Double
 
         Public Sub Dispose() Implements IDisposable.Dispose

@@ -47,7 +47,7 @@ End Class
 ''' (只能取值基本的数值类型(<see cref="Integer"></see>, <see cref="Double"></see>, <see cref="Long"></see>, <see cref="Boolean"></see>))</typeparam>
 ''' <remarks></remarks>
 Public Interface IDynamicsExpression(Of DataType)
-    Inherits IAddressHandle, sIdEnumerable
+    Inherits IAddressHandle, INamedValue
 
 #Region "Interface"
     ''' <summary>

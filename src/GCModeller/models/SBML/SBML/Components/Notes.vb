@@ -74,10 +74,10 @@ Namespace Components
         End Function
     End Class
 
-    Public Class [Property] : Implements IReadOnlyId, sIdEnumerable
+    Public Class [Property] : Implements IReadOnlyId, INamedValue
         Implements IKeyValuePairObject(Of String, String)
 
-        Public Property Name As String Implements IKeyValuePairObject(Of String, String).Identifier, IReadOnlyId.Identity, sIdEnumerable.Identifier
+        Public Property Name As String Implements IKeyValuePairObject(Of String, String).Identifier, IReadOnlyId.Identity, INamedValue.Identifier
         Public Property value As String Implements IKeyValuePairObject(Of String, String).Value
 
         Public Overrides Function ToString() As String

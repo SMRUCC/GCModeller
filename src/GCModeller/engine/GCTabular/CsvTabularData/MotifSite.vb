@@ -38,10 +38,10 @@ Namespace FileStream
     ''' DNA链或者mRNA链上面的一个调控位点
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class MotifSite : Implements sIdEnumerable, IReadOnlyId
+    Public Class MotifSite : Implements INamedValue, IReadOnlyId
 
         Public Property Regulators As List(Of String)
-        Public Property MotifName As String Implements sIdEnumerable.Identifier
+        Public Property MotifName As String Implements INamedValue.Identifier
         ''' <summary>
         ''' 与所处的ORF上面的ATG为标准的
         ''' </summary>
@@ -70,7 +70,7 @@ Namespace FileStream
         End Function
     End Class
 
-    Public Class Regulator : Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable
+    Public Class Regulator : Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue
 
         ''' <summary>
         ''' <see cref="TranscriptUnit">目标转录单元对象</see>的<see cref="MotifSite.Internal_GUID"></see>
@@ -85,7 +85,7 @@ Namespace FileStream
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property ProteinId As String Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.sIdEnumerable.Identifier
+        Public Property ProteinId As String Implements Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue.Identifier
         Public Property Pcc As Double
         ''' <summary>
         ''' 请使用本属性来判断是否为蛋白质复合物，为<see cref="Metabolite.Identifier"></see>属性值

@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
 
 Namespace Analysis.GenomeMotifFootPrints.MotifDb
 
-    Public Class Motif : Implements sIdEnumerable
+    Public Class Motif : Implements INamedValue
         Implements IKeyValuePairObject(Of String, String())
 
         ''' <summary>
@@ -43,7 +43,7 @@ Namespace Analysis.GenomeMotifFootPrints.MotifDb
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property MotifId As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, String()).Identifier
+        <XmlAttribute> Public Property MotifId As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, String()).Identifier
         <XmlAttribute> Public Property Evalue As Double
         <XmlAttribute> Public Property Width As Integer
         <XmlAttribute> Public Property LogLikelihoodRatio As Double

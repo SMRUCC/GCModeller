@@ -35,10 +35,10 @@ Imports Microsoft.VisualBasic
 Namespace Assembly.NCBI.COG
 
     Public Class COGFunc : Inherits ClassObject
-        Implements sIdEnumerable
+        Implements INamedValue
 
         Public Property Category As COGCategories
-        Public Property COG As String Implements sIdEnumerable.Identifier
+        Public Property COG As String Implements INamedValue.Identifier
         Public Property Func As String
         Public Property locus As String()
         Public ReadOnly Property NumOfLocus As Integer

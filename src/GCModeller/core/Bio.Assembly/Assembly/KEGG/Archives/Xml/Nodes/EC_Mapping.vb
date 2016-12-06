@@ -38,9 +38,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.KEGG.Archives.Xml.Nodes
 
-    Public Class ReactionMaps : Implements sIdEnumerable
+    Public Class ReactionMaps : Implements INamedValue
 
-        <XmlAttribute> Public Property EC As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property EC As String Implements INamedValue.Identifier
 
         Public Property Reactions As String()
 
@@ -50,7 +50,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
     End Class
 
     <XmlType("EC_Mapping", Namespace:="http://code.google.com/p/genome-in-code/component-models/ec_mapping")>
-    Public Class EC_Mapping : Implements sIdEnumerable
+    Public Class EC_Mapping : Implements INamedValue
 
         <XmlElement("EC_ID", Namespace:="http://code.google.com/p/genome-in-code/component-models/ec_mapping_id-string")>
         Public Property ECMaps As ReactionMaps()
@@ -60,7 +60,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("locus_tag")>
-        Public Property locusId As String Implements sIdEnumerable.Identifier
+        Public Property locusId As String Implements INamedValue.Identifier
 
         ''' <summary>
         ''' 这个映射之中是否包含有某一个代谢过程

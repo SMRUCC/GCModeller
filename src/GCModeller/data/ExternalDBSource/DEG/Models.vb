@@ -35,9 +35,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace DEG
 
-    Public Class Annotations : Implements sIdEnumerable
+    Public Class Annotations : Implements INamedValue
 
-        <Column("#DEG_AC")> Public Property DEG_AC As String Implements sIdEnumerable.Identifier
+        <Column("#DEG_AC")> Public Property DEG_AC As String Implements INamedValue.Identifier
         <Column("#Gene_Name")> Public Property GeneName As String
         <Column("#Gene_Ref")> Public Property Gene_Ref As String
         <Column("#COG")> Public Property COG As String

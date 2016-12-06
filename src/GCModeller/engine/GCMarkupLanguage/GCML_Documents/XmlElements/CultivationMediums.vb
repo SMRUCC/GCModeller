@@ -30,10 +30,10 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization
 
-Public Class I_SubstrateRefx : Implements sIdEnumerable
+Public Class I_SubstrateRefx : Implements INamedValue
 
     <DumpNode> <XmlAttribute>
-    Public Property Identifier As String Implements sIdEnumerable.Identifier
+    Public Property Identifier As String Implements INamedValue.Identifier
 
     <DumpNode> <XmlAttribute>
     Public Property InitialQuantity As Double

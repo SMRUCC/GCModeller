@@ -41,7 +41,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
     ''' The gene brief information data in a ncbi PTT document.(PTT文件之中的一行，即一个基因的对象摘要信息)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneBrief : Implements sIdEnumerable
+    Public Class GeneBrief : Implements INamedValue
         Implements IGeneBrief
 
         ''' <summary>
@@ -81,7 +81,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Synonym As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property Synonym As String Implements INamedValue.Identifier
 
         ''' <summary>
         ''' *.ptt => TRUE;  *.rnt => FALSE

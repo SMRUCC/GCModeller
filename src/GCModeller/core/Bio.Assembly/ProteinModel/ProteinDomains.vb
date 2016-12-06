@@ -44,7 +44,7 @@ Namespace ProteinModel
     ''' <remarks></remarks>
     ''' 
     <XmlType("ProtDomains", [Namespace]:="http://gcmodeller.org/models/protein")>
-    Public Class Protein : Implements sIdEnumerable, I_PolymerSequenceModel
+    Public Class Protein : Implements INamedValue, I_PolymerSequenceModel
 
         ''' <summary>
         ''' 该目标蛋白质的唯一标识符
@@ -53,7 +53,7 @@ Namespace ProteinModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute("Identifier", [Namespace]:="http://gcmodeller.org/programming/language/visualbasic/Identifier")>
-        Public Overridable Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Identifier
         Public Property Organism As String
 
         <XmlElement> Public Property Description As String

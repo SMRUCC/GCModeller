@@ -114,7 +114,7 @@ Namespace ChromosomeMap.DrawingModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property ORF_ID As String Implements sIdEnumerable.Identifier
+        Public Property ORF_ID As String Implements INamedValue.Identifier
         Public Property Strand As String
         <Column("Gene-Length")> Public Property Length As Integer Implements ICOGDigest.Length
         ''' <summary>

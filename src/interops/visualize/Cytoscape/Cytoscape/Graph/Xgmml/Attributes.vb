@@ -39,9 +39,9 @@ Namespace CytoscapeGraphView.XGMML
     ''' </summary>
     ''' <remarks></remarks>
     <XmlType("att")>
-    Public Class Attribute : Implements sIdEnumerable
+    Public Class Attribute : Implements INamedValue
 
-        <XmlAttribute("name")> Public Property Name As String Implements sIdEnumerable.Identifier
+        <XmlAttribute("name")> Public Property Name As String Implements INamedValue.Identifier
         <XmlAttribute("value")> Public Property Value As String
         <XmlAttribute("type")> Public Property Type As String
 

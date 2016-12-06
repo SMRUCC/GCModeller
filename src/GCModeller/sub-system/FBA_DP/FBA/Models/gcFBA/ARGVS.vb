@@ -58,9 +58,9 @@ Namespace Models.rFBA
     ''' <summary>
     ''' 基因突变的设置参数
     ''' </summary>
-    Public Class Modifier : Implements sIdEnumerable
+    Public Class Modifier : Implements INamedValue
 
-        Public Property locus As String Implements sIdEnumerable.Identifier
+        Public Property locus As String Implements INamedValue.Identifier
         ''' <summary>
         ''' 突变修饰
         ''' </summary>

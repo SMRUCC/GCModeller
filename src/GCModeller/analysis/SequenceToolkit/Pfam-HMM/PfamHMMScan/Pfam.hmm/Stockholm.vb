@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' <summary>
 ''' Pfam-A.hmm.dat
 ''' </summary>
-Public Class Stockholm : Implements sIdEnumerable
+Public Class Stockholm : Implements INamedValue
 
     ''' <summary>
     ''' Identifier
@@ -45,7 +45,7 @@ Public Class Stockholm : Implements sIdEnumerable
     ''' Pfam accession ID
     ''' </summary>
     ''' <returns></returns>
-    Public Property AC As String Implements sIdEnumerable.Identifier
+    Public Property AC As String Implements INamedValue.Identifier
     ''' <summary>
     ''' Definition
     ''' </summary>

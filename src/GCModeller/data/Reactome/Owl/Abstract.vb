@@ -32,10 +32,10 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Namespace OwlDocument.Abstract
 
     Public MustInherit Class ResourceElement
-        Implements sIdEnumerable
+        Implements INamedValue
 
         <XmlAttribute("ID")>
-        Public Property ResourceId As String Implements sIdEnumerable.Identifier
+        Public Property ResourceId As String Implements INamedValue.Identifier
 
         Public Overrides Function ToString() As String
             Return ResourceId

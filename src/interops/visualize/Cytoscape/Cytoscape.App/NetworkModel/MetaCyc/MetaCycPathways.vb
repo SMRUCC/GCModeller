@@ -98,9 +98,9 @@ Public Class MetaCycPathways
         Return pathway
     End Function
 
-    <XmlType("pwy")> Public Class Pathway : Implements sIdEnumerable
+    <XmlType("pwy")> Public Class Pathway : Implements INamedValue
         Public Property MetaCycBaseType As Slots.Pathway
-        Public Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Property Identifier As String Implements INamedValue.Identifier
         ''' <summary> 
         ''' 本代谢途径是否为一个超途径
         ''' </summary>

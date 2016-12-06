@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace GCML_Documents.ComponentModels
 
-    Public Class ConstraintMetaboliteMap : Implements sIdEnumerable
+    Public Class ConstraintMetaboliteMap : Implements INamedValue
 
         ''' <summary>
         ''' 被GCModeller所识别的代谢底物的标识符
@@ -39,7 +39,7 @@ Namespace GCML_Documents.ComponentModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property ConstraintId As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property ConstraintId As String Implements INamedValue.Identifier
         ''' <summary>
         ''' 例如MetaCyc数据库中的UniqueId标识符
         ''' </summary>

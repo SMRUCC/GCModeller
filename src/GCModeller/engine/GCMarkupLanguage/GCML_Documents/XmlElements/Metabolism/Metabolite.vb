@@ -35,7 +35,7 @@ Namespace GCML_Documents.XmlElements.Metabolism
 
     Public Class Metabolite
         Implements FLuxBalanceModel.IMetabolite
-        Implements sIdEnumerable
+        Implements INamedValue
 
         ''' <summary>
         ''' UniqueID.(本目标对象的唯一标识符)

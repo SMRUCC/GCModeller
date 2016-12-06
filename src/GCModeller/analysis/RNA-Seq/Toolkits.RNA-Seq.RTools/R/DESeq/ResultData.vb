@@ -37,7 +37,7 @@ Namespace DESeq2
     ''' </summary>
     Public Class ResultData : Inherits DESeq2Diff
         Implements IExprMAT
-        Implements sIdEnumerable
+        Implements INamedValue
 
         <Meta(GetType(Double))>
         Public Property dataExpr0 As Dictionary(Of String, Double) Implements IExprMAT.dataExpr0

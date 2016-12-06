@@ -38,9 +38,9 @@ Namespace DESeq2
     ''' <remarks>
     ''' 请注意在这里面的treated vs untreated就是~condition的对比，可以看作为NY vs MMX
     ''' </remarks>
-    Public Class DESeq2Diff : Implements sIdEnumerable
+    Public Class DESeq2Diff : Implements INamedValue
 
-        Public Overridable Property locus_tag As String Implements sIdEnumerable.Identifier
+        Public Overridable Property locus_tag As String Implements INamedValue.Identifier
         ''' <summary>
         ''' The base mean over all rows.
         ''' (表达量变化是identical的基因可以直接使用这个值来作为表达量)

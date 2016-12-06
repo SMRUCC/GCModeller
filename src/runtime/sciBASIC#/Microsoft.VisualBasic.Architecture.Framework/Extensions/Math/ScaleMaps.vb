@@ -71,7 +71,7 @@ Namespace Mathematical
         End Function
 
         <ExportAPI("Ranks.Mapping")>
-        <Extension> Public Function GenerateMapping(Of T As sIdEnumerable)(data As IEnumerable(Of T),
+        <Extension> Public Function GenerateMapping(Of T As INamedValue)(data As IEnumerable(Of T),
                                                                        getSample As Func(Of T, Double),
                                                                        Optional Level As Integer = 10) As Dictionary(Of String, Integer)
             Dim samples As Double() = data.ToArray(Function(x) getSample(x))

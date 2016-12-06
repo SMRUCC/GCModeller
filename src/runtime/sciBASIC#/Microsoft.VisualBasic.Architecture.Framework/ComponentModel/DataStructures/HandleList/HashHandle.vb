@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Namespace ComponentModel
 
 
-    Public Class DefaultHashHandle(Of T As sIdEnumerable) : Inherits HashHandle(Of IHashValue(Of T))
+    Public Class DefaultHashHandle(Of T As INamedValue) : Inherits HashHandle(Of IHashValue(Of T))
 
         Sub New(Optional capacity As Integer = 2048)
             Call MyBase.New(capacity)

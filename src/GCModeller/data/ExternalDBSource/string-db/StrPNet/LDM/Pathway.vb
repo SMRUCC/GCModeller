@@ -37,7 +37,7 @@ Namespace StringDB.StrPNet
     ''' 以TF为中心的信号转导网络，即一条信号转导网络可以使用一个输出节点和若干输入节点来表示
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Pathway : Implements sIdEnumerable
+    Public Class Pathway : Implements INamedValue
 
         ''' <summary>
         ''' <see cref="Assembler.TF"></see>中的<see cref="Regprecise.RegpreciseMPBBH.QueryName">标识号</see>
@@ -45,7 +45,7 @@ Namespace StringDB.StrPNet
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute("TF_id")> Public Property TF As String Implements sIdEnumerable.Identifier
+        <XmlAttribute("TF_id")> Public Property TF As String Implements INamedValue.Identifier
         <XmlElement> Public Property Effectors As String()
         ''' <summary>
         ''' 当前的这个<see cref="Pathway.TF">转录调控因子</see>是否为OCS类型

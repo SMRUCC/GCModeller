@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic
 
 Namespace PlasmidMap.DrawingModels
 
-    Public Class SegmentObject : Implements sIdEnumerable, IGeneBrief
+    Public Class SegmentObject : Implements INamedValue, IGeneBrief
 
         ''' <summary>
         ''' 0表示没有方向，1表示正向，-1表示反向

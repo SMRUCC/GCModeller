@@ -216,9 +216,9 @@ Namespace hmmscan
         End Function
     End Structure
 
-    Public Class Alignment : Implements sIdEnumerable
+    Public Class Alignment : Implements INamedValue
 
-        Public Property model As String Implements sIdEnumerable.Identifier
+        Public Property model As String Implements INamedValue.Identifier
         Public Property describ As String
         Public Property Aligns As Align()
 

@@ -46,7 +46,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
     ''' </remarks>
     Public Class Compound : Inherits Slots.Object
         Implements Regulation.IRegulator
-        Implements sIdEnumerable
+        Implements INamedValue
         Implements ICompoundObject
 
         <MetaCycField> Public Overrides Property CommonName As String Implements Regulation.IRegulator.CommonName
@@ -73,7 +73,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         End Property
 
         <MetaCycField(Name:="UNIQUE-ID")>
-        Public Overrides Property Identifier As String Implements Regulation.IRegulator.locusId, sIdEnumerable.Identifier, ICompoundObject.locusId
+        Public Overrides Property Identifier As String Implements Regulation.IRegulator.locusId, INamedValue.Identifier, ICompoundObject.locusId
             Get
                 Return MyBase.Identifier
             End Get

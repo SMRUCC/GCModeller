@@ -40,9 +40,9 @@ Namespace FBA_OUTPUT
     ''' <summary>
     ''' RXN  --> flux result.
     ''' </summary>
-    Public Class TabularOUT : Implements sIdEnumerable
+    Public Class TabularOUT : Implements INamedValue
 
-        Public Property Rxn As String Implements sIdEnumerable.Identifier
+        Public Property Rxn As String Implements INamedValue.Identifier
         Public Property Flux As Double
 
         Public Overrides Function ToString() As String

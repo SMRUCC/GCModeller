@@ -78,13 +78,13 @@ Namespace Analysis.MotifScans
     End Class
 
     Public Class MatchResult : Inherits ClassObject
-        Implements sIdEnumerable
+        Implements INamedValue
 
         ''' <summary>
         ''' 来源的文件名
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property MEME As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property MEME As String Implements INamedValue.Identifier
         <XmlElement> Public Property Matches As MotifHits()
 
         Public Function ToFootprints() As IEnumerable(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
@@ -95,7 +95,7 @@ Namespace Analysis.MotifScans
     ''' <summary>
     ''' MEME结果之中的某一个Motif
     ''' </summary>
-    Public Class MotifHits : Implements sIdEnumerable
+    Public Class MotifHits : Implements INamedValue
         ''' <summary>
         ''' 当前的这个MEME Motif的来源位点的集合
         ''' </summary>
@@ -105,7 +105,7 @@ Namespace Analysis.MotifScans
         ''' File::MotifId
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Trace As String Implements sIdEnumerable.Identifier
+        <XmlAttribute> Public Property Trace As String Implements INamedValue.Identifier
         <XmlAttribute> Public Property Evalue As Double
         Public Property MAST As MotifSiteHit()
 

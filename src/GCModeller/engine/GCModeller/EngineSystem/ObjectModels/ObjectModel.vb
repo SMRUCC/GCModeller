@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Serialization
 Namespace EngineSystem.ObjectModels
 
     Public MustInherit Class ObjectModel : Inherits RuntimeObject
-        Implements IAddressHandle, sIdEnumerable
+        Implements IAddressHandle, INamedValue
 
         ''' <summary>
         ''' Guid/MetaCyc UniqueId String.(Guid或者MetaCyc数据库里面的UniqueId字符串)
@@ -44,7 +44,7 @@ Namespace EngineSystem.ObjectModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         <DumpNode> <XmlAttribute>
-        Public Overridable Property Identifier As String Implements sIdEnumerable.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Identifier
 
         ''' <summary>
         ''' The index handle of this object instance in the collection of the metabolite compounds in this system model.

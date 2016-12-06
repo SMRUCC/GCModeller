@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace DAG
 
-    Public Class Term : Implements sIdEnumerable
+    Public Class Term : Implements INamedValue
 
         Public Property xref As NamedValue(Of String)()
         ''' <summary>
@@ -42,7 +42,7 @@ Namespace DAG
         Public Property is_a As is_a()
         Public Property synonym As synonym()
         Public Property relationship As Relationship()
-        Public Property id As String Implements sIdEnumerable.Identifier
+        Public Property id As String Implements INamedValue.Identifier
         Public Property [namespace] As String
 
         Public Overrides Function ToString() As String

@@ -37,10 +37,10 @@ Namespace ProteinModel
     ''' The simple protein domain motif model.
     ''' </summary>
     Public Class DomainModel
-        Implements sIdEnumerable, IKeyValuePairObject(Of String, Location)
+        Implements INamedValue, IKeyValuePairObject(Of String, Location)
         Implements IMotifSite
 
-        Public Property DomainId As String Implements sIdEnumerable.Identifier, IKeyValuePairObject(Of String, Location).Identifier, IMotifSite.Type, IMotifSite.Name
+        Public Property DomainId As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, Location).Identifier, IMotifSite.Type, IMotifSite.Name
         Public Property Start As Integer
         Public Property [End] As Integer
 

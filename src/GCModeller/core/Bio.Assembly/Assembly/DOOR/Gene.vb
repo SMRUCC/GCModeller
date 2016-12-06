@@ -37,10 +37,10 @@ Namespace Assembly.DOOR
     ''' Door操纵子之中的一个基因对象的数据
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneBrief : Implements sIdEnumerable
+    Public Class GeneBrief : Implements INamedValue
         Implements IGeneBrief
 
-        Public Property OperonID As String Implements sIdEnumerable.Identifier
+        Public Property OperonID As String Implements INamedValue.Identifier
         Public Property GI As String
         Public Property Synonym As String
         Public Property Length As Integer Implements ICOGDigest.Length
