@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Calculus
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Windows.Forms
 
@@ -180,6 +181,7 @@ Public Class FormODEsViewer
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         ToolStripProgressBar1.Value = 0
         TextBox1.AppendText($"a:={a}, b:={b}, n:={n}" & vbCrLf)
+        TextBox1.AppendText(defines.GetJson)
         Application.DoEvents()
         Call Draw(MonteCarlo.Model.RunTest(model, defines, defines, n, a, b))
     End Sub
@@ -195,6 +197,7 @@ Public Class FormODEsViewer
                     If inputs.ContainsKey(x.Key) Then
                         inputs(x.Key).Text = CStr(x.Value)
                     End If
+                    Call App.JoinVariable(x.Key, x.Value)
                 Next
             End If
         End Using

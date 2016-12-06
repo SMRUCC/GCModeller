@@ -9,9 +9,7 @@
     "\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI",
     "\\src\\runtime",
     "\\src\\runtime\\httpd",
-    "\\src\\runtime\\httpd\\httpd",
-    "\\src\\runtime\\httpd\\httpd\\Program"
+    "\\src\\runtime\\httpd\\httpd"
   ],
-  "SelectedNode": "\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\FastaTools.vb",
   "PreviewInSolutionExplorer": false
 }
