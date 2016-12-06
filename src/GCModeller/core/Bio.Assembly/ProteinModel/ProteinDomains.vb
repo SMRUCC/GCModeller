@@ -53,7 +53,7 @@ Namespace ProteinModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute("Identifier", [Namespace]:="http://gcmodeller.org/programming/language/visualbasic/Identifier")>
-        Public Overridable Property Identifier As String Implements INamedValue.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Key
         Public Property Organism As String
 
         <XmlElement> Public Property Description As String

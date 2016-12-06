@@ -45,7 +45,7 @@ Namespace StringDB.StrPNet
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute("TF_id")> Public Property TF As String Implements INamedValue.Identifier
+        <XmlAttribute("TF_id")> Public Property TF As String Implements INamedValue.Key
         <XmlElement> Public Property Effectors As String()
         ''' <summary>
         ''' 当前的这个<see cref="Pathway.TF">转录调控因子</see>是否为OCS类型

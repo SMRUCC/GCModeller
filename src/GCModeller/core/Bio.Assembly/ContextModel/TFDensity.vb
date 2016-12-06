@@ -226,7 +226,7 @@ Namespace ContextModel
         ''' The gene locus_tag identifier
         ''' </summary>
         ''' <returns></returns>
-        Public Property locus_tag As String Implements INamedValue.Identifier
+        Public Property locus_tag As String Implements INamedValue.Key
         Public Property loci As NucleotideLocation
         ''' <summary>
         ''' The specific features on the genome its relative abundance relative to this gene <see cref="locus_tag"/>

@@ -43,7 +43,7 @@ Namespace Analysis.GenomeMotifFootPrints.MotifDb
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property MotifId As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, String()).Identifier
+        <XmlAttribute> Public Property MotifId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String()).Identifier
         <XmlAttribute> Public Property Evalue As Double
         <XmlAttribute> Public Property Width As Integer
         <XmlAttribute> Public Property LogLikelihoodRatio As Double

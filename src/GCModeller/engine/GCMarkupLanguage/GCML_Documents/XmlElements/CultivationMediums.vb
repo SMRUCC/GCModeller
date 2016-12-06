@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Serialization
 Public Class I_SubstrateRefx : Implements INamedValue
 
     <DumpNode> <XmlAttribute>
-    Public Property Identifier As String Implements INamedValue.Identifier
+    Public Property Identifier As String Implements INamedValue.Key
 
     <DumpNode> <XmlAttribute>
     Public Property InitialQuantity As Double

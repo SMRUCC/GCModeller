@@ -39,7 +39,7 @@ Namespace GCML_Documents.ComponentModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property ConstraintId As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property ConstraintId As String Implements INamedValue.Key
         ''' <summary>
         ''' 例如MetaCyc数据库中的UniqueId标识符
         ''' </summary>

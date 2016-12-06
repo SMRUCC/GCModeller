@@ -197,7 +197,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' 请注意，这个属性不是基因号
         ''' </summary>
         ''' <returns></returns>
-        Public Property ID As String Implements INamedValue.Identifier
+        Public Property ID As String Implements INamedValue.Key
             Get
                 Return attributes.TryGetValue("id")
             End Get

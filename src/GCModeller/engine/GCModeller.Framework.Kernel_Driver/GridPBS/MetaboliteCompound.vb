@@ -40,7 +40,7 @@ Namespace GridPBS
         Implements INamedValue
 
         Public Property Handle As Integer Implements IAddressHandle.Address
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         Public Property Quantity As Double
 
         Public Sub Dispose() Implements IDisposable.Dispose

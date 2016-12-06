@@ -46,7 +46,7 @@ Namespace CEG
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property GId As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property GId As String Implements INamedValue.Key
         ''' <summary>
         ''' 基因名
         ''' </summary>

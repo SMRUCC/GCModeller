@@ -48,7 +48,7 @@ Namespace PfamString
     Public Class PfamString : Implements INamedValue
 
         <XmlAttribute> <Column("ProteinId")>
-        Public Property ProteinId As String Implements INamedValue.Identifier
+        Public Property ProteinId As String Implements INamedValue.Key
         ''' <summary>
         ''' The protein sequence length
         ''' </summary>

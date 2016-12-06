@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class QueryArgument : Implements INamedValue
 
-    Public Property Name As String Implements INamedValue.Identifier
+    Public Property Name As String Implements INamedValue.Key
     ''' <summary>
     ''' 
     ''' </summary>

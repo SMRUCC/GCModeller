@@ -42,7 +42,7 @@ Namespace DataStorage.FileModel
         Implements IAddressHandle
         Implements INamedValue
 
-        Public Property Identifier As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, Integer).Identifier
+        Public Property Identifier As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Integer).Identifier
         Public Property Handle As Integer Implements IAddressHandle.Address, IKeyValuePairObject(Of String, Integer).Value
 
 #Region "IDisposable Support"

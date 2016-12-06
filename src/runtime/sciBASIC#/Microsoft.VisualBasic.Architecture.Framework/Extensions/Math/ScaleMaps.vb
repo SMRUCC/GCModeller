@@ -76,7 +76,7 @@ Namespace Mathematical
                                                                        Optional Level As Integer = 10) As Dictionary(Of String, Integer)
             Dim samples As Double() = data.ToArray(Function(x) getSample(x))
             Dim levels As Integer() = samples.GenerateMapping(Level)
-            Dim hash = data.ToArray(Function(x, i) New KeyValuePair(Of String, Integer)(x.Identifier, levels(i)))
+            Dim hash = data.ToArray(Function(x, i) New KeyValuePair(Of String, Integer)(x.Key, levels(i)))
             Return hash.ToDictionary
         End Function
 

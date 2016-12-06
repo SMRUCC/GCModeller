@@ -36,7 +36,7 @@ Namespace StringDB.StrPNet.TCS
     Public Class SensorInducers : Implements INamedValue
 
         <Column("Sensor")> <XmlAttribute>
-        Public Property SensorId As String Implements INamedValue.Identifier
+        Public Property SensorId As String Implements INamedValue.Key
         <Collection("Inducers")> <XmlElement>
         Public Property Inducers As String()
 

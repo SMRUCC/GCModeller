@@ -97,7 +97,7 @@ Public Class Regulator
     ''' &lt;(KEGG)species_code>:&lt;locusTag>
     ''' </summary>
     ''' <returns></returns>
-    Public Property KEGG As String Implements INamedValue.Identifier
+    Public Property KEGG As String Implements INamedValue.Key
     Public Property Sites As String()
     Public Property Family As String
     Public Property Regulog As String

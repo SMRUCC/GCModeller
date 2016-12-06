@@ -69,7 +69,7 @@ Namespace Assembly.NCBI.CDD
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute>
-        Public Overridable Property Identifier As String Implements INamedValue.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Key
         <XmlAttribute("name")>
         Public Property CommonName As String
 

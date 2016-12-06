@@ -43,7 +43,7 @@ Namespace GCML_Documents.ComponentModels
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute("UniqueId")>
-        Public Overridable Property Identifier As String Implements INamedValue.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String
             Return Identifier

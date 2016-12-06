@@ -49,7 +49,7 @@ Namespace Regprecise
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column("LocusId")> Public Overrides Property QueryName As String Implements INamedValue.Identifier,
+        <Column("LocusId")> Public Overrides Property QueryName As String Implements INamedValue.Key,
             IRegulatorMatched.locusId
             Get
                 Return MyBase.QueryName

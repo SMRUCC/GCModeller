@@ -38,7 +38,7 @@ Public Class var : Inherits float
     Implements ICloneable
 
     Public Property Index As Integer
-    Public Property Name As String Implements INamedValue.Identifier
+    Public Property Name As String Implements INamedValue.Key
     Public Overrides Property value As Double Implements Ivar.value
 
     Public Shared ReadOnly type As Type = GetType(var)

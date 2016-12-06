@@ -113,7 +113,7 @@ End Class
 ''' </summary>
 Public Class Title : Implements INamedValue
 
-    Public Property key As String Implements INamedValue.Identifier
+    Public Property key As String Implements INamedValue.Key
     ''' <summary>
     ''' 用来控制标题格式的html文本
     ''' </summary>

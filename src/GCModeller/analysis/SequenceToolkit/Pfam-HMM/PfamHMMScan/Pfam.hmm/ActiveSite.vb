@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' </summary>
 Public Structure ActiveSite : Implements INamedValue
 
-    Public Property ID As String Implements INamedValue.Identifier
+    Public Property ID As String Implements INamedValue.Key
     Public Property RE As Dictionary(Of String, RE)
     Public Property AL As Alignment()
 
@@ -92,7 +92,7 @@ Public Structure ActiveSite : Implements INamedValue
 End Structure
 
 Public Structure RE : Implements INamedValue
-    Public Property ID As String Implements INamedValue.Identifier
+    Public Property ID As String Implements INamedValue.Key
     Public Property Value As Integer()
 
     Public Overrides Function ToString() As String
@@ -101,7 +101,7 @@ Public Structure RE : Implements INamedValue
 End Structure
 
 Public Structure Alignment : Implements INamedValue
-    Public Property ID As String Implements INamedValue.Identifier
+    Public Property ID As String Implements INamedValue.Key
     Public Property MAL As String
 
     Sub New(s As String)

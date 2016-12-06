@@ -12,7 +12,7 @@ End Class
 Public Structure date_count
     Implements INamedValue
 
-    Public Property [date] As String Implements INamedValue.Identifier
+    Public Property [date] As String Implements INamedValue.Key
     Public Property count As Integer
 
     Public Overrides Function ToString() As String

@@ -136,7 +136,7 @@ Namespace EngineSystem.Services.DataAcquisition.DataSerializer
             Return LQuery.ToArray
         End Function
 
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         Public Property Handle As Integer Implements IAddressHandle.Address
 
         Public Sub Dispose() Implements IDisposable.Dispose

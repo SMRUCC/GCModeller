@@ -37,7 +37,7 @@ Namespace Components
         Implements INamedValue
 
         <Escaped> <XmlAttribute>
-        Public Overrides Property id As String Implements INamedValue.Identifier
+        Public Overrides Property id As String Implements INamedValue.Key
 
         <Escaped>
         <XmlAttribute("compartment")>

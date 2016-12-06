@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Language
 Public Class TableSchema : Implements INamedValue
     Implements IEnumerable(Of SchemaCache)
 
-    Public Property TableName As String Implements INamedValue.Identifier
+    Public Property TableName As String Implements INamedValue.Key
     Public Property DatabaseFields As SchemaCache()
 
     ''' <summary>

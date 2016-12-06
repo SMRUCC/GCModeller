@@ -39,7 +39,7 @@ Namespace KMeans
     Public Class Entity : Inherits EntityBase(Of Double)
         Implements INamedValue
 
-        Public Property uid As String Implements INamedValue.Identifier
+        Public Property uid As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String
             Return $"{uid}  ({Length} Properties)"

@@ -39,7 +39,7 @@ Namespace Kernel.ObjectModels
         ''' <summary>
         ''' The function name
         ''' </summary>
-        <XmlAttribute> Public Property Name As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Name As String Implements INamedValue.Key
 
         ''' <summary>
         ''' [function name](args) expression

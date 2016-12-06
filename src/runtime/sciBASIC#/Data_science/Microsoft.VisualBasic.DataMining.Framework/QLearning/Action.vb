@@ -42,7 +42,7 @@ Namespace QLearning
         ''' The environment variables state as inputs for the machine.
         ''' </summary>
         ''' <returns></returns>
-        Public Property EnvirState As String Implements INamedValue.Identifier
+        Public Property EnvirState As String Implements INamedValue.Key
         ''' <summary>
         ''' Actions for the current state.
         ''' </summary>

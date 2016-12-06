@@ -41,7 +41,7 @@ Namespace DocumentStream
         ''' This object identifier
         ''' </summary>
         ''' <returns></returns>
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
 
         ''' <summary>
         ''' Copy prop[erty value
@@ -73,7 +73,7 @@ Namespace DocumentStream
     Public Class DataSet : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
 
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
 
         ''' <summary>
         ''' Copy prop[erty value

@@ -37,7 +37,7 @@ Namespace Motif
     ''' </summary>
     Public Class MotifPattern : Implements INamedValue
 
-        Public Property Id As String Implements INamedValue.Identifier
+        Public Property Id As String Implements INamedValue.Key
         Public Property Expression As String
         Public Property Motif As String
         Public Property Width As Integer

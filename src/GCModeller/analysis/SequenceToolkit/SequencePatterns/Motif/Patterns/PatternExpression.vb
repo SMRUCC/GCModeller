@@ -56,7 +56,7 @@ Namespace Motif.Patterns
             End Set
         End Property
 
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
 
         Dim __motif As Residue()
         Dim __regex As Regex

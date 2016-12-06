@@ -47,7 +47,7 @@ Namespace Assembly.MetaCyc.Schema
     ''' <remarks></remarks>
     Public Class EffectorMap : Implements INamedValue, ICompoundObject
 
-        Public Property Effector As String Implements INamedValue.Identifier
+        Public Property Effector As String Implements INamedValue.Key
         ''' <summary>
         ''' <see cref="ICompoundObject.CommonNames"></see>
         ''' </summary>

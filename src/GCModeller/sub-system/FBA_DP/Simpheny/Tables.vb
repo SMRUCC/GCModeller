@@ -130,7 +130,7 @@ Namespace Simpheny
     Public Class RXN : Inherits ProjectElement
         Implements INamedValue
 
-        <Column("REACTION-ID")> Public Property ReactionId As String Implements INamedValue.Identifier
+        <Column("REACTION-ID")> Public Property ReactionId As String Implements INamedValue.Key
         <Column("ABBREVIATION")> Public Property Abbreviation As String
         <Column("OFFICIAL NAME")> Public Property OfficialName As String
         <Column("REVERSIBLE")> Public Property Reversible As Boolean

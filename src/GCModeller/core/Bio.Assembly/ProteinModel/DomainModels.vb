@@ -40,7 +40,7 @@ Namespace ProteinModel
         Implements INamedValue, IKeyValuePairObject(Of String, Location)
         Implements IMotifSite
 
-        Public Property DomainId As String Implements INamedValue.Identifier, IKeyValuePairObject(Of String, Location).Identifier, IMotifSite.Type, IMotifSite.Name
+        Public Property DomainId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Location).Identifier, IMotifSite.Type, IMotifSite.Name
         Public Property Start As Integer
         Public Property [End] As Integer
 

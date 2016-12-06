@@ -44,7 +44,7 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property Name As String Implements INamedValue.Identifier
+        Public Property Name As String Implements INamedValue.Key
 
         ''' <summary>
         ''' Object value

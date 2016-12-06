@@ -40,7 +40,7 @@ Namespace Assembly.DOOR
     Public Class GeneBrief : Implements INamedValue
         Implements IGeneBrief
 
-        Public Property OperonID As String Implements INamedValue.Identifier
+        Public Property OperonID As String Implements INamedValue.Key
         Public Property GI As String
         Public Property Synonym As String
         Public Property Length As Integer Implements ICOGDigest.Length

@@ -68,7 +68,7 @@ Namespace CommandLine
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Name As String Implements INamedValue.Identifier
+        Public Property Name As String Implements INamedValue.Key
             Get
                 Return _name
             End Get

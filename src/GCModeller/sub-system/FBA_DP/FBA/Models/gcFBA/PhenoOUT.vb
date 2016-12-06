@@ -78,7 +78,7 @@ Namespace Models.rFBA
         Implements INamedValue
         Implements IPhenoOUT
 
-        Public Property Locus As String Implements INamedValue.Identifier
+        Public Property Locus As String Implements INamedValue.Key
         <Meta(GetType(Double))> Public Overrides Property Properties As Dictionary(Of String, Double)
             Get
                 Return MyBase.Properties

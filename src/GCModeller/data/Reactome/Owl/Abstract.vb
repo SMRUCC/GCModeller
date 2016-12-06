@@ -35,7 +35,7 @@ Namespace OwlDocument.Abstract
         Implements INamedValue
 
         <XmlAttribute("ID")>
-        Public Property ResourceId As String Implements INamedValue.Identifier
+        Public Property ResourceId As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String
             Return ResourceId

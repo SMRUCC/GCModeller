@@ -46,7 +46,7 @@ Namespace Level2.Elements
         ''' </summary>
         ''' <remarks></remarks>
         <Escaped> <XmlAttribute()>
-        Public Property species As String Implements INamedValue.Identifier
+        Public Property species As String Implements INamedValue.Key
         ''' <summary>
         ''' (化学计量数)
         ''' </summary>

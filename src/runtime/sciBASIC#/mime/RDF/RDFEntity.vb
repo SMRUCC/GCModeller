@@ -52,7 +52,7 @@ Public MustInherit Class RDFEntity : Inherits RDFProperty
     ''' [资源] 是可拥有 URI 的任何事物
     ''' </summary>
     ''' <returns></returns>
-    <XmlAttribute(RDF.RDF_PREFIX & "about")> Public Property about As String Implements INamedValue.Identifier, IReadOnlyId.Identity
+    <XmlAttribute(RDF.RDF_PREFIX & "about")> Public Property about As String Implements INamedValue.Key, IReadOnlyId.Identity
     ''' <summary>
     ''' [属性]   是拥有名称的资源
     ''' [属性值] 是某个属性的值，(请注意一个属性值可以是另外一个<see cref="Resource"/>）

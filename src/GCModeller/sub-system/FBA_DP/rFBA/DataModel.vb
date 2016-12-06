@@ -122,7 +122,7 @@ Namespace rFBA
             End Sub
 #End Region
 
-            Public Property Identifier As String Implements INamedValue.Identifier
+            Public Property Identifier As String Implements INamedValue.Key
         End Class
 
         Public Class ObjectiveFunction
@@ -132,7 +132,7 @@ Namespace rFBA
 
         Public Class AssociatedGene : Implements IAddressHandle, INamedValue
             Public Property RPKM As Double
-            Public Property Identifier As String Implements INamedValue.Identifier
+            Public Property Identifier As String Implements INamedValue.Key
             Public Property Handle As Integer Implements IAddressHandle.Address
 
             ''' <summary>

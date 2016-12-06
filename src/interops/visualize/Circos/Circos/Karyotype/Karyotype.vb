@@ -99,7 +99,7 @@ Namespace Karyotype
         ''' Id
         ''' </summary>
         ''' <returns></returns>
-        Public Property chrName As String Implements IKaryotype.chrName, INamedValue.Identifier
+        Public Property chrName As String Implements IKaryotype.chrName, INamedValue.Key
         ''' <summary>
         ''' Display name title labels
         ''' </summary>

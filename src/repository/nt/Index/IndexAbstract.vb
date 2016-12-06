@@ -11,7 +11,7 @@ Public MustInherit Class IndexAbstract
     ''' 只读
     ''' </summary>
     ''' <returns></returns>
-    Public Property gi As String Implements INamedValue.Identifier
+    Public Property gi As String Implements INamedValue.Key
         Get
             Return __gi
         End Get

@@ -42,7 +42,7 @@ Namespace ComparativeAlignment
             Me.color = color
         End Sub
 
-        Public Property type As String Implements INamedValue.Identifier
+        Public Property type As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

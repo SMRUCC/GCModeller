@@ -40,7 +40,7 @@ Public Module IEnumerations
                                      ToDiffer As IEnumerable(Of T2),
                                      getId As Func(Of T2, String)) As String()
 
-        Dim TargetIndex As String() = (From item As T In source Select item.Identifier).ToArray
+        Dim TargetIndex As String() = (From item As T In source Select item.Key).ToArray
         Dim LQuery = (From item As T2 In ToDiffer
                       Let strId As String = getId(item)
                       Where Array.IndexOf(TargetIndex, strId) = -1
@@ -49,10 +49,10 @@ Public Module IEnumerations
     End Function
 
     <Extension> Public Function Differ(Of T As INamedValue, T2 As INamedValue)(source As IEnumerable(Of T), ToDiffer As IEnumerable(Of T2)) As String()
-        Dim TargetIndex As String() = (From item In source Select item.Identifier).ToArray
+        Dim TargetIndex As String() = (From item In source Select item.Key).ToArray
         Dim LQuery = (From item As T2 In ToDiffer
-                      Where Array.IndexOf(TargetIndex, item.Identifier) = -1
-                      Select item.Identifier).ToArray
+                      Where Array.IndexOf(TargetIndex, item.Key) = -1
+                      Select item.Key).ToArray
         Return LQuery
     End Function
 
@@ -61,8 +61,8 @@ Public Module IEnumerations
         Return source.GetItem(Id)
     End Function
 
-    <Extension> Public Function GetItems(Of T As ComponentModel.Collection.Generic.INamedValue)(source As IEnumerable(Of T), Id As String) As T()
-        Dim LQuery = (From ItemObj As T In source Where String.Equals(Id, ItemObj.Identifier) Select ItemObj).ToArray
+    <Extension> Public Function GetItems(Of T As INamedValue)(source As IEnumerable(Of T), Id As String) As T()
+        Dim LQuery = (From ItemObj As T In source Where String.Equals(Id, ItemObj.Key) Select ItemObj).ToArray
         Return LQuery
     End Function
 
@@ -76,7 +76,7 @@ Public Module IEnumerations
     <Extension> Public Function CreateDictionary(Of T As INamedValue)(Collection As IEnumerable(Of T)) As Dictionary(Of String, T)
         Dim Dictionary As Dictionary(Of String, T) = New Dictionary(Of String, T)
         For Each obj In Collection
-            Call Dictionary.Add(obj.Identifier, obj)
+            Call Dictionary.Add(obj.Key, obj)
         Next
 
         Return Dictionary
@@ -120,7 +120,7 @@ Public Module IEnumerations
         If source.IsNullOrEmpty Then Return New T() {}
 
         Dim method As StringComparison = If(Explicit, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase)
-        Dim value = (From x As T In source Where String.Equals(x.Identifier, uniqueId, method) Select x).ToArray
+        Dim value = (From x As T In source Where String.Equals(x.Key, uniqueId, method) Select x).ToArray
 
         Return value
     End Function
@@ -140,7 +140,7 @@ Public Module IEnumerations
     End Function
 
     <Extension> Public Function GetItem(Of T As INamedValue)(source As IEnumerable(Of T), uniqueId As String) As T
-        Dim LQuery = (From itemObj As T In source Where String.Equals(uniqueId, itemObj.Identifier) Select itemObj).FirstOrDefault
+        Dim LQuery = (From itemObj As T In source Where String.Equals(uniqueId, itemObj.Key) Select itemObj).FirstOrDefault
         Return LQuery
     End Function
 
@@ -162,10 +162,10 @@ Public Module IEnumerations
 
         Dim Thash As Dictionary(Of T) = New Dictionary(Of T)
         For Each item As T In source
-            If Not Thash.ContainsKey(item.Identifier) Then
-                Call Thash.Add(item.Identifier, item)
+            If Not Thash.ContainsKey(item.Key) Then
+                Call Thash.Add(item.Key, item)
             Else
-                Call Console.WriteLine(item.Identifier & " is dulplicated......")
+                Call Console.WriteLine(item.Key & " is dulplicated......")
             End If
         Next
 

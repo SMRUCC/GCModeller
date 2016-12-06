@@ -38,7 +38,7 @@ Namespace YAML.Syntax
 
         Public Value As DataItem
 
-        Private Property Identifier As String Implements INamedValue.Identifier
+        Private Property Identifier As String Implements INamedValue.Key
             Get
                 Return Scripting.ToString(Key)
             End Get

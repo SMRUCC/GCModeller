@@ -38,7 +38,7 @@ Namespace ComponentModel.DataStructures.BinaryTree
     ''' <remarks></remarks>
     Public Class TreeNode(Of T) : Implements INamedValue
 
-        Public Property Name As String Implements INamedValue.Identifier
+        Public Property Name As String Implements INamedValue.Key
         Public Property Value As T
         Public Property Left As TreeNode(Of T)
         Public Property Right As TreeNode(Of T)

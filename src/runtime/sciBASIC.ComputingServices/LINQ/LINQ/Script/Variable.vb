@@ -7,7 +7,7 @@ Namespace Script
     Public Class Variable : Implements INamedValue
         Implements IEnumerable
 
-        Public Property Name As String Implements INamedValue.Identifier
+        Public Property Name As String Implements INamedValue.Key
         Public Property Data As IEnumerable
 
         Public Overrides Function ToString() As String

@@ -58,7 +58,7 @@ Namespace Analysis.MotifScans
         End Property
         <XmlAttribute> Public Property Width As Integer
         Public Property PWM As ResidueSite()
-        <XmlAttribute> Public Property Uid As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Uid As String Implements INamedValue.Key
         <XmlAttribute> Public Property Expression As String
         <XmlAttribute("bp")> Public Property SourceLen As Integer
 

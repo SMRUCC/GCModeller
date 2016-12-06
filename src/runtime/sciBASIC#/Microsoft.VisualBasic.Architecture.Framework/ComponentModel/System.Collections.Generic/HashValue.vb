@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Structure HashValue : Implements INamedValue
 
-    Public Property Identifier As String Implements INamedValue.Identifier
+    Public Property Identifier As String Implements INamedValue.Key
     Public Property value As String
 
     Sub New(name As String, value As String)

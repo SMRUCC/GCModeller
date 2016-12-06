@@ -92,11 +92,11 @@ Public Module KeyValuePairExtensions
 
         Try
             For Each item As T In source
-                Call hash.Add(item.Identifier, item)
+                Call hash.Add(item.Key, item)
                 i += 1
             Next
         Catch ex As Exception
-            ex = New Exception("Identifier -> [ " & source(i).Identifier & " ]", ex)
+            ex = New Exception("Identifier -> [ " & source(i).Key & " ]", ex)
             Throw ex
         End Try
 

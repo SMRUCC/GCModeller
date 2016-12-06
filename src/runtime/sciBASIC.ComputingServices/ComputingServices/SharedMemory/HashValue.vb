@@ -41,7 +41,7 @@ Namespace SharedMemory
         ''' The variable name
         ''' </summary>
         ''' <returns></returns>
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         ''' <summary>
         ''' variable value
         ''' </summary>
@@ -81,7 +81,7 @@ Namespace SharedMemory
         ''' The variable name
         ''' </summary>
         ''' <returns></returns>
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         ''' <summary>
         ''' Json value, and the type information is also included in this property.
         ''' </summary>

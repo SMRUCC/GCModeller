@@ -224,7 +224,7 @@ Namespace gast
     ''' </summary>
     Public Class Names : Implements INamedValue
 
-        Public Property Unique As String Implements INamedValue.Identifier
+        Public Property Unique As String Implements INamedValue.Key
         <Ignored> Public Property members As String()
         Public Property NumOfSeqs As Integer
         Public Property taxonomy As String
@@ -239,7 +239,7 @@ Namespace gast
 
     Public Class gastOUT : Implements INamedValue
 
-        Public Property read_id As String Implements INamedValue.Identifier
+        Public Property read_id As String Implements INamedValue.Key
         Public Property taxonomy As String
         Public Property distance As Double
         Public Property rank As String

@@ -42,7 +42,7 @@ Namespace FBA_OUTPUT
     ''' </summary>
     Public Class TabularOUT : Implements INamedValue
 
-        Public Property Rxn As String Implements INamedValue.Identifier
+        Public Property Rxn As String Implements INamedValue.Key
         Public Property Flux As Double
 
         Public Overrides Function ToString() As String

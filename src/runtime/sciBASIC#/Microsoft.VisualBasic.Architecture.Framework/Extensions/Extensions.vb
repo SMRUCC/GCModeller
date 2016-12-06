@@ -144,10 +144,10 @@ Public Module Extensions
         If hash Is Nothing Then
             hash = New Dictionary(Of String, T)
         End If
-        If hash.ContainsKey(obj.Identifier) Then
-            Throw New Exception($"[{obj.Identifier}] was duplicated in the dictionary!")
+        If hash.ContainsKey(obj.Key) Then
+            Throw New Exception($"[{obj.Key}] was duplicated in the dictionary!")
         Else
-            Call hash.Add(obj.Identifier, obj)
+            Call hash.Add(obj.Key, obj)
         End If
 
         Return hash
@@ -1146,16 +1146,16 @@ Public Module Extensions
     <Extension> Public Function InsertOrUpdate(Of T As INamedValue)(ByRef dict As Dictionary(Of String, T), item As T) As T
         Dim pre As T
 
-        If dict.ContainsKey(item.Identifier) Then
-            pre = dict(item.Identifier)
+        If dict.ContainsKey(item.Key) Then
+            pre = dict(item.Key)
 
-            Call dict.Remove(item.Identifier)
-            Call $"data was updated: {Scripting.ToString(pre)} -> {item.Identifier}".__DEBUG_ECHO
+            Call dict.Remove(item.Key)
+            Call $"data was updated: {Scripting.ToString(pre)} -> {item.Key}".__DEBUG_ECHO
         Else
             pre = item
         End If
 
-        Call dict.Add(item.Identifier, item)
+        Call dict.Add(item.Key, item)
 
         Return pre
     End Function
@@ -1168,7 +1168,7 @@ Public Module Extensions
     ''' <param name="item"></param>
     ''' <returns></returns>
     <Extension> Public Function Remove(Of T As INamedValue)(ByRef dict As Dictionary(Of String, T), item As T) As T
-        Call dict.Remove(item.Identifier)
+        Call dict.Remove(item.Key)
         Return item
     End Function
 
@@ -1692,7 +1692,7 @@ Public Module Extensions
         Dim find As T = LinqAPI.DefaultFirst(Of T) <=
             From x As T
             In source
-            Where String.Equals(uid, x.Identifier, IgnoreCase)
+            Where String.Equals(uid, x.Key, IgnoreCase)
             Select x
 
         Return find

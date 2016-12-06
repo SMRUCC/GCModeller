@@ -53,7 +53,7 @@ Namespace Regprecise
         Public Property Sites As FastaObject()
         <XmlAttribute> Public Property logo As String
 
-        Private Property Identifier As String Implements INamedValue.Identifier
+        Private Property Identifier As String Implements INamedValue.Key
             Get
                 Return Regulog.Key
             End Get

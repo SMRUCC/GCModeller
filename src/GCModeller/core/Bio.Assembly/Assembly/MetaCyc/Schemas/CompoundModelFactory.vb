@@ -36,7 +36,7 @@ Namespace Assembly.MetaCyc.Schema
 
         Public Class GeneralCompoundModel : Implements ICompoundObject
 
-            Public Property Identifier As String Implements INamedValue.Identifier
+            Public Property Identifier As String Implements INamedValue.Key
             Public Property CommonNames As String() Implements ICompoundObject.CommonNames
 
             Public Property CHEBI As String() Implements ICompoundObject.CHEBI

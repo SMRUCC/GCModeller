@@ -44,7 +44,7 @@ Namespace Regprecise.FastaReaders
         ''' &lt;(KEGG)species_code>:&lt;locusTag>
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGG As String Implements INamedValue.Identifier
+        Public Property KEGG As String Implements INamedValue.Key
             Get
                 Return _kegg
             End Get

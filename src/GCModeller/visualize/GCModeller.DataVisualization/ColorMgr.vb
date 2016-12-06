@@ -95,7 +95,7 @@ End Class
 ''' </summary>
 Public Class ClMap : Implements INamedValue
 
-    Public Property Identifier As String Implements INamedValue.Identifier
+    Public Property Identifier As String Implements INamedValue.Key
     Public Property map As String
 
     Public Overrides Function ToString() As String

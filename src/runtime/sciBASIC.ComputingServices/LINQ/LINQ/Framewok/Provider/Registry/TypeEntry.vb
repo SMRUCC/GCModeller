@@ -19,7 +19,7 @@ Namespace Framework.Provider
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property name As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property name As String Implements INamedValue.Key
         ''' <summary>
         ''' Full type name for the target LINQ entity type. Assembly!typeFullName (目标LINQEntity集合中的类型全称)
         ''' </summary>

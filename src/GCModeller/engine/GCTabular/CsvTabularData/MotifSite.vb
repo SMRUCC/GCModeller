@@ -41,7 +41,7 @@ Namespace FileStream
     Public Class MotifSite : Implements INamedValue, IReadOnlyId
 
         Public Property Regulators As List(Of String)
-        Public Property MotifName As String Implements INamedValue.Identifier
+        Public Property MotifName As String Implements INamedValue.Key
         ''' <summary>
         ''' 与所处的ORF上面的ATG为标准的
         ''' </summary>

@@ -56,7 +56,7 @@ Public MustInherit Class Expression
         End Get
     End Property
 
-    Public Property Identifier As String Implements INamedValue.Identifier
+    Public Property Identifier As String Implements INamedValue.Key
     Public Property Handle As Integer Implements IAddressHandle.Address
 
 #Region "IDisposable Support"
@@ -120,7 +120,7 @@ Public MustInherit Class Variable : Implements IAddressHandle
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <XmlAttribute> Public Property UniqueId As String Implements INamedValue.Identifier
+    <XmlAttribute> Public Property UniqueId As String Implements INamedValue.Key
 
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' To detect redundant calls

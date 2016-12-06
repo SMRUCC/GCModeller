@@ -40,7 +40,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
 
     Public Class ReactionMaps : Implements INamedValue
 
-        <XmlAttribute> Public Property EC As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property EC As String Implements INamedValue.Key
 
         Public Property Reactions As String()
 
@@ -60,7 +60,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("locus_tag")>
-        Public Property locusId As String Implements INamedValue.Identifier
+        Public Property locusId As String Implements INamedValue.Key
 
         ''' <summary>
         ''' 这个映射之中是否包含有某一个代谢过程

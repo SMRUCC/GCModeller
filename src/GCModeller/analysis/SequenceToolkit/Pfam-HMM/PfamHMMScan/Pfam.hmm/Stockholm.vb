@@ -45,7 +45,7 @@ Public Class Stockholm : Implements INamedValue
     ''' Pfam accession ID
     ''' </summary>
     ''' <returns></returns>
-    Public Property AC As String Implements INamedValue.Identifier
+    Public Property AC As String Implements INamedValue.Key
     ''' <summary>
     ''' Definition
     ''' </summary>

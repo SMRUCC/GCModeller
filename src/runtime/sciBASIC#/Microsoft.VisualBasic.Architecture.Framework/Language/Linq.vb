@@ -89,7 +89,7 @@ Namespace Language
         End Function
 
         Public Shared Function BuildHash(Of T As INamedValue)() As BuildHashHelper(Of String, T, T)
-            Return New BuildHashHelper(Of String, T, T)(Function(x) x.Identifier, Function(x) x)
+            Return New BuildHashHelper(Of String, T, T)(Function(x) x.Key, Function(x) x)
         End Function
 
         Public Shared Function Takes(Of T)(n As Integer) As TakeHelper(Of T)

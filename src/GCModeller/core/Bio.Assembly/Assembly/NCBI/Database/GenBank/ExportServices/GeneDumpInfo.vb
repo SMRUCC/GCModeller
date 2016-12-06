@@ -48,7 +48,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property LocusID As String Implements INamedValue.Identifier
+        Public Property LocusID As String Implements INamedValue.Key
         Public Property GeneName As String
         Public Property CommonName As String Implements ICOGDigest.Product
         Public Property Left As Integer

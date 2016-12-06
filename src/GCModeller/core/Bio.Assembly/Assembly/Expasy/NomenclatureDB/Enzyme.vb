@@ -48,7 +48,7 @@ Namespace Assembly.Expasy.Database
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute("EC_ID", Namespace:="http://code.google.com/p/genome-in-code/mapping/expasy")>
-        Public Property Identification As String Implements INamedValue.Identifier
+        Public Property Identification As String Implements INamedValue.Key
 
         ''' <summary>
         ''' (DE)  (official name)         

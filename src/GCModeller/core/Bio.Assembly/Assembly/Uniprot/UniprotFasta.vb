@@ -63,7 +63,7 @@ Namespace Assembly.Uniprot
         ''' UniqueIdentifier Is the primary accession number of the UniProtKB entry.
         ''' </summary>
         ''' <returns></returns>
-        Public Property UniprotID As String Implements INamedValue.Identifier
+        Public Property UniprotID As String Implements INamedValue.Key
         ''' <summary>
         ''' EntryName Is the entry name of the UniProtKB entry.
         ''' </summary>

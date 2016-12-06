@@ -73,7 +73,7 @@ Namespace QLearning.DataModel
     Public Class IndexCurve : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
 
-        Public Property uid As String Implements INamedValue.Identifier
+        Public Property uid As String Implements INamedValue.Key
 
         Sub New()
         End Sub

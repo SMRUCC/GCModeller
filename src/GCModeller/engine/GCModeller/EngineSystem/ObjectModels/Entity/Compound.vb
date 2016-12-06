@@ -207,7 +207,7 @@ Namespace EngineSystem.ObjectModels.Entity
         End Sub
 #End Region
 
-        Public Overrides Property Identifier As String Implements INamedValue.Identifier
+        Public Overrides Property Identifier As String Implements INamedValue.Key
 
         Public Overridable ReadOnly Property SerialsHandle As HandleF Implements IDataSourceEntity.SerialsHandle
             Get

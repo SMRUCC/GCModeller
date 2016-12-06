@@ -45,7 +45,7 @@ Namespace DocumentFormat.MEME.LDM
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Overrides Property Name As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Overrides Property Name As String Implements INamedValue.Key
         ''' <summary>
         ''' 位点的序列
         ''' </summary>

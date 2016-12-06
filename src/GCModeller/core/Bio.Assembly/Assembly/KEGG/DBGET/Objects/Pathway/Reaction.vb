@@ -43,7 +43,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' <remarks></remarks>
     Public Class Reaction : Implements INamedValue
 
-        <XmlAttribute> Public Property Entry As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Entry As String Implements INamedValue.Key
         Public Property CommonNames As String()
         Public Property Definition As String
         Public Property Equation As String

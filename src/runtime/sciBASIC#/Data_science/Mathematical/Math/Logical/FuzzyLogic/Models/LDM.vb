@@ -36,7 +36,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Value : Inherits ClassObject
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
         <XmlAttribute> Public Property Type As String
         <XmlAttribute> Public Property Range As Double()
 
@@ -53,7 +53,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Term : Inherits ClassObject
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
         <XmlAttribute> Public Property Points As Double()
 
         Sub New()
@@ -69,7 +69,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Fuzzify : Inherits ClassObject
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
         <XmlElement> Public Property Terms As Term()
 
         Sub New()
@@ -101,7 +101,7 @@ Namespace Logical.FuzzyLogic.Models
     Public Class Rule : Inherits ClassObject
         Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
         <XmlAttribute> Public Property Expression As String
 
         Sub New()

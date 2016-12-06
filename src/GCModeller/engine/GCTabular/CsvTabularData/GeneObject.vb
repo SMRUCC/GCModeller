@@ -45,7 +45,7 @@ Namespace FileStream
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         Public Property GeneName As String
         Public Property COG As String
 

@@ -41,7 +41,7 @@ Public Class SerialData : Implements INamedValue
     ''' </summary>
     Public pts As PointData()
     Public lineType As DashStyle = DashStyle.Solid
-    Public Property title As String Implements INamedValue.Identifier
+    Public Property title As String Implements INamedValue.Key
 
     ''' <summary>
     ''' 点的半径大小

@@ -44,7 +44,7 @@ Namespace EngineSystem.ObjectModels
         ''' <returns></returns>
         ''' <remarks></remarks>
         <DumpNode> <XmlAttribute>
-        Public Overridable Property Identifier As String Implements INamedValue.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Key
 
         ''' <summary>
         ''' The index handle of this object instance in the collection of the metabolite compounds in this system model.

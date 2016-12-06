@@ -39,7 +39,7 @@ Namespace HTML
 
     Public Structure ValueAttribute : Implements INamedValue
 
-        Public Property Name As String Implements INamedValue.Identifier
+        Public Property Name As String Implements INamedValue.Key
         Public Property Value As String
 
         Sub New(strText As String)

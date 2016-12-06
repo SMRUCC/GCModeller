@@ -38,7 +38,7 @@ Namespace Serials.PeriodAnalysis
     Public Structure SerialsVarialble
         Implements INamedValue
 
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         Dim SerialsData As Double()
 
         Public Overrides Function ToString() As String

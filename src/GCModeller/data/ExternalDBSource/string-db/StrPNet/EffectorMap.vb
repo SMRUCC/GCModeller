@@ -39,7 +39,7 @@ Namespace StringDB.StrPNet
     Public Class EffectorMap : Implements INamedValue
 
         <Column("regprecise-effector")>
-        Public Property Effector As String Implements INamedValue.Identifier
+        Public Property Effector As String Implements INamedValue.Key
         Public Property MetaCycId As String
         <Collection("Effector-Alias")>
         Public Property EffectorAlias As String()

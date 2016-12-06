@@ -45,7 +45,7 @@ Namespace StringDB.StrPNet
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Column("Operon-Id")> Public Property OperonId As String
-        <Column("Regulator")> Public Property Regulator As String Implements INamedValue.Identifier
+        <Column("Regulator")> Public Property Regulator As String Implements INamedValue.Key
         <CollectionAttribute("Operon-Genes")> Public Property OperonGenes As String()
         Public Property PromoterGene As String
         ''' <summary>

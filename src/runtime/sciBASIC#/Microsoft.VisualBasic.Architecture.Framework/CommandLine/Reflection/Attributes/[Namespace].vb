@@ -57,7 +57,7 @@ Namespace CommandLine.Reflection
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute>
-        Public Property [Namespace] As String Implements INamedValue.Identifier
+        Public Property [Namespace] As String Implements INamedValue.Key
 
         Dim _TypeAutoExtract As Boolean
 

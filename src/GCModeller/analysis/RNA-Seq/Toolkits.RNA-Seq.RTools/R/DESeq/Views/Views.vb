@@ -40,7 +40,7 @@ Namespace DESeq2
     ''' </remarks>
     Public Class DESeq2Diff : Implements INamedValue
 
-        Public Overridable Property locus_tag As String Implements INamedValue.Identifier
+        Public Overridable Property locus_tag As String Implements INamedValue.Key
         ''' <summary>
         ''' The base mean over all rows.
         ''' (表达量变化是identical的基因可以直接使用这个值来作为表达量)

@@ -41,7 +41,7 @@ Namespace PfsNET
     ''' <remarks></remarks>
     Public Class PfsNET : Implements INamedValue
 
-        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
 
         <XmlAttribute> Public Property n As Integer
         <XmlAttribute> Public Property Flag As Boolean

@@ -38,7 +38,7 @@ Namespace SabiorkKineticLaws.SBMLParser
 
     Public Class CompoundSpecie : Implements INamedValue
 
-        Public Property Id As String Implements INamedValue.Identifier
+        Public Property Id As String Implements INamedValue.Key
         Public Property Name As String
         Public Property Identifiers As String()
         Public Property modifierType As String

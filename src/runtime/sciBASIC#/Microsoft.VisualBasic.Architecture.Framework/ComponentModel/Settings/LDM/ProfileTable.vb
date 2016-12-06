@@ -37,7 +37,7 @@ Namespace ComponentModel.Settings
     Public Class ProfileTable : Implements INamedValue
         Implements IProfileTable
 
-        Public Property Name As String Implements INamedValue.Identifier, IProfileTable.Name
+        Public Property Name As String Implements INamedValue.Key, IProfileTable.Name
         Public Property value As String Implements IProfileTable.value
         Public Property Type As ValueTypes Implements IProfileTable.Type
         Public Property Description As String Implements IProfileTable.Description

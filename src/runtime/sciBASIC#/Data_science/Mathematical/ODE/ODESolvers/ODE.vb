@@ -72,7 +72,7 @@ Public Class ODE
         End Get
     End Property
 
-    Public Property Id As String Implements INamedValue.Identifier
+    Public Property Id As String Implements INamedValue.Key
 
     Public Overrides Function ToString() As String
         Return x.GetJson & " --> " & y.GetJson

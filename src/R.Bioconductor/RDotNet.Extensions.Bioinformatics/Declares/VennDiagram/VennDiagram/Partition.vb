@@ -42,7 +42,7 @@ Namespace VennDiagram.ModelAPI
         ''' The name of this partition
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Name As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Name As String Implements INamedValue.Key
         ''' <summary>
         ''' The color string of the partition
         ''' </summary>

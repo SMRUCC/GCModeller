@@ -117,7 +117,7 @@ Namespace NetworkModel
 
         Public Class Pathway : Implements INamedValue
 
-            Public Property Identifier As String Implements INamedValue.Identifier
+            Public Property Identifier As String Implements INamedValue.Key
             Public Property ReactionCounts As Integer
             Public Property EnzymeCounts As Integer
             Public Property CommonName As String

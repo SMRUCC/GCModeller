@@ -38,7 +38,7 @@ Namespace Language.Python
     Public Class NamedTuple : Inherits [Property](Of Object)
         Implements INamedValue
 
-        Public Property Type As String Implements INamedValue.Identifier
+        Public Property Type As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

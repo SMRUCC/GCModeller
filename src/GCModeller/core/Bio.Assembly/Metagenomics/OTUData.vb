@@ -14,7 +14,7 @@ Namespace Metagenomics
         ''' </summary>
         ''' <returns></returns>
         <Column(Name:="#OTU_num")>
-        Public Property OTU As String Implements INamedValue.Identifier
+        Public Property OTU As String Implements INamedValue.Key
         ''' <summary>
         ''' Usually this property is the BIOM format taxonomy information
         ''' </summary>

@@ -302,7 +302,7 @@ Public Class GeneInfo
     ''' 基因的编号
     ''' </summary>
     ''' <returns></returns>
-    Public Property locus_tag As String Implements INamedValue.Identifier, IKeyedEntity(Of String).Key
+    Public Property locus_tag As String Implements INamedValue.Key, IKeyedEntity(Of String).Key
     ''' <summary>
     ''' /gene="基因名"
     ''' </summary>
@@ -342,7 +342,7 @@ Public Class GenbankIndex : Implements IKeyedEntity(Of String), INamedValue
     ''' locus_tag, 索引文件的表主键
     ''' </summary>
     ''' <returns></returns>
-    Public Property AccId As String Implements IKeyedEntity(Of String).Key, INamedValue.Identifier
+    Public Property AccId As String Implements IKeyedEntity(Of String).Key, INamedValue.Key
     Public Property definition As String
 
     Public Function Gbk(DIR As String) As GBFF.File

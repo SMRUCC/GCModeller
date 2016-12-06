@@ -44,7 +44,7 @@ Namespace DESeq2
         ''' </summary>
         Public Const LEVEL2 As String = "[Level2]"
 
-        Public Property locus As String Implements IReadOnlyId.Identity, INamedValue.Identifier
+        Public Property locus As String Implements IReadOnlyId.Identity, INamedValue.Key
         Public Property log2FoldChange As Double
 
         ''' <summary>

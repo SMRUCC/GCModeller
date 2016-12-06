@@ -63,7 +63,7 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
         Public Property TranscriptProduct As String
 
         <XmlType("ProteinProduct")> Public Class Protein : Implements INamedValue
-            <XmlAttribute> Public Property Identifier As String Implements INamedValue.Identifier
+            <XmlAttribute> Public Property Identifier As String Implements INamedValue.Key
             <XmlAttribute("Pfam")> Public Property Domains As String()
         End Class
 

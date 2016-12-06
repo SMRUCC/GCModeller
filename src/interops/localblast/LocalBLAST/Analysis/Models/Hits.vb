@@ -65,7 +65,7 @@ Namespace Analysis
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property QueryName As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property QueryName As String Implements INamedValue.Key
 
         ''' <summary>
         ''' Query protein functional annotation.
@@ -161,7 +161,7 @@ Namespace Analysis
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property HitName As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property HitName As String Implements INamedValue.Key
         <XmlAttribute> Public Property Identities As Double
         <XmlAttribute> Public Property Positive As Double
 

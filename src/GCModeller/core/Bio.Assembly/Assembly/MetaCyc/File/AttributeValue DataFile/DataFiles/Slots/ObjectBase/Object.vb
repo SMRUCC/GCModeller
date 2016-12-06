@@ -43,7 +43,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
     Public Class [Object] : Implements INamedValue
 
         <MetaCycField(Name:="UNIQUE-ID")> <XmlAttribute>
-        Public Overridable Property Identifier As String Implements INamedValue.Identifier
+        Public Overridable Property Identifier As String Implements INamedValue.Key
 
         ''' <summary>
         ''' (Common-Name) This slot defines the primary name by which an object is known 

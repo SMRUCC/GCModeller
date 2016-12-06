@@ -100,7 +100,7 @@ Public Class MetaCycPathways
 
     <XmlType("pwy")> Public Class Pathway : Implements INamedValue
         Public Property MetaCycBaseType As Slots.Pathway
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         ''' <summary> 
         ''' 本代谢途径是否为一个超途径
         ''' </summary>

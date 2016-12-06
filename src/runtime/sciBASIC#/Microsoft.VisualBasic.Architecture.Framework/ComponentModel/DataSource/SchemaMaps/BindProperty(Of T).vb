@@ -63,7 +63,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' The map name or the <see cref="PropertyInfo.Name"/>
         ''' </summary>
         ''' <returns></returns>
-        Public Property Identity As String Implements IReadOnlyId.Identity, INamedValue.Identifier
+        Public Property Identity As String Implements IReadOnlyId.Identity, INamedValue.Key
             Get
                 Return [Property].Name
             End Get

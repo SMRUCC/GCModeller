@@ -152,7 +152,7 @@ Namespace TRN.KineticsModel
             _factor = factor
         End Sub
 
-        Public Property Identifier As String Implements IObjectStatus.locusId, INamedValue.Identifier
+        Public Property Identifier As String Implements IObjectStatus.locusId, INamedValue.Key
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}:= {1};  {2} sites and {3} regulators", Me.Identifier, Value, Me.RegulatorySites.Count, (From item In RegulatorySites Select item.Regulators.Count).ToArray.Sum)

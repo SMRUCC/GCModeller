@@ -97,7 +97,7 @@ Namespace Graph
         ''' The unique id of this node
         ''' </summary>
         ''' <returns></returns>
-        Public Property ID As String Implements INamedValue.Identifier
+        Public Property ID As String Implements INamedValue.Key
         Public Property Data As NodeData
         Public Property Pinned As Boolean
 

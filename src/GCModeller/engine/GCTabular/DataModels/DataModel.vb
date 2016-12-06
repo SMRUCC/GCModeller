@@ -42,7 +42,7 @@ Namespace DataModel
 
         Public Property Lower_Bound As Double
         Public Property Upper_Bound As Double
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         Public Property LeftSides As MetaCyc.Schema.Metabolism.Compound() Implements IEquation(Of MetaCyc.Schema.Metabolism.Compound).Reactants
         Public Property Reversible As Boolean Implements IEquation(Of MetaCyc.Schema.Metabolism.Compound).Reversible
         Public Property RightSide As MetaCyc.Schema.Metabolism.Compound() Implements IEquation(Of MetaCyc.Schema.Metabolism.Compound).Products
@@ -92,7 +92,7 @@ Namespace DataModel
     Public Class AssociatedGene : Implements INamedValue
 
         Public Property RPKM As Double
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
 
         ''' <summary>
         ''' 仅适用于调控过程，酶促反应过程不会使用到本属性{Handle, Id}

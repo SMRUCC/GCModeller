@@ -84,7 +84,7 @@ Namespace Analysis.MotifScans
         ''' 来源的文件名
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property MEME As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property MEME As String Implements INamedValue.Key
         <XmlElement> Public Property Matches As MotifHits()
 
         Public Function ToFootprints() As IEnumerable(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
@@ -105,7 +105,7 @@ Namespace Analysis.MotifScans
         ''' File::MotifId
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Trace As String Implements INamedValue.Identifier
+        <XmlAttribute> Public Property Trace As String Implements INamedValue.Key
         <XmlAttribute> Public Property Evalue As Double
         Public Property MAST As MotifSiteHit()
 

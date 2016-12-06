@@ -69,12 +69,12 @@ Namespace ComponentModel
 
         Public Property Address As Integer Implements IAddressHandle.Address
 
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
             Get
-                Return obj.Identifier
+                Return obj.Key
             End Get
             Set(value As String)
-                obj.Identifier = value
+                obj.Key = value
             End Set
         End Property
 

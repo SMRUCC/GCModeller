@@ -218,7 +218,7 @@ Namespace hmmscan
 
     Public Class Alignment : Implements INamedValue
 
-        Public Property model As String Implements INamedValue.Identifier
+        Public Property model As String Implements INamedValue.Key
         Public Property describ As String
         Public Property Aligns As Align()
 

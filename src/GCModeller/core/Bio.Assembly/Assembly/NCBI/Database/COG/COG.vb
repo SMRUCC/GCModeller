@@ -38,7 +38,7 @@ Namespace Assembly.NCBI.COG
         Implements INamedValue
 
         Public Property Category As COGCategories
-        Public Property COG As String Implements INamedValue.Identifier
+        Public Property COG As String Implements INamedValue.Key
         Public Property Func As String
         Public Property locus As String()
         Public ReadOnly Property NumOfLocus As Integer

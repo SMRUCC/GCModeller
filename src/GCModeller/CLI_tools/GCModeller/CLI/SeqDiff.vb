@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Data.csv
 
 Public Class SeqDiff : Implements INamedValue
 
-    Public Property uid As String Implements INamedValue.Identifier
+    Public Property uid As String Implements INamedValue.Key
     Public Property Tag As String
     Public Property Location As String
     Public Property Host As String

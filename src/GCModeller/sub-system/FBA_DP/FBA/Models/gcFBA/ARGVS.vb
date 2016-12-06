@@ -60,7 +60,7 @@ Namespace Models.rFBA
     ''' </summary>
     Public Class Modifier : Implements INamedValue
 
-        Public Property locus As String Implements INamedValue.Identifier
+        Public Property locus As String Implements INamedValue.Key
         ''' <summary>
         ''' 突变修饰
         ''' </summary>

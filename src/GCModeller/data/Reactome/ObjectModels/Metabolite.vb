@@ -36,7 +36,7 @@ Namespace ObjectModels
         Public Property ChEBI As String() Implements IMetabolite.ChEBI
         Public Property KEGGCompound As String Implements IMetabolite.KEGGCompound
 
-        Public Property Identifier As String Implements INamedValue.Identifier
+        Public Property Identifier As String Implements INamedValue.Key
         Public Property CommonNames As String()
         Public Property MetaboliteType As MetaboliteTypes
 

@@ -44,7 +44,7 @@ Namespace Level2.Elements
 
     Public Class parameter : Implements INamedValue
 
-        <XmlAttribute()> Public Property id As String Implements INamedValue.Identifier
+        <XmlAttribute()> Public Property id As String Implements INamedValue.Key
         <XmlAttribute()> Public Property value As Double
         <XmlAttribute()> Public Property units As String
 

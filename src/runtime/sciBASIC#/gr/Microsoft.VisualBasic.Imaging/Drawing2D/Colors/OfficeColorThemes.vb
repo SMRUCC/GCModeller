@@ -77,7 +77,7 @@ Namespace Drawing2D.Colors
     <XmlRoot("clrScheme")> Public Class Theme : Implements INamedValue
 
         <XmlAttribute>
-        Public Property name As String Implements INamedValue.Identifier
+        Public Property name As String Implements INamedValue.Key
         Public Property dk1 As ObjectColor
         Public Property lt1 As ObjectColor
         Public Property dk2 As Accent
