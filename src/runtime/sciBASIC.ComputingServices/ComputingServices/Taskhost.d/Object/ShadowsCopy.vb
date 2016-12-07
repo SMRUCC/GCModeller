@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d84cf71136d6b90c2ab79e1936e90c96, ..\ComputingServices\Taskhost.d\Object\ShadowsCopy.vb"
+﻿#Region "Microsoft.VisualBasic::dd64663d7e9a65ed54ad5a17d803e34d, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Object\ShadowsCopy.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

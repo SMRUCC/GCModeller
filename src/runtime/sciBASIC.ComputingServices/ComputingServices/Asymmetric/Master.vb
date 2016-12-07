@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6dabb48efbf1bc177157d0dc0468525c, ..\ComputingServices\Asymmetric\Master.vb"
+﻿#Region "Microsoft.VisualBasic::396a7f884d25d310d332f7135525c582, ..\sciBASIC.ComputingServices\ComputingServices\Asymmetric\Master.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,13 +26,13 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
 Imports Microsoft.VisualBasic.Net.SSL
 Imports Microsoft.VisualBasic.Win32
+Imports sciBASIC.ComputingServices.ComponentModel
 Imports NodeAbstract = System.Collections.Generic.KeyValuePair(Of String, Microsoft.VisualBasic.Net.SSL.Certificate)
 
 Namespace Asymmetric

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::948802395d5d1ec12c0c93837cedf378, ..\ComputingServices\Taskhost.d\Invoke\Return.vb"
+﻿#Region "Microsoft.VisualBasic::0edc3b4a1d711d4cd70ef8b7cce3593c, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Invoke\Return.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

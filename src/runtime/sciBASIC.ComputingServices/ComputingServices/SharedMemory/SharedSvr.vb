@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c70c6ed47382556ceb066e0070e001ba, ..\ComputingServices\SharedMemory\SharedSvr.vb"
+﻿#Region "Microsoft.VisualBasic::c70c6ed47382556ceb066e0070e001ba, ..\sciBASIC.ComputingServices\ComputingServices\SharedMemory\SharedSvr.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

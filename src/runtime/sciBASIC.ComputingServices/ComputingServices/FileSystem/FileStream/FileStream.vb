@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2e9729e631835b3a2774d3f9dc98d1b7, ..\ComputingServices\FileSystem\FileStream\FileStream.vb"
+﻿#Region "Microsoft.VisualBasic::c3b2bdae269fbc69e00db1143aaed3a4, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\FileStream\FileStream.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,24 +26,17 @@
 
 #End Region
 
-Imports System.Collections.ObjectModel
 Imports System.IO
 Imports System.Runtime.InteropServices
+Imports System.Runtime.Serialization
 Imports System.Security
-Imports System.Security.AccessControl
-Imports System.Text
-Imports System.Xml.Serialization
 Imports System.Threading
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem.Protocols
-Imports Microsoft.VisualBasic.FileIO
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Net.Protocols
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem.FileSystem
-Imports Microsoft.Win32.SafeHandles
-Imports System.Runtime.Serialization.Json
-Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sciBASIC.ComputingServices.FileSystem.FileSystem
+Imports sciBASIC.ComputingServices.FileSystem.Protocols
 
 Namespace FileSystem.IO
 

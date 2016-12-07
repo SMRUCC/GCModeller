@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7d03b7943b9b5f79146892368adcc144, ..\ComputingServices\Taskhost.d\Linq\ILinq(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::7d03b7943b9b5f79146892368adcc144, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Linq\ILinq(Of T).vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

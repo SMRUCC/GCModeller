@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ff69d83bb9d262a23a3d4624be08116f, ..\ComputingServices\FileSystem\Objects\DriveInfo.vb"
+﻿#Region "Microsoft.VisualBasic::4156be6e90875658dc7f74f528e589fe, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\Objects\DriveInfo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fbb505ea7c914179c86cd6062a51978f, ..\ComputingServices\FileSystem\FileSystemHost.vb"
+﻿#Region "Microsoft.VisualBasic::448de8ce628d40f1f8b426f9f9358842, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\FileSystemHost.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,17 +26,16 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem.Protocols
+Imports System.IO
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.Linq
-Imports System.IO
-Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sciBASIC.ComputingServices.ComponentModel
+Imports sciBASIC.ComputingServices.FileSystem.Protocols
 
 Namespace FileSystem
 

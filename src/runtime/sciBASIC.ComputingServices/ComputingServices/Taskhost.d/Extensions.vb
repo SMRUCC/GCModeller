@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2be4572f49a5e7621e6976ba11bdc2a6, ..\ComputingServices\Taskhost.d\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c09c71724f161dea52376d2d406acd85, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

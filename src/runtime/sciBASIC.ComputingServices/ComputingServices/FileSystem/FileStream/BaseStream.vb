@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8e9f5db49afa62bc11f1c2a4c9ad4309, ..\ComputingServices\FileSystem\FileStream\BaseStream.vb"
+﻿#Region "Microsoft.VisualBasic::5cc78d7fc9adff74806ea12686bd6bee, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\FileStream\BaseStream.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,13 +26,8 @@
 
 #End Region
 
-Imports System.Collections.ObjectModel
 Imports System.IO
-Imports System.Text
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem.Protocols
-Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Net
-Imports Microsoft.VisualBasic.Net.Protocols
 
 Namespace FileSystem.IO
 

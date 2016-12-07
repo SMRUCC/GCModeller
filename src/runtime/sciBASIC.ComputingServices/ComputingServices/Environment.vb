@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::845d1d0a2d5f8ec7baf3d199f01cfc21, ..\sciBASIC.ComputingServices\LINQ\LINQ\LDM\Parser\ClosureTokens.vb"
+﻿#Region "Microsoft.VisualBasic::a47dcd10ce12f2437e8a51c56cfa93a3, ..\sciBASIC.ComputingServices\ComputingServices\Environment.vb"
 
     ' Author:
     ' 
@@ -26,26 +26,29 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Scripting.TokenIcer
-Imports Microsoft.VisualBasic.Linq
+Imports System.Runtime.CompilerServices
 
-Namespace LDM.Statements
+''' <summary>
+''' 分布式计算环境，因为这里是为了做高性能计算而构建的一个内部网络的计算集群，
+''' 所以数据再网络传输的过程之中加密与否已经无所谓了
+''' </summary>
+Public Module Environment
 
-    Public Class ClosureTokens
+    Public Sub Open()
 
-        Public Property Token As TokenIcer.Tokens
-        Public Property Tokens As Token(Of TokenIcer.Tokens)()
+    End Sub
 
-        Public Overrides Function ToString() As String
-            Return $"[{Token}] {Tokens.ToArray(Function(x) x.TokenValue).JoinBy(" ")}"
-        End Function
+    ''' <summary>
+    ''' Running this task sequence in distribution mode.(使用分布式的方式来执行这个任务集合序列)
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <typeparam name="Tout"></typeparam>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    ''' 
+    <Extension>
+    Public Iterator Function AsDistributed(Of T, Tout)(source As IEnumerable(Of T), task As Func(Of T, Tout)) As IEnumerable(Of Tout)
 
-        '''' <summary>
-        '''' 表达式栈空间的解析
-        '''' </summary>
-        '''' <returns></returns>
-        'Public Function ParsingStack() As Func(Of TokenIcer.Tokens)
-        '    Return Tokens.Parsing(TokenIcer.stackT)
-        'End Function
-    End Class
-End Namespace
+    End Function
+End Module
+

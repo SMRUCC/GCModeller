@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e05b68ca8f3f789f1bac6778bf2f2a6f, ..\ComputingServices\Asymmetric\Instance.vb"
+﻿#Region "Microsoft.VisualBasic::3918f28eab261136ec29c3a6fead9b03, ..\sciBASIC.ComputingServices\ComputingServices\Asymmetric\Instance.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -26,9 +27,9 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
 Imports Microsoft.VisualBasic.Net.SSL
 Imports Microsoft.VisualBasic.Net.TCPExtensions
+Imports sciBASIC.ComputingServices.ComponentModel
 
 Namespace Asymmetric
 
@@ -60,7 +61,7 @@ Namespace Asymmetric
 
         Private Sub __returnPortal(cli As CommandLine.CommandLine)
             Call __host.WaitForStart()
-            Call Parallel.ReturnPortal(cli, __host.LocalPort)
+            Call Microsoft.VisualBasic.Parallel.ReturnPortal(cli, __host.LocalPort)
         End Sub
 
         Protected Overridable Sub __handleException(ex As Exception)

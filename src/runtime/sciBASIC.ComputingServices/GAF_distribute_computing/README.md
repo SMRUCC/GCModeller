@@ -8,7 +8,7 @@ For a GA estimation that running on a single machine, the only way to boost this
 
 For running GA on a single machine, makes it run on a server cluster, we just needs devide its population into sevral parts, and then push the fitness calculation task onto each single machine in our server cluster, then we can makes this GA analysis running in distribute method.
 
-![](./Mutation-and-fitness.png)
+![](./images/Mutation-and-fitness.png)
 > A basic calculation in GA
 
 ### Distribute Linq &amp; Parallel Linq
@@ -25,6 +25,7 @@ Dim LQuery = From x As <type2> In source.AsDistribute(task) Select <.ctor>
 
 ##### How it works?
 
+![](./images/Distribute-LINQ.png)
 
 ### Using Distribute Linq in GA
 

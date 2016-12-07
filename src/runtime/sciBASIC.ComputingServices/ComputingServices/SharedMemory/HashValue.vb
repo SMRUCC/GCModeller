@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fc49cf03b614c5c86405d85c15c579a1, ..\ComputingServices\SharedMemory\HashValue.vb"
+﻿#Region "Microsoft.VisualBasic::c58483be8460f06ce344738ca838bb24, ..\sciBASIC.ComputingServices\ComputingServices\SharedMemory\HashValue.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

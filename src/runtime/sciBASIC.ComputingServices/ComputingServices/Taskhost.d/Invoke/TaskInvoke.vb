@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5d4c13a40ae99e2dcb2e84f5d611053e, ..\ComputingServices\Taskhost.d\Invoke\TaskInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::9f3975a10e8c75d3af99213174939ddc, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Invoke\TaskInvoke.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -26,15 +27,14 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem
-Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sciBASIC.ComputingServices.ComponentModel
+Imports sciBASIC.ComputingServices.FileSystem
 
 Namespace TaskHost
 

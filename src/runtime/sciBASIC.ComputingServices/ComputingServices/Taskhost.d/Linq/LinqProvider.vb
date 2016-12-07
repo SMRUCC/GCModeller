@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e8656ca3ae3a7dd9c49653ca2af5dde3, ..\ComputingServices\Taskhost.d\Linq\LinqProvider.vb"
+﻿#Region "Microsoft.VisualBasic::45e89a333a2883f26931ffc29cc7e4d5, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Linq\LinqProvider.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,17 +26,14 @@
 
 #End Region
 
-Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
 Imports Microsoft.VisualBasic.Net
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.InputHandler
-Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sciBASIC.ComputingServices.ComponentModel
 
 Namespace TaskHost
 
