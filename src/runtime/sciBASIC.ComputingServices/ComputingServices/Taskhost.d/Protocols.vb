@@ -55,6 +55,10 @@ Namespace TaskHost
             ''' 分布式计算的环境初始化的握手协议
             ''' </summary>
             Handshake
+            ''' <summary>
+            ''' 节点的当前运算负载
+            ''' </summary>
+            NodeLoad
 
 #Region "Task"
             ''' <summary>
@@ -84,6 +88,10 @@ Namespace TaskHost
             ''' The remote linq source reads done! Exit the iterator function.
             ''' </summary>
             ReadsDone = -1000L
+            ''' <summary>
+            ''' Linq select extension
+            ''' </summary>
+            [Select]
 #End Region
         End Enum
 
