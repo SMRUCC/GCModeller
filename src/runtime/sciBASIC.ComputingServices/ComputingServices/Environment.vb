@@ -38,6 +38,30 @@ Imports sciBASIC.ComputingServices.TaskHost
 ''' 分布式计算环境，因为这里是为了做高性能计算而构建的一个内部网络的计算集群，
 ''' 所以数据再网络传输的过程之中加密与否已经无所谓了
 ''' </summary>
+''' <remarks>
+''' ```vbnet
+''' '
+''' ' ------Dragon be here!------
+''' '        ┏┓    ┏┓
+''' '     ┏━━┛┻━━━━┛┻━━┓
+''' '     ┃            ┃
+''' '     ┃     ━━     ┃
+''' '     ┃  ┳━┛  ┗━┳  ┃
+''' '     ┃　　　 　　　┃
+''' '     ┃     ━┻━    ┃
+''' '     ┃            ┃
+''' '     ┗━┓        ┏━┛
+''' '       ┃        ┃ 神兽保佑
+''' '       ┃        ┃ 代码无BUG
+''' '       ┃        ┗━━┓
+''' '       ┃           ┣┓
+''' '       ┃           ┏┛
+''' '       ┗━━┓┓┏━━┳┓┏━┛
+''' '          ┃┫┫  ┃┫┫
+''' '          ┗┻┛  ┗┻┛
+''' ' ━━━━━━━━━━神兽出没━━━━━━━━━━
+''' ```
+''' </remarks>
 Public Module Environment
 
     Dim cluster As Cluster.Master
@@ -62,12 +86,12 @@ Public Module Environment
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Iterator Function AsDistributed(Of T, Tout)(source As IEnumerable(Of T), task As Func(Of T, Tout), ParamArray args As Object()) As IEnumerable(Of Tout)
+    Public Iterator Function AsDistributed(Of T, Tout)(source As IEnumerable(Of T), task As [Delegate], ParamArray args As Object()) As IEnumerable(Of Tout)
         Dim partitions = TaskPartitions.SplitIterator(source, source.Count / cluster.Nodes)
         Dim tasks As New List(Of AsyncHandle(Of Tout()))
 
         For Each part As T() In partitions
-            tasks += New AsyncHandle(Of Tout())(Function() cluster.Select(part, task, args).ToArray)
+            tasks += New AsyncHandle(Of Tout())(Function() cluster.Select(Of T, Tout)(part, task, args).ToArray)
         Next
 
         For Each out As AsyncHandle(Of Tout()) In tasks
