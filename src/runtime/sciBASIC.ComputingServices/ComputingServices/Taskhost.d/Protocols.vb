@@ -51,6 +51,11 @@ Namespace TaskHost
             ''' </summary>
             Free = -1000L
 
+            ''' <summary>
+            ''' 分布式计算的环境初始化的握手协议
+            ''' </summary>
+            Handshake
+
 #Region "Task"
             ''' <summary>
             ''' Invoke a function remotely

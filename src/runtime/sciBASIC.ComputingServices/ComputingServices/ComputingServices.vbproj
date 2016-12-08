@@ -181,6 +181,7 @@
     <Compile Include="Asymmetric\Protocols.vb" />
     <Compile Include="Asymmetric\Parasitifer.vb" />
     <Compile Include="Asymmetric\Master.vb" />
+    <Compile Include="Cluster\Master.vb" />
     <Compile Include="ComponentModel\IRemote.vb" />
     <Compile Include="ComponentModel\IHostBase.vb" />
     <Compile Include="Extensions.vb" />

@@ -122,6 +122,7 @@ Namespace TaskHost
             Dim assm As Assembly = type.Assembly
             Dim name As String = func.Method.Name
             Dim params As Argv() = args.ToArray(Function(x) New Argv(x))  ' 由于函数调用的参数的类型可能是基类，所以json序列化操作会存在问题，在这里使用这个新的参数构建模块来避免这个问题
+
             Return New InvokeInfo With {
                 .assm = FileIO.FileSystem.GetFileInfo(assm.Location).Name,
                 .Name = name,

@@ -87,7 +87,7 @@ Namespace TaskHost
             Return info
         End Function
 
-        <Extension> Public Function Invoke(info As InvokeInfo, host As TaskHost) As Object
+        <Extension> Public Function Invoke(info As InvokeInfo, host As TaskRemote) As Object
             If host Is Nothing Then
                 Return TaskInvoke.TryInvoke(info)
             Else
@@ -104,7 +104,7 @@ Namespace TaskHost
         ''' <param name="info"></param>
         ''' <param name="host"></param>
         ''' <returns></returns>
-        <Extension> Public Function Invoke(Of T)(info As InvokeInfo, host As TaskHost) As T
+        <Extension> Public Function Invoke(Of T)(info As InvokeInfo, host As TaskRemote) As T
             Return DirectCast(info.Invoke(host), T)
         End Function
 
