@@ -92,7 +92,7 @@ Namespace Cluster
             Return out
         End Function
 
-        Public Iterator Function [Select](Of T, Tout)(source As IEnumerable(Of T), task As Func(Of T, Tout), args As Object()) As IEnumerable(Of Tout)
+        Public Iterator Function [Select](Of T, Tout)(source As IEnumerable(Of T), task As [Delegate], args As Object()) As IEnumerable(Of Tout)
             Dim node As TaskRemote = GetPreferNode()
             Dim out As ILinq(Of Tout) = node.Select(Of T, Tout)(task, source.ToArray, args)
 
