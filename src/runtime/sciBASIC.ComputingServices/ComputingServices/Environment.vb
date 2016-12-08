@@ -62,14 +62,18 @@ Public Module Environment
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Iterator Function AsDistributed(Of T, Tout)(source As IEnumerable(Of T), task As Func(Of T, Tout)) As IEnumerable(Of Tout)
+    Public Iterator Function AsDistributed(Of T, Tout)(source As IEnumerable(Of T), task As Func(Of T, Tout), ParamArray args As Object()) As IEnumerable(Of Tout)
         Dim partitions = TaskPartitions.SplitIterator(source, source.Count / cluster.Nodes)
         Dim tasks As New List(Of AsyncHandle(Of Tout()))
-        Dim run As Func(Of T(), Tout()) =
-            Function([in]) [in].ToArray(task)
 
         For Each part As T() In partitions
-            tasks += New AsyncHandle(Of Tout())(Function() cluster.Invoke(run,))
+            tasks += New AsyncHandle(Of Tout())(Function() cluster.Select(part, task, args).ToArray)
+        Next
+
+        For Each out As AsyncHandle(Of Tout()) In tasks
+            For Each x As Tout In out.GetValue
+                Yield x
+            Next
         Next
     End Function
 End Module

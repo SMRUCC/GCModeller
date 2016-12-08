@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Net
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports sciBASIC.ComputingServices.ComponentModel
@@ -54,6 +55,23 @@ Namespace TaskHost
             Set(value As String)
                 _remote.IPAddress = value
             End Set
+        End Property
+
+        ''' <summary>
+        ''' 获取得到远程主机的负载量
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Load As Double
+            Get
+                Dim req As New RequestStream(Protocols.ProtocolEntry, TaskProtocols.NodeLoad)
+                Dim rep = New AsynInvoke(_remote).SendMessage(req, 1000)
+
+                If rep.Protocol <> HTTP_RFC.RFC_OK Then
+                    Return 1000
+                Else
+                    Return rep.LoadObject(Of Double)
+                End If
+            End Get
         End Property
 
         Sub New(remote As IPEndPoint)
@@ -131,6 +149,15 @@ Namespace TaskHost
             Dim rep As RequestStream = New AsynInvoke(_remote).SendMessage(req)
             Dim svr As IPEndPoint = rep.GetUTF8String.LoadObject(Of IPEndPoint)
             Return New ILinq(Of T)(svr)
+        End Function
+
+        Public Function [Select](Of T, Tout)(target As [Delegate], source As T(), ParamArray args As Object()) As ILinq(Of Tout)
+            Dim params As InvokeInfo = InvokeInfo.CreateObject(target, {CObj(source)}.Join(args))
+            Dim jparam As String = params.GetJson
+            Dim req As New RequestStream(ProtocolEntry, TaskProtocols.Select, jparam)
+            Dim rep As RequestStream = New AsynInvoke(_remote).SendMessage(req)
+            Dim svr As IPEndPoint = rep.GetUTF8String.LoadObject(Of IPEndPoint)
+            Return New ILinq(Of Tout)(svr)
         End Function
     End Class
 End Namespace

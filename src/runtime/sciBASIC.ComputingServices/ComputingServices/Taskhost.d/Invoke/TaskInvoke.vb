@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::9f3975a10e8c75d3af99213174939ddc, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Invoke\TaskInvoke.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Win32
 Imports sciBASIC.ComputingServices.ComponentModel
 Imports sciBASIC.ComputingServices.FileSystem
 
@@ -138,6 +139,34 @@ Namespace TaskHost
         End Function
 
         ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="CA"></param>
+        ''' <param name="args">``{source, args}``</param>
+        ''' <param name="remote"></param>
+        ''' <returns></returns>
+        <Protocol(TaskProtocols.Select)>
+        Private Function LinqSelect(CA As Long, args As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
+            Dim params As InvokeInfo = JsonContract.LoadObject(Of InvokeInfo)(args.GetUTF8String) ' 得到远程函数指针信息
+            Dim func As MethodInfo = params.GetMethod
+            Dim paramsValue As Object() = params.Parameters.ToArray(Function(arg) arg.GetValue)
+            Dim source As IEnumerable = DirectCast(paramsValue(Scan0), IEnumerable)
+            Dim type As Type = func.ReturnType
+
+            source = From x As Object
+                     In source.AsParallel
+                     Let inputs As Object() =
+                         {x}.Join(paramsValue.Skip(1)) _
+                            .ToArray
+                     Select func.Invoke(Nothing, inputs)
+
+            Dim svr As String = LinqProvider _
+                .OpenQuery(source, type) _
+                .GetJson
+            Return New RequestStream(svr) ' 返回数据源信息
+        End Function
+
+        ''' <summary>
         ''' This node is alive
         ''' </summary>
         ''' <param name="CA"></param>
@@ -147,6 +176,11 @@ Namespace TaskHost
         <Protocol(TaskProtocols.Handshake)>
         Private Function Handshake(CA&, args As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
             Return NetResponse.RFC_OK ' HTTP/200
+        End Function
+
+        <Protocol(TaskProtocols.NodeLoad)>
+        Private Function GetNodeLoad(CA&, args As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
+            Return RequestStream.CreatePackage(TaskManager.ProcessUsage)
         End Function
 
 #Region "IDisposable Support"
