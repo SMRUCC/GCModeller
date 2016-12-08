@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("ServerCloud")>
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyTitle("Running on the server cluster nodes")>
+<Assembly: AssemblyDescription("Taskhost.d Daemon Process")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("ServerCloud")>
-<Assembly: AssemblyCopyright("Copyright ©  2016")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyProduct("taskhost.d")>
+<Assembly: AssemblyCopyright("Copyright © I@xieguigang.me 2016")>
+<Assembly: AssemblyTrademark("sciBASIC#")>
 
 <Assembly: ComVisible(False)>
 

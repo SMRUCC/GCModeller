@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2be4572f49a5e7621e6976ba11bdc2a6, ..\ComputingServices\Taskhost.d\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c09c71724f161dea52376d2d406acd85, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -86,7 +87,7 @@ Namespace TaskHost
             Return info
         End Function
 
-        <Extension> Public Function Invoke(info As InvokeInfo, host As TaskHost) As Object
+        <Extension> Public Function Invoke(info As InvokeInfo, host As TaskRemote) As Object
             If host Is Nothing Then
                 Return TaskInvoke.TryInvoke(info)
             Else
@@ -103,7 +104,7 @@ Namespace TaskHost
         ''' <param name="info"></param>
         ''' <param name="host"></param>
         ''' <returns></returns>
-        <Extension> Public Function Invoke(Of T)(info As InvokeInfo, host As TaskHost) As T
+        <Extension> Public Function Invoke(Of T)(info As InvokeInfo, host As TaskRemote) As T
             Return DirectCast(info.Invoke(host), T)
         End Function
 

@@ -1,3 +1,31 @@
+ï»¿#Region "Microsoft.VisualBasic::f6474d0e749a6ff95aaf41a691dc2605, ..\sciBASIC.ComputingServices\LINQ\LINQ\LDM\Parser\ParserAPI\Parser.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System.CodeDom
 Imports System.Collections.Generic
 Imports System.Collections.Specialized
@@ -243,31 +271,31 @@ Namespace LDM.Parser
         End Function
 
 #Region "IDisposable Support"
-        Private disposedValue As Boolean ' ¼ì²âÈßÓàµÄµ÷ÓÃ
+        Private disposedValue As Boolean ' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½
 
         ' IDisposable
         Protected Overridable Sub Dispose(disposing As Boolean)
             If Not Me.disposedValue Then
                 If disposing Then
-                    ' TODO:  ÊÍ·ÅÍÐ¹Ü×´Ì¬(ÍÐ¹Ü¶ÔÏó)¡£
+                    ' TODO:  ï¿½Í·ï¿½ï¿½Ð¹ï¿½×´Ì¬(ï¿½Ð¹Ü¶ï¿½ï¿½ï¿½)ï¿½ï¿½
                 End If
 
-                ' TODO:  ÊÍ·Å·ÇÍÐ¹Ü×ÊÔ´(·ÇÍÐ¹Ü¶ÔÏó)²¢ÖØÐ´ÏÂÃæµÄ Finalize()¡£
-                ' TODO:  ½«´óÐÍ×Ö¶ÎÉèÖÃÎª null¡£
+                ' TODO:  ï¿½Í·Å·ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½Ô´(ï¿½ï¿½ï¿½Ð¹Ü¶ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ Finalize()ï¿½ï¿½
+                ' TODO:  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½Îª nullï¿½ï¿½
             End If
             Me.disposedValue = True
         End Sub
 
-        ' TODO:  ½öµ±ÉÏÃæµÄ Dispose(ByVal disposing As Boolean)¾ßÓÐÊÍ·Å·ÇÍÐ¹Ü×ÊÔ´µÄ´úÂëÊ±ÖØÐ´ Finalize()¡£
+        ' TODO:  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Dispose(ByVal disposing As Boolean)ï¿½ï¿½ï¿½ï¿½ï¿½Í·Å·ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½Ô´ï¿½Ä´ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ð´ Finalize()ï¿½ï¿½
         'Protected Overrides Sub Finalize()
-        '    ' ²»Òª¸ü¸Ä´Ë´úÂë¡£    Çë½«ÇåÀí´úÂë·ÅÈëÉÏÃæµÄ Dispose(ByVal disposing As Boolean)ÖÐ¡£
+        '    ' ï¿½ï¿½Òªï¿½ï¿½ï¿½Ä´Ë´ï¿½ï¿½ë¡£    ï¿½ë½«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Dispose(ByVal disposing As Boolean)ï¿½Ð¡ï¿½
         '    Dispose(False)
         '    MyBase.Finalize()
         'End Sub
 
-        ' Visual Basic Ìí¼Ó´Ë´úÂëÊÇÎªÁËÕýÈ·ÊµÏÖ¿É´¦ÖÃÄ£Ê½¡£
+        ' Visual Basic ï¿½ï¿½Ó´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½È·Êµï¿½Ö¿É´ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½
         Public Sub Dispose() Implements IDisposable.Dispose
-            ' ²»Òª¸ü¸Ä´Ë´úÂë¡£    Çë½«ÇåÀí´úÂë·ÅÈëÉÏÃæµÄ Dispose (disposing As Boolean)ÖÐ¡£
+            ' ï¿½ï¿½Òªï¿½ï¿½ï¿½Ä´Ë´ï¿½ï¿½ë¡£    ï¿½ë½«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Dispose (disposing As Boolean)ï¿½Ð¡ï¿½
             Dispose(True)
             GC.SuppressFinalize(Me)
         End Sub

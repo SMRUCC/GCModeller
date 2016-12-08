@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::094ee79e8c2ae17f1b91b41e8a1ce17f, ..\ComputingServices\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::afafcf8a55b5de5548ce31ec70441efb, ..\sciBASIC.ComputingServices\ComputingServices\Extensions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,7 +26,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' 不对外公开的拓展方法
 ''' </summary>
@@ -33,4 +33,3 @@ Module Extensions
 
     Public ReadOnly Property Sha256Provider As New SecurityString.SHA256("xie.guigang@gmail.com", "ghTGAbcZ")
 End Module
-

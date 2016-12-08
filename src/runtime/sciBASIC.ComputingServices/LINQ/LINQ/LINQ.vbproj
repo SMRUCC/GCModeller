@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0A9B9FA6-E12D-48FD-B979-9F021A591E69}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Microsoft.VisualBasic.Linq</RootNamespace>
+    <RootNamespace>sciBASIC.ComputingServices.Linq</RootNamespace>
     <AssemblyName>LINQ_v1.0_22.0.122.6544__a540a5d6a87b0ca91c</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
@@ -64,7 +64,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Microsoft.VisualBasic.Linq.Program</StartupObject>
+    <StartupObject>sciBASIC.ComputingServices.Linq.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>LINQ.ico</ApplicationIcon>

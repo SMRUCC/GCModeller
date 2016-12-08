@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::664e18829ae15b0436039b49641371f1, ..\ComputingServices\FileSystem\Protocols\FileHandle.vb"
+﻿#Region "Microsoft.VisualBasic::29565e0839a1e3ff54d3cf4e55191e31, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\Protocols\FileHandle.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

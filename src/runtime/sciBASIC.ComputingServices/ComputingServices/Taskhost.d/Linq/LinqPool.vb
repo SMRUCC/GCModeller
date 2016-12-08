@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::069775a9dca65fb20879e79072bf05f8, ..\ComputingServices\Taskhost.d\Linq\LinqPool.vb"
+﻿#Region "Microsoft.VisualBasic::069775a9dca65fb20879e79072bf05f8, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Linq\LinqPool.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

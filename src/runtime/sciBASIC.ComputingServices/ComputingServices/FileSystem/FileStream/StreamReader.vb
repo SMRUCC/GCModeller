@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5fb93d41e92646f483b10447d76d9248, ..\ComputingServices\FileSystem\FileStream\StreamReader.vb"
+﻿#Region "Microsoft.VisualBasic::16fec107a775847447e871a02c81e271, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\FileStream\StreamReader.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,14 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
-Imports System.Collections.ObjectModel
-Imports System.IO
-Imports System.Text
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem.Protocols
-Imports Microsoft.VisualBasic.FileIO
-Imports Microsoft.VisualBasic.Net
-Imports Microsoft.VisualBasic.Net.Protocols
 
 Namespace FileSystem.IO
 

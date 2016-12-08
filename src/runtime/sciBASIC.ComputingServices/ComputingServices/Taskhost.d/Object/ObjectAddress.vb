@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0c81d15476df70e7199b6f3a93e40418, ..\ComputingServices\Taskhost.d\Object\ObjectAddress.vb"
+﻿#Region "Microsoft.VisualBasic::c204ce452087e28df3bc1db32db57438, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Object\ObjectAddress.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

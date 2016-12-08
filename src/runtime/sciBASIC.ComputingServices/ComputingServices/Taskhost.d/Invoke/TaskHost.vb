@@ -1,49 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::e1a813831642a8f7e60630889f610f27, ..\ComputingServices\Taskhost.d\Invoke\TaskHost.vb"
+﻿#Region "Microsoft.VisualBasic::c0cba50390a4eccad66b31d5f91d63ba, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Invoke\TaskHost.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Reflection
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Net.Protocols
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sciBASIC.ComputingServices.ComponentModel
+Imports sciBASIC.ComputingServices.FileSystem
 
 Namespace TaskHost
 
     ''' <summary>
     ''' Using this object to running the method on the remote machine.
-    ''' 由于是远程调用，所以运行的环境可能会很不一样，所以在设计程序的时候请尽量避免或者不要使用模块变量，以免出现难以调查的BUG
+    ''' (由于是远程调用，所以运行的环境可能会很不一样，所以在设计程序的时候请尽量
+    ''' 避免或者不要使用模块变量，以免出现难以调查的BUG)
     ''' </summary>
-    Public Class TaskHost : Implements IRemoteSupport
+    Public Class TaskRemote : Implements IRemoteSupport
+        Implements INamedValue
 
         Dim _remote As IPEndPoint
 
         Public ReadOnly Property FileSystem As FileSystemHost Implements IRemoteSupport.FileSystem
+
+        Private Property Key As String Implements INamedValue.Key
+            Get
+                Return _remote.IPAddress
+            End Get
+            Set(value As String)
+                _remote.IPAddress = value
+            End Set
+        End Property
 
         Sub New(remote As IPEndPoint)
             _remote = remote
@@ -70,11 +81,12 @@ Namespace TaskHost
         ''' 
         ''' *****************************************************************************************************
         ''' NOTE: Performance issue, this is important! if the function pointer its returns type is a collection, 
-        ''' then you should using the method <see cref="TaskHost.AsLinq(Of T)([Delegate], Object())"/> to running 
+        ''' then you should using the method <see cref="TaskRemote.AsLinq(Of T)([Delegate], Object())"/> to running 
         ''' your code on the remote. Or a large json data will be return back through network in one package, 
         ''' this may cause a serious performance problem both on your server and your local client.
         ''' (本地服务器通过这个方法调用远程主机上面的函数，假若目标函数的返回值类型是一个集合，
-        ''' 请使用<see cref="TaskHost.AsLinq(Of T)([Delegate], Object())"/>方法，否则集合之中的所有数据都将会一次性返回，这个可能会导致严重的性能问题)
+        ''' 请使用<see cref="TaskRemote.AsLinq(Of T)([Delegate], Object())"/>方法，否则集合之中的所有数据都将会一次性返回，
+        ''' 这个可能会导致严重的性能问题)
         ''' </summary>
         ''' <param name="target"></param>
         ''' <param name="args"></param>

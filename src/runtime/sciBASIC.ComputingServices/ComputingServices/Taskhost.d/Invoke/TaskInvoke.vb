@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5d4c13a40ae99e2dcb2e84f5d611053e, ..\ComputingServices\Taskhost.d\Invoke\TaskInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::9f3975a10e8c75d3af99213174939ddc, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Invoke\TaskInvoke.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -26,20 +27,21 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem
-Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sciBASIC.ComputingServices.ComponentModel
+Imports sciBASIC.ComputingServices.FileSystem
 
 Namespace TaskHost
 
-    <Protocol(GetType(TaskProtocols))>
-    Public Class TaskInvoke : Inherits IHostBase
+    ''' <summary>
+    ''' Running on the server cluster nodes.
+    ''' </summary>
+    <Protocol(GetType(TaskProtocols))> Public Class TaskInvoke : Inherits IHostBase
         Implements IRemoteSupport
         Implements IDisposable
 
@@ -133,6 +135,18 @@ Namespace TaskHost
             Dim source As IEnumerable = DirectCast(value, IEnumerable)
             Dim svr As String = LinqProvider.OpenQuery(source, type).GetJson   ' 返回数据源信息
             Return New RequestStream(svr)
+        End Function
+
+        ''' <summary>
+        ''' This node is alive
+        ''' </summary>
+        ''' <param name="CA"></param>
+        ''' <param name="args"></param>
+        ''' <param name="remote"></param>
+        ''' <returns></returns>
+        <Protocol(TaskProtocols.Handshake)>
+        Private Function Handshake(CA&, args As RequestStream, remote As System.Net.IPEndPoint) As RequestStream
+            Return NetResponse.RFC_OK ' HTTP/200
         End Function
 
 #Region "IDisposable Support"

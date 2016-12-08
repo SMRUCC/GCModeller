@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::be50fe2d066472542e8b520afcefeddf, ..\ComputingServices\Taskhost.d\Invoke\InvokeInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e3154a8dded79e2bcae1dfbc5bea0a74, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Invoke\InvokeInfo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -121,6 +122,7 @@ Namespace TaskHost
             Dim assm As Assembly = type.Assembly
             Dim name As String = func.Method.Name
             Dim params As Argv() = args.ToArray(Function(x) New Argv(x))  ' 由于函数调用的参数的类型可能是基类，所以json序列化操作会存在问题，在这里使用这个新的参数构建模块来避免这个问题
+
             Return New InvokeInfo With {
                 .assm = FileIO.FileSystem.GetFileInfo(assm.Location).Name,
                 .Name = name,

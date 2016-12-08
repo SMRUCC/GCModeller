@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::8a95b864bb66f787c8a3614cd9f44b9f, ..\ComputingServices\Asymmetric\Parasitifer.vb"
+﻿#Region "Microsoft.VisualBasic::b438e756f066c2bd4762d59f4f54ded2, ..\sciBASIC.ComputingServices\ComputingServices\Asymmetric\Parasitifer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -27,15 +28,15 @@
 
 Imports System.Reflection
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
 Imports Microsoft.VisualBasic.Net.SSL
 Imports Microsoft.VisualBasic.Net.TCPExtensions
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Win32
-Imports Microsoft.VisualBasic.Net.Http
+Imports sciBASIC.ComputingServices.ComponentModel
 
 Namespace Asymmetric
 
@@ -147,8 +148,7 @@ Namespace Asymmetric
 
             Dim proc As Process = Nothing
             Dim Port As Integer = Microsoft.VisualBasic.Parallel.Folk(_instance, cli, proc)
-            Dim Portal As Microsoft.VisualBasic.Net.IPEndPoint =
-                New Net.IPEndPoint(WebServiceUtils.GetMyIPAddress, Port) With {
+            Dim Portal As New IPEndPoint(WebServiceUtils.GetMyIPAddress, Port) With {
                     .uid = proc.Id
             }
             Dim inst As New DDM.Instance With {

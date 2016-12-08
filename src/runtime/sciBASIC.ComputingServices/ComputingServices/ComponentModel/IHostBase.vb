@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::2e28920677e297707448e2a8501f6fc4, ..\ComputingServices\ComponentModel\IHostBase.vb"
+﻿#Region "Microsoft.VisualBasic::87f4d64ea9d69da211f6a96237323a39, ..\sciBASIC.ComputingServices\ComputingServices\ComponentModel\IHostBase.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

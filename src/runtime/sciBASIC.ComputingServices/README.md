@@ -1,15 +1,20 @@
-# Microsoft.VisualBasic.Parallel
-> Further reading: [Parallel library of GCModeller parallel computing](http://www.codeproject.com/Articles/1076209/Easy-Distribution-Computing-in-VisualBasic)
+# sciBASIC# ComputingServices Parallel library
+> Further reading on codeproject article: [Easy Distribution Computing in VisualBasic](http://www.codeproject.com/Articles/1076209/Easy-Distribution-Computing-in-VisualBasic)
 
 ##### Runtime
 
-Require of VisualBasic server CLI runtime
++ Require of sciBASIC# runtime
 
-> PM> Install-Package VB_AppFramework
+```bash
+# https://github.com/xieguigang/sciBASIC#
+PM> Install-Package sciBASIC -Pre
+```
 
-Or reference to source code project:
++ And also required of SMRUCC.WebCloud web runtime for RQL module
 
-> https://github.com/xieguigang/VisualBasic_AppFramework
+```bash
+# https://github.com/SMRUCC/SMRUCC.WebCloud
+```
 
 ##### Steps of the distributed computing in this library
 
@@ -24,9 +29,10 @@ Through these steps, your function on the local client should be running on the 
 **Important NOTE:**
 
 + Please notices that the function which is running on the remote machine should be a statics method and donot reference to the module variable as the module variable is probably not initialized on the remote machine, just using the variable limits in your function inner local variable.
+
 Example:
 
-```vb.net
+```vbnet
 Module Test1
     Dim m_var As Integer
 
@@ -53,7 +59,7 @@ End Module
 
 ### Usage of the remote linq script to query remote resource
 
-```vb.net
+```vbnet
 Imports <namespace>
 
 var source = http://linq.gcmodeller.org/kegg/ssdb/nucl/xcb
@@ -69,9 +75,10 @@ Unlike the SQL langauge, the RQL language is a object-oriented language for quer
 #####Using RQL language rest API
 First the repository server should implements the RQL services on the server program, the RQL services which is available  in the RQL project;
 Then your client user that can query your repository server directly by using linq script in two ways, examples as:
+
 ###### 1. query repository throw linq script
 
-```vb.net
+```vbnet
 Imports GCModeller.RQL
 
 var source = "http://linq.gcmodeller.org/kegg/ssdb"

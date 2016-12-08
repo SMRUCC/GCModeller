@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9594fefb49efbb1f8bf37053de54ef69, ..\ComputingServices\FileSystem\FileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::64e8d35cbdeeb0e3c5c1baa15d1b76d9, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\FileSystem.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -28,13 +29,12 @@
 Imports System.Collections.ObjectModel
 Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem.Protocols
 Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Net.Protocols
-Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sciBASIC.ComputingServices.FileSystem.Protocols
 
 Namespace FileSystem
 
@@ -1697,5 +1697,3 @@ Namespace FileSystem
         End Function
     End Class
 End Namespace
-
-

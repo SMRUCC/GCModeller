@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::aca05c9a4d4b828005757006ecd85b3b, ..\ComputingServices\FileSystem\Protocols\Protocols.vb"
+﻿#Region "Microsoft.VisualBasic::77f30e80f19b76467dd9d67b8b2122ee, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\Protocols\Protocols.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::deb21853d9fbaf87d411a66b44ffea7d, ..\ComputingServices\Taskhost.d\Protocols.vb"
+﻿#Region "Microsoft.VisualBasic::7091e92a13329393d574792903f7181c, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Protocols.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -27,11 +28,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.ComputingServices.ComponentModel
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Net.Abstract
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.Reflection
+Imports sciBASIC.ComputingServices.ComponentModel
 
 Namespace TaskHost
 
@@ -49,6 +50,11 @@ Namespace TaskHost
             ''' Free a object pointer on the remote machine.(释放掉某一个资源)
             ''' </summary>
             Free = -1000L
+
+            ''' <summary>
+            ''' 分布式计算的环境初始化的握手协议
+            ''' </summary>
+            Handshake
 
 #Region "Task"
             ''' <summary>

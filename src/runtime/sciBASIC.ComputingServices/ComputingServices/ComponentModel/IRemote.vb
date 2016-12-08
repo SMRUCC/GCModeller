@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d8c85e13c58073e3b7dabd129841f676, ..\ComputingServices\ComponentModel\IRemote.vb"
+﻿#Region "Microsoft.VisualBasic::e10f7e3f77fc589e23583e437ddc204e, ..\sciBASIC.ComputingServices\ComputingServices\ComponentModel\IRemote.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,9 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComputingServices.FileSystem
-Imports Microsoft.VisualBasic.Net
-Imports Microsoft.VisualBasic.Net.Abstract
+Imports sciBASIC.ComputingServices.FileSystem
 
 Namespace ComponentModel
 

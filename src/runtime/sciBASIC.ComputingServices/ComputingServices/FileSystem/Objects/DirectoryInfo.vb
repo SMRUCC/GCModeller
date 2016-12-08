@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::0509e3765ec2e8ac7e95edb270a861f6, ..\ComputingServices\FileSystem\Objects\DirectoryInfo.vb"
+﻿#Region "Microsoft.VisualBasic::36492bd31cd03dcecb89840dc9b70a6d, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\Objects\DirectoryInfo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::972387fdd3296832e8c2ce0ad5d79fe5, ..\ComputingServices\FileSystem\Protocols\FileStreamInfo.vb"
+﻿#Region "Microsoft.VisualBasic::818ceae909cb9e972a33ac881e939577, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\Protocols\FileStreamInfo.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

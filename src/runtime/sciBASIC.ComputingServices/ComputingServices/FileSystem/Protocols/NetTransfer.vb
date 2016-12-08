@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1c9ceb1759fb47880f8050db75993dff, ..\ComputingServices\FileSystem\Protocols\NetTransfer.vb"
+﻿#Region "Microsoft.VisualBasic::13997d7f290f3481713b72ff12e68f45, ..\sciBASIC.ComputingServices\ComputingServices\FileSystem\Protocols\NetTransfer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d0e794bf7789e8713a9dd86e54d94313, ..\ComputingServices\Taskhost.d\Object\MemoryHash.vb"
+﻿#Region "Microsoft.VisualBasic::4c8ec8c834d972cd23c189e272d4acb4, ..\sciBASIC.ComputingServices\ComputingServices\Taskhost.d\Object\MemoryHash.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
