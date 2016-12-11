@@ -68,7 +68,7 @@ Namespace d3js.markmarkoh_datamaps
             }
 
             For Each c As SeqValue(Of Color) In colors.SeqIterator
-                Dim x As Color = c.obj
+                Dim x As Color = c.value
 
                 fills.fills += New NamedValue(Of String) With {
                     .Name = "c" & c.i.ToString,
@@ -80,7 +80,7 @@ Namespace d3js.markmarkoh_datamaps
 
             For Each x In levels.SeqIterator
                 Dim c As String = data(x.i).Name
-                Dim k As String = "c" & x.obj.ToString
+                Dim k As String = "c" & x.value.ToString
 
                 dataKeys += New NamedValue(Of fill) With {
                     .Name = c,

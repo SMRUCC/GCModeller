@@ -103,7 +103,8 @@ Namespace AppEngine
 
         Public Shared Function InvokePOST(request As HttpPOSTRequest,
                                           applications As Dictionary(Of String, APPEngine),
-                                          response As HttpResponse) As Boolean
+                                          response As HttpResponse,
+                                          dynamics As Dictionary(Of String, (App As Object, API As APIInvoker))) As Boolean
 
             Dim application As String = "", api As String = "", parameters As String = ""
             Dim url As String = request.URL
@@ -112,6 +113,13 @@ Namespace AppEngine
                 Return False
             Else
                 request.URLParameters = parameters.RequestParser
+            End If
+
+            If dynamics.ContainsKey(api) Then
+                Dim run As (App As Object, api As APIInvoker) =
+                    dynamics(api)
+                Return run.api _
+                    .InvokePOST(run.App, request, response)
             End If
 
             If Not applications.ContainsKey(application) Then
@@ -128,6 +136,7 @@ Namespace AppEngine
         Public Shared Function Invoke(request As HttpRequest,
                                       applications As Dictionary(Of String, APPEngine),
                                       response As HttpResponse,
+                                      dynamics As Dictionary(Of String, (App As Object, API As APIInvoker)),
                                       [default] As APIAbstract) As Boolean
 
             Dim application As String = "", api As String = "", parameters As String = ""
@@ -140,6 +149,11 @@ Namespace AppEngine
             End If
 
             If Not applications.ContainsKey(application) Then ' 找不到相对应的WebApp，则默认返回失败 
+                If dynamics.ContainsKey(api) Then
+                    Dim run As (App As Object, api As APIInvoker) = dynamics(api)
+                    Return run.api.Invoke(run.App, request, response)
+                End If
+
                 If Not [default] Is Nothing Then
                     Return [default](api, request, response)
                 End If
@@ -211,24 +225,24 @@ Namespace AppEngine
         ''' </summary>
         ''' <param name="url">Url inputs from the user browser.</param>
         ''' <param name="application"></param>
-        ''' <param name="API"></param>
-        ''' <param name="parameters"></param>
+        ''' <param name="API">小写的url</param>
+        ''' <param name="parameters">URL参数</param>
         ''' <returns></returns>
         Public Shared Function GetParameter(url As String, ByRef application As String, ByRef API As String, ByRef parameters As String) As Boolean
             Dim p As Integer = InStr(url, "?")
-            Dim Tokens As String() = url.Split("/"c).Skip(1).ToArray
+            Dim tokens$() = url.Split("/"c).Skip(1).ToArray
 
-            If Tokens.IsNullOrEmpty Then
+            If tokens.IsNullOrEmpty Then
                 Return False
             End If
 
-            application = Tokens(Scan0)
+            application = tokens(Scan0)
 
             If p > 0 Then '带有参数
                 API = Mid(url, 1, p - 1) '/application/function
                 parameters = Mid(url, p + 1)
 
-                If Tokens.Count = 1 Then
+                If tokens.Count = 1 Then
                     application = application.Split("?"c).First
                 End If
             Else
