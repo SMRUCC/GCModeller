@@ -25,13 +25,11 @@
 
 #End Region
 
-Imports System.IO
 Imports System.Reflection
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
 
 Namespace AppEngine.APIMethods
 
@@ -60,9 +58,9 @@ Namespace AppEngine.APIMethods
     ''' <returns>Execute success or not?</returns>
     Public Delegate Function _POST(request As HttpPOSTRequest, response As HttpResponse) As Boolean
 
-    Public Class APIInvoker
+    Public Class APIInvoker : Implements INamedValue
 
-        Public Property Name As String
+        Public Property Name As String Implements INamedValue.Key
         Public Property EntryPoint As MethodInfo
         Public Property Help As String
         Public Property Method As APIMethod
