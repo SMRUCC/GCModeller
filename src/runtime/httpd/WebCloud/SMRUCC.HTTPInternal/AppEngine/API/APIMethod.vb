@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::32fa0998e69b406bd69a943ffd6b221f, ..\httpd\HTTPServer\SMRUCC.HTTPInternal\AppEngine\API\APIMethod.vb"
+﻿#Region "Microsoft.VisualBasic::638d5af7aa266280fc429f422a07fee1, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\APIMethod.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

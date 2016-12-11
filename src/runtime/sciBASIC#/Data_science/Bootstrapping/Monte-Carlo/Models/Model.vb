@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43b9e69646ab7dc1ada0dc0b1213de97, ..\sciBASIC#\Data_science\Bootstrapping\Monte-Carlo\Model.vb"
+﻿#Region "Microsoft.VisualBasic::f316df6a7355a02481957facff03d7d0, ..\sciBASIC#\Data_science\Bootstrapping\Monte-Carlo\Models\Model.vb"
 
     ' Author:
     ' 
@@ -26,14 +26,11 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Emit
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Calculus
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace MonteCarlo
 
@@ -55,12 +52,12 @@ Namespace MonteCarlo
         ''' 系统的初始值列表(应用于系统状态随机聚类)
         ''' </summary>
         ''' <returns></returns>
-        Public MustOverride Function yinit() As VariableModel()
+        Public MustOverride Function yinit() As ValueRange()
         ''' <summary>
         ''' 系统的状态列表，即方程里面的参数(应用于参数估计)
         ''' </summary>
         ''' <returns></returns>
-        Public MustOverride Function params() As VariableModel()
+        Public MustOverride Function params() As ValueRange()
 
         ''' <summary>
         ''' 在计算聚类的相似度的时候对y变量的特征提取
@@ -126,7 +123,7 @@ Namespace MonteCarlo
                     x(var).value = y0(var)
                 Next
             Catch ex As Exception
-                Dim msg$ = $"Model required a parameter which is named ``{var}``, but '{var}' is not exists in list: {y0.Keys.ToArray.GetJson}"
+                Dim msg$ = $"Model required a parameter which is named ``{var}``, but '{var}' is not exists in list: {y0.KeysJson}"
                 ex = New Exception(msg, ex)
                 Throw ex
             End Try
@@ -138,7 +135,7 @@ Namespace MonteCarlo
                     Call [set](x, estimates(parm))
                 Next
             Catch ex As Exception
-                Dim msg$ = $"Model required a parameter which is named ``{parm}``, but '{parm}' is not exists in list: {estimates.Keys.ToArray.GetJson}"
+                Dim msg$ = $"Model required a parameter which is named ``{parm}``, but '{parm}' is not exists in list: {estimates.KeysJson}"
                 ex = New Exception(msg, ex)
                 Throw ex
             End Try

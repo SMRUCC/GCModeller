@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::3bdad1f125e231779d2ad13d3081475e, ..\httpd\HTTPServer\REST\Program\Program.vb"
+﻿#Region "Microsoft.VisualBasic::74f8093a9d4e15d82034734e94cab12c, ..\httpd\httpd\Program\Program.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -31,4 +32,3 @@ Module Program
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module
-

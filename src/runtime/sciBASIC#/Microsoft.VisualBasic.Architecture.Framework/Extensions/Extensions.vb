@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2db0f825bccc6f39aaa79b1a3edf51a, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6913f3a67e83a2e24c16bb80b9f9f5ae, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -42,6 +42,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.SecurityString
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Similarity
@@ -70,6 +71,17 @@ Imports Microsoft.VisualBasic.Text.Similarity
 ''' <remarks></remarks>
 Public Module Extensions
 #End If
+
+    ''' <summary>
+    ''' Returns all of the keys in a dictionary in json format
+    ''' </summary>
+    ''' <typeparam name="V"></typeparam>
+    ''' <param name="d"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function KeysJson(Of V)(d As Dictionary(Of String, V)) As String
+        Return d.Keys.ToArray.GetJson
+    End Function
 
     ''' <summary>
     ''' Returns the first not nothing object.

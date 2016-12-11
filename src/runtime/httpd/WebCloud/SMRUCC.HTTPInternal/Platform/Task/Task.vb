@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::26b40332255239bee1ef2a564c64338d, ..\httpd\HTTPServer\SMRUCC.HTTPInternal\Platform\Task\Task.vb"
+﻿#Region "Microsoft.VisualBasic::26b40332255239bee1ef2a564c64338d, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Task\Task.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
