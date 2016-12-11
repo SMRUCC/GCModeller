@@ -29,11 +29,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.ComponentModel.TagData
-Imports Microsoft.VisualBasic.Emit
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.Calculus
 
 Namespace MonteCarlo
 
@@ -65,8 +61,8 @@ Namespace MonteCarlo
             }
         End Function
 
-        Public Function GetRandomModel() As NamedValue(Of INextRandomNumber)
-            Return New NamedValue(Of INextRandomNumber) With {
+        Public Function GetRandomModel() As NamedValue(Of IValueProvider)
+            Return New NamedValue(Of IValueProvider) With {
                 .Name = Name,
                 .Value = AddressOf GetValue
             }

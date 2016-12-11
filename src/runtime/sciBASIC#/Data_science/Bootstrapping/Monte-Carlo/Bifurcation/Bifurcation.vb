@@ -40,41 +40,72 @@ Namespace MonteCarlo
     ''' <summary>
     ''' Search for all possible system status clusters
     ''' </summary>
-    Public Module StatesCharacters
+    ''' <remarks>
+    ''' ###### Figure 3: Bifurcation analysis.
+    ''' 
+    ''' > For Each important parameters, performing bifurcation analysis to (1) find out 
+    ''' > how many possible stable steady states in the system (model), for example, for 
+    ''' > example, V, may have more than two states such as very low amount (may Not 
+    ''' > enough to cause symptoms), very high amount (immediately cause symptoms), And 
+    ''' > mediate amount (may have long “latency” period in the cell); (2) find out how 
+    ''' > Virus (V, Or all the other five species) changes with its parameters' change 
+    ''' > (the parameter regions). For easy understanding, for example, in some parameter 
+    ''' > region, virus amount would decrease/increase significantly; whereas in another 
+    ''' > region, V would have interesting phenomenon such as oscillating. 
+    ''' </remarks>
+    Public Module BifurcationAnalysis
 
         ''' <summary>
         ''' Search for all possible system status clusters by using MonteCarlo method from random system inits.
-        ''' (使用蒙特卡洛的方法来搜索可能的系统状态空间)
+        ''' (在参数固定不变的情况下，使用不同的y变量初始值来计算，使用蒙特卡洛的方法来搜索可能的系统状态空间)
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns>可能的系统状态的KMeans聚类结果</returns>
         <Extension>
-        Public Iterator Function KMeansCluster(model As Type,
-                                               k&, n%, a#, b#,
-                                               args As Dictionary(Of String, Double),
-                                               Optional stop% = -1,
-                                               Optional ncluster% = -1,
-                                               Optional nsubCluster% = 3) As IEnumerable(Of NamedValue(Of VariableModel()))
+        Public Function KMeansCluster(model As Type,
+                                      k&,
+                                      n%, a#, b#,
+                                      args As Dictionary(Of String, Double),
+                                      Optional stop% = -1,
+                                      Optional ncluster% = -1,
+                                      Optional nsubCluster% = 3) As IEnumerable(Of NamedValue(Of VariableModel()))
 
             ' 整个系统使用随机初始值进行计算，从而可以使用蒙特卡洛的方法得到所有可能的系统状态
             Dim y0 = TryCast(Activator.CreateInstance(model), Model).yinit
             Dim y0rand = y0.Select(
-                Function(v) New NamedValue(Of INextRandomNumber) With {
+                Function(v) New NamedValue(Of IValueProvider) With {
                     .Name = v.Name,
                     .Value = AddressOf v.GetValue
                 })
             Dim validResults As IEnumerable(Of ODEsOut) =
                 model.Bootstrapping(
-                    args, y0rand,
+                    y0, y0rand,
                     k, n, a, b,
                     trimNaN:=True,
                     parallel:=True)
-            Dim inputs As New List(Of Entity)  ' Kmeans的输入数据
             Dim ys$() = MonteCarlo.Model.GetVariables(model).ToArray
+
+            ' 因为发生变化的是y0，参数没有变，所以只使用y0来标识Entity就行了
+            Dim uid As Func(Of ODEsOut, String) =
+                Function(v) v.y0.GetJson
+
+            Return validResults.__clusterInternal(
+                ys, ncluster, nsubCluster,
+                [stop],
+                uidProvider:=uid)
+        End Function
+
+        <Extension>
+        Private Iterator Function __clusterInternal(validResults As IEnumerable(Of ODEsOut),
+                                                    ys$(),
+                                                    ncluster%, nsubCluster%, stop%,
+                                                    uidProvider As Func(Of ODEsOut, String)) As IEnumerable(Of NamedValue(Of VariableModel()))
+
+            Dim inputs As New List(Of Entity)  ' Kmeans的输入数据
 
             For Each v As ODEsOut In validResults
                 inputs += New Entity With {
-                    .uid = v.y0.GetJson, ' 因为发生变化的是y0，参数没有变，所以只使用y0来标识Entity就行了
+                    .uid = uidProvider(v),
                     .Properties = ys.Select(Function(name$) v.y(name).Value).ToVector
                 }
             Next
@@ -144,6 +175,24 @@ Namespace MonteCarlo
                     }
                 Next
             Next
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x#">通过拟合所得到的一个具体的值</param>
+        ''' <param name="ldelta#">小数位往下浮动多少</param>
+        ''' <param name="udelta#">小数位往上浮动多少</param>
+        ''' <param name="rnd"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GetRandomRange(x#, ldelta#, udelta#, Optional rnd As IRandomSeeds = Nothing) As PreciseRandom
+            Dim pow As Double = Math.Log10(x)
+            ldelta = pow - ldelta
+            udelta = pow + udelta
+
+            Dim out As New PreciseRandom(CInt(ldelta), CInt(udelta), rnd)
+            Return out
         End Function
     End Module
 End Namespace
