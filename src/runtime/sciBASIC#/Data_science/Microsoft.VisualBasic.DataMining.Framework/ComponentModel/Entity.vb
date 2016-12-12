@@ -43,6 +43,15 @@ Namespace ComponentModel
         <XmlAttribute("T")>
         Public Overridable Property Properties As T()
 
+        Default Public Property Item(i%) As T
+            Get
+                Return Properties(i)
+            End Get
+            Set(value As T)
+                Properties(i) = value
+            End Set
+        End Property
+
         Public Overridable ReadOnly Property Length As Integer
             Get
                 Return Properties.Length
@@ -79,7 +88,7 @@ Namespace ComponentModel
             }
         End Function
 
-        Default Public ReadOnly Property Item(Index As Integer) As Integer
+        Default Public Overloads ReadOnly Property Item(Index As Integer) As Integer
             Get
                 Return Properties(Index)
             End Get
