@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::39deebccb068ac6728a5fb4f52f64947, ..\httpd\nginx\Nginx.vb"
+﻿#Region "Microsoft.VisualBasic::1ca250ce4baa7fc1e3a0a1f10f86cb77, ..\httpd\nginx\Nginx.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -25,11 +26,9 @@
 
 #End Region
 
-
 ''' <summary>
 ''' nginx.conf
 ''' </summary>
 Public Class Nginx
 
 End Class
-

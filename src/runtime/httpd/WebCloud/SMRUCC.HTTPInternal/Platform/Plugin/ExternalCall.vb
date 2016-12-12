@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::346429dde894586b86da6920c0c2052f, ..\httpd\HTTPServer\SMRUCC.HTTPInternal\Platform\Plugin\ExternalCall.vb"
+﻿#Region "Microsoft.VisualBasic::358c1b55b28de7581009be60fe33a295, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\ExternalCall.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -71,4 +72,3 @@ Namespace Platform.Plugins
         End Function
     End Module
 End Namespace
-

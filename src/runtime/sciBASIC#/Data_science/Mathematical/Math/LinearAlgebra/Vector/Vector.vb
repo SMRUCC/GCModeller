@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4f05924ddb1a0f2e5c8f17829c9c03e, ..\sciBASIC#\Data_science\Mathematical\Math\LinearAlgebra\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::fc28f2b28db481134141cf112f073cf2, ..\sciBASIC#\Data_science\Mathematical\Math\LinearAlgebra\Vector.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace LinearAlgebra
 
     ''' <summary>
-    ''' <see cref="List(Of Double)"/>
+    ''' Vector was inherits from type <see cref="List(Of Double)"/>
     ''' </summary>
     Public Class Vector : Inherits GenericVector(Of Double)
 

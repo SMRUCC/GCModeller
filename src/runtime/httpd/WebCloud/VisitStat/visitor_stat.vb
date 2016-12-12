@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e5a6bd8c1a5908ef78516dfab0f8d00b, ..\httpd\HTTPServer\VisitStat\visitor_stat.vb"
+﻿#Region "Microsoft.VisualBasic::3a9f9cdfb080ccf3dd34154891a6b5e4, ..\httpd\WebCloud\VisitStat\visitor_stat.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -109,6 +110,3 @@ Public Class visitor_stat: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
     End Function
 #End Region
 End Class
-
-
-

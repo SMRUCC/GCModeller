@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::8a4e5a02bf6dc8cc25a7fae28c5bfbc8, ..\sciBASIC#\Data_science\Mathematical\Plots\Heatmap.vb"
+﻿#Region "Microsoft.VisualBasic::6b7d378f280752b7d8f84d6aedf50423, ..\sciBASIC#\Data_science\Mathematical\Plots\Heatmap.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -140,6 +140,7 @@ Public Module Heatmap
                          Optional fontStyle$ = CSSFont.Win10Normal,
                          Optional legendTitle$ = "Heatmap Color Legend",
                          Optional legendFont As Font = Nothing,
+                         Optional min# = -1, Optional max# = 1,
                          Optional angle! = 45.0F) As Bitmap
 
         Dim font As Font = CSSFont.TryParse(fontStyle).GDIObject
@@ -167,6 +168,7 @@ Public Module Heatmap
                 Dim correl#() = array _
                     .Select(Function(x) x.Value.Values) _
                     .IteratesALL _
+                    .Join(min, max) _
                     .Distinct _
                     .ToArray
                 Dim lvs As Dictionary(Of Double, Integer) =

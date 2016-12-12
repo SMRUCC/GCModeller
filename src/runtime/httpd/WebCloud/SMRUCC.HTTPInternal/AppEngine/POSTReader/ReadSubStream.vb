@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1489bdd786e2ec668d0d8869a94eaea5, ..\httpd\HTTPServer\SMRUCC.HTTPInternal\AppEngine\POSTReader\ReadSubStream.vb"
+﻿#Region "Microsoft.VisualBasic::1489bdd786e2ec668d0d8869a94eaea5, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\ReadSubStream.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b924a6451e918a35f6ddcf641449696, ..\sciBASIC#\Data_science\Bootstrapping\Monte-Carlo\VariableModel.vb"
+﻿#Region "Microsoft.VisualBasic::2f78510289e2a3228f86d3c01b70c1f8, ..\sciBASIC#\Data_science\Bootstrapping\Monte-Carlo\Models\ValueRange.vb"
 
     ' Author:
     ' 
@@ -29,15 +29,15 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.ComponentModel.TagData
-Imports Microsoft.VisualBasic.Emit
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Calculus
 
 Namespace MonteCarlo
 
-    Public Class VariableModel : Inherits DoubleRange
+    ''' <summary>
+    ''' Value range of the variable, like <see cref="var"/>
+    ''' </summary>
+    Public Class ValueRange : Inherits DoubleRange
         Implements ICloneable
 
         <XmlAttribute>
@@ -59,14 +59,22 @@ Namespace MonteCarlo
             Return GetRandom(Min, Max)()
         End Function
 
+        ''' <summary>
+        ''' Copy the range and name property value
+        ''' </summary>
+        ''' <returns></returns>
         Public Function Clone() As Object Implements ICloneable.Clone
-            Return New VariableModel(Min, Max) With {
+            Return New ValueRange(Min, Max) With {
                 .Name = Name
             }
         End Function
 
-        Public Function GetRandomModel() As NamedValue(Of INextRandomNumber)
-            Return New NamedValue(Of INextRandomNumber) With {
+        ''' <summary>
+        ''' Ranged random value provider
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetRandomModel() As NamedValue(Of IValueProvider)
+            Return New NamedValue(Of IValueProvider) With {
                 .Name = Name,
                 .Value = AddressOf GetValue
             }

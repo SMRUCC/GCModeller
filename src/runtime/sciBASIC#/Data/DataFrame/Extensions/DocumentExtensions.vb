@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8686c99c1559d0ca38c4da673250427, ..\sciBASIC#\Data\DataFrame\Extensions\DocumentExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e1db82a10d7cb992911eeb7a9a0aae3c, ..\sciBASIC#\Data\DataFrame\Extensions\DocumentExtensions.vb"
 
     ' Author:
     ' 
@@ -71,6 +71,24 @@ Public Module DocumentExtensions
             Return Data.GetJson
         End Function
     End Class
+
+    <Extension>
+    Public Function SaveAsDataFrame(d As IEnumerable(Of Dictionary(Of String, String)), path$) As Boolean
+        Dim table As GenericTable() = d _
+            .Select(Function(x) New GenericTable With {.Data = x}) _
+            .ToArray
+        Return table.SaveTo(path)
+    End Function
+
+    <Extension>
+    Public Function SaveAsDataFrame(d As IEnumerable(Of Dictionary(Of String, Double)), path$) As Boolean
+        Return d _
+            .Select(
+            Function(x) x.ToDictionary(
+            Function(k) k.Key,
+            Function(v) v.Value.ToString)) _
+            .SaveAsDataFrame(path)
+    End Function
 
     <Extension>
     Public Function MergeTable(EXPORT$, files As IEnumerable(Of String)) As Boolean
