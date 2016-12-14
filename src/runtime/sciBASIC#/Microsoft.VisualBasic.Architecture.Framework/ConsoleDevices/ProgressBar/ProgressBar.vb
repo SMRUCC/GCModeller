@@ -47,7 +47,11 @@ Namespace Terminal
         Dim current As Integer
         Dim y As Integer
 
-        Sub New(title As String, Optional Y As Integer = 1)
+        Sub New(title As String, Optional Y As Integer = 1, Optional cls As Boolean = False)
+            If cls Then
+                Call Console.Clear()
+            End If
+
             Call Console.WriteLine(title)
 
             Me.y = Y
@@ -78,6 +82,20 @@ Namespace Terminal
             current += 1
         End Sub
 
+        Dim timer As Stopwatch = Stopwatch.StartNew
+
+        ''' <summary>
+        ''' 获取当前实例测量得出的总运行时间（以毫秒为单位）。
+        ''' </summary>
+        ''' <returns>
+        ''' 一个只读长整型，表示当前实例测量得出的总毫秒数。
+        ''' </returns>
+        Public ReadOnly Property ElapsedMilliseconds As Long
+            Get
+                Return timer.ElapsedMilliseconds
+            End Get
+        End Property
+
         Private Sub __tick(p As Integer, details As String)
             Console.BackgroundColor = ConsoleColor.Yellow
             ' /运算返回完整的商，包括余数，SetCursorPosition会自动四舍五入
@@ -100,7 +118,7 @@ Namespace Terminal
             Console.ForegroundColor = colorFore
 
             If Not String.IsNullOrEmpty(details) Then
-                Console.WriteLine("  " & details)
+                Console.WriteLine(vbTab & details)
             End If
         End Sub
 
@@ -122,6 +140,7 @@ Namespace Terminal
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
                     RemoveHandler TerminalEvents.Resize, AddressOf __resize
+                    Call timer.Stop()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
@@ -149,7 +168,15 @@ Namespace Terminal
 
     Public Class ProgressProvider
 
+        ''' <summary>
+        ''' 整个工作的总的tick数
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Target As Integer
+        ''' <summary>
+        ''' 当前已经完成的tick数
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Current As Integer
 
         ''' <summary>
@@ -159,6 +186,27 @@ Namespace Terminal
         Sub New(total As Integer)
             Target = total
         End Sub
+
+        Dim previous#
+        Dim previousTime&
+
+        Public Function ETA(elapsed&, Optional avg As Boolean = True) As TimeSpan
+            Dim out As TimeSpan
+
+            If avg Then
+                out = ETA(0R, Current / Target, elapsed)
+            Else
+                out = ETA(
+                    previous,
+                    Current / Target,
+                    elapsed - previousTime)
+
+                previousTime = elapsed
+                previous = Current / Target
+            End If
+
+            Return out
+        End Function
 
         ''' <summary>
         ''' 返回来的百分比小数，还需要乘以100才能得到进度
@@ -179,6 +227,21 @@ Namespace Terminal
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="previous#">百分比</param>
+        ''' <param name="cur#">百分比</param>
+        ''' <param name="Elapsed#">当前的这个百分比差所经历过的时间</param>
+        ''' <returns></returns>
+        Public Shared Function ETA(previous#, cur#, Elapsed&) As TimeSpan
+            Dim d = cur - previous
+            Dim lefts = (100 - cur) / d
+            Dim time = lefts * Elapsed
+            Dim estimates = TimeSpan.FromMilliseconds(time)
+            Return estimates
         End Function
     End Class
 End Namespace

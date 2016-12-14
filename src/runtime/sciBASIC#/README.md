@@ -70,15 +70,31 @@ PM> Install-Package sciBASIC -Pre
 
 ##### sciBASIC# Chart Plots System
 ```vbnet
-Imports Microsoft.VisualBasic.Mathematical.Plots
+Imports Microsoft.VisualBasic.Data.ChartPlots
 ```
 
 ![](./Data_science/algorithms/CMeans/CMeans.png)
 ![](./Data_science/Mathematical/images/295022-plots-plots.png)
-![](./Data_science/Mathematical/images/pie_chart_vars.png)
+
+###### Scatter Heatmap
+
+You can using a lambda expression as the plot data source:
+
+```vbnet
+Dim f As Func(Of Double, Double, Double) =
+    Function(x, y) x ^ 2 + y ^ 3
+
+Call ScatterHeatmap _
+    .Plot(f, "(-1,1)", "(-1,1)", legendTitle:="z = x ^ 2 + y ^ 3") _
+    .SaveAs("./scatter-heatmap.png")
+```
+
+![](./Data_science/Mathematical/images/scatter-heatmap.png)
+![](./Data_science/Mathematical/images/scatter-heatmap-exp.png)
 
 ###### Stacked Barplot
-![](./Data_science/Mathematical/images/FigurePlot-Reference-Unigenes.absolute.level1.png)
+
+The stacked barplot is a best choice for visualize the sample composition and compares to other samples data:
 
 ```vbnet
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -95,6 +111,8 @@ Call BarPlot.Plot(
     legendFont:=New Font(FontFace.BookmanOldStyle, 18)) _
     .SaveAs("./FigurePlot-Reference-Unigenes.absolute.level1.png")
 ```
+
+![](./Data_science/Mathematical/images/FigurePlot-Reference-Unigenes.absolute.level1.png)
 
 ###### beta-PDF
 
@@ -179,6 +197,8 @@ New:
 ```vbnet
 Imports Microsoft.VisualBasic
 
+
+
 Dim l As New List(Of String)
 
 l += "123"
@@ -236,3 +256,8 @@ Call bitmap.GetBinaryBitmap(BinarizationStyles.SparseGray)
 |Normal|Binary|Gray|
 |------|------|----|
 |<img src="./etc/lena/f13e6388b975d9434ad9e1a41272d242_1_orig.jpg" width=160 height=160 />|<img src="./etc/lena/lena.binary.png" width=250 height=250 />|<img src="./etc/lena/lena.gray.png" width=250 height=250 />|
+
+<hr>
+
+<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=42V9tWs"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="VB.net+SQL交流群" title="VB.net+SQL交流群"></a>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=b23553ea9bd09f751bbe8e3c5c678026fe914c4b1f2e57fd5df4b529f17d69af"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="VB.NET + d3js数据可视化" title="VB.NET + d3js数据可视化"></a>

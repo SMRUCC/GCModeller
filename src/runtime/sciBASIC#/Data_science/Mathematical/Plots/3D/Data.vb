@@ -1,72 +1,132 @@
 ﻿#Region "Microsoft.VisualBasic::2d386f88205c395bb954ff5407187643, ..\sciBASIC#\Data_science\Mathematical\Plots\3D\Data.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Terminal
 
 Namespace Plot3D
 
-    Public Module Data
+    ''' <summary>
+    ''' Data provider
+    ''' </summary>
+    Public Module DataProvider
 
         ''' <summary>
-        ''' 
+        ''' Data provider base on the two variable.(这个函数可以同时为3D绘图或者ScatterHeatmap提供绘图数据)
         ''' </summary>
-        ''' <param name="f"></param>
+        ''' <param name="f">``z = f(x,y)``</param>
         ''' <param name="x">x取值范围</param>
         ''' <param name="y">y取值范围</param>
         ''' <param name="xsteps!"></param>
         ''' <param name="ysteps!"></param>
-        ''' <returns></returns>
+        ''' <param name="matrix">假若想要获取得到原始的矩阵数据，这个列表对象还需要实例化之后再传递进来</param>
+        ''' <returns>Populate data by x steps.(即每一次输出的一组数据的X都是相同的)</returns>
         <Extension>
-        Public Function Evaluate(f As Func(Of Double, Double, Double),
-                                 x As DoubleRange,
-                                 y As DoubleRange,
-                                 Optional xsteps! = 0.01,
-                                 Optional ysteps! = 0.01) As Point3D()
+        Public Iterator Function Evaluate(f As Func(Of Double, Double, Double),
+                                          x As DoubleRange,
+                                          y As DoubleRange,
+                                          Optional xsteps! = 0.01,
+                                          Optional ysteps! = 0.01,
+                                          Optional parallel As Boolean = False,
+                                          Optional matrix As List(Of DataSet) = Nothing) As IEnumerable(Of List(Of Point3D))
+
+            Dim prog As New ProgressBar("Populates data points...", cls:=True)
+            Dim tick As New ProgressProvider(x.Length / xsteps)
             Dim out As New List(Of Point3D)
 
+            Call $"Estimates size: {tick.Target * (y.Length / ysteps)}...".__DEBUG_ECHO
+            Call tick.StepProgress()
+
             For xi# = x.Min To x.Max Step xsteps!
-                For yi# = y.Min To y.Max Step ysteps!
-                    out += New Point3D With {
-                        .X = xi#,
-                        .Y = yi#,
-                        .Z = f(xi, yi)
+
+                If parallel Then
+                    Dim dy As New List(Of Double)
+                    Dim x0# = xi
+
+                    For yi# = y.Min To y.Max Step ysteps!
+                        dy += yi
+                    Next
+
+                    out = LinqAPI.MakeList(Of Point3D) <=
+ _
+                        From yi As Double
+                        In dy.AsParallel
+                        Let z As Double = f(x0, yi)
+                        Select pt = New Point3D With {
+                            .X = x0,
+                            .Y = yi,
+                            .Z = z
+                        }
+                        Order By pt.Y Ascending
+                Else
+                    ' 2016-12-15 
+                    ' 在迭代器这里不能够用Clear， 必须要新构建一个list对象， 否则得到的所有的数据都会是第一次迭代的结果
+                    out = New List(Of Point3D)
+
+                    For yi# = y.Min To y.Max Step ysteps!
+                        out += New Point3D With {
+                            .X = xi#,
+                            .Y = yi#,
+                            .Z = f(xi, yi)
+                        }
+                    Next
+
+                    Yield out
+                End If
+
+                If Not matrix Is Nothing Then
+                    matrix += New DataSet With {
+                        .Identifier = xi,
+                        .Properties = out _
+                        .ToDictionary(
+                            Function(pt) CStr(pt.Y),
+                            Function(pt) CDbl(pt.Z))
                     }
-                Next
+                End If
+
+                Dim leftTime As String = tick _
+                    .ETA(prog.ElapsedMilliseconds) _
+                    .FormatTime
+
+                Call prog.SetProgress(
+                    tick.StepProgress,
+                    $" {xi} ({x.Min}, {x.Max}),  ETA={leftTime}")
             Next
 
-            Return out
+            Call prog.Dispose()
         End Function
 
         ''' <summary>
