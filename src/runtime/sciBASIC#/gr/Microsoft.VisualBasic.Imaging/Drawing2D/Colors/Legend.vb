@@ -28,8 +28,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Drawing2D.Colors
 
@@ -49,6 +48,39 @@ Namespace Drawing2D.Colors
         ''' <returns></returns>
         <Extension>
         Public Function ColorMapLegend(designer As Color(),
+                                       title$,
+                                       min$, max$,
+                                       Optional bg$ = "transparent",
+                                       Optional haveUnmapped As Boolean = True,
+                                       Optional lsize As Size = Nothing,
+                                       Optional lmargin As Size = Nothing,
+                                       Optional titleFont As Font = Nothing) As Bitmap
+            Dim br As SolidBrush() =
+                designer.ToArray(Function(c) New SolidBrush(c))
+            Return br.ColorMapLegend(
+                title,
+                min, max,
+                bg,
+                haveUnmapped,
+                lsize, lmargin,
+                titleFont)
+        End Function
+
+        ''' <summary>
+        ''' 输出的图例的大小默认为：``{800, 1000}``
+        ''' </summary>
+        ''' <param name="designer"></param>
+        ''' <param name="title$"></param>
+        ''' <param name="min$"></param>
+        ''' <param name="max$"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="haveUnmapped"></param>
+        ''' <param name="lsize"></param>
+        ''' <param name="lmargin"></param>
+        ''' <param name="titleFont"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ColorMapLegend(designer As SolidBrush(),
                                        title$,
                                        min$, max$,
                                        Optional bg$ = "transparent",
@@ -91,9 +123,9 @@ Namespace Drawing2D.Colors
 
                     For i As Integer = designer.Length - 1 To 0 Step -1
                         Call g.FillRectangle(
-                        New SolidBrush(designer(i)),
+                        designer(i),
                         New RectangleF(New PointF(margin.Width, y),
-                                      New SizeF(rectWidth, d)))
+                                       New SizeF(rectWidth, d)))
                         y += d
                     Next
 

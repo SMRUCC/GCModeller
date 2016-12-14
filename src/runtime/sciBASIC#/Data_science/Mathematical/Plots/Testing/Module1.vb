@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
@@ -149,8 +150,26 @@ Module Module1
             .SaveAs("./CMeans.png")
     End Sub
 
-    Sub Main()
 
+    Public Sub scatterHeatmapTest()
+        'Dim f As Func(Of Double, Double, Double) =
+        '    Function(x, y) x ^ 2 + y ^ 3
+
+        'Call ScatterHeatmap _
+        '    .Plot(f, "(-1,1)", "(-1,1)", legendTitle:="z = x ^ 2 + y ^ 3") _
+        '    .SaveAs("./scatter-heatmap.png")
+
+        Call ScatterHeatmap _
+            .Plot("x ^ 2 + y ^ 3", "(-1,1)", "(-1,1)",
+                  colorMap:="PRGn:c10",
+                  legendTitle:="z = x ^ 2 + y ^ 3") _
+            .SaveAs("./scatter-heatmap-exp.png")
+
+        Pause()
+    End Sub
+
+    Sub Main()
+        Call scatterHeatmapTest()
         Call CMeansVisualize()
         Pause()
 
