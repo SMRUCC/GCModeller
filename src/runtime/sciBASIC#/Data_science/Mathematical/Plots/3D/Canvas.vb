@@ -1,41 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::cd08d0af15aa03c79e6e60739dc6d54d, ..\sciBASIC#\Data_science\Mathematical\Plots\3D\Canvas.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Drawing
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 
 Namespace Plot3D
 
     Public Class Canvas : Inherits GDIDevice
+
+        Friend WithEvents TrackBar1 As System.Windows.Forms.TrackBar
 
         Protected Overrides Sub __init()
 
@@ -62,10 +59,10 @@ Namespace Plot3D
             'Call DirectCast(models.Last, Surface).Allocation()
             'Call DirectCast(models.First, Surface).Allocation()
 
-            Dim x As New DoubleRange(-5, 5)
-            Dim y As New DoubleRange(-5, 5)
+            '   Dim x As New DoubleRange(-5, 5)
+            '  Dim y As New DoubleRange(-5, 5)
 
-            models += Grid(Function(xx, yy) Math.Sin(xx ^ 2) * Math.Cos(yy ^ 2), x, y, ColorMap.PatternJet, 0.05, 0.05).Select(Function(l) DirectCast(l, I3DModel))
+            '  models += Grid(Function(xx, yy) Math.Sin(xx ^ 2) * Math.Cos(yy ^ 2), x, y, ColorMap.PatternJet, 0.05, 0.05).Select(Function(l) DirectCast(l, I3DModel))
             '  models += Grid(Function(xx, yy) xx * yy, x, y, 0.05, 0.05, Pens.Green).Select(Function(l) DirectCast(l, I3DModel))
 
             'models += New Line3D With {.a = New Point3D(30, 0, 0), .b = New Point3D(-30, 0, 0), .pen = Pens.Red}
@@ -73,13 +70,45 @@ Namespace Plot3D
             'models += New Line3D With {.a = New Point3D(0, 0, 30), .b = New Point3D(0, 0, -30), .pen = Pens.DarkViolet}
             'models += New Cube(25)
 
-            Call Run()
+            '  Call Run()
 
-            Call SetAutoRotate(New Point3D(1, 0, 0))
+            '  Call SetAutoRotate(New Point3D(1, 0, 0))
         End Sub
 
         Protected Overrides Sub ___animationLoop()
 
+        End Sub
+
+        Private Sub InitializeComponent()
+            Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+            CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.SuspendLayout()
+            '
+            'TrackBar1
+            '
+            Me.TrackBar1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.TrackBar1.BackColor = System.Drawing.Color.FromArgb(CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer), CType(CType(20, Byte), Integer))
+            Me.TrackBar1.Location = New System.Drawing.Point(486, 470)
+            Me.TrackBar1.Maximum = 100
+            Me.TrackBar1.Minimum = -100
+            Me.TrackBar1.Name = "TrackBar1"
+            Me.TrackBar1.Size = New System.Drawing.Size(259, 45)
+            Me.TrackBar1.TabIndex = 0
+            '
+            'Canvas
+            '
+            Me.Controls.Add(Me.TrackBar1)
+            Me.DoubleBuffered = True
+            Me.Name = "Canvas"
+            Me.Size = New System.Drawing.Size(765, 529)
+            CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.ResumeLayout(False)
+            Me.PerformLayout()
+
+        End Sub
+
+        Private Sub Canvas_Load(sender As Object, e As EventArgs) Handles Me.Load
+            Call MyBase.GDIDevice_Load(Nothing, Nothing)
         End Sub
     End Class
 End Namespace

@@ -45,6 +45,91 @@ Namespace Plot3D
     Public Module DataProvider
 
         <Extension>
+        Public Function Surface(matrix As IEnumerable(Of EntityObject)) As IEnumerable(Of (sf As Surface, c As Double()))
+            Dim xData As New List(Of (pt As Point3D, C#)())
+
+            For Each line As EntityObject In matrix
+                Dim xi As Double =
+                    Val(line.Identifier)
+
+                xData += LinqAPI.Exec(Of (pt As Point3D, C#)) <=
+ _
+                    From p As KeyValuePair(Of String, String)
+                    In line.Properties
+                    Let yi As Double = Val(p.Key)
+                    Let z As String() = p.Value.Split(":"c)
+                    Let pt As Point3D = New Point3D With {
+                        .X = xi,
+                        .Y = yi,
+                        .Z = Val(z(0))
+                    }
+                    Let color As Double = Val(z(1))
+                    Select (pt:=pt, C:=color)
+            Next
+
+            Return xData.Surface
+        End Function
+
+        <Extension>
+        Public Iterator Function Surface(xData As IEnumerable(Of (pt As Point3D, c#)())) As IEnumerable(Of (sf As Surface, c As Double()))
+            Dim previousX = xData(0)
+            Dim pY0, pY1 As (pt As Point3D, C#)
+
+            For Each xline As (pt As Point3D, C#)() In xData.Skip(1)   ' 逐行扫描每一个数据点，通过Evaluate函数所生成的数据点都是经过排序了的
+
+                pY0 = previousX(0)
+                pY1 = xline(0)
+
+                ' ^ --->
+                ' |    |
+                ' <--- +
+                '
+                For i As Integer = 1 To xline.Length - 1
+                    Dim data As (pt As Point3D, C#)() = {
+                        pY0, previousX(i), xline(i), pY1
+                    }
+                    Dim v As Point3D() = data _
+                        .ToArray(Function(d) d.pt)
+                    Dim sf As New Surface With {    ' 使用一个矩形来生成一个3维表面
+                        .vertices = v
+                    }
+                    Dim zc#() = data.ToArray(Function(d) d.C)
+
+                    Yield (sf, zc)
+
+                    pY0 = previousX(i)    ' 迭代到下一个表面
+                    pY1 = xline(i)
+                Next
+
+                previousX = xline
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 生成函数计算结果的三维表面
+        ''' </summary>
+        ''' <param name="f"></param>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <param name="xsteps!"></param>
+        ''' <param name="ysteps!"></param>
+        ''' <param name="parallel"></param>
+        ''' <param name="matrix"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Surface(f As Func(Of Double, Double, (Z#, c#)),
+                                x As DoubleRange,
+                                y As DoubleRange,
+                                Optional xsteps! = 0.01,
+                                Optional ysteps! = 0.01,
+                                Optional parallel As Boolean = False,
+                                Optional matrix As List(Of EntityObject) = Nothing) As IEnumerable(Of (sf As Surface, c As Double()))
+
+            Dim xdatas = f.Evaluate(x, y, xsteps, ysteps, parallel, matrix).ToArray
+            Return xdatas.Surface
+        End Function
+
+        <Extension>
         Public Iterator Function Evaluate(f As Func(Of Double, Double, (Z#, c#)),
                                           x As DoubleRange,
                                           y As DoubleRange,
