@@ -115,6 +115,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GNUPlot.Extensions\GNUPlot.Extensions.vbproj">
+      <Project>{dcc7eb3c-4a3e-4ad6-a4f7-39e8c6ef130f}</Project>
+      <Name>GNUPlot.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GNUplot\GNUplot.vbproj">
       <Project>{99d9b8fd-620f-4bf7-b2ea-0416754d8178}</Project>
       <Name>GNUplot</Name>

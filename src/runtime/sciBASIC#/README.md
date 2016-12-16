@@ -19,12 +19,12 @@
 ###### 1. source projects
 
 + **[/CLI_tools](./CLI_tools/)** : Some small utilities and example tools
-+ **[/Data](./Data/)** : VisualBasic data framework system for data science, includes data frame, data I/O and data object search framework.
-+ **[/Data_science](./Data_science/)** : VisualBasic mathmatica system, data graphics plot system & Data Mining library
-+ **[/Microsoft.VisualBasic.Architecture.Framework](./Microsoft.VisualBasic.Architecture.Framework/)** : Microsoft VisualBasic App Runtime core
-+ **[/mime](./mime/)** : VisualBasic various mime-types doc parsers
++ **[/Data](./Data/)** : *sciBASIC#* data framework system for data science, includes data frame, data I/O and data object search framework.
++ **[/Data_science](./Data_science/)** : *sciBASIC#* Mathmatica system, data graphics plot system & Data Mining library
++ **[/Microsoft.VisualBasic.Architecture.Framework](./Microsoft.VisualBasic.Architecture.Framework/)** : Microsoft VisualBasic General App Runtime core
++ **[/mime](./mime/)** : various mime-type doc parsers in VisualBasic
 + **[/gr](./gr/)** : **sciBASIC# Artists**: (graphic artist) VB.NET data graphics system
-+ **[/win32_api](./win32_api/)** : Win32 API collection(Obsolete)
++ **[/win32_api](./win32_api/)** : Win32 API collection (**Obsolete**)
 + **[/www](./www/)** : Web related utilities code
 
 ###### 2. docs for User
@@ -62,7 +62,8 @@ PM> Install-Package sciBASIC -Pre
 ## Microsoft VisualBasic Mathematics & Data Graphics System
 
 + **[Mathematics & Chart Ploting System](./Data_science/Mathematical/)**
-+ **[Darwinism computing module](./Data_science/Darwinism)**
++ **[Darwinism computing module](./Data_science/Darwinism/)**
++ **[Data Mining &amp; Machine Learning](./Data_science/)**
 + **[sciBASIC# DataFrame System](./Data/DataFrame/)**
 + **[Network Visualization Interface](./gr/Datavisualization.Network/)**
 
@@ -75,6 +76,28 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 
 ![](./Data_science/algorithms/CMeans/CMeans.png)
 ![](./Data_science/Mathematical/images/295022-plots-plots.png)
+
+###### 3D heatmap
+
+```vbnet
+Dim func As Func(Of Double, Double, (Z#, Color#)) =
+_
+    Function(x, y) (3 * Math.Sin(x) * Math.Cos(y), Color:=x + y ^ 2)
+
+Call Plot3D.ScatterHeatmap.Plot(
+    func, "-3,3", "-3,3",
+    New Camera With {
+        .screen = New Size(3600, 2500),
+        .ViewDistance = -3.3,
+        .angleZ = 30,
+        .angleX = 30,
+        .angleY = -30,
+        .offset = New Point(-100, -100)
+    }) _
+    .SaveAs("./3d-heatmap.png")
+```
+
+![](./Data_science/Mathematical/images/3d-heatmap.png)
 
 ###### Scatter Heatmap
 
@@ -90,7 +113,7 @@ Call ScatterHeatmap _
 ```
 
 ![](./Data_science/Mathematical/images/scatter-heatmap.png)
-![](./Data_science/Mathematical/images/scatter-heatmap-exp.png)
+![](./Data_science/Mathematical/images/256821.654661046-rho_gamma3_1%2C120_0.25%2C20.png)
 
 ###### Stacked Barplot
 
@@ -131,6 +154,7 @@ Public Function lgamma(x As Double) As Double
 End Function
 ```
 <img src="./Data_science/Mathematical/data/beta-PDF/beta_PDF.png" height="650px"></img>
+> https://en.wikipedia.org/wiki/Beta_distribution
 
 ###### Heatmap
 ![](./Data_science/Mathematical/images/heatmap.png)
@@ -155,6 +179,17 @@ write.csv(mtcars, "./Data_science/Mathematical/Quick_correlation_matrix_heatmap/
 
 ## What's new of VisualBasic language Syntax from this runtime library?
 
+First of all, imports the language feature namespace of VisualBasic
+
+```vbnet
+#Region "Microsoft VisualBasic.NET language"
+' sciBASIC# general application runtime
+' Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a.dll
+#End Region
+
+Imports Microsoft.VisualBasic.Language
+```
+
 ###### 1. Inline value assign
 
 Old:
@@ -172,8 +207,6 @@ Loop
 New:
 
 ```vbnet
-Imports Microsoft.VisualBasic.Language
-
 Dim s As New Value(Of String)
 
 Do While Not (s = blablabla) Is Nothing
@@ -195,10 +228,6 @@ Call l.AddRange(From x In 100.Sequence Select CStr(x))
 New:
 
 ```vbnet
-Imports Microsoft.VisualBasic
-
-
-
 Dim l As New List(Of String)
 
 l += "123"
@@ -210,8 +239,6 @@ l += From x As Integer
 ###### int Type
 
 ```vbnet
-Imports Microsoft.VisualBasic.Language
-
 Dim min As int = 1
 Dim max As int = 200
 Dim x As Integer = 199

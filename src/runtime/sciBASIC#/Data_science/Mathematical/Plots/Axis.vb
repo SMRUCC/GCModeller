@@ -58,12 +58,13 @@ Module Axis
         Call g.DrawLine(pen, o, right)
         Call g.DrawLine(pen, o, top)
 
-        Dim fontLarge As New Font(FontFace.MicrosoftYaHei, 20, FontStyle.Regular)
+        Dim fontLarge As New Font(FontFace.MicrosoftYaHei, 28, FontStyle.Regular)
         Call g.DrawString(scaler.xmin, fontLarge, Brushes.Black, New PointF(o.X + 10, o.Y + 10))
-        Call g.DrawString(xlabel, fontLarge, Brushes.Black, New PointF(right.X + 10, right.Y - 5))
-        Call g.DrawString(ylabel, fontLarge, Brushes.Black, New PointF(top.X - 10, top.Y - 40))
+        Call g.DrawString(xlabel, fontLarge, Brushes.Black, New PointF(right.X + 20, right.Y - 5))
+        Call g.DrawString(ylabel, fontLarge, Brushes.Black, New PointF(top.X - 10, top.Y - 50))
 
         Dim fontSmall As New Font(FontFace.MicrosoftYaHei, 14)
+        fontLarge = New Font(FontFace.MicrosoftYaHei, 20, FontStyle.Regular)
 
         Dim dx As Single = scaler.dx / 10 '+ scaler.xmin
         Dim dy As Single = scaler.dy / 10 '+ scaler.ymin
@@ -79,18 +80,18 @@ Module Axis
         pen = New Pen(Color.Black, 3)
 
         For i As Integer = 0 To 9
-            Dim label As Single = dx * (i + 1)
+            Dim label# = dx * (i + 1)
             Dim sz As SizeF
 
             If dx <> 0R Then
                 Dim x = sx(label + scaler.xmin) + offset.X
                 Dim axisX As New PointF(x, o.Y)
 
-                label = Math.Round(label + scaler.xmin, 2)
-                sz = g.MeasureString(label.ToString, fontLarge)
+                Dim labelText = (label + scaler.xmin).FormatNumeric(2)
+                sz = g.MeasureString(labelText, fontLarge)
 
                 Call g.DrawLine(pen, axisX, New PointF(x, o.Y + margin.Height * 0.2))
-                Call g.DrawString(label, fontLarge, Brushes.Black, New Point(x - sz.Width / 2, o.Y + margin.Height * 0.3))
+                Call g.DrawString(labelText, fontLarge, Brushes.Black, New Point(x - sz.Width / 2, o.Y + margin.Height * 0.3))
 
                 If showGrid Then
                     Call g.DrawLine(gridPenX, axisX, New PointF(x, margin.Height))
@@ -102,12 +103,13 @@ Module Axis
             If dy <> 0R Then
                 Dim y = sy(label + scaler.ymin) + offset.Y
                 Dim axisY As New PointF(o.X, y)
+                Dim ddd = 10
 
-                Call g.DrawLine(pen, axisY, New PointF(o.X - margin.Width * 0.1, y))
+                Call g.DrawLine(pen, axisY, New PointF(o.X - ddd, y))
 
-                label = Math.Round(label + scaler.ymin, 2)
-                sz = g.MeasureString(label, fontSmall)
-                g.DrawString(label, fontSmall, Brushes.Black, New Point(o.X - margin.Width * 0.1 - sz.Width, y - sz.Height / 2))
+                Dim labelText = (label + scaler.ymin).FormatNumeric(2)
+                sz = g.MeasureString(labelText, fontSmall)
+                g.DrawString(labelText, fontSmall, Brushes.Black, New Point(o.X - ddd - sz.Width, y - sz.Height / 2))
 
                 If showGrid Then
                     Call g.DrawLine(gridPenY, axisY, New PointF(size.Width - margin.Width, y))

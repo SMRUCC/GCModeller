@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -175,7 +176,27 @@ Module Module1
         Pause()
     End Sub
 
+    Sub d3heatmap()
+        Dim func As Func(Of Double, Double, (Z#, Color#)) =
+ _
+            Function(x, y) (3 * Math.Sin(x) * Math.Cos(y), Color:=x + y ^ 2)
+
+        Call Plot3D.ScatterHeatmap.Plot(
+            func, "-3,3", "-3,3",
+            New Camera With {
+                .screen = New Size(3200, 2500),
+                .ViewDistance = -3.3,
+                .angleZ = 30,
+                .angleX = 30,
+                .angleY = -30,
+                .offset = New Point(-300, -100)
+            }) _
+            .SaveAs("./3d-heatmap.png")
+    End Sub
+
     Sub Main()
+        Call d3heatmap()
+        Pause()
         Call scatterHeatmapTest()
 
         Return
