@@ -198,9 +198,9 @@ Public Module ToolsAPI
             Right = Right.Split.Last
         End If
 
-        Dim Seq As String = If(Join,
-            Reader.CutSequenceCircular(Val(Left), Val(Right)),
-            Reader.CutSequenceLinear(Val(Left), Val(Right) - Val(Left))).SequenceData
+        Dim Seq As String '= If(Join,
+        '    Reader.CutSequenceCircular(Val(Left), Val(Right)),
+        '    Reader.CutSequenceLinear(Val(Left), Val(Right) - Val(Left))).SequenceData
 
         Return New PartitioningData With {
             .PartitioningTag = tag,

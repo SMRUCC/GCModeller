@@ -68,8 +68,9 @@ Namespace LocalBLAST.BLASTOutput.Legacy
         End Function
 
         Public Overrides Function Grep(Query As TextGrepMethod, Hits As TextGrepMethod) As IBlastOutput
-            Dim LQuery = (From idx In Queries.SeqIterator
-                          Select idx.obj.GrepQuery(Query) + idx.obj.GrepHits(Hits)).ToArray '
+            Dim LQuery = (From idx
+                          In Queries.SeqIterator
+                          Select idx.value.GrepQuery(Query) + idx.value.GrepHits(Hits)).ToArray '
             Return Me
         End Function
 

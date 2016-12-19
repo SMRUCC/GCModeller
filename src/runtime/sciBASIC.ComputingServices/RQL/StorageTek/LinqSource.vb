@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Linq.Framework.Provider
+Imports sciBASIC.ComputingServices.Linq.Framework.Provider
 
 Namespace StorageTek
 

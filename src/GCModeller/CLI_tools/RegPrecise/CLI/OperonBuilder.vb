@@ -92,8 +92,8 @@ Partial Module CLI
         Dim ooo = (From x As SeqValue(Of RegPreciseOperon())
                    In its.SeqIterator
                    Select x.i,
-                       x.obj.ToArray(Function(xx) xx.Operon).IteratesALL.Distinct.ToArray,
-                       TF = x.obj.ToArray(Function(xx) xx.Regulators).IteratesALL.Distinct.ToArray).ToArray
+                       x.value.ToArray(Function(xx) xx.Operon).IteratesALL.Distinct.ToArray,
+                       TF = x.value.ToArray(Function(xx) xx.Regulators).IteratesALL.Distinct.ToArray).ToArray
 
         Call ooo.SaveTo(out.TrimSuffix & ".Csv")
 

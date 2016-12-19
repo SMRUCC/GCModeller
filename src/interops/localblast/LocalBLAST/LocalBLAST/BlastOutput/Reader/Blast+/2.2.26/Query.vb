@@ -30,6 +30,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.v226

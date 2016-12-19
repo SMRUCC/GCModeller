@@ -113,7 +113,7 @@ Namespace Colors
             Dim hash As New Dictionary(Of String, String)
 
             For Each key As SeqValue(Of String) In categories.SeqIterator
-                Call hash.Add(key.obj$, colors(key.i%))
+                Call hash.Add(key.value$, colors(key.i%))
             Next
 
             Return hash

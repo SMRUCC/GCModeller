@@ -93,8 +93,10 @@ Namespace SequenceModel.Patterns
             Dim Model As IEnumerable(Of SimpleSite) =
                 From x
                 In LQuery.SeqIterator
-                Let freq As Dictionary(Of Char, Double) =
-                    x.obj.row.ToDictionary(Function(o0) o0.c, Function(o0) o0.f)
+                Let freq As Dictionary(Of Char, Double) = (+x) _
+                    .row _
+                    .ToDictionary(Function(o0) o0.c,
+                                  Function(o0) o0.f)
                 Select New SimpleSite(freq, x.i)
 
             Return New PatternModel(Model)

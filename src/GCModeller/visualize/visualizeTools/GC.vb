@@ -109,7 +109,7 @@ Public Module GCPlot
             .SeqIterator _
             .ToArray(Function(i) New NamedValue(Of Integer()) With {
                 .Name = ntArray(i).Name,
-                .Value = i.obj
+                .Value = i.value
             })
         Dim mapColors As Color() = New ColorMap(levels * 2 + 1) _
             .ColorSequence(colors)

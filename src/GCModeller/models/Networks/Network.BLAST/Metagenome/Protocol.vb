@@ -330,7 +330,7 @@ Namespace Metagenome
                 .Select(AddressOf ColorTranslator.ToHtml) _
                 .SeqIterator _
                 .ToDictionary(Function(c) taxids(c.i),
-                              Function(c) c.obj)  ' 手工设置颜色会非常麻烦，当物种的数量非常多的时候，则在这里可以进行手工生成
+                              Function(c) c.value)  ' 手工设置颜色会非常麻烦，当物种的数量非常多的时候，则在这里可以进行手工生成
             Dim colorPaired As Color()
             Dim color As (r#, g#, b#)
 

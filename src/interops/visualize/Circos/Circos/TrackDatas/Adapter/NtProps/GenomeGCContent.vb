@@ -100,9 +100,9 @@ Namespace TrackDatas.NtProps
             out = New NASegment_GC(slides.Length - 1) {}
 
             For Each x In slides.SeqIterator
-                out(x.i) = x.obj.First
-                out(x.i).value = x.obj.Average(Function(o) o.value)
-                out(x.i).end = x.obj.Last.end
+                out(x.i) = x.value.First
+                out(x.i).value = x.value.Average(Function(o) o.value)
+                out(x.i).end = x.value.Last.end
             Next
 
             If usingAvg Then

@@ -250,7 +250,7 @@ Namespace Colors
 
             Return categories _
                 .SeqIterator _
-                .ToDictionary(Function(cl) cl.obj,
+                .ToDictionary(Function(cl) cl.value,
                               Function(cl) Colors(cl.i))
         End Function
 

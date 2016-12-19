@@ -67,7 +67,7 @@ Namespace dataExprMAT
 
             Return (From ni As SeqValue(Of Double)
                     In Numerator.SeqIterator
-                    Select Math.Log(ni.obj / Denominator(ni.i), 2)).ToArray
+                    Select Math.Log(ni.value / Denominator(ni.i), 2)).ToArray
         End Function
 
         ''' <summary>
@@ -85,7 +85,7 @@ Namespace dataExprMAT
             Dim RowsQuery = (From item In (From i As SeqValue(Of String)
                                            In LstLocusId.SeqIterator
                                            Select i).AsParallel
-                             Let GeneId As String = item.obj
+                             Let GeneId As String = item.value
                              Let i = item.i
                              Let createdRow As DocumentStream.RowObject = __createRow(LQuery, GeneId, i)
                              Select createdRow

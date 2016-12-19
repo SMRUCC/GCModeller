@@ -125,7 +125,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                                                                   In rsd.PWM.SeqIterator
                                                                   Select New Alphabet With {
                                                                       .Alphabet = PWM.Alphabets(x.i),
-                                                                      .RelativeFrequency = x.obj
+                                                                      .RelativeFrequency = x.value
                                                                   }  ' alphabets
             }  ' residues
             Return InvokeDrawing(Model, True)

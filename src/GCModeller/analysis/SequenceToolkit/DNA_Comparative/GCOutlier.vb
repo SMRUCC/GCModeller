@@ -81,7 +81,7 @@ Public Module GCOutlier
 
             For Each x In data.SeqIterator
                 a(x.i) = New lociX With {
-                    .Title = x.obj.Name
+                    .Title = x.value.Name
                 }
             Next
 
@@ -95,8 +95,8 @@ Public Module GCOutlier
                 Dim a As lociX() = seq(i.i)
 
                 For Each x In data.SeqIterator
-                    a(x.i).value = x.obj.Value(i.obj)
-                    a(x.i).loci = i.obj
+                    a(x.i).value = x.value.Value(i.value)
+                    a(x.i).loci = i.value
                 Next
 
                 tmp += a

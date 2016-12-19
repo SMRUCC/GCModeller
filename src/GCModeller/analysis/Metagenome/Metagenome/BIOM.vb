@@ -70,13 +70,13 @@ Public Module BIOM
             }
         Dim data As New List(Of Integer())
         Dim nameIndex = names.SeqIterator.ToDictionary(
-            Function(x) x.obj.id,
+            Function(x) x.value.id,
             Function(x) x.i)
 
         For Each x As SeqValue(Of Names) In array.Where(Function(xx) xx.Composition IsNot Nothing).SeqIterator
-            Dim n As Integer = x.obj.NumOfSeqs
+            Dim n As Integer = x.value.NumOfSeqs
 
-            For Each cpi In x.obj.Composition
+            For Each cpi In x.value.Composition
                 data += {x.i, nameIndex(cpi.Key), CInt(n * Val(cpi.Value) / 100) + 1}
             Next
         Next
@@ -107,7 +107,7 @@ Public Module BIOM
             getTax = Function(tax) tax _
                 .Split(";"c) _
                 .SeqIterator _
-                .ToArray(Function(s) BIOMPrefix(s.i) & s.obj) _
+                .ToArray(Function(s) BIOMPrefix(s.i) & s.value) _
                 .JoinBy(";")
         End If
 

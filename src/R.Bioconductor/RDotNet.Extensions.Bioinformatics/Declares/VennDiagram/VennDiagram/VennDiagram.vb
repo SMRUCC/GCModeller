@@ -147,14 +147,14 @@ Namespace VennDiagram.ModelAPI
         ''' <returns></returns>
         Public Shared Operator +(venn As VennDiagram, opts As IEnumerable(Of String())) As VennDiagram
             For Each opt As SeqValue(Of String()) In opts.SeqIterator
-                Dim name As String = opt.obj.First
+                Dim name As String = opt.value.First
                 Dim part As Partition = venn.__partitions.Find(name)
 
                 If part Is Nothing Then
                     part = venn.partitions(opt.i)
                 End If
 
-                Call part.ApplyOptions(opt.obj)
+                Call part.ApplyOptions(opt.value)
             Next
 
             Return venn

@@ -189,7 +189,7 @@ Public Module ShellScriptAPI
         Dim resHash As Dictionary(Of String, String) = source.LoadSourceEntryList({"*.xml"})
         Dim proc As EventProc = resHash.LinqProc
         Dim LQuery = (From i As SeqValue(Of PathEntry) In resHash.SeqIterator
-                      Let path As PathEntry = i.obj
+                      Let path As PathEntry = i.value
                       Let d As Integer = proc.Tick
                       Select LoadXmlMeta(path)).ToArray
 

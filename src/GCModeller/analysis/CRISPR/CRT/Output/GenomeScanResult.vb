@@ -121,7 +121,7 @@ Namespace Output
  _
                 From o As SeqValue(Of SearchingModel.CRISPR)
                 In dat.SeqIterator
-                Let c As SearchingModel.CRISPR = o.obj
+                Let c As SearchingModel.CRISPR = o.value
                 Let spaces = c.NumberOfSpacers _
                     .Sequence _
                     .Select(Function(i) New Loci With {

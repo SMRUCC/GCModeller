@@ -58,7 +58,7 @@ Public Module RelativeStatics
             }
 
         For Each rank As SeqValue(Of String) In Taxonomy.ranks.SeqIterator   ' 按照rank层次进行计算
-            Dim out As String = $"{EXPORT}/{rank.obj}.Csv"
+            Dim out As String = $"{EXPORT}/{rank.value}.Csv"
             Dim Groups = (From x As View
                           In samples
                           Let tree As String = x.TaxonTree.GetTree(rank.i)   ' 按照物种树进行数据分组

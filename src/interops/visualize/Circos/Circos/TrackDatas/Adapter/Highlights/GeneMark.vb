@@ -130,7 +130,7 @@ Namespace TrackDatas.Highlights
             Dim colorData As Dictionary(Of String, String) =
                 types _
                 .SeqIterator _
-                .ToDictionary(Function(name) name.obj,
+                .ToDictionary(Function(name) name.value,
                               Function(color) colorlist(color.i).RGBExpression)
 
             Call __motifSitesCommon(locis, colorData, chr)

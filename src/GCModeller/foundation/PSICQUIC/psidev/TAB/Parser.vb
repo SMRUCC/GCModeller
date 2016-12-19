@@ -40,7 +40,7 @@ Namespace TAB
             Dim header As String() = path.ReadFirstLine.Split(Text.ASCII.TAB)
             Dim index As Dictionary(Of String, Integer) = header _
                 .SeqIterator _
-                .ToDictionary(Function(x) x.obj,
+                .ToDictionary(Function(x) x.value,
                               Function(x) x.i)
 
             For Each line As String In path.IterateAllLines.Skip(1)

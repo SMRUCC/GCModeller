@@ -118,7 +118,7 @@ Namespace DataStructure
                                                                             In cols
                                                                             Select col(i.i)).ToArray
                                                  Select New DataFrameRow With {
-                                                     .Name = i.obj,
+                                                     .Name = i.value,
                                                      .ExperimentValues = samples
                                                  }
             Return LQuery

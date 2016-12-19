@@ -127,7 +127,7 @@ Public Module ClustalVisual
         Dim ConservedSites As Integer() =
             LinqAPI.Exec(Of Integer) <= From site As SeqValue(Of SimpleSite)
                                         In Patterns.Frequency(aln).Residues.SeqIterator
-                                        Where site.obj.IsConserved
+                                        Where site.value.IsConserved
                                         Select site.i
         Dim idx As Integer = 0
 

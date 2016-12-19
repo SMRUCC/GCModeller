@@ -69,10 +69,10 @@ Public Module DiffVariation
             Dim b As Integer
 
             For Each i As SeqValue(Of Char) In refs.SeqIterator
-                If i.obj = "-"c Then
+                If i.value = "-"c Then
                     b = 0
                 Else
-                    If nts(i.i) = "-"c OrElse i.obj = nts(i.i) Then
+                    If nts(i.i) = "-"c OrElse i.value = nts(i.i) Then
                         b = 0
                     Else
                         b = 1
@@ -81,7 +81,7 @@ Public Module DiffVariation
 
                 diffs += New SeqValue(Of NamedValue(Of Integer)) With {
                     .i = i.i,
-                    .obj = New NamedValue(Of Integer) With {
+                    .value = New NamedValue(Of Integer) With {
                         .Name = nts(i.i).ToString,
                         .Value = b
                     }
@@ -91,7 +91,7 @@ Public Module DiffVariation
             Dim x As New KSeq With {
                 .attrs = seq.Attributes,
                 .Diffs = diffs.ToDictionary(Function(o) o.i,
-                                            Function(o) o.obj)
+                                            Function(o) o.value)
             }
             x.Date.value = Regex.Match(seq.Attributes.Last, "\d{6}").Value
 

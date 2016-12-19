@@ -51,7 +51,7 @@ Public Class BoundsOverrides
                                         ibo As IBoundsOverrides) As Double()
         Return (From rxn As SeqValue(Of String)
                 In fluxs.SeqIterator
-                Select ibo(rxn.obj, bounds(rxn.i))).ToArray
+                Select ibo(rxn.value, bounds(rxn.i))).ToArray
     End Function
 
     Public Function OverridesLower(fluxs As IEnumerable(Of String), bounds As Double()) As Double()

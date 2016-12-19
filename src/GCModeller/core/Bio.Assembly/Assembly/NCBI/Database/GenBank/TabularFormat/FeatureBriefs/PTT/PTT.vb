@@ -443,9 +443,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         Public Function GetRelatedGenes(loci As NucleotideLocation,
                                         Optional unstrand As Boolean = False,
                                         Optional ATGDist As Integer = 500) As Relationship(Of GeneBrief)() Implements IGenomicsContextProvider(Of GeneBrief).GetRelatedGenes
-            Dim relates As Relationship(Of GeneBrief)() =
-                _contextModel.GetRelatedGenes(loci, Not unstrand, ATGDist)
-            Return relates
+            'Dim relates As Relationship(Of GeneBrief)() =
+            '    _contextModel.GetRelatedGenes(loci, Not unstrand, ATGDist)
+            'Return relates
+            Throw New NotImplementedException
         End Function
     End Class
 End Namespace

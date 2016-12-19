@@ -29,6 +29,7 @@
 Imports System.Text.RegularExpressions
 Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract

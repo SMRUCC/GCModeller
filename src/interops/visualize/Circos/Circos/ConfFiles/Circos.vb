@@ -250,7 +250,7 @@ Namespace Configurations
             App.CurrentDirectory = outDIR
 
             For Each i As SeqValue(Of ITrackPlot) In _plots.SeqIterator
-                Dim track As ITrackPlot = i.obj
+                Dim track As ITrackPlot = i.value
                 Dim path$ = $"data/{track.type}_data_{i.i + 1}.txt"
 
                 track.file = path

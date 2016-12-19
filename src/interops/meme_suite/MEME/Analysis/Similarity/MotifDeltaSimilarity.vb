@@ -62,7 +62,7 @@ Namespace Analysis.Similarity
                                               Where Not MotifData.IsNullOrEmpty
                                               Select From i As SeqValue(Of Motif)
                                                      In MotifData.SeqIterator
-                                                     Select setValue(i.obj, path.Key & "." & i.i)
+                                                     Select setValue(i.value, path.Key & "." & i.i)
 
             Dim Grouped = (From item In resources Select item Group item By item.Signature Into Group).ToArray
             Dim LQuery = (From item In Grouped.AsParallel() Let InternalCreateObject As Motif = __createObject(item.Signature, item.Group.ToArray) Select InternalCreateObject

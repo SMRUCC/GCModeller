@@ -28,8 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace LocalBLAST.BLASTOutput.ComponentModel

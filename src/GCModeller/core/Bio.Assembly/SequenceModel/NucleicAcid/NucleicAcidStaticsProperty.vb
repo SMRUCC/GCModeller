@@ -65,13 +65,13 @@ Namespace SequenceModel.NucleotideModels
             Dim LQuery = From genome As SeqValue(Of FastaToken)
                          In nts.SeqIterator.AsParallel
                          Select genome,
-                             skew = method(genome.obj, winSize, steps, True)
+                             skew = method(genome.value, winSize, steps, True)
                          Order By genome.i Ascending  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
             Return LinqAPI.Exec(Of NamedValue(Of Double())) <=
                 From g
                 In LQuery
                 Select New NamedValue(Of Double()) With {
-                    .Name = g.genome.obj.ToString,
+                    .Name = g.genome.value.ToString,
                     .Value = g.skew
                 }
         End Function

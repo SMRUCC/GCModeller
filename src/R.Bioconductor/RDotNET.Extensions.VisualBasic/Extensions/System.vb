@@ -333,7 +333,7 @@ Public Module RSystem
         Dim colors As String() = RColors.Shuffles
         Dim dict As Dictionary(Of T, String) = (From idx As SeqValue(Of T)
                                                 In uniques.SeqIterator
-                                                Select id = idx.obj,
+                                                Select id = idx.value,
                                                     cl = colors(idx.i)) _
                                                    .ToDictionary(Function(obj) obj.id,
                                                                  Function(obj) obj.cl)

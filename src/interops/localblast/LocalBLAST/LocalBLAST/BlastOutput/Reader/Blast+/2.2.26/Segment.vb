@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Scripting
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.v226
 
