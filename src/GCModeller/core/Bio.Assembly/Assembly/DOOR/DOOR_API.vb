@@ -87,7 +87,7 @@ Software",
                 From o
                 In array.SeqIterator
                 Let idx As Integer = o.i
-                Let x = o.obj
+                Let x = o.value
                 Select New GeneBrief With {
                     .COG_number = x.COG,
                     .GI = x.PID,

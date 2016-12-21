@@ -65,7 +65,7 @@ Namespace Assembly.NCBI.Taxonomy
             SyncLock BIOMPrefix
                 Return list _
                     .SeqIterator _
-                    .Select(Function(x) BIOMPrefix(x.i) & x.obj) _
+                    .Select(Function(x) BIOMPrefix(x.i) & x.value) _
                     .JoinBy(";")
             End SyncLock
         End Function

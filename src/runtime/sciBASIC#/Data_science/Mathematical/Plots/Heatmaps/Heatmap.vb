@@ -118,12 +118,14 @@ Public Module Heatmap
     Public Delegate Function ReorderProvider(data As NamedValue(Of Dictionary(Of String, Double))()) As NamedValue(Of Dictionary(Of String, Double))()
 
     ''' <summary>
-    ''' 
+    ''' 可以用来表示任意变量之间的相关度
     ''' </summary>
     ''' <param name="data"></param>
-    ''' <param name="colors"></param>
+    ''' <param name="colors">
+    ''' 可以使用这一组颜色来手动自定义heatmap的颜色，也可以使用<paramref name="mapName"/>来获取内置的颜色谱
+    ''' </param>
     ''' <param name="mapLevels%"></param>
-    ''' <param name="mapName$"></param>
+    ''' <param name="mapName$">The color map name. <see cref="Designer"/></param>
     ''' <param name="kmeans">Reorder datasets by using kmeans clustering</param>
     ''' <param name="size"></param>
     ''' <param name="margin"></param>
@@ -141,12 +143,18 @@ Public Module Heatmap
                          Optional fontStyle$ = CSSFont.Win10Normal,
                          Optional legendTitle$ = "Heatmap Color Legend",
                          Optional legendFont As Font = Nothing,
-                         Optional min# = -1, Optional max# = 1,
-                         Optional angle! = 45.0F) As Bitmap
+                         Optional min# = -1,
+                         Optional max# = 1,
+                         Optional mainTitle$ = "heatmap",
+                         Optional titleFont As Font = Nothing,
+                         Optional drawGrid As Boolean = True,
+                         Optional drawValueLabel As Boolean = True,
+                         Optional valuelabelFont As Font = Nothing) As Bitmap
 
         Dim font As Font = CSSFont.TryParse(fontStyle).GDIObject
         Dim array As NamedValue(Of
             Dictionary(Of String, Double))() = data.ToArray
+        Dim angle! = 45.0F
 
         If margin.IsEmpty Then
             Dim maxLabel As String = LinqAPI.DefaultFirst(Of String) <=
@@ -192,6 +200,10 @@ Public Module Heatmap
                     colors = Designer.GetColors(mapName, mapLevels)
                 End If
 
+                If valuelabelFont Is Nothing Then
+                    valuelabelFont = New Font(FontFace.CambriaMath, 16, Drawing.FontStyle.Bold)
+                End If
+
                 For Each x As NamedValue(Of Dictionary(Of String, Double)) In array
                     For Each key$ In keys
                         Dim c# = x.Value(key)
@@ -204,6 +216,16 @@ Public Module Heatmap
                         Dim b As New SolidBrush(color)
 
                         Call g.FillRectangle(b, rect)
+
+                        If drawGrid Then
+                            Call g.DrawRectangles(Pens.WhiteSmoke, {rect})
+                        End If
+                        If drawValueLabel Then
+                            key = c.FormatNumeric(2)
+                            Dim ksz As SizeF = g.MeasureString(key, valuelabelFont)
+                            Dim kpos As New PointF(rect.Left + (rect.Width - ksz.Width) / 2, rect.Top + (rect.Height - ksz.Height) / 2)
+                            Call g.DrawString(key, valuelabelFont, Brushes.White, kpos)
+                        End If
 
                         left += dw!
                     Next
@@ -248,6 +270,15 @@ Public Module Heatmap
 
                 Call g.DrawImage(
                     legend, CInt(left), CInt(top), lmargin, lh)
+
+                If titleFont Is Nothing Then
+                    titleFont = New Font(FontFace.BookmanOldStyle, 30, Drawing.FontStyle.Bold)
+                End If
+
+                Dim titleSize = g.MeasureString(mainTitle, titleFont)
+                Dim titlePosi As New PointF((left - titleSize.Width) / 2, (margin.Height - titleSize.Height) / 2)
+
+                Call g.DrawString(mainTitle, titleFont, Brushes.Black, titlePosi)
 
             End Sub)
     End Function

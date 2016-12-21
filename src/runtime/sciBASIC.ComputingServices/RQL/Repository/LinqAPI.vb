@@ -27,15 +27,10 @@
 #End Region
 
 Imports System.Collections.Specialized
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComputingServices.TaskHost
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.SecurityString.MD5Hash
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
-Imports SMRUCC.WebCloud.HTTPInternal.Platform
+Imports sciBASIC.ComputingServices.TaskHost
 
 Namespace Linq
 

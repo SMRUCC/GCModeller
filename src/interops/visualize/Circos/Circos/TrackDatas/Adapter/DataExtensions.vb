@@ -60,12 +60,12 @@ Namespace TrackDatas
                                                                        In chr.end.Sequence
                                                                        Select New SeqValue(Of Value(Of Integer)) With {
                                                                            .i = i,
-                                                                           .obj = New Value(Of Integer)
+                                                                           .value = New Value(Of Integer)
                                                                        }
 
                 For Each reads In ch.Group
                     For i As Integer = reads.MappingLocation.Left To reads.MappingLocation.Right
-                        idata(i).obj.value += 1
+                        idata(i).value.value += 1
                     Next
                 Next
 
@@ -74,22 +74,22 @@ Namespace TrackDatas
 
                 For Each chunk In slides
                     Dim n As Integer =
-                        CInt(chunk.Elements.Select(Function(x) x.obj.value).Average)
+                        CInt(chunk.Elements.Select(Function(x) x.value.value).Average)
 
                     tmp += New SeqValue(Of Value(Of Integer)) With {
                         .i = chunk.Left,
-                        .obj = New Value(Of Integer)(n)
+                        .value = New Value(Of Integer)(n)
                     }
                 Next
 
                 list += From x As SeqValue(Of SeqValue(Of Value(Of Integer)))
                         In tmp.SeqIterator
-                        Let left As Integer = x.obj.i
+                        Let left As Integer = x.value.i
                         Select New ValueTrackData With {
                             .chr = chr.chrName,
                             .start = left,
                             .end = left + steps,
-                            .value = x.obj.obj.value
+                            .value = x.value.value.value
                         }
 
                 Call Console.Write(".")
@@ -122,18 +122,18 @@ Namespace TrackDatas
                                                                      In chr.end.Sequence
                                                                      Select New SeqValue(Of List(Of Double)) With {
                                                                          .i = i,
-                                                                         .obj = New List(Of Double)
+                                                                         .value = New List(Of Double)
                                                                      }
 
                 For Each reads In ch.Group
                     For i As Integer = reads.MappingLocation.Left To reads.MappingLocation.Right
-                        idata(i).obj.Add(reads.Identity)
+                        idata(i).value.Add(reads.Identity)
                     Next
                 Next
 
                 For Each x In idata
-                    If x.obj.Count = 0 Then
-                        Call x.obj.Add(0R)
+                    If x.value.Count = 0 Then
+                        Call x.value.Add(0R)
                     End If
                 Next
 
@@ -143,22 +143,22 @@ Namespace TrackDatas
                 For Each chunk In slides
                     tmp += New SeqValue(Of List(Of Double)) With {
                         .i = chunk.Left,
-                        .obj = LinqAPI.MakeList(Of Double) <= From x As SeqValue(Of List(Of Double))
+                        .value = LinqAPI.MakeList(Of Double) <= From x As SeqValue(Of List(Of Double))
                                                               In chunk.Elements
-                                                              Let bufs As IEnumerable(Of Double) = x.obj
-                                                              Select bufs.Average
+                                                                Let bufs As IEnumerable(Of Double) = x.value
+                                                                Select bufs.Average
                     }
                 Next
 
                 list += From x As SeqValue(Of SeqValue(Of List(Of Double)))
                         In tmp.SeqIterator
-                        Where x.obj.obj.Count > 0
-                        Let left As Integer = x.obj.i
+                        Where x.value.value.Count > 0
+                        Let left As Integer = x.value.i
                         Select New ValueTrackData With {
                             .chr = chr.chrName,
                             .start = left,
                             .end = left + steps,
-                            .value = x.obj.obj.Average
+                            .value = x.value.value.Average
                         }
 
                 Call Console.Write(".")
@@ -198,13 +198,13 @@ Namespace TrackDatas
 
                 list += From x As SeqValue(Of List(Of Double))
                         In idata.SeqIterator
-                        Where x.obj.Count > 0
+                        Where x.value.Count > 0
                         Let left As Integer = x.i
                         Select New ValueTrackData With {
                             .chr = chr.chrName,
                             .start = left,
                             .end = left + 1,
-                            .value = x.obj.Average
+                            .value = x.value.Average
                         }
 
                 Call Console.Write(".")

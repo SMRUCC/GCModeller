@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Scripting
-Imports Microsoft.VisualBasic.ComputingServices.TaskHost
+Imports sciBASIC.ComputingServices.TaskHost
 
 Namespace Linq
 

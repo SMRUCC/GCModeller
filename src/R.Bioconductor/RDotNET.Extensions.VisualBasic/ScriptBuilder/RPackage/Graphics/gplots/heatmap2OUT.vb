@@ -196,7 +196,7 @@ Namespace SymbolBuilder.packages.gplots
                 From lp As SeqValue(Of String)
                 In colors.SeqIterator
                 Select New colorTable With {
-                    .color = lp.obj,
+                    .color = lp.value,
                     .low = lows(lp.i),
                     .high = highs(lp.i)
                 }

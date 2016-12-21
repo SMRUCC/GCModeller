@@ -283,10 +283,10 @@ Public Module CLI
         Dim list As List(Of String) = (App.SysTemp & "/process.txt").ReadAllLines.ToList
 
         For Each url In sites.SeqIterator
-            If String.Equals(url.obj, MotifWebAPI.RegPrecise, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(url.value, MotifWebAPI.RegPrecise, StringComparison.OrdinalIgnoreCase) Then
                 Continue For
             End If
-            If list.IndexOf(url.obj) > -1 Then
+            If list.IndexOf(url.value) > -1 Then
                 Continue For
             End If
 
@@ -296,7 +296,7 @@ Public Module CLI
             Call motif.SaveAsXml(path)
             Call motif.logo.DownloadFile(name & ".png")
 
-            list += url.obj
+            list += url.value
             Call list.FlushAllLines(App.SysTemp & "/process.txt")
         Next
 

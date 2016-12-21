@@ -499,7 +499,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         <ExportAPI("write.pfsnet_collection", Info:="parameter export is the directory of the pfsnet data will be saved.")>
         Public Function SavePFSNet(data As IEnumerable(Of PFSNetResultOut), EXPORT As String) As Boolean
             For Each i As SeqValue(Of PFSNetResultOut) In data.SeqIterator
-                Dim net As PFSNetResultOut = i.obj
+                Dim net As PFSNetResultOut = i.value
                 Dim name As String = If(String.IsNullOrEmpty(net.DataTag), i.i, net.DataTag)
                 Dim path As String = $"{EXPORT}/{name}.xml"
 

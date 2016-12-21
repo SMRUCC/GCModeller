@@ -84,7 +84,7 @@ Namespace SequenceModel.Patterns
             For i As Integer = 0 To out.Length - 1
                 out(i) = New SeqValue(Of Dictionary(Of String, Variations)) With {
                     .i = i,
-                    .obj = New Dictionary(Of String, Variations)
+                    .value = New Dictionary(Of String, Variations)
                 }
             Next
 
@@ -106,7 +106,7 @@ Namespace SequenceModel.Patterns
                 Dim refC As Char = refSeq(i)
 
                 For Each seq As NamedValue(Of Char()) In array
-                    out(i).obj.Add(seq.Name, Variation(refC, seq.Value(i), strict))
+                    out(i).value.Add(seq.Name, Variation(refC, seq.Value(i), strict))
                 Next
             Next
 

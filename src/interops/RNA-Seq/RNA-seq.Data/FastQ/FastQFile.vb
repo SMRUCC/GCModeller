@@ -153,7 +153,7 @@ Namespace Fastaq
             Dim LQuery As FASTA.FastaToken() =
                 LinqAPI.Exec(Of FASTA.FastaToken) <= From fq As SeqValue(Of FastQ)
                                                      In Me.SeqIterator.AsParallel
-                                                     Let read As FastQ = fq.obj
+                                                     Let read As FastQ = fq.value
                                                      Let attrs As String() = __trim(__attrs(fq.i, read))
                                                      Select fasta = New FASTA.FastaToken With {
                                                          .SequenceData = read.SequenceData,

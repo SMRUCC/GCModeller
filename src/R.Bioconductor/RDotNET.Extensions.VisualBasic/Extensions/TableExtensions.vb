@@ -116,17 +116,17 @@ Public Module TableExtensions
                         types.ContainsKey(name),
                         types(name),
                         If(typeParsing,
-                           col.obj.SampleForType,
+                           col.value.SampleForType,
                            GetType(String)))
                     Dim cc As String
 
                     Select Case type
                         Case GetType(String)
-                            cc = c(col.obj)
+                            cc = c(col.value)
                         Case GetType(Boolean)
-                            cc = c(col.obj.ToArray(AddressOf getBoolean))
+                            cc = c(col.value.ToArray(AddressOf getBoolean))
                         Case Else
-                            cc = c(col.obj.ToArray(Function(x) DirectCast(x, Object)))
+                            cc = c(col.value.ToArray(Function(x) DirectCast(x, Object)))
                     End Select
 
                     .call = $"{name} <- {cc}"   ' x <- c(....)

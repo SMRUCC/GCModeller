@@ -64,7 +64,7 @@ Public Class DrawingModel
                 Dim pt1 As New Point(margin.Width, y)
                 Dim pt2 As New Point(size.Width - margin.Width, y)
 
-                Call x.obj.Draw(gdi, New Point(size.Width, y - dh))
+                Call x.value.Draw(gdi, New Point(size.Width, y - dh))
                 Call gdi.DrawLine(New Pen(Color.Gray, 10), pt1, pt2)
             Next
 

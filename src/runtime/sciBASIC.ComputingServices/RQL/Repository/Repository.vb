@@ -29,14 +29,13 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComputingServices.TaskHost
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Framework.DynamicCode
-Imports Microsoft.VisualBasic.Linq.Framework.Provider
-Imports Microsoft.VisualBasic.Linq.Framework.Provider.ImportsAPI
 Imports Microsoft.VisualBasic.RQL.StorageTek
 Imports Microsoft.VisualBasic.Serialization.JSON.JsonContract
 Imports Microsoft.VisualBasic.Text
+Imports sciBASIC.ComputingServices.Linq.Framework.DynamicCode
+Imports sciBASIC.ComputingServices.Linq.Framework.Provider
+Imports sciBASIC.ComputingServices.Linq.Framework.Provider.ImportsAPI
 
 Namespace Linq
 

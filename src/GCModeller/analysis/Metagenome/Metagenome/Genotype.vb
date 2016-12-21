@@ -115,7 +115,7 @@ Public Module Genotype
             Dim ns As Integer() = line.Skip(1).ToArray(Function(s) CInt(Val(s)))
 
             For Each x In ns.SeqIterator
-                total(x.i) += x.obj
+                total(x.i) += x.value
             Next
 
             row = New RowObject From {line.First}
@@ -136,7 +136,7 @@ Public Module Genotype
             Dim ns As Integer() = line.Skip(1).ToArray(Function(s) CInt(Val(s)))
 
             row = New RowObject From {"no-" & line.First}
-            ns = ns.SeqIterator.ToArray(Function(x) total(x.i) - x.obj)
+            ns = ns.SeqIterator.ToArray(Function(x) total(x.i) - x.value)
             row.AddRange(ns.ToArray(Function(x) x.ToString))
             out.AppendLine(row)
             nn += ns
@@ -145,13 +145,13 @@ Public Module Genotype
         out.AppendLine()
 
         For Each line In source.Skip(1).SeqIterator
-            Dim ns As Integer() = line.obj.Skip(1).ToArray(Function(s) CInt(Val(s))) 'A/A
+            Dim ns As Integer() = line.value.Skip(1).ToArray(Function(s) CInt(Val(s))) 'A/A
             Dim no As Integer() = nn(line.i)  ' no-A/A
 
-            row = New RowObject From {line.obj.First}
+            row = New RowObject From {line.value.First}
             row.AddRange(ns.ToArray(Function(x) x.ToString))
             out.AppendLine(row)
-            row = New RowObject From {"no-" & line.obj.First}
+            row = New RowObject From {"no-" & line.value.First}
             row.AddRange(no.ToArray(Function(x) x.ToString))
             out.AppendLine(row)
             out.AppendLine()

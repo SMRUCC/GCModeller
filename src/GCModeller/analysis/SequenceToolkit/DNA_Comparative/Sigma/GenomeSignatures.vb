@@ -141,7 +141,7 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
                                      In SlideWindows.AsParallel
                                      Where (From i As SeqValue(Of DNA)
                                             In ns.SeqIterator
-                                            Where i.obj = n.Elements(i.i)
+                                            Where i.value = n.Elements(i.i)
                                             Select 1).Count = nl
                                      Select 1).Count
             Return LQuery

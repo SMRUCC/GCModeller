@@ -51,7 +51,7 @@ Namespace PathRoutes
             Call MyBase.New(Nodes.Count)
 
             Me._nodes = Nodes.SeqIterator.ToArray
-            Me._nodeHash = _nodes.ToDictionary(Function(x) x.obj.Identifier)
+            Me._nodeHash = _nodes.ToDictionary(Function(x) x.value.Identifier)
             Me.OriginalNodes = Nodes
             Me.NetworkInteractions = Network
         End Sub
@@ -124,7 +124,7 @@ Namespace PathRoutes
 
             Dim path = Compute(idx_start, idx_ends)
             Dim nodes = (From x In Me._nodeHash.Values Select x Order By x.i Ascending).ToArray
-            Dim LQuery = (From idx As Integer In path Select nodes(idx).obj).ToArray
+            Dim LQuery = (From idx As Integer In path Select nodes(idx).value).ToArray
             Return LQuery
         End Function
 
@@ -136,8 +136,8 @@ Namespace PathRoutes
         ''' <returns></returns>
         ''' <remarks></remarks>
         Protected Overrides Function getInternodeTraversalCost(start As Integer, finish As Integer) As Single
-            Dim NodeA As String = _nodes(start).obj.Identifier
-            Dim NodeB As String = _nodes(finish).obj.Identifier
+            Dim NodeA As String = _nodes(start).value.Identifier
+            Dim NodeB As String = _nodes(finish).value.Identifier
 
             Dim LQuery = (From itr In NetworkInteractions.AsParallel Where itr.Equals(NodeA, NodeB) Select itr).ToArray
             If LQuery.IsNullOrEmpty Then
@@ -148,7 +148,7 @@ Namespace PathRoutes
         End Function
 
         Protected Overrides Function GetNearbyNodes(startingNode As Integer) As IEnumerable(Of Integer)
-            Dim Node As String = _nodes(startingNode).obj.Identifier
+            Dim Node As String = _nodes(startingNode).value.Identifier
             Dim LQuery = (From Interaction As Interactions
                           In NetworkInteractions
                           Let strId As String = __getNearbyNodeId(Node, Interaction)
