@@ -131,12 +131,14 @@ Public Module NetworkAPI
     ''' </summary>
     ''' <param name="data"></param>
     ''' <param name="cut"><see cref="Math.Abs(Double)"/></param>
+    ''' <param name="trim">Removes the duplicated edges and self loops?</param>
     ''' <returns></returns>
     <Extension>
     Public Function FromCorrelations(data As IEnumerable(Of DataSet),
                                      Optional nodeTypes As Dictionary(Of String, String) = Nothing,
                                      Optional interacts As Dictionary(Of String, String) = Nothing,
-                                     Optional cut# = 0R) As FileStream.Network
+                                     Optional cut# = 0R,
+                                     Optional trim As Boolean = False) As FileStream.Network
 
         Dim array As DataSet() = data.ToArray
 
@@ -146,6 +148,8 @@ Public Module NetworkAPI
         If interacts Is Nothing Then
             interacts = New Dictionary(Of String, String)
         End If
+
+        VBDebugger.Mute = True
 
         Dim nodes As FileStream.Node() =
  _
@@ -189,9 +193,18 @@ Public Module NetworkAPI
             Next
         Next
 
-        Return New FileStream.Network With {
+        VBDebugger.Mute = False
+
+        Dim out As New FileStream.Network With {
             .Edges = edges,
             .Nodes = nodes
         }
+
+        If trim Then
+            Call out.RemoveSelfLoop()
+            Call out.RemoveDuplicated()
+        End If
+
+        Return out
     End Function
 End Module
