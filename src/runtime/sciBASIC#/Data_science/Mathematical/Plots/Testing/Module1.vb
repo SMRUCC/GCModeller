@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Mathematical.Correlations
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -193,7 +194,23 @@ Module Module1
     .SaveAs("./3d-heatmap.png")
     End Sub
 
+    Public Sub heatmap2()
+
+        Dim data = LoadData("G:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematical\images\heatmap\Sample.csv", True)
+        Dim spcc = data.CorrelationMatrix(AddressOf Spearman)
+
+        Call HeatmapTable.Plot(spcc,) _
+            .SaveAs("G:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematical\images\heatmap\Sample.SPCC.png")
+        Call Heatmap.Plot(spcc, mapLevels:=25) _
+            .SaveAs("G:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematical\images\heatmap\Sample.heatmap.png")
+
+    End Sub
+
     Sub Main()
+        Call heatmap2()
+
+        Pause()
+
         Call d3heatmap()
         Pause()
         Call scatterHeatmapTest()
