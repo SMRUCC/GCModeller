@@ -121,7 +121,7 @@ Public Module Heatmap
     ''' 可以用来表示任意变量之间的相关度
     ''' </summary>
     ''' <param name="data"></param>
-    ''' <param name="colors">
+    ''' <param name="customColors">
     ''' 可以使用这一组颜色来手动自定义heatmap的颜色，也可以使用<paramref name="mapName"/>来获取内置的颜色谱
     ''' </param>
     ''' <param name="mapLevels%"></param>
@@ -133,7 +133,7 @@ Public Module Heatmap
     ''' <returns></returns>
     <Extension>
     Public Function Plot(data As IEnumerable(Of NamedValue(Of Dictionary(Of String, Double))),
-                         Optional colors As Color() = Nothing,
+                         Optional customColors As Color() = Nothing,
                          Optional mapLevels% = 100,
                          Optional mapName$ = ColorMap.PatternJet,
                          Optional kmeans As ReorderProvider = Nothing,
@@ -151,9 +151,82 @@ Public Module Heatmap
                          Optional drawValueLabel As Boolean = True,
                          Optional valuelabelFont As Font = Nothing) As Bitmap
 
+        If valuelabelFont Is Nothing Then
+            valuelabelFont = New Font(FontFace.CambriaMath, 16, Drawing.FontStyle.Bold)
+        End If
+
+        Return __plotInterval(
+            Sub(g, region, array, left, font, dw, levels, top, colors)
+
+                If Not kmeans Is Nothing Then
+                    array = kmeans(array)  ' 因为可能会重新进行排序了，所以这里要在keys的申明之前完成
+                End If
+
+                Dim keys$() = array(Scan0).Value.Keys.ToArray
+                Dim blockSize As New SizeF(dw, dw)
+
+                margin = region.Margin
+
+                For Each x As NamedValue(Of Dictionary(Of String, Double)) In array   ' 在这里绘制具体的矩阵
+                    For Each key$ In keys
+                        Dim c# = x.Value(key)
+                        Dim level% = levels(c#)  '  得到等级
+                        Dim color As Color = colors(
+                                              If(level% > colors.Length - 1,
+                                              colors.Length - 1,
+                                              level))
+                        Dim rect As New RectangleF(New PointF(left, top), blockSize)
+                        Dim b As New SolidBrush(color)
+
+                        Call g.FillRectangle(b, rect)
+
+                        If drawGrid Then
+                            Call g.DrawRectangles(Pens.WhiteSmoke, {rect})
+                        End If
+                        If drawValueLabel Then
+                            key = c.FormatNumeric(2)
+                            Dim ksz As SizeF = g.MeasureString(key, valuelabelFont)
+                            Dim kpos As New PointF(rect.Left + (rect.Width - ksz.Width) / 2, rect.Top + (rect.Height - ksz.Height) / 2)
+                            Call g.DrawString(key, valuelabelFont, Brushes.White, kpos)
+                        End If
+
+                        left.value += dw!
+                    Next
+
+                    left.value = margin.Width
+                    top.value += dw!
+
+                    Dim sz As SizeF = g.MeasureString(x.Name, font)
+                    Dim y As Single = top.value - dw - (sz.Height - dw) / 2
+                    Dim lx As Single =
+                                          margin.Width - sz.Width - margin.Width * 0.1
+
+                    Call g.DrawString(x.Name, font, Brushes.Black, New PointF(lx, y))
+                Next
+            End Sub, data.ToArray, customColors, mapLevels, mapName, size, margin, bg, fontStyle, legendTitle, legendFont, min, max, mainTitle, titleFont)
+    End Function
+
+    ''' <summary>
+    ''' 一些共同的绘图元素过程
+    ''' </summary>
+    <Extension>
+    Friend Function __plotInterval(plot As Action(Of Graphics, GraphicsRegion, NamedValue(Of Dictionary(Of String, Double))(), Value(Of Single), Font, Single, Dictionary(Of Double, Integer), Value(Of Single), Color()),
+                                   array As NamedValue(Of Dictionary(Of String, Double))(),
+                                   Optional colors As Color() = Nothing,
+                                   Optional mapLevels% = 100,
+                                   Optional mapName$ = ColorMap.PatternJet,
+                                   Optional size As Size = Nothing,
+                                   Optional margin As Size = Nothing,
+                                   Optional bg$ = "white",
+                                   Optional fontStyle$ = CSSFont.Win10Normal,
+                                   Optional legendTitle$ = "Heatmap Color Legend",
+                                   Optional legendFont As Font = Nothing,
+                                   Optional min# = -1,
+                                   Optional max# = 1,
+                                   Optional mainTitle$ = "heatmap",
+                                   Optional titleFont As Font = Nothing) As Bitmap
+
         Dim font As Font = CSSFont.TryParse(fontStyle).GDIObject
-        Dim array As NamedValue(Of
-            Dictionary(Of String, Double))() = data.ToArray
         Dim angle! = 45.0F
 
         If margin.IsEmpty Then
@@ -169,6 +242,10 @@ Public Module Heatmap
         End If
 
         size = If(size.IsEmpty, New Size(2000, 1600), size)
+
+        If colors.IsNullOrEmpty Then
+            colors = Designer.GetColors(mapName, mapLevels)
+        End If
 
         Return GraphicsPlots(
             size, margin,
@@ -188,59 +265,15 @@ Public Module Heatmap
                     .ToDictionary(Function(x) correl(x.i),
                                   Function(x) x.value)
 
-                If Not kmeans Is Nothing Then
-                    array = kmeans(array)
-                End If
-
                 Dim left! = margin.Width, top! = margin.Height
-                Dim blockSize As New SizeF(dw, dw)
                 Dim keys$() = array(Scan0).Value.Keys.ToArray
+                Dim getLeft As New Value(Of Single)(left)
+                Dim getTop As New Value(Of Single)(top)
 
-                If colors.IsNullOrEmpty Then
-                    colors = Designer.GetColors(mapName, mapLevels)
-                End If
+                Call plot(g, region, array, getLeft, font, dw, lvs, getTop, colors)
 
-                If valuelabelFont Is Nothing Then
-                    valuelabelFont = New Font(FontFace.CambriaMath, 16, Drawing.FontStyle.Bold)
-                End If
-
-                For Each x As NamedValue(Of Dictionary(Of String, Double)) In array
-                    For Each key$ In keys
-                        Dim c# = x.Value(key)
-                        Dim level% = lvs(c#)  '  得到等级
-                        Dim color As Color = colors(
-                            If(level% > colors.Length - 1,
-                            colors.Length - 1,
-                            level))
-                        Dim rect As New RectangleF(New PointF(left, top), blockSize)
-                        Dim b As New SolidBrush(color)
-
-                        Call g.FillRectangle(b, rect)
-
-                        If drawGrid Then
-                            Call g.DrawRectangles(Pens.WhiteSmoke, {rect})
-                        End If
-                        If drawValueLabel Then
-                            key = c.FormatNumeric(2)
-                            Dim ksz As SizeF = g.MeasureString(key, valuelabelFont)
-                            Dim kpos As New PointF(rect.Left + (rect.Width - ksz.Width) / 2, rect.Top + (rect.Height - ksz.Height) / 2)
-                            Call g.DrawString(key, valuelabelFont, Brushes.White, kpos)
-                        End If
-
-                        left += dw!
-                    Next
-
-                    left = margin.Width
-                    top += dw!
-
-                    Dim sz As SizeF = g.MeasureString(x.Name, font)
-                    Dim y As Single = top - dw - (sz.Height - dw) / 2
-                    Dim lx As Single =
-                        margin.Width - sz.Width - margin.Width * 0.1
-
-                    Call g.DrawString(x.Name, font, Brushes.Black, New PointF(lx, y))
-                Next
-
+                left = getLeft
+                top = getTop
                 angle = -angle
                 left += dw / 2
 
@@ -282,11 +315,6 @@ Public Module Heatmap
 
             End Sub)
     End Function
-
-    <Extension>
-    Friend Sub __plotInterval(g As Graphics, array As NamedValue(Of Dictionary(Of String, Double))())
-
-    End Sub
 
     ''' <summary>
     ''' 绘制按照任意角度旋转的文本

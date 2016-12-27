@@ -62,7 +62,11 @@ Namespace FileStream
                 LinqAPI.Exec(Of Graph.Node) <= From n As Node
                                                In net.Nodes
                                                Let id = n.Identifier
-                                               Select New Graph.Node(id, New NodeData)
+                                               Let data As NodeData = New NodeData With {
+                                                   .Color = Brushes.Red,
+                                                   .radius = 20
+                                               }
+                                               Select New Graph.Node(id, data)
 
             Dim nodehash As New Dictionary(Of Graph.Node)(nodes)
             Dim edges As Edge() =
