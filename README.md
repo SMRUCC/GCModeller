@@ -12,9 +12,9 @@ GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET lang
 > + Github: https://github.com/smrucc/GCModeller
 > + SDK docs: http://docs.gcmodeller.org
 
-**Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC`` <br />
+**Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC``, ``Microsoft Azure Cloud`` <br />
 **Development:** Microsoft VisualStudio 2017 | VisualBasic.NET<br />
-**Runtime environment:** [sciBASIC#](https://www.nuget.org/packages/sciBASIC/) v2.1.0 beta &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)<br />
+**Runtime environment:** [sciBASIC#](https://www.nuget.org/packages/sciBASIC/) v2.1.5 beta &amp; ``.NET Framework 4.6`` (or ``mono 4.4``)<br />
 **Installation:** ``VS2017`` is required of compiles this project. After the source code have been download, just open solution file **[/src/GCModeller.sln](./src/GCModeller.sln)**, and when restore nuget packages finished, then you are good to go of compile GCModeller project.
 
 ---------------------------------------------------------------------------------------------------
