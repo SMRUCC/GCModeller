@@ -1,39 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::e3ae7601557103d20939b857a9f79b83, ..\GCModeller\core\Bio.Assembly\ContextModel\ContextProvider.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ContextModel
 
@@ -85,32 +85,36 @@ Namespace ContextModel
                                           LociEnds As Integer,
                                           Strand As Strands) As T()
 
-            Dim Raw As Relationship(Of T)() = GetRelatedGenes(source, LociStart, LociEnds, 0)
-            Dim LQuery = (From obj In Raw
-                          Where obj.Relation = SegmentRelationships.Inside AndAlso '只需要在内部并且和指定的链的方向反向的对象就可以了
-                              (Strand <> obj.Gene.Location.Strand AndAlso
-                              obj.Gene.Location.Strand <> Strands.Unknown)
-                          Select obj.Gene).ToArray
+            Dim raw As Relationship(Of T)() = GetRelatedGenes(source, LociStart, LociEnds, 0)
+            Dim LQuery As T() = LinqAPI.Exec(Of T) <=
+ _
+                From rl As Relationship(Of T)
+                In raw
+                Where rl.Relation = SegmentRelationships.Inside AndAlso ' 只需要在内部并且和指定的链的方向反向的对象就可以了
+                    (Strand <> rl.Gene.Location.Strand AndAlso
+                    rl.Gene.Location.Strand <> Strands.Unknown)
+                Select rl.Gene
+
             Return LQuery
         End Function
 
         ''' <summary>
         ''' Gets the related genes on a specific loci site location.(函数获取某一个给定的位点附近的所有的有关联的基因对象。
         ''' 请注意，这个函数仅仅是依靠于两个位点之间的相互位置关系来判断的，
-        ''' 并没有判断链的方向，假若需要判断链的方向，请在调用本函数之前就将参数<paramref name="datasource"/>按照链的方向筛选出来)
+        ''' 并没有判断链的方向，假若需要判断链的方向，请在调用本函数之前就将参数<paramref name="source"/>按照链的方向筛选出来)
         ''' </summary>
-        ''' <param name="DataSource"></param>
+        ''' <param name="source"></param>
         ''' <param name="LociStart"></param>
         ''' <param name="LociEnds"></param>
         ''' <param name="ATGDistance"></param>
         ''' <returns>请注意，函数所返回的列表之中包含有不同的关系！</returns>
         ''' <remarks></remarks>
-        Public Function GetRelatedGenes(DataSource As IEnumerable(Of GeneBrief),
+        Public Function GetRelatedGenes(source As IEnumerable(Of GeneBrief),
                                         LociStart As Integer,
                                         LociEnds As Integer,
                                         Optional ATGDistance As Integer = 500) As Relationship(Of GeneBrief)()
 
-            Return GetRelatedGenes(DataSource, LociStart, LociEnds, ATGDistance)
+            Return GetRelatedGenes(source, LociStart, LociEnds, ATGDistance)
         End Function
 
         ''' <summary>
