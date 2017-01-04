@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::71687ee1bc5f82c457d515612163e2a8, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\Distributions\LinearMoments\LogPearsonIII.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System
 Imports System.Collections.Generic
 
@@ -25,7 +53,7 @@ Namespace Distributions.LinearMoments
 			_Beta = 0
 			_Xi = 0
 		End Sub
-		Public Sub New(ByVal data As Double())
+		Public Sub New( data As Double())
 			Dim LM As New MomentFunctions.LinearMoments(data)
 			SetPeriodOfRecord(LM.GetSampleSize())
 			Dim z As Double = 0
@@ -50,15 +78,15 @@ Namespace Distributions.LinearMoments
 				'normal distribution fits better.
 			End If
 		End Sub
-		Public Sub New(ByVal alpha As Double, ByVal beta As Double, ByVal xi As Double)
+		Public Sub New( alpha As Double,  beta As Double,  xi As Double)
 			_Alpha = alpha
 			_Beta = beta
 			_Xi = xi
 		End Sub
-		Public Overrides Function GetInvCDF(ByVal probability As Double) As Double
+		Public Overrides Function GetInvCDF( probability As Double) As Double
 			Throw New System.NotSupportedException("Not supported yet.") 'To change body of generated methods, choose Tools | Templates.
 		End Function
-		Public Overrides Function GetCDF(ByVal value As Double) As Double
+		Public Overrides Function GetCDF( value As Double) As Double
 			Return 1 - (SpecialFunctions.SpecialFunctions.IncompleteGamma(_Alpha, ((_Xi - value) / _Beta)) / Math.Exp(SpecialFunctions.SpecialFunctions.gammaln(_Alpha)))
 	'        If _gamma < 0 Then
 	'            Return 1 - (incompletegammalower(_alpha, ((_xi - value) / _beta)) / Math.Exp(gammaln(_alpha)))
@@ -66,7 +94,7 @@ Namespace Distributions.LinearMoments
 	'            Return (incompletegammalower(_alpha, ((value - _xi) / _beta)) / Math.Exp(gammaln(_alpha)))
 	'        End If
 		End Function
-		Public Overrides Function GetPDF(ByVal value As Double) As Double
+		Public Overrides Function GetPDF( value As Double) As Double
 			Throw New System.NotSupportedException("Not supported yet.") 'To change body of generated methods, choose Tools | Templates.
 		End Function
 		Public Overrides Function Validate() As List(Of Distributions.ContinuousDistributionError)

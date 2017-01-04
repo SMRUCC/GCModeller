@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::a255a8b068ae1b55d917734107d28e1a, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\Distributions\MethodOfMoments\Triangular.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System
 Imports System.Collections.Generic
 
@@ -34,13 +62,13 @@ Namespace Distributions.MethodOfMoments
 			_Max = 0
 			_MostLikely = 0
 		End Sub
-		Public Sub New(ByVal min As Double, ByVal max As Double, ByVal mostlikely As Double)
+		Public Sub New( min As Double,  max As Double,  mostlikely As Double)
 			'_SampleSize = 0;
 			_Min = min
 			_Max = max
 			_MostLikely = mostlikely
 		End Sub
-		Public Sub New(ByVal data As Double())
+		Public Sub New( data As Double())
 			Dim PM As New MomentFunctions.ProductMoments(data)
 			'Simple Method:
 	'        _Min = PM.GetMin();
@@ -69,7 +97,7 @@ Namespace Distributions.MethodOfMoments
 			_Max = (PM.GetMean()+sqrt2*PM.GetStDev()*(aa+sqrt3*bb))
 			SetPeriodOfRecord(PM.GetSampleSize())
 		End Sub
-		Public Overrides Function GetInvCDF(ByVal probability As Double) As Double
+		Public Overrides Function GetInvCDF( probability As Double) As Double
 			Dim a As Double = _MostLikely - _Min
 			Dim b As Double = _Max - _MostLikely
 			If probability <= 0 Then
@@ -82,13 +110,13 @@ Namespace Distributions.MethodOfMoments
 				Return _Max
 			End If
 		End Function
-		Public Overrides Function GetCDF(ByVal value As Double) As Double
+		Public Overrides Function GetCDF( value As Double) As Double
 			If value<_Min Then Return 0
 			If value<_MostLikely Then Return (Math.Pow((value-_Min),2)/(_Max-_Min)*(_MostLikely-_Min))
 			If value<=_Max Then Return 1-(Math.Pow((_Max-value),2)/(_Max-_Min)*(_Max-_MostLikely))
 			Return 1
 		End Function
-		Public Overrides Function GetPDF(ByVal value As Double) As Double
+		Public Overrides Function GetPDF( value As Double) As Double
 			If value<_Min Then Return 0
 			If value<_MostLikely Then Return (2*(value-_Min)/(_Max-_Min)*(_MostLikely-_Min))
 			If value<=_Max Then Return (2*(_Max-value)/(_Max-_Min)*(_Max-_MostLikely))

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb8f6e5c5c500eddcd7eb00b3927cbcf, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::f2a87a8ff6cc83f5bf647137a0f98157, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Debugger\Debugger.vb"
 
     ' Author:
     ' 
@@ -332,6 +332,13 @@ Public Module VBDebugger
     <Extension> Public Sub Echo(s As String, <CallerMemberName> Optional memberName As String = "")
         If Not Mute Then
             Call Console.Write($"[{memberName}] {s}")
+        End If
+    End Sub
+
+    <Extension>
+    Public Sub EchoLine(s$)
+        If Not Mute Then
+            Call Console.WriteLine(s)
         End If
     End Sub
 

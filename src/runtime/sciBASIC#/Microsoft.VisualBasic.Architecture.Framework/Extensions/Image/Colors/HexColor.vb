@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91f79a5c37add7cbed3775f3a373e0d7, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\HexColor.vb"
+﻿#Region "Microsoft.VisualBasic::a32ae8c0021ded70c151d20d34690584, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\HexColor.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports System.Globalization
+Imports System.Runtime.CompilerServices
 
 Namespace Imaging
 

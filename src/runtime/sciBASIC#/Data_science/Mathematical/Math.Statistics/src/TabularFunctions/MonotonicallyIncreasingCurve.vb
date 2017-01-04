@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::f0794ae4f903a374e8679f93fe9f21c8, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\TabularFunctions\MonotonicallyIncreasingCurve.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System
 Imports System.Collections.Generic
 
@@ -25,17 +53,17 @@ Namespace TabularFunctions
         Public Function GetYValues() As List(Of Double?) Implements ISampleDeterministically.GetYValues
             Return _Y
         End Function
-        Public Sub New(ByVal Xvalues As List(Of Double?), ByVal Yvalues As List(Of Double?))
+        Public Sub New( Xvalues As List(Of Double?),  Yvalues As List(Of Double?))
 			_X = Xvalues
 			_Y = Yvalues
 		End Sub
-        'Public Sub New(ByVal ele As org.w3c.dom.Element)
+        'Public Sub New( ele As org.w3c.dom.Element)
         '	ReadFromXMLElement(ele)
         'End Sub
         Public Overrides Function FunctionType() As FunctionTypeEnum
 			Return FunctionTypeEnum.MonotonicallyIncreasing
 		End Function
-        Public Function GetYFromX(ByVal x As Double) As Double Implements ISampleDeterministically.GetYFromX
+        Public Function GetYFromX( x As Double) As Double Implements ISampleDeterministically.GetYFromX
             'determine how to implement a binary search.
             Dim index As Integer = java.util.Collections.binarySearch(_X, x)
             'if index is negative, it should be (-(index)-1);
@@ -60,11 +88,11 @@ Namespace TabularFunctions
 			Next i
 			Return output
 		End Function
-        Public Function GetYFromX(ByVal x As Double, ByVal probability As Double) As Double Implements ISampleWithUncertainty.GetYFromX
+        Public Function GetYFromX( x As Double,  probability As Double) As Double Implements ISampleWithUncertainty.GetYFromX
             'Basic functionality will return GetYFromX(double x).  MonotonicallyIncreasingCurveUncertain will override this method.
             Return GetYFromX(x)
         End Function
-        Public Function GetYValues(ByVal probability As Double) As List(Of Double?) Implements ISampleWithUncertainty.GetYValues
+        Public Function GetYValues( probability As Double) As List(Of Double?) Implements ISampleWithUncertainty.GetYValues
             'Basic functionality will return _Y.  MonotonicallyIncreasingCurveUncertain will override this method.
             Return _Y
         End Function
@@ -75,10 +103,10 @@ Namespace TabularFunctions
             Next i
             Return output
         End Function
-        Public Function CurveSample(ByVal probability As Double) As ISampleDeterministically Implements ISampleWithUncertainty.CurveSample
+        Public Function CurveSample( probability As Double) As ISampleDeterministically Implements ISampleWithUncertainty.CurveSample
             Return Me 'should implement a clone function
         End Function
-        'Public Overrides Sub ReadFromXMLElement(ByVal ele As org.w3c.dom.Element) Implements IWriteToXML.ReadFromXMLElement
+        'Public Overrides Sub ReadFromXMLElement( ele As org.w3c.dom.Element) Implements IWriteToXML.ReadFromXMLElement
         '	_X = New List(Of )
         '	_Y = New List(Of )
         '	For i As Integer = 0 To ele.ChildNodes.Length - 1

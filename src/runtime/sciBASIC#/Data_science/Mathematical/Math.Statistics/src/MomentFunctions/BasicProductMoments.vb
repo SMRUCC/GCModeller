@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::c5a26bb8ab61787c7ccb0e9249980c3c, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\MomentFunctions\BasicProductMoments.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System
 
 '
@@ -46,19 +74,19 @@ Namespace MomentFunctions
 		''' This method allows the user to define a minimum number of observations before testing for convergence.
 		''' This would help to mitigate early convergence if similar observations are in close sequence early in the dataset. </summary>
 		''' <param name="numobservations"> the minimum number of observations to wait until testing for convergence. </param>
-		Public Overridable Sub SetMinValuesBeforeConvergenceTest(ByVal numobservations As Integer)
+		Public Overridable Sub SetMinValuesBeforeConvergenceTest( numobservations As Integer)
 			_MinValuesBeforeConvergenceTest = numobservations
 		End Sub
 		''' <summary>
 		''' This method sets the tolerance for convergence.  This tolerance is used as an epsilon neighborhood around the confidence defined in SetZalphaForConvergence. </summary>
 		''' <param name="tolerance"> the distance that is determined to be close enough to the alpha in question. </param>
-		Public Overridable Sub SetConvergenceTolerance(ByVal tolerance As Double)
+		Public Overridable Sub SetConvergenceTolerance( tolerance As Double)
 			_ToleranceForConvergence = tolerance
 		End Sub
 		''' <summary>
 		''' This method defines the alpha value used to determine convergence.  This value is based on a two sided confidence interval.  It uses the upper Confidence Limit. </summary>
 		''' <param name="ConfidenceInterval"> The value that would be used to determine the normal alpha value.  The default is a .9 Confidence interval, which corresponds to 1.96 alpha value. </param>
-		Public Overridable Sub SetZAlphaForConvergence(ByVal ConfidenceInterval As Double)
+		Public Overridable Sub SetZAlphaForConvergence( ConfidenceInterval As Double)
 			Dim sn As New Distributions.MethodOfMoments.Normal
 			_ZAlphaForConvergence = sn.GetInvCDF(ConfidenceInterval +((1-ConfidenceInterval)/2))
 		End Sub
@@ -75,7 +103,7 @@ Namespace MomentFunctions
 		''' <summary>
 		''' This constructor allows one to create an instance with some initial data, observations can be added after the constructor through the "AddObservations(double observation) call. </summary>
 		''' <param name="data"> the dataset to calculate mean and standard deviation for. </param>
-		Public Sub New(ByVal data As Double())
+		Public Sub New( data As Double())
 			_Mean = 0
 			_SampleVariance = 0
 			_Min = 0
@@ -88,7 +116,7 @@ Namespace MomentFunctions
 		''' <summary>
 		''' An inline algorithm for incrementing mean and standard of deviation. After this method call, the properties of this class should be updated to include this observation. </summary>
 		''' <param name="observation"> the observation to be added </param>
-		Public Overridable Sub AddObservation(ByVal observation As Double)
+		Public Overridable Sub AddObservation( observation As Double)
 			If _Count = 0 Then
 				_Count = 1
 				_Min = observation
@@ -105,7 +133,7 @@ Namespace MomentFunctions
 			End If
 			TestForConvergence()
 		End Sub
-		Public Overridable Sub AddObservations(ByVal data As Double())
+		Public Overridable Sub AddObservations( data As Double())
 			For Each d As Double In data
 				AddObservation(d)
 			Next d

@@ -89,7 +89,7 @@ Namespace DataStructure
                 LinqAPI.Exec(Of DataFrameRow) <= From x As DataFrameRow
                                                  In data.AsParallel
                                                  Let samples As Double() =
-                                                     x.ExperimentValues.Takes(sampleVector, reversedSelect:=reversed)
+                                                     x.ExperimentValues.Takes(sampleVector, reversed:=reversed)
                                                  Select New DataFrameRow With {
                                                      .Name = x.Name,
                                                      .ExperimentValues = samples

@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::76bf69300cc8f79fe7be1337967e4da9, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\Distributions\LinearMoments\Exponential.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System
 Imports System.Collections.Generic
 
@@ -23,23 +51,23 @@ Namespace Distributions.LinearMoments
 			_Alpha = 0
 			_Xi = 0
 		End Sub
-		Public Sub New(ByVal data As Double())
+		Public Sub New( data As Double())
 			Dim LM As New MomentFunctions.LinearMoments(data)
 			_Alpha = 2 * LM.GetL2()
 			_Xi = LM.GetL1() - _Alpha
 			SetPeriodOfRecord(LM.GetSampleSize())
 		End Sub
-		Public Sub New(ByVal Alpha As Double, ByVal Xi As Double)
+		Public Sub New( Alpha As Double,  Xi As Double)
 			_Alpha = Alpha
 			_Xi = Xi
 		End Sub
-		Public Overrides Function GetInvCDF(ByVal probability As Double) As Double
+		Public Overrides Function GetInvCDF( probability As Double) As Double
 			Return _Xi - _Alpha * Math.Log(1 - probability)
 		End Function
-		Public Overrides Function GetCDF(ByVal value As Double) As Double
+		Public Overrides Function GetCDF( value As Double) As Double
 			Return 1 - Math.Exp(-(value - _Xi) / _Alpha)
 		End Function
-		Public Overrides Function GetPDF(ByVal value As Double) As Double
+		Public Overrides Function GetPDF( value As Double) As Double
 			Return (1/_Alpha) * Math.Exp(-(value - _Xi) / _Alpha)
 		End Function
 		Public Overrides Function Validate() As List(Of Distributions.ContinuousDistributionError)

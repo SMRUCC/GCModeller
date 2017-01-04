@@ -1,4 +1,32 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::9e3047c731abd48428755b8bf3959034, ..\sciBASIC#\Data_science\Mathematical\Plots\3D\ScatterHeatmap.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Windows.Forms
@@ -9,6 +37,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -163,6 +192,9 @@ Namespace Plot3D
                     .Dock = DockStyle.Fill,
                     .Plot = modelPlot
                 }
+                dev.canvas.Camera.screen =
+                    camera.screen
+
                 Call dev.ShowDialog()
             End If
 
@@ -193,6 +225,7 @@ Namespace Plot3D
                 '    CSSFont.TryParse(axisFont).GDIObject)
 
                 With camera
+                    Dim surfaces As New List(Of Surface)
 
                     ' 绘制通过函数所计算出来的三维表面
                     For Each sf In data.SeqIterator
@@ -205,17 +238,15 @@ Namespace Plot3D
                             level = 0
                         End If
 
-                        surface.brush = colors(level)
-                        surface = New Surface With {
-                            .vertices =
-                                camera _
-                                .Rotate(surface.vertices) _
-                                .ToArray,
-                            .brush = surface.brush
+                        surfaces += New Surface With {
+                            .brush = colors(level),
+                            .vertices = camera _
+                            .Rotate(surface.vertices) _
+                            .ToArray
                         }
-
-                        Call surface.Draw(g, camera)
                     Next
+
+                    Call g.SurfacePainter(camera, surfaces)
                 End With
 
                 If showLegend Then ' Draw legends

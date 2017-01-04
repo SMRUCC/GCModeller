@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::50ce9420c69868d31ac13aeee03fad9b, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\Distributions\MethodOfMoments\Gumbel.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System
 Imports System.Collections.Generic
 
@@ -22,23 +50,23 @@ Namespace Distributions.MethodOfMoments
 			_Mu = 0
 			_Beta = 0
 		End Sub
-		Public Sub New(ByVal mu As Double, ByVal beta As Double)
+		Public Sub New( mu As Double,  beta As Double)
 			_Mu = mu
 			_Beta = beta
 		End Sub
-		Public Sub New(ByVal data As Double())
+		Public Sub New( data As Double())
 			Dim BPM As New MomentFunctions.BasicProductMoments(data)
 			_Beta = Math.PI/(BPM.GetStDev()*Math.Sqrt(6))
 			_Mu = BPM.GetMean()-_Beta*0.57721566490153287
 			SetPeriodOfRecord(BPM.GetSampleSize())
 		End Sub
-		Public Overrides Function GetInvCDF(ByVal probability As Double) As Double
+		Public Overrides Function GetInvCDF( probability As Double) As Double
 			Return (_Mu-(_Beta*(Math.Log(Math.Log(probability)))))
 		End Function
-		Public Overrides Function GetCDF(ByVal value As Double) As Double
+		Public Overrides Function GetCDF( value As Double) As Double
 			Return Math.Exp(-Math.Exp(-(value-_Mu)/_Beta))
 		End Function
-		Public Overrides Function GetPDF(ByVal value As Double) As Double
+		Public Overrides Function GetPDF( value As Double) As Double
 			Dim z As Double = (value-_Mu)/_Beta
 			Return (1/_Beta)*Math.Exp(-(z+Math.Exp(-z)))
 		End Function

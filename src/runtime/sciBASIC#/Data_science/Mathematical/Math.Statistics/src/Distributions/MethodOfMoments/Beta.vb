@@ -1,3 +1,31 @@
+﻿#Region "Microsoft.VisualBasic::9011880ca97a30e3784a3e51385108c8, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\Distributions\MethodOfMoments\Beta.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
 Imports System
 Imports System.Collections.Generic
 
@@ -23,7 +51,7 @@ Namespace Distributions.MethodOfMoments
 			_Alpha = 0
 			_Beta = 0
 		End Sub
-		Public Sub New(ByVal data As Double())
+		Public Sub New( data As Double())
 			Dim BPM As New MomentFunctions.BasicProductMoments(data)
 			Dim x As Double = BPM.GetMean()
 			Dim v As Double = BPM.GetStDev()
@@ -34,11 +62,11 @@ Namespace Distributions.MethodOfMoments
 				'Beta Fitting Error: variance is greater than mean*(1-mean), this data is not factorable to a beta distribution
 			End If
 		End Sub
-		Public Sub New(ByVal Alpha As Double, ByVal Beta As Double)
+		Public Sub New( Alpha As Double,  Beta As Double)
 			_Alpha = Alpha
 			_Beta = Beta
 		End Sub
-		Public Overrides Function GetInvCDF(ByVal probability As Double) As Double
+		Public Overrides Function GetInvCDF( probability As Double) As Double
 			'use bisection since the shape can be bimodal.
 			Dim value As Double = 0.5 'midpoint of the beta output range
 			Dim testvalue As Double = GetCDF(value)
@@ -60,10 +88,10 @@ Namespace Distributions.MethodOfMoments
 			Loop While Math.Abs(testvalue - probability) > 0.000000000000001 Or n <> 100
 			Return value
 		End Function
-		Public Overrides Function GetCDF(ByVal value As Double) As Double 'not sure this is right, technically it is the regularized incomplete beta.
+		Public Overrides Function GetCDF( value As Double) As Double 'not sure this is right, technically it is the regularized incomplete beta.
 			Return SpecialFunctions.SpecialFunctions.RegularizedIncompleteBetaFunction(_Alpha, _Beta, value)
 		End Function
-		Public Overrides Function GetPDF(ByVal value As Double) As Double
+		Public Overrides Function GetPDF( value As Double) As Double
 			Return (Math.Pow(value,(_Alpha - 1)) * (Math.Pow((1 - value), (_Beta - 1)))) / SpecialFunctions.SpecialFunctions.BetaFunction(_Alpha, _Beta)
 		End Function
 		Public Overrides Function Validate() As List(Of Distributions.ContinuousDistributionError)

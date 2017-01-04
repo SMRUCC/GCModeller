@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78adedadccb7546ed6f65ae2ec6f250f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Parallel\Tasks\UpdateThread.vb"
+﻿#Region "Microsoft.VisualBasic::92f4565644d7fc4f5a3fa49bab353bff, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Parallel\Tasks\UpdateThread.vb"
 
 ' Author:
 ' 
@@ -43,7 +43,7 @@ Namespace Parallel.Tasks
         Implements ITimer
 
         ''' <summary>
-        ''' ms
+        ''' Sleeps n **ms** interval
         ''' </summary>
         ''' <returns></returns>
         Public Property Periods As Integer Implements ITimer.Interval
@@ -131,10 +131,17 @@ Namespace Parallel.Tasks
             Return $"[{Caller}::{state}, {Me.Periods}ms]  => {Me.CallbackInvoke.ToString}"
         End Function
 
-        Public Shared Function GetTicks(hh As Integer, mm As Integer) As Integer
+        ''' <summary>
+        ''' 获取得到总的毫秒数
+        ''' </summary>
+        ''' <param name="hh"></param>
+        ''' <param name="mm"></param>
+        ''' <param name="ss%"></param>
+        ''' <returns></returns>
+        Public Shared Function GetTicks(hh As Integer, mm As Integer, Optional ss% = 0) As Integer
             Dim hhss As Integer = hh * 60 * 60 ' 小时的秒数
             Dim mmss As Integer = mm * 60
-            Dim ticks As Integer = (hhss + mmss) * 1000
+            Dim ticks As Integer = (hhss + mmss + ss) * 1000
             Return ticks
         End Function
 
