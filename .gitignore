@@ -22,6 +22,7 @@ slnx.sqlite-journal
 slnx.sqlite
 bin-Debug/
 GCModeller-[Xx]64/
+slnx.sqlite
 
 # External tool builders
 .externalToolBuilders/
