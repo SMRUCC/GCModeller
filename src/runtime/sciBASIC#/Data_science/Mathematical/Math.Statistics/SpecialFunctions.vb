@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70cb5946c803ca2a1d418464d1eba818, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\src\SpecialFunctions\SpecialFunctions.vb"
+﻿#Region "Microsoft.VisualBasic::911188e067f01ec07757864008df8f31, ..\sciBASIC#\Data_science\Mathematical\Math.Statistics\SpecialFunctions.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@ Namespace SpecialFunctions
                 Dim BPM2 As New MomentFunctions.BasicProductMoments(array2)
                 Dim number As Integer = Math.Min(array1.Length, array2.Length)
                 For i As Integer = 0 To number - 1
-                    tmp += (array1(i) - BPM1.GetMean()) * (array2(i) * BPM2.GetMean())
+                    tmp += (array1(i) - BPM1.Mean()) * (array2(i) * BPM2.Mean())
                 Next i
             End If
             Return tmp
@@ -72,9 +72,9 @@ Namespace SpecialFunctions
                 Dim BPM2 As New MomentFunctions.BasicProductMoments(array2)
                 Dim number As Integer = Math.Min(array1.Length, array2.Length)
                 For i As Integer = 0 To number - 1
-                    tmp += (array1(i) - BPM1.GetMean()) * (array2(i) * BPM2.GetMean())
+                    tmp += (array1(i) - BPM1.Mean()) * (array2(i) * BPM2.Mean())
                 Next i
-                Return tmp / (BPM1.GetStDev() * BPM2.GetStDev())
+                Return tmp / (BPM1.StDev() * BPM2.StDev())
             End If
             Return tmp
         End Function
