@@ -118,7 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="br08601" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\br08601.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08610" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\br08610.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08901" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\br08901.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08902" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\br08902.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08904" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\br08904.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="KEGG_Organism_Complete_Genomes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG_Organism_Complete_Genomes.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko00001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ko00001.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko00002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ko00002.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ko00003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ko00003.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

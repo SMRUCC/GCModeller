@@ -61,6 +61,136 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to +E	KEGG Organism
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Organisms&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       br08601
+        '''#NAME        Organism
+        '''#DEFINITION  KEGG Organisms
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Eukaryotes&lt;/b&gt; (346)
+        '''B
+        '''B  &lt;b&gt;Animals&lt;/b&gt; (123)
+        '''C    Vertebrates (72)
+        '''D      Mammals (41)
+        '''E        hsa  Homo sapiens (human)
+        '''E        ptr  Pan troglodytes (chimpanzee)
+        '''E        pps  Pan paniscus (bonobo)
+        '''E        ggo  Gorilla gorilla gorilla (western lowland gorilla)
+        '''E        pon  Pongo [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08601() As String
+            Get
+                Return ResourceManager.GetString("br08601", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +U
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Organisms in the NCBI Taxonomy&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       br08610
+        '''#DEFINITION  KEGG Organisms in the NCBI taxonomy
+        '''#---&gt;
+        '''!
+        '''AEukaryota
+        '''B  Metazoa
+        '''C    Chordata
+        '''D      Craniata
+        '''E        Vertebrata
+        '''F          Euteleostomi
+        '''G            Mammalia
+        '''H              Eutheria
+        '''I                Euarchontoglires
+        '''J                  Primates
+        '''K                    Haplorrhini
+        '''L                      Catarrhini
+        '''M              [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08610() As String
+            Get
+                Return ResourceManager.GetString("br08610", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +C	Map number
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Pathway Maps&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       br08901
+        '''#NAME        Pathway
+        '''#DEFINITION  KEGG pathway maps
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Metabolism&lt;/b&gt;
+        '''B  Global and overview maps
+        '''C    01100  Metabolic pathways
+        '''C    01110  Biosynthesis of secondary metabolites
+        '''C    01120  Microbial metabolism in diverse environments
+        '''C    01130  Biosynthesis of antibiotics
+        '''C    01200  Carbon metabolism
+        '''C    01210  2-Oxocarboxylic acid m [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08901() As String
+            Get
+                Return ResourceManager.GetString("br08901", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +C	Br number
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; BRITE Hierarchy Files&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       br08902
+        '''#NAME        Brite
+        '''#DEFINITION  BRITE hierarchy files
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Pathways and Ontologies&lt;/b&gt;
+        '''B  Pathways
+        '''C    br08901  KEGG pathway maps
+        '''B  Functional classifications
+        '''C    br08902  BRITE hierarchy files
+        '''C    br08904  BRITE table files
+        '''#
+        '''A&lt;b&gt;Genes and Proteins&lt;/b&gt;
+        '''B  Orthologs and modules
+        '''C    ko00001  KEGG Orthology (KO)
+        '''C    ko00002  KEGG mod [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08902() As String
+            Get
+                Return ResourceManager.GetString("br08902", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +C	Br number
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; BRITE Table Files&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       br08904
+        '''#NAME        Brite
+        '''#DEFINITION  BRITE table files
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Genes and Proteins&lt;/b&gt;
+        '''B  Annotation guide
+        '''C    br06001  Enzymes of 2-oxocarboxylic acid metabolism
+        '''C    br06002  Dioxygenases
+        '''C    br06010  Ribosomal proteins
+        '''C    br06011  RNA polymerases
+        '''C    br06020  Photosynthetic and chemosynthetic capacities
+        '''C    br06021  Signaling modules
+        '''B  Enzy [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08904() As String
+            Get
+                Return ResourceManager.GetString("br08904", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to 
         '''&lt;!-- saved from url=(0045)http://www.kegg.jp/kegg/catalog/org_list.html --&gt;
         '''&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
@@ -74,11 +204,80 @@ Namespace My.Resources
         '''&lt;table width=&quot;700&quot;&gt;
         '''&lt;tbody&gt;&lt;tr&gt;
         '''  &lt;td width=&quot;180&quot; align=&quot;center&quot; rowspan=&quot;2&quot;&gt;
-        '''    &lt;a href=&quot;http://www.kegg.jp/kegg/&quot;&gt;&lt;img src=&quot;./KEGG Organisms_ Complete Genomes_files/kegg128.gif [rest of string was truncated]&quot;;.
+        '''    &lt;a href=&quot;http://www.kegg.jp/kegg/&quot;&gt;&lt;img src=&quot;./KEGG Organisms_ Complete Genomes_file [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property KEGG_Organism_Complete_Genomes() As String
             Get
                 Return ResourceManager.GetString("KEGG_Organism_Complete_Genomes", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +D	KO
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Orthology (KO)&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       ko00001
+        '''#NAME        KO
+        '''#DEFINITION  KEGG Orthology (KO)
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Metabolism&lt;/b&gt;
+        '''B
+        '''B  &lt;b&gt;Overview&lt;/b&gt;
+        '''C    01200 Carbon metabolism [PATH:ko01200]
+        '''D      K00844  HK; hexokinase [EC:2.7.1.1]
+        '''D      K12407  GCK; glucokinase [EC:2.7.1.2]
+        '''D      K00845  glk; glucokinase [EC:2.7.1.2]
+        '''D      K00886  ppgK; polyphosphate glucokinase [EC:2.7.1.63]
+        '''D      K08074  ADPG [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property ko00001() As String
+            Get
+                Return ResourceManager.GetString("ko00001", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +E	Module
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Modules&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       ko00002
+        '''#NAME        Module
+        '''#DEFINITION  KEGG modules
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Pathway module&lt;/b&gt;
+        '''B
+        '''B  &lt;b&gt;Energy metabolism&lt;/b&gt;
+        '''C    Carbon fixation
+        '''D      M00165  Reductive pentose phosphate cycle (Calvin cycle) [PATH:map01200 map00710]
+        '''E        K00855  PRK, prkB; phosphoribulokinase [EC:2.7.1.19]
+        '''E        K01601  rbcL; ribulose-bisphosphate carboxylase large chain [EC:4.1.1. [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property ko00002() As String
+            Get
+                Return ResourceManager.GetString("ko00002", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +D	RModule
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Reaction Modules&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       ko00003
+        '''#NAME        RModule
+        '''#DEFINITION  KEGG reaction modules
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Carboxylic acid metabolism&lt;/b&gt;
+        '''B  2-Oxocarboxylic acid chain extension
+        '''C    RM001  2-Oxocarboxylic acid chain extension by tricarboxylic acid pathway
+        '''D      M00010  Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate
+        '''D      M00433  Lysine biosynthesis, 2-oxoglut [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property ko00003() As String
+            Get
+                Return ResourceManager.GetString("ko00003", resourceCulture)
             End Get
         End Property
     End Module

@@ -215,6 +215,30 @@
   <ItemGroup>
     <None Include="Resources\KEGG_Organism_Complete_Genomes.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\br08601.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\br08610.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\br08901.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\br08902.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\br08904.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ko00001.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ko00002.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ko00003.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
