@@ -34,7 +34,7 @@ Namespace Web
     Public Class Version
 
         Public Const VERSION_NUMBER As String = "(\d+\.?)+"
-        Public Const ABOUT_VERSION As String = "<p>The current release of Bioconductor is version[^<]+</p>"
+        Public Const ABOUT_VERSION As String = "The current release of <em>Bioconductor</em> is version .+?"
 
         ''' <summary>
         ''' Bioconductor repository version.
@@ -60,8 +60,11 @@ Namespace Web
         ''' <remarks></remarks>
         Public Shared Function GetVersion() As Version
             Dim pageHTML As String = BIOCVIEWS_INSTALL.GET
-            Dim about As String = Regex.Match(pageHTML, ABOUT_VERSION, RegexOptions.Singleline).Value
-            Dim vers As String() = Regex.Matches(about, VERSION_NUMBER, RegexOptions.Singleline + RegexOptions.IgnoreCase).ToArray
+
+            pageHTML = Strings.Split(pageHTML, "<h2 id=""bioc-version"">").Last
+
+            Dim about As String = Regex.Match(pageHTML, ABOUT_VERSION, RegexOptions.IgnoreCase).Value
+            Dim vers As String() = Regex.Matches(about, VERSION_NUMBER, RegexICSng).ToArray
             Dim Rv As String = vers(1)
             Dim ver As New Version With {
                 .BiocLite = vers(Scan0),
