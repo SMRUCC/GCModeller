@@ -102,8 +102,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Private Shared Function Build(Model As BriteHText) As [Module]()
             Dim ModuleList As New List(Of [Module])
 
-            For Each item In Model.CategoryItems
-                For Each CategoryItem In item.CategoryItems
+            For Each item In Model.CategoryItems.Where(Function(t) Not t.CategoryItems Is Nothing)
+                For Each CategoryItem In item.CategoryItems.Where(Function(t) Not t.CategoryItems Is Nothing)
                     For Each SubCategory As BriteHText In CategoryItem.CategoryItems
                         Dim mods As [Module]() =
                             LinqAPI.Exec(Of [Module]) <= From ModuleEntry As BriteHText
