@@ -39,10 +39,6 @@ Imports System.Threading
 Module Program
 
     Public Sub Main()
-#If DEBUG Then
-        Call Test.Main()
-#End If
-
         Dim splash As New bioc
         Call RunTask(AddressOf splash.ShowDialog)
         Dim repo As Repository = Repository.LoadDefault
