@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::7788cb1833836df074b71ff723eda337, ..\sciBASIC#\Data_science\Bootstrapping\Darwinism\GAF\DistributeSupports.vb"
+﻿#Region "Microsoft.VisualBasic::21e80a1c83fd30065b9165101d8cd53a, ..\sciBASIC#\Data_science\Bootstrapping\Darwinism\GAF\DistributeSupports.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -72,7 +72,7 @@ Namespace Darwinism.GAF
             Dim out As ODEsOut = ' y0使用实验观测值，而非突变的随机值
                 MonteCarlo.Model.RunTest(model, y0, vars, n, t0, tt, ref)  ' 通过拟合的参数得到具体的计算数据
             Dim fit As New List(Of Double)
-            Dim NaN%
+            Dim NaN As New List(Of Integer)
 
             ' 再计算出fitness
             For Each y As String In ynames
@@ -87,7 +87,7 @@ Namespace Darwinism.GAF
                     '    b = sample2.ToArray(Function(x) x.Max)
                 End If
 
-                NaN% = b.Where(AddressOf IsNaNImaginary).Count
+                NaN += b.Where(AddressOf IsNaNImaginary).Count
                 fit += Math.Sqrt(FitnessHelper.Calculate(a#, b#)) ' FitnessHelper.Calculate(y.x, out.y(y.Name).x)   
             Next
 
@@ -98,7 +98,7 @@ Namespace Darwinism.GAF
 
             If fitness.IsNaNImaginary Then
                 fitness = Integer.MaxValue * 100.0R
-                fitness += NaN% * 10
+                fitness += NaN.Max * 10
             End If
 
             Return fitness

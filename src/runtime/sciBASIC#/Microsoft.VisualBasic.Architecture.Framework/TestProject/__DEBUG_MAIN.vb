@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::8edfae2994cabba250f91e341061bdf1, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\TestProject\__DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::0d73d5db20c9ee35644c24831edd155c, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\TestProject\__DEBUG_MAIN.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -87,8 +87,28 @@ Public Module __DEBUG_MAIN
         Public Property Extensions As Dictionary(Of String, String) = New Dictionary(Of String, String) From {{"abcd", "999"}, {"gggg", "XXXXXXX"}}
     End Class
 
+
+    Private Sub testColors()
+        Dim c1 = Color.Blue.ColorToDecimal
+        Dim c2 = Color.Red.ColorToDecimal
+
+        Console.WriteLine(Color.Blue.ToArgb)
+        Console.WriteLine(Color.Red.ToArgb)
+
+        Pause()
+    End Sub
+
     Function Main() As Integer
 
+
+        Call testColors()
+
+
+        Dim testBBBmp As Image = LoadImage("G:\GCModeller\src\runtime\sciBASIC#\etc\lena\f13e6388b975d9434ad9e1a41272d242_1_orig.jpg")
+        testBBBmp = testBBBmp.Grayscale
+
+        Call testBBBmp.SaveAs("G:\GCModeller\src\runtime\sciBASIC#\etc\lena\lena.grayscale.png")
+        Pause()
         Dim x = {New TestJSON}
 
         ' Interaction.MsgBox(x.GetJson)

@@ -34,10 +34,10 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Web.Packages
 
-    Public Class Package : Implements sIdEnumerable
+    Public Class Package : Implements INamedValue
         Implements ILocalSearchHandle
 
-        Public Property Package As String Implements sIdEnumerable.Identifier
+        Public Property Package As String Implements INamedValue.Key
         Public Property Maintainer As String
         Public Property Title As String
         Public Property Category As BiocTypes

@@ -1,4 +1,32 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::dad10ebe711a62bb978fc2e24a2b1912, ..\sciBASIC#\Data_science\Mathematical\Plots\Heatmaps\ScatterHeatmap.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
@@ -115,7 +143,8 @@ Public Module ScatterHeatmap
                          Optional maxZ# = Double.MaxValue,
                          Optional xlabel$ = "X",
                          Optional ylabel$ = "Y",
-                         Optional logbase# = -1.0R) As Bitmap
+                         Optional logbase# = -1.0R,
+                         Optional scale# = 1.0#) As Bitmap
 
         If size.IsEmpty Then
             size = New Size(3000, 2400)
@@ -144,7 +173,8 @@ Public Module ScatterHeatmap
                 .ylabel = ylabel,
                 .logBase = logbase,
                 .maxZ = maxZ,
-                .minZ = minZ
+                .minZ = minZ,
+                .scale = scale
            }.Plot)
     End Function
 
@@ -199,6 +229,7 @@ Public Module ScatterHeatmap
         Public xlabel$, ylabel$
         Public logBase#
         Public minZ, maxZ As Double
+        Public scale# = 1
 
         Public Function GetData(plotSize As Size) As (x#, y#, z#)()
             If func Is Nothing Then
@@ -286,10 +317,12 @@ Public Module ScatterHeatmap
 
             offset = New Point(offset.X, offset.Y - unit / 2)
 
+            Dim us% = unit * scale
+
             For i As Integer = 0 To Data.Length - 1
                 Dim p As (X#, y#, Z#) = Data(i)
                 Dim c As SolidBrush = getColors(i)
-                Dim fill As New RectangleF(xf(p.X) + offset.X, yf(p.y) + offset.Y, unit, unit)
+                Dim fill As New RectangleF(xf(p.X) + offset.X, yf(p.y) + offset.Y, us, us)
 
                 Call g.FillRectangle(c, fill)
                 Call g.DrawRectangle(New Pen(c),

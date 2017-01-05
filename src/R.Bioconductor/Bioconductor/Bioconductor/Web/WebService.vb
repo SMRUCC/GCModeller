@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::82dc6a08bb1c563f700e74c3c1c5945e, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\WebService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.R.CRAN.Bioconductor.Web.Packages
 
 Namespace Web
@@ -94,16 +95,16 @@ Namespace Web
         End Sub
 
         Private Function __init(inits As Action) As Integer
-            Printf("Initialize Bioconductor web api.....")
-            Printf("Retrieve package information for biocLite.R....")
+            printf("Initialize Bioconductor web api.....")
+            printf("Retrieve package information for biocLite.R....")
 
             If Not inits Is Nothing Then
                 Call inits()
             End If
 
-            Printf("Get %s biocLite packages...", Softwares.Length)
-            Printf("Get %s annotation data packages...", AnnotationData.Length)
-            Printf("Get %s experiment data packages...", ExperimentData.Length)
+            printf("Get %s biocLite packages...", Softwares.Length)
+            printf("Get %s annotation data packages...", AnnotationData.Length)
+            printf("Get %s experiment data packages...", ExperimentData.Length)
 
             Return 0
         End Function
