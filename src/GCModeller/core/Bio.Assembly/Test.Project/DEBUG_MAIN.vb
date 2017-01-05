@@ -61,6 +61,8 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        Dim dddasdad = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.htext.ko00001
+
         Dim nt As New FastaToken("H:\Xanthomonas_campestris_8004_uid15\CP000050.fna")
 
         Dim sss = nt.CutSequenceLinear(NucleotideLocation.Parse("1434841..1435203"))
