@@ -344,31 +344,38 @@ Module CLI
         ' Dim fggfdg = SMRUCC.genomics.Assembly.KEGG.DBGET.WebParser.QueryURL("E:\GCModeller\BuildTools\K  02992.html")
         ' Call LocalMySQL.Update(fggfdg)
 
-        Dim entries$() = htext.ko00001.Hierarchical.GetEntries.Where(Function(s) Not String.IsNullOrEmpty(s)).ToArray
+        Dim entries$() = htext.ko00001 _
+            .Hierarchical _
+            .GetEntries _
+            .Where(Function(s) Not String.IsNullOrEmpty(s)) _
+            .Distinct _
+            .ToArray
+        Using progress As New Terminal.ProgressBar("Download KO database...",, True)
+            Dim tick As New Terminal.ProgressProvider(entries.Length)
 
-        WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
+            WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
 
-        For i As Integer = 0 To entries.Length - 1
-            Dim entry As String = entries(i)
-            Dim stateFile As String = $"{App.HOME}/ko00001/{entry}.xml"
+            For Each ko$ In entries
+                Dim stateFile As String = $"{App.HOME}/ko00001/{ko}.xml"
 
-            Try
-                If Not stateFile.FileExists Then
-                    Dim orthology = bGetObject.SSDB.API.Query(entry)
+                Try
+                    If Not stateFile.FileExists Then
+                        Dim orthology = bGetObject.SSDB.API.Query(ko)
+                        '  Call LocalMySQL.Update(orthology)
+                        Call orthology.GetXml.SaveTo(stateFile)
+                    End If
+                Catch ex As Exception
+                    ex = New Exception(ko, ex)
+                    Call ex.PrintException
+                    Call App.LogException(ex)
+                End Try
 
-                    '  Call LocalMySQL.Update(orthology)
-                    Call orthology.GetXml.SaveTo(stateFile)
-                End If
-
-                Call $"  ({i + 1}/{entries.Count})..........{i / entries.Count * 100}%".__DEBUG_ECHO
-            Catch ex As Exception
-                ex = New Exception(entry, ex)
-                Call FileIO.FileSystem.WriteAllText("./failure.txt", text:=ex.ToString & vbCrLf & vbCrLf, append:=True)
-                Call ex.PrintException
-            End Try
-
-            Call Threading.Thread.Sleep(1 * 1000)
-        Next
+                Call Threading.Thread.Sleep(1 * 1000)
+                Call progress.SetProgress(
+                    tick.StepProgress(),
+                    "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
+            Next
+        End Using
 
         Return 0
     End Function

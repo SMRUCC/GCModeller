@@ -1,39 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::60000ba89862ce898f43ea71446775e8, ..\interops\visualize\Cytoscape\CLI_tool\CLI\KEGG.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -44,10 +45,10 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
 Imports xCytoscape.GCModeller.FileSystem
 Imports xCytoscape.GCModeller.FileSystem.KEGG.Directories
+
 Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
-Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 
@@ -58,9 +59,10 @@ Partial Module CLI
     <Group(CLIGrouping.KEGGTools)>
     Public Function ModuleRegulations(args As CommandLine) As Integer
         Dim Model = args("/model").LoadXml(Of XmlModel)
-        Dim Footprints = args("/footprints").LoadCsv(Of PredictedRegulationFootprint)
-
-        Footprints = (From x In Footprints.AsParallel Where Not String.IsNullOrEmpty(x.Regulator) Select x).ToList
+        Dim Footprints = (From x
+                          In args("/footprints").LoadCsv(Of PredictedRegulationFootprint)
+                          Where Not String.IsNullOrEmpty(x.Regulator)
+                          Select x).ToArray
 
         Dim Networks = GeneInteractions.ExportPathwayGraph(Model)
         Dim regulators = Footprints.ToArray(Function(x) x.Regulator).Distinct.ToArray(
