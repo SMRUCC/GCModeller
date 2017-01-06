@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::59c6db4aa00cf2cf72c93f2d2040876a, ..\GCModeller\CLI_tools\KEGG\Procedures\Orthology.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
@@ -41,7 +41,7 @@ Namespace Procedures
         ''' Orhtology brief htext
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property BriefData As BriteHText = BriteHText.Load_ko00001
+        Public ReadOnly Property BriefData As BriteHText = htext.ko00001.Hierarchical
         Public ReadOnly Property PathwayHText As Pathway() = Pathway.LoadFromResource
         Public ReadOnly Property ModulesHText As [Module]() = [Module].LoadFromResource
 
@@ -61,6 +61,12 @@ Namespace Procedures
         Sub New(uri As Oracle.LinuxCompatibility.MySQL.ConnectionUri)
             Call MyBase.New(uri)
         End Sub
+
+        Public Function GetLast() As LocalMySQL.orthology
+            Dim SQL = "SELECT * FROM jp_kegg2.orthology order by entry DESC LIMIT 1;"
+            Dim out = KEGG.ExecuteScalar(Of LocalMySQL.orthology)(SQL)
+            Return out
+        End Function
 
         Public Sub Update(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology)
             Dim transaction As New List(Of Oracle.LinuxCompatibility.MySQL.SQLTable)
@@ -129,7 +135,7 @@ Namespace Procedures
             Dim modules = (From entry In ort.Module
                            Let moduleData = New LocalMySQL.module With {
                                .entry = entry.Key,
-                               .definition = entry.Value.Replace("'", "~")
+                               .definition = MySqlEscaping(entry.Value.Replace("'", "~").lTokens.JoinBy(" "))
                            }
                            Let om = New LocalMySQL.orthology_modules With {
                                .entry_id = ort.Entry,
@@ -150,7 +156,7 @@ Namespace Procedures
             Dim pathways = (From entry In ort.Pathway
                             Let pathwayData = New LocalMySQL.pathway With {
                                 .entry_id = entry.Key,
-                                .definition = entry.Value.Replace("'", "~")
+                                .definition = MySqlEscaping(entry.Value.Replace("'", "~").lTokens.JoinBy(" "))
                             }
                             Let op = New LocalMySQL.orthology_pathways With {
                                 .entry_id = ort.Entry,
@@ -170,8 +176,8 @@ Namespace Procedures
             Dim genes = (From entry In ort.Genes
                          Let geneData = New LocalMySQL.gene With {
                              .locus_tag = entry.LocusId,
-                             .definition = entry.Description.Replace("'", "~"),
-                             .gene_name = entry.Description.Replace("'", "~"),
+                             .definition = MySqlEscaping(entry.Description.Replace("'", "~").lTokens.JoinBy(" ")),
+                             .gene_name = MySqlEscaping(entry.Description.Replace("'", "~").lTokens.JoinBy(" ")),
                              .kegg_sp = entry.SpeciesId,
                              .ec = ort.EC
                          }
@@ -225,7 +231,7 @@ Namespace Procedures
             End If
             Path = Path.Skip(1).ToArray
             Dim orthology As New LocalMySQL.orthology With {
-                .definition = ort.Definition.Replace("'", "~"),
+                .definition = MySqlEscaping(ort.Definition.Replace("'", "~").lTokens.JoinBy(" ")),
                 .entry = ort.Entry,
                 .name = ort.Name,
                 .disease = ort.Disease.GetLength,
