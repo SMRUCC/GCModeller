@@ -90,5 +90,12 @@ Namespace Text.HtmlParser
 
             Return title
         End Function
+
+        <Extension> Public Function StripHTMLTags(s$) As String
+            s = Regex.Replace(s, "<[^>]+>", "")
+            s = Regex.Replace(s, "</[^>]+>", "")
+
+            Return s
+        End Function
     End Module
 End Namespace

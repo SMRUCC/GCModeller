@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::8b709b2aad0223f2d88895cc83f3dcf5, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
 
@@ -180,19 +181,19 @@ both of these relationships hold
             }
 
             If Not String.IsNullOrEmpty(Orthology.Entry) Then
-                Orthology.Entry = Regex.Match(Orthology.Entry, "[A-Z]\d{5}").Value
+                Orthology.Entry = Regex.Match(Orthology.Entry, "[A-Z]+\d{5}").Value
             End If
 
             Orthology.xRefEntry = xRefParser(WebForm.GetRaw("Other DBs"))
             Orthology.References = WebForm.References
             Orthology.Module = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Module)
-            Orthology.Definition = WebForm.GetValue("Definition").FirstOrDefault
-            Orthology.Name = WebForm.GetValue("Name").FirstOrDefault
+            Orthology.Definition = WebForm.GetValue("Definition").FirstOrDefault.StripHTMLTags
+            Orthology.Name = WebForm.GetValue("Name").FirstOrDefault.TrimNewLine.Trim
             Orthology.Pathway = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Pathway").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Pathway)
             Orthology.Disease = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Disease)
             Orthology.Genes = __genesParser(WebForm, Orthology.Entry)
-            Orthology.Name = Orthology.Name.TrimHTMLTag
-            Orthology.Definition = Orthology.Definition.TrimHTMLTag
+            Orthology.Name = Orthology.Name.TrimHTMLTag.GetTagValue(, True).Value
+            Orthology.Definition = Orthology.Definition.TrimHTMLTag.TrimNewLine.Trim.GetTagValue(, True).Value
             Orthology.EC = Regex.Match(Orthology.Definition, "\[EC.+?\]", RegexOptions.IgnoreCase).Value
             If Not String.IsNullOrEmpty(Orthology.EC) Then
                 Orthology.EC = Mid(Orthology.EC, 5, Len(Orthology.EC) - 5)

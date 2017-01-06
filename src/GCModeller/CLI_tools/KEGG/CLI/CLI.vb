@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -322,45 +323,51 @@ Module CLI
         ' Return 0
         '  End If
 
-        Dim mysql As New ConnectionUri With {.Database = "jp_kegg2", .IPAddress = "localhost", .Password = 1234, .User = "root", .ServicesPort = 3306}
+        '  Dim mysql As New ConnectionUri With {.Database = "jp_kegg2", .IPAddress = "localhost", .Password = 1234, .User = "root", .ServicesPort = 3306}
 
-        Dim LocalMySQL As New Procedures.Orthology(mysql)
-        Dim stateFile As String = "./orthology.xml"
-        Dim last = LocalMySQL.GetLast
-        Dim start As Integer
-        Dim Entries As String() = (From s As String
-                                   In LocalMySQL.BriefData.GetEntries
-                                   Where Not String.IsNullOrEmpty(s)
-                                   Select s
-                                   Distinct
-                                   Order By s Ascending).ToArray
-        If last Is Nothing Then
-            start = 0
-        Else
-            start = Array.IndexOf(Entries, last.Entry)
-        End If
+        ' Dim LocalMySQL As New Procedures.Orthology(mysql)
+        '  Dim stateFile As String = "./orthology.xml"
+        '  Dim last = LocalMySQL.GetLast
+        'Dim start As Integer
+        'Dim Entries As String() = (From s As String
+        '                           In LocalMySQL.BriefData.GetEntries
+        '                           Where Not String.IsNullOrEmpty(s)
+        '                           Select s
+        '                           Distinct
+        '                           Order By s Ascending).ToArray
+        'If last Is Nothing Then
+        '    start = 0
+        'Else
+        '    start = Array.IndexOf(Entries, last.Entry)
+        'End If
 
         ' Dim fggfdg = SMRUCC.genomics.Assembly.KEGG.DBGET.WebParser.QueryURL("E:\GCModeller\BuildTools\K  02992.html")
         ' Call LocalMySQL.Update(fggfdg)
 
+        Dim entries$() = htext.ko00001.Hierarchical.GetEntries.Where(Function(s) Not String.IsNullOrEmpty(s)).ToArray
+
         WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
 
-        For i As Integer = start To Entries.Count - 1
-            Dim entry As String = Entries(i)
+        For i As Integer = 0 To entries.Length - 1
+            Dim entry As String = entries(i)
+            Dim stateFile As String = $"{App.HOME}/ko00001/{entry}.xml"
 
             Try
-                Dim orthology = bGetObject.SSDB.API.Query(entry)
+                If Not stateFile.FileExists Then
+                    Dim orthology = bGetObject.SSDB.API.Query(entry)
 
-                Call LocalMySQL.Update(orthology)
-                Call orthology.GetXml.SaveTo(stateFile)
-                Call $"  ({i + 1}/{Entries.Count})..........{i / Entries.Count * 100}%".__DEBUG_ECHO
+                    '  Call LocalMySQL.Update(orthology)
+                    Call orthology.GetXml.SaveTo(stateFile)
+                End If
+
+                Call $"  ({i + 1}/{entries.Count})..........{i / entries.Count * 100}%".__DEBUG_ECHO
             Catch ex As Exception
                 ex = New Exception(entry, ex)
                 Call FileIO.FileSystem.WriteAllText("./failure.txt", text:=ex.ToString & vbCrLf & vbCrLf, append:=True)
                 Call ex.PrintException
             End Try
 
-            '  Call Threading.Thread.Sleep(1 * 1000)
+            Call Threading.Thread.Sleep(1 * 1000)
         Next
 
         Return 0

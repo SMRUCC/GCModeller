@@ -41,7 +41,7 @@ Namespace Procedures
         ''' Orhtology brief htext
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property BriefData As BriteHText = BriteHText.Load_ko00001
+        Public ReadOnly Property BriefData As BriteHText = htext.ko00001.Hierarchical
         Public ReadOnly Property PathwayHText As Pathway() = Pathway.LoadFromResource
         Public ReadOnly Property ModulesHText As [Module]() = [Module].LoadFromResource
 
