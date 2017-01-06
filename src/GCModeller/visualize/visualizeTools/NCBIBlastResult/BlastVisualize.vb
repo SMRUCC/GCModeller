@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b1a3f56939a517483cc62caffb0a68fa, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
@@ -460,15 +461,19 @@ CONTINUTE:
                         Dim TextureList As Image() = TextureResourceLoader.LoadInternalDefaultResource.Shuffles
                         COGsColor = RenderingColor.CategoryMapsTextures(categories:=CogCategory, textures:=TextureList)
                     Else
-                        Dim TextureList As TagValue(Of Image)() =
-                            LinqAPI.Exec(Of TagValue(Of Image)) <= From path As String
+                        Dim TextureList As NamedValue(Of Image)() =
+                            LinqAPI.Exec(Of NamedValue(Of Image)) <= From path As String
                                                                    In ls - l - r - wildcards("*.bmp", "*.jpg", "*.png") <= TextureSource
-                                                                   Select New TagValue(Of Image)(path.BaseName, path.LoadImage)
+                                                                     Select New NamedValue(Of Image)(path.BaseName, path.LoadImage)
 
                         If ResourceIDMapping Then
-                            COGsColor = TextureList.ToDictionary(Function(obj) obj.tag.ToUpper, Function(obj) DirectCast(New TextureBrush(obj.Value), Brush))
+                            COGsColor = TextureList.ToDictionary(
+                                Function(obj) obj.Name.ToUpper,
+                                Function(obj) DirectCast(New TextureBrush(obj.Value), Brush))
                         Else
-                            COGsColor = RenderingColor.CategoryMapsTextures(categories:=CogCategory, textures:=TextureList.ToArray(Function(obj) obj.Value))
+                            COGsColor = RenderingColor.CategoryMapsTextures(
+                                categories:=CogCategory,
+                                textures:=TextureList.ToArray(Function(obj) obj.Value))
                         End If
                     End If
 
@@ -546,9 +551,9 @@ CONTINUTE:
             '  Dim n As Integer = QueryLength / 10000 ' 这个长度是画标尺需要使用到的步移的长度
             ' Dim dl As Integer = MappingLength / n
             Dim X, Y As Integer
-            Dim ColorSchema As RangeList(Of Double, TagValue(Of Color))
+            Dim ColorSchema As RangeList(Of Double, NamedValue(Of Color))
             Dim GetScore As Func(Of HitRecord, Double)
-            Dim GetSubjectHitColorMethod As Func(Of Double, RangeList(Of Double, TagValue(Of Color)), Color) '比对结果的颜色渲染的方法
+            Dim GetSubjectHitColorMethod As Func(Of Double, RangeList(Of Double, NamedValue(Of Color)), Color) '比对结果的颜色渲染的方法
 
             If ScaleFactor <> 1.0R Then Call Device.Graphics.ScaleTransform(ScaleFactor, ScaleFactor)
 
@@ -744,9 +749,9 @@ CONTINUTE:
 
             Call Device.Graphics.DrawString("Color key for " & AlignmentColorSchema, DrawingFont, Brushes.Black, New Point(Margin, Y - MaxIDLength.Height * 2))
 
-            For Each Line As TagValue(Of Color) In ColorSchema.Values
+            For Each Line As NamedValue(Of Color) In ColorSchema.Values
                 Call Device.Graphics.FillRectangle(New SolidBrush(Line.Value), New Rectangle(New Point(X, Y), BlockSize))
-                Call Device.Graphics.DrawString(Line.tag, DrawingFont, Brushes.Black, X + BlockSize.Width + 10, Y + 3)
+                Call Device.Graphics.DrawString(Line.Name, DrawingFont, Brushes.Black, X + BlockSize.Width + 10, Y + 3)
                 Y += BlockSize.Height + 5
             Next
 

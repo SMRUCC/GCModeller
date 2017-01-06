@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.KEGG.DBGET.bGetObject.SSDB

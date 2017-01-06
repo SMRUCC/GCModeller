@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::f1b793e21ba471ea9646009c1983f9d6, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\MetaAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
@@ -49,12 +50,12 @@ Namespace ComparativeAlignment
                                                                       Select hit.tag
             Dim PTTHash As Dictionary(Of String, String) = lst.ToDictionary(Function(x) x.BaseName.ToLower.Trim)
             Dim names As Dictionary(Of String, String) =
-                LinqAPI.BuildHash(Of String, String, TagValue(Of String))(Function(x) x.tag, Function(x) x.Value) <=
+                LinqAPI.BuildHash(Of String, String, NamedValue(Of String))(Function(x) x.Name, Function(x) x.Value) <=
                     From name As String
                     In allSp.Distinct
                     Let sp = EntryAPI.GetValue(name)
                     Where Not sp Is Nothing
-                    Select New TagValue(Of String)(name, sp.Species.ToLower.Trim)
+                    Select New NamedValue(Of String)(name, sp.Species.ToLower.Trim)
 
             Dim files = (From x In names
                          Where PTTHash.ContainsKey(x.Value)

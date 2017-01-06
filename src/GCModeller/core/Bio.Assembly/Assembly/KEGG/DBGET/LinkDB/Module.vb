@@ -27,13 +27,11 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
-Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.KEGG.DBGET.LinkDB
 

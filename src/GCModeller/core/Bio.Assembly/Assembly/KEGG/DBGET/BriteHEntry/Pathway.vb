@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
