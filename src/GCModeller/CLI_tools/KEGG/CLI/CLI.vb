@@ -326,7 +326,7 @@ Module CLI
 
         Dim LocalMySQL As New Procedures.Orthology(mysql)
         Dim stateFile As String = "./orthology.xml"
-        Dim last = stateFile.LoadXml(Of DBGET.bGetObject.SSDB.Orthology)(ThrowEx:=False)
+        Dim last = LocalMySQL.GetLast
         Dim start As Integer
         Dim Entries As String() = (From s As String
                                    In LocalMySQL.BriefData.GetEntries
@@ -343,6 +343,8 @@ Module CLI
         ' Dim fggfdg = SMRUCC.genomics.Assembly.KEGG.DBGET.WebParser.QueryURL("E:\GCModeller\BuildTools\K  02992.html")
         ' Call LocalMySQL.Update(fggfdg)
 
+        WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
+
         For i As Integer = start To Entries.Count - 1
             Dim entry As String = Entries(i)
 
@@ -358,7 +360,7 @@ Module CLI
                 Call ex.PrintException
             End Try
 
-            Call Threading.Thread.Sleep(5 * 1000)
+            '  Call Threading.Thread.Sleep(1 * 1000)
         Next
 
         Return 0

@@ -223,7 +223,8 @@ both of these relationships hold
                 Function(ss) New TripleKeyValuesPair With {
                     .Key = Name,
                     .Value1 = ss.href,
-                    .Value2 = ss.GetValue})
+                    .Value2 = ss.GetValue
+                })
             Return values
         End Function
 
@@ -235,7 +236,8 @@ both of these relationships hold
         <ExportAPI("ImportsDB")>
         Public Function Transform(<Parameter("source.DIR")> source As String) As SSDB.Ortholog()
             Dim Xmls As IEnumerable(Of String) = ls - l - wildcards("*.xml") <= source
-            Dim LQuery = (From xml As String In Xmls.AsParallel
+            Dim LQuery = (From xml As String
+                          In Xmls.AsParallel
                           Let result As SSDB.OrthologREST = xml.LoadXml(Of SSDB.OrthologREST)
                           Select SSDB.Ortholog.CreateObjects(result)).ToVector
             Return LQuery
