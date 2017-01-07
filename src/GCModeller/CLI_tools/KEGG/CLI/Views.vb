@@ -1,43 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::c9600f1b56f1837d68f4a42defbb3819, ..\GCModeller\CLI_tools\KEGG\CLI\Views.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.ProteinModel
 
 Partial Module CLI
@@ -54,12 +58,14 @@ Partial Module CLI
             ModuleClassAPI.FromPathway(inDIR),
             ModuleClassAPI.FromModules(inDIR))
         Dim locusId As String() = EntityObject.LoadDataSet(locus, locus_map).ToArray(Function(x) x.Identifier)
-        Dim LQuery = (From x In modsCls.Modules
-                      Select x.EntryId,
-                          locus_id = (From sid As String
-                                      In x.GetPathwayGenes
-                                      Where Array.IndexOf(locusId, sid) > -1
-                                      Select sid).ToArray).ToList
+        Dim LQuery = LinqAPI.MakeList(Of (entryId$, locus_id As String())) <=
+            From x As PathwayBrief
+            In modsCls.Modules
+            Let locus_id As String() = x _
+                .GetPathwayGenes _
+                .Where(Function(sid) Array.IndexOf(locusId, sid) > -1) _
+                .ToArray
+            Select (x.EntryId, locus_id)
         Return LQuery > out
     End Function
 
@@ -138,5 +144,22 @@ Partial Module CLI
         Next
 
         Return result.Values.ToArray.GetJson.SaveTo(out)
+    End Function
+
+    <ExportAPI("/KO.Catalogs", Usage:="/KO.Catalogs /in <blast.mapping.csv> /ko <ko_genes.csv> [/key <Query_id> /mapTo <Subject_id> /out <outDIR>]")>
+    Public Function KOCatalogs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim ko As String = args("/ko")
+        Dim key As String = args.GetValue("/key", "Query_id")
+        Dim mapTo As String = args.GetValue("/mapTo", "Subject_id")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-KO.Catalogs/")
+        Dim mappings = [in].LoadMappings(key, mapTo)
+        Dim KO_genes As KO_gene() = ko.LoadCsv(Of KO_gene)
+
+        For Each level As String In {"A", "B", "C"}
+            Call mappings.CatalogProfiling(KO_genes)
+        Next
+
+        Return 0
     End Function
 End Module

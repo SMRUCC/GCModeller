@@ -194,6 +194,10 @@
     <Reference Include="System.Data.SqlXml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Dynamic" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
@@ -273,6 +277,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kegg.ico" />
@@ -298,6 +303,10 @@
     <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\annotations\KEGG\KEGG.vbproj">
+      <Project>{282e1290-3475-4a7f-b232-608132ff561d}</Project>
+      <Name>KEGG</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
